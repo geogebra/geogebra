@@ -16,6 +16,8 @@
 
 package org.geogebra.web.html5.gui.util;
 
+import org.gwtproject.dom.client.Element;
+
 import elemental2.dom.Element.FocusOptionsType;
 import jsinterop.base.Js;
 
@@ -30,10 +32,22 @@ public class FocusUtil {
 	 *
 	 * @param element to focus.
 	 */
-	public static void focusNoScroll(org.gwtproject.dom.client.Element element) {
+	public static void focusNoScroll(Element element) {
 		FocusOptionsType op = FocusOptionsType.create();
 		elemental2.dom.Element el = Js.uncheckedCast(element);
 		op.setPreventScroll(true);
 		el.focus(op);
+	}
+
+	/**
+	 * Makes the given element keyboard-focusable.
+	 *
+	 * <p>After calling this method, the element can receive focus via
+	 * keyboard navigation and programmatic focus.</p>
+	 *
+	 * @param element the DOM element to make focusable
+	 */
+	public static void makeFocusable(Element element) {
+		element.setTabIndex(0);
 	}
 }

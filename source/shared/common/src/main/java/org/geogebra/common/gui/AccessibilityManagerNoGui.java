@@ -16,6 +16,7 @@
 
 package org.geogebra.common.gui;
 
+import org.geogebra.common.gui.compositefocus.FocusableComposite;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -67,12 +68,12 @@ public final class AccessibilityManagerNoGui
 	}
 
 	@Override
-	public void setAnchor(MayHaveFocus anchor) {
+	public void setAnchor(FocusableComponent anchor) {
 		// not needed
 	}
 
 	@Override
-	public MayHaveFocus getAnchor() {
+	public FocusableComponent getAnchor() {
 		return null;
 	}
 
@@ -92,12 +93,12 @@ public final class AccessibilityManagerNoGui
 	}
 
 	@Override
-	public void register(MayHaveFocus focusable) {
+	public void register(FocusableComponent focusable) {
 		// nothing to do
 	}
 
 	@Override
-	public void unregister(MayHaveFocus focusable) {
+	public void unregister(FocusableComponent focusable) {
 		// not needed
 	}
 
@@ -127,5 +128,40 @@ public final class AccessibilityManagerNoGui
 	@Override
 	public void preloadAltText(GeoText geoText) {
 		// not used
+	}
+
+	@Override
+	public void registerCompositeFocusContainer(FocusableComposite compositeFocus) {
+		// not used
+	}
+
+	@Override
+	public void unregisterCompositeFocusContainer(FocusableComposite compositeFocus) {
+		// not used
+	}
+
+	@Override
+	public boolean hasFocusInComposite() {
+		return false;
+	}
+
+	@Override
+	public boolean focusNextInComposite() {
+		return false;
+	}
+
+	@Override
+	public boolean focusPreviousInComposite() {
+		return false;
+	}
+
+	@Override
+	public void blurCompositeFocus() {
+		// not used
+	}
+
+	@Override
+	public boolean handlesEnterInComposite() {
+		return false;
 	}
 }

@@ -22,14 +22,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.gui.AccessibilityGroup;
-import org.geogebra.common.gui.MayHaveFocus;
+import org.geogebra.common.gui.FocusableComponent;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 
 import elemental2.dom.Element;
 import elemental2.dom.KeyboardEvent;
 import jsinterop.base.Js;
 
-public class ExternalControl implements MayHaveFocus {
+public class ExternalControl implements FocusableComponent {
 	private final ArrayList<Element> controls = new ArrayList<>();
 	private final List<String> selectors;
 	private final AccessibilityManagerW manager;

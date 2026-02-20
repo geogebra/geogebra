@@ -16,6 +16,7 @@
 
 package org.geogebra.web.html5.main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianView;
@@ -183,17 +184,32 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				}
 			} else if (kc == KeyCodes.ESCAPE) {
 				escPressed = true;
+				if (exitFromComposite()) {
+					event.preventDefault();
+					event.stopPropagation();
+					return true;
+				}
 				handleEscForDropdown();
 				if (app.isApplet()) {
 					((AppW) GlobalKeyDispatcherW.this.app).moveFocusToLastWidget();
 				} else {
 					handleEscapeForNonApplets();
 				}
+
 				handled = true;
 			} else {
 				handled = handled || handleSelectedGeosKeys(event);
 			}
 			return handled;
+		}
+
+		private boolean exitFromComposite() {
+			AccessibilityManagerInterface am = app.getAccessibilityManager();
+			if (am.hasFocusInComposite()) {
+				am.blurCompositeFocus();
+				return true;
+			}
+			return false;
 		}
 	}
 
@@ -242,18 +258,24 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	@Override
 	public void onKeyPress(KeyPressEvent event) {
 		setDownKeys(event);
-		KeyCodes kc = KeyCodeUtil.translateGWTCode(event.getNativeEvent()
-				.getKeyCode());
-		// Do not prevent default for the v key, otherwise paste events are not fired
-		if (kc != KeyCodes.TAB && event.getCharCode() != 'v'
-				&& event.getCharCode() != 'c' && event.getCharCode() != 'x') {
+		boolean nativeFocusInComposite = app.getAccessibilityManager().handlesEnterInComposite();
+		if (shouldNotEventPassThrough(event) && !nativeFocusInComposite) {
 			event.preventDefault();
 			event.stopPropagation();
 		}
 
 		if (!event.isAltKeyDown() && !event.isControlKeyDown() && !app.isWhiteboardActive()) {
-			keyPressedOnGeo(event.getCharCode());
+				keyPressedOnGeo(event.getCharCode());
+
 		}
+	}
+
+	private static boolean shouldNotEventPassThrough(KeyPressEvent event) {
+		KeyCodes kc = KeyCodeUtil.translateGWTCode(event.getNativeEvent()
+				.getKeyCode());
+		// Do not prevent default for the v key, otherwise paste events are not fired
+		return kc != KeyCodes.TAB && event.getCharCode() != 'v'
+				&& event.getCharCode() != 'c' && event.getCharCode() != 'x';
 	}
 
 	@Override
@@ -294,11 +316,38 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 * @return if key was consumed
 	 */
 	public boolean handleSelectedGeosKeys(NativeEvent event) {
+		KeyCodes key = KeyCodeUtil.translateGWTCode(event.getKeyCode());
+		ArrayList<GeoElement> geos = selection.getSelectedGeos();
+		if (isControlKeyDown(event)) {
+			if (handleControlArrows(geos, key)) {
+				return true;
+			}
+		}
 		return handleSelectedGeosKeys(
-				KeyCodeUtil.translateGWTCode(event
-						.getKeyCode()), selection.getSelectedGeos(),
+				key, geos,
 				event.getShiftKey(), event.getCtrlKey(), event.getAltKey(),
 				false);
+	}
+
+	private boolean handleControlArrows(ArrayList<GeoElement> geos, KeyCodes key) {
+		switch (key) {
+		case DOWN, RIGHT -> {
+			return handleControlArrowsForAlgebraView(geos, true);
+		}
+		case UP, LEFT -> {
+			return handleControlArrowsForAlgebraView(geos, false);
+		}
+		}
+		return false;
+	}
+
+	private boolean handleControlArrowsForAlgebraView(List<GeoElement> geos, boolean forward) {
+		if (geos.size() != 1) {
+			return false;
+		}
+
+		AccessibilityManagerInterface am = app.getAccessibilityManager();
+		return forward ? am.focusNextInComposite() : am.focusPreviousInComposite();
 	}
 
 	@Override
@@ -330,6 +379,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		AccessibilityManagerInterface am = app.getAccessibilityManager();
 
 		app.getActiveEuclidianView().closeDropdowns();
+		am.blurCompositeFocus();
 
 		if (isShiftDown) {
 			return am.focusPrevious();

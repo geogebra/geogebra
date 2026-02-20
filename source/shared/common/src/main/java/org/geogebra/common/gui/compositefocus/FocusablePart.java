@@ -14,25 +14,29 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.web.full.main;
+package org.geogebra.common.gui.compositefocus;
 
-import org.geogebra.common.util.NumberFormatAdapter;
-import org.geogebra.web.html5.factories.FormatFactoryW;
+public interface FocusablePart {
 
-public class TestFormatFactory extends FormatFactoryW {
+	/** Apply focus to this part */
+	void focus();
 
-	@Override
-	public NumberFormatAdapter getNumberFormat(String pattern, int digits) {
-		return new NumberFormatAdapter() {
-			@Override
-			public int getMaximumFractionDigits() {
-				return digits;
-			}
+	/** Remove focus from this part */
+	void blur();
 
-			@Override
-			public String format(double value) {
-				return String.valueOf(value);
-			}
-		};
-	}
+	/** @return true if this part handles enter key */
+	boolean handlesEnterKey();
+
+	/** @return text to announce to screen readers */
+	String getAccessibleLabel();
+
+	/**
+	 * Returns the stable semantic key identifying this focusable part.
+	 *
+	 * <p>The key is used to preserve focus across rebuilds when the underlying
+	 * widget instance changes.</p>
+	 *
+	 * @return a stable identifier for this part
+	 */
+	String getFocusKey();
 }

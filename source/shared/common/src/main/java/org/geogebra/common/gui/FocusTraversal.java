@@ -14,25 +14,23 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.web.full.main;
+package org.geogebra.common.gui;
 
-import org.geogebra.common.util.NumberFormatAdapter;
-import org.geogebra.web.html5.factories.FormatFactoryW;
+public interface FocusTraversal {
+	/**
+	 * @return whether any part of this component has focus
+	 */
+	boolean hasFocus();
 
-public class TestFormatFactory extends FormatFactoryW {
+	/**
+	 * Focus the next part.
+	 * @return success
+	 */
+	boolean focusNext();
 
-	@Override
-	public NumberFormatAdapter getNumberFormat(String pattern, int digits) {
-		return new NumberFormatAdapter() {
-			@Override
-			public int getMaximumFractionDigits() {
-				return digits;
-			}
-
-			@Override
-			public String format(double value) {
-				return String.valueOf(value);
-			}
-		};
-	}
+	/**
+	 * Focus the previous part.
+	 * @return success
+	 */
+	boolean focusPrevious();
 }

@@ -18,9 +18,9 @@ package org.geogebra.web.html5.gui.accessibility;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.AccessibilityGroup;
-import org.geogebra.common.gui.MayHaveFocus;
+import org.geogebra.common.gui.FocusableComponent;
 
-public class PlayButtonTabber implements MayHaveFocus {
+public class PlayButtonTabber implements FocusableComponent {
 	private final EuclidianView view;
 
 	public PlayButtonTabber(EuclidianView view) {

@@ -19,7 +19,7 @@ package org.geogebra.common.gui;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
 
-public class GeoTabber implements MayHaveFocus {
+public class GeoTabber implements FocusableComponent {
 
 	private boolean selected;
 	private final SelectionManager selectionManager;

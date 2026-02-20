@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
+import org.geogebra.common.main.ScreenReaderSupport;
 import org.geogebra.common.util.SymbolicUtil;
 
 /**
@@ -41,8 +42,22 @@ import org.geogebra.common.util.SymbolicUtil;
  * This class also contains utility methods to get the possible output formats for a {@code GeoElement},
  * and methods to cycle through them.
  */
-public enum AlgebraOutputFormat {
-    FRACTION, EXACT, APPROXIMATION, ENGINEERING;
+public enum AlgebraOutputFormat implements ScreenReaderSupport {
+    FRACTION("FormatFraction"),
+	EXACT("FormatExact"),
+	APPROXIMATION("FormatApproximate"),
+	ENGINEERING("FormatEngineering");
+
+	private final String screenReaderLabel;
+
+	AlgebraOutputFormat(String screenReaderLabel) {
+		this.screenReaderLabel = screenReaderLabel;
+	}
+
+	@Override
+	public String getScreenReaderLabel() {
+		return screenReaderLabel;
+	}
 
 	/**
 	 * Retrieves all the possible output formats for the given {@code GeoElement}.

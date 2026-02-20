@@ -24,6 +24,7 @@ import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.gui.util.FocusUtil;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.dom.client.KeyDownEvent;
@@ -32,7 +33,7 @@ import org.gwtproject.user.client.ui.Widget;
 
 public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHandler {
 
-	private AutoCompleteTextFieldW textField;
+	AutoCompleteTextFieldW textField;
 
 	/**
 	 * Minimal constructor
@@ -56,6 +57,7 @@ public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHand
 		textField.getTextField().addKeyDownHandler(this);
 		textField.addFocusHandler(ignore -> getAV().startEditItem(geo));
 		textField.addBlurHandler(controller);
+		FocusUtil.makeFocusable(textField.getElement());
 		setDefaultAriaLabel();
 	}
 
@@ -284,5 +286,10 @@ public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHand
 	@Override
 	public void insertString(String text) {
 		textField.insertString(text);
+	}
+
+	@Override
+	protected LinearNotationFocusAccess createFocusAccess() {
+		return new LinearNotationFocusAccess(this);
 	}
 }

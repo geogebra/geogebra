@@ -26,7 +26,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.view.algebra.AnimPanel.AnimPanelListener;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.util.DataTest;
@@ -75,13 +74,14 @@ public class ItemControls extends FlowPanel
 	 */
 	public StandardButton getMoreButton() {
 		if (btnMore == null) {
-			btnMore = new StandardButton(MaterialDesignResources.INSTANCE.more_vert_black(), 24);
+			btnMore = new
+					StandardButton(MaterialDesignResources.INSTANCE.more_vert_black(), 24);
 			btnMore.addStyleName("more");
 			btnMore.addFastClickHandler((event) -> {
 					getController().preventBlur();
 					openMoreMenu();
 			});
-			AriaHelper.setHidden(btnMore, true);
+			btnMore.addKeyActivateHandler(this::openMoreMenu);
 		}
 
 		return btnMore;
@@ -390,7 +390,7 @@ public class ItemControls extends FlowPanel
 			cmMore.setLabels();
 		}
 		if (btnMore != null) {
-			btnMore.setAltText(this.radioTreeItem.loc.getMenu("Options"));
+			btnMore.setAltText(this.radioTreeItem.loc.getMenu("More"));
 		}
 		if (animPanel != null) {
 			animPanel.setLabels(this.radioTreeItem.loc);

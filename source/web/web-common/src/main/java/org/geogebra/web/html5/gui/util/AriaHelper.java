@@ -91,6 +91,20 @@ public class AriaHelper {
 	}
 
 	/**
+	 * Sets the accessibility role description for an HTML element.
+	 *
+	 * <p>The role description is assigned to the <code>aria-roledescription</code>
+	 * attribute to override the default semantic announcement
+	 * (e.g. button, canvas, group, etc.) for assistive technologies.</p>
+	 *
+	 * @param uiObject the element whose role description should be set
+	 * @param roleDescription the custom role description to announce
+	 */
+	public static void setRoleDescription(UIObject uiObject, String roleDescription) {
+		uiObject.getElement().setAttribute("aria-roledescription", roleDescription);
+	}
+
+	/**
 	 * @param uiObject UI element
 	 * @param autocomplete autocomplete
 	 */

@@ -18,7 +18,10 @@ package org.geogebra.web.html5.gui.accessibility;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
@@ -26,8 +29,9 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AltTextTimer;
+import org.geogebra.common.gui.FocusableComponent;
 import org.geogebra.common.gui.GeoTabber;
-import org.geogebra.common.gui.MayHaveFocus;
+import org.geogebra.common.gui.compositefocus.FocusableComposite;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -44,12 +48,12 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private final AppW app;
 	private final SelectionManager selection;
 	private final ViewAltTexts altTexts;
-	private MayHaveFocus anchor;
+	private FocusableComponent anchor;
 	private SideBarAccessibilityAdapter menuContainer;
 
 	private final AltTextTimer timer;
 
-	private final Comparator<MayHaveFocus> componentComparator = (o1, o2) -> {
+	private final Comparator<FocusableComponent> componentComparator = (o1, o2) -> {
 		int viewDiff = o1.getAccessibilityGroup().ordinal()
 				- o2.getAccessibilityGroup().ordinal();
 		if (viewDiff != 0) {
@@ -61,7 +65,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return 0;
 	};
 
-	private final TreeSet<MayHaveFocus> components = new TreeSet<>(componentComparator);
+	private final TreeSet<FocusableComponent> components = new TreeSet<>(componentComparator);
+	private final Set<FocusableComposite> compositeFocusOwners = new HashSet<>();
+	private FocusableComposite activeCompositeFocus;
 
 	/**
 	 * Constructor.
@@ -93,7 +99,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public boolean focusNext() {
-		for (MayHaveFocus entry: components) {
+		removeFocusFromInternals();
+		for (FocusableComponent entry: components) {
 			if (entry.hasFocus()) {
 				if (!entry.focusNext()) {
 					focusFirstVisible(findNext(entry));
@@ -104,8 +111,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return focusFirstVisible(components.first());
 	}
 
-	private boolean focusFirstVisible(@Nonnull MayHaveFocus entry) {
-		MayHaveFocus nextEntry = entry;
+	private boolean focusFirstVisible(@Nonnull FocusableComponent entry) {
+		FocusableComponent nextEntry = entry;
 		do {
 			if (nextEntry.focusIfVisible(false)) {
 				return true;
@@ -116,8 +123,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return false;
 	}
 
-	private boolean focusLastVisible(@Nonnull MayHaveFocus entry) {
-		MayHaveFocus nextEntry = entry;
+	private boolean focusLastVisible(@Nonnull FocusableComponent entry) {
+		FocusableComponent nextEntry = entry;
 		do {
 			if (nextEntry.focusIfVisible(true)) {
 				return true;
@@ -128,16 +135,16 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return false;
 	}
 
-	private MayHaveFocus findNext(MayHaveFocus entry) {
-		MayHaveFocus nextEntry = components.higher(entry);
+	private FocusableComponent findNext(FocusableComponent entry) {
+		FocusableComponent nextEntry = components.higher(entry);
 		if (nextEntry == null) {
 			return components.first();
 		}
 		return nextEntry;
 	}
 
-	private MayHaveFocus findPrevious(MayHaveFocus entry) {
-		MayHaveFocus nextEntry = components.lower(entry);
+	private FocusableComponent findPrevious(FocusableComponent entry) {
+		FocusableComponent nextEntry = components.lower(entry);
 		if (nextEntry == null) {
 			return components.last();
 		}
@@ -146,7 +153,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public boolean focusPrevious() {
-		for (MayHaveFocus entry: components) {
+		removeFocusFromInternals();
+		for (FocusableComponent entry: components) {
 			if (entry.hasFocus()) {
 				if (!entry.focusPrevious()) {
 					return focusLastVisible(findPrevious(entry));
@@ -158,14 +166,21 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return focusLastVisible(components.last());
 	}
 
+	private void removeFocusFromInternals() {
+		if (activeCompositeFocus != null) {
+			activeCompositeFocus.blur();
+		}
+		activeCompositeFocus = null;
+	}
+
 	@Override
-	public void register(MayHaveFocus focusable) {
+	public void register(FocusableComponent focusable) {
 		components.removeIf(c -> componentComparator.compare(focusable, c) == 0);
 		components.add(focusable);
 	}
 
 	@Override
-	public void unregister(MayHaveFocus focusable) {
+	public void unregister(FocusableComponent focusable) {
 		components.removeIf(c -> componentComparator.compare(focusable, c) == 0);
 	}
 
@@ -203,12 +218,12 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
-	public void setAnchor(MayHaveFocus anchor) {
+	public void setAnchor(FocusableComponent anchor) {
 		this.anchor = anchor;
 	}
 
 	@Override
-	public MayHaveFocus getAnchor() {
+	public FocusableComponent getAnchor() {
 		return anchor;
 	}
 
@@ -257,6 +272,71 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	@Override
 	public void preloadAltText(GeoText geoText) {
 		timer.preload(geoText);
+	}
+
+	@Override
+	public void registerCompositeFocusContainer(FocusableComposite compositeFocus) {
+		compositeFocusOwners.add(compositeFocus);
+	}
+
+	@Override
+	public void unregisterCompositeFocusContainer(FocusableComposite compositeFocus) {
+		compositeFocusOwners.remove(compositeFocus);
+		activeCompositeFocus = null;
+	}
+
+	@Override
+	public boolean hasFocusInComposite() {
+		findActiveCompositeFocus();
+		return activeCompositeFocus.isFocused();
+	}
+
+	@Override
+	public boolean focusNextInComposite() {
+		findActiveCompositeFocus();
+		if (activeCompositeFocus == null) {
+			return false;
+		}
+		return activeCompositeFocus.hasFocus() ? activeCompositeFocus.focusNext()
+				: activeCompositeFocus.focusFirst();
+	}
+
+	@Override
+	public boolean focusPreviousInComposite() {
+		findActiveCompositeFocus();
+		if (activeCompositeFocus == null) {
+			return false;
+		}
+		return activeCompositeFocus.hasFocus() ? activeCompositeFocus.focusPrevious()
+				: activeCompositeFocus.focusLast();
+	}
+
+	@Override
+	public void blurCompositeFocus() {
+		findActiveCompositeFocus();
+		if (activeCompositeFocus != null) {
+			activeCompositeFocus.blur();
+			activeCompositeFocus = null;
+		}
+	}
+
+	@Override
+	public boolean handlesEnterInComposite() {
+		return activeCompositeFocus != null
+				&& activeCompositeFocus.handlesEnterKeyForSelectedPart();
+	}
+
+	private void findActiveCompositeFocus() {
+		if (activeCompositeFocus != null && !activeCompositeFocus.isFocused()) {
+			activeCompositeFocus = null;
+		}
+
+		if (activeCompositeFocus == null) {
+			Optional<FocusableComposite> compositeFocus =
+					compositeFocusOwners.stream().filter(FocusableComposite::isFocused).findFirst();
+			compositeFocus.ifPresent(focusableComposite
+					-> activeCompositeFocus = focusableComposite);
+		}
 	}
 
 	@Override

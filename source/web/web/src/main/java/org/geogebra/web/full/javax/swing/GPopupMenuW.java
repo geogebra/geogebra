@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.geogebra.common.gui.AccessibilityManagerInterface;
-import org.geogebra.common.gui.MayHaveFocus;
+import org.geogebra.common.gui.FocusableComponent;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.geogebra.web.full.gui.menubar.GMenuBar;
@@ -537,12 +537,13 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 
 		AccessibilityManagerInterface am = getApp()
 				.getAccessibilityManager();
-		MayHaveFocus anchor = am.getAnchor();
+		FocusableComponent anchor = am.getAnchor();
 		if (subPopup != null && subPopup.isMenuShown()) {
 			removeSubPopup();
 		} else {
 			popupPanel.hide();
 		}
+
 		if (focusAnchor != null) {
 			focusAnchor.focus();
 		} else {
@@ -553,7 +554,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	/**
 	 * @param anchor global focus anchor
 	 */
-	protected void returnFocus(MayHaveFocus anchor) {
+	protected void returnFocus(FocusableComponent anchor) {
 		if (anchor != null) {
 			anchor.focusIfVisible(true);
 		}

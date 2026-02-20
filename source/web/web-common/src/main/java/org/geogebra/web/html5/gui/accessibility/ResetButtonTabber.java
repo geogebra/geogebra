@@ -18,10 +18,10 @@ package org.geogebra.web.html5.gui.accessibility;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.AccessibilityGroup;
-import org.geogebra.common.gui.MayHaveFocus;
+import org.geogebra.common.gui.FocusableComponent;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 
-public class ResetButtonTabber implements MayHaveFocus {
+public class ResetButtonTabber implements FocusableComponent {
 	private final EuclidianView view;
 
 	public ResetButtonTabber(EuclidianView view) {

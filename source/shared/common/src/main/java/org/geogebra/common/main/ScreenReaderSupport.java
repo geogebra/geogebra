@@ -14,25 +14,15 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.web.full.main;
+package org.geogebra.common.main;
 
-import org.geogebra.common.util.NumberFormatAdapter;
-import org.geogebra.web.html5.factories.FormatFactoryW;
+/**
+ * Provides a label to be announced by a screen reader.
+ */
+public interface ScreenReaderSupport {
 
-public class TestFormatFactory extends FormatFactoryW {
-
-	@Override
-	public NumberFormatAdapter getNumberFormat(String pattern, int digits) {
-		return new NumberFormatAdapter() {
-			@Override
-			public int getMaximumFractionDigits() {
-				return digits;
-			}
-
-			@Override
-			public String format(double value) {
-				return String.valueOf(value);
-			}
-		};
-	}
+	/**
+	 * @return the text to be read by the screen reader
+	 */
+	String getScreenReaderLabel();
 }

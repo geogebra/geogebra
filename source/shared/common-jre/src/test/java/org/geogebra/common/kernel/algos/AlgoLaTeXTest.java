@@ -21,6 +21,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.junit.Test;
 
@@ -32,7 +33,7 @@ public class AlgoLaTeXTest extends BaseUnitTest {
 		addAvInput("u=2*v");
 		GeoElement formulaText = addAvInput("FormulaText(u,false,false)");
 		assertThat(
-				AlgebraItem.getLatexString(formulaText, 1500, true),
+				AlgebraItem.getContentString(formulaText, 1500, true, StringTemplate.latexTemplate),
 				equalTo("text1 \\, = \\,“2 \\; v”"));
 	}
 
@@ -42,7 +43,7 @@ public class AlgoLaTeXTest extends BaseUnitTest {
 		addAvInput("u=Vector(A)");
 		GeoElement formulaText = addAvInput("FormulaText(u,false,false)");
 		assertThat(
-				AlgebraItem.getLatexString(formulaText, 1500, true),
+				AlgebraItem.getContentString(formulaText, 1500, true, StringTemplate.latexTemplate),
 				equalTo("text1 \\, = \\,"
 						+ "“\\left( \\begin{align}1 \\\\ 1 \\end{align} \\right)”"));
 	}
@@ -55,7 +56,7 @@ public class AlgoLaTeXTest extends BaseUnitTest {
 		addAvInput("u = (a,b)");
 		GeoElement formulaText = addAvInput("FormulaText(u)");
 		assertThat(
-				AlgebraItem.getLatexString(formulaText, 1500, true),
+				AlgebraItem.getContentString(formulaText, 1500, true, StringTemplate.latexTemplate),
 				equalTo("text1 \\, = \\,"
 						+ "“\\left( \\begin{align}-7 \\\\ 3 \\end{align} \\right)”"));
 	}

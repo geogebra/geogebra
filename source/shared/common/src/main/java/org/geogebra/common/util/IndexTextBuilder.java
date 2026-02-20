@@ -14,25 +14,32 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.web.full.main;
+package org.geogebra.common.util;
 
-import org.geogebra.common.util.NumberFormatAdapter;
-import org.geogebra.web.html5.factories.FormatFactoryW;
+public class IndexTextBuilder extends IndexHTMLBuilder {
 
-public class TestFormatFactory extends FormatFactoryW {
+	public IndexTextBuilder() {
+		super(false);
+	}
 
 	@Override
-	public NumberFormatAdapter getNumberFormat(String pattern, int digits) {
-		return new NumberFormatAdapter() {
-			@Override
-			public int getMaximumFractionDigits() {
-				return digits;
-			}
-
-			@Override
-			public String format(double value) {
-				return String.valueOf(value);
-			}
-		};
+	public void startIndex() {
+		append("_");
 	}
+
+	@Override
+	public void endIndex() {
+		// nothing to do
+	}
+
+	@Override
+	public void appendHTML(String str) {
+		super.append(str);
+	}
+
+	@Override
+	public boolean canAppendRawHtml() {
+		return false;
+	}
+
 }

@@ -38,15 +38,12 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.CoordinatesFormat;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.test.EventAccumulator;
 import org.geogebra.test.annotation.Issue;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AlgebraItemTest extends BaseUnitTest {
@@ -112,7 +109,8 @@ public class AlgebraItemTest extends BaseUnitTest {
         addAvInput("a = ?");
         GeoVector vector = addAvInput("v = (a, 1)");
         String latexString =
-                AlgebraItem.getLatexString(vector, LATEX_MAX_EDIT_LENGTH, false);
+                AlgebraItem.getContentString(vector, LATEX_MAX_EDIT_LENGTH, false,
+						StringTemplate.latexTemplate);
         assertThat(latexString, equalTo("v\\, = \\,?"));
     }
 
@@ -122,9 +120,11 @@ public class AlgebraItemTest extends BaseUnitTest {
         GeoElement conic = addAvInput("x^2/sqrt(2)=1");
         GeoElement quadric = addAvInput("x^2/sqrt(2)=z");
         String latexStringConic =
-                AlgebraItem.getLatexString(conic, LATEX_MAX_EDIT_LENGTH, false);
+                AlgebraItem.getContentString(conic, LATEX_MAX_EDIT_LENGTH, false,
+						StringTemplate.latexTemplate);
         String latexStringQuadric =
-                AlgebraItem.getLatexString(quadric, LATEX_MAX_EDIT_LENGTH, false);
+                AlgebraItem.getContentString(quadric, LATEX_MAX_EDIT_LENGTH, false,
+						StringTemplate.latexTemplate);
         assertThat(latexStringConic,
                 equalTo("eq1\\mathpunct{:}\\,\\frac{x^{2}}{\\sqrt{2}}\\, = \\,1"));
         assertThat(latexStringQuadric,

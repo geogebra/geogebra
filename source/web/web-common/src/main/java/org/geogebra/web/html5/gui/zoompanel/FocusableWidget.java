@@ -20,14 +20,14 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
-import org.geogebra.common.gui.MayHaveFocus;
+import org.geogebra.common.gui.FocusableComponent;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.Widget;
 
-public class FocusableWidget implements MayHaveFocus {
+public class FocusableWidget implements FocusableComponent {
 
 	private final Widget[] btns;
 	private final AccessibilityGroup accessibilityGroup;

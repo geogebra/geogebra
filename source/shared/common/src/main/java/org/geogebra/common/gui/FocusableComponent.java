@@ -21,30 +21,13 @@ import javax.annotation.CheckForNull;
 /**
  * Focusable component.
  */
-public interface MayHaveFocus {
+public interface FocusableComponent extends FocusTraversal {
 	/**
 	 * Focus first or last part of this component, if visible.
 	 * @param reverse whether focus comes from reverse tabbing.
 	 * @return success
 	 */
 	boolean focusIfVisible(boolean reverse);
-
-	/**
-	 * @return whether any part of this component has focus
-	 */
-	boolean hasFocus();
-
-	/**
-	 * Focus the next part.
-	 * @return success
-	 */
-	boolean focusNext();
-
-	/**
-	 * Focus the previous part.
-	 * @return success
-	 */
-	boolean focusPrevious();
 
 	/**
 	 * @return accessibility group

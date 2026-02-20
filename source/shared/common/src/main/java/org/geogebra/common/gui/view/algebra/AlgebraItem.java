@@ -268,6 +268,22 @@ public class AlgebraItem {
 	public static boolean buildPlainTextItemSimple(GeoElement geo1,
 			IndexHTMLBuilder builder, StringTemplate stringTemplate) {
 		AlgebraStyle algebraStyle = geo1.getApp().getAlgebraStyle();
+		return buildPlainTextItemSimple(geo1, builder, algebraStyle, stringTemplate);
+	}
+
+	/**
+	 * @param geo1
+	 *            element
+	 * @param builder
+	 *            index builder
+	 * @param algebraStyle
+	 *            algebra style
+	 * @param stringTemplate
+	 *            string template
+	 * @return whether we did append something to the index builder
+	 */
+	public static boolean buildPlainTextItemSimple(GeoElement geo1,
+			IndexHTMLBuilder builder, AlgebraStyle algebraStyle, StringTemplate stringTemplate) {
 		boolean showLabel =  geo1.getApp().getConfig().hasLabelForDescription();
 
 		if (geo1.isIndependent() && geo1.isGeoPoint() && algebraStyle == AlgebraStyle.DESCRIPTION) {
@@ -523,32 +539,54 @@ public class AlgebraItem {
 	 */
 	public static String getLatexString(GeoElement geo1, Integer limit,
 			boolean output) {
+		return getContentString(geo1, limit, output, StringTemplate.latexTemplate);
+	}
+
+	/**
+	 * Returns the textual or LaTeX representation of a geo element for algebra display.
+	 *
+	 * <p>The returned content depends on the current {@link AlgebraStyle}, whether
+	 * output or input is requested, and the nature of the geo (e.g. independent,
+	 * expression-based, or produced by a fraction algorithm).</p>
+	 *
+	 * <p>If no suitable representation is available for the given context,
+	 * this method returns {@code null}.</p>
+	 *
+	 * @param geo1 the geo element whose content is requested
+	 * @param limit optional character or complexity limit applied to the output
+	 * @param output whether the output (evaluated) representation is requested
+	 * @param tpl the string template controlling formatting
+	 * @return the content string for algebra display, or {@code null} if none applies
+	 */
+	public static String getContentString(GeoElement geo1, Integer limit,
+			boolean output, StringTemplate tpl) {
 		AlgebraStyle algebraStyle = geo1.getApp().getAlgebraStyle();
 		if (output && !geo1.isLaTeXDrawableGeo()) {
 			return null;
 		}
 
 		if (geo1.getParentAlgorithm() instanceof AlgoFractionText) {
-			return geo1.getAlgebraDescription(StringTemplate.latexTemplate);
+			return geo1.getAlgebraDescription(tpl);
 		} else if (algebraStyle != AlgebraStyle.VALUE
 				&& algebraStyle != AlgebraStyle.DEFINITION_AND_VALUE) {
 			if (geo1.isIndependent()) {
-				return getLatexStringValue(geo1, limit);
+				return getLatexStringValue(geo1, limit, tpl);
 			} else if (Algos.isUsedFor(Algos.Expression, geo1)) {
-				return geo1.getAssignmentLHS(StringTemplate.latexTemplate)
+				return geo1.getAssignmentLHS(tpl)
 						+ geo1.getLabelDelimiter() + geo1.getDefinition(
-						StringTemplate.latexTemplate);
+						tpl);
 			} else {
 				return null;
 			}
 		}
-		return getLatexStringValue(geo1, limit);
+		return getLatexStringValue(geo1, limit, tpl);
 	}
 
-	private static String getLatexStringValue(GeoElement geo1, Integer limit) {
+	private static String getLatexStringValue(GeoElement geo1, Integer limit,
+			StringTemplate tpl) {
 		String text = geo1.getLaTeXAlgebraDescription(
 				geo1.getDescriptionMode() != DescriptionMode.DEFINITION,
-				StringTemplate.latexTemplate);
+				tpl);
 
 		if ((text != null) && (limit == null || (text.length() < limit))) {
 			return text;
@@ -567,7 +605,7 @@ public class AlgebraItem {
 	 *            the GeoElement for what we need to get the preview for AV
 	 * @return the preview string for the given geoelement if there is any
 	 */
-	private static String getPreviewFormula(@Nonnull GeoElement element,
+	public static String getPreviewFormula(@Nonnull GeoElement element,
 			StringTemplate stringTemplate) {
 		Settings settings = element.getApp().getSettings();
 		AlgebraStyle algebraStyle = settings.getAlgebra().getStyle();

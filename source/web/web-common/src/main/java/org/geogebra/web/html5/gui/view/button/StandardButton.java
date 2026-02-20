@@ -31,6 +31,8 @@ import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
 
+import elemental2.dom.KeyboardEvent;
+
 public class StandardButton extends Widget implements HasResource {
 	private ResourcePrototype icon;
 	private String label;
@@ -330,6 +332,25 @@ public class StandardButton extends Widget implements HasResource {
 		globalHandlers.addEventListener(this.getElement(), "click", (e) -> {
 			handler.onClick(this);
 			e.stopPropagation();
+		});
+	}
+
+	/**
+	 * Registers an action that is invoked when this button is activated via keyboard.
+	 *
+	 * <p>The action is triggered on {@code Enter} or {@code Space} key release and
+	 * prevents further propagation of the event.</p>
+	 *
+	 * @param activateAction action to run when the button is activated by keyboard input
+	 */
+	public void addKeyActivateHandler(Runnable activateAction) {
+		Dom.addEventListener(this.getElement(), "keyup", (event) -> {
+			KeyboardEvent e = (KeyboardEvent) event;
+			if (" ".equals(e.key) || "Enter".equals(e.key)) {
+				activateAction.run();
+				e.preventDefault();
+				e.stopPropagation();
+			}
 		});
 	}
 

@@ -18,12 +18,12 @@ package org.geogebra.web.html5.gui.accessibility;
 
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.gui.AccessibilityGroup;
-import org.geogebra.common.gui.MayHaveFocus;
+import org.geogebra.common.gui.FocusableComponent;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 
-public class AltGeoTabber implements MayHaveFocus {
+public class AltGeoTabber implements FocusableComponent {
 	private final ScreenReaderAdapter screenReader;
 	private boolean focus = false;
 	private int viewIndex = 0;

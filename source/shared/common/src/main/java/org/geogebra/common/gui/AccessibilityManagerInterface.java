@@ -16,6 +16,7 @@
 
 package org.geogebra.common.gui;
 
+import org.geogebra.common.gui.compositefocus.FocusableComposite;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -69,14 +70,14 @@ public interface AccessibilityManagerInterface {
 	 * @param anchor
 	 *            to give back the focus.
 	 */
-	void setAnchor(MayHaveFocus anchor);
+	void setAnchor(FocusableComponent anchor);
 
 	/**
 	 * Get the anchor.
 	 * 
 	 * @return anchor to give back the focus.
 	 */
-	MayHaveFocus getAnchor();
+	FocusableComponent getAnchor();
 
 	/**
 	 * Give back the focus to the anchor if set.
@@ -98,13 +99,13 @@ public interface AccessibilityManagerInterface {
 	 * Register a focusable element.
 	 * @param focusable focusable element
 	 */
-	void register(MayHaveFocus focusable);
+	void register(FocusableComponent focusable);
 
 	/**
 	 * Unregister a focusable element.
 	 * @param focusable focusable element
 	 */
-	void unregister(MayHaveFocus focusable);
+	void unregister(FocusableComponent focusable);
 
 	/**
 	 * Start tabbing over construction elements.
@@ -132,4 +133,57 @@ public interface AccessibilityManagerInterface {
 	 * @param geoText {@link GeoText}
 	 */
 	void preloadAltText(GeoText geoText);
+
+	/**
+	 * Registers a composite focus container for participation in composite focus traversal.
+	 *
+	 * @param compositeFocus the composite focus container to register
+	 */
+	void registerCompositeFocusContainer(FocusableComposite compositeFocus);
+
+	/**
+	 * Unregisters a previously registered composite focus container.
+	 *
+	 * @param compositeFocus the composite focus container to unregister
+	 */
+	void unregisterCompositeFocusContainer(FocusableComposite compositeFocus);
+
+	/**
+	 * @return {@code true} if the currently active composite has internal focus;
+	 *         {@code false} otherwise
+	 */
+	boolean hasFocusInComposite();
+
+	/**
+	 * Moves focus to the next focusable part within the currently focused element.
+	 *
+	 * <p>This is used for internal navigation of composite elements (for example,
+	 * the input row, output row, toggle, or menu buttons of an Algebra View item).
+	 * Global focus traversal between items is handled separately (e.g. via Tab).</p>
+	 *
+	 * @return true if a next internal part exists; false otherwise
+	 */
+	boolean focusNextInComposite();
+
+	/**
+	 * Moves focus to the previous focusable part within the currently focused element.
+	 *
+	 * <p>This is used for internal navigation of composite elements (for example,
+	 * the input row, output row, toggle, or menu buttons of an Algebra View item).</p>
+	 *
+	 * @return true if a previous internal part exists; false otherwise
+	 */
+	boolean focusPreviousInComposite();
+
+	/**
+	 * Clears any active composite focus.
+	 *
+	 */
+	void blurCompositeFocus();
+
+	/**
+	 * @return whether native focus should be applied while a composite focus is active.
+	 */
+	boolean handlesEnterInComposite();
+
 }

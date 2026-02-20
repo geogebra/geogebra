@@ -237,6 +237,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		// as arrow keys are prevented in super.onBrowserEvent,
 		// we need to handle arrow key events before that
 		int eventType = DOM.eventGetType(event);
+		boolean activeCompositeFocus = hasActiveCompositeFocus();
 		switch (eventType) {
 		default:
 			// do nothing
@@ -252,11 +253,21 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			case KeyCodes.KEY_RIGHT:
 				// this may be enough for Safari too, because it is not
 				// onkeypress
-				if (!(editItem || Browser.isTabletBrowser())) {
-					app.getGlobalKeyDispatcher()
-							.handleSelectedGeosKeys(event);
-					event.stopPropagation();
-					event.preventDefault();
+				if (!(editItem || Browser.isTabletBrowser()) && !activeCompositeFocus) {
+					dispatchToGeosAndKill(event);
+					return;
+				}
+			}
+			break;
+		case Event.ONKEYDOWN:
+			// put this on keydown to prevent focus jump when entering to composite (win)
+			switch (event.getKeyCode()) {
+			case KeyCodes.KEY_UP:
+			case KeyCodes.KEY_DOWN:
+			case KeyCodes.KEY_LEFT:
+			case KeyCodes.KEY_RIGHT:
+				if (activeCompositeFocus) {
+					dispatchToGeosAndKill(event);
 					return;
 				}
 			}
@@ -279,6 +290,22 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			}
 			super.onBrowserEvent(event);
 		}
+	}
+
+	private void dispatchToGeosAndKill(Event event) {
+		app.getGlobalKeyDispatcher()
+				.handleSelectedGeosKeys(event);
+		event.stopPropagation();
+		event.preventDefault();
+	}
+
+	private boolean hasActiveCompositeFocus() {
+		List<GeoElement> geos = selectionCtrl.getSelectedGeos();
+		if (geos.size() == 1) {
+			RadioTreeItem ri = nodeTable.get(geos.get(0));
+			return ri.hasActiveCompositeFocus();
+		}
+		return false;
 	}
 
 	/**
@@ -1282,6 +1309,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	@Override
 	public void clearView() {
+		unregisterAllCompositeFocus();
 		nodeTable.clear();
 		addOnRepaint.clear();
 		scrollOnRepaint = false;
@@ -1293,6 +1321,11 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 		showAlgebraInput(false);
 		maxItemWidth = 0;
+	}
+
+	private void unregisterAllCompositeFocus() {
+		nodeTable.values()
+				.forEach(RadioTreeItem::unregister);
 	}
 
 	/**

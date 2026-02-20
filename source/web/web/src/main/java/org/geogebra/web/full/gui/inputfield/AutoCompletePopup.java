@@ -16,7 +16,7 @@
 
 package org.geogebra.web.full.gui.inputfield;
 
-import org.geogebra.common.gui.MayHaveFocus;
+import org.geogebra.common.gui.FocusableComponent;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.ownership.GlobalScope;
@@ -55,7 +55,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 	}
 
 	@Override
-	protected void returnFocus(MayHaveFocus anchor) {
+	protected void returnFocus(FocusableComponent anchor) {
 		// keep focus in input
 	}
 

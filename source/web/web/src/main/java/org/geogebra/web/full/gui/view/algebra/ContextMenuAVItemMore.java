@@ -122,6 +122,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 */
 	public void show(Widget source, int x, int y) {
 		wrappedPopup.show(source, x, y);
+		wrappedPopup.setAnchor(source.getElement());
 		wrappedPopup.getPopupMenu().focusDeferred();
 	}
 
@@ -206,6 +207,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 		if (geo == null) {
 			item.onClear();
 		} else {
+			item.onDelete();
 			mApp.getAlgebraView().resetDataTestOnDelete(geo);
 			geo.remove();
 			mApp.storeUndoInfo();

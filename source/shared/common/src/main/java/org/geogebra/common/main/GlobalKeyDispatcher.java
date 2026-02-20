@@ -434,9 +434,11 @@ public abstract class GlobalKeyDispatcher {
 			break;
 
 		case ENTER:
+			if (app.getAccessibilityManager().handlesEnterInComposite()) {
+				return false;
+			}
 			// check not spreadsheet
 			if (!fromSpreadsheet) {
-
 				// ENTER: set focus to input field
 				consumed = handleEnter();
 
@@ -1251,11 +1253,8 @@ public abstract class GlobalKeyDispatcher {
 				base = 0.1;
 			}
 		}
-		if (isControlDown) {
-			base = 10;
-		}
 		if (isAltDown) {
-			base = 100;
+			base = 10;
 		}
 
 		if (geos == null || geos.isEmpty()) {
@@ -1326,7 +1325,7 @@ public abstract class GlobalKeyDispatcher {
 		// ignore key events coming from tables like the spreadsheet to
 		// allow start editing, moving etc
 		if (fromSpreadsheet || isSpreadsheetFocused()) {
-			return false;
+				return false;
 		}
 
 		// check for arrow keys: try to move objects accordingly
@@ -1343,6 +1342,7 @@ public abstract class GlobalKeyDispatcher {
 					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
+
 			if (handleUpDownArrowsForDropdown(geos, false)) {
 				return true;
 			}
@@ -1356,6 +1356,7 @@ public abstract class GlobalKeyDispatcher {
 					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
+
 			if (handleUpDownArrowsForDropdown(geos, true)) {
 				return true;
 			}
@@ -1369,6 +1370,7 @@ public abstract class GlobalKeyDispatcher {
 					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
+
 			if (handleLeftRightArrowsForDropdown(geos, true)) {
 				return true;
 			}
@@ -1385,6 +1387,7 @@ public abstract class GlobalKeyDispatcher {
 					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
+
 			if (handleLeftRightArrowsForDropdown(geos, false)) {
 				return true;
 			}

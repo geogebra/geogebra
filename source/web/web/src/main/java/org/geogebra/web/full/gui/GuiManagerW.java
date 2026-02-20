@@ -1072,6 +1072,10 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void startEditing(final GeoElement geoElement) {
+		if (app.getAccessibilityManager().handlesEnterInComposite()) {
+			return;
+		}
+
 		switchToolsToAV();
 		if (this.algebraView != null) {
 			algebraView.startEditItem(geoElement);
