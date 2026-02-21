@@ -394,16 +394,11 @@ public abstract class ValidExpression
 			return (((GeoElement) s)
 					.getConstruction() instanceof MacroConstruction ? "Macro"
 					: "")
-					+ s.getClass().getName()
-					.replaceAll("org.geogebra.common.kernel.geos.Geo",
-							"G")
-					.replaceAll(
-							"org.geogebra.common.geogebra3D.kernel3D.geos.Geo",
-							"G")
+					+ s.getClass().getSimpleName()
+					.replaceAll("^Geo", "G")
 					+ "(" + s.toString(StringTemplate.defaultTemplate) + ")";
 		}
-		return s.getClass().getName()
-				.replaceAll("org.geogebra.common.kernel.arithmetic.", "") + "("
+		return s.getClass().getSimpleName() + "("
 				+ s.toString(StringTemplate.defaultTemplate) + ")";
 	}
 
