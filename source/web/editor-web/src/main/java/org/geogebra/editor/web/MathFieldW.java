@@ -75,6 +75,7 @@ import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 
+import elemental2.dom.BaseRenderingContext2D;
 import elemental2.dom.CSSProperties;
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.ClipboardEvent;
@@ -1201,7 +1202,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @param cssColor color to set
 	 */
 	public void setForegroundColor(String cssColor) {
-		this.foregroundColor = GColor.getGColor(cssColor);
+		this.foregroundColor = parseColor(cssColor);
 	}
 
 	/**
@@ -1210,7 +1211,16 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @param cssColor color to set
 	 */
 	public void setBackgroundColor(String cssColor) {
-		this.backgroundColor = GColor.getGColor(cssColor);
+		this.backgroundColor = parseColor(cssColor);
+	}
+
+	private GColor parseColor(String cssColor) {
+		GColor parsedColor = GColor.getGColor(cssColor);
+		if (parsedColor == null) {
+			ctx.fillStyle = BaseRenderingContext2D.FillStyleUnionType.of(cssColor);
+			return GColor.getGColor(ctx.fillStyle.asString());
+		}
+		return parsedColor;
 	}
 
 	/**
