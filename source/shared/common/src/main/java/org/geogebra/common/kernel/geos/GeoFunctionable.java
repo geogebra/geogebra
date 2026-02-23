@@ -63,4 +63,9 @@ public interface GeoFunctionable extends GeoElementND, UnivariateFunction {
 	 */
 	public boolean isPolynomialFunction(boolean forRoot);
 
+	/**
+	 * @param forRootFinding whether we can apply simplifications for root finding
+	 * @return whether this has polynomial numerator (including polynomial(x)/1)
+	 */
+	boolean hasPolynomialNumerator(boolean forRootFinding);
 }

@@ -35,8 +35,19 @@ public class SuggestionIntersectExtremumTest {
 	private AppCommon app = AppCommonFactory.create3D();
 
 	@Test
-	void intersectRange() {
+	void intersectRangeRational() {
 		GeoElement function = add("1/x");
+		SuggestionIntersectExtremum.get(function).execute(function);
+		List<String> definitions = Arrays.stream(app.getGgbApi().getAllObjectNames())
+				.map(n -> lookup(n).getDefinition(StringTemplate.algebraTemplate))
+				.collect(Collectors.toList());
+		assertEquals(List.of("", "Intersect(f, xAxis, -4.3, 11.7)",
+				"Extremum(f, -4.3, 11.7)", "Intersect(f, yAxis)"), definitions);
+	}
+
+	@Test
+	void intersectRange() {
+		GeoElement function = add("1/x + 0.000001 * sin(x)");
 		SuggestionIntersectExtremum.get(function).execute(function);
 		List<String> definitions = Arrays.stream(app.getGgbApi().getAllObjectNames())
 				.map(n -> lookup(n).getDefinition(StringTemplate.algebraTemplate))

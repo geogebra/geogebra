@@ -2183,6 +2183,11 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
+	public boolean hasPolynomialNumerator(boolean forRoot) {
+		return true;
+	}
+
+	@Override
 	public boolean showLineProperties() {
 		return isDrawable() && !isSlider() && getDrawAlgorithm() != null;
 	}

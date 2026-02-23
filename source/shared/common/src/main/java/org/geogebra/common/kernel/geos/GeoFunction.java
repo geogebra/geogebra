@@ -716,6 +716,16 @@ public class GeoFunction extends GeoElement implements Translateable,
 		return fun.isPolynomialFunction(forRootFinding, symbolic);
 	}
 
+	@Override
+	public boolean hasPolynomialNumerator(boolean forRootFinding) {
+		// don't do root finding simplification here
+		// i.e. don't replace a factor "sqrt(x)" by "x"
+		if (!isDefined() || fun == null) {
+			return false;
+		}
+		return fun.hasPolynomialNumerator(forRootFinding);
+	}
+
 	/**
 	 * Returns true if this function is a polynomial.
 	 * 

@@ -1153,6 +1153,15 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	@Override
+	public boolean hasPolynomialNumerator(boolean forRoot) {
+		GeoElementND twin = getTwinGeo();
+		if (twin instanceof GeoFunctionable) {
+			return ((GeoFunctionable) twin).hasPolynomialNumerator(forRoot);
+		}
+		return false;
+	}
+
+	@Override
 	public boolean hasTableOfValues() {
 		GeoElementND twin = getTwinGeo();
 		return twin != null && twin.hasTableOfValues();

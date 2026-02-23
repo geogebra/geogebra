@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Kernel;
@@ -58,7 +60,7 @@ public class Function extends FunctionNVar
 	// factors of polynomial function
 	private ArrayList<LinkedList<PolyFunction>> symbolicPolyFactorList = new ArrayList<>(
 			2);
-	private LinkedList<PolyFunction> numericPolyFactorList;
+	private ArrayList<PolyFunction> numericPolyFactorList;
 	private ArrayList<Boolean> symbolicPolyFactorListDefined = new ArrayList<>(
 			2);
 	private ExpressionNode zeroExpr = new ExpressionNode(kernel,
@@ -378,10 +380,10 @@ public class Function extends FunctionNVar
 	 * @return all non-constant polynomial factors of this function
 	 * 
 	 */
-	final public LinkedList<PolyFunction> getPolynomialFactors(
+	final public List<PolyFunction> getPolynomialFactors(
 			boolean rootFindingSimplification, boolean avoidCAS) {
 		// try to get symbolic polynomial factors
-		LinkedList<PolyFunction> result = getSymbolicPolynomialFactors(
+		List<PolyFunction> result = getSymbolicPolynomialFactors(
 				rootFindingSimplification, avoidCAS);
 
 		// if this didn't work try to get numeric polynomial factors
@@ -406,7 +408,7 @@ public class Function extends FunctionNVar
 	 *            be simplified to x
 	 * @return all non-constant polynomial factors of the n-th derivative
 	 */
-	final public LinkedList<PolyFunction> getSymbolicPolynomialDerivativeFactors(
+	final public List<PolyFunction> getSymbolicPolynomialDerivativeFactors(
 			int n, boolean rootFindingSimplification) {
 		Function deriv = getDerivative(n, false, false, true);
 		if (deriv == null) {
@@ -501,7 +503,7 @@ public class Function extends FunctionNVar
 	 *            flag is tue, we assume it's not a polynomial
 	 * @return all symbolic non-constant polynomial factors of this function
 	 */
-	public LinkedList<PolyFunction> getSymbolicPolynomialFactors(
+	public List<PolyFunction> getSymbolicPolynomialFactors(
 			boolean rootFindingSimplification, boolean assumeFalseIfCASNeeded) {
 		int rootIdx = rootFindingSimplification ? 1 : 0;
 		if (factorParentExp != expression || expression.any(getVariableDegreeCheck())) {
@@ -555,10 +557,10 @@ public class Function extends FunctionNVar
 	 *            for root finding factors may be simplified, e.g. sqrt(x) may
 	 *            be simplified to x
 	 */
-	private LinkedList<PolyFunction> getNumericPolynomialFactors(
+	private List<PolyFunction> getNumericPolynomialFactors(
 			boolean rootFindingSimplification, boolean avoidCAS) {
 		if (numericPolyFactorList == null) {
-			numericPolyFactorList = new LinkedList<>();
+			numericPolyFactorList = new ArrayList<>();
 		} else {
 			numericPolyFactorList.clear();
 		}
@@ -570,6 +572,20 @@ public class Function extends FunctionNVar
 			return numericPolyFactorList;
 		}
 		return null;
+	}
+
+	private @Nonnull List<PolyFunction> getNumericFactorsOfNumerator(
+			boolean rootFindingSimplification, boolean avoidCAS) {
+		List<PolyFunction> result = new ArrayList<>();
+		ExpressionValue[] fraction = new ExpressionValue[2];
+		Fractions.getFraction(fraction, expression, true);
+		if (fraction[0].isConstant()) {
+			return List.of(new PolyFunction(0));
+		}
+		boolean success = addPolynomialFactors(fraction[0],
+				result, false, rootFindingSimplification,
+				avoidCAS);
+		return success ? result : List.of();
 	}
 
 	/**
@@ -1234,6 +1250,15 @@ public class Function extends FunctionNVar
 		return isConstantFunction() || (symbolic
 				? getSymbolicPolynomialFactors(forRootFinding, false)
 				: getNumericPolynomialFactors(forRootFinding, false)) != null;
+	}
+
+	/**
+	 * @param forRootFinding whether we can apply simplifications for root finding
+	 * @return whether this has polynomial numerator (including polynomial(x)/1)
+	 */
+	public boolean hasPolynomialNumerator(boolean forRootFinding) {
+		return isConstantFunction()
+				|| !getNumericFactorsOfNumerator(forRootFinding, false).isEmpty();
 	}
 
 	/**

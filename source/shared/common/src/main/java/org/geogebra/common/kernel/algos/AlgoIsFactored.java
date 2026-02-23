@@ -17,7 +17,7 @@
 package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.List;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolverInterface;
@@ -167,7 +167,7 @@ public class AlgoIsFactored extends AlgoElement {
 	}
 
 	private boolean hasValidCoefficients(ExpressionNode node, Function fun) {
-		LinkedList<PolyFunction> factorList = fun.getPolynomialFactors(true, true);
+		List<PolyFunction> factorList = fun.getPolynomialFactors(true, true);
 		if (factorList != null) {
 			double[] coeffs;
 			double value = 1.0;

@@ -743,4 +743,9 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	public boolean isPolynomialFunction(boolean forRoot) {
 		return true;
 	}
+
+	@Override
+	public boolean hasPolynomialNumerator(boolean forRoot) {
+		return true;
+	}
 }

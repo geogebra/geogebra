@@ -17,7 +17,7 @@
 package org.geogebra.common.kernel.advanced;
 
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.List;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolverInterface;
@@ -71,7 +71,7 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 	 */
 	public static double[] calcComplexRoots(Function fun, Solution solution,
 			double[] curComplexRoots, EquationSolverInterface eqnSolver) {
-		LinkedList<PolyFunction> factorList;
+		List<PolyFunction> factorList;
 		double[] complexRoots = curComplexRoots;
 
 		// get polynomial factors for this function

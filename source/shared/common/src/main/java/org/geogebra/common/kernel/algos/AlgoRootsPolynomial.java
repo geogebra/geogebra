@@ -18,13 +18,15 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolverInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Fractions;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
@@ -384,7 +386,13 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	 *            degree of derivative to compute roots from
 	 */
 	public final void calcRoots(Function fun, int derivDegree) {
-		UnivariateFunction evalFunction = calcRootsMultiple(fun, derivDegree,
+		Function numerator = fun;
+		if (derivDegree == 0) {
+			ExpressionValue[] fraction = new ExpressionValue[2];
+			Fractions.getFraction(fraction, fun.getExpression(), true);
+			numerator = new Function(fraction[0].wrap(), fun.getFunctionVariable());
+		}
+		UnivariateFunction evalFunction = calcRootsMultiple(numerator, derivDegree,
 				solution, eqnSolver, true);
 
 		if (solution.curRealRoots > 1) {
@@ -432,7 +440,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	public static UnivariateFunction calcRootsMultiple(Function fun,
 			int derivDegree, Solution solution,
 			EquationSolverInterface eqnSolver, boolean skipDoubleRoots) {
-		LinkedList<PolyFunction> factorList;
+		List<PolyFunction> factorList;
 		PolyFunction derivPoly = null; // only needed for derivatives
 		UnivariateFunction evalFunction = null; // needed to remove wrong extrema
 												// and inflection points

@@ -140,7 +140,7 @@ public class Fractions {
 	 * @param expandPlusAndDecimals
 	 *            whether to expand a/d+b/c to a single fraction and convert 0.5 to 1/2
 	 */
-	protected static void getFraction(ExpressionValue[] parts, ExpressionNode expr,
+	public static void getFraction(ExpressionValue[] parts, ExpressionNode expr,
 			boolean expandPlusAndDecimals) {
 		if (expr.unwrap().isRecurringDecimal()) {
 			RecurringDecimal.asFraction(parts, expr);

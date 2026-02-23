@@ -7157,7 +7157,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 				initxRW = Double.NaN;
 				initFactor = Double.NaN;
-				LinkedList<PolyFunction> factors = movedGeoFunction
+				List<PolyFunction> factors = movedGeoFunction
 						.getFunction().getPolynomialFactors(false, true);
 				if (factors != null) {
 

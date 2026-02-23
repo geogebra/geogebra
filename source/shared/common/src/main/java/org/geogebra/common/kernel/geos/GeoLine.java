@@ -1860,6 +1860,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
+	public boolean hasPolynomialNumerator(boolean forRoot) {
+		return true;
+	}
+
+	@Override
 	public void applyToStringModeFrom(GeoElement other) {
 		if (other instanceof LinearEquationRepresentable) {
 			equationForm = ((LinearEquationRepresentable) other).getEquationForm();

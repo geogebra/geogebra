@@ -16,20 +16,30 @@
 
 package org.geogebra.common.kernel.algos;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class AlgoIntersectFunctionLineNewtonTest extends BaseUnitTest {
+/**
+ * Test for {@link AlgoIntersectFunctionLineNewton}
+ */
+public class AlgoIntersectFunctionLineNewtonTest extends BaseAppTestSetup {
+
+	@BeforeEach
+	public void setup() {
+		setupClassicApp();
+	}
 
 	@Test
 	@Issue("APPS-5509")
 	public void highPrecisionRounding() {
 		getApp().setRounding("13");
-		GeoPoint pt = add("Intersect(sin(x deg),y=1)");
-		assertThat(pt, hasValue("(90, 1)"));
+		GeoPoint pt = evaluateGeoElement("Intersect(sin(x deg),y=1)");
+		assertEquals("(90, 1)", pt.toValueString(StringTemplate.defaultTemplate));
 	}
 }
