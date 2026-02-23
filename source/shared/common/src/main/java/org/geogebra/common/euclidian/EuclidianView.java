@@ -541,7 +541,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private EdgeInsets safeAreaInsets = new EdgeInsets(MINIMUM_SAFE_AREA);
 
 	/** @return line types */
-	public static final Integer[] getLineTypes() {
+	public static Integer[] getLineTypes() {
 		Integer[] ret = new Integer[lineTypes.length];
 
 		for (int i = 0; i < lineTypes.length; i++) {
@@ -571,7 +571,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/** @return point styles */
-	public static final Integer[] getPointStyles() {
+	public static Integer[] getPointStyles() {
 		Integer[] ret = new Integer[pointStyles.length];
 
 		for (int i = 0; i < pointStyles.length; i++) {
@@ -808,7 +808,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return True if selection rectangle should be cleared when a certain mode is being
 	 * selected, false else
 	 */
-	final private static boolean shouldClearRectangle(int mode) {
+	private static boolean shouldClearRectangle(int mode) {
 		switch (mode) {
 		case EuclidianConstants.MODE_MIRROR_AT_LINE:
 		case EuclidianConstants.MODE_MIRROR_AT_POINT:
@@ -2877,7 +2877,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            mode
 	 * @return true if given mode can use selection rectangle as input
 	 */
-	final public static boolean usesSelectionAsInput(int mode) {
+	public static boolean usesSelectionAsInput(int mode) {
 		switch (mode) {
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
 			return false; // changed for new "drag" behaviour
@@ -2898,7 +2898,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            mode
 	 * @return true if mode can handle selection rectangle as input
 	 */
-	final public static boolean usesSelectionRectangleAsInput(int mode) {
+	public static boolean usesSelectionRectangleAsInput(int mode) {
 		switch (mode) {
 		case EuclidianConstants.MODE_FITLINE:
 		case EuclidianConstants.MODE_CREATE_LIST:
@@ -4268,7 +4268,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param g2
 	 *            graphics
 	 */
-	final public static void setAntialiasing(GGraphics2D g2) {
+	public static void setAntialiasing(GGraphics2D g2) {
 		g2.setAntialiasing();
 	}
 

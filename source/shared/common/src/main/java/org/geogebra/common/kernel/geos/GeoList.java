@@ -2138,7 +2138,7 @@ public class GeoList extends GeoElement
 	 * @return available trace to spreadsheet mode (values/copy) for the geos
 	 *         list
 	 */
-	final static public TraceModesEnum getTraceModes(
+	public static TraceModesEnum getTraceModes(
 			ArrayList<GeoElement> geos) {
 
 		TraceModesEnum traceModes = null;

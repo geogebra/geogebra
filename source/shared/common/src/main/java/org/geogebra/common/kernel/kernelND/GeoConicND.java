@@ -2331,7 +2331,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param phi
 	 *            angle
 	 */
-	final protected static void rotateMatrix(double[] matrix, double phi) {
+	protected static void rotateMatrix(double[] matrix, double phi) {
 		double sum = matrix[0] + matrix[1];
 		double diff = matrix[0] - matrix[1];
 		double cos = Math.cos(phi);

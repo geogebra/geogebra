@@ -238,7 +238,7 @@ public abstract class PropertiesView implements View {
 	 *            tab type
 	 * @return short version of Option type string
 	 */
-	final public static String getTypeStringSimple(Localization loc,
+	public static String getTypeStringSimple(Localization loc,
 			OptionType type) {
 		switch (type) {
 		case DEFAULTS:

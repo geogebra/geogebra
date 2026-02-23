@@ -286,7 +286,7 @@ public class AlgoConicFivePoints extends AlgoElement
 
 	// compute degenerate conic from lines a, b
 	// the result is written into A as a NON-SYMMETRIC Matrix
-	final private static void degCone(GeoVec3D a, GeoVec3D b, double[][] A) {
+	private static void degCone(GeoVec3D a, GeoVec3D b, double[][] A) {
 		// A = a . b^t
 		A[0][0] = a.x * b.x;
 		A[0][1] = a.x * b.y;
@@ -300,7 +300,7 @@ public class AlgoConicFivePoints extends AlgoElement
 	}
 
 	// computes P.A.P, where A is a (possibly not symmetric) 3x3 matrix
-	final private static double evalMatrix(double[][] A, GeoPoint P) {
+	private static double evalMatrix(double[][] A, GeoPoint P) {
 		return A[0][0] * P.x * P.x + A[1][1] * P.y * P.y + A[2][2] * P.z * P.z
 				+ (A[0][1] + A[1][0]) * P.x * P.y
 				+ (A[0][2] + A[2][0]) * P.x * P.z
@@ -308,7 +308,7 @@ public class AlgoConicFivePoints extends AlgoElement
 	}
 
 	// computes the linear combination C = l * A + m * B
-	final private static void linComb(double[][] A, double[][] B, double l,
+	private static void linComb(double[][] A, double[][] B, double l,
 			double m, double[][] C) {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {

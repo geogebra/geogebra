@@ -47,7 +47,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 
 	protected GeoPolyhedron polyhedron;
 	protected NumberValue v;
-	private GeoNumeric vNum = null;
+	private final GeoNumeric vNum;
 
 	protected OutputHandler<GeoPolyhedronNet> outputNet;
 
@@ -364,7 +364,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 	 *            polygon
 	 * @return 3D coords of all points
 	 */
-	protected static final Coords[] getPointsCoords(GeoPolygon polygon) {
+	protected static Coords[] getPointsCoords(GeoPolygon polygon) {
 		int l = polygon.getPointsLength();
 		Coords[] points = new Coords[l];
 		for (int i = 0; i < l; i++) {

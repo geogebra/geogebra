@@ -880,7 +880,7 @@ public class EuclidianStyleBarStatic {
 	 *            geo
 	 * @return true if the "fix position" button should be fixed for geo
 	 */
-	final static public boolean checkSelectedFixPosition(GeoElement geo) {
+	static public boolean checkSelectedFixPosition(GeoElement geo) {
 		if (geo instanceof AbsoluteScreenLocateable && !geo.isGeoList()) {
 			AbsoluteScreenLocateable locateable = (AbsoluteScreenLocateable) geo
 					.getGeoElementForPropertiesDialog();

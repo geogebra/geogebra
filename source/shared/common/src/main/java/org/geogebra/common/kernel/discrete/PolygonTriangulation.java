@@ -1698,7 +1698,7 @@ public class PolygonTriangulation {
 		segment.addToPoints();
 	}
 
-	final static private double getReverseOrientation(double orientation) {
+	static private double getReverseOrientation(double orientation) {
 		if (orientation > 0) {
 			return orientation - Math.PI;
 		}
@@ -1999,11 +1999,7 @@ public class PolygonTriangulation {
 
 	}
 
-	static final private boolean needsDiagonal(Segment seg1, Segment seg2) {
-		// debug(seg1+"("+((int)
-		// (seg1.orientation*180/Math.PI)) + Unicode.degreeChar +
-		// ")"+","+seg2+"("+((int)
-		// (seg2.orientation*180/Math.PI)) + Unicode.degreeChar + ")");
+	static private boolean needsDiagonal(Segment seg1, Segment seg2) {
 		return seg1.orientation < seg2.orientation;
 	}
 
@@ -2159,7 +2155,7 @@ public class PolygonTriangulation {
 
 	}
 
-	final static private void debugDiagonal(String s, Point p1, Point p2) {
+	static private void debugDiagonal(String s, Point p1, Point p2) {
 		debug(s + ": " + p1.name + "," + p2.name);
 	}
 

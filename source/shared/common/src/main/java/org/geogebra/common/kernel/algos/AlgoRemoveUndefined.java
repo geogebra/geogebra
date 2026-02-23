@@ -117,7 +117,7 @@ public class AlgoRemoveUndefined extends AlgoElement {
 	 *            geo
 	 * @return true if geo is defined (and finite for a point)
 	 */
-	static final public boolean isDefined(GeoElement geo) {
+	static public boolean isDefined(GeoElement geo) {
 
 		boolean isDefined = geo.isDefined();
 

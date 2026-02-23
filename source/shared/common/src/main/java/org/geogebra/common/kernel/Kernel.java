@@ -620,7 +620,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return a double comparator which says doubles are equal if their diff is
 	 *         less than precision
 	 */
-	final static public Comparator<Double> doubleComparator(double precision) {
+	static public Comparator<Double> doubleComparator(double precision) {
 
 		final double eps = precision;
 
@@ -1036,7 +1036,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return loadingMode;
 	}
 
-	final private static char sign(double x) {
+	private static char sign(double x) {
 		if (x > 0) {
 			return '+';
 		}
@@ -1546,7 +1546,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @param b
 	 *            output array
 	 */
-	final static void copy(double[] a, double[] b) {
+	static void copy(double[] a, double[] b) {
 		for (int i = 0; i < a.length; i++) {
 			b[i] = a[i];
 		}
@@ -1562,7 +1562,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @param c
 	 *            array for results
 	 */
-	final static void divide(double[] a, double b, double[] c) {
+	static void divide(double[] a, double b, double[] c) {
 		for (int i = 0; i < a.length; i++) {
 			c[i] = a[i] / b;
 		}
@@ -1577,7 +1577,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            second number
 	 * @return GCD of given numbers
 	 */
-	final public static long gcd(long m, long n) {
+	public static long gcd(long m, long n) {
 		// Return the GCD of positive integers m and n.
 		if ((m == 0) || (n == 0)) {
 			return Math.max(Math.abs(m), Math.abs(n));
@@ -1600,7 +1600,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            array of numbers
 	 * @return GCD of given numbers
 	 */
-	final public static double gcd(double[] numbers) {
+	public static double gcd(double[] numbers) {
 		long gcd = (long) numbers[0];
 		for (int i = 0; i < numbers.length; i++) {
 			gcd = gcd((long) numbers[i], gcd);
@@ -1619,7 +1619,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            rounding step
 	 * @return rounded number
 	 */
-	final public static double roundToScale(double x, double scale) {
+	public static double roundToScale(double x, double scale) {
 		if (scale == 1.0) {
 			return Math.round(x);
 		}
@@ -1697,7 +1697,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	// lhs of implicit equation without constant coeff
-	final private double buildImplicitVarPart(
+	private double buildImplicitVarPart(
 			StringBuilder sbBuildImplicitVarPart, double[] numbers,
 			String[] vars, boolean cancelDown,
 			boolean needsZ, StringTemplate tpl) {
@@ -1706,7 +1706,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	// lhs of implicit equation without constant coeff
-	final private double buildImplicitVarPart(
+	private double buildImplicitVarPart(
 			StringBuilder sbBuildImplicitVarPart, double[] numbers,
 			String[] vars, boolean cancelDown,
 			boolean needsZ, boolean setConstantIfNoLeading,
@@ -2411,7 +2411,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *
 	 * @return true if angle unit wants degree symbol automatically added
 	 */
-	final public static boolean angleUnitUsesDegrees(int unit) {
+	public static boolean angleUnitUsesDegrees(int unit) {
 		return unit == Kernel.ANGLE_DEGREE
 				|| unit == Kernel.ANGLE_DEGREES_MINUTES_SECONDS;
 	}
@@ -2440,7 +2440,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            string, possibly containing CAS prefix several times
 	 * @return string without CAS prefixes
 	 */
-	final public static String removeCASVariablePrefix(final String str) {
+	public static String removeCASVariablePrefix(final String str) {
 		return removeCASVariablePrefix(str, "");
 	}
 
@@ -2452,7 +2452,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return String where CAS variable prefixes are removed again, e.g.
 	 *         "ggbcasvar1a" is turned into "a" and
 	 */
-	final public static String removeCASVariablePrefix(final String str,
+	public static String removeCASVariablePrefix(final String str,
 			final String replace) {
 		// need a space when called from GeoGebraCAS.evaluateGeoGebraCAS()
 		// so that eg Derivative[1/(-x+E2)] works (want 2 E2 not 2E2) #1595,

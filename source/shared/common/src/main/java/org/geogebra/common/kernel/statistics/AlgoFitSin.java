@@ -509,7 +509,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	}
 
 	/* Partial derivative of f to c: cos(cx+d)*B*x */
-	private final static double df_c(double x, double b, double c, double d) {
+	private static double df_c(double x, double b, double c, double d) {
 		return cos(x, c, d) * b * x;
 	}
 

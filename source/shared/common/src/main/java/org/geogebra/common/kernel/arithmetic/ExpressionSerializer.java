@@ -60,7 +60,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 	 *            kernel
 	 * @return string representation of a node.
 	 */
-	final public static String operationToString(ExpressionValue left, ExpressionValue right,
+	public static String operationToString(ExpressionValue left, ExpressionValue right,
 			Operation operation, String leftStr, String rightStr, boolean valueForm,
 			StringTemplate tpl, Kernel kernel) {
 		ExpressionValue leftEval;

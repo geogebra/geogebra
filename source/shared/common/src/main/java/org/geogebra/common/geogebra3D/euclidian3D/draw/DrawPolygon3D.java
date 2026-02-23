@@ -273,7 +273,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	 * @param verticesLength
 	 *            vertices length (may not equal vertices.length due to cache)
 	 */
-	static final public void drawPolygon(Renderer renderer, GeoPolygon polygon,
+	static public void drawPolygon(Renderer renderer, GeoPolygon polygon,
 			Coords[] vertices, int verticesLength) {
 
 		Coords n = polygon.getMainDirection();
@@ -315,7 +315,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		}
 	}
 
-	static final private void drawConvex(Renderer renderer, GeoPolygon polygon,
+	static private void drawConvex(Renderer renderer, GeoPolygon polygon,
 			Coords n, Coords[] vertices, int verticesLength,
 			Convexity convexity) {
 		boolean reverse = polygon.getReverseNormalForDrawing()
@@ -325,7 +325,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 				verticesLength, reverse);
 	}
 
-	static final private void drawFans(Renderer renderer, GeoPolygon polygon,
+	static private void drawFans(Renderer renderer, GeoPolygon polygon,
 			Coords n, Coords[] vertices, int verticesLength) {
 
 		PolygonTriangulation pt = polygon.getPolygonTriangulation();

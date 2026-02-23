@@ -946,7 +946,7 @@ public class GeoFunctionNVar extends GeoElement
 		return hasLastHitParameters;
 	}
 
-	final private static boolean isTooFar(double[] xyzf, double zScale) {
+	private static boolean isTooFar(double[] xyzf, double zScale) {
 		return !DoubleUtil.isEqual(xyzf[2], xyzf[3],
 				Kernel.STANDARD_PRECISION_SQRT / zScale);
 	}

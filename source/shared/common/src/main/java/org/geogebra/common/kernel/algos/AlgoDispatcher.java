@@ -1719,7 +1719,7 @@ public class AlgoDispatcher {
 	 *            moving point
 	 * @return whether Locus(P,Q) is possible
 	 */
-	final public static boolean locusCheck(GeoPointND P, GeoPointND Q) {
+	public static boolean locusCheck(GeoPointND P, GeoPointND Q) {
 		return P.getPath() != null && Q.getPath() == null
 				&& P.isParentOf(Q);
 	}

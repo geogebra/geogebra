@@ -1383,7 +1383,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		completeOrthonormalRatioEqualTo1(v0, v1, v);
 	}
 
-	private static final void computeEigenVectorMultiplicity1(double[] m,
+	private static void computeEigenVectorMultiplicity1(double[] m,
 			double mu, Coords v) {
 
 		// lines are dependents

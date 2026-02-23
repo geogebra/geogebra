@@ -161,7 +161,7 @@ public class EquationSolver implements EquationSolverInterface {
 	 * @return the number of roots, or <code>-1</code> if the equation is a
 	 *         constant
 	 */
-	final public static int solveQuadratic(double[] eqn) {
+	public static int solveQuadratic(double[] eqn) {
 		return solveQuadraticS(eqn, eqn, Kernel.STANDARD_PRECISION);
 	}
 
@@ -176,7 +176,7 @@ public class EquationSolver implements EquationSolverInterface {
 	 *            precision
 	 * @return number of roots
 	 */
-	final public static int solveQuadraticS(double[] eqn, double[] res,
+	public static int solveQuadraticS(double[] eqn, double[] res,
 			double eps) {
 		double a = eqn[2];
 		double b = eqn[1];
@@ -238,7 +238,7 @@ public class EquationSolver implements EquationSolverInterface {
 	 *            imaginary parts on output
 	 * @return number of roots
 	 */
-	final public static int solveQuadraticComplex(double[] real,
+	public static int solveQuadraticComplex(double[] real,
 			double[] complex) {
 		double a = real[2];
 		double b = real[1];

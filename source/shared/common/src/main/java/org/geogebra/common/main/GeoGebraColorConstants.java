@@ -664,7 +664,7 @@ public class GeoGebraColorConstants {
 	 * 
 	 * @return map HTML name =&gt; color
 	 */
-	public static final HashMap<String, GColor> htmlColorMap() {
+	public static HashMap<String, GColor> htmlColorMap() {
 
 		if (colors == null) { // avoid sync penalty if we can
 			synchronized (lock) { // declare a private static Object to use for

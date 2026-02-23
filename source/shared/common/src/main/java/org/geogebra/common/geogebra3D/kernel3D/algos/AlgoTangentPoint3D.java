@@ -161,7 +161,7 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
 	 * @param algoIntersect
 	 *            algo used
 	 */
-	public static final void initForNearToRelationship(
+	public static void initForNearToRelationship(
 			GeoPointND[] tangentPoints, GeoLineND tangent,
 			AlgoIntersectND algoIntersect) {
 		Coords firstTangentPoint = tangentPoints[0].getInhomCoordsInD3();

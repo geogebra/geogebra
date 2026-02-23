@@ -359,7 +359,7 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 	 *            array of points
 	 * @return directed area
 	 */
-	final static public double calcAreaWithSign(GeoPointND[] points2) {
+	static public double calcAreaWithSign(GeoPointND[] points2) {
 		if (points2 == null || points2.length < 2) {
 			return Double.NaN;
 		}

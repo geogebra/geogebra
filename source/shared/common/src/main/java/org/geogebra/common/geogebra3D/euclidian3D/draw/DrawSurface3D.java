@@ -262,7 +262,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 	 * @param s
 	 *            message
 	 */
-	final static protected void debug(String s) {
+	static protected void debug(String s) {
 		if (DEBUG) {
 			Log.debug(s);
 		}
@@ -494,7 +494,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 	 *            surface plotter
 	 * 
 	 */
-	static final private void endGeometry(PlotterSurface surface) {
+	static private void endGeometry(PlotterSurface surface) {
 		surface.endGeometryDirect();
 	}
 
@@ -575,7 +575,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		drawWireframe(renderer);
 	}
 
-	static final private boolean isDefinedForWireframe(Corner corner) {
+	static private boolean isDefinedForWireframe(Corner corner) {
 		if (corner.p.isFinalUndefined()) {
 			return false;
 		}
@@ -962,15 +962,15 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 	 * 
 	 * @return new coords 3
 	 */
-	final static protected Coords3 newCoords3() {
+	static protected Coords3 newCoords3() {
 		return new CoordsDouble3();
 	}
 
-	final private void scaleXYZ(Coords3 p) {
+	private void scaleXYZ(Coords3 p) {
 		getView3D().scaleXYZ(p);
 	}
 
-	final private void scaleAndNormalizeNormalXYZ(Coords3 n) {
+	private void scaleAndNormalizeNormalXYZ(Coords3 n) {
 		getView3D().scaleAndNormalizeNormalXYZ(n);
 	}
 

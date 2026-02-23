@@ -695,7 +695,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 	 *            polygon
 	 * @return 3D coords of all points
 	 */
-	protected static final Coords[] getPointsCoords(GeoPolygon polygon) {
+	protected static Coords[] getPointsCoords(GeoPolygon polygon) {
 		int l = polygon.getPointsLength();
 		Coords[] points = new Coords[l];
 		for (int i = 0; i < l; i++) {

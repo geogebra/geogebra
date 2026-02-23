@@ -71,7 +71,7 @@ public class AlgoDrawingPadCorner3D extends AlgoDrawingPadCorner {
 	 *            number value
 	 * @return true if nv has a value for 3D view (at this very moment)
 	 */
-	static final public boolean is3D(NumberValue nv) {
+	static public boolean is3D(NumberValue nv) {
 		return DoubleUtil.isEqual(nv.getDouble(), -1);
 	}
 

@@ -126,7 +126,7 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 	 * @param tpl
 	 *            string template
 	 */
-	public final static void nodeToGeoText(ExpressionNode root, GeoText text,
+	public static void nodeToGeoText(ExpressionNode root, GeoText text,
 			StringTemplate tpl) {
 		try {
 			boolean latex = text.isLaTeX();

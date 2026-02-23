@@ -370,7 +370,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		Log.warn("!!! 3D View being initialized !!!");
 	}
 
-	final private static void changeCoords(CoordMatrix mat, Coords vInOut) {
+	private static void changeCoords(CoordMatrix mat, Coords vInOut) {
 		Coords v1 = vInOut.getCoordsLast1();
 		vInOut.set(mat.mul(v1));
 	}

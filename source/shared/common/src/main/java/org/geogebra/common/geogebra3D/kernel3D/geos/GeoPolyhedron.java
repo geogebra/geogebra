@@ -2232,7 +2232,7 @@ public class GeoPolyhedron extends GeoElement3D
 		coords.mulInside(0.5 / n);
 	}
 
-	final private static void pseudoCentroidAdd(Coords coords,
+	private static void pseudoCentroidAdd(Coords coords,
 			GeoSegmentND segment) {
 		coords.setAdd3(coords, segment.getStartInhomCoords());
 		coords.setAdd3(coords, segment.getEndInhomCoords());

@@ -111,7 +111,7 @@ public class DrawConicSection extends DrawConic {
 	 *            angle parameter
 	 * @return ellipse point
 	 */
-	public static final Coords ellipsePoint(Coords m, Coords ev0, Coords ev1,
+	public static Coords ellipsePoint(Coords m, Coords ev0, Coords ev1,
 			double r0, double r1, double parameter) {
 		return m.copy().addInsideMul(ev0, r0 * Math.cos(parameter))
 				.addInsideMul(ev1, r1 * Math.sin(parameter));

@@ -44,7 +44,7 @@ public class AlgoTransformation3D {
 	 * @param curve
 	 *            t-&gt;(x,y,z) curve
 	 */
-	static final public void toGeoCurveCartesian(Kernel kernel,
+	static public void toGeoCurveCartesian(Kernel kernel,
 			GeoFunction geoFun, GeoCurveCartesian3D curve) {
 		FunctionVariable t = curve.getFun(1) == null ? null
 				: curve.getFun(1).getFunctionVariables()[0];
@@ -82,7 +82,7 @@ public class AlgoTransformation3D {
 	 * @param surface
 	 *            surface
 	 */
-	static final public void toGeoSurfaceCartesian(Kernel kernel,
+	static public void toGeoSurfaceCartesian(Kernel kernel,
 			GeoFunctionNVar geoFun, GeoSurfaceCartesian3D surface) {
 		FunctionVariable u = new FunctionVariable(kernel, "u");
 		FunctionVariable v = new FunctionVariable(kernel, "v");

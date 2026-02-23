@@ -2141,7 +2141,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		arrayIndex++;
 	}
 
-	final private static void debug(String s) {
+	private static void debug(String s) {
 		if (DEBUG) {
 			Log.debug(s);
 		}

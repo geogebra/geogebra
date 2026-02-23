@@ -293,7 +293,7 @@ public abstract class Transform {
 	 * @param transformed
 	 *            transformed geo
 	 */
-	static final public void setVisualStyleForTransformations(GeoElement input,
+	static public void setVisualStyleForTransformations(GeoElement input,
 			GeoElement transformed) {
 		transformed.setEuclidianVisible(input.isSetEuclidianVisible());
 		transformed.setVisualStyleForTransformations(input);

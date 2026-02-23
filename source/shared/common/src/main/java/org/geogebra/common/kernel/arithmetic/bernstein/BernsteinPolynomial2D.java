@@ -63,7 +63,7 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 	 * @param maxDegreeX maximum degree of x variable
 	 * @return the new {@link BernsteinPolynomial2D} if it may has a solution, null otherwise.
 	 */
-	public static final BernsteinPolynomial2D create(BernsteinPolynomial1D[] bernsteinCoeffs,
+	public static BernsteinPolynomial2D create(BernsteinPolynomial1D[] bernsteinCoeffs,
 			double minX, double maxX,
 			int maxDegreeX) {
 		BinomialCoefficientsSign sign =

@@ -371,7 +371,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 * 
 	 * @return true if all points lie on coord system
 	 */
-	static final public boolean checkPointsAreOnCoordSys(CoordSys coordSys,
+	static public boolean checkPointsAreOnCoordSys(CoordSys coordSys,
 			GeoPointND[] points, GeoPoint[] points2D, double[] tmpCoords, double precision) {
 
 		Coords o = coordSys.getOrigin();
@@ -457,7 +457,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 *
 	 * @return true if it has worked
 	 */
-	static final public boolean updateCoordSys(CoordSys coordSys,
+	static public boolean updateCoordSys(CoordSys coordSys,
 			GeoPointND[] points, GeoPoint[] points2D, double[] tmpCoords, double precision) {
 		coordSys.resetCoordSys();
 		for (int i = 0; !coordSys.isMadeCoordSys()

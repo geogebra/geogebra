@@ -227,7 +227,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		}
 	}
 
-	private static final void rotation4x4(Coords u, ExpressionValue angle,
+	private static void rotation4x4(Coords u, ExpressionValue angle,
 			ExpressionValue[][] m, Kernel kernel) {
 
 		double ux = u.getX();

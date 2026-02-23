@@ -328,7 +328,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	 *            number of samples
 	 * @return roots
 	 */
-	public static final double[] findRoots(Function f, double l, double r,
+	public static double[] findRoots(Function f, double l, double r,
 			int samples) {
 		if (DoubleUtil.isEqual(l, r)) {
 			return DoubleUtil.isZero(f.value(l)) ? new double[] { l }
@@ -401,7 +401,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	 *            right bound
 	 * @return root
 	 */
-	public final static double calcSingleRoot(Function f, double left,
+	public static double calcSingleRoot(Function f, double left,
 			double right) {
 		BrentSolver rootFinder = new BrentSolver();
 
@@ -431,7 +431,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		return root;
 	}
 
-	private static final boolean signChanged(Function f, double x, double maxDelta) {
+	private static boolean signChanged(Function f, double x, double maxDelta) {
 		int subsamples = 100;
 		// MIN_PRECISION * 10 used in AlgoRootsPolynomial
 		double delta = Math.min(Kernel.MIN_PRECISION * 10, maxDelta / (subsamples + 1));

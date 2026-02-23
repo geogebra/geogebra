@@ -301,7 +301,7 @@ public class Function extends FunctionNVar
 	 *            vertical translation
 	 * @return translated expression
 	 */
-	final public static ExpressionNode translateY(ExpressionNode expr,
+	public static ExpressionNode translateY(ExpressionNode expr,
 			FunctionVariable[] fVars, double vy) {
 		ExpressionNode expression = expr.unwrap().wrap();
 		// special case: constant
@@ -349,7 +349,7 @@ public class Function extends FunctionNVar
 		return addNumber(expression, vy);
 	}
 
-	final private static ExpressionNode addNumber(ExpressionNode expression,
+	private static ExpressionNode addNumber(ExpressionNode expression,
 			double n) {
 		if (n == 0) {
 			return expression;
@@ -537,12 +537,7 @@ public class Function extends FunctionNVar
 	}
 
 	private Inspecting getVariableDegreeCheck() {
-		return new Inspecting() {
-			@Override
-			public boolean check(ExpressionValue v) {
-				return v.isOperation(Operation.POWER) && !v.wrap().getRight().isConstant();
-			}
-		};
+		return v -> v.isOperation(Operation.POWER) && !v.wrap().getRight().isConstant();
 	}
 
 	/**
@@ -1034,7 +1029,7 @@ public class Function extends FunctionNVar
 	 * @param c
 	 *            difference
 	 */
-	final public static void difference(Function a, Function b, Function c) {
+	public static void difference(Function a, Function b, Function c) {
 		// copy only the second function and replace b.fVar by a.fVar
 		ExpressionNode left = a.expression;
 		ExpressionNode right = b.expression.getCopy(a.kernel);
@@ -1061,7 +1056,7 @@ public class Function extends FunctionNVar
 	 * @param c
 	 *            difference
 	 */
-	final public static void difference(Function f, GeoLine line, Function c) {
+	public static void difference(Function f, GeoLine line, Function c) {
 		// build expression for line: ax + by + c = 0 (with b != 0)
 		// explicit form: line: y = -a/b x - c/b
 		// we need f - line: f(x) + a/b x + c/b

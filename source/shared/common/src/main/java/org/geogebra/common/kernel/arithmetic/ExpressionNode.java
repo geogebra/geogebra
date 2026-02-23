@@ -1642,7 +1642,7 @@ public class ExpressionNode extends ValidExpression
 	 *            expression value to compare with val
 	 * @return true iff output of ev and val are the same
 	 */
-	final public static boolean isEqualString(ExpressionValue ev, double val,
+	public static boolean isEqualString(ExpressionValue ev, double val,
 			boolean symbolic) {
 		if (ev.isLeaf() && (ev instanceof NumberValue)) {
 			// function variables need to be kept

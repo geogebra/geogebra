@@ -127,8 +127,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 
 	/**
 	 * Invert circle or line in circle
-	 * 
-	 * @version 2010-01-21
+	 *
 	 * @author Michael Borcherds
 	 * @param conic Circle used as mirror
 	 */
@@ -337,7 +336,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	/**
 	 * mirror transform with angle phi [ cos sin 0 ] [ sin -cos 0 ] [ 0 0 1 ]
 	 */
-	final private void mirror(double phi) {
+	private void mirror(double phi) {
 		// set rotated matrix
 		double sum = matrix[0] + matrix[1];
 		double diff = matrix[0] - matrix[1];
@@ -608,7 +607,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	 * @param y
 	 *            single point y coord
 	 */
-	static final public void setSinglePoint(GeoConic conic, double x,
+	static public void setSinglePoint(GeoConic conic, double x,
 			double y) {
 		conic.setMidpoint(x, y);
 		conic.singlePoint();

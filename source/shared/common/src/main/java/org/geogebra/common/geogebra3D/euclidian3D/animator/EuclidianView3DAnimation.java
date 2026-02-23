@@ -40,7 +40,7 @@ public abstract class EuclidianView3DAnimation {
 	 */
 	protected EuclidianView3DAnimator animator;
 
-	private boolean storeUndo;
+	private final boolean storeUndo;
 
 	/**
 	 * constructor
@@ -97,7 +97,7 @@ public abstract class EuclidianView3DAnimation {
 		animator.endAnimation();
 	}
 
-	protected final static double getMillisecondTime() {
+	protected static double getMillisecondTime() {
 		return UtilFactory.getPrototype().getMillisecondTime();
 	}
 

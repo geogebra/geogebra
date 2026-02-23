@@ -1136,7 +1136,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 *            second point
 	 * @return true if they are in the same place
 	 */
-	final public static boolean samePosition(GeoPointND P, GeoPointND Q) {
+	public static boolean samePosition(GeoPointND P, GeoPointND Q) {
 		return DoubleUtil.isZero(P.distance(Q));
 	}
 
@@ -1250,7 +1250,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 *            second point
 	 * @return determinant
 	 */
-	public static final double det(GeoPoint P, GeoPoint Q) {
+	public static double det(GeoPoint P, GeoPoint Q) {
 		return (P.x * Q.y - Q.x * P.y) / (P.z * Q.z);
 	}
 
@@ -1531,7 +1531,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @param sb
 	 *            string builder
 	 */
-	public static final void buildValueStringCoordCartesian3D(Kernel kernel,
+	public static void buildValueStringCoordCartesian3D(Kernel kernel,
 			StringTemplate tpl, double x, double y, double z,
 			StringBuilder sb) {
 
@@ -1577,7 +1577,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 *            output template
 	 * @return separator for cartesian coords
 	 */
-	public static final String getValueSeparatorWithSpace(Kernel kernel,
+	public static String getValueSeparatorWithSpace(Kernel kernel,
 			StringTemplate tpl) {
 		if (tpl.hasCASType()) {
 			return ",";
@@ -1607,7 +1607,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @param sbBuildValueString
 	 *            string builder
 	 */
-	public static final void buildValueStringCoordSpherical(Kernel kernel,
+	public static void buildValueStringCoordSpherical(Kernel kernel,
 			StringTemplate tpl, double x, double y, double z,
 			StringBuilder sbBuildValueString) {
 
@@ -1665,7 +1665,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @param sbBuildValueString
 	 *            string builder
 	 */
-	public static final void buildValueString(Kernel kernel, StringTemplate tpl,
+	public static void buildValueString(Kernel kernel, StringTemplate tpl,
 			int toStringMode, double x, double y,
 			StringBuilder sbBuildValueString) {
 		switch (toStringMode) {

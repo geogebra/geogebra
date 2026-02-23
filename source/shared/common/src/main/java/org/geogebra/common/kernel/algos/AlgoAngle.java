@@ -123,7 +123,7 @@ public abstract class AlgoAngle extends AlgoElement {
 	 *            start point
 	 * @return true if vertex is not correct center for drawing the angle
 	 */
-	static final protected boolean centerIsNotDrawable(GeoPointND vertex) {
+	static protected boolean centerIsNotDrawable(GeoPointND vertex) {
 		return vertex == null || !vertex.isDefined() || vertex.isInfinite();
 	}
 
@@ -139,7 +139,7 @@ public abstract class AlgoAngle extends AlgoElement {
 	 * @param reverse
 	 *            reverse check
 	 */
-	protected final static void checkOrientation(Coords vn,
+	protected static void checkOrientation(Coords vn,
 			GeoDirectionND orientation, GeoAngle a, boolean reverse) {
 		if ((vn.dotproduct(orientation.getDirectionInD3()) < 0) ^ reverse) {
 			double v = 2 * Math.PI - a.getValue();

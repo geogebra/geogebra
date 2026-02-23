@@ -146,7 +146,7 @@ public class AlgoDistancePointObject extends AlgoElement
 	 * @return val such as the point (val, function(val)) is closest to point
 	 *         (x, y)
 	 */
-	public static final double getClosestFunctionValueToPoint(Function function,
+	public static double getClosestFunctionValueToPoint(Function function,
 			double x, double y) {
 		// Algorithm inspired by
 		// http://bact.mathcircles.org/files/Winter2011/CM2_Posters/TPham_BACTPoster.pdf

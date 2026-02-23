@@ -309,7 +309,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 *            third input
 	 * @return if the inputs are concurrent
 	 */
-	final public static boolean concurrent(GeoLine inputLine1,
+	public static boolean concurrent(GeoLine inputLine1,
 			GeoLine inputLine2, GeoLine inputLine3) {
 		double det = inputLine1.getX() * inputLine2.getY() * inputLine3.getZ()
 				+ inputLine2.getX() * inputLine3.getY() * inputLine1.getZ()

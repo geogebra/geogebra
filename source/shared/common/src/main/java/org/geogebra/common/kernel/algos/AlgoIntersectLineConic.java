@@ -788,7 +788,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 	/**
 	 * Tests if at least one point lies on conic c and line g.
 	 */
-	final static private boolean testPoints(GeoLine g, GeoConic c, GeoPoint[] P,
+	private static boolean testPoints(GeoLine g, GeoConic c, GeoPoint[] P,
 			double eps) {
 		boolean foundPoint = false;
 		for (int i = 0; i < P.length; i++) {

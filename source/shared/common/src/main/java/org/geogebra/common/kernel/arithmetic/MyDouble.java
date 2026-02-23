@@ -217,7 +217,7 @@ public class MyDouble extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void add(MyDouble a, NumberValue b, MyDouble c) {
+	public static void add(MyDouble a, NumberValue b, MyDouble c) {
 		c.angleDim = a.angleDim == b.getAngleDim() ? a.angleDim : 0;
 		DoubleOperation.PLUS.apply(a, b, c);
 	}
@@ -232,7 +232,7 @@ public class MyDouble extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void sub(MyDouble a, NumberValue b, MyDouble c) {
+	public static void sub(MyDouble a, NumberValue b, MyDouble c) {
 		c.angleDim = a.angleDim == b.getAngleDim() ? a.angleDim : 0;
 		DoubleOperation.MINUS.apply(a, b, c);
 	}
@@ -251,7 +251,7 @@ public class MyDouble extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void mult(MyDouble a, NumberValue b, MyDouble c) {
+	public static void mult(MyDouble a, NumberValue b, MyDouble c) {
 		c.angleDim = a.angleDim + b.getAngleDim();
 		double bval = b.getDouble();
 		// ? * anything = ?
@@ -278,7 +278,7 @@ public class MyDouble extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void div(MyDouble a, NumberValue b, MyDouble c) {
+	public static void div(MyDouble a, NumberValue b, MyDouble c) {
 		c.angleDim = a.angleDim - b.getAngleDim();
 		if (b.getDouble() == 0) {
 			c.set(a.val / b.getDouble());
@@ -298,7 +298,7 @@ public class MyDouble extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void pow(MyDouble a, NumberValue b, MyDouble c) {
+	public static void pow(MyDouble a, NumberValue b, MyDouble c) {
 		c.angleDim = b.getAngleDim() > 0 ? 0 : a.angleDim;
 		double bVal = b.getDouble();
 		if (bVal >= 0 && bVal < 1E6 && DoubleUtil.isInteger(bVal)) {
@@ -317,7 +317,7 @@ public class MyDouble extends ValidExpression
 	 *            exponent
 	 * @return power a^b
 	 */
-	final public static double pow(double a, double b) {
+	public static double pow(double a, double b) {
 
 		// Infinity ^ 0 -> NaN
 		// http://functions.wolfram.com/Constants/ComplexInfinity/introductions/Symbols/ShowAll.html
@@ -344,7 +344,7 @@ public class MyDouble extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void powDoubleSgnChange(MyDouble a, MyDouble b,
+	public static void powDoubleSgnChange(MyDouble a, MyDouble b,
 			MyDouble c) {
 		c.angleDim = b.angleDim > 0 ? 0 : a.angleDim;
 		c.set(-pow(-a.val, b.val));
@@ -891,8 +891,7 @@ public class MyDouble extends ValidExpression
 
 	@Override
 	final public GeoElement toGeoElement(Construction cons) {
-		GeoNumeric num = new GeoNumeric(cons, val);
-		return num;
+		return new GeoNumeric(cons, val);
 	}
 
 	@Override

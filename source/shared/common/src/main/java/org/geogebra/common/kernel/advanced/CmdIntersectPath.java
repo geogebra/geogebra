@@ -321,7 +321,7 @@ public class CmdIntersectPath extends CommandProcessor {
 	 *            check
 	 * @return intersection
 	 */
-	static public final GeoElement processQuadricPlane(Kernel kernelA,
+	static public GeoElement processQuadricPlane(Kernel kernelA,
 			Command c, GeoElement[] arg, boolean[] ok) {
 		// intersection plane/limited quadric
 		if ((ok[0] = arg[0] instanceof GeoPlaneND)
@@ -358,7 +358,7 @@ public class CmdIntersectPath extends CommandProcessor {
 		return null;
 	}
 
-	static private final GeoElement intersectPlaneQuadricLimited(Kernel kernelA,
+	static private GeoElement intersectPlaneQuadricLimited(Kernel kernelA,
 			String label, GeoPlaneND plane, GeoQuadric3DLimitedInterface quadric) {
 		return kernelA.getManager3D().intersectQuadricLimited(label, plane,
 				(GeoQuadricND) quadric);

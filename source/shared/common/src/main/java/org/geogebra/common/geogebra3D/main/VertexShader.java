@@ -173,7 +173,7 @@ public class VertexShader {
 	 *            whether to skip the desktop prefix
 	 * @return shiny shader
 	 */
-	final public static String getVertexShaderShiny(boolean isHTML5) {
+	public static String getVertexShaderShiny(boolean isHTML5) {
 		if (isHTML5) {
 				return shiny_packed;
 		}

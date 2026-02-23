@@ -821,7 +821,7 @@ public class ToolBar {
 	 *            toolbar definition
 	 * @return whether this is default toolbar of any version
 	 */
-	final static public boolean isDefaultToolbar(String definition) {
+	static public boolean isDefaultToolbar(String definition) {
 		if (definition == null) {
 			return false;
 		}
@@ -833,7 +833,7 @@ public class ToolBar {
 				|| isDefaultToolbar(defSplit, DEFAULT_TOOLBAR_3D);
 	}
 
-	final static private boolean isDefaultToolbar(String[] split, String[][] defaultToolbar) {
+	static private boolean isDefaultToolbar(String[] split, String[][] defaultToolbar) {
 		if (split.length != defaultToolbar.length) {
 			return false;
 		}
@@ -856,7 +856,7 @@ public class ToolBar {
 		return true;
 	}
 
-	final static private String[] split(String definition) {
+	static private String[] split(String definition) {
 		String def2 = definition.replaceAll(",", ""); // remove comas
 		def2 = def2.replaceAll("59", ""); // remove record to spreadsheet tool
 		def2 = def2.replaceAll("\\|{2,}", " \\| "); // remove double vertical

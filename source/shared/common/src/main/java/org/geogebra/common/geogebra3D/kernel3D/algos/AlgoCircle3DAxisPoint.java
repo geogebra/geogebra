@@ -110,7 +110,7 @@ public class AlgoCircle3DAxisPoint extends AlgoElement3D {
 	 * @param d
 	 *            axis direction
 	 */
-	static final public void setCircle(GeoConicND conic, CoordSys coordsys,
+	static public void setCircle(GeoConicND conic, CoordSys coordsys,
 			Coords center, Coords v1, Coords d) {
 
 		// recompute the coord sys
