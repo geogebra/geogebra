@@ -54,7 +54,7 @@ import com.himamis.retex.renderer.share.serialize.HasTrueBase;
  */
 public class CancelAtom extends Atom implements HasTrueBase {
 
-	public static enum Type {
+	public enum Type {
 		SLASH, BACKSLASH, X
 	}
 

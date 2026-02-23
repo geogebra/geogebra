@@ -29,5 +29,5 @@ public interface FromMeta {
 	 * 
 	 * @return "meta geos", e.g. polygon for a segment
 	 */
-	public GeoElement[] getMetas();
+	GeoElement[] getMetas();
 }

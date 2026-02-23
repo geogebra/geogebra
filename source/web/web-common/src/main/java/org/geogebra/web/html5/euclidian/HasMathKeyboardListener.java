@@ -26,5 +26,5 @@ public interface HasMathKeyboardListener {
 	/**
 	 * @return keyboard listener
 	 */
-	public MathKeyboardListener getKeyboardListener();
+	MathKeyboardListener getKeyboardListener();
 }

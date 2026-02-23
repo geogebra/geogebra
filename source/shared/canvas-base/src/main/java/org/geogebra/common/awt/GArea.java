@@ -51,6 +51,6 @@ public interface GArea extends GShape {
 	boolean isEmpty();
 
 	@Override
-	public GPathIterator getPathIterator(GAffineTransform t);
+	GPathIterator getPathIterator(GAffineTransform t);
 
 }

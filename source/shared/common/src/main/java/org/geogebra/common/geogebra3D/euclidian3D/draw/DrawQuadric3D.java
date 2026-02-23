@@ -247,7 +247,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	 * @author mathieu
 	 *
 	 */
-	private static enum Visible {
+	private enum Visible {
 		/** the quadric is totally outside */
 		TOTALLY_OUTSIDE,
 		/** the quadric is totally inside */

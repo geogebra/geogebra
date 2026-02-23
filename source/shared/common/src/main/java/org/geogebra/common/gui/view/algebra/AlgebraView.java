@@ -57,7 +57,7 @@ public interface AlgebraView extends Editing, SetLabels {
 	 * their value is computed (xOyPlane, space, ...) ORDER: Construction
 	 * Protocol order
 	 */
-	public static enum SortMode {
+	enum SortMode {
 		DEPENDENCY {
 			@Override
 			public String toString() {

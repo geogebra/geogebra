@@ -94,7 +94,7 @@ public interface HasKeyboardTF extends MathKeyboardListener {
 	 *            Keypresshandler
 	 * @return registration
 	 */
-	public HandlerRegistration addKeyPressHandler(KeyPressHandler handler);
+	HandlerRegistration addKeyPressHandler(KeyPressHandler handler);
 
 	/**
 	 * Handle the backspace key.

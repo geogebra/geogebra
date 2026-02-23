@@ -748,7 +748,7 @@ public class DrawConic3D extends Drawable3DCurves
 	 * @author mathieu
 	 *
 	 */
-	private static enum Visible {
+	private enum Visible {
 		/** the conic is totally outside */
 		TOTALLY_OUTSIDE,
 		/** the frustum is inside the conic */

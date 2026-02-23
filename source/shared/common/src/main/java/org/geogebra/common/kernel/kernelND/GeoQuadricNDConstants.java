@@ -22,46 +22,46 @@ package org.geogebra.common.kernel.kernelND;
  */
 public interface GeoQuadricNDConstants {
 	/** type: single point */
-	public static final int QUADRIC_SINGLE_POINT = 1;
+	int QUADRIC_SINGLE_POINT = 1;
 	/** type: intersecting lines */
-	public static final int QUADRIC_INTERSECTING_LINES = 2;
+	int QUADRIC_INTERSECTING_LINES = 2;
 	/** type: ellipsoid */
-	public static final int QUADRIC_ELLIPSOID = 3;
+	int QUADRIC_ELLIPSOID = 3;
 	/** type: sphere */
-	public static final int QUADRIC_SPHERE = 4;
+	int QUADRIC_SPHERE = 4;
 	/** type: hyperboloid */
-	public static final int QUADRIC_HYPERBOLOID = 5;
+	int QUADRIC_HYPERBOLOID = 5;
 	/** type: empty quadric */
-	public static final int QUADRIC_EMPTY = 6;
+	int QUADRIC_EMPTY = 6;
 	/** type: double line */
-	public static final int QUADRIC_DOUBLE_LINE = 7;
+	int QUADRIC_DOUBLE_LINE = 7;
 	/** type: parallel lines */
-	public static final int QUADRIC_PARALLEL_LINES = 8;
+	int QUADRIC_PARALLEL_LINES = 8;
 	/** type: paraboloid */
-	public static final int QUADRIC_PARABOLOID = 9;
+	int QUADRIC_PARABOLOID = 9;
 	/** type: line */
-	public static final int QUADRIC_LINE = 10;
+	int QUADRIC_LINE = 10;
 	/** type: cone */
-	public static final int QUADRIC_CONE = 30;
+	int QUADRIC_CONE = 30;
 	/** type: cylinder */
-	public static final int QUADRIC_CYLINDER = 31;
+	int QUADRIC_CYLINDER = 31;
 	/** temporary type: not classified */
-	public static final int QUADRIC_NOT_CLASSIFIED = 32;
+	int QUADRIC_NOT_CLASSIFIED = 32;
 	/** type : one plane */
-	public static final int QUADRIC_PLANE = 33;
+	int QUADRIC_PLANE = 33;
 	/** type : parallel planes */
-	public static final int QUADRIC_PARALLEL_PLANES = 34;
+	int QUADRIC_PARALLEL_PLANES = 34;
 	/** type : intersecting planes */
-	public static final int QUADRIC_INTERSECTING_PLANES = 35;
+	int QUADRIC_INTERSECTING_PLANES = 35;
 	/** type: hyperboloid one sheet */
-	public static final int QUADRIC_HYPERBOLOID_ONE_SHEET = 36;
+	int QUADRIC_HYPERBOLOID_ONE_SHEET = 36;
 	/** type: hyperboloid one sheet */
-	public static final int QUADRIC_HYPERBOLOID_TWO_SHEETS = 37;
+	int QUADRIC_HYPERBOLOID_TWO_SHEETS = 37;
 	/** type: parabolic cylinder */
-	public static final int QUADRIC_PARABOLIC_CYLINDER = 38;
+	int QUADRIC_PARABOLIC_CYLINDER = 38;
 	/** type: hyperbolic cylinder */
-	public static final int QUADRIC_HYPERBOLIC_CYLINDER = 39;
+	int QUADRIC_HYPERBOLIC_CYLINDER = 39;
 	/** type: hyperbolic paraboloid */
-	public static final int QUADRIC_HYPERBOLIC_PARABOLOID = 40;
+	int QUADRIC_HYPERBOLIC_PARABOLOID = 40;
 
 }

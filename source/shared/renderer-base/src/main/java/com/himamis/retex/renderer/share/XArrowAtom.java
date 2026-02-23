@@ -60,7 +60,7 @@ import com.himamis.retex.renderer.share.xarrows.XRightHarpoonUp;
  */
 public class XArrowAtom extends XAtom {
 
-	public static enum Kind {
+	public enum Kind {
 		Left, Right, LR, LeftAndRight, RightAndLeft, LeftHarpoonUp, LeftHarpoonDown, RightHarpoonUp, RightHarpoonDown, LeftRightHarpoons, RightLeftHarpoons, RightSmallLeftHarpoons, SmallRightLeftHarpoons,
 	}
 

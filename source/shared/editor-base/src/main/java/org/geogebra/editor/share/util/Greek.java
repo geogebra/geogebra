@@ -123,7 +123,7 @@ public enum Greek {
 	private static char[] greekLowerCaseNoPi;
 	private static char[] greekUpperCase;
 
-	private Greek(char ch, boolean upper) {
+	Greek(char ch, boolean upper) {
 		this.unicode = ch;
 		this.upperCase = upper;
 	}

@@ -70,7 +70,7 @@ import com.himamis.retex.renderer.share.exception.ParseException;
 
 public class MhchemParser extends TeXParser {
 
-	public static enum Arrow {
+	public enum Arrow {
 		left, // <-
 		right, // ->
 		leftright, // <->
@@ -80,7 +80,7 @@ public class MhchemParser extends TeXParser {
 		leftSmallHarpoonRight, // <<=>
 	}
 
-	private static enum ElementType {
+	private enum ElementType {
 		none, greek, roman,
 	}
 

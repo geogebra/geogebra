@@ -23,7 +23,7 @@ public interface KeyboardListener {
 	/**
 	 * arrow keys of the keyboard
 	 */
-	public enum ArrowType {
+	enum ArrowType {
 		/**
 		 * left arrow
 		 */

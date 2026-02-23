@@ -21,11 +21,11 @@ package org.geogebra.common.awt;
  */
 public interface GArc2D extends GRectangularShape {
 	/** open type (just the arc) */
-	public final static int OPEN = 0;
+	int OPEN = 0;
 	/** chord type (include line connecting ends) */
-	public final static int CHORD = 1;
+	int CHORD = 1;
 	/** pie type (include lines connecting with center + the area) */
-	public final static int PIE = 2;
+	int PIE = 2;
 
 	/**
 	 * 
@@ -44,18 +44,18 @@ public interface GArc2D extends GRectangularShape {
 	 * @param type
 	 *            type (OPEN or PIE)
 	 */
-	public abstract void setArc(double x, double y, double width, double height,
+	void setArc(double x, double y, double width, double height,
 			double angleStart, double angleEnd, int type);
 
 	/**
 	 * @return start point
 	 */
-	public abstract GPoint2D getStartPoint();
+	GPoint2D getStartPoint();
 
 	/**
 	 * @return end point
 	 */
-	public abstract GPoint2D getEndPoint();
+	GPoint2D getEndPoint();
 
 	/**
 	 * 
@@ -72,7 +72,7 @@ public interface GArc2D extends GRectangularShape {
 	 * @param type
 	 *            type (OPEN or PIE)
 	 */
-	public abstract void setArcByCenter(double centerX, double centerY,
+	void setArcByCenter(double centerX, double centerY,
 			double radius, double angleStart, double angleExt, int type);
 
 }

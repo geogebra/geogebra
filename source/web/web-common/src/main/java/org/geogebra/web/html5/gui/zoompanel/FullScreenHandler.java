@@ -25,5 +25,5 @@ public interface FullScreenHandler {
 	/**
 	 * Change fullscreen state of the iframe.
 	 */
-	public void toggleFullscreen();
+	void toggleFullscreen();
 }

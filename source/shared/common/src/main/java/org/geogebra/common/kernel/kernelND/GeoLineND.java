@@ -38,12 +38,12 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 	 *            position on the line
 	 * @return the point at position lambda on the coord sys
 	 */
-	public Coords getPointInD(int dimension, double lambda);
+	Coords getPointInD(int dimension, double lambda);
 
 	/**
 	 * @return true if tracing
 	 */
-	public boolean getTrace();
+	boolean getTrace();
 
 	/**
 	 * @param m
@@ -52,31 +52,31 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 	 *         described by the matrix m (ie ax+by+c=0 is an equation of the
 	 *         line in the plane)
 	 */
-	public Coords getCartesianEquationVector(CoordMatrix m);
+	Coords getCartesianEquationVector(CoordMatrix m);
 
 	/**
 	 * @return coords of the starting point
 	 */
-	public Coords getStartInhomCoords();
+	Coords getStartInhomCoords();
 
 	/**
 	 * @return inhom coords of the end point
 	 */
-	public Coords getEndInhomCoords();
+	Coords getEndInhomCoords();
 
 	/**
 	 * see PathOrPoint
 	 * 
 	 * @return min parameter
 	 */
-	public double getMinParameter();
+	double getMinParameter();
 
 	/**
 	 * see PathOrPoint
 	 * 
 	 * @return max parameter
 	 */
-	public double getMaxParameter();
+	double getMaxParameter();
 
 	/**
 	 * 
@@ -86,7 +86,7 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 	 *            precision
 	 * @return true if point is on the path
 	 */
-	public boolean isOnPath(GeoPointND p, double minPrecision);
+	boolean isOnPath(GeoPointND p, double minPrecision);
 
 	/**
 	 * @param coords
@@ -95,7 +95,7 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 	 *            precision
 	 * @return true if point is on path (with given precision)
 	 */
-	public boolean isOnPath(Coords coords, double eps);
+	boolean isOnPath(Coords coords, double eps);
 
 	/**
 	 * when intersection point is calculated, check if not outside limited path
@@ -107,7 +107,7 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 	 *            precision
 	 * @return true if not outside
 	 */
-	public boolean respectLimitedPath(Coords coords, double eps);
+	boolean respectLimitedPath(Coords coords, double eps);
 
 	/**
 	 * check if the parameter is possible on the line
@@ -116,7 +116,7 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 	 *            parameter
 	 * @return true if possible
 	 */
-	public boolean respectLimitedPath(double parameter);
+	boolean respectLimitedPath(double parameter);
 
 	/**
 	 * @param p
@@ -125,17 +125,17 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 	 *            precision
 	 * @return true if point is on this line (ignoring limits for segment/ray)
 	 */
-	public boolean isOnFullLine(Coords p, double minPrecision);
+	boolean isOnFullLine(Coords p, double minPrecision);
 
 	/**
 	 * @return end point
 	 */
-	public GeoPointND getEndPoint();
+	GeoPointND getEndPoint();
 
 	/**
 	 * @return start point
 	 */
-	public GeoPointND getStartPoint();
+	GeoPointND getStartPoint();
 
 	/**
 	 * Removes a point from list of points that are registered as points on this
@@ -144,7 +144,7 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 	 * @param point
 	 *            point to be removed
 	 */
-	public void removePointOnLine(GeoPointND point);
+	void removePointOnLine(GeoPointND point);
 
 	/**
 	 * Adds a point to the list of points that this line passes through.
@@ -152,7 +152,7 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 	 * @param point
 	 *            point
 	 */
-	public void addPointOnLine(GeoPointND point);
+	void addPointOnLine(GeoPointND point);
 
 	/**
 	 * returns the distance from this line to line g.
@@ -161,14 +161,14 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 	 *            line
 	 * @return distance distance between this and g
 	 */
-	public double distance(GeoLineND g);
+	double distance(GeoLineND g);
 
 	/**
 	 * 
 	 * @return copy
 	 */
 	@Override
-	public GeoLineND copy();
+	GeoLineND copy();
 
 	/**
 	 * make parallel line through (pointX, pointY)
@@ -178,37 +178,37 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 	 * @param pointY
 	 *            y coord
 	 */
-	public void setLineThrough(double pointX, double pointY);
+	void setLineThrough(double pointX, double pointY);
 
 	/**
 	 * 
 	 * @return line direction for equation (to keep integers if some)
 	 */
-	public Coords getDirectionForEquation();
+	Coords getDirectionForEquation();
 
 	/**
 	 * Initialize startpoint to the closest point to (0,0,0)
 	 * 
 	 * @return the start point
 	 */
-	public GeoPointND setStandardStartPoint();
+	GeoPointND setStandardStartPoint();
 
 	/**
 	 * @param point
 	 *            new start point
 	 */
-	public void setStartPoint(GeoPointND point);
+	void setStartPoint(GeoPointND point);
 
 	/**
 	 * @return line origin (in 2D the same as start point)
 	 */
-	public Coords getOrigin();
+	Coords getOrigin();
 
 	/**
 	 * @param t
 	 *            parameter
 	 * @return value at given parameter as vector
 	 */
-	public ExpressionValue evaluateCurve(double t);
+	ExpressionValue evaluateCurve(double t);
 
 }

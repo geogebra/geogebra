@@ -62,7 +62,7 @@ class Edge {
 
 	protected final static double HORIZONTAL = -3.4E+38;
 
-	static enum Side {
+	enum Side {
 		LEFT, RIGHT
 	}
 

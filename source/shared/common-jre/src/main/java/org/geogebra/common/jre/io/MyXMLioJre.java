@@ -709,13 +709,13 @@ public abstract class MyXMLioJre extends MyXMLio {
 		 * @return reader
 		 * @throws IOException when reader creation fails
 		 */
-		public Reader getReader() throws IOException;
+		Reader getReader() throws IOException;
 
 		/**
 		 * @throws IOException
 		 *             when closing goes wrong
 		 */
-		public void closeReader() throws IOException;
+		void closeReader() throws IOException;
 	}
 
 	/**

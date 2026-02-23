@@ -92,7 +92,7 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
 	/**
 	 * configurations line/plane
 	 */
-	public static enum ConfigLinePlane {
+	public enum ConfigLinePlane {
 		/** general case */
 		GENERAL,
 		/** line parallel to plane */

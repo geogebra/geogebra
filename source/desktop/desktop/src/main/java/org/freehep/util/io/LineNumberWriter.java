@@ -196,7 +196,7 @@ public class LineNumberWriter extends Writer {
 	 * @version $Id: LineNumberWriter.java,v 1.3 2008-05-04 12:21:42 murkle Exp
 	 *          $
 	 */
-	public static interface LineNumberListener extends EventListener {
+	public interface LineNumberListener extends EventListener {
 
 		/**
 		 * Called when the line number limit has been reached.
@@ -204,7 +204,7 @@ public class LineNumberWriter extends Writer {
 		 * @param event
 		 *            line number event
 		 */
-		public void lineNumberReached(LineNumberEvent event);
+		void lineNumberReached(LineNumberEvent event);
 	}
 
 	/**
