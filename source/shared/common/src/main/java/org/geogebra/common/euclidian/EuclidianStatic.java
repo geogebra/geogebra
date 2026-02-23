@@ -77,7 +77,7 @@ public class EuclidianStatic {
 	 *            rendering context
 	 * @return text width
 	 */
-	public final static double textWidth(String str, GFont font,
+	public static double textWidth(String str, GFont font,
 			GFontRenderContext frc) {
 		if ("".equals(str)) {
 			return 0;
@@ -192,7 +192,7 @@ public class EuclidianStatic {
 	 * @param ret
 	 *            output rectangle
 	 */
-	public static final void drawMultilineLaTeX(App app,
+	public static void drawMultilineLaTeX(App app,
 			GGraphics2D tempGraphics, GeoElementND geo, GGraphics2D g2,
 			GFont font, GColor fgColor, GColor bgColor, String labelDesc,
 			int xLabel, int yLabel, boolean serif, Runnable callback,
@@ -625,7 +625,7 @@ public class EuclidianStatic {
 	 *            geo                  
 	 * @return border of resulting text drawing
 	 */
-	public final static GRectangle drawMultiLineText(App app, String labelDesc,
+	public static GRectangle drawMultiLineText(App app, String labelDesc,
 			int xLabel, int yLabel, GGraphics2D g2, boolean serif,
 			GFont textFont, GRectangle ret, GeoElement geo, int margin) {
 

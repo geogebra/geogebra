@@ -104,7 +104,7 @@ public class DrawSurface3DElements extends DrawSurface3D {
 		lastIndex++;
 	}
 
-	final private void draw(PlotterSurface surface, Corner c) {
+	private void draw(PlotterSurface surface, Corner c) {
 
 		if (c.id < 0) { // needs new id
 			draw(surface, c.p, c.normal);
@@ -114,11 +114,11 @@ public class DrawSurface3DElements extends DrawSurface3D {
 
 	}
 
-	final private static boolean checkIdsAreShort(int id1, int id2, int id3) {
+	private static boolean checkIdsAreShort(int id1, int id2, int id3) {
 		return checkIdIsShort(id1) && checkIdIsShort(id2) && checkIdIsShort(id3);
 	}
 
-	final private static boolean checkIdIsShort(int id) {
+	private static boolean checkIdIsShort(int id) {
 		return id <= Short.MAX_VALUE;
 	}
 

@@ -61,7 +61,7 @@ public abstract class Log {
 	 * 
 	 * @return the entire log
 	 */
-	final public static StringBuilder getEntireLog() {
+	public static StringBuilder getEntireLog() {
 		return logger.memoryLog;
 	}
 
@@ -97,7 +97,7 @@ public abstract class Log {
 	 * @param logLevel
 	 *            the logging level to set
 	 */
-	final public static void setLogLevel(String logLevel) {
+	public static void setLogLevel(String logLevel) {
 		logger.setLogLevelImpl(logLevel);
 	}
 
@@ -128,7 +128,7 @@ public abstract class Log {
 	 * @param logDestination
 	 *            the destination
 	 */
-	final public static void setLogDestination(LogDestination logDestination) {
+	public static void setLogDestination(LogDestination logDestination) {
 		logger.setLogDestinationImpl(logDestination);
 	}
 
@@ -141,7 +141,7 @@ public abstract class Log {
 	 * 
 	 * @return the destination
 	 */
-	final public static LogDestination getLogDestination() {
+	public static LogDestination getLogDestination() {
 		return logger.getLogDestinationImpl();
 	}
 

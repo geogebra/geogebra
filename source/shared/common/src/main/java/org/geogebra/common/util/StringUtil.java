@@ -51,16 +51,16 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	final static public String htmlMarker = "data:text/html;charset=utf-8,";
 
 	// table to convert a nibble to a hex char.
-	private static char[] hexChar = { '0', '1', '2', '3', '4', '5', '6', '7',
+	private static final char[] hexChar = { '0', '1', '2', '3', '4', '5', '6', '7',
 			'8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
 	private static StringUtil prototype;
 
 	private static final Object lock = new Object();
 
-	private static StringBuilder sbReplaceExp = new StringBuilder(200);
+	private static final StringBuilder sbReplaceExp = new StringBuilder(200);
 
-	private static Map<String, String> typoMapping = new HashMap<>();
+	private static final Map<String, String> typoMapping = new HashMap<>();
 
 	static {
 		typoMapping.put("o", "0");
@@ -110,7 +110,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 * @param c
 	 *            unicode char
 	 */
-	final public static String toHexString(char c) {
+	public static String toHexString(char c) {
 		int i = c + 0;
 
 		StringBuilder hexSB = new StringBuilder(8);
@@ -129,7 +129,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 *            number input
 	 * @return hex code
 	 */
-	final public static String toHexString(int i) {
+	public static String toHexString(int i) {
 		StringBuilder hexSB = new StringBuilder(16);
 		hexSB.append(hexChar[(i & 0xf0000000) >>> 28]);
 		hexSB.append(hexChar[(i & 0xf000000) >>> 24]);
@@ -147,7 +147,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 *            color
 	 * @return hex string (no prefix)
 	 */
-	final public static String toHexString(GColor col) {
+	public static String toHexString(GColor col) {
 		byte r = (byte) col.getRed();
 		byte g = (byte) col.getGreen();
 		byte b = (byte) col.getBlue();
@@ -164,7 +164,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 *            blue
 	 * @return hex string
 	 */
-	final public static String toHexString(byte r, byte g, byte b) {
+	public static String toHexString(byte r, byte g, byte b) {
 		StringBuilder hexSB = new StringBuilder(8);
 		// RED
 		hexSB.append(hexChar[(r & 0xf0) >>> 4]);
@@ -186,7 +186,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 *            input text
 	 * @return hex string
 	 */
-	final public static String toHexString(String s) {
+	public static String toHexString(String s) {
 		StringBuilder sb = new StringBuilder(s.length() * 6);
 		for (int i = 0; i < s.length(); i++) {
 			sb.append(toHexString(s.charAt(i)));
@@ -220,7 +220,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 *            whether to encode &lt; &gt;
 	 * @return HTML string
 	 */
-	final public static String toHTMLString(String str, boolean encodeLTGT) {
+	public static String toHTMLString(String str, boolean encodeLTGT) {
 		if (str == null) {
 			return null;
 		}
@@ -1203,7 +1203,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 *            input
 	 * @return encode unicode as \\uXXXX, escape \',\", \t, \n, \r, \\
 	 */
-	final public static String toJavaString(String str) {
+	public static String toJavaString(String str) {
 		if (str == null) {
 			return null;
 		}

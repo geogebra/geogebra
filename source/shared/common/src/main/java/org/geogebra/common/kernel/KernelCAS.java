@@ -39,7 +39,7 @@ public class KernelCAS {
 	 * 
 	 * @return resulting casCell created using geoCasCell.copy().
 	 */
-	final public static GeoCasCell dependentCasCell(GeoCasCell geoCasCell) {
+	public static GeoCasCell dependentCasCell(GeoCasCell geoCasCell) {
 		AlgoDependentCasCell algo = new AlgoDependentCasCell(geoCasCell);
 		return algo.getCasCell();
 	}

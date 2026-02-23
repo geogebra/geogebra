@@ -198,7 +198,7 @@ public class Textures {
 	 *            line type
 	 * @return dash type (not hidden)
 	 */
-	final static public int getDashFromLineType(int lineType) {
+	static public int getDashFromLineType(int lineType) {
 		switch (lineType) {
 		case EuclidianStyleConstants.LINE_TYPE_FULL:
 			return DASH_NONE;
@@ -231,7 +231,7 @@ public class Textures {
 	 *            line type
 	 * @return dash type hidden
 	 */
-	final static public int getDashFromLineTypeHidden(int lineType) {
+	static public int getDashFromLineTypeHidden(int lineType) {
 		switch (lineType) {
 		case EuclidianStyleConstants.LINE_TYPE_FULL:
 			return DASH_NONE_HIDDEN;
@@ -255,7 +255,7 @@ public class Textures {
 	 *            line type for hidden parts
 	 * @return dash id
 	 */
-	final static public int getDashIdFromLineType(int lineType, int lineTypeHidden) {
+	static public int getDashIdFromLineType(int lineType, int lineTypeHidden) {
 		int notHiddenId = getDashIdFromLineType(lineType);
 		switch (lineTypeHidden) {
 		case EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN:

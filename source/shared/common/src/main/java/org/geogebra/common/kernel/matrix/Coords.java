@@ -91,7 +91,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * 
 	 * @return (x,y,z,1) coords
 	 */
-	public static final Coords createInhomCoorsInD3() {
+	public static Coords createInhomCoorsInD3() {
 		Coords ret = new Coords(4);
 		ret.setW(1);
 		return ret;

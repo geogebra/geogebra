@@ -483,28 +483,28 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	}
 
 	/* sin(Cx+D) */
-	private final static double sin(double x, double c, double d) {
+	private static double sin(double x, double c, double d) {
 		return Math.sin(c * x + d);
 	}
 
 	/* cos(Cx+D) */
-	private final static double cos(double x, double c, double d) {
+	private static double cos(double x, double c, double d) {
 		return Math.cos(c * x + d);
 	}
 
 	/* f(x)=A+Bsin(Cx+D) */
-	private final static double f(double x, double a, double b, double c,
+	private static double f(double x, double a, double b, double c,
 			double d) {
 		return a + b * sin(x, c, d);
 	}
 
 	/* Partial derivative of f to a */
-	private final static double df_a() {
+	private static double df_a() {
 		return 1.0d;
 	}
 
 	/* Partial derivative of f to b: sin(cx+d) */
-	private final static double df_b(double x, double c, double d) {
+	private static double df_b(double x, double c, double d) {
 		return sin(x, c, d);
 	}
 
@@ -514,18 +514,18 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	}
 
 	/* Partial derivative of f to d: Bcos(cx+d) */
-	private final static double df_d(double x, double b, double c, double d) {
+	private static double df_d(double x, double b, double c, double d) {
 		return cos(x, c, d) * b;
 	}
 
 	/* Difference to be reduced */
-	private final static double beta(double x, double y, double a, double b,
+	private static double beta(double x, double y, double a, double b,
 			double c, double d) {
 		return y - f(x, a, b, c, d);
 	}
 
 	/* Sum of quadratic errors */
-	private final static double beta2(double[] x, double[] y, double a,
+	private static double beta2(double[] x, double[] y, double a,
 			double b, double c, double d) {
 		double sum = 0.0d, beta;
 		int n = x.length;
@@ -537,7 +537,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	}
 
 	// Sum of errors (absolute values)
-	private final static double beta(double[] x, double[] y, double a, double b,
+	private static double beta(double[] x, double[] y, double a, double b,
 			double c, double d) {
 		double sum = 0.0d;
 		int n = x.length;
@@ -561,7 +561,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	// Get Points and sort them. (Could find abs max and min as well,
 	// that is done in findParameters() which is better for testing only
 	// mathematical functionality.)
-	private final void getPoints() {
+	private void getPoints() {
 		double[] xy = new double[2];
 		GeoElement geoelement;
 		// GeoList newlist;
@@ -594,7 +594,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	}
 
 	// Noisekiller
-	private final static boolean nearmaxmin(double a, double b, int state,
+	private static boolean nearmaxmin(double a, double b, int state,
 			int current, double max, double min) {
 		if ((state == 1) && (current == -1)) { // A real max-change?
 			return max > a + NOISEKILLER * b;
@@ -609,7 +609,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	// To be used if DFT is used in finding good initial values
 	// Finds the number of halfperiods between abs max and abs min that gives
 	// the least SSE
-	private final int findNumberOfHalfPeriods(int k, int xmin, int xmax) {
+	private int findNumberOfHalfPeriods(int k, int xmin, int xmax) {
 		double min_error = Double.MAX_VALUE;
 		double error1;
 		double period, c1;

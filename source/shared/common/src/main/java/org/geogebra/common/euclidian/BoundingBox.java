@@ -273,7 +273,7 @@ public abstract class BoundingBox<T extends GShape> {
 	 *            controller threshold
 	 * @return distance threshold to select a point
 	 */
-	public static final int getSelectionThreshold(int threshold) {
+	public static int getSelectionThreshold(int threshold) {
 		return threshold + 12;
 	}
 
