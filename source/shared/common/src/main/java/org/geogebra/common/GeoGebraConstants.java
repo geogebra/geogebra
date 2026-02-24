@@ -74,7 +74,7 @@ public interface GeoGebraConstants {
 	/**
 	 * Platform
 	 */
-	public enum Platform {
+	enum Platform {
 
 		DESKTOP("d"),
 
@@ -205,9 +205,9 @@ public interface GeoGebraConstants {
 	String HTTPS = "https://";
 
 	/** GeoGebra URL */
-	public final static String GEOGEBRA_WEBSITE = "https://www.geogebra.org/";
+	String GEOGEBRA_WEBSITE = "https://www.geogebra.org/";
 	/** GeoGebraTube beta URL, used when Feature.TUBE_BETA == true */
-	public final static String GEOGEBRA_WEBSITE_BETA = "https://beta.geogebra.org/";
+	String GEOGEBRA_WEBSITE_BETA = "https://beta.geogebra.org/";
 
 	String GEOGEBRA_HELP_WEBSITE = "https://geogebra.github.io/docs/manual/";
 

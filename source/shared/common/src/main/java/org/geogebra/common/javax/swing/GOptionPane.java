@@ -32,19 +32,19 @@ public interface GOptionPane {
 	 * options from the <code>GOptionPane</code>. (Note: Comment above is from
 	 * Java source. In practice this means only the OK button is used)
 	 */
-	public static final int DEFAULT_OPTION = -1;
+	int DEFAULT_OPTION = -1;
 
 	/** Type used for <code>showConfirmDialog</code>. */
-	// public static final int YES_NO_OPTION = 0;
-	// public static final int YES_NO_CANCEL_OPTION = 1;
-	public static final int OK_CANCEL_OPTION = 2;
-	public static final int CUSTOM_OPTION = 3;
+	// int YES_NO_OPTION = 0;
+	// int YES_NO_CANCEL_OPTION = 1;
+	int OK_CANCEL_OPTION = 2;
+	int CUSTOM_OPTION = 3;
 
 	/** Type used for option dialog return value */
-	public static final int OK_OPTION = 0;
-	public static final int YES_OPTION = 0;
-	public static final int NO_OPTION = 1;
-	public static final int CANCEL_OPTION = 2;
+	int OK_OPTION = 0;
+	int YES_OPTION = 0;
+	int NO_OPTION = 1;
+	int CANCEL_OPTION = 2;
 
 	// ============================================
 	// Message types. Used by the UI to determine what icon to display,
@@ -52,15 +52,15 @@ public interface GOptionPane {
 	// ============================================
 
 	/** Used for error messages. */
-	public static final int ERROR_MESSAGE = 0;
+	int ERROR_MESSAGE = 0;
 	/** Used for information messages. */
-	public static final int INFORMATION_MESSAGE = 1;
+	int INFORMATION_MESSAGE = 1;
 	/** Used for warning messages. */
-	public static final int WARNING_MESSAGE = 2;
+	int WARNING_MESSAGE = 2;
 	/** Used for questions. */
-	public static final int QUESTION_MESSAGE = 3;
+	int QUESTION_MESSAGE = 3;
 	/** No icon is used. */
-	public static final int PLAIN_MESSAGE = -1;
+	int PLAIN_MESSAGE = -1;
 
 	// ============================================
 	// Dialog launching methods

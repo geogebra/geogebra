@@ -31,7 +31,6 @@ public interface Evaluate {
 	 * @throws Throwable
 	 *             if computation fails or takes too long
 	 */
-	public String evaluate(String exp, long timeoutMilliseconds)
-			throws Throwable;
+	String evaluate(String exp, long timeoutMilliseconds) throws Throwable;
 
 }

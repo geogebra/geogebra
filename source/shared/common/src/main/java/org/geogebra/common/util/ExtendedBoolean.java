@@ -25,7 +25,7 @@ public enum ExtendedBoolean {
 	/**
 	 * @return boolean value, default false
 	 */
-	final public boolean boolVal() {
+	public boolean boolVal() {
 		return this == TRUE;
 	}
 

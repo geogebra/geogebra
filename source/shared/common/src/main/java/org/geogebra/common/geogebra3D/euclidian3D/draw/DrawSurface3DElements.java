@@ -94,7 +94,7 @@ public class DrawSurface3DElements extends DrawSurface3D {
 
 	}
 
-	final private void draw(PlotterSurface surface, Coords3 p0, Coords3 n0) {
+	private void draw(PlotterSurface surface, Coords3 p0, Coords3 n0) {
 		// add normal and vertex
 		surface.normalDirect(n0);
 		surface.vertexDirect(p0);

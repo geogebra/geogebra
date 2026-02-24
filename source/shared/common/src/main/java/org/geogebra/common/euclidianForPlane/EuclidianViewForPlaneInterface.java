@@ -26,6 +26,6 @@ public interface EuclidianViewForPlaneInterface {
 	 * @param repaint
 	 *            true to repaint
 	 */
-	public void updateAllDrawables(boolean repaint);
+	void updateAllDrawables(boolean repaint);
 
 }

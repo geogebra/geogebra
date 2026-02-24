@@ -27,5 +27,5 @@ public interface BooleanRenderable {
 	 * @param b
 	 *            true for online, false for offline
 	 */
-	public void render(boolean b);
+	void render(boolean b);
 }

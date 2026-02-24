@@ -33,7 +33,7 @@ public interface RelationPane {
 	 * @author Zoltan Kovacs
 	 *
 	 */
-	public class RelationRow {
+	class RelationRow {
 
 		private String info;
 		private Relation callback;
@@ -80,6 +80,6 @@ public interface RelationPane {
 	 * @param app
 	 *            GeoGebra Application
 	 */
-	public abstract void showDialog(String title, RelationRow[] relations,
+	void showDialog(String title, RelationRow[] relations,
 			App app);
 }

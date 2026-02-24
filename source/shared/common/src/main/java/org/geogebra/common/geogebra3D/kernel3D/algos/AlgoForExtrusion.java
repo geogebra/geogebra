@@ -29,12 +29,12 @@ public interface AlgoForExtrusion {
 	/**
 	 * AlgoElement.compute()
 	 */
-	public void compute();
+	void compute();
 
 	/**
 	 * AlgoElement.remove()
 	 */
-	public void remove();
+	void remove();
 
 	/**
 	 * AlgoElement.getOutput(int i)
@@ -43,7 +43,7 @@ public interface AlgoForExtrusion {
 	 *            index
 	 * @return output
 	 */
-	public GeoElement getOutput(int i);
+	GeoElement getOutput(int i);
 
 	/**
 	 * sets the extrusion computer
@@ -51,17 +51,17 @@ public interface AlgoForExtrusion {
 	 * @param extrusionComputer
 	 *            extrusion computer
 	 */
-	public void setExtrusionComputer(ExtrusionComputer extrusionComputer);
+	void setExtrusionComputer(ExtrusionComputer extrusionComputer);
 
 	/**
 	 * AlgoElement.removeOutputFromAlgebraView()
 	 */
-	public void removeOutputFromAlgebraView();
+	void removeOutputFromAlgebraView();
 
 	/**
 	 * AlgoElement.removeOutputFromPicking()
 	 */
-	public void removeOutputFromPicking();
+	void removeOutputFromPicking();
 
 	/**
 	 * set output points invisible (use for previewable)
@@ -69,18 +69,18 @@ public interface AlgoForExtrusion {
 	 * @param b
 	 *            flag
 	 */
-	public void setOutputPointsEuclidianVisible(boolean b);
+	void setOutputPointsEuclidianVisible(boolean b);
 
 	/**
 	 * notify kernel update of output points
 	 */
-	public void notifyUpdateOutputPoints();
+	void notifyUpdateOutputPoints();
 
 	/**
 	 * 
 	 * @return top face
 	 */
-	public GeoElement getGeoToHandle();
+	GeoElement getGeoToHandle();
 
 	/**
 	 * set visibility of output other than points
@@ -88,11 +88,11 @@ public interface AlgoForExtrusion {
 	 * @param b
 	 *            flag
 	 */
-	public void setOutputOtherEuclidianVisible(boolean b);
+	void setOutputOtherEuclidianVisible(boolean b);
 
 	/**
 	 * notify kernel update of output other than points
 	 */
-	public void notifyUpdateOutputOther();
+	void notifyUpdateOutputOther();
 
 }

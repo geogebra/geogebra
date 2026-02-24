@@ -23,5 +23,5 @@ public interface GetViewId {
 	/**
 	 * @return id of contained view
 	 */
-	public int getViewId();
+	int getViewId();
 }

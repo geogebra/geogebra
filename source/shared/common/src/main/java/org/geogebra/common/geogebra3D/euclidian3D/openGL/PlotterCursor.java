@@ -57,7 +57,7 @@ public class PlotterCursor {
 		private boolean useLight;
 		private boolean hasAllGLAttributes;
 
-		private Type(int id, boolean useLight, boolean hasAllGLAttributes) {
+		Type(int id, boolean useLight, boolean hasAllGLAttributes) {
 			this.id = id;
 			this.useLight = useLight;
 			this.hasAllGLAttributes = hasAllGLAttributes;

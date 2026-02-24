@@ -307,7 +307,7 @@ public class PolygonTriangulation {
 		}
 
 		@Override
-		final public int compareTo(Point p2) {
+		public int compareTo(Point p2) {
 
 			if (id == p2.id) {
 				return 0;
@@ -380,7 +380,7 @@ public class PolygonTriangulation {
 			return 42;
 		}
 
-		final int compareToOnly(Point p2) {
+		int compareToOnly(Point p2) {
 
 			// smallest x
 			if (DoubleUtil.isGreater(p2.x, x, POINT_DELTA)) {
@@ -412,7 +412,7 @@ public class PolygonTriangulation {
 		 * @return -1 if this is before (x1,y1); 1 if this is after (x1,y1); 0
 		 *         otherwise
 		 */
-		final int compareTo(double x1, double y1) {
+		int compareTo(double x1, double y1) {
 
 			// smallest x
 			if (DoubleUtil.isGreater(x1, x, POINT_DELTA)) {
@@ -1557,7 +1557,7 @@ public class PolygonTriangulation {
 	 *             exception if an intersection is a segment left point (should
 	 *             not occur, unless due to numerical precision)
 	 */
-	final private void checkIntersection(Segment a, Segment b,
+	private void checkIntersection(Segment a, Segment b,
 			TreeSet<Point> pointSet) throws TriangulationException {
 
 		debug("check intersection : " + a + "-" + b);
@@ -1677,7 +1677,7 @@ public class PolygonTriangulation {
 
 	}
 
-	final private void createSegment(Point point) {
+	private void createSegment(Point point) {
 
 		// debug(point.name+", "+((int)
 		// (point.orientationToNext*180/Math.PI))+ Unicode.degreeChar +

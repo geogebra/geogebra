@@ -873,14 +873,14 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		return first;
 	}
 
-	final private Corner addLeftToMesh(Corner right, double u, double v)
+	private Corner addLeftToMesh(Corner right, double u, double v)
 			throws NotEnoughCornersException {
 		Corner left = newCorner(u, v);
 		right.l = left;
 		return left;
 	}
 
-	final private Corner addRowAboveToMesh(Corner bottomRight, double v,
+	private Corner addRowAboveToMesh(Corner bottomRight, double v,
 			double uBorderMin, double uBorderMax, double uMax, int uN)
 			throws NotEnoughCornersException {
 		Corner below = bottomRight;

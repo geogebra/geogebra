@@ -48,7 +48,7 @@ public enum AutoColor {
 	private final GColor[] sequence;
 	private int index;
 
-	private AutoColor(GColor[] sequence) {
+	AutoColor(GColor[] sequence) {
 		this.sequence = sequence;
 		index = 0;
 	}
