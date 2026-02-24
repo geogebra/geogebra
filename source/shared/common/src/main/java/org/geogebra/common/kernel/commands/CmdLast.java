@@ -93,19 +93,17 @@ public class CmdLast extends CommandProcessor {
 	/**
 	 * Last[string,n] Michael Borcherds
 	 */
-	final private GeoText last(String label, GeoText list, GeoNumeric n) {
+	private GeoText last(String label, GeoText list, GeoNumeric n) {
 		AlgoLastString algo = new AlgoLastString(cons, label, list, n);
-		GeoText list2 = algo.getResult();
-		return list2;
+		return algo.getResult();
 	}
 
 	/**
 	 * Last[list,n] Michael Borcherds
 	 */
-	final private GeoList last(String label, GeoList list, GeoNumeric n) {
+	private GeoList last(String label, GeoList list, GeoNumeric n) {
 		AlgoLast algo = new AlgoLast(cons, label, list, n);
-		GeoList list2 = algo.getResult();
-		return list2;
+		return algo.getResult();
 	}
 
 }

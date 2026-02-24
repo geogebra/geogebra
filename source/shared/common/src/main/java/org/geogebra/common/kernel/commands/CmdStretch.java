@@ -91,7 +91,7 @@ public class CmdStretch extends CommandProcessor {
 		}
 	}
 
-	final private GeoElement[] stretch(String label, GeoElement Q, GeoVec3D l,
+	private GeoElement[] stretch(String label, GeoElement Q, GeoVec3D l,
 			GeoNumeric num) {
 		Transform t = new TransformShearOrStretch(cons, l, num, false);
 		return t.transform(Q, label);

@@ -80,10 +80,9 @@ public class CmdANOVA extends CommandProcessor {
 		}
 	}
 
-	final private GeoList anovaTest(String label, GeoList dataArrayList) {
+	private GeoList anovaTest(String label, GeoList dataArrayList) {
 		AlgoANOVA algo = new AlgoANOVA(cons, label, dataArrayList);
-		GeoList result = algo.getResult();
-		return result;
+		return algo.getResult();
 	}
 
 }

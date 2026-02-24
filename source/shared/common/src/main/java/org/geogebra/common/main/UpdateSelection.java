@@ -24,5 +24,5 @@ public interface UpdateSelection {
 	 *
 	 * @param updateProperties whether to update the properties view
 	 */
-	public void updateSelection(boolean updateProperties);
+	void updateSelection(boolean updateProperties);
 }

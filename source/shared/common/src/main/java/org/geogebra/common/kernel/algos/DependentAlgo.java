@@ -27,5 +27,5 @@ public interface DependentAlgo {
 	/**
 	 * @return defining expression
 	 */
-	public ExpressionNode getExpression();
+	ExpressionNode getExpression();
 }

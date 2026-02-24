@@ -242,7 +242,7 @@ public class CmdIf extends CommandProcessor {
 	/**
 	 * If-then-else construct for functions. example: If[ x < 2, x^2, x + 2 ]
 	 */
-	final private GeoElement functionIf(String label,
+	private GeoElement functionIf(String label,
 			ArrayList<FunctionalNVar> conditions,
 			ArrayList<FunctionalNVar> functions, int vars) {
 		FunctionVariable[] fv;

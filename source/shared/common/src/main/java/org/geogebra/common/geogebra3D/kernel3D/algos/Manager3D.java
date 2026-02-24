@@ -1916,7 +1916,7 @@ public class Manager3D implements Manager3DInterface {
 		return algo.getOutput();
 	}
 
-	final private void createTmpCoords() {
+	private void createTmpCoords() {
 		if (tmpCoords == null) {
 			tmpCoords = new Coords(3);
 			tmpCoords2 = new Coords(3);

@@ -765,7 +765,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	}
 
-	final private DrawSurface3D newDrawSurface3D(SurfaceEvaluable surface) {
+	private DrawSurface3D newDrawSurface3D(SurfaceEvaluable surface) {
 		if (renderer.useShaders()) {
 			return new DrawSurface3DElements(this, surface);
 		}
@@ -3992,8 +3992,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 	}
 
-	final private void updateProjectionPerspectiveEyeDistance() {
-
+	private void updateProjectionPerspectiveEyeDistance() {
 		renderer.setNear(projectionPerspectiveEyeDistance[0],
 				projectionPerspectiveEyeDistance[1]);
 	}

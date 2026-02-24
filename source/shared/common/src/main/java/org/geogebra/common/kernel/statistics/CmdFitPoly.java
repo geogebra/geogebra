@@ -111,9 +111,8 @@ public class CmdFitPoly extends CommandProcessor {
 	/**
 	 * FitPoly[list of coords,degree]
 	 */
-	final private GeoFunction fitPoly(GeoList list, GeoNumberValue degree) {
+	private GeoFunction fitPoly(GeoList list, GeoNumberValue degree) {
 		AlgoFitPoly algo = new AlgoFitPoly(cons, list, degree);
-		GeoFunction function = algo.getFitPoly();
-		return function;
+		return algo.getFitPoly();
 	}
 }

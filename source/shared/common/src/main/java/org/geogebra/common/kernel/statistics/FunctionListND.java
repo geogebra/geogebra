@@ -44,7 +44,7 @@ public interface FunctionListND {
 	/**
 	 * Linear combination of functions
 	 */
-	public class XY implements FunctionListND {
+	class XY implements FunctionListND {
 
 		private GeoFunctionable[] array;
 
@@ -107,7 +107,7 @@ public interface FunctionListND {
 	/**
 	 * Linear combination of 2var functions
 	 */
-	public class XYZ implements FunctionListND {
+	class XYZ implements FunctionListND {
 
 		private Evaluate2Var[] array;
 

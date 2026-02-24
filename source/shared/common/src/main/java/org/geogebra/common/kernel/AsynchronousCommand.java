@@ -26,7 +26,7 @@ public interface AsynchronousCommand {
 	 * This flag switches using asynchronous CAS on or off in Desktop, has no
 	 * effect in Web.
 	 */
-	final public boolean USE_ASYNCHRONOUS = false;
+	boolean USE_ASYNCHRONOUS = false;
 
 	/**
 	 * @param output
@@ -34,7 +34,7 @@ public interface AsynchronousCommand {
 	 * @param requestID
 	 *            request number
 	 */
-	public void handleCASoutput(String output, int requestID);
+	void handleCASoutput(String output, int requestID);
 
 	/**
 	 * @param exception
@@ -42,21 +42,21 @@ public interface AsynchronousCommand {
 	 * @param requestID
 	 *            request number
 	 */
-	public void handleException(Throwable exception, int requestID);
+	void handleException(Throwable exception, int requestID);
 
 	/**
 	 * @return whether caching is allowed for this command
 	 */
-	public boolean useCaching();
+	boolean useCaching();
 
 	/**
 	 * @return input for CAS as GeoGebraCAS string
 	 */
-	public String getCasInput();
+	String getCasInput();
 
 	/**
 	 * @return kernel
 	 */
-	public Kernel getKernel();
+	Kernel getKernel();
 
 }

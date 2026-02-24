@@ -524,7 +524,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		return true;
 	}
 
-	final private void releaseGrabbing() {
+	private void releaseGrabbing() {
 		getStationaryCoords().consumeLongDelay();
 		input3D.setHasCompletedGrabbingDelay(false);
 		getView().getApplication().getSelectionManager()

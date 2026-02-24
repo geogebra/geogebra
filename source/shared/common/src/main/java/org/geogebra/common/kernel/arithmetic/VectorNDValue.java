@@ -29,28 +29,28 @@ public interface VectorNDValue extends ExpressionValue {
 	/**
 	 * @return string mode: Kernel.COORD_COMPLEX, COORD_CARTESIAN etc.
 	 */
-	public int getToStringMode();
+	int getToStringMode();
 
 	/**
 	 * @return dimension
 	 */
-	public int getDimension();
+	int getDimension();
 
 	/**
 	 * 
 	 * @return vector
 	 */
-	public GeoVecInterface getVector();
+	GeoVecInterface getVector();
 
 	/**
 	 * @return array of coordinates
 	 */
-	public double[] getPointAsDouble();
+	double[] getPointAsDouble();
 
 	/**
 	 * @param mode
 	 *            one of Kernel.COORD_* constants
 	 */
-	public void setMode(int mode);
+	void setMode(int mode);
 
 }

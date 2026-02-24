@@ -28,12 +28,12 @@ public interface HasVolume {
 	 * 
 	 * @return volume
 	 */
-	public double getVolume();
+	double getVolume();
 
 	/**
 	 * 
 	 * @return true if the volume is finite
 	 */
-	public boolean hasFiniteVolume();
+	boolean hasFiniteVolume();
 
 }

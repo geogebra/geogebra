@@ -817,7 +817,7 @@ public class Hits extends ArrayList<GeoElement> {
 		return false;
 	}
 
-	final private boolean containsGeoNumeric() {
+	private boolean containsGeoNumeric() {
 		for (int i = 0; i < size(); i++) {
 			if (get(i).isGeoNumeric()) {
 				return true;

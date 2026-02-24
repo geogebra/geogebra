@@ -126,7 +126,7 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 
 	abstract protected AlgoQuadricEnds createEnds();
 
-	final private void computeHelpers() {
+	private void computeHelpers() {
 		// side must be done before ends (for midpoint)
 		algoSide.compute();
 		algoEnds.compute();

@@ -149,7 +149,7 @@ public class CmdBarChart extends CommandProcessor {
 	/**
 	 * BarChart
 	 */
-	final private GeoNumeric barChart(String label, GeoNumberValue a,
+	private GeoNumeric barChart(String label, GeoNumberValue a,
 			GeoNumberValue b, GeoElement expression, GeoNumeric localVar,
 			GeoNumberValue from, GeoNumberValue to, GeoNumberValue step) {
 

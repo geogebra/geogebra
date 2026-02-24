@@ -1037,7 +1037,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 		return Commands.IntersectPath;
 	}
 
-	private final void createOutput() {
+	private void createOutput() {
 
 		outputPolygons = new OutputHandler<>(
 				() -> {

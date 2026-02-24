@@ -33,7 +33,7 @@ public interface CurveEvaluable {
 	 * 
 	 * @return minimum parameter value for this path
 	 */
-	public double getMinParameter();
+	double getMinParameter();
 
 	/**
 	 * Returns the largest possible parameter value for this path (may be
@@ -41,14 +41,14 @@ public interface CurveEvaluable {
 	 * 
 	 * @return maximum parameter value for this path
 	 */
-	public double getMaxParameter();
+	double getMaxParameter();
 
 	/**
 	 * create new double[] to store point coords
 	 * 
 	 * @return new double[] with correct dimension
 	 */
-	public double[] newDoubleArray();
+	double[] newDoubleArray();
 
 	/**
 	 * 
@@ -58,7 +58,7 @@ public interface CurveEvaluable {
 	 *            second point
 	 * @return max abs distance between points coords
 	 */
-	public double distanceMax(double[] p1, double[] p2);
+	double distanceMax(double[] p1, double[] p2);
 
 	/**
 	 * Evaluates the curve for given parameter value
@@ -78,27 +78,27 @@ public interface CurveEvaluable {
 	 * @return an interval within [a, b] where the curve is defined.
 	 * 
 	 */
-	public double[] getDefinedInterval(double a, double b);
+	double[] getDefinedInterval(double a, double b);
 
 	/**
 	 * @return whether this curve is tracing
 	 */
-	public boolean getTrace();
+	boolean getTrace();
 
 	/**
 	 * @return whether this curve is closed
 	 */
-	public boolean isClosedPath();
+	boolean isClosedPath();
 
 	/**
 	 * @return whether this is a function of x
 	 */
-	public boolean isFunctionInX();
+	boolean isFunctionInX();
 
 	/**
 	 * @return cast to geo OR cast parent to geo
 	 */
-	public GeoElement toGeoElement();
+	GeoElement toGeoElement();
 
 	default double getMinDistX() {
 		return 0;

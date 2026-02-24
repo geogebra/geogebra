@@ -91,17 +91,16 @@ public class CmdTake extends CommandProcessor {
 	/**
 	 * First[string,n] Michael Borcherds
 	 */
-	final private GeoText take(String label, GeoText list, GeoNumeric m,
+	private GeoText take(String label, GeoText list, GeoNumeric m,
 			GeoNumeric n) {
 		AlgoTakeString algo = new AlgoTakeString(cons, label, list, m, n);
-		GeoText list2 = algo.getResult();
-		return list2;
+		return algo.getResult();
 	}
 
 	/**
 	 * Take[list,m,n] Michael Borcherds
 	 */
-	final private GeoList take(String label, GeoList list, GeoNumeric m,
+	private GeoList take(String label, GeoList list, GeoNumeric m,
 			GeoNumeric n) {
 		AlgoTake algo = new AlgoTake(cons, list, m, n);
 		GeoList list2 = algo.getResult();

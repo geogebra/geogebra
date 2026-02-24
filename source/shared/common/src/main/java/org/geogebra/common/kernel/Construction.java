@@ -327,7 +327,7 @@ public class Construction {
 	/**
 	 * init the axis
 	 */
-	final private void initAxis() {
+	private void initAxis() {
 		xAxis = new GeoAxis(this, GeoAxisND.X_AXIS);
 		yAxis = new GeoAxis(this, GeoAxisND.Y_AXIS);
 
@@ -337,7 +337,7 @@ public class Construction {
 	/**
 	 * creates the ConstructionDefaults consDefaults
 	 */
-	final private void newConstructionDefaults() {
+	private void newConstructionDefaults() {
 		consDefaults = companion.newConstructionDefaults();
 	}
 
@@ -806,9 +806,8 @@ public class Construction {
 	 * Updates all algos
 	 * @return true iff there were any algos that wanted update
 	 * @author Michael Borcherds
-	 * @version 2008-05-15
 	 */
-	private final boolean updateAllConstructionProtocolAlgorithms() {
+	private boolean updateAllConstructionProtocolAlgorithms() {
 		// update all algorithms
 		ArrayList<AlgoElement> updateAlgos = null;
 		for (AlgoElement algo : algoList) {
@@ -2687,7 +2686,7 @@ public class Construction {
 	/**
 	 * Make geoTable contain only xAxis and yAxis
 	 */
-	final private void initGeoTables() {
+	private void initGeoTables() {
 		geoTable.clear();
 		geoCasCellTable = null;
 		localVariableTable = null;

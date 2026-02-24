@@ -228,7 +228,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 
 	// transform line to screen coords
 	// write start and endpoint into (x1,y1), (x2,y2)
-	private final void setClippedLine(double minx, double miny, double maxx,
+	private void setClippedLine(double minx, double miny, double maxx,
 			double maxy) {
 		// first calc two points in screen coords that are on the line
 
@@ -276,7 +276,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 	// Cohen & Sutherland algorithm for line clipping on a rectangle
 	// Computergraphics I (Prof. Held) pp.100
 	// points (0, y1), (width, y2) -> clip on y=0 and y=height
-	final private void clipTopBottom(double minx, double miny, double maxy) {
+	private void clipTopBottom(double minx, double miny, double maxy) {
 		// calc clip attributes for both points (x1,y1), (x2,y2)
 		attr1[TOP] = y1 < minx - EuclidianStatic.CLIP_DISTANCE;
 		attr1[BOTTOM] = y1 > maxy + EuclidianStatic.CLIP_DISTANCE;
@@ -318,7 +318,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 	// Cohen & Sutherland algorithm for line clipping on a rectangle
 	// Computergraphics I (Prof. Held) pp.100
 	// points (x1, 0), (x2, height) -> clip on x=0 and x=width
-	final private void clipLeftRight(double minx, double maxx) {
+	private void clipLeftRight(double minx, double maxx) {
 		// calc clip attributes for both points (x1,y1), (x2,y2)
 		attr1[LEFT] = x1 < minx - EuclidianStatic.CLIP_DISTANCE;
 		attr1[RIGHT] = x1 > maxx + EuclidianStatic.CLIP_DISTANCE;
@@ -358,7 +358,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 	}
 
 	// set label position (xLabel, yLabel)
-	private final void setLabelPosition() {
+	private void setLabelPosition() {
 		// choose smallest position change
 		// 1-Norm distance between old label position
 		// and point 1, point 2

@@ -93,7 +93,7 @@ public class CmdDilate extends CommandProcessor {
 	/**
 	 * dilate geoRot by r from origin
 	 */
-	final private GeoElement[] dilate(String label, GeoElement geoDil,
+	private GeoElement[] dilate(String label, GeoElement geoDil,
 			GeoNumberValue r) {
 		Transform t = new TransformDilate(cons, r);
 		return t.transform(geoDil, label);

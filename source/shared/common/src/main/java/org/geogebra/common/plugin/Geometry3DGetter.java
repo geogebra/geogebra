@@ -26,7 +26,7 @@ public interface Geometry3DGetter {
 	/**
 	 * geometry type so the getter can sort in several parts
 	 */
-	public enum GeometryType {
+	enum GeometryType {
 		/** geometry from an axis */
 		AXIS("axes"),
 		/** geometry from a surface */
@@ -50,7 +50,7 @@ public interface Geometry3DGetter {
 	 *            geometry type
 	 * @return true if it handles the geometry type
 	 */
-	public boolean handles(GeoElement geo, GeometryType type);
+	boolean handles(GeoElement geo, GeometryType type);
 
 	/**
 	 * start new geometry
@@ -58,7 +58,7 @@ public interface Geometry3DGetter {
 	 * @param type
 	 *            geometry type
 	 */
-	public void startGeometry(GeometryType type);
+	void startGeometry(GeometryType type);
 
 	/**
 	 * add vertex, normal, color element
@@ -84,7 +84,7 @@ public interface Geometry3DGetter {
 	 * @param a
 	 *            opacity
 	 */
-	public void addVertexNormalColor(double x, double y, double z, double nx,
+	void addVertexNormalColor(double x, double y, double z, double nx,
 			double ny, double nz, double r, double g, double b, double a);
 
 	/**
@@ -97,5 +97,5 @@ public interface Geometry3DGetter {
 	 * @param i3
 	 *            vertex index
 	 */
-	public void addTriangle(int i1, int i2, int i3);
+	void addTriangle(int i1, int i2, int i3);
 }

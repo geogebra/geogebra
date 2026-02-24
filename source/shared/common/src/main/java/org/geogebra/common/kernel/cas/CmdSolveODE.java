@@ -128,7 +128,7 @@ public class CmdSolveODE extends CommandProcessor implements UsesCAS {
 		}
 	}
 
-	final private GeoLocus solveODE(String label, FunctionalNVar f,
+	private GeoLocus solveODE(String label, FunctionalNVar f,
 			FunctionalNVar g, GeoNumeric x, GeoNumeric y, GeoNumeric end,
 			GeoNumeric step) {
 		AlgoSolveODE algo = new AlgoSolveODE(cons, label, f, g, x, y, end,

@@ -29,20 +29,20 @@ public interface GeoConicSectionInterface {
 	 *            index of the hole
 	 * @return start parameter
 	 */
-	public double getParameterStart(int index);
+	double getParameterStart(int index);
 
 	/**
 	 * @param index
 	 *            index of the hole
 	 * @return end parameter - start parameter
 	 */
-	public double getParameterExtent(int index);
+	double getParameterExtent(int index);
 
 	/**
 	 * @param index
 	 *            index of the hole
 	 * @return end parameter
 	 */
-	public double getParameterEnd(int index);
+	double getParameterEnd(int index);
 
 }

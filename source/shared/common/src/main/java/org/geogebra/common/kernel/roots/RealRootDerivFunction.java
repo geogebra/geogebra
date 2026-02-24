@@ -30,6 +30,6 @@ public interface RealRootDerivFunction extends UnivariateFunction {
 	 *            argument value
 	 * @return [f(x), f'(x)]
 	 */
-	public double[] evaluateDerivFunc(double x);
+	double[] evaluateDerivFunc(double x);
 
 }

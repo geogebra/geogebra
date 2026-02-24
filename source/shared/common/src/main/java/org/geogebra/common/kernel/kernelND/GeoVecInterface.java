@@ -29,19 +29,19 @@ public interface GeoVecInterface extends ExpressionValue {
 	 * 
 	 * @return x value
 	 */
-	public double getX();
+	double getX();
 
 	/**
 	 * 
 	 * @return y value
 	 */
-	public double getY();
+	double getY();
 
 	/**
 	 * 
 	 * @return 3D z value
 	 */
-	public double getZ();
+	double getZ();
 
 	/**
 	 * Yields true if the coordinates of this vector are equal to those of

@@ -220,7 +220,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		updateOtherMatrices();
 	}
 
-	private final void updateOtherMatrices() {
+	private void updateOtherMatrices() {
 		// // use continuity
 		// Coords vx1 = Coords.UNDEFINED;
 		// if (transformedMatrix!=null){

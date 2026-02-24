@@ -184,7 +184,7 @@ public class AlgoIteration extends AlgoElement {
 		return result;
 	}
 
-	private final void computeSimple() {
+	private void computeSimple() {
 		if (!f.isDefined() || !startValueGeo.isDefined() || !nGeo.isDefined()) {
 			result.setUndefined();
 			return;
@@ -204,7 +204,7 @@ public class AlgoIteration extends AlgoElement {
 		((GeoNumeric) result).setValue(val);
 	}
 
-	private final void computeDouble() {
+	private void computeDouble() {
 		if (!fNVar.isDefined() || !startValueGeo.isDefined()
 				|| !nGeo.isDefined() || ((GeoList) startValueGeo).size() != 2) {
 			result.setUndefined();

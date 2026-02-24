@@ -430,7 +430,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 		return hypLeftOnScreen || hypRightOnScreen;
 	}
 
-	final private void updateSinglePoint() {
+	private void updateSinglePoint() {
 		// we want to determine the sign of the result but we can't use fixed
 		// point
 		// as it may be equal to the single point. Point (b.x+1,0) differs in

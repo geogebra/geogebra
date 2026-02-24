@@ -81,7 +81,7 @@ public class DrawSlider extends Drawable {
 		update();
 	}
 
-	final private void updateScreenCoords() {
+	private void updateScreenCoords() {
 		// if (number.isAbsoluteScreenLocActive() && initX >= 0 && initY >= 0) {
 		// number.fixPositionHorizontal(initX, view.getSettings()
 		// .getFileWidth(),

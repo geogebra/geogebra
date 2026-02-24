@@ -234,7 +234,7 @@ public class CmdIntersectPath extends CommandProcessor {
 	 * yields intersection segments named label of GeoPoly poly and conic(as
 	 * region)
 	 */
-	final private GeoElement[] intersectPolyConicRegion(String[] labels,
+	private GeoElement[] intersectPolyConicRegion(String[] labels,
 			GeoPoly poly, GeoConic conic, boolean isPolyClosed) {
 		AlgoIntersectPolyLineConicRegion algo = new AlgoIntersectPolyLineConicRegion(
 				cons, labels, poly, conic, isPolyClosed);
@@ -246,20 +246,19 @@ public class CmdIntersectPath extends CommandProcessor {
 	 * yields intersection segments named label of segment seg and conic(as
 	 * region)
 	 */
-	final private GeoElement[] intersectSegmentConicRegion(String[] labels,
+	private GeoElement[] intersectSegmentConicRegion(String[] labels,
 			GeoSegment seg, GeoConic conic) {
 		AlgoIntersectSegmentConicRegion algo = new AlgoIntersectSegmentConicRegion(
 				cons, labels, seg, conic);
-		GeoElement[] ret = algo.getOutput();
 		// GeoElement.setLabels(labels, ret);
-		return ret;
+		return algo.getOutput();
 	}
 
 	/**
 	 * yields intersection segments named label of line g and polygon p (as
 	 * region)
 	 */
-	final private GeoElement[] intersectPathLinePolygon(String[] labels,
+	private GeoElement[] intersectPathLinePolygon(String[] labels,
 			GeoLine g, GeoPolygon p) {
 		AlgoIntersectPathLinePolygon algo = new AlgoIntersectPathLinePolygon(
 				cons, labels, g, p);

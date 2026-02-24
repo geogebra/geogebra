@@ -27,18 +27,18 @@ import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 public interface CoordStyle extends VectorNDValue {
 
 	/** set to 2D cartesian coords */
-	public void setCartesian();
+	void setCartesian();
 
 	/** set to polar coords */
-	public void setPolar();
+	void setPolar();
 
 	/** set to complex coords */
-	public void setComplex();
+	void setComplex();
 
 	/** set to 3D cartesian coords */
-	public void setCartesian3D();
+	void setCartesian3D();
 
 	/** set to spherical coords */
-	public void setSpherical();
+	void setSpherical();
 
 }

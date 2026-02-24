@@ -590,7 +590,7 @@ public class CoordSys {
 	 * negative, then change signs
 	 * 
 	 */
-	final private void checkEquationVectorHasJustOneNegativeCoeff() {
+	private void checkEquationVectorHasJustOneNegativeCoeff() {
 
 		int zeros = 0;
 		boolean negative = false;

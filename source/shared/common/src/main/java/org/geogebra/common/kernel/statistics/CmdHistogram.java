@@ -212,7 +212,7 @@ public class CmdHistogram extends CommandProcessor {
 	/**
 	 * Histogram[isCumulative, classList, dataList, useDensity, density]
 	 */
-	final private GeoNumeric histogram(String label, GeoBoolean isCumulative,
+	private GeoNumeric histogram(String label, GeoBoolean isCumulative,
 			GeoList list1, GeoList list2, GeoBoolean useDensity,
 			GeoNumeric density, boolean rightHistogram) {
 		AlgoHistogram algo = new AlgoHistogram(cons, label, isCumulative, list1,
@@ -224,7 +224,7 @@ public class CmdHistogram extends CommandProcessor {
 	/**
 	 * Histogram[classList, dataList, useDensity, density]
 	 */
-	final private GeoNumeric histogram(String label, GeoList list1,
+	private GeoNumeric histogram(String label, GeoList list1,
 			GeoList list2, GeoBoolean useDensity, GeoNumeric density,
 			boolean rightHistogram) {
 		AlgoHistogram algo = new AlgoHistogram(cons, label, null, list1, list2,

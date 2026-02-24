@@ -75,7 +75,7 @@ public enum FileExtensions {
 	final private boolean isImage;
 	final private String ext;
 
-	private FileExtensions(String extension, boolean allowedImage,
+	FileExtensions(String extension, boolean allowedImage,
 			boolean isImage) {
 		this.allowedImage = allowedImage;
 		this.isImage = isImage;
@@ -83,7 +83,7 @@ public enum FileExtensions {
 	}
 
 	@Override
-	final public String toString() {
+	public String toString() {
 		return ext;
 	}
 
@@ -105,14 +105,14 @@ public enum FileExtensions {
 	/**
 	 * @return whether file may be saved in GGB without renaming or converting
 	 */
-	final public boolean isAllowedImage() {
+	public boolean isAllowedImage() {
 		return allowedImage;
 	}
 
 	/**
 	 * @return is image that can be plotted in EV (ie not PDF)
 	 */
-	final public boolean isImage() {
+	public boolean isImage() {
 		return isImage;
 	}
 

@@ -87,10 +87,9 @@ public class CmdSort extends CommandProcessor {
 	/**
 	 * Sort[list] Michael Borcherds
 	 */
-	final private GeoList sort(String label, GeoList list) {
+	private GeoList sort(String label, GeoList list) {
 		AlgoSort algo = new AlgoSort(cons, label, list);
-		GeoList list2 = algo.getResult();
-		return list2;
+		return algo.getResult();
 	}
 
 }

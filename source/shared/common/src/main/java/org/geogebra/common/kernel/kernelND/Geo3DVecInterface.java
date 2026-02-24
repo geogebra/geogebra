@@ -25,61 +25,61 @@ public interface Geo3DVecInterface extends GeoVecInterface {
 	 *            other vector
 	 * @return true if this vector and other vector have same coordinates
 	 */
-	public boolean isEqual(Geo3DVecInterface vec);
+	boolean isEqual(Geo3DVecInterface vec);
 
 	/**
 	 * @return x-coord
 	 */
 	@Override
-	public double getX();
+	double getX();
 
 	/**
 	 * @return y-coord
 	 */
 	@Override
-	public double getY();
+	double getY();
 
 	/**
 	 * @return z-coord
 	 */
 	@Override
-	public double getZ();
+	double getZ();
 
 	/**
 	 * @return length
 	 */
-	public double length();
+	double length();
 
 	/**
 	 * @return (Math.round(x), Math.round(y), Math.round(z))
 	 */
-	public Geo3DVecInterface round();
+	Geo3DVecInterface round();
 
 	/**
 	 * @return (Math.floor(x), Math.floor(y), Math.floor(z))
 	 */
-	public Geo3DVecInterface floor();
+	Geo3DVecInterface floor();
 
 	/**
 	 * @return (Math.ceil(x), Math.ceil(y), Math.ceil(z))
 	 */
-	public Geo3DVecInterface ceil();
+	Geo3DVecInterface ceil();
 
 	/**
 	 * @return Math.atan2(y,x)
 	 */
-	public double arg();
+	double arg();
 
 	/**
 	 * @param double1
 	 *            coefficient
 	 */
-	public void mult(double double1);
+	void mult(double double1);
 
 	/**
 	 * @param mode
 	 *            coordinates mode
 	 */
-	public void setMode(int mode);
+	void setMode(int mode);
 
 }

@@ -109,7 +109,7 @@ public class CmdRoot extends CommandProcessor {
 	 * all Roots of polynomial f (works only for polynomials and functions that
 	 * can be simplified to factors of polynomials, e.g. sqrt(x) to x)
 	 */
-	final private GeoPoint[] root(Command c, GeoFunctionable f) {
+	private GeoPoint[] root(Command c, GeoFunctionable f) {
 
 		// special case for If
 		// non-polynomial -> undefined

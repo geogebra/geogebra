@@ -77,10 +77,9 @@ public class CmdJoin extends CommandProcessor {
 	/**
 	 * Join[list,list] Michael Borcherds
 	 */
-	final private GeoList join(String label, GeoList list) {
+	private GeoList join(String label, GeoList list) {
 		AlgoJoin algo = new AlgoJoin(cons, label, list);
-		GeoList list2 = algo.getResult();
-		return list2;
+		return algo.getResult();
 	}
 
 }

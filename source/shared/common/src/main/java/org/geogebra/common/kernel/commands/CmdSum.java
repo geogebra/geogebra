@@ -288,22 +288,20 @@ public class CmdSum extends CommandProcessor {
 		return algo.getOutput();
 	}
 
-	final private GeoElement sum(String label, GeoList list) {
+	private GeoElement sum(String label, GeoList list) {
 		AlgoSum algo = new AlgoSum(cons, list);
 		algo.getResult().setLabel(label);
-		GeoElement ret = algo.getResult();
-		return ret;
+		return algo.getResult();
 	}
 
 	/**
 	 * Sum[list of text,n] Michael Borcherds
 	 */
-	final private GeoElement sum(String label, GeoList list, GeoNumeric num,
+	private GeoElement sum(String label, GeoList list, GeoNumeric num,
 			FoldComputer fold) {
 		AlgoFoldFunctions algo = new AlgoFoldFunctions(cons, label, list, num,
 				Operation.PLUS, fold);
-		GeoElement ret = algo.getResult();
-		return ret;
+		return algo.getResult();
 	}
 
 }

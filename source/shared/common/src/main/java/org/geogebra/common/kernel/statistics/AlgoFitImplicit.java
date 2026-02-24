@@ -131,7 +131,7 @@ public class AlgoFitImplicit extends AlgoElement {
 	}
 
 	// Get info from lists into matrixes and functionarray
-	private final boolean makeMatrixes() {
+	private boolean makeMatrixes() {
 		GeoElement geo = null;
 		GeoPoint point = null;
 		double x, y;
@@ -167,7 +167,7 @@ public class AlgoFitImplicit extends AlgoElement {
 		return true;
 	}
 
-	private final void makeFunction() {
+	private void makeFunction() {
 		int order = (int) orderGeo.evaluateDouble();
 
 		double[][] coeffs = new double[order + 1][order + 1];

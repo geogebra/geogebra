@@ -21,7 +21,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.Parametrizable;
 
 /**
- * Common interface for polygons and polylines
+ * Common interface for polygons and polylines.
  */
 public interface GeoPoly extends Parametrizable {
 	/**
@@ -29,21 +29,21 @@ public interface GeoPoly extends Parametrizable {
 	 * 
 	 * @return true iff all vertices are labeled
 	 */
-	public boolean isAllVertexLabelsSet();
+	boolean isAllVertexLabelsSet();
 
 	/**
 	 * Returns true iff number of vertices is not volatile
 	 * 
 	 * @return true iff number of vertices is not volatile
 	 */
-	public boolean isVertexCountFixed();
+	boolean isVertexCountFixed();
 
 	/**
 	 * Returns array of all vertices
 	 * 
 	 * @return array of all vertices
 	 */
-	public GeoPointND[] getPoints();
+	GeoPointND[] getPoints();
 
 	/**
 	 * Returns i-th vertex
@@ -52,28 +52,28 @@ public interface GeoPoly extends Parametrizable {
 	 *            index
 	 * @return i-th vertex
 	 */
-	public GeoPoint getPoint(int i);
+	GeoPoint getPoint(int i);
 
 	/**
 	 * @return boundary as Path
 	 */
-	public Path getBoundary();
+	Path getBoundary();
 
 	/**
 	 * @return array of all vertices
 	 */
-	public GeoPointND[] getPointsND();
+	GeoPointND[] getPointsND();
 
 	/**
 	 * @return number of vertices
 	 */
-	public int getNumPoints();
+	int getNumPoints();
 
 	/**
 	 * @param index
 	 *            index, starts with 0
 	 * @return vertex with given index
 	 */
-	public GeoPointND getPointND(int index);
+	GeoPointND getPointND(int index);
 
 }

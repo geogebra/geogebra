@@ -196,7 +196,7 @@ public class DataDisplayModel {
 
 		}
 
-		final public String getKey() {
+		public String getKey() {
 			return key;
 		}
 

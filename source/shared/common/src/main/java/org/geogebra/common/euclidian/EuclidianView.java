@@ -828,7 +828,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param newMode New Mode which is being set
 	 * @return True if the bounding boxes and selected geos should be cleared, false else
 	 */
-	final private boolean shouldClearSelectedGeos(int newMode) {
+	private boolean shouldClearSelectedGeos(int newMode) {
 		return (this.mode == EuclidianConstants.MODE_SELECT_MOW
 				|| this.mode == EuclidianConstants.MODE_SELECT)
 				&& newMode == EuclidianConstants.MODE_MOVE;
@@ -3595,7 +3595,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param g2
 	 *            graphics
 	 */
-	final private void drawGeometricObjects(GGraphics2D g2) {
+	private void drawGeometricObjects(GGraphics2D g2) {
 		// only draw drawables we need
 		allDrawableList.drawAll(g2);
 

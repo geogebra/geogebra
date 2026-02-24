@@ -31,10 +31,10 @@ public interface VarString {
 	 * 
 	 * @return variable names separated by ", "
 	 */
-	public String getVarString(StringTemplate tpl);
+	String getVarString(StringTemplate tpl);
 
 	/**
 	 * @return function variables
 	 */
-	public FunctionVariable[] getFunctionVariables();
+	FunctionVariable[] getFunctionVariables();
 }

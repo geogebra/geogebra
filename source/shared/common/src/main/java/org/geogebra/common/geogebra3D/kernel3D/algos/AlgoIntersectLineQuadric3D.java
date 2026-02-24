@@ -193,7 +193,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 		setPermutation();
 	}
 
-	final private void computeNoPermutation() {
+	private void computeNoPermutation() {
 
 		// g: X' = p + tv (X' is inhom coords)
 		// q: XAX = 0 (the second X is transposed; X = (X',1) is hom coords)
@@ -292,7 +292,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 
 	}
 
-	final private void setPermutation() {
+	private void setPermutation() {
 		if (permuted) {
 			P[0].setCoordsFromPoint(Q[1]);
 			P[1].setCoordsFromPoint(Q[0]);

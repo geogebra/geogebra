@@ -31,31 +31,31 @@ public interface NumberValue extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * @return MyDouble whose value equals #getDouble()
 	 */
-	public MyDouble getNumber();
+	MyDouble getNumber();
 
 	/**
 	 * 
 	 * @return true for angles
 	 */
-	public int getAngleDim();
+	int getAngleDim();
 
 	/**
 	 * 
 	 * @return value of this number
 	 */
-	public double getDouble();
+	double getDouble();
 
 	/**
 	 * @return whether this value is defined or not
 	 */
-	public boolean isDefined();
+	boolean isDefined();
 
 	/**
 	 * @param tpl
 	 *            output template
 	 * @return label for GeoElements, value for MyDouble
 	 */
-	public String getLabel(StringTemplate tpl);
+	String getLabel(StringTemplate tpl);
 
 	/**
 	 * Might be null if this is a constant +-infinity or NaN,

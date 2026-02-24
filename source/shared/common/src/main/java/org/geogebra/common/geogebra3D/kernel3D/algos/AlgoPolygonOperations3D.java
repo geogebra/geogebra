@@ -213,7 +213,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	 * create outputHandlers for output polygons, points, and segments and
 	 * initiate them
 	 */
-	private final void createOutput() {
+	private void createOutput() {
 
 		outputPolygons = new OutputHandler<>(
 				() -> {

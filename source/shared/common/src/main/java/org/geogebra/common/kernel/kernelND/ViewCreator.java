@@ -27,10 +27,10 @@ import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInter
 public interface ViewCreator extends GeoCoordSys2D {
 
 	/** create a 2D view about this coord sys */
-	public void createView2D();
+	void createView2D();
 
 	/** remove the 2D view */
-	public void removeView2D();
+	void removeView2D();
 
 	/**
 	 * set the euclidian view created
@@ -38,7 +38,7 @@ public interface ViewCreator extends GeoCoordSys2D {
 	 * @param view
 	 *            view
 	 */
-	public void setEuclidianViewForPlane(
+	void setEuclidianViewForPlane(
 			EuclidianViewForPlaneCompanionInterface view);
 
 	/**
@@ -46,7 +46,7 @@ public interface ViewCreator extends GeoCoordSys2D {
 	 * 
 	 * @return true if the view2D is visible
 	 */
-	public boolean hasView2DVisible();
+	boolean hasView2DVisible();
 
 	/**
 	 * sets the view 2D visibility
@@ -54,12 +54,12 @@ public interface ViewCreator extends GeoCoordSys2D {
 	 * @param flag
 	 *            visibility
 	 */
-	public void setView2DVisible(boolean flag);
+	void setView2DVisible(boolean flag);
 
 	/**
 	 * 
 	 * @return view id (if has a view)
 	 */
-	public int getViewID();
+	int getViewID();
 
 }

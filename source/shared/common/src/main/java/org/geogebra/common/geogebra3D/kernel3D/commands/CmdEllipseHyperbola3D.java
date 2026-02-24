@@ -84,7 +84,7 @@ public class CmdEllipseHyperbola3D extends CmdEllipseHyperbola {
 		return null;
 	}
 
-	private final GeoElement ellipseHyperbola(String label, GeoPointND a,
+	private GeoElement ellipseHyperbola(String label, GeoPointND a,
 			GeoPointND b, GeoNumberValue v, GeoDirectionND orientation) {
 
 		// check if all 2D

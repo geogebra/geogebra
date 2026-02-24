@@ -34,7 +34,7 @@ public interface Region extends GeoElementND {
 	 *            point
 	 * 
 	 */
-	public void pointChangedForRegion(GeoPointND P);
+	void pointChangedForRegion(GeoPointND P);
 
 	/**
 	 * Sets coords of P when this region has changed. Afterwards P lies in this
@@ -45,7 +45,7 @@ public interface Region extends GeoElementND {
 	 * 
 	 *
 	 */
-	public void regionChanged(GeoPointND P);
+	void regionChanged(GeoPointND P);
 
 	/**
 	 * Returns true if the given point lies inside this Region.
@@ -54,7 +54,7 @@ public interface Region extends GeoElementND {
 	 *            point
 	 * @return true if the given point lies inside this Region.
 	 */
-	public boolean isInRegion(GeoPointND P);
+	boolean isInRegion(GeoPointND P);
 
 	/**
 	 * Per default, this method will just call {@link #isInRegion(GeoPointND)}
@@ -63,7 +63,7 @@ public interface Region extends GeoElementND {
 	 * @param P Point
 	 * @return True if the given point lies inside this Region
 	 */
-	public default boolean isInRegionInRealCoords(GeoPointND P) {
+	default boolean isInRegionInRealCoords(GeoPointND P) {
 		return isInRegion(P);
 	}
 
@@ -76,6 +76,6 @@ public interface Region extends GeoElementND {
 	 *            y-coord of the point
 	 * @return true if the point (x0,y0) is in the region
 	 */
-	public boolean isInRegion(double x0, double y0);
+	boolean isInRegion(double x0, double y0);
 
 }

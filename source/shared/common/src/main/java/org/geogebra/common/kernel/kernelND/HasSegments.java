@@ -28,6 +28,6 @@ public interface HasSegments {
 	 * 
 	 * @return segments
 	 */
-	public GeoSegmentND[] getSegments();
+	GeoSegmentND[] getSegments();
 
 }

@@ -88,7 +88,7 @@ public class CmdConic extends CommandProcessor {
 	 *            coefficients
 	 * @return conic
 	 */
-	final private GeoElement[] conic(String label, GeoList coeffList) {
+	private GeoElement[] conic(String label, GeoList coeffList) {
 		AlgoConicFromCoeffList algo = new AlgoConicFromCoeffList(cons, label,
 				coeffList);
 

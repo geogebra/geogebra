@@ -166,7 +166,7 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 	}
 
 	// Get info from lists into matrixes and functionarray
-	private final boolean makeDataArrays() {
+	private boolean makeDataArrays() {
 		GeoElement geo = null;
 		GeoPoint point = null;
 		datasize = pointlist.size();

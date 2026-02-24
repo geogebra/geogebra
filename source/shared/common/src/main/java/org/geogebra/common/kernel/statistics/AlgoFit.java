@@ -165,7 +165,7 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 	}
 
 	// Get info from lists into matrixes and functionarray
-	private final boolean makeMatrixes() {
+	private boolean makeMatrixes() {
 		GeoElement geo = null;
 		GeoPointND point = null;
 

@@ -167,7 +167,7 @@ public class CmdFrequencyPolygon extends CommandProcessor {
 	/**
 	 * FrequencyPolygon with density scale factor (no cumulative parameter)
 	 */
-	final private GeoPolyLine frequencyPolygon(String label, GeoList list1,
+	private GeoPolyLine frequencyPolygon(String label, GeoList list1,
 			GeoList list2, GeoBoolean useDensity, GeoNumeric density) {
 		AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(cons, null,
 				list1, list2, null, useDensity, density);

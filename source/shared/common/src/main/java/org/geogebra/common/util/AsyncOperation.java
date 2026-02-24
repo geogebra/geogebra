@@ -27,6 +27,6 @@ public interface AsyncOperation<T> {
 	 * @param obj
 	 *            callback parameter
 	 */
-	public abstract void callback(T obj);
+	void callback(T obj);
 
 }

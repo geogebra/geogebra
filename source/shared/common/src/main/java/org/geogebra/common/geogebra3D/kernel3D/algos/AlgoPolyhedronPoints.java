@@ -375,7 +375,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	/**
 	 * create the polyhedron (faces and edges)
 	 */
-	final private void createPolyhedron() {
+	private void createPolyhedron() {
 
 		GeoPointND[] bottomPoints1 = getBottomPoints();
 

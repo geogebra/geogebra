@@ -77,7 +77,7 @@ public class CmdShear extends CommandProcessor {
 	/**
 	 * shear
 	 */
-	final private GeoElement[] shear(String label, GeoElement Q, GeoVec3D l,
+	private GeoElement[] shear(String label, GeoElement Q, GeoVec3D l,
 			GeoNumeric num) {
 		Transform t = new TransformShearOrStretch(cons, l, num, true);
 		return t.transform(Q, label);

@@ -66,7 +66,7 @@ public class StatPanelSettings extends PlotSettings {
 		STANDTOSTAND(0), LOGTOSTAND(1), STANDTOLOG(2), LOGTOLOG(3);
 		private final int mode;
 
-		private CoordMode(int mode) {
+		CoordMode(int mode) {
 			this.mode = mode;
 		}
 

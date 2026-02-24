@@ -96,19 +96,17 @@ public class CmdFirst extends CommandProcessor {
 	/**
 	 * First[string,n] Michael Borcherds
 	 */
-	final private GeoText first(String label, GeoText list, GeoNumeric n) {
+	private GeoText first(String label, GeoText list, GeoNumeric n) {
 		AlgoFirstString algo = new AlgoFirstString(cons, label, list, n);
-		GeoText list2 = algo.getResult();
-		return list2;
+		return algo.getResult();
 	}
 
 	/**
 	 * First[list,n] Michael Borcherds
 	 */
-	final private GeoList first(String label, GeoList list, GeoNumeric n) {
+	private GeoList first(String label, GeoList list, GeoNumeric n) {
 		AlgoFirst algo = new AlgoFirst(cons, label, list, n);
-		GeoList list2 = algo.getResult();
-		return list2;
+		return algo.getResult();
 	}
 
 }

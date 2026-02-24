@@ -258,27 +258,27 @@ public abstract class AlgoConicPartCircumcircleND extends AlgoConicPart {
 	 */
 	abstract public GeoPoint getC();
 
-	final private double getAx() {
+	private double getAx() {
 		return getA().inhomX;
 	}
 
-	final private double getAy() {
+	private double getAy() {
 		return getA().inhomY;
 	}
 
-	final private double getBx() {
+	private double getBx() {
 		return getB().inhomX;
 	}
 
-	final private double getBy() {
+	private double getBy() {
 		return getB().inhomY;
 	}
 
-	final private double getCx() {
+	private double getCx() {
 		return getC().inhomX;
 	}
 
-	final private double getCy() {
+	private double getCy() {
 		return getC().inhomY;
 	}
 

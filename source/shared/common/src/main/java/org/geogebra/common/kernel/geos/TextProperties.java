@@ -26,26 +26,26 @@ public interface TextProperties extends TextStyle, HasCorners {
 	 * @param size
 	 *            font size (relative)
 	 */
-	public void setFontSizeMultiplier(double size);
+	void setFontSizeMultiplier(double size);
 
 	/**
 	 * 
 	 * @param fontStyle
 	 *            font style
 	 */
-	public void setFontStyle(int fontStyle);
+	void setFontStyle(int fontStyle);
 
 	/**
 	 * 
 	 * @return print decimals (-1 for kernel default)
 	 */
-	public int getPrintDecimals();
+	int getPrintDecimals();
 
 	/**
 	 * 
 	 * @return print figures (-1 for kernel default)
 	 */
-	public int getPrintFigures();
+	int getPrintFigures();
 
 	/**
 	 * 
@@ -54,7 +54,7 @@ public interface TextProperties extends TextStyle, HasCorners {
 	 * @param update
 	 *            true to update the text
 	 */
-	public void setPrintDecimals(int printDecimals, boolean update);
+	void setPrintDecimals(int printDecimals, boolean update);
 
 	/**
 	 * 
@@ -63,30 +63,30 @@ public interface TextProperties extends TextStyle, HasCorners {
 	 * @param update
 	 *            true to update the text
 	 */
-	public void setPrintFigures(int printFigures, boolean update);
+	void setPrintFigures(int printFigures, boolean update);
 
 	/**
 	 * 
 	 * @return true iff using serif font
 	 */
-	public boolean isSerifFont();
+	boolean isSerifFont();
 
 	/**
 	 * 
 	 * @param serifFont
 	 *            true for serif font
 	 */
-	public void setSerifFont(boolean serifFont);
+	void setSerifFont(boolean serifFont);
 
 	/**
 	 * 
 	 * @return true iff significant figures should be used
 	 */
-	public boolean useSignificantFigures();
+	boolean useSignificantFigures();
 
 	/**
 	 * @return whether this was created using a command with LaTeX output
 	 */
-	public boolean isLaTeXTextCommand();
+	boolean isLaTeXTextCommand();
 
 }

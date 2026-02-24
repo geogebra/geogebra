@@ -1221,7 +1221,7 @@ public class GeoFunctionNVar extends GeoElement
 		return isFun2Var();
 	}
 
-	private final boolean isInequalityOrFun2Var() {
+	private boolean isInequalityOrFun2Var() {
 		return isInequality() || ((fun != null) && (fun.getVarNumber() == 2));
 	}
 

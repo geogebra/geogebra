@@ -30,19 +30,19 @@ public interface AbsoluteScreenLocateable extends Locateable {
 	 * @param y
 	 *            y offset (in pixels)
 	 */
-	public void setAbsoluteScreenLoc(int x, int y);
+	void setAbsoluteScreenLoc(int x, int y);
 
 	/**
 	 * 
 	 * @return x offset (in pixels)
 	 */
-	public int getAbsoluteScreenLocX();
+	int getAbsoluteScreenLocX();
 
 	/**
 	 * 
 	 * @return y offset (in pixels)
 	 */
-	public int getAbsoluteScreenLocY();
+	int getAbsoluteScreenLocY();
 
 	/**
 	 * 
@@ -51,30 +51,30 @@ public interface AbsoluteScreenLocateable extends Locateable {
 	 * @param y
 	 *            real world y coordinate
 	 */
-	public void setRealWorldLoc(double x, double y);
+	void setRealWorldLoc(double x, double y);
 
 	/**
 	 * 
 	 * @return real world x-coordinate
 	 */
-	public double getRealWorldLocX();
+	double getRealWorldLocX();
 
 	/**
 	 * 
 	 * @return real world y-coordinate
 	 */
-	public double getRealWorldLocY();
+	double getRealWorldLocY();
 
 	/**
 	 * @param flag
 	 *            true to make abs position active
 	 */
-	public void setAbsoluteScreenLocActive(boolean flag);
+	void setAbsoluteScreenLocActive(boolean flag);
 
 	/**
 	 * @return true iff abs position is active
 	 */
-	public boolean isAbsoluteScreenLocActive();
+	boolean isAbsoluteScreenLocActive();
 
 	/**
 	 * E.g. GeoNumeric implements this, but not all numbers can have abs.
@@ -82,21 +82,21 @@ public interface AbsoluteScreenLocateable extends Locateable {
 	 * 
 	 * @return true if this element can have absolute screen location
 	 */
-	public boolean isAbsoluteScreenLocateable();
+	boolean isAbsoluteScreenLocateable();
 
 	/**
 	 * @param view
 	 *            view
 	 * @return height in given view, including label
 	 */
-	public int getTotalHeight(EuclidianViewInterfaceCommon view);
+	int getTotalHeight(EuclidianViewInterfaceCommon view);
 
 	/**
 	 * @param view
 	 *            view
 	 * @return width in given view, including label
 	 */
-	public int getTotalWidth(EuclidianViewInterfaceCommon view);
+	int getTotalWidth(EuclidianViewInterfaceCommon view);
 
 	/**
 	 * @return whether this is an interactive element

@@ -570,22 +570,22 @@ public enum Language {
 		return decimalSeparator == ',';
 	}
 
-	final public int getRightAngleStyle() {
+	public int getRightAngleStyle() {
 		return this.rightAngleStyle;
 	}
 
-	final public char getUnicodeZero() {
+	public char getUnicodeZero() {
 		return this.unicodeZero;
 	}
 
-	final public char getDecimalSeparator() {
+	public char getDecimalSeparator() {
 		return this.decimalSeparator;
 	}
 
 	/**
 	 * @return whether localized keyboard is supported
 	 */
-	final public boolean hasTranslatedKeyboard() {
+	public boolean hasTranslatedKeyboard() {
 		return this != Language.Chinese_Traditional;
 	}
 

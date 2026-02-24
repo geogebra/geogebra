@@ -100,7 +100,7 @@ public class CmdDotPlot extends CommandProcessor {
 		}
 	}
 
-	final private GeoElement doCommand(String a, GeoList b) {
+	private GeoElement doCommand(String a, GeoList b) {
 		AlgoDotPlot algo = new AlgoDotPlot(cons, b);
 		algo.getResult().setLabel(a);
 		return algo.getResult();

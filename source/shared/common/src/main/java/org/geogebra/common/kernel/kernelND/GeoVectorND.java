@@ -18,7 +18,6 @@ package org.geogebra.common.kernel.kernelND;
 
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.matrix.Coords;
 
 /**
@@ -28,23 +27,23 @@ import org.geogebra.common.kernel.matrix.Coords;
  *
  */
 public interface GeoVectorND
-		extends GeoDirectionND, Locateable, CoordStyle, VectorNDValue {
+		extends GeoDirectionND, Locateable, CoordStyle {
 
 	/**
 	 * @param c
 	 *            coordinates as array
 	 */
-	public void setCoords(double[] c);
+	void setCoords(double[] c);
 
 	/**
 	 * @return the coords of the vector in 2D
 	 */
-	public Coords getCoordsInD2();
+	Coords getCoordsInD2();
 
 	/**
 	 * @return the coords of the vector in 3D
 	 */
-	public Coords getCoordsInD3();
+	Coords getCoordsInD3();
 
 	/**
 	 * UPdates start point
@@ -70,7 +69,7 @@ public interface GeoVectorND
 	/**
 	 * @return true if tracing
 	 */
-	public boolean getTrace();
+	boolean getTrace();
 
 	/**
 	 * 
@@ -81,7 +80,7 @@ public interface GeoVectorND
 	 * @param z
 	 *            z-coord
 	 */
-	public void setCoords(double x, double y, double z);
+	void setCoords(double x, double y, double z);
 
 	/**
 	 * @param x
@@ -93,25 +92,25 @@ public interface GeoVectorND
 	 * @param w
 	 *            inhomogeneous w for 3D vectors
 	 */
-	public void setCoords(double x, double y, double z, double w);
+	void setCoords(double x, double y, double z, double w);
 
 	/**
 	 * 
 	 * @return x component
 	 */
-	public double getX();
+	double getX();
 
 	/**
 	 * 
 	 * @return y component
 	 */
-	public double getY();
+	double getY();
 
 	/**
 	 * 
 	 * @return z component
 	 */
-	public double getZ();
+	double getZ();
 
 	/**
 	 * Get string as column vector for editing.

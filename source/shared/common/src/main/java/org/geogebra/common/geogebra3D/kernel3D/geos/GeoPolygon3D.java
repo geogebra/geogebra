@@ -790,7 +790,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	}
 
-	final private void rotate(NumberValue phiVal, Coords center,
+	private void rotate(NumberValue phiVal, Coords center,
 			Coords direction) {
 		getCoordSys().rotate(phiVal.getDouble(), center,
 				direction.normalized());

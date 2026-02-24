@@ -27,41 +27,41 @@ public interface AnimationExportSlider {
 	 * @return string displayed in slider combo box
 	 */
 	@Override
-	public String toString();
+	String toString();
 
 	/**
 	 * will be called before each frame rendering
 	 */
-	public void updateRepaint();
+	void updateRepaint();
 
 	/**
 	 * @return animation type (ANIMATION_*)
 	 */
-	public int getAnimationType();
+	int getAnimationType();
 
 	/**
 	 * 
 	 * @return slider min value
 	 */
-	public double getIntervalMin();
+	double getIntervalMin();
 
 	/**
 	 * 
 	 * @return slider max value
 	 */
-	public double getIntervalMax();
+	double getIntervalMax();
 
 	/**
 	 * 
 	 * @return slider step value
 	 */
-	public double getAnimationStep();
+	double getAnimationStep();
 
 	/**
 	 * 
 	 * @param x
 	 *            slider value
 	 */
-	public void setValue(double x);
+	void setValue(double x);
 
 }

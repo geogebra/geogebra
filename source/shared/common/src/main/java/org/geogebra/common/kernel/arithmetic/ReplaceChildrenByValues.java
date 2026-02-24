@@ -33,6 +33,6 @@ public interface ReplaceChildrenByValues {
 	 * @param geo
 	 *            geo to be replaced
 	 */
-	public void replaceChildrenByValues(GeoElement geo);
+	void replaceChildrenByValues(GeoElement geo);
 
 }

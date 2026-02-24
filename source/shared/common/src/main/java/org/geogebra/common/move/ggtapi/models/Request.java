@@ -27,6 +27,6 @@ public interface Request {
 	 *            client
 	 * @return JSON.stringify of the given Request
 	 */
-	public String toJSONString(ClientInfo client);
+	String toJSONString(ClientInfo client);
 
 }

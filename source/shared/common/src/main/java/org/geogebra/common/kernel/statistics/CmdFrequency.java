@@ -170,28 +170,26 @@ public class CmdFrequency extends CommandProcessor {
 	/**
 	 * Frequency[dataList] G. Sturr
 	 */
-	final private GeoList frequency(GeoList dataList) {
+	private GeoList frequency(GeoList dataList) {
 		AlgoFrequency algo = new AlgoFrequency(cons, null, null,
 				dataList);
-		GeoList list = algo.getResult();
-		return list;
+		return algo.getResult();
 	}
 
 	/**
 	 * Frequency[isCumulative, dataList] G. Sturr
 	 */
-	final private GeoList frequency(GeoBoolean isCumulative,
+	private GeoList frequency(GeoBoolean isCumulative,
 			GeoList dataList) {
 		AlgoFrequency algo = new AlgoFrequency(cons, isCumulative, null,
 				dataList);
-		GeoList list = algo.getResult();
-		return list;
+		return algo.getResult();
 	}
 
 	/**
 	 * Frequency[classList, dataList] G. Sturr
 	 */
-	final private GeoList frequency(GeoList classList,
+	private GeoList frequency(GeoList classList,
 			GeoList dataList) {
 		AlgoFrequency algo;
 
@@ -200,64 +198,58 @@ public class CmdFrequency extends CommandProcessor {
 		} else {
 			algo = new AlgoFrequency(cons, null, classList, dataList);
 		}
-		GeoList list = algo.getResult();
-		return list;
+		return algo.getResult();
 	}
 
 	/**
 	 * Frequency[classList, dataList, useDensity] G. Sturr
 	 */
-	final private GeoList frequency(GeoList classList,
+	private GeoList frequency(GeoList classList,
 			GeoList dataList, GeoBoolean useDensity) {
 		AlgoFrequency algo = new AlgoFrequency(cons, null, classList,
 				dataList, useDensity, null);
-		GeoList list = algo.getResult();
-		return list;
+		return algo.getResult();
 	}
 
 	/**
 	 * Frequency[classList, dataList, useDensity, scaleFactor] G. Sturr
 	 */
-	final private GeoList frequency(GeoList classList,
+	private GeoList frequency(GeoList classList,
 			GeoList dataList, GeoBoolean useDensity, GeoNumeric scaleFactor) {
 		AlgoFrequency algo = new AlgoFrequency(cons, null, classList,
 				dataList, useDensity, scaleFactor);
-		GeoList list = algo.getResult();
-		return list;
+		return algo.getResult();
 	}
 
 	/**
 	 * Frequency[isCumulative, classList, dataList] G. Sturr
 	 */
-	final private GeoList frequency(GeoBoolean isCumulative,
+	private GeoList frequency(GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList) {
 		AlgoFrequency algo = new AlgoFrequency(cons, isCumulative,
 				classList, dataList, null, null);
-		GeoList list = algo.getResult();
-		return list;
+		return algo.getResult();
 	}
 
 	/**
 	 * Frequency[isCumulative, classList, dataList, useDensity] G. Sturr
 	 */
-	final private GeoList frequency(GeoBoolean isCumulative,
+	private GeoList frequency(GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList, GeoBoolean useDensity) {
 		AlgoFrequency algo = new AlgoFrequency(cons, isCumulative,
 				classList, dataList, useDensity, null);
-		GeoList list = algo.getResult();
-		return list;
+		return algo.getResult();
 	}
 
 	/**
 	 * Frequency[isCumulative, classList, dataList, useDensity, scaleFactor] G.
 	 * Sturr
 	 */
-	final private GeoList frequency(GeoBoolean isCumulative,
+	private GeoList frequency(GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList, GeoBoolean useDensity,
 			GeoNumeric scaleFactor) {
 		AlgoFrequency algo = new AlgoFrequency(cons, isCumulative,
 				classList, dataList, useDensity, scaleFactor);
-		GeoList list = algo.getResult();
-		return list;
+		return algo.getResult();
 	}
 }

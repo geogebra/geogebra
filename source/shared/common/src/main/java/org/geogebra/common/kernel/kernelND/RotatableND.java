@@ -35,6 +35,6 @@ public interface RotatableND extends Rotatable {
 	 * @param orientation
 	 *            orientation for the rotation
 	 */
-	public void rotate(NumberValue r, Coords S, GeoDirectionND orientation);
+	void rotate(NumberValue r, Coords S, GeoDirectionND orientation);
 
 }

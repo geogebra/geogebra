@@ -25,23 +25,23 @@ public interface GeoEvaluatable extends GeoElementND, Evaluatable {
 	/**
 	 * @return table index
 	 */
-	public int getTableColumn();
+	int getTableColumn();
 
 	/**
 	 * @param column
 	 *            TV column
 	 */
-	public void setTableColumn(int column);
+	void setTableColumn(int column);
 
 	/**
 	 * @param pointsVisible
 	 *            whether TV points are visible
 	 */
-	public void setPointsVisible(boolean pointsVisible);
+	void setPointsVisible(boolean pointsVisible);
 
 	/**
 	 * @return whether TV points are visible
 	 */
-	public boolean isPointsVisible();
+	boolean isPointsVisible();
 
 }
