@@ -1455,4 +1455,80 @@ $keyboard_button_transition: opacity .3s ease;
 			border: none;
 		}
 	}
+
+	.connectedButtonGroup {
+		display: flex;
+		align-items: flex-start;
+		gap: 2px;
+		align-self: stretch;
+
+		.connectedButton {
+			height: 40px;
+			background-color: neutral(200);
+			border-radius: 8px;
+			cursor: pointer;
+			display: flex;
+			flex-direction: column;
+			flex: 1 0 0;
+			transition-property: border-radius, background-color;
+			transition-duration: 200ms, 200ms;
+			transition-delay: 200ms, 200ms;
+			transition-timing-function: ease-in-out;
+
+			.gwt-Label {
+				text-align: center;
+				color: neutral(800);
+				overflow: hidden;
+				text-overflow: ellipsis;
+				padding: 4px 16px;
+				transition-property: color;
+				transition-duration: 200ms;
+				transition-delay: 200ms;
+				transition-timing-function: ease-in-out;
+			}
+
+			&:first-child {
+				border-radius: 20px 8px 8px 20px;
+			}
+
+			&:last-child {
+				border-radius: 8px 20px 20px 8px;
+			}
+
+			&.selected, &.selected:hover {
+				border-radius: 20px;
+				background-color: var(--ggb-primary-color);
+				.gwt-Label {
+					color: neutral(0);
+				}
+			}
+
+			&.selected:hover {
+				background-color: var(--ggb-dark-color);
+			}
+
+			&:hover {
+				background-color: neutral(300);
+			}
+
+			&.disabled, &.disabled:hover {
+				background-color: neutral(300);
+				pointer: default;
+				.gwt-Label {
+					color: neutral(500);
+				}
+			}
+
+			&.ripple:after {
+				background-image: radial-gradient(circle, neutral(500) 10%, transparent 10.01%);
+			}
+
+			&.keyboardFocus:focus-visible {
+				outline-color: var(--ggb-dark-color);
+				outline-width: 2px;
+				outline-style: solid;
+				outline-offset: -2px;
+			}
+		}
+	}
 }

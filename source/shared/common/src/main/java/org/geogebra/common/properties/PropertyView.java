@@ -1256,12 +1256,19 @@ public abstract class PropertyView {
 	}
 
 	/**
-	 * Representation of a row of buttons, each with a label, one of which is can be selected.
+	 * Representation of a row of buttons, each with a label, one of which can be selected.
 	 */
 	public static final class ConnectedButtonGroup
 			extends PropertyBackedView<NamedEnumeratedProperty<?>> {
 		ConnectedButtonGroup(@Nonnull NamedEnumeratedProperty<?> property) {
 			super(property);
+		}
+
+		/**
+		 * @return the number of buttons
+		 */
+		public int count() {
+			return getButtonLabels().size();
 		}
 
 		/**

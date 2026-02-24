@@ -30,6 +30,7 @@ import org.geogebra.common.properties.PropertyViewFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentComboBox;
+import org.geogebra.web.full.gui.components.ComponentConnectedButtonGroup;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentExpandableList;
 import org.geogebra.web.full.gui.components.ComponentInputField;
@@ -124,6 +125,10 @@ public class PropertiesPanelAdapter {
 		if (propertyView instanceof Checkbox checkBoxProperty) {
 			return new ComponentCheckbox(loc, checkBoxProperty,
 					checkBoxProperty.getLabel(), checkBoxProperty::setSelected, false);
+		}
+		if (propertyView instanceof ConnectedButtonGroup connectedButtonGroup) {
+			return new ComponentConnectedButtonGroup(connectedButtonGroup, widgets);
+
 		}
 		if (propertyView instanceof ButtonWithIcon buttonWithIcon) {
 			IconSpec icon = ((AppWFull) app).getPropertiesIconResource()
