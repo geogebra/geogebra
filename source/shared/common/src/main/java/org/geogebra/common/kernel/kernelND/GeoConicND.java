@@ -1382,7 +1382,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * returns false if conic's matrix is the zero matrix or has infinite or NaN
 	 * values
 	 */
-	final private boolean checkDefined() {
+	private boolean checkDefined() {
 		boolean allZero = true;
 		double maxCoeffAbs = 0;
 
@@ -2528,7 +2528,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		eigenvectorsSetOnLoad = false;
 	}
 
-	final private void setParabolicEigenvectors() {
+	private void setParabolicEigenvectors() {
 		// fist eigenvector of parabola must not be changed
 
 		// newly calculated first eigenvector = (eigenvecX, eigenvecY)
@@ -2665,7 +2665,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * midpoint conics
 	 *************************************/
 
-	final private void classifyMidpointConic(boolean degenerate) {
+	private void classifyMidpointConic(boolean degenerate) {
 		// calc eigenvalues and eigenvectors
 		if (DoubleUtil.isZero(matrix[3])) {
 			// special case: submatrix S is already diagonal
@@ -2751,7 +2751,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		halfAxes[1] = 0;
 	}
 
-	final private void intersectingLines(double[] mu1) {
+	private void intersectingLines(double[] mu1) {
 		type = GeoConicNDConstants.CONIC_INTERSECTING_LINES;
 
 		// set intersecting lines
@@ -2781,7 +2781,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		setStartPointsForLines();
 	}
 
-	final private void ellipse(double[] mu1) {
+	private void ellipse(double[] mu1) {
 
 		// circle
 		if (DoubleUtil.isEqual(mu1[0] / mu1[1], 1.0)) {
@@ -2821,7 +2821,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 	}
 
-	final private void hyperbola(double[] mu1) {
+	private void hyperbola(double[] mu1) {
 		type = GeoConicNDConstants.CONIC_HYPERBOLA;
 		if (mu1[0] < 0) {
 			// swap eigenvectors and mu
@@ -2848,7 +2848,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * parabolic conics
 	 *************************************/
 
-	final private void classifyParabolicConic(boolean degenerate) {
+	private void classifyParabolicConic(boolean degenerate) {
 		// calc eigenvalues and first eigenvector
 		if (DoubleUtil.isZero(matrix[3])) {
 			// special cases: submatrix S is already diagonal
@@ -2917,7 +2917,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	}
 
-	final private void doubleLine() {
+	private void doubleLine() {
 		type = GeoConicNDConstants.CONIC_DOUBLE_LINE;
 
 		// set double line
@@ -2947,7 +2947,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	// if S is the zero matrix, set conic as double line or empty
-	final private void handleSzero() {
+	private void handleSzero() {
 		// conic is line 2*A[4] * x + 2*A[5] * y + A[2] = 0
 		if (DoubleUtil.isZero(matrix[4])) {
 			if (DoubleUtil.isZero(matrix[5])) {
@@ -3066,7 +3066,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	}
 
-	final private void parabola() {
+	private void parabola() {
 		type = GeoConicNDConstants.CONIC_PARABOLA;
 
 		// calc vertex = b
@@ -3778,14 +3778,14 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	private double[][] getImplicitCoeff() {
 		double[][] coeff = new double[3][3];
-                coeff[0][0] = matrix[2];
-                coeff[1][1] = 2 * matrix[3];
-                coeff[2][2] = 0;
-                coeff[1][0] = 2 * matrix[4];
-                coeff[0][1] = 2 * matrix[5];
-                coeff[2][0] = matrix[0];
-                coeff[0][2] = matrix[1];
-                coeff[2][1] = coeff[1][2] = 0;
+		coeff[0][0] = matrix[2];
+		coeff[1][1] = 2 * matrix[3];
+		coeff[2][2] = 0;
+		coeff[1][0] = 2 * matrix[4];
+		coeff[0][1] = 2 * matrix[5];
+		coeff[2][0] = matrix[0];
+		coeff[0][2] = matrix[1];
+		coeff[2][1] = coeff[1][2] = 0;
 		return coeff;
 	}
 
@@ -4115,7 +4115,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		return ExtendedBoolean.FALSE;
 	}
 
-	final private void createTmpCoords() {
+	private void createTmpCoords() {
 		if (tmpCoords1 == null) {
 			tmpCoords1 = new Coords(3);
 			tmpCoords2 = new Coords(3);

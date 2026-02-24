@@ -26,27 +26,27 @@ public interface EuclidianViewForPlaneCompanionInterface {
 	 * 
 	 * @return view id
 	 */
-	public int getId();
+	int getId();
 
 	/**
 	 * set transformation regarding 3D view
 	 */
-	public void setTransformRegardingView();
+	void setTransformRegardingView();
 
 	/**
 	 * remove the view when the creator doesn't exist anymore
 	 */
-	public void doRemove();
+	void doRemove();
 
 	/**
 	 * update the view
 	 */
-	public void updateForPlane();
+	void updateForPlane();
 
 	/**
 	 * update the matrix
 	 */
-	public void updateMatrix();
+	void updateMatrix();
 
 	/**
 	 * update all drawables
@@ -54,6 +54,6 @@ public interface EuclidianViewForPlaneCompanionInterface {
 	 * @param repaint
 	 *            says if repaint is needed
 	 */
-	public void updateAllDrawables(boolean repaint);
+	void updateAllDrawables(boolean repaint);
 
 }

@@ -25,30 +25,28 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 
 /**
- * 
+ * Interface for 3D view.
  * @author mathieu
- *
- *         Interface for 3D view
  */
 public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	/** default scene x-coord of origin */
-	public static final double XZERO_SCENE_STANDARD = 0;
+	double XZERO_SCENE_STANDARD = 0;
 	/** default scene y-coord of origin */
-	public static final double YZERO_SCENE_STANDARD = 0;
+	double YZERO_SCENE_STANDARD = 0;
 	/** default scene z-coord of origin */
-	public static final double ZZERO_SCENE_STANDARD = -1.5;
-	public final static double ANGLE_ROT_OZ = -60;
-	public final static double ANGLE_ROT_XOY = 20;
+	double ZZERO_SCENE_STANDARD = -1.5;
+	double ANGLE_ROT_OZ = -60;
+	double ANGLE_ROT_XOY = 20;
 
-    final static public int PROJECTION_ORTHOGRAPHIC = 0;
-    final static public int PROJECTION_PERSPECTIVE = 1;
-    final static public int PROJECTION_GLASSES = 2;
-    final static public int PROJECTION_OBLIQUE = 3;
+    int PROJECTION_ORTHOGRAPHIC = 0;
+    int PROJECTION_PERSPECTIVE = 1;
+    int PROJECTION_GLASSES = 2;
+    int PROJECTION_OBLIQUE = 3;
 
 	/**
 	 * rotate to default
 	 */
-	public void setDefaultRotAnimation();
+	void setDefaultRotAnimation();
 
 	/**
 	 * start a rotation animation to be in the vector direction
@@ -60,7 +58,7 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * @param animated
 	 *            say if rotation will be animated
 	 */
-	public void setRotAnimation(Coords vn, boolean checkSameValues,
+	void setRotAnimation(Coords vn, boolean checkSameValues,
 			boolean animated);
 
 	/**
@@ -73,7 +71,7 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * @param animated
 	 *            say if rotation will be animated
 	 */
-	public void setRotAnimation(double rotOz, boolean checkSameValues,
+	void setRotAnimation(double rotOz, boolean checkSameValues,
 			boolean animated);
 
 	/**
@@ -84,17 +82,17 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * @param animated
 	 *            say if rotation will be animated
 	 */
-	public void setClosestRotAnimation(Coords v, boolean animated);
+	void setClosestRotAnimation(Coords v, boolean animated);
 
 	/**
 	 * @return Returns the zmin.
 	 */
-	public double getZmin();
+	double getZmin();
 
 	/**
 	 * @return Returns the zmax.
 	 */
-	public double getZmax();
+	double getZmax();
 
 	/**
 	 * sets the use of the clipping cube
@@ -102,7 +100,7 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * @param flag
 	 *            flag
 	 */
-	public void setUseClippingCube(boolean flag);
+	void setUseClippingCube(boolean flag);
 
 	/**
 	 * sets if the clipping cube is shown
@@ -110,7 +108,7 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * @param flag
 	 *            flag
 	 */
-	public void setShowClippingCube(boolean flag);
+	void setShowClippingCube(boolean flag);
 
 	/**
 	 * sets the reduction of the clipping box
@@ -118,14 +116,14 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * @param value
 	 *            reduction
 	 */
-	public void setClippingReduction(int value);
+	void setClippingReduction(int value);
 
 	/**
 	 * 
 	 * @param projection
 	 *            projection type
 	 */
-	public void setProjection(int projection);
+	void setProjection(int projection);
 
 	/**
 	 * sets the visibility of xOy plane grid
@@ -134,7 +132,7 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 *            flag
 	 * @return whether it changed
 	 */
-	public boolean setShowGrid(boolean flag);
+	boolean setShowGrid(boolean flag);
 
 	/**
 	 * sets the visibility of xOy plane
@@ -142,7 +140,7 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * @param flag
 	 *            flag
 	 */
-	public void setShowPlane(boolean flag);
+	void setShowPlane(boolean flag);
 
 	/**
 	 * sets the visibility of xOy plane plate
@@ -150,7 +148,7 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * @param flag
 	 *            flag
 	 */
-	public void setShowPlate(boolean flag);
+	void setShowPlate(boolean flag);
 
 	/**
 	 * sets the rotation matrix
@@ -160,7 +158,7 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * @param phi
 	 *            alt angle
 	 */
-	public void setRotXYinDegrees(double theta, double phi);
+	void setRotXYinDegrees(double theta, double phi);
 
 	/**
 	 * sets the origin
@@ -172,23 +170,23 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * @param z
 	 *            z coord
 	 */
-	public void setZeroFromXML(double x, double y, double z);
+	void setZeroFromXML(double x, double y, double z);
 
 	/**
 	 * set Matrix for view3D
 	 */
-	public void updateMatrix();
+	void updateMatrix();
 
 	/**
 	 * tells the view it has changed
 	 */
-	public void setViewChanged();
+	void setViewChanged();
 
 	/**
 	 * tell the view that it has to be updated
 	 * 
 	 */
-	public void setWaitForUpdate();
+	void setWaitForUpdate();
 
 	/**
 	 * set if y axis is up (and not z axis)
@@ -196,23 +194,23 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * @param flag
 	 *            flag
 	 */
-	public void setYAxisVertical(boolean flag);
+	void setYAxisVertical(boolean flag);
 
 	/**
 	 * @return screen z-coord of origin
 	 */
-	public double getZZero();
+	double getZZero();
 
 	/**
 	 * update all drawables
 	 */
-	public void updateAllDrawables();
+	void updateAllDrawables();
 
 	/**
 	 * 
 	 * @return eye position
 	 */
-	public Coords getEyePosition();
+	Coords getEyePosition();
 
 	/**
 	 * @param boundsMin2
@@ -220,7 +218,7 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * @param boundsMax2
 	 *            real world view max
 	 */
-	public void zoomRW(Coords boundsMin2, Coords boundsMax2);
+	void zoomRW(Coords boundsMin2, Coords boundsMax2);
 	
 	/**
 	 * set export will be done on next 3D frame
@@ -238,24 +236,24 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * @param zoomFactorZ
 	 *            z:x ratio
 	 */
-	public void zoomAxesRatio(double zoomFactorY, double zoomFactorZ);
+	void zoomAxesRatio(double zoomFactorY, double zoomFactorZ);
 
 	/**
 	 * Keeps the zoom, but makes sure the bound objects are free. This is necessary
 	 * in File &gt; New because there might have been dynamic xmin bounds
 	 */
-	public void resetXYMinMaxObjects();
+	void resetXYMinMaxObjects();
 
 	/**
 	 * set the settings to standard view position, orientation, scaling
 	 */
-	public void setSettingsToStandardView();
+	void setSettingsToStandardView();
 
 	/**
 	 * 
 	 * @return renderer
 	 */
-	public Renderer getRenderer();
+	Renderer getRenderer();
 
 	/**
 	 * @param xZero x-coordinate of the origin
@@ -276,7 +274,7 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * @param da
 	 *            angle change
 	 */
-	public void shiftRotAboutZ(double da);
+	void shiftRotAboutZ(double da);
 
 	/**
 	 * @param db
@@ -287,7 +285,7 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	/**
 	 * @return angle around Oz
 	 */
-	public double getAngleA();
+	double getAngleA();
 
 	/**
 	 * @return xOy plane tilting
@@ -300,7 +298,7 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * @param geo
 	 *            geo
 	 */
-	public void showFocusOn(GeoElement geo);
+	void showFocusOn(GeoElement geo);
 
 	/**
 	 * set 3D cursor visibility
@@ -308,14 +306,14 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * @param flag
 	 *            flag
 	 */
-	public void setCursor3DVisible(boolean flag);
+	void setCursor3DVisible(boolean flag);
 
 	/**
 	 * return the matrix : screen coords -&gt; scene coords.
 	 *
 	 * @return the matrix : screen coords -&gt; scene coords.
 	 */
-	public CoordMatrix4x4 getToSceneMatrix();
+	CoordMatrix4x4 getToSceneMatrix();
 
 	/**
 	 * @return screen : real world z-coord ratio

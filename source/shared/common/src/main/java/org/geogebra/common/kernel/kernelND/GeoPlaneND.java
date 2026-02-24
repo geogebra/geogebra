@@ -35,18 +35,18 @@ public interface GeoPlaneND extends GeoCoordSys2D, EquationValue, LinearEquation
 	 * @param fading
 	 *            fading
 	 */
-	public void setFading(float fading);
+	void setFading(float fading);
 
 	/**
 	 * 
 	 * @return the fading for the "ends" of the plane
 	 */
-	public float getFading();
+	float getFading();
 
 	/**
 	 * create a 2D view of this plane
 	 */
-	public void createView2D();
+	void createView2D();
 
 	/**
 	 * @param coords
@@ -54,13 +54,13 @@ public interface GeoPlaneND extends GeoCoordSys2D, EquationValue, LinearEquation
 	 * @return coords of normal projection of given point
 	 */
 	@Override
-	public Coords[] getNormalProjection(Coords coords);
+	Coords[] getNormalProjection(Coords coords);
 
 	/**
 	 * @param h3d
 	 *            other plane
 	 * @return distance
 	 */
-	public double distanceWithSign(GeoPlaneND h3d);
+	double distanceWithSign(GeoPlaneND h3d);
 
 }

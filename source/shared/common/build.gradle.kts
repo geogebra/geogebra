@@ -68,7 +68,7 @@ open class Bump : DefaultTask() {
         var text = constants.readText()
         val dateFormat = DateTimeFormatter.ofPattern("dd MMMM Y", Locale.US)
         text = text.replace("BUILD_DATE.*".toRegex(), "BUILD_DATE = \"${LocalDate.now().format(dateFormat)}\";")
-        text = text.replace("final String VERSION_STRING.*".toRegex(), "final String VERSION_STRING = \"$version\";")
+        text = text.replace("String VERSION_STRING.*".toRegex(), "String VERSION_STRING = \"$version\";")
         constants.writeText(text)
 
         // version.txt for Jenkins build number

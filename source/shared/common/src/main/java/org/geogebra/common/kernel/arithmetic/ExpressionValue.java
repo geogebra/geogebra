@@ -38,80 +38,80 @@ public interface ExpressionValue extends Iterable<ExpressionValue> {
 	/**
 	 * @return true if this is does not depend on any labeled or dependent geos
 	 */
-	public boolean isConstant();
+	boolean isConstant();
 
 	/**
 	 * @return whether this is leaf if it occurs in ExpressionNode
 	 */
-	public boolean isLeaf();
+	boolean isLeaf();
 
 	/**
 	 * @return whether this is instance of NumberValue
 	 */
-	public boolean isNumberValue();
+	boolean isNumberValue();
 
 	/**
 	 * @return whether this is instance of VectorValue
 	 */
-	public boolean evaluatesToNonComplex2DVector();
+	boolean evaluatesToNonComplex2DVector();
 
 	/**
 	 * @return whether this is a 2D/3D Vector (but not Point/Complex)
 	 */
-	public boolean evaluatesToVectorNotPoint();
+	boolean evaluatesToVectorNotPoint();
 
 	/**
 	 * @return whether this is instance of Vector3DValue
 	 */
-	public boolean evaluatesTo3DVector();
+	boolean evaluatesTo3DVector();
 
 	/**
 	 * @return whether this is instance of ListValue
 	 */
-	public boolean evaluatesToList();
+	boolean evaluatesToList();
 
 	/**
 	 * @return whether this evaluates to a matrix
 	 */
-	public int getListDepth();
+	int getListDepth();
 
 	/**
 	 * @return whether this is instance of TextValue
 	 */
-	public boolean evaluatesToText();
+	boolean evaluatesToText();
 
 	/**
 	 * @return whether this is instance of ExpressionNode
 	 */
-	public boolean isExpressionNode();
+	boolean isExpressionNode();
 
 	/**
 	 * @return whether this is instance of GeoElement
 	 */
-	public boolean isGeoElement();
+	boolean isGeoElement();
 
 	/**
 	 * @return whether this is instance of Variable
 	 */
-	public boolean isVariable();
+	boolean isVariable();
 
 	/**
 	 * @return whether this is part of some expression node tree
 	 */
-	public boolean isInTree();
+	boolean isInTree();
 
 	/**
 	 * @param flag
 	 *            whether this is part of some expression node tree
 	 */
-	public void setInTree(boolean flag);
+	void setInTree(boolean flag);
 
 	/**
 	 * @param ev
 	 *            expression value
 	 * @return whether given value is contained in tree / list of this
 	 */
-	public boolean contains(ExpressionValue ev);
+	boolean contains(ExpressionValue ev);
 
 	/**
 	 * @param kernel
@@ -119,19 +119,19 @@ public interface ExpressionValue extends Iterable<ExpressionValue> {
 	 * @return deep copy (duplicates all ExpressionValues used for definition of
 	 *         this)
 	 */
-	public ExpressionValue deepCopy(Kernel kernel);
+	ExpressionValue deepCopy(Kernel kernel);
 
 	/**
 	 * @return evaluated value
 	 */
-	public double evaluateDouble();
+	double evaluateDouble();
 
 	/**
 	 * @param tpl
 	 *            string template (in case concatenation of strings is involved)
 	 * @return evaluated value
 	 */
-	public ExpressionValue evaluate(StringTemplate tpl);
+	ExpressionValue evaluate(StringTemplate tpl);
 
 	/**
 	 * @param mode
@@ -153,7 +153,7 @@ public interface ExpressionValue extends Iterable<ExpressionValue> {
 
 	@Override
 	@Deprecated
-	public String toString();
+	String toString();
 
 	/**
 	 * Note: this is needed for texts that need to be quoted in lists and as
@@ -163,7 +163,7 @@ public interface ExpressionValue extends Iterable<ExpressionValue> {
 	 *            string template
 	 * @return value string that can be re-run as GGB command
 	 */
-	public String toOutputValueString(StringTemplate tpl);
+	String toOutputValueString(StringTemplate tpl);
 
 	/**
 	 * @param symbolic
@@ -172,7 +172,7 @@ public interface ExpressionValue extends Iterable<ExpressionValue> {
 	 *            string template
 	 * @return LaTeX string
 	 */
-	public String toLaTeXString(boolean symbolic, StringTemplate tpl);
+	String toLaTeXString(boolean symbolic, StringTemplate tpl);
 
 	/**
 	 * Resolve variables
@@ -180,21 +180,21 @@ public interface ExpressionValue extends Iterable<ExpressionValue> {
 	 * @param info
 	 *            evaluation flags
 	 */
-	public void resolveVariables(EvalInfo info);
+	void resolveVariables(EvalInfo info);
 
 	/**
 	 * @param tpl
 	 *            string template
 	 * @return string representation of this object
 	 */
-	public String toString(StringTemplate tpl);
+	String toString(StringTemplate tpl);
 
 	/**
 	 * @param tpl
 	 *            string template
 	 * @return string representation of value of this object
 	 */
-	public String toValueString(StringTemplate tpl);
+	String toValueString(StringTemplate tpl);
 
 	/**
 	 * Lets the traversing object go through the structure of this
@@ -205,7 +205,7 @@ public interface ExpressionValue extends Iterable<ExpressionValue> {
 	 *            traversing object
 	 * @return changed value
 	 */
-	public ExpressionValue traverse(Traversing t);
+	ExpressionValue traverse(Traversing t);
 
 	/**
 	 * Traverses the expression tree and returns true
@@ -260,20 +260,20 @@ public interface ExpressionValue extends Iterable<ExpressionValue> {
 	 *
 	 * @return unwrapped content
 	 */
-	public ExpressionValue unwrap();
+	ExpressionValue unwrap();
 
 	/**
 	 * Wraps this value in ExpressionNode if it's not already one.
 	 *
 	 * @return wrapped value
 	 */
-	public ExpressionNode wrap();
+	ExpressionNode wrap();
 
 	/**
 	 *
 	 * @return whether x(this) makes sense
 	 */
-	public boolean hasCoords();
+	boolean hasCoords();
 
 	/**
 	 * @param fv
@@ -282,7 +282,7 @@ public interface ExpressionValue extends Iterable<ExpressionValue> {
 	 *            kernel
 	 * @return derivative
 	 */
-	public ExpressionValue derivative(FunctionVariable fv, Kernel kernel);
+	ExpressionValue derivative(FunctionVariable fv, Kernel kernel);
 
 	/**
 	 * @param fv
@@ -303,26 +303,26 @@ public interface ExpressionValue extends Iterable<ExpressionValue> {
 	/**
 	 * @return : for equations, := by default
 	 */
-	public String getAssignmentOperator();
+	String getAssignmentOperator();
 
 	/**
 	 * @return type of this value after evaluation
 	 */
-	public ExpressionValueType getValueType();
+	ExpressionValueType getValueType();
 
 	/**
 	 * @param kernel
 	 *            kernel
 	 * @return undefined object of the same value type
 	 */
-	public ExpressionValue getUndefinedCopy(Kernel kernel);
+	ExpressionValue getUndefinedCopy(Kernel kernel);
 
 	/**
 	 * @return converts to valid expression, GeoText -&gt; MyTextBuffer,
 	 *         GeoNumeric -&gt; MyDouble etc.
 	 *
 	 */
-	public ExpressionValue toValidExpression();
+	ExpressionValue toValidExpression();
 
 	/**
 	 * @return whether this evaluates to 3D vector on non-complex 2D
