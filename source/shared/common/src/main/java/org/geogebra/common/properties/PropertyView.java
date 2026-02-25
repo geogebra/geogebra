@@ -66,6 +66,7 @@ import org.geogebra.common.properties.impl.objects.AbsoluteScreenPositionPropert
 import org.geogebra.common.properties.impl.objects.AlgebraViewVisibilityPropertyCollection;
 import org.geogebra.common.properties.impl.objects.AlignmentPropertyCollection;
 import org.geogebra.common.properties.impl.objects.BackgroundColorPropertyCollection;
+import org.geogebra.common.properties.impl.objects.BorderStylePropertyCollection;
 import org.geogebra.common.properties.impl.objects.ButtonIconPropertyCollection;
 import org.geogebra.common.properties.impl.objects.ChartSegmentFillCategoryProperty;
 import org.geogebra.common.properties.impl.objects.ChartSegmentSelection;
@@ -1438,7 +1439,8 @@ public abstract class PropertyView {
 		if (property instanceof BooleanProperty booleanProperty) {
 			return new Checkbox(booleanProperty);
 		} else if (property instanceof AlignmentPropertyCollection
-			|| property instanceof LayoutPropertyCollection) {
+			|| property instanceof LayoutPropertyCollection
+			|| property instanceof BorderStylePropertyCollection) {
 			return new GroupedIconButtonRow((AbstractPropertyCollection) property);
 		} else if (property instanceof DynamicColorSpaceProperty
 				|| (property instanceof NamedEnumeratedPropertyListFacade<?, ?> facade

@@ -89,6 +89,9 @@ public enum PropertyResource {
 	/* Cell border type */
 	ICON_CELL_BORDER_ALL, ICON_CELL_BORDER_INNER, ICON_CELL_BORDER_OUTER, ICON_CELL_BORDER_NONE,
 
+	/* Cell border thickness */
+	ICON_CELL_BORDER_THIN, ICON_CELL_BORDER_THICK,
+
 	/* Text border type */
 	ICON_BORDER_NONE, ICON_BORDER_THIN, ICON_BORDER_THICK,
 

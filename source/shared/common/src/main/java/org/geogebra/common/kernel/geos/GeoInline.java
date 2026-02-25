@@ -314,4 +314,9 @@ public abstract class GeoInline extends GeoElement implements Translateable, Rot
 		this.width = width;
 		this.height = height;
 	}
+
+	@Override
+	public boolean hasBackgroundColor() {
+		return true;
+	}
 }

@@ -115,6 +115,21 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/format_underlined-24px.svg")
 	SVGResource text_underline_black();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/no_border.svg")
+	SVGResource border_no();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/thin_border.svg")
+	SVGResource border_thin();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/thick_border.svg")
+	SVGResource border_thick();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/cell_border_thin.svg")
+	SVGResource cell_border_thin();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/cell_border_thick.svg")
+	SVGResource cell_border_thick();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/border_all-24px.svg")
 	SVGResource border_all();
 

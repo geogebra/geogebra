@@ -39,7 +39,8 @@ public class CellBorderProperty extends AbstractEnumeratedProperty<BorderType>
 	private static final PropertyResource[] icons = {
 			PropertyResource.ICON_CELL_BORDER_ALL, PropertyResource.ICON_CELL_BORDER_INNER,
 			PropertyResource.ICON_CELL_BORDER_OUTER, PropertyResource.ICON_CELL_BORDER_NONE};
-
+	private static final String[] rawLabels = {"stylebar.AllBorders", "stylebar.InnerBorders",
+			"stylebar.OuterBorders", "stylebar.ClearBorders"};
 	private final GeoElementDelegate delegate;
 
 	/**
@@ -61,7 +62,7 @@ public class CellBorderProperty extends AbstractEnumeratedProperty<BorderType>
 
 	@Override
 	public @CheckForNull String[] getToolTipLabels() {
-		return null;
+		return rawLabels;
 	}
 
 	@Override

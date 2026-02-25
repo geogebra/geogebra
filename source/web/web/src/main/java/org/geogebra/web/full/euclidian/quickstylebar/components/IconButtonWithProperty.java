@@ -26,13 +26,15 @@ import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertySupplier;
 import org.geogebra.common.properties.RangeProperty;
+import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.facade.ColorPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.FlagListPropertyListFacade;
+import org.geogebra.common.properties.impl.facade.IconsEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.RangePropertyListFacade;
 import org.geogebra.common.properties.impl.facade.StringPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.BorderColorProperty;
-import org.geogebra.common.properties.impl.objects.BorderThicknessProperty;
+import org.geogebra.common.properties.impl.objects.BorderWidthProperty;
 import org.geogebra.common.properties.impl.objects.CellBorderThicknessProperty;
 import org.geogebra.common.properties.impl.objects.NotesThicknessProperty;
 import org.geogebra.common.properties.impl.objects.TextBackgroundColorProperty;
@@ -115,6 +117,18 @@ public class IconButtonWithProperty extends IconButton {
 
 	private void processProperty(PropertySupplier propertySupplier, FlowPanel parent) {
 		Property property = propertySupplier.get();
+		if (property instanceof IconsEnumeratedPropertyListFacade<?, ?>
+				iconsEnumeratedPropertyListFacade) {
+			IconsEnumeratedProperty<?> firstProperty
+					= iconsEnumeratedPropertyListFacade.getFirstProperty();
+			if (firstProperty instanceof BorderWidthProperty
+					|| firstProperty instanceof CellBorderThicknessProperty) {
+				FlowPanel borderThickness = widgetAdapter.getBorderThicknessWidget(
+						(AbstractEnumeratedProperty<Integer>) firstProperty);
+				parent.add(borderThickness);
+				return;
+			}
+		}
 		if (property instanceof IconsEnumeratedProperty) {
 			FlowPanel enumeratedPropertyButtonPanel = widgetAdapter.getIconListPanel(
 					(IconsEnumeratedProperty<?>) property, propertySupplier, (index) -> {
@@ -133,9 +147,7 @@ public class IconButtonWithProperty extends IconButton {
 			parent.add(fontSizeMenu.getPopupMenu());
 		}
 
-		if (property instanceof ColorPropertyListFacade<?>) {
-			ColorPropertyListFacade<?> colorProperty =
-					(ColorPropertyListFacade<?>) property;
+		if (property instanceof ColorPropertyListFacade<?> colorProperty) {
 			ColorChooserPanel colorPanel = new ColorChooserPanel(appW,
 					colorProperty.getValues(), color -> {
 				if (popupHandler != null) {
@@ -163,19 +175,13 @@ public class IconButtonWithProperty extends IconButton {
 				parent.add(noColorButton);
 			}
 		}
-		if (property instanceof RangePropertyListFacade<?>) {
-			RangePropertyListFacade<?> rangeProperty = (RangePropertyListFacade<?>) property;
+		if (property instanceof RangePropertyListFacade<?> rangeProperty) {
 			RangeProperty<?> firstProperty = rangeProperty.getFirstProperty();
 			if (firstProperty instanceof NotesThicknessProperty) {
 				lineThicknessSlider = widgetAdapter.getSliderWidget(rangeProperty,
 						propertySupplier, geos.get(0));
 				parent.add(lineThicknessSlider);
-			} else if (firstProperty instanceof CellBorderThicknessProperty
-					|| firstProperty instanceof BorderThicknessProperty) {
-				FlowPanel borderThickness = widgetAdapter.getBorderThicknessWidget(
-						rangeProperty);
-				parent.add(borderThickness);
-			} else {
+			}  else {
 				SliderWithProperty sliderWithProperty = widgetAdapter.getSliderWidget(
 						rangeProperty, propertySupplier, geos.get(0));
 				parent.add(sliderWithProperty);

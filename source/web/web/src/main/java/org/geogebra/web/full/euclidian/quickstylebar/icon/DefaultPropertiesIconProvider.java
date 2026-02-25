@@ -92,6 +92,11 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 			case ICON_SEGMENT_END_SQUARE -> res.stylingbar_end_square();
 			case ICON_SEGMENT_END_DIAMOND_OUTLINE -> res.stylingbar_end_diamond_outlined();
 			case ICON_SEGMENT_END_DIAMOND -> res.stylingbar_end_diamond_filled();
+			case ICON_BORDER_NONE -> res.border_no();
+			case ICON_BORDER_THIN -> res.border_thin();
+			case ICON_BORDER_THICK -> res.border_thick();
+			case ICON_CELL_BORDER_THIN -> res.cell_border_thin();
+			case ICON_CELL_BORDER_THICK -> res.cell_border_thick();
 			case ICON_CELL_BORDER_ALL -> res.border_all();
 			case ICON_CELL_BORDER_INNER -> res.border_inner();
 			case ICON_CELL_BORDER_OUTER -> res.border_outer();
@@ -121,7 +126,6 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 			case ICON_UNDERLINE -> res.text_underline_black();
 			case ICON_SERIF -> res.text_serif_black();
 			case ICON_CLEAR_COLOR -> res.no_color();
-			case ICON_BORDER_THIN -> res.color_border();
 			case ICON_AXES_LINE_TYPE_FULL -> GuiResources.INSTANCE.deco_axes_none();
 			case ICON_AXES_LINE_TYPE_ARROW -> GuiResources.INSTANCE.deco_axes_arrow();
 			case ICON_AXES_LINE_TYPE_ARROW_FILLED -> GuiResources.INSTANCE.deco_axes_arrow_filled();

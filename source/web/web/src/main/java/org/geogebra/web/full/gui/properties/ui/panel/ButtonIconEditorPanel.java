@@ -104,7 +104,7 @@ public class ButtonIconEditorPanel extends FlowPanel implements ConfigurationUpd
 
 	private void uploadImageUpdateUI(String name, String data) {
 		uploadImage(name, data);
-		iconButtonPanel.deselectAllBut(-1);
+		iconButtonPanel.deselectAllBut(0, -1);
 		updateCustomIconPanelVisibility(false);
 	}
 
@@ -142,7 +142,7 @@ public class ButtonIconEditorPanel extends FlowPanel implements ConfigurationUpd
 	public void configurationUpdated() {
 		if (buttonIconEditor.getLeadProperty().getValue()) {
 			buttonIconEditor.setSelectedIndex(0);
-			iconButtonPanel.deselectAllBut(0);
+			iconButtonPanel.deselectAllBut(0, 0);
 			updateImage();
 		} else {
 			buttonIconEditor.setDefaultIcon("");

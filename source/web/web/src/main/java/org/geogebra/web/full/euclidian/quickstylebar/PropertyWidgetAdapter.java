@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.PropertySupplier;
+import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.facade.FlagListPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.RangePropertyListFacade;
@@ -63,11 +64,13 @@ public class PropertyWidgetAdapter {
 		buttonListComponent.addStyleName("buttonList");
 
 		PropertyResource[] icons = iconProperty.getValueIcons();
+		String[] labels = iconProperty.getToolTipLabels();
 		for (int i = 0; i < icons.length; i++) {
 			int finalI = i;
+			String label = labels != null ? labels[i] : null;
 			IconButton enumeratedPropertyIconButton = new IconButton(appW, null,
 					((AppWFull) appW).getPropertiesIconResource().getImageResource(icons[i]),
-					null);
+					label);
 			enumeratedPropertyIconButton.addFastClickHandler(source -> {
 				((IconsEnumeratedProperty<?>) propertySupplier.updateAndGet()).setIndex(finalI);
 				setIconButtonActive(enumeratedPropertyIconButton);
@@ -96,7 +99,7 @@ public class PropertyWidgetAdapter {
 	 * @param property - cell border thickness property
 	 * @return panel for line thickness ui
 	 */
-	public FlowPanel getBorderThicknessWidget(RangePropertyListFacade<?> property) {
+	public FlowPanel getBorderThicknessWidget(AbstractEnumeratedProperty<Integer> property) {
 		return new BorderThicknessPanel(property, appW);
 	}
 

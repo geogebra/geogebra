@@ -16,33 +16,58 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import static org.geogebra.common.properties.PropertyResource.ICON_CELL_BORDER_THICK;
+import static org.geogebra.common.properties.PropertyResource.ICON_CELL_BORDER_THIN;
+
+import java.util.List;
+
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
+import org.geogebra.common.kernel.geos.properties.BorderType;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.impl.AbstractRangeProperty;
+import org.geogebra.common.properties.IconsEnumeratedProperty;
+import org.geogebra.common.properties.PropertyResource;
+import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.TablePropertyDelegate;
 
-public class CellBorderThicknessProperty extends AbstractRangeProperty<Integer> {
+public class CellBorderThicknessProperty extends AbstractEnumeratedProperty<Integer>
+		implements IconsEnumeratedProperty<Integer> {
+	private static final PropertyResource[] icons = {
+			ICON_CELL_BORDER_THIN, ICON_CELL_BORDER_THICK,
+	};
 	private final GeoElementDelegate delegate;
 
 	/**
-	 * Constructor
-	 * @param localization - localization
-	 * @param element - geo
-	 * @throws NotApplicablePropertyException - exception
+	 * Creates property for table border thickness.
+	 * @param localization localization
+	 * @param element geo
+	 * @throws NotApplicablePropertyException exception if not applicable
 	 */
 	public CellBorderThicknessProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
-		super(localization, "Thickness", 1, 3, 2);
+		super(localization, "Thickness");
 		delegate = new TablePropertyDelegate(element);
+		setValues(List.of(1, 3));
 	}
 
 	@Override
-	protected void setValueSafe(Integer value) {
+	public PropertyResource[] getValueIcons() {
+		return icons;
+	}
+
+	@Override
+	public @CheckForNull String[] getToolTipLabels() {
+		return null;
+	}
+
+	@Override
+	protected void doSetValue(Integer value) {
 		InlineTableController formatter = getFormatter();
 		formatter.setBorderThickness(value);
 		delegate.getElement().updateVisualStyleRepaint(GProperty.COMBINED);
@@ -57,5 +82,11 @@ public class CellBorderThicknessProperty extends AbstractRangeProperty<Integer> 
 	private InlineTableController getFormatter() {
 		GeoInlineTable table = (GeoInlineTable) delegate.getElement();
 		return (InlineTableController) table.getFormatter();
+	}
+
+	@Override
+	public boolean isEnabled() {
+		InlineTableController formatter = getFormatter();
+		return formatter != null && formatter.getBorderStyle() != BorderType.NONE;
 	}
 }

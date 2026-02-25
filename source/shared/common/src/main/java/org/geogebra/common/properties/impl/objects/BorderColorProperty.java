@@ -16,12 +16,13 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import java.util.List;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.color.GeoColorValues;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.TextMindmapDelegate;
 
@@ -33,11 +34,11 @@ public class BorderColorProperty extends ElementColorProperty {
 	 * @param element - element
 	 * @throws NotApplicablePropertyException when one of the elements has no color
 	 */
-	public BorderColorProperty(Localization localization,
-			GeoElement element) throws NotApplicablePropertyException {
-		super(localization, new TextMindmapDelegate(element), "stylebar.Borders");
+	public BorderColorProperty(Localization localization, GeoElement element,
+			List<GColor> colorValues, String name) throws NotApplicablePropertyException {
+		super(localization, new TextMindmapDelegate(element), name);
 		this.element = element;
-		setValues(GeoColorValues.values());
+		setValues(colorValues);
 	}
 
 	@Override

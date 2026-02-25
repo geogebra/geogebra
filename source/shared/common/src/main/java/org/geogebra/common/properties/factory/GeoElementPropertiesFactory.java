@@ -59,11 +59,12 @@ import org.geogebra.common.properties.impl.objects.AnimatingProperty;
 import org.geogebra.common.properties.impl.objects.AnimationPropertyCollection;
 import org.geogebra.common.properties.impl.objects.AnimationStepProperty;
 import org.geogebra.common.properties.impl.objects.AuxiliaryObjectProperty;
+import org.geogebra.common.properties.impl.objects.BackgroundAndBorderPropertyCollection;
 import org.geogebra.common.properties.impl.objects.BackgroundColorPropertyCollection;
 import org.geogebra.common.properties.impl.objects.BackgroundImageProperty;
 import org.geogebra.common.properties.impl.objects.BoldProperty;
 import org.geogebra.common.properties.impl.objects.BorderColorProperty;
-import org.geogebra.common.properties.impl.objects.BorderThicknessProperty;
+import org.geogebra.common.properties.impl.objects.BorderWidthProperty;
 import org.geogebra.common.properties.impl.objects.ButtonIconPropertyCollection;
 import org.geogebra.common.properties.impl.objects.CaptionProperty;
 import org.geogebra.common.properties.impl.objects.CaptionStyleProperty;
@@ -363,10 +364,13 @@ public final class GeoElementPropertiesFactory {
 						this, processor, localization, elements)),
 				createOptionalProperty(() -> new TextStylePropertyCollection(
 						this, localization, elements)),
-				tryOrNull(() ->  new ButtonIconPropertyCollection(
+				tryOrNull(() -> new ButtonIconPropertyCollection(
 						this, localization, imageManager, elements)),
-				isWhiteboard ? null : createOptionalProperty(
-						() -> new BackgroundColorPropertyCollection(this, localization, elements)),
+				createOptionalProperty(isWhiteboard
+						? () -> new BackgroundAndBorderPropertyCollection(
+								this, localization, elements)
+						: () -> new BackgroundColorPropertyCollection(
+								this, localization, elements)),
 				createOptionalProperty(() -> new SizePropertyCollection(
 						this, processor, localization, elements)),
 				createOptionalProperty(() -> new FillingPropertyCollection(
@@ -550,12 +554,12 @@ public final class GeoElementPropertiesFactory {
 	 * @param elements elements
 	 * @return property or null
 	 */
-	public RangePropertyListFacade<?> createCellBorderThicknessProperty(
+	public IconsEnumeratedPropertyListFacade<?, ?> createCellBorderThicknessProperty(
 			Localization localization, List<GeoElement> elements) {
 		return createOptionalPropertyFacade(elements,
 				element -> new CellBorderThicknessProperty(localization,
 						element),
-				RangePropertyListFacade::new);
+				IconsEnumeratedPropertyListFacade::new);
 	}
 
 	/**
@@ -661,8 +665,8 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public ColorProperty createBorderColorProperty(Localization localization,
 			List<GeoElement> elements) {
-		return createOptionalPropertyFacade(elements,
-				element -> new BorderColorProperty(localization, element),
+		return createOptionalPropertyFacade(elements, element -> new BorderColorProperty(
+				localization, element, GeoColorValues.values(), "stylebar.Borders"),
 				ColorPropertyListFacade::new);
 	}
 
@@ -923,16 +927,16 @@ public final class GeoElementPropertiesFactory {
 	}
 
 	/**
-	 * Returns a RangePropertyCollection controlling the opacity or null if not applicable.
+	 * Returns an IconEnumeratedProperty controlling the border thickness or null if not applicable.
 	 * @param localization localization
 	 * @param elements elements
 	 * @return property or null
 	 */
-	public RangeProperty<Integer> createBorderThicknessProperty(
+	public IconsEnumeratedPropertyListFacade<?, ?> createBorderThicknessProperty(
 			Localization localization, List<GeoElement> elements) {
 		return createOptionalPropertyFacade(elements,
-				element -> new BorderThicknessProperty(localization, element),
-				RangePropertyListFacade::new);
+				element -> new BorderWidthProperty(localization, element),
+				IconsEnumeratedPropertyListFacade::new);
 	}
 
 	/**

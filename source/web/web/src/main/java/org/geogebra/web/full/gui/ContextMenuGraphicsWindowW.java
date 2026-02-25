@@ -103,7 +103,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 
 		IconButtonPanel gridTypePanel = new IconButtonPanel((AppW) app, gridTypeProperty, false,
 				wrappedPopup::hide);
-		gridTypePanel.setDisabled(!app.getActiveEuclidianView().getShowGrid());
+		gridTypePanel.setDisabled(0, !app.getActiveEuclidianView().getShowGrid());
 		AriaMenuItem gridTypeItem = new AriaMenuItem(gridTypePanel.getWidget(0), () -> {});
 		gridTypeItem.addStyleName("iconButtonPanel");
 		wrappedPopup.addItem(gridTypeItem);

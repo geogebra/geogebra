@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.properties.impl.facade.RangePropertyListFacade;
-import org.geogebra.common.properties.impl.objects.BorderThicknessProperty;
+import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
+import org.geogebra.common.properties.impl.objects.BorderWidthProperty;
 import org.geogebra.web.full.javax.swing.LineThicknessCheckMarkItem;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -31,7 +31,7 @@ import org.geogebra.web.html5.main.general.GeneralIcon;
 import org.gwtproject.user.client.ui.FlowPanel;
 
 public class BorderThicknessPanel extends FlowPanel {
-	private final RangePropertyListFacade<?> property;
+	private final AbstractEnumeratedProperty<Integer> property;
 	private final AppW appW;
 	private List<LineThicknessCheckMarkItem> checkMarkItems;
 
@@ -40,7 +40,7 @@ public class BorderThicknessPanel extends FlowPanel {
 	 * @param property - cell border thickness property
 	 * @param appW - application
 	 */
-	public BorderThicknessPanel(RangePropertyListFacade<?> property, AppW appW) {
+	public BorderThicknessPanel(AbstractEnumeratedProperty<Integer> property, AppW appW) {
 		this.property = property;
 		this.appW = appW;
 		buildGui();
@@ -50,14 +50,14 @@ public class BorderThicknessPanel extends FlowPanel {
 		add(BaseWidgetFactory.INSTANCE.newDivider(false));
 		checkMarkItems = new ArrayList<>();
 
-		if (property.getFirstProperty() instanceof BorderThicknessProperty) {
+		if (property instanceof BorderWidthProperty) {
 			addNoBorderItem();
 		}
 		addThicknessCheckMarkItem(property, "thin", 1);
 		addThicknessCheckMarkItem(property, "thick", 3);
 	}
 
-	private void addThicknessCheckMarkItem(RangePropertyListFacade<?> property,
+	private void addThicknessCheckMarkItem(AbstractEnumeratedProperty<Integer> property,
 			String style, int value) {
 		LineThicknessCheckMarkItem checkMarkItem = new LineThicknessCheckMarkItem(style, value,
 				appW.getGeneralIconResource().getImageResource(GeneralIcon.CHECK_MARK));
@@ -82,7 +82,7 @@ public class BorderThicknessPanel extends FlowPanel {
 	}
 
 	private void addClickHandler(int value, LineThicknessCheckMarkItem checkMarkItem,
-			RangePropertyListFacade<?> property) {
+			AbstractEnumeratedProperty<Integer> property) {
 		ClickStartHandler.init(checkMarkItem,
 				new ClickStartHandler(true, true) {
 					@Override

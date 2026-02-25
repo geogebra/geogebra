@@ -35,7 +35,7 @@ public class IconButtonPanel extends FlowPanel implements SetLabels, Configurati
 	private final AppW appW;
 	private Label label;
 	private final String labelKey;
-	private List<IconButton> iconButtonList;
+	private List<List<IconButton>> iconButtonList;
 	private Runnable callback;
 	private final List<SingleSelectionIconRow> propertyList;
 
@@ -95,6 +95,7 @@ public class IconButtonPanel extends FlowPanel implements SetLabels, Configurati
 		FlowPanel iconButtonListPanel = new FlowPanel();
 		iconButtonListPanel.addStyleName("iconButtonListPanel");
 		for (SingleSelectionIconRow property : propertyList) {
+			List<IconButton> buttons = new ArrayList<>();
 			FlowPanel iconPanel = new FlowPanel();
 			iconPanel.addStyleName("iconPanel");
 
@@ -111,14 +112,15 @@ public class IconButtonPanel extends FlowPanel implements SetLabels, Configurati
 				IconButton btn = new IconButton(appW, null,
 						((AppWFull) appW).getPropertiesIconResource().getImageResource(icon),
 						label);
+				btn.setDisabled(!property.isEnabled());
 				btn.setActive(selectedIdx == idx);
 				iconPanel.add(btn);
-				iconButtonList.add(btn);
+				buttons.add(btn);
 				final int index = idx;
 				btn.addClickHandler(appW.getGlobalHandlers(),
 						(w) -> {
 							property.setSelectedIconIndex(index);
-							iconButtonList.forEach(iconButton -> iconButton.setActive(false));
+							buttons.forEach(iconButton -> iconButton.setActive(false));
 							btn.setActive(true);
 							if (callback != null) {
 								callback.run();
@@ -128,6 +130,7 @@ public class IconButtonPanel extends FlowPanel implements SetLabels, Configurati
 			}
 
 			iconButtonListPanel.add(iconPanel);
+			iconButtonList.add(buttons);
 			if (propertyList.indexOf(property) != propertyList.size() - 1) {
 				iconButtonListPanel.add(BaseWidgetFactory.INSTANCE.newDivider(true));
 			}
@@ -137,19 +140,22 @@ public class IconButtonPanel extends FlowPanel implements SetLabels, Configurati
 
 	/**
 	 * Enabled/disable buttons
+	 * @param index index of icon button panel (if multiple)
 	 * @param disabled whether buttons should be enabled or disabled
 	 */
-	public void setDisabled(boolean disabled) {
-		iconButtonList.forEach(button -> button.setDisabled(disabled));
+	public void setDisabled(int index, boolean disabled) {
+		iconButtonList.get(index).forEach(button -> button.setDisabled(disabled));
 	}
 
 	/**
-	 * Deselect all buttons, but button at index, if available
+	 * Deselect all buttons, but button at index for given property, if available.
+	 * @param propertyIndex index of property
+	 * @param selectedIndex index of button in property button list
 	 */
-	public void deselectAllBut(int index) {
-		iconButtonList.forEach(button -> button.setActive(false));
-		if (index > -1 && index < iconButtonList.size()) {
-			iconButtonList.get(index).setActive(true);
+	public void deselectAllBut(int propertyIndex, int selectedIndex) {
+		iconButtonList.get(propertyIndex).forEach(button -> button.setActive(false));
+		if (selectedIndex > -1 && selectedIndex < iconButtonList.size()) {
+			iconButtonList.get(propertyIndex).get(selectedIndex).setActive(true);
 		}
 	}
 
@@ -158,13 +164,14 @@ public class IconButtonPanel extends FlowPanel implements SetLabels, Configurati
 		if (label != null) {
 			label.setText(appW.getLocalization().getMenu(labelKey));
 		}
-		iconButtonList.forEach(IconButton::setLabels);
+		iconButtonList.forEach(buttonList -> buttonList.forEach(IconButton::setLabels));
 	}
 
 	@Override
 	public void configurationUpdated() {
-		for (SingleSelectionIconRow property : propertyList) {
-			setDisabled(!property.isEnabled());
+		for (int i = 0; i < propertyList.size(); i++) {
+			SingleSelectionIconRow property = propertyList.get(i);
+			setDisabled(i, !property.isEnabled());
 		}
 	}
 
