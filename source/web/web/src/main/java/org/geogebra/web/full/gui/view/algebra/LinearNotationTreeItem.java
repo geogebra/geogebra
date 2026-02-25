@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.editor.share.util.GWTKeycodes;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -55,10 +56,12 @@ public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHand
 		textField.setAutoCloseParentheses(false);
 		updateInputText();
 		textField.getTextField().addKeyDownHandler(this);
+		textField.addInsertHandler(ignore -> updateInputText());
 		textField.addFocusHandler(ignore -> getAV().startEditItem(geo));
 		textField.addBlurHandler(controller);
 		FocusUtil.makeFocusable(textField.getElement());
 		setDefaultAriaLabel();
+		setupMobileLiveRegion();
 	}
 
 	private void setDefaultAriaLabel() {
@@ -68,6 +71,12 @@ public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHand
 
 	private void updateInputText() {
 		setText(getTextForEditing(false, StringTemplate.linearNotation));
+	}
+
+	private void setupMobileLiveRegion() {
+		if (NavigatorUtil.isMobile() || NavigatorUtil.isMacOS()) {
+			textField.getTextField().getElement().setAttribute("role", "status");
+		}
 	}
 
 	private void ensureTextField() {
@@ -275,7 +284,7 @@ public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHand
 	protected void showPreview(GeoElement previewGeo) {
 		String text = previewGeo.toValueString(StringTemplate.linearNotation);
 		outputPanel.showPlainTextPreview(text);
-		AriaHelper.setLabel(textField.getTextField(), text);
+		AriaHelper.setLabel(textField.getTextField(), "=" + text);
 	}
 
 	@Override
