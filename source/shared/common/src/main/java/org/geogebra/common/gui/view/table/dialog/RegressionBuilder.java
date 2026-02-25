@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
@@ -40,6 +41,7 @@ public class RegressionBuilder {
 	private final GeoEvaluatable xVal;
 	private final GeoEvaluatable yVal;
 	private final Kernel kernel;
+	private final AlgebraProcessor algebraProcessor;
 
 	/**
 	 * @param xVal list of x-values
@@ -49,6 +51,7 @@ public class RegressionBuilder {
 		this.xVal = xVal;
 		this.yVal = yVal;
 		this.kernel = xVal.getKernel();
+		this.algebraProcessor = kernel.getAlgebraProcessor();
 	}
 
 	/**
@@ -61,7 +64,6 @@ public class RegressionBuilder {
 		List<StatisticGroup> stats = new ArrayList<>();
 		Localization loc = kernel.getLocalization();
 		try {
-			AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
 			GeoElementND geo = algebraProcessor.processValidExpressionSilent(cmd)[0];
 			FitAlgo fitAlgo = (FitAlgo) geo.getParentAlgorithm();
 			double[] coeffs = Objects.requireNonNull(fitAlgo).getCoeffs();
@@ -81,8 +83,10 @@ public class RegressionBuilder {
 			if (regression.hasCoefficientOfDetermination()) {
 				addResidual(loc.getMenu("CoefficientOfDetermination"), x -> x,
 						Statistic.RSQUARE, geo, points, stats);
-			}
-			if (regression.hasCorrelationCoefficient()) {
+				if (regression.hasCorrelationCoefficient()) {
+					addCorrelationCoefficient(stats, points);
+				}
+			} else {
 				addResidual(kernel.getLocalization().getMenu("Stats.PMCC"), Math::sqrt,
 						Statistic.PMCC, geo, points, stats);
 			}
@@ -97,18 +101,37 @@ public class RegressionBuilder {
 	private void addResidual(String coefficient, DoubleUnaryOperator transform, Statistic lhsStat,
 			GeoElementND geo, MyVecNode points, List<StatisticGroup> stats)
 			throws CircularDefinitionException {
-		AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
-		Command residualCmd = new Command(kernel, Statistic.RSQUARE.getCommandName(),
-				false);
-		residualCmd.addArgument(points.wrap());
-		residualCmd.addArgument(geo.wrap());
-		residualCmd.setRespectingFilters(false);
-		GeoElementND residual = algebraProcessor.processValidExpressionSilent(
-				residualCmd)[0];
+		Command residualCmd = buildCommand(Statistic.RSQUARE, points, geo);
+		GeoElementND residual = algebraProcessor.processValidExpressionSilent(residualCmd)[0];
 		String lhs = lhsStat.getLHS(kernel.getLocalization(), "");
 		String rSquareRow = kernel.format(transform.applyAsDouble(residual.evaluateDouble()),
 				StringTemplate.defaultTemplate);
 		stats.add(new StatisticGroup(coefficient,
 				lhs + " = " + rSquareRow));
+	}
+
+	private Command buildCommand(Statistic statistic, ExpressionValue... args) {
+		Command residualCmd = new Command(kernel, statistic.getCommandName(), false);
+		for (ExpressionValue val: args) {
+			residualCmd.addArgument(val.wrap());
+		}
+		residualCmd.setRespectingFilters(false);
+		return residualCmd;
+	}
+
+	private void addCorrelationCoefficient(List<StatisticGroup> stats, MyVecNode points) {
+		Command exec = buildCommand(Statistic.PMCC, points);
+		String varName = xVal.getLabelSimple() + yVal.getLabelSimple();
+
+		try {
+			GeoElementND r = algebraProcessor.processValidExpressionSilent(exec)[0];
+			String heading = kernel.getLocalization().getMenu(
+					"Stats." + Statistic.PMCC.getCommandName());
+			String lhs = Statistic.PMCC.getLHS(kernel.getLocalization(), varName);
+			String formula = lhs + " = " + r.toValueString(StringTemplate.defaultTemplate);
+			stats.add(new StatisticGroup(heading, formula));
+		} catch (RuntimeException | CircularDefinitionException e) {
+			Log.debug(e);
+		}
 	}
 }

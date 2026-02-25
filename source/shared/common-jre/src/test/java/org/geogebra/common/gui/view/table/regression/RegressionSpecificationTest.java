@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -70,6 +71,18 @@ public class RegressionSpecificationTest extends BaseAppTestSetup {
 		assertEquals("y = a\\ x+b, a = 20.8, b = -27, R\u00b2 = 0.91, r = 0.95",
 				getRegressionValues(0));
 		assertEquals("20.8x - 27", getRegressionFormula(0));
+	}
+
+	@Test
+	@Issue("APPS-7328")
+	public void testLinearRegressionNegative() {
+		GeoList listY3 = evaluateGeoElement("{-1,-8,-27,-64}");
+		view.add(listY3);
+		view.showColumn(listY3);
+		column = 3;
+		assertEquals("y = a\\ x+b, a = -20.8, b = 27, R\u00b2 = 0.91, r = -0.95",
+				getRegressionValues(0));
+		assertEquals("-20.8x + 27", getRegressionFormula(0));
 	}
 
 	@Test
