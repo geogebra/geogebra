@@ -30,8 +30,8 @@ public interface Vector3DValue extends VectorNDValue {
 	 * @return array of coords
 	 */
 	@Override
-	public double[] getPointAsDouble();
+	double[] getPointAsDouble();
 
 	@Override
-	public Geo3DVecInterface getVector();
+	Geo3DVecInterface getVector();
 }

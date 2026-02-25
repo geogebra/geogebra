@@ -134,8 +134,8 @@ public class AlgoIntersectImplicitSurfacePlane extends AlgoElement
 	}
 
 	@Override
-	public void setShortSyntax(boolean b) {
-		this.shortSyntax = b;
+	public void setShortSyntax(boolean shortSyntax) {
+		this.shortSyntax = shortSyntax;
 	}
 
 	@Override

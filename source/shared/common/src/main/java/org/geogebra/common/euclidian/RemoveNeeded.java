@@ -22,5 +22,5 @@ public interface RemoveNeeded {
 	 * This method is called once the drawable is not needed. It should remove
 	 * all auxiliary objects of this drawable.
 	 */
-	public void remove();
+	void remove();
 }

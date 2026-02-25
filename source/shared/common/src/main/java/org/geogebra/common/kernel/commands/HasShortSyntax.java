@@ -24,8 +24,8 @@ package org.geogebra.common.kernel.commands;
  */
 public interface HasShortSyntax {
 	/**
-	 * @param b
+	 * @param shortSyntax
 	 *            whether to serialize this as an expression
 	 */
-	public void setShortSyntax(boolean b);
+	void setShortSyntax(boolean shortSyntax);
 }

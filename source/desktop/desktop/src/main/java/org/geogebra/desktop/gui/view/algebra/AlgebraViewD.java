@@ -902,9 +902,9 @@ public class AlgebraViewD extends AlgebraTree
 	}
 
 	@Override
-	public void changeLayer(GeoElement g, int oldLayer, int newLayer) {
+	public void changeLayer(GeoElement geo, int oldLayer, int newLayer) {
 		if (this.treeMode.equals(SortMode.LAYER)) {
-			DefaultMutableTreeNode node = nodeTable.get(g);
+			DefaultMutableTreeNode node = nodeTable.get(geo);
 
 			if (node != null) {
 				((DefaultTreeModel) getModel()).removeNodeFromParent(node);
@@ -912,7 +912,7 @@ public class AlgebraViewD extends AlgebraTree
 				removeFromLayer(oldLayer);
 			}
 
-			this.add(g, newLayer);
+			this.add(geo, newLayer);
 
 		}
 	}

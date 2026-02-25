@@ -30,17 +30,17 @@ public interface GetItem extends ExpressionValue {
 	 *            index
 	 * @return argument of command / item of list at given position
 	 */
-	public ExpressionValue getItem(int i);
+	ExpressionValue getItem(int i);
 
 	/**
 	 * needed to distinguish eg igamma with 2 or 3 args
 	 * 
 	 * @return length
 	 */
-	public int size();
+	int size();
 
 	/**
 	 * @return label of expected result
 	 */
-	public String getLabel();
+	String getLabel();
 }

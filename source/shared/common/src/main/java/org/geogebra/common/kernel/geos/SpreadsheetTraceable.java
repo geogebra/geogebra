@@ -36,16 +36,16 @@ public interface SpreadsheetTraceable extends ExpressionValue {
 	 * @param al
 	 *            list containing GeoNumeric / GeoAngle
 	 */
-	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> al);
+	void addToSpreadsheetTraceList(ArrayList<GeoNumeric> al);
 
 	/**
 	 * @return list of column headings
 	 */
-	public ArrayList<GeoText> getColumnHeadings();
+	ArrayList<GeoText> getColumnHeadings();
 
 	/**
 	 * @return spreadsheet trace settings
 	 */
-	public SpreadsheetTraceSettings getTraceSettings();
+	SpreadsheetTraceSettings getTraceSettings();
 
 }

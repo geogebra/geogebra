@@ -50,10 +50,10 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	private interface DrawEllipticSurface {
 		@MissingDoc
-		public void drawNCr(Coords normal);
+		void drawNCr(Coords normal);
 
 		@MissingDoc
-		public void drawNCrm(Coords normal);
+		void drawNCrm(Coords normal);
 
 		/**
 		 * compute radius and z for given latitude
@@ -65,13 +65,13 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		 * @param rz
 		 *            radius and z return
 		 */
-		public void computeRadiusAndZ(int v, int latitudeLength, double[] rz);
+		void computeRadiusAndZ(int v, int latitudeLength, double[] rz);
 
 		/**
 		 * 
 		 * @return true if we draw poles
 		 */
-		public boolean drawPoles();
+		boolean drawPoles();
 
 		/**
 		 * 
@@ -81,7 +81,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		 *            TODO
 		 * @return next jump for latitude length
 		 */
-		public int initNextJump(int latitudeLength, int longitudeLength);
+		int initNextJump(int latitudeLength, int longitudeLength);
 
 		/**
 		 * 
@@ -91,13 +91,13 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		 *            latitude length
 		 * @return updated value for next jump
 		 */
-		public int updateNextJump(int nextJump, int latitudeLength);
+		int updateNextJump(int nextJump, int latitudeLength);
 
 		/**
 		 * 
 		 * @return true if we draw equator
 		 */
-		public boolean drawEquator();
+		boolean drawEquator();
 
 		/**
 		 * 
@@ -105,7 +105,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		 *            latitude index
 		 * @return true if we draw top part at vi (normals and vertices)
 		 */
-		public boolean drawTop(int vi);
+		boolean drawTop(int vi);
 
 		/**
 		 * 
@@ -113,13 +113,13 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		 *            latitude index
 		 * @return true if we draw bottom part at vi (normals and vertices)
 		 */
-		public boolean drawBottom(int vi);
+		boolean drawBottom(int vi);
 
 		/**
 		 * 
 		 * @return north pole
 		 */
-		public Coords getNorthPole();
+		Coords getNorthPole();
 
 	}
 

@@ -71,7 +71,7 @@ public class CmdApplyMatrix extends CommandProcessor {
 		}
 	}
 
-	final private GeoElement[] applyMatrix(String label, GeoElement Q,
+	private GeoElement[] applyMatrix(String label, GeoElement Q,
 			GeoList matrix) {
 		Transform t = new TransformApplyMatrix(cons, matrix);
 		return t.transform(Q, label);

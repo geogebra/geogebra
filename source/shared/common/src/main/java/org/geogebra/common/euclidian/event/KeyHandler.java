@@ -27,6 +27,6 @@ public interface KeyHandler {
 	 * @param e
 	 *            key event
 	 */
-	public void keyReleased(KeyEvent e);
+	void keyReleased(KeyEvent e);
 
 }

@@ -196,7 +196,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 	 * create outputHandlers for output polygons, points, and segments and
 	 * initiate them
 	 */
-	private final void createOutput() {
+	private void createOutput() {
 
 		outputPolygons = new OutputHandler<>(
 				() -> {

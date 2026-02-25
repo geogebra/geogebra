@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public interface Previewable {
 	/** updates preview */
-	public void updatePreview();
+	void updatePreview();
 
 	/**
 	 * Updates preview for new mouse coords
@@ -34,7 +34,7 @@ public interface Previewable {
 	 * @param y
 	 *            mouse y
 	 */
-	public void updateMousePos(double x, double y);
+	void updateMousePos(double x, double y);
 
 	/**
 	 * Draws preview on given graphics
@@ -42,16 +42,16 @@ public interface Previewable {
 	 * @param g2
 	 *            graphics
 	 */
-	public void drawPreview(GGraphics2D g2);
+	void drawPreview(GGraphics2D g2);
 
 	/**
 	 * Called when preview is not needed anymore
 	 */
-	public void disposePreview();
+	void disposePreview();
 
 	/**
 	 * @return the geo linked to this
 	 */
-	public GeoElement getGeoElement();
+	GeoElement getGeoElement();
 
 }

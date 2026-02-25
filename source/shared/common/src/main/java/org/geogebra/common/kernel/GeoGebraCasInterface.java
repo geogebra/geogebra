@@ -41,17 +41,17 @@ public interface GeoGebraCasInterface {
 	 * @throws Throwable
 	 *             if there is a timeout or the expression cannot be evaluated
 	 */
-	public String evaluateRaw(String str) throws Throwable;
+	String evaluateRaw(String str) throws Throwable;
 
 	/**
 	 * @return current CAS instance
 	 */
-	public CASGenericInterface getCurrentCAS();
+	CASGenericInterface getCurrentCAS();
 
 	/**
 	 * @return CAS parser
 	 */
-	public CASParserInterface getCASparser();
+	CASParserInterface getCASparser();
 
 	/**
 	 * Returns true if the two input expressions are structurally equal. For
@@ -66,7 +66,7 @@ public interface GeoGebraCasInterface {
 	 *            kernel
 	 * @return whether the two input expressions are structurally equal
 	 */
-	public boolean isStructurallyEqual(ValidExpression inputVE, String input,
+	boolean isStructurallyEqual(ValidExpression inputVE, String input,
 			Kernel kernel);
 
 	/**
@@ -111,7 +111,7 @@ public interface GeoGebraCasInterface {
 	 *             Note: all other throwables are caught inside and converted to
 	 *             CASException
 	 */
-	public String evaluateGeoGebraCAS(String exp, ArbitraryConstantRegistry arbConst,
+	String evaluateGeoGebraCAS(String exp, ArbitraryConstantRegistry arbConst,
 			StringTemplate tpl, Kernel kernel) throws CASException;
 
 	/**
@@ -132,7 +132,7 @@ public interface GeoGebraCasInterface {
 	 * @throws CASException
 	 *             if there is a timeout or the expression cannot be evaluated
 	 */
-	public String evaluateGeoGebraCAS(ValidExpression exp,
+	String evaluateGeoGebraCAS(ValidExpression exp,
 			ArbitraryConstantRegistry arbConst, StringTemplate tpl, GeoCasCell cell,
 			Kernel kernel) throws CASException;
 
@@ -163,24 +163,24 @@ public interface GeoGebraCasInterface {
 	 * 
 	 * @return A Set of all internal CAS commands.
 	 */
-	public Set<String> getAvailableCommandNames();
+	Set<String> getAvailableCommandNames();
 
 	/**
 	 * Clear cache of this CAS (not the local caches in functions etc.)
 	 */
-	public void clearCache();
+	void clearCache();
 
 	/**
 	 * @param string
 	 *            signature, eg Midpoint.2
 	 * @return command for particular CAS
 	 */
-	public String translateCommandSignature(String string);
+	String translateCommandSignature(String string);
 
 	/**
 	 * Make sure CAS is initialized
 	 */
-	public void initCurrentCAS();
+	void initCurrentCAS();
 
 	/**
 	 * @param inValue
@@ -191,7 +191,7 @@ public interface GeoGebraCasInterface {
 	 *            kernel
 	 * @return parsed expression
 	 */
-	public ValidExpression parseOutput(String inValue, GeoSymbolicI geoCasCell,
+	ValidExpression parseOutput(String inValue, GeoSymbolicI geoCasCell,
 			Kernel kernel);
 
 	/**

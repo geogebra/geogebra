@@ -50,7 +50,7 @@ public enum Auxiliary {
 	private final boolean isOn;
 	private final boolean needsSaveToXML;
 
-	private Auxiliary(boolean isOn, boolean needsSaveToXML) {
+	Auxiliary(boolean isOn, boolean needsSaveToXML) {
 		this.isOn = isOn;
 		this.needsSaveToXML = needsSaveToXML;
 	}

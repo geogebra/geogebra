@@ -25,7 +25,7 @@ public interface Traceable extends GeoElementND {
 	/**
 	 * @return true if tracing
 	 */
-	public boolean getTrace();
+	boolean getTrace();
 
 	/**
 	 * Turn tracing on/off
@@ -33,12 +33,12 @@ public interface Traceable extends GeoElementND {
 	 * @param flag
 	 *            true to switch tracing on
 	 */
-	public void setTrace(boolean flag);
+	void setTrace(boolean flag);
 
 	/**
 	 * Update and repaint this element
 	 */
 	@Override
-	public void updateRepaint();
+	void updateRepaint();
 
 }

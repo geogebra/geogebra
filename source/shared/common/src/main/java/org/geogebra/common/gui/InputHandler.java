@@ -26,6 +26,6 @@ public interface InputHandler {
 	/**
 	 * Processes inputString and returns success state.
 	 */
-	public void processInput(String inputString, ErrorHandler handler,
+	void processInput(String inputString, ErrorHandler handler,
 			AsyncOperation<Boolean> callback);
 }

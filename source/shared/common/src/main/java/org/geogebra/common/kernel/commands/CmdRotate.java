@@ -135,9 +135,9 @@ public class CmdRotate extends CommandProcessor {
 	}
 
 	/**
-	 * rotate geoRot by angle phi around (0,0)
+	 * Rotate geoRot by angle phi around (0,0).
 	 */
-	final private GeoElement[] rotate(String label, GeoElement geoRot,
+	private GeoElement[] rotate(String label, GeoElement geoRot,
 			GeoNumberValue phi) {
 		Transform t = new TransformRotate(cons, phi);
 		return t.transform(geoRot, label);

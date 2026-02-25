@@ -144,7 +144,7 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 	}
 
 	// roots array and number of roots
-	final private void setRootPoints(double[] real, double[] complex,
+	private void setRootPoints(double[] real, double[] complex,
 			int number) {
 		initRootPoints(number);
 

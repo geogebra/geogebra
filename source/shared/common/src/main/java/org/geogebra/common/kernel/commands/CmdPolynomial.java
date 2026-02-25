@@ -90,10 +90,9 @@ public class CmdPolynomial extends CommandProcessor {
 	}
 
 	/**
-	 * Fits a polynomial exactly to a list of coordinates Michael Borcherds
-	 * 2008-01-22
+	 * Fits a polynomial exactly to a list of coordinates.
 	 */
-	final private GeoFunction polynomialFunction(String label, GeoList list) {
+	private GeoFunction polynomialFunction(String label, GeoList list) {
 		AlgoPolynomialFromCoordinates algo = new AlgoPolynomialFromCoordinates(
 				cons, label, list);
 		return algo.getPolynomial();

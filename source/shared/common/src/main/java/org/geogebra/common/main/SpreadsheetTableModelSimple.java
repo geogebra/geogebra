@@ -45,12 +45,12 @@ public class SpreadsheetTableModelSimple extends SpreadsheetTableModel {
 		/**
 		 * Fired when a row/column is added/removed
 		 */
-		public void dimensionChange();
+		void dimensionChange();
 
 		/**
 		 * Fired when a value is changed
 		 */
-		public void valueChange();
+		void valueChange();
 	}
 
 	/**

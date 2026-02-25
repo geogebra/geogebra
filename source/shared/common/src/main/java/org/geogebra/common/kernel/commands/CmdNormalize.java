@@ -78,7 +78,7 @@ public class CmdNormalize extends CommandProcessor {
 	/**
 	 * Normalize[list]
 	 */
-	final private GeoList normalize(String label, GeoList list) {
+	private GeoList normalize(String label, GeoList list) {
 		AlgoNormalize algo = new AlgoNormalize(cons, list);
 		GeoList list2 = algo.getResult();
 		list2.setLabel(label);

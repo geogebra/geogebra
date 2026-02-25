@@ -24,5 +24,5 @@ public interface TextSizeMeasurer {
 	 * @param text text to measure
 	 * @return the width of the text
 	 */
-	public int getWidth(String text);
+	int getWidth(String text);
 }

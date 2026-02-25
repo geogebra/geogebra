@@ -16,7 +16,6 @@
 
 package org.geogebra.common.kernel.algos;
 
-import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -30,7 +29,7 @@ public interface AlgoJoinPointsSegmentInterface {
 	 * 
 	 * @return polygon/polyhedron of this algo (or null)
 	 */
-	public GeoElement getPoly();
+	GeoElement getPoly();
 
 	/**
 	 * modify input points
@@ -40,9 +39,9 @@ public interface AlgoJoinPointsSegmentInterface {
 	 * @param B
 	 *            second point
 	 */
-	public void modifyInputPoints(GeoPointND A, GeoPointND B);
+	void modifyInputPoints(GeoPointND A, GeoPointND B);
 
-	@MissingDoc
-	public void compute();
+	/** @see org.geogebra.common.kernel.algos.AlgoElement#compute() */
+	void compute();
 
 }

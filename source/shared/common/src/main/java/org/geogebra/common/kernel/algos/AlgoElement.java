@@ -524,7 +524,7 @@ public abstract class AlgoElement extends ConstructionElement
 		 * needed.
 		 * @return a new Element of type S. (e.g. new GeoPoint(cons))
 		 */
-		public S newElement();
+		S newElement();
 	}
 
 	/*

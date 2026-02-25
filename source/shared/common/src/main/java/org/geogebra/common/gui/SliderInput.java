@@ -34,7 +34,7 @@ public enum SliderInput {
 	private String description;
 	private double max;
 
-	private SliderInput(String s, double min, double max) {
+	SliderInput(String s, double min, double max) {
 		this.description = s;
 		this.min = min;
 		this.max = max;
@@ -57,7 +57,7 @@ public enum SliderInput {
 	/**
 	 * TODO screen reader features are English only for now
 	 * 
-	 * @return english description
+	 * @return English description
 	 */
 	public String getDescription() {
 		return description;

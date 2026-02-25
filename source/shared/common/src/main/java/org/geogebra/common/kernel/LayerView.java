@@ -28,13 +28,13 @@ public interface LayerView extends View {
 	/**
 	 * Called when layer is being changed
 	 * 
-	 * @param g
+	 * @param geo
 	 *            element that changed layer
 	 * @param oldLayer
 	 *            old layer
 	 * @param newLayer
 	 *            new layer
 	 */
-	public void changeLayer(GeoElement g, int oldLayer, int newLayer);
+	void changeLayer(GeoElement geo, int oldLayer, int newLayer);
 
 }

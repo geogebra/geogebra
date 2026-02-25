@@ -25,7 +25,7 @@ public interface Editing extends View {
 	/**
 	 * Cancel editing an item.
 	 */
-	public void cancelEditItem();
+	void cancelEditItem();
 
 	/**
 	 * Finish editing and update currently edited item
@@ -33,11 +33,11 @@ public interface Editing extends View {
 	 * @param unselectAll
 	 *            whether to unselect other items
 	 */
-	public void resetItems(boolean unselectAll);
+	void resetItems(boolean unselectAll);
 
 	/**
 	 * @return whether this view is visible
 	 */
-	public boolean isShowing();
+	boolean isShowing();
 
 }

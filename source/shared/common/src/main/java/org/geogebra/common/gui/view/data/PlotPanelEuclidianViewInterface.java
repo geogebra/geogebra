@@ -21,7 +21,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 
 /**
- * common interface for plotpaneleuclidianviews
+ * common interface for plot panel's Euclidian views
  * @author gabor
  */
 public interface PlotPanelEuclidianViewInterface
@@ -31,19 +31,19 @@ public interface PlotPanelEuclidianViewInterface
 	 * @param kernel
 	 *            sets the View id
 	 */
-	public void setViewId(Kernel kernel);
+	void setViewId(Kernel kernel);
 
 	/**
 	 * sets the Evs params
 	 */
-	public void setEVParams();
+	void setEVParams();
 
 	/**
 	 * @return get the pixel offset concerning fonts.
 	 */
-	public double getPixelOffset();
+	double getPixelOffset();
 
 	@MissingDoc
-	public void updateSizeKeepDrawables();
+	void updateSizeKeepDrawables();
 
 }

@@ -48,7 +48,7 @@ public interface CasEvaluableFunction
 	 *            arbitrary constant manager
 	 * 
 	 */
-	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
+	void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
 			boolean symbolic, ArbitraryConstantRegistry arbconst);
 
 	/**
@@ -56,12 +56,12 @@ public interface CasEvaluableFunction
 	 *            string template
 	 * @return string representation; variables represented by names
 	 */
-	public String toSymbolicString(StringTemplate tpl);
+	String toSymbolicString(StringTemplate tpl);
 
 	/**
 	 * clear cached CAS evaluations
 	 */
-	public void clearCasEvalMap();
+	void clearCasEvalMap();
 
 	/**
 	 * Prins CAS cache to XML
@@ -69,7 +69,7 @@ public interface CasEvaluableFunction
 	 * @param sb
 	 *            XML builder
 	 */
-	public void printCASEvalMapXML(XMLStringBuilder sb);
+	void printCASEvalMapXML(XMLStringBuilder sb);
 
 	/**
 	 * Updates CAS cache from XML
@@ -77,5 +77,5 @@ public interface CasEvaluableFunction
 	 * @param casMap
 	 *            values from XML
 	 */
-	public void updateCASEvalMap(TreeMap<String, String> casMap);
+	void updateCASEvalMap(TreeMap<String, String> casMap);
 }

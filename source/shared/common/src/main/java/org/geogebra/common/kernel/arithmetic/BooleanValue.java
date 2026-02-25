@@ -17,20 +17,20 @@
 package org.geogebra.common.kernel.arithmetic;
 
 /**
- * Boolean values
+ * Boolean values.
  * 
  * @author Markus
  */
 public interface BooleanValue extends ExpressionValue {
 	/** @return this boolean as MyBoolean */
-	public MyBoolean getMyBoolean();
+	MyBoolean getMyBoolean();
 
 	/** @return boolean value */
-	public boolean getBoolean();
+	boolean getBoolean();
 
 	/** @return double value (1 for true, 0 for false) */
-	public double getDouble();
+	double getDouble();
 
 	/** @return needed for #5223 */
-	public boolean isDefined();
+	boolean isDefined();
 }

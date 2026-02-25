@@ -24,11 +24,11 @@ public interface TextValue extends ExpressionValue {
 	/**
 	 * @return this text as MyStringBuffer
 	 */
-	public MyStringBuffer getText();
+	MyStringBuffer getText();
 
 	/**
 	 * @return string value of this
 	 */
-	public String getTextString();
+	String getTextString();
 
 }

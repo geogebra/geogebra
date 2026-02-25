@@ -1182,7 +1182,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		sb.append(format(-x, tpl));
 	}
 
-	final private String formatPiERaw(double x, NumberFormatAdapter numF,
+	private String formatPiERaw(double x, NumberFormatAdapter numF,
 			StringTemplate tpl) {
 
 		LRUMap<Double, String> formatterMap = formatterMaps.get(tpl);
@@ -1403,7 +1403,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * Uses current NumberFormat nf to format a number.
 	 */
-	final private String formatNF(double x, StringTemplate tpl) {
+	private String formatNF(double x, StringTemplate tpl) {
 		// "<=" catches -0.0000000000000005
 		// should be rounded to -0.000000000000001 (15 d.p.)
 		// but nf.format(x) returns "-0"
@@ -1960,7 +1960,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Uses current ScientificFormat sf to format a number. Makes sure ".123" is
 	 * returned as "0.123".
 	 */
-	final private String formatSF(double number, StringTemplate tpl) {
+	private String formatSF(double number, StringTemplate tpl) {
 		if (sbFormatSF == null) {
 			sbFormatSF = new StringBuilder();
 		} else {

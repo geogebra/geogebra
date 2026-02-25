@@ -29,7 +29,7 @@ public interface Locateable extends GeoElementND {
 	 * @throws CircularDefinitionException
 	 *             in case the start point depends on this object
 	 */
-	public void setStartPoint(GeoPointND p) throws CircularDefinitionException;
+	void setStartPoint(GeoPointND p) throws CircularDefinitionException;
 
 	/**
 	 * Unregisters start point
@@ -48,7 +48,7 @@ public interface Locateable extends GeoElementND {
 	 * 
 	 * @return start point
 	 */
-	public GeoPointND getStartPoint();
+	GeoPointND getStartPoint();
 
 	/**
 	 * @param p
@@ -58,7 +58,7 @@ public interface Locateable extends GeoElementND {
 	 * @throws CircularDefinitionException
 	 *             in case the start point depends on this object
 	 */
-	public void setStartPoint(GeoPointND p, int number)
+	void setStartPoint(GeoPointND p, int number)
 			throws CircularDefinitionException;
 
 	default int getStartPointCount() {
@@ -82,17 +82,17 @@ public interface Locateable extends GeoElementND {
 	 * @param number
 	 *            index
 	 */
-	public void initStartPoint(GeoPointND p, int number);
+	void initStartPoint(GeoPointND p, int number);
 
 	/**
 	 * @return true if the location is absolute
 	 */
-	public boolean hasStaticLocation();
+	boolean hasStaticLocation();
 
 	/**
 	 * @return true iff object is always fixed
 	 */
-	public boolean isAlwaysFixed();
+	boolean isAlwaysFixed();
 
 	/**
 	 * Use this method to tell the locateable that its startpoint will be set
@@ -106,6 +106,6 @@ public interface Locateable extends GeoElementND {
 	/**
 	 * Update that does not change value, but only location
 	 */
-	public void updateLocation();
+	void updateLocation();
 
 }

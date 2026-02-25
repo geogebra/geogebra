@@ -315,18 +315,18 @@ public class ConstructionDefaults implements SettingListener {
 	/** suffix for default dependent point name */
 	protected String strDependent = " (dependent)";
 
-	private final GColor getLineColor() {
+	private GColor getLineColor() {
 		return cons.getApplication().isUnbundledGeometry() ? colLineGeometry
 				: colLine;
 	}
 
-	private final GColor getConicColor() {
+	private GColor getConicColor() {
 		return cons.getApplication().isUnbundledGeometry() ? colConicGeometry
 				: colConic;
 	}
 
 	/** default color for angles */
-	private final GColor colAngle() {
+	private GColor colAngle() {
 		return cons.getApplication().isUnbundledOrWhiteboard() ? GColor.BLACK
 				: GeoGebraColorConstants.GGB_GREEN;
 	}

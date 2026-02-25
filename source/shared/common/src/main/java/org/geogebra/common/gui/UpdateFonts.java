@@ -17,7 +17,7 @@
 package org.geogebra.common.gui;
 
 /**
- * interface for panels that have to update their fonts
+ * Interface for panels that have to update their fonts.
  * 
  * @author mathieu
  *
@@ -25,8 +25,8 @@ package org.geogebra.common.gui;
 public interface UpdateFonts {
 
 	/**
-	 * update the fonts
+	 * update the fonts.
 	 */
-	public void updateFonts();
+	void updateFonts();
 
 }

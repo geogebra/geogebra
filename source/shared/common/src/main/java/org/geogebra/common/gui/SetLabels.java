@@ -24,5 +24,5 @@ public interface SetLabels {
 	/**
 	 * Updates labels for current locale.
 	 */
-	public void setLabels();
+	void setLabels();
 }

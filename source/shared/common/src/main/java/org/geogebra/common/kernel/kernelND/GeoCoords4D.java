@@ -37,6 +37,6 @@ public interface GeoCoords4D {
 	 * @param w
 	 *            w-coord (homogeneous)
 	 */
-	public void setCoords(double x, double y, double z, double w);
+	void setCoords(double x, double y, double z, double w);
 
 }

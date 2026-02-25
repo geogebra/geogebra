@@ -30,6 +30,6 @@ public interface DrawInformationAlgo {
 	 * 
 	 * @return algo placeholder
 	 */
-	public DrawInformationAlgo copy();
+	DrawInformationAlgo copy();
 
 }

@@ -23,5 +23,5 @@ public interface GetCommand {
 	/**
 	 * @return internal command name (may be "Expression")
 	 */
-	public String getCommand();
+	String getCommand();
 }

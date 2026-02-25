@@ -16,7 +16,6 @@
 
 package org.geogebra.common.kernel.statistics;
 
-import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.geos.GeoFunction;
 
 /**
@@ -24,7 +23,9 @@ import org.geogebra.common.kernel.geos.GeoFunction;
  */
 public interface AlgoDistributionDF {
 
-	@MissingDoc
-	public GeoFunction getResult();
+	/**
+	 * @return distribution function.
+	 */
+	GeoFunction getResult();
 
 }

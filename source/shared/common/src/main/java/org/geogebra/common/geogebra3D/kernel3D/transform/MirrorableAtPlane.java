@@ -33,5 +33,5 @@ public interface MirrorableAtPlane extends Mirrorable {
 	 * @param plane
 	 *            plane
 	 */
-	public void mirror(GeoCoordSys2D plane);
+	void mirror(GeoCoordSys2D plane);
 }

@@ -30,5 +30,5 @@ public interface Translateable extends GeoElementND {
 	 * @param v
 	 *            translation vector
 	 */
-	public void translate(Coords v);
+	void translate(Coords v);
 }

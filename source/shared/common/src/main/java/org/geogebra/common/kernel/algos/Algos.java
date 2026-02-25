@@ -28,7 +28,7 @@ public enum Algos implements GetCommand {
 	AlgoMacro;
 	private final String command;
 
-	private Algos() {
+	Algos() {
 		this.command = "Expression";
 	}
 

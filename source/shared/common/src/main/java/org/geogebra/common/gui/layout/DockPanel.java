@@ -19,8 +19,8 @@ package org.geogebra.common.gui.layout;
 import org.geogebra.common.annotation.MissingDoc;
 
 /**
- * @author judit interface for geogebra.gui.layout.DockPanel
- * 
+ * Interface for dock panels.
+ * @author judit
  */
 public interface DockPanel {
 
@@ -36,7 +36,7 @@ public interface DockPanel {
 	/**
 	 * Close this panel permanently.
 	 */
-	public void closePanel();
+	void closePanel();
 
 	/**
 	 * change the visibility of the DockPanel
@@ -44,13 +44,13 @@ public interface DockPanel {
 	 * @param visible
 	 *            visibility
 	 */
-	public void setVisible(boolean visible);
+	void setVisible(boolean visible);
 
 	/**
 	 * 
 	 * @return true if set visible
 	 */
-	public boolean isVisible();
+	boolean isVisible();
 
 	@MissingDoc
 	void deferredOnResize();
@@ -58,5 +58,5 @@ public interface DockPanel {
 	/**
 	 * update navigation bar
 	 */
-	public void updateNavigationBar();
+	void updateNavigationBar();
 }

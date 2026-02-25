@@ -84,14 +84,13 @@ public class CmdLaTeX extends CommandProcessor {
 	}
 
 	/**
-	 * LaTeX of geo.
+	 * LaTeX formula of an element.
 	 */
-	final private GeoText latex(String label, GeoElement geo,
+	private GeoText latex(String label, GeoElement geo,
 			GeoBoolean substituteVars, GeoBoolean showName) {
 		AlgoLaTeX algo = new AlgoLaTeX(cons, label, geo, substituteVars,
 				showName);
-		GeoText t = algo.getGeoText();
-		return t;
+		return algo.getGeoText();
 	}
 
 }

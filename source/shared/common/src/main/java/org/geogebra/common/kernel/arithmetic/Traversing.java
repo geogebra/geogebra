@@ -78,7 +78,7 @@ public interface Traversing {
 	/**
 	 * Replaces one object by another
 	 */
-	public final class Replacer implements Traversing {
+	final class Replacer implements Traversing {
 		private ExpressionValue oldObj;
 		private ExpressionValue newObj;
 		private static Replacer replacerInstance = new Replacer();
@@ -116,7 +116,7 @@ public interface Traversing {
 	 * Like replacer, but creates deep copies
 	 *
 	 */
-	public final class CopyReplacer implements Traversing {
+	final class CopyReplacer implements Traversing {
 		private ExpressionValue oldObj;
 		private ExpressionValue newObj;
 		private Kernel kernel;
@@ -159,7 +159,7 @@ public interface Traversing {
 	 * Replaces dummy variable with given name
 	 *
 	 */
-	public final class CommandReplacer implements Traversing {
+	final class CommandReplacer implements Traversing {
 		private Kernel kernel;
 		private boolean cas;
 		private static CommandReplacer replacer = new CommandReplacer();
@@ -216,7 +216,7 @@ public interface Traversing {
 	 * Replaces sin(15) with sin(15deg) GGB-2183
 	 *
 	 */
-	public final class DegreeReplacer implements Traversing {
+	final class DegreeReplacer implements Traversing {
 		private Kernel kernel;
 		private static DegreeReplacer replacer = new DegreeReplacer();
 
@@ -272,7 +272,7 @@ public interface Traversing {
 	 * Replaces dummy variable with given name
 	 *
 	 */
-	public final class CommandFunctionReplacer implements Traversing {
+	final class CommandFunctionReplacer implements Traversing {
 		private String fn;
 		private GeoElement function;
 
@@ -319,7 +319,7 @@ public interface Traversing {
 	 * vector flag for future serialization
 	 *
 	 */
-	public final class GgbVectRemover implements Traversing {
+	final class GgbVectRemover implements Traversing {
 
 		private static final GgbVectRemover remover = new GgbVectRemover();
 
@@ -361,7 +361,7 @@ public interface Traversing {
 	 * Replaces variables and polynomials
 	 *
 	 */
-	public final class VariablePolyReplacer implements Traversing {
+	final class VariablePolyReplacer implements Traversing {
 		private FunctionVariable fv;
 		private int replacements;
 		private static VariablePolyReplacer replacer = new VariablePolyReplacer();
@@ -405,7 +405,7 @@ public interface Traversing {
 	 * Replaces dummy variable with given name
 	 *
 	 */
-	public final class GeoDummyReplacer implements Traversing {
+	final class GeoDummyReplacer implements Traversing {
 		private String var;
 		private ExpressionValue newObj;
 		private boolean didReplacement;
@@ -460,7 +460,7 @@ public interface Traversing {
 	 * @author Zbynek Konecny
 	 *
 	 */
-	public final class VariableReplacer implements Traversing {
+	final class VariableReplacer implements Traversing {
 		private List<String> vars = new ArrayList<>();
 		private List<ExpressionValue> newObjs = new ArrayList<>();
 		private int replacements;
@@ -554,7 +554,7 @@ public interface Traversing {
 	/**
 	 * Replaces GeoNumerics with given expression
 	 */
-	public final class GeoNumericReplacer implements Traversing {
+	final class GeoNumericReplacer implements Traversing {
 		private List<GeoNumeric> geoNums = new ArrayList<>();
 		private List<ExpressionValue> newExps = new ArrayList<>();
 		private int replacements;
@@ -665,7 +665,7 @@ public interface Traversing {
 	 * @author michael
 	 *
 	 */
-	public final class SpreadsheetVariableRenamer implements Traversing {
+	final class SpreadsheetVariableRenamer implements Traversing {
 		private int dx;
 		private int dy;
 		private ArrayList<Variable> variables = new ArrayList<>();
@@ -745,7 +745,7 @@ public interface Traversing {
 	 * @author michael
 	 *
 	 */
-	public final class ReplaceUndefinedVariables implements Traversing {
+	final class ReplaceUndefinedVariables implements Traversing {
 		private final Kernel kernel;
 		private String[] except;
 		private Set<GeoNumeric> undefined;
@@ -861,7 +861,7 @@ public interface Traversing {
 	 * @author michael
 	 *
 	 */
-	public final class CollectUndefinedVariables implements Inspecting {
+	final class CollectUndefinedVariables implements Inspecting {
 
 		private TreeSet<String> tree = new TreeSet<>();
 		private TreeSet<String> localTree = new TreeSet<>();
@@ -971,7 +971,7 @@ public interface Traversing {
 	 * @author michael
 	 *
 	 */
-	public final class CollectFunctionVariables implements Traversing {
+	final class CollectFunctionVariables implements Traversing {
 
 		private ArrayList<FunctionVariable> al = new ArrayList<>();
 
@@ -998,7 +998,7 @@ public interface Traversing {
 	/**
 	 * Replaces powers by roots or vice versa
 	 */
-	public final class PowerRootReplacer implements Traversing {
+	final class PowerRootReplacer implements Traversing {
 		private boolean toRoot;
 		/** functions with 100th root are numerically unstable */
 		private static int MAX_ROOT = 99;
@@ -1034,7 +1034,7 @@ public interface Traversing {
 	 * @author Zbynek Konecny
 	 *
 	 */
-	public final class DiffReplacer implements Traversing {
+	final class DiffReplacer implements Traversing {
 		/**
 		 * Singleton instance
 		 */
@@ -1108,7 +1108,7 @@ public interface Traversing {
 	 * Goes through the ExpressionValue and collects all derivatives from
 	 * expression nodes into arrays
 	 */
-	public final class PrefixRemover implements Traversing {
+	final class PrefixRemover implements Traversing {
 		private static PrefixRemover collector = new PrefixRemover();
 
 		private PrefixRemover() {
@@ -1140,7 +1140,7 @@ public interface Traversing {
 	 * Goes through the ExpressionValue and collects all derivatives from
 	 * expression nodes into arrays
 	 */
-	public final class CommandCollector implements Traversing {
+	final class CommandCollector implements Traversing {
 		private Set<Command> commands;
 		private static CommandCollector collector = new CommandCollector();
 
@@ -1174,7 +1174,7 @@ public interface Traversing {
 	 *
 	 * @author Zoltan Kovacs
 	 */
-	public final class GeoCollector implements Traversing {
+	final class GeoCollector implements Traversing {
 		private HashMap<GeoElement, Integer> commands;
 		private static GeoCollector collector = new GeoCollector();
 
@@ -1216,7 +1216,7 @@ public interface Traversing {
 	 *
 	 * @author Zbynek Konecny
 	 */
-	public final class NonFunctionCollector implements Traversing {
+	final class NonFunctionCollector implements Traversing {
 		private Set<String> commands;
 		private static NonFunctionCollector collector = new NonFunctionCollector();
 
@@ -1272,7 +1272,7 @@ public interface Traversing {
 	 *
 	 * @author Balazs Bencze
 	 */
-	public final class DummyVariableCollector implements Traversing {
+	final class DummyVariableCollector implements Traversing {
 		private Set<String> commands;
 		private static DummyVariableCollector collector = new DummyVariableCollector();
 
@@ -1334,7 +1334,7 @@ public interface Traversing {
 	/**
 	 * Collects all GeoNumeric labels
 	 */
-	public final class GeoNumericLabelCollector implements Traversing {
+	final class GeoNumericLabelCollector implements Traversing {
 		private Set<String> labels;
 		private static GeoNumericLabelCollector collector = new GeoNumericLabelCollector();
 
@@ -1384,7 +1384,7 @@ public interface Traversing {
 	 *
 	 * @author Zbynek Konecny
 	 */
-	public final class NonFunctionReplacer implements Traversing {
+	final class NonFunctionReplacer implements Traversing {
 		private Set<String> commands;
 		private static NonFunctionReplacer collector = new NonFunctionReplacer();
 
@@ -1460,7 +1460,7 @@ public interface Traversing {
 	 *
 	 * @author Balazs Bencze
 	 */
-	public final class FunctionCreator implements Traversing {
+	final class FunctionCreator implements Traversing {
 		private static FunctionCreator creator = new FunctionCreator();
 
 		private FunctionCreator() {
@@ -1496,7 +1496,7 @@ public interface Traversing {
 	 * Removes commands from a given expression and returns the first argument
 	 * of the command
 	 */
-	public final class CommandRemover implements Traversing {
+	final class CommandRemover implements Traversing {
 		private static CommandRemover remover = new CommandRemover();
 		private static String[] commands;
 
@@ -1536,7 +1536,7 @@ public interface Traversing {
 	 *
 	 * @author Balazs Bencze
 	 */
-	public final class CASCommandReplacer implements Traversing {
+	final class CASCommandReplacer implements Traversing {
 		/**
 		 * Replacer object
 		 */

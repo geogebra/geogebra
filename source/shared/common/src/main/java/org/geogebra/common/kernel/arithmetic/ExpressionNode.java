@@ -374,7 +374,7 @@ public class ExpressionNode extends ValidExpression
 	 * Replaces all Command objects in tree by their evaluated GeoElement
 	 * objects.
 	 */
-	final private void simplifyAndEvalCommands(EvalInfo info) {
+	private void simplifyAndEvalCommands(EvalInfo info) {
 		// don't evaluate any commands for the CAS here
 		if (info.getSymbolicMode() != SymbolicMode.NONE) {
 			return;
@@ -1337,7 +1337,7 @@ public class ExpressionNode extends ValidExpression
 	 *            left or right side of the expression
 	 * @return if expansion is required
 	 */
-	final private boolean expandForOGP(ExpressionValue ev) {
+	private boolean expandForOGP(ExpressionValue ev) {
 		// The following types of operations and GeoElements are supported.
 		// See also the OGP code for the available (parsable) expressions.
 		if (operation.equals(Operation.EQUAL_BOOLEAN)

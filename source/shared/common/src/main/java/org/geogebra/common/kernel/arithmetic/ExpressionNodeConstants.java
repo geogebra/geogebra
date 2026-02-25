@@ -24,7 +24,7 @@ import org.geogebra.editor.share.util.Unicode;
 public interface ExpressionNodeConstants {
 
 	/** String types */
-	public enum StringType {
+	enum StringType {
 		/** XML */
 		GEOGEBRA_XML,
 		/** default */

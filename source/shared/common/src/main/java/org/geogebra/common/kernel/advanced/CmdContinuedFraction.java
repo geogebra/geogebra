@@ -89,7 +89,7 @@ public class CmdContinuedFraction extends CommandProcessor {
 		}
 	}
 
-	final private GeoText continuedFraction(String label, GeoNumberValue num,
+	private GeoText continuedFraction(String label, GeoNumberValue num,
 			GeoNumberValue level, GeoBoolean shortHand) {
 		AlgoContinuedFraction algo = new AlgoContinuedFraction(cons, num,
 				level, shortHand);

@@ -188,8 +188,8 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 	}
 
 	@Override
-	public void setShortSyntax(boolean b) {
-		this.shortSyntax = b;
+	public void setShortSyntax(boolean shortSyntax) {
+		this.shortSyntax = shortSyntax;
 	}
 
 	@Override

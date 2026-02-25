@@ -30,7 +30,7 @@ public interface GLBufferIndices {
 	 * @param length
 	 *            length
 	 */
-	public void allocate(int length);
+	void allocate(int length);
 
 	/**
 	 * set limit to which we use the buffer
@@ -38,7 +38,7 @@ public interface GLBufferIndices {
 	 * @param length
 	 *            limit
 	 */
-	public void setLimit(int length);
+	void setLimit(int length);
 
 	/**
 	 * put value at current buffer position
@@ -46,7 +46,7 @@ public interface GLBufferIndices {
 	 * @param value
 	 *            value
 	 */
-	public void put(short value);
+	void put(short value);
 
 	/**
 	 * put value at current buffer position
@@ -56,24 +56,24 @@ public interface GLBufferIndices {
 	 * @param value
 	 *            value
 	 */
-	public void put(int index, short value);
+	void put(int index, short value);
 
 	/**
 	 * 
 	 * @return value at current buffer position
 	 */
-	public short get();
+	short get();
 
 	/**
 	 * rewind the buffer
 	 */
-	public void rewind();
+	void rewind();
 
 	/**
 	 * 
 	 * @return capacity
 	 */
-	public int capacity();
+	int capacity();
 
 	/**
 	 * set float array
@@ -81,18 +81,18 @@ public interface GLBufferIndices {
 	 * @param ret
 	 *            float array
 	 */
-	public void array(short[] ret);
+	void array(short[] ret);
 
 	/**
 	 * 
 	 * @return true if empty
 	 */
-	public boolean isEmpty();
+	boolean isEmpty();
 
 	/**
 	 * says it's an empty buffer
 	 */
-	public void setEmpty();
+	void setEmpty();
 
 	/**
 	 * reallocate to a bigger size and keep the values
@@ -100,7 +100,7 @@ public interface GLBufferIndices {
 	 * @param size
 	 *            new size
 	 */
-	public void reallocate(int size);
+	void reallocate(int size);
 
 	/**
 	 * set position where to read
@@ -108,5 +108,5 @@ public interface GLBufferIndices {
 	 * @param newPosition
 	 *            new position
 	 */
-	public void position(int newPosition);
+	void position(int newPosition);
 }

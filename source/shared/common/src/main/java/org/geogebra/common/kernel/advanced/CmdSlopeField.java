@@ -102,7 +102,7 @@ public class CmdSlopeField extends CommandProcessor {
 		}
 	}
 
-	final private GeoLocus slopeField(String label, Evaluate2Var func,
+	private GeoLocus slopeField(String label, Evaluate2Var func,
 			GeoNumeric n, GeoNumeric lengthRatio, GeoNumeric minX,
 			GeoNumeric minY, GeoNumeric maxX, GeoNumeric maxY) {
 

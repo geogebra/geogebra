@@ -21,23 +21,22 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.matrix.Coords;
 
 /**
- * Represents geos that can be mirrored atline or point
- * 
+ * Represents geos that can be mirrored at a line or point.
  */
 public interface Mirrorable extends GeoElementND {
 	/**
-	 * Mirror at point
+	 * Mirror at a point.
 	 * 
 	 * @param Q
 	 *            mirror
 	 */
-	public void mirror(Coords Q);
+	void mirror(Coords Q);
 
 	/**
-	 * Mirror at line
+	 * Mirror at a line.
 	 * 
 	 * @param g
 	 *            mirror
 	 */
-	public void mirror(GeoLineND g);
+	void mirror(GeoLineND g);
 }

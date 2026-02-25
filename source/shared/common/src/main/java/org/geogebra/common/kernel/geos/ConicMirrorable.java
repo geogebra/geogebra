@@ -28,6 +28,6 @@ public interface ConicMirrorable {
 	 * Mirror at circle
 	 * @param conic mirror circle
 	 */
-	public void mirror(GeoConicND conic);
+	void mirror(GeoConicND conic);
 
 }

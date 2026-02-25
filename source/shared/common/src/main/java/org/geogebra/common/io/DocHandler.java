@@ -20,7 +20,7 @@ public interface DocHandler {
 	 * @throws XMLParseException
 	 *             if invalid
 	 */
-	public void startElement(String tag, LinkedHashMap<String, String> h)
+	void startElement(String tag, LinkedHashMap<String, String> h)
 			throws XMLParseException;
 
 	/**
@@ -29,19 +29,19 @@ public interface DocHandler {
 	 * @throws XMLParseException
 	 *             if invalid
 	 */
-	public void endElement(String tag) throws XMLParseException;
+	void endElement(String tag) throws XMLParseException;
 
 	/**
 	 * @throws XMLParseException
 	 *             if invalid
 	 */
-	public void startDocument() throws XMLParseException;
+	void startDocument() throws XMLParseException;
 
 	/**
 	 * @throws XMLParseException
 	 *             if invalid
 	 */
-	public void endDocument() throws XMLParseException;
+	void endDocument() throws XMLParseException;
 
 	/**
 	 * @param str
@@ -49,6 +49,6 @@ public interface DocHandler {
 	 * @throws XMLParseException
 	 *             if invalid
 	 */
-	public void text(String str) throws XMLParseException;
+	void text(String str) throws XMLParseException;
 
 }

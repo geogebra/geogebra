@@ -36,7 +36,7 @@ public interface GeoFunctionable extends GeoElementND, UnivariateFunction {
 	 *             getFunction
 	 */
 	@Deprecated
-	public GeoFunction getGeoFunction();
+	GeoFunction getGeoFunction();
 
 	/**
 	 * For GeoFunctions return the wrapped function, for other elements create
@@ -44,7 +44,7 @@ public interface GeoFunctionable extends GeoElementND, UnivariateFunction {
 	 * 
 	 * @return this as function
 	 */
-	public Function getFunction();
+	Function getFunction();
 
 	/**
 	 * Like getFunction(), but for root finding we don't want to divide line
@@ -52,7 +52,7 @@ public interface GeoFunctionable extends GeoElementND, UnivariateFunction {
 	 * 
 	 * @return this as function
 	 */
-	public Function getFunctionForRoot();
+	Function getFunctionForRoot();
 
 	/**
 	 * For root we consider abs(sqrt(x)) also polynomial
@@ -61,7 +61,7 @@ public interface GeoFunctionable extends GeoElementND, UnivariateFunction {
 	 *            whether we need this for root finding
 	 * @return whether the function is polynomial
 	 */
-	public boolean isPolynomialFunction(boolean forRoot);
+	boolean isPolynomialFunction(boolean forRoot);
 
 	/**
 	 * @param forRootFinding whether we can apply simplifications for root finding

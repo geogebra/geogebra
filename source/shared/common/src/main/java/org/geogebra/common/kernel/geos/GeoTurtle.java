@@ -491,17 +491,17 @@ public class GeoTurtle extends GeoPoint {
 		/**
 		 * @return the type of the command
 		 */
-		public CmdType getType();
+		CmdType getType();
 
 		/**
 		 * @return the time taken to execute the command
 		 */
-		public double getTime();
+		double getTime();
 
 		/**
 		 * perform the command on the enclosed GeoTurtle
 		 */
-		public void perform();
+		void perform();
 
 		/**
 		 * Draw the command
@@ -509,7 +509,7 @@ public class GeoTurtle extends GeoPoint {
 		 * @param ds
 		 *            the DrawState object to use for drawing
 		 */
-		public void draw(DrawState ds);
+		void draw(DrawState ds);
 
 		/**
 		 * Draw the command partially
@@ -520,7 +520,7 @@ public class GeoTurtle extends GeoPoint {
 		 *            the fraction of the command which is completed (between 0
 		 *            and 1)
 		 */
-		public void partialDraw(DrawState ds, double progress);
+		void partialDraw(DrawState ds, double progress);
 	}
 
 	/**
@@ -534,7 +534,7 @@ public class GeoTurtle extends GeoPoint {
 		 * @param down
 		 *            true to put pen down, false to lift it
 		 */
-		public void setPen(boolean down);
+		void setPen(boolean down);
 
 		/**
 		 * Move turtle to new position
@@ -542,7 +542,7 @@ public class GeoTurtle extends GeoPoint {
 		 * @param newPosition
 		 *            the new turtle position
 		 */
-		public void move(GeoPointND newPosition);
+		void move(GeoPointND newPosition);
 
 		/**
 		 * Turn turtle
@@ -550,7 +550,7 @@ public class GeoTurtle extends GeoPoint {
 		 * @param angle
 		 *            anticlockwise angle in radians
 		 */
-		public void turn(double angle);
+		void turn(double angle);
 
 		/**
 		 * Partially move turtle
@@ -560,7 +560,7 @@ public class GeoTurtle extends GeoPoint {
 		 * @param progress
 		 *            between 0 (not started) and 1 (all done)
 		 */
-		public void partialMove(GeoPointND newPosition, double progress);
+		void partialMove(GeoPointND newPosition, double progress);
 
 		/**
 		 * Partially turn turtle
@@ -570,7 +570,7 @@ public class GeoTurtle extends GeoPoint {
 		 * @param progress
 		 *            between 0 (not started) and 1 (all done)
 		 */
-		public void partialTurn(double angle, double progress);
+		void partialTurn(double angle, double progress);
 
 		/**
 		 * Set the pen color
@@ -578,7 +578,7 @@ public class GeoTurtle extends GeoPoint {
 		 * @param color
 		 *            new color
 		 */
-		public void setColor(GColor color);
+		void setColor(GColor color);
 
 		/**
 		 * Set the pen thickness
@@ -586,7 +586,7 @@ public class GeoTurtle extends GeoPoint {
 		 * @param th
 		 *            new thickness
 		 */
-		public void setThickness(int th);
+		void setThickness(int th);
 	}
 
 	/**

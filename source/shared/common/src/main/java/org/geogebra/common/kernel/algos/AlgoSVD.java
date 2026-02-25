@@ -149,7 +149,7 @@ public class AlgoSVD extends AlgoElement {
 
 	}
 
-	private final void makeListOfMatrices() {
+	private void makeListOfMatrices() {
 
 		GeoList matrixUlist = matrix2list(U);
 		GeoList matrixSlist = matrix2list(S);
@@ -161,7 +161,7 @@ public class AlgoSVD extends AlgoElement {
 	}
 
 	// convert matrix into list
-	private final GeoList matrix2list(RealMatrix matrix) {
+	private GeoList matrix2list(RealMatrix matrix) {
 		double[][] data = matrix.getData();
 		GeoList list = new GeoList(cons);
 		for (int i = 0; i < data.length; i++) {
