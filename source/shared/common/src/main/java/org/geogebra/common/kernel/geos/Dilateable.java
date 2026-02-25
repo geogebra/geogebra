@@ -33,5 +33,5 @@ public interface Dilateable extends GeoElementND {
 	 * @param S
 	 *            point
 	 */
-	public void dilate(NumberValue r, Coords S);
+	void dilate(NumberValue r, Coords S);
 }

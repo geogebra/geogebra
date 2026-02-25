@@ -31,7 +31,7 @@ public interface AlgoMacroInterface {
 	 * @param f
 	 *            function
 	 */
-	public void initFunction(FunctionNVar f);
+	void initFunction(FunctionNVar f);
 
 	/**
 	 * Replace references to macro geos in list
@@ -41,7 +41,7 @@ public interface AlgoMacroInterface {
 	 * @param geoList
 	 *            parent construction list
 	 */
-	public void initList(GeoList l, GeoList geoList);
+	void initList(GeoList l, GeoList geoList);
 
 	/**
 	 * Compares drawing priority of two elements
@@ -52,5 +52,5 @@ public interface AlgoMacroInterface {
 	 *            second element
 	 * @return whether geoElement should be drawn before other
 	 */
-	public int drawBefore(GeoElement geoElement, GeoElement other);
+	int drawBefore(GeoElement geoElement, GeoElement other);
 }

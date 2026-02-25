@@ -28,11 +28,11 @@ public interface GeoQuadric3DLimitedOrPart {
 	 * 
 	 * @return bottom parameter
 	 */
-	public double getBottomParameter();
+	double getBottomParameter();
 
 	/**
 	 * 
 	 * @return top parameter
 	 */
-	public double getTopParameter();
+	double getTopParameter();
 }

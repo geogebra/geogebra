@@ -36,11 +36,11 @@ public interface Animatable extends GeoElementND {
 	 *            parent list
 	 * @return null if nothing changed or changed element otherwise
 	 */
-	public GeoElementND doAnimationStep(double frameRate, GeoList parent);
+	GeoElementND doAnimationStep(double frameRate, GeoList parent);
 
 	/**
 	 * @return true when animation is on
 	 */
-	public boolean isAnimating();
+	boolean isAnimating();
 
 }

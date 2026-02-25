@@ -27,53 +27,53 @@ import org.geogebra.editor.share.util.Unicode;
  */
 public interface SpreadsheetViewInterface extends View {
 
-	final static String LEFT_CLASS_RULE = Unicode.LESS_EQUAL + " x <";
-	final static String RIGHT_CLASS_RULE = "< x " + Unicode.LESS_EQUAL;
-	final static String LESS_THAN_OR_EQUAL_TO_X = Unicode.LESS_EQUAL + " X";
-	final static String GREATER_THAN_OR_EQUAL_TO_X = "X " + Unicode.GREATER_EQUAL;
-	final static String X_BETWEEN = Unicode.LESS_EQUAL + " X "
+	String LEFT_CLASS_RULE = Unicode.LESS_EQUAL + " x <";
+	String RIGHT_CLASS_RULE = "< x " + Unicode.LESS_EQUAL;
+	String LESS_THAN_OR_EQUAL_TO_X = Unicode.LESS_EQUAL + " X";
+	String GREATER_THAN_OR_EQUAL_TO_X = "X " + Unicode.GREATER_EQUAL;
+	String X_BETWEEN = Unicode.LESS_EQUAL + " X "
 			+ Unicode.LESS_EQUAL;
 
 	// x -> Y
-	static final String X_TO_Y = "X " + Unicode.IMPLIES + " Y";
+	String X_TO_Y = "X " + Unicode.IMPLIES + " Y";
 
 	// Y <- X
-	static final String Y_FROM_X = "Y " + Unicode.IMPLIED_FROM + " X";
+	String Y_FROM_X = "Y " + Unicode.IMPLIED_FROM + " X";
 
 	/**
 	 * @return spreadsheet table
 	 */
-	public MyTableInterface getSpreadsheetTable();
+	MyTableInterface getSpreadsheetTable();
 
 	/**
 	 * Revalidate row header (desktop only).
 	 */
-	public void rowHeaderRevalidate();
+	void rowHeaderRevalidate();
 
 	/**
 	 * Store new cell format in settings.
 	 * @param cellFormat cell format
 	 */
-	public void updateCellFormat(String cellFormat);
+	void updateCellFormat(String cellFormat);
 
 	/**
 	 * @return parent application
 	 */
-	public App getApplication();
+	App getApplication();
 
 	/**
 	 * Scroll into view if needed.
 	 * @param geo element
 	 * @param labelNew new label
 	 */
-	public void scrollIfNeeded(GeoElement geo, String labelNew);
+	void scrollIfNeeded(GeoElement geo, String labelNew);
 
 	/**
 	 * Show a dialog to set up tracing.
 	 * @param geo element to be traced
 	 * @param traceCell trace destination
 	 */
-	public void showTraceDialog(GeoElement geo, TabularRange traceCell);
+	void showTraceDialog(GeoElement geo, TabularRange traceCell);
 
 	/**
 	 * @param enable whether to enable keyboard
@@ -83,6 +83,6 @@ public interface SpreadsheetViewInterface extends View {
 	/**
 	 * @return whether this view is visible
 	 */
-	public boolean isShowing();
+	boolean isShowing();
 
 }

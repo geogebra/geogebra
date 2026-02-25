@@ -38,7 +38,7 @@ public interface SymbolicParametersAlgo {
 	 * 
 	 * @return the SymbolicParameters
 	 */
-	public SymbolicParameters getSymbolicParameters();
+	 SymbolicParameters getSymbolicParameters();
 
 	/**
 	 * Calculates the set of free variables.
@@ -49,7 +49,7 @@ public interface SymbolicParametersAlgo {
 	 *             thrown if no symbolic parameters are available.
 	 * 
 	 */
-	public void getFreeVariables(HashSet<PVariable> variables)
+	void getFreeVariables(HashSet<PVariable> variables)
 			throws NoSymbolicParametersException;
 
 	/**
@@ -62,7 +62,7 @@ public interface SymbolicParametersAlgo {
 	 * @throws NoSymbolicParametersException
 	 *             thrown if no symbolic parameters are available.
 	 */
-	public int[] getDegrees(AbstractProverReciosMethod a)
+	int[] getDegrees(AbstractProverReciosMethod a)
 			throws NoSymbolicParametersException;
 
 	/**
@@ -87,10 +87,10 @@ public interface SymbolicParametersAlgo {
 	 * @throws NoSymbolicParametersException
 	 *             if it is not possible to obtain an algebraic description
 	 */
-	public PPolynomial[] getPolynomials() throws NoSymbolicParametersException;
+	PPolynomial[] getPolynomials() throws NoSymbolicParametersException;
 
 	/**
 	 * See AlgoElement.remove()
 	 */
-	public void remove();
+	void remove();
 }

@@ -19,8 +19,9 @@ package org.geogebra.common.kernel.kernelND;
 import org.geogebra.common.kernel.matrix.Coords;
 
 /**
- * @author mathieu
+ * Polyhedron in 3D.
  *
+ * @author mathieu
  */
 public interface GeoPolyhedronInterface extends GeoElementND {
 	/**
@@ -29,7 +30,7 @@ public interface GeoPolyhedronInterface extends GeoElementND {
 	 * @param size
 	 *            new point size
 	 */
-	public void setPointSizeOrVisibility(int size);
+	void setPointSizeOrVisibility(int size);
 
 	/**
 	 * calc pseudo centroid coords (based on segments average)
@@ -37,5 +38,5 @@ public interface GeoPolyhedronInterface extends GeoElementND {
 	 * @param coords
 	 *            output coords
 	 */
-	public void pseudoCentroid(Coords coords);
+	void pseudoCentroid(Coords coords);
 }

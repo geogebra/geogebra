@@ -35,6 +35,6 @@ public interface AlgoTransformable {
 	 *            transformation
 	 * @return transformed output
 	 */
-	public GeoElement[] getTransformedOutput(Transform t);
+	GeoElement[] getTransformedOutput(Transform t);
 
 }

@@ -24,6 +24,6 @@ public interface ToolInputOutputListener {
 	/**
 	 * Called when list of selectable geos changes.
 	 */
-	public void updateLists();
+	void updateLists();
 
 }

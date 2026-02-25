@@ -28,15 +28,13 @@ public class ViewLocationModel extends OptionsModel {
 
 	public interface IGraphicsViewLocationListener extends PropertyListener {
 		@MissingDoc
-		public void selectView(int index, boolean isSelected);
+		void selectView(int index, boolean isSelected);
 
 		@MissingDoc
-		public void setCheckBox3DVisible(boolean flag);
+		void setCheckBox3DVisible(boolean flag);
 
 		@MissingDoc
-		public void setCheckBoxForPlaneVisible(boolean flag);
-
-		// public void setCheckBoxAlgebraVisible(boolean flag);
+		void setCheckBoxForPlaneVisible(boolean flag);
 	}
 
 	public ViewLocationModel(App app, IGraphicsViewLocationListener listener) {

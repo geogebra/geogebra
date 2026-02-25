@@ -30,6 +30,6 @@ public interface GeoDirectionND extends GeoElementND {
 	 * 
 	 * @return the direction in 3D
 	 */
-	public Coords getDirectionInD3();
+	Coords getDirectionInD3();
 
 }

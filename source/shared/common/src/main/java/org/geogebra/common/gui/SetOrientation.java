@@ -24,5 +24,5 @@ public interface SetOrientation {
 	/**
 	 * Update orientation for current locale.
 	 */
-	public void setOrientation();
+	void setOrientation();
 }

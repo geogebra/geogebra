@@ -538,7 +538,7 @@ public class GeoButton extends GeoElement implements TextProperties,
 		/**
 		 * This method is called when size is changed
 		 */
-		public void notifySizeChanged();
+		void notifySizeChanged();
 	}
 
 	@Override

@@ -36,6 +36,6 @@ public interface SymbolicParametersBotanaAlgoAre {
 	 * @throws NoSymbolicParametersException
 	 *             if it is not possible to obtain suitable polynomials
 	 */
-	public PPolynomial[][] getBotanaPolynomials()
+	PPolynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException;
 }

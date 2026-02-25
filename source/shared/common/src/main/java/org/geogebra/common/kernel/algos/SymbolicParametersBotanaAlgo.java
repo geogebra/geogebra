@@ -38,7 +38,7 @@ public interface SymbolicParametersBotanaAlgo {
 	 * @throws NoSymbolicParametersException
 	 *             if it is not possible to obtain suitable polynomials
 	 */
-	public PVariable[] getBotanaVars(GeoElementND geo)
+	PVariable[] getBotanaVars(GeoElementND geo)
 			throws NoSymbolicParametersException;
 
 	/**
@@ -50,6 +50,6 @@ public interface SymbolicParametersBotanaAlgo {
 	 * @throws NoSymbolicParametersException
 	 *             if it is not possible to obtain suitable polynomials
 	 */
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
+	PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException;
 }

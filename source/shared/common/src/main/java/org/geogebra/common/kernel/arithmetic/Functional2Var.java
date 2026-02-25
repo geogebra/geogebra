@@ -39,7 +39,7 @@ public interface Functional2Var {
 	 *            for parameters (u,v)
 	 * 
 	 */
-	public void evaluatePoint(double u, double v, Coords point);
+	void evaluatePoint(double u, double v, Coords point);
 
 	/**
 	 * return normal vector at parameters (u,v) (return null if none)
@@ -50,7 +50,7 @@ public interface Functional2Var {
 	 *            y-coord for evaluation
 	 * @return normal vector at parameters (u,v)
 	 */
-	public Coords evaluateNormal(double u, double v);
+	Coords evaluateNormal(double u, double v);
 
 	/**
 	 * Returns the start parameter value
@@ -59,7 +59,7 @@ public interface Functional2Var {
 	 *            of the parameter (0 -&gt; u / 1 -&gt; v)
 	 * @return the start parameter value
 	 */
-	public double getMinParameter(int index);
+	double getMinParameter(int index);
 
 	/**
 	 * Returns the largest possible parameter value
@@ -68,6 +68,6 @@ public interface Functional2Var {
 	 *            of the parameter (0 -&gt; u / 1 -&gt; v)
 	 * @return the largest possible parameter value
 	 */
-	public double getMaxParameter(int index);
+	double getMaxParameter(int index);
 
 }
