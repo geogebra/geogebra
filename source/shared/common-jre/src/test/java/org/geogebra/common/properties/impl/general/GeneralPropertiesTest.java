@@ -56,9 +56,9 @@ public class GeneralPropertiesTest extends BaseUnitTest {
 	@Test
 	public void roundingShouldBeLocalized() {
 		RoundingIndexProperty rp = new RoundingIndexProperty(getApp(), getLocalization());
-		assertThat(rp.getValueNames()[0], equalTo("0 Decimal Place"));
+		assertThat(rp.getValueNames()[0], equalTo("0 Decimal Places"));
 		getApp().setLocale(new Locale("de"));
-		assertThat(rp.getValueNames()[0], equalTo("0 Dezimalstelle"));
+		assertThat(rp.getValueNames()[0], equalTo("0 Dezimalstellen"));
 	}
 
 	@Test

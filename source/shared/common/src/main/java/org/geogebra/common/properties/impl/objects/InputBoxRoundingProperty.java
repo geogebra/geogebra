@@ -21,7 +21,6 @@ import static java.util.Map.entry;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -46,28 +45,8 @@ public class InputBoxRoundingProperty extends AbstractNamedEnumeratedProperty<Ro
 		DECIMAL_PLACES, SIGNIFICANT_FIGURES
 	}
 
-	public static class Rounding {
-		final int value;
-		final RoundingType type;
-
-		Rounding(int value, RoundingType type) {
-			this.value = value;
-			this.type = type;
-		}
-
-		@Override
-		public boolean equals(Object o) {
-			if (!(o instanceof Rounding)) {
-				return false;
-			}
-			Rounding r = (Rounding) o;
-			return value == r.value && type == r.type;
-		}
-
-		@Override
-		public int hashCode() {
-			return Objects.hash(value, type);
-		}
+	public record Rounding(int value, RoundingType type) {
+		// represents a rounding option
 	}
 
 	/**
@@ -118,13 +97,7 @@ public class InputBoxRoundingProperty extends AbstractNamedEnumeratedProperty<Ro
 
 		Stream<Map.Entry<Rounding, String>> decimals = Arrays.stream(decimalPlaces)
 				.mapToObj(decimal -> {
-					String key = "ADecimalPlaces";
-					// zero is singular in eg French
-					if (decimal == 0 && !localization.isZeroPlural()) {
-						key = "ADecimalPlace";
-					}
-					String display = decimal == -1 ? ""
-							: localization.getPlain(key, String.valueOf(decimal));
+					String display = localization.localizeDecimalPlaces(decimal);
 					return entry(new Rounding(decimal, RoundingType.DECIMAL_PLACES), display);
 				});
 

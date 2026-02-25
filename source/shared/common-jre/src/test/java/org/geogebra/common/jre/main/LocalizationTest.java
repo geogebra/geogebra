@@ -21,6 +21,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.geogebra.common.AppCommonFactory;
@@ -124,6 +125,16 @@ public class LocalizationTest {
 				GgbScript.localizedScript2Script(app, "NteWurzel(10,20)"));
 		assertEquals("nroot[10,20]",
 				GgbScript.localizedScript2Script(app, "NteWurzel[10,20]"));
+	}
+
+	@Test
+	public void testRoundingMenu() {
+		List<String> rounding = List.of(loc.getRoundingMenu()).subList(0, 3);
+		assertEquals(List.of("0 Decimal Places", "1 Decimal Place",
+				"2 Decimal Places"), rounding);
+		loc.setLocale(Locale.FRENCH);
+		rounding = List.of(loc.getRoundingMenu()).subList(0, 3);
+		assertEquals(List.of("0 décimale", "1 décimale", "2 décimales"), rounding);
 	}
 
 	private void assertLookupReturnsLanguageTag(String lookupTag, String expectedTag) {
