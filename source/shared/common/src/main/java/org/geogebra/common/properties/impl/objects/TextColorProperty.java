@@ -21,6 +21,7 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.Localization;
@@ -63,7 +64,8 @@ public final class TextColorProperty extends AbstractEnumeratedProperty<GColor>
 			List<GColor> values)
 			throws NotApplicablePropertyException {
 		super(localization, "Color");
-		if (!(geoElement instanceof TextProperties) && !(geoElement instanceof HasTextFormatter)) {
+		if (!(geoElement instanceof TextProperties) && !(geoElement instanceof HasTextFormatter)
+				&& !(geoElement instanceof GeoFormula)) {
 			throw new NotApplicablePropertyException(geoElement);
 		}
 		this.geoElement = geoElement;
@@ -72,7 +74,7 @@ public final class TextColorProperty extends AbstractEnumeratedProperty<GColor>
 
 	@Override
 	protected void doSetValue(GColor value) {
-		if (geoElement instanceof TextProperties) {
+		if (geoElement instanceof TextProperties || geoElement instanceof GeoFormula) {
 			geoElement.setObjColor(value);
 		} else {
 			((HasTextFormatter) geoElement).format("color", value.toString());

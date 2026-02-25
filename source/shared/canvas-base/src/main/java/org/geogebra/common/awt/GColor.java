@@ -275,10 +275,10 @@ public final class GColor implements GPaint {
 	 * @return gColor
 	 */
 	public static GColor newColor(String r, String g, String b, String a) {
-		int red = Integer.parseInt(r);
-		int green = Integer.parseInt(g);
-		int blue = Integer.parseInt(b);
-		double alpha = Double.parseDouble(a);
+		int red = Integer.parseInt(r.trim());
+		int green = Integer.parseInt(g.trim());
+		int blue = Integer.parseInt(b.trim());
+		double alpha = Double.parseDouble(a.trim());
 		return newColor(red, green, blue, (int) (alpha * 255));
 	}
 

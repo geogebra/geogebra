@@ -20,6 +20,9 @@ import static org.geogebra.web.html5.gui.util.FocusUtil.makeFocusable;
 
 import java.util.Set;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -180,7 +183,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	protected final SyntaxController syntaxController;
 	private int index;
 	private AlgebraOutputFormatButton symbolicButton;
-	private FocusableCompositeW compositeFocus = null;
+	private @CheckForNull FocusableCompositeW compositeFocus = null;
 	private AVCompositeFocusAssembler compositeFocusAssembler;
 
 	/**
@@ -290,9 +293,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		compositeFocus = new FocusableCompositeW(app.getAccessibilityManager(),
 				this::getAsBoolean);
 
-		compositeFocus.addEnterCompositeHandler(() -> {
-			av.setSelectedItem(this);
-		});
+		compositeFocus.addEnterCompositeHandler(() -> av.setSelectedItem(this));
 		compositeFocusAssembler = new AVCompositeFocusAssembler(compositeFocus,
 				createFocusAccess(),
 				app.getAccessibilityManager());
@@ -1344,13 +1345,6 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		main.removeFromParent();
 	}
 
-	/**
-	 * @return whether this item has the help popup.
-	 */
-	public final boolean hasHelpPopup() {
-		return this.helpPopup != null;
-	}
-
 	@Override
 	public AlgebraItemHeader getHelpToggle() {
 		return this.marblePanel;
@@ -1828,7 +1822,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	public abstract void insertString(String text);
 
 	@Override
-	public void updateSyntaxTooltip(SyntaxHint sh) {
+	public void updateSyntaxTooltip(@Nonnull SyntaxHint sh) {
 		toastController.updateSyntaxTooltip(sh);
 	}
 
@@ -1903,7 +1897,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	 * @return whether editing is possible
 	 */
 	public boolean onEditStart() {
-		if (!isInputTreeItem()) {
+		if (!isInputTreeItem() && compositeFocus != null) {
 			compositeFocus.blur();
 		}
 		String text;

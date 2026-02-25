@@ -156,7 +156,7 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 			assertEquals(List.of("Color", "Font", "Font Size", "Text style", "Alignment",
 					"Layout"), textStylePropertyNames);
 		} catch (NotApplicablePropertyException e) {
-			Log.alert("Inline table has no text style");
+			throw new AssertionError(e);
 		}
 	}
 
@@ -173,7 +173,7 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 			assertEquals(List.of("Color", "Font", "Font Size", "Text style", "Alignment"),
 					textStylePropertyNames);
 		} catch (NotApplicablePropertyException e) {
-			Log.alert("Inline text has no text style");
+			throw new AssertionError(e);
 		}
 	}
 
