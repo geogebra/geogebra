@@ -46,6 +46,9 @@ public class PatternFillStyleProperty extends AbstractEnumeratedProperty<FillTyp
 			PropertyResource.ICON_FILLING_CROSSHATCHED, PropertyResource.ICON_FILLING_DOTTED,
 			PropertyResource.ICON_FILLING_HONEYCOMB, PropertyResource.ICON_FILLING_CHESSBOARD,
 			PropertyResource.ICON_FILLING_WEAVING, PropertyResource.ICON_FILLING_BRICK);
+	private static final String[] rawLabels = {"Filling.NoPattern", "Filling.Hatch",
+			"Filling.Crosshatch", "Filling.Dotted", "Filling.Honeycomb", "Filling.Chessboard",
+			"Filling.Weaving", "Filling.Brick"};
 
 	/**
 	 * @param localization localization
@@ -66,7 +69,7 @@ public class PatternFillStyleProperty extends AbstractEnumeratedProperty<FillTyp
 	
 	@Override
 	public @CheckForNull String[] getToolTipLabels() {
-		return null;
+		return rawLabels;
 	}
 
 	@Override

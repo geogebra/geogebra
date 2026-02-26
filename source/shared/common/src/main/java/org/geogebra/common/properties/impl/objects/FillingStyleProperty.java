@@ -41,23 +41,23 @@ public class FillingStyleProperty extends AbstractEnumeratedProperty<FillType>
 	private static final Map<FillType, PropertyResource> icons = Map.of(
 			FillType.STANDARD, PropertyResource.ICON_NO_FILLING,
 			FillType.HATCH, PropertyResource.ICON_FILLING_HATCHED,
-			FillType.CROSSHATCHED, PropertyResource.ICON_FILLING_CROSSHATCHED,
-			FillType.CHESSBOARD, PropertyResource.ICON_FILLING_CHESSBOARD,
 			FillType.DOTTED, PropertyResource.ICON_FILLING_DOTTED,
-			FillType.HONEYCOMB, PropertyResource.ICON_FILLING_HONEYCOMB,
-			FillType.BRICK, PropertyResource.ICON_FILLING_BRICK,
-			FillType.WEAVING, PropertyResource.ICON_FILLING_WEAVING,
-			FillType.SYMBOLS, PropertyResource.ICON_FILLING_SYMBOL,
-			FillType.IMAGE, PropertyResource.ICON_FILLING_IMAGE);
+			FillType.CROSSHATCHED, PropertyResource.ICON_FILLING_CROSSHATCHED,
+			FillType.HONEYCOMB, PropertyResource.ICON_FILLING_HONEYCOMB);
 
 	private final AbstractGeoElementDelegate delegate;
 
-	/***/
-	public FillingStyleProperty(Localization localization, GeoElement element, boolean extended)
+	/**
+	 * Create filling property.
+	 * @param localization {@link Localization}
+	 * @param element geo element
+	 * @throws NotApplicablePropertyException exception
+	 */
+	public FillingStyleProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "Filling");
 		delegate = new FillingStylePropertyDelegate(element);
-		setValues(extended ? List.of(FillType.values()) : List.of(FillType.STANDARD,
+		setValues(List.of(FillType.STANDARD,
 				FillType.HATCH,
 				FillType.DOTTED,
 				FillType.CROSSHATCHED,

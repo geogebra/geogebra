@@ -59,7 +59,7 @@ public class StylePropertiesTests extends BaseAppTestSetup {
 				List.of(button));
 		List<String> styleProperties = Arrays.stream(propertiesArray.getProperties())
 				.map(Property::getName).collect(Collectors.toList());
-		assertEquals(List.of("Text", "Icon", "Background", "Size", "Filling"),
+		assertEquals(List.of("Text", "Icon", "Background", "Size"),
 				styleProperties);
 	}
 }

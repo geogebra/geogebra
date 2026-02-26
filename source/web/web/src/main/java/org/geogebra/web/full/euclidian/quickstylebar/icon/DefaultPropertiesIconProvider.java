@@ -56,6 +56,9 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 			case ICON_FILLING_DOTTED -> res.pattern_dots();
 			case ICON_FILLING_CROSSHATCHED -> res.pattern_cross_hatching();
 			case ICON_FILLING_HONEYCOMB -> res.pattern_honeycomb();
+			case ICON_FILLING_CHESSBOARD -> res.pattern_chessboard();
+			case ICON_FILLING_WEAVING -> res.pattern_weaving();
+			case ICON_FILLING_BRICK -> res.pattern_bricks();
 			case ICON_NO_FILLING -> res.no_pattern();
 			case ICON_ALIGNMENT_LEFT -> res.horizontal_align_left();
 			case ICON_ALIGNMENT_CENTER -> res.horizontal_align_center();
@@ -161,9 +164,6 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 					MaterialDesignResources.INSTANCE.stylingbar_end_arrow_filled();
 			case ICON_VECTOR_DECO_DEFAULT ->
 					MaterialDesignResources.INSTANCE.stylingbar_end_arrow();
-			case ICON_FILLING_IMAGE -> res.export_image_black(); // TODO
-			case ICON_FILLING_BRICK, ICON_FILLING_SYMBOL, ICON_FILLING_WEAVING,
-				 ICON_FILLING_CHESSBOARD -> res.pattern_hatching();
 			case ICON_BUTTON_PLAY -> GuiResourcesSimple.INSTANCE.play();
 			case ICON_BUTTON_PAUSE -> GuiResourcesSimple.INSTANCE.pause();
 			case ICON_BUTTON_STOP -> GuiResourcesSimple.INSTANCE.stop();

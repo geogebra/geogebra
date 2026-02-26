@@ -39,6 +39,7 @@ import org.geogebra.web.full.gui.properties.ui.panel.ActionableButtonPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.ButtonIconEditorPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.DimensionRatioPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.IconButtonPanel;
+import org.geogebra.web.full.gui.properties.ui.panel.ImagePickerPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.MultiSelectionIconRowPanel;
 import org.geogebra.web.full.gui.properties.ui.tabs.ScriptTabFactory;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
@@ -125,6 +126,9 @@ public class PropertiesPanelAdapter {
 		if (propertyView instanceof Checkbox checkBoxProperty) {
 			return new ComponentCheckbox(loc, checkBoxProperty,
 					checkBoxProperty.getLabel(), checkBoxProperty::setSelected, false);
+		}
+		if (propertyView instanceof ImagePicker imagePicker) {
+			return new ImagePickerPanel(app, imagePicker);
 		}
 		if (propertyView instanceof ConnectedButtonGroup connectedButtonGroup) {
 			return new ComponentConnectedButtonGroup(connectedButtonGroup, widgets);

@@ -20,29 +20,19 @@ import static org.geogebra.common.properties.PropertyView.*;
 
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.properties.PropertyResource;
-import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.dialog.image.UploadImagePanel;
-import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
-import org.gwtproject.user.client.ui.Image;
-import org.gwtproject.user.client.ui.Label;
 
 public class ButtonIconEditorPanel extends FlowPanel implements ConfigurationUpdateDelegate {
 	private final AppW appW;
 	private final ButtonIconEditor buttonIconEditor;
 	private final ImagePicker imagePickerProperty;
 	private IconButtonPanel iconButtonPanel;
-	private StandardButton fileChooser;
-	private FlowPanel customIconButtonPanel;
-	private Image imagePreview;
-	private Label imageName;
+	private ImagePickerPanel imagePickerPanel;
 
 	/**
 	 * Create the panel for buttons icon settings
@@ -63,49 +53,8 @@ public class ButtonIconEditorPanel extends FlowPanel implements ConfigurationUpd
 				false, this::updateImage);
 		add(iconButtonPanel);
 
-		buildFileChooserPanel();
-	}
-
-	private void buildFileChooserPanel() {
-		fileChooser = new StandardButton(appW.getLocalization()
-				.getMenu(imagePickerProperty.getChooseFromFileLabel()));
-		fileChooser.addStyleName("materialOutlinedButton");
-		fileChooser.addFastClickHandler(event -> UploadImagePanel.getUploadButton(appW,
-				this::uploadImageUpdateUI).click());
-		add(fileChooser);
-
-		buildFileEditPanel();
-	}
-
-	private void buildFileEditPanel() {
-		customIconButtonPanel = new FlowPanel();
-		customIconButtonPanel.addStyleName("customIconButtonPanel");
-
-		imagePreview = new Image();
-		imagePreview.addStyleName("imagePreview");
-		imageName = BaseWidgetFactory.INSTANCE.newPrimaryText("", "imageName");
-		customIconButtonPanel.add(imagePreview);
-		customIconButtonPanel.add(imageName);
-
-		IconButton editButton = new IconButton(appW, () -> UploadImagePanel.getUploadButton(appW,
-				this::uploadImageUpdateUI).click(),
-				new ImageIconSpec(MaterialDesignResources.INSTANCE.edit_black()), "edit");
-		customIconButtonPanel.add(editButton);
-
-		IconButton deleteButton = new IconButton(appW, () -> {
-			imagePickerProperty.clearImage();
-			updateCustomIconPanelVisibility(true);
-			}, new ImageIconSpec(MaterialDesignResources.INSTANCE.delete_black()), "delete");
-		customIconButtonPanel.add(deleteButton);
-
-		add(customIconButtonPanel);
-		updateCustomIconPanelVisibility(true);
-	}
-
-	private void uploadImageUpdateUI(String name, String data) {
-		uploadImage(name, data);
-		iconButtonPanel.deselectAllBut(0, -1);
-		updateCustomIconPanelVisibility(false);
+		imagePickerPanel = new ImagePickerPanel(appW, imagePickerProperty);
+		add(imagePickerPanel);
 	}
 
 	private void uploadImage(String name, String data) {
@@ -115,8 +64,7 @@ public class ButtonIconEditorPanel extends FlowPanel implements ConfigurationUpd
 		MyImage myImage = appW.getImageManager().getExternalImage(filePath);
 		if (myImage != null) {
 			imagePickerProperty.setImage(myImage, filePath);
-			imagePreview.setUrl(data);
-			imageName.setText(imagePickerProperty.getFileName());
+			imagePickerPanel.updatePreview(data);
 		}
 	}
 
@@ -130,12 +78,7 @@ public class ButtonIconEditorPanel extends FlowPanel implements ConfigurationUpd
 				.getPropertiesIconResource().getImageResource(propertyResource);
 		SVGResource svg = imageIconSpec.getImage();
 		uploadImage(svg.getName() + ".svg", svg.getSafeUri().asString());
-		updateCustomIconPanelVisibility(true);
-	}
-
-	private void updateCustomIconPanelVisibility(boolean fileChooserShown) {
-		fileChooser.setVisible(fileChooserShown);
-		customIconButtonPanel.setVisible(!fileChooserShown);
+		imagePickerPanel.updateCustomIconPanelVisibility(true);
 	}
 
 	@Override

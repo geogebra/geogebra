@@ -27,6 +27,7 @@ import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.facade.BooleanPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.IconsEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.ImagePropertyListFacade;
+import org.geogebra.common.properties.impl.objects.delegate.IconStylePropertyDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.util.ImageManager;
 
@@ -52,7 +53,8 @@ public class ButtonIconPropertyCollection extends PropertyCollectionWithLead {
 						element -> new ButtonIconProperty(localization, element),
 						IconsEnumeratedPropertyListFacade::new),
 					propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new FillImageProperty(localization, imageManager, element),
+						element -> new FillImageProperty(localization, imageManager, element,
+								new IconStylePropertyDelegate(element)),
 						ImagePropertyListFacade::new)
 		);
 		if (getProperties().length == 0 || Arrays.stream(getProperties())

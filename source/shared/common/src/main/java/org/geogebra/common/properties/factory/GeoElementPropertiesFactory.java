@@ -783,13 +783,8 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public IconsEnumeratedPropertyListFacade<?, ?> createFillingStyleProperty(
 			Localization localization, List<GeoElement> elements) {
-		return createFillingStyleProperty(localization, elements, false);
-	}
-
-	private IconsEnumeratedPropertyListFacade<?, ?> createFillingStyleProperty(
-			Localization localization, List<GeoElement> elements, boolean b) {
 		return createOptionalPropertyFacade(elements,
-				element -> new FillingStyleProperty(localization, element, b),
+				element -> new FillingStyleProperty(localization, element),
 				IconsEnumeratedPropertyListFacade::new);
 	}
 

@@ -62,6 +62,7 @@ public class ComponentSlider extends FlowPanel implements ConfigurationUpdateDel
 	private void initSlider() {
 		sliderPanel = new SliderPanelW(sliderProperty.getMin(), sliderProperty.getMax(),
 				appW.getKernel(), false);
+		sliderPanel.setStep(sliderProperty.getStep());
 		sliderPanel.setValue((double) sliderProperty.getValue());
 		sliderPanel.getSlider().addStyleName("slider");
 		sliderPanel.getSlider().addValueChangeHandler(event ->
@@ -77,6 +78,9 @@ public class ComponentSlider extends FlowPanel implements ConfigurationUpdateDel
 	@Override
 	public void configurationUpdated() {
 		sliderPanel.setValue((double) sliderProperty.getValue());
+		sliderPanel.setMinimum(sliderProperty.getMin(), false);
+		sliderPanel.setMaximum(sliderProperty.getMax(), false);
+		sliderPanel.setStep(sliderProperty.getStep());
 		displayValue.setText(sliderProperty.getDisplayValue());
 	}
 }

@@ -1472,7 +1472,7 @@ $keyboard_button_transition: opacity .3s ease;
 			flex: 1 0 0;
 			transition-property: border-radius, background-color;
 			transition-duration: 200ms, 200ms;
-			transition-delay: 200ms, 200ms;
+			transition-delay: 0ms, 200ms;
 			transition-timing-function: ease-in-out;
 
 			.gwt-Label {

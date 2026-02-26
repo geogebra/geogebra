@@ -330,6 +330,15 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/filling_honeycomb.svg")
 	SVGResource pattern_honeycomb();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/filling_bricks.svg")
+	SVGResource pattern_bricks();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/filling_chessboard.svg")
+	SVGResource pattern_chessboard();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/filling_weaving.svg")
+	SVGResource pattern_weaving();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/no_filling.svg")
 	SVGResource no_pattern();
 
