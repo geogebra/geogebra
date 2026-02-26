@@ -33,6 +33,12 @@ public class SpreadsheetReferenceParsingTests {
 	}
 
 	@Test
+	public void testParseEmptyCellReferences() {
+		assertNull(SpreadsheetReferenceParsing.parseReference(""));
+		assertNull(SpreadsheetReferenceParsing.parseReference("    "));
+	}
+
+	@Test
 	public void testParseCellReferences() {
 		assertEquals(new SpreadsheetReference(
 				new SpreadsheetCellReference(0, 0), null),

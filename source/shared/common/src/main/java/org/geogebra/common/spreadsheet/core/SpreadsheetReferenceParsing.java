@@ -53,6 +53,9 @@ final class SpreadsheetReferenceParsing {
 	 * reference input string, or {@code null} if candidate is not a valid cell or range reference.
 	 */
 	static @CheckForNull SpreadsheetReference parseReference(@Nonnull String candidate) {
+		if (candidate.isBlank()) { // this includes empty strings
+			return null;
+		}
 		String[] parts = candidate.split(":");
 		if (parts.length > 2 || parts.length < 1) {
 			return null; // must be "A1" or "A1:A10"
@@ -89,7 +92,7 @@ final class SpreadsheetReferenceParsing {
 	 */
 	private static @CheckForNull SpreadsheetCellReference parseCellReference(
 			@CheckForNull String cellReference) {
-		if (cellReference == null) {
+		if (cellReference == null || cellReference.isEmpty()) {
 			return null;
 		}
 		MatchResult match = CELL_REFERENCE_REGEX.exec(cellReference);
