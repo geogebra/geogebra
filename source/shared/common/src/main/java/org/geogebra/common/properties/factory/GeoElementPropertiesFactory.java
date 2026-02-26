@@ -191,7 +191,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public PropertiesArray createGeoElementProperties(
 			AlgebraProcessor processor, Localization localization, List<GeoElement> elements) {
-		return createPropertiesArray(localization, elements, Stream.of(
+		return createPropertiesArray(localization, elements, keepNonNulls(
 				createNameProperty(localization, elements),
 				createMinProperty(processor, localization, elements),
 				createMaxProperty(processor, localization, elements),
@@ -212,7 +212,7 @@ public final class GeoElementPropertiesFactory {
 				createOptionalPropertyFacade(elements,
 						element -> new ShowInAVProperty(localization, element),
 						BooleanPropertyListFacade::new)
-		).filter(Objects::nonNull).collect(Collectors.toList()));
+		));
 	}
 
 	private Property createCaptionStyleProperty(Localization localization,
@@ -444,10 +444,10 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public PropertiesArray createPointStyleProperties(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertiesArray(localization, elements, Stream.<Property>of(
+		return createPropertiesArray(localization, elements, keepNonNulls(
 				createPointStyleProperty(localization, elements),
 				createPointSizeProperty(localization, elements)
-		).filter(Objects::nonNull).collect(Collectors.toList()));
+		));
 	}
 
 	/**
@@ -458,10 +458,10 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public PropertiesArray createPointStyleExtendedProperties(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertiesArray(localization, elements, Stream.of(
+		return createPropertiesArray(localization, elements, keepNonNulls(
 				createPointStyleExtendedProperty(localization, elements),
 				createPointSizeProperty(localization, elements)
-		).filter(Objects::nonNull).collect(Collectors.toList()));
+		));
 	}
 
 	/**
@@ -486,10 +486,10 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public PropertiesArray createLineStyleProperties(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertiesArray(localization, elements, Stream.<Property>of(
+		return createPropertiesArray(localization, elements, keepNonNulls(
 				createLineStyleProperty(localization, elements),
 				createThicknessProperty(localization, elements)
-		).filter(Objects::nonNull).collect(Collectors.toList()));
+		));
 	}
 
 	/**
@@ -500,10 +500,10 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public List<Property> createNotesLineStyleProperties(
 			Localization localization, List<GeoElement> elements) {
-		return Stream.of(
+		return keepNonNulls(
 				createLineStyleProperty(localization, elements),
 				createNotesThicknessProperty(localization, elements)
-		).filter(Objects::nonNull).collect(Collectors.toList());
+		);
 	}
 
 	/**
@@ -514,10 +514,10 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public PropertiesArray createNotesColorWithOpacityProperties(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertiesArray(localization, elements, Stream.of(
+		return createPropertiesArray(localization, elements, keepNonNulls(
 				createColorWithOpacityProperty(localization, elements),
 				createOpacityColorProperty(localization, elements)
-		).filter(Objects::nonNull).collect(Collectors.toList()));
+		));
 	}
 
 	/**
@@ -528,10 +528,10 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public PropertiesArray createObjectBorderProperties(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertiesArray(localization, elements, Stream.of(
+		return createPropertiesArray(localization, elements, keepNonNulls(
 				createBorderColorProperty(localization, elements),
 				createBorderThicknessProperty(localization, elements)
-		).filter(Objects::nonNull).collect(Collectors.toList()));
+		));
 	}
 
 	/**
@@ -542,10 +542,10 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public PropertiesArray createCellBorderStyleProperties(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertiesArray(localization, elements, Stream.of(
+		return createPropertiesArray(localization, elements, keepNonNulls(
 				createCellBorderStyleProperty(localization, elements),
 				createCellBorderThicknessProperty(localization, elements)
-		).filter(Objects::nonNull).collect(Collectors.toList()));
+		));
 	}
 
 	/**
@@ -583,12 +583,16 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public PropertiesArray createLabelProperties(Localization localization,
 			List<GeoElement> elements) {
-		return createPropertiesArray(localization, elements,  Stream.<Property>of(
+		return createPropertiesArray(localization, elements, keepNonNulls(
 				createOptionalPropertyFacade(elements,
 						element -> new NameCaptionProperty(localization, element),
 						StringPropertyListFacade::new),
 				createLabelStyleProperty(localization, elements)
-		).filter(Objects::nonNull).collect(Collectors.toList()));
+		));
+	}
+
+	private List<Property> keepNonNulls(Property... props) {
+		return Stream.of(props).filter(Objects::nonNull).collect(Collectors.toList());
 	}
 
 	/**
