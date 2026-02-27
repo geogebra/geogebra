@@ -48,7 +48,7 @@ public class MebisTopBarIconProvider extends DefaultTopBarIconProvider {
 		case SETTINGS:
 			return new FaIconSpec("fa-gear");
 		case RULING:
-			return new FaIconSpec("fa-table-cells-rows");
+			return new ImageIconSpec(DefaultTopBarIconResources.INSTANCE.ruling_fontawesome());
 		case COLOR:
 			return new FaIconSpec("fa-fill-drip");
 		case PAGE_OVERVIEW:
