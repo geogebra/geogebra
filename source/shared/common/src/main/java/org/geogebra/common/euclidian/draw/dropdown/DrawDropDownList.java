@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.editor.share.util.Unicode;
 
@@ -187,15 +188,14 @@ public final class DrawDropDownList extends CanvasDrawable
 	protected void drawWidget(GGraphics2D g2) {
 		updateMetrics();
 		int textLeft = boxLeft + COMBO_TEXT_MARGIN;
-		GColor bgColor = geo.getBackgroundColor() != null
-				? geo.getBackgroundColor() : GColor.WHITE;
+		GColor bgColor = geo.getBackgroundColor() != null ? geo.getBackgroundColor() : GColor.WHITE;
 
-		drawSelected.drawBounds(geoList, g2, bgColor, boxLeft, boxTop, boxWidth,
-				boxHeight);
+		drawSelected.drawBounds(geoList, g2, bgColor, boxLeft, boxTop, boxWidth, boxHeight);
 
 		g2.setPaint(GColor.LIGHT_GRAY);
 		highlightLabel(g2, latexLabel);
-		g2.setPaint(geo.getObjectColor());
+		g2.setPaint(geoList.usesDisabledStyle(null)
+				? GeoGebraColorConstants.NEUTRAL_500 : geoList.getObjectColor());
 
 		// Draw the selected line
 		int textBottom;
@@ -207,7 +207,7 @@ public final class DrawDropDownList extends CanvasDrawable
 		}
 
 		drawSelectedText(g2, textLeft, textBottom, true);
-		drawSelected.drawOpenControl(g2, boxLeft, boxTop, boxWidth, boxHeight);
+		drawSelected.drawOpenControl(g2, boxLeft, boxTop, boxWidth, boxHeight, geoList);
 
 		if (geo.isLabelVisible()) {
 			drawLabel(g2, geoList, getLabelText());
@@ -246,7 +246,8 @@ public final class DrawDropDownList extends CanvasDrawable
 						getCaptionY(true, labelSize.y));
 			} else {
 				int textBottom = getCaptionY(false, labelSize.y);
-				g2.setPaint(geo.getObjectColor());
+				g2.setPaint(geoList.usesDisabledStyle(null)
+						? GeoGebraColorConstants.NEUTRAL_500 : geoList.getObjectColor());
 				g2.setFont(getLabelFont());
 				EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
 						xLabel, textBottom, false);

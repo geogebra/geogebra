@@ -1106,14 +1106,13 @@ public class AutoCompleteTextFieldD extends MathTextField
 	}
 
 	private static GColor getBorderColor(GColor backgroundColor, DrawInputBox drawInputBox) {
-		GColor borderColor;
-		if (backgroundColor == GColor.WHITE) {
-			borderColor = drawInputBox.isEditing() ? GeoGebraColorConstants.PURPLE_600
+		if (drawInputBox.usesDisabledStyle()) {
+			return GeoGebraColorConstants.NEUTRAL_300;
+		} else if (backgroundColor == GColor.WHITE) {
+			return drawInputBox.isEditing() ? GeoGebraColorConstants.PURPLE_600
 					: GeoGebraColorConstants.NEUTRAL_500;
-		} else {
-			borderColor = GColor.getBorderColorFrom(backgroundColor);
 		}
-		return borderColor;
+		return GColor.getBorderColorFrom(backgroundColor);
 	}
 
 	/**

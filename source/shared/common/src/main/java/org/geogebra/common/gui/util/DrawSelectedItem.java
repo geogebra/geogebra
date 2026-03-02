@@ -46,12 +46,13 @@ public class DrawSelectedItem {
 	 * @param boxTop top of the visible box
 	 * @param boxWidth width of the visible box
 	 * @param boxHeight height of the visible box
+	 * @param geo Corresponding GeoElement
 	 */
 	public void drawOpenControl(GGraphics2D g2, int boxLeft, int boxTop, int boxWidth,
-			int boxHeight) {
+			int boxHeight, GeoElement geo) {
 		int left = boxLeft + boxWidth - boxHeight;
 		ctrlRect.setBounds(boxLeft, boxTop, boxWidth, boxHeight);
-		drawTriangle(g2, left, boxTop, boxHeight);
+		drawTriangle(g2, left, boxTop, boxHeight, geo);
 	}
 
 	/**
@@ -71,29 +72,29 @@ public class DrawSelectedItem {
 		g2.fillRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 
 		// TF Rectangle
-		if (bgColor == GColor.WHITE) {
+		if (geo.usesDisabledStyle(null)) {
+			g2.setPaint(GeoGebraColorConstants.NEUTRAL_300);
+		} else if (bgColor == GColor.WHITE) {
 			g2.setPaint(geo.doHighlighting()
 					? GeoGebraColorConstants.PURPLE_600 : GeoGebraColorConstants.NEUTRAL_500);
 		} else {
 			g2.setPaint(GColor.getBorderColorFrom(bgColor));
 		}
 		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(geo.doHighlighting()
-				? BORDER_WIDTH_FOCUSED : BORDER_WIDTH_RESTING));
+				&& !geo.usesDisabledStyle(null) ? BORDER_WIDTH_FOCUSED : BORDER_WIDTH_RESTING));
 		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 	}
 
 	/**
-	 * @param g2
-	 *            graphics
-	 * @param left
-	 *            left
-	 * @param top
-	 *            top
-	 * @param size
-	 *            size
+	 * @param g2 graphics
+	 * @param left left
+	 * @param top top
+	 * @param size size
+	 * @param geo Corresponding GeoElement to set the correct color if disabled style is used.
 	 */
-	public void drawTriangle(GGraphics2D g2, int left, int top, int size) {
-		g2.setColor(GeoGebraColorConstants.NEUTRAL_700);
+	public void drawTriangle(GGraphics2D g2, int left, int top, int size, GeoElement geo) {
+		g2.setColor(geo.usesDisabledStyle(null)
+				? GeoGebraColorConstants.NEUTRAL_500 : GeoGebraColorConstants.NEUTRAL_700);
 
 		int middleX = left + size / 2;
 

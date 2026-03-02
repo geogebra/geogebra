@@ -1352,9 +1352,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		g2.setPaint(backgroundColor);
 		g2.fillRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 
-		GColor borderColor = backgroundColor == GColor.WHITE
-				? GeoGebraColorConstants.NEUTRAL_500
-				: GColor.getBorderColorFrom(backgroundColor);
+		GColor borderColor = getBorderColor(backgroundColor);
 		g2.setColor(borderColor);
 		setTextFieldBorderColor(backgroundColor, borderColor);
 		if (drawTextField.hasError()) {
@@ -1363,6 +1361,15 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 
 		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
+	}
+
+	private GColor getBorderColor(GColor backgroundColor) {
+		if (drawTextField.usesDisabledStyle()) {
+			return GeoGebraColorConstants.NEUTRAL_300;
+		}
+		return backgroundColor == GColor.WHITE
+				? GeoGebraColorConstants.NEUTRAL_500
+				: GColor.getBorderColorFrom(backgroundColor);
 	}
 
 	private void setTextFieldBorderColor(GColor backgroundColor, GColor borderColor) {

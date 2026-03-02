@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
@@ -617,5 +618,10 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	@Override
 	public void setNeedsUpdatedBoundingBox(boolean needsUpdate) {
 		this.needsUpdateBoundingBox = needsUpdate;
+	}
+
+	@Override
+	public boolean usesDisabledStyle(EuclidianViewInterfaceSlim ev) {
+		return !isSelectionAllowed(ev) && objColor == GeoGebraColorConstants.NEUTRAL_900;
 	}
 }

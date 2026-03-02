@@ -5891,12 +5891,20 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * @param ev
-	 *            view
+	 * @param ev view
 	 * @return true if selection is allowed
 	 */
 	public boolean isSelectionAllowed(EuclidianViewInterfaceSlim ev) {
 		return selectionAllowed;
+	}
+
+	/**
+	 * @param ev view
+	 * @return Whether the disabled style is used. This is the case if selection is disallowed
+	 * and neither a custom foreground nor a custom background color is set.
+	 */
+	public boolean usesDisabledStyle(EuclidianViewInterfaceSlim ev) {
+		return !isSelectionAllowed(ev);
 	}
 
 	/**

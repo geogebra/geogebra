@@ -162,6 +162,8 @@ public final class DrawBoolean extends Drawable {
 	}
 
 	private void drawLabel(GGraphics2D g2, int checkboxX) {
+		GColor textColor = geoBool.usesDisabledStyle(null)
+				? GeoGebraColorConstants.NEUTRAL_500 : geo.getObjectColor();
 		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
 			getDynamicCaption().draw(g2);
 		} else if (isLatexLabel()) {
@@ -169,17 +171,17 @@ public final class DrawBoolean extends Drawable {
 			int captionY = getCaptionY(true, textHeight);
 
 			App app = view.getApplication();
-			g2.setPaint(geo.getObjectColor());
+			g2.setPaint(textColor);
 
 			app.getDrawEquation().drawEquation(app, geoBool, g2, captionX, captionY,
 					labelDesc, g2.getFont(),
 					StringUtil.startsWithFormattingCommand(labelDesc),
-					geoBool.getObjectColor(), geoBool.getBackgroundColor(),
+					textColor, geoBool.getBackgroundColor(),
 					false, false,
 					view.getCallBack(geo, firstCall));
 			firstCall = false;
 		} else {
-			g2.setPaint(geo.getObjectColor());
+			g2.setPaint(textColor);
 			if (!StringUtil.empty(labelDesc)) {
 				int captionX = checkboxX + CHECKBOX_SIZE + LABEL_MARGIN_TEXT;
 				int captionY = getCaptionY(false, textHeight);

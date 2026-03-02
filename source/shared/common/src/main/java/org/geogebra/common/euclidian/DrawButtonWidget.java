@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.settings.StyleSettings;
 import org.geogebra.common.util.StringUtil;
 
@@ -156,7 +157,9 @@ public class DrawButtonWidget {
 				getHeight() - 1 - shadowSize, arcSize, arcSize);
 
 		// Basic border (the same with and without focus)
-		if (styleSettings.getButtonBorderColor() != null) {
+		if (geoButton.usesDisabledStyle(null)) {
+			g2.setColor(GeoGebraColorConstants.NEUTRAL_300);
+		} else if (styleSettings.getButtonBorderColor() != null) {
 			g2.setColor(styleSettings.getButtonBorderColor());
 		} else {
 			if (bg.getContrast(view.getBackgroundCommon()) >= 3.0) {
@@ -170,7 +173,11 @@ public class DrawButtonWidget {
 				getHeight() - 1 - shadowSize, arcSize, arcSize);
 
 		// prepare to draw text
-		g2.setColor(geoButton.getObjectColor());
+		if (geoButton.usesDisabledStyle(null)) {
+			g2.setColor(GeoGebraColorConstants.NEUTRAL_500);
+		} else {
+			g2.setColor(geoButton.getObjectColor());
+		}
 
 		MyImage im = geoButton.getFillImage();
 		// Starting position of the image

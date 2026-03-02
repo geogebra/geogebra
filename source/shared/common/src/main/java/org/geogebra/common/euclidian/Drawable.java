@@ -951,7 +951,7 @@ public abstract class Drawable extends DrawableND {
 	 * @return whether the drawable should be highlighted
 	 */
 	public boolean isHighlighted() {
-		return getTopLevelGeo().doHighlighting();
+		return getTopLevelGeo().doHighlighting() && !getTopLevelGeo().usesDisabledStyle(null);
 	}
 
 	@Override

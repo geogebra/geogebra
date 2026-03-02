@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -99,10 +100,10 @@ public abstract class CanvasDrawable extends Drawable {
 		// eg $\math{x}$ for nice x
 		boolean serif = shouldBeSerif(text, geo0, isContentOfInputBox);
 
-		GDimension ret = app.getDrawEquation().drawEquation(app, geo0, g2, x, y,
-				text,
-				font, serif, geo.getObjectColor(), geo.getBackgroundColor(),
-				false, false, view.getCallBack(geo, firstCall));
+		GDimension ret = app.getDrawEquation().drawEquation(app, geo0, g2, x, y, text, font, serif,
+				geo.usesDisabledStyle(null)
+						? GeoGebraColorConstants.NEUTRAL_500 : geo.getObjectColor(),
+				geo.getBackgroundColor(), false, false, view.getCallBack(geo, firstCall));
 		firstCall = false;
 		return ret;
 	}

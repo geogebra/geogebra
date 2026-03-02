@@ -51,8 +51,7 @@ public class CheckBoxTreeItemController extends LatexTreeItemController {
 
 		app.closePopups();
 	
-		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event,
-				ZeroOffset.INSTANCE);
+		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event, ZeroOffset.INSTANCE);
 		onPointerDown(wrappedEvent, event);
 		handleAVItem(event);
 		if (event.getNativeButton() != NativeEvent.BUTTON_RIGHT) {
@@ -67,8 +66,7 @@ public class CheckBoxTreeItemController extends LatexTreeItemController {
 		event.stopPropagation();
 		app.closePopups();
 
-		PointerEvent wrappedEvent = PointerEvent.wrapEvent(event,
-				ZeroOffset.INSTANCE);
+		PointerEvent wrappedEvent = PointerEvent.wrapEvent(event, ZeroOffset.INSTANCE);
 
 		onPointerDownMainButton(wrappedEvent);
 		handleAVItem(event);

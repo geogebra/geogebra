@@ -969,8 +969,7 @@ public class ConstructionDefaults implements SettingListener {
 				geo.setAllVisualPropertiesExceptEuclidianVisible(defaultGeo,
 						isReset, setAuxiliaryProperty);
 			} else {
-				geo.setAllVisualProperties(defaultGeo, isReset,
-						setAuxiliaryProperty);
+				geo.setAllVisualProperties(defaultGeo, isReset, setAuxiliaryProperty);
 			}
 
 			if (geo instanceof GeoFunction) {
@@ -998,8 +997,7 @@ public class ConstructionDefaults implements SettingListener {
 				setMaxLayerUsed(geo, app);
 			}
 
-			defaultLabelMode = defaultGeo
-					.getLabelMode() == GeoElementND.LABEL_DEFAULT;
+			defaultLabelMode = defaultGeo.getLabelMode() == GeoElementND.LABEL_DEFAULT;
 		}
 
 		if (defaultLabelMode) {

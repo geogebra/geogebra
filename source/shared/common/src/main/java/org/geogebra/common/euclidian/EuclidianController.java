@@ -6514,10 +6514,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected boolean overComboBox(AbstractEvent event, GeoElement hit) {
 		if (hit.isGeoList()) {
 			DrawableND dl = view.getDrawableFor(hit);
-			if (dl instanceof DrawDropDownList) {
-				((DrawDropDownList) dl).onOptionOver(event.getX(),
-						event.getY());
-				return true;
+			if (dl instanceof DrawDropDownList dropDown) {
+				int x = event.getX();
+				int y = event.getY();
+				if (dropDown.hit(x, y, app.getCapturingThreshold(event.getType()))) {
+					dropDown.onOptionOver(x, y);
+					return true;
+				}
 			}
 		}
 		return false;

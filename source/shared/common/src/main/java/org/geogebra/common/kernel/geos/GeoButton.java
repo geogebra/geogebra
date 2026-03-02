@@ -24,6 +24,7 @@ import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -32,6 +33,7 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 
@@ -557,6 +559,9 @@ public class GeoButton extends GeoElement implements TextProperties,
 
 	@Override
 	public GColor getBackgroundColor() {
+		if (usesDisabledStyle(null)) {
+			return GeoGebraColorConstants.NEUTRAL_300;
+		}
 		if (bgColor == null && colFunction == null) {
 			return null;
 		}
@@ -666,4 +671,9 @@ public class GeoButton extends GeoElement implements TextProperties,
 		pt.setCoords(view.toRealWorldCoordX(x), view.toRealWorldCoordY(y), 1);
 	}
 
+	@Override
+	public boolean usesDisabledStyle(EuclidianViewInterfaceSlim ev) {
+		return !isSelectionAllowed(ev) && bgColor == GeoGebraColorConstants.GEOGEBRA_ACCENT
+				&& objColor == GColor.WHITE;
+	}
 }

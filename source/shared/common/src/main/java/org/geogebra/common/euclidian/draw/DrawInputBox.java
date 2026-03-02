@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.editor.share.util.Unicode;
 
@@ -440,7 +441,8 @@ public class DrawInputBox extends CanvasDrawable {
 	private void drawTextOnCanvas(GGraphics2D g2) {
 		String text = getGeoInputBox().getDisplayText();
 		g2.setFont(textFont);
-		g2.setPaint(geo.getObjectColor());
+		g2.setPaint(geo.usesDisabledStyle(null)
+				? GeoGebraColorConstants.NEUTRAL_500 : geo.getObjectColor());
 		drawText(g2, text);
 	}
 
@@ -521,7 +523,8 @@ public class DrawInputBox extends CanvasDrawable {
 		} else if (isLatexString(text)) {
 			labelDimension = drawLatex(g2, geo0, getLabelFont(), text, xLabel, (int) getLabelTop());
 		} else {
-			g2.setPaint(geo.getObjectColor());
+			g2.setPaint(geo.usesDisabledStyle(null)
+					? GeoGebraColorConstants.NEUTRAL_500 : geo.getObjectColor());
 
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
 					xLabel, yLabel + getTextBottom(), false, null, null);
@@ -712,5 +715,12 @@ public class DrawInputBox extends CanvasDrawable {
 	@Override
 	public boolean isHighlighted() {
 		return view.getApplication().getSelectionManager().isKeyboardFocused(geo);
+	}
+
+	/**
+	 * @return Whether the linked {@link #geoInputBox} is currently using the disabled style.
+	 */
+	public boolean usesDisabledStyle() {
+		return geoInputBox.usesDisabledStyle(null);
 	}
 }
