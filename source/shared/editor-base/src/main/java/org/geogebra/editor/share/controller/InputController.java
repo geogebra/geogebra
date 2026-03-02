@@ -935,6 +935,9 @@ public class InputController {
 
 	private static void moveArgumentsAfter(Node lastToKeep,
 			EditorState editorState, SequenceNode target) {
+		if (target == null || lastToKeep.getParent() == null) {
+			return;
+		}
 		int currentOffset = lastToKeep.getParentIndex() + 1;
 		InternalNode currentField = lastToKeep.getParent();
 		int oldSize = target.size();
@@ -946,7 +949,6 @@ public class InputController {
 		}
 		editorState.setCurrentNode(target);
 		editorState.setCurrentOffset(oldSize);
-
 	}
 
 	/**
