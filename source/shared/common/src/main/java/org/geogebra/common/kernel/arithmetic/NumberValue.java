@@ -34,10 +34,15 @@ public interface NumberValue extends ExpressionValue, GeoElementConvertible {
 	MyDouble getNumber();
 
 	/**
-	 * 
-	 * @return true for angles
+	 * Same as {@link #getAngleDimension()}, but returns 0 in mixed cases
+	 * @return 1 for angles
 	 */
 	int getAngleDim();
+
+	@Override
+	default Integer getAngleDimension() {
+		return getAngleDim();
+	}
 
 	/**
 	 * 

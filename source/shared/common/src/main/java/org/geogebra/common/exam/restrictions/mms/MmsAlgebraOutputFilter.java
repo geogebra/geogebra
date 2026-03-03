@@ -18,21 +18,21 @@ package org.geogebra.common.exam.restrictions.mms;
 
 import javax.annotation.CheckForNull;
 
-import org.geogebra.common.exam.restrictions.wtr.AlgebraConversionFilter;
+import org.geogebra.common.exam.restrictions.wtr.AngleConversionFilter;
 import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 public final class MmsAlgebraOutputFilter implements AlgebraOutputFilter {
 
     private final @CheckForNull AlgebraOutputFilter wrappedFilter;
-    private final AlgebraConversionFilter algebraConversionFilter;
+    private final AngleConversionFilter algebraConversionFilter;
 
     /**
      * @param wrappedFilter parent filter
      */
     public MmsAlgebraOutputFilter(@CheckForNull AlgebraOutputFilter wrappedFilter) {
         this.wrappedFilter = wrappedFilter;
-        this.algebraConversionFilter = new AlgebraConversionFilter();
+        this.algebraConversionFilter = new AngleConversionFilter();
     }
 
     @Override

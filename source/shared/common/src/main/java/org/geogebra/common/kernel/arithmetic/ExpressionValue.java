@@ -346,4 +346,22 @@ public interface ExpressionValue extends Iterable<ExpressionValue> {
 	default @Nonnull Iterator<ExpressionValue> iterator() {
 		return new ExpressionValueTreeIterator(this);
 	}
+
+	/**
+	 * Angle dimension describes the power of angle unit used to define this value,
+	 * it may be {@code null} if mixed powers are used.
+	 * <ul>
+	 * <li> 1 deg -> dimension 1</li>
+	 * <li> (1 deg) * (5 deg) -> dimension 2</li>
+	 * <li> 1/(1 deg) -> dimension -1</li>
+	 * <li> 1deg + 7 -> dimension null</li>
+	 * <li> 1deg/(2deg) -> dimension 0</li>
+	 * <li> sin(1deg) -> dimension 0</li>
+	 * </ul>
+	 * @implNote for {@link GeoElement} this method returns 0 for all numbers that are not angles.
+	 * @return angle dimension
+	 */
+	default Integer getAngleDimension() {
+		return null;
+	}
 }

@@ -3774,4 +3774,27 @@ public class ExpressionNode extends ValidExpression
 		return !(def instanceof MyDouble && def.isConstant()
 				&& Double.isNaN(def.evaluateDouble()));
 	}
+
+	@Override
+	public Integer getAngleDimension() {
+		Integer leftDimension = left == null ? null : left.getAngleDimension();
+		if (operation == Operation.NO_OPERATION) {
+			return leftDimension;
+		}
+		Integer rightDimension = right == null ? null : right.getAngleDimension();
+		if (leftDimension == null) {
+			return null;
+		}
+		return switch (operation) {
+			case PLUS, MINUS -> leftDimension.equals(rightDimension) ? leftDimension : null;
+			case MULTIPLY -> rightDimension == null ? null : leftDimension + rightDimension;
+			case DIVIDE -> rightDimension == null ? null : leftDimension - rightDimension;
+			default -> {
+				if (operation.hasDegreeInput()) { // sin, cos
+					yield 0;
+				}
+				yield null;
+			}
+		};
+	}
 }

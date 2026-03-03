@@ -23,24 +23,42 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.editor.share.util.Unicode;
 
-public class AlgebraConversionFilter implements AlgebraOutputFilter {
+/**
+ * Detects cases of angle conversion.
+ * <ul>
+ * <li>in radian mode, anything that contains degree constant outside
+ *   trig argument is disallowed</li>
+ * <li> in degree or DMS mode, degrees are only allowed if
+ *   <ul>
+ *     <li> the result is an angle and the angle dimension is 1 (e.g. 60deg + 30deg)</li>
+ *     <li> the result is a number and the angle dimension is 0 (e.g. 60deg/30deg -> 2)</li>
+ *   </ul>
+ * </li>
+ * </ul>
+ */
+public class AngleConversionFilter implements AlgebraOutputFilter {
 
 	@Override
 	public boolean isAllowed(GeoElementND element) {
-		if (element.getKernel().getAngleUnit() == Kernel.ANGLE_RADIANT) {
-			return element.getDefinition() == null
-					|| element.getDefinition().deepCopy(element.getKernel())
-							.traverse(this::skipTrig).none(this::isDegree);
+		ExpressionNode definition = element.getDefinition();
+		if (definition == null) {
+			return true; // do not filter commands, sliders etc.
 		}
-		return element.getDefinition() == null
-				|| element.getDefinition().none(this::isDegree)
-				|| !wrongAngleDimension(element, getAngleDimension(element.getDefinition()));
+		if (element.getKernel().getAngleUnit() == Kernel.ANGLE_RADIANT) {
+			// degrees allowed in arguments of trig functions
+			ExpressionValue trigFreeDefinition = definition
+					.deepCopy(element.getKernel()).traverse(this::skipTrig);
+			return trigFreeDefinition.none(this::isDegree);
+		}
+		if (definition.none(this::isDegree)) {
+			return true; // no angle computations involved
+		}
+		return isSimpleDegreeOrScalarExpression(element, getAngleDimension(definition));
 	}
 
 	private ExpressionValue skipTrig(ExpressionValue value) {
@@ -53,9 +71,18 @@ public class AlgebraConversionFilter implements AlgebraOutputFilter {
 		return value;
 	}
 
-	private boolean wrongAngleDimension(GeoElementND element, Integer angleDimension) {
-		return angleDimension == null || angleDimension < 0 || angleDimension > 1
-				|| !(element instanceof GeoAngle) && angleDimension == 1;
+	/*
+	 * Checks if the expression is scalar (1+1,sin(5deg), 1deg/deg ...) or simple angle (1deg+1deg).
+	 */
+	private boolean isSimpleDegreeOrScalarExpression(GeoElementND element, Integer angleDimension) {
+		if (angleDimension == null) {
+			return false; // mixing angles and scalars, e.g. 1deg + 2
+		}
+		return switch (angleDimension) {
+			case 0 -> !(element instanceof GeoAngle); // don't allow printing scalar as angle
+			case 1 -> element instanceof GeoAngle; // don't allow printing angle as scalar
+			default -> false; // e.g. 1/deg
+		};
 	}
 
 	private boolean isDegree(ExpressionValue s) {
@@ -67,35 +94,7 @@ public class AlgebraConversionFilter implements AlgebraOutputFilter {
 		if (expression == null) {
 			return null;
 		}
-		if (expression instanceof NumberValue) {
-			return ((NumberValue) expression).getAngleDim();
-		}
-		if (expression.isExpressionNode()) {
-			ExpressionNode expressionNode = expression.wrap();
-			Integer leftDimension = getAngleDimension(expressionNode.getLeft());
-			Operation operation = expressionNode.getOperation();
-			if (operation == Operation.NO_OPERATION) {
-				return leftDimension;
-			}
-			Integer rightDimension = getAngleDimension(expressionNode.getRight());
-			if (leftDimension == null || rightDimension == null) {
-				return null;
-			}
-			switch (operation) {
-			case PLUS:
-			case MINUS:
-				return leftDimension.equals(rightDimension) ? leftDimension : null;
-			case MULTIPLY:
-				return leftDimension + rightDimension;
-			case DIVIDE:
-				return leftDimension - rightDimension;
-			default:
-				if (operation.hasDegreeInput()) {
-					return 0;
-				}
-				return null;
-			}
-		}
-		return null;
+
+		return expression.getAngleDimension();
 	}
 }

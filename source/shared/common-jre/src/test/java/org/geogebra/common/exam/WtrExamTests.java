@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.ToStringConverter;
 import org.geogebra.editor.share.util.Unicode;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -127,9 +128,14 @@ public class WtrExamTests extends BaseExamTestSetup {
 	}
 
 	@Test
+	@Issue("APPS-6299")
 	public void testRadians() {
-		assertNull(evaluate("3 rad"));
+		// we're not allowed to show the values, the easiest way to do that is just to disallow
+		// the computation as there is no legit reason to use `rad` in degree or DMS mode
+		assertNull(evaluate("1 rad")); // Example 1
 		assertNull(evaluate("3 rad + 4 deg"));
+		getKernel().setAngleUnit(Kernel.ANGLE_DEGREES_MINUTES_SECONDS);
+		assertNull(evaluate("1 deg + 0 rad")); // Example 4
 	}
 
 	@Test
@@ -144,9 +150,10 @@ public class WtrExamTests extends BaseExamTestSetup {
 	}
 
 	@Test
+	@Issue("APPS-6299")
 	public void asindShouldEvaluateToDegrees() {
 		getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
-		GeoElementND angle = evaluate("asind(.5)")[0];
+		GeoElementND angle = evaluate("asind(.5)")[0]; // Example 6
 		assertEquals("30" + Unicode.DEGREE_STRING,
 				angle.toValueString(StringTemplate.defaultTemplate));
 	}

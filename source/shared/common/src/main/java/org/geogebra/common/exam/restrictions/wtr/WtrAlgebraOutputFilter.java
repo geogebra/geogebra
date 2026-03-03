@@ -21,16 +21,16 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
-public class WtrAlgebraOutputFilter implements AlgebraOutputFilter {
+public final class WtrAlgebraOutputFilter implements AlgebraOutputFilter {
 	private final @CheckForNull AlgebraOutputFilter wrappedFilter;
-	private final AlgebraConversionFilter conversionFilter;
+	private final AngleConversionFilter conversionFilter;
 
 	/**
 	 * @param wrappedFilter parent filter
 	 */
 	public WtrAlgebraOutputFilter(@CheckForNull AlgebraOutputFilter wrappedFilter) {
 		this.wrappedFilter = wrappedFilter;
-		this.conversionFilter = new AlgebraConversionFilter();
+		this.conversionFilter = new AngleConversionFilter();
 	}
 
 	@Override
