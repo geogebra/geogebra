@@ -54,6 +54,8 @@ public final class ConvexHullTest {
 
 	/*---- Fixed test vectors ----*/
 
+	private static final Random rand = new Random();
+
 	@Test
 	public void testEmpty() {
 		List<Point2D> points = Collections.emptyList();
@@ -155,12 +157,14 @@ public final class ConvexHullTest {
 			List<Point2D> points = new ArrayList<>();
 			if (rand.nextBoolean()) {
 				double y = rand.nextGaussian();
-				for (int j = 0; j < len; j++)
+				for (int j = 0; j < len; j++) {
 					points.add(new Point2D(rand.nextGaussian(), y));
+				}
 			} else {
 				int y = rand.nextInt(20) - 10;
-				for (int j = 0; j < len; j++)
+				for (int j = 0; j < len; j++) {
 					points.add(new Point2D(rand.nextInt(30), y));
+				}
 			}
 			List<Point2D> actual = ConvexHull.makeHull(points);
 			List<Point2D> expected = new ArrayList<>();
@@ -179,12 +183,14 @@ public final class ConvexHullTest {
 			List<Point2D> points = new ArrayList<>();
 			if (rand.nextBoolean()) {
 				double x = rand.nextGaussian();
-				for (int j = 0; j < len; j++)
+				for (int j = 0; j < len; j++) {
 					points.add(new Point2D(x, rand.nextGaussian()));
+				}
 			} else {
 				int x = rand.nextInt(20) - 10;
-				for (int j = 0; j < len; j++)
+				for (int j = 0; j < len; j++) {
 					points.add(new Point2D(x, rand.nextInt(30)));
+				}
 			}
 			List<Point2D> actual = ConvexHull.makeHull(points);
 			List<Point2D> expected = new ArrayList<>();
@@ -202,12 +208,14 @@ public final class ConvexHullTest {
 			int len = rand.nextInt(100);
 			List<Point2D> points = new ArrayList<>();
 			if (rand.nextBoolean()) {
-				for (int j = 0; j < len; j++)
+				for (int j = 0; j < len; j++) {
 					points.add(new Point2D(rand.nextGaussian(),
 							rand.nextGaussian()));
+				}
 			} else {
-				for (int j = 0; j < len; j++)
+				for (int j = 0; j < len; j++) {
 					points.add(new Point2D(rand.nextInt(10), rand.nextInt(10)));
+				}
 			}
 			List<Point2D> actual = ConvexHull.makeHull(points);
 			List<Point2D> expected = makeHullNaive(points);
@@ -228,8 +236,9 @@ public final class ConvexHullTest {
 					points.add(new Point2D(rand.nextGaussian(),
 							rand.nextGaussian()));
 			} else {
-				for (int j = 0; j < len; j++)
+				for (int j = 0; j < len; j++) {
 					points.add(new Point2D(rand.nextInt(10), rand.nextInt(10)));
+				}
 			}
 
 			// Compute hull and check properties
@@ -321,7 +330,5 @@ public final class ConvexHullTest {
 			return 0;
 		}
 	}
-
-	private static final Random rand = new Random();
 
 }

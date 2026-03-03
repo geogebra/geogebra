@@ -24,7 +24,6 @@ import org.geogebra.common.gui.menu.DrawerMenu;
 import org.geogebra.common.gui.menu.DrawerMenuFactory;
 import org.geogebra.common.gui.menu.MenuItemGroup;
 import org.geogebra.test.BaseAppTestSetup;
-import org.junit.Before;
 import org.junit.Test;
 
 public class ExamDrawerMenuFactoryTest extends BaseAppTestSetup {

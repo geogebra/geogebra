@@ -350,14 +350,9 @@ public class SpreadsheetSelectionControllerTest {
 
 	@Test
 	public void testSelectionChangeNotifications() {
-		final Box<Integer> numberOfNotifications = new Box<Integer>(0);
+		final Box<Integer> numberOfNotifications = new Box<>(0);
 		MulticastEvent.Listener<MulticastEvent.Void> listener =
-				new MulticastEvent.Listener<MulticastEvent.Void>() {
-					@Override
-					public void notify(MulticastEvent.Void unused) {
-						numberOfNotifications.value++;
-					}
-				};
+				unused -> numberOfNotifications.value++;
 		selectionController.selectionsChanged.addListener(listener);
 
 		selectionController.selectCell(0, 0, false, false);

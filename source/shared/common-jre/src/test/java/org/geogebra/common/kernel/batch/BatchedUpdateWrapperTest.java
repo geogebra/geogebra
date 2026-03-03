@@ -51,21 +51,21 @@ public class BatchedUpdateWrapperTest extends BaseUnitTest {
 
 	private BatchedUpdateWrapper wrapper;
 
-	static abstract private class WrappedViewTest
-			implements WrappableView {
+	private interface WrappedViewTest
+			extends WrappableView {
 
 		@Override
-		public boolean needsUpdateVisualstyle(GProperty property) {
+		default boolean needsUpdateVisualstyle(GProperty property) {
 			return true;
 		}
 
 		@Override
-		public boolean show(GeoElement geo) {
+		default boolean show(GeoElement geo) {
 			return true;
 		}
 
 		@Override
-		public boolean getIsWrapped() {
+		default boolean getIsWrapped() {
 			return true;
 		}
 

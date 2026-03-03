@@ -27,7 +27,7 @@ import java.util.List;
  * @see <a href="https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry">Language Subtag Registry hosted by IANA</a>
  * @see <a href="https://www.rfc-editor.org/rfc/rfc4646.txt">RFC 4646</a>
  */
-public class LanguageSubtagRegistryParser {
+public final class LanguageSubtagRegistryParser {
 
 	private static final String STARTSWITH_WHITESPACE = "^[\t ]+.*";
 

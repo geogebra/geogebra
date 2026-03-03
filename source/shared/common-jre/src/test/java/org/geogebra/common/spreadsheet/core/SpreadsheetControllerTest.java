@@ -43,7 +43,6 @@ import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.util.UtilFactoryJre;
 import org.geogebra.common.kernel.statistics.Statistic;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.spreadsheet.kernel.ChartBuilder;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
@@ -56,7 +55,6 @@ import org.geogebra.editor.share.event.KeyEvent;
 import org.geogebra.editor.share.tree.PlaceholderNode;
 import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.geogebra.test.annotation.Issue;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -571,7 +569,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     }
 
     @ParameterizedTest
-    @CsvSource(value = {"0,2", "2,0"})
+    @CsvSource({"0,2", "2,0"})
     public void testCalculatePartOfColumn(int from, int to) {
         tabularData.setContent(0, 0, "1");
         tabularData.setContent(1, 0, "2");
@@ -583,7 +581,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     }
 
     @ParameterizedTest
-    @CsvSource(value = {"0,2", "2,0"})
+    @CsvSource({"0,2", "2,0"})
     public void testCalculateMoreColumns(int from, int to) {
         tabularData.setContent(0, 0, "1");
         tabularData.setContent(1, 0, "2");

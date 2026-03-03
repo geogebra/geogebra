@@ -26,7 +26,6 @@ import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.ownership.SuiteScope;
-import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.junit.Before;
 import org.junit.Test;
 

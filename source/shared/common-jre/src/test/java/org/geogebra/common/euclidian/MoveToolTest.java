@@ -26,7 +26,6 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -661,31 +660,16 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 				null, null, getApp().getActiveEuclidianView());
 	}
 
-	private static class DragResult {
-		public final int x;
-		public final int y;
-		public final String events;
-
+	private record DragResult(int x, int y, String events) {
 		private DragResult(int x, int y, String... events) {
-			this.x = x;
-			this.y = y;
-			this.events = String.join(",", Arrays.stream(events)
-					.filter(s -> s.startsWith("UPDATE")).collect(Collectors.toSet()));
+			this(x, y, String.join(",",
+					Arrays.stream(events).filter(event -> event.startsWith("UPDATE"))
+							.collect(Collectors.toSet())));
 		}
 
 		@Override
 		public String toString() {
 			return x + "," + y + ":" + events;
-		}
-
-		@Override
-		public boolean equals(Object other) {
-			return other instanceof DragResult && toString().equals(other.toString());
-		}
-
-		@Override
-		public int hashCode() {
-			return Objects.hash(x, y, events);
 		}
 	}
 }

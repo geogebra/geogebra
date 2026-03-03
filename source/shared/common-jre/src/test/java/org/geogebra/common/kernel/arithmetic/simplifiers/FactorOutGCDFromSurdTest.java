@@ -40,7 +40,7 @@ public class FactorOutGCDFromSurdTest extends BaseSimplifyTestSetup {
 
 	@Test
 	public void testFactorSubtractionOfNegatives() {
-		shouldSimplify("(-2 - 2sqrt(2))", "-2 (1 + sqrt(2))");;
+		shouldSimplify("(-2 - 2sqrt(2))", "-2 (1 + sqrt(2))");
 		shouldSimplify("-10 - 2sqrt(2)", "-2 (5 + sqrt(2))");
 	}
 

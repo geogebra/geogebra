@@ -54,7 +54,7 @@ class ProbabilityTableMock extends ProbabilityTable {
 	}
 
 	public boolean isRangeHighlighted(int low, int high) {
-		return isHighlightedFrom(low) && this.high == (double) high;
+		return isHighlightedFrom(low) && this.high == high;
 	}
 
 	public String highlightRange() {
@@ -62,6 +62,6 @@ class ProbabilityTableMock extends ProbabilityTable {
 	}
 
 	public boolean isHighlightedFrom(int from) {
-		return this.low == (double) from;
+		return this.low == from;
 	}
 }

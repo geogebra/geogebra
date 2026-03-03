@@ -23,8 +23,6 @@ import java.util.Set;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.geos.GeoCasCell;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSetup;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.util.MockedCasValues;

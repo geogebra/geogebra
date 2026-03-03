@@ -25,6 +25,7 @@ import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -220,6 +221,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		add("SetBackgroundColor(A1,red)");
 		ArrayList<GColor> usedColors = new ArrayList<>();
 		GGraphics2D g2 = new GGraphicsCommon() {
+			@Override
 			public void setColor(GColor c) {
 				usedColors.add(c);
 			}
@@ -287,7 +289,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 	@Test
 	@Issue("APPS-6534")
 	public void testSelectionChangeShouldNotCreateUndoPoint() {
-		SpreadsheetStyleBarModel styleBarModel = spreadsheet.getStyleBarModel();
+		assertNotNull(spreadsheet.getStyleBarModel());
 		simulateCellMouseClick(spreadsheet.getController(), 0, 0, 1);
 		verifyNoInteractions(undoProvider);
 	}
