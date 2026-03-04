@@ -302,7 +302,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		if (isSelected) {
 			graphics.setColor(styling.getSelectedTextColor());
 		} else {
-			graphics.setColor(styling.getDefaultTextColor());
+			graphics.setColor(SpreadsheetStyling.getDefaultTextColor());
 		}
 	}
 

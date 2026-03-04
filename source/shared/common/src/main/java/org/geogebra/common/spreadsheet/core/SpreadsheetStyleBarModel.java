@@ -237,7 +237,8 @@ public final class SpreadsheetStyleBarModel {
 		}
 		GColor backgroundColor = styling.getBackgroundColor(row, column,
 				styling.getDefaultBackgroundColor());
-		GColor textColor = styling.getTextColor(row, column, styling.getDefaultTextColor());
+		GColor textColor = styling.getTextColor(row, column,
+				SpreadsheetStyling.getDefaultTextColor());
 		return new State(true, fontTraits, textAlignment, backgroundColor, textColor);
 	}
 

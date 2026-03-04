@@ -36,7 +36,6 @@ import org.geogebra.common.util.shape.Rectangle;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFont;
 import com.himamis.retex.renderer.share.TeXFormula;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public final class GeoElementCellRendererFactory implements CellRenderableFactory {
 
@@ -62,25 +61,31 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 		if (align == null) {
 			align = (data instanceof GeoText) ? CellFormat.ALIGN_LEFT : CellFormat.ALIGN_RIGHT;
 		}
-		if (((GeoElement) data).isLaTeXDrawableGeo()) {
+		if (geoElement.isLaTeXDrawableGeo()) {
 			TeXFormula tf = new TeXFormula(geoElement
 					.toValueString(StringTemplate.latexTemplate));
-			GColor fgColor = styling.getTextColor(row, column, styling.getDefaultTextColor());
+			GColor fgColor = styling.getTextColor(row, column, getTextColor(geoElement));
 			return new SelfRenderable(laTeXRenderer,
 					fontStyle, align,
 					tf.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 							StringRenderer.FONT_SIZE, TeXFont.SANSSERIF,
-							FactoryProvider.getInstance().getGraphicsFactory()
-									.createColor(fgColor.getARGB())),
-					background);
+							fgColor),
+					background, fgColor);
 		}
 		if (data instanceof GeoBoolean && ((GeoBoolean) data).isIndependent()) {
-			return new SelfRenderable(checkboxCellRenderer, fontStyle, align, data, background);
+			return new SelfRenderable(checkboxCellRenderer, fontStyle, align, data, background,
+					SpreadsheetStyling.getDefaultTextColor());
 		}
 
 		return new SelfRenderable(stringRenderer, fontStyle, align,
 				getValueString(geoElement),
-				background);
+				background, getTextColor(geoElement));
+	}
+
+	private GColor getTextColor(GeoElement geoElement) {
+		GColor textColor = geoElement.getObjectColor();
+		return textColor == GColor.BLACK
+				? SpreadsheetStyling.getDefaultTextColor() : textColor;
 	}
 
 	private String getValueString(GeoElement geoElement) {

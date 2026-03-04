@@ -23,6 +23,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.spreadsheet.core.CellRenderer;
 import org.geogebra.common.spreadsheet.style.CellFormat;
+import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.common.util.shape.Rectangle;
 
 public final class SelfRenderable {
@@ -31,6 +32,7 @@ public final class SelfRenderable {
 	private final CellRenderer renderer;
 	private final Object renderable;
 	private final GColor background;
+	private final GColor textColor;
 	private final int fontStyle;
 	private final int alignment;
 	private final double width;
@@ -43,7 +45,8 @@ public final class SelfRenderable {
 	 */
 	public SelfRenderable(CellRenderer renderer, Integer fontStyle,
 			Integer alignment, Object renderable) {
-		this(renderer, fontStyle, alignment, renderable, null);
+		this(renderer, fontStyle, alignment, renderable, null,
+				SpreadsheetStyling.getDefaultTextColor());
 	}
 
 	/**
@@ -54,10 +57,11 @@ public final class SelfRenderable {
 	 * @param background background color
 	 */
 	public SelfRenderable(CellRenderer renderer, Integer fontStyle,
-			Integer alignment, Object renderable, GColor background) {
+			Integer alignment, Object renderable, GColor background, GColor textColor) {
 		this.renderer = renderer;
 		this.renderable = renderable;
 		this.background = background;
+		this.textColor = textColor;
 		this.alignment = alignment == null ? DEFAULT_CELL_ALIGNMENT : alignment;
 		this.fontStyle = fontStyle == null ? GFont.PLAIN : fontStyle;
 		if (this.alignment != CellFormat.ALIGN_LEFT) {
@@ -84,5 +88,9 @@ public final class SelfRenderable {
 
 	public GColor getBackground() {
 		return background;
+	}
+
+	public GColor getTextColor() {
+		return textColor;
 	}
 }

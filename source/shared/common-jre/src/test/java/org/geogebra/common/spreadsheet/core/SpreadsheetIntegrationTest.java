@@ -25,18 +25,24 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.main.undo.UndoManager;
+import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.spreadsheet.settings.SpreadsheetSettingsAdapter;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
@@ -79,7 +85,7 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 		tabularData = new KernelTabularDataAdapter(getApp());
 		getKernel().attach((KernelTabularDataAdapter) tabularData);
 		spreadsheet = new Spreadsheet(tabularData,
-				new TestCellRenderableFactory(),
+				new GeoElementCellRendererFactory(graphics -> null),
 				null,
 				undoProvider);
 		spreadsheet.setViewportAdjustmentHandler(new DummyViewportAdjuster());
@@ -203,8 +209,8 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 		assertEquals(26, spreadsheet.getController().getLayout().numberOfColumns());
 	}
 
-	@Issue("APPS-6925")
 	@Test
+	@Issue("APPS-6925")
 	public void testClearAllClearsStyles() {
 		spreadsheet.getStyling().setBackgroundColor(GColor.BLUE,
 				Collections.singletonList(new TabularRange(0, 0)));
@@ -213,5 +219,45 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 				.getStyling()
 				.getBackgroundColor(0, 0, null);
 		assertNotEquals(GColor.BLUE, background);
+	}
+
+	@Test
+	@Issue("APPS-6619")
+	public void spreadsheetShouldReflectColorChanges() {
+		getKernel().attach((KernelTabularDataAdapter) tabularData);
+		spreadsheet.setViewport(new Rectangle(0, 300, 0, 300));
+		evaluate("A1 = 1");
+		spreadsheet.draw(new GGraphicsCommon());
+		evaluate("SetBackgroundColor(A1,red)");
+		Set<GColor> usedColors = new HashSet<>();
+		spreadsheet.draw(getColorCollectingGraphics(usedColors));
+		assertTrue(usedColors.contains(GColor.RED), "Should contain red:" + usedColors);
+	}
+
+	@Test
+	@Issue("APPS-7335")
+	public void testDynamicColor() {
+		GeoElement point = evaluateGeoElement("A1=(0,0)");
+		point.setColorFunction(evaluateGeoElement("{x(A1),0,0}"));
+		Set<GColor> colors = new HashSet<>();
+		GGraphicsCommon graphics = getColorCollectingGraphics(colors);
+		spreadsheet.draw(graphics);
+		assertEquals(Set.of(GeoGebraColorConstants.NEUTRAL_900,
+				GeoGebraColorConstants.NEUTRAL_200, GeoGebraColorConstants.NEUTRAL_300), colors);
+		evaluate("SetValue(A1,1)");
+		colors.clear();
+		spreadsheet.draw(graphics);
+		assertEquals(Set.of(GeoGebraColorConstants.NEUTRAL_900,
+				GeoGebraColorConstants.NEUTRAL_200, GeoGebraColorConstants.NEUTRAL_300,
+				GColor.RED), colors);
+	}
+
+	private GGraphicsCommon getColorCollectingGraphics(Set<GColor> colors) {
+		return new GGraphicsCommon() {
+			@Override
+			public void setColor(GColor color) {
+				colors.add(color);
+			}
+		};
 	}
 }

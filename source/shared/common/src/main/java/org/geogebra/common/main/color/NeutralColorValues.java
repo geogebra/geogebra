@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.main.GeoGebraColorConstants;
 
 public final class NeutralColorValues {
 
@@ -34,14 +35,14 @@ public final class NeutralColorValues {
 	 */
 	public static List<GColor> values() {
 		return Arrays.asList(
-				GColor.newColorRGB(0x1C1C1F),
-				GColor.newColorRGB(0x2F2F33),
-				GColor.newColorRGB(0x6E6D73),
-				GColor.newColorRGB(0x85848A),
-				GColor.newColorRGB(0xB4B3BA),
-				GColor.newColorRGB(0xD1D0D6),
-				GColor.newColorRGB(0xE6E6EB),
-				GColor.newColorRGB(0xF3F2F7),
+				GeoGebraColorConstants.NEUTRAL_900,
+				GeoGebraColorConstants.NEUTRAL_800,
+				GeoGebraColorConstants.NEUTRAL_700,
+				GeoGebraColorConstants.NEUTRAL_600,
+				GeoGebraColorConstants.NEUTRAL_500,
+				GeoGebraColorConstants.NEUTRAL_400,
+				GeoGebraColorConstants.NEUTRAL_300,
+				GeoGebraColorConstants.NEUTRAL_200,
 				null);
 	}
 }

@@ -179,7 +179,7 @@ public final class SpreadsheetStyling {
 
 	// Text color
 
-	public GColor getDefaultTextColor() {
+	public static GColor getDefaultTextColor() {
 		return GeoGebraColorConstants.NEUTRAL_900;
 	}
 
