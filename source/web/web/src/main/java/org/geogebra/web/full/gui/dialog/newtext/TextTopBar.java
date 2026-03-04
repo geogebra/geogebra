@@ -29,10 +29,13 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.FontSizeProperty.FontSize;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.euclidian.quickstylebar.components.IconButtonWithProperty;
+import org.geogebra.web.full.gui.dialog.text.TextEditPanel;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.gwtproject.user.client.ui.FlowPanel;
 
 public class TextTopBar extends FlowPanel {
@@ -41,14 +44,17 @@ public class TextTopBar extends FlowPanel {
 	private final GeoElementPropertiesFactory propertiesFactory;
 	private final TextStyle textStyle;
 	private final Runnable previewUpdater;
-	private NamedEnumeratedPropertyListFacade<?, ?> fontSizeProperty ;
+	private NamedEnumeratedPropertyListFacade<?, ?> fontSizeProperty;
+	private InsertPopup insertPopup;
 
 	/**
 	 * @param appW {@link AppWFull}
 	 * @param geoText text element
+	 * @param textEditPanel {@link TextEditPanel}
 	 * @param previewUpdater runnable to update the preview panel
 	 */
-	public TextTopBar(AppWFull appW, GeoText geoText, Runnable previewUpdater) {
+	public TextTopBar(AppWFull appW, GeoText geoText, TextEditPanel textEditPanel,
+			Runnable previewUpdater) {
 		this.appW = appW;
 		this.geoText = geoText;
 		propertiesFactory = appW.getGeoElementPropertiesFactory();
@@ -56,10 +62,10 @@ public class TextTopBar extends FlowPanel {
 		textStyle.setLatex(geoText.isLaTeX());
 		this.previewUpdater = previewUpdater;
 		addStyleName("textTopBar");
-		createTopBar();
+		createTopBar(textEditPanel);
 	}
 
-	private void createTopBar() {
+	private void createTopBar(TextEditPanel textEditPanel) {
 		Localization loc = appW.getLocalization();
 		List<GeoElement> geoList = List.of(geoText);
 
@@ -92,6 +98,31 @@ public class TextTopBar extends FlowPanel {
 
 		add(BaseWidgetFactory.INSTANCE.newDivider(true));
 
+		IconButton insertButton = new IconButton(appW, () -> {},
+				new ImageIconSpec(MaterialDesignResources.INSTANCE.add_black()), "Insert");
+		insertButton.addFastClickHandler(source -> {
+			if (insertPopup == null) {
+				insertPopup = new InsertPopup(appW, textEditPanel);
+				insertPopup.addCloseHandler(event -> insertButton.setActive(false));
+			}
+			toggleInsertPopup(insertButton);
+		});
+		add(insertButton);
+	}
+
+	private void toggleInsertPopup(IconButton insertButton) {
+		if (insertPopup.isShowing()) {
+			insertPopup.hide();
+		} else {
+			appW.closePopups();
+			appW.registerPopup(insertPopup);
+			insertPopup.show();
+			int left = (int) (insertButton.getAbsoluteLeft() - appW.getAbsLeft());
+			int top = (int) (insertButton.getAbsoluteTop() + insertButton.getOffsetHeight()
+					- appW.getAbsTop());
+			insertPopup.setPopupPosition(left, top);
+		}
+		insertButton.setActive(insertPopup.isShowing());
 	}
 
 	private IconButtonWithProperty createIconButtonWithProperty(Property property,

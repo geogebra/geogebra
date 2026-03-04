@@ -433,4 +433,39 @@
 		padding: 8px;
 		max-width: 366px;
 	}
+
+	.insertPopup {
+		width: 360px;
+		flex-wrap: wrap;
+
+		.tabPanel {
+			padding: 8px 16px;
+			height: 180px;
+			overflow: scroll;
+		}
+		.group {
+			display: flex;
+			flex-wrap: wrap;
+
+			.gwt-Label {
+				padding: 4px;
+				cursor: pointer;
+			}
+			canvas {
+				margin: auto 2px;
+				cursor: pointer;
+			}
+			.gwt-Label:hover, canvas:hover {
+				background-color: neutral(200);
+			}
+		}
+		.tabPanel.objects .gwt-Label {
+			flex-basis: 50%;
+			box-sizing: border-box;
+		}
+		.divider {
+			height: 1px;
+			margin: 8px 0;
+		}
+	}
 }

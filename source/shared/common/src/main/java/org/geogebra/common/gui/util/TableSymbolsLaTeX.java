@@ -84,8 +84,11 @@ public class TableSymbolsLaTeX {
 			"\\left\\Vert \\right\\Vert ", "\\left\\langle \\right\\rangle ",
 			"\\left\\lceil \\right\\rceil ", "\\left\\lfloor \\right\\rfloor ",
 			"\\left\\lgroup \\right\\rgroup ",
-			"\\left\\lmoustache \\right\\rmoustache ", "\\shadowbox{xx}",
-			"\\fbox{xx}", "\\doublebox{xx}", "\\ovalbox{xx}"
+			"\\left\\lmoustache \\right\\rmoustache "
+	};
+
+	public final static String[] borders = {
+			"\\shadowbox{xx}", "\\fbox{xx}", "\\doublebox{xx}", "\\ovalbox{xx}"
 	};
 
 	public final static String[] matrices = {

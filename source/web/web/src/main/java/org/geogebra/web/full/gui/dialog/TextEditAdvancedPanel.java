@@ -270,6 +270,8 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 				defaultRowSize, true);
 		addLaTeXTable(TableSymbolsLaTeX.brackets,
 				/* "Brackets", */ defaultRowSize, true);
+		addLaTeXTable(TableSymbolsLaTeX.borders,
+				/* "Brackets", */ defaultRowSize, true);
 	}
 
 	private void addLaTeXTable(String[] tableSymbols,

@@ -80,7 +80,7 @@ public class TextDialog extends ComponentDialog implements TextInputDialog {
 					}
 				}, KeyUpEvent.getType());
 
-		topBar = new TextTopBar(appW, geoText,
+		topBar = new TextTopBar(appW, geoText, editPanel,
 				() -> editPanel.updatePreviewPanel(false));
 		setDialogContent(topBar);
 
