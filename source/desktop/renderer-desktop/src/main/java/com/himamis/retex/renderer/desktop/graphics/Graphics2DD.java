@@ -128,7 +128,7 @@ public class Graphics2DD implements Graphics2DInterface {
 
 	@Override
 	public void draw(GShape s) {
-		impl.fill(((GShapeD) s).getAwtShape());
+		impl.draw(((GShapeD) s).getAwtShape());
 	}
 
 	@Override
