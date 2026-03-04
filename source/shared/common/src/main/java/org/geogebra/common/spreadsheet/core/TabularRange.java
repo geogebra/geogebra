@@ -26,17 +26,23 @@ import javax.annotation.Nonnull;
  * A finite (bounded along both axes), semi-finite (unbounded along one axis),
  * or infinite (unbounded along both axes) rectangular range.
  * <p>
- * Note: End indexes (for finite ranges) are inclusive!
+ * Indexes are zero-based and end indexes are inclusive.
+ * </p>
+ * <p>
+ * This type uses {@code -1} as a sentinel for "all rows" / "all columns":
+ * </p>
+ * <ul>
+ * <li>{@code minRow == maxRow == -1}: range spans all rows (column selection)</li>
+ * <li>{@code minColumn == maxColumn == -1}: range spans all columns (row selection)</li>
+ * <li>{@code minRow == minColumn == -1}: all cells are selected</li>
+ * <li>{@code minRow == maxRow == minColumn == maxColumn == -1}: empty range</li>
+ * </ul>
+ * <p>
+ * {@code anchorRow}/{@code anchorColumn} store the selection start (where the drag started),
+ * while {@code min*}/{@code max*} store normalized bounds. For finite ranges:
+ * {@code min <= anchor <= max} on both axes.
  * </p>
  */
-// TODO This needs more documentation.
-//  - What are anchor column/rows?
-//  - What are the invariants for all indexes?
-//  - What are the possible cases (combinations of -1 and >= 0 values) for min/max rows/columns?
-//  - For example, the conditions in isColumn() is not clear:
-//    > return (anchorRow == -1 || minRow == -1) && anchorColumn != -1;
-//    Why are anchorRow and minRow checked, but not maxRow?
-//    Why is anchorColumn checked, but neither minColumn nor maxColumn?
 public final class TabularRange {
 	private final int anchorColumn;
 	private final int anchorRow;
@@ -100,14 +106,16 @@ public final class TabularRange {
 	}
 
 	/**
-	 * @return whether this range consists of one or more columns
+	 * @return whether this range is a contiguous column selection (single or multiple columns),
+	 * where rows are unbounded
 	 */
 	public boolean isContiguousColumns() {
 		return (anchorRow == -1 || minRow == -1) && anchorColumn != -1;
 	}
 
 	/**
-	 * @return whether this range consists of one or more rows
+	 * @return whether this range is a contiguous row selection (single or multiple rows),
+	 * where columns are unbounded
 	 */
 	public boolean isContiguousRows() {
 		return (anchorColumn == -1 || minColumn == -1) && anchorRow != -1;
@@ -221,7 +229,9 @@ public final class TabularRange {
 	}
 
 	/**
-	 * @param row wow
+	 * Returns whether the given cell belongs to this range.
+	 *
+	 * @param row row index
 	 * @param column column
 	 * @return Whether this range contains given row and column
 	 */
@@ -390,14 +400,23 @@ public final class TabularRange {
 		return anchorRow;
 	}
 
+	/**
+	 * @return anchor column (selection start column)
+	 */
 	public int getFromColumn() {
 		return anchorColumn;
 	}
 
+	/**
+	 * @return row opposite to the anchor within the normalized bounds
+	 */
 	public int getToRow() {
 		return anchorRow == minRow ? maxRow : minRow;
 	}
 
+	/**
+	 * @return column opposite to the anchor within the normalized bounds
+	 */
 	public int getToColumn() {
 		return anchorColumn == minColumn ? maxColumn : minColumn;
 	}
