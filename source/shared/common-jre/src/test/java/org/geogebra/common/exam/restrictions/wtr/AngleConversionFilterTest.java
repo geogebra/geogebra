@@ -24,6 +24,7 @@ import java.util.List;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.BaseExamTestSetup;
 import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.restrictions.AngleConversionFilter;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;

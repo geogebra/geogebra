@@ -22,10 +22,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.ToStringConverter;
 import org.geogebra.editor.share.util.Unicode;
@@ -165,5 +168,26 @@ public class WtrExamTests extends BaseExamTestSetup {
 						+ "BinomialDist( <Number of Trials>, <Probability of Success>, "
 						+ "<Variable Value>, <Boolean Cumulative> )",
 				getApp().getLocalization().getCommandSyntax("BinomialDist"));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"50%",
+			"7%",
+			"100%",
+	})
+	public void testRestrictedOutputForSimplePercentages(String expression) {
+		GeoElement geoElement = evaluateGeoElement(expression);
+		assertFalse(AlgebraItem.shouldShowBothRows(geoElement, getAlgebraSettings()));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"50% + 0.8",
+			"20% + 1 / 2",
+	})
+	public void testUnrestrictedOutputForPercentageExpressions(String expression) {
+		GeoElement geoElement = evaluateGeoElement(expression);
+		assertTrue(AlgebraItem.shouldShowBothRows(geoElement, getAlgebraSettings()));
 	}
 }

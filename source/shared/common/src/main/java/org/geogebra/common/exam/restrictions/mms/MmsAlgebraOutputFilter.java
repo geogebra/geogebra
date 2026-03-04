@@ -18,7 +18,8 @@ package org.geogebra.common.exam.restrictions.mms;
 
 import javax.annotation.CheckForNull;
 
-import org.geogebra.common.exam.restrictions.wtr.AngleConversionFilter;
+import org.geogebra.common.exam.restrictions.AngleConversionFilter;
+import org.geogebra.common.exam.restrictions.PercentageOutputFilter;
 import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
@@ -26,6 +27,7 @@ public final class MmsAlgebraOutputFilter implements AlgebraOutputFilter {
 
     private final @CheckForNull AlgebraOutputFilter wrappedFilter;
     private final AngleConversionFilter algebraConversionFilter;
+    private final PercentageOutputFilter percentageOutputFilter;
 
     /**
      * @param wrappedFilter parent filter
@@ -33,6 +35,7 @@ public final class MmsAlgebraOutputFilter implements AlgebraOutputFilter {
     public MmsAlgebraOutputFilter(@CheckForNull AlgebraOutputFilter wrappedFilter) {
         this.wrappedFilter = wrappedFilter;
         this.algebraConversionFilter = new AngleConversionFilter();
+        this.percentageOutputFilter = new PercentageOutputFilter();
     }
 
     @Override
@@ -44,6 +47,9 @@ public final class MmsAlgebraOutputFilter implements AlgebraOutputFilter {
             return false;
         }
         if (!algebraConversionFilter.isAllowed(element)) {
+            return false;
+        }
+        if (!percentageOutputFilter.isAllowed(element)) {
             return false;
         }
         if (wrappedFilter != null) {

@@ -890,6 +890,35 @@ public class MmsExamTests extends BaseExamTestSetup {
 				evaluate("g(1,3)")[0].toValueString(StringTemplate.testTemplate));
 	}
 
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"50%",
+			"7%",
+			"100%",
+	})
+	@MockedCasValues({ // only used when the tests fail (output not properly restricted)
+			"Evaluate(50%) 		-> 1/2",
+			"Round(1 / 2, 13) 	-> 0.5",
+			"Evaluate(7%) 		-> 7/100",
+			"Round(7 / 100, 13) -> 0.07",
+			"Evaluate(100%) 	-> 1",
+			"Round(1, 13) 		-> 1.0",
+	})
+	public void testRestrictedOutputForSimplePercentages(String expression) {
+		GeoElement geoElement = evaluateGeoElement(expression);
+		assertFalse(AlgebraItem.shouldShowBothRows(geoElement, getAlgebraSettings()));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"50% + 0.8",
+			"20% + 1 / 2",
+	})
+	public void testUnrestrictedOutputForPercentageExpressions(String expression) {
+		GeoElement geoElement = evaluateGeoElement(expression);
+		assertTrue(AlgebraItem.shouldShowBothRows(geoElement, getAlgebraSettings()));
+	}
+
 	private TableValuesView setupTableValues() throws InvalidValuesException {
 		TableValuesView tableValuesView = new TableValuesView(getKernel());
 		tableValuesView.setValues(0, 5, 1);
