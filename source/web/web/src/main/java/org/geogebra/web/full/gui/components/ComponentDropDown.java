@@ -45,7 +45,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 	private boolean isDisabled = false;
 	private DropDownComboBoxController controller;
 	private boolean fullWidth = false;
-	private @CheckForNull Dropdown propertyView;
+	private @CheckForNull Dropdown dropDown;
 
 	/**
 	 * Material drop-down component.
@@ -56,22 +56,9 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 	private ComponentDropDown(AppW app, String label, List<String> items) {
 		this.app = app;
 		labelKey = label;
-		addStyleName("dropDown");
-		setAccessibilityProperties();
 
 		buildGUI(label);
-		addClickHandler();
-
 		initController(items);
-
-		Dom.addEventListener(this.getElement(), "keydown", event -> {
-			KeyboardEvent e = (KeyboardEvent) event;
-			if ("Enter".equals(e.code) || "Space".equals(e.code)) {
-				if (!isDisabled) {
-					controller.toggleAsDropDown(fullWidth);
-				}
-			}
-		});
 	}
 
 	/**
@@ -100,8 +87,13 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 	 * @param property see {@link org.geogebra.common.properties.PropertyView.Dropdown}
 	 */
 	public ComponentDropDown(AppW app, String label, Dropdown property) {
-		this(app, label, property.getItems());
-		propertyView = property;
+		this.app = app;
+		labelKey = label;
+		dropDown = property;
+
+		buildGUI(label);
+		initController(property.getItems());
+
 		Integer index = property.getSelectedItemIndex();
 		if (index == null) {
 			index = 0;
@@ -113,15 +105,26 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 		property.setVisibilityUpdateDelegate(this);
 	}
 
+	private void addKeyDownHandler() {
+		Dom.addEventListener(this.getElement(), "keydown", event -> {
+			KeyboardEvent e = (KeyboardEvent) event;
+			if ("Enter".equals(e.code) || "Space".equals(e.code)) {
+				if (!isDisabled) {
+					controller.toggleAsDropDown(fullWidth);
+				}
+			}
+		});
+	}
+
 	private void initController(List<String> items) {
-		controller = new DropDownComboBoxController(app, this,
+		controller = new DropDownComboBoxController(app, dropDown, this,
 				() -> items, labelKey, () -> {
 			removeStyleName("active");
 			AriaHelper.setAriaExpanded(this, false);
 		});
 		controller.addChangeHandler(() -> {
-			if (propertyView != null) {
-				propertyView.setSelectedItemIndex(controller.getSelectedIndex());
+			if (dropDown != null) {
+				dropDown.setSelectedItemIndex(controller.getSelectedIndex());
 			}
 			updateSelectionText();
 		});
@@ -130,6 +133,12 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 	}
 
 	private void buildGUI(String labelStr) {
+		addStyleName("dropDown");
+		setAccessibilityProperties();
+
+		addClickHandler();
+		addKeyDownHandler();
+
 		FlowPanel optionHolder = new FlowPanel();
 		optionHolder.addStyleName("optionLabelHolder");
 
@@ -224,8 +233,8 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 	 * Reset dropdown to the model (property) value.
 	 */
 	public void resetFromModel() {
-		if (propertyView != null) {
-			controller.resetFromModel(propertyView);
+		if (dropDown != null) {
+			controller.resetFromModel(dropDown);
 			updateSelectionText();
 		}
 	}
@@ -238,7 +247,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 	 * @param property update property
 	 */
 	public void setProperty(Dropdown property) {
-		this.propertyView = property;
+		this.dropDown = property;
 	}
 
 	@Override
@@ -259,9 +268,9 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 
 	@Override
 	public void configurationUpdated() {
-		if (propertyView != null) {
-			controller.resetFromModel(propertyView);
-			Integer index = propertyView.getSelectedItemIndex();
+		if (dropDown != null) {
+			controller.resetFromModel(dropDown);
+			Integer index = dropDown.getSelectedItemIndex();
 			if (index != null) {
 				setSelectedIndex(index);
 			}
@@ -270,8 +279,8 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 
 	@Override
 	public void visibilityUpdated() {
-		if (propertyView != null) {
-			setVisible(propertyView.isVisible());
+		if (dropDown != null) {
+			setVisible(dropDown.isVisible());
 		}
 	}
 }

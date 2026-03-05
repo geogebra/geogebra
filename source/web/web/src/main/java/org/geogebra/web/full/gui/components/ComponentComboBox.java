@@ -94,8 +94,8 @@ public class ComponentComboBox extends FlowPanel implements SetLabels,
 	}
 
 	private void initController(Supplier<List<String>> items) {
-		controller = new DropDownComboBoxController(appW, this, items, labelTextKey,
-				this::onClose);
+		controller = new DropDownComboBoxController(appW, comboBoxProperty, this, items,
+				labelTextKey, this::onClose);
 		controller.addChangeHandler(() -> updateSelectionText(getSelectedText()));
 		controller.setPopupID(controlsID);
 		controller.setFocusAnchor(inputTextField.getInputElement());

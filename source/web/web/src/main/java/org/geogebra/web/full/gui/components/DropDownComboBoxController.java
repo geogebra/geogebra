@@ -21,8 +21,11 @@ import static org.geogebra.common.properties.PropertyView.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.util.MulticastEvent;
 import org.geogebra.web.html5.gui.inputfield.UpDownArrowHandler;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
@@ -40,17 +43,20 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 	private final Supplier<List<String>> items;
 	private final List<Runnable> changeHandlers = new ArrayList<>();
 	private final MulticastEvent<String> onHighlighted = new MulticastEvent<>();
+	private final PropertyView propertyView;
 
 	/**
 	 * popup controller for dropdown and combo box
 	 * @param app apps
+	 * @param propertyView {@link PropertyView}
 	 * @param parent dropdown or combo box
 	 * @param items list of items in popup
 	 * @param labelKey label of drop down or combo box
 	 * @param onClose handler to run on close
 	 */
-	public DropDownComboBoxController(final AppW app, Widget parent,
+	public DropDownComboBoxController(final AppW app, PropertyView propertyView, Widget parent,
 			Supplier<List<String>> items, String labelKey, Runnable onClose) {
+		this.propertyView = propertyView;
 		this.parent = parent;
 		this.items = items;
 
@@ -134,13 +140,13 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 		}
 	}
 
-	//APPS-7182
 	private List<Integer> getGroupDividerIndices() {
-		//if (property instanceof AbstractGroupedEnumeratedProperty) {
-		//int[] groupDividerIndices = ((AbstractGroupedEnumeratedProperty<?>)
-		//property).getGroupDividerIndices();
-		//return IntStream.of(groupDividerIndices).boxed().collect(Collectors.toList());
-		//}
+		if (propertyView instanceof Dropdown dropdown) {
+			int[] groupDividerIndices = dropdown.getGroupDividerIndices();
+			if (groupDividerIndices != null) {
+				return IntStream.of(groupDividerIndices).boxed().collect(Collectors.toList());
+			}
+		}
 		return null;
 	}
 
