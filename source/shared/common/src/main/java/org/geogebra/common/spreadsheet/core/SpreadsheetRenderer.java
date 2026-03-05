@@ -63,7 +63,7 @@ final class SpreadsheetRenderer {
 	private final TabularData tabularData;
 	private final static int ERROR_TRIANGLE_WIDTH = 10;
 	private final static int TEXT_PADDING = 10;
-	private final static int TEXT_HEIGHT = 16;
+	private final StringRenderer errorRenderer = new StringRenderer();
 
 	private final static int[] REFERENCE_COLOR_RGB_VALUES =
 			{ 0x6557d2, 0xe0bf00, 0x3bb4a6, 0xda6a9d, 0x3b1c32, 0xff8c70 };
@@ -142,34 +142,35 @@ final class SpreadsheetRenderer {
 		graphics.setColor(styling.getErrorGridColor());
 		graphics.setStroke(borderStroke);
 
-		double topLeftX = Math.max(layout.getMinX(column) - offsetX, layout.getRowHeaderWidth());
-		double topLeftY = Math.max(layout.getMinY(row) - offsetY, layout.getColumnHeaderHeight());
-		double topRightX = layout.getMinX(column) - offsetX + layout.getWidth(column);
-		double topRightY = layout.getMinY(row) - offsetY;
+		double leftCropped = Math.max(layout.getMinX(column) - offsetX, layout.getRowHeaderWidth());
+		double top = layout.getMinY(row) - offsetY;
+		double topCropped = Math.max(top, layout.getColumnHeaderHeight());
+		double right = layout.getMinX(column) - offsetX + layout.getWidth(column);
 
 		double width = layout.getWidth(column);
 		double height = layout.getHeight(row);
 		if (leftOutOfBounds(column, offsetX)) {
-			width = topRightX - layout.getRowHeaderWidth();
+			width = right - layout.getRowHeaderWidth();
 		}
 		if (topOutOfBounds(row, offsetY)) {
-			height = topRightY + layout.getHeight(row) - layout.getColumnHeaderHeight();
+			height = top + layout.getHeight(row) - layout.getColumnHeaderHeight();
 		}
 
 		// Draw error border
 		Rectangle bounds = layout.getBounds(new TabularRange(row, column), viewport);
 		if (bounds != null) {
 			drawVisibleSelectionBorders(graphics, bounds,
-					topLeftX, topLeftY, topLeftX + width, topLeftY + height);
+					leftCropped, topCropped, leftCropped + width, topCropped + height);
 		}
 
 		if (width > ERROR_TRIANGLE_WIDTH && height > ERROR_TRIANGLE_WIDTH) {
-			drawErrorTriangle(graphics, topLeftX + width, topLeftY);
+			drawErrorTriangle(graphics, leftCropped + width, topCropped);
 		}
 
 		if (!leftOutOfBounds(column, offsetX - TEXT_PADDING)
-				&& !topOutOfBounds(row, offsetY - TEXT_PADDING)) {
-			drawErrorString(graphics, topLeftX, topLeftY);
+				&& !topOutOfBounds(row, offsetY - TEXT_PADDING)
+				&& (topCropped > top - TEXT_PADDING)) { // TODO remove when APPS-7271 done
+			drawErrorString(graphics, leftCropped, top, height);
 		}
 	}
 
@@ -192,11 +193,10 @@ final class SpreadsheetRenderer {
 		graphics.fill(path);
 	}
 
-	private void drawErrorString(GGraphics2D graphics, double topLeftX, double topLeftY) {
+	private void drawErrorString(GGraphics2D graphics, double left, double top, double height) {
 		graphics.setColor(SpreadsheetStyling.getDefaultTextColor());
-		graphics.setFont(graphics.getFont().deriveFont(GFont.ITALIC));
-		graphics.drawString(tabularData.getErrorString(), topLeftX + TEXT_PADDING,
-				topLeftY + TEXT_HEIGHT + TEXT_PADDING);
+		errorRenderer.draw(tabularData.getErrorString(), GFont.ITALIC,
+				TEXT_PADDING, graphics, new Rectangle(left, Integer.MAX_VALUE, top, top + height));
 	}
 
 	void drawRowHeader(int row, GGraphics2D graphics, Function<Integer, String> nameProvider) {
