@@ -40,7 +40,7 @@ public class GeoGebraColorChooser extends JColorChooser implements SetLabels {
 
 	private static final long serialVersionUID = 1L;
 
-	private AppD app;
+	private final AppD app;
 
 	/**
 	 * @param app application
@@ -97,10 +97,9 @@ public class GeoGebraColorChooser extends JColorChooser implements SetLabels {
 		UIManager.put("ColorChooser.resetText", loc.getMenu("Reset"));
 
 		AbstractColorChooserPanel[] panels = getChooserPanels();
-		for (int i = 0; i < panels.length; i++) {
-			AbstractColorChooserPanel panel = panels[i];
-			if (panel instanceof GeoGebraColorChooserPanel) {
-				((GeoGebraColorChooserPanel) panel).setLabels();
+		for (AbstractColorChooserPanel panel : panels) {
+			if (panel instanceof GeoGebraColorChooserPanel swatchPanel) {
+				swatchPanel.setLabels();
 			}
 		}
 	}
@@ -110,10 +109,9 @@ public class GeoGebraColorChooser extends JColorChooser implements SetLabels {
 	 */
 	public void updateFonts() {
 		AbstractColorChooserPanel[] panels = getChooserPanels();
-		for (int i = 0; i < panels.length; i++) {
-			AbstractColorChooserPanel panel = panels[i];
-			if (panel instanceof GeoGebraColorChooserPanel) {
-				((GeoGebraColorChooserPanel) panel).updateFonts();
+		for (AbstractColorChooserPanel panel : panels) {
+			if (panel instanceof GeoGebraColorChooserPanel swatchPanel) {
+				swatchPanel.updateFonts();
 			}
 		}
 	}

@@ -56,21 +56,21 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * 
  * @author G. Sturr
  */
-public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
+public final class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	protected AppD app;
-	protected GeoGebraColorChooser enclosingChooser;
-	protected GeoGebraColorChooserPanel myChooser;
+	private final AppD app;
+	private GeoGebraColorChooser enclosingChooser;
+	private final GeoGebraColorChooserPanel myChooser;
 
-	protected MainSwatchPanel mainSwatchPanel;
-	protected RecentSwatchPanel recentSwatchPanel;
-	protected PrimarySwatchPanel primarySwatchPanel;
-	protected CustomSwatchPanel customSwatchPanel;
+	private MainSwatchPanel mainSwatchPanel;
+	private RecentSwatchPanel recentSwatchPanel;
+	private PrimarySwatchPanel primarySwatchPanel;
+	private CustomSwatchPanel customSwatchPanel;
 
-	protected SwatchListener swatchListener;
-	protected ArrayList<SwatchPanel> swatchPanelList;
+	private SwatchListener swatchListener;
+	private ArrayList<SwatchPanel> swatchPanelList;
 
 	private JButton btnCustomColor;
 	private JLabel lblRecent;
@@ -78,8 +78,8 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 	private JPanel recentPanel;
 	private JPanel customPanel;
 
-	protected static final int largeSwatchSize = 16;
-	protected static final int smallSwatchSize = 14;
+	private static final int largeSwatchSize = 16;
+	private static final int smallSwatchSize = 14;
 
 	/**
 	 * Constructs a color chooser panel
@@ -255,7 +255,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 		// clear visual feedback for swatch selection in the swatch panels
 		for (SwatchPanel panel : swatchPanelList) {
-			panel.setSelectionFromLocation(-1, -1);
+			panel.setSelectionFromLocation();
 		}
 
 		// exit if the chooser null selection flag is set
@@ -592,13 +592,9 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 			return success;
 		}
 
-		protected void setSelectionFromLocation(int xLoc, int yLoc) {
-			if (xLoc < 0 || yLoc < 0) {
-				selectedSwatch.width = -1;
-				selectedSwatch.height = -1;
-			} else {
-				setCellFromLocation(xLoc, yLoc, selectedSwatch);
-			}
+		protected void setSelectionFromLocation() {
+			selectedSwatch.width = -1;
+			selectedSwatch.height = -1;
 			this.repaint();
 		}
 
@@ -708,8 +704,8 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 				}
 
 				getColorSelectionModel().setSelectedColor(color);
-				primarySwatchPanel.setSelectionFromLocation(-1, -1);
-				mainSwatchPanel.setSelectionFromLocation(-1, -1);
+				primarySwatchPanel.setSelectionFromLocation();
+				mainSwatchPanel.setSelectionFromLocation();
 				recentSwatchPanel.setMostRecentColor(color);
 
 			}
