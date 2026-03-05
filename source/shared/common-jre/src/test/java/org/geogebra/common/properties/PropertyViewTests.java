@@ -284,7 +284,7 @@ public class PropertyViewTests extends BaseAppTestSetup {
 		List<PropertyView> propertyViews = PropertyViewFactory.propertyViewListOf(array);
 
 		assertAll(() -> assertFalse(propertyViews.get(0) instanceof PropertyView.ExpandableList),
-				() -> assertTrue(propertyViews.size() == 2)
+				() -> assertEquals(2, propertyViews.size())
 		);
 	}
 

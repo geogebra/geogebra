@@ -26,10 +26,10 @@ import org.geogebra.common.util.shape.Size;
 import org.junit.Test;
 
 public class TableLayoutTest {
-	private final int rowHeight = 20;
-	private final int columnWidth = 40;
+	private static final int ROW_HEIGHT = 20;
+	private static final int COLUMN_WIDTH = 40;
 
-	TableLayout layout = new TableLayout(5, 5, rowHeight, columnWidth);
+	TableLayout layout = new TableLayout(5, 5, ROW_HEIGHT, COLUMN_WIDTH);
 
 	@Test
 	public void testFindColumn() {
@@ -97,7 +97,7 @@ public class TableLayoutTest {
 
 		// in the center of the corner, viewport scrolled vertically by columnHeaderHeight / 2
 		// + height of first row
-		viewportOrigin = new Point(0, 0.5 * columnHeaderHeight + rowHeight);
+		viewportOrigin = new Point(0, 0.5 * columnHeaderHeight + ROW_HEIGHT);
 		assertThat(layout.getResizeAction(mouseX, columnHeaderHeight / 2,
 						new Rectangle(viewportOrigin, viewportSize)).cursor,
 				equalTo(MouseCursor.DEFAULT));
@@ -111,13 +111,13 @@ public class TableLayoutTest {
 		// at the bottom edge of first visible row, viewport scrolled vertically by
 		// columnHeaderHeight
 		viewportOrigin = new Point(0, columnHeaderHeight);
-		assertThat(layout.getResizeAction(mouseX, columnHeaderHeight + rowHeight,
+		assertThat(layout.getResizeAction(mouseX, columnHeaderHeight + ROW_HEIGHT,
 						new Rectangle(viewportOrigin, viewportSize)).cursor,
 				equalTo(MouseCursor.RESIZE_Y));
 
 		// in the center of the corner, viewport scrolled horizontally by rowHeaderWidth / 2
 		// + width of first column
-		viewportOrigin = new Point(rowHeaderWidth / 2 + columnWidth, 0);
+		viewportOrigin = new Point(rowHeaderWidth / 2 + COLUMN_WIDTH, 0);
 		assertThat(layout.getResizeAction(mouseX, columnHeaderHeight / 2,
 						new Rectangle(viewportOrigin, viewportSize)).cursor,
 				equalTo(MouseCursor.DEFAULT));

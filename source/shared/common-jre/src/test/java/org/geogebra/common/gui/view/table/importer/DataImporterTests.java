@@ -30,7 +30,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesPointsImpl;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
@@ -61,7 +60,6 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		Kernel kernel = getKernel();
 		tableValuesView = new TableValuesView(kernel);
 		kernel.attach(tableValuesView);
-		TableValuesModel model = tableValuesView.getTableValuesModel();
 		tableValuesPoints = TableValuesPointsImpl.create(kernel, kernel.getConstruction(),
 				tableValuesView);
 		kernel.notifyAddAll(tableValuesView);

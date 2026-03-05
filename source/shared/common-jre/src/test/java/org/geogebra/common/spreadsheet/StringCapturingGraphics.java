@@ -24,19 +24,6 @@ import org.geogebra.common.awt.GPoint;
 
 public final class StringCapturingGraphics extends GGraphicsCommon {
 
-	private static class StringCoords {
-		int x;
-		int y;
-		int layer;
-		static int counter = 0;
-
-		StringCoords(int x, int y) {
-			this.x = x;
-			this.y = y;
-			this.layer = counter++;
-		}
-	}
-
 	static Comparator<StringCoords> lexicographic = Comparator
 			.<StringCoords>comparingInt(list -> list.y)
 			.thenComparingInt(list -> list.x)
@@ -44,10 +31,15 @@ public final class StringCapturingGraphics extends GGraphicsCommon {
 
 	TreeMap<StringCoords, String> sb = new TreeMap<>(lexicographic);
 	GPoint origin = new GPoint(0, 0);
+	private int counter = 0;
+
+	private record StringCoords(int x, int y, int layer) {
+		// coords with layer
+	}
 
 	@Override
 	public void drawString(String str, int x, int y) {
-		sb.put(new StringCoords(x + origin.x, y + origin.y), str);
+		sb.put(new StringCoords(x + origin.x, y + origin.y, counter++), str);
 	}
 
 	@Override

@@ -24,8 +24,6 @@ import java.util.List;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.PropertyValueObserver;
-import org.geogebra.common.properties.ValuedProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.junit.Test;
 
@@ -36,27 +34,14 @@ public class AbstractValuedPropertyTests extends BaseUnitTest {
 		DummyAbstractValuedProperty property =
 				new DummyAbstractValuedProperty(getLocalization(), "Dummy");
 		List<Object> observedValues = new ArrayList<>();
-		property.addValueObserver(new PropertyValueObserver() {
-			@Override
-			public void onDidSetValue(ValuedProperty property) {
-				observedValues.add(property.getValue());
-			}
-
-			@Override
-			public void onBeginSetValue(ValuedProperty property) {
-			}
-
-			@Override
-			public void onEndSetValue(ValuedProperty property) {
-			}
-		});
+		property.addValueObserver(property1 -> observedValues.add(property1.getValue()));
 
 		property.setValue(1);
 		property.setValue(2);
 		assertEquals(Arrays.asList(1, 2), observedValues);
 	}
 
-	private static class DummyAbstractValuedProperty extends AbstractValuedProperty {
+	private static class DummyAbstractValuedProperty extends AbstractValuedProperty<Object> {
 
 		private Object value;
 

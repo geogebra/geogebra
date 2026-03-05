@@ -21,6 +21,7 @@ import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.mockito.Mockito;
 
 class HeadlessProbabilityCalculatorView extends ProbabilityCalculatorView {
 
@@ -40,12 +41,12 @@ class HeadlessProbabilityCalculatorView extends ProbabilityCalculatorView {
 
 	@Override
 	protected void changeProbabilityType() {
-
+		// no UI
 	}
 
 	@Override
 	public ResultPanel getResultPanel() {
-		return new HeadlessResultPanel();
+		return Mockito.mock(ResultPanel.class);
 	}
 
 	@Override
@@ -59,22 +60,22 @@ class HeadlessProbabilityCalculatorView extends ProbabilityCalculatorView {
 
 	@Override
 	protected void plotPanelUpdateSettings(PlotSettings settings) {
-
+		// no UI
 	}
 
 	@Override
 	public void setInterval(double low2, double high2) {
-
+		// no UI
 	}
 
 	@Override
 	protected void updateDiscreteTable() {
-
+		// no UI
 	}
 
 	@Override
 	protected void updateGUI() {
-
+		// no UI
 	}
 
 	@Override
@@ -94,17 +95,17 @@ class HeadlessProbabilityCalculatorView extends ProbabilityCalculatorView {
 
 	@Override
 	protected void addRemoveTable(boolean showTable) {
-
+		// no UI
 	}
 
 	@Override
 	protected void onDistributionUpdate() {
-
+		// no UI
 	}
 
 	@Override
 	public void setLabels() {
-
+		// no UI
 	}
 
 	@Override
@@ -112,60 +113,4 @@ class HeadlessProbabilityCalculatorView extends ProbabilityCalculatorView {
 		return false;
 	}
 
-	private static class HeadlessResultPanel implements ResultPanel {
-		@Override
-		public void showInterval() {
-
-		}
-
-		@Override
-		public void showTwoTailed() {
-
-		}
-
-		@Override
-		public void showTwoTailedOnePoint() {
-
-		}
-
-		@Override
-		public void showLeft() {
-
-		}
-
-		@Override
-		public void showRight() {
-
-		}
-
-		@Override
-		public void setResultEditable(boolean value) {
-
-		}
-
-		@Override
-		public void updateResult(String text) {
-
-		}
-
-		@Override
-		public void updateLowHigh(String low, String high) {
-
-		}
-
-		@Override
-		public void updateTwoTailedResult(String low, String high) {
-
-		}
-
-		@Override
-		public void setGreaterThan() {
-
-		}
-
-		@Override
-		public void setGreaterOrEqualThan() {
-
-		}
-	}
 }

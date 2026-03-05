@@ -58,12 +58,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	static AppCommon app;
 	static AlgebraProcessor ap;
 
-	private static class ExpressionChecker {
-		private final String def;
-
-		private ExpressionChecker(String def) {
-			this.def = def;
-		}
+	private record ExpressionChecker(String def) {
 
 		private ExpressionChecker checkEditAndVal(String expectDef) {
 			checkVal(expectDef);
@@ -89,7 +84,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 		}
 
 		private ExpressionChecker check(String def, String expect, StringTemplate tpl,
-										boolean val) {
+				boolean val) {
 			GeoElementND[] geo = ap.processAlgebraCommandNoExceptionHandling(def,
 					false, TestErrorHandler.INSTANCE, new EvalInfo(true, true),
 					null);

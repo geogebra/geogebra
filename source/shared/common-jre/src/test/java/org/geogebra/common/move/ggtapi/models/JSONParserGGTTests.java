@@ -128,7 +128,7 @@ public class JSONParserGGTTests {
 	}
 
 	private String getContentsOf(String testResourcesFileName) throws Exception {
-		URL url = getClass().getClassLoader().getResource(testResourcesFileName);
+		URL url = Thread.currentThread().getContextClassLoader().getResource(testResourcesFileName);
 		byte[] bytes = Files.readAllBytes(Paths.get(url.toURI()));
 		return new String(bytes, Charset.defaultCharset());
 	}

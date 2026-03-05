@@ -38,8 +38,8 @@ public class SpreadsheetSelectionControllerTest {
 
 	private final SpreadsheetSelectionController selectionController =
 			new SpreadsheetSelectionController();
-	private final int numberOfRows = 100;
-	private final int numberOfColumns = 100;
+	private static final int numberOfRows = 100;
+	private static final int numberOfColumns = 100;
 
 	@Test
 	public void testMove() {

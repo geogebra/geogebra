@@ -16,16 +16,11 @@
 
 package org.geogebra.common.euclidian.plot.interval;
 
-import java.util.Objects;
-
 /**
  * Entry for logging IntervalPath methods,
  * like reset(), moveTo(x, y) and lineTo(x, y).
  */
-public class IntervalPathMockEntry {
-	final PathOperation operation;
-	double x;
-	double y;
+public record IntervalPathMockEntry(PathOperation operation, double x, double y) {
 
 	public enum PathOperation {
 		MOVE_TO("MOVE_TO"),
@@ -45,7 +40,7 @@ public class IntervalPathMockEntry {
 	}
 
 	public IntervalPathMockEntry() {
-		operation = PathOperation.RESET;
+		this(PathOperation.RESET, 0, 0);
 	}
 
 	/**
@@ -65,19 +60,5 @@ public class IntervalPathMockEntry {
 		return  operation == PathOperation.RESET
 				? operation.toString()
 				: operation + " " + x + ", "  + y;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		IntervalPathMockEntry that = (IntervalPathMockEntry) o;
-		return Double.compare(that.x, x) == 0 && Double.compare(that.y, y) == 0
-				&& operation == that.operation;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(operation, x, y);
 	}
 }

@@ -22,7 +22,7 @@ import org.geogebra.editor.share.util.Unicode;
 import org.junit.Test;
 
 public class MathMLTest {
-	private static final String[] mathmlTest = {
+	private static final String[] testInputs = {
 			// quadratic formula
 			"<math xmlns=\"http://www.w3.org/1998/Math/MathML\"> <mstyle displaystyle=\"true\"> "
 					+ "<mfrac> <mrow> <mo> - </mo> <mi> b </mi> <mo> &PlusMinus; </mo> <msqrt> "
@@ -210,8 +210,8 @@ public class MathMLTest {
 
 		MathMLParser mathmlParser = new MathMLParser(true);
 
-		for (int i = 0; i < mathmlTest.length; i++) {
-			String s = mathmlTest[i];
+		for (int i = 0; i < testInputs.length; i++) {
+			String s = testInputs[i];
 
 			String latex = mathmlParser.parse(s, false, false);
 			assertNotNull(latex);
@@ -223,8 +223,8 @@ public class MathMLTest {
 
 		MathMLParser mathmlParser = new MathMLParser(false);
 
-		for (int i = 0; i < mathmlTest.length; i++) {
-			String s = mathmlTest[i];
+		for (int i = 0; i < testInputs.length; i++) {
+			String s = testInputs[i];
 
 			String latex = mathmlParser.parse(s, false, false);
 

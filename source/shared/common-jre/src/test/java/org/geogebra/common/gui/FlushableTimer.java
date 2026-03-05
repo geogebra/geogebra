@@ -38,17 +38,17 @@ class FlushableTimer implements GTimer {
 
 	@Override
 	public void start() {
-
+		// nothing to do
 	}
 
 	@Override
 	public void startRepeat() {
-
+		// nothing to do
 	}
 
 	@Override
 	public void stop() {
-
+		// nothing to do
 	}
 
 	@Override
@@ -58,6 +58,6 @@ class FlushableTimer implements GTimer {
 
 	@Override
 	public void setDelay(int delay) {
-
+		// nothing to do
 	}
 }

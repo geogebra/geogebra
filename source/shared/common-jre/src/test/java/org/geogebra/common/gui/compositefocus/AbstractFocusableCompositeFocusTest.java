@@ -38,7 +38,7 @@ public class AbstractFocusableCompositeFocusTest {
 
 			@Override
 			protected void onGainFocus() {
-
+				// nothing to do
 			}
 
 			@Override
@@ -189,11 +189,14 @@ public class AbstractFocusableCompositeFocusTest {
 
 	@Test
 	void testHandlesEnterForSelectedPart() {
-		compositeFocus.addPart(new TestFocusablePart("A", "A", true));
+		TestFocusablePart partA = new TestFocusablePart("A", "A", true);
+		compositeFocus.addPart(partA);
 		compositeFocus.addPart(new TestFocusablePart("B", "B", false));
 		compositeFocus.focusFirst();
+		assertTrue(partA.isFocused());
 		assertTrue(compositeFocus.handlesEnterKeyForSelectedPart());
 		compositeFocus.focusNext();
+		assertFalse(partA.isFocused());
 		assertFalse(compositeFocus.handlesEnterKeyForSelectedPart());
 	}
 

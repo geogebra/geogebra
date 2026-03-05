@@ -169,8 +169,9 @@ public final class ConvexHullTest {
 			List<Point2D> actual = ConvexHull.makeHull(points);
 			List<Point2D> expected = new ArrayList<>();
 			expected.add(Collections.min(points));
-			if (!Collections.max(points).equals(expected.get(0)))
+			if (!Collections.max(points).equals(expected.get(0))) {
 				expected.add(Collections.max(points));
+			}
 			assertEquals(expected, actual);
 		}
 	}
@@ -195,8 +196,9 @@ public final class ConvexHullTest {
 			List<Point2D> actual = ConvexHull.makeHull(points);
 			List<Point2D> expected = new ArrayList<>();
 			expected.add(Collections.min(points));
-			if (!Collections.max(points).equals(expected.get(0)))
+			if (!Collections.max(points).equals(expected.get(0))) {
 				expected.add(Collections.max(points));
+			}
 			assertEquals(expected, actual);
 		}
 	}
@@ -232,9 +234,10 @@ public final class ConvexHullTest {
 			int len = rand.nextInt(100);
 			List<Point2D> points = new ArrayList<>();
 			if (rand.nextBoolean()) {
-				for (int j = 0; j < len; j++)
+				for (int j = 0; j < len; j++) {
 					points.add(new Point2D(rand.nextGaussian(),
 							rand.nextGaussian()));
+				}
 			} else {
 				for (int j = 0; j < len; j++) {
 					points.add(new Point2D(rand.nextInt(10), rand.nextInt(10)));
@@ -244,14 +247,16 @@ public final class ConvexHullTest {
 			// Compute hull and check properties
 			List<Point2D> hull = ConvexHull.makeHull(points);
 			assertTrue(isPolygonConvex(hull));
-			for (Point2D p : points)
+			for (Point2D p : points) {
 				assertTrue(isPointInConvexPolygon(hull, p));
+			}
 
 			// Add duplicate points and check new hull
 			if (!points.isEmpty()) {
 				int dupe = rand.nextInt(10) + 1;
-				for (int j = 0; j < dupe; j++)
+				for (int j = 0; j < dupe; j++) {
 					points.add(points.get(rand.nextInt(points.size())));
+				}
 				List<Point2D> nextHull = ConvexHull.makeHull(points);
 				assertEquals(hull, nextHull);
 			}
@@ -259,8 +264,9 @@ public final class ConvexHullTest {
 	}
 
 	private static List<Point2D> makeHullNaive(List<Point2D> points) {
-		if (points.size() <= 1)
+		if (points.size() <= 1) {
 			return new ArrayList<>(points);
+		}
 		List<Point2D> result = new ArrayList<>();
 
 		// Jarvis march / gift wrapping algorithm
@@ -275,8 +281,9 @@ public final class ConvexHullTest {
 				double by = p.y - point.y;
 				double cross = ax * by - ay * bx;
 				if (cross > 0
-						|| cross == 0 && bx * bx + by * by > ax * ax + ay * ay)
+						|| cross == 0 && bx * bx + by * by > ax * ax + ay * ay) {
 					next = p;
+				}
 			}
 			point = next;
 		} while (!point.equals(result.get(0)));

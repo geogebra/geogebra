@@ -65,7 +65,7 @@ public class CoordMultiplyReplacerTest extends BaseUnitTest {
 		try {
 			return getKernel().getParser().parseExpression(s);
 		} catch (ParseException e) {
-			throw new IllegalArgumentException(s);
+			throw new IllegalArgumentException(s, e);
 		}
 	}
 }

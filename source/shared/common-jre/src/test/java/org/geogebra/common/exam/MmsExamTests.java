@@ -33,6 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -580,7 +581,7 @@ public class MmsExamTests extends BaseExamTestSetup {
 	@Test
 	public void testRestrictedSumSyntax() {
 		String sumSyntax = getApp().getLocalization().getCommandSyntax(Commands.Sum.getCommand());
-		assertFalse(sumSyntax.toLowerCase().contains("end value"));
+		assertFalse(sumSyntax.toLowerCase(Locale.ROOT).contains("end value"));
 	}
 
 	@ParameterizedTest

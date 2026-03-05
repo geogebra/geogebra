@@ -608,7 +608,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     }
 
     @ParameterizedTest
-    @CsvSource(value = {"0,2", "2,0"})
+    @CsvSource({"0,2", "2,0"})
     public void testCalculatePartOfRow(int from, int to) {
         tabularData.setContent(0, 0, "1");
         tabularData.setContent(0, 1, "2");
@@ -626,7 +626,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_M);
 
         assertTrue(autoCompleteShown);
-        assertEquals(autoCompleteSearchPrefix, "SUM");
+        assertEquals("SUM", autoCompleteSearchPrefix);
     }
 
     @Test
@@ -635,7 +635,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         simulateCellMouseClick(0, 0, 2);
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_M);
         assertTrue(autoCompleteShown);
-        assertEquals(autoCompleteSearchPrefix, "SUM");
+        assertEquals("SUM", autoCompleteSearchPrefix);
 
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_BACK_SPACE);
         assertFalse(autoCompleteShown);
@@ -653,7 +653,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_M);
         assertTrue(autoCompleteShown);
-        assertEquals(autoCompleteSearchPrefix, "SUM");
+        assertEquals("SUM", autoCompleteSearchPrefix);
     }
 
     @Test

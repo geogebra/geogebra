@@ -47,8 +47,6 @@ import org.junit.Test;
 
 public class TableValuesContextMenuTests extends BaseUnitTest {
 
-	private final Set<ContextMenuItemFilter> filters = Set.of();
-
 	private TableValuesView tableValuesView;
 	private TableValuesModel tableValuesModel;
 

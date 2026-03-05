@@ -28,9 +28,9 @@ package org.geogebra.common.gui.compositefocus;
 public class TestFocusablePart implements FocusablePart {
 
 	private boolean focused;
-	private boolean enterKey;
-	private String label;
-	private String key;
+	private final boolean enterKey;
+	private final String label;
+	private final String key;
 
 	/**
 	 * Creates a test focusable part.
@@ -68,5 +68,9 @@ public class TestFocusablePart implements FocusablePart {
 	@Override
 	public String getFocusKey() {
 		return key;
+	}
+
+	public boolean isFocused() {
+		return focused;
 	}
 }

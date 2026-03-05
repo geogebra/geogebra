@@ -54,7 +54,7 @@ public class ExpressionRestrictionTests {
             new AllowBooleanCommandArguments(),
             new RestrictPlusOperation()));
 
-    private static class RestrictPlusOperation implements ExpressionRestriction {
+    private static final class RestrictPlusOperation implements ExpressionRestriction {
 		@Override
 		public @Nonnull Set<ExpressionValue> getRestrictedSubExpressions(
                 @Nonnull ExpressionValue expression) {
@@ -70,7 +70,7 @@ public class ExpressionRestrictionTests {
         }
     }
 
-    private static class AllowBooleanCommandArguments implements ExpressionRestriction {
+    private static final class AllowBooleanCommandArguments implements ExpressionRestriction {
 		@Override
 		public @Nonnull Set<ExpressionValue> getAllowedSubExpressions(@Nonnull ExpressionValue expression) {
             return streamOf(expression)

@@ -73,7 +73,7 @@ public class SymbolicEditorCommon extends SymbolicEditor {
 
 	@Override
 	protected void hide() {
-
+		// no UI
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public class SymbolicEditorCommon extends SymbolicEditor {
 
 	@Override
 	public void repaintBox(GGraphics2D g2) {
-
+		// no UI
 	}
 
 	@Override

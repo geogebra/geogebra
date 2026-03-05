@@ -78,6 +78,7 @@ public class PropertyRestrictionTests extends BaseUnitTest {
 
         @Override
         protected void doSetValue(String value) {
+            // always ""
         }
 
         @Override

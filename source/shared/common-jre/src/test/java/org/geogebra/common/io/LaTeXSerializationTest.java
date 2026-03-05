@@ -302,7 +302,7 @@ public class LaTeXSerializationTest {
 
 	private static void testKorean2(String s) {
 		String s1 = Normalizer.normalize(s, Normalizer.Form.NFKC);
-		String s2 = Korean.unflattenKorean(s).toString();
+		String s2 = Korean.unflattenKorean(s);
 
 		assertEquals(s1, s2);
 	}

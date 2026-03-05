@@ -63,6 +63,7 @@ public class DrawPolyLineTest extends BaseEuclidianControllerTest {
 		getApp().getSelectionManager().setKeyboardSelection(poly);
 		List<Double> widths = new ArrayList<>();
 		GGraphics2D g2 = new GGraphicsCommon() {
+			@Override
 			public void setStroke(GBasicStroke stroke) {
 				widths.add(stroke.getLineWidth());
 			}

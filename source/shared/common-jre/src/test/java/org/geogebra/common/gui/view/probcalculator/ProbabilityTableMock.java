@@ -46,11 +46,12 @@ class ProbabilityTableMock extends ProbabilityTable {
 	@Override
 	public void setTable(ProbabilityCalculatorSettings.Dist distType2, GeoNumberValue[] params2,
 			int xMin2, int xMax2) {
+		// no UI
 	}
 
 	@Override
 	protected void setRowValues(int row, String k, String prob) {
-		// stub
+		// no UI
 	}
 
 	public boolean isRangeHighlighted(int low, int high) {

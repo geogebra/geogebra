@@ -16,8 +16,8 @@
 
 package org.geogebra.common.kernel.algos;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
@@ -28,8 +28,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.AlgoAreEqual;
 import org.geogebra.editor.share.util.Unicode;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class AlgoAreEqualTest {
 
@@ -39,7 +39,7 @@ public class AlgoAreEqualTest {
 	/**
 	 * Set up the app
 	 */
-	@BeforeClass
+	@BeforeAll
 	public static void setUp() {
 		app = AppCommonFactory.create();
 		cons = app.getKernel().getConstruction();

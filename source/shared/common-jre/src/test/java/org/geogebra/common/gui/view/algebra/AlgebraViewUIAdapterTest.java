@@ -114,7 +114,7 @@ public class AlgebraViewUIAdapterTest extends BaseAppTestSetup {
 		assertTrue(itemC.getOutputRow().isVisible);
 	}
 
-	private static class Listener implements AlgebraViewItems.Listener {
+	private static final class Listener implements AlgebraViewItems.Listener {
 
 		boolean itemsChanged = false;
 		boolean forceReload = false;
