@@ -83,7 +83,10 @@ public final class SelfRenderable {
 		} else if (alignment == CellFormat.ALIGN_RIGHT) {
 			offset = cellBorder.getWidth() - width - HORIZONTAL_PADDING;
 		}
+		graphics.setClip(cellBorder.getMinX(), cellBorder.getMinY(),
+				cellBorder.getWidth(), cellBorder.getHeight(), true);
 		renderer.draw(renderable, fontStyle, offset, graphics, cellBorder);
+		graphics.resetClip();
 	}
 
 	public GColor getBackground() {

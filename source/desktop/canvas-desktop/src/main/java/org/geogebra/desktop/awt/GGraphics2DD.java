@@ -263,19 +263,19 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	@Override
-	public void setClip(int x, int y, int width, int height,
+	public void setClip(double x, double y, double width, double height,
 			boolean saveContext) {
 		setClip(x, y, width, height);
 	}
 
 	@Override
-	public void setClip(int x, int y, int width, int height) {
+	public void setClip(double x, double y, double width, double height) {
 		Shape oldClip = impl.getClip();
 		if (oldClip == null) {
-			impl.setClip(x, y, width, height);
+			impl.setClip((int) x, (int) y, (int) width, (int) height);
 			return;
 		}
-		impl.clipRect(x, y, width, height);
+		impl.clipRect((int) x, (int) y, (int) width, (int) height);
 		clipStack.push(oldClip);
 	}
 

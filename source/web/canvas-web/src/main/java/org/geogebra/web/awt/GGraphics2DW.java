@@ -25,9 +25,9 @@ import org.geogebra.common.awt.GComposite;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
-import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GPathIterator;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.VectorPatternPaint;
@@ -46,7 +46,7 @@ import elemental2.dom.HTMLCanvasElement;
 import elemental2.dom.HTMLImageElement;
 import jsinterop.base.Js;
 
-public class GGraphics2DW implements GGraphics2DWI, GGraphics2D {
+public class GGraphics2DW implements GGraphics2DWI {
 
 	protected final Canvas canvas;
 	private JLMContext2D context;
@@ -706,14 +706,15 @@ public class GGraphics2DW implements GGraphics2DWI, GGraphics2D {
 	}
 
 	@Override
-	public void setClip(int x, int y, int width, int height) {
+	public void setClip(double x, double y, double width, double height) {
 		setClip(x, y, width, height, false);
 	}
 
 	@Override
-	public void setClip(int x, int y, int width, int height,
+	public void setClip(double x, double y, double width, double height,
 			boolean saveContext) {
-		GShape sh = AwtFactory.getPrototype().newRectangle(x, y, width, height);
+		GRectangle2D sh = AwtFactory.getPrototype().newRectangle2D();
+		sh.setRect(x, y, width, height);
 		setClip(sh, saveContext);
 
 		/*

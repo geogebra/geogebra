@@ -168,9 +168,8 @@ final class SpreadsheetRenderer {
 		}
 
 		if (!leftOutOfBounds(column, offsetX - TEXT_PADDING)
-				&& !topOutOfBounds(row, offsetY - TEXT_PADDING)
-				&& (topCropped > top - TEXT_PADDING)) { // TODO remove when APPS-7271 done
-			drawErrorString(graphics, leftCropped, top, height);
+				&& !topOutOfBounds(row, offsetY - TEXT_PADDING)) {
+			drawErrorString(graphics, leftCropped, top, width, height);
 		}
 	}
 
@@ -193,10 +192,13 @@ final class SpreadsheetRenderer {
 		graphics.fill(path);
 	}
 
-	private void drawErrorString(GGraphics2D graphics, double left, double top, double height) {
-		graphics.setColor(SpreadsheetStyling.getDefaultTextColor());
+	private void drawErrorString(GGraphics2D graphics,
+			double left, double top, double width, double height) {
+		graphics.setColor(styling.getDefaultTextColor());
+		graphics.setClip(left, top, width, height, true);
 		errorRenderer.draw(tabularData.getErrorString(), GFont.ITALIC,
-				TEXT_PADDING, graphics, new Rectangle(left, Integer.MAX_VALUE, top, top + height));
+				TEXT_PADDING, graphics, new Rectangle(left, left + width, top, top + height));
+		graphics.resetClip();
 	}
 
 	void drawRowHeader(int row, GGraphics2D graphics, Function<Integer, String> nameProvider) {

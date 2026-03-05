@@ -163,12 +163,12 @@ public class GGraphicsCommon implements GGraphics2D {
     }
 
     @Override
-    public void setClip(int x, int y, int width, int height) {
+    public void setClip(double x, double y, double width, double height) {
         // ignore empty method
     }
 
     @Override
-    public void setClip(int x, int y, int width, int height, boolean saveContext) {
+    public void setClip(double x, double y, double width, double height, boolean saveContext) {
         // ignore empty method
     }
 

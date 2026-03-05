@@ -378,7 +378,7 @@ public interface GGraphics2D {
 	 * @param width width
 	 * @param height height
 	 */
-	void setClip(int x, int y, int width, int height);
+	void setClip(double x, double y, double width, double height);
 
 	/**
 	 * @param x left
@@ -387,7 +387,7 @@ public interface GGraphics2D {
 	 * @param height height
 	 * @param saveContext whether the state of context should be saved before clipping
 	 */
-	void setClip(int x, int y, int width, int height,
+	void setClip(double x, double y, double width, double height,
 			boolean saveContext);
 
 	/**
