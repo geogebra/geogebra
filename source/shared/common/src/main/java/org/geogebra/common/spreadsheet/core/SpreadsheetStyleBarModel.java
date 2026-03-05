@@ -68,7 +68,15 @@ public final class SpreadsheetStyleBarModel {
 		@Property("readonly")
 		public final @CheckForNull GColor textColor;
 
-		State(boolean isEnabled,
+		/**
+		 * Constructs a state class. Visible for testing only.
+		 * @param isEnabled enabled
+		 * @param fontTraits traits
+		 * @param textAlignment alignment
+		 * @param backgroundColor background color
+		 * @param textColor text color
+		 */
+		public State(boolean isEnabled,
 				@CheckForNull Set<SpreadsheetStyling.FontTrait> fontTraits,
 				@CheckForNull SpreadsheetStyling.TextAlignment textAlignment,
 				@CheckForNull GColor backgroundColor,
