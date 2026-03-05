@@ -36,6 +36,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.gwtutil.JavaScriptInjector;
 import org.geogebra.gwtutil.SafeExamBrowser;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.exam.ExamUtil;
@@ -55,6 +56,7 @@ import org.gwtproject.animation.client.AnimationScheduler.AnimationCallback;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Display;
+import org.gwtproject.resources.client.TextResource;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.HTML;
@@ -444,13 +446,19 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 		}
 		if (Js.isFalsy(GeoGebraGlobal.ggbCallbacks)) {
 			GeoGebraGlobal.ggbCallbacks = JsArray.of();
-			GeoGebraGlobal.runCallbacks = val -> {
-				GeoGebraGlobal.ggbCallbacks.forEach((callback, ignore) -> {
-					callback.run();
-					return null;
-				});
-				GeoGebraGlobal.ggbCallbacks.splice(0);
+			TextResource globalScript = new TextResource() {
+				@Override
+				public String getText() {
+					return "function runCallbacks() {window.ggbCallbacks.forEach(f=>f());"
+							+ "window.ggbCallbacks.splice(0);}";
+				}
+
+				@Override
+				public String getName() {
+					return "seb-global";
+				}
 			};
+			JavaScriptInjector.inject(globalScript);
 		}
 		SafeExamBrowser.SebSecurity security = SafeExamBrowser.get().security;
 		GeoGebraGlobal.ggbCallbacks.push(() ->  {
