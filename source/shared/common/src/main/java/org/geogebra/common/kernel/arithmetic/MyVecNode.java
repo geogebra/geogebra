@@ -163,6 +163,9 @@ public class MyVecNode extends ValidExpression
 			cons.setSuppressLabelCreation(true);
 			GeoElement[] geos = kernel.getAlgebraProcessor()
 					.processEquationIntersect(xCopy, yCopy);
+			if (geos == null || geos.length == 0) {
+				return stringifier.toValueString(tpl);
+			}
 			cons.setSuppressLabelCreation(suppressLabelsActive);
 			return geos[0].toValueString(tpl);
 		}

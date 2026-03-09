@@ -3687,9 +3687,11 @@ public class AlgebraProcessor {
 	 */
 	public GeoElement[] processEquationIntersect(ExpressionValue x,
 			ExpressionValue y) {
-
 		GeoElement[] ret = processCommand(intersectCommand(x, y),
 				new EvalInfo(true));
+		if (ret == null || ret.length == 0) {
+			return null;
+		}
 		if (ret[0].getParentAlgorithm() instanceof HasShortSyntax) {
 			((HasShortSyntax) ret[0].getParentAlgorithm()).setShortSyntax(true);
 			ret[0].updateRepaint();
