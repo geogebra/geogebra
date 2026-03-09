@@ -946,8 +946,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			ArrayList<ExpressionNode> args, StringBuilder sbCASCommand) {
 		ExpressionValue value = args.get(0).unwrap();
 		sbCASCommand.setLength(0);
-		if (value instanceof VarString) {
-			VarString f = (VarString) value;
+		if (value instanceof VarString f && f.getFunctionVariables().length > 0) {
 			args.set(0, value.wrap());
 			FunctionVariable[] functionVariables = f.getFunctionVariables();
 			args.add(functionVariables[0].wrap());

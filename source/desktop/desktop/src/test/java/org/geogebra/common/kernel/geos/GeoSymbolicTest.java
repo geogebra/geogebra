@@ -2663,4 +2663,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		num.setValue(4);
 		num.updateCascade();
 	}
+
+	@Test
+	public void testEvaluationForIntegralOfVariable() {
+		add("a = 5");
+		assertNotNull(add("Integral(a)"));
+	}
 }
