@@ -309,11 +309,11 @@ public final class GeoElementPropertiesFactory {
 			Localization localization, List<GeoElement> elements) {
 		App app = elements.get(0).getApp();
 		return app.isWhiteboardActive()
-				? createPropsArray("Basic", localization, Stream.of(
+				? createPropsArray("Properties.Basic", localization, Stream.of(
 				createNameProperty(localization, elements),
 				createShowTraceProperty(localization, elements),
 				createFixObjectProperty(localization, elements)))
-				: createPropsArray("Basic", localization, Stream.of(
+				: createPropsArray("Properties.Basic", localization, Stream.of(
 				createNameProperty(localization, elements),
 				elements.size() == 1 ? new DefinitionProperty(localization, elements.get(0)) : null,
 				createOptionalPropertyFacade(elements,
@@ -354,7 +354,7 @@ public final class GeoElementPropertiesFactory {
 			AlgebraProcessor processor, ImageManager imageManager,
 			Localization localization, List<GeoElement> elements) {
 		boolean isWhiteboard = processor.getKernel().getApplication().isWhiteboardActive();
-		return createPropsArray("Style", localization, Stream.of(
+		return createPropsArray("Properties.Style", localization, Stream.of(
 				// New style properties come below, in order
 				createOptionalProperty(() -> new StylePropertyCollection(
 						this, localization, elements)),

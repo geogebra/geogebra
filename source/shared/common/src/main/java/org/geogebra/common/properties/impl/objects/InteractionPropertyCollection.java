@@ -51,7 +51,7 @@ public class InteractionPropertyCollection extends AbstractPropertyCollection<Pr
 	public InteractionPropertyCollection(GeoElementPropertiesFactory propertiesFactory,
 			AlgebraProcessor processor, Localization localization, List<GeoElement> elements)
 			throws NotApplicablePropertyException {
-		super(localization, "Interaction");
+		super(localization, "ObjectProperties.Interaction");
 
 		selectionAllowedProperty = propertiesFactory.createOptionalPropertyFacade(elements,
 				element -> new SelectionAllowedProperty(localization, element),

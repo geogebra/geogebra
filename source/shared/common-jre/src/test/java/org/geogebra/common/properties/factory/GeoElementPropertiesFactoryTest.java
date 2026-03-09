@@ -62,7 +62,7 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 
 		assertAll(
 				() -> assertEquals("Name", pointProperties[0].getName()),
-				() -> assertEquals("Show", pointProperties[1].getName()),
+				() -> assertEquals("Show Object", pointProperties[1].getName()),
 				() -> assertEquals("Set color", pointProperties[2].getName()),
 				() -> assertEquals("Point Style", pointProperties[3].getName()),
 				() -> assertEquals("Size", pointProperties[4].getName()),
@@ -83,7 +83,7 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 						List.of(zeroPoint, onePoint));
 		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
 				.map(Property::getName).collect(Collectors.toList());
-		assertEquals(List.of("Name", "Caption", "Label", "Show", "Show trace", "Fix Object",
+		assertEquals(List.of("Name", "Caption", "Label", "Show Object", "Show trace", "Fix Object",
 				"Auxiliary Object"), basicProperties);
 	}
 
@@ -95,7 +95,7 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 						getApp().getLocalization(), getApp().getImageManager(), List.of(angle));
 		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
 				.map(Property::getName).collect(Collectors.toList());
-		assertEquals(List.of("Name", "Definition", "Caption", "Label", "Show",
+		assertEquals(List.of("Name", "Definition", "Caption", "Label", "Show Object",
 				"Auxiliary Object"), basicProperties);
 	}
 
@@ -107,7 +107,7 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 						getApp().getLocalization(), getApp().getImageManager(), List.of(number));
 		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
 				.map(Property::getName).collect(Collectors.toList());
-		assertEquals(List.of("Name", "Definition", "Caption", "Label", "Show", "Fix Object",
+		assertEquals(List.of("Name", "Definition", "Caption", "Label", "Show Object", "Fix Object",
 				"Auxiliary Object"), basicProperties);
 	}
 
@@ -121,7 +121,7 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 						List.of(numeric1, numeric2));
 		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
 				.map(Property::getName).collect(Collectors.toList());
-		assertEquals(List.of("Name", "Caption", "Label", "Show", "Fix Object",
+		assertEquals(List.of("Name", "Caption", "Label", "Show Object", "Fix Object",
 				"Auxiliary Object"), basicProperties);
 	}
 

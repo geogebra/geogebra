@@ -31,7 +31,7 @@ public class ShowObjectProperty extends AbstractValuedProperty<Boolean> implemen
 
 	/***/
 	public ShowObjectProperty(Localization localization, GeoElement element) {
-		super(localization, "Show");
+		super(localization, "ShowObject");
 		this.element = element;
 	}
 
