@@ -40,6 +40,9 @@ public class HorizontalAlignmentProperty extends AbstractEnumeratedProperty<Hori
 			PropertyResource.ICON_ALIGNMENT_LEFT, PropertyResource.ICON_ALIGNMENT_CENTER,
 			PropertyResource.ICON_ALIGNMENT_RIGHT
 	};
+	private static final String[] rawLabels = {
+			"stylebar.Left", "stylebar.Center", "stylebar.Right"
+	};
 
 	private final GeoElementDelegate delegate;
 
@@ -64,7 +67,7 @@ public class HorizontalAlignmentProperty extends AbstractEnumeratedProperty<Hori
 
 	@Override
 	public @CheckForNull String[] getToolTipLabels() {
-		return null;
+		return rawLabels;
 	}
 
 	@Override

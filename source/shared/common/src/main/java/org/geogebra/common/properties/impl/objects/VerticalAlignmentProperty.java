@@ -40,6 +40,9 @@ public class VerticalAlignmentProperty extends AbstractEnumeratedProperty<Vertic
 			PropertyResource.ICON_ALIGNMENT_TOP, PropertyResource.ICON_ALIGNMENT_MIDDLE,
 			PropertyResource.ICON_ALIGNMENT_BOTTOM
 	};
+	private static final String[] rawLabels = {
+			"stylebar.Top", "stylebar.Middle", "stylebar.Bottom"
+	};
 
 	private final GeoElementDelegate delegate;
 
@@ -63,7 +66,7 @@ public class VerticalAlignmentProperty extends AbstractEnumeratedProperty<Vertic
 
 	@Override
 	public @CheckForNull String[] getToolTipLabels() {
-		return null;
+		return rawLabels;
 	}
 
 	@Override
