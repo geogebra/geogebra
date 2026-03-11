@@ -26,9 +26,12 @@ import org.geogebra.common.exam.BaseExamTestSetup;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.AngleConversionFilter;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class AngleConversionFilterTest extends BaseExamTestSetup {
 	AngleConversionFilter filter;
@@ -61,8 +64,11 @@ public class AngleConversionFilterTest extends BaseExamTestSetup {
 	@Issue("APPS-6299")
 	public void example5() {
 		evaluate("a=1 deg");
-		for (int unit: List.of(Kernel.ANGLE_DEGREES_MINUTES_SECONDS,
-				Kernel.ANGLE_RADIANT, Kernel.ANGLE_DEGREE)) {
+		for (int unit: List.of(
+				Kernel.ANGLE_DEGREES_MINUTES_SECONDS,
+				Kernel.ANGLE_RADIANT,
+				Kernel.ANGLE_DEGREE
+		)) {
 			getKernel().setAngleUnit(unit);
 			assertFalse(filter.isAllowed(evaluate("pi/deg")[0]));
 			assertFalse(filter.isAllowed(evaluate("pi/a")[0]));
@@ -90,5 +96,24 @@ public class AngleConversionFilterTest extends BaseExamTestSetup {
 		evaluate("b=2");
 		assertFalse(filter.isAllowed(evaluate("b*deg")[0]));
 		assertTrue(filter.isAllowed(evaluate("sin(a)")[0]));
+	}
+
+	@Test
+	public void noConversionFromDegreesMinutesSeconds() {
+		getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
+		assertFalse(filter.isAllowed(evaluateGeoElement("alpha=30°15'20''")));
+		// "alpha+0 rad/deg" is prevented by the RadianGradianFilter inputExpressionFilters
+		assertFalse(filter.isAllowed(evaluateGeoElement("alpha*deg")));
+		assertFalse(filter.isAllowed(evaluateGeoElement("alpha/deg")));
+
+		getKernel().setAngleUnit(Kernel.ANGLE_DEGREE);
+		assertFalse(filter.isAllowed(evaluateGeoElement("alpha=30°15'20''")));
+		assertFalse(filter.isAllowed(evaluateGeoElement("alpha*deg")));
+		assertFalse(filter.isAllowed(evaluateGeoElement("alpha/deg")));
+
+		getKernel().setAngleUnit(Kernel.ANGLE_DEGREES_MINUTES_SECONDS);
+		assertTrue(filter.isAllowed(evaluateGeoElement("alpha=30°15'20''")));
+		assertFalse(filter.isAllowed(evaluateGeoElement("alpha*deg")));
+		assertFalse(filter.isAllowed(evaluateGeoElement("alpha/deg")));
 	}
 }

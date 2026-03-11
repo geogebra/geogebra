@@ -46,7 +46,7 @@ public final class AlgebraViewItem {
 	private SliderRowState sliderRow;
 	private OutputRowState outputRow;
 
-	AlgebraViewItem(GeoElement geo) {
+	public AlgebraViewItem(GeoElement geo) {
 		this(geo, -1);
 	}
 

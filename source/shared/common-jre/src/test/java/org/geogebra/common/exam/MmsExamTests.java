@@ -46,6 +46,8 @@ import org.geogebra.common.exam.restrictions.mms.MmsAlgebraOutputFilter;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
+import org.geogebra.common.gui.view.algebra.AlgebraOutputFormatFilter;
+import org.geogebra.common.gui.view.algebra.AlgebraViewItem;
 import org.geogebra.common.gui.view.algebra.ProtectiveGeoElementValueConverter;
 import org.geogebra.common.gui.view.algebra.SuggestionIntersectExtremum;
 import org.geogebra.common.gui.view.table.InvalidValuesException;
@@ -58,6 +60,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.LabelManager;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.MockedCasValues;
 import org.geogebra.common.util.MockedCasValuesExtension;
@@ -196,6 +200,84 @@ public class MmsExamTests extends BaseExamTestSetup {
 	})
 	public void testRestrictedComplexNumberInputs(String expression) {
 		assertNull(evaluate(expression));
+	}
+
+	// APPS-6446
+	// - Enter “1°” into the Algebra Input and press enter
+	// Expected
+	// - Input row shows 1°
+	// - No output row
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"1°",
+			"30°15'20''",
+			"30°15'",
+			"30°20''",
+			"15'",
+			"20''",
+			"15'20''"
+	})
+	public void testNoOutputRowForAngles(String expression) {
+		GeoElement element = evaluateGeoElement(expression);
+		AlgebraViewItem algebraViewItem = new AlgebraViewItem(element);
+		AlgebraViewItem.OutputRowState outputRow = algebraViewItem.getOutputRow();
+		assertFalse(outputRow.isVisible());
+	}
+
+	// APPS-6446
+	// - Enter “1°” into the Algebra Input and press enter
+	// - Press ANS button on the keyboard
+	// Expected
+	// - “1°” is inserted into the inputbar
+	@Test
+	public void testAngleStaysInInputForm() {
+		GeoElement element = evaluateGeoElement("1°");
+		// simulate ANS button press
+		String value = getApp().getGeoElementValueConverter().toOutputValueString(element,
+				StringTemplate.algebraTemplate);
+		assertEquals("1°", value);
+	}
+
+	// APPS-6446
+	// - Enter “1° + 0 rad” into the Algebra Input and press enter
+	// Expected
+	// - “1° + 0 rad” is shown in the input row
+	// - No output row (rad/grad not allowed by RadianGradianFilter in inputExpressionFilters)
+	@Test
+	public void testRadInputNotAllowed() {
+		assertNull(evaluate("1° + 0 rad"));
+	}
+
+	// APPS-6446
+	// - Enter “pi / °” into the Algebra Input and press enter
+	// Expected
+	// - “pi / °” is shown in the input row
+	// - No output row
+	@Test
+	public void testPiOverDegreeStaysInInputForm() {
+		GeoElement element = evaluateGeoElement("pi / °");
+		AlgebraViewItem algebraViewItem = new AlgebraViewItem(element);
+		AlgebraViewItem.OutputRowState outputRow = algebraViewItem.getOutputRow();
+		assertFalse(outputRow.isVisible());
+	}
+
+	// APPS-6446
+	// - Enter “asind(0.8)” into the Algebra Input
+	// Expected
+	// - “asind(0.8)” is shown in the input row
+	// - Output row shows result in degree, no toggle button to switch to rad
+	@Test
+	public void testAsindShowsOutputInDegrees() {
+		GeoElement element = evaluateGeoElement("asind(0.8)");
+		MmsAlgebraOutputFilter filter = new MmsAlgebraOutputFilter(null);
+		assertTrue(filter.isAllowed(element));
+		// verify output row is visible
+		AlgebraViewItem algebraViewItem = new AlgebraViewItem(element);
+		AlgebraViewItem.OutputRowState outputRow = algebraViewItem.getOutputRow();
+		assertTrue(outputRow.isVisible());
+		assertTrue(outputRow.getLaTeX().contains("°"));
+		// verify no toggle button in output row
+		assertNull(outputRow.getNextOutputFormat());
 	}
 
 	@Test
