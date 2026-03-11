@@ -25,6 +25,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.spreadsheet.core.Direction;
@@ -161,6 +162,9 @@ public final class SpreadsheetStyling {
 	public static @Nonnull TextAlignment getDefaultTextAlignment(@CheckForNull Object cellContent) {
 		if (cellContent instanceof GeoText || cellContent instanceof String) {
 			return TextAlignment.LEFT;
+		}
+		if (cellContent instanceof GeoBoolean) {
+			return TextAlignment.CENTERED;
 		}
 		return TextAlignment.RIGHT;
 	}
@@ -303,16 +307,18 @@ public final class SpreadsheetStyling {
 		}
 	}
 
-	private static Integer cellFormatFromTextAlignment(@Nonnull TextAlignment textAlignment) {
-		switch (textAlignment) {
-		case LEFT:
-			return CellFormat.ALIGN_LEFT;
-		case CENTERED:
-			return CellFormat.ALIGN_CENTER;
-		case RIGHT:
-			return CellFormat.ALIGN_RIGHT;
-		}
-		return null;
+	/**
+	 * Converts {@link TextAlignment} values to {@link CellFormat} {@code ALIGN_*} fields.
+	 * @param textAlignment the text alignment to convert
+	 * @return one of the {@code CellFormat.ALIGN_*} fields
+	 */
+	public static @Nonnull Integer cellFormatFromTextAlignment(
+			@Nonnull TextAlignment textAlignment) {
+		return switch (textAlignment) {
+			case LEFT -> CellFormat.ALIGN_LEFT;
+			case CENTERED -> CellFormat.ALIGN_CENTER;
+			case RIGHT -> CellFormat.ALIGN_RIGHT;
+		};
 	}
 
 	private static Set<FontTrait> fontTraitsFromCellFormat(@CheckForNull Integer cellFormat) {

@@ -16,20 +16,20 @@
 
 package org.geogebra.common.spreadsheet.kernel;
 
+import static org.geogebra.common.euclidian.EuclidianConstants.DEFAULT_CHECKBOX_SIZE;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.DrawBoolean;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.spreadsheet.core.CellRenderableFactory;
 import org.geogebra.common.spreadsheet.core.CellRenderer;
 import org.geogebra.common.spreadsheet.rendering.AwtReTeXGraphicsBridge;
 import org.geogebra.common.spreadsheet.rendering.LaTeXRenderer;
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
-import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.common.util.shape.Rectangle;
 
@@ -59,7 +59,8 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 				geoElement.getBackgroundColor());
 		Integer align = styling.getAlignment(row, column);
 		if (align == null) {
-			align = (data instanceof GeoText) ? CellFormat.ALIGN_LEFT : CellFormat.ALIGN_RIGHT;
+			align = SpreadsheetStyling.cellFormatFromTextAlignment(
+					SpreadsheetStyling.getDefaultTextAlignment(data));
 		}
 		if (geoElement.isLaTeXDrawableGeo()) {
 			TeXFormula tf = new TeXFormula(geoElement
@@ -94,18 +95,20 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 	}
 
 	private static final class CheckboxCellRenderer implements CellRenderer {
+		private static final double CHECKBOX_SCALE = 0.5;
+
 		@Override
 		public void draw(Object data, int fontStyle, double offsetX,
 				GGraphics2D g2d, Rectangle cellBorder) {
-			g2d.translate(cellBorder.getMinX(), cellBorder.getMinY());
-			g2d.scale(0.5, 0.5);
-			DrawBoolean.CheckBoxIcon.paintIcon(
-					((GeoBoolean) data).getBoolean(),
-					!((GeoBoolean) data).isSelectionAllowed(null), g2d,
-					3,
-					3);
-			g2d.scale(2, 2);
-			g2d.translate(-cellBorder.getMinX(), -cellBorder.getMinY());
+			double positionX = cellBorder.getMinX() + offsetX;
+			double positionY = cellBorder.getMinY() + (cellBorder.getHeight()
+					- DEFAULT_CHECKBOX_SIZE * CHECKBOX_SCALE) / 2;
+			g2d.saveTransform();
+			g2d.translate(positionX, positionY);
+			g2d.scale(CHECKBOX_SCALE, CHECKBOX_SCALE);
+			DrawBoolean.CheckBoxIcon.paintIcon(((GeoBoolean) data).getBoolean(),
+					!((GeoBoolean) data).isSelectionAllowed(null), g2d, 0, 0);
+			g2d.restoreTransform();
 		}
 
 		@Override
@@ -115,7 +118,7 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 
 		@Override
 		public double measure(Object renderable, int fontStyle) {
-			return 32;
+			return DEFAULT_CHECKBOX_SIZE * CHECKBOX_SCALE;
 		}
 	}
 }
