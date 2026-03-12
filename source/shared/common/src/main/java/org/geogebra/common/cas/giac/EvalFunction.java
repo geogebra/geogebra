@@ -16,6 +16,8 @@
 
 package org.geogebra.common.cas.giac;
 
+import static org.geogebra.common.cas.giac.CASgiac.MAX_ALLOWED_STRING_LENGTH;
+
 import org.geogebra.common.cas.giac.binding.CASGiacBinding;
 import org.geogebra.common.cas.giac.binding.Gen;
 import org.geogebra.common.util.debug.crashlytics.CrashlyticsLogger;
@@ -78,6 +80,9 @@ public class EvalFunction implements Runnable {
 		}
 		if (ret != null && ret.startsWith("\"") && ret.endsWith("\"")) {
 			ret = ret.substring(1, ret.length() - 1);
+		}
+		if (ret != null && ret.length() > MAX_ALLOWED_STRING_LENGTH) {
+			ret = "?";
 		}
 
 		casGiac.addResultToCache(exp, ret);

@@ -65,6 +65,8 @@ import org.geogebra.regexp.shared.RegExp;
  * Platform (Java / GWT) independent part of giac CAS
  */
 public abstract class CASgiac implements CASGenericInterface {
+	// Results exceeding this length are replaced with "?"
+	protected static final int MAX_ALLOWED_STRING_LENGTH = 10_000;
 
 	/**
 	 * Random number generator
@@ -554,6 +556,10 @@ public abstract class CASgiac implements CASGenericInterface {
 		String rtrimmed = result.trim();
 		if (rtrimmed.startsWith("\"") && rtrimmed.endsWith("\"")) {
 				result = result.substring(1, result.length() - 1); // removing
+		}
+
+		if (result.length() > MAX_ALLOWED_STRING_LENGTH) {
+			result = "?";
 		}
 
 		Log.debug("result = " + result);
