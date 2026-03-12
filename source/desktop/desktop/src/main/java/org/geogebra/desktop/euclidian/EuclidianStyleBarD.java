@@ -210,7 +210,7 @@ public class EuclidianStyleBarD extends JToolBar
 		isIniting = false;
 
 		setMode(ev.getMode()); // this will also update the stylebar
-
+		app.getSettings().getFontSettings().addListener(ignore -> reinit());
 	}
 
 	private void updatePreferredSize() {

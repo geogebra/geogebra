@@ -49,11 +49,6 @@ public class Caption3D implements CaptionText {
 	}
 
 	@Override
-	public int fontSize() {
-		return caption.fontSize();
-	}
-
-	@Override
 	public boolean isSerifFont() {
 		return caption.isSerifFont();
 	}

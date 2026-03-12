@@ -16,6 +16,8 @@
 
 package org.geogebra.web.awt;
 
+import java.util.Objects;
+
 import org.geogebra.common.awt.GFont;
 
 public class GFontW extends GFont {
@@ -27,19 +29,19 @@ public class GFontW extends GFont {
 	private String fontStyle = NORMAL_STR;
 	private String fontVariant = NORMAL_STR;
 	private String fontWeight = NORMAL_STR;
-	private int fontSize = 12;
+	private double fontSize = 12;
 	private String fontFamily = GEOGEBRA_FONT_SANSERIF;
 
 	/**
-	 * @param otherfont
+	 * @param font
 	 *            font to copy
 	 */
-	public GFontW(GFontW otherfont) {
-		fontStyle = otherfont.getFontStyle();
-		fontVariant = otherfont.getFontVariant();
-		fontWeight = otherfont.getFontWeight();
-		fontSize = otherfont.getFontSize();
-		fontFamily = otherfont.getFontFamily();
+	public GFontW(GFontW font) {
+		fontStyle = font.getFontStyle();
+		fontVariant = font.getFontVariant();
+		fontWeight = font.getFontWeight();
+		fontSize = font.getFontSize();
+		fontFamily = font.getFontFamily();
 	}
 
 	/**
@@ -58,7 +60,7 @@ public class GFontW extends GFont {
 	 * @param size
 	 *            size
 	 */
-	public GFontW(String name, int style, int size) {
+	public GFontW(String name, int style, double size) {
 		if ("Serif".equals(name)) {
 			fontFamily = GEOGEBRA_FONT_SERIF;
 		} else if ("SansSerif".equals(name)) {
@@ -95,7 +97,7 @@ public class GFontW extends GFont {
 		return fontWeight;
 	}
 
-	public int getFontSize() {
+	public double getFontSize() {
 		return fontSize;
 	}
 
@@ -132,7 +134,7 @@ public class GFontW extends GFont {
 	}
 
 	@Override
-	public int getSize() {
+	public double getSize() {
 		return fontSize;
 	}
 
@@ -153,22 +155,22 @@ public class GFontW extends GFont {
 
 	@Override
 	public GFont deriveFont(int plain2, int newFontSize) {
+		return deriveFont(plain2, (double) newFontSize);
+	}
+
+	@Override
+	public GFont deriveFont(int newFontStyle, double newFontSize) {
 		GFontW ret = new GFontW(fontStyle);
 		ret.fontFamily = fontFamily;
-		ret.setFontStyle(plain2);
+		ret.setFontStyle(newFontStyle);
 		ret.fontSize = newFontSize;
 		return ret;
 	}
 
 	@Override
-	public GFont deriveFont(int plain2, double fontSize1) {
-		return deriveFont(plain2, (int) fontSize1);
-	}
-
-	@Override
-	public GFont deriveFont(int i) {
+	public GFont deriveFont(int newFontStyle) {
 		GFontW ret = new GFontW(fontStyle);
-		ret.setFontStyle(i);
+		ret.setFontStyle(newFontStyle);
 		ret.fontSize = fontSize;
 		ret.fontFamily = fontFamily;
 		return ret;
@@ -181,14 +183,12 @@ public class GFontW extends GFont {
 
 	@Override
 	public boolean equals(Object font) {
-		if (font instanceof GFontW) {
-			GFontW fontW = (GFontW) font;
+		if (font instanceof GFontW fontW) {
 			return fontFamily.equals(fontW.fontFamily)
 					&& fontSize == fontW.fontSize
 					&& fontStyle.equals(fontW.fontStyle)
 					&& fontVariant.equals(fontW.fontVariant)
 					&& fontWeight.equals(fontW.fontWeight);
-
 		}
 
 		return false;
@@ -196,9 +196,7 @@ public class GFontW extends GFont {
 
 	@Override
 	public int hashCode() {
-		// any arbitrary
-		// constant will do
-		return fontSize | fontStyle.hashCode();
+		return Objects.hash(fontSize, fontStyle);
 	}
 
 }

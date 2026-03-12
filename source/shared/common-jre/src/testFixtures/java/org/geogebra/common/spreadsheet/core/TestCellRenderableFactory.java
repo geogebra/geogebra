@@ -27,6 +27,6 @@ public class TestCellRenderableFactory implements CellRenderableFactory {
 	public SelfRenderable getRenderable(Object data, SpreadsheetStyling style,
 			int row, int column) {
 		return data == null ? null : new SelfRenderable(new StringRenderer(),
-				GFont.PLAIN, CellFormat.ALIGN_LEFT, data);
+				Spreadsheet.DEFAULT_FONT_SIZE, GFont.PLAIN, CellFormat.ALIGN_LEFT, data);
 	}
 }

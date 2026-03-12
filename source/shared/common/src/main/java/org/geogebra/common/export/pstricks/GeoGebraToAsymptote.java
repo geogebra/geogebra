@@ -1009,7 +1009,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 		}
 		GColor geocolor = geo.getObjectColor();
 		int style = geo.getFontStyle();
-		int size = (int) (geo.getFontSizeMultiplier() * getApp().getFontSize());
+		double size = geo.getFontSize(getApp().getFontSizeDouble());
 		GeoPointND gp;
 		double x, y;
 		// compute location of text
@@ -1057,14 +1057,14 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 				comma = true;
 				colorCode(geocolor, code);
 			}
-			if (size != getApp().getFontSize()) { // fontsize
+			if (size != getApp().getFontSizeDouble()) { // fontsize
 				if (!comma) {
 					code.append(",");
 				} else {
 					packSpace(code, "+");
 				}
 				code.append("fontsize(");
-				code.append(fontsize + size - getApp().getFontSize());
+				code.append(fontsize + size - getApp().getFontSizeDouble());
 				code.append(")");
 			} else if (compactcse5) { // use default font pen for cse5
 				if (!comma) {
@@ -1106,14 +1106,14 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 				comma = true;
 				colorCode(geocolor, code);
 			}
-			if (size != getApp().getFontSize()) { // fontsize
+			if (size != getApp().getFontSizeDouble()) { // fontsize
 				if (!comma) {
 					code.append(",");
 				} else {
 					packSpace(code, "+");
 				}
 				code.append("fontsize(");
-				code.append(fontsize + size - getApp().getFontSize());
+				code.append(fontsize + size - getApp().getFontSizeDouble());
 				code.append(")");
 			} else if (compactcse5) { // use default font pen for cse5
 				if (!comma) {
@@ -3238,22 +3238,12 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 			}
 			break;
 		}
-		/*
-		 * if (!geocolor.equals(Color.BLACK)){ ColorCode2(geocolor,code);
-		 * code.append("{"); } // Colors moved to drawText()
-		 * 
-		 * if (size!=app.getFontSize()) { String formatFont=resizeFont(size); if
-		 * (null!=formatFont) code.append(formatFont); }
-		 */
 
 		// strip final '$'
 		code.append(st.substring(0, st.length() - 1));
 		if (!isLatex || st.charAt(st.length() - 1) != '$') {
 			code.append(st.charAt(st.length() - 1));
 		}
-
-		// if (size!=app.getFontSize()) code.append("}");
-		// if (!geocolor.equals(Color.BLACK)) code.append("}");
 
 		switch (style) {
 		default:

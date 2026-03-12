@@ -50,7 +50,7 @@ public final class DrawText extends Drawable {
 	private GeoText text;
 	private boolean isVisible;
 	private boolean isLaTeX;
-	private int fontSize = -1;
+	private double fontSize = -1;
 	private int fontStyle = -1;
 	private boolean serifFont;
 	private GFont textFont;
@@ -278,7 +278,7 @@ public final class DrawText extends Drawable {
 
 	private boolean doUpdateFontSize() {
 		// text's font size is relative to the global font size
-		int newFontSize = getFontSize();
+		double newFontSize = getFontSize();
 		int newFontStyle = text.getFontStyle();
 		boolean newSerifFont = text.isSerifFont();
 
@@ -321,9 +321,8 @@ public final class DrawText extends Drawable {
 	/**
 	 * @return font size
 	 */
-	public int getFontSize() {
-		return (int) Math.max(4,
-				view.getFontSize() * text.getFontSizeMultiplier());
+	public double getFontSize() {
+		return text.getFontSize(view.getFontSize());
 	}
 
 	/**

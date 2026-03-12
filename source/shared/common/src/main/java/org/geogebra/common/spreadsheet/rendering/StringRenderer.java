@@ -16,6 +16,8 @@
 
 package org.geogebra.common.spreadsheet.rendering;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -37,24 +39,25 @@ public class StringRenderer implements CellRenderer {
 	private static final int LINE_HEIGHT = 16;
 
 	@Override
-	public void draw(Object data, int fontStyle, double offsetX, GGraphics2D graphics,
-			Rectangle cellBorder) {
-		GFont font = baseFont.deriveFont(fontStyle);
+	public void draw(Object data, double fontSize, int fontStyle, double offsetX,
+			GGraphics2D graphics, Rectangle cellBorder) {
+		GFont font = baseFont.deriveFont(fontStyle, fontSize);
 		graphics.setFont(font);
+		double lineHeight = LINE_HEIGHT * fontSize / FONT_SIZE;
 		graphics.drawString(data.toString(), cellBorder.getMinX() + offsetX,
-				cellBorder.getMaxY() - (cellBorder.getHeight() - LINE_HEIGHT) / 2
+				cellBorder.getMaxY() - (cellBorder.getHeight() - lineHeight) / 2
 						- font.getSize() / 4.0);
 	}
 
 	@Override
-	public boolean match(Object renderable) {
+	public boolean match(@Nonnull Object renderable) {
 		return renderable instanceof String;
 	}
 
 	@Override
-	public double measure(Object data, int fontStyle) {
-		GFont font = baseFont.deriveFont(fontStyle);
-		return (int) AwtFactory.getPrototype().newTextLayout(data.toString(),
+	public double measureWidth(Object data, int fontStyle, double fontSize) {
+		GFont font = baseFont.deriveFont(fontStyle, fontSize);
+		return AwtFactory.getPrototype().newTextLayout(data.toString(),
 				font, measuringGraphics.getFontRenderContext()).getAdvance();
 	}
 }

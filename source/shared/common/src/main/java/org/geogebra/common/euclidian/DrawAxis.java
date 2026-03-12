@@ -51,7 +51,7 @@ public class DrawAxis {
 	// used for deciding if there is a number to close for "0" on the x axis
 	private Integer beforeZeroX;
 	// used for deciding if there is a number to close for "0" on the y axis
-	private Integer beforeZeroY;
+	private Double beforeZeroY;
 	private boolean firstCallX = true;
 	private boolean firstCallY = true;
 	private String zeroStr = "0";
@@ -110,8 +110,8 @@ public class DrawAxis {
 		// AXES_TICK_STYLE_NONE = 2;
 
 		g2.setFont(view.getFontAxes());
-		int fontsize = view.getFontAxes().getSize();
-		int arrowSize = fontsize / 3;
+		double fontsize = view.getFontAxes().getSize();
+		double arrowSize = fontsize / 3;
 		g2.setPaint(view.axesColor);
 		GFontRenderContext frc = g2.getFontRenderContext();
 
@@ -385,7 +385,7 @@ public class DrawAxis {
 	}
 
 	private void drawYticksLinear(GGraphics2D g2, double xCrossPix,
-			int fontsize, char minusSign, boolean drawTopArrow,
+			double fontsize, char minusSign, boolean drawTopArrow,
 			double yCrossPix, double yAxisEnd) {
 		double xoffset = -4 - (fontsize / 4d);
 		double yoffset = (fontsize / 2d) - 1;
@@ -607,7 +607,7 @@ public class DrawAxis {
 	}
 
 	private void drawZero(GGraphics2D g2, double xCrossPix, double yCrossPix,
-			int fontsize) {
+			double fontsize) {
 
 		if ((!view.showAxes[0] || !view.showAxesNumbers[0])
 				&& (!view.showAxes[1] || !view.showAxesNumbers[1])) {
@@ -716,7 +716,7 @@ public class DrawAxis {
 
 	}
 
-	private void drawYticksLog(GGraphics2D g2, double xCrossPix, int fontsize,
+	private void drawYticksLog(GGraphics2D g2, double xCrossPix, double fontsize,
 			char minusSign, boolean drawTopArrow, double yCrossPix,
 			double yAxisEnd) {
 		double xoffset = -4 - (fontsize / 4d);
@@ -877,7 +877,7 @@ public class DrawAxis {
 	}
 
 	private void drawXTicksLinear(GGraphics2D g2, double yCrossPix,
-			char minusSign, boolean drawRightArrow, int fontsize,
+			char minusSign, boolean drawRightArrow, double fontsize,
 			double xAxisStart) {
 		double yoffset = view.getYOffsetForXAxis(fontsize);
 
@@ -1025,7 +1025,7 @@ public class DrawAxis {
 	}
 
 	private void drawXTicksLog(GGraphics2D g2, double yCrossPix, char minusSign,
-			boolean drawRightArrow, int fontsize, double xAxisStart) {
+			boolean drawRightArrow, double fontsize, double xAxisStart) {
 		double yoffset = view.getYOffsetForXAxis(fontsize);
 		boolean[] drawMajorTicks = { view.getAxisTickStyle(0) <= 1, view.getAxisTickStyle(1) <= 1 };
 		boolean[] drawMinorTicks = { view.getAxisTickStyle(0) == 0, view.getAxisTickStyle(1) == 0 };

@@ -4190,7 +4190,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				&& (getXmax() > axisCross[1]);
 	}
 
-	protected int getYOffsetForXAxis(int baseFontSize) {
+	protected double getYOffsetForXAxis(double baseFontSize) {
 		return baseFontSize + 4;
 	}
 

@@ -128,6 +128,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		setToolTips();
 
 		setOptionType();
+		app.getSettings().getFontSettings().addListener(ignore -> reinit());
 	}
 
 	protected void setOptionType() {

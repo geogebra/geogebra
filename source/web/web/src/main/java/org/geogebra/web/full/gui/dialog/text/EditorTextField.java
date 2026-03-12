@@ -40,7 +40,7 @@ public class EditorTextField extends GTextBox implements KeyUpHandler {
 
 	/** TODO: use CSS style */
 	public void setFont(GFontW font) {
-		int fontSize = font.getFontSize();
+		double fontSize = font.getFontSize();
 		String fontFamily = font.getFontFamily();
 
 		getStyleElement().setAttribute("style",

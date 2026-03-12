@@ -153,6 +153,7 @@ import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
+import org.geogebra.common.main.settings.FontSettings;
 import org.geogebra.common.main.settings.SettingsBuilder;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.media.VideoManager;
@@ -210,7 +211,6 @@ import org.geogebra.desktop.javax.swing.GImageIconD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.main.settings.DefaultSettingsD;
 import org.geogebra.desktop.main.settings.SettingsBuilderD;
-import org.geogebra.desktop.main.settings.updater.FontSettingsUpdaterD;
 import org.geogebra.desktop.main.undo.UndoManagerD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
@@ -2720,7 +2720,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @param size font size
 	 * @return font
 	 */
-	final public GFont getFont(boolean serif, int style, int size) {
+	final public GFont getFont(boolean serif, int style, double size) {
 		return fontManager.getFont(serif, style, size);
 	}
 
@@ -3888,8 +3888,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	@Override
-	public GFont getFontCommon(boolean b, int i, int size) {
-		return getFont(b, i, size);
+	public GFont getFontCommon(boolean serif, int style, double size) {
+		return getFont(serif, style, size);
 	}
 
 	public GFont getBoldFontCommon() {
@@ -4851,8 +4851,13 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
-		return new SettingsUpdaterBuilder(this)
-				.withFontSettingsUpdater(new FontSettingsUpdaterD(this));
+		getSettings().getFontSettings().addListener(settings -> {
+			FontSettings fontSettings = (FontSettings) settings;
+			if (fontSettings.getGuiFontSize() == -1) {
+				setMaxIconSize(fontSettings.getAppFontSize());
+			}
+		});
+		return super.newSettingsUpdaterBuilder();
 	}
 
 	@Override

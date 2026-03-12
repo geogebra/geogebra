@@ -44,12 +44,6 @@ public class DynamicCaption3D implements CaptionText {
 	}
 
 	@Override
-	public int fontSize() {
-		return (int) (font.getSize()
-				* dynamicCaption().getFontSizeMultiplier());
-	}
-
-	@Override
 	public boolean isSerifFont() {
 		return dynamicCaption().isSerifFont();
 	}
@@ -87,7 +81,7 @@ public class DynamicCaption3D implements CaptionText {
 	@Override
 	public void createFont(GFont original) {
 		font = original.deriveFont(dynamicCaption().getFontStyle(),
-				original.getSize() * dynamicCaption().getFontSizeMultiplier());
+				dynamicCaption().getFontSize(original.getSize()));
 	}
 
 	@Override

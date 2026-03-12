@@ -42,6 +42,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 	public static final int MAX_COLUMNS = 9999;
 	public static final int MAX_ROWS = 9999;
+	public static final double DEFAULT_FONT_SIZE = 16.0;
 	private final SpreadsheetController controller;
 	private final SpreadsheetStyling styling;
 	private final SpreadsheetStyleBarModel styleBarModel;
@@ -482,5 +483,13 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 	void selectCell(int row, int column, boolean extend, boolean add) {
 		controller.selectCell(row, column, extend, add);
+	}
+
+	/**
+	 * Invalidate all cached cells, repaint the view.
+	 */
+	public void invalidateAndRepaint() {
+		renderer.invalidateAll();
+		notifyRepaintNeeded();
 	}
 }

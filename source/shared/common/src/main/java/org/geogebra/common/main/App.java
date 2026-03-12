@@ -26,6 +26,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Vector;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -2038,7 +2039,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            font size
 	 * @return font with given parameters
 	 */
-	public GFont getFontCommon(boolean serif, int style, int size) {
+	public GFont getFontCommon(boolean serif, int style, double size) {
 		return AwtFactory.getPrototype().newFont(serif ? "Serif" : "SansSerif",
 				style, size);
 	}
@@ -2473,6 +2474,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return settings.getFontSettings().getAppFontSize();
 	}
 
+	public double getFontSizeDouble() {
+		return settings.getFontSettings().getAppFontSize();
+	}
+
 	/**
 	 * Changes font size and possibly resets fonts
 	 *
@@ -2539,7 +2544,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return font
 	 */
 	public GFont getFontCanDisplay(String testString, boolean serif,
-			int fontStyle, int fontSize) {
+			int fontStyle, double fontSize) {
 		FontCreator fontCreator = getFontCreator();
 		if (serif) {
 			return fontCreator.newSerifFont(testString, fontStyle, fontSize);
@@ -4090,8 +4095,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			KernelTabularDataAdapter tabularData = new KernelTabularDataAdapter(this);
 			kernel.notifyAddAll(tabularData);
 			kernel.attach(tabularData);
+			GeoElementCellRendererFactory factory = getGeoElementCellRendererFactory(
+					this::getFontSizeDouble);
 			spreadsheet = new Spreadsheet(tabularData,
-					getGeoElementCellRendererFactory(),
+					factory,
 					new DefaultSpreadsheetConstructionDelegate(kernel.getAlgebraProcessor()),
 					getUndoManager());
 			spreadsheetSettingsAdapter = new SpreadsheetSettingsAdapter(spreadsheet, this);
@@ -4100,8 +4107,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return spreadsheet;
 	}
 
-	protected @Nonnull GeoElementCellRendererFactory getGeoElementCellRendererFactory() {
-		return new GeoElementCellRendererFactory(gGraphics2D -> null);
+	protected @Nonnull GeoElementCellRendererFactory getGeoElementCellRendererFactory(
+			Supplier<Double> fontSizeProvider) {
+		return new GeoElementCellRendererFactory(gGraphics2D -> null, fontSizeProvider);
 	}
 
 	/**

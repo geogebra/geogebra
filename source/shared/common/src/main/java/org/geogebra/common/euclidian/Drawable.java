@@ -115,7 +115,7 @@ public abstract class Drawable extends DrawableND {
 
 	private GArea shape;
 
-	private int lastFontSize = -1;
+	private double lastFontSize = -1;
 
 	/** tracing */
 	protected boolean isTracing = false;
@@ -321,12 +321,12 @@ public abstract class Drawable extends DrawableND {
 		}
 
 		// no index in label: draw it fast
-		int fontSize = g2.getFont().getSize();
+		double fontSize = g2.getFont().getSize();
 		if (labelDesc.equals(oldLabelDesc) && !labelHasIndex
 				&& lastFontSize == fontSize) {
 			view.drawStringWithOutline(g2, label, xLabel, yLabel,
 					geo.getObjectColor());
-			labelRectangle.setLocation(xLabel, yLabel - fontSize);
+			labelRectangle.setLocation(xLabel, (int) Math.round(yLabel - fontSize));
 		} else { // label with index or label has changed:
 					// do the slower index drawing routine and check for indices
 			oldLabelDesc = labelDesc;
@@ -335,8 +335,8 @@ public abstract class Drawable extends DrawableND {
 					g2, label, xLabel, yLabel, isSerif(), view,
 					geo.getObjectColor());
 			labelHasIndex = p.y > 0;
-			labelRectangle.setBounds(xLabel, yLabel - fontSize, p.x,
-					fontSize + p.y);
+			labelRectangle.setBounds(xLabel, (int) Math.round(yLabel - fontSize), p.x,
+					(int) Math.round(fontSize + p.y));
 			lastFontSize = fontSize;
 		}
 

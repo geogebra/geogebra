@@ -28,7 +28,7 @@ public class GeoLaTeXCache implements LaTeXCache {
 	public Object keyLaTeX = null;
 
 	@Override
-	public Object getCachedLaTeXKey(String latex, int fontSize, int style,
+	public Object getCachedLaTeXKey(String latex, double fontSize, int style,
 			GColor fgColor) {
 		Object newKey;
 		try {

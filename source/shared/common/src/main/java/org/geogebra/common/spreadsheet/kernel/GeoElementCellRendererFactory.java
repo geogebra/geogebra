@@ -18,6 +18,8 @@ package org.geogebra.common.spreadsheet.kernel;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.DEFAULT_CHECKBOX_SIZE;
 
+import java.util.function.Supplier;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.DrawBoolean;
@@ -42,9 +44,16 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 	private final LaTeXRenderer laTeXRenderer;
 	private final StringRenderer stringRenderer = new StringRenderer();
 	private final CheckboxCellRenderer checkboxCellRenderer = new CheckboxCellRenderer();
+	private final Supplier<Double> fontSize;
 
-	public GeoElementCellRendererFactory(AwtReTeXGraphicsBridge bridge) {
+	/**
+	 * @param bridge graphics converter
+	 * @param fontSizeProvider font size provider
+	 */
+	public GeoElementCellRendererFactory(AwtReTeXGraphicsBridge bridge,
+			Supplier<Double> fontSizeProvider) {
 		this.laTeXRenderer = new LaTeXRenderer(bridge);
+		this.fontSize = fontSizeProvider;
 	}
 
 	@Override
@@ -67,18 +76,19 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 					.toValueString(StringTemplate.latexTemplate));
 			GColor fgColor = styling.getTextColor(row, column, getTextColor(geoElement));
 			return new SelfRenderable(laTeXRenderer,
+					fontSize.get(),
 					fontStyle, align,
 					tf.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-							StringRenderer.FONT_SIZE, TeXFont.SANSSERIF,
+							fontSize.get(), TeXFont.SANSSERIF,
 							fgColor),
 					background, fgColor);
 		}
 		if (data instanceof GeoBoolean && ((GeoBoolean) data).isIndependent()) {
-			return new SelfRenderable(checkboxCellRenderer, fontStyle, align, data, background,
-					SpreadsheetStyling.getDefaultTextColor());
+			return new SelfRenderable(checkboxCellRenderer, fontSize.get(),
+					fontStyle, align, data, background, getTextColor(geoElement));
 		}
 
-		return new SelfRenderable(stringRenderer, fontStyle, align,
+		return new SelfRenderable(stringRenderer, fontSize.get(), fontStyle, align,
 				getValueString(geoElement),
 				background, getTextColor(geoElement));
 	}
@@ -98,7 +108,7 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 		private static final double CHECKBOX_SCALE = 0.5;
 
 		@Override
-		public void draw(Object data, int fontStyle, double offsetX,
+		public void draw(Object data, double fontSize, int fontStyle, double offsetX,
 				GGraphics2D g2d, Rectangle cellBorder) {
 			double positionX = cellBorder.getMinX() + offsetX;
 			double positionY = cellBorder.getMinY() + (cellBorder.getHeight()
@@ -117,8 +127,13 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 		}
 
 		@Override
-		public double measure(Object renderable, int fontStyle) {
+		public double measureWidth(Object renderable, int fontStyle, double fontSize) {
 			return DEFAULT_CHECKBOX_SIZE * CHECKBOX_SCALE;
 		}
+	}
+
+	@Override
+	public double getFontSize() {
+		return fontSize.get();
 	}
 }

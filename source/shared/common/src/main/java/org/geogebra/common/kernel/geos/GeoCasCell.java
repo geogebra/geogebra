@@ -477,7 +477,7 @@ public class GeoCasCell extends GeoElement
 	 */
 	public void setFont(GFont ft) {
 		setFontSizeMultiplier(ft.getSize()
-				/ (double) kernel.getApplication().getFontSize());
+				/ kernel.getApplication().getFontSize());
 		setFontStyle(ft.getStyle());
 	}
 

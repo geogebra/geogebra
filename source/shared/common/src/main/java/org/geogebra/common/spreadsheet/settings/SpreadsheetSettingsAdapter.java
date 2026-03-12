@@ -55,6 +55,9 @@ public final class SpreadsheetSettingsAdapter {
 		spreadsheetSettings.addListener((settings) -> {
 			notifyIfSettingsCellFormatChanged();
 		});
+		app.getSettings().getFontSettings().addListener(s -> {
+			spreadsheet.invalidateAndRepaint();
+		});
 		spreadsheet.tabularDataDimensionsDidChange(spreadsheetSettings);
 		previousCellFormatXml = spreadsheetSettings.getCellFormatXml();
 		spreadsheet.setCellFormatXml(previousCellFormatXml);

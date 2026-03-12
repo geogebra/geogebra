@@ -35,13 +35,12 @@ public class FontManagerW extends FontManager {
 
 	@Override
 	public GFont getFontCanDisplay(String testString, boolean serif,
-			int fontStyle, int fontSize1) {
-		GFontW ret = new GFontW(
+			int fontStyle, double fontSize) {
+		return new GFontW(
 				serif ? GFontW.GEOGEBRA_FONT_SERIF
 						: GFontW.GEOGEBRA_FONT_SANSERIF,
 				fontStyle,
-				fontSize1);
-		return ret;
+				fontSize);
 	}
 
 }

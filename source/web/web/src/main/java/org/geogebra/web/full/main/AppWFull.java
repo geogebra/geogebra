@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -94,6 +95,7 @@ import org.geogebra.common.main.ShareController;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.localization.AutocompleteProvider;
+import org.geogebra.common.main.settings.FontSettings;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
@@ -166,7 +168,6 @@ import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.toolbarpanel.spreadsheet.AwtReTexGraphicsBridgeW;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.dataimport.CsvImportHandler;
-import org.geogebra.web.full.gui.util.FontSettingsUpdaterW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
 import org.geogebra.web.full.gui.util.SyntaxAdapterImplWithPaste;
@@ -212,6 +213,7 @@ import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.Persistable;
+import org.geogebra.web.richtext.impl.CarotaUtil;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
@@ -354,8 +356,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	protected @Nonnull GeoElementCellRendererFactory getGeoElementCellRendererFactory() {
-		return new GeoElementCellRendererFactory(new AwtReTexGraphicsBridgeW());
+	protected @Nonnull GeoElementCellRendererFactory getGeoElementCellRendererFactory(
+			Supplier<Double> fontSizeProvider) {
+		return new GeoElementCellRendererFactory(new AwtReTexGraphicsBridgeW(),
+				this::getFontSizeDouble);
 	}
 
 	private void setupHeader() {
@@ -2432,8 +2436,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
-		return super.newSettingsUpdaterBuilder()
-				.withFontSettingsUpdater(new FontSettingsUpdaterW(this));
+		getSettings().getFontSettings().addListener(settings -> {
+			FontSettings fontSettings = (FontSettings) settings;
+			if (isWhiteboardActive()) {
+				CarotaUtil.setDefaultFontSize(fontSettings.getAppFontSize());
+			}
+		});
+		return super.newSettingsUpdaterBuilder();
 	}
 
 	@Override

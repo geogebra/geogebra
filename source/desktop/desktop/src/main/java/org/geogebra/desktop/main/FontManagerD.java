@@ -204,7 +204,7 @@ public class FontManagerD extends FontManager {
 	 * @param style font style
 	 * @param size font size
 	 */
-	public GFont getFont(final boolean serif, final int style, final int size) {
+	public GFont getFont(final boolean serif, final int style, final double size) {
 		final String name = serif ? getSerifFont().getFontName()
 				: getPlainFont().getFontName();
 		return getFont(name, style, size);
@@ -213,7 +213,7 @@ public class FontManagerD extends FontManager {
 	/**
 	 * Gets a font from a HashMap to avoid multiple creations of the same font.
 	 */
-	private GFont getFont(final String name, final int style, final int size) {
+	private GFont getFont(final String name, final int style, final double size) {
 		// build font's key name for HashMap
 		key.setLength(0);
 		key.append(name);
@@ -226,7 +226,7 @@ public class FontManagerD extends FontManager {
 		Font f = fontMap.get(key.toString());
 		if (f == null) {
 			// new font: create it and keep it in the HashMap
-			f = new Font(name, style, size);
+			f = new Font(name, style, (int) size).deriveFont((float) size);
 			fontMap.put(key.toString(), f);
 		}
 
@@ -238,8 +238,8 @@ public class FontManagerD extends FontManager {
 	 */
 	@Override
 	public GFont getFontCanDisplay(final String testString,
-			final boolean serif, final int fontStyle, final int fontSize) {
-
+			final boolean serif, final int fontStyle, final double fontSizeD) {
+		final int fontSize = (int) Math.round(fontSizeD);
 		final GFont appFont = serif ? serifFont : plainFont;
 		if (appFont == null) {
 			return plainFont;

@@ -167,11 +167,6 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		code.append(codePoint);
 		// Close Environment pspicture
 		code.append("\\end{pspicture*}\n");
-		/*
-		 * String formatFont=resizeFont(app.getFontSize()); if
-		 * (null!=formatFont){ codeBeginPic.insert(0,formatFont+"\n");
-		 * code.append("}\n"); }
-		 */
 		code.insert(0, codeFilledObject);
 		code.insert(0, codeBeginPic);
 		code.insert(0, codeBeginDoc);
@@ -908,7 +903,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		String st = geo.getTextString();
 		GColor geocolor = geo.getObjectColor();
 		int style = geo.getFontStyle();
-		int size = (int) (geo.getFontSizeMultiplier() * getApp().getFontSize());
+		double size = geo.getFontSize(getApp().getFontSizeDouble());
 		GeoPointND gp;
 		double x, y;
 		// compute location of text
@@ -2168,42 +2163,6 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		}
 	}
 
-	/*
-	 * // Resize text // Keep the ratio between font size and picture height
-	 * private String resizeFont(int fontSize){ int
-	 * latexFont=frame.getFontSize(); double
-	 * height_geogebra=euclidianView.getHeight()/30; double
-	 * height_latex=frame.getLatexHeight(); double
-	 * ratio=height_latex/height_geogebra; int
-	 * theoric_size=(int)Math.round(ratio*fontSize); String st=null;
-	 * switch(latexFont){ case 10: if (theoric_size<=5) st="\\tiny{"; else if
-	 * (theoric_size<=7) st="\\scriptsize{"; else if (theoric_size<=8)
-	 * st="\\footnotesize{"; else if (theoric_size<=9) st="\\small{"; else if
-	 * (theoric_size<=10) ; else if (theoric_size<=12) st="\\large{"; else if
-	 * (theoric_size<=14) st="\\Large{"; else if (theoric_size<=17)
-	 * st="\\LARGE{"; else if (theoric_size<=20) st="\\huge{"; else
-	 * st="\\Huge{"; break; case 11: if (theoric_size<=6) st="\\tiny{"; else if
-	 * (theoric_size<=8) st="\\scriptsize{"; else if (theoric_size<=9)
-	 * st="\\footnotesize{"; else if (theoric_size<=10) st="\\small{"; else if
-	 * (theoric_size<=11) ; else if (theoric_size<=12) st="\\large{"; else if
-	 * (theoric_size<=14) st="\\Large{"; else if (theoric_size<=17)
-	 * st="\\LARGE{"; else if (theoric_size<=20) st="\\huge{"; else
-	 * st="\\Huge{"; break; case 12: if (theoric_size<=6) st="\\tiny{"; else if
-	 * (theoric_size<=8) st="\\scriptsize{"; else if (theoric_size<=10)
-	 * st="\\footnotesize{"; else if (theoric_size<=11) st="\\small{"; else if
-	 * (theoric_size<=12) ; else if (theoric_size<=14) st="\\large{"; else if
-	 * (theoric_size<=17) st="\\Large{"; else if (theoric_size<=20)
-	 * st="\\LARGE{"; else if (theoric_size<=25) st="\\huge{"; else
-	 * st="\\Huge{"; break; } return st; }
-	 */
-	/*
-	 * private void defineTransparency(){ String str=
-	 * "\\makeatletter\n\\define@key[psset]{}{transpalpha}{\\pst@checknum{#1}\\pstranspalpha}\n"
-	 * + "\\psset{transpalpha=1}\n"+ "\\def\\psfs@transp{%\n"+
-	 * "  \\addto@pscode{/Normal .setblendmode \\pstranspalpha .setshapealpha }%\n"
-	 * + "  \\psfs@solid}\n"; if (!transparency) codePreamble.append(str);
-	 * transparency=true; }
-	 */
 	private void addText(String st0, boolean isLatex, int style,
 			GColor geocolor) {
 		String st = st0;
@@ -2276,12 +2235,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			colorCode(geocolor, code);
 			code.append("{");
 		}
-		/*
-		 * if (size!=app.getFontSize()) { String formatFont=resizeFont(size); if
-		 * (null!=formatFont) code.append(formatFont); }
-		 */
 		code.append(st);
-		// if (size!=app.getFontSize()) code.append("}");
 		if (!geocolor.equals(GColor.BLACK)) {
 			code.append("}");
 		}

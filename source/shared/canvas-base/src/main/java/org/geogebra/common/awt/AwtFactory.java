@@ -269,7 +269,7 @@ public abstract class AwtFactory {
 	 *            size
 	 * @return font
 	 */
-	public abstract GFont newFont(String name, int style, int size);
+	public abstract GFont newFont(String name, int style, double size);
 
 	/**
 	 * @param tx

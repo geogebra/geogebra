@@ -85,7 +85,8 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 		tabularData = new KernelTabularDataAdapter(getApp());
 		getKernel().attach((KernelTabularDataAdapter) tabularData);
 		spreadsheet = new Spreadsheet(tabularData,
-				new GeoElementCellRendererFactory(graphics -> null),
+				new GeoElementCellRendererFactory(graphics -> null,
+						getApp()::getFontSizeDouble),
 				null,
 				undoProvider);
 		spreadsheet.setViewportAdjustmentHandler(new DummyViewportAdjuster());

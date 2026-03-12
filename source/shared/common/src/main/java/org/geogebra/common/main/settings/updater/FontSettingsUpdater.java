@@ -19,7 +19,6 @@ package org.geogebra.common.main.settings.updater;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.FontSettings;
-import org.geogebra.common.util.Util;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -51,10 +50,7 @@ public class FontSettingsUpdater {
 	 * @see #resetFonts()
 	 */
 	public void setAppFontSize(int fontSize) {
-		if (fontSize == fontSettings.getAppFontSize()) {
-			return;
-		}
-		fontSettings.setAppFontSize(Util.getValidFontSize(fontSize));
+		fontSettings.setAppFontSizeNoFire(fontSize);
 	}
 
 	/**
@@ -62,28 +58,9 @@ public class FontSettingsUpdater {
 	 * @param fontSize font size
 	 */
 	public void setAppFontSizeAndUpdateViews(int fontSize) {
-		setAppFontSize(fontSize);
-		updateEuclidianViews();
+		fontSettings.setAppFontSize(fontSize);
 		resetFonts();
 		app.updateUI();
-	}
-
-	private void updateEuclidianViews() {
-		EuclidianView ev1 = app.getEuclidianView1();
-		if (ev1 != null && ev1.hasStyleBar()) {
-			ev1.getStyleBar().reinit();
-		}
-
-		if (app.hasEuclidianView2(1)) {
-			EuclidianView ev2 = app.getEuclidianView2(1);
-			if (ev2 != null && ev2.hasStyleBar()) {
-				ev2.getStyleBar().reinit();
-			}
-		}
-
-		if (app.isEuclidianView3Dinited() && app.getEuclidianView3D().hasStyleBar()) {
-			app.getEuclidianView3D().getStyleBar().reinit();
-		}
 	}
 
 	/**

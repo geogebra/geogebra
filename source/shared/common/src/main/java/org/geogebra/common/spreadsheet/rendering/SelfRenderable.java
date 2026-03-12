@@ -36,6 +36,7 @@ public final class SelfRenderable {
 	private final int fontStyle;
 	private final int alignment;
 	private final double width;
+	private final double fontSize;
 
 	/**
 	 * @param renderer renderer
@@ -43,9 +44,9 @@ public final class SelfRenderable {
 	 * @param fontStyle optional font style ({@link GFont#getStyle})
 	 * @param alignment text alignment
 	 */
-	public SelfRenderable(CellRenderer renderer, Integer fontStyle,
+	public SelfRenderable(CellRenderer renderer, double fontSize, Integer fontStyle,
 			Integer alignment, Object renderable) {
-		this(renderer, fontStyle, alignment, renderable, null,
+		this(renderer, fontSize, fontStyle, alignment, renderable, null,
 				SpreadsheetStyling.getDefaultTextColor());
 	}
 
@@ -56,7 +57,7 @@ public final class SelfRenderable {
 	 * @param alignment text alignment
 	 * @param background background color
 	 */
-	public SelfRenderable(CellRenderer renderer, Integer fontStyle,
+	public SelfRenderable(CellRenderer renderer, double fontSize, Integer fontStyle,
 			Integer alignment, Object renderable, GColor background, GColor textColor) {
 		this.renderer = renderer;
 		this.renderable = renderable;
@@ -64,8 +65,9 @@ public final class SelfRenderable {
 		this.textColor = textColor;
 		this.alignment = alignment == null ? DEFAULT_CELL_ALIGNMENT : alignment;
 		this.fontStyle = fontStyle == null ? GFont.PLAIN : fontStyle;
+		this.fontSize = fontSize;
 		if (this.alignment != CellFormat.ALIGN_LEFT) {
-			width = renderer.measure(renderable, this.fontStyle);
+			width = renderer.measureWidth(renderable, this.fontStyle, fontSize);
 		} else {
 			width = 0;
 		}
@@ -85,7 +87,7 @@ public final class SelfRenderable {
 		}
 		graphics.setClip(cellBorder.getMinX(), cellBorder.getMinY(),
 				cellBorder.getWidth(), cellBorder.getHeight(), true);
-		renderer.draw(renderable, fontStyle, offset, graphics, cellBorder);
+		renderer.draw(renderable, fontSize, fontStyle, offset, graphics, cellBorder);
 		graphics.resetClip();
 	}
 

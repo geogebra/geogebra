@@ -30,8 +30,8 @@ public class FontManagerNoGui extends FontManager {
 
 	@Override
 	public GFont getFontCanDisplay(String testString, boolean serif,
-			int fontStyle, int fontSize) {
-		return AwtFactory.getPrototype().newFont("sans", GFont.PLAIN, 12);
+			int fontStyle, double fontSize) {
+		return AwtFactory.getPrototype().newFont("sans", fontStyle, fontSize);
 	}
 
 }

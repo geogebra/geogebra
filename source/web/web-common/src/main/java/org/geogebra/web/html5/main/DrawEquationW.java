@@ -97,7 +97,7 @@ public class DrawEquationW extends DrawEquation {
 	 * @return canvas
 	 */
 	public static Canvas paintOnCanvas(GeoElementND geo, String text0,
-			Canvas c0, int fontSize) {
+			Canvas c0, double fontSize) {
 		Canvas c = makeCleanCanvas(c0);
 		if (geo != null) {
 			DrawEquationW current =
@@ -119,7 +119,7 @@ public class DrawEquationW extends DrawEquation {
 	 * @return canvas
 	 */
 	public static Canvas paintOnCanvasOutput(GeoElementND geo, String text0,
-			Canvas c0, int fontSize) {
+			Canvas c0, double fontSize) {
 		final GColor fgColor = geo.getAlgebraColor();
 		Canvas c = makeCleanCanvas(c0);
 		DrawEquationW current = (DrawEquationW) geo.getKernel().getApplication().getDrawEquation();
@@ -168,7 +168,7 @@ public class DrawEquationW extends DrawEquation {
 	 * @return graphics
 	 */
 	public Graphics2DW paintOnCleanCanvas(String text0, @Nonnull Canvas c,
-			int fontSize, final GColor fgColor, boolean serif) {
+			double fontSize, final GColor fgColor, boolean serif) {
 		JLMContext2D ctx = JLMContextHelper.as(c.getContext2d());
 
 		checkFirstCall();

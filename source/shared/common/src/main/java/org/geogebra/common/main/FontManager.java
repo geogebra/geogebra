@@ -45,6 +45,6 @@ public abstract class FontManager {
 	 * @return usable font
 	 */
 	public abstract GFont getFontCanDisplay(String testString, boolean serif,
-			int fontStyle, int fontSize);
+			int fontStyle, double fontSize);
 
 }

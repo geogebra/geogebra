@@ -245,8 +245,9 @@ public class AwtFactoryD extends AwtFactory {
 	}
 
 	@Override
-	public GFont newFont(String name, int style, int size) {
-		return new GFontD(new Font(name, style, size));
+	public GFont newFont(String name, int style, double size) {
+		return new GFontD(new Font(name, style, (int) size)
+				.deriveFont((float) size));
 	}
 
 	/**

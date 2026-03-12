@@ -49,8 +49,8 @@ public class GFontD extends GFont {
 	}
 
 	@Override
-	public int getSize() {
-		return impl.getSize();
+	public double getSize() {
+		return impl.getSize2D();
 	}
 
 	@Override

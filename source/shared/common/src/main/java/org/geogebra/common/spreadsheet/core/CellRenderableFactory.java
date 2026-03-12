@@ -37,4 +37,8 @@ public interface CellRenderableFactory {
 	 */
 	@CheckForNull SelfRenderable getRenderable(@CheckForNull Object data,
 			@CheckForNull SpreadsheetStyling fontStyle, int row, int column);
+
+	default double getFontSize() {
+		return Spreadsheet.DEFAULT_FONT_SIZE;
+	}
 }

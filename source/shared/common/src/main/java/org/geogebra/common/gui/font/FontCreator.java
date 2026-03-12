@@ -44,7 +44,7 @@ public class FontCreator {
 	 * @param fontSize font size
 	 * @return A new serif font instance.
 	 */
-	public GFont newSerifFont(String testString, int fontStyle, int fontSize) {
+	public GFont newSerifFont(String testString, int fontStyle, double fontSize) {
 		return fontManager.getFontCanDisplay(testString, true, fontStyle, fontSize);
 	}
 
@@ -55,7 +55,7 @@ public class FontCreator {
 	 * @param fontSize font size
 	 * @return A new sans-serif font instance.
 	 */
-	public GFont newSansSerifFont(String testString, int fontStyle, int fontSize) {
+	public GFont newSansSerifFont(String testString, int fontStyle, double fontSize) {
 		return fontManager.getFontCanDisplay(testString, false, fontStyle, fontSize);
 	}
 

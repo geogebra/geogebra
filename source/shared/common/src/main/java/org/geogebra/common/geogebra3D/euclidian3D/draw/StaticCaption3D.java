@@ -42,6 +42,6 @@ public class StaticCaption3D extends StaticText3D {
 
 	@Override
 	public void createFont(GFont original) {
-		super.updateFont(original.deriveFont(original.getStyle(), original.getSize()));
+		super.updateFont(original);
 	}
 }

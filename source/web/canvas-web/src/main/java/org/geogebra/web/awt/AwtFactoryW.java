@@ -76,7 +76,7 @@ public class AwtFactoryW extends AwtFactoryHeadless {
 	}
 
 	@Override
-	public GFont newFont(String name, int style, int size) {
+	public GFont newFont(String name, int style, double size) {
 		return new GFontW(name, style, size);
 	}
 

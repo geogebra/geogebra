@@ -35,7 +35,7 @@ public final class LaTeXRenderer implements CellRenderer {
 	}
 
 	@Override
-	public void draw(Object data, int fontStyle, double offsetX,
+	public void draw(Object data, double fontSize, int fontStyle, double offsetX,
 			GGraphics2D graphics, Rectangle cellBorder) {
 		graphics.setColor(GColor.BLACK);
 		TeXIcon teXIcon = (TeXIcon) data;
@@ -50,7 +50,7 @@ public final class LaTeXRenderer implements CellRenderer {
 	}
 
 	@Override
-	public double measure(Object renderable, int fontStyle) {
+	public double measureWidth(Object renderable, int fontStyle, double fontSize) {
 		return ((TeXIcon) renderable).getIconWidth();
 	}
 }

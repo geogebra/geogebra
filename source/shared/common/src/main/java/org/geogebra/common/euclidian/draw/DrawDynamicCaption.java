@@ -107,7 +107,7 @@ public class DrawDynamicCaption {
 				captionWidth = (int) layout.getBounds().getWidth();
 			} else {
 				captionWidth = 0;
-				captionHeight = font.getSize();
+				captionHeight = (int) Math.round(font.getSize());
 			}
 		}
 	}

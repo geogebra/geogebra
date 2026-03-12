@@ -47,11 +47,6 @@ public class StaticText3D implements CaptionText {
 	}
 
 	@Override
-	public int fontSize() {
-		return 0;
-	}
-
-	@Override
 	public boolean isSerifFont() {
 		return serif;
 	}
@@ -88,14 +83,13 @@ public class StaticText3D implements CaptionText {
 
 	@Override
 	public void createFont(GFont original) {
-		if (!(geo instanceof GeoText)) {
+		if (!(geo instanceof GeoText text)) {
 			font = original;
 			return;
 		}
-		GeoText text = (GeoText) getGeoElement();
 
 		App app = getGeoElement().getKernel().getApplication();
-		int newFontSize = (int) Math.max(4,
+		double newFontSize = text.getFontSize(
 				((EuclidianView3D) app.getEuclidianView3D()).getFontSize()
 						* text.getFontSizeMultiplier());
 		int newFontStyle = text.getFontStyle();

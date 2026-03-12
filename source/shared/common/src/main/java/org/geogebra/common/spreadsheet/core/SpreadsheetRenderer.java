@@ -60,7 +60,7 @@ final class SpreadsheetRenderer {
 			gridStroke.getLineWidth(), EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 	private final static GBasicStroke borderStroke = AwtFactory.getPrototype().newBasicStroke(2);
 	private final SpreadsheetStyling styling;
-	private final TabularData tabularData;
+	private final TabularData<?> tabularData;
 	private final static int ERROR_TRIANGLE_WIDTH = 10;
 	private final static int TEXT_PADDING = 10;
 	private final StringRenderer errorRenderer = new StringRenderer();
@@ -80,7 +80,7 @@ final class SpreadsheetRenderer {
 				.collect(Collectors.toList());
 
 	SpreadsheetRenderer(@Nonnull TableLayout layout, @Nonnull CellRenderableFactory converter,
-			@Nonnull SpreadsheetStyling styling, @Nonnull TabularData tabularData) {
+			@Nonnull SpreadsheetStyling styling, @Nonnull TabularData<?> tabularData) {
 		this.converter = converter;
 		this.layout = layout;
 		this.styling = styling;
@@ -196,7 +196,7 @@ final class SpreadsheetRenderer {
 			double left, double top, double width, double height) {
 		graphics.setColor(styling.getDefaultTextColor());
 		graphics.setClip(left, top, width, height, true);
-		errorRenderer.draw(tabularData.getErrorString(), GFont.ITALIC,
+		errorRenderer.draw(tabularData.getErrorString(), converter.getFontSize(), GFont.ITALIC,
 				TEXT_PADDING, graphics, new Rectangle(left, left + width, top, top + height));
 		graphics.resetClip();
 	}
@@ -217,7 +217,7 @@ final class SpreadsheetRenderer {
 	private void ensureHeaders(List<SelfRenderable> rowHeaders, int row,
 			Function<Integer, String> nameProvider) {
 		for (int i = rowHeaders.size(); i <= row; i++) {
-			rowHeaders.add(new SelfRenderable(stringRenderer, GFont.PLAIN,
+			rowHeaders.add(new SelfRenderable(stringRenderer, converter.getFontSize(), GFont.PLAIN,
 					CellFormat.ALIGN_CENTER, nameProvider.apply(i)));
 		}
 	}
@@ -414,5 +414,11 @@ final class SpreadsheetRenderer {
 	void fillRect(GGraphics2D graphics, double x, double y, double width, double height) {
 		graphics.fillRect((int) Math.round(x), (int) Math.round(y),
 				(int) Math.round(width), (int) Math.round(height));
+	}
+
+	public void invalidateAll() {
+		renderableCache.clear();
+		rowHeaders.clear();
+		columnHeaders.clear();
 	}
 }

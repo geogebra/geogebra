@@ -48,7 +48,7 @@ public abstract class GFont {
 	 * @return the point size of this <code>Font</code> in 1/72 of an inch
 	 *         units.
 	 */
-	public abstract int getSize();
+	public abstract double getSize();
 
 	/**
 	 * Indicates whether this <code>Font</code> object's style is ITALIC.
@@ -96,8 +96,8 @@ public abstract class GFont {
 
 	/**
 	 * @param style
-	 *            font style (GFont.PLAIN, GFont.BOLD, GFont.ITALIC or sum of
-	 *            last two)
+	 *            font style ({@link GFont#PLAIN}, {@link GFont#BOLD}, {@link GFont#ITALIC}
+	 *            or sum of the last two)
 	 * @param fontSize
 	 *            font size
 	 * @return derive fonts
@@ -106,8 +106,8 @@ public abstract class GFont {
 
 	/**
 	 * @param style
-	 *            font style (GFont.PLAIN, GFont.BOLD, GFont.ITALIC or sum of
-	 *            last two)
+	 *            font style ({@link GFont#PLAIN}, {@link GFont#BOLD}, {@link GFont#ITALIC}
+	 *            or sum of the last two)
 	 * @return derive fonts
 	 */
 	public abstract GFont deriveFont(int style);

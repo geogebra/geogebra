@@ -33,9 +33,6 @@ public interface CaptionText {
 	GFont font();
 
 	@MissingDoc
-	int fontSize();
-
-	@MissingDoc
 	boolean isSerifFont();
 
 	@MissingDoc

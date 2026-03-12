@@ -248,7 +248,7 @@ public abstract class DrawEquation implements DrawEquationI {
 	 * @param style latex font style
 	 * @return icon
 	 */
-	public TeXIcon createIcon(String text, GColor fgColor, int fontSize, int style) {
+	public TeXIcon createIcon(String text, GColor fgColor, double fontSize, int style) {
 		checkFirstCall();
 		TeXFormula formula;
 		TeXIcon icon;

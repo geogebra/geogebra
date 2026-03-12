@@ -23,14 +23,14 @@ import org.geogebra.common.awt.GFont;
  */
 public class GFontCommon extends GFont {
 
-    private int size;
+    private final double size;
 
     /**
      * Construct a new font object.
      *
      * @param size size
      */
-    public GFontCommon(int size) {
+    public GFontCommon(double size) {
         this.size = size;
     }
 
@@ -40,7 +40,7 @@ public class GFontCommon extends GFont {
     }
 
     @Override
-    public int getSize() {
+    public double getSize() {
         return size;
     }
 
@@ -66,7 +66,7 @@ public class GFontCommon extends GFont {
 
     @Override
     public GFont deriveFont(int style, double fontSize) {
-		return this;
+		return new GFontCommon(fontSize);
     }
 
     @Override

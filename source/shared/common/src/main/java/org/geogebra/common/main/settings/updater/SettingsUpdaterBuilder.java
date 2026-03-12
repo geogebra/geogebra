@@ -24,7 +24,6 @@ import org.geogebra.common.main.App;
 public class SettingsUpdaterBuilder {
 
 	private App app;
-	private FontSettingsUpdater fontSettingsUpdater;
 	SettingsUpdater prototype;
 
 	/**
@@ -47,13 +46,8 @@ public class SettingsUpdaterBuilder {
 		prototype.setSettings(app.getSettings());
 		prototype.setAppConfig(app.getConfig());
 		prototype.setKernel(app.getKernel());
-		prototype.setFontSettingsUpdater(getFontSettingsUpdater());
+		prototype.setFontSettingsUpdater(new FontSettingsUpdater(app));
 		return prototype;
-	}
-
-	private FontSettingsUpdater getFontSettingsUpdater() {
-		return fontSettingsUpdater == null ? new FontSettingsUpdater(app)
-				: fontSettingsUpdater;
 	}
 
 	/**
@@ -65,14 +59,4 @@ public class SettingsUpdaterBuilder {
 		this.prototype = prototype;
 	}
 
-	/**
-	 * @param fontSettingsUpdater
-	 *            font settings updater
-	 * @return this
-	 */
-	public SettingsUpdaterBuilder withFontSettingsUpdater(
-			FontSettingsUpdater fontSettingsUpdater) {
-		this.fontSettingsUpdater = fontSettingsUpdater;
-		return this;
-	}
 }

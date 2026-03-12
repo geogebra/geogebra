@@ -42,11 +42,6 @@ public class AxisCaptionText implements CaptionText {
 	}
 
 	@Override
-	public int fontSize() {
-		return 0;
-	}
-
-	@Override
 	public boolean isSerifFont() {
 		return settings.getAxesLabelsSerif();
 	}

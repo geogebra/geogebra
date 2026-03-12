@@ -33,5 +33,5 @@ public interface LaTeXCache {
 	 * @param fontSize font size
 	 * @return key for LaTeX cache
 	 */
-	Object getCachedLaTeXKey(String content, int fontSize, int fontStyle, GColor color);
+	Object getCachedLaTeXKey(String content, double fontSize, int fontStyle, GColor color);
 }

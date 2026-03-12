@@ -278,7 +278,7 @@ public class GgbAPIW extends GgbAPI {
 		} else {
 			str = geo.toString(StringTemplate.latexTemplate);
 		}
-		DrawEquationW.paintOnCanvasOutput(geo, str, c, app.getFontSize());
+		DrawEquationW.paintOnCanvasOutput(geo, str, c, app.getFontSizeDouble());
 		return StringUtil.removePngMarker(c.toDataUrl());
 	}
 

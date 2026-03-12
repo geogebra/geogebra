@@ -863,13 +863,18 @@ public class GeoText extends GeoElement
 		return true;
 	}
 
-	// public int getFontSize() {
-	// return fontSize;
-	// }
-
 	@Override
 	public double getFontSizeMultiplier() {
 		return fontSizeD;
+	}
+
+	/**
+	 * Computes font size for drawing on canvas, for backwards compatibility rounded down.
+	 * @param baseFontSize font size used by the view that renders this text
+	 * @return font size in points
+	 */
+	public double getFontSize(double baseFontSize) {
+		return (int) Math.max(4, baseFontSize * fontSizeD);
 	}
 
 	/**

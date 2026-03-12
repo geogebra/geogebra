@@ -20,7 +20,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.main.DrawEquationW;
-import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
@@ -91,9 +90,8 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 	}
 
 	private Widget getLatexHTML(String text, App app) {
-		Canvas c = DrawEquationW.paintOnCanvas(sample, text, null,
-					app.getFontSize());
-		return c;
+		return DrawEquationW.paintOnCanvas(sample, text, null,
+					app.getFontSizeDouble());
 	}
 
 	@Override
