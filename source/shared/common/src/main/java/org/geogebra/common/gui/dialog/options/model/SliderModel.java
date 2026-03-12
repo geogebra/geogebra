@@ -57,6 +57,9 @@ public class SliderModel extends OptionsModel {
 		void setLineThicknessSizeText(String text);
 
 		@MissingDoc
+		void setLineOpacity(int value);
+
+		@MissingDoc
 		void setBlobColor(GColor color);
 
 		@MissingDoc
@@ -220,12 +223,16 @@ public class SliderModel extends OptionsModel {
 		if (equalLineColor) {
 			listener.setLineColor(num0.getBackgroundColor());
 			lineColor = num0.getBackgroundColor();
+		} else {
+			lineColor = null;
 		}
 		if (equalLineThickness) {
 			listener.setLineThicknessSizeText(
 					kernel.format(num0.getLineThickness() / 2.0,
 							highPrecision));
 		}
+
+		listener.setLineOpacity(lineColor != null ? getLineColor().getAlpha() * 100 / 255 : 40);
 
 		setLabelForWidthUnit();
 

@@ -256,7 +256,6 @@ public class SliderPropertiesPanelW extends OptionPanel implements ISliderOption
 	private void createTransparencySlider() {
 		sliderTransparency = new SliderPanel(0, 100);
 		sliderTransparency.setTickSpacing(5);
-		sliderTransparency.setValue(40);
 		sliderTransparency.addInputHandler(event -> applyTransparency());
 		sliderTransparency.addValueChangeHandler(val -> model.storeUndoInfo());
 	}
@@ -560,6 +559,11 @@ public class SliderPropertiesPanelW extends OptionPanel implements ISliderOption
 	@Override
 	public void setLineThicknessSizeText(String text) {
 		tfLineThickness.setText(text);
+	}
+
+	@Override
+	public void setLineOpacity(int value) {
+		sliderTransparency.setValue(value);
 	}
 
 	@Override

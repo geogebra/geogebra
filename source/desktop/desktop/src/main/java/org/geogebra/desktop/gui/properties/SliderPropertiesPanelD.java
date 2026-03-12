@@ -528,6 +528,12 @@ public class SliderPropertiesPanelD extends JPanel
 		tfLineThickness.setText(text);
 	}
 
+	@Override
+	public void setLineOpacity(int value) {
+		sliderLineOpacity.setValue(value);
+		sliderLineOpacity.repaint();
+	}
+
 	/**
 	 * change listener implementation for slider
 	 */
