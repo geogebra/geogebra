@@ -78,6 +78,7 @@ import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoBoxPlot;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
+import org.geogebra.common.kernel.algos.AlgoDependentListExpression;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -6866,7 +6867,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				|| geo instanceof GeoPieChart
 				|| geo.isGeoConic()
 				|| geo.isGeoImage()
-				|| geo.isGeoList()
+				|| (geo.isGeoList()
+					&& !(geo.getParentAlgorithm() instanceof AlgoDependentListExpression))
 				|| geo.isGeoVector()
 				|| geo instanceof GeoStadium
 				|| geo instanceof GeoLocusStroke;

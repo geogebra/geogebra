@@ -1114,6 +1114,23 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 				.getDefinition(StringTemplate.defaultTemplate));
 	}
 
+	@Test
+	@Issue({"APPS-7317", "APPS-7429"})
+	public void testDependentListExpressionNotMoveable() {
+		setMode(EuclidianConstants.MODE_MOVE);
+		add("y_1={0,1,2}");
+		add("y_2={0,2,3}");
+		GeoElement element = add("(y_1, y_2)");
+
+		dragStart(0, 0);
+		dragEnd(50, 50);
+
+		assertEquals("(y_1, y_2)",
+				element.getDefinition(StringTemplate.defaultTemplate));
+		assertEquals("{(0, 0), (1, 2), (2, 3)}",
+				element.toValueString(StringTemplate.defaultTemplate));
+	}
+
 	@Override
 	protected void click(int x, int y) {
 		super.click(x, y);
