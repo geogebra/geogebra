@@ -26,7 +26,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.editor.share.event.MathFieldListener;
 import org.geogebra.editor.share.input.KeyboardInputAdapter;
 import org.geogebra.editor.share.serializer.TeXSerializer;
-import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.inputfield.AutoCompletePopup;
@@ -40,15 +39,12 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.EventUtil;
 import org.gwtproject.canvas.client.Canvas;
-import org.gwtproject.dom.client.Element;
-import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Overflow;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.event.dom.client.BlurEvent;
 import org.gwtproject.event.dom.client.BlurHandler;
 import org.gwtproject.event.dom.client.HumanInputEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
-import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
 
 /**
@@ -63,11 +59,9 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	private final MathFieldW mf;
 	/** keyboard connector */
 	RetexKeyboardListener retexListener;
-	private AppWFull app;
-	private CASTableControllerW controller;
+	private final AppWFull app;
+	private final CASTableControllerW controller;
 	private boolean autocomplete = true;
-	private Widget dummy;
-	private Canvas canvas;
 	private boolean editAsText;
 
 	/**
@@ -81,17 +75,15 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		this.app = (AppWFull) app;
 		this.controller = controller;
 		inputSuggestions = new InputSuggestions(null);
-		canvas = Canvas.createIfSupported();
+		Canvas canvas = Canvas.createIfSupported();
 		mf = new MathFieldW(new SyntaxAdapterImplWithPaste(app.getKernel()), this,
 				canvas, this, app.getEditorFeatures());
 		retexListener = new RetexKeyboardListener(canvas, mf);
 		mf.setOnBlur(this);
 		add(mf);
-		dummy = new Label(
-				app.getLocalization().getMenu("InputLabel") + Unicode.ELLIPSIS);
-		dummy.addStyleName("CAS_dummyLabel");
 		this.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 		updateWidth();
+		updateFontSize();
 	}
 
 	private void updateWidth() {
@@ -104,7 +96,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 
 	@Override
 	public void onBlur(BlurEvent event) {
-		// autocommitting empty text produces $1
+		// make sure submitting empty text on blur does not create a cell
 		if (!isSuggesting()) {
 			onEnter(false);
 			controller.stopEditing();
@@ -193,12 +185,10 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 
 	@Override
 	public void setFocus(boolean focus) {
-		remove(focus ? dummy : mf);
 		if (focus) {
 			updateWidth();
+			setWidget(mf.asWidget());
 		}
-		setWidget(focus ? mf.asWidget()
-				: dummy);
 		mf.setFocus(focus);
 	}
 
@@ -379,16 +369,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	 * Updates the font size.
 	 */
 	public void updateFontSize() {
-		int targetFontSize = app.getSettings().getFontSettings()
-				.getAppFontSize();
-
+		int targetFontSize = app.getSettings().getFontSettings().getAppFontSize();
 		mf.setFontSize(targetFontSize);
-		setDummyFontSize(targetFontSize);
-	}
-
-	private void setDummyFontSize(int size) {
-		Element element = dummy.getElement();
-		Style style = element.getStyle();
-		style.setFontSize(size, Unit.PX);
 	}
 }

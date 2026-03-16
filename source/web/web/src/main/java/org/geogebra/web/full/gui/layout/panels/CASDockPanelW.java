@@ -64,8 +64,7 @@ public class CASDockPanelW extends NavigableDockPanelW {
 
 	@Override
 	protected Widget loadStyleBar() {
-		return ((CASViewW) app.getGuiManager().getCasView())
-				.getCASStyleBar();
+		return app.getGuiManager().getCasView().getCASStyleBar();
 	}
 
 	@Override
@@ -75,8 +74,7 @@ public class CASDockPanelW extends NavigableDockPanelW {
 
 	@Override
 	public MathKeyboardListener getKeyboardListener() {
-		return ((CASViewW) app.getGuiManager().getCasView())
-				.getEditor();
+		return app.getGuiManager().getCasView().getEditor();
 	}
 
 	@Override
@@ -86,7 +84,7 @@ public class CASDockPanelW extends NavigableDockPanelW {
 
 	@Override
 	protected Panel getViewPanel() {
-		casView = (CASViewW) app.getGuiManager().getCasView();
+		casView = app.getGuiManager().getCasView();
 		if (!app.supportsView(App.VIEW_CAS)) {
 			return new FlowPanel();
 		}
@@ -105,6 +103,5 @@ public class CASDockPanelW extends NavigableDockPanelW {
 		if (oldFocus) {
 			casView.getEditor().setFocus(true);
 		}
-
 	}
 }

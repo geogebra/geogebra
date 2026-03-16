@@ -35,7 +35,6 @@ import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamState;
-import org.geogebra.common.gui.Editing;
 import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.SetLabels;
@@ -189,7 +188,6 @@ public class GuiManagerW extends GuiManager
 	private PropertiesViewW propertiesView;
 	private DataAnalysisViewW dataAnalysisView = null;
 	private boolean listeningToLogin = false;
-	private ToolBarW toolbarForUpdate = null;
 	private final GeoGebraFrameFull frame;
 
 	private ColorPanel colorPanel;
@@ -453,7 +451,7 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void updateFonts() {
 		if (hasCasView()) {
-			((CASViewW) getCasView()).updateFonts();
+			getCasView().updateFonts();
 		}
 	}
 
@@ -567,7 +565,7 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public Editing getCasView() {
+	public CASViewW getCasView() {
 		if (casView == null) {
 			casView = new CASViewW(getApp());
 		}
@@ -1180,13 +1178,6 @@ public class GuiManagerW extends GuiManager
 		return getApp().getEuclidianView1();
 	}
 
-	/**
-	 * Clear data analysis
-	 */
-	public void clearDataAnalysisView() {
-		dataAnalysisView = null;
-	}
-
 	@Override
 	public View getDataAnalysisView() {
 		if (dataAnalysisView == null) {
@@ -1482,7 +1473,7 @@ public class GuiManagerW extends GuiManager
 		// only do this if toolbar string not null, otherwise this may
 		DockPanel dp = layout.getDockManager().getPanel(toolbarID);
 		String def = dp == null ? null : dp.getToolbarString();
-		if ((def == null || "".equals(def))
+		if (StringUtil.empty(def)
 				&& this.generalToolbarDefinition != null) {
 			def = this.generalToolbarDefinition;
 		}
@@ -1712,12 +1703,7 @@ public class GuiManagerW extends GuiManager
 			return mode;
 		}
 
-		final int ret = toolbarPanel.setMode(mode, m);
-		if (this.toolbarForUpdate != null) {
-			this.toolbarForUpdate.buildGui();
-		}
-		// layout.getDockManager().setToolbarMode(mode);
-		return ret;
+		return toolbarPanel.setMode(mode, m);
 	}
 
 	@Override
@@ -1753,14 +1739,6 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public EuclidianViewW getPlotPanelEuclidianView() {
 		return (EuclidianViewW) probCalculator.getPlotPanel();
-	}
-
-	public boolean isConsProtNavigationPlayButtonVisible() {
-		return getConstructionProtocolNavigation().isPlayButtonVisible();
-	}
-
-	public boolean isConsProtNavigationProtButtonVisible() {
-		return getConstructionProtocolNavigation().isConsProtButtonVisible();
 	}
 
 	@Override
@@ -1862,15 +1840,6 @@ public class GuiManagerW extends GuiManager
 			((ProbabilityCalculatorViewW) getProbabilityCalculator()).getPlotPanel()
 			.getEuclidianController().calculateEnvironment();
 		}
-	}
-
-	/**
-	 *
-	 * @param toolBar
-	 *            will be updated every time setMode(int) is called
-	 */
-	public void setToolBarForUpdate(final ToolBarW toolBar) {
-		this.toolbarForUpdate = toolBar;
 	}
 
 	/**
@@ -1987,7 +1956,7 @@ public class GuiManagerW extends GuiManager
 			this.getAlgebraView().setPixelRatio(ratio);
 		}
 		if (hasCasView()) {
-			((CASViewW) getCasView()).setPixelRatio(ratio);
+			getCasView().setPixelRatio(ratio);
 		}
 		if (hasSpreadsheetView()) {
 			getSpreadsheetView().setPixelRatio(ratio);

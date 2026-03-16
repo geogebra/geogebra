@@ -18,6 +18,8 @@ package org.geogebra.web.full.cas.view;
 
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.StringUtil;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.client.Element;
@@ -37,6 +39,11 @@ public interface InputPanel extends IsWidget, HasText {
 	class InputPanelLabel extends Label implements InputPanel {
 
 		@Override
+		public void repaint() {
+			// not needed
+		}
+
+		@Override
 		public void setLaTeX(String laTeX) {
 			// not needed
 		}
@@ -52,8 +59,8 @@ public interface InputPanel extends IsWidget, HasText {
 	 */
 	class InputPanelCanvas implements InputPanel {
 		private String text;
-		private Canvas c;
-		private App app;
+		private final Canvas canvas;
+		private final App app;
 		private String laTex;
 
 		/**
@@ -62,10 +69,10 @@ public interface InputPanel extends IsWidget, HasText {
 		 */
 		public InputPanelCanvas(App app) {
 			this.app = app;
-			c = Canvas.createIfSupported();
+			canvas = Canvas.createIfSupported();
 			// if shown on init, make sure it's not huge
-			c.setCoordinateSpaceHeight(1);
-			c.setCoordinateSpaceWidth(1);
+			canvas.setCoordinateSpaceHeight(1);
+			canvas.setCoordinateSpaceWidth(1);
 		}
 
 		@Override
@@ -80,41 +87,49 @@ public interface InputPanel extends IsWidget, HasText {
 
 		@Override
 		public void addStyleName(String style) {
-			c.addStyleName(style);
+			canvas.addStyleName(style);
 		}
 
 		@Override
 		public Widget asWidget() {
-			return c;
+			return canvas;
 		}
 
 		@Override
 		public void removeStyleName(String string) {
-			c.removeStyleName(string);
+			canvas.removeStyleName(string);
 		}
 
 		@Override
 		public Element getElement() {
-			return c.getElement();
+			return canvas.getElement();
 		}
 
 		@Override
 		public void setLaTeX(String laTeX) {
 			this.laTex = laTeX;
-			if (laTeX == null) {
-				c.setCoordinateSpaceHeight(1);
-				c.setCoordinateSpaceWidth(1);
+			repaint();
+		}
+
+		@Override
+		public void repaint() {
+			if (laTex == null) {
+				canvas.setCoordinateSpaceHeight(1);
+				canvas.setCoordinateSpaceWidth(1);
 				return;
 			}
+			String toRender = laTex;
+			if ("\\nbsp{}".equals(laTex) && StringUtil.empty(text)) {
+				toRender = "\\text{" + app.getLocalization().getMenu("InputLabel")
+						+ Unicode.ELLIPSIS + "}";
+			}
 			DrawEquationW.paintOnCanvas(new GeoNumeric(app.getKernel()
-					.getConstruction()), laTeX, c, app.getFontSize());
+					.getConstruction()), toRender, canvas, app.getFontSize());
 		}
 
 		@Override
 		public void setPixelRatio(double ratio) {
-			if (this.laTex != null) {
-				setLaTeX(laTex);
-			}
+			repaint();
 		}
 	}
 
@@ -146,4 +161,10 @@ public interface InputPanel extends IsWidget, HasText {
 	 *            pixel ratio
 	 */
 	void setPixelRatio(double ratio);
+
+	/**
+	 * Refresh content.
+	 */
+	void repaint();
+
 }

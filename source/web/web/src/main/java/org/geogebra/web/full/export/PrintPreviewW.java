@@ -167,7 +167,7 @@ public class PrintPreviewW extends ComponentDialog {
 		GuiManagerW gui = (GuiManagerW) app.getGuiManager();
 		PrintableW view;
 		if (viewID == App.VIEW_CAS) {
-			view = (PrintableW) gui.getCasView();
+			view = gui.getCasView();
 		} else if (viewID == App.VIEW_CONSTRUCTION_PROTOCOL) {
 			view = (PrintableW) app.getGuiManager()
 					.getConstructionProtocolView();

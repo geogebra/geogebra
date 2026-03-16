@@ -172,6 +172,8 @@ public class CASTableCellW extends FlowPanel {
 			setInput();
 			inputPanel.setText(textField.getText());
 			inputPanel.setLaTeX(textField.getLaTeX());
+		} else {
+			inputPanel.repaint();
 		}
 		clear();
 		add(inputWrapper);
