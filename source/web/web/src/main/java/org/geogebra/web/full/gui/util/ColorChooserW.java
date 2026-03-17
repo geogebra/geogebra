@@ -70,37 +70,36 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	Dimension colorIconSize;
 	int padding;
 	List<ColorTable> tables;
-	private ColorTable leftTable;
-	private ColorTable mainTable;
-	private RecentTable recentTable;
-	private ColorTable otherTable;
+	private final ColorTable leftTable;
+	private final ColorTable mainTable;
+	private final RecentTable recentTable;
+	private final ColorTable otherTable;
 	private ColorTable lastSource;
 	private GColor selectedColor;
 	ColorChangeHandler changeHandler;
 	PreviewPanel previewPanel;
-	private OpacityPanel opacityPanel;
-	private BackgroundColorPanel backgroundColorPanel;
-	private StandardButton btnCustomColor;
+	private final OpacityPanel opacityPanel;
+	private final BackgroundColorPanel backgroundColorPanel;
+	private final StandardButton btnCustomColor;
 	App app;
-	private CustomColorDialog dialog;
 	BarList lbBars;
 	private int selectedBar;
 	private int chartBars;
 	private GColor allBarsColor;
 
 	private class ColorTable {
-		private int left;
-		private int top;
+		private final int left;
+		private final int top;
 		private int tableOffsetY;
-		private int maxCol;
-		private int maxRow;
+		private final int maxCol;
+		private final int maxRow;
 		private String title;
-		private List<GColor> palette;
+		private final List<GColor> palette;
 		private int width;
 		private int height;
-		private HTMLImageElement checkMark;
-		private int checkX;
-		private int checkY;
+		private final HTMLImageElement checkMark;
+		private final int checkX;
+		private final int checkY;
 		private boolean checkNeeded;
 		private double titleOffsetX;
 		private double titleOffsetY;
@@ -211,15 +210,13 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			ctx.strokeRect(x + padding, y + padding, w - padding, h - padding);
 		}
 
-		public boolean setFocus(int x, int y) {
+		public void setFocus(int x, int y) {
 
 			if (x < left || x > (left + width) || y < top + tableOffsetY
 					|| y > (top + height + tableOffsetY)) {
 				focusLost();
-				return false;
+				return;
 			}
-
-			boolean result = false;
 
 			int col = (x - left) / colorIconSize.getWidth();
 			int row = (y - top - tableOffsetY) / colorIconSize.getHeight();
@@ -227,16 +224,13 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 				currentCol = col;
 				currentRow = row;
 				draw();
-				result = true;
 			}
-			return result;
 		}
 
 		private void focusLost() {
 			currentCol = -1;
 			currentRow = -1;
 			draw();
-
 		}
 
 		public void unselect() {
@@ -351,7 +345,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	}
 
 	private class RecentTable extends ColorTable {
-		private List<Entry> entries;
+		private final List<Entry> entries;
 
 		private class Entry {
 			ColorTable table;
@@ -389,10 +383,10 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	}
 
 	private class PreviewPanel extends FlowPanel {
-		private Label titleLabel;
+		private final Label titleLabel;
 		Canvas previewCanvas;
-		private JLMContext2D previewCtx;
-		private Label rgb;
+		private final JLMContext2D previewCtx;
+		private final Label rgb;
 
 		public PreviewPanel() {
 			FlowPanel m = new FlowPanel();
@@ -440,10 +434,8 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	}
 
 	private class OpacityPanel extends FlowPanel implements SliderInputHandler {
-		private Label title;
-		private Label minLabel;
-		private Slider slider;
-		private Label maxLabel;
+		private final Label title;
+		private final Slider slider;
 
 		public OpacityPanel() {
 			title = new Label();
@@ -451,14 +443,14 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 			FlowPanel sp = new FlowPanel();
 			sp.setStyleName("colorSlider");
-			minLabel = new Label("0");
+			Label minLabel = new Label("0");
 			sp.add(minLabel);
 
 			slider = new Slider(0, 100);
 			slider.setTickSpacing(1);
 
 			sp.add(slider);
-			maxLabel = new Label("100");
+			Label maxLabel = new Label("100");
 			sp.add(maxLabel);
 			add(sp);
 			slider.addInputHandler(this);
@@ -632,7 +624,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		});
 	}
 
-	protected void colorChanged(ColorTable source, GColor color) {
+	private void colorChanged(ColorTable source, GColor color) {
 		selectedColor = color;
 		previewPanel.update();
 
@@ -791,7 +783,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	void showCustomColorDialog() {
 		app.setWaitCursor();
 		DialogData data = new DialogData("ChooseColor", "Cancel", "OK");
-		dialog = new CustomColorDialog(app, data, this);
+		CustomColorDialog dialog = new CustomColorDialog(app, data, this);
 		dialog.show(selectedColor != null ? selectedColor : GColor.BLACK);
 		app.setDefaultCursor();
 	}
