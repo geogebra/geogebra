@@ -168,7 +168,7 @@ public final class DynamicColorComponentProperty extends AbstractValuedProperty<
 		try {
 			ValidExpression validExpression = geoElement.getKernel().getParser()
 					.parseGeoGebraExpression(value);
-			if (!validExpression.evaluatesToNumber(false)) {
+			if (!validExpression.evaluatesToNumber(false) || evaluateToList(value) == null) {
 				return getLocalization().getError("NumberExpected");
 			}
 			return null;
@@ -185,14 +185,8 @@ public final class DynamicColorComponentProperty extends AbstractValuedProperty<
 		if (requiredColorSpace != null && requiredColorSpace != geoElement.getColorSpace()) {
 			geoElement.setColorSpace(requiredColorSpace);
 		}
-		GeoList currentColorComponentValues = geoElement.getColorFunction();
-		List<String> colorComponentValues = currentColorComponentValues.elements()
-				.map(element -> element.getLabel(StringTemplate.editTemplate))
-				.collect(Collectors.toList());
-		colorComponentValues.set(colorIndex, value);
-		String newAdvancedColorInput = "{" + String.join(",", colorComponentValues) + "}";
-		GeoList newAdvancedColorComponents = geoElement.getKernel().getAlgebraProcessor()
-				.evaluateToList(newAdvancedColorInput);
+
+		GeoList newAdvancedColorComponents = evaluateToList(value);
 		geoElement.setColorFunction(newAdvancedColorComponents);
 		geoElement.updateRepaint();
 		newAdvancedColorComponents.updateRepaint();
@@ -229,5 +223,17 @@ public final class DynamicColorComponentProperty extends AbstractValuedProperty<
 	@Override
 	public String getName() {
 		return useColorTranslationKey ? getLocalization().getColor(getRawName()) : super.getName();
+	}
+
+	private GeoList evaluateToList(String value) {
+		GeoList currentColorComponentValues = geoElement.getColorFunction();
+		List<String> colorComponentValues = currentColorComponentValues.elements()
+				.map(element -> element.getLabel(StringTemplate.editTemplate))
+				.collect(Collectors.toList());
+		colorComponentValues.set(colorIndex, value);
+		String newAdvancedColorInput = "{" + String.join(",", colorComponentValues) + "}";
+		GeoList newAdvancedColorComponents = geoElement.getKernel().getAlgebraProcessor()
+				.evaluateToList(newAdvancedColorInput);
+		return newAdvancedColorComponents;
 	}
 }

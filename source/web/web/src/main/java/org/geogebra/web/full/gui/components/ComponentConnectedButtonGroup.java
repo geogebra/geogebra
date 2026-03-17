@@ -47,7 +47,7 @@ public class ComponentConnectedButtonGroup extends FlowPanel
 		buildConnectedButtonGroup();
 		Integer currentIndex = connectedButtonGroupProperty.getSelectedButtonIndex();
 		if (currentIndex != null) {
-			setSelectedButton(currentIndex);
+			updateSelectedButton(buttonList.get(currentIndex));
 		}
 
 		connectedButtonGroupProperty.setConfigurationUpdateDelegate(this);
