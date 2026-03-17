@@ -29,11 +29,6 @@ import org.geogebra.web.awt.GFontW;
 public class FontManagerW extends FontManager {
 
 	@Override
-	public void setFontSize(int size) {
-		// fontSize = size;
-	}
-
-	@Override
 	public GFont getFontCanDisplay(String testString, boolean serif,
 			int fontStyle, double fontSize) {
 		return new GFontW(

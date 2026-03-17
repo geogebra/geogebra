@@ -67,7 +67,6 @@ public class FontSettingsUpdater {
 	 * Update font sizes of all components to match current GUI font size
 	 */
 	public void resetFonts() {
-		app.getFontManager().setFontSize(getGUIFontSize());
 		updateEuclidianViewFonts();
 	}
 
@@ -102,8 +101,7 @@ public class FontSettingsUpdater {
 	 *         returned
 	 */
 	public int getGUIFontSize() {
-		int guiFontSize = fontSettings.getGuiFontSize();
-		return guiFontSize == -1 ? fontSettings.getAppFontSize() : guiFontSize;
+		return fontSettings.getGuiFontSizeSafe();
 	}
 
 	protected FontSettings getFontSettings() {

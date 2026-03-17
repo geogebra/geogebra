@@ -430,6 +430,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		// init settings
 		initSettings();
+		getSettings().getFontSettings().addListener(settings ->
+				getFontManager().setFontSize(((FontSettings) settings)
+						.getGuiFontSizeSafe()));
 
 		// init euclidian view
 		initEuclidianViews();

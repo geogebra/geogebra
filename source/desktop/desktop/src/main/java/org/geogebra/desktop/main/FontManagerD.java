@@ -152,7 +152,6 @@ public class FontManagerD extends FontManager {
 	/**
 	 * Set default font size.
 	 */
-	@Override
 	public void setFontSize(final int size) {
 		// current sans and sansserif font names
 		final String sans = plainFont == null ? "SansSerif"
