@@ -16,6 +16,8 @@
 
 package org.geogebra.common.gui.view.algebra;
 
+import java.util.List;
+
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
@@ -481,9 +483,10 @@ public class AlgebraItem {
 		if (isTangentOutputWithStyleDescription(element, algebraSettings)) {
 			return false;
 		}
-		boolean hasDifferentOutputFormats = !AlgebraOutputFormat.getPossibleFormats(element,
+		List<AlgebraOutputFormat> possibleFormats = AlgebraOutputFormat.getPossibleFormats(element,
 				algebraSettings.isEngineeringNotationEnabled(),
-				algebraSettings.getAlgebraOutputFormatFilters()).isEmpty();
+				algebraSettings.getAlgebraOutputFormatFilters());
+		boolean hasDifferentOutputFormats = !possibleFormats.isEmpty();
 		boolean hasOutputRow = hasDifferentOutputFormats || hasDefinitionAndValueMode(element);
 		return hasOutputRow && shouldShowOutputRow(element, algebraSettings.getStyle());
 	}

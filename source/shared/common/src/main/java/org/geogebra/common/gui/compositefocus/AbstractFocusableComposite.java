@@ -36,10 +36,6 @@ public abstract class AbstractFocusableComposite<T extends FocusablePart>
 	protected int selectedIndex = -1;
 	private String selectedKey = null;
 
-	public AbstractFocusableComposite(Object o) {
-
-	}
-
 	/**
 	 * @return whether any part of this composite currently has focus
 	 */
@@ -217,5 +213,11 @@ public abstract class AbstractFocusableComposite<T extends FocusablePart>
 	public final boolean handlesEnterKeyForSelectedPart() {
 		T part = getSelectedPart();
 		return part != null && part.handlesEnterKey();
+	}
+
+	@Override
+	public String toString() {
+		return "FocusableComposite{"
+				+ "parts= " + parts.size() + ": " + parts + '}';
 	}
 }

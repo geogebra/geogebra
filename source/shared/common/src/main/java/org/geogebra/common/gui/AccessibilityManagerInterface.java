@@ -186,4 +186,8 @@ public interface AccessibilityManagerInterface {
 	 */
 	boolean handlesEnterInComposite();
 
+	/**
+	 * Clears the currently active composite focus.
+	 */
+	void clearActiveCompositeFocus();
 }

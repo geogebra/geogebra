@@ -756,7 +756,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
-
+		app.getAccessibilityManager().clearActiveCompositeFocus();
 		AlgebraSettings algebraSettings = (AlgebraSettings) settings;
 		setTreeMode(algebraSettings.getTreeMode());
 		showAuxiliaryObjectsSettings = algebraSettings
@@ -773,6 +773,17 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			}
 			styleInputPanel();
 			addItem(inputPanelTreeItem);
+		}
+
+		rebuildComposites();
+	}
+
+	private void rebuildComposites() {
+		for (int i = 0; i < getItemCount(); i++) {
+			TreeItem item = getItem(i);
+			if (item instanceof RadioTreeItem ri) {
+				ri.rebuild();
+			}
 		}
 	}
 
@@ -1115,6 +1126,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private void removeFromModel(TreeItem node) {
 		node.remove();
 		nodeTable.remove(node.getUserObject());
+		if (node instanceof RadioTreeItem ri) {
+			ri.unregisterCompositeFocus();
+		}
 
 		// remove the type branch if there are no more children
 		switch (treeMode) {
@@ -1325,7 +1339,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	private void unregisterAllCompositeFocus() {
 		nodeTable.values()
-				.forEach(RadioTreeItem::unregister);
+				.forEach(RadioTreeItem::unregisterCompositeFocus);
 	}
 
 	/**

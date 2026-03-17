@@ -191,8 +191,8 @@ public class AVCompositeFocusAssemblerTest extends AddGeosSetup {
 		RadioTreeItemFocusAccess fa = ln ? new LinearNotationFocusAccess(
 				(LinearNotationTreeItem) item)
 		: new RadioTreeItemFocusAccess(item);
-		assembler = new AVCompositeFocusAssembler(focus, fa,
+		assembler = new AVCompositeFocusAssembler(focus,
 				getApp().getAccessibilityManager());
-		assembler.rebuild(AVFocusContributorFactory.forItem(item));
+		assembler.rebuild(fa, AVFocusContributorFactory.forItem(item));
 	}
 }

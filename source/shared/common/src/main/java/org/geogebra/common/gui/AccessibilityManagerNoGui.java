@@ -164,4 +164,9 @@ public final class AccessibilityManagerNoGui
 	public boolean handlesEnterInComposite() {
 		return false;
 	}
+
+	@Override
+	public void clearActiveCompositeFocus() {
+		// not used
+	}
 }

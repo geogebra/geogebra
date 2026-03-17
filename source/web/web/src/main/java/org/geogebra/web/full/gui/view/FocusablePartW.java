@@ -113,4 +113,10 @@ public class FocusablePartW implements FocusablePart {
 	public boolean handlesEnterKey() {
 		return false;
 	}
+
+	@Override
+	public String toString() {
+		return "{" + widget.getClass().getSimpleName()
+				+ ", '" + focusKey + "'}";
+	}
 }

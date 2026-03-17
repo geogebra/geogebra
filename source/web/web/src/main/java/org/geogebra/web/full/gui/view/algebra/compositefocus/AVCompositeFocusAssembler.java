@@ -33,20 +33,16 @@ import org.geogebra.web.full.gui.view.algebra.RadioTreeItemFocusAccess;
  */
 public final class AVCompositeFocusAssembler {
 	private final FocusableCompositeW focus;
-	private final RadioTreeItemFocusAccess item;
 	private final AccessibilityManagerInterface am;
 
 	/**
 	 * Creates a new assembler for the given focus container and item access.
-	 *
 	 * @param focus the composite focus container to populate
-	 * @param item access to the algebra item's focusable widgets
 	 * @param am the accessibility manager used for registration and focus handling
 	 */
-	public AVCompositeFocusAssembler(FocusableCompositeW focus, RadioTreeItemFocusAccess item,
+	public AVCompositeFocusAssembler(FocusableCompositeW focus,
 			AccessibilityManagerInterface am) {
 		this.focus = focus;
-		this.item = item;
 		this.am = am;
 	}
 
@@ -56,9 +52,10 @@ public final class AVCompositeFocusAssembler {
 	 * <p>All existing parts are cleared, contributors are invoked in order,
 	 * and previously selected focus is restored if possible.</p>
 	 *
+	 * @param item access to the algebra item's focusable widgets
 	 * @param contributors the focus contributors defining which parts to add
 	 */
-	public void rebuild(List<FocusContributor> contributors) {
+	public void rebuild(RadioTreeItemFocusAccess item, List<FocusContributor> contributors) {
 		String previousKey = focus.getSelectedKey();
 		focus.clearParts();
 

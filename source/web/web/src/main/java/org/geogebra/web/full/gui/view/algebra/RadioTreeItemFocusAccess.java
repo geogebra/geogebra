@@ -16,6 +16,7 @@
 
 package org.geogebra.web.full.gui.view.algebra;
 
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.gui.view.algebra.compositefocus.AVItemFocusAccess;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -61,13 +62,12 @@ public class RadioTreeItemFocusAccess implements AVItemFocusAccess {
 
 	@Override
 	public boolean hasTwoRows() {
-		return item.shouldBuildItemWithTwoRows();
+		return AlgebraItem.shouldShowBothRows(item.geo, item.app.getSettings().getAlgebra());
 	}
 
 	@Override
 	public Widget inputRow() {
-		Widget canvas = canvas();
-		return canvas != null ? canvas : definitionValuePanel();
+		return item.hasCanvas() ? canvas() : definitionValuePanel();
 	}
 
 	@Override

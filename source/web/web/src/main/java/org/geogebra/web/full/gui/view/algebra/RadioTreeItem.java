@@ -27,6 +27,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
+import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
@@ -289,15 +290,16 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 					Unit.PX);
 		}
 		updateDataTest(getIndex());
+		createCompositeFocus(app.getAccessibilityManager());
+		rebuildCompositeFocus();
+	}
 
-		compositeFocus = new FocusableCompositeW(app.getAccessibilityManager(),
+	protected void createCompositeFocus(AccessibilityManagerInterface am) {
+		compositeFocus = new FocusableCompositeW(am,
 				this::getAsBoolean);
-
 		compositeFocus.addEnterCompositeHandler(() -> av.setSelectedItem(this));
-		compositeFocusAssembler = new AVCompositeFocusAssembler(compositeFocus,
-				createFocusAccess(),
-				app.getAccessibilityManager());
-		compositeFocusAssembler.rebuild(AVFocusContributorFactory.forItem(this));
+		compositeFocusAssembler = new AVCompositeFocusAssembler(compositeFocus, am);
+		registerCompositeFocus();
 	}
 
 	protected RadioTreeItemFocusAccess createFocusAccess() {
@@ -458,6 +460,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 
 		} else if (controls != null) {
 			AlgebraOutputPanel.removeSymbolicButton(controls);
+			rebuildCompositeFocus();
 		}
 		return ret;
 	}
@@ -488,6 +491,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	}
 
 	private void buildItemContent() {
+		canvas = null;
 		if (mayNeedOutput()) {
 			if (controller.isEditing() || geo == null) {
 				return;
@@ -1659,6 +1663,14 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	}
 
 	/**
+	 *
+	 * @return if the item has a canvas.
+	 */
+	public boolean hasCanvas() {
+		return canvas != null;
+	}
+
+	/**
 	 * @return whether canvas was created
 	 */
 	protected boolean ensureCanvas() {
@@ -2004,12 +2016,25 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 			updateFont(definitionValuePanel);
 		}
 		updateDataTest(getIndex());
-		rebuildCompositeFocus();
 	}
 
-	private void rebuildCompositeFocus() {
+	void rebuildCompositeFocus() {
 		if (!controller.isEditing() && compositeFocusAssembler != null) {
-			compositeFocusAssembler.rebuild(AVFocusContributorFactory.forItem(this));
+			compositeFocusAssembler.rebuild(createFocusAccess(),
+					AVFocusContributorFactory.forItem(this));
+		}
+	}
+
+	protected void rebuild() {
+		unregisterCompositeFocus();
+		canvas = null;
+		outputPanel = null;
+		doUpdate();
+		compositeFocusAssembler.rebuild(createFocusAccess(),
+				AVFocusContributorFactory.forItem(this));
+		// if type has changed, a new item is already registered.
+		if (!typeChanged()) {
+			registerCompositeFocus();
 		}
 	}
 
@@ -2218,7 +2243,17 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	 * Unregisters the composite focus container from the accessibility manager,
 	 * if it is currently registered.
 	 */
-	public void unregister() {
+	public void registerCompositeFocus() {
+		if (compositeFocus != null) {
+			app.getAccessibilityManager().registerCompositeFocusContainer(compositeFocus);
+		}
+	}
+
+	/**
+	 * Unregisters the composite focus container from the accessibility manager,
+	 * if it is currently registered.
+	 */
+	public void unregisterCompositeFocus() {
 		if (compositeFocus != null) {
 			app.getAccessibilityManager().unregisterCompositeFocusContainer(compositeFocus);
 		}

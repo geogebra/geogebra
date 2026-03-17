@@ -301,4 +301,11 @@ public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHand
 	protected LinearNotationFocusAccess createFocusAccess() {
 		return new LinearNotationFocusAccess(this);
 	}
+
+	@Override
+	protected void rebuild() {
+		unregisterCompositeFocus();
+		createCompositeFocus(app.getAccessibilityManager());
+		super.rebuild();
+	}
 }

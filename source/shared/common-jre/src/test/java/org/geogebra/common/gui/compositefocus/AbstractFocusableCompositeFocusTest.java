@@ -34,7 +34,7 @@ public class AbstractFocusableCompositeFocusTest {
 	@BeforeEach
 	void setUp() {
 
-		compositeFocus = new AbstractFocusableComposite<>(echo) {
+		compositeFocus = new AbstractFocusableComposite<>() {
 
 			@Override
 			protected void onGainFocus() {

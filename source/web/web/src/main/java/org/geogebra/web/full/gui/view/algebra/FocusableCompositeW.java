@@ -45,9 +45,7 @@ public class FocusableCompositeW extends AbstractFocusableComposite<FocusablePar
 	 */
 	public FocusableCompositeW(AccessibilityManagerInterface am,
 			BooleanSupplier isRowFocused) {
-		super(am);
 		this.isRowFocused = isRowFocused;
-		am.registerCompositeFocusContainer(this);
 	}
 
 	@Override

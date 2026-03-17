@@ -282,13 +282,15 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	@Override
 	public void unregisterCompositeFocusContainer(FocusableComposite compositeFocus) {
 		compositeFocusOwners.remove(compositeFocus);
-		activeCompositeFocus = null;
+		if (compositeFocus == activeCompositeFocus) {
+			activeCompositeFocus = null;
+		}
 	}
 
 	@Override
 	public boolean hasFocusInComposite() {
 		findActiveCompositeFocus();
-		return activeCompositeFocus.isFocused();
+		return activeCompositeFocus != null && activeCompositeFocus.isFocused();
 	}
 
 	@Override
@@ -324,6 +326,11 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	public boolean handlesEnterInComposite() {
 		return activeCompositeFocus != null
 				&& activeCompositeFocus.handlesEnterKeyForSelectedPart();
+	}
+
+	@Override
+	public void clearActiveCompositeFocus() {
+		activeCompositeFocus = null;
 	}
 
 	private void findActiveCompositeFocus() {
