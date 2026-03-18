@@ -2029,13 +2029,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		UserPreferredLanguage.translate(this, ".GeoGebraHeader");
 	}
 
-	@Override
-	public boolean letRedefine() {
-		// TODO
-		// Auto-generated
-		return true;
-	}
-
 	// ============================================
 	// IMAGES
 	// ============================================

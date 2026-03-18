@@ -1933,7 +1933,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	public boolean isRedefineable() {
 		return !isProtected(EventType.UPDATE)
-				&& app.letRedefine()
 				&& !(this instanceof TextValue) && isAlgebraViewEditable()
 				&& (isChangeable() // redefine changeable (independent and
 										// not fixed)

@@ -1050,13 +1050,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @return whether redefinition is allowed
-	 */
-	public boolean letRedefine() {
-		return true;
-	}
-
-	/**
 	 * @return the blockUpdateScripts
 	 */
 	public boolean isBlockUpdateScripts() {
