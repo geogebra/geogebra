@@ -123,13 +123,8 @@ public interface GeoGebraConstants {
 
 			// everything except old Java desktop version should be version
 			// 6.0.x.x
-			switch (this) {
-			default:
-				// change 5.4.274.0 to 6.0.274.0
-				return getVersionString6() + "-" + suffix;
-			case DESKTOP:
-				return VERSION_STRING + "-" + suffix;
-			}
+			// change 5.4.274.0 to 6.0.274.0
+			return (this == DESKTOP ? VERSION_STRING : getVersionString6()) + "-" + suffix;
 		}
 
 		/**
