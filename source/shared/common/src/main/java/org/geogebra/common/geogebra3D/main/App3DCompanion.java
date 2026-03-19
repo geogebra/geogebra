@@ -18,6 +18,8 @@ package org.geogebra.common.geogebra3D.main;
 
 import java.util.ArrayList;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3DForExport;
@@ -68,7 +70,7 @@ public abstract class App3DCompanion extends AppCompanion {
 	 * @param app
 	 *            application
 	 */
-	public App3DCompanion(App app) {
+	public App3DCompanion(@Nonnull App app) {
 		super(app);
 	}
 

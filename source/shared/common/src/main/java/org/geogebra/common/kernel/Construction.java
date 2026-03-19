@@ -130,7 +130,7 @@ public class Construction {
 
 	/** construction belongs to kernel */
 	@Weak
-	protected Kernel kernel;
+	protected final @Nonnull Kernel kernel;
 
 	// current construction step (-1 ... ceList.size() - 1)
 	// step == -1 shows empty construction
@@ -228,7 +228,7 @@ public class Construction {
 	 * Creates a new Construction.
 	 * @param k Kernel
 	 */
-	public Construction(Kernel k) {
+	public Construction(@Nonnull Kernel k) {
 		this(k, null);
 	}
 
@@ -237,7 +237,7 @@ public class Construction {
 	 * @param k Kernel
 	 * @param parentConstruction parent construction (used for macro constructions)
 	 */
-	protected Construction(Kernel k, Construction parentConstruction) {
+	protected Construction(@Nonnull Kernel k, Construction parentConstruction) {
 		kernel = k;
 
 		companion = kernel.createConstructionCompanion(this);
@@ -547,7 +547,7 @@ public class Construction {
 	 * Returns current kernel
 	 * @return current kernel
 	 */
-	public Kernel getKernel() {
+	public final @Nonnull Kernel getKernel() {
 		return kernel;
 	}
 

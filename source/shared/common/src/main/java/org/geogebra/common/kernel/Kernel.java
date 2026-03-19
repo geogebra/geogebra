@@ -322,7 +322,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/** Application */
 	@NonOwning
 	@Weak
-	protected App app;
+	protected final @Nonnull App app;
 
 	private EquationSolver eqnSolver;
 	private ExtremumFinderI extrFinder;
@@ -333,7 +333,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private Manager3DInterface manager3D;
 	private AlgoDispatcher algoDispatcher;
 	private final ArithmeticFactory arithmeticFactory;
-	private final GeoFactory geoFactory;
+	private final @Nonnull GeoFactory geoFactory;
 
 	private GeoVec2D imaginaryUnit;
 
@@ -402,9 +402,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @param factory
 	 *            element factory
 	 */
-	public Kernel(App app, GeoFactory factory) {
-		this(factory);
-		this.app = app;
+	public Kernel(@Nonnull App app, @Nonnull GeoFactory factory) {
+		this(factory, app);
 
 		newConstruction();
 		getExpressionNodeEvaluator();
@@ -418,7 +417,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @param factory
 	 *            factory for new elements
 	 */
-	protected Kernel(GeoFactory factory) {
+	protected Kernel(@Nonnull GeoFactory factory, @Nonnull App app) {
+		this.app = app;
 		nf = FormatFactory.getPrototype().getNumberFormat(2);
 		sf = FormatFactory.getPrototype().getScientificFormat(5, 16, false);
 		deleteList = new ArrayList<>();
@@ -555,7 +555,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * @return app
 	 */
-	final public App getApplication() {
+	final public @Nonnull App getApplication() {
 		return app;
 	}
 

@@ -16,6 +16,8 @@
 
 package org.geogebra.common.main;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
@@ -42,7 +44,7 @@ public class AppCompanion {
 	/** application */
 	@NonOwning
 	@Weak
-	protected App app;
+	protected final @Nonnull App app;
 
 	/**
 	 * Constructor
@@ -50,7 +52,7 @@ public class AppCompanion {
 	 * @param app
 	 *            application
 	 */
-	public AppCompanion(App app) {
+	public AppCompanion(@Nonnull App app) {
 		this.app = app;
 	}
 

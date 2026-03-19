@@ -1002,8 +1002,7 @@ public class ConstructionDefaults implements SettingListener {
 
 		if (defaultLabelMode) {
 			// label visibility
-			int labelingStyle = app == null ? LABEL_VISIBLE_USE_DEFAULTS
-					: app.getCurrentLabelingStyle().getValue();
+			int labelingStyle = app.getCurrentLabelingStyle().getValue();
 
 			// automatic labelling:
 			// if algebra window open -> all labels

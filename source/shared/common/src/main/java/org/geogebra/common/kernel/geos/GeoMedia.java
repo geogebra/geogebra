@@ -40,7 +40,6 @@ public abstract class GeoMedia extends GeoWidget {
 	 */
 	public GeoMedia(Construction c) {
 		super(c);
-		app = getKernel().getApplication();
 	}
 
 	/**

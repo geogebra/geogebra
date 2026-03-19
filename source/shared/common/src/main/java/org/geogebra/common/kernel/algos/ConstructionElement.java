@@ -18,6 +18,8 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.TreeSet;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GTemplate;
@@ -39,10 +41,10 @@ public abstract class ConstructionElement
 
 	/** parent construction of this element */
 	@Weak
-	public transient Construction cons;
+	public transient @Nonnull Construction cons;
 	/** parent kernel of this element */
 	@Weak
-	public transient Kernel kernel;
+	public transient @Nonnull Kernel kernel;
 
 	private int constIndex = -1; // index in construction list
 
@@ -55,16 +57,17 @@ public abstract class ConstructionElement
 	 * @param c
 	 *            construction
 	 */
-	public ConstructionElement(final Construction c) {
+	public ConstructionElement(@Nonnull Construction c) {
 		ceID = c.getApplication().getNextCeIDcounter();
-		setConstruction(c);
+		cons = c;
+		kernel = c.getKernel();
 	}
 
 	/**
 	 * @param c
 	 *            new construction
 	 */
-	public void setConstruction(final Construction c) {
+	public final void setConstruction(@Nonnull Construction c) {
 		cons = c;
 		kernel = c.getKernel();
 	}
@@ -72,14 +75,14 @@ public abstract class ConstructionElement
 	/**
 	 * @return construction this element belongs to
 	 */
-	public Construction getConstruction() {
+	public final @Nonnull Construction getConstruction() {
 		return cons;
 	}
 
 	/**
 	 * @return kernel
 	 */
-	public final Kernel getKernel() {
+	public final @Nonnull Kernel getKernel() {
 		return kernel;
 	}
 

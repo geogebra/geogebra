@@ -1831,9 +1831,7 @@ public class GeoNumeric extends GeoElement
 
 		// label visibility
 		App app = getKernel().getApplication();
-		LabelVisibility labelingStyle = app == null
-				? LabelVisibility.UseDefaults
-				: app.getCurrentLabelingStyle();
+		LabelVisibility labelingStyle = app.getCurrentLabelingStyle();
 
 		// automatic labelling:
 		// if algebra window open -> all labels

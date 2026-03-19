@@ -402,7 +402,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	protected boolean needsSpreadsheetTableModel = false;
 	protected HashMap<Integer, Boolean> showConstProtNavigationNeedsUpdate = null;
 	protected HashMap<Integer, Boolean> showConsProtNavigation = null;
-	protected AppCompanion companion;
+	protected final @Nonnull AppCompanion companion;
 
 	private boolean showResetIcon = false;
 	private ParserFunctions pf;
@@ -487,7 +487,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Please call setPlatform right after this
 	 */
 	public App() {
-		init();
+		companion = newAppCompanion();
+		resetUniqueId();
 	}
 
 	/**
@@ -498,11 +499,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public App(Platform platform) {
 		this();
 		this.platform = platform;
-	}
-
-	protected void init() {
-		companion = newAppCompanion();
-		resetUniqueId();
 	}
 
 	/**
@@ -3582,11 +3578,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// overwritten in AppW
 	}
 
-	protected AppCompanion newAppCompanion() {
+	protected @Nonnull AppCompanion newAppCompanion() {
 		return new AppCompanion(this);
 	}
 
-	public AppCompanion getCompanion() {
+	public final @Nonnull AppCompanion getCompanion() {
 		return companion;
 	}
 

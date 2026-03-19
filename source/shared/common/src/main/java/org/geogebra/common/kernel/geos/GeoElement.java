@@ -92,7 +92,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.ScreenReader;
@@ -143,8 +142,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public static final int MAX_LINE_WIDTH = 13;
 
 	@Weak
-	protected App app;
-	protected AppConfig appConfig;
+	protected final @Nonnull App app;
 
 	private int tooltipMode = TOOLTIP_ALGEBRAVIEW_SHOWING;
 	/** should only be used directly in subclasses */
@@ -335,8 +333,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		super(c);
 		app = kernel.getApplication();
 		c.addUsedType(this.getGeoClassType());
-		if (app != null) {
-			initWith(app);
+		graphicsadapter = app.newGeoElementGraphicsAdapter();
+		EuclidianViewInterfaceSlim ev  = app.getActiveEuclidianView();
+		if (ev != null && ev.getViewID() != App.VIEW_EUCLIDIAN) {
+			initWith(ev);
 		}
 	}
 
@@ -361,15 +361,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	public static void updateCascade(List<GeoElement> list) {
 		updateCascade(list, getTempSet(), true);
-	}
-
-	private void initWith(@Nonnull App app) {
-		appConfig = app.getConfig();
-		graphicsadapter = app.newGeoElementGraphicsAdapter();
-		EuclidianViewInterfaceSlim ev  = app.getActiveEuclidianView();
-		if (ev != null && app.getActiveEuclidianView().getViewID() != App.VIEW_EUCLIDIAN) {
-			initWith(ev);
-		}
 	}
 
 	private void initWith(@Nonnull EuclidianViewInterfaceSlim ev) {
@@ -1532,7 +1523,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public void setFixed(boolean flag) {
 		if (!flag) {
-			fixed = appConfig.isObjectDraggingRestricted()
+			fixed = app.getConfig().isObjectDraggingRestricted()
 					&& isFunctionOrEquationFromUser()
 					&& !this.isDefaultGeo();
 		} else if (isFixable()) {
@@ -3124,7 +3115,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	private void maybeUpdateSpecialPoints() {
-		if (canHaveSpecialPoints() && appConfig.hasPreviewPoints()) {
+		if (canHaveSpecialPoints() && app.getConfig().hasPreviewPoints()) {
 			app.getSpecialPointsManager().updateSpecialPoints(null);
 		}
 	}

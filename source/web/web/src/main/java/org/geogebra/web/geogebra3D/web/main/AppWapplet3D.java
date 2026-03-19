@@ -16,6 +16,8 @@
 
 package org.geogebra.web.geogebra3D.web.main;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
@@ -79,7 +81,7 @@ public class AppWapplet3D extends AppWFull {
 	}
 
 	@Override
-	protected Kernel newKernel(App thisApp) {
+	protected Kernel newKernel(@Nonnull App thisApp) {
 		if (thisApp.is3DViewEnabled()) {
 			return new Kernel3D(thisApp, new GeoFactory3D());
 		}
@@ -184,7 +186,7 @@ public class AppWapplet3D extends AppWFull {
 	}
 
 	@Override
-	protected AppCompanion newAppCompanion() {
+	protected @Nonnull AppCompanion newAppCompanion() {
 		return new App3DCompanionW(this);
 	}
 

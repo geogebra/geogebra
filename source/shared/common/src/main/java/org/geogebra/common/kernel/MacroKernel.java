@@ -18,6 +18,8 @@ package org.geogebra.common.kernel;
 
 import java.util.LinkedHashMap;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
@@ -34,8 +36,8 @@ import org.geogebra.common.util.MaxSizeHashMap;
  */
 public class MacroKernel extends Kernel {
 
-	private Kernel parentKernel;
-	private MacroConstruction macroCons;
+	private final @Nonnull Kernel parentKernel;
+	private final @Nonnull MacroConstruction macroCons;
 
 	/**
 	 * Creates new kernel for macro
@@ -44,10 +46,9 @@ public class MacroKernel extends Kernel {
 	 *            kernel of construction in which we want to use this macro
 	 */
 	public MacroKernel(Kernel parentKernel) {
-		super(parentKernel.getGeoFactory());
+		super(parentKernel.getGeoFactory(), parentKernel.getApplication());
 		this.parentKernel = parentKernel;
 
-		app = parentKernel.getApplication();
 		setUndoActive(false);
 		setAllowVisibilitySideEffects(false);
 

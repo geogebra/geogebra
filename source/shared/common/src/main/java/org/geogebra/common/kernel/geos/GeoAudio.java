@@ -41,7 +41,6 @@ public class GeoAudio extends GeoMedia {
 	public GeoAudio(Construction c) {
 		super(c);
 		setSize(DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT);
-		app = getKernel().getApplication();
 		setAnimationStep(DEFAULT_STEP);
 	}
 

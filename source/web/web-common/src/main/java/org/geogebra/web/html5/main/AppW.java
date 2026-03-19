@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.SuiteSubApp;
@@ -1666,7 +1667,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            application
 	 * @return a kernel
 	 */
-	protected Kernel newKernel(App thisApp) {
+	protected Kernel newKernel(@Nonnull App thisApp) {
 		return new Kernel(thisApp, new GeoFactory());
 	}
 
