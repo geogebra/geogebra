@@ -243,7 +243,14 @@ public class AutocompleteProvider {
 		public final @CheckForNull String helpPage;
 		public final ManualPage helpType;
 
-		private Completion(MatchedString match, List<String> syntaxes, ManualPage helpType,
+		/**
+		 * Creates a Completion. Visible for testing only.
+		 * @param match matched string
+		 * @param syntaxes list of syntaxes
+		 * @param helpType help type
+		 * @param helpPage help page
+		 */
+		public Completion(MatchedString match, List<String> syntaxes, ManualPage helpType,
 				@CheckForNull String helpPage) {
 			this.match = match;
 			this.syntaxes = syntaxes;
