@@ -48,7 +48,7 @@ public class StylePropertyCollection extends AbstractPropertyCollection<Property
 	public StylePropertyCollection(
 			GeoElementPropertiesFactory propertiesFactory, Localization localization,
 			List<GeoElement> elements) throws NotApplicablePropertyException {
-		super(localization, "Style");
+		super(localization, "Properties.Style");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
 		setProperties(Stream.<Property>of(
 				propertiesFactory.createOptionalPropertyFacade(elements, element ->
