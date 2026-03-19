@@ -106,7 +106,7 @@ public class AlgoRandomElement extends AlgoElement implements SetRandomValue {
 		}
 
 		GeoElement randElement = geoList.get((int) Math.floor(
-				cons.getApplication().getRandomNumber() * geoList.size()));
+				kernel.randomNumberGenerator.getRandomNumber() * geoList.size()));
 		// check type:
 		if (randElement.getGeoClassType() == element.getGeoClassType()) {
 			element.set(randElement);

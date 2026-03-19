@@ -140,7 +140,7 @@ public class AlgoRandomUniformList extends AlgoElement
 	 * @return random number between a and b
 	 */
 	public double getRandomNumber(double a, double b) {
-		return cons.getApplication().randomUniform(a, b);
+		return kernel.randomNumberGenerator.randomUniform(a, b);
 	}
 
 	@Override

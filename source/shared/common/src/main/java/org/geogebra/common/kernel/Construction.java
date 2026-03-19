@@ -93,6 +93,7 @@ import com.google.j2objc.annotations.Weak;
  * @author Markus
  */
 public class Construction {
+
 	private ConstructionCompanion companion;
 	/** maps arbconst indices to related numbers */
 	private final Map<Integer, GeoNumeric> arbitraryConstantsMap = new TreeMap<>();
@@ -3537,5 +3538,4 @@ public class Construction {
 		}
 		return false;
 	}
-
 }

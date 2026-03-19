@@ -109,7 +109,7 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 		int k = 0;
 		do {
 			k++;
-			p *= kernel.getApplication().getRandomNumber();
+			p *= kernel.randomNumberGenerator.getRandomNumber();
 		} while (p >= L);
 
 		return k - 1;
@@ -141,8 +141,8 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 
 			int k = -1;
 			while (k < 0 || (us < 0.013 && v > us)) {
-				double u = kernel.getApplication().getRandomNumber() - 0.5;
-				v = kernel.getApplication().getRandomNumber();
+				double u = kernel.randomNumberGenerator.getRandomNumber() - 0.5;
+				v = kernel.randomNumberGenerator.getRandomNumber();
 				us = 0.5 - Math.abs(u);
 				k = (int) Math.floor((2 * a1 / us + b) * u + mu + 0.43);
 				if (us >= 0.07 && v < v_r) {

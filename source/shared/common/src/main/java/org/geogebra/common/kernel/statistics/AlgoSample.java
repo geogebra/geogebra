@@ -108,10 +108,8 @@ public class AlgoSample extends AlgoElement implements SetRandomValue {
 		if (withReplacement()) {
 			for (int i = 0; i < size; i++) {
 				GeoElement geo;
-
-				geo = inputList.get((int) Math
-						.floor(cons.getApplication().getRandomNumber()
-								* inputListSize));
+				geo = inputList.get((int) Math.floor(
+						kernel.randomNumberGenerator.getRandomNumber() * inputListSize));
 				setListElement(i, geo);
 			}
 		} else {
@@ -127,9 +125,8 @@ public class AlgoSample extends AlgoElement implements SetRandomValue {
 
 			// copy the geos back into a GeoList in a random order
 			for (int i = 0; i < size; i++) {
-				int pos = (int) Math
-						.floor(cons.getApplication().getRandomNumber()
-								* (inputListSize - i));
+				int pos = (int) Math.floor(
+						kernel.randomNumberGenerator.getRandomNumber() * (inputListSize - i));
 				setListElement(i, list.remove(pos));
 			}
 

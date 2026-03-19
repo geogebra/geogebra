@@ -113,11 +113,11 @@ public class AlgoRandomPolynomial extends AlgoElement {
 				// or both zero (which shouldn't happen)
 				// eg RandomPolynomial[3,0,0] returns undefined
 				|| Math.signum(maxD) == Math.signum(minD)) {
-			return kernel.getApplication().getRandomIntegerBetween(minD, maxD);
+			return kernel.randomNumberGenerator.getRandomIntegerBetween(minD, maxD);
 		}
 
 		// logic doesn't work unless minD < 0 < maxD
-		int rnd = kernel.getApplication().getRandomIntegerBetween(minD,
+		int rnd = kernel.randomNumberGenerator.getRandomIntegerBetween(minD,
 				maxD - 1);
 		return rnd >= 0 ? rnd + 1 : rnd;
 	}

@@ -202,7 +202,7 @@ public class MyDouble extends ValidExpression
 	 * @return random MyDouble
 	 */
 	final public MyDouble random() {
-		set(kernel.getApplication().getRandomNumber());
+		set(kernel.randomNumberGenerator.getRandomNumber());
 		angleDim = 0;
 		return this;
 	}

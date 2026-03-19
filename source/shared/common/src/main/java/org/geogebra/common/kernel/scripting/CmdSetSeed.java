@@ -45,7 +45,7 @@ public class CmdSetSeed extends CmdScripting {
 			GeoElement[] arg = resArgs(c);
 			if (arg[0].isNumberValue()) {
 
-				app.setRandomSeed((int) arg[0].evaluateDouble());
+				kernel.randomNumberGenerator.setRandomSeed((int) arg[0].evaluateDouble());
 
 				return arg;
 

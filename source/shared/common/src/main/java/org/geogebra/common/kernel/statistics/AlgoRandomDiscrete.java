@@ -118,7 +118,7 @@ public class AlgoRandomDiscrete extends AlgoElement implements SetRandomValue {
 			sum += prob;
 		}
 
-		double randomDouble = sum * cons.getApplication().getRandomNumber();
+		double randomDouble = sum * kernel.randomNumberGenerator.getRandomNumber();
 
 		double total = probabilities.get(0).evaluateDouble();
 		int count = 0;

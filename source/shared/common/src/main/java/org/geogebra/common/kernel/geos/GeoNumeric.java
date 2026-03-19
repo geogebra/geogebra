@@ -1407,7 +1407,7 @@ public class GeoNumeric extends GeoElement
 		double increment = getAnimationStep();
 		int n = 1 + (int) Math.round((max - min) / increment);
 		return DoubleUtil.checkDecimalFraction(
-				Math.floor(kernel.getApplication().getRandomNumber() * n)
+				Math.floor(kernel.randomNumberGenerator.getRandomNumber() * n)
 						* increment + min);
 	}
 
@@ -1625,7 +1625,7 @@ public class GeoNumeric extends GeoElement
 	@Override
 	final public void updateRandomGeo() {
 		// set random value (for numbers used in trees using random())
-		setValue(kernel.getApplication().getRandomNumber());
+		setValue(kernel.randomNumberGenerator.getRandomNumber());
 
 		final AlgoElement algo = getParentAlgorithm();
 		if (algo != null) {

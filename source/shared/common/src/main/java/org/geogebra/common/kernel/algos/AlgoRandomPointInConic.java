@@ -99,9 +99,9 @@ public class AlgoRandomPointInConic extends AlgoElement implements SetRandomValu
 			GeoVec2D center = conic.getB();
 
 			double r = conic.getHalfAxis(0)
-					* Math.sqrt(cons.getApplication().getRandomNumber());
+					* Math.sqrt(kernel.randomNumberGenerator.getRandomNumber());
 			double radians = 2 * Math.PI
-					* cons.getApplication().getRandomNumber();
+					* kernel.randomNumberGenerator.getRandomNumber();
 
 			double xRandom = r * Math.cos(radians);
 			double yRandom = r * Math.sin(radians);
@@ -118,8 +118,8 @@ public class AlgoRandomPointInConic extends AlgoElement implements SetRandomValu
 			double angle = Math.atan2(conic.eigenvec[0].getY(),
 					conic.eigenvec[0].getX());
 
-			r = Math.sqrt(cons.getApplication().getRandomNumber());
-			radians = 2 * Math.PI * cons.getApplication().getRandomNumber();
+			r = Math.sqrt(kernel.randomNumberGenerator.getRandomNumber());
+			radians = 2 * Math.PI * kernel.randomNumberGenerator.getRandomNumber();
 
 			xRandom = a * r * Math.cos(radians);
 			yRandom = b * r * Math.sin(radians);

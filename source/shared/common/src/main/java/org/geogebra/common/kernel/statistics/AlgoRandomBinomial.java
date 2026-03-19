@@ -74,7 +74,7 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction
 
 		int count = 0;
 		for (int i = 0; i < n; i++) {
-			if (kernel.getApplication().getRandomNumber() < p) {
+			if (kernel.randomNumberGenerator.getRandomNumber() < p) {
 				count++;
 			}
 		}

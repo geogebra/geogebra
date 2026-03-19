@@ -396,6 +396,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private @CheckForNull Surds surds = new Surds();
 	private @CheckForNull Rationalization rationalization = new Rationalization();
 
+	public final @Nonnull RandomNumberGenerator randomNumberGenerator;
+
 	/**
 	 * @param app
 	 *            Application
@@ -419,6 +421,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	protected Kernel(@Nonnull GeoFactory factory, @Nonnull App app) {
 		this.app = app;
+		randomNumberGenerator = app.randomNumberGenerator;
 		nf = FormatFactory.getPrototype().getNumberFormat(2);
 		sf = FormatFactory.getPrototype().getScientificFormat(5, 16, false);
 		deleteList = new ArrayList<>();

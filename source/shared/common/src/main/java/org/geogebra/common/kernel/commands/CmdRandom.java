@@ -55,7 +55,7 @@ public class CmdRandom extends CommandProcessor {
 
 			GeoNumeric num = new GeoNumeric(cons, 0);
 			cons.addRandomGeo(num);
-			num.setValue(app.getRandomNumber());
+			num.setValue(kernel.randomNumberGenerator.getRandomNumber());
 			AlgoDependentNumber algoDepNumber = new AlgoDependentNumber(cons,
 					new ExpressionNode(kernel, num,
 							Operation.RANDOM, null),

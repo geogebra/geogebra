@@ -67,8 +67,8 @@ public class AlgoRandomNormal extends AlgoTwoNumFunction
 		double fac, rsq, v1, v2;
 		do {
 			// two random numbers from -1 to +1
-			v1 = 2.0 * kernel.getApplication().getRandomNumber() - 1;
-			v2 = 2.0 * kernel.getApplication().getRandomNumber() - 1;
+			v1 = 2.0 * kernel.randomNumberGenerator.getRandomNumber() - 1;
+			v2 = 2.0 * kernel.randomNumberGenerator.getRandomNumber() - 1;
 			rsq = v1 * v1 + v2 * v2;
 		} while (rsq >= 1.0 || rsq == 0.0); // keep going until they are in the
 											// unit circle

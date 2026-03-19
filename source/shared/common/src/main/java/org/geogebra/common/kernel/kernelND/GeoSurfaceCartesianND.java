@@ -814,7 +814,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	}
 
 	private double getRandomBetween(double a, double b) {
-		return a + (b - a) * cons.getApplication().getRandomNumber();
+		return a + (b - a) * kernel.randomNumberGenerator.getRandomNumber();
 	}
 
 	/**

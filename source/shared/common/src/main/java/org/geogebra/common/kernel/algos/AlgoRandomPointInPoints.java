@@ -147,9 +147,9 @@ public class AlgoRandomPointInPoints extends AlgoElement implements SetRandomVal
 
 		while (!foundRandom) {
 			xRandom = xMin
-					+ (xMax - xMin) * cons.getApplication().getRandomNumber();
+					+ (xMax - xMin) * kernel.randomNumberGenerator.getRandomNumber();
 			yRandom = yMin
-					+ (yMax - yMin) * cons.getApplication().getRandomNumber();
+					+ (yMax - yMin) * kernel.randomNumberGenerator.getRandomNumber();
 
 			if (GeoPolygon.isInRegion(xRandom, yRandom, points)) {
 				randomPoint.setCoords(xRandom, yRandom, 1);

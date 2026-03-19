@@ -131,9 +131,9 @@ public class AlgoRandomPointInPolygon extends AlgoElement implements SetRandomVa
 
 		while (!foundRandom) {
 			xRandom = xMin
-					+ (xMax - xMin) * cons.getApplication().getRandomNumber();
+					+ (xMax - xMin) * kernel.randomNumberGenerator.getRandomNumber();
 			yRandom = yMin
-					+ (yMax - yMin) * cons.getApplication().getRandomNumber();
+					+ (yMax - yMin) * kernel.randomNumberGenerator.getRandomNumber();
 
 			if (polygon.isInRegion(xRandom, yRandom)) {
 				if (polygon.isGeoElement3D()) {

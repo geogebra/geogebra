@@ -96,7 +96,7 @@ public class AlgoRandomFixed extends AlgoElement {
 				// change random number only if a or b has changed
 				aLast = a.getDouble();
 				bLast = b.getDouble();
-				random = cons.getApplication()
+				random = kernel.randomNumberGenerator
 						.getRandomIntegerBetween(a.getDouble(), b.getDouble());
 				num.setValue(random);
 

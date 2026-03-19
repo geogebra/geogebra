@@ -56,7 +56,7 @@ public class AlgoRandomUniform extends AlgoTwoNumFunction
 
 	@Override
 	protected double computeValue(double aVal, double bVal) {
-		return aVal + kernel.getApplication().getRandomNumber() * (bVal - aVal);
+		return aVal + kernel.randomNumberGenerator.getRandomNumber() * (bVal - aVal);
 	}
 
 	@Override

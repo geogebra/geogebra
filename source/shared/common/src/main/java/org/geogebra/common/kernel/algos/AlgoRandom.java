@@ -56,7 +56,7 @@ public class AlgoRandom extends AlgoTwoNumFunction implements SetRandomValue {
 	public final double computeValue(double aNum, double bNum) {
 		if (!Double.isInfinite(aNum) && !Double.isInfinite(bNum)
 				&& !Double.isNaN(aNum) && !Double.isNaN(bNum)) {
-			return cons.getApplication().getRandomIntegerBetween(aNum, bNum);
+			return kernel.randomNumberGenerator.getRandomIntegerBetween(aNum, bNum);
 		}
 
 		return Double.NaN;

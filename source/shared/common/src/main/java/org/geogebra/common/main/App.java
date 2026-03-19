@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.Set;
 import java.util.Vector;
 import java.util.function.Predicate;
@@ -96,6 +95,7 @@ import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.RandomNumberGenerator;
 import org.geogebra.common.kernel.Relation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
@@ -161,7 +161,6 @@ import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.spreadsheet.settings.SpreadsheetSettingsAdapter;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
-import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.MD5Checksum;
 import org.geogebra.common.util.StringUtil;
@@ -437,7 +436,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private boolean scriptingDisabled = false;
 	private double exportScale = 1;
 	private PropertiesView propertiesView;
-	private Random random = new Random();
+	public final @Nonnull RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
 	private GeoScriptRunner geoScriptRunner;
 	private GeoElement geoForCopyStyle;
 	private boolean isErrorDialogsActive = true;
@@ -2868,66 +2867,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * allows use of seeds to generate the same sequence for a ggb file
 	 *
-	 * @return random number in [0,1]
-	 */
-	public double getRandomNumber() {
-		return random.nextDouble();
-	}
-
-	/**
-	 * @param a
-	 *            low value of distribution interval
-	 * @param b
-	 *            high value of distribution interval
-	 * @return random number from Uniform Distribution[a,b]
-	 */
-	public double randomUniform(double a, double b) {
-		return a + getRandomNumber() * (b - a);
-	}
-
-	/**
-	 * allows use of seeds to generate the same sequence for a ggb file
-	 *
-	 * @param low
-	 *            least possible value of result
-	 * @param high
-	 *            highest possible value of result
-	 *
-	 * @return random integer between a and b inclusive (or NaN for
-	 *         getRandomIntegerBetween(5.5, 5.5))
-	 *
-	 */
-	public int getRandomIntegerBetween(double low, double high) {
-		// make sure 4.000000001 is not rounded up to 5
-		double a = DoubleUtil.checkInteger(low);
-		double b = DoubleUtil.checkInteger(high);
-
-		// Math.floor/ceil to make sure
-		// RandomBetween[3.2, 4.7] is between 3.2 and 4.7
-		int min = (int) Math.ceil(Math.min(a, b));
-		int max = (int) Math.floor(Math.max(a, b));
-
-		// eg RandomBetween[5.499999, 5.500001]
-		// eg RandomBetween[5.5, 5.5]
-		if (min > max) {
-			int tmp = max;
-			max = min;
-			min = tmp;
-		}
-
-		int bound = max - min + 1;
-		// if bound < 0 we have an overflow, guaranteeing -min + 1 >= 1, so min <= 0 is safe to add
-		return random.nextInt(bound <= 0 ? Integer.MAX_VALUE : bound) + min;
-	}
-
-	/**
-	 * allows use of seeds to generate the same sequence for a ggb file
-	 *
 	 * @param seed
 	 *            new seed
 	 */
 	public void setRandomSeed(int seed) {
-		random = new Random(seed);
+		randomNumberGenerator.setRandomSeed(seed);
 	}
 
 	/**

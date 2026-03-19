@@ -111,7 +111,7 @@ public class AlgoShuffle extends AlgoElement implements SetRandomValue {
 		int listSize = list.size();
 		for (int i = 0; i < listSize; i++) {
 			int pos = (int) Math.floor(
-					cons.getApplication().getRandomNumber() * (listSize - i));
+					kernel.randomNumberGenerator.getRandomNumber() * (listSize - i));
 			outputList.add(list.get(pos));
 			list.remove(pos);
 		}

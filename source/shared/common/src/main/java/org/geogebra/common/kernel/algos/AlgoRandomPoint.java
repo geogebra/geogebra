@@ -104,9 +104,9 @@ public class AlgoRandomPoint extends AlgoElement implements SetRandomValue  {
 				&& !Double.isNaN(dNum)) {
 
 			double p = aNum
-					+ (bNum - aNum) * cons.getApplication().getRandomNumber();
+					+ (bNum - aNum) * kernel.randomNumberGenerator.getRandomNumber();
 			double q = cNum
-					+ (dNum - cNum) * cons.getApplication().getRandomNumber();
+					+ (dNum - cNum) * kernel.randomNumberGenerator.getRandomNumber();
 			getPoint().setCoords(p, q, 1.0);
 		} else {
 			M.setUndefined();
