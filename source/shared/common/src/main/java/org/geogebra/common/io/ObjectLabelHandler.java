@@ -18,7 +18,7 @@ package org.geogebra.common.io;
 
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.geogebra.common.util.StringUtil;
 
@@ -32,7 +32,7 @@ public class ObjectLabelHandler implements DocHandler {
 	}
 
 	@Override
-	public void startElement(String tag, LinkedHashMap<String, String> h) {
+	public void startElement(String tag, Map<String, String> h) {
 		if ("element".equals(tag) && h.containsKey("label")) {
 			labels.add(h.get("label"));
 		}

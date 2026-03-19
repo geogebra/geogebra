@@ -16,7 +16,7 @@
 
 package org.geogebra.common.geogebra3D.kernel3D;
 
-import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.TreeSet;
 
 import org.geogebra.common.geogebra3D.io.MyXMLHandler3D;
@@ -196,10 +196,8 @@ public class Kernel3D extends Kernel {
 	 * *******************************************
 	 */
 	@Override
-	public boolean handleCoords(GeoElement geo,
-			LinkedHashMap<String, String> attrs) {
-
-		if (geo instanceof GeoLine3D) {
+	public boolean handleCoords(GeoElement geo, Map<String, String> attrs) {
+		if (geo instanceof GeoLine3D line) {
 			try {
 				// origin
 				double ox = Double.parseDouble(attrs.get("ox"));
@@ -213,7 +211,7 @@ public class Kernel3D extends Kernel {
 				double vz = Double.parseDouble(attrs.get("vz"));
 				double vw = Double.parseDouble(attrs.get("vw"));
 
-				((GeoLine3D) geo).setCoord(new Coords(ox, oy, oz, ow),
+				line.setCoord(new Coords(ox, oy, oz, ow),
 						new Coords(vx, vy, vz, vw));
 				return true;
 			} catch (Exception e) {
@@ -221,7 +219,7 @@ public class Kernel3D extends Kernel {
 			}
 		}
 
-		if (geo instanceof GeoConic3D && geo.isIndependent()) {
+		if (geo instanceof GeoConic3D conic && geo.isIndependent()) {
 			try {
 				double ox = Double.parseDouble(attrs.get("ox"));
 				double oy = Double.parseDouble(attrs.get("oy"));
@@ -235,7 +233,7 @@ public class Kernel3D extends Kernel {
 				double wx = Double.parseDouble(attrs.get("wx"));
 				double wy = Double.parseDouble(attrs.get("wy"));
 				double wz = Double.parseDouble(attrs.get("wz"));
-				CoordSys cs = ((GeoConic3D) geo).getCoordSys();
+				CoordSys cs = conic.getCoordSys();
 				if (cs == null) {
 					cs = new CoordSys(2);
 				}
@@ -244,14 +242,14 @@ public class Kernel3D extends Kernel {
 				cs.addVector(new Coords(wx, wy, wz));
 				cs.makeOrthoMatrix(false, false);
 				// cs.makeOrthoMatrix(true, true);
-				((GeoConic3D) geo).setCoordSys(cs);
+				conic.setCoordSys(cs);
 				return true;
 			} catch (Exception e) {
 				return false;
 			}
 		}
 
-		if (!(geo instanceof GeoCoords4D)) {
+		if (!(geo instanceof GeoCoords4D coords4D)) {
 			return super.handleCoords(geo, attrs);
 		}
 		if (geo.getParentAlgorithm() != null
@@ -264,7 +262,7 @@ public class Kernel3D extends Kernel {
 			double y = Double.parseDouble(attrs.get("y"));
 			double z = Double.parseDouble(attrs.get("z"));
 			double w = Double.parseDouble(attrs.get("w"));
-			((GeoCoords4D) geo).setCoords(x, y, z, w);
+			coords4D.setCoords(x, y, z, w);
 			return true;
 		} catch (Exception e) {
 			return false;

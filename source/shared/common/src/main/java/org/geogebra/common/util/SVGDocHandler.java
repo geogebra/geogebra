@@ -17,7 +17,6 @@
 package org.geogebra.common.util;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -35,11 +34,9 @@ public class SVGDocHandler implements DocHandler {
 	private Map<String, String> attrs = new HashMap<>();
 
 	@Override
-	public void startElement(String tag, LinkedHashMap<String, String> h) {
-		// copy the map: h is emptied after parsing
-		for (Entry<String, String> entry : h.entrySet()) {
-			this.attrs.put(entry.getKey(), entry.getValue());
-		}
+	public void startElement(String tag, Map<String, String> parsedAttrs) {
+		// copy the map: parsedAttrs map is emptied after parsing
+		this.attrs.putAll(parsedAttrs);
 	}
 
 	@Override

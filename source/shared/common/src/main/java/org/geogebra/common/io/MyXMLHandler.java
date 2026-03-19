@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.TreeMap;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -330,7 +330,7 @@ public class MyXMLHandler implements DocHandler {
 
 	@Override
 	final public void startElement(String eName,
-			LinkedHashMap<String, String> attrs) throws XMLParseException {
+			Map<String, String> attrs) throws XMLParseException {
 
 		if (kernel.userStopsLoading()) {
 			kernel.setUserStopsLoading(false);
@@ -415,7 +415,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private void startTopLevel(String eName, LinkedHashMap<String, String> attrs) {
+	private void startTopLevel(String eName, Map<String, String> attrs) {
 		// is this a geogebra file?
 		if ("geogebra".equals(eName)) {
 			mode = MODE_GEOGEBRA;
@@ -463,7 +463,7 @@ public class MyXMLHandler implements DocHandler {
 		return null;
 	}
 
-	private void startDataAnalysisElement(String eName, LinkedHashMap<String, String> attrs) {
+	private void startDataAnalysisElement(String eName, Map<String, String> attrs) {
 		DataAnalysisSettings das = app.getSettings().getDataAnalysis();
 		if ("item".equals(eName)) {
 			if (attrs.get("ranges") != null) {
@@ -475,7 +475,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private void startScriptingElement(LinkedHashMap<String, String> attrs) {
+	private void startScriptingElement(Map<String, String> attrs) {
 		try {
 			boolean blockScripting = "true".equals(attrs.get("blocked"));
 			app.setBlockUpdateScripts(blockScripting);
@@ -629,7 +629,7 @@ public class MyXMLHandler implements DocHandler {
 	// <geogebra>
 	// ====================================
 	private void startGeoGebraElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		switch (eName) {
 		case "euclidianView":
 			mode = MODE_EUCLIDIAN_VIEW;
@@ -698,7 +698,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private void setTableParameters(LinkedHashMap<String, String> attrs) {
+	private void setTableParameters(Map<String, String> attrs) {
 		TableSettings ts = app.getSettings().getTable();
 		String valuesString = attrs.get("xValues");
 		if (valuesString != null) {
@@ -718,12 +718,12 @@ public class MyXMLHandler implements DocHandler {
 		return getAlgProcessor().evaluateToNumeric(string, handler);
 	}
 
-	private void handleKeyboard(LinkedHashMap<String, String> attrs) {
+	private void handleKeyboard(Map<String, String> attrs) {
 		app.updateKeyboardSettings(attrs);
 	}
 
 	private void startMacroElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		if ("macroInput".equals(eName)) {
 			macroInputLabels = getAttributeStrings(attrs);
 		} else if ("macroOutput".equals(eName)) {
@@ -748,7 +748,7 @@ public class MyXMLHandler implements DocHandler {
 	 *            attributes
 	 */
 	protected void startEuclidianView3DElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		Log.debug("TODO : warn that it's a 3D file");
 	}
 
@@ -765,7 +765,7 @@ public class MyXMLHandler implements DocHandler {
 	 *            attributes
 	 */
 	protected void startEuclidianViewElementCheckViewId(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		// only used in 3D
 	}
 
@@ -779,7 +779,7 @@ public class MyXMLHandler implements DocHandler {
 	 * @return true if ok
 	 */
 	protected boolean startEuclidianViewElementSwitch(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 
 		boolean ok = true;
 		PenToolsSettings penTools = app.getSettings().getPenTools();
@@ -860,7 +860,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private void startEuclidianViewElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 
 		// must do this first
 		if ("viewNumber".equals(eName)) {
@@ -895,7 +895,7 @@ public class MyXMLHandler implements DocHandler {
 	// <SpreadsheetView>
 	// ====================================
 	private void startSpreadsheetViewElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		boolean ok = true;
 
 		switch (eName) {
@@ -936,7 +936,7 @@ public class MyXMLHandler implements DocHandler {
 	// <ProbabilityCalculator>
 	// ====================================
 	private void startProbabilityCalculatorElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		switch (eName) {
 		case "distribution":
 			handleProbabilityDistribution(attrs);
@@ -955,7 +955,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private void handleEntry(LinkedHashMap<String, String> attrs) {
+	private void handleEntry(Map<String, String> attrs) {
 		if (entries == null) {
 			entries = new ArrayList<>();
 		}
@@ -964,7 +964,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private void handleProbabilityDistribution(
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 
 		try {
 			int distributionType = Integer.parseInt(attrs.get("type"));
@@ -994,7 +994,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private void handleProbabilityInterval(
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 
 		try {
 			int probMode = Integer.parseInt(attrs.get("mode"));
@@ -1012,7 +1012,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private void handleStatisticsCollection(
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 
 		try {
 			entries = null;
@@ -1068,7 +1068,7 @@ public class MyXMLHandler implements DocHandler {
 	 *            attributes TODO create some actual attributes
 	 */
 	private void startAlgebraViewElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		boolean ok = true;
 
 		switch (eName) {
@@ -1090,7 +1090,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleCoordSystem(LinkedHashMap<String, String> attrs) {
+	private boolean handleCoordSystem(Map<String, String> attrs) {
 		if (attrs.get("xZero") != null) {
 			try {
 				double xZero = parseDoubleNaN(attrs.get("xZero"));
@@ -1146,7 +1146,7 @@ public class MyXMLHandler implements DocHandler {
 	 *            tag attributes
 	 * @return success
 	 */
-	protected boolean handleEvSettings(LinkedHashMap<String, String> attrs) {
+	protected boolean handleEvSettings(Map<String, String> attrs) {
 		try {
 			// axes attribute was removed with V3.0, see handleAxis()
 			// this code is for downward compatibility
@@ -1249,7 +1249,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleEvSize(LinkedHashMap<String, String> attrs) {
+	private boolean handleEvSize(Map<String, String> attrs) {
 		try {
 			if (!isPreferencesXML) {
 				int width = Integer.parseInt(attrs.get("width"));
@@ -1273,7 +1273,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleSpreadsheetSize(LinkedHashMap<String, String> attrs) {
+	private boolean handleSpreadsheetSize(Map<String, String> attrs) {
 		if (app.isApplet() && !app.isHTML5Applet()) {
 			return true;
 		}
@@ -1290,7 +1290,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleSpreadsheetColumn(
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		try {
 			int col = Integer.parseInt(attrs.get("id"));
 			double width = Double.parseDouble(attrs.get("width"));
@@ -1302,7 +1302,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleSpreadsheetCellSize(
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 
 		try {
 			int width = Integer.parseInt(attrs.get("width"));
@@ -1317,7 +1317,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleSpreadsheetFormat(
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 
 		try {
 			String cellFormat = attrs.get("formatMap");
@@ -1330,7 +1330,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleSpreadsheetRow(LinkedHashMap<String, String> attrs) {
+	private boolean handleSpreadsheetRow(Map<String, String> attrs) {
 		try {
 			int row = Integer.parseInt(attrs.get("id"));
 			double height = Double.parseDouble(attrs.get("height"));
@@ -1341,7 +1341,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleSpreadsheetDimensions(LinkedHashMap<String, String> attrs) {
+	private boolean handleSpreadsheetDimensions(Map<String, String> attrs) {
 		try {
 			app.getSettings().getSpreadsheet().setDimensions(Integer.parseInt(attrs.get("rows")),
 					Integer.parseInt(attrs.get("columns")));
@@ -1352,7 +1352,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleSpreadsheetLayout(
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 
 		SpreadsheetSettings settings = app.getSettings().getSpreadsheet();
 		try {
@@ -1381,7 +1381,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleSpreadsheetInitialSelection(
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 
 		SpreadsheetSettings settings = app.getSettings().getSpreadsheet();
 		try {
@@ -1408,7 +1408,7 @@ public class MyXMLHandler implements DocHandler {
 	 *            tag attributes
 	 * @return success
 	 */
-	protected boolean handleBgColor(LinkedHashMap<String, String> attrs) {
+	protected boolean handleBgColor(Map<String, String> attrs) {
 		GColor col = handleColorAttrs(attrs);
 		if (col == null) {
 			return false;
@@ -1417,7 +1417,7 @@ public class MyXMLHandler implements DocHandler {
 		return true;
 	}
 
-	private boolean handleAxesColor(LinkedHashMap<String, String> attrs) {
+	private boolean handleAxesColor(Map<String, String> attrs) {
 		GColor col = handleColorAttrs(attrs);
 		if (col == null) {
 			return false;
@@ -1426,7 +1426,7 @@ public class MyXMLHandler implements DocHandler {
 		return true;
 	}
 
-	private boolean handleGridColor(LinkedHashMap<String, String> attrs) {
+	private boolean handleGridColor(Map<String, String> attrs) {
 		GColor col = handleColorAttrs(attrs);
 		if (col == null) {
 			return false;
@@ -1435,7 +1435,7 @@ public class MyXMLHandler implements DocHandler {
 		return true;
 	}
 
-	private boolean handleRulerType(LinkedHashMap<String, String> attrs) {
+	private boolean handleRulerType(Map<String, String> attrs) {
 		int rulerType = Integer.parseInt(attrs.get("val"));
 		evSettings.setRulerType(rulerType);
 		evSettings.setRulerBold(Boolean.parseBoolean(attrs.get("bold")));
@@ -1443,21 +1443,21 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private static boolean handleEraserSize(PenToolsSettings penTools,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		int eraserSize = Integer.parseInt(attrs.get("val"));
 		penTools.setDeleteToolSize(eraserSize);
 		return true;
 	}
 
 	private static boolean handlePenSize(PenToolsSettings penTools,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		int penSize = Integer.parseInt(attrs.get("val"));
 		penTools.setLastPenThickness(penSize);
 		return true;
 	}
 
 	private static boolean handlePenColor(PenToolsSettings penTools,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		GColor col = handleColorAttrs(attrs);
 		if (col == null) {
 			return false;
@@ -1467,14 +1467,14 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private static boolean handleHighlighterSize(PenToolsSettings penTools,
-			 LinkedHashMap<String, String> attrs) {
+			 Map<String, String> attrs) {
 		int highlighterSize = Integer.parseInt(attrs.get("val"));
 		penTools.setLastHighlighterThickness(highlighterSize);
 		return true;
 	}
 
 	private static boolean handleHighlighterColor(PenToolsSettings penTools,
-			  LinkedHashMap<String, String> attrs) {
+			  Map<String, String> attrs) {
 		GColor col = handleColorAttrs(attrs);
 		if (col == null) {
 			return false;
@@ -1483,14 +1483,14 @@ public class MyXMLHandler implements DocHandler {
 		return true;
 	}
 
-	private boolean handleLanguage(LinkedHashMap<String, String> attrs) {
+	private boolean handleLanguage(Map<String, String> attrs) {
 		// this may be either BCP language tag or Java locale string (old files)
 		String lang = attrs.get("val");
 		app.setLanguage(lang);
 		return true;
 	}
 
-	private boolean handleRulerColor(LinkedHashMap<String, String> attrs) {
+	private boolean handleRulerColor(Map<String, String> attrs) {
 		GColor col = handleColorAttrs(attrs);
 		if (col == null) {
 			return false;
@@ -1499,7 +1499,7 @@ public class MyXMLHandler implements DocHandler {
 		return true;
 	}
 
-	private boolean handleLineStyle(LinkedHashMap<String, String> attrs) {
+	private boolean handleLineStyle(Map<String, String> attrs) {
 		try {
 			evSettings.setAxesLineStyle(Integer.parseInt(attrs.get("axes")));
 			evSettings.setGridLineStyle(Integer.parseInt(attrs.get("grid")));
@@ -1519,7 +1519,7 @@ public class MyXMLHandler implements DocHandler {
 	 *            tag attributes
 	 * @return success
 	 */
-	protected boolean handleLabelStyle(LinkedHashMap<String, String> attrs) {
+	protected boolean handleLabelStyle(Map<String, String> attrs) {
 		try {
 			evSettings.setAxisFontStyle(Integer.parseInt(attrs.get("axes")));
 			evSettings.setAxesLabelsSerif("true".equals(attrs.get("serif")));
@@ -1530,7 +1530,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	protected boolean handleGrid(LinkedHashMap<String, String> attrs) {
+	protected boolean handleGrid(Map<String, String> attrs) {
 		// <grid distX="2.0" distY="4.0"/>
 		try {
 			double[] dists = new double[3];
@@ -1564,7 +1564,7 @@ public class MyXMLHandler implements DocHandler {
 	 *            attributes of &lt;axis&gt; tag
 	 * @return true iff successful
 	 */
-	protected boolean handleAxis(LinkedHashMap<String, String> attrs) {
+	protected boolean handleAxis(Map<String, String> attrs) {
 
 		try {
 			int axis = Integer.parseInt(attrs.get("id"));
@@ -1678,7 +1678,7 @@ public class MyXMLHandler implements DocHandler {
 	// <kernel>
 	// ====================================
 	private void startKernelElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		switch (eName) {
 		case "angleUnit":
 			handleAngleUnit(attrs);
@@ -1720,7 +1720,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleAngleUnit(LinkedHashMap<String, String> attrs) {
+	private boolean handleAngleUnit(Map<String, String> attrs) {
 		if (!app.getConfig().isAngleUnitSettingEnabled()) {
 			return false;
 		}
@@ -1745,7 +1745,7 @@ public class MyXMLHandler implements DocHandler {
 		return true;
 	}
 
-	private boolean handleAlgebraStyle(LinkedHashMap<String, String> attrs) {
+	private boolean handleAlgebraStyle(Map<String, String> attrs) {
 		try {
 			int algebraStyleNumericValue = Integer.parseInt(attrs.get("val"));
 			setAlgebraStyleSafely(algebraStyleNumericValue, false);
@@ -1779,7 +1779,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleKernelCoordStyle(
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		try {
 			kernel.setCoordStyle(Integer.parseInt(attrs.get("val")));
 			return true;
@@ -1788,7 +1788,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleKernelInvTrig(LinkedHashMap<String, String> attrs) {
+	private boolean handleKernelInvTrig(Map<String, String> attrs) {
 		try {
 			kernel.setInverseTrigReturnsAngle(parseBoolean(attrs.get("val")));
 			return true;
@@ -1797,7 +1797,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleKernelDecimals(LinkedHashMap<String, String> attrs) {
+	private boolean handleKernelDecimals(Map<String, String> attrs) {
 		try {
 			kernel.setPrintDecimals(Integer.parseInt(attrs.get("val")));
 			return true;
@@ -1807,7 +1807,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleKernelStartAnimation(
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		try {
 			startAnimation = parseBoolean(attrs.get("val"));
 			return true;
@@ -1817,7 +1817,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleKernelLocalization(
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		try {
 			boolean digits = parseBoolean(attrs.get("digits"));
 			loc.setUseLocalizedDigits(digits, app);
@@ -1837,7 +1837,7 @@ public class MyXMLHandler implements DocHandler {
 	 *            - mapping of attributes names and values
 	 * @return whether the operation was successful
 	 */
-	private boolean handleCasSettings(LinkedHashMap<String, String> attrs) {
+	private boolean handleCasSettings(Map<String, String> attrs) {
 		try {
 			boolean expRoots = parseBoolean(attrs.get("expRoots"));
 			app.getSettings().getCasSettings().setShowExpAsRoots(expRoots);
@@ -1852,7 +1852,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleKernelFigures(LinkedHashMap<String, String> attrs) {
+	private boolean handleKernelFigures(Map<String, String> attrs) {
 		try {
 			kernel.setPrintFigures(Integer.parseInt(attrs.get("val")));
 			return true;
@@ -1862,7 +1862,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleKernelContinuous(
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		try {
 			kernel.setContinuous(parseBoolean(attrs.get("val")));
 			return true;
@@ -1872,7 +1872,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleKernelUsePathAndRegionParameters(
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		try {
 			kernel.setUsePathAndRegionParameters(
 					PathRegionHandling.parse(attrs.get("val")));
@@ -1886,7 +1886,7 @@ public class MyXMLHandler implements DocHandler {
 	// <gui>
 	// ====================================
 	private void startGuiElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		boolean ok = true;
 		switch (eName) {
 		case "consProtColumns":
@@ -1944,7 +1944,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleDataAnalysis(LinkedHashMap<String, String> attrs) {
+	private boolean handleDataAnalysis(Map<String, String> attrs) {
 		mode = MODE_DATA_ANALYSIS;
 		try {
 			app.getSettings().getDataAnalysis().reset();
@@ -1971,7 +1971,7 @@ public class MyXMLHandler implements DocHandler {
 		app.setTmpPerspective(tmp_perspective);
 	}
 
-	private boolean handleConsProtColumns(LinkedHashMap<String, String> attrs) {
+	private boolean handleConsProtColumns(Map<String, String> attrs) {
 		try {
 
 			boolean[] colsVis = new boolean[attrs.keySet().size()];
@@ -1993,7 +1993,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleConsProtocol(LinkedHashMap<String, String> attrs) {
+	private boolean handleConsProtocol(Map<String, String> attrs) {
 		try {
 			// boolean useColors = parseBoolean((String)
 			// attrs.get("useColors"));
@@ -2011,7 +2011,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleConsProtNavigationBar(
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		try {
 
 			boolean playButton = parseBoolean(attrs.get("playButton"));
@@ -2055,7 +2055,7 @@ public class MyXMLHandler implements DocHandler {
 	 *            gui tag attributes
 	 * @return success
 	 */
-	private boolean handleGuiShow(LinkedHashMap<String, String> attrs) {
+	private boolean handleGuiShow(Map<String, String> attrs) {
 		try {
 			// backward compatibility to versions without the layout component
 			// if (ggbFileFormat < 3.3) {// also used in some special, newer
@@ -2085,7 +2085,7 @@ public class MyXMLHandler implements DocHandler {
 	 *            settings tag attributes
 	 * @return success
 	 */
-	private boolean handleGuiSettings(LinkedHashMap<String, String> attrs) {
+	private boolean handleGuiSettings(Map<String, String> attrs) {
 
 		// set that XML load is a preferences settings
 		isPreferencesXML = true;
@@ -2112,7 +2112,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleToolbar(LinkedHashMap<String, String> attrs) {
+	private boolean handleToolbar(Map<String, String> attrs) {
 		try {
 			String toolbarStr = attrs.get("str");
 			if (toolbarStr != null) {
@@ -2196,7 +2196,7 @@ public class MyXMLHandler implements DocHandler {
 	 *            window tag attributes
 	 * @return success
 	 */
-	private boolean handleWindowSize(LinkedHashMap<String, String> attrs) {
+	private boolean handleWindowSize(Map<String, String> attrs) {
 		try {
 			GDimension size = AwtFactory.getPrototype().newDimension(
 					Integer.parseInt(attrs.get("width")),
@@ -2209,7 +2209,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleFont(LinkedHashMap<String, String> attrs) {
+	private boolean handleFont(Map<String, String> attrs) {
 		try {
 			int guiSize = Integer.parseInt(attrs.get("size"));
 			app.setFontSize(guiSize, true); // set gui font size and update all fonts
@@ -2219,7 +2219,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleMenuFont(LinkedHashMap<String, String> attrs) {
+	private boolean handleMenuFont(Map<String, String> attrs) {
 		try {
 			int guiSize = Integer.parseInt(attrs.get("size"));
 			if (guiSize <= 0) {
@@ -2244,7 +2244,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleTooltipSettings(LinkedHashMap<String, String> attrs) {
+	private boolean handleTooltipSettings(Map<String, String> attrs) {
 		try {
 			String ttl = attrs.get("language");
 			if ("".equals(ttl)) {
@@ -2265,7 +2265,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleLabelingStyle(LinkedHashMap<String, String> attrs) {
+	private boolean handleLabelingStyle(Map<String, String> attrs) {
 		try {
 			int style = Integer.parseInt(attrs.get("val"));
 			app.setLabelingStyle(style);
@@ -2279,7 +2279,7 @@ public class MyXMLHandler implements DocHandler {
 	// <perspectives>
 	// ====================================
 	private void startGuiPerspectivesElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		boolean ok = true;
 
 		if ("perspective".equals(eName)) {
@@ -2300,7 +2300,7 @@ public class MyXMLHandler implements DocHandler {
 	 *            perspective attributes
 	 * @return success
 	 */
-	private boolean handlePerspective(LinkedHashMap<String, String> attrs) {
+	private boolean handlePerspective(Map<String, String> attrs) {
 		try {
 			if (perspectiveElementFound && !"tmp".equals(attrs.get("id"))) {
 				// if file contains single perspective, accept it
@@ -2341,7 +2341,7 @@ public class MyXMLHandler implements DocHandler {
 	// <perspective>
 	// ====================================
 	private void startGuiPerspectiveElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		boolean ok = true;
 
 		switch (eName) {
@@ -2372,7 +2372,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleAlgebraInput(LinkedHashMap<String, String> attrs) {
+	private boolean handleAlgebraInput(Map<String, String> attrs) {
 		try {
 			tmp_perspective
 					.setShowInputPanel(!attrs.get("show").equals("false"));
@@ -2390,7 +2390,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleDockBar(LinkedHashMap<String, String> attrs) {
+	private boolean handleDockBar(Map<String, String> attrs) {
 		try {
 			tmp_perspective.setShowDockBar(!attrs.get("show").equals("false"));
 			tmp_perspective.setDockBarEast(!attrs.get("east").equals("false"));
@@ -2413,7 +2413,7 @@ public class MyXMLHandler implements DocHandler {
 	// <views>
 	// ====================================
 	private void startGuiViewsElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		boolean ok = true;
 
 		if ("view".equals(eName)) {
@@ -2435,7 +2435,7 @@ public class MyXMLHandler implements DocHandler {
 	 *            attributes of the view tag
 	 * @return success
 	 */
-	private boolean handleView(LinkedHashMap<String, String> attrs) {
+	private boolean handleView(Map<String, String> attrs) {
 		try {
 			int viewId = Integer.parseInt(attrs.get("id"));
 			String toolbar = attrs.get("toolbar");
@@ -2499,7 +2499,7 @@ public class MyXMLHandler implements DocHandler {
 	// <panes>
 	// ====================================
 	private void startGuiPanesElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		boolean ok = true;
 
 		if ("pane".equals(eName)) {
@@ -2520,7 +2520,7 @@ public class MyXMLHandler implements DocHandler {
 	 *            pane attributes
 	 * @return success
 	 */
-	private boolean handlePane(LinkedHashMap<String, String> attrs) {
+	private boolean handlePane(Map<String, String> attrs) {
 		try {
 			String location = attrs.get("location");
 			double dividerLocation = StringUtil
@@ -2540,7 +2540,7 @@ public class MyXMLHandler implements DocHandler {
 	// ====================================
 	// <construction>
 	// ====================================
-	private void handleConstruction(LinkedHashMap<String, String> attrs) {
+	private void handleConstruction(Map<String, String> attrs) {
 		try {
 			if (!(kernel instanceof MacroKernel)) {
 				app.updateAppCodeSuite(SuiteSubApp.forCode(subAppCode), tmp_perspective);
@@ -2564,7 +2564,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private void initMacro(LinkedHashMap<String, String> attrs) {
+	private void initMacro(Map<String, String> attrs) {
 		try {
 			String cmdName = attrs.get("cmdName");
 			String toolName = attrs.get("toolName");
@@ -2626,7 +2626,7 @@ public class MyXMLHandler implements DocHandler {
 	/*
 	 * <worksheetText above="blabla" below="morebla" />
 	 */
-	private void handleWorksheetText(LinkedHashMap<String, String> attrs) {
+	private void handleWorksheetText(Map<String, String> attrs) {
 		String above = attrs.get("above");
 		String below = attrs.get("below");
 		cons.setWorksheetText(above, 0);
@@ -2637,7 +2637,7 @@ public class MyXMLHandler implements DocHandler {
 	// <cascell>
 	// ====================================
 	private void startCasCell(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		// handle cas session mode
 		switch (casMode) {
 		case MODE_CONST_CAS_CELL:
@@ -2790,7 +2790,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private void startCellOutputElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		if (geoCasCell == null) {
 			Log.error("no element set for <" + eName + ">");
 			return;
@@ -2810,7 +2810,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private void startCellInputElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		if (geoCasCell == null) {
 			Log.error("no element set for <" + eName + ">");
 			return;
@@ -2829,7 +2829,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private void startCellTextElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		if (geoCasCell == null) {
 			Log.error("no element set for <" + eName + ">");
 			return;
@@ -2858,7 +2858,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private void startDefault(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 
 		switch (constMode) {
 		case MODE_DEFAULTS:
@@ -2884,7 +2884,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private void startConstructionElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		// handle construction mode
 
 		switch (constMode) {
@@ -2934,7 +2934,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private void handleMapEntry(LinkedHashMap<String, String> attrs) {
+	private void handleMapEntry(Map<String, String> attrs) {
 		String key = attrs.get("key");
 		if (key != null && !key.contains("Random")) { // GGB-2415 old files have
 														// Random entries
@@ -3100,7 +3100,7 @@ public class MyXMLHandler implements DocHandler {
 	 * @return color
 	 */
 	protected static GColor handleColorAttrs(
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		try {
 			int red = Integer.parseInt(attrs.get("r"));
 			int green = Integer.parseInt(attrs.get("g"));
@@ -3111,7 +3111,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleCasCellInput(LinkedHashMap<String, String> attrs) {
+	private boolean handleCasCellInput(Map<String, String> attrs) {
 		try {
 			String input = attrs.get("value");
 			geoCasCell.setInput(input, true);
@@ -3133,7 +3133,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleCasCellOutput(LinkedHashMap<String, String> attrs) {
+	private boolean handleCasCellOutput(Map<String, String> attrs) {
 		if (geoCasCell.isUseAsText()) {
 			return true;
 		}
@@ -3178,7 +3178,7 @@ public class MyXMLHandler implements DocHandler {
 	 * @return start point
 	 */
 	protected GeoPointND handleAbsoluteStartPoint(
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		double x = StringUtil.parseDouble(attrs.get("x"));
 		double y = StringUtil.parseDouble(attrs.get("y"));
 		double z = StringUtil.parseDouble(attrs.get("z"));
@@ -3228,7 +3228,7 @@ public class MyXMLHandler implements DocHandler {
 
 	// called when <command> is encountered
 	// e.g. for <command name="Intersect">
-	private Command getCommand(LinkedHashMap<String, String> attrs) {
+	private Command getCommand(Map<String, String> attrs) {
 		Command command = null;
 		String name = attrs.get("name");
 
@@ -3253,7 +3253,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private void startCommandElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		boolean ok = true;
 
 		if ("input".equals(eName)) {
@@ -3276,7 +3276,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleCmdInput(LinkedHashMap<String, String> attrs) {
+	private boolean handleCmdInput(Map<String, String> attrs) {
 		GeoElement geo1;
 		ExpressionNode en;
 		String arg = null;
@@ -3329,7 +3329,7 @@ public class MyXMLHandler implements DocHandler {
 		return true;
 	}
 
-	private boolean handleCmdOutput(LinkedHashMap<String, String> attrs) {
+	private boolean handleCmdOutput(Map<String, String> attrs) {
 		try {
 			// set labels for command processing
 			int countLabels = 0;
@@ -3423,7 +3423,7 @@ public class MyXMLHandler implements DocHandler {
 	 *            cmd output attributes
 	 * @return true if proceeded
 	 */
-	private boolean handleCmdOutputSizes(LinkedHashMap<String, String> attrs) {
+	private boolean handleCmdOutputSizes(Map<String, String> attrs) {
 		try {
 			String[] vals = attrs.get("val").split(",");
 			int[] sizes = new int[vals.length];
@@ -3448,7 +3448,7 @@ public class MyXMLHandler implements DocHandler {
 	 * @return success
 	 */
 	private static String[] getAttributeStrings(
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		Collection<String> values = attrs.values();
 		Iterator<String> it = values.iterator();
 
@@ -3465,7 +3465,7 @@ public class MyXMLHandler implements DocHandler {
 	// ====================================
 	// <expression>
 	// ====================================
-	private void startExpressionElement(LinkedHashMap<String, String> attrs) {
+	private void startExpressionElement(Map<String, String> attrs) {
 		String label = attrs.get("label");
 
 		// ignore twinGeo expressions coming from CAS cells
@@ -3569,7 +3569,7 @@ public class MyXMLHandler implements DocHandler {
 		return kernel.getAlgebraProcessor();
 	}
 
-	private boolean handleAlgebraViewMode(LinkedHashMap<String, String> attrs) {
+	private boolean handleAlgebraViewMode(Map<String, String> attrs) {
 		try {
 			int val = !app.isUnbundled() || !PreviewFeature.isAvailable(SETTINGS_VIEW)
 					? Integer.parseInt(attrs.get("val"))
@@ -3584,7 +3584,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleAlgebraViewShowAuxiliaryObjects(
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		try {
 			boolean b = parseBoolean(attrs.get("show"));
 			app.getSettings().getAlgebra().setShowAuxiliaryObjects(b);
@@ -3595,7 +3595,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleAlgebraViewCollapsedNodes(
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 
 		try {
 			String[] strings = attrs.get("val").split(",");

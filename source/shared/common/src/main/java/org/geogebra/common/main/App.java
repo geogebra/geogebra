@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Vector;
@@ -4854,7 +4854,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @param attrs
 	 *            XML attributes
 	 */
-	public void updateKeyboardSettings(LinkedHashMap<String, String> attrs) {
+	public void updateKeyboardSettings(Map<String, String> attrs) {
 		// only desktop
 	}
 

@@ -65,9 +65,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Executors;
@@ -4828,7 +4828,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	@Override
-	public void updateKeyboardSettings(LinkedHashMap<String, String> attrs) {
+	public void updateKeyboardSettings(Map<String, String> attrs) {
 		try {
 			int width = Integer.parseInt(attrs.get("width"));
 			KeyboardSettings kbs = (KeyboardSettings) getSettings()
@@ -4842,8 +4842,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			kbs.setShowKeyboardOnStart(showOnStart);
 			kbs.setKeyboardLocale(attrs.get("language"));
 		} catch (RuntimeException e) {
-			e.printStackTrace();
 			Log.error("error in element <keyboard>");
+			Log.debug(e);
 		}
 	}
 

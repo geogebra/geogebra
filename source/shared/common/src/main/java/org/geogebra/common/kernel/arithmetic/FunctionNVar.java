@@ -74,7 +74,7 @@ public class FunctionNVar extends ValidExpression
 	@Weak
 	protected Kernel kernel;
 	private final static int MAX_CAS_EVAL_MAP_SIZE = 100;
-	private MaxSizeHashMap<String, FunctionNVar> casEvalMap;
+	private Map<String, FunctionNVar> casEvalMap;
 	private String shortLHS;
 	private ExpressionNode casEvalExpression;
 	private String casEvalStringSymbolic;
@@ -728,7 +728,7 @@ public class FunctionNVar extends ValidExpression
 	 * 
 	 * @return CAS map command -&gt; result
 	 */
-	protected MaxSizeHashMap<String, FunctionNVar> getCasEvalMap() {
+	protected Map<String, FunctionNVar> getCasEvalMap() {
 		if (casEvalMap == null) {
 			casEvalMap = new MaxSizeHashMap<>(
 					MAX_CAS_EVAL_MAP_SIZE);

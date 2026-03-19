@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
@@ -115,7 +115,6 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.LRUMap;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.NumberFormatAdapter;
@@ -145,6 +144,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	final public static String STRING_PLUS_MINUS = "\u00B1 ";
 	/** string for -+ */
 	final public static String STRING_MINUS_PLUS = "\u2213 ";
+	private static final int FORMATTER_CACHE_CAPACITY = 100; // cache 100 numbers per template
 
 	// critical for exam mode
 	// must use getter
@@ -368,7 +368,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private String libraryJavaScript = defaultLibraryJavaScript;
 
 	private boolean isSaving;
-	private MaxSizeHashMap<String, String> ggbCasCache;
+	private Map<String, String> ggbCasCache;
 	/** min real world x for all views */
 	protected double[] xmin = new double[1];
 	/** max real world x for all views */
@@ -387,7 +387,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private boolean notifyViewsActive = true;
 
 	// MOB-1304 cache axes numbers
-	private final HashMap<StringTemplate, LRUMap<Double, String>> formatterMaps = new HashMap<>();
+	private final Map<StringTemplate, MaxSizeHashMap<Double, String>> formatterMaps
+			= new HashMap<>();
 
 	private final Traversing.VariableReplacer variableReplacer;
 	private final GeoFunctionConverter functionConverter = new GeoFunctionConverter();
@@ -693,21 +694,18 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            coordinates from XML
 	 * @return whether this worked without exception
 	 */
-	public boolean handleCoords(GeoElement geo,
-			LinkedHashMap<String, String> attrs) {
-
-		if (!(geo instanceof GeoVec3D)) {
+	public boolean handleCoords(GeoElement geo, Map<String, String> attrs) {
+		if (!(geo instanceof GeoVec3D vector)) {
 			Log.debug("wrong element type for <coords>: " + geo.getClass());
 			return false;
 		}
-		GeoVec3D v = (GeoVec3D) geo;
 
 		try {
 			double x = StringUtil.parseDouble(attrs.get("x"));
 			double y = StringUtil.parseDouble(attrs.get("y"));
 			double z = StringUtil.parseDouble(attrs.get("z"));
-			v.hasUpdatePrivilege = true;
-			v.setCoords(x, y, z);
+			vector.hasUpdatePrivilege = true;
+			vector.setCoords(x, y, z);
 			return true;
 
 		} catch (Exception e) {
@@ -1188,9 +1186,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private String formatPiERaw(double x, NumberFormatAdapter numF,
 			StringTemplate tpl) {
 
-		LRUMap<Double, String> formatterMap = formatterMaps.get(tpl);
+		MaxSizeHashMap<Double, String> formatterMap = formatterMaps.get(tpl);
 		if (formatterMap == null) {
-			formatterMap = new LRUMap<>();
+			formatterMap = new MaxSizeHashMap<>(FORMATTER_CACHE_CAPACITY);
 			formatterMaps.put(tpl, formatterMap);
 		} else {
 			String ret = formatterMap.get(x);
@@ -2775,10 +2773,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * @return Hash map for caching CAS results.
 	 */
-	public MaxSizeHashMap<String, String> getCasCache() {
+	public Map<String, String> getCasCache() {
 		if (ggbCasCache == null) {
-			ggbCasCache = new MaxSizeHashMap<>(
-					GEOGEBRA_CAS_CACHE_SIZE);
+			ggbCasCache = new MaxSizeHashMap<>(GEOGEBRA_CAS_CACHE_SIZE);
 		}
 		return ggbCasCache;
 	}

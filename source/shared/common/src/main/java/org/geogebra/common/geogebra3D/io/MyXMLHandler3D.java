@@ -18,7 +18,7 @@ package org.geogebra.common.geogebra3D.io;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
@@ -69,7 +69,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 */
 	@Override
 	protected void startEuclidianView3DElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 
 		// must do this first
 		if (evSettings == null) {
@@ -138,7 +138,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	}
 
 	private boolean handleCoordSystem3D(EuclidianSettings3D evs,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		if (attrs.get("xZero") != null) {
 			try {
 				double xZero = parseDoubleNaN(attrs.get("xZero"));
@@ -211,7 +211,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 * @return true if all is done ok
 	 */
 	protected boolean handlePlate(EuclidianSettings3D evs,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		try {
 			String strShowPlate = attrs.get("show");
 
@@ -237,7 +237,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 * @return true if all is done ok
 	 */
 	static private boolean handleColoredAxes(EuclidianSettings3D evs,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		try {
 			String strHasColoredAxes = attrs.get("val");
 			Log.debug("strHasColoredAxes = " + strHasColoredAxes);
@@ -264,7 +264,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 * @return true if all is done ok
 	 */
 	protected boolean handleYAxisIsUp(EuclidianSettings3D evs,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		try {
 			String strYAxisVertical = attrs.get("val");
 
@@ -290,7 +290,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 * @return true if all is done ok
 	 */
 	protected boolean handleLight(EuclidianSettings3D evs,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		try {
 			String strLight = attrs.get("val");
 
@@ -314,7 +314,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 * @return true if all is done ok
 	 */
 	@Override
-	protected boolean handleGrid(LinkedHashMap<String, String> attrs) {
+	protected boolean handleGrid(Map<String, String> attrs) {
 		// distX, distY
 		super.handleGrid(attrs);
 
@@ -341,7 +341,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 * @return true if all is done ok
 	 */
 	protected boolean handleClipping(EuclidianSettings3D evs,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		try {
 			String strUseClipping = attrs.get("use");
 			if (strUseClipping != null) {
@@ -375,7 +375,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 * @return true if all is done ok
 	 */
 	protected boolean handleProjection(EuclidianSettings3D evs,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		try {
 			String strType = attrs.get("type");
 			if (strType != null) {
@@ -412,7 +412,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	/** create absolute start point (coords expected) */
 	@Override
 	protected GeoPointND handleAbsoluteStartPoint(
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		double x = Double.parseDouble(attrs.get("x"));
 		double y = Double.parseDouble(attrs.get("y"));
 		double z = Double.parseDouble(attrs.get("z"));
@@ -434,7 +434,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 
 	@Override
 	protected void startEuclidianViewElementCheckViewId(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		if ("viewId".equals(eName)) {
 			String plane = attrs.get("plane");
 			evSettings = app.getSettings().getEuclidianForPlane(plane);
@@ -448,7 +448,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 
 	@Override
 	protected boolean startEuclidianViewElementSwitch(String eName,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		if ("transformForPlane".equals(eName)) {
 			return handleTransformForPlane((EuclidianSettingsForPlane) evSettings, attrs);
 		}
@@ -457,7 +457,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	}
 
 	private static boolean handleTransformForPlane(EuclidianSettingsForPlane ev,
-			LinkedHashMap<String, String> attrs) {
+			Map<String, String> attrs) {
 		try {
 			ev.setTransformForPlane(Boolean.parseBoolean(attrs.get("mirror")),
 					Integer.parseInt(attrs.get("rotate")));

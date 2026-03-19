@@ -16,7 +16,7 @@
 
 package org.geogebra.common.kernel;
 
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 
@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.util.MaxSizeHashMap;
 
 /**
  * Kernel with its own construction for macros.
@@ -196,8 +195,7 @@ public class MacroKernel extends Kernel {
 	}
 
 	@Override
-	public boolean handleCoords(GeoElement geo,
-			LinkedHashMap<String, String> attrs) {
+	public boolean handleCoords(GeoElement geo, Map<String, String> attrs) {
 		return parentKernel.handleCoords(geo, attrs);
 	}
 
@@ -222,7 +220,7 @@ public class MacroKernel extends Kernel {
 	 * @return Hash map for caching CAS results from parent kernel.
 	 */
 	@Override
-	public MaxSizeHashMap<String, String> getCasCache() {
+	public Map<String, String> getCasCache() {
 		return parentKernel.getCasCache();
 	}
 

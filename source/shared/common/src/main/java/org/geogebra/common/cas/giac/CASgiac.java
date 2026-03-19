@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
@@ -478,7 +479,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	public long timeoutMillis = 5000;
 	final private static String EVALFA = "evalfa(";
 	private final StringBuilder expSB = new StringBuilder(EVALFA);
-	private final MaxSizeHashMap<String, String> casGiacCache
+	private final Map<String, String> casGiacCache
 			= new MaxSizeHashMap<>(Kernel.GEOGEBRA_CAS_CACHE_SIZE);
 
 	// eg {(ggbtmpvarx>(-sqrt(110)/5)) && ((sqrt(110)/5)>ggbtmpvarx)}

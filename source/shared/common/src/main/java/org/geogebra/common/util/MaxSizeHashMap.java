@@ -16,28 +16,32 @@
 
 package org.geogebra.common.util;
 
-import java.util.Iterator;
+import java.io.Serial;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
-public class MaxSizeHashMap<V, T> extends LinkedHashMap<V, T> {
+/**
+ * Map with limited capacity, can be used as LRU (least recently used) cache.
+ * @param <K> key type
+ * @param <V> value type
+ */
+public class MaxSizeHashMap<K, V> extends LinkedHashMap<K, V> {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
-	private int maxSize;
+	private final int maxSize;
 
+	/**
+	 * @param maxSize maximum size
+	 */
 	public MaxSizeHashMap(int maxSize) {
 		this.maxSize = maxSize;
 	}
 
 	@Override
-	public T put(V key, T value) {
-		if (size() >= maxSize) {
-			Iterator<?> it = entrySet().iterator();
-			it.next();
-			it.remove();
-		}
-
-		return super.put(key, value);
+	protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+		return size() > maxSize;
 	}
 
 }

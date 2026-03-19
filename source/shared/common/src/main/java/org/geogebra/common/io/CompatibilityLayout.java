@@ -16,7 +16,7 @@
 
 package org.geogebra.common.io;
 
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GDimension;
@@ -205,7 +205,7 @@ public class CompatibilityLayout {
 	 *            split attributes
 	 * @return success
 	 */
-	boolean handleSplitDivider(LinkedHashMap<String, String> attrs) {
+	boolean handleSplitDivider(Map<String, String> attrs) {
 		try {
 			sp1 = 0;
 			sp2 = 0;

@@ -6,7 +6,7 @@
 
 package org.geogebra.common.io;
 
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Event listener for MyXMLio
@@ -20,7 +20,7 @@ public interface DocHandler {
 	 * @throws XMLParseException
 	 *             if invalid
 	 */
-	void startElement(String tag, LinkedHashMap<String, String> h)
+	void startElement(String tag, Map<String, String> h)
 			throws XMLParseException;
 
 	/**
