@@ -40,7 +40,7 @@ public class DynamicColorModeProperty extends AbstractValuedProperty<Boolean>
 	@Override
 	protected void doSetValue(Boolean value) {
 		if (value) {
-			activateDynamicColorMode(geoElement);
+			activateDynamicColorModeIfNeeded(geoElement);
 		} else {
 			geoElement.removeColorFunction();
 			geoElement.updateRepaint();
@@ -48,24 +48,32 @@ public class DynamicColorModeProperty extends AbstractValuedProperty<Boolean>
 	}
 
 	/**
-	 * Activate dynamic color mode allowing specific color space and color component specification.
+	 * Activate dynamic color mode allowing specific color space and color component specification,
+	 * has no effect if element already uses dynamic color.
 	 * @param geoElement the element for which to activate dynamic color mode
 	 * @see DynamicColorModeProperty
 	 * @see DynamicColorComponentProperty
 	 */
-	public static void activateDynamicColorMode(GeoElement geoElement) {
+	public static void activateDynamicColorModeIfNeeded(GeoElement geoElement) {
+		if (!isDynamicColorModeActivated(geoElement)) {
+			activateDynamicColorMode(geoElement);
+		}
+	}
+
+	/**
+	 * Activate dynamic color mode, outside of tests use
+	 * {@link #activateDynamicColorModeIfNeeded} instead.
+	 */
+	static void activateDynamicColorMode(GeoElement geoElement) {
 		AlgebraProcessor algebraProcessor = geoElement.getKernel().getAlgebraProcessor();
 		GColor color = geoElement.getObjectColor();
-		GeoList defaultAdvancedColor = geoElement.isFillable()
-				? algebraProcessor.evaluateToList("{"
-						+ color.getRed() / 255f + ","
-						+ color.getGreen() / 255f + ","
-						+ color.getBlue() / 255f + ","
-						+ geoElement.getFillColor().getAlpha() / 255f + "}")
-				: algebraProcessor.evaluateToList("{"
-						+ color.getRed() / 255f + ","
-						+ color.getGreen() / 255f + ","
-						+ color.getBlue() / 255f + "}");
+		String rgbComponents = color.getRed() / 255f + ","
+				+ color.getGreen() / 255f + ","
+				+ color.getBlue() / 255f;
+		String listDefinition = geoElement.isFillable()
+				? "{" + rgbComponents + "," + geoElement.getFillColor().getAlpha() / 255f + "}"
+				: "{" + rgbComponents + "}";
+		GeoList defaultAdvancedColor = algebraProcessor.evaluateToList(listDefinition);
 		geoElement.setColorFunction(defaultAdvancedColor);
 		defaultAdvancedColor.updateRepaint();
 	}

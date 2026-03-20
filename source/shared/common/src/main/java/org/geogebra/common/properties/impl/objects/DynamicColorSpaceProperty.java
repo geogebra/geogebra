@@ -45,9 +45,7 @@ public class DynamicColorSpaceProperty extends AbstractNamedEnumeratedProperty<I
 
 	@Override
 	protected void doSetValue(Integer value) {
-		if (!DynamicColorModeProperty.isDynamicColorModeActivated(geoElement)) {
-			DynamicColorModeProperty.activateDynamicColorMode(geoElement);
-		}
+		DynamicColorModeProperty.activateDynamicColorModeIfNeeded(geoElement);
 		geoElement.setColorSpace(value);
 		geoElement.updateRepaint();
 	}

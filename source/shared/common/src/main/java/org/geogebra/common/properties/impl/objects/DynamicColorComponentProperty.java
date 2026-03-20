@@ -179,9 +179,7 @@ public final class DynamicColorComponentProperty extends AbstractValuedProperty<
 
 	@Override
 	protected void doSetValue(String value) {
-		if (!DynamicColorModeProperty.isDynamicColorModeActivated(geoElement)) {
-			DynamicColorModeProperty.activateDynamicColorMode(geoElement);
-		}
+		DynamicColorModeProperty.activateDynamicColorModeIfNeeded(geoElement);
 		if (requiredColorSpace != null && requiredColorSpace != geoElement.getColorSpace()) {
 			geoElement.setColorSpace(requiredColorSpace);
 		}
@@ -232,8 +230,7 @@ public final class DynamicColorComponentProperty extends AbstractValuedProperty<
 				.collect(Collectors.toList());
 		colorComponentValues.set(colorIndex, value);
 		String newAdvancedColorInput = "{" + String.join(",", colorComponentValues) + "}";
-		GeoList newAdvancedColorComponents = geoElement.getKernel().getAlgebraProcessor()
+		return geoElement.getKernel().getAlgebraProcessor()
 				.evaluateToList(newAdvancedColorInput);
-		return newAdvancedColorComponents;
 	}
 }
