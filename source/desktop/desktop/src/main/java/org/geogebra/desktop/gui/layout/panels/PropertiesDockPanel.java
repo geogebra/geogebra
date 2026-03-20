@@ -19,7 +19,7 @@ package org.geogebra.desktop.gui.layout.panels;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JComponent;
 
 import org.geogebra.common.main.App;
@@ -108,7 +108,7 @@ public class PropertiesDockPanel extends DockPanelD
 	}
 
 	@Override
-	public ImageIcon getIcon() {
+	public Icon getIcon() {
 		return app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_22);
 	}
 

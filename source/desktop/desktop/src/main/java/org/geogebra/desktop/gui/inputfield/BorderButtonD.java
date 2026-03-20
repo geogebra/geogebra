@@ -27,8 +27,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.border.AbstractBorder;
+
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
+import org.geogebra.desktop.main.ScaledIcon;
 
 /**
  * Extended Border class that adds simulated buttons to the right border of a
@@ -45,7 +47,7 @@ public class BorderButtonD extends AbstractBorder
 	private Component borderOwner;
 
 	public static final String cmdSuffix = "BorderButtonAction";
-	private ImageIcon[] icon;
+	private ScaledIcon[] icon;
 	private static final int hGap = 7;
 
 	private boolean[] isVisibleIcon;
@@ -79,14 +81,14 @@ public class BorderButtonD extends AbstractBorder
 		// register mouseMotionListener
 		borderOwner.addMouseMotionListener(this);
 
-		icon = new ImageIcon[maxIconCount];
+		icon = new ScaledIcon[maxIconCount];
 		isVisibleIcon = new boolean[maxIconCount];
 		isMouseOverIcon = new boolean[maxIconCount];
 		iconRect = new Rectangle[maxIconCount];
 		al = new ActionListener[maxIconCount];
 
 		for (int i = 0; i < maxIconCount; i++) {
-			icon[i] = new ImageIcon();
+			icon[i] = GeoGebraIconD.createEmptyIcon(1, 1);
 			iconRect[i] = new Rectangle();
 			isMouseOverIcon[i] = false;
 			// need default visibility = false so that focus lost/gained
@@ -123,7 +125,7 @@ public class BorderButtonD extends AbstractBorder
 	 * @param icon icon
 	 * @param listener listener
 	 */
-	public void setBorderButton(int index, ImageIcon icon,
+	public void setBorderButton(int index, ScaledIcon icon,
 			ActionListener listener) {
 		if (index < 0 || index > maxIconCount) {
 			return;

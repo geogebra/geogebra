@@ -18,8 +18,8 @@ package org.geogebra.desktop.gui.dialog;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.text.MutableAttributeSet;
@@ -77,7 +77,6 @@ public class TextPreviewPanelD extends TextPreviewer {
 	@Override
 	protected void updateViewportSize(GeoText previewGeo) {
 		Dimension d = new Dimension();
-		ImageIcon testIcon = new ImageIcon();
 		JTextPane dummyText = new JTextPane();
 		int padding = 5; // account for inset
 
@@ -88,13 +87,13 @@ public class TextPreviewPanelD extends TextPreviewer {
 		if (previewGeo.isLaTeX()) {
 			// LaTex geo, use dummy ImageIcon
 
-			GeoGebraIconD.drawLatexImageIcon((AppD) getApp(), testIcon,
+			Rectangle bounds = GeoGebraIconD.measureLatexImage((AppD) getApp(),
 					previewGeo.getTextString(), ((AppD) getApp()).getPlainFont(),
 					true, Color.black, null);
 
 			// get the dimensions from the icon and add some padding
-			d.height = testIcon.getIconHeight() + padding;
-			d.width = testIcon.getIconWidth() + padding;
+			d.height = (int) bounds.getHeight() + padding;
+			d.width = (int) bounds.getWidth() + padding;
 
 		} else {
 			// Plain text geo, use dummy JTextArea

@@ -65,7 +65,7 @@ import com.himamis.retex.renderer.desktop.graphics.Base64;
  */
 public class ImageManagerD extends ImageManager {
 
-	private final Hashtable<String, ImageIcon> iconTable = new Hashtable<>();
+	private final Hashtable<String, Image> iconTable = new Hashtable<>();
 	private final Hashtable<String, MyImageD> internalImageTable = new Hashtable<>();
 	private static final Hashtable<String, MyImageD> externalImageTable = new Hashtable<>();
 
@@ -95,7 +95,7 @@ public class ImageManagerD extends ImageManager {
 	 * 
 	 * @return icon for fileName or null
 	 */
-	public ImageIcon getImageIcon(ImageResourceD fileName) {
+	public Image getImageIcon(ImageResourceD fileName) {
 		return getImageIcon(fileName, null);
 	}
 
@@ -107,7 +107,7 @@ public class ImageManagerD extends ImageManager {
 	 *            if borderColor == null no border is added
 	 * @return icon
 	 */
-	public ImageIcon getImageIcon(ImageResourceD fileName, Color borderColor) {
+	public Image getImageIcon(ImageResourceD fileName, Color borderColor) {
 		return getImageIcon(fileName, borderColor, null);
 	}
 
@@ -117,18 +117,15 @@ public class ImageManagerD extends ImageManager {
 	 * @param background background color
 	 * @return image with border  and background
 	 */
-	public ImageIcon getImageIcon(ImageResourceD fileName, Color borderColor,
+	public Image getImageIcon(ImageResourceD fileName, Color borderColor,
 			Color background) {
-		ImageIcon icon = iconTable.get(fileName.getFilename());
-		if (icon == null) {
-			// load the icon
+		return iconTable.computeIfAbsent(fileName.getFilename(), fn -> {
 			Image im = getImageResourceGeoGebra(fileName);
 			if (im != null) {
-				icon = new ImageIcon(addBorder(im, borderColor, background));
-				iconTable.put(fileName.getFilename(), icon);
+				return addBorder(im, borderColor, background);
 			}
-		}
-		return icon;
+			return null;
+		});
 	}
 
 	/**
@@ -632,11 +629,11 @@ public class ImageManagerD extends ImageManager {
 	 * @param maxSize maximum size in pixels (assuming width == height)
 	 * @return icon respecting pixel ratio
 	 */
-	public ScaledIcon getResponsiveScaledIcon(ImageIcon icon, int maxSize) {
+	public ScaledIcon getResponsiveScaledIcon(Image icon, int maxSize) {
 		int maxScaledSize = (int) (maxSize * getPixelRatio());
-		return new ScaledIcon(ImageManagerD.getScaledIcon(icon,
-				Math.min(icon.getIconWidth(), maxScaledSize),
-				Math.min(icon.getIconHeight(), maxScaledSize)),
+		return new ScaledIcon(ImageManagerD.getScaledImage(icon,
+				Math.min(icon.getWidth(null), maxScaledSize),
+				Math.min(icon.getHeight(null), maxScaledSize)),
 
 				getPixelRatio());
 	}

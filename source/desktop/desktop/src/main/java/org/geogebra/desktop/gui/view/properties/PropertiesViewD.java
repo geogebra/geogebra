@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JPanel;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -745,7 +745,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	 * @param type properties view tab
 	 * @return icon
 	 */
-	public static ImageIcon getTypeIcon(AppD app, OptionType type) {
+	public static Icon getTypeIcon(AppD app, OptionType type) {
 		switch (type) {
 		case DEFAULTS:
 			return app.getScaledIcon(GuiResourcesD.PROPERTIES_DEFAULTS_3);

@@ -21,7 +21,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.util.SelectionTable;
@@ -30,6 +30,7 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.ScaledIcon;
 
 public class ColorPopupMenuButton extends PopupMenuButtonD
 		implements ActionListener {
@@ -104,11 +105,12 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 	}
 
 	@Override
-	public ImageIcon getButtonIcon() {
-		ImageIcon icon = super.getButtonIcon();
+	public Icon getButtonIcon() {
+		Icon icon = super.getButtonIcon();
 		if (icon == null && this.hasSlider) {
 			icon = GeoGebraIconD.createColorSwatchIcon(getSliderValue() / 100f,
-					iconSize, GColorD.getAwtColor(defaultColor), null);
+					iconSize, GColorD.getAwtColor(defaultColor), null,
+					app.getImageManager().getPixelRatio());
 		}
 		return icon;
 	}
@@ -159,10 +161,11 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 		defaultColor = color;
 		if (color != null) {
 			this.setIcon(GeoGebraIconD.createColorSwatchIcon(alpha, iconSize,
-					GColorD.getAwtColor(color), null));
+					GColorD.getAwtColor(color), null,
+					app.getImageManager().getPixelRatio()));
 		} else {
 			this.setIcon(GeoGebraIconD.createNullSymbolIcon(iconSize.width,
-					iconSize.height));
+					iconSize.height, app.getImageManager().getPixelRatio()));
 		}
 	}
 
@@ -179,24 +182,25 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 		return toolTipArray;
 	}
 
-	private static ImageIcon[] getColorSwatchIcons(GColor[] colorArray,
+	private Icon[] getColorSwatchIcons(GColor[] colorArray,
 			float alpha, Dimension iconSize) {
-		ImageIcon[] a = new ImageIcon[colorArray.length];
+		Icon[] a = new Icon[colorArray.length];
 		for (int i = 0; i < colorArray.length; i++) {
 			if (colorArray[i] != null) {
 				a[i] = GeoGebraIconD.createColorSwatchIcon(alpha, iconSize,
-						GColorD.getAwtColor(colorArray[i]), null);
+						GColorD.getAwtColor(colorArray[i]), null,
+						app.getImageManager().getPixelRatio());
 			} else {
 				a[i] = GeoGebraIconD.createNullSymbolIcon(iconSize.width,
-						iconSize.height);
+						iconSize.height, app.getImageManager().getPixelRatio());
 			}
 		}
 		return a;
 	}
 
-	private static ImageIcon[] createDummyIcons(Dimension iconSize) {
+	private static ScaledIcon[] createDummyIcons(Dimension iconSize) {
 
-		ImageIcon[] a = new ImageIcon[27];
+		ScaledIcon[] a = new ScaledIcon[27];
 		for (int i = 0; i < 27; i++) {
 			a[i] = GeoGebraIconD.createEmptyIcon(iconSize.width,
 					iconSize.height);

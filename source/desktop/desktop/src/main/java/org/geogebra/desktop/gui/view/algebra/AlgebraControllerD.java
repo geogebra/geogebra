@@ -32,8 +32,6 @@ import java.awt.dnd.DragSourceListener;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
-
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -43,6 +41,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.ScaledIcon;
 
 /**
  * Event handlers fro AV
@@ -161,8 +160,8 @@ public class AlgebraControllerD extends AlgebraTreeController
 			return;
 		}
 
-		ImageIcon ic = GeoGebraIconD.createLatexIcon((AppD) app, latex,
-				((AppD) app).getPlainFont(), Color.DARK_GRAY, null);
+		ScaledIcon ic = GeoGebraIconD.createScaledLatexIcon((AppD) app, latex,
+				((AppD) app).getPlainFont(), Color.DARK_GRAY);
 
 		// start drag
 		ds.startDrag(dge, DragSource.DefaultCopyDrop, ic.getImage(),

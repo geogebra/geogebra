@@ -32,7 +32,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -324,11 +324,12 @@ class FillingPanelD extends JPanel
 		imgFileNameList.add(GuiResourcesD.FILLING_HELP);
 		imgFileNameList.add(GuiResourcesD.FILLING_SETTINGS);
 
-		ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
-		iconArray[0] = GeoGebraIconD.createNullSymbolIcon(24, 24);
+		Icon[] iconArray = new Icon[imgFileNameList.size()];
+		iconArray[0] = GeoGebraIconD.createNullSymbolIcon(24, 24,
+				app.getImageManager().getPixelRatio());
 		for (int i = 1; i < iconArray.length; i++) {
 			iconArray[i] = GeoGebraIconD.createFileImageIcon(
-					imgFileNameList.get(i));
+					imgFileNameList.get(i), app.getImageManager().getPixelRatio());
 		}
 		// ============================================
 

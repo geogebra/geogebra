@@ -31,11 +31,11 @@ public class ScaledIcon implements Icon {
 	private double ratio = -1;
 
 	/**
-	 * @param source source icon
+	 * @param source source image
 	 * @param ratio scaling ratio
 	 */
-	public ScaledIcon(ImageIcon source, double ratio) {
-		this.source = source;
+	public ScaledIcon(Image source, double ratio) {
+		this.source = new ImageIcon(source);
 		this.ratio = ratio;
 		component = null;
 	}
@@ -130,5 +130,9 @@ public class ScaledIcon implements Icon {
 
 	public void setRatio(double pixelRatio) {
 		this.ratio = pixelRatio;
+	}
+
+	public double getScale() {
+		return ratio;
 	}
 }

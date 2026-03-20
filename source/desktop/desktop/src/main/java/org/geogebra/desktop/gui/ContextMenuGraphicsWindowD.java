@@ -20,7 +20,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.AbstractAction;
-import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -29,6 +28,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.ScaledIcon;
 import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
@@ -42,7 +42,7 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 	private double py;
 	// private JMenuItem miStandardView, miProperties;
 
-	private ImageIcon iconZoom;
+	private ScaledIcon iconZoom;
 
 	public ContextMenuGraphicsWindowD(AppD app) {
 		super(app);

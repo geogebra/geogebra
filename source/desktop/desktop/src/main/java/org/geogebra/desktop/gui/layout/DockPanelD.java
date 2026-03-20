@@ -39,7 +39,7 @@ import java.util.Comparator;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -376,7 +376,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	 *         will return the empty icon or null for Win Vista / 7 to prevent
 	 *         the "checkbox bug"
 	 */
-	public ImageIcon getIcon() {
+	public Icon getIcon() {
 		if (AppD.WINDOWS) {
 			return null;
 		}

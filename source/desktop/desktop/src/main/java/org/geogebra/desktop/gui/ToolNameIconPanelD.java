@@ -171,7 +171,7 @@ public class ToolNameIconPanelD extends JPanel {
 		}
 		{
 			labelIcon = new JLabel();
-			labelIcon.setIcon(app.getToolIcon(null));
+			labelIcon.setIcon(new ImageIcon(app.getToolIconImage(null)));
 			add(labelIcon,
 					new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
 							GridBagConstraints.CENTER, GridBagConstraints.NONE,
@@ -388,7 +388,7 @@ public class ToolNameIconPanelD extends JPanel {
 			iconFileName = Util.checkImageExtension(fileName);
 			labelIcon.setIcon(new ImageIcon(image.getImage()));
 		} else {
-			labelIcon.setIcon(app.getToolIcon(null));
+			labelIcon.setIcon(new ImageIcon(app.getToolIconImage(null)));
 			iconFileName = null;
 		}
 		updateMacro();

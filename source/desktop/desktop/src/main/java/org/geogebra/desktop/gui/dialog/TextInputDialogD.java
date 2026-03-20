@@ -83,7 +83,6 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.DynamicTextInputPane;
 import org.geogebra.desktop.gui.DynamicTextInputPane.DynamicTextField;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.HelpAction;
 import org.geogebra.desktop.gui.util.LatexTable;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
@@ -349,7 +348,7 @@ public class TextInputDialogD extends InputDialogD
 
 		btInsertUnicode.setKeepVisible(false);
 		btInsertUnicode.setStandardButton(true);
-		btInsertUnicode.setFixedIcon(GeoGebraIconD.createDownTriangleIcon(10));
+		btInsertUnicode.setFixedIcon(app.getScaledIcon(GuiResourcesD.TRIANGLE_DOWN));
 		// btInsertUnicode.setText("Symbols");
 
 		String[][] map = TableSymbols.basicSymbolsMap(loc);
@@ -410,7 +409,7 @@ public class TextInputDialogD extends InputDialogD
 
 		btInsertLaTeX.setKeepVisible(false);
 		btInsertLaTeX.setStandardButton(true);
-		btInsertLaTeX.setFixedIcon(GeoGebraIconD.createDownTriangleIcon(10));
+		btInsertLaTeX.setFixedIcon(app.getScaledIcon(GuiResourcesD.TRIANGLE_DOWN));
 		btInsertLaTeX.setVisible(false);
 
 		laTexButtonTitleMap = new HashMap<>();
@@ -575,7 +574,7 @@ public class TextInputDialogD extends InputDialogD
 		btInsertGeo.addPopupMenuItem(scroller);
 		btInsertGeo.setKeepVisible(false);
 		btInsertGeo.setStandardButton(true);
-		btInsertGeo.setFixedIcon(GeoGebraIconD.createDownTriangleIcon(10));
+		btInsertGeo.setFixedIcon(app.getScaledIcon(GuiResourcesD.TRIANGLE_DOWN));
 	}
 
 	// =============================================================

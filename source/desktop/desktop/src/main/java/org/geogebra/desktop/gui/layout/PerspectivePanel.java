@@ -127,8 +127,6 @@ public class PerspectivePanel extends JPopupMenu {
 		Icon ic;
 		if (icon != null) {
 			ic = app.getScaledIcon(icon);
-			// GeoGebraIcon.ensureIconSize((ImageIcon) ic, new
-			// Dimension(40,40));
 		} else {
 			ic = app.getEmptyIcon();
 		}

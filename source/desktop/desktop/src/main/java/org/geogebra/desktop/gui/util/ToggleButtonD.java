@@ -21,10 +21,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.desktop.main.ScaledIcon;
 
 /**
  * Custom toggle button for use in stylebars
@@ -41,12 +41,10 @@ public class ToggleButtonD extends JButton {
 	 * @param icon icon
 	 * @param height height
 	 */
-	public ToggleButtonD(ImageIcon icon, int height) {
+	public ToggleButtonD(ScaledIcon icon, int height) {
 		super(icon);
 		initButton(height);
-
-		Dimension d = new Dimension(icon.getIconWidth(), height);
-		setIcon(GeoGebraIconD.ensureIconSize(icon, d));
+		setIcon(icon);
 	}
 
 	/**

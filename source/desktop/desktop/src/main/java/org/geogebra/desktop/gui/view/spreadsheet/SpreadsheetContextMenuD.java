@@ -23,7 +23,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -173,7 +173,7 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu<JMenu> {
 		menu.add(item);
 	}
 
-	private ImageIcon getIcon(String cmdString) {
+	private Icon getIcon(String cmdString) {
 
 		if (cmdString == null) {
 			return ((AppD) app).getEmptyIcon();

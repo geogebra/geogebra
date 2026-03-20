@@ -32,8 +32,6 @@ import java.awt.dnd.DragSourceEvent;
 import java.awt.dnd.DragSourceListener;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
-
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -41,6 +39,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.desktop.cas.view.CASTableD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.ScaledIcon;
 
 public class CASDragGestureListener
 		implements DragGestureListener, DragSourceListener {
@@ -99,8 +98,8 @@ public class CASDragGestureListener
 		String latex;
 		latex = cell.getLaTeXAlgebraDescription(true,
 				StringTemplate.latexTemplate);
-		ImageIcon ic = GeoGebraIconD.createLatexIcon((AppD) app, latex,
-				((AppD) app).getPlainFont(), Color.DARK_GRAY, null);
+		ScaledIcon ic = GeoGebraIconD.createScaledLatexIcon((AppD) app, latex,
+				((AppD) app).getPlainFont(), Color.DARK_GRAY);
 
 		TransferableCAS transferable = new TransferableCAS(geoLabelList,
 				cellnumber);

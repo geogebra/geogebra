@@ -16,7 +16,7 @@
 
 package org.geogebra.desktop.geogebra3D.gui.layout.panels;
 
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JComponent;
 
 import org.geogebra.common.euclidian.EuclidianView;
@@ -69,7 +69,7 @@ public class EuclidianDockPanel3DD extends EuclidianDockPanelAbstract {
 	}
 
 	@Override
-	public ImageIcon getIcon() {
+	public Icon getIcon() {
 		return app.getMenuIcon(GuiResourcesD.MENU_VIEW_GRAPHICS3D);
 	}
 

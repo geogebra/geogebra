@@ -84,6 +84,7 @@ import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
@@ -1544,9 +1545,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
 	 * @param res image resource ID
-	 * @return image icon
+	 * @return image for given resource ID
 	 */
-	public ImageIcon getImageIcon(ImageResourceD res) {
+	public Image getImage(ImageResourceD res) {
 		return imageManager.getImageIcon(res, null);
 	}
 
@@ -1554,7 +1555,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @param res image resource ID
 	 * @return scaled icon
 	 */
-	public ImageIcon getScaledIcon(ImageResourceD res) {
+	public ScaledIcon getScaledIcon(ImageResourceD res) {
 		return getScaledIcon(res, null);
 	}
 
@@ -1601,18 +1602,18 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @param borderColor border color
 	 * @return scaled icon
 	 */
-	public ImageIcon getScaledIcon(ImageResourceD res, Color borderColor) {
-		ImageIcon icon = imageManager.getImageIcon(res, borderColor);
-		return scaleIcon(icon, getScaledIconSize());
+	public ScaledIcon getScaledIcon(ImageResourceD res, Color borderColor) {
+		Image icon = imageManager.getImageIcon(res, borderColor);
+		return scaleIcon(icon, getScaledIconSize(), getImageManager().getPixelRatio());
 	}
 
 	/**
 	 * @param res resource
 	 * @return scaled icon
 	 */
-	public ImageIcon getScaledIconCommon(ImageResourceD res) {
-		ImageIcon icon = imageManager.getImageIcon(res, null);
-		return scaleIcon(icon, getScaledIconSize());
+	public ScaledIcon getScaledIconCommon(ImageResourceD res) {
+		Image icon = imageManager.getImageIcon(res, null);
+		return scaleIcon(icon, getScaledIconSize(), getImageManager().getPixelRatio());
 	}
 
 	/**
@@ -1620,18 +1621,18 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @param iconSize icon size
 	 * @return scaled icon
 	 */
-	public ImageIcon getScaledIcon(ImageResourceD res, int iconSize) {
-		ImageIcon icon = imageManager.getImageIcon(res, null);
-		return scaleIcon(icon, iconSize);
+	public ScaledIcon getScaledIcon(ImageResourceD res, int iconSize) {
+		Image icon = imageManager.getImageIcon(res, null);
+		return scaleIcon(icon, iconSize, imageManager.getPixelRatio());
 	}
 
-	private static ImageIcon scaleIcon(ImageIcon icon, int iconSize) {
+	private static ScaledIcon scaleIcon(Image icon, int iconSize, double scale) {
 		if (icon == null || iconSize == 0) {
 			return null;
 		}
-		Image img = icon.getImage().getScaledInstance(iconSize, iconSize,
-				Image.SCALE_SMOOTH);
-		return new ImageIcon(img);
+		Image img = icon.getScaledInstance((int) (iconSize * scale),
+				(int) (iconSize * scale), Image.SCALE_SMOOTH);
+		return new ScaledIcon(img, scale);
 
 	}
 
@@ -1653,7 +1654,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 */
 	public ScaledIcon getToolBarImage(String modeText, Color borderColor) {
 
-		ImageIcon icon = imageManager.getImageIcon(
+		Image icon = imageManager.getImageIcon(
 				imageManager.getToolImageResource(modeText), borderColor,
 				Color.WHITE);
 
@@ -1665,7 +1666,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		 */
 
 		if (icon == null) {
-			icon = getToolIcon(borderColor);
+			icon = getToolIconImage(borderColor);
 
 			Log.debug("icon missing for mode " + modeText);
 		}
@@ -1676,9 +1677,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
 	 * @param border border color
-	 * @return tool icon
+	 * @return generic tool icon image
 	 */
-	public ImageIcon getToolIcon(Color border) {
+	public Image getToolIconImage(Color border) {
 		ImageResourceD res;
 		if (imageManager.getMaxIconSize() <= 32 && imageManager.getPixelRatio() <= 1.0) {
 			res = GuiResourcesD.TOOL_MODE32;
@@ -1690,7 +1691,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	public ImageIcon getEmptyIcon() {
-		return imageManager.getImageIcon(GuiResourcesD.EMPTY);
+		return new ImageIcon(imageManager.getImageIcon(GuiResourcesD.EMPTY));
 	}
 
 	/**
@@ -1707,14 +1708,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public Image getRefreshViewImage() {
 		// don't need to load gui jar as reset image is in main jar
 		return getMenuInternalImage(GuiResourcesD.VIEW_REFRESH);
-	}
-
-	/***
-	 * @return returns NAV_PLAY image
-	 */
-	public Image getPlayImage() {
-		// don't need to load gui jar as reset image is in main jar
-		return imageManager.getInternalImage(GuiResourcesD.NAV_PLAY).getImage();
 	}
 
 	/***
@@ -1751,15 +1744,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// don't need to load gui jar as reset image is in main jar
 		return imageManager
 				.getInternalImage(GuiResourcesD.NAV_PAUSE_CIRCLE_HOVER)
-				.getImage();
-	}
-
-	/***
-	 * @return returns NAV_PAUSE image
-	 */
-	public Image getPauseImage() {
-		// don't need to load gui jar as reset image is in main jar
-		return imageManager.getInternalImage(GuiResourcesD.NAV_PAUSE)
 				.getImage();
 	}
 
@@ -1820,13 +1804,13 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				MyImageD img = getExternalImage(iconName);
 				if (img == null || img.isSVG()) {
 					// default icon
-					icon = new ScaledIcon(getToolIcon(border), imageManager.getPixelRatio());
+					icon = new ScaledIcon(getToolIconImage(border), imageManager.getPixelRatio());
 				} else {
 					// use image as icon
 					int size = imageManager.getMaxScaledIconSize();
-					icon = new ScaledIcon(new ImageIcon(ImageManagerD.addBorder(img.getImage()
+					icon = new ScaledIcon(ImageManagerD.addBorder(img.getImage()
 							.getScaledInstance(size, -1, Image.SCALE_SMOOTH),
-							border, null)), imageManager.getPixelRatio());
+							border, null), imageManager.getPixelRatio());
 				}
 			} catch (Exception e) {
 				Log.debug("macro does not exist: ID = " + macroID);
@@ -4429,7 +4413,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @param res ImageResourceD
 	 * @return ImageIcon
 	 */
-	public ImageIcon getMenuIcon(ImageResourceD res) {
+	public Icon getMenuIcon(ImageResourceD res) {
 		if (isMacOS()) {
 			// fixed-size, 16x16 icons for mac menu
 			return getScaledIcon(res, 16);

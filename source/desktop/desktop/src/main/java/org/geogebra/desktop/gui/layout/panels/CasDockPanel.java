@@ -16,7 +16,7 @@
 
 package org.geogebra.desktop.gui.layout.panels;
 
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JComponent;
 
 import org.geogebra.common.cas.view.CASView;
@@ -75,7 +75,7 @@ public class CasDockPanel extends NavigableDockPanel {
 	}
 
 	@Override
-	public ImageIcon getIcon() {
+	public Icon getIcon() {
 		return app.getMenuIcon(GuiResourcesD.MENU_VIEW_CAS);
 	}
 }

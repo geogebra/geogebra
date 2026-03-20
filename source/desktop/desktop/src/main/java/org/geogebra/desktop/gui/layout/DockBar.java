@@ -24,6 +24,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -127,11 +128,11 @@ public class DockBar extends JPanel implements SetLabels, DockBarInterface {
 	public void setSidebarTriangle(boolean popupIsVisible) {
 
 		if (popupIsVisible ^ !isEastOrientation()) {
-			lblIcon.setIcon(
-					app.getImageIcon(GuiResourcesD.DOCKBAR_TRIANGLE_RIGHT));
+			lblIcon.setIcon(new ImageIcon(
+					app.getImage(GuiResourcesD.DOCKBAR_TRIANGLE_RIGHT)));
 		} else {
 			lblIcon.setIcon(
-					app.getImageIcon(GuiResourcesD.DOCKBAR_TRIANGLE_LEFT));
+					new ImageIcon(app.getImage(GuiResourcesD.DOCKBAR_TRIANGLE_LEFT)));
 		}
 
 		slimSidebarPanel.repaint();

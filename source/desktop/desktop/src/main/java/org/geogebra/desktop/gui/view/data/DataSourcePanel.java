@@ -35,7 +35,7 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JLabel;
@@ -589,8 +589,8 @@ public class DataSourcePanel extends JPanel
 				.getBorder("TableHeader.cellBorder");
 
 		protected Font font = UIManager.getFont("TableHeader.font");
-		private final ImageIcon importIcon;
-		private final ImageIcon importIconRollover;
+		private final Icon importIcon;
+		private final Icon importIconRollover;
 
 		protected HeaderTableCellRenderer() {
 			setLayout(new BorderLayout());
@@ -835,7 +835,7 @@ public class DataSourcePanel extends JPanel
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public ImageButton(ImageIcon imageIcon) {
+		public ImageButton(Icon imageIcon) {
 			super(imageIcon);
 			setMargin(new Insets(0, 0, 0, 0));
 			setBorderPainted(false);

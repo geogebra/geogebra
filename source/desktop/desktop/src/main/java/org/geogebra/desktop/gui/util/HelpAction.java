@@ -19,7 +19,7 @@ package org.geogebra.desktop.gui.util;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 
 import org.geogebra.common.util.ManualPage;
 import org.geogebra.desktop.main.AppD;
@@ -43,7 +43,7 @@ public class HelpAction extends AbstractAction {
 	 * @param name name
 	 * @param articleName help article name
 	 */
-	public HelpAction(AppD app, ImageIcon icon, String name,
+	public HelpAction(AppD app, Icon icon, String name,
 			ManualPage articleName) {
 		super(name, icon);
 		this.app = app;

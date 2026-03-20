@@ -777,8 +777,8 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 
 	@Override
 	public void updateStemPlot(String latex) {
-		imageContainer.setIcon(GeoGebraIconD.createLatexIcon(app, latex,
-				app.getPlainFont(), Color.BLACK, null));
+		imageContainer.setIcon(GeoGebraIconD.createScaledLatexIcon(app, latex,
+				app.getPlainFont(), Color.BLACK));
 		btnOptions.setVisible(false);
 		if (hasControlPanel) {
 			showCardPanel(controlCards, "stemAdjustPanel");

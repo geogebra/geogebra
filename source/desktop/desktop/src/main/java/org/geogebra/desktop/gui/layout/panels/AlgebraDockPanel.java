@@ -20,7 +20,7 @@ import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 
@@ -83,7 +83,7 @@ public class AlgebraDockPanel extends NavigableDockPanel {
 	}
 
 	@Override
-	public ImageIcon getIcon() {
+	public Icon getIcon() {
 		return app.getMenuIcon(GuiResourcesD.MENU_VIEW_ALGEBRA);
 	}
 

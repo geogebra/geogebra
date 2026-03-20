@@ -16,7 +16,7 @@
 
 package org.geogebra.desktop.gui.layout.panels;
 
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JComponent;
 
 import org.geogebra.common.main.App;
@@ -57,7 +57,7 @@ public class ConstructionProtocolDockPanel extends NavigableDockPanel {
 	}
 
 	@Override
-	public ImageIcon getIcon() {
+	public Icon getIcon() {
 		return app.getMenuIcon(GuiResourcesD.MENU_VIEW_CONSTRUCTION_PROTOCOL);
 	}
 }

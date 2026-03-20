@@ -26,7 +26,6 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
@@ -473,34 +472,28 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	/**
 	 * @return button icon
 	 */
-	public ImageIcon getButtonIcon() {
-		ImageIcon icon = (ImageIcon) this.getIcon();
+	public Icon getButtonIcon() {
 		if (isFixedIcon) {
-			return icon;
+			return this.getIcon();
 		}
-
+		Icon icon = getIcon();
 		// draw the icon for the current table selection
 		if (hasTable) {
-			switch (mode) {
-			case MODE_TEXT:
-				// Strings are converted to icons. We don't use setText so that
-				// the button size can be controlled
-				// regardless of the layout manager.
-				String content = getSelectedIndex() >= 0 ? (String) data[getSelectedIndex()] : " ";
-				icon = GeoGebraIconD.createStringIcon(
-						content, app.getPlainFont(),
-						false, false, true, iconSize, Color.BLACK, null);
-
-				break;
-
-			case MODE_ICON:
-			case MODE_LATEX:
-				icon = (ImageIcon) myTable.getSelectedValue();
-				break;
-
-			default:
-				icon = myTable.getDataIcon(data[getSelectedIndex()]);
-			}
+			return switch (mode) {
+				case MODE_TEXT -> {
+					// Strings are converted to icons. We don't use setText so that
+					// the button size can be controlled
+					// regardless of the layout manager.
+					String content =
+							getSelectedIndex() >= 0 ? (String) data[getSelectedIndex()] : " ";
+					yield GeoGebraIconD.createStringIcon(
+							content, app.getPlainFont(),
+							false, false, true, iconSize, Color.BLACK, null,
+							app.getImageManager().getPixelRatio());
+				}
+				case MODE_ICON, MODE_LATEX -> (Icon) myTable.getSelectedValue();
+				default -> myTable.getDataIcon(data[getSelectedIndex()]);
+			};
 		}
 		return icon;
 	}
@@ -524,15 +517,12 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 			}
 		}
 
-		if (icon == null) {
-			// icon = GeoGebraIcon.createEmptyIcon(1, iconSize.height);
-		} else {
-			icon = GeoGebraIconD.ensureIconSize((ImageIcon) icon, iconSize);
-		}
-
 		// add a down_triangle image to the left of the icon
+		if (icon instanceof JoinedScaledIcon joinedScaledIcon) {
+			icon = joinedScaledIcon.getLeftIcon();
+		}
 		if (icon != null) {
-			super.setIcon(GeoGebraIconD.joinIcons((ImageIcon) icon,
+			super.setIcon(GeoGebraIconD.joinIcons(icon,
 					app.getScaledIcon(GuiResourcesD.TRIANGLE_DOWN)));
 		} else {
 			super.setIcon(app.getScaledIcon(GuiResourcesD.TRIANGLE_DOWN));

@@ -21,7 +21,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 
@@ -30,6 +29,7 @@ import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.desktop.gui.util.ToggleButtonD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.main.ScaledIcon;
 import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
@@ -88,7 +88,7 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 		btnNormalOverlay.setIcon(getScaledIcon(GuiResourcesD.NORMAL_OVERLAY));
 	}
 
-	private ImageIcon getScaledIcon(GuiResourcesD resource) {
+	private ScaledIcon getScaledIcon(GuiResourcesD resource) {
 		return ((AppD) getApp()).getScaledIcon(resource);
 	}
 

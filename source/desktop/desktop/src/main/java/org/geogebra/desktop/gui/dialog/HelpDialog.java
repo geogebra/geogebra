@@ -65,7 +65,7 @@ public class HelpDialog {
 
 			if (img == null || img.isSVG()) {
 				// default icon
-				icon = app.getToolIcon(border);
+				icon = new ImageIcon(app.getToolIconImage(border));
 			} else {
 				// use image as icon
 				icon = new ImageIcon(
@@ -75,7 +75,7 @@ public class HelpDialog {
 		} else {
 
 			modeTextInternal = EuclidianConstants.getModeHelpPage(mode);
-			icon = app.getToolBarImage(modeTextInternal, Color.BLACK);
+			icon = app.getToolBarImage(EuclidianConstants.getModeIconName(mode), Color.BLACK);
 		}
 		Localization loc = app.getLocalization();
 		Object[] options = { loc.getMenu("ShowOnlineHelp"),

@@ -28,7 +28,6 @@ import java.util.Locale;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -180,7 +179,7 @@ public class ConstructionProtocolNavigationD
 		playPanel.setVisible(showPlayButton);
 		playPanel.add(Box.createRigidArea(new Dimension(20, 10)));
 		btPlay = new JButton();
-		btPlay.setIcon(new ImageIcon(appD.getPlayImage()));
+		btPlay.setIcon(appD.getScaledIcon(GuiResourcesD.NAV_PLAY));
 		btPlay.addActionListener(this);
 
 		spDelay.addChangeListener(e -> {
@@ -309,13 +308,13 @@ public class ConstructionProtocolNavigationD
 
 	@Override
 	public void setButtonPlay() {
-		btPlay.setIcon(new ImageIcon(((AppD) app).getPlayImage()));
+		btPlay.setIcon(((AppD) app).getScaledIcon(GuiResourcesD.NAV_PLAY));
 		btPlay.setText(loc.getMenu("Play"));
 	}
 
 	@Override
 	public void setButtonPause() {
-		btPlay.setIcon(new ImageIcon(((AppD) app).getPauseImage()));
+		btPlay.setIcon(((AppD) app).getScaledIcon(GuiResourcesD.NAV_PAUSE));
 		btPlay.setText(loc.getMenu("Pause"));
 	}
 
@@ -323,7 +322,7 @@ public class ConstructionProtocolNavigationD
 	 * Steps through the construction automatically.
 	 */
 	private class AutomaticPlayer implements ActionListener {
-		private Timer timer; // for animation
+		private final Timer timer; // for animation
 
 		/**
 		 * Creates a new player to step through the construction automatically.

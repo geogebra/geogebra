@@ -69,6 +69,7 @@ import org.geogebra.desktop.gui.autocompletion.CommandCompletionListCellRenderer
 import org.geogebra.desktop.gui.autocompletion.CompletionsPopup;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.ScaledIcon;
 
 public class AutoCompleteTextFieldD extends MathTextField
 		implements AutoComplete, AutoCompleteTextField {
@@ -210,8 +211,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 				historyPopup.showPopup();
 			}
 		};
-		setBorderButton(1, GeoGebraIconD.createUpDownTriangleIcon(false, true),
-				al);
+		ScaledIcon upDownTriangleIcon = GeoGebraIconD.createUpDownTriangleIcon(false, true,
+				app.getImageManager().getPixelRatio());
+		setBorderButton(1, upDownTriangleIcon, al);
 		this.setBorderButtonVisible(1, false);
 	}
 

@@ -25,7 +25,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -44,6 +43,7 @@ import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.main.ScaledIcon;
 
 /**
  * Panel to select and display the DataAnalysisView regression model.
@@ -274,8 +274,8 @@ public class RegressionPanelD extends JPanel
 		}
 
 		// create an icon with the LaTeX string
-		ImageIcon icon = GeoGebraIconD.createLatexIcon(app, eqn,
-				this.getFont(), Color.RED, null);
+		ScaledIcon icon = GeoGebraIconD.createScaledLatexIcon(app, eqn,
+				this.getFont(), Color.RED);
 
 		// set the label icon with our equation string
 		lblRegEquation.setIcon(icon);

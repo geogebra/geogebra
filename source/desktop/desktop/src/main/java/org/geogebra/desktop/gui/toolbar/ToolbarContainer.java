@@ -19,7 +19,6 @@ package org.geogebra.desktop.gui.toolbar;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.FontMetrics;
 import java.awt.GridBagConstraints;
@@ -33,11 +32,10 @@ import java.text.BreakIterator;
 import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -368,9 +366,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	}
 
 	private JButton newJButton(GuiResourcesD icon) {
-		JButton ret = new JButton(app.getScaledIcon(icon, app.getScaledIconSize()));
-		//ret.setMinimumSize(new Dimension(24, 24));
-		return ret;
+		return new JButton(app.getScaledIcon(icon, app.getScaledIconSize()));
 	}
 
 	/**
@@ -827,7 +823,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 			for (final OptionType type : OptionType.values()) {
 				String menuText = PropertiesView.getTypeStringSimple(loc, type);
-				ImageIcon ic = PropertiesViewD.getTypeIcon(app, type);
+				Icon ic = PropertiesViewD.getTypeIcon(app, type);
 				JMenuItem item = new JMenuItem(menuText, ic);
 
 				// not available if no objects yet

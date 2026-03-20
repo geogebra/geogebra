@@ -227,9 +227,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		this.view = view;
 
 		grabCursor = createCursor(
-				app.getImageIcon(GuiResourcesD.CURSOR_GRAB).getImage(), true);
+				app.getImage(GuiResourcesD.CURSOR_GRAB), true);
 		grabbingCursor = createCursor(
-				app.getImageIcon(GuiResourcesD.CURSOR_GRABBING).getImage(),
+				app.getImage(GuiResourcesD.CURSOR_GRABBING),
 				true);
 
 		// set row height

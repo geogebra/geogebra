@@ -28,7 +28,7 @@ import java.util.HashMap;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -103,7 +103,7 @@ public class PropertiesStyleBarD {
 			if (btn != null) {
 				btn.setFont(app.getPlainFont());
 				btn.setToolTipText(propertiesView.getTypeString(type));
-				ImageIcon icon = PropertiesViewD.getTypeIcon(app, type);
+				Icon icon = PropertiesViewD.getTypeIcon(app, type);
 				if (icon == null) {
 					Log.error("No icon for" + type);
 				} else {

@@ -209,7 +209,7 @@ public final class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		recentPanel.setMaximumSize(getPreferredSize());
 
 		// create a button to open a RGB color chooser for custom colors
-		btnCustomColor = new JButton(app.getImageIcon(GuiResourcesD.LIST_ADD));
+		btnCustomColor = new JButton(app.getScaledIcon(GuiResourcesD.LIST_ADD));
 		btnCustomColor.addActionListener(new CustomButtonActionListener());
 		btnCustomColor.setPreferredSize(new Dimension(24, 18));
 		btnCustomColor.setFocusPainted(false);
@@ -466,9 +466,8 @@ public final class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 							if (app != null) {
 								g2d.drawImage(
-										app.getImageIcon(
-												GuiResourcesD.COLOR_CHOOSER_CHECK)
-												.getImage(),
+										app.getImage(
+												GuiResourcesD.COLOR_CHOOSER_CHECK),
 										x + 3, y + 3, null);
 							}
 						}

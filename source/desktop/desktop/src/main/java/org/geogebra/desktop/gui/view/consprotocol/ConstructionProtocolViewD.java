@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.AbstractCellEditor;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -682,8 +682,6 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			} else {
 				colData.setVisible(false);
 				model.removeColumn(column);
-				// setSize(getWidth() - column.getWidth(), getHeight());
-				// setSize(view.getWidth(), getHeight());
 			}
 			table.tableChanged(new TableModelEvent(
 					((ConstructionTableDataD) data).getImpl()));
@@ -691,6 +689,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			// reinit view to update possible breakpoint changes
 			data.initView();
 			SwingUtilities.updateComponentTreeUI(view.scrollPane);
+			// make sure row heights fit icons
+			data.updateAll();
 		}
 	}
 
@@ -739,7 +739,6 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		private static final long serialVersionUID = -9165858653728142643L;
 
 		private JCheckBox cbTemp = new JCheckBox();
-		private JLabel iTemp = new JLabel();
 
 		public ConstructionTableCellRenderer() {
 			setOpaque(true);
@@ -754,14 +753,12 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			// Boolean value: show as checkbox
 			boolean isBoolean = value instanceof Boolean;
 
-			boolean isImage = value instanceof ImageIcon;
+			boolean isImage = value instanceof Icon;
 
 			Component comp;
 
 			if (isBoolean) {
 				comp = cbTemp;
-			} else if (isImage) {
-				comp = iTemp;
 			} else {
 				comp = this;
 			}
@@ -797,21 +794,13 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			comp.setFont(table1.getFont());
 
 			if (isBoolean) {
-				cbTemp.setSelected(((Boolean) value).booleanValue());
+				cbTemp.setSelected((Boolean) value);
 				cbTemp.setEnabled(true);
 				return cbTemp;
 			}
 			if (isImage) {
-				/*
-				 * Scaling does not work yet. I wonder why. Image miniImage =
-				 * ((ImageIcon) value).getImage().getScaledInstance(16,16,0);
-				 * ImageIcon miniIcon = new ImageIcon();
-				 * miniIcon.setImage(miniImage); iTemp.setIcon((ImageIcon)
-				 * value); iTemp.setHorizontalAlignment(JLabel.CENTER);
-				 * iTemp.setMaximumSize(new Dimension(16,16)); return iTemp;
-				 */
-				iTemp.setIcon((ImageIcon) value);
-				return iTemp;
+				this.setIcon((Icon) value);
+				return this;
 			}
 
 			setText((value == null) ? "" : value.toString());

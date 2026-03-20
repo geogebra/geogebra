@@ -28,12 +28,14 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.geogebra.common.euclidian.EuclidianStatic;
@@ -48,6 +50,7 @@ import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.euclidian.DrawEquationD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.ScaledIcon;
 import org.geogebra.desktop.util.ImageResourceD;
 import org.geogebra.editor.share.util.Unicode;
 
@@ -71,10 +74,10 @@ public class GeoGebraIconD {
 	 * @param height height
 	 * @return empty icon with given size
 	 */
-	public static ImageIcon createEmptyIcon(int width, int height) {
+	public static ScaledIcon createEmptyIcon(int width, int height) {
 		BufferedImage image = new BufferedImage(width, height,
 				BufferedImage.TYPE_INT_ARGB);
-		return new ImageIcon(image);
+		return new ScaledIcon(image, 1.0);
 	}
 
 	/**
@@ -82,26 +85,27 @@ public class GeoGebraIconD {
 	 * @param height height
 	 * @return |X| shaped icon
 	 */
-	public static ImageIcon createNullSymbolIcon(int width, int height) {
-		BufferedImage image = new BufferedImage(width, height,
-				BufferedImage.TYPE_INT_ARGB);
+	public static ScaledIcon createNullSymbolIcon(int width, int height, double scale) {
+		BufferedImage image = newBufferedImage(width, height, scale);
 
 		Graphics2D g2 = createGraphics(image);
 
 		g2.setPaint(Color.GRAY);
+		g2.scale(scale, scale);
 		// draw a rectangle with an x inside
 		g2.drawRect(3, 3, width - 6, height - 6);
 		int k = 7;
 		g2.drawLine(k, k, width - k, height - k);
 		g2.drawLine(k, height - k, width - k, k);
-		return new ImageIcon(image);
+		g2.dispose();
+		return new ScaledIcon(image, scale);
 	}
 
 	/**
 	 * @param res resource
 	 * @return icon with given image
 	 */
-	public static ImageIcon createFileImageIcon(ImageResourceD res) {
+	public static ScaledIcon createFileImageIcon(ImageResourceD res, double scale) {
 		URL url = GeoGebraIconD.class.getResource(res.getFilename());
 
 		try {
@@ -109,10 +113,13 @@ public class GeoGebraIconD {
 			icon.setAntiAlias(true);
 			icon.setPreferredSize(new Dimension(32, 32));
 
-			BufferedImage bufferedImage = new BufferedImage(icon.getIconWidth() + 5,
-					icon.getIconHeight() + 5, BufferedImage.TYPE_INT_ARGB);
-			icon.paintIcon(null, bufferedImage.createGraphics(), 0, 0);
-			return new ImageIcon(bufferedImage);
+			BufferedImage bufferedImage = newBufferedImage(icon.getIconWidth() + 5,
+					icon.getIconHeight() + 5, scale);
+			Graphics2D graphics = bufferedImage.createGraphics();
+			graphics.scale(scale, scale);
+			icon.paintIcon(null, graphics, 0, 0);
+			graphics.dispose();
+			return new ScaledIcon(bufferedImage, scale);
 		} catch (Exception e) {
 			Log.debug("Error loading icon: " + url);
 		}
@@ -124,15 +131,14 @@ public class GeoGebraIconD {
 	 * @param iconSize size
 	 * @return horizontal grid icon
 	 */
-	public static ImageIcon createHGridIcon(Dimension iconSize) {
+	public static ScaledIcon createHGridIcon(Dimension iconSize, double scale) {
 
 		int h = iconSize.height;
 		int w = iconSize.width;
-		BufferedImage image = new BufferedImage(w, h,
-				BufferedImage.TYPE_INT_ARGB);
+		BufferedImage image = newBufferedImage(w, h, scale);
 
 		Graphics2D g2 = createGraphics(image);
-
+		g2.scale(scale, scale);
 		// draw 3 horizontal lines
 		g2.setPaint(Color.GRAY);
 		int gap = h / 4;
@@ -143,22 +149,22 @@ public class GeoGebraIconD {
 
 			g2.drawLine(HGRID_MARGIN, y, h - HGRID_MARGIN, y);
 		}
-		return new ImageIcon(image);
+		g2.dispose();
+		return new ScaledIcon(image, scale);
 	}
 
 	/**
 	 * @param iconSize size
 	 * @return vertical grid icon
 	 */
-	public static ImageIcon createVGridIcon(Dimension iconSize) {
+	public static ScaledIcon createVGridIcon(Dimension iconSize, double scale) {
 
 		int h = iconSize.height;
 		int w = iconSize.width;
-		BufferedImage image = new BufferedImage(w, h,
-				BufferedImage.TYPE_INT_ARGB);
+		BufferedImage image = newBufferedImage(w, h, scale);
 
 		Graphics2D g2 = createGraphics(image);
-
+		g2.scale(scale, scale);
 		// draw 3 horizontal lines
 		g2.setPaint(Color.GRAY);
 		int gap = w / 4;
@@ -168,56 +174,32 @@ public class GeoGebraIconD {
 			int x = margin + i * gap;
 			g2.drawLine(x, VGRID_MARGIN, x, h - VGRID_MARGIN);
 		}
-
-		return new ImageIcon(image);
+		g2.dispose();
+		return new ScaledIcon(image, scale);
 	}
 
 	private static Graphics2D createGraphics(BufferedImage image) {
 		Graphics2D g2 = image.createGraphics();
-
 		GGraphics2DD.setAntialiasing(g2);
-
 		return g2;
-	}
-
-	/**
-	 * @param height size
-	 * @return down triangle icon
-	 */
-	public static ImageIcon createDownTriangleIcon(int height) {
-		int width = 8;
-		BufferedImage image = new BufferedImage(width, height,
-				BufferedImage.TYPE_INT_ARGB);
-
-		Graphics2D g2 = createGraphics(image);
-
-		g2.setColor(Color.BLACK);
-		int x = 1;
-		int y = height / 2 - 1;
-		g2.drawLine(x, y, x + 6, y);
-		g2.drawLine(x + 1, y + 1, x + 5, y + 1);
-		g2.drawLine(x + 2, y + 2, x + 4, y + 2);
-		g2.drawLine(x + 3, y + 3, x + 3, y + 3);
-
-		return new ImageIcon(image);
 	}
 
 	/**
 	 * @param font0 font
 	 * @return symbol icon with alpha in a rectangle
 	 */
-	public static ImageIcon createSymbolTableIcon(Font font0) {
+	public static ScaledIcon createSymbolTableIcon(Font font0, double scale) {
 		int s = 14;
 		String alpha = Unicode.alpha + "";
 
-		BufferedImage image = new BufferedImage(s, s,
-				BufferedImage.TYPE_INT_ARGB);
+		BufferedImage image = newBufferedImage(s, s, scale);
 
 		Graphics2D g2 = createGraphics(image);
 
 		g2.setPaint(Color.DARK_GRAY);
 
 		Font font = font0.deriveFont(Font.BOLD, s);
+		g2.scale(scale, scale);
 		g2.setFont(font);
 		g2.setColor(Color.DARK_GRAY);
 		drawCenteredText(g2, alpha, s / 2 - 1, s / 2);
@@ -227,7 +209,8 @@ public class GeoGebraIconD {
 		g2.setColor(Color.LIGHT_GRAY);
 		g2.drawLine(s - 1, 1, s - 1, s - 1);
 		g2.drawLine(1, s - 1, s - 1, s - 1);
-		return new ImageIcon(image);
+		g2.dispose();
+		return new ScaledIcon(image, scale);
 	}
 
 	private static void drawCenteredText(Graphics2D graphics, String text,
@@ -267,20 +250,17 @@ public class GeoGebraIconD {
 	 * Creates an icon for a popup list --- two triangles pointing up and down
 	 * @return icon for popup
 	 */
-	public static ImageIcon createUpDownTriangleIcon(boolean isRollOver,
-			boolean isEnabled) {
+	public static ScaledIcon createUpDownTriangleIcon(boolean isRollOver,
+			boolean isEnabled, double scale) {
 
 		int h = 18;
 		int w = 12;
-		BufferedImage image = new BufferedImage(w, h,
-				BufferedImage.TYPE_INT_ARGB);
+		BufferedImage image = newBufferedImage(w, h, scale);
 
 		Graphics2D g2 = createGraphics(image);
 
 		if (!isEnabled) {
-
-			ImageIcon ic = new ImageIcon(image);
-			return ic;
+			return new ScaledIcon(image, scale);
 		}
 		if (isRollOver) {
 			g2.setColor(Color.LIGHT_GRAY);
@@ -318,8 +298,8 @@ public class GeoGebraIconD {
 		p.addPoint(midx, midy + 6);
 
 		g2.fillPolygon(p);
-
-		return new ImageIcon(image);
+		g2.dispose();
+		return new ScaledIcon(image, scale);
 	}
 
 	/**
@@ -329,12 +309,12 @@ public class GeoGebraIconD {
 	 * @param bgColor background
 	 * @return color swatch icon
 	 */
-	public static ImageIcon createColorSwatchIcon(double alpha,
-			Dimension iconSize, Color fgColor0, Color bgColor) {
+	public static ScaledIcon createColorSwatchIcon(double alpha,
+			Dimension iconSize, Color fgColor0, Color bgColor,
+			double scale) {
 
 		int h = iconSize.height;
 		int w = iconSize.width;
-		int offset = 2;
 
 		// if fgColor is null then make it a transparent white
 		Color fgColor = fgColor0;
@@ -342,14 +322,12 @@ public class GeoGebraIconD {
 			fgColor = new Color(255, 255, 255, 1);
 		}
 
-		BufferedImage image = new BufferedImage(w, h,
-				BufferedImage.TYPE_INT_ARGB);
-
+		BufferedImage image = newBufferedImage(w, h, scale);
 		Graphics2D g2 = createGraphics(image);
 
 		--h;
 		--w;
-
+		g2.scale(scale, scale);
 		if (bgColor != null) {
 			g2.setPaint(bgColor);
 			g2.fillRect(0, 0, w, h);
@@ -358,6 +336,7 @@ public class GeoGebraIconD {
 		// interior fill color using alpha level
 
 		float[] rgb = new float[3];
+		int offset = 2;
 		fgColor.getRGBColorComponents(rgb);
 		g2.setPaint(new Color(rgb[0], rgb[1], rgb[2], (float) alpha));
 		g2.fillRect(offset, offset, w - 2 * offset, h - 2 * offset);
@@ -367,8 +346,8 @@ public class GeoGebraIconD {
 		g2.setPaint(fgColor);
 		g2.setStroke(new BasicStroke(thickness));
 		g2.drawRect(offset, offset, w - 2 * offset, h - 2 * offset);
-
-		return new ImageIcon(image);
+		g2.dispose();
+		return new ScaledIcon(image, scale);
 	}
 
 	/**
@@ -379,17 +358,16 @@ public class GeoGebraIconD {
 	 * @param bgColor background color
 	 * @return image of a dashed line
 	 */
-	public static ImageIcon createLineStyleIcon(int dashStyle, int thickness,
-			Dimension iconSize, Color fgColor, Color bgColor) {
+	public static ScaledIcon createLineStyleIcon(int dashStyle, int thickness,
+			Dimension iconSize, Color fgColor, Color bgColor, double scale) {
 
 		int h = iconSize.height;
 		int w = iconSize.width;
 
-		BufferedImage image = new BufferedImage(w, h,
-				BufferedImage.TYPE_INT_ARGB);
+		BufferedImage image = newBufferedImage(w, h, scale);
 
 		Graphics2D g2 = createGraphics(image);
-
+		g2.scale(scale, scale);
 		if (bgColor != null) {
 			g2.setPaint(bgColor);
 			g2.fillRect(0, 0, w, h);
@@ -401,8 +379,8 @@ public class GeoGebraIconD {
 				.getAwtStroke(EuclidianStatic.getStroke(thickness, dashStyle)));
 		int mid = h / 2;
 		g2.drawLine(4, mid, w - 4, mid);
-
-		return new ImageIcon(image);
+		g2.dispose();
+		return new ScaledIcon(image, scale);
 	}
 
 	/**
@@ -414,21 +392,20 @@ public class GeoGebraIconD {
 	 * @param bgColor background color
 	 * @return symbol icon
 	 */
-	public static ImageIcon createTextSymbolIcon(String symbol, Font font,
-			Dimension iconSize, Color fgColor, Color bgColor) {
+	public static ScaledIcon createTextSymbolIcon(String symbol, Font font,
+			Dimension iconSize, Color fgColor, Color bgColor, double scale) {
 
 		int h = iconSize.height;
 		int w = iconSize.width;
 
-		BufferedImage image = new BufferedImage(w, h,
-				BufferedImage.TYPE_INT_ARGB);
+		BufferedImage image = newBufferedImage(w, h, scale);
 
 		Graphics2D g2 = createGraphics(image);
 
 		if (bgColor != null) {
 			g2.setBackground(bgColor);
 		}
-
+		g2.scale(scale, scale);
 		g2.setColor(fgColor);
 		g2.setFont(new Font(font.getFamily(), Font.PLAIN, h - 9));
 
@@ -441,23 +418,22 @@ public class GeoGebraIconD {
 
 		g2.drawString(symbol, msg_x, msg_y - 2);
 		g2.fillRect(1, h - 5, w - 1, 3);
-
-		return new ImageIcon(image);
+		g2.dispose();
+		return new ScaledIcon(image, scale);
 	}
 
 	/**
 	 * Creates a 16x16 icon to represent a cell grid background color
 	 * @return cell grid icon
 	 */
-	public static ImageIcon createCellGridIcon(Color fgColor, Color bgColor) {
+	public static ScaledIcon createCellGridIcon(Color fgColor, Color bgColor, double scale) {
 		int h = 16;
 		int w = 16;
 
-		BufferedImage image = new BufferedImage(w, h,
-				BufferedImage.TYPE_INT_ARGB);
+		BufferedImage image = newBufferedImage(w, h, scale);
 
 		Graphics2D g2 = createGraphics(image);
-
+		g2.scale(scale, scale);
 		// fill rectangle with bgColor (the selected color)
 		g2.setPaint(bgColor);
 		g2.fillRect(0, 3, 15, 9);
@@ -465,8 +441,8 @@ public class GeoGebraIconD {
 		// draw border around the colored rectangle
 		g2.setColor(fgColor);
 		g2.drawRect(0, 3, 15, 9);
-
-		return new ImageIcon(image);
+		g2.dispose();
+		return new ScaledIcon(image, scale);
 	}
 
 	/**
@@ -480,17 +456,16 @@ public class GeoGebraIconD {
 	 * @param bgColor background color
 	 * @return image of a text with a background
 	 */
-	public static ImageIcon createStringIcon(String str, Font font0,
+	public static ScaledIcon createStringIcon(String str, Font font0,
 			boolean isBold, boolean isItalic, boolean isCentered,
-			Dimension iconSize, Color fgColor, Color bgColor) {
+			Dimension iconSize, Color fgColor, Color bgColor, double scale) {
 		int h = iconSize.height;
 		int w = iconSize.width;
 
-		BufferedImage image = new BufferedImage(w, h,
-				BufferedImage.TYPE_INT_ARGB);
+		BufferedImage image = newBufferedImage(w, h, scale);
 
 		Graphics2D g2 = createGraphics(image);
-
+		g2.scale(scale, scale);
 		if (bgColor != null) {
 			g2.setBackground(bgColor);
 		}
@@ -514,20 +489,26 @@ public class GeoGebraIconD {
 		int mid_y = h / 2 - descent / 2 + ascent / 2 - 1;
 
 		g2.drawString(str, x, mid_y);
-
-		return new ImageIcon(image);
+		g2.dispose();
+		return new ScaledIcon(image, scale);
 	}
 
 	/**
-	 * Draw a LaTeX image in the icon.
-	 * @return image of LaTeX formula
+	 * @param app application
+	 * @param latex LaTeX string
+	 * @param font font
+	 * @param fgColor text color
+	 * @return icon
 	 */
-	public static ImageIcon createLatexIcon(AppD app, String latex, Font font,
-			Color fgColor, Color bgColor) {
+	public static ScaledIcon createScaledLatexIcon(AppD app, String latex, Font font,
+			Color fgColor) {
+		Font font1 = font.deriveFont(
+				(float) (font.getSize2D() * app.getImageManager().getPixelRatio()));
 		app.getDrawEquation().checkFirstCall();
-		return new ImageIcon((BufferedImage) TeXFormula.createBufferedImage(
-				latex, TeXConstants.STYLE_DISPLAY, font.getSize() + 3,
-				DrawEquationD.toAwtColor(fgColor), DrawEquationD.toAwtColor(bgColor)));
+		Image baseIcon = (BufferedImage) TeXFormula.createBufferedImage(
+				latex, TeXConstants.STYLE_DISPLAY, font1.getSize() + 3,
+				DrawEquationD.toAwtColor(fgColor), DrawEquationD.toAwtColor(null));
+		return new ScaledIcon(baseIcon, app.getImageManager().getPixelRatio());
 	}
 
 	/**
@@ -538,19 +519,19 @@ public class GeoGebraIconD {
 	 * @param bgColor background color
 	 * @return styled point icon
 	 */
-	public static ImageIcon createPointStyleIcon(int pointStyle, int pointSize,
-			Dimension iconSize, Color fgColor, Color bgColor) {
+	public static ScaledIcon createPointStyleIcon(int pointStyle, int pointSize,
+			Dimension iconSize, Color fgColor, Color bgColor, double scale) {
 
 		// TODO: PointStyleIcon as a stand alone class
 		PointStyleImage image = new PointStyleImage(iconSize, pointStyle,
-				pointSize, fgColor, bgColor);
+				pointSize, fgColor, bgColor, scale);
 
-		return new ImageIcon(image);
+		return new ScaledIcon(image, scale);
 	}
 
 	public static class PointStyleImage extends BufferedImage {
 
-		private int pointStyle = -1;
+		private final int pointStyle;
 
 		// for drawing
 		private final int pointSize;
@@ -567,22 +548,19 @@ public class GeoGebraIconD {
 		private final int w;
 
 		protected PointStyleImage(Dimension d, int pointStyle, int pointSize,
-				Color fgColor, Color bgColor) {
-			super(d.width, d.height, BufferedImage.TYPE_INT_ARGB);
+				Color fgColor, Color bgColor, double scale) {
+			super((int) (d.width * scale), (int) (d.height * scale), BufferedImage.TYPE_INT_ARGB);
 			this.h = d.height;
 			this.w = d.width;
 			this.pointStyle = pointStyle;
 			this.pointSize = pointSize;
 
-			drawPointStyle(fgColor, bgColor);
+			drawPointStyle(fgColor, bgColor, scale);
 		}
 
-		private void drawPointStyle(Color fgColor, Color bgColor) {
-
-			Graphics2D g2 = createGraphics();
-
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-					RenderingHints.VALUE_ANTIALIAS_ON);
+		private void drawPointStyle(Color fgColor, Color bgColor, double scale) {
+			Graphics2D g2 = GeoGebraIconD.createGraphics(this);
+			g2.scale(scale, scale);
 
 			// set background
 			if (bgColor != null) {
@@ -635,6 +613,7 @@ public class GeoGebraIconD {
 				g2.setStroke(borderStroke);
 				g2.draw(circle);
 			}
+			g2.dispose();
 		}
 
 		private void getPath() {
@@ -798,47 +777,12 @@ public class GeoGebraIconD {
 	}
 
 	/**
-	 * @param icon base icon
-	 * @param iconSize size
-	 * @return resized icon
-	 */
-	public static ImageIcon ensureIconSize(ImageIcon icon, Dimension iconSize) {
-		int h = iconSize.height;
-		int w = iconSize.width;
-		int h2 = icon.getIconHeight();
-		int w2 = icon.getIconWidth();
-		if (h2 == h && w2 == w) {
-			return icon;
-		}
-
-		int wInset = (w - w2) > 0 ? (w - w2) / 2 : 0;
-		int hInset = (h - h2) > 0 ? (h - h2) / 2 : 0;
-
-		BufferedImage newImage = new BufferedImage(w, h,
-				BufferedImage.TYPE_INT_ARGB);
-
-		Graphics2D g2 = createGraphics(newImage);
-
-		try {
-			Image currentImage = icon.getImage();
-			if (currentImage != null) {
-				g2.drawImage(currentImage, wInset, hInset, null);
-				icon.setImage(newImage);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return icon;
-	}
-
-	/**
 	 * Draws a LaTeX image in the given ImageIcon. Drawing is done twice. First
 	 * draw gives the needed size of the image. Second draw renders the image
 	 * with the correct dimensions.
+	 * @return image bounds
 	 */
-	public static final void drawLatexImageIcon(AppD app, ImageIcon latexIcon,
+	public static Rectangle measureLatexImage(AppD app,
 			String latex, Font font, boolean serif, Color fgColor,
 			Color bgColor) {
 		// Create image with dummy size, then draw into it to get the correct
@@ -851,46 +795,47 @@ public class GeoGebraIconD {
 						.getTempGraphics2D(new GFontD(font)),
 				new GFontD(font), GColorD.newColor(fgColor),
 				GColorD.newColor(bgColor));
-		Rectangle d = GRectangleD.getAWTRectangle(draw.getBounds());
-
-		// Now use this size and draw again to get the final image
-		if (d == null || d.width == -1 || d.height == -1) {
-			return;
-		}
-		BufferedImage image = new BufferedImage(d.width, d.height,
-				BufferedImage.TYPE_INT_ARGB);
-
-		Graphics2D g2image = createGraphics(image);
-
-		g2image.setBackground(bgColor);
-		g2image.clearRect(0, 0, image.getWidth(), image.getHeight());
-
-		draw.drawMultilineLaTeX(new GGraphics2DD(g2image), new GFontD(font),
-				GColorD.newColor(fgColor), GColorD.newColor(bgColor));
-
-		latexIcon.setImage(image);
+		return GRectangleD.getAWTRectangle(draw.getBounds());
 	}
 
 	/**
-	 * Creates a new ImageIcon by joining them together (leftIcon to rightIcon).
+	 * Creates a new icon by joining them together (leftIcon to rightIcon).
 	 * @return joined icon
 	 */
-	public static ImageIcon joinIcons(ImageIcon leftIcon,
-			ImageIcon rightIcon) {
-
+	public static ScaledIcon joinIcons(Icon leftIcon,
+			ScaledIcon rightIcon) {
+		double scale1 = leftIcon instanceof ScaledIcon scaledIcon ? scaledIcon.getScale() : 1.0;
 		int w1 = leftIcon.getIconWidth();
 		int w2 = rightIcon.getIconWidth();
+		double scale2 = rightIcon.getScale();
 		int h1 = leftIcon.getIconHeight();
 		int h2 = rightIcon.getIconHeight();
 		int h = Math.max(h1, h2);
 		int mid = h / 2;
-		BufferedImage image = new BufferedImage(w1 + w2, h,
-				BufferedImage.TYPE_INT_ARGB);
+		double scale = Math.max(scale1, scale2);
+		BufferedImage image = newBufferedImage(w1 + w2, h, scale);
 		Graphics2D g2 = (Graphics2D) image.getGraphics();
-		g2.drawImage(leftIcon.getImage(), 0, mid - h1 / 2, null);
-		g2.drawImage(rightIcon.getImage(), w1, mid - h2 / 2, null);
+		AffineTransform oldTransform = g2.getTransform();
+		g2.translate(0, (mid - h1 / 2.0) * scale);
+		g2.scale(scale / scale1, scale / scale1);
+		g2.drawImage(extractImage(leftIcon), 0, 0, null);
+		g2.setTransform(oldTransform);
+
+		g2.translate(w1 * scale, (mid - h2 / 2.0) * scale);
+		g2.scale(scale / scale2, scale / scale2);
+		g2.drawImage(rightIcon.getImage(), 0, 0, null);
 		g2.dispose();
 
-		return new ImageIcon(image);
+		return new JoinedScaledIcon(image, scale, leftIcon);
+	}
+
+	private static BufferedImage newBufferedImage(int w, int h, double scale) {
+		return new BufferedImage((int) (w * scale), (int) (h * scale), BufferedImage.TYPE_INT_ARGB);
+	}
+
+	private static Image extractImage(Icon leftIcon) {
+		return leftIcon instanceof ImageIcon imageIcon ? imageIcon.getImage()
+				: leftIcon instanceof ScaledIcon scaledIcon ? scaledIcon.getImage()
+				: createEmptyIcon(1, 1).getImage();
 	}
 }

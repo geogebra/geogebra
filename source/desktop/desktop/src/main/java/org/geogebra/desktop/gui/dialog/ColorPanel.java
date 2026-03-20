@@ -132,7 +132,7 @@ class ColorPanel extends JPanel
 		rbtnForegroundColor.addActionListener(this);
 
 		btnClearBackground = new JButton(this.propertiesPanelD.app
-				.getImageIcon(GuiResourcesD.DELETE_SMALL));
+				.getScaledIcon(GuiResourcesD.DELETE_SMALL));
 		btnClearBackground.setFocusPainted(false);
 		btnClearBackground.addActionListener(this);
 

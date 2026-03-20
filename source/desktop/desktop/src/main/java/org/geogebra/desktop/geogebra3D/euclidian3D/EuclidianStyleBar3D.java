@@ -20,7 +20,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianStyleBarStatic3D;
@@ -213,7 +213,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 
 		// ========================================
 		// view yz direction
-		ImageIcon[] directionIcons = new ImageIcon[4];
+		Icon[] directionIcons = new Icon[4];
 		directionIcons[0] = app
 				.getScaledIcon(GuiResources3D.STYLINGBAR_GRAPHICS3D_VIEW_XY);
 		directionIcons[1] = app
@@ -227,7 +227,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 
 		// ========================================
 		// projection view button
-		ImageIcon[] projectionIcons = new ImageIcon[4];
+		Icon[] projectionIcons = new Icon[4];
 		projectionIcons[0] = app
 				.getScaledIcon(GuiResources3D.PROJECTION_ORTHOGRAPHIC);
 		projectionIcons[1] = app
@@ -244,7 +244,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	private class ProjectionPopup extends PopupMenuButtonD {
 		private static final long serialVersionUID = 1L;
 
-		public ProjectionPopup(AppD app, ImageIcon[] projectionIcons) {
+		public ProjectionPopup(AppD app, Icon[] projectionIcons) {
 			super(app, projectionIcons, 1, projectionIcons.length,
 					new Dimension(app.getScaledIconSize(),
 							app.getScaledIconSize()),

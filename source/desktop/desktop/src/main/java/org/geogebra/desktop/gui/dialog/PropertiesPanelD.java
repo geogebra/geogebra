@@ -31,7 +31,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.ConcurrentModificationException;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.List;
@@ -40,7 +39,6 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.InputVerifier;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -144,6 +142,7 @@ import org.geogebra.desktop.gui.util.SliderUtil;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.main.ScaledIcon;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageResourceD;
 
@@ -2692,10 +2691,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			this.model = model;
 			model.setListener(this);
 
-			ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
+			ScaledIcon[] iconArray = new ScaledIcon[imgFileNameList.size()];
 			for (int i = 0; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIconD.createFileImageIcon(
-						imgFileNameList.get(i));
+						imgFileNameList.get(i), app.getImageManager().getPixelRatio());
 			}
 			dropdown = new PopupMenuButtonD(app, iconArray, -1, nrOfColumns,
 					new Dimension(36, 36), SelectionTable.MODE_ICON);

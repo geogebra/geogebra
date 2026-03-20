@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.AbstractButton;
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JToolBar;
 
 import org.geogebra.common.awt.GColor;
@@ -53,6 +53,7 @@ import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
@@ -60,6 +61,7 @@ import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.gui.util.ToggleButtonD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.main.ScaledIcon;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageResourceD;
 
@@ -157,7 +159,7 @@ public class EuclidianStyleBarD extends JToolBar
 		 * @param height
 		 *            height of the button
 		 */
-		public ToggleButtonDforEV(ImageIcon icon, int height) {
+		public ToggleButtonDforEV(ScaledIcon icon, int height) {
 			super(icon, height);
 
 		}
@@ -505,7 +507,7 @@ public class EuclidianStyleBarD extends JToolBar
 
 	protected void createButtons() {
 
-		ImageIcon axesIcon = app
+		ScaledIcon axesIcon = app
 				.getScaledIcon(GuiResourcesD.STYLINGBAR_GRAPHICS_SHOW_AXES);
 		iconHeight = axesIcon.getIconHeight();
 		updatePreferredSize();
@@ -565,12 +567,12 @@ public class EuclidianStyleBarD extends JToolBar
 		// create line style icon array
 		final Dimension lineStyleIconSize = new Dimension(
 				Math.max(80, iconHeight * 4), iconHeight);
-		ImageIcon[] lineStyleIcons = new ImageIcon[EuclidianView
+		Icon[] lineStyleIcons = new Icon[EuclidianView
 				.getLineTypeLength()];
 		for (int i = 0; i < EuclidianView.getLineTypeLength(); i++) {
 			lineStyleIcons[i] = GeoGebraIconD.createLineStyleIcon(
 					EuclidianView.getLineType(i), 2, lineStyleIconSize,
-					Color.BLACK, null);
+					Color.BLACK, null, app.getImageManager().getPixelRatio());
 		}
 
 		// create button
@@ -612,12 +614,12 @@ public class EuclidianStyleBarD extends JToolBar
 			}
 
 			@Override
-			public ImageIcon getButtonIcon() {
+			public Icon getButtonIcon() {
 				if (getSelectedIndex() > -1) {
 					return GeoGebraIconD.createLineStyleIcon(
 							EuclidianView.getLineType(this.getSelectedIndex()),
 							this.getSliderValue(), lineStyleIconSize,
-							Color.BLACK, null);
+							Color.BLACK, null, app.getImageManager().getPixelRatio());
 				}
 				return GeoGebraIconD.createEmptyIcon(lineStyleIconSize.width,
 						lineStyleIconSize.height);
@@ -644,12 +646,12 @@ public class EuclidianStyleBarD extends JToolBar
 		// create line style icon array
 		final Dimension pointStyleIconSize = new Dimension(getIconWidth(),
 				iconHeight);
-		ImageIcon[] pointStyleIcons = new ImageIcon[EuclidianView
+		Icon[] pointStyleIcons = new Icon[EuclidianView
 				.getPointStyleLength()];
 		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++) {
 			pointStyleIcons[i] = GeoGebraIconD.createPointStyleIcon(
 					EuclidianView.getPointStyle(i), 4, pointStyleIconSize,
-					Color.BLACK, null);
+					Color.BLACK, null, app.getImageManager().getPixelRatio());
 		}
 
 		// create button
@@ -697,13 +699,13 @@ public class EuclidianStyleBarD extends JToolBar
 			}
 
 			@Override
-			public ImageIcon getButtonIcon() {
+			public Icon getButtonIcon() {
 				if (getSelectedIndex() > -1) {
 					return GeoGebraIconD.createPointStyleIcon(
 							EuclidianView
 									.getPointStyle(this.getSelectedIndex()),
 							this.getSliderValue(), pointStyleIconSize,
-							Color.BLACK, null);
+							Color.BLACK, null, app.getImageManager().getPixelRatio());
 				}
 				return GeoGebraIconD.createEmptyIcon(pointStyleIconSize.width,
 						pointStyleIconSize.height);
@@ -753,12 +755,12 @@ public class EuclidianStyleBarD extends JToolBar
 			}
 
 			@Override
-			public ImageIcon getButtonIcon() {
-				return (ImageIcon) this.getIcon();
+			public Icon getButtonIcon() {
+				return this.getIcon();
 			}
 
 		};
-		ImageIcon ic = app.getScaledIcon(GuiResourcesD.STYLEBAR_ANGLE_INTERVAL);
+		Icon ic = app.getScaledIcon(GuiResourcesD.STYLEBAR_ANGLE_INTERVAL);
 		btnAngleInterval
 				.setIconSize(new Dimension(ic.getIconWidth(), iconHeight));
 		btnAngleInterval.setIcon(ic);
@@ -796,8 +798,8 @@ public class EuclidianStyleBarD extends JToolBar
 			}
 
 			@Override
-			public ImageIcon getButtonIcon() {
-				return (ImageIcon) this.getIcon();
+			public Icon getButtonIcon() {
+				return this.getIcon();
 			}
 
 			/*
@@ -834,12 +836,12 @@ public class EuclidianStyleBarD extends JToolBar
 			}
 
 			@Override
-			public ImageIcon getButtonIcon() {
-				return (ImageIcon) this.getIcon();
+			public Icon getButtonIcon() {
+				return this.getIcon();
 			}
 		};
 
-		ImageIcon ptCaptureIcon = app.getScaledIcon(
+		Icon ptCaptureIcon = app.getScaledIcon(
 				GuiResourcesD.STYLINGBAR_GRAPHICS_POINT_CAPTURING);
 		btnPointCapture.setIconSize(
 				new Dimension(ptCaptureIcon.getIconWidth(), iconHeight));
@@ -1064,7 +1066,7 @@ public class EuclidianStyleBarD extends JToolBar
 					if (index == -1) {
 						this.setIcon(GeoGebraIconD.createColorSwatchIcon(alpha,
 								bgColorIconSize, GColorD.getAwtColor(geoColor),
-								null));
+								null, app.getImageManager().getPixelRatio()));
 					}
 				}
 			}
@@ -1138,10 +1140,11 @@ public class EuclidianStyleBarD extends JToolBar
 			}
 
 			@Override
-			public ImageIcon getButtonIcon() {
+			public Icon getButtonIcon() {
 				return GeoGebraIconD.createTextSymbolIcon("A",
 						app.getPlainFont(), textColorIconSize,
-						GColorD.getAwtColor(getSelectedColor()), null);
+						GColorD.getAwtColor(getSelectedColor()), null,
+						app.getImageManager().getPixelRatio());
 			}
 
 			/*
@@ -1156,9 +1159,10 @@ public class EuclidianStyleBarD extends JToolBar
 
 		// ========================================
 		// bold text button
-		ImageIcon boldIcon = GeoGebraIconD.createStringIcon(
+		ScaledIcon boldIcon = GeoGebraIconD.createStringIcon(
 				loc.getMenu("Bold").substring(0, 1), app.getPlainFont(), true,
-				false, true, iconDimension, Color.black, null);
+				false, true, iconDimension, Color.black, null,
+				app.getImageManager().getPixelRatio());
 		btnBold = new ToggleButtonD(boldIcon, iconHeight) {
 
 			private static final long serialVersionUID = 1L;
@@ -1187,9 +1191,10 @@ public class EuclidianStyleBarD extends JToolBar
 
 		// ========================================
 		// italic text button
-		ImageIcon italicIcon = GeoGebraIconD.createStringIcon(
+		ScaledIcon italicIcon = GeoGebraIconD.createStringIcon(
 				loc.getMenu("Italic").substring(0, 1), app.getPlainFont(),
-				false, true, true, iconDimension, Color.black, null);
+				false, true, true, iconDimension, Color.black, null,
+				app.getImageManager().getPixelRatio());
 		btnItalic = new ToggleButtonD(italicIcon, iconHeight) {
 
 			private static final long serialVersionUID = 1L;
@@ -1273,7 +1278,7 @@ public class EuclidianStyleBarD extends JToolBar
 
 		// ==============================
 		// justification popup
-		ImageIcon[] justifyIcons = new ImageIcon[] {
+		Icon[] justifyIcons = new Icon[] {
 				app.getScaledIcon(GuiResourcesD.FORMAT_JUSTIFY_LEFT),
 				app.getScaledIcon(GuiResourcesD.FORMAT_JUSTIFY_CENTER),
 				app.getScaledIcon(GuiResourcesD.FORMAT_JUSTIFY_RIGHT) };
@@ -1316,13 +1321,13 @@ public class EuclidianStyleBarD extends JToolBar
 		// ==============================
 		// bracket style popup
 
-		ImageIcon[] bracketIcons = new ImageIcon[EuclidianStyleBarStatic.bracketArray.length];
+		ScaledIcon[] bracketIcons = new ScaledIcon[EuclidianStyleBarStatic.bracketArray.length];
 		for (int i = 0; i < bracketIcons.length; i++) {
 			bracketIcons[i] = GeoGebraIconD.createStringIcon(
 					EuclidianStyleBarStatic.bracketArray[i], app.getPlainFont(),
 					true, false, true,
 					new Dimension(getIconWidth(30) + 4, iconHeight + 4),
-					Color.BLACK, null);
+					Color.BLACK, null, app.getImageManager().getPixelRatio());
 		}
 
 		btnTableTextBracket = new PopupMenuButtonD((AppD) ev.getApplication(),
@@ -1359,7 +1364,8 @@ public class EuclidianStyleBarD extends JToolBar
 		// ====================================
 		// vertical grid lines toggle button
 		btnTableTextLinesV = new ToggleButtonD(
-				GeoGebraIconD.createVGridIcon(iconDimension), iconHeight) {
+				GeoGebraIconD.createVGridIcon(iconDimension,
+						app.getImageManager().getPixelRatio()), iconHeight) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -1383,7 +1389,8 @@ public class EuclidianStyleBarD extends JToolBar
 		// ====================================
 		// horizontal grid lines toggle button
 		btnTableTextLinesH = new ToggleButtonD(
-				GeoGebraIconD.createHGridIcon(iconDimension), iconHeight) {
+				GeoGebraIconD.createHGridIcon(iconDimension,
+						app.getImageManager().getPixelRatio()), iconHeight) {
 
 			private static final long serialVersionUID = 1L;
 

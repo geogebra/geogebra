@@ -23,7 +23,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -50,8 +50,8 @@ public class RowHeaderRenderer extends JPanel
 	private JLabel numLabel;
 	/** show hide option (also called plot tool) for this cell content */
 	protected JLabel showHideControl;
-	private ImageIcon iconShown;
-	private ImageIcon iconHidden;
+	private Icon iconShown;
+	private Icon iconHidden;
 	/** constraints */
 	protected GridBagConstraints c;
 	private AppD app;
