@@ -1,0 +1,9 @@
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.geogebra.openrewrite.MigrateToJUnit5
+displayName: Migrate JUnit 4 tests to JUnit 5
+description: Migrates JUnit 4 test annotations, assertions, assumptions, and runner
+  configurations to their JUnit 5 equivalents. Also updates @RunWith to @ExtendWith
+  where applicable.
+recipeList:
+  - org.openrewrite.java.testing.junit5.JUnit4to5Migration
