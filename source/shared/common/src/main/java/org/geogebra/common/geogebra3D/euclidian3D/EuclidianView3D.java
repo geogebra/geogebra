@@ -319,6 +319,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	private EuclidianView3DAnimator animator;
 
 	//Mixed Reality and Augmented Reality
+	private EuclidianView3DDelegate delegate;
 	private boolean mIsXRDrawing;
 	private boolean mIsXREnabled;
 	protected boolean mIsUnity;
@@ -5124,7 +5125,10 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void setXREnabled(boolean isXREnabled) {
 		mIsXREnabled = isXREnabled;
-        if (euclidianController.isCreatingPointAR()) {
+		if (delegate != null) {
+			delegate.onXrEnabledChanged(isXREnabled);
+		}
+		if (euclidianController.isCreatingPointAR()) {
             target.updateType(this);
         }
 		updateMatrixForCursor3D();
@@ -5318,6 +5322,10 @@ public abstract class EuclidianView3D extends EuclidianView
 		return arRatioMetricSystem;
 	}
 
+	public void setDelegate(EuclidianView3DDelegate delegate) {
+		this.delegate = delegate;
+	}
+
 	private void set3DCoordSystem(double xzero, double yzero, double zzero, double xscale,
 			double yscale, double zscale) {
 		if (Double.isNaN(xscale) || (xscale < Kernel.MAX_DOUBLE_PRECISION)
@@ -5405,5 +5413,13 @@ public abstract class EuclidianView3D extends EuclidianView
 			return GeoNumeric.isChangeable(zmaxObject);
 		}
 		return false;
+	}
+
+	public interface EuclidianView3DDelegate {
+		/**
+		 * Notifies delegate that the isXrEnabled flag changed
+		 * @param isXrEnabled true if xr is enabled
+		 */
+		void onXrEnabledChanged(boolean isXrEnabled);
 	}
 }

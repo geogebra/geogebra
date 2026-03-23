@@ -599,10 +599,15 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void glViewPort() {
-        glViewPort(renderer.getWidthInPixels(), renderer.getHeightInPixels());
+        glViewPort(
+                renderer.getViewportHorizontalOffset(),
+                renderer.getViewportVerticalOffset(),
+                renderer.getWidthInPixels(),
+                renderer.getHeightInPixels()
+        );
     }
 
-	abstract protected void glViewPort(int width, int height);
+	abstract protected void glViewPort(int x, int y, int width, int height);
 
 	@Override
 	public void viewOrtho() {

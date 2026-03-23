@@ -290,8 +290,8 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 	
 	@Override
-	protected void glViewPort(int width, int height) {
-		glContext.viewport(0, 0, width, height);
+	protected void glViewPort(int x, int y, int width, int height) {
+		glContext.viewport(x, y, width, height);
 	}
 
 	@Override

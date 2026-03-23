@@ -1130,6 +1130,20 @@ public abstract class Renderer {
 	}
 
 	/**
+	 * @return offset viewport horizontally
+	 */
+	public int getViewportHorizontalOffset() {
+		return 0;
+	}
+
+	/**
+	 * @return offset viewport vertically
+	 */
+	public int getViewportVerticalOffset() {
+		return 0;
+	}
+
+	/**
 	 * 
 	 * @return visible depth
 	 */

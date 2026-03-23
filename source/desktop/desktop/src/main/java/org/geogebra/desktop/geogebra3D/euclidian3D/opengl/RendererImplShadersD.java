@@ -321,8 +321,8 @@ public class RendererImplShadersD extends RendererImplShaders {
 	}
 
 	@Override
-	protected void glViewPort(int width, int height) {
-		jogl.getGL2ES2().glViewport(0, 0, width, height);
+	protected void glViewPort(int x, int y, int width, int height) {
+		jogl.getGL2ES2().glViewport(x, y, width, height);
 	}
 
 	@Override
