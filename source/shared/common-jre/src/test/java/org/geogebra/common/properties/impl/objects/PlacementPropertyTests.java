@@ -34,13 +34,19 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class PlacementPropertyTests extends BaseAppTestSetup {
-	@Test
-	public void testPointWithNoApplicablePlacement() {
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"(1, 2)",
+			"β = Angle((0, 0), (1, 1), (2, 2))",
+	})
+	public void testNotApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertThrows(NotApplicablePropertyException.class, () ->
-				new PlacementProperty(getLocalization(), evaluateGeoElement("(1, 2)")));
+				new PlacementProperty(getLocalization(), evaluateGeoElement(expression)));
 	}
 
 	@Test

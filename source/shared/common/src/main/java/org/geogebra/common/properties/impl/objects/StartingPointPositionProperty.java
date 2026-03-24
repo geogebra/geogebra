@@ -45,7 +45,7 @@ public class StartingPointPositionProperty extends AbstractValuedProperty<String
 			throws NotApplicablePropertyException {
 		super(localization, "StartingPoint");
 		if (geoElement instanceof GeoImage || geoElement instanceof GeoBoolean
-				|| !(geoElement instanceof Locateable)) {
+				|| !(geoElement instanceof Locateable) || geoElement.isGeoAngle()) {
 			throw new NotApplicablePropertyException(geoElement);
 		}
 		this.geoElement = geoElement;

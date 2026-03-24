@@ -81,7 +81,7 @@ public class PlacementProperty extends AbstractNamedEnumeratedProperty<Placement
 	public PlacementProperty(Localization localization, GeoElement geoElement)
 			throws NotApplicablePropertyException {
 		super(localization, "ObjectProperties.Placement");
-		if (!(geoElement instanceof Locateable)) {
+		if (!(geoElement instanceof Locateable) || geoElement.isGeoAngle()) {
 			throw new NotApplicablePropertyException(geoElement);
 		}
 		this.geoElement = geoElement;

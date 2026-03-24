@@ -45,6 +45,7 @@ public class StartingPointPositionPropertyTests extends BaseAppTestSetup {
 	@ValueSource(strings = {
 			"true",
 			"(1, 2)",
+			"β = Angle((0, 0), (1, 1), (2, 2))",
 	})
 	public void testNotApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
