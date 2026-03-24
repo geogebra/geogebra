@@ -42,18 +42,19 @@ public final class FocusPartAdder {
 	 * @param widget the widget to wrap as a focusable part
 	 * @param key a stable key identifying the focusable part
 	 * @param ariaLabel supplier of a screen-reader label, or {@code null} if none
+	 * @param onFocusCallback callback on focus
 	 * @return the widget that was added to the composite, or {@code null} if no widget
 	 * was present
 	 */
 	public static Widget addIfExists(FocusableCompositeW focus, AccessibilityManagerInterface am,
-			Widget widget, String key, Supplier<String> ariaLabel) {
+			Widget widget, String key, Supplier<String> ariaLabel, Runnable onFocusCallback) {
 		if (widget == null) {
 			return null;
 		}
 
 		String label = ariaLabel != null ? ariaLabel.get() : null;
 
-		FocusablePartW part = FocusablePartW.create(widget, key, label, am);
+		FocusablePartW part = FocusablePartW.create(widget, key, label, am, onFocusCallback);
 		if (part != null) {
 			focus.addPart(part);
 		}

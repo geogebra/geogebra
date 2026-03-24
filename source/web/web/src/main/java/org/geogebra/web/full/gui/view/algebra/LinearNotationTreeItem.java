@@ -203,7 +203,7 @@ public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHand
 		if (geo == null) {
 			initInput();
 		}
-		setFocusedStyle(focus);
+		setFocusedStyle(focus, false);
 		textField.setFocus(focus);
 	}
 

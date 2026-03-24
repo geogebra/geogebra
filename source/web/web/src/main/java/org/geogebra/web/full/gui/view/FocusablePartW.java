@@ -16,6 +16,8 @@
 
 package org.geogebra.web.full.gui.view;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.compositefocus.FocusablePart;
 import org.geogebra.web.full.gui.TextFieldFocusablePart;
@@ -38,17 +40,21 @@ public class FocusablePartW implements FocusablePart {
 	private final Widget widget;
 	private final String focusKey;
 	private final String accessibleLabel;
+	private final @CheckForNull Runnable onFocusCallback;
 
 	/**
 	 * Creates a focusable part for the given widget.
 	 * @param widget the underlying widget to be focused
 	 * @param focusKey stable semantic key identifying this part
 	 * @param accessibleLabel the aria label for the widget
+	 * @param onFocusCallback on focus callback
 	 */
-	public FocusablePartW(Widget widget, String focusKey, String accessibleLabel) {
+	public FocusablePartW(Widget widget, String focusKey, String accessibleLabel,
+			@CheckForNull Runnable onFocusCallback) {
 		this.widget = widget;
 		this.focusKey = focusKey;
 		this.accessibleLabel = accessibleLabel;
+		this.onFocusCallback = onFocusCallback;
 		// text field contains the information as value, not as label
 		if (!(widget instanceof AutoCompleteTextFieldW)) {
 			AriaHelper.setLabel(widget, accessibleLabel);
@@ -63,23 +69,25 @@ public class FocusablePartW implements FocusablePart {
 	 * @param focusKey stable semantic key identifying the part
 	 * @param accessibleLabel the aria label for the widget
 	 * @param am accessibility manager used when native focus is required
+	 * @param onFocusCallback on focus callback
 	 * @return a focusable part instance, or {@code null} if the widget is {@code null}
 	 */
 	public static FocusablePartW create(Widget widget, String focusKey,
-			String accessibleLabel, AccessibilityManagerInterface am) {
+			String accessibleLabel, AccessibilityManagerInterface am, Runnable onFocusCallback) {
 		if (widget == null) {
 			return null;
 		}
 
 		if (widget instanceof AutoCompleteTextFieldW textField) {
-			return new TextFieldFocusablePart(textField, focusKey, accessibleLabel);
+			return new TextFieldFocusablePart(textField, focusKey, accessibleLabel,
+					onFocusCallback);
 		}
 
 		if (widget instanceof StandardButton button) {
-			return new ButtonFocusablePart(button, focusKey, accessibleLabel, am);
+			return new ButtonFocusablePart(button, focusKey, accessibleLabel, am, onFocusCallback);
 		}
 
-		return new FocusablePartW(widget, focusKey, accessibleLabel);
+		return new FocusablePartW(widget, focusKey, accessibleLabel, onFocusCallback);
 	}
 
 	@Override
@@ -102,6 +110,9 @@ public class FocusablePartW implements FocusablePart {
 	@Override
 	public void focus() {
 		widget.getElement().focus();
+		if (onFocusCallback != null) {
+			onFocusCallback.run();
+		}
 	}
 
 	@Override

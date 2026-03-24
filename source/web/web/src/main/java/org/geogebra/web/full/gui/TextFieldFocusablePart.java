@@ -28,10 +28,11 @@ public class TextFieldFocusablePart extends FocusablePartW {
 	 * @param textField the underlying {@link AutoCompleteTextFieldW} to be focused
 	 * @param focusKey stable semantic key identifying this part
 	 * @param accessibleLabel the aria label for the widget
+	 * @param onFocusCallback on focus callback
 	 */
 	public TextFieldFocusablePart(AutoCompleteTextFieldW textField, String focusKey,
-			String accessibleLabel) {
-		super(textField, focusKey, accessibleLabel);
+			String accessibleLabel, Runnable onFocusCallback) {
+		super(textField, focusKey, accessibleLabel, onFocusCallback);
 		Dom.addEventListener(textField.getElement(), "keyup", (event) -> {
 			KeyboardEvent e = (KeyboardEvent) event;
 			if (" ".equals(e.key) || "Enter".equals(e.key)) {

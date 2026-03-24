@@ -39,10 +39,11 @@ public final class ButtonFocusablePart extends FocusablePartW {
 	 * @param focusKey stable key used to preserve selection across rebuilds
 	 * @param label the aria label for the button
 	 * @param am accessibility manager used to manage focus anchoring
+	 * @param onFocusCallback on focus callback
 	 */
 	public ButtonFocusablePart(StandardButton button, String focusKey,
-			String label, AccessibilityManagerInterface am) {
-		super(button, focusKey, label);
+			String label, AccessibilityManagerInterface am, Runnable onFocusCallback) {
+		super(button, focusKey, label, onFocusCallback);
 		this.am = am;
 
 	}

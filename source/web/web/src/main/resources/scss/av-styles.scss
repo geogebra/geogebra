@@ -104,6 +104,15 @@
 		background-color: colors.$tool-border;
 	}
 
+	.avItem.avSelectedRow.keyboardFocus {
+		outline: 2px solid var(--ggb-dark-color);
+		outline-offset: -2px;
+
+		.marblePanel {
+			background-color: unset;
+		}
+	}
+
 	.marblePanel {
 		border-right: 1px solid colors.$tool-border;
 		position: absolute;
@@ -363,6 +372,10 @@
 		&.focused {
 			border-top: colors.$purple-default solid 1px;
 			border-bottom: colors.$purple-default solid 1px;
+		}
+		&.keyboardFocus {
+			outline: 2px solid var(--ggb-dark-color);
+			outline-offset: -2px;
 		}
 	}
 

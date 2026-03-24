@@ -700,6 +700,8 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		boolean selected = geo.doHighlighting();
 
 		setSelected(selected);
+		boolean isKeyboardSelected = app.getSelectionManager().isKeyboardFocused(geo);
+		Dom.toggleClass(this, "keyboardFocus", selected && isKeyboardSelected);
 
 		// select only if it is in selection really.
 		selectItem(selected);
@@ -1253,7 +1255,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 
 	@Override
 	public void ensureEditing() {
-		setFocusedStyle(true);
+		setFocusedStyle(true, false);
 		if (!controller.isEditing()) {
 			enterEditMode(geo == null || isMoveablePoint(geo));
 
@@ -1693,7 +1695,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 			if (isInputTreeItem()) {
 				MinMaxPanel.closeMinMaxPanel();
 				getAV().restoreWidth(true);
-				setFocusedStyle(true);
+				setFocusedStyle(true, !app.getSelectionManager().hasPointerFocus());
 			}
 		} else {
 			if (isInputTreeItem()) {
@@ -2149,14 +2151,16 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	}
 
 	/**
-	 * set the focused style for inputbar
-	 * @param focused - true if editing started
+	 * set the focused style for input bar
+	 * @param focused true if editing started
 	 */
-	public void setFocusedStyle(boolean focused) {
+	public void setFocusedStyle(boolean focused, boolean isKeyboardFocus) {
 		if (isInputTreeItem()) {
 			if (focused) {
-				getWidget().getElement().getParentElement().addClassName("focused");
+				getWidget().getElement().getParentElement().addClassName(isKeyboardFocus
+						? "keyboardFocus" : "focused");
 			} else {
+				getWidget().getElement().getParentElement().removeClassName("keyboardFocus");
 				getWidget().getElement().getParentElement().removeClassName("focused");
 			}
 		}
@@ -2170,7 +2174,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		if (isEmpty() && isInputTreeItem()) {
 			addDummyLabel();
 		}
-		setFocusedStyle(false);
+		setFocusedStyle(false, false);
 	}
 
 	protected void updateDataTest() {

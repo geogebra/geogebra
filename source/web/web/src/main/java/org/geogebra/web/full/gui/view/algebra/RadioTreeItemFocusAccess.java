@@ -89,4 +89,12 @@ public class RadioTreeItemFocusAccess implements AVItemFocusAccess {
 	public boolean isLinearNotation() {
 		return false;
 	}
+
+	/**
+	 * Removes the keyboard-focus outline from the AV item when one of its child elements
+	 * is focused.
+	 */
+	public void removeItemFocusStyle() {
+		item.removeStyleName("keyboardFocus");
+	}
 }
