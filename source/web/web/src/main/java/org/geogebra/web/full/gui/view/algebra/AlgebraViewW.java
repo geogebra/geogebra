@@ -24,7 +24,6 @@ import java.util.Map.Entry;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.algebra.GeoSelectionCallback;
@@ -51,6 +50,7 @@ import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.ownership.SuiteScope;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
@@ -192,9 +192,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		selectionCtrl = new AVSelectionController(app);
 		algCtrl.setView(this);
 		initGUI(algCtrl);
-		ExamController examController = GlobalScope.getExamController(app);
-		if (examController != null) {
-			examController.registerRestrictable(selectionCallback);
+		SuiteScope suiteScope = GlobalScope.getSuiteScope(app);
+		if (suiteScope != null) {
+			suiteScope.restrictionsController.registerRestrictable(selectionCallback);
 		}
 		app.getSelectionManager()
 				.addSelectionListener((geo, addToSelection) -> updateSelection());

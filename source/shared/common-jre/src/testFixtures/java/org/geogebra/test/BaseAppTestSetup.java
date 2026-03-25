@@ -83,7 +83,6 @@ public class BaseAppTestSetup {
 			editCallback = geoElement -> processCallback.callback(new GeoElementND[]{ geoElement });
 		}
 		app.getSettingsUpdater().resetSettingsOnAppStart();
-
 		suiteScope.registerApp(app);
 	}
 

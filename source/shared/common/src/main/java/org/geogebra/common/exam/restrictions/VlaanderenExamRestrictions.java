@@ -23,24 +23,26 @@ import static org.geogebra.common.plugin.Operation.DERIVATIVE;
 
 import java.util.Set;
 
-import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.restrictions.Restrictions;
 
-final class VlaanderenExamRestrictions extends ExamRestrictions {
+public final class VlaanderenExamRestrictions extends Restrictions {
 
-	VlaanderenExamRestrictions() {
-		super(ExamType.VLAANDEREN,
-				Set.of(CAS, SCIENTIFIC),
+	/** Constructs the restrictions for Vlaanderen exam. */
+	public VlaanderenExamRestrictions() {
+		super(Set.of(CAS, SCIENTIFIC),
 				GRAPHING,
 				null,
 				null,
 				null,
 				createCommandFilters(),
-				null,
+				Set.of(new ExamCommandArgumentFilter()),
 				createOperationFilter(),
+				null,
 				null,
 				null,
 				null,

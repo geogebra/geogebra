@@ -17,9 +17,7 @@
 package org.geogebra.common.exam;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
 
-import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.move.ggtapi.models.Material;
 
 /**
@@ -54,25 +52,4 @@ public interface ExamControllerDelegate {
 	 * @return The current active material, or null.
 	 */
 	@CheckForNull Material examGetActiveMaterial();
-
-	/**
-	 * @return The current sub-app, or null in case the app switcher is currently shown.
-	 *
-	 * @apiNote This method is only relevant for the mobile use case (where there is only
-	 * one Suite instance). Web use case: if there are multiple Suite app instances with different
-	 * active apps, we can't use this mechanism to switch away from a forbidden subapp at exam
-	 * start; this would need to be handled in Web client code.
-	 */
-	@CheckForNull SuiteSubApp examGetCurrentSubApp();
-
-	/**
-	 * Activate the given sub-app.
-	 *
-	 * @param subApp The sub-app to switch to.
-	 *
-	 * @apiNote For the mobile use case, this method is expected to call {@link ExamController#setActiveContext}
-	 * after switching to the new subapp.
-	 * For the Web use case, this method must not call {@link ExamController#setActiveContext}.
-	 */
-	void examSwitchSubApp(@Nonnull SuiteSubApp subApp);
 }

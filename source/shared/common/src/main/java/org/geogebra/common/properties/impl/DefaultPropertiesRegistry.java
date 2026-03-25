@@ -23,7 +23,6 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertiesRegistryListener;
 import org.geogebra.common.properties.Property;
@@ -41,7 +40,7 @@ public class DefaultPropertiesRegistry implements PropertiesRegistry {
 	 * @param listener A listener.
 	 */
 	@Override
-	public void addListener(@Nonnull @NonOwning PropertiesRegistryListener listener) {
+	public void addListener(@Nonnull PropertiesRegistryListener listener) {
 		listeners.add(listener);
 	}
 

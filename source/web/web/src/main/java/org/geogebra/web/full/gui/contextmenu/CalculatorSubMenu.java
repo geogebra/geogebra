@@ -27,7 +27,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.exam.ExamType;
-import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.gui.ContextMenuItemFactory;
 import org.geogebra.web.full.gui.dialog.AppDescription;
@@ -64,7 +63,7 @@ public class CalculatorSubMenu extends AriaMenuBar {
 		embedManager = app.getEmbedManager();
 		ExamType examType = ExamType.byName(app.getAppletParameters().getParamFeatureSet());
 		restrictions = examType == null ? Set.of()
-				: ExamRestrictions.forExamType(examType).getDisabledSubApps();
+				: examType.createRestrictions().getDisabledSubApps();
 		appOrExamModeName = examType == null
 				? GeoGebraConstants.SUITE_APPCODE : examType.name().toLowerCase(Locale.ROOT);
 		if (embedManager != null) {

@@ -23,8 +23,6 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.exam.ExamType;
-import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
@@ -32,6 +30,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.settings.config.equationforms.DefaultEquationBehaviour;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.restrictions.FeatureRestriction;
 
 abstract class AbstractAppConfig implements AppConfig {
 
@@ -116,16 +115,14 @@ abstract class AbstractAppConfig implements AppConfig {
     }
 
     @Override
-    public void applyRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions,
-            @Nonnull ExamType examType) {
-        if (featureRestrictions.contains(ExamFeatureRestriction.RESTRICT_CHANGING_EQUATION_FORM)) {
+    public void applyRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
+        if (featureRestrictions.contains(FeatureRestriction.RESTRICT_CHANGING_EQUATION_FORM)) {
             equationBehaviour.allowChangingEquationFormsByUser(false);
         }
     }
 
     @Override
-    public void removeRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions,
-            @Nonnull ExamType examType) {
+    public void removeRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
         initializeEquationBehaviour();
     }
 

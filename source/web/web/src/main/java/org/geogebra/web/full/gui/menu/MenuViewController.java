@@ -24,7 +24,6 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.ExamType;
-import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.menu.DrawerMenu;
 import org.geogebra.common.gui.menu.DrawerMenuFactory;
@@ -42,6 +41,7 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.restrictions.Restrictions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -229,7 +229,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	}
 
 	private @Nonnull List<SuiteSubApp> getEnabledSubAppsFor(ExamType examType) {
-		ExamRestrictions restrictions = ExamRestrictions.forExamType(examType);
+		Restrictions restrictions = examType.createRestrictions();
 		return SuiteSubApp.availableValues().stream().filter(subApp -> !restrictions
 				.getDisabledSubApps().contains(subApp)).collect(Collectors.toList());
 	}

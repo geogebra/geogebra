@@ -35,7 +35,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 public class RealschuleValueConverterTests extends BaseAppTestSetup {
 	private final ToStringConverter converter = new ProtectiveGeoElementValueConverter(
-			new RealschuleAlgebraOutputFilter(null));
+			new RealschuleAlgebraOutputFilter());
 
 	@BeforeEach
 	public void setup() {

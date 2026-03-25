@@ -17,11 +17,11 @@
 package org.geogebra.common.io;
 
 import java.text.Normalizer;
-import java.util.Set;
 
 import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.exam.BaseExamTestSetup;
 import org.geogebra.common.exam.ExamType;
-import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.editor.share.catalog.TemplateCatalog;
@@ -31,30 +31,29 @@ import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class EditorTypingTest {
+public class EditorTypingTest extends BaseExamTestSetup {
 	private EditorChecker checker;
-	private AppCommon app;
 
 	/**
 	 * Reset LaTeX factory
 	 */
-	@BeforeClass
+	@BeforeAll
 	public static void prepare() {
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderCommon());
 		}
 	}
 
-	@Before
+	@BeforeEach
 	public void setUp() {
-		app = AppCommonFactory.create3D();
-		checker = new EditorChecker(app);
+		setupApp(SuiteSubApp.G3D);
+		checker = new EditorChecker(getApp());
 	}
 
 	@Test
@@ -959,12 +958,11 @@ public class EditorTypingTest {
 
 	@Test
 	public void shouldNotSerializeMixedNumberIfDisabled() {
-		app.applyRestrictions(Set.of(ExamFeatureRestriction.DISABLE_MIXED_NUMBERS),
-				ExamType.WTR);
+		startExam(ExamType.WTR);
 		checker.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
 				.type("1")
 				.right(1).type("2").right(1).type("3")
-				.checkGGBMath("1 * 2 / 3", app.getEditorFeatures());
+				.checkGGBMath("1 * 2 / 3", getApp().getEditorFeatures());
 	}
 
 	@Test
@@ -994,12 +992,11 @@ public class EditorTypingTest {
 
 	@Test
 	public void shouldNotSerializeMixedNumberMMSRestriction() {
-		app.applyRestrictions(Set.of(ExamFeatureRestriction.DISABLE_MIXED_NUMBERS),
-				ExamType.MMS);
+		startExam(ExamType.MMS); // has FeatureRestriction.DISABLE_MIXED_NUMBERS
 		checker.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
 				.type("5")
 				.right(1).type("1").right(1).type("2")
-				.checkGGBMath("5 * 1 / 2", app.getEditorFeatures());
+				.checkGGBMath("5 * 1 / 2", getApp().getEditorFeatures());
 	}
 
 	@Test

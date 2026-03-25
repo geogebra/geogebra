@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
@@ -359,7 +361,7 @@ public class Settings {
 	/**
 	 * @return CAS settings
 	 */
-	public final CASSettings getCasSettings() {
+	public final @Nonnull CASSettings getCasSettings() {
 		return casSettings;
 	}
 

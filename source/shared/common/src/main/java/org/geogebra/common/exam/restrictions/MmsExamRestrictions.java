@@ -147,7 +147,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.contextmenu.AlgebraContextMenuItem;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
-import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.restrictions.mms.MmsAlgebraOutputFilter;
 import org.geogebra.common.exam.restrictions.visibility.HiddenInequalityVisibilityRestriction;
 import org.geogebra.common.exam.restrictions.visibility.HiddenVectorVisibilityRestriction;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
@@ -173,6 +173,7 @@ import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
+import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -193,15 +194,16 @@ import org.geogebra.common.main.syntax.Syntax;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.restrictions.FeatureRestriction;
+import org.geogebra.common.restrictions.Restrictions;
 
-public class MmsExamRestrictions extends ExamRestrictions {
+public class MmsExamRestrictions extends Restrictions {
 
 	/**
 	 * Restrictions for MMS
 	 */
-	protected MmsExamRestrictions() {
-		super(ExamType.MMS,
-				Set.of(GRAPHING, GEOMETRY, G3D, PROBABILITY, SCIENTIFIC),
+	public MmsExamRestrictions() {
+		super(Set.of(GRAPHING, GEOMETRY, G3D, PROBABILITY, SCIENTIFIC),
 				CAS,
 				createFeatureRestrictions(),
 				createInputExpressionFilters(),
@@ -217,18 +219,19 @@ public class MmsExamRestrictions extends ExamRestrictions {
 				null,
 				null,
 				createStatisticsFilter(),
-				createAlgebraOutputFormatFilters());
+				createAlgebraOutputFormatFilters(),
+				new MmsAlgebraOutputFilter());
 	}
 
-	private static Set<ExamFeatureRestriction> createFeatureRestrictions() {
+	private static Set<FeatureRestriction> createFeatureRestrictions() {
 		return Set.of(
-				ExamFeatureRestriction.HIDE_CALCULATED_EQUATION,
-				ExamFeatureRestriction.HIDE_SPECIAL_POINTS,
-				ExamFeatureRestriction.SPREADSHEET,
-				ExamFeatureRestriction.SURD,
-				ExamFeatureRestriction.RATIONALIZATION,
-				ExamFeatureRestriction.DISABLE_MIXED_NUMBERS,
-				ExamFeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS);
+				FeatureRestriction.HIDE_CALCULATED_EQUATION,
+				FeatureRestriction.HIDE_SPECIAL_POINTS,
+				FeatureRestriction.SPREADSHEET,
+				FeatureRestriction.SURD,
+				FeatureRestriction.RATIONALIZATION,
+				FeatureRestriction.DISABLE_MIXED_NUMBERS,
+				FeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS);
 	}
 
 	private static Set<ExpressionFilter> createInputExpressionFilters() {
@@ -264,7 +267,7 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<CommandArgumentFilter> createCommandArgumentFilters() {
-		return Set.of(new MmsCommandArgumentFilter());
+		return Set.of(new ExamCommandArgumentFilter(), new MmsCommandArgumentFilter());
 	}
 
 	private static OperationFilter createOperationFilter() {

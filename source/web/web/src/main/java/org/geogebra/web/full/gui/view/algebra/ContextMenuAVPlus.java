@@ -73,7 +73,7 @@ public class ContextMenuAVPlus implements SetLabels {
 		wrappedPopup.clearItems();
 		SuiteScope suiteScope = GlobalScope.getSuiteScope(app);
 		Set<ContextMenuItemFilter> contextMenuFilters = suiteScope != null
-				? suiteScope.examController.getContextMenuItemFilters() : Set.of();
+				? suiteScope.restrictionsController.getContextMenuItemFilters() : Set.of();
 		List<InputContextMenuItem> items = ContextMenuFactory
 				.makeInputContextMenu(true, hasImageItem(), contextMenuFilters);
 		for (InputContextMenuItem item: items) {

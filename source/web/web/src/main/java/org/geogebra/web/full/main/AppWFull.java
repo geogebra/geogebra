@@ -58,8 +58,6 @@ import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamOptions;
 import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.exam.ExamType;
-import org.geogebra.common.exam.restrictions.ExamRestrictable;
-import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
@@ -114,6 +112,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
+import org.geogebra.common.restrictions.Restrictions;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -132,6 +131,7 @@ import org.geogebra.web.full.euclidian.inline.InlineTextControllerW;
 import org.geogebra.web.full.euclidian.quickstylebar.icon.DefaultPropertiesIconProvider;
 import org.geogebra.web.full.euclidian.quickstylebar.icon.MebisPropertiesIconProvider;
 import org.geogebra.web.full.euclidian.quickstylebar.icon.PropertiesIconResource;
+import org.geogebra.web.full.exam.ExamControllerIntegrationW;
 import org.geogebra.web.full.gui.CustomizeToolbarGUI;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.MyHeaderPanel;
@@ -298,10 +298,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private OpenSearch search;
 	private CsvImportHandler csvImportHandler;
 	private ExamController examController;
+	private ExamControllerDelegateW examControllerDelegate;
 	private AutocompleteProvider autocompleteProvider;
 	private ExamEventBus examEventBus;
-	private boolean attachedToExam;
-	private final GeoElementPropertiesFactory geoElementPropertiesFactory;
 	private InitialViewState initialViewState;
 	private PropertiesIconResource propertiesIconResource;
 
@@ -319,7 +318,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 		this.frame = frame;
 		this.device = device;
-		this.geoElementPropertiesFactory = new GeoElementPropertiesFactory();
 		setAppletHeight(frame.getComputedHeight());
 		setAppletWidth(frame.getComputedWidth());
 
@@ -337,8 +335,15 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				allowStylebar());
 		initActivity();
 		initCoreObjects();
+
 		examController = suiteScope.examController;
+		examController.addListener(getExamEventBus());
+		examControllerDelegate = new ExamControllerDelegateW(this);
+		ExamControllerIntegrationW.setup(suiteScope, examControllerDelegate,
+				examControllerDelegate);
+		ExamControllerIntegrationW.activate(this);
 		checkExamPerspective();
+
 		if (getAppletParameters().getDataParamApp()) {
 			startDialogChain();
 		}
@@ -391,10 +396,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		} else {
 			ExamType examType = ExamType.byName(appletParameters.getParamFeatureSet());
 			if (examType != null) {
-				ExamRestrictions restriction = ExamRestrictions.forExamType(examType);
-				restriction.applyTo(getExamDependencies(), geoElementPropertiesFactory);
-				getRestrictables().forEach(r ->
-				r.applyRestrictions(restriction.getFeatureRestrictions(), examType));
+				// apply exam restrictions without starting exam
+				Restrictions restrictions = examType.createRestrictions();
+				suiteScope.restrictionsController.applyRestrictions(restrictions);
 			}
 		}
 	}
@@ -505,7 +509,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (!StringUtil.empty(getAppletParameters().getParamFeatureSet())) {
 			ExamType type = ExamType.byName(getAppletParameters().getParamFeatureSet());
 			if (type != null) {
-				return ExamRestrictions.forExamType(type).getDefaultSubApp();
+				return type.createRestrictions().getDefaultSubApp();
 			}
 		}
 		if (!StringUtil.empty(getAppletParameters().getParamSubApp())) {
@@ -2462,8 +2466,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @param options exam options used for Classic
 	 */
 	public void startExam(ExamType examType, ExamOptions options) {
-		attachToExamController();
-
+		ExamControllerIntegrationW.activate(this);
 		if (examController.getState() == ExamState.IDLE
 				|| examController.getState() == ExamState.PREPARING) {
 			examController.startExam(examType, options);
@@ -2486,43 +2489,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 	}
 
-	private void attachToExamController() {
-		examController.registerContext(getExamDependencies());
-		getRestrictables().forEach(examController::registerRestrictable);
-		examController.registerDelegate(new ExamControllerDelegateW(this));
-		examController.addListener(getExamEventBus());
-		attachedToExam = true;
-	}
-
-	private Stream<ExamRestrictable> getRestrictables() {
-		return Stream.of(this, getEuclidianView1(), getConfig());
-	}
-
-	private ExamController.ContextDependencies getExamDependencies() {
-		return new ExamController.ContextDependencies(this,
-				getKernel().getAlgoDispatcher(),
-				getKernel().getAlgebraProcessor().getCommandDispatcher(),
-				getKernel().getAlgebraProcessor(),
-				appScope.propertiesRegistry,
-				getLocalization(),
-				getSettings(),
-				getKernel().getStatisticGroupsBuilder(),
-				getAutocompleteProvider(),
-				this,
-				getKernel().getInputPreviewHelper(),
-				getKernel().getConstruction());
-	}
-
 	@Override
 	public void detachFromExamController() {
-		examController.unregisterContext(this);
-		getRestrictables().forEach(examController::unregisterRestrictable);
 		examController.removeListener(getExamEventBus());
 		if (getGuiManager() != null && getGuiManager().hasAlgebraView()) {
-			suiteScope.examController.unregisterRestrictable(
+			suiteScope.restrictionsController.unregisterRestrictable(
 					getAlgebraView().getSelectionCallback());
 		}
-		attachedToExam = false;
 	}
 
 	/**
@@ -2611,9 +2584,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (autocompleteProvider != null && primarySyntaxFilter != null) {
 			autocompleteProvider.removeSyntaxFilter(primarySyntaxFilter);
 		}
-		if (examController.isExamActive()) {
-			examController.reapplyRestrictionsToRestrictables();
-		}
+		ExamControllerIntegrationW.activate(this);
 		updateSidebarAndMenu(subApp);
 		reinitSettings();
 		clearConstruction();
@@ -2691,12 +2662,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public void reapplyRestrictions() {
-		if (attachedToExam && GlobalScope.isExamActive(this)) {
+		if (GlobalScope.isExamActive(this)) {
 			examController.reapplySettingsRestrictions();
 		} else if (!StringUtil.empty(getAppletParameters().getParamFeatureSet())) {
 			ExamType examType = ExamType.byName(getAppletParameters().getParamFeatureSet());
 			if (examType != null) {
-				ExamRestrictions.forExamType(examType)
+				examType.createRestrictions()
 						.applySettingsRestrictions(getSettings(),
 								getKernel().getConstruction().getConstructionDefaults());
 			}
@@ -2810,12 +2781,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	/**
-	 * @return element properties factory; in exam mode return
-	 *         the restricted one, otherwise app's own
+	 * @return element properties factory
 	 */
 	public GeoElementPropertiesFactory getGeoElementPropertiesFactory() {
-		return attachedToExam ? suiteScope.geoElementPropertiesFactory
-				: geoElementPropertiesFactory;
+		return suiteScope.geoElementPropertiesFactory;
 	}
 
 	/**

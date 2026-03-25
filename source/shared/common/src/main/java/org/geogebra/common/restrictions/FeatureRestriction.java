@@ -14,20 +14,34 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.common.ownership;
+package org.geogebra.common.restrictions;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public enum FeatureRestriction {
 
-/**
- * Convey to readers that the annotated reference is a non-owning reference
- * (i.e., does not imply ownership).
- *
- * This is relevant information for code reviewers and architectural audits.
- */
-@Target({ElementType.FIELD})
-@Retention(RetentionPolicy.RUNTIME)
-public @interface NonOwning {
+	/** APPS_5751 */
+	AUTOMATIC_GRAPH_SELECTION_FOR_FUNCTIONS,
+
+	/** APPS-5926, APPS-6088, APPS-6315 */
+	HIDE_CALCULATED_EQUATION,
+
+	/** APPS-6308 */
+	HIDE_SPECIAL_POINTS,
+
+	/** APPS-6088 */
+	RESTRICT_CHANGING_EQUATION_FORM,
+
+	/** APPS-5929 */
+	RATIONALIZATION,
+
+	/** APPS-5929 */
+	SURD,
+
+	/** APPS-6310 */
+	SPREADSHEET,
+
+	/** APPS-6312 */
+	CUSTOM_MMS_REGRESSION_MODELS,
+
+	/** APPS-6519 */
+	DISABLE_MIXED_NUMBERS
 }

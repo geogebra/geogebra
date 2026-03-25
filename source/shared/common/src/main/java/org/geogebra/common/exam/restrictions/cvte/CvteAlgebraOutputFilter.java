@@ -34,26 +34,37 @@ import org.geogebra.common.main.App;
  */
 public final class CvteAlgebraOutputFilter implements AlgebraOutputFilter {
 
-    private final @CheckForNull AlgebraOutputFilter wrappedFilter;
-
-    public CvteAlgebraOutputFilter(@CheckForNull AlgebraOutputFilter wrappedFilter) {
-        this.wrappedFilter = wrappedFilter;
-    }
-
     /**
      * "For Lines, Rays, Conics, Implicit Equations and Functions created with a command or tool,
      * we do not show the calculated equation."
      */
     @Override
     public boolean isAllowed(GeoElementND element) {
+        return isCalculatedEquationAllowed(element);
+    }
+
+    /**
+     * APPS-5926: "For Lines, Rays, Conics, Implicit Equations and Functions created with a
+     * command or tool, we do not show the calculated equation."
+     * <p/>
+     * <b>Note:</b> The calculated equation will also be suppressed for all <i>dependent</i>
+     * lines/conics/functions/curves.
+     * @param element a {@link GeoElementND}
+     * @return true if element matches the condition above.
+     */
+    private boolean isCalculatedEquationAllowed(@CheckForNull GeoElementND element) {
         if (element == null) {
             return false;
         }
-        if (!Cvte.isCalculatedEquationAllowed(element)) {
+        // is Line, Ray, Conic, Implicit Equation or Function, ...
+        if ((element.isGeoLine()
+                || element.isGeoRay()
+                || element.isGeoConic()
+                || element.isGeoFunction()
+                || element.isImplicitEquation())
+                // ...created with a command or tool;
+                && (element.getParentAlgorithm() != null)) {
             return false;
-        }
-        if (wrappedFilter != null) {
-            return wrappedFilter.isAllowed(element);
         }
         return true;
     }

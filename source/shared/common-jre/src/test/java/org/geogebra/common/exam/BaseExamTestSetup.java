@@ -16,45 +16,93 @@
 
 package org.geogebra.common.exam;
 
+import java.util.Objects;
+
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.localization.AutocompleteProvider;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
+import org.geogebra.common.restrictions.Restrictions.ContextDependencies;
+import org.geogebra.common.restrictions.RestrictionsController;
+import org.geogebra.common.restrictions.RestrictionsControllerDelegate;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 
-public abstract class BaseExamTestSetup extends BaseAppTestSetup {
-    protected PropertiesRegistry propertiesRegistry;
-    protected GeoElementPropertiesFactory geoElementPropertiesFactory;
-    protected ExamController examController;
-    protected AutocompleteProvider autocompleteProvider;
+public abstract class BaseExamTestSetup extends BaseAppTestSetup
+		implements RestrictionsControllerDelegate {
 
-    @BeforeEach
-    void baseExamTestSetup() {
-        // keep existing references, so we don't need to touch every test
-        geoElementPropertiesFactory = suiteScope.geoElementPropertiesFactory;
-        examController = suiteScope.examController;
-    }
+	protected ExamController examController;
+	protected RestrictionsController restrictionsController;
+	protected PropertiesRegistry propertiesRegistry;
+	protected GeoElementPropertiesFactory geoElementPropertiesFactory;
+	protected AutocompleteProvider autocompleteProvider;
+	protected Material activeMaterial;
+	protected boolean didRequestClearApps = false;
+	protected boolean didRequestClearClipboard = false;
 
-    @Override
-    protected void setupApp(SuiteSubApp subApp) {
-        super.setupApp(subApp);
+	@BeforeEach
+	void baseExamTestSetup() {
+		geoElementPropertiesFactory = suiteScope.geoElementPropertiesFactory;
+		examController = suiteScope.examController;
+		restrictionsController = suiteScope.restrictionsController;
+		restrictionsController.delegate = this;
 
-        propertiesRegistry = getApp().appScope.propertiesRegistry;
-        autocompleteProvider = new AutocompleteProvider(getApp(), false);
-        examController.setActiveContext(
-                getApp(),
-                getKernel().getAlgoDispatcher(),
-                getCommandDispatcher(),
-                getAlgebraProcessor(),
-                propertiesRegistry,
-                getApp().getLocalization(),
-                getApp().getSettings(),
-                getKernel().getStatisticGroupsBuilder(),
-                autocompleteProvider,
-                getApp(),
-                getKernel().getInputPreviewHelper(),
-                getKernel().getConstruction());
-        examController.registerRestrictable(getApp());
-    }
+		activeMaterial = null;
+		didRequestClearApps = false;
+		didRequestClearClipboard = false;
+	}
+
+	@Override
+	protected void setupApp(SuiteSubApp subApp) {
+		super.setupApp(subApp);
+
+		propertiesRegistry = getApp().appScope.propertiesRegistry;
+		autocompleteProvider = new AutocompleteProvider(getApp(), false);
+		examController.setActiveContext(
+				new ContextDependencies(
+						getKernel().getAlgoDispatcher(),
+						getCommandDispatcher(),
+						getAlgebraProcessor(),
+						propertiesRegistry,
+						getApp().getLocalization(),
+						getApp().getSettings(),
+						getKernel().getStatisticGroupsBuilder(),
+						autocompleteProvider,
+						getApp(),
+						getKernel().getInputPreviewHelper(),
+						getKernel().getConstruction(),
+						geoElementPropertiesFactory,
+						getApp()));
+		restrictionsController.registerRestrictable(getApp());
+	}
+
+	protected void startExam(ExamType examType) {
+		examController.startExam(examType, null);
+	}
+
+	// -- RestrictionsControllerDelegate -
+
+	@Override
+	public @CheckForNull SuiteSubApp getCurrentSubApp() {
+		AppConfig config = getApp().getConfig();
+		String appCode = Objects.equals(config.getAppCode(), GeoGebraConstants.SUITE_APPCODE)
+				? config.getSubAppCode() : config.getAppCode();
+		if (appCode != null) {
+			return SuiteSubApp.forCode(appCode);
+		}
+		return null;
+	}
+
+	@Override
+	public void switchSubApp(@Nonnull SuiteSubApp subApp) {
+		if (!subApp.equals(getCurrentSubApp())) {
+			setupApp(subApp);
+		}
+	}
 }

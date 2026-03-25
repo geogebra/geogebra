@@ -768,15 +768,15 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		if (symbolicEditor != null) {
 			symbolicEditor.removeListeners();
 		}
-		GlobalScope.unregisterSuiteScope(GlobalScope.getSuiteScope(app));
 		KeyboardManagerInterface km = app.getKeyboardManager();
 		if (km != null) {
 			km.removeFromDom();
 		}
 		splash = null;
+		getApp().detachFromExamController();
+		GlobalScope.unregisterSuiteScope(GlobalScope.getSuiteScope(app));
 		// this one should be scheduled, so that all scheduled things depending on app execute OK
 		Scheduler.get().scheduleDeferred(() -> app = null);
-		getApp().detachFromExamController();
 	}
 
 	/**

@@ -206,7 +206,7 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.restrictions.realschule.RealschuleAlgebraOutputFilter;
 import org.geogebra.common.exam.restrictions.realschule.RealschuleEquationBehaviour;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
@@ -222,6 +222,7 @@ import org.geogebra.common.kernel.arithmetic.filter.graphing.GraphingExpressionF
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
+import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -237,12 +238,15 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.PropertyKey;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty;
+import org.geogebra.common.restrictions.FeatureRestriction;
+import org.geogebra.common.restrictions.PropertyRestriction;
+import org.geogebra.common.restrictions.Restrictions;
 
-public final class RealschuleExamRestrictions extends ExamRestrictions {
+public final class RealschuleExamRestrictions extends Restrictions {
 
-	RealschuleExamRestrictions() {
-		super(ExamType.BAYERN_GR,
-				Set.of(CAS, GEOMETRY, G3D, PROBABILITY, SCIENTIFIC),
+	/** Constructs the restrictions for Realschule exam. */
+	public RealschuleExamRestrictions() {
+		super(Set.of(CAS, GEOMETRY, G3D, PROBABILITY, SCIENTIFIC),
 				GRAPHING,
 				createFeatureRestrictions(),
 				getInputExpressionFilter(),
@@ -258,12 +262,13 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 				createEquationBehaviour(),
 				null,
 				null,
-				null);
+				null,
+				new RealschuleAlgebraOutputFilter());
 	}
 
-	private static Set<ExamFeatureRestriction> createFeatureRestrictions() {
-		return Set.of(ExamFeatureRestriction.HIDE_CALCULATED_EQUATION,
-				ExamFeatureRestriction.RESTRICT_CHANGING_EQUATION_FORM);
+	private static Set<FeatureRestriction> createFeatureRestrictions() {
+		return Set.of(FeatureRestriction.HIDE_CALCULATED_EQUATION,
+				FeatureRestriction.RESTRICT_CHANGING_EQUATION_FORM);
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
@@ -299,7 +304,7 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<CommandArgumentFilter> createCommandArgumentFilters() {
-		return Set.of(new RealschuleCommandArgumentFilter());
+		return Set.of(new ExamCommandArgumentFilter(), new RealschuleCommandArgumentFilter());
 	}
 
 	private static OperationFilter createOperationFilter() {
@@ -372,8 +377,7 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 	}
 
 	@Override
-	public void applySettingsRestrictions(@Nonnull Settings settings,
-			@Nonnull ConstructionDefaults defaults) {
+	public void applySettingsRestrictions(Settings settings, ConstructionDefaults defaults) {
 		super.applySettingsRestrictions(settings, defaults);
 		EuclidianSettings euclidian = settings.getEuclidian(1);
 		settings.getGeneral().setCoordFormat(Kernel.COORD_STYLE_AUSTRIAN);

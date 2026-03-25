@@ -34,7 +34,7 @@ public class RealschuleAlgebraOutputFilterTests extends BaseExamTestSetup {
 
 	@Test
 	public void testAlgebraOutputRestrictions() {
-		AlgebraOutputFilter outputFilter = new RealschuleAlgebraOutputFilter(null);
+		AlgebraOutputFilter outputFilter = new RealschuleAlgebraOutputFilter();
 
 		assertFalse(outputFilter.isAllowed(evaluateGeoElement("Line((0, 0), (1, 2))")));
 		assertFalse(outputFilter.isAllowed(evaluateGeoElement("Ray((0, 0), (1, 2))")));

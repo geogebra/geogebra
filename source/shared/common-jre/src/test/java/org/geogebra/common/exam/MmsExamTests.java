@@ -189,7 +189,7 @@ public class MmsExamTests extends BaseExamTestSetup {
 				List.of(CreateTableValues, AddLabel, DuplicateInput, Delete, Settings),
 				ContextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("{1, 2, 3}"),
 						getAlgebraProcessor(), CAS_APPCODE, getAlgebraSettings(),
-						examController.getContextMenuItemFilters()));
+						restrictionsController.getContextMenuItemFilters()));
 	}
 
 	@ParameterizedTest
@@ -269,7 +269,7 @@ public class MmsExamTests extends BaseExamTestSetup {
 	@Test
 	public void testAsindShowsOutputInDegrees() {
 		GeoElement element = evaluateGeoElement("asind(0.8)");
-		MmsAlgebraOutputFilter filter = new MmsAlgebraOutputFilter(null);
+		MmsAlgebraOutputFilter filter = new MmsAlgebraOutputFilter();
 		assertTrue(filter.isAllowed(element));
 		// verify output row is visible
 		AlgebraViewItem algebraViewItem = new AlgebraViewItem(element);
@@ -295,7 +295,7 @@ public class MmsExamTests extends BaseExamTestSetup {
 				ContextMenuFactory.makeAlgebraContextMenu(
 						evaluateGeoElement("f(x)=xx"),
 						getAlgebraProcessor(), CAS_APPCODE, getAlgebraSettings(),
-						examController.getContextMenuItemFilters()));
+						restrictionsController.getContextMenuItemFilters()));
 	}
 
 	@Test
@@ -315,7 +315,7 @@ public class MmsExamTests extends BaseExamTestSetup {
 		String definition = "BarChart({10, 11, 12}, {5, 8, 12})";
 		GeoElement barchart = evaluateGeoElement(definition);
 		ProtectiveGeoElementValueConverter converter =
-				new ProtectiveGeoElementValueConverter(new MmsAlgebraOutputFilter(null));
+				new ProtectiveGeoElementValueConverter(new MmsAlgebraOutputFilter());
 		assertEquals(definition,
 				converter.toValueString(barchart, StringTemplate.defaultTemplate));
 		assertEquals(definition,
@@ -331,7 +331,7 @@ public class MmsExamTests extends BaseExamTestSetup {
 	})
 	public void testRestrictedFunctionOutput() {
 		evaluateGeoElement("f(x) = 2x");
-		assertFalse(new MmsAlgebraOutputFilter(null)
+		assertFalse(new MmsAlgebraOutputFilter()
 				.isAllowed(evaluateGeoElement("g(x) = f(x + 6)")));
 	}
 
@@ -353,7 +353,7 @@ public class MmsExamTests extends BaseExamTestSetup {
 			"Expand((2x - 1)² + 2x + 3) -> 4*x^2-2*x+4",
 	})
 	public void testUnrestrictedFunctionOutputs(String expression) {
-		assertTrue(new MmsAlgebraOutputFilter(null).isAllowed(evaluateGeoElement(expression)));
+		assertTrue(new MmsAlgebraOutputFilter().isAllowed(evaluateGeoElement(expression)));
 	}
 
 	@ParameterizedTest
@@ -814,7 +814,7 @@ public class MmsExamTests extends BaseExamTestSetup {
 	public void angleComputationsRadians() {
 		getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
 		evaluate("a=1 deg");
-		MmsAlgebraOutputFilter filter = new MmsAlgebraOutputFilter(null);
+		MmsAlgebraOutputFilter filter = new MmsAlgebraOutputFilter();
 		assertFalse(filter.isAllowed(evaluate("pi/deg")[0]));
 		assertTrue(filter.isAllowed(evaluate("pi/a")[0]));
 		assertTrue(filter.isAllowed(evaluate("a+a")[0]));
@@ -911,7 +911,7 @@ public class MmsExamTests extends BaseExamTestSetup {
 		GeoElement geoElement = evaluateGeoElement("x^2 - 2");
 		List<AlgebraContextMenuItem> contextMenuItems = ContextMenuFactory.makeAlgebraContextMenu(
 				geoElement, getAlgebraProcessor(), CAS_APPCODE, getAlgebraSettings(),
-				examController.getContextMenuItemFilters());
+				restrictionsController.getContextMenuItemFilters());
 		assertFalse(contextMenuItems.contains(AlgebraContextMenuItem.SpecialPoints));
 	}
 

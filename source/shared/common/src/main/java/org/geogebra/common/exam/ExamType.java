@@ -25,14 +25,19 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.exam.restrictions.cvte.CvteAlgebraOutputFilter;
-import org.geogebra.common.exam.restrictions.mms.MmsAlgebraOutputFilter;
-import org.geogebra.common.exam.restrictions.realschule.RealschuleAlgebraOutputFilter;
-import org.geogebra.common.exam.restrictions.wtr.WtrAlgebraOutputFilter;
-import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
+import org.geogebra.common.exam.restrictions.BayernCasExamRestrictions;
+import org.geogebra.common.exam.restrictions.CvteExamRestrictions;
+import org.geogebra.common.exam.restrictions.GenericExamRestrictions;
+import org.geogebra.common.exam.restrictions.IBExamRestrictions;
+import org.geogebra.common.exam.restrictions.MmsExamRestrictions;
+import org.geogebra.common.exam.restrictions.NiedersachsenExamRestrictions;
+import org.geogebra.common.exam.restrictions.RealschuleExamRestrictions;
+import org.geogebra.common.exam.restrictions.VlaanderenExamRestrictions;
+import org.geogebra.common.exam.restrictions.WtrExamRestrictions;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.PreviewFeature;
+import org.geogebra.common.restrictions.Restrictions;
 import org.geogebra.common.util.ToStringConverter;
 
 /**
@@ -65,12 +70,6 @@ public enum ExamType {
 		public String getShortDisplayName(Localization loc, AppConfig config) {
 			return "CvTE";
 		}
-
-		@Override
-		public AlgebraOutputFilter wrapAlgebraOutputFilter(
-				@CheckForNull AlgebraOutputFilter wrappedFilter) {
-			return new CvteAlgebraOutputFilter(wrappedFilter);
-		}
 	},
 
 	BAYERN_GR() {
@@ -83,12 +82,6 @@ public enum ExamType {
 		public String getShortDisplayName(Localization loc, AppConfig config) {
 			return "Bayern GR";
 		}
-
-		@Override
-		public AlgebraOutputFilter wrapAlgebraOutputFilter(
-				@CheckForNull AlgebraOutputFilter wrappedFilter) {
-			return new RealschuleAlgebraOutputFilter(wrappedFilter);
-		}
 	},
 
 	MMS() {
@@ -100,12 +93,6 @@ public enum ExamType {
 		@Override
 		public String getShortDisplayName(Localization loc, AppConfig config) {
 			return "MMS Abitur";
-		}
-
-		@Override
-		public AlgebraOutputFilter wrapAlgebraOutputFilter(
-				@CheckForNull AlgebraOutputFilter wrappedFilter) {
-			return new MmsAlgebraOutputFilter(wrappedFilter);
 		}
 	},
 
@@ -167,12 +154,6 @@ public enum ExamType {
 		public String getShortDisplayName(Localization loc, AppConfig config) {
 			return "WTR";
 		}
-
-		@Override
-		public AlgebraOutputFilter wrapAlgebraOutputFilter(
-				@CheckForNull AlgebraOutputFilter wrappedFilter) {
-			return new WtrAlgebraOutputFilter(wrappedFilter);
-		}
 	};
 
 	public static final String CHOOSE = "choose";
@@ -208,12 +189,29 @@ public enum ExamType {
 	public abstract String getShortDisplayName(Localization loc, AppConfig config);
 
 	/**
-	 * @param wrappedFilter The currently used {@link AlgebraOutputFilter}
-	 * @return The output filter for this exam type. By default, returns the currently used filter.
+	 * @return The {@link Restrictions} for this exam type.
 	 */
-	public AlgebraOutputFilter wrapAlgebraOutputFilter(
-			@CheckForNull AlgebraOutputFilter wrappedFilter) {
-		return wrappedFilter;
+	public Restrictions createRestrictions() {
+		switch (this) {
+		case BAYERN_CAS:
+			return new BayernCasExamRestrictions();
+		case CVTE:
+			return new CvteExamRestrictions();
+		case IB:
+			return new IBExamRestrictions();
+		case NIEDERSACHSEN:
+			return new NiedersachsenExamRestrictions();
+		case BAYERN_GR:
+			return new RealschuleExamRestrictions();
+		case VLAANDEREN:
+			return new VlaanderenExamRestrictions();
+		case MMS:
+			return new MmsExamRestrictions();
+		case WTR:
+			return new WtrExamRestrictions();
+		default:
+			return new GenericExamRestrictions();
+		}
 	}
 
 	/**

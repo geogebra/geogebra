@@ -23,16 +23,20 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.ExamControllerDelegate;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.restrictions.RestrictionsControllerDelegate;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 
-public class ExamControllerDelegateW implements ExamControllerDelegate {
+public class ExamControllerDelegateW
+		implements ExamControllerDelegate, RestrictionsControllerDelegate {
 
 	private final AppW app;
 
 	public ExamControllerDelegateW(AppW app) {
 		this.app = app;
 	}
+
+	// -- ExamControllerDelegate --
 
 	@Override
 	public void examClearApps() {
@@ -60,8 +64,10 @@ public class ExamControllerDelegateW implements ExamControllerDelegate {
 		return app.getActiveMaterial();
 	}
 
+	// -- RestrictionsControllerDelegate --
+
 	@Override
-	public @CheckForNull SuiteSubApp examGetCurrentSubApp() {
+	public @CheckForNull SuiteSubApp getCurrentSubApp() {
 		String subAppCode = app.getConfig().getSubAppCode();
 		if (!app.isSuite() || subAppCode == null) {
 			return null;
@@ -85,7 +91,7 @@ public class ExamControllerDelegateW implements ExamControllerDelegate {
 	}
 
 	@Override
-	public void examSwitchSubApp(@Nonnull SuiteSubApp subApp) {
+	public void switchSubApp(@Nonnull SuiteSubApp subApp) {
 		if (!app.isSuite()) {
 			return;
 		}

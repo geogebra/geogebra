@@ -16,18 +16,22 @@
 
 package org.geogebra.common.exam.restrictions;
 
-import org.geogebra.common.exam.ExamType;
+import java.util.Set;
 
-final class GenericExamRestrictions extends ExamRestrictions {
+import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
+import org.geogebra.common.restrictions.Restrictions;
 
-	GenericExamRestrictions() {
-		super(ExamType.GENERIC,
+public final class GenericExamRestrictions extends Restrictions {
+
+	/** Constructs the restrictions for generic exam. */
+	public GenericExamRestrictions() {
+		super(null,
 				null,
 				null,
 				null,
 				null,
 				null,
-				null,
+				Set.of(new ExamCommandArgumentFilter()),
 				null,
 				null,
 				null,

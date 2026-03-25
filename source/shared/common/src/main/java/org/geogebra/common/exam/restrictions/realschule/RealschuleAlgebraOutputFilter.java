@@ -19,27 +19,43 @@ package org.geogebra.common.exam.restrictions.realschule;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.statistics.AlgoFitImplicit;
+import org.geogebra.common.kernel.statistics.AlgoFitLineX;
+import org.geogebra.common.kernel.statistics.AlgoFitLineY;
+import org.geogebra.common.kernel.statistics.FitAlgo;
 
 public final class RealschuleAlgebraOutputFilter implements AlgebraOutputFilter {
 
-	private final @CheckForNull AlgebraOutputFilter wrappedFilter;
-
-	public RealschuleAlgebraOutputFilter(@CheckForNull AlgebraOutputFilter wrappedFilter) {
-		this.wrappedFilter = wrappedFilter;
-	}
-
 	@Override
 	public boolean isAllowed(GeoElementND element) {
+		return isCalculatedEquationAllowed(element);
+	}
+
+	private boolean isCalculatedEquationAllowed(@CheckForNull GeoElementND element) {
 		if (element == null) {
 			return false;
 		}
-		if (!Realschule.isCalculatedEquationAllowed(element)) {
+		if (isAllowedFitCommand(element.getParentAlgorithm())) {
+			return true;
+		}
+		if ((element.isGeoLine()
+				|| element.isGeoRay()
+				|| element.isGeoConic()
+				|| element.isGeoFunction()
+				|| element.isImplicitEquation())
+				&& (element.getParentAlgorithm() != null)) {
 			return false;
 		}
-		if (wrappedFilter != null) {
-			return wrappedFilter.isAllowed(element);
-		}
 		return true;
+	}
+
+	private boolean isAllowedFitCommand(@CheckForNull AlgoElement algo) {
+		if (algo == null) {
+			return false;
+		}
+		return algo instanceof FitAlgo || algo instanceof AlgoFitLineX
+				|| algo instanceof AlgoFitLineY || algo instanceof AlgoFitImplicit;
 	}
 }

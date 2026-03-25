@@ -35,7 +35,7 @@ public interface PropertiesRegistry {
 	 *
 	 * @param listener A listener.
 	 */
-	void addListener(@NonOwning @Nonnull PropertiesRegistryListener listener);
+	void addListener(@Nonnull PropertiesRegistryListener listener);
 
 	/**
 	 * Remove a listener.

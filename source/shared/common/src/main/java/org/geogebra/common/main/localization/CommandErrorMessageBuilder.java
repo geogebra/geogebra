@@ -21,19 +21,18 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.exam.ExamType;
-import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
-import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError.Errors;
+import org.geogebra.common.restrictions.FeatureRestriction;
+import org.geogebra.common.restrictions.Restrictable;
 
 /**
  * Creates user facing messages, when a command is invalid.
  */
-public class CommandErrorMessageBuilder implements ExamRestrictable {
+public class CommandErrorMessageBuilder implements Restrictable {
 
 	private Localization localization;
 
@@ -139,17 +138,15 @@ public class CommandErrorMessageBuilder implements ExamRestrictable {
 		}
 	}
 
-	// ExamRestrictable
+	// -- Restrictable --
 
 	@Override
-	public void applyRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions,
-			@Nonnull ExamType examType) {
+	public void applyRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
 		setShowingSyntax(false);
 	}
 
 	@Override
-	public void removeRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions,
-			@Nonnull ExamType examType) {
+	public void removeRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
 		setShowingSyntax(true);
 	}
 }

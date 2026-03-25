@@ -369,7 +369,6 @@ import static org.geogebra.common.plugin.Operation.RANDOM;
 import java.util.Map;
 import java.util.Set;
 
-import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.ib.IBCommandArgumentFilter;
 import org.geogebra.common.exam.restrictions.ib.IBSyntaxFilter;
 import org.geogebra.common.exam.restrictions.ib.PointDerivativeFilter;
@@ -379,6 +378,7 @@ import org.geogebra.common.kernel.algos.DisabledAlgorithms;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
+import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
@@ -386,12 +386,14 @@ import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.PropertyKey;
 import org.geogebra.common.properties.impl.distribution.DistributionTypeProperty;
+import org.geogebra.common.restrictions.PropertyRestriction;
+import org.geogebra.common.restrictions.Restrictions;
 
-public final class IBExamRestrictions extends ExamRestrictions {
+public final class IBExamRestrictions extends Restrictions {
 
-	IBExamRestrictions() {
-		super(ExamType.IB,
-				Set.of(CAS, G3D, GEOMETRY, SCIENTIFIC),
+	/** Constructs the restrictions for IB exam. */
+	public IBExamRestrictions() {
+		super(Set.of(CAS, G3D, GEOMETRY, SCIENTIFIC),
 				GRAPHING,
 				null,
 				createExpressionFilters(),
@@ -406,6 +408,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				null,
 				null,
 				createDisabledAlgorithms(),
+				null,
 				null,
 				null);
 	}
@@ -466,7 +469,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<CommandArgumentFilter> createCommandArgumentFilters() {
-		return Set.of(new IBCommandArgumentFilter());
+		return Set.of(new ExamCommandArgumentFilter(), new IBCommandArgumentFilter());
 	}
 
 	private static OperationFilter createOperationFilter() {

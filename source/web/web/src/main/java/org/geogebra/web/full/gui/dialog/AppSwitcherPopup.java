@@ -17,7 +17,6 @@
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamListener;
 import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.main.App;
@@ -40,7 +39,7 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamListener {
 
 	SuiteHeaderAppPicker appPickerButton;
 	private FlowPanel contentPanel;
-	private final ExamController examController;
+	private final SuiteScope suiteScope;
 
 	/**
 	 * @param app
@@ -52,7 +51,7 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamListener {
 		super(true, app.getAppletFrame(), app);
 		this.appPickerButton = pickerButton;
 		this.app = app;
-		this.examController = GlobalScope.getExamController(app);
+		this.suiteScope = GlobalScope.getSuiteScope(app);
 		addAutoHidePartner(appPickerButton.getElement());
 		setGlassEnabled(false);
 		addStyleName("appPickerPopup");
@@ -96,8 +95,8 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamListener {
 	}
 
 	private void addElement(final SuiteSubApp subAppCode) {
-		if (examController.isExamActive()
-				&& examController.isDisabledSubApp(subAppCode)) {
+		if (suiteScope.examController.isExamActive()
+				&& suiteScope.restrictionsController.isDisabledSubApp(subAppCode)) {
 			return;
 		}
 

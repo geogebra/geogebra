@@ -16,7 +16,7 @@
 
 package org.geogebra.common.properties;
 
-import org.geogebra.common.exam.restrictions.PropertyRestriction;
+import org.geogebra.common.restrictions.PropertyRestriction;
 
 /**
  * A filter for property values.

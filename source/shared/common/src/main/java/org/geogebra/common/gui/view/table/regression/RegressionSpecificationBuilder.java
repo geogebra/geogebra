@@ -23,13 +23,12 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.exam.ExamType;
-import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
-import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.kernel.statistics.Regression;
+import org.geogebra.common.restrictions.FeatureRestriction;
+import org.geogebra.common.restrictions.Restrictable;
 import org.geogebra.editor.share.util.Unicode;
 
-public class RegressionSpecificationBuilder implements ExamRestrictable {
+public class RegressionSpecificationBuilder implements Restrictable {
 
 	private final ArrayList<RegressionSpecification> specs = new ArrayList<>();
 	private RegressionModelGroup modelGroup = RegressionModelGroup.STANDARD;
@@ -98,17 +97,15 @@ public class RegressionSpecificationBuilder implements ExamRestrictable {
 	}
 
 	@Override
-	public void applyRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions,
-			@Nonnull ExamType examType) {
+	public void applyRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
 		if (featureRestrictions.contains(
-				ExamFeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS)) {
+				FeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS)) {
 			setModelGroup(RegressionModelGroup.MMS);
 		}
 	}
 
 	@Override
-	public void removeRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions,
-			@Nonnull ExamType examType) {
+	public void removeRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
 		setModelGroup(RegressionModelGroup.STANDARD);
 	}
 }

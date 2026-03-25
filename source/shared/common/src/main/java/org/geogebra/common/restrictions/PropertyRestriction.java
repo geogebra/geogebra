@@ -14,7 +14,7 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.common.exam.restrictions;
+package org.geogebra.common.restrictions;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -24,7 +24,7 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.ValueFilter;
 
 /**
- * A set of restrictions that can be applied to a {@link Property} during exam mode.
+ * A set of restrictions that can be applied to a {@link Property}.
  * The restrictions may include freezing a property or applying a {@link ValueFilter}
  * to an enumerated property.
  */
@@ -74,8 +74,7 @@ public class PropertyRestriction {
     }
 
     /**
-     * "Freeze" a property (i.e. prevent changing the value, or triggering the action)
-     * at the start of the exam.
+     * "Freeze" a property (i.e. prevent changing the value, or triggering the action).
      * @param property A property.
      */
     protected void freeze(@Nonnull Property property) {
@@ -83,7 +82,7 @@ public class PropertyRestriction {
     }
 
     /**
-     * "Unfreeze" a property at the end of the exam.
+     * "Unfreeze" a property.
      * @param property A property.
      */
     protected void unfreeze(@Nonnull Property property) {

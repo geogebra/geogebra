@@ -90,7 +90,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 		wrappedPopup.clearItems();
 		SuiteScope suiteScope = GlobalScope.getSuiteScope(mApp);
 		Set<ContextMenuItemFilter> contextMenuFilters = suiteScope != null
-				? suiteScope.examController.getContextMenuItemFilters() : Set.of();
+				? suiteScope.restrictionsController.getContextMenuItemFilters() : Set.of();
 		List<AlgebraContextMenuItem> actions = ContextMenuFactory
 				.makeAlgebraContextMenu(geo,
 						mApp.getKernel().getAlgebraProcessor(),

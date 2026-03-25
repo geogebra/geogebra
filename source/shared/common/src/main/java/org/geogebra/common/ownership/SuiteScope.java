@@ -32,6 +32,9 @@ import org.geogebra.common.properties.PropertyValueObserver;
 import org.geogebra.common.properties.ValuedProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
+import org.geogebra.common.restrictions.RestrictionsController;
+
+import com.google.j2objc.annotations.Property;
 
 /**
  * Every Suite app (or standalone app like Graphing, Geometry, etc) has one {@code SuiteScope},
@@ -44,10 +47,15 @@ import org.geogebra.common.properties.impl.general.LanguageProperty;
  */
 public final class SuiteScope implements PropertyValueObserver {
 
-	public final @Nonnull GeoElementPropertiesFactory geoElementPropertiesFactory =
-			new GeoElementPropertiesFactory();
-	public final @Nonnull ExamController examController = new ExamController(
-			geoElementPropertiesFactory);
+	@Property
+	public final @Nonnull GeoElementPropertiesFactory geoElementPropertiesFactory
+			= new GeoElementPropertiesFactory();
+	@Property
+	public final @Nonnull RestrictionsController restrictionsController
+			= new RestrictionsController();
+	@Property
+	public final @Nonnull ExamController examController
+			= new ExamController(restrictionsController);
 
     final Set<App> apps = new HashSet<>();
 	private final Map<App, LanguageProperty> languageProperties = new HashMap<>();
@@ -74,7 +82,7 @@ public final class SuiteScope implements PropertyValueObserver {
 	public @Nonnull List<SuiteSubApp> getEnabledSubApps() {
 		if (examController.isExamActive()) {
 			return SuiteSubApp.availableValues().stream()
-					.filter(subApp -> !examController.isDisabledSubApp(subApp))
+					.filter(subApp -> !restrictionsController.isDisabledSubApp(subApp))
 					.collect(Collectors.toList());
 		}
 		return SuiteSubApp.availableValues();
@@ -94,16 +102,6 @@ public final class SuiteScope implements PropertyValueObserver {
 			languageProperties.put(app, languageProperty);
 		}
 		return languageProperty;
-	}
-
-	// Getters for Swift (j2objc annotations not possible here, fail to compile in desktop project)
-
-	public final @Nonnull GeoElementPropertiesFactory getGeoElementPropertiesFactory() {
-		return geoElementPropertiesFactory;
-	}
-
-	public final @Nonnull ExamController getExamController() {
-		return examController;
 	}
 
 	// -- PropertyValueObserver --

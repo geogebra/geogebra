@@ -31,7 +31,6 @@ import java.util.stream.Stream;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.exam.restrictions.PropertyRestriction;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -130,6 +129,7 @@ import org.geogebra.common.properties.impl.objects.UnderlineProperty;
 import org.geogebra.common.properties.impl.objects.VerticalAlignmentProperty;
 import org.geogebra.common.properties.impl.objects.VisibilityPropertyCollection;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.geogebra.common.restrictions.PropertyRestriction;
 import org.geogebra.common.util.ImageManager;
 
 /**

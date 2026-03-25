@@ -51,7 +51,7 @@ public class ContextMenuButtonDeleteCard extends ContextMenuButtonCard {
     private void addDeleteItem() {
         SuiteScope suiteScope = GlobalScope.getSuiteScope(app);
         Set<ContextMenuItemFilter> filters = suiteScope != null
-                ? suiteScope.examController.getContextMenuItemFilters() : Set.of();
+                ? suiteScope.restrictionsController.getContextMenuItemFilters() : Set.of();
         for (ContextMenuItem item : ContextMenuFactory.makeMaterialContextMenu(filters)) {
             wrappedPopup.addItem(new AriaMenuItem(item.getLocalizedTitle(loc),
                     ImageMap.get(item.getIcon()), this::onDelete));

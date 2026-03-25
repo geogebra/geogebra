@@ -16,32 +16,15 @@
 
 package org.geogebra.common.exam;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.contextmenu.ContextMenuItemFilter;
-import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
-import org.geogebra.common.exam.restrictions.ExamRestrictable;
-import org.geogebra.common.exam.restrictions.ExamRestrictions;
-import org.geogebra.common.exam.restrictions.PropertyRestriction;
 import org.geogebra.common.factories.FormatFactory;
-import org.geogebra.common.gui.toolcategorization.ToolsProvider;
-import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
-import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
-import org.geogebra.common.kernel.algos.AlgoDispatcher;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
@@ -49,17 +32,14 @@ import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.TempStorage;
 import org.geogebra.common.main.exam.event.CheatingEvents;
-import org.geogebra.common.main.localization.AutocompleteProvider;
-import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.ownership.NonOwning;
-import org.geogebra.common.properties.PropertiesRegistry;
-import org.geogebra.common.properties.PropertiesRegistryListener;
-import org.geogebra.common.properties.Property;
-import org.geogebra.common.properties.PropertyKey;
-import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
+import org.geogebra.common.restrictions.Restrictions;
+import org.geogebra.common.restrictions.Restrictions.ContextDependencies;
+import org.geogebra.common.restrictions.RestrictionsController;
 import org.geogebra.common.util.TimeFormatAdapter;
 
+import com.google.j2objc.annotations.Property;
 import com.google.j2objc.annotations.Weak;
 
 /**
@@ -75,7 +55,8 @@ import com.google.j2objc.annotations.Weak;
  *     time formatting for these.
  *     <li><b>Restrictions</b>: Applying restrictions on certain components (e.g.,  the
  *     {@link CommandDispatcher}) at the start of an exam, and reverting those restrictions
- *     when the exam ends.
+ *     when the exam ends. The bulk of the restrictions is now handled by
+ *     {@link RestrictionsController}, however.
  *     <li><b>Events</b>: Collect relevant events (e.g., cheating attempts).
  * </ul>
  * <h2>NOT Responsibilities</h2>
@@ -93,26 +74,19 @@ import com.google.j2objc.annotations.Weak;
  *
  *  @implNote This class is not designed to be thread-safe.
  */
-public final class ExamController implements PropertiesRegistryListener {
+public final class ExamController {
 
 	@Weak
 	@NonOwning
-	public ExamControllerDelegate delegate;
+	@Property
+	public @CheckForNull ExamControllerDelegate delegate;
 
-	private List<ExamControllerDelegate> delegates = new ArrayList<>();
+	private @NonOwning RestrictionsController restrictionsController;
+	private Function<ExamType, Restrictions> examRestrictionsFactory =
+			ExamType::createRestrictions;
 
-	private Function<ExamType, ExamRestrictions> examRestrictionsFactory =
-			ExamRestrictions::forExamType;
-	private @NonOwning GeoElementPropertiesFactory geoElementPropertiesFactory;
-
-	private Set<ExamRestrictable> restrictables = new HashSet<>();
-	/** this is only for the mobile use case (1 Suite app instance) */
 	private ContextDependencies activeDependencies;
-	/** this is only for the Web use case (multiple Suite app instances) */
-	private @CheckForNull List<ContextDependencies> registeredDependencies = null;
-
 	private ExamType examType;
-	private ExamRestrictions examRestrictions;
 	private ExamOptions options;
 
 	private ExamState state = ExamState.IDLE;
@@ -127,152 +101,32 @@ public final class ExamController implements PropertiesRegistryListener {
 
 	/**
 	 * Creates a new ExamController.
-	 * @param geoElementPropertiesFactory The properties factory for geo elements.
-	 * @implNote The ExamController will register itself as a listener on the properties registry.
+	 * @param restrictionsController The controller responsible for applying restrictions.
 	 */
-	public ExamController(@Nonnull GeoElementPropertiesFactory geoElementPropertiesFactory) {
-		this.geoElementPropertiesFactory = geoElementPropertiesFactory;
-	}
-
-	/**
-	 * Sets the delegate.
-	 * @param delegate The delegate.
-	 * @apiNote It is assumed that the delegate is set before attempting to start an exam.
-	 * Used in the mobile case where only one Suite app can exist at a time.
-	 * @implNote This method is provided for J2ObjC.
-	 */
-	public void setDelegate(@NonOwning ExamControllerDelegate delegate) {
-		this.delegate = delegate;
-	}
-
-	/**
-	 * Adds a delegate.
-	 * @param delegate The delegate
-	 * @apiNote to be used in web together with registerContext
-	 */
-	public void registerDelegate(@NonOwning ExamControllerDelegate delegate) {
-		this.delegates.add(delegate);
-	}
-
-	/**
-	 * Register additional app context (Web use case).
-	 * Same parameter semantics as {@link #setActiveContext}
-	 * @apiNote This method is intended for the Web use case, and must be called once on app
-	 * initialization, before any attempts to start an exam.
-	 */
-	public void registerContext(ContextDependencies contextDependencies) {
-		if (activeDependencies != null) {
-			throw new IllegalStateException(
-					"registerContexts() must not be mixed with calls to setActiveContext()");
-		}
-		if (registeredDependencies == null) {
-			registeredDependencies = new ArrayList<>();
-		}
-		registeredDependencies.add(contextDependencies);
-		if (state == ExamState.ACTIVE) {
-			applyRestrictionsToContextDependencies(contextDependencies);
-			applyRestrictionsToRestrictables();
-		}
+	public ExamController(@Nonnull RestrictionsController restrictionsController) {
+		this.restrictionsController = restrictionsController;
 	}
 
 	/**
 	 * Set the active context and associated dependencies.
 	 * <p>
-	 * The context can be <i>any object</i>, but it should correspond to or identify the current
-	 * app, or, in Suite, the currently active sub-app (Graphing, Geometry, etc). The only
-	 * requirement here is that when any of the dependencies (e.g., the command dispatcher or
-	 * algebra processor) change, this should also mean a change in current context and be
-	 * communicated to the exam controller by calling this method.
+	 * When any of the dependencies (e.g., the command dispatcher or algebra processor) change,
+	 * this should be communicated to the exam controller by calling this method.
 	 * </p>
 	 * This method needs to be called before an exam starts, and also when the active app
-	 * changes during an exam, so what we can remove the restrictions on the current dependencies,
+	 * changes during an exam, so what we can remove the restrictions from the current dependencies,
 	 * and apply the restrictions on the new dependencies.
-	 * @apiNote This method is intended for the mobile use case, and must not be mixed with
-	 * calls to {@link #registerContext}.
 	 */
-	public void setActiveContext(
-			@Nonnull Object context,
-			@Nonnull AlgoDispatcher algoDispatcher,
-			@Nonnull CommandDispatcher commandDispatcher,
-			@Nonnull AlgebraProcessor algebraProcessor,
-			@Nonnull PropertiesRegistry propertiesRegistry,
-			@Nonnull Localization localization,
-			@Nonnull Settings settings,
-			@Nonnull StatisticGroupsBuilder statisticGroupsBuilder,
-			@CheckForNull AutocompleteProvider autocompleteProvider,
-			@CheckForNull ToolsProvider toolsProvider,
-			@CheckForNull ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
-			@CheckForNull Construction construction) {
-		if (registeredDependencies != null) {
-			throw new IllegalStateException(
-					"setActiveContext() must not be mixed with calls to registerContexts()");
+	public void setActiveContext(@Nonnull ContextDependencies contextDependencies) {
+		if (restrictionsController.getRestrictions() != null && activeDependencies != null) {
+			removeExtraRestrictionsFromDependencies();
 		}
-		if (activeDependencies != null) {
-			activeDependencies.propertiesRegistry.removeListener(this);
-			// remove restrictions for current dependencies, if exam is active
-			if (examRestrictions != null) {
-				removeRestrictionsFromContextDependencies(activeDependencies);
-			}
+		restrictionsController.setActiveContext(contextDependencies);
+		this.activeDependencies = contextDependencies;
+		if (restrictionsController.getRestrictions() != null) {
+			applyExtraRestrictionsToDependencies();
+			resetDelegateBeforeExam();
 		}
-		ContextDependencies contextDependencies = new ContextDependencies(context,
-				algoDispatcher,
-				commandDispatcher,
-				algebraProcessor,
-				propertiesRegistry,
-				localization,
-				settings,
-				statisticGroupsBuilder,
-				autocompleteProvider,
-				toolsProvider,
-				scheduledPreviewFromInputBar,
-				construction);
-		activeDependencies = contextDependencies;
-		activeDependencies.propertiesRegistry.addListener(this);
-		// apply restrictions to new dependencies, if exam is active
-		if (examRestrictions != null) {
-			applyRestrictionsToDelegates(examRestrictions);
-			applyRestrictionsToContextDependencies(contextDependencies);
-		}
-	}
-
-	/**
-	 * Remove a context. Called when the context is no longer needed,
-	 * does not remove any restrictions.
-	 * @param context exam context
-	 */
-	public void unregisterContext(Object context) {
-		if (registeredDependencies != null) {
-			registeredDependencies.removeIf(deps -> deps.context == context);
-		}
-	}
-
-	/**
-	 * Register an object that may need to apply additional restrictions/customization
-	 * for certain types of exams.
-	 * @param restrictable An object that may need to perform additional customization
-	 * when an exam is started.
-	 * @apiNote When an exam is currently active, the {@link ExamRestrictable} is asked
-	 * to apply the current {@link ExamRestrictions} immediately.
-	 */
-	public void registerRestrictable(@Nonnull ExamRestrictable restrictable) {
-		restrictables.add(restrictable);
-		if (examRestrictions != null) {
-			restrictable.applyRestrictions(examRestrictions.getFeatureRestrictions(), examType);
-		}
-	}
-
-	/**
-	 * Unregister an {@link ExamRestrictable}.
-	 * @param restrictable An object that that was previously registered with
-	 * {@link #registerRestrictable(ExamRestrictable)}..
-	 * @apiNote When an exam is currently active, the {@link ExamRestrictable} is asked
-	 * to remove the current {@link ExamRestrictions} immediately.
-	 */
-	public void unregisterRestrictable(@Nonnull ExamRestrictable restrictable) {
-		if (examRestrictions != null) {
-			restrictable.removeRestrictions(examRestrictions.getFeatureRestrictions(), examType);
-		}
-		restrictables.remove(restrictable);
 	}
 
 	/**
@@ -280,7 +134,7 @@ public final class ExamController implements PropertiesRegistryListener {
 	 * @param listener The listener to add.
 	 * @apiNote Trying to add a listener that is already registered will have no effect.
 	 */
-	public void addListener(@NonOwning @Nonnull ExamListener listener) {
+	public void addListener(@Nonnull ExamListener listener) {
 		listeners.add(listener);
 	}
 
@@ -331,78 +185,14 @@ public final class ExamController implements PropertiesRegistryListener {
 	}
 
 	/**
-	 * Get the list of disabled subapps, if any.
-	 * @return The set of disabled (restricted) sub-apps, or null if there are no
-	 * restrictions on sub-apps currently.
-	 */
-	public @CheckForNull Set<SuiteSubApp> getDisabledSubApps() {
-		return examRestrictions != null ? examRestrictions.getDisabledSubApps() : null;
-	}
-
-	/**
-	 * Get the list of disabled subapps, if any.
-	 * @return The set of disabled (restricted) sub-app codes, or null if there are no
-	 * restrictions on sub-apps currently.
-	 */
-	public @CheckForNull Set<String> getDisabledSubAppCodes() {
-		Set<SuiteSubApp> disabledSubApps = getDisabledSubApps();
-		if (disabledSubApps == null) {
-			return null;
-		}
-		return disabledSubApps.stream().map(subApp -> subApp.appCode).collect(Collectors.toSet());
-	}
-
-	/**
-	 * Check for disabled subapps.
-	 * @param appCode A sub-app code (e.g.
-	 * {@link org.geogebra.common.GeoGebraConstants#GRAPHING_APPCODE}).
-	 * @return True if the sub-app corresponding to appCode is currently disabled, false otherwise.
-	 */
-	public boolean isDisabledSubApp(String appCode) {
-		return isDisabledSubApp(SuiteSubApp.forCode(appCode));
-	}
-
-	/**
-	 * Check for disabled subapps.
-	 * @param subApp A sub-app
-	 * @return True if the sub-app corresponding to appCode is currently disabled, false otherwise.
-	 */
-	public boolean isDisabledSubApp(SuiteSubApp subApp) {
-		Set<SuiteSubApp> disabledSubApps = getDisabledSubApps();
-		if (disabledSubApps == null) {
-			return false;
-		}
-		return disabledSubApps.contains(subApp);
-	}
-
-	/**
-	 * Check for disabled features.
-	 * @param featureRestriction A feature restriction.
-	 * @return True if the exam is currently active and the feature is restricted, false
-	 * otherwise.
-	 */
-	public boolean isFeatureRestricted(ExamFeatureRestriction featureRestriction) {
-		return examRestrictions != null && examRestrictions
-				.getFeatureRestrictions().contains(featureRestriction);
-	}
-
-	/**
-	 * Get the current list of context menu item filters (may be empty).
-	 * @return The context menu item filters for the current exam in case an exam is currently
-	 * active, or an empty set otherwise.
-	 */
-	public @Nonnull Set<ContextMenuItemFilter> getContextMenuItemFilters() {
-		return examRestrictions != null ? examRestrictions.getContextMenuItemFilters() : Set.of();
-	}
-
-	/**
 	 * Get the exam short display name.
 	 * @param appConfig The current app config.
 	 * @param localization The localization.
 	 * @return The current exam's short display name (see
 	 * {@link ExamType#getShortDisplayName(Localization, AppConfig)}.
 	 */
-	public @CheckForNull String getExamName(AppConfig appConfig, Localization localization) {
+	public @CheckForNull String getExamName(@Nonnull AppConfig appConfig,
+			@Nonnull Localization localization) {
 		return examType == null ? null : examType.getShortDisplayName(localization, appConfig);
 	}
 
@@ -425,7 +215,7 @@ public final class ExamController implements PropertiesRegistryListener {
 	 * @return The formatted duration since the start of the exam, if an exam is currently
 	 * active, or zero (0:00) otherwise.
 	 */
-	public String getDurationFormatted(Localization localization) {
+	public String getDurationFormatted(@Nonnull Localization localization) {
 		if (timeFormatter == null) {
 			timeFormatter = FormatFactory.getPrototype().getTimeFormat();
 		}
@@ -447,8 +237,8 @@ public final class ExamController implements PropertiesRegistryListener {
 	 * @return A summary of the exam if the exam is in the {@link ExamState#ACTIVE} or
 	 * {@link ExamState#FINISHED} state, or null otherwise.
 	 */
-	public @CheckForNull ExamSummary getExamSummary(AppConfig appConfig,
-			Localization localization) {
+	public @CheckForNull ExamSummary getExamSummary(@Nonnull AppConfig appConfig,
+			@Nonnull Localization localization) {
 		if (state == ExamState.IDLE || state == ExamState.PREPARING) {
 			return null;
 		}
@@ -500,32 +290,22 @@ public final class ExamController implements PropertiesRegistryListener {
 			throw new IllegalStateException("expected to be in IDLE or PREPARING state, "
 					+ "but is " + state);
 		}
-		if (activeDependencies == null && registeredDependencies == null) {
-			throw new IllegalStateException("no active context(s)");
+		if (activeDependencies == null) {
+			throw new IllegalStateException("no active context");
 		}
-
 		this.examType = examType;
 		this.options = options;
 
-		forEachDelegate(delegate -> {
+		if (delegate != null) {
 			delegate.examClearClipboard();
 			delegate.examClearApps();
-		});
-		tempStorage.clearTempMaterials();
-		createNewTempMaterial();
-
-		ExamRestrictions restrictions = examRestrictionsFactory.apply(examType);
-		applyRestrictionsToDelegates(restrictions);
-		// delay setting the examRestrictions field until after delegates have been notified
-		// (see https://git.geogebra.org/ggb/geogebra/-/merge_requests/9370#note_76206)
-		examRestrictions = restrictions;
-
-		if (activeDependencies != null) {
-			applyRestrictionsToContextDependencies(activeDependencies);
-		} else if (registeredDependencies != null) {
-			registeredDependencies.forEach(this::applyRestrictionsToContextDependencies);
 		}
-		applyRestrictionsToRestrictables();
+		tempStorage.clearTempMaterials();
+
+		Restrictions examRestrictions = examRestrictionsFactory.apply(examType);
+		restrictionsController.applyRestrictions(examRestrictions);
+
+		createNewTempMaterial();
 
 		cheatingEvents = new CheatingEvents();
 		cheatingEvents.delegate = (cheatingEvent) -> {
@@ -560,20 +340,19 @@ public final class ExamController implements PropertiesRegistryListener {
 		if (state != ExamState.FINISHED) {
 			throw new IllegalStateException("expected to be in FINISHED state, but is " + state);
 		}
-		if (activeDependencies != null) {
-			removeRestrictionsFromContextDependencies(activeDependencies);
-		} else if (registeredDependencies != null) {
-			registeredDependencies.forEach(this::removeRestrictionsFromContextDependencies);
-		}
-		removeRestrictionsFromRestrictables();
+		restrictionsController.removeRestrictions();
+		resetDelegateAfterExam();
+		removeExtraRestrictionsFromDependencies();
+		restrictionsController.resetRestrictions();
+
 		tempStorage.clearTempMaterials();
-		forEachDelegate(delegate -> {
+		if (delegate != null) {
 			delegate.examClearClipboard();
 			delegate.examClearApps();
-		});
+		}
+
 		startDate = finishDate = null;
 		examType = null;
-		examRestrictions = null;
 		setState(ExamState.IDLE);
 	}
 
@@ -603,70 +382,40 @@ public final class ExamController implements PropertiesRegistryListener {
 		}
 	}
 
-	private void applyRestrictionsToDelegates(ExamRestrictions restrictions) {
-		forEachDelegate(delegate -> {
-			// switching away from restricted subapp only possible in mobile use case;
-			// in Web, there may be several Suite instances, so there's no "current subapp"
-			SuiteSubApp currentSubApp = delegate.examGetCurrentSubApp();
-			Set<SuiteSubApp> disabledSubApps = restrictions.getDisabledSubApps();
-			if (currentSubApp == null
-					|| (disabledSubApps != null && disabledSubApps.contains(currentSubApp))) {
-				delegate.examSwitchSubApp(restrictions.getDefaultSubApp());
-			}
-			if (delegate.examGetActiveMaterial() == null) {
-				delegate.examSetActiveMaterial(tempStorage.newMaterial());
-			}
-		});
-	}
-
-	private void applyRestrictionsToContextDependencies(ContextDependencies dependencies) {
-		if (examRestrictions == null) {
-			return; // log/throw?
-		}
-		if (dependencies != null) {
-			examRestrictions.applyTo(dependencies, geoElementPropertiesFactory);
-			if (options != null && !options.casEnabled) {
-				dependencies.commandDispatcher.addCommandFilter(noCASFilter);
-			}
-		}
-	}
-
-	private void removeRestrictionsFromContextDependencies(ContextDependencies dependencies) {
-		if (examRestrictions == null) {
+	private void resetDelegateBeforeExam() {
+		if (delegate == null) {
 			return;
 		}
-		if (dependencies != null) {
-			examRestrictions.removeFrom(dependencies, geoElementPropertiesFactory);
-			if (options != null && !options.casEnabled) {
-				dependencies.commandDispatcher.removeCommandFilter(noCASFilter);
-			}
+		if (delegate.examGetActiveMaterial() == null) {
+			delegate.examSetActiveMaterial(tempStorage.newMaterial());
 		}
 	}
 
-	/**
-	 * Re-applies the {@link ExamRestrictions} by removing, and subsequently adding them again
-	 * to the {@link #restrictables}
-	 *
-	 * TODO this looks wrong: removing restrictions from some set of restrictables,
-	 *  and then re-applying the *same* restrictions to the *same* restrictables should
-	 *  be idempotent, i.e., make no difference. If it currently *does* make a
-	 *  difference, then somebody somewhere outside of ExamController is messing with
-	 *  the restrictions (which should not happen, it's the ExamController's job).
-	 */
-	public void reapplyRestrictionsToRestrictables() {
-		removeRestrictionsFromRestrictables();
-		applyRestrictionsToRestrictables();
-	}
-
-	private void applyRestrictionsToRestrictables() {
-		for (ExamRestrictable restrictable : restrictables) {
-			restrictable.applyRestrictions(examRestrictions.getFeatureRestrictions(), examType);
+	private void resetDelegateAfterExam() {
+		if (delegate == null) {
+			return;
+		}
+		delegate.examClearApps();
+		if (delegate.examGetActiveMaterial() == null) {
+			delegate.examSetActiveMaterial(tempStorage.newMaterial());
 		}
 	}
 
-	private void removeRestrictionsFromRestrictables() {
-		for (ExamRestrictable restrictable : restrictables) {
-			restrictable.removeRestrictions(examRestrictions.getFeatureRestrictions(), examType);
+	private void applyExtraRestrictionsToDependencies() {
+		if (activeDependencies == null) {
+			return;
+		}
+		if (options != null && !options.casEnabled) {
+			activeDependencies.commandDispatcher().addCommandFilter(noCASFilter);
+		}
+	}
+
+	private void removeExtraRestrictionsFromDependencies() {
+		if (activeDependencies == null) {
+			return;
+		}
+		if (options != null && !options.casEnabled) {
+			activeDependencies.commandDispatcher().removeCommandFilter(noCASFilter);
 		}
 	}
 
@@ -674,8 +423,9 @@ public final class ExamController implements PropertiesRegistryListener {
 	 * Re-apply settings restrictions for ClearAll during exam.
 	 */
 	public void reapplySettingsRestrictions() {
-		if (examRestrictions != null) {
-			examRestrictions.reapplySettingsRestrictions();
+		Restrictions restrictions = restrictionsController.getRestrictions();
+		if (restrictions != null) {
+			restrictions.reapplySettingsRestrictions();
 		}
 	}
 
@@ -693,12 +443,10 @@ public final class ExamController implements PropertiesRegistryListener {
 	 * {@link ExamControllerDelegate#examSetActiveMaterial(Material)} method.
 	 */
 	public void createNewTempMaterial() {
-		forEachDelegate(delegate -> {
-			Material material = tempStorage.newMaterial();
-			if (delegate != null) {
-				delegate.examSetActiveMaterial(material);
-			}
-		});
+		Material material = tempStorage.newMaterial();
+		if (delegate != null) {
+			delegate.examSetActiveMaterial(material);
+		}
 	}
 
 	/**
@@ -717,122 +465,9 @@ public final class ExamController implements PropertiesRegistryListener {
 		tempStorage.saveTempMaterial(material);
 	}
 
-	// -- PropertiesRegistryListener --
-
-	/**
-	 * Handles freezing properties on lazy property instantiation/registration.
-	 * @param property A property that just got registered.
-	 */
-	@Override
-	public void propertyRegistered(@Nonnull Property property) {
-		if (examRestrictions == null) {
-			return;
-		}
-		Map<PropertyKey, PropertyRestriction> propertyRestrictions =
-				examRestrictions.getPropertyRestrictions();
-		PropertyKey key = property.getKey();
-		if (propertyRestrictions.containsKey(key)) {
-			propertyRestrictions.get(key).applyTo(property);
-		}
-	}
-
-	/**
-	 * Handles unfreezing any frozen properties on deregistration.
-	 * @param property A property that just got unregistered.
-	 */
-	@Override
-	public void propertyUnregistered(@Nonnull Property property) {
-		if (examRestrictions == null) {
-			return;
-		}
-		Map<PropertyKey, PropertyRestriction> propertyRestrictions =
-				examRestrictions.getPropertyRestrictions();
-		PropertyKey key = property.getKey();
-		if (propertyRestrictions.containsKey(key)) {
-			propertyRestrictions.get(key).removeFrom(property);
-		}
-	}
-
 	// Test support API
 
-	void setExamRestrictionsFactory(Function<ExamType, ExamRestrictions> examRestrictionsFactory) {
+	void setExamRestrictionsFactory(Function<ExamType, Restrictions> examRestrictionsFactory) {
 		this.examRestrictionsFactory = examRestrictionsFactory;
-	}
-
-	private void forEachDelegate(Consumer<ExamControllerDelegate> consumer) {
-		if (delegate != null) {
-			consumer.accept(delegate);
-		} else {
-			delegates.forEach(consumer);
-		}
-	}
-
-	/**
-	 * TODO make private again (APPS-7297)
-	 */
-	public static class ContextDependencies {
-		@NonOwning
-		public final @Nonnull Object context;
-		@NonOwning
-		public final @Nonnull AlgoDispatcher algoDispatcher;
-		@NonOwning
-		public final @Nonnull CommandDispatcher commandDispatcher;
-		@NonOwning
-		public final @Nonnull AlgebraProcessor algebraProcessor;
-		@NonOwning
-		public final @Nonnull PropertiesRegistry propertiesRegistry;
-		@NonOwning
-		public final @Nonnull Localization localization;
-		@NonOwning
-		public final @CheckForNull Settings settings;
-		@NonOwning
-		public final @Nonnull StatisticGroupsBuilder statisticGroupsBuilder;
-		@NonOwning
-		public final @CheckForNull AutocompleteProvider autoCompleteProvider;
-		@NonOwning
-		public final @CheckForNull ToolsProvider toolsProvider;
-		@NonOwning
-		public final @CheckForNull ScheduledPreviewFromInputBar scheduledPreviewFromInputBar;
-		@NonOwning
-		public final @CheckForNull Construction construction;
-
-		/**
-		 * @param context context (e.g. App instance)
-		 * @param algoDispatcher algorithm dispatcher
-		 * @param commandDispatcher command dispatcher
-		 * @param algebraProcessor algebra processor
-		 * @param propertiesRegistry properties registry
-		 * @param localization localization
-		 * @param settings settings
-		 * @param autoCompleteProvider autocomplete provider
-		 * @param toolsProvider tools provider
-		 * @param scheduledPreviewFromInputBar scheduled preview provider
-		 * @param construction construction
-		 */
-		public ContextDependencies(@Nonnull Object context,
-				@Nonnull AlgoDispatcher algoDispatcher,
-				@Nonnull CommandDispatcher commandDispatcher,
-				@Nonnull AlgebraProcessor algebraProcessor,
-				@Nonnull PropertiesRegistry propertiesRegistry,
-				@Nonnull Localization localization,
-				@Nonnull Settings settings,
-				@Nonnull StatisticGroupsBuilder statisticGroupsBuilder,
-				@CheckForNull AutocompleteProvider autoCompleteProvider,
-				@CheckForNull ToolsProvider toolsProvider,
-				@CheckForNull ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
-				@CheckForNull Construction construction) {
-			this.context = context;
-			this.algoDispatcher = algoDispatcher;
-			this.commandDispatcher = commandDispatcher;
-			this.algebraProcessor = algebraProcessor;
-			this.propertiesRegistry = propertiesRegistry;
-			this.localization = localization;
-			this.settings = settings;
-			this.statisticGroupsBuilder = statisticGroupsBuilder;
-			this.autoCompleteProvider = autoCompleteProvider;
-			this.toolsProvider = toolsProvider;
-			this.scheduledPreviewFromInputBar = scheduledPreviewFromInputBar;
-			this.construction = construction;
-		}
 	}
 }

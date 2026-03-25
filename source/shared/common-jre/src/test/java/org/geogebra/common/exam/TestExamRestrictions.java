@@ -31,38 +31,50 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
-import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
-import org.geogebra.common.exam.restrictions.ExamRestrictions;
-import org.geogebra.common.exam.restrictions.PropertyRestriction;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
+import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
+import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.DisabledAlgorithms;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.kernel.arithmetic.filter.RadianGradianFilter;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
+import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.localization.AutocompleteProvider;
+import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.PropertyKey;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
+import org.geogebra.common.restrictions.AlgebraOutputFiltering;
+import org.geogebra.common.restrictions.FeatureRestriction;
+import org.geogebra.common.restrictions.PropertyRestriction;
+import org.geogebra.common.restrictions.Restrictions;
+import org.geogebra.common.restrictions.Restrictions.ContextDependencies;
 
-final class TestExamRestrictions extends ExamRestrictions {
+final class TestExamRestrictions extends Restrictions {
 
 	int appliedCount = 0;
 
 	TestExamRestrictions(ExamType examType) {
-		super(examType,
-				Set.of(SuiteSubApp.CAS),
+		super(Set.of(SuiteSubApp.CAS),
 				SuiteSubApp.GRAPHING,
-				Set.of(ExamFeatureRestriction.HIDE_SPECIAL_POINTS),
+				Set.of(FeatureRestriction.HIDE_SPECIAL_POINTS),
 				createExpressionFilters(),
 				null,
 				createCommandFilters(),
@@ -76,20 +88,19 @@ final class TestExamRestrictions extends ExamRestrictions {
 				null,
 				createDisabledAlgorithms(),
 				null,
+				null,
 				null);
 	}
 
 	@Override
-	public void applyTo(@Nonnull ExamController.ContextDependencies dependencies,
-			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory) {
-		super.applyTo(dependencies, geoElementPropertiesFactory);
+	public void applyTo(@Nonnull ContextDependencies cd) {
+		super.applyTo(cd);
 		appliedCount++;
 	}
 
 	@Override
-	public void removeFrom(@Nonnull ExamController.ContextDependencies dependencies,
-			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory) {
-		super.removeFrom(dependencies, geoElementPropertiesFactory);
+	public void removeFrom(@Nonnull ContextDependencies cd) {
+		super.removeFrom(cd);
 		appliedCount--;
 	}
 
@@ -126,7 +137,7 @@ final class TestExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<CommandArgumentFilter> createCommandArgumentFilter() {
-		return Set.of((command, commandProcessor) -> {
+		return Set.of(new ExamCommandArgumentFilter(), (command, commandProcessor) -> {
 			if (command.getName().equals(Commands.Max.name())) {
 				if (command.getArgumentNumber() != 3) {
 					throw commandProcessor.argNumErr(command, command.getArgumentNumber());

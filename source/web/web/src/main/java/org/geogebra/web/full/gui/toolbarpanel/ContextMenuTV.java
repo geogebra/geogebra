@@ -106,7 +106,7 @@ public class ContextMenuTV {
 		GeoEvaluatable column = view.getEvaluatable(getColumnIdx());
 		SuiteScope suiteScope = GlobalScope.getSuiteScope(app);
 		Set<ContextMenuItemFilter> contextMenuFilters = suiteScope != null
-				? suiteScope.examController.getContextMenuItemFilters() : Set.of();
+				? suiteScope.restrictionsController.getContextMenuItemFilters() : Set.of();
 		boolean isExamActive = suiteScope != null && suiteScope.examController.isExamActive();
 		List<TableValuesContextMenuItem> items = ContextMenuFactory
 				.makeTableValuesContextMenu(column, columnIdx, view.getTableValuesModel(),

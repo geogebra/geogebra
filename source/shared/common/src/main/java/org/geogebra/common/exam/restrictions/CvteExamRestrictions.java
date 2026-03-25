@@ -60,8 +60,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.exam.ExamController;
-import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.restrictions.cvte.CvteAlgebraOutputFilter;
 import org.geogebra.common.exam.restrictions.cvte.CvteCommandArgumentFilter;
 import org.geogebra.common.exam.restrictions.cvte.CvteEquationBehaviour;
 import org.geogebra.common.exam.restrictions.cvte.MatrixExpressionFilter;
@@ -87,6 +86,7 @@ import org.geogebra.common.kernel.arithmetic.filter.graphing.PowerInnerProductEx
 import org.geogebra.common.kernel.arithmetic.filter.graphing.VectorProductExpressionFilter;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
+import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -96,17 +96,19 @@ import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.PropertyKey;
-import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty;
+import org.geogebra.common.restrictions.FeatureRestriction;
+import org.geogebra.common.restrictions.PropertyRestriction;
+import org.geogebra.common.restrictions.Restrictions;
 
-public final class CvteExamRestrictions extends ExamRestrictions {
+public final class CvteExamRestrictions extends Restrictions {
 
 	private boolean casEnabled = true;
 
-	CvteExamRestrictions() {
-		super(ExamType.CVTE,
-				Set.of(CAS, G3D, GEOMETRY, PROBABILITY, SCIENTIFIC),
+	/** Constructs the restrictions for CVTE exam. */
+	public CvteExamRestrictions() {
+		super(Set.of(CAS, G3D, GEOMETRY, PROBABILITY, SCIENTIFIC),
 				GRAPHING,
 				createFeatureRestrictions(),
 				createInputExpressionFilters(),
@@ -122,15 +124,14 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 				createEquationBehaviour(),
 				null,
 				null,
-				null);
+				null,
+				new CvteAlgebraOutputFilter());
 	}
 
 	@Override
-	public void applyTo(
-			@Nonnull ExamController.ContextDependencies dependencies,
-			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory) {
-		if (dependencies.settings != null) {
-			casEnabled = dependencies.settings.getCasSettings().isEnabled();
+	public void applyTo(@Nonnull ContextDependencies cd) {
+		if (cd.settings() != null) {
+			casEnabled = cd.settings().getCasSettings().isEnabled();
 			// Note: The effect we want to achieve here is disable the symbolic versions of the
 			// Derivative and Integral commands, and replace them on the fly with their numeric
 			// counterparts (a requirement of APPS-4871/APPS-4961). This behavior is
@@ -139,28 +140,26 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 			// Careful: setting the "CAS enabled" setting to false here only makes because
 			// CvTE exam is restricted to the Graphing subapp of Suite, and the Graphing
 			// standalone app disables CAS, but it's enabled in Suite (see app config).
-			dependencies.settings.getCasSettings().setEnabled(false);
+			cd.settings().getCasSettings().setEnabled(false);
 		}
-		super.applyTo(dependencies, geoElementPropertiesFactory);
+		super.applyTo(cd);
 	}
 
 	@Override
-	public void removeFrom(
-			@Nonnull ExamController.ContextDependencies dependencies,
-			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory) {
-		super.removeFrom(dependencies, geoElementPropertiesFactory);
-		if (dependencies.settings != null) {
-			dependencies.settings.getCasSettings().setEnabled(casEnabled);
+	public void removeFrom(@Nonnull ContextDependencies cd) {
+		super.removeFrom(cd);
+		if (cd.settings() != null) {
+			cd.settings().getCasSettings().setEnabled(casEnabled);
 		}
 	}
 
-	private static Set<ExamFeatureRestriction> createFeatureRestrictions() {
+	private static Set<FeatureRestriction> createFeatureRestrictions() {
 		return Set.of(
-				ExamFeatureRestriction.AUTOMATIC_GRAPH_SELECTION_FOR_FUNCTIONS,
-				ExamFeatureRestriction.HIDE_CALCULATED_EQUATION,
-				ExamFeatureRestriction.RESTRICT_CHANGING_EQUATION_FORM,
-				ExamFeatureRestriction.SURD,
-				ExamFeatureRestriction.RATIONALIZATION);
+				FeatureRestriction.AUTOMATIC_GRAPH_SELECTION_FOR_FUNCTIONS,
+				FeatureRestriction.HIDE_CALCULATED_EQUATION,
+				FeatureRestriction.RESTRICT_CHANGING_EQUATION_FORM,
+				FeatureRestriction.SURD,
+				FeatureRestriction.RATIONALIZATION);
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
@@ -209,7 +208,7 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<CommandArgumentFilter> createCommandArgumentFilters() {
-		return Set.of(new CvteCommandArgumentFilter());
+		return Set.of(new ExamCommandArgumentFilter(), new CvteCommandArgumentFilter());
 	}
 
 	private static SyntaxFilter createSyntaxFilter() {

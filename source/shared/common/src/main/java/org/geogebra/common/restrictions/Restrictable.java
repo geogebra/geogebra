@@ -14,34 +14,28 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.common.exam.restrictions;
+package org.geogebra.common.restrictions;
 
-public enum ExamFeatureRestriction {
+import java.util.Set;
 
-	/** APPS_5751 */
-	AUTOMATIC_GRAPH_SELECTION_FOR_FUNCTIONS,
+import javax.annotation.Nonnull;
 
-	/** APPS-5926, APPS-6088, APPS-6315 */
-	HIDE_CALCULATED_EQUATION,
+/**
+ * Apply custom restrictions.
+ */
+public interface Restrictable {
 
-	/** APPS-6308 */
-	HIDE_SPECIAL_POINTS,
+	/**
+	 * Apply the restrictions.
+	 *
+	 * @param featureRestrictions The feature restrictions.
+	 */
+	void applyRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions);
 
-	/** APPS-6088 */
-	RESTRICT_CHANGING_EQUATION_FORM,
-
-	/** APPS-5929 */
-	RATIONALIZATION,
-
-	/** APPS-5929 */
-	SURD,
-
-	/** APPS-6310 */
-	SPREADSHEET,
-
-	/** APPS-6312 */
-	CUSTOM_MMS_REGRESSION_MODELS,
-
-	/** APPS-6519 */
-	DISABLE_MIXED_NUMBERS
+	/**
+	 * Reverse the effects of {@link #applyRestrictions(Set)}.
+	 *
+	 * @param featureRestrictions The feature restrictions.
+	 */
+	void removeRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions);
 }

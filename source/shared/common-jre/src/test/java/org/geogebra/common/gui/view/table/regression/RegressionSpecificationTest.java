@@ -23,12 +23,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.exam.BaseExamTestSetup;
 import org.geogebra.common.exam.ExamType;
-import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.restrictions.FeatureRestriction;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.annotation.Issue;
@@ -37,7 +38,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class RegressionSpecificationTest extends BaseAppTestSetup {
+public class RegressionSpecificationTest extends BaseExamTestSetup {
 	private TableValuesView view;
 	private GeoList listY;
 	private int column = 1;
@@ -163,16 +164,18 @@ public class RegressionSpecificationTest extends BaseAppTestSetup {
 			"11:9.27x⁻²:a = 9.27, r = ?",
 			"12:18.71x^0.5:a = 18.71, r = 0.65"}, delimiter = ':')
 	public void testCustomRegressions(int index, String expected, String expectedVals) {
+		startExam(ExamType.MMS);
 		getApp().getRegressionSpecBuilder().applyRestrictions(
-				Set.of(ExamFeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS), ExamType.MMS);
+				Set.of(FeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS));
 		assertEquals(expected, getRegressionFormula(index));
 		assertEquals(expectedVals, getRegressionValues(index));
 	}
 
 	@Test
 	public void testCustomRegressionCount() {
+		startExam(ExamType.MMS);
 		getApp().getRegressionSpecBuilder().applyRestrictions(
-				Set.of(ExamFeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS), ExamType.MMS);
+				Set.of(FeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS));
 		assertEquals(13, getApp().getRegressionSpecBuilder()
 				.getForListSize(listY.size()).size());
 	}

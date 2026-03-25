@@ -20,26 +20,23 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.exam.ExamType;
-import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
-import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.restrictions.FeatureRestriction;
+import org.geogebra.common.restrictions.Restrictable;
 import org.geogebra.common.util.AsyncOperation;
 
-public class GeoSelectionCallback implements AsyncOperation<GeoElementND[]>, ExamRestrictable {
+public class GeoSelectionCallback implements AsyncOperation<GeoElementND[]>, Restrictable {
 
 	private boolean restrictGraphSelectionForFunctions = false;
 
 	@Override
-	public void applyRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions,
-			@Nonnull ExamType examType) {
+	public void applyRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
 		restrictGraphSelectionForFunctions = featureRestrictions
-				.contains(ExamFeatureRestriction.AUTOMATIC_GRAPH_SELECTION_FOR_FUNCTIONS);
+				.contains(FeatureRestriction.AUTOMATIC_GRAPH_SELECTION_FOR_FUNCTIONS);
 	}
 
 	@Override
-	public void removeRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions,
-			@Nonnull ExamType examType) {
+	public void removeRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
 		restrictGraphSelectionForFunctions = false;
 	}
 

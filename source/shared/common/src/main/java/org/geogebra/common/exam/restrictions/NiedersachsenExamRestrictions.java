@@ -22,20 +22,22 @@ import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
 
 import java.util.Set;
 
-import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.restrictions.Restrictions;
 
-final class NiedersachsenExamRestrictions extends ExamRestrictions {
+public final class NiedersachsenExamRestrictions extends Restrictions {
 
-	NiedersachsenExamRestrictions() {
-		super(ExamType.NIEDERSACHSEN,
-				Set.of(G3D, SCIENTIFIC),
+	/** Constructs the restrictions for Niedersachsen exam. */
+	public NiedersachsenExamRestrictions() {
+		super(Set.of(G3D, SCIENTIFIC),
 				GRAPHING,
 				null,
 				null,
 				null,
 				Set.of(new CommandNameFilter(true, Commands.CSolve, Commands.CSolutions)),
+				Set.of(new ExamCommandArgumentFilter()),
 				null,
 				null,
 				null,

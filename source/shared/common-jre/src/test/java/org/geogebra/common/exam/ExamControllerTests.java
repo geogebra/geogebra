@@ -23,26 +23,27 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
+import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
+import org.geogebra.common.gui.view.algebra.filter.DefaultAlgebraOutputFilter;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -51,32 +52,22 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
+import org.geogebra.common.restrictions.FeatureRestriction;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public final class ExamControllerTests extends BaseExamTestSetup implements ExamControllerDelegate {
-	private final List<ExamState> examStates = new ArrayList<>();
-	private Material activeMaterial;
-	private boolean didRequestClearApps = false;
-	private boolean didRequestClearClipboard = false;
-	private CommandDispatcher previousCommandDispatcher;
 
-	private void switchApp(SuiteSubApp subApp) {
-		// keep references so that we can check if restrictions have been reverted correctly
-		previousCommandDispatcher = getCommandDispatcher();
-		examController.unregisterRestrictable(getApp());
-		activeMaterial = null;
-		setupApp(subApp);
-	}
+	private final List<ExamState> examStates = new ArrayList<>();
+	private CommandDispatcher previousCommandDispatcher;
 
 	@BeforeEach
 	public void examControllerTestSetup() {
-		examController.setDelegate(this);
+		examController.delegate = this;
 		examController.addListener(examStates::add);
 	}
 
@@ -204,8 +195,8 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 
 		assertAll(
 				// feature restrictions
-				() -> assertTrue(examController
-						.isFeatureRestricted(ExamFeatureRestriction.HIDE_SPECIAL_POINTS)),
+				() -> assertTrue(restrictionsController
+						.isFeatureRestricted(FeatureRestriction.HIDE_SPECIAL_POINTS)),
 				// command restrictions
 				() -> assertFalse(getCommandDispatcher()
 						.isAllowedByCommandFilters(Commands.Derivative)),
@@ -216,13 +207,14 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 				() -> assertEquals(
 						List.of(Text, Help),
 						ContextMenuFactory.makeInputContextMenu(true,
-								examController.getContextMenuItemFilters())));
+								restrictionsController.getContextMenuItemFilters())));
 
 		examController.finishExam();
 		assertFalse(getCommandDispatcher().isAllowedByCommandFilters(Commands.Derivative));
 		examController.exitExam();
 		assertTrue(getCommandDispatcher().isAllowedByCommandFilters(Commands.Derivative));
-		assertFalse(examController.isFeatureRestricted(ExamFeatureRestriction.HIDE_SPECIAL_POINTS));
+		assertFalse(restrictionsController.isFeatureRestricted(
+				FeatureRestriction.HIDE_SPECIAL_POINTS));
 	}
 
 	@Test
@@ -243,7 +235,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 		examController.startExam(ExamType.VLAANDEREN, null);
 		assertFalse(getCommandDispatcher().isAllowedByCommandFilters(Commands.Derivative));
 
-		switchApp(SuiteSubApp.GEOMETRY);
+		switchSubApp(SuiteSubApp.GEOMETRY);
 		assertAll(
 				// restrictions should be reverted
 				// on the previous (Graphing app) command dispatcher...
@@ -260,16 +252,65 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.startExam(ExamType.CVTE, null);
-		// effects from ExamRestrictables should be applied on current app/kernel/etc
+		// effects from Restrictables should be applied on current app/kernel/etc
 		assertNull(getKernel().getSurds());
 
 		Kernel previousKernel = getKernel();
-		switchApp(SuiteSubApp.GEOMETRY);
+		switchSubApp(SuiteSubApp.GEOMETRY);
 
-		// effects from ExamRestrictables should be reverted on previous app/kernel/etc
+		// effects from Restrictables should be reverted on previous app/kernel/etc
 		assertNotNull(previousKernel.getSurds());
-		// effects from ExamRestrictables should be applied on new app/kernel/etc
+		// effects from Restrictables should be applied on new app/kernel/etc
 		assertNull(getKernel().getSurds());
+	}
+
+	@Test
+	public void testAlgebraOutputFilterAppliedDuringExamAndResetAfterExit() {
+		setupApp(SuiteSubApp.GRAPHING);
+		AlgebraOutputFilter baseAlgebraOutputFilter = getApp().getAlgebraOutputFilter();
+		assertNotNull(evaluate("{{1,2},{3,4}}"));
+
+		examController.prepareExam();
+		examController.startExam(ExamType.CVTE, null);
+
+		assertNotSame(baseAlgebraOutputFilter, getApp().getAlgebraOutputFilter());
+		assertNull(evaluate("{{1,2},{3,4}}"));
+
+		examController.finishExam();
+		examController.exitExam();
+
+		assertInstanceOf(DefaultAlgebraOutputFilter.class, getApp().getAlgebraOutputFilter());
+		assertNotNull(evaluate("{{1,2},{3,4}}"));
+	}
+
+	@Test
+	public void testAlgebraOutputFilterRemainsAppliedWhenSwitchingApps() {
+		setupApp(SuiteSubApp.GRAPHING);
+		assertNotNull(evaluate("{{1,2},{3,4}}"));
+
+		examController.prepareExam();
+		examController.startExam(ExamType.CVTE, null);
+		assertNull(evaluate("{{1,2},{3,4}}"));
+
+		switchSubApp(SuiteSubApp.GEOMETRY);
+		assertNull(evaluate("{{1,2},{3,4}}"));
+	}
+
+	@Test
+	public void testAlgebraOutputFilterResetsToNewAppBaseAfterSwitchAndExit() {
+		setupApp(SuiteSubApp.GRAPHING);
+		AlgebraOutputFilter baseAlgebraOutputFilter = getApp().getAlgebraOutputFilter();
+
+		examController.prepareExam();
+		examController.startExam(ExamType.CVTE, null);
+		assertNotSame(baseAlgebraOutputFilter, getApp().getAlgebraOutputFilter());
+
+		switchSubApp(SuiteSubApp.GEOMETRY);
+		assertNotSame(baseAlgebraOutputFilter, getApp().getAlgebraOutputFilter());
+
+		examController.finishExam();
+		examController.exitExam();
+		assertInstanceOf(DefaultAlgebraOutputFilter.class, getApp().getAlgebraOutputFilter());
 	}
 
 	@Test
@@ -422,11 +463,13 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	}
 
 	@Test
-	public void testSyntaxHelperIsUnrestrictedAfterExamMode() {
+	public void testAutoCompleteProviderIsUnrestrictedAfterExam() {
 		setupApp(SuiteSubApp.GRAPHING);
+		assertFalse(autocompleteProvider.getCompletions("NDerivative").findAny().isEmpty());
 		examController.prepareExam();
 		examController.setExamRestrictionsFactory(TestExamRestrictions::new);
 		examController.startExam(ExamType.GENERIC, null);
+
 		assertTrue(autocompleteProvider.getCompletions("NDerivative").findAny().isEmpty());
 		examController.finishExam();
 		examController.exitExam();
@@ -445,7 +488,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 		assertEquals(1, restrictions.appliedCount);
 	}
 
-	// ExamControllerDelegate
+	// -- ExamControllerDelegate --
 
 	@Override
 	public void examClearApps() {
@@ -468,25 +511,16 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 		return activeMaterial;
 	}
 
-	@Override
-	public @CheckForNull SuiteSubApp examGetCurrentSubApp() {
-		return getCurrentSubApp();
-	}
+	// -- RestrictionsControllerDelegate --
 
 	@Override
-	public void examSwitchSubApp(@Nonnull SuiteSubApp subApp) {
-		if (!subApp.equals(getCurrentSubApp())) {
-			switchApp(subApp);
-		}
-	}
+	public void switchSubApp(@Nonnull SuiteSubApp subApp) {
+		// keep references so that we can check if restrictions have been reverted correctly
+		previousCommandDispatcher = getCommandDispatcher();
+		restrictionsController.unregisterRestrictable(getApp());
 
-	private SuiteSubApp getCurrentSubApp() {
-		AppConfig config = getApp().getConfig();
-		String appCode = Objects.equals(config.getAppCode(), GeoGebraConstants.SUITE_APPCODE)
-				? config.getSubAppCode() : config.getAppCode();
-		if (appCode != null) {
-			return SuiteSubApp.forCode(appCode);
-		}
-		return null;
+		super.switchSubApp(subApp);
+
+		restrictionsController.registerRestrictable(getApp());
 	}
 }

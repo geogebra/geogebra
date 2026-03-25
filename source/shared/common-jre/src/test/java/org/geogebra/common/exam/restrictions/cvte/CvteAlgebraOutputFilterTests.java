@@ -34,7 +34,7 @@ public class CvteAlgebraOutputFilterTests extends BaseExamTestSetup {
 
     @Test
     public void testAlgebraOutputRestrictions() {
-        AlgebraOutputFilter outputFilter = new CvteAlgebraOutputFilter(null);
+        AlgebraOutputFilter outputFilter = new CvteAlgebraOutputFilter();
 
         // For Lines, Rays, Conics, Implicit Equations and Functions created with command or tool,
         // we do not show the calculated equation.

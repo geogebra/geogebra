@@ -23,9 +23,9 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.exam.restrictions.PropertyRestriction;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
+import org.geogebra.common.restrictions.PropertyRestriction;
 import org.junit.Test;
 
 public class PropertyRestrictionTests extends BaseUnitTest {

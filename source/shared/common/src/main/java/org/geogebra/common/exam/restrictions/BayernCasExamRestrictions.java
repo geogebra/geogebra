@@ -25,21 +25,23 @@ import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
 
 import java.util.Set;
 
-import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.restrictions.Restrictions;
 
-final class BayernCasExamRestrictions extends ExamRestrictions {
+public final class BayernCasExamRestrictions extends Restrictions {
 
-	BayernCasExamRestrictions() {
-		super(ExamType.BAYERN_CAS,
-				Set.of(GRAPHING, GEOMETRY, G3D, PROBABILITY, SCIENTIFIC),
+	/** Constructs the restrictions for Bayern CAS exam. */
+	public BayernCasExamRestrictions() {
+		super(Set.of(GRAPHING, GEOMETRY, G3D, PROBABILITY, SCIENTIFIC),
 				CAS,
 				null,
 				null,
 				null,
 				createCommandFilters(),
+				Set.of(new ExamCommandArgumentFilter()),
 				null,
 				null,
 				null,

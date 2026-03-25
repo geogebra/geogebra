@@ -55,9 +55,6 @@ import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustViews;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.exam.ExamType;
-import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
-import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
@@ -154,6 +151,9 @@ import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.plugin.script.Script;
+import org.geogebra.common.restrictions.AlgebraOutputFiltering;
+import org.geogebra.common.restrictions.FeatureRestriction;
+import org.geogebra.common.restrictions.Restrictable;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetConstructionDelegate;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
@@ -177,7 +177,7 @@ import com.google.j2objc.annotations.Property;
  * Represents an application window, gives access to views and system stuff
  */
 public abstract class App implements UpdateSelection, AppInterface, EuclidianHost,
-		ExamRestrictable, ToolsProvider {
+		AlgebraOutputFiltering, Restrictable, ToolsProvider {
 
 	/** id for dummy view */
 	public static final int VIEW_NONE = 0;
@@ -1858,7 +1858,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * @return the root settings object
 	 */
-	final public Settings getSettings() {
+	final public @Nonnull Settings getSettings() {
 		if (settings == null) {
 			initSettings();
 		}
@@ -4017,7 +4017,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * @return the app-owned spreadsheet instance. Returns {@code null} if the app doesn't have
 	 * a spreadsheet view at all (via {@link AppConfig}), or if the spreadsheet is temporarily
-	 * disabled during an exam (via {@link ExamFeatureRestriction#SPREADSHEET}).
+	 * disabled during an exam (via {@link FeatureRestriction#SPREADSHEET}).
 	 */
 	public @CheckForNull Spreadsheet getSpreadsheet() {
 		if (!isSpreadsheetEnabled()) {
@@ -4591,6 +4591,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void setConfig(AppConfig config) {
 		setConfigNoSettingsReset(config);
+		valueConverter = null;
 		if (kernel != null) {
 			initSettingsUpdater().resetSettingsOnAppStart();
 		}
@@ -4614,7 +4615,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (primarySyntaxFilter != null && getLocalization() != null) {
 			getLocalization().getCommandSyntax().addSyntaxFilter(primarySyntaxFilter);
 		}
-		resetAlgebraOutputFilter();
 	}
 
 	/**
@@ -4960,29 +4960,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @return The current {@link AlgebraOutputFilter}.
-	 * @apiNote DO NOT CACHE THE RETURN VALUE, the filter may change at runtime (e.g., for certain
-	 * exams).
-	 */
-	public @Nonnull AlgebraOutputFilter getAlgebraOutputFilter() {
-		if (algebraOutputFilter == null) {
-			if (getConfig().shouldHideEquations()) {
-				algebraOutputFilter = new ProtectiveAlgebraOutputFilter();
-			} else {
-				algebraOutputFilter = new DefaultAlgebraOutputFilter();
-			}
-		}
-		return algebraOutputFilter;
-	}
-
-	/**
-	 * Visible only for testing.
-	 */
-	public void resetAlgebraOutputFilter() {
-		algebraOutputFilter = null;
-	}
-
-	/**
 	 * Create an inline text controller iff the view supports inline text
 	 * editing.
 	 *
@@ -5084,54 +5061,75 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return null;
 	}
 
-	// ExamRestrictable
+	// -- AlgebraOutputFiltering --
 
 	@Override
-	public void applyRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions,
-			@Nonnull ExamType examType) {
-		resetCommandDict();
-
-		algebraOutputFilter = examType.wrapAlgebraOutputFilter(getAlgebraOutputFilter());
-		valueConverter = null;
-
-		if (featureRestrictions.contains(ExamFeatureRestriction.HIDE_SPECIAL_POINTS)) {
-			getSpecialPointsManager().isEnabled = false;
-		}
-		if (featureRestrictions.contains(ExamFeatureRestriction.SURD)) {
-			kernel.setSurds(null);
-		}
-		if (featureRestrictions.contains(ExamFeatureRestriction.RATIONALIZATION)) {
-			kernel.setRationalization(null);
-		}
-		if (featureRestrictions.contains(ExamFeatureRestriction.DISABLE_MIXED_NUMBERS)) {
-			getEditorFeatures().setMixedNumbersEnabled(false);
-		}
-		spreadsheetRestricted = featureRestrictions.contains(ExamFeatureRestriction.SPREADSHEET);
-		regressionSpecificationBuilder.applyRestrictions(featureRestrictions, examType);
+	public @Nonnull AlgebraOutputFilter createBaseAlgebraOutputFilter() {
+		return getConfig().shouldHideEquations()
+				? new ProtectiveAlgebraOutputFilter()
+				: new DefaultAlgebraOutputFilter();
 	}
 
 	@Override
-	public void removeRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions,
-			@Nonnull ExamType examType) {
-		// null out filters, to recreate on next use
-		algebraOutputFilter = null;
+	public @Nonnull AlgebraOutputFilter getAlgebraOutputFilter() {
+		if (algebraOutputFilter == null) {
+			algebraOutputFilter = createBaseAlgebraOutputFilter();
+		}
+		return algebraOutputFilter;
+	}
+
+	@Override
+	public void setAlgebraOutputFilter(@Nonnull AlgebraOutputFilter filter) {
+		algebraOutputFilter = filter;
 		valueConverter = null;
-		if (featureRestrictions.contains(ExamFeatureRestriction.HIDE_SPECIAL_POINTS)) {
+	}
+
+	// -- Restrictable --
+
+	@Override
+	public void applyRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
+		resetCommandDict();
+		valueConverter = null;
+
+		if (featureRestrictions.contains(FeatureRestriction.HIDE_SPECIAL_POINTS)) {
+			getSpecialPointsManager().isEnabled = false;
+		}
+		if (featureRestrictions.contains(FeatureRestriction.SURD)) {
+			kernel.setSurds(null);
+		}
+		if (featureRestrictions.contains(FeatureRestriction.RATIONALIZATION)) {
+			kernel.setRationalization(null);
+		}
+		if (featureRestrictions.contains(FeatureRestriction.DISABLE_MIXED_NUMBERS)) {
+			getEditorFeatures().setMixedNumbersEnabled(false);
+		}
+		if (regressionSpecificationBuilder != null) {
+			regressionSpecificationBuilder.applyRestrictions(featureRestrictions);
+		}
+		spreadsheetRestricted = featureRestrictions.contains(FeatureRestriction.SPREADSHEET);
+	}
+
+	@Override
+	public void removeRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
+		valueConverter = null;
+		if (featureRestrictions.contains(FeatureRestriction.HIDE_SPECIAL_POINTS)) {
 			getSpecialPointsManager().isEnabled = true;
 		}
-		if (featureRestrictions.contains(ExamFeatureRestriction.SURD)) {
+		if (featureRestrictions.contains(FeatureRestriction.SURD)) {
 			kernel.setSurds(new Surds());
 		}
-		if (featureRestrictions.contains(ExamFeatureRestriction.RATIONALIZATION)) {
+		if (featureRestrictions.contains(FeatureRestriction.RATIONALIZATION)) {
 			kernel.setRationalization(new Rationalization());
 		}
-		if (featureRestrictions.contains(ExamFeatureRestriction.DISABLE_MIXED_NUMBERS)) {
+		if (featureRestrictions.contains(FeatureRestriction.DISABLE_MIXED_NUMBERS)) {
 			getEditorFeatures().setMixedNumbersEnabled(true);
 		}
-		if (featureRestrictions.contains(ExamFeatureRestriction.SPREADSHEET)) {
+		if (regressionSpecificationBuilder != null) {
+			regressionSpecificationBuilder.removeRestrictions(featureRestrictions);
+		}
+		if (featureRestrictions.contains(FeatureRestriction.SPREADSHEET)) {
 			spreadsheetRestricted = false;
 		}
-		regressionSpecificationBuilder.removeRestrictions(featureRestrictions, examType);
 		resetCommandDict();
 	}
 

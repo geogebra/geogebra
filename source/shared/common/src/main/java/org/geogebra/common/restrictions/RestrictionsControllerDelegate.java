@@ -14,46 +14,28 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.common.exam;
+package org.geogebra.common.restrictions;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.move.ggtapi.models.Material;
 
-public class TestExamDelegate implements ExamControllerDelegate {
+public interface RestrictionsControllerDelegate {
 
-	private SuiteSubApp subApp = SuiteSubApp.GRAPHING;
-	private Material material;
+	/**
+	 * @return The current sub-app, or null in case the app switcher is currently shown.
+	 */
+	@CheckForNull SuiteSubApp getCurrentSubApp();
 
-	@Override
-	public void examClearApps() {
-
-	}
-
-	@Override
-	public void examClearClipboard() {
-
-	}
-
-	@Override
-	public void examSetActiveMaterial(@CheckForNull Material material) {
-		this.material = material;
-	}
-
-	@Override
-	public @CheckForNull Material examGetActiveMaterial() {
-		return material;
-	}
-
-	@Override
-	public @CheckForNull SuiteSubApp examGetCurrentSubApp() {
-		return subApp;
-	}
-
-	@Override
-	public void examSwitchSubApp(@Nonnull SuiteSubApp subApp) {
-		this.subApp = subApp;
-	}
+	/**
+	 * Activate the given sub-app.
+	 *
+	 * @param subApp The sub-app to switch to.
+	 *
+	 * @apiNote This method is expected to call
+	 * {@link RestrictionsController#setActiveContext(Restrictions.ContextDependencies)}
+	 * after switching to the new subapp.
+	 */
+	void switchSubApp(@Nonnull SuiteSubApp subApp);
 }

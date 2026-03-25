@@ -16,41 +16,27 @@
 
 package org.geogebra.common.exam.restrictions.wtr;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.exam.restrictions.AngleConversionFilter;
 import org.geogebra.common.exam.restrictions.PercentageOutputFilter;
 import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 public final class WtrAlgebraOutputFilter implements AlgebraOutputFilter {
-	private final @CheckForNull AlgebraOutputFilter wrappedFilter;
-    private final AngleConversionFilter conversionFilter;
-	private final PercentageOutputFilter percentageOutputFilter;
 
-	/**
-	 * @param wrappedFilter parent filter
-	 */
-	public WtrAlgebraOutputFilter(@CheckForNull AlgebraOutputFilter wrappedFilter) {
-		this.wrappedFilter = wrappedFilter;
-		this.conversionFilter = new AngleConversionFilter();
-		this.percentageOutputFilter = new PercentageOutputFilter();
-	}
+    private final AngleConversionFilter angleConversionFilter = new AngleConversionFilter();
+	private final PercentageOutputFilter percentageOutputFilter = new PercentageOutputFilter();
 
 	@Override
 	public boolean isAllowed(GeoElementND element) {
 		if (element == null) {
 			return false;
 		}
-		if (!conversionFilter.isAllowed(element)) {
+		if (!angleConversionFilter.isAllowed(element)) {
 			return false;
 		}
 		if (!percentageOutputFilter.isAllowed(element)) {
 			return false;
 		}
-		if (wrappedFilter != null) {
-			return wrappedFilter.isAllowed(element);
-		}
-		return true;
+        return true;
 	}
 }
