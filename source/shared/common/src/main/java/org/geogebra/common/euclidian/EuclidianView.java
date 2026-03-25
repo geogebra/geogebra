@@ -1892,6 +1892,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void endBatchUpdate() {
 		this.batchUpdate = false;
 		if (this.needsAllDrawablesUpdate) {
+			needsAllDrawablesUpdate = false;
 			notifyCoordSystemMoved();
 			allDrawableList.updateAll();
 			repaint();

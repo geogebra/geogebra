@@ -1969,16 +1969,15 @@ public enum Operation {
 		}
 	};
 
-	private static void checkImprecise(ExpressionValue value, ExpressionValue rt) {
-		if (!(value instanceof ValidExpression)) {
+	private static void checkImprecise(ExpressionValue expression, ExpressionValue value) {
+		if (!(expression instanceof ValidExpression expressionVE)) {
 			return;
 		}
-		ValidExpression ve = (ValidExpression) value;
-		if (ve.containsFunctionVariable()) {
-			ve.setImprecise(true);
-			if (rt instanceof ValidExpression) {
-				((ValidExpression) rt).setImprecise(true);
-			}
+		if (!expressionVE.isImprecise() && expressionVE.containsFunctionVariable()) {
+			expressionVE.setImprecise(true);
+		}
+		if (value instanceof ValidExpression valueVE && expressionVE.isImprecise()) {
+			valueVE.setImprecise(true);
 		}
 	}
 
