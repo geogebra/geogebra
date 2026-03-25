@@ -56,9 +56,7 @@ public final class FontLoader {
 			FontProperty.FontFamily.ABeZehPfeilEDURegular,
 			FontProperty.FontFamily.ABeZehPfeilEDULINKSLight,
 			FontProperty.FontFamily.ABeZehPunktEDULight,
-			FontProperty.FontFamily.ABeZehPunktEDURegular,
-			FontProperty.FontFamily.TEST,
-			FontProperty.FontFamily.TEST2};
+			FontProperty.FontFamily.ABeZehPunktEDURegular};
 
 	private enum FontState { LOADING, ACTIVE }
 

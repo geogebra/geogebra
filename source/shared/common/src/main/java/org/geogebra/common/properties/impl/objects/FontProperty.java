@@ -31,8 +31,6 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 
 public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.FontFamily> {
 	public enum FontFamily {
-		TEST("Test font", "Druckshrift-1110-3-Regular, sans-serif"),
-		TEST2("Test font 2", "BAyeishedruckschriftHasselt-OrangeL1L2, snas-serif"),
 		ARIAL("Arial", "Arial, sans-serif"),
 		CALIBRI("Calibri", "Calibri, sans-serif"),
 		CENTURY_GOTHIC("Century Gothic", "Century Gothic, sans-serif"),
@@ -157,6 +155,6 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 				}
 			}
 		}
-		return FontFamily.TEST;
+		return FontFamily.ARIAL;
 	}
 }
