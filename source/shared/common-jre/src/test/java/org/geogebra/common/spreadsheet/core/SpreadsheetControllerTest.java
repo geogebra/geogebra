@@ -37,7 +37,10 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
@@ -46,6 +49,7 @@ import org.geogebra.common.kernel.statistics.Statistic;
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.spreadsheet.kernel.ChartBuilder;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
@@ -84,6 +88,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     public static void setupOnce() {
         // required by MathField
         FactoryProvider.setInstance(new FactoryProviderCommon());
+        AwtFactory.setPrototypeIfNull(new AwtFactoryCommon());
         // required by StringTemplate static initializer
         FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
     }
@@ -98,6 +103,8 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         controller = new SpreadsheetController(tabularData, spreadsheetStyling);
         controller.setControlsDelegate(this);
         controller.setSpreadsheetConstructionDelegate(this);
+        cellEditor.getMathField().getInputController().setSyntaxAdapter(new SyntaxAdapterImpl(
+                AppCommonFactory.create().getKernel()));
         layout = controller.getLayout();
         setViewport(new Rectangle(0,
                 layout.getRowHeaderWidth() + layout.defaultColumnWidth * 2.5,
@@ -519,6 +526,31 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     }
 
     @Test
+    public void testSpaceShouldNotBeReplacedWithDotForPlainTextMode() {
+        simulateCellMouseClick(0, 0, 2);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_A);
+        assertTrue(cellEditor.getMathField().getInputController().getPlainTextMode());
+
+        cellEditor.getCellProcessor().process("A", 0, 0);
+        cellEditor.getMathField().getInputController().handleChar(cellEditor.getMathField()
+                .getEditorState(), ' ');
+        assertEquals("A ", cellEditor.getMathField().getText());
+    }
+
+    @Test
+    public void testSpaceShouldBeReplacedWithDotForEquationMode() {
+        simulateCellMouseClick(0, 0, 2);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_EQUALS);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_A);
+        assertFalse(cellEditor.getMathField().getInputController().getPlainTextMode());
+
+        cellEditor.getCellProcessor().process("=A", 0, 0);
+        cellEditor.getMathField().getInputController().handleChar(cellEditor.getMathField()
+                .getEditorState(), ' ');
+        assertEquals("=A*", cellEditor.getMathField().getText());
+    }
+
+    @Test
     public void testArrowMovesEditor() {
         tabularData.setContent(0, 0, "123");
         simulateCellMouseClick(0, 0, 2);
@@ -720,7 +752,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_P);
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_I);
         simulateCellMouseClick(0, 0, 1);
-        assertEquals("=PI A1", cellEditor.getMathField().getText());
+        assertEquals("=PI*A1", cellEditor.getMathField().getText());
     }
 
     @Test

@@ -637,7 +637,7 @@ public final class SpreadsheetController {
 
 		MathFieldInternal mathField = editor.cellEditor.getMathField();
 		String input = mathField.getText();
-		if (input.isEmpty() || !input.startsWith("=")) {
+		if (!input.startsWith("=")) {
 			return null;
 		}
 		ArrayList<String> characterSequences = new ArrayList<>();
@@ -1479,6 +1479,7 @@ public final class SpreadsheetController {
 	// Autocomplete
 
 	void onEditorTextChanged() {
+		updateTextMode();
 		updateAutoCompleteSearchPrefix();
 	}
 
@@ -1518,6 +1519,24 @@ public final class SpreadsheetController {
 			return;
 		}
 		controlsDelegate.showAutoCompleteSuggestions(searchPrefix, editorBounds);
+	}
+
+	/**
+	 * Decides if input should be handled as plain text (e.g. SPACE is replace it with dot if
+	 * not plain text mode).
+	 */
+	private void updateTextMode() {
+		if (editor == null) {
+			return;
+		}
+		MathFieldInternal mathField = editor.cellEditor.getMathField();
+		String text = mathField.getText();
+		boolean isPlainTextMode = !text.startsWith("=");
+		boolean oldPlainTextMode = mathField.getInputController().getPlainTextMode();
+		if (oldPlainTextMode != isPlainTextMode) {
+			mathField.getInputController().setPlainTextMode(isPlainTextMode);
+			mathField.parse(text);
+		}
 	}
 
 	/**
