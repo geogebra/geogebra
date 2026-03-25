@@ -49,6 +49,8 @@ public class ObjectColorPropertyTests extends BaseAppTestSetup {
 	@ValueSource(strings = {
 			"\"abc\"",
 			"Button(\"Press\")",
+			"BarChart({1,2,3},{4,5,6})",
+			"PieChart({1,2,3})"
 	})
 	public void testNotApplicableGeoElements(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);

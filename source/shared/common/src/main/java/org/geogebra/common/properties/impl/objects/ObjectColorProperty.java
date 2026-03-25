@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
+import org.geogebra.common.kernel.geos.ChartStyleGeo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.ColorProperty;
@@ -46,7 +47,9 @@ public class ObjectColorProperty extends AbstractEnumeratedProperty<GColor>
 			throws NotApplicablePropertyException {
 		super(localization, "Color");
 		if (ColorPropertyType.forElement(geoElement) != ColorPropertyType.OPAQUE
-			&& ColorPropertyType.forElement(geoElement) != ColorPropertyType.WITH_OPACITY) {
+			&& ColorPropertyType.forElement(geoElement) != ColorPropertyType.WITH_OPACITY
+			// Handled in ChartStyleGeoColorProperty
+			|| geoElement instanceof ChartStyleGeo) {
 			throw new NotApplicablePropertyException(geoElement);
 		}
 		this.geoElement = geoElement;
