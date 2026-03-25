@@ -41,6 +41,7 @@ public class PlacementPropertyTests extends BaseAppTestSetup {
 	@ParameterizedTest
 	@ValueSource(strings = {
 			"(1, 2)",
+			"Vector((1, 2))",
 			"β = Angle((0, 0), (1, 1), (2, 2))",
 	})
 	public void testNotApplicableObjects(String expression) {
