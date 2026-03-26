@@ -3379,9 +3379,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	private void addViews(Integer id, double[] viewBounds) {
-		View view = getApplication().getView(id);
-		if (view instanceof EuclidianViewInterfaceSlim) {
-			EuclidianViewInterfaceSlim ev = (EuclidianViewInterfaceSlim) view;
+		EuclidianViewInterfaceSlim ev = getApplication().getEuclidianViewById(id);
+		if (ev != null) {
 			viewBounds[0] = Math.min(viewBounds[0], ev.getXmin());
 			viewBounds[1] = Math.max(viewBounds[1], ev.getXmax());
 			viewBounds[2] = Math.min(viewBounds[2], ev.getYmin());
@@ -5399,5 +5398,12 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return views.stream().map(View::getViewID)
 				.filter(viewID -> viewID != App.VIEW_EVENT_DISPATCHER)
 				.collect(Collectors.toUnmodifiableList());
+	}
+
+	/**
+	 * @return number of attached views
+	 */
+	public int countViews() {
+		return views.size();
 	}
 }

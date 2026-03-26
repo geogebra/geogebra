@@ -40,15 +40,13 @@ import com.google.j2objc.annotations.Weak;
 public abstract class CopyPasteCut {
 
 	protected final CopyPasteAdapter adapter;
+	private final MyTable table;
 	// ggb support classes
 	@Weak
 	protected Kernel kernel;
 	@Weak
 	protected App app;
-	private SpreadsheetTableModel tableModel;
-
-	private SpreadsheetViewInterface view;
-	private MyTableInterface table;
+	protected SpreadsheetTableModel tableModel;
 
 	/**
 	 * Stores copied cell geo values as a tab-delimited string.
@@ -75,34 +73,12 @@ public abstract class CopyPasteCut {
 	private Record[] constructionIndexes;
 	private static Comparator<Record> comparator;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param app
-	 *            application
-	 */
-	public CopyPasteCut(App app) {
+	protected CopyPasteCut(App app, MyTable table) {
 		tableModel = app.getSpreadsheetTableModel();
+		this.table = table;
 		this.app = app;
 		kernel = app.getKernel();
 		adapter = new CopyPasteAdapter(app, tableModel);
-	}
-
-	private SpreadsheetViewInterface getView() {
-		if (view == null) {
-			view = app.getGuiManager()
-					.getSpreadsheetView();
-		}
-
-		return view;
-	}
-
-	protected MyTableInterface getTable() {
-		if (table == null) {
-			table = getView().getSpreadsheetTable();
-		}
-
-		return table;
 	}
 
 	/**
@@ -132,42 +108,38 @@ public abstract class CopyPasteCut {
 
 	/**
 	 * Copies the contents of the cell block defined by upper-left corner
-	 * (column1, row1) and lower left corner (column2, row2) into the system
+	 * (minColumn, minRow) and lower left corner (maxColumn, maxRow) into the system
 	 * clipboard and then deletes these geos.
 	 * 
 	 * TODO: The external buffer is nulled out so that a followup paste will not
 	 * perform a relative copy. This needs to be fixed, relative copy is
 	 * expected by the user.
 	 * 
-	 * @param column1
-	 *            min column
-	 * @param row1
-	 *            min row
-	 * @param column2
-	 *            max column
-	 * @param row2
-	 *            max row
+	 * @param minColumn min column
+	 * @param minRow min row
+	 * @param maxColumn max column
+	 * @param maxRow max row
 	 * @return if at least one object was deleted
 	 */
-	public boolean cut(int column1, int row1, int column2, int row2) {
+	public boolean cut(int minColumn, int minRow, int maxColumn, int maxRow) {
 
-		copy(column1, row1, column2, row2, false);
+		copy(minColumn, minRow, maxColumn, maxRow, false);
 		// null out the external buffer so that paste will not do a relative
 		// copy
 		resetCellBuffer();
-		return delete(column1, row1, column2, row2);
+		return delete(minColumn, minRow, maxColumn, maxRow);
 	}
 
 	/**
 	 * Pastes data from the clipboard into the given spreadsheet cell range.
 	 * 
-	 * @param cr
+	 * @param range
 	 *            the target cell range
 	 * @return true if successful
 	 */
-	public boolean paste(TabularRange cr) {
-		return paste(cr.getMinColumn(), cr.getMinRow(), cr.getMaxColumn(),
-				cr.getMaxRow());
+	public boolean paste(TabularRange range) {
+		return paste(range.getMinColumn(), range.getMinRow(), range.getMaxColumn(),
+				range.getMaxRow());
 	}
 
 	/**
@@ -284,7 +256,7 @@ public abstract class CopyPasteCut {
 		int y3 = row1;
 		int x4 = column1 + width - 1;
 		int y4 = row1 + height - 1;
-		GeoElementND[][] values2 = RelativeCopy.getValues(app, x3, y3, x4, y4);
+		GeoElementND[][] values2 = RelativeCopy.getValues(tableModel, x3, y3, x4, y4);
 		/*
 		 * for (int i = 0; i < values2.length; ++ i) { for (int j = 0; j <
 		 * values2[i].length; ++ j) { if (values2[i][j] != null) {
@@ -427,15 +399,7 @@ public abstract class CopyPasteCut {
 	 * @return if at least one object was deleted
 	 */
 	public boolean delete(int column1, int row1, int column2, int row2) {
-		return delete(app, column1, row1, column2, row2,
-				getTable().getSelectionType());
-	}
-
-	/**
-	 * Delete all cells.
-	 */
-	public void deleteAll() {
-		delete(0, 0, tableModel.getColumnCount(), tableModel.getRowCount());
+		return delete(app, column1, row1, column2, row2, table.getSelectionType());
 	}
 
 	/**
@@ -459,7 +423,8 @@ public abstract class CopyPasteCut {
 		TreeSet<GeoElement> toRemove = new TreeSet<>();
 		for (int column = column1; column <= column2; ++column) {
 			for (int row = row1; row <= row2; ++row) {
-				GeoElement value0 = RelativeCopy.getValue(app, column, row);
+				GeoElement value0 =
+						RelativeCopy.getValue(app.getSpreadsheetTableModel(), column, row);
 				if (value0 != null && !value0.isProtected(EventType.REMOVE)) {
 					toRemove.add(value0);
 				}
@@ -540,14 +505,18 @@ public abstract class CopyPasteCut {
 	/**
 	 * Just copying the selection as string text format
 	 *
+	 * @param minColumn leftmost column
+	 * @param minRow top row
+	 * @param maxColumn rightmost column
+	 * @param maxRow bottom row
 	 * @return selection content as tab separated string
 	 */
-	public String copyString(int column1, int row1, int column2, int row2) {
+	public String copyString(int minColumn, int minRow, int maxColumn, int maxRow) {
 		StringBuilder cellBufferStrLoc = new StringBuilder();
 		StringTemplate preciseTemplate = StringTemplate.maxPrecision;
-		for (int row = row1; row <= row2; ++row) {
-			for (int column = column1; column <= column2; ++column) {
-				GeoElement value = RelativeCopy.getValue(app, column, row);
+		for (int row = minRow; row <= maxRow; ++row) {
+			for (int column = minColumn; column <= maxColumn; ++column) {
+				GeoElement value = RelativeCopy.getValue(tableModel, column, row);
 				if (value != null) {
 					String valueString = value
 							.toValueString(preciseTemplate);
@@ -556,11 +525,11 @@ public abstract class CopyPasteCut {
 
 					cellBufferStrLoc.append(valueString);
 				}
-				if (column != column2) {
+				if (column != maxColumn) {
 					cellBufferStrLoc.append('\t');
 				}
 			}
-			if (row != row2) {
+			if (row != maxRow) {
 				cellBufferStrLoc.append('\n');
 			}
 		}

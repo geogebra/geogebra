@@ -649,7 +649,9 @@ public class DataAnalysisViewD extends JPanel
 	 * Attach this view
 	 */
 	public void attachView() {
-		model.updateFromSettings();
+		model.updateFromSettings(
+				() -> app.getGuiManager().getSpreadsheetView()
+						.getSpreadsheetTable().getSelectedRanges());
 		kernel.attach(this);
 
 		// attachView to plot panels

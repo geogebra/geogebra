@@ -21,9 +21,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.spreadsheet.core.SelectionType;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.util.AdvancedFocusPanel;
-import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
@@ -566,17 +564,7 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 
 	@Override
 	public void showContextMenu(int x, int y, boolean relative) {
-		if (!app.letShowPopupMenu()) {
-			return;
-		}
-		SpreadsheetContextMenuW contextMenu = ((GuiManagerW) app
-				.getGuiManager()).getSpreadsheetContextMenu(table);
-		GPopupMenuW popup = contextMenu.getMenuContainer();
-		if (relative) {
-			popup.show(grid, x, y);
-		} else {
-			popup.show(x, y);
-		}
+		// TODO disabled, the whole package should be removed
 	}
 
 	/**

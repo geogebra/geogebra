@@ -228,7 +228,7 @@ public class SpreadsheetColumnControllerD
 
 			// show contextMenu
 			SpreadsheetContextMenuD contextMenu = new SpreadsheetContextMenuD(
-					table);
+					table, table.getToolProcessor(app));
 			JPopupMenu popup = contextMenu.getMenuContainer();
 			popup.show(e.getComponent(), e.getX(), e.getY());
 

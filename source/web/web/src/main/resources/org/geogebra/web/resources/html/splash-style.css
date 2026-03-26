@@ -122,9 +122,10 @@ border-spacing:0;
 }
 
 /** TOOLBAR */
-.GeoGebraFrame .toolbarPanel .toolBPanel ul{
+.GeoGebraFrame .toolbarPanel .toolbar_mainItem{
 margin:0;
 padding:0;
+display:flex;
 }
 .GeoGebraFrame .toolbarPanel .toolBPanel li.toolbar_item{
 margin: 0px 5px 0px 0px;
@@ -133,9 +134,6 @@ margin: 0px 5px 0px 0px;
     width: 40px;
     height: 40px;
     display: block;
-    float: left;
-    float: left;
-    float: left;
     list-style-type: none;
     cursor: pointer;
 }

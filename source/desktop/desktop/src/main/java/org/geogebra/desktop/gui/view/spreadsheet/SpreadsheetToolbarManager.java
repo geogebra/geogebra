@@ -55,7 +55,7 @@ public class SpreadsheetToolbarManager {
 		switch (mode) {
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
-			if (!CellRangeUtil.isEmpty(table.getFirstSelection(), app)) {
+			if (!CellRangeUtil.isEmpty(table.getFirstSelection(), app.getSpreadsheetTableModel())) {
 				id = new CreateObjectDialog(app, view,
 						CreateObjectModel.TYPE_LIST);
 				id.setVisible(true);
@@ -63,7 +63,7 @@ public class SpreadsheetToolbarManager {
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS:
-			if (table.getCellRangeProcessor()
+			if (table.getToolProcessor(app)
 					.isCreatePointListPossible(table.getSelectedRanges())) {
 				id = new CreateObjectDialog(app, view,
 						CreateObjectModel.TYPE_LISTOFPOINTS);
@@ -73,7 +73,7 @@ public class SpreadsheetToolbarManager {
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_MATRIX:
-			if (table.getCellRangeProcessor()
+			if (table.getToolProcessor(app)
 					.isCreateMatrixPossible(table.getSelectedRanges())) {
 				id = new CreateObjectDialog(app, view,
 						CreateObjectModel.TYPE_MATRIX);
@@ -82,7 +82,7 @@ public class SpreadsheetToolbarManager {
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT:
-			if (table.getCellRangeProcessor()
+			if (table.getToolProcessor(app)
 					.isCreateMatrixPossible(table.getSelectedRanges())) {
 				id = new CreateObjectDialog(app, view,
 						CreateObjectModel.TYPE_TABLETEXT);
@@ -91,7 +91,7 @@ public class SpreadsheetToolbarManager {
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_POLYLINE:
-			if (table.getCellRangeProcessor()
+			if (table.getToolProcessor(app)
 					.isCreatePointListPossible(table.getSelectedRanges())) {
 				id = new CreateObjectDialog(app, view,
 						CreateObjectModel.TYPE_POLYLINE);

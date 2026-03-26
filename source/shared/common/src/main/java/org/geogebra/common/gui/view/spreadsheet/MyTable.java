@@ -16,10 +16,9 @@
 
 package org.geogebra.common.gui.view.spreadsheet;
 
-import java.util.ArrayList;
-
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.main.App;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 
 /**
@@ -48,11 +47,6 @@ public interface MyTable extends MyTableInterface {
 	public CopyPasteCut getCopyPasteCut();
 
 	/**
-	 * @return selected ranges
-	 */
-	public ArrayList<TabularRange> getSelectedRanges();
-
-	/**
 	 * Set cell selection.
 	 * @param targetRange new selection
 	 * @return if selection is valid
@@ -74,5 +68,14 @@ public interface MyTable extends MyTableInterface {
 
 	default @CheckForNull TabularRange getFirstSelection() {
 		return getSelectedRanges().isEmpty() ? null : getSelectedRanges().get(0);
+	}
+
+	/**
+	 * @param app application
+	 * @return processor for spreadsheet tools
+	 */
+	default SpreadsheetToolProcessor getToolProcessor(App app) {
+		return new SpreadsheetToolProcessor(app,
+				app.getSpreadsheetTableModel().getCellFormat(this));
 	}
 }

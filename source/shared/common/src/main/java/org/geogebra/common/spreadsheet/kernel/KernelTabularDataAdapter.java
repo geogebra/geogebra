@@ -29,8 +29,11 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UpdateLocationView;
 import org.geogebra.common.kernel.geos.GProperty;
+import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -319,5 +322,21 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	@Override
 	public String getErrorString() {
 		return kernel.getLocalization().getError("Error").toUpperCase(Locale.ROOT);
+	}
+
+	@Override
+	public boolean handleMouseDown(int row, int column) {
+		GeoElement geo = contentAt(row, column);
+		if (geo instanceof GeoBoolean bool && geo.isIndependent()) {
+			bool.setValue(!bool.getBoolean());
+			bool.updateRepaint();
+			return true;
+		}
+		if (geo instanceof GeoButton) {
+			geo.runClickScripts(null);
+			return true;
+		}
+		// just prevent editor for images
+		return geo instanceof GeoImage;
 	}
 }

@@ -19,12 +19,15 @@ package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.io.layout.DockPanelData;
+import org.geogebra.web.full.gui.layout.ViewCounter;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarTab;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FlowPanel;
+
+import elemental2.dom.CanvasRenderingContext2D;
 
 /**
  * Tab of Spreadsheet View.
@@ -119,4 +122,11 @@ public class SpreadsheetTab extends ToolbarTab {
 		return spreadsheetPanel;
 	}
 
+	@Override
+	public void paintToCanvas(CanvasRenderingContext2D context2d,
+			ViewCounter counter, int left, int top) {
+		if (spreadsheetPanel != null) {
+			spreadsheetPanel.paintToCanvas(context2d, left, top);
+		}
+	}
 }

@@ -36,8 +36,15 @@ import org.geogebra.common.util.StringUtil;
 
 public class CopyPasteCutD extends CopyPasteCut {
 
-	public CopyPasteCutD(App app) {
-		super(app);
+	private final MyTableD table;
+
+	/**
+	 * @param app application
+	 * @param table table
+	 */
+	public CopyPasteCutD(App app, MyTableD table) {
+		super(app, table);
+		this.table = table;
 	}
 
 	@Override
@@ -67,7 +74,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 		} else {
 			sourceColumn1 = column1;
 			sourceRow1 = row1;
-			setCellBufferGeo(RelativeCopy.getValues(app, column1, row1, column2,
+			setCellBufferGeo(RelativeCopy.getValues(tableModel, column1, row1, column2,
 					row2));
 		}
 	}
@@ -137,6 +144,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 
 	/**
 	 * Default paste: clear spreadsheet and then paste from upper left corner
+	 * @param url file URL
 	 * @return success
 	 */
 	public boolean pasteFromURL(URL url) {
@@ -193,6 +201,13 @@ public class CopyPasteCutD extends CopyPasteCut {
 
 		return succ;
 
+	}
+
+	/**
+	 * Delete all cells.
+	 */
+	public void deleteAll() {
+		delete(0, 0, tableModel.getColumnCount() - 1, tableModel.getRowCount() - 1);
 	}
 
 	/**

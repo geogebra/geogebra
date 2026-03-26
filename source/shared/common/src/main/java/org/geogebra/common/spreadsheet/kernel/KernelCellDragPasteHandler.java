@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.spreadsheet.core.CellDragPasteHandler;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularRange;
@@ -292,12 +293,13 @@ final class KernelCellDragPasteHandler implements CellDragPasteHandler {
 	}
 
 	private boolean shouldPasteLinearPattern() {
+		SpreadsheetTableModel tableModel = kernel.getApplication().getSpreadsheetTableModel();
 		if (isVerticalPasteDirection()) {
 			return rangeToCopy.getHeight() == 2
-					&& RelativeCopy.isPatternSource(rangeToCopy, kernel.getApplication());
+					&& RelativeCopy.isPatternSource(rangeToCopy, tableModel);
 		} else {
 			return rangeToCopy.getWidth() == 2
-					&& RelativeCopy.isPatternSource(rangeToCopy, kernel.getApplication());
+					&& RelativeCopy.isPatternSource(rangeToCopy, tableModel);
 		}
 	}
 

@@ -492,6 +492,20 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
+	public boolean isSpreadsheetFocused() {
+		return hasSpreadsheetView()
+				&& this.getSpreadsheetView().hasFocus();
+	}
+
+	@Override
+	public void scrollSpreadsheetToCell(GeoElement geo, String labelNew) {
+		if (hasSpreadsheetView()) {
+			this.getSpreadsheetView()
+					.scrollIfNeeded(geo, labelNew);
+		}
+	}
+
+	@Override
 	public void updateSpreadsheetColumnWidths() {
 		if (spreadsheetView != null) {
 			spreadsheetView.updateColumnWidths();
@@ -573,7 +587,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	@Override
 	public void attachSpreadsheetView() {
-		getSpreadsheetView();
+		this.getSpreadsheetView();
 		spreadsheetView.attachView();
 	}
 
@@ -745,7 +759,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			}
 
 			if (viewId == App.VIEW_SPREADSHEET) {
-				getSpreadsheetView().requestFocus();
+				this.getSpreadsheetView().requestFocus();
 			}
 		} else {
 			if (showView(viewId)) {

@@ -1305,15 +1305,25 @@ public class MyXMLHandler implements DocHandler {
 			Map<String, String> attrs) {
 
 		try {
-			int width = Integer.parseInt(attrs.get("width"));
-			int height = Integer.parseInt(attrs.get("height"));
-			app.getSettings().getSpreadsheet().setPreferredColumnWidth(width);
-			app.getSettings().getSpreadsheet().setPreferredRowHeight(height);
+			int width = parseInteger(attrs, "width", -1);
+			if (width > -1) {
+				app.getSettings().getSpreadsheet().setPreferredColumnWidth(width);
+			}
+			int height = parseInteger(attrs, "height", -1);
+			if (height > -1) {
+				app.getSettings().getSpreadsheet().setPreferredRowHeight(height);
+			}
 
 			return true;
 		} catch (RuntimeException e) {
 			return false;
 		}
+	}
+
+	private static int parseInteger(Map<String, String> attrs,
+			String key, int fallback) {
+		String value = attrs.get(key);
+		return value != null ? Integer.parseInt(value) : fallback;
 	}
 
 	private boolean handleSpreadsheetFormat(
@@ -1628,9 +1638,8 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			// tick style
-			String strTickStyle = attrs.get("tickStyle");
-			if (strTickStyle != null) {
-				int tickStyle = Integer.parseInt(strTickStyle);
+			int tickStyle = parseInteger(attrs, "tickStyle", -1);
+			if (tickStyle >= 0) {
 				// ev.getAxesTickStyles()[axis] = tickStyle;
 				evSettings.setAxisTickStyle(axis, tickStyle);
 			} else {

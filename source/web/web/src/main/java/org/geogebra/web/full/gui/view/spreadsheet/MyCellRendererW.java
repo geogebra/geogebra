@@ -172,67 +172,6 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 	}
 
 	/**
-	 * @param column
-	 *            column
-	 */
-	public void updateColumnBorder(int column) {
-		Byte border = (Byte) formatHandler.getCellFormat(column, -1,
-				CellFormat.FORMAT_BORDER);
-		if (border != null) {
-			if (!CellFormat.isZeroBit(border, 0)) {
-				for (int row = 0; row < 20; row++) {
-					// left borders' width is 0px, so left neighbor's right
-					// border
-					// will be colored.
-					if (column > 0) {
-						Style sLeft = table.getCellFormatter()
-								.getElement(row, column - 1).getStyle();
-						sLeft.setProperty("borderRightColor", "#000000");
-					}
-				}
-			}
-
-			if (!CellFormat.isZeroBit(border, 2)) {
-				for (int row = 0; row < 20; row++) {
-					Style s = table.getCellFormatter().getElement(row, column)
-							.getStyle();
-					s.setProperty("borderRightColor", "#000000");
-				}
-			}
-		}
-	}
-
-	/**
-	 * @param row
-	 *            row
-	 */
-	public void updateRowBorder(int row) {
-		Byte border = (Byte) formatHandler.getCellFormat(-1, row,
-				CellFormat.FORMAT_BORDER);
-		if (border != null) {
-			if (!CellFormat.isZeroBit(border, 1)) {
-				// top borders' width is 0px, so top neighbor's bottom border
-				// will be colored.
-				for (int column = 0; column < 20; column++) {
-					if (row > 0) {
-						Style sTop = table.getCellFormatter()
-								.getElement(row - 1, column).getStyle();
-						sTop.setProperty("borderBottomColor", "#000000");
-					}
-				}
-			}
-			if (!CellFormat.isZeroBit(border, 3)) {
-				for (int column = 0; column < 20; column++) {
-					Style s = table.getCellFormatter()
-							.getElement(row - 1, column).getStyle();
-					s.setProperty("borderBottomColor", "#000000");
-
-				}
-			}
-		}
-	}
-
-	/**
 	 * @param row
 	 *            cell row
 	 * @param column
@@ -245,44 +184,39 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			return;
 		}
 
-		final int TOP_BIT = 1;
-		final int BOTTOM_BIT = 3;
-		final int LEFT_BIT = 0;
-		final int RIGHT_BIT = 2;
-
 		// correct order for borderWidth
 		// top right bottom left
-		boolean top = CellFormat.isOneBit(border, TOP_BIT);
+		boolean top = CellFormat.isOneBit(border, CellFormat.BORDER_TOP);
 
 		// drawn by the adjacent cells (if possible, see below)
 		boolean right = false;
 		boolean bottom = false;
 
-		boolean left = CellFormat.isOneBit(border, LEFT_BIT);
+		boolean left = CellFormat.isOneBit(border, CellFormat.BORDER_LEFT);
 		
 		if (column > 0) {
 			Byte borderLeft = (Byte) formatHandler.getCellFormat(column - 1,
 					row, CellFormat.FORMAT_BORDER);
-			left = left || CellFormat.isOneBit(borderLeft, RIGHT_BIT);
+			left = left || CellFormat.isOneBit(borderLeft, CellFormat.BORDER_RIGHT);
 		}
 
 		if (row > 0) {
 			Byte borderTop = (Byte) formatHandler.getCellFormat(column, row - 1,
 					CellFormat.FORMAT_BORDER);
-			top = top || CellFormat.isOneBit(borderTop, BOTTOM_BIT);
+			top = top || CellFormat.isOneBit(borderTop, CellFormat.BORDER_BOTTOM);
 
 		}
 
 		// right border drawn only if adjacent cell has no formatting
 		if (formatHandler.getCellFormat(column + 1, row,
 				CellFormat.FORMAT_BORDER) == null) {
-			right = CellFormat.isOneBit(border, RIGHT_BIT);
+			right = CellFormat.isOneBit(border, CellFormat.BORDER_RIGHT);
 		}
 
 		// bottom border drawn only if adjacent cell has no formatting
 		if (formatHandler.getCellFormat(column, row + 1,
 				CellFormat.FORMAT_BORDER) == null) {
-			bottom = CellFormat.isOneBit(border, BOTTOM_BIT);
+			bottom = CellFormat.isOneBit(border, CellFormat.BORDER_BOTTOM);
 		}
 
 		final String NONE = " 0px";

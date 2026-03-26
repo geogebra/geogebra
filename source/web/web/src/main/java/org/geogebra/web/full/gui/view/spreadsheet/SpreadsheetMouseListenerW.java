@@ -32,8 +32,6 @@ import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.regexp.shared.MatchResult;
-import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
@@ -117,7 +115,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	
 	@Override
 	public void handleLongTouch(int x, int y) {
-	    showContextMenu(x, y);
+	    //TODO remove this package
 	}
 	
 	/**
@@ -298,7 +296,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 				|| cellType == GeoClass.BOOLEAN) {
 			return false;
 		}
-		GeoElement geo = RelativeCopy.getValue(app, column, row);
+		GeoElement geo = RelativeCopy.getValue(app.getSpreadsheetTableModel(), column, row);
 		if (geo != null) {
 			// get cell name
 			String name = GeoElementSpreadsheet.getSpreadsheetCellName(column,
@@ -368,9 +366,6 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			table.getSpreadsheetModeProcessor().stopAutoFunction();
 			return;
 		}
-		if (isRightClick(event) && app.letShowPopupMenu()) {
-			showContextMenu(event);
-		}
 
 		if (isDraggingDot) {
 			boolean success = doDragCopy();
@@ -383,7 +378,8 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		// Alt click: copy definition to input field
 		if (!table.isEditing() && event.getNativeEvent().getAltKey()
 		        && app.showAlgebraInput()) {
-			GeoElement geo = RelativeCopy.getValue(app, point.column, point.row);
+			GeoElement geo =
+					RelativeCopy.getValue(app.getSpreadsheetTableModel(), point.column, point.row);
 			if (geo != null) {
 				// F3 key: copy definition to input bar
 				app.getGlobalKeyDispatcher().handleFunctionKeyForAlgebraInput(
@@ -393,20 +389,6 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 		resetState();
 		table.repaint();
-	}
-
-	private void showContextMenu(DomEvent<?> event) {
-		int x = EventUtil.getTouchOrClickClientX(event);
-		int y = EventUtil.getTouchOrClickClientY(event);
-		showContextMenu(x, y);
-	}
-
-	private void showContextMenu(int x, int y) {
-		SpreadsheetContextMenuW contextMenu = ((GuiManagerW) app
-		        .getGuiManager()).getSpreadsheetContextMenu(table);
-		GPopupMenuW popupMenu = contextMenu.getMenuContainer();
-		popupMenu.show(x, y);
-		app.registerPopup(popupMenu.getPopupPanel());
 	}
 
 	private boolean doDragCopy() {

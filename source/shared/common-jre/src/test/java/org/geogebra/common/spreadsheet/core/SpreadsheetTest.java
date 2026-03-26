@@ -190,6 +190,18 @@ public class SpreadsheetTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testHeaderResize() {
+		StringCapturingGraphics graphics = new StringCapturingGraphics();
+		spreadsheet.draw(graphics);
+		assertThat(graphics.toString(), endsWith(",5"));
+		graphics = new StringCapturingGraphics();
+		spreadsheet.setColumHeaderHeight(0);
+		spreadsheet.setRowHeaderWidth(0);
+		spreadsheet.draw(graphics);
+		assertEquals("", graphics.toString());
+	}
+
+	@Test
 	public void spreadsheetShouldRepaintAfterUpdatingSlider() {
 		tabularData = new KernelTabularDataAdapter(getApp());
 		tabularData.addChangeListener(spreadsheet);

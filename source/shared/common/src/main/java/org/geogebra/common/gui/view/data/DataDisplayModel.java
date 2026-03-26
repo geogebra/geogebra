@@ -634,7 +634,7 @@ public class DataDisplayModel {
 		// in multivar mode create dynamic boxplots linked to separate lists
 
 		app.setWaitCursor();
-		EuclidianView targetEV = (EuclidianView) app.getView(euclidianViewID);
+		EuclidianView targetEV = (EuclidianView) app.getEuclidianViewById(euclidianViewID);
 
 		try {
 

@@ -18,6 +18,7 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -87,6 +88,19 @@ public final class TabularRange {
 
 	public TabularRange(int anchorRow, int anchorColumn) {
 		this(anchorRow, anchorColumn, anchorRow, anchorColumn);
+	}
+
+	/**
+	 * @param ranges
+	 *            cell range list to be cloned
+	 * @return copy of given cell range list
+	 */
+	public static List<TabularRange> clone(List<TabularRange> ranges) {
+		List<TabularRange> newList = new ArrayList<>();
+		for (TabularRange range : ranges) {
+			newList.add(range.duplicate());
+		}
+		return newList;
 	}
 
 	public int getMinRow() {
@@ -304,12 +318,12 @@ public final class TabularRange {
 	}
 
 	/**
-	 * @param cr
+	 * @param otherRange
 	 *            other range
 	 * @return whether this has same anchor coords as other range
 	 */
-	public boolean hasSameAnchor(TabularRange cr) {
-		return (cr.anchorRow == anchorRow) && (cr.anchorColumn == anchorColumn);
+	public boolean hasSameAnchor(TabularRange otherRange) {
+		return (otherRange.anchorRow == anchorRow) && (otherRange.anchorColumn == anchorColumn);
 	}
 
 	/**

@@ -19,7 +19,6 @@ package org.geogebra.common.kernel.geos;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -348,7 +347,9 @@ public class GeoElementSpreadsheet {
 			return;
 		}
 
-		GuiManagerInterface guiManager = geo.getKernel().getApplication()
+		App app = geo.getKernel().getApplication();
+		// TODO avoid hidden dependencies on GuiManager and SpreadsheetModel
+		GuiManagerInterface guiManager = app
 				.getGuiManager();
 
 		if (guiManager == null || !guiManager.hasSpreadsheetView()) {
@@ -361,11 +362,8 @@ public class GeoElementSpreadsheet {
 		if (GeoElementSpreadsheet.isSpreadsheetLabel(label)) {
 			SpreadsheetCoords coords = GeoElementSpreadsheet.spreadsheetIndices(label);
 
-			SpreadsheetViewInterface spreadsheet = guiManager
-					.getSpreadsheetView();
-			CellFormatInterface formatHandler = spreadsheet
-					.getSpreadsheetTable().getCellFormatHandler();
-
+			CellFormatInterface formatHandler = app.getSpreadsheetTableModel()
+					.getCellFormat(null);
 			Object c = formatHandler.getCellFormat(coords.column, coords.row,
 					CellFormat.FORMAT_BGCOLOR);
 

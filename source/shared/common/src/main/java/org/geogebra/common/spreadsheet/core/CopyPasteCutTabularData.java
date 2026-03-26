@@ -53,6 +53,7 @@ public interface CopyPasteCutTabularData {
 	 *
 	 * @param startRow to paste content to.
 	 * @param startColumn to paste content to.
+	 * @param externalContent pasted content split into cells
 	 */
 	void paste(int startRow, int startColumn, @CheckForNull String[][] externalContent);
 

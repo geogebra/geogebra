@@ -23,8 +23,6 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.spreadsheet.core.SelectionType;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.dom.client.Element;
@@ -425,17 +423,7 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 
 	@Override
 	public void showContextMenu(int x, int y, boolean relative) {
-		if (!app.letShowPopupMenu()) {
-			return;
-		}
-		SpreadsheetContextMenuW contextMenu = ((GuiManagerW) app
-		        .getGuiManager()).getSpreadsheetContextMenu(table);
-		GPopupMenuW popup = contextMenu.getMenuContainer();
-		if (relative) {
-			popup.show(grid, x, y);
-		} else {
-			popup.show(x, y);
-		}
+		// TODO disabled, the whole package should be removed
 	}
 
 	@Override

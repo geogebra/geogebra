@@ -41,6 +41,7 @@ public final class SelfRenderable {
 	/**
 	 * @param renderer renderer
 	 * @param renderable cached renderable value
+	 * @param fontSize font size in points
 	 * @param fontStyle optional font style ({@link GFont#getStyle})
 	 * @param alignment text alignment
 	 */
@@ -52,10 +53,12 @@ public final class SelfRenderable {
 
 	/**
 	 * @param renderer renderer
+	 * @param fontSize fontSize in points
 	 * @param renderable cached renderable value
 	 * @param fontStyle optional font style ({@link GFont#getStyle})
 	 * @param alignment text alignment
 	 * @param background background color
+	 * @param textColor text color
 	 */
 	public SelfRenderable(CellRenderer renderer, double fontSize, Integer fontStyle,
 			Integer alignment, Object renderable, GColor background, GColor textColor) {

@@ -17,6 +17,8 @@
 package org.geogebra.common.gui.view.data;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
 
 import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GColor;
@@ -32,6 +34,7 @@ import org.geogebra.common.kernel.statistics.Regression;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.DataAnalysisSettings;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -629,10 +632,10 @@ public class DataAnalysisModel {
 	/**
 	 * Update UI from settings
 	 */
-	public void updateFromSettings() {
+	public void updateFromSettings(Supplier<List<TabularRange>> selectionSupplier) {
 		DataAnalysisSettings settings = app.getSettings().getDataAnalysis();
-		if (settings.getItems().size() > 0) {
-			DataSource source = new DataSource(app);
+		if (!settings.getItems().isEmpty()) {
+			DataSource source = new DataSource(app, selectionSupplier);
 			source.setDataListFromSettings(settings.getItems(), settings.getFrequencies(),
 					settings.getMode());
 			// no need to guess here

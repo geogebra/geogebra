@@ -30,7 +30,6 @@ import org.geogebra.common.gui.Editing;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
-import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.ModeSetter;
@@ -204,9 +203,6 @@ public interface GuiManagerInterface extends SettingListener {
 	boolean hasCasView();
 
 	@MissingDoc
-	SpreadsheetViewInterface getSpreadsheetView();
-
-	@MissingDoc
 	View getProbabilityCalculator();
 
 	@MissingDoc
@@ -217,7 +213,7 @@ public interface GuiManagerInterface extends SettingListener {
 	 * @param id view ID
 	 * @return plot panel view
 	 */
-	View getPlotPanelView(int id);
+	EuclidianViewInterfaceCommon getPlotPanelView(int id);
 
 	@MissingDoc
 	View getPropertiesView();
@@ -393,9 +389,6 @@ public interface GuiManagerInterface extends SettingListener {
 
 	@MissingDoc
 	void initialize();
-
-	@MissingDoc
-	void resetSpreadsheet();
 
 	/**
 	 * Enable / disable autoscroll in spreadsheet.
@@ -637,4 +630,18 @@ public interface GuiManagerInterface extends SettingListener {
 	 * @return input keyboard button for Web input boxes
 	 */
 	@CheckForNull InputKeyboardButton getInputKeyboardButton();
+
+	/**
+	 * @return whether spreadsheet has (keyboard) focus
+	 */
+	boolean isSpreadsheetFocused();
+
+	/**
+	 * Scroll spreadsheet to make a cell visible, has no effect if spreadsheet is not visible
+	 * or position is not defined. Attempts to use position based on geo's current label,
+	 * on failure use new label.
+	 * @param geo construction element
+	 * @param labelNew new label
+	 */
+	void scrollSpreadsheetToCell(GeoElement geo, String labelNew);
 }

@@ -128,7 +128,7 @@ public class HTML5Export {
 					? "1" : "0");
 			sb.append(",'SV': ");
 			sb.append(gui.hasSpreadsheetView()
-					&& gui.getSpreadsheetView().isShowing() ? "1" : "0");
+					&& app.showView(App.VIEW_SPREADSHEET) ? "1" : "0");
 			sb.append(",'CV': ");
 			sb.append(gui.hasCasView() ? "1" : "0");
 			sb.append(",'EV2': ");

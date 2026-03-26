@@ -81,10 +81,6 @@ public class ShowKeyboardButton extends SimplePanel {
 					listener.doShowKeyboard(true, mathKeyboardListener);
 				}
 
-				if (guiManagerW.hasSpreadsheetView()) {
-					guiManagerW.getSpreadsheetView().setKeyboardEnabled(true);
-				}
-
 				if (mathKeyboardListener != null) {
 					mathKeyboardListener.ensureEditing();
 					mathKeyboardListener.setFocus(true);

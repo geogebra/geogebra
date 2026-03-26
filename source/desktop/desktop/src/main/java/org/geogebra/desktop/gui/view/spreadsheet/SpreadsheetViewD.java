@@ -310,7 +310,6 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	@Override
 	public void add(GeoElement geo) {
 		update(geo);
-		scrollIfNeeded(geo, null);
 	}
 
 	@Override
@@ -959,7 +958,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		getSpreadsheetTable().getCellFormatHandler()
 				.processXMLString(settings().cellFormat());
 		spreadsheetWrapper.repaint();
-		table.repaintAll();
+		table.repaint();
 		// preferredSize
 		spreadsheetWrapper.setPreferredSize(
 				GDimensionD.getAWTDimension(settings().preferredSize()));

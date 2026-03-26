@@ -19,6 +19,7 @@ package org.geogebra.web.full.gui.view.spreadsheet;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetContextMenu;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
@@ -48,11 +49,11 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu<AriaMenuItem
 	 * @param table
 	 *            spreadsheet table
 	 */
-	public SpreadsheetContextMenuW(MyTable table) {
-		super(table);
+	public SpreadsheetContextMenuW(MyTable table, App app) {
+		super(table, table.getToolProcessor(app));
+		createGUI();
 	}
 
-	@Override
 	public GPopupMenuW getMenuContainer() {
 		return popup;
 	}
@@ -84,32 +85,32 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu<AriaMenuItem
 	}
 
 	@Override
-	public void addMenuItem(final String cmdString, String text, boolean enabled) {
-		AriaMenuItem mi = MainMenu.getMenuBarItem(getIconUrl(cmdString),
-				text, getCommand(cmdString));
+	public void addMenuItem(final MenuCommand command, String text, boolean enabled) {
+		AriaMenuItem mi = MainMenu.getMenuBarItem(getIconUrl(command),
+				text, getCommand(command));
 		mi.setEnabled(enabled);
 
 		popup.addItem(mi);
 	}
 
 	@Override
-	public void addCheckBoxMenuItem(final String cmdString, String text, boolean isSelected) {
+	public void addCheckBoxMenuItem(final MenuCommand command, String text, boolean isSelected) {
 		GCheckmarkMenuItem cbItem = new GCheckmarkMenuItem(
-				getIconUrl(cmdString), text, isSelected, getCommand(cmdString));
+				getIconUrl(command), text, isSelected, getCommand(command));
 		popup.addItem(cbItem);
 	}
 
 	@Override
-	public AriaMenuItem addSubMenu(String text, String cmdString) {
+	public AriaMenuItem addSubMenu(String text, MenuCommand command) {
 		AriaMenuBar subMenu = new AriaMenuBar();
-		AriaMenuItem menuItem = new AriaMenuItem(text, getIconUrl(cmdString), subMenu);
+		AriaMenuItem menuItem = new AriaMenuItem(text, getIconUrl(command), subMenu);
 
 		popup.addItem(menuItem);
 		return menuItem;
 	}
 
 	@Override
-	public void addSubMenuItem(AriaMenuItem menu, final String cmdString,
+	public void addSubMenuItem(AriaMenuItem menu, final MenuCommand cmdString,
 	        String text, boolean enabled) {
 
 		AriaMenuItem mi = new AriaMenuItem(text, null, getCommand(cmdString));
@@ -123,16 +124,16 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu<AriaMenuItem
 		popup.addSeparator();
 	}
 
-	private Command getCommand(final String cmdString) {
+	private Command getCommand(final MenuCommand cmdString) {
 		return () -> doCommand(cmdString);
 	}
 
-	private static ResourcePrototype getIconUrl(String cmdString) {
-		if (cmdString == null) {
+	private static ResourcePrototype getIconUrl(MenuCommand command) {
+		if (command == null) {
 			return AppResources.INSTANCE.empty();
 		}
 
-		switch (MenuCommand.valueOf(cmdString)) {
+		switch (command) {
 		case ShowLabel:
 			return MaterialDesignResources.INSTANCE.label_black();
 		case Copy:
@@ -141,8 +142,6 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu<AriaMenuItem
 			return MaterialDesignResources.INSTANCE.cut_black();
 		case Paste:
 			return MaterialDesignResources.INSTANCE.paste_black();
-		case Duplicate:
-			return MaterialDesignResources.INSTANCE.duplicate_black();
 		case Delete:
 		case DeleteObjects:
 			return MaterialDesignResources.INSTANCE.delete_black();

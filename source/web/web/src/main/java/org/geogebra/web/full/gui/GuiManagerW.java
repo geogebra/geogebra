@@ -122,9 +122,7 @@ import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigatio
 import org.geogebra.web.full.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.full.gui.view.probcalculator.ProbabilityCalculatorViewW;
 import org.geogebra.web.full.gui.view.probcalculator.TabbedProbCalcView;
-import org.geogebra.web.full.gui.view.spreadsheet.MyTableW;
-import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetContextMenuW;
-import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetViewW;
+import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetToolbarManagerW;
 import org.geogebra.web.full.html5.AttachedToDOM;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.BrowserDevice;
@@ -168,7 +166,6 @@ public class GuiManagerW extends GuiManager
 
 	private AlgebraControllerW algebraController;
 	private AlgebraViewW algebraView;
-	private SpreadsheetViewW spreadsheetView;
 	private final ArrayList<EuclidianViewW> euclidianView2 = new ArrayList<>();
 	protected BrowseViewI browseGUI;
 	protected LayoutW layout;
@@ -282,19 +279,6 @@ public class GuiManagerW extends GuiManager
 		// clear highlighting and selections in views
 		getApp().getActiveEuclidianView().resetMode();
 		getPopupMenu(geos).showScaled(invoker.getElement(), x, y);
-	}
-
-	/**
-	 * @param mt
-	 *            spreadsheet table
-	 * @return spreadsheet context menu
-	 */
-	public SpreadsheetContextMenuW getSpreadsheetContextMenu(final MyTableW mt) {
-		removePopup();
-		final SpreadsheetContextMenuW contextMenu = new SpreadsheetContextMenuW(
-				mt);
-		currentPopup = contextMenu.getMenuContainer();
-		return contextMenu;
 	}
 
 	/**
@@ -481,13 +465,13 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public boolean hasSpreadsheetView() {
-		return spreadsheetView != null && spreadsheetView.isShowing();
+		DockPanelW panel = layout.getDockManager().getPanel(App.VIEW_SPREADSHEET);
+		return panel != null && panel.isAttached();
 	}
 
 	@Override
 	public void attachSpreadsheetView() {
-		getSpreadsheetView();
-		spreadsheetView.attachView();
+		// not needed in web (KernelTabularDataAdapter is the one that needs to be attached)
 	}
 
 	@Override
@@ -535,13 +519,6 @@ public class GuiManagerW extends GuiManager
 		if (!showView(viewId)) {
 			layout.getDockManager().show(viewId);
 		}
-
-		if (viewId == App.VIEW_SPREADSHEET) {
-			getSpreadsheetView().requestFocus();
-		}
-		if (viewId == App.VIEW_DATA_ANALYSIS) {
-			getSpreadsheetView().requestFocus();
-		}
 	}
 
 	private void hideViewWith(int viewId, boolean isPermanent) {
@@ -578,16 +555,6 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public SpreadsheetViewW getSpreadsheetView() {
-		// init spreadsheet view
-		if (spreadsheetView == null) {
-			spreadsheetView = new SpreadsheetViewW(getApp());
-		}
-
-		return spreadsheetView;
-	}
-
-	@Override
 	public View getProbabilityCalculator() {
 		if (probCalculator == null) {
 			setProbCalculator(app.isSuite() ? ProbabilityCalculatorViewW.create(getApp())
@@ -608,6 +575,33 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void updateSpreadsheetColumnWidths() {
 		// unimplemented in web
+	}
+
+	@Override
+	public void scrollSpreadsheetToCell(GeoElement geo, String labelNew) {
+		if (hasSpreadsheetView()) {
+			DockPanelW panel = getLayout().getDockManager().getPanel(App.VIEW_SPREADSHEET);
+			if (panel instanceof SpreadsheetDockPanelW spreadsheetDockPanel) {
+				spreadsheetDockPanel
+						.scrollIfNeeded(geo, labelNew);
+			}
+		}
+	}
+
+	@Override
+	public void setScrollToShow(boolean scrollToShow) {
+		DockPanelW panel = getLayout().getDockManager().getPanel(App.VIEW_SPREADSHEET);
+		if (panel instanceof SpreadsheetDockPanelW spreadsheetDockPanel) {
+			spreadsheetDockPanel.setScrollToShow(scrollToShow);
+		}
+	}
+
+	@Override
+	public void setMode(int mode, ModeSetter modeSetter) {
+		super.setMode(mode, modeSetter);
+		if (modeSetter == ModeSetter.TOOLBAR) {
+			new SpreadsheetToolbarManagerW(getApp()).handleModeChange(mode);
+		}
 	}
 
 	@Override
@@ -1227,9 +1221,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void detachSpreadsheetView() {
-		if (spreadsheetView != null) {
-			spreadsheetView.detachView();
-		}
+		// only in desktop
 	}
 
 	@Override
@@ -1252,20 +1244,6 @@ public class GuiManagerW extends GuiManager
 			listener.setFocus(true);
 		} else {
 			app.getActiveEuclidianView().requestFocus();
-		}
-	}
-
-	@Override
-	public void resetSpreadsheet() {
-		if (spreadsheetView != null) {
-			spreadsheetView.restart();
-		}
-	}
-
-	@Override
-	public void setScrollToShow(final boolean b) {
-		if (spreadsheetView != null) {
-			spreadsheetView.setScrollToShow(b);
 		}
 	}
 
@@ -1418,16 +1396,6 @@ public class GuiManagerW extends GuiManager
 
 		if (getApp().getDevice() != null) {
 			getApp().getDevice().resizeView(width, height);
-		}
-	}
-
-	@Override
-	public void getSpreadsheetViewXML(final XMLStringBuilder sb,
-			final boolean asPreference) {
-		if (spreadsheetView != null) {
-			spreadsheetView.getXML(sb, asPreference);
-		} else {
-			super.getSpreadsheetViewXML(sb, asPreference);
 		}
 	}
 
@@ -1958,8 +1926,9 @@ public class GuiManagerW extends GuiManager
 		if (hasCasView()) {
 			getCasView().setPixelRatio(ratio);
 		}
-		if (hasSpreadsheetView()) {
-			getSpreadsheetView().setPixelRatio(ratio);
+		DockPanelW panel = getLayout().getDockManager().getPanel(App.VIEW_SPREADSHEET);
+		if (panel != null) {
+			panel.onResize();
 		}
 	}
 

@@ -28,7 +28,6 @@ import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
-import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GuiManagerInterface;
@@ -233,9 +232,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	@Override
 	AlgebraView getAlgebraView();
-
-	@Override
-	SpreadsheetViewInterface getSpreadsheetView();
 
 	/**
 	 * Set active panel and toolbar.

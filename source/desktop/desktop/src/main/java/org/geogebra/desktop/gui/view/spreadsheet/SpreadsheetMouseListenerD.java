@@ -121,7 +121,8 @@ public class SpreadsheetMouseListenerD
 				if (point != null) {
 					int column = point.column;
 					int row = point.row;
-					GeoElement geo = RelativeCopy.getValue(app, column, row);
+					GeoElement geo =
+							RelativeCopy.getValue(app.getSpreadsheetTableModel(), column, row);
 					if (geo != null) {
 						e.consume();
 					}
@@ -277,8 +278,8 @@ public class SpreadsheetMouseListenerD
 						int column = point.column;
 						int row = point.row;
 
-						GeoElement geo = RelativeCopy.getValue(app, column,
-								row);
+						GeoElement geo =
+								RelativeCopy.getValue(app.getSpreadsheetTableModel(), column, row);
 						if (geo != null) {
 							GeoClass geoType = geo.getGeoClassType();
 							if (geoType == GeoClass.BUTTON
@@ -465,7 +466,7 @@ public class SpreadsheetMouseListenerD
 
 			// create and show context menu
 			SpreadsheetContextMenuD contextMenu = new SpreadsheetContextMenuD(
-					table);
+					table, table.getToolProcessor(app));
 			JPopupMenu popup = contextMenu.getMenuContainer();
 			popup.show(e.getComponent(), e.getX(), e.getY());
 		}

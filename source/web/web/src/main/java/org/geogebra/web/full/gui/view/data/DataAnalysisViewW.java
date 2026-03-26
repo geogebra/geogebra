@@ -17,6 +17,7 @@
 package org.geogebra.web.full.gui.view.data;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
@@ -103,7 +104,8 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		daCtrl = new DataAnalysisControllerW(app, this);
 		model = new DataAnalysisModel(app, this, daCtrl);
 
-		dataSource = new DataSource(app);
+		dataSource = new DataSource(app,
+				() -> Objects.requireNonNull(app.getSpreadsheet()).getSelections());
 
 		daCtrl.loadDataLists(true);
 
@@ -462,7 +464,8 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	 * Attach this and helper views to kernel.
 	 */
 	public void attachView() {
-		model.updateFromSettings();
+		model.updateFromSettings(
+				() -> Objects.requireNonNull(app.getSpreadsheet()).getSelections());
 		kernel.attach(this);
 
 		// attachView to plot panels

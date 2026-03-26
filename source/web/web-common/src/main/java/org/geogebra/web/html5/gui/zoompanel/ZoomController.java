@@ -246,7 +246,7 @@ public class ZoomController {
 
 					@Override
 					public void run() {
-						scaleApplet(scaler, container, elem);
+						app.windowResized();
 						onFullscreen(fullscreenBtnSelectCB);
 					}
 				};

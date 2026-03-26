@@ -29,10 +29,14 @@ public interface CellRenderableFactory {
 	/**
 	 * May return one of these types that are rendered by spreadsheet
 	 * * String
-	 * * Boolean (render as checkbox) - TODO
+	 * * Boolean (render as checkbox)
 	 * * TeXIcon
-	 * * button - TODO
+	 * * button
+	 * * image
 	 * @param data cell content
+	 * @param fontStyle style information
+	 * @param row row index
+	 * @param column column index
 	 * @return renderable representation of the cell data
 	 */
 	@CheckForNull SelfRenderable getRenderable(@CheckForNull Object data,

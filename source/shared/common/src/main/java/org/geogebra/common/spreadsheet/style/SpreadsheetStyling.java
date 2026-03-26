@@ -97,9 +97,9 @@ public final class SpreadsheetStyling {
 	 * @param column cell column
 	 * @return whether to show border for given cell
 	 */
-	public boolean showBorder(int row, int column) {
+	public byte showBorder(int row, int column) {
 		Byte border = (Byte) cellFormat.getCellFormat(column, row, CellFormat.FORMAT_BORDER);
-		return border != null && border != 0;
+		return border == null ? 0 : border;
 	}
 
 	// Font style (traits)

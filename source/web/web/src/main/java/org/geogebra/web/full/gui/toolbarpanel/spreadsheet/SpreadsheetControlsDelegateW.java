@@ -96,6 +96,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 					textAlignment == CellFormat.ALIGN_LEFT ? TextAlign.LEFT : TextAlign.RIGHT);
 			mathField.setVisible(true);
 			mathField.editorClicked();
+			mathField.scrollCursorVisibleHorizontally();
 			Scheduler.get().scheduleDeferred(mathField::requestFocus);
 		}
 

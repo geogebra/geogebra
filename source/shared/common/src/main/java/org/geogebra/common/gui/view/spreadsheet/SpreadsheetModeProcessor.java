@@ -16,22 +16,27 @@
 
 package org.geogebra.common.gui.view.spreadsheet;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.SpreadsheetTableModel;
+import org.geogebra.common.spreadsheet.core.SelectionType;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
 
 public class SpreadsheetModeProcessor {
 
-	private App app;
-	private Kernel kernel;
-	private CopyPasteCut copyPasteCut;
-	private MyTable table;
+	private final App app;
+	private final SpreadsheetTableModel tableModel;
+	private final Kernel kernel;
+	private final @CheckForNull MyTable table;
 	private GeoElement targetCell;
 
 	/**
@@ -40,113 +45,117 @@ public class SpreadsheetModeProcessor {
 	 * @param table
 	 *            table
 	 */
-	public SpreadsheetModeProcessor(App app, MyTable table) {
+	public SpreadsheetModeProcessor(@Nonnull App app, @CheckForNull MyTable table) {
 		this.app = app;
+		this.tableModel = app.getSpreadsheetTableModel();
 		this.kernel = app.getKernel();
-		this.copyPasteCut = table.getCopyPasteCut();
 		this.table = table;
 	}
 
 	/**
 	 * Creates autofunction cells based on the given cell range and the current
 	 * autofunction mode.
+	 *
+	 * @param range tabular range
+	 * @param shiftDown whether Shift key is pressed
 	 */
-	public void performAutoFunctionCreation(TabularRange cr, boolean shiftDown) {
-
-		if (cr.isContiguousColumns() || cr.isContiguousRows()) {
+	public void performAutoFunctionCreation(TabularRange range, boolean shiftDown) {
+		if (range.isContiguousColumns() || range.isContiguousRows()) {
 			return;
 		}
 
 		boolean isOK = true;
-		GeoElement targetCell1 = null;
 		TabularRange targetRange;
 
 		// Case 1: Partial row, targetCell created beneath the column
-		if (cr.isPartialRow() || (!cr.isPartialColumn() && shiftDown)) {
+		if (range.isPartialRow() || (!range.isPartialColumn() && shiftDown)) {
 
-			int maxColumn = getMaxUsedColumn(cr) + 1;
-			targetRange = new TabularRange(cr.getMinRow(), maxColumn,
-					cr.getMaxRow(), maxColumn);
-			for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {
+			int maxColumn = getMaxUsedColumn(range) + 1;
+			targetRange = new TabularRange(range.getMinRow(), maxColumn,
+					range.getMaxRow(), maxColumn);
+			for (int row = range.getMinRow(); row <= range.getMaxRow(); row++) {
 
 				// try to clear the target cell, exit if this is not possible
-				if (RelativeCopy.getValue(app, maxColumn, row) != null) {
-					isOK = copyPasteCut.delete(maxColumn, row, maxColumn, row);
+				if (RelativeCopy.getValue(tableModel, maxColumn, row) != null) {
+					isOK = delete(maxColumn, row, maxColumn, row);
 				}
 				// create new targetCell
 				if (isOK) {
-					targetCell1 = new GeoNumeric(kernel.getConstruction(), 0);
-					targetCell1.setLabel(GeoElementSpreadsheet
+					GeoElement targetCell = new GeoNumeric(kernel.getConstruction(), 0);
+					targetCell.setLabel(GeoElementSpreadsheet
 							.getSpreadsheetCellName(maxColumn, row));
-					createAutoFunctionCell(targetCell1, new TabularRange(
-							row, cr.getMinColumn(), row, maxColumn - 1));
+					createAutoFunctionCell(targetCell, new TabularRange(
+							row, range.getMinColumn(), row, maxColumn - 1));
 				}
 			}
 
 			app.setMoveMode();
-			table.setSelection(targetRange);
-			table.repaint();
+			if (table != null) {
+				table.setSelection(targetRange);
+				table.repaint();
+			}
 		} else {
-			int maxRow = getMaxUsedRow(cr) + 1;
-			targetRange = new TabularRange(maxRow, cr.getMinColumn(),
-					maxRow, cr.getMaxColumn());
-			for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
+			int maxRow = getMaxUsedRow(range) + 1;
+			targetRange = new TabularRange(maxRow, range.getMinColumn(),
+					maxRow, range.getMaxColumn());
+			for (int col = range.getMinColumn(); col <= range.getMaxColumn(); col++) {
 
 				// try to clear the target cell, exit if this is not possible
-				if (RelativeCopy.getValue(app, col, maxRow) != null) {
-					isOK = copyPasteCut.delete(col, maxRow, col, maxRow);
+				if (RelativeCopy.getValue(tableModel, col, maxRow) != null) {
+					isOK = delete(col, maxRow, col, maxRow);
 				}
 				// create new targetCell
 				if (isOK) {
 					String cellName = GeoElementSpreadsheet
 							.getSpreadsheetCellName(col, maxRow);
 					GeoElement cell = kernel.lookupLabel(cellName);
+					GeoElement targetCell;
 					if (cell == null) {
-						targetCell1 = new GeoNumeric(kernel.getConstruction(),
-								0);
-						targetCell1.setLabel(cellName);
+						targetCell = new GeoNumeric(kernel.getConstruction(), 0);
+						targetCell.setLabel(cellName);
 					} else {
-						targetCell1 = cell;
+						targetCell = cell;
 					}
-					createAutoFunctionCell(targetCell1, new TabularRange(cr.getMinRow(), col,
+					createAutoFunctionCell(targetCell, new TabularRange(range.getMinRow(), col,
 							maxRow - 1, col));
 				}
 			}
 
 			app.setMoveMode();
-			table.setSelection(targetRange);
-			table.repaint();
+			if (table != null) {
+				table.setSelection(targetRange);
+				table.repaint();
+			}
 		}
 	}
 
-	private int getMaxUsedColumn(TabularRange cr) {
-
-		if (cr.isContiguousRows() || cr.isContiguousColumns()) {
-			return cr.getMaxColumn();
+	private int getMaxUsedColumn(TabularRange range) {
+		if (range.isContiguousRows() || range.isContiguousColumns()) {
+			return range.getMaxColumn();
 		}
 
-		for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {
-			if (kernel.getGeoAt(cr.getMaxColumn(), row) != null) {
-				return cr.getMaxColumn();
+		for (int row = range.getMinRow(); row <= range.getMaxRow(); row++) {
+			if (kernel.getGeoAt(range.getMaxColumn(), row) != null) {
+				return range.getMaxColumn();
 			}
 		}
 
-		return cr.getMaxColumn() - 1;
+		return range.getMaxColumn() - 1;
 	}
 
-	private int getMaxUsedRow(TabularRange cr) {
+	private int getMaxUsedRow(TabularRange range) {
 
-		if (cr.isContiguousRows() || cr.isContiguousColumns()) {
-			return cr.getMaxRow();
+		if (range.isContiguousRows() || range.isContiguousColumns()) {
+			return range.getMaxRow();
 		}
 
-		for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
-			if (kernel.getGeoAt(col, cr.getMaxRow()) != null) {
-				return cr.getMaxRow();
+		for (int col = range.getMinColumn(); col <= range.getMaxColumn(); col++) {
+			if (kernel.getGeoAt(col, range.getMaxRow()) != null) {
+				return range.getMaxRow();
 			}
 		}
 
-		return cr.getMaxRow() - 1;
+		return range.getMaxRow() - 1;
 	}
 
 	/**
@@ -155,38 +164,27 @@ public class SpreadsheetModeProcessor {
 	 * 
 	 * @param functionTargetCell
 	 *            target cell
-	 * @param cr
+	 * @param range
 	 *            input cell range
 	 * @return success
 	 */
-	public boolean createAutoFunctionCell(GeoElement functionTargetCell, TabularRange cr) {
+	public boolean createAutoFunctionCell(GeoElement functionTargetCell, TabularRange range) {
 
 		boolean success = true;
 
 		// Get the targetCell label and the selected cell range
 		String targetCellLabel = functionTargetCell.getLabelSimple();
-		String cellRangeString = table.getCellRangeProcessor()
-				.getCellRangeString(cr);
+		String cellRangeString = CellRangeUtil.getCellRangeString(range, true,
+				app.getLocalization());
 
 		// Create a String expression for the new autofunction command geo
-		String cmd = null;
-		if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_SUM) {
-			cmd = "Sum";
-		} else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_COUNT) {
-			cmd = "Length";
-		} else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_AVERAGE) {
-			cmd = "Mean";
-		} else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_MAX) {
-			cmd = "Max";
-		} else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_MIN) {
-			cmd = "Min";
-		}
+		String cmd = cmdForMode();
 
 		String expr = targetCellLabel + " = " + cmd + "[" + cellRangeString
 				+ "]";
 		Log.debug(expr);
 		// Create the new geo
-		if (!cr.contains(functionTargetCell.getSpreadsheetCoords())) {
+		if (!range.contains(functionTargetCell.getSpreadsheetCoords())) {
 			kernel.getAlgebraProcessor().processAlgebraCommandNoExceptions(expr,
 					false);
 		} else {
@@ -197,12 +195,26 @@ public class SpreadsheetModeProcessor {
 		return success;
 	}
 
+	private String cmdForMode() {
+		int mode = app.getMode();
+		return switch (mode) {
+			case EuclidianConstants.MODE_SPREADSHEET_SUM -> "Sum";
+			case EuclidianConstants.MODE_SPREADSHEET_COUNT -> "Length";
+			case EuclidianConstants.MODE_SPREADSHEET_AVERAGE -> "Mean";
+			case EuclidianConstants.MODE_SPREADSHEET_MAX -> "Max";
+			case EuclidianConstants.MODE_SPREADSHEET_MIN -> "Min";
+			default -> null;
+		};
+	}
+
 	/**
 	 * Stops the autofunction from updating and creates a new geo for the target
 	 * cell based on the current autofunction mode.
 	 */
 	public void stopAutoFunction() {
-
+		if (table == null) {
+			return;
+		}
 		table.setTableMode(MyTable.TABLE_MODE_STANDARD);
 
 		TabularRange firstSelection = table.getFirstSelection();
@@ -238,31 +250,22 @@ public class SpreadsheetModeProcessor {
 	 * value is displayed in the targetCell.
 	 */
 	public void updateAutoFunction() {
-
+		if (table == null) {
+			return;
+		}
 		TabularRange selection = table.getFirstSelection();
-		if (targetCell == null || CellRangeUtil.isEmpty(selection, app)
+		if (targetCell == null || selection == null || CellRangeUtil.isEmpty(selection, tableModel)
 				|| table.getTableMode() != MyTable.TABLE_MODE_AUTOFUNCTION) {
 			app.setMoveMode();
 			return;
 		}
 
 		// Get a string representation of the selected range (e.g. A1:B3)
-		String cellRangeString = table.getCellRangeProcessor()
-				.getCellRangeString(selection);
+		String cellRangeString = CellRangeUtil
+				.getCellRangeString(selection, true, app.getLocalization());
 
 		// Build a String expression for the autofunction
-		String cmd = null;
-		if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_SUM) {
-			cmd = "Sum";
-		} else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_COUNT) {
-			cmd = "Length";
-		} else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_AVERAGE) {
-			cmd = "Mean";
-		} else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_MAX) {
-			cmd = "Max";
-		} else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_MIN) {
-			cmd = "Min";
-		}
+		String cmd = cmdForMode();
 
 		String expr = cmd + "[" + cellRangeString + "]";
 
@@ -273,5 +276,10 @@ public class SpreadsheetModeProcessor {
 		} else {
 			targetCell.setUndefined();
 		}
+	}
+
+	private boolean delete(int col1, int row1, int col2, int row2) {
+		return CopyPasteCut.delete(app, col1, row1, col2, row2,
+				table == null ? SelectionType.CELLS : table.getSelectionType());
 	}
 }

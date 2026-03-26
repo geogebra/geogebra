@@ -18,6 +18,7 @@ package org.geogebra.common.gui.view.data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.geogebra.common.gui.view.data.DataItem.SourceType;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
@@ -33,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
@@ -50,7 +52,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class DataVariable {
 
-	private final App app;
+	private final SpreadsheetTableModel tableModel;
 
 	/**
 	 * Identifier for the data grouping type
@@ -76,12 +78,12 @@ public class DataVariable {
 	/**
 	 * Constructs a DataVariable
 	 * 
-	 * @param app
-	 *            application
+	 * @param loc localization
+	 * @param tableModel table model
 	 */
-	public DataVariable(App app) {
-		this.loc = app.getLocalization();
-		this.app = app;
+	public DataVariable(Localization loc, SpreadsheetTableModel tableModel) {
+		this.loc = loc;
+		this.tableModel = tableModel;
 	}
 
 	// =============================================
@@ -147,13 +149,13 @@ public class DataVariable {
 			frequency = null;
 			classes = null;
 			if (values.size() == 0) {
-				values.add(new DataItem(app));
+				values.add(new DataItem(tableModel));
 			}
 			break;
 
 		case FREQUENCY:
 			if (frequency == null) {
-				frequency = new DataItem(app);
+				frequency = new DataItem(tableModel);
 				frequency.setGeoClass(GeoClass.NUMERIC);
 				frequency.setDescription(loc.getMenu("Frequency"));
 			}
@@ -162,12 +164,12 @@ public class DataVariable {
 
 		case CLASS:
 			if (frequency == null) {
-				frequency = new DataItem(app);
+				frequency = new DataItem(tableModel);
 				frequency.setGeoClass(GeoClass.NUMERIC);
 				frequency.setDescription(loc.getMenu("Frequency"));
 			}
 			if (classes == null) {
-				classes = new DataItem(new Double[0], app);
+				classes = new DataItem(new double[0], tableModel);
 				classes.setDescription(loc.getMenu("Classes"));
 			}
 
@@ -248,7 +250,7 @@ public class DataVariable {
 			numClasses = frequency.getGeoCount();
 		}
 
-		Double[] leftBorder = new Double[numClasses + 1];
+		double[] leftBorder = new double[numClasses + 1];
 		leftBorder[0] = classStart;
 		for (int i = 1; i < leftBorder.length; i++) {
 			leftBorder[i] = leftBorder[i - 1] + classWidth;
@@ -347,7 +349,7 @@ public class DataVariable {
 			values = new ArrayList<>();
 		}
 
-		DataItem item = new DataItem(app);
+		DataItem item = new DataItem(tableModel);
 		item.setGeoClass(geoClass);
 		values.add(item);
 	}
@@ -548,14 +550,14 @@ public class DataVariable {
 	}
 
 	/**
-	 * @param app
-	 *            application
+	 * @param loc
+	 *            localization
 	 * @return titles
 	 */
-	public ArrayList<String> getTitles(App app) {
+	public ArrayList<String> getTitles(Localization loc) {
 		ArrayList<String> list = new ArrayList<>();
 		for (DataItem item : getItemList()) {
-			list.add(item.getDataTitle(app, enableHeader));
+			list.add(item.getDataTitle(loc, enableHeader));
 		}
 		return list;
 	}
@@ -687,7 +689,7 @@ public class DataVariable {
 		for (DataItem item : values) {
 
 			sb.startTag("item");
-			ArrayList<TabularRange> crList = item.getRangeList();
+			List<TabularRange> crList = item.getRangeList();
 			if (crList != null) {
 				sb.attr("ranges", appendTabularRanges(crList));
 			}
@@ -708,7 +710,7 @@ public class DataVariable {
 		sb.closeTag("variable");
 	}
 
-	private String appendTabularRanges(ArrayList<TabularRange> crList) {
+	private String appendTabularRanges(List<TabularRange> crList) {
 		boolean first = true;
 		StringBuilder sb = new StringBuilder();
 		for (TabularRange cr : crList) {

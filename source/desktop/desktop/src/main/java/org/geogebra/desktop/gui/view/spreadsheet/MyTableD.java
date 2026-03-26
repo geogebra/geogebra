@@ -212,8 +212,10 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		this.oneClickEditMap = oneClickEditMap;
 	}
 
-	/*******************************************************************
+	/**
 	 * Construct table
+	 * @param view spreadsheet view
+	 * @param tableModel table model
 	 */
 	public MyTableD(SpreadsheetViewD view, DefaultTableModel tableModel) {
 		super(tableModel);
@@ -312,7 +314,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		// relative copy
 		relativeCopy = new RelativeCopy(kernel);
-		copyPasteCut = new CopyPasteCutD(app);
+		copyPasteCut = new CopyPasteCutD(app, this);
 
 		// - see ticket #135
 		addFocusListener(this);
@@ -374,7 +376,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	@Override
 	public CellRangeProcessor getCellRangeProcessor() {
 		if (crProcessor == null) {
-			crProcessor = new CellRangeProcessor(this, app);
+			crProcessor = new CellRangeProcessor(this, app.getSpreadsheetTableModel());
 		}
 		return crProcessor;
 	}
@@ -479,6 +481,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	/**
 	 * sets requirement that commands entered into cells must start with "="
+	 * @param isEqualsRequired whether "=" is required for formula input
 	 */
 	public void setEqualsRequired(boolean isEqualsRequired) {
 		editor.setEqualsRequired(isEqualsRequired);
@@ -651,7 +654,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				|| minSelectionRow - newSelection.getMinRow() != 0;
 
 		// update selection list and internal variables
-		newSelection = CellRangeUtil.getActual(newSelection, app);
+		newSelection = CellRangeUtil.getActual(newSelection, app.getSpreadsheetTableModel());
 		if (!app.getControlDown()) {
 			selectedRanges.clear();
 			selectedColumnSet.clear();
@@ -686,7 +689,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		// update the geo selection list
 		ArrayList<GeoElement> list = new ArrayList<>();
 		for (int i = 0; i < selectedRanges.size(); i++) {
-			list.addAll(0, CellRangeUtil.toGeoList(selectedRanges.get(i), app));
+			list.addAll(0, CellRangeUtil.toGeoList(selectedRanges.get(i),
+					app.getSpreadsheetTableModel()));
 		}
 
 		// if the geo selection has changed, update selected geos
@@ -725,6 +729,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	/**
 	 * Sets the initial selection parameters to a single cell. Does this without
 	 * calling changeSelection, so it should only be used at startup.
+	 * @param row row index
+	 * @param column column index
 	 */
 	public void setInitialCellSelection(int row, int column) {
 
@@ -929,8 +935,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		ArrayList<Integer> columns = new ArrayList<>();
 
-		for (TabularRange cr : this.selectedRanges) {
-			for (int c = cr.getMinColumn(); c <= cr.getMaxColumn(); ++c) {
+		for (TabularRange range : this.selectedRanges) {
+			for (int c = range.getMinColumn(); c <= range.getMaxColumn(); ++c) {
 				if (!columns.contains(c)) {
 					columns.add(c);
 				}
@@ -980,6 +986,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	}
 
 	/**
+	 * @param x x-coordinate in pixels
+	 * @param y y-coordinate in pixels
 	 * @return Point(columnIndex, rowIndex), cell indices for the given pixel
 	 * location
 	 */
@@ -1247,7 +1255,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		// After rendering the LaTeX image for a geo, update the row height
 		// with the preferred size set by the renderer.
 		resizeMarkedCells();
-
 	}
 
 	/**
@@ -1329,9 +1336,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			rm.setSelectionInterval(rowAnchor, row);
 
 			selectionChanged();
-
 		}
-
 	}
 
 	@Override
@@ -1378,7 +1383,10 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		return geo == null || !geo.isProtected(EventType.UPDATE);
 	}
 
-	/** Set editor text */
+	/**
+	 * Set editor text
+	 * @param text editor content
+	 */
 	public void updateEditor(String text) {
 		if (this.isEditing()) {
 			editor.setText(text);
@@ -1390,7 +1398,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		if (AppD.isVirtualKeyboardActive()) {
 			((GuiManagerD) app.getGuiManager()).toggleKeyboard(true);
 		}
-
 	}
 
 	@Override
@@ -1402,7 +1409,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		if (AppD.isVirtualKeyboardActive()) {
 			((GuiManagerD) app.getGuiManager()).toggleKeyboard(false);
 		}
-
 	}
 
 	// Keep row heights of table and rowHeader in sync
@@ -1433,7 +1439,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		} catch (Exception e) {
 			Log.debug(e);
 		}
-
 	}
 
 	/** Reset the row heights --- used after addColumn destroys the row heights */
@@ -1457,7 +1462,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * 
 	 */
 	public void resizeMarkedCells() {
-
 		if (!cellResizeHeightSet.isEmpty()) {
 			for (GPoint cellPoint : cellResizeHeightSet) {
 				setPreferredCellSize(cellPoint.getY(), cellPoint.getX(), false,
@@ -1477,6 +1481,10 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	/**
 	 * Enlarge the row and/or column of a cell to fit the cell's preferred size.
+	 * @param row row index
+	 * @param col column index
+	 * @param adjustWidth adjust width
+	 * @param adjustHeight adjust height
 	 */
 	public void setPreferredCellSize(int row, int col, boolean adjustWidth,
 			boolean adjustHeight) {
@@ -1487,7 +1495,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				.getPreferredSize();
 
 		if (adjustWidth) {
-
 			TableColumn tableColumn = this.getColumnModel().getColumn(col);
 
 			int resultWidth = Math.max(tableColumn.getWidth(),
@@ -1497,20 +1504,18 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		}
 
 		if (adjustHeight) {
-
 			int resultHeight = Math.max(getRowHeight(row),
 					(int) prefSize.getHeight());
 			setRowHeight(row, resultHeight);
 		}
-
 	}
 
 	/**
 	 * Adjust the width of a column to fit the maximum preferred width of its
 	 * cell contents.
+	 * @param column column index
 	 */
 	public void fitColumn(int column) {
-
 		TableColumn tableColumn = getColumnModel().getColumn(column);
 
 		int prefWidth = 0;
@@ -1537,26 +1542,23 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		// so we get the actual header from view
 		view.getTableHeader().setResizingColumn(tableColumn);
 		tableColumn.setWidth(prefWidth + getIntercellSpacing().width);
-
 	}
 
 	/**
-	 * Adjust the height of a row to fit the maximum preferred height of the its
+	 * Adjust the height of a row to fit the maximum preferred height of its
 	 * cell contents.
+	 * @param row row index
+	 * @param allowShrink whether to allow making the row smaller
 	 */
 	public void fitRow(int row, boolean allowShrink) {
-
 		int prefHeight = this.getRowHeight();
-		int tempHeight = 0;
 		for (int column = 0; column < this.getColumnCount(); column++) {
-
-			tempHeight = (int) this.getCellRenderer(row, column)
+			int tempHeight = (int) this.getCellRenderer(row, column)
 					.getTableCellRendererComponent(this,
 							getValueAt(row, column), false, false, row, column)
 					.getPreferredSize().getHeight();
 
 			prefHeight = Math.max(prefHeight, tempHeight);
-
 		}
 
 		// set the new row height
@@ -1688,7 +1690,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				&& selectedRanges.get(0).isSingleCell()) {
 
 			// Clear the target cell, exit if this is not possible
-			if (RelativeCopy.getValue(app, minSelectionColumn,
+			if (RelativeCopy.getValue(app.getSpreadsheetTableModel(), minSelectionColumn,
 					minSelectionRow) != null) {
 				boolean isOK = copyPasteCut.delete(minSelectionColumn,
 						minSelectionRow, minSelectionColumn, minSelectionRow);
@@ -1807,12 +1809,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	@Override
 	public void updateTableCellValue(Object value, int i, int j) {
 		// only used in Web
-	}
-
-	@Override
-	public void repaintAll() {
-		repaint();
-		// method for web, do nothing else here
 	}
 
 	/**

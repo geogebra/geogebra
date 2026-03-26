@@ -166,19 +166,14 @@ public class PrintPreviewW extends ComponentDialog {
 			Runnable enablePrintBtn) {
 		GuiManagerW gui = (GuiManagerW) app.getGuiManager();
 		PrintableW view;
-		if (viewID == App.VIEW_CAS) {
-			view = gui.getCasView();
-		} else if (viewID == App.VIEW_CONSTRUCTION_PROTOCOL) {
+		// only views provided by initKeysAndIndices should be handled here
+		if (viewID == App.VIEW_CONSTRUCTION_PROTOCOL) {
 			view = (PrintableW) app.getGuiManager()
 					.getConstructionProtocolView();
-		} else if (viewID == App.VIEW_SPREADSHEET) {
-			view = gui.getSpreadsheetView();
 		} else if (viewID == App.VIEW_EUCLIDIAN2) {
 			view = app.getEuclidianView2(1);
 		} else if (viewID == App.VIEW_ALGEBRA) {
 			view = gui.getAlgebraView();
-		} else if (viewID == App.VIEW_DATA_ANALYSIS) {
-			view = (PrintableW) gui.getDataAnalysisView();
 		} else {
 			view = app.getEuclidianView1();
 		}

@@ -2356,11 +2356,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 		String newLabel = labelNew;
 		if (cons.isSuppressLabelsActive()) {
-			if (app.getGuiManager() != null
-					&& app.getGuiManager()
-					.hasSpreadsheetView()) {
-				app.getGuiManager().getSpreadsheetView()
-						.scrollIfNeeded(this, labelNew);
+			if (app.getGuiManager() != null) {
+				app.getGuiManager().scrollSpreadsheetToCell(this, labelNew);
 			}
 			return;
 		}

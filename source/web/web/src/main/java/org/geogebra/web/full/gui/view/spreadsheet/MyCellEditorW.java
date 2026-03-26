@@ -86,7 +86,8 @@ public class MyCellEditorW implements BaseCellEditor {
 	 *            controller
 	 */
 	public MyCellEditorW(Kernel kernel,
-			SimplePanel editorPanel, SpreadsheetTableController controller) {
+			SimplePanel editorPanel, SpreadsheetTableController controller,
+			SpreadsheetViewW view) {
 		this.controller = controller;
 		this.kernel = kernel;
 		app = (AppW) kernel.getApplication();
@@ -95,7 +96,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		        (AppW) kernel.getApplication(), false, keyListener);
 		autoCompleteTextField.addInsertHandler(text -> {
 			if (!editing) {
-				((SpreadsheetViewW) app.getGuiManager().getSpreadsheetView())
+				view
 					.letterOrDigitTyped();
 				autoCompleteTextField.setText(text);
 			}

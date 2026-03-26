@@ -1533,8 +1533,7 @@ public abstract class GlobalKeyDispatcher {
 
 	private boolean isSpreadsheetFocused() {
 		return app.getGuiManager() != null
-				&& app.getGuiManager().hasSpreadsheetView()
-				&& app.getGuiManager().getSpreadsheetView().hasFocus();
+				&& app.getGuiManager().isSpreadsheetFocused();
 	}
 
 	/**

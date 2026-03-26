@@ -1309,7 +1309,7 @@ public abstract class ProbabilityCalculatorView
 			// set the window dimensions of the target EV to match the prob calc
 			// dimensions
 
-			EuclidianView ev = (EuclidianView) app.getView(euclidianViewID);
+			EuclidianView ev = (EuclidianView) app.getEuclidianViewById(euclidianViewID);
 
 			ev.setRealWorldCoordSystem(plotSettings.xMin, plotSettings.xMax,
 					plotSettings.yMin, plotSettings.yMax);

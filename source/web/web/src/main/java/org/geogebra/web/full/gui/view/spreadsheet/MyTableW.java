@@ -185,7 +185,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	private int preferredColumnWidth = SpreadsheetSettings.TABLE_CELL_WIDTH;
 
 	// there should be place left for the textfield
-	protected int minimumRowHeight = SpreadsheetSettings.TABLE_CELL_HEIGHT + 4;
+	protected int minimumRowHeight = SpreadsheetSettings.TABLE_CELL_HEIGHT;
 
 	private HashMap<SpreadsheetCoords, GeoElement> oneClickEditMap = new HashMap<>();
 	private boolean allowEditing = false;
@@ -263,7 +263,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		// :NEXT:Grid.setCellFormatter
 		editor = new MyCellEditorW(kernel, editorPanel,
-				getEditorController());
+				getEditorController(), view);
 		Dom.addEventListener(tableWrapper.getElement(), "focusout", evt -> onFocusOut());
 		// setDefaultEditor(Object.class, editor);
 
@@ -276,7 +276,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		((SpreadsheetTableModelSimple) tableModel)
 		        .setChangeListener(new MyTableModelListener());
 
-		copyPasteCut = new CopyPasteCutW(app);
+		copyPasteCut = new CopyPasteCutW(app, this);
 
 		ssGrid.setCellPadding(0);
 		ssGrid.setCellSpacing(0);
@@ -625,7 +625,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	@Override
 	public CellRangeProcessor getCellRangeProcessor() {
 		if (crProcessor == null) {
-			crProcessor = new CellRangeProcessor(this, app);
+			crProcessor = new CellRangeProcessor(this, app.getSpreadsheetTableModel());
 		}
 		return crProcessor;
 	}
@@ -972,7 +972,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 
 		// update the selection list and internal variables
-		newSelection = CellRangeUtil.getActual(newSelection, app);
+		newSelection = CellRangeUtil.getActual(newSelection, app.getSpreadsheetTableModel());
 
 		if (!GlobalKeyDispatcherW.getControlDown()) {
 			selectedRanges.clear();
@@ -996,7 +996,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// update the geo selection list
 		ArrayList<GeoElement> list = new ArrayList<>();
 		for (TabularRange selectedRange : selectedRanges) {
-			list.addAll(0, CellRangeUtil.toGeoList(selectedRange, app));
+			list.addAll(0, CellRangeUtil.toGeoList(selectedRange,
+					app.getSpreadsheetTableModel()));
 		}
 
 		// if the geo selection has changed, update selected geos
@@ -1940,7 +1941,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		        && selectedRanges.get(0).isSingleCell()) {
 
 			// Clear the target cell, exit if this is not possible
-			if (RelativeCopy.getValue(app, minSelectionColumn, minSelectionRow) != null) {
+			if (RelativeCopy.getValue(app.getSpreadsheetTableModel(), minSelectionColumn,
+					minSelectionRow) != null) {
 				boolean isOK = copyPasteCut.delete(minSelectionColumn,
 				        minSelectionRow, minSelectionColumn, minSelectionRow);
 				if (!isOK) {
@@ -2073,7 +2075,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	/**
 	 * Updates all cell formats and the current selection.
 	 */
-	@Override
 	public void repaintAll() {
 		repaintAll = true;
 		repaint();

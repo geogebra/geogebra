@@ -36,9 +36,9 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetDimensions;
 public class SpreadsheetSettings extends AbstractSettings implements SpreadsheetDimensions {
 
 	public static final int TABLE_CELL_WIDTH = 70;
-	public static final int TABLE_CELL_HEIGHT = 21; // (old height 20) + 1
-													// to stop cell editor
-													// clipping
+	// in 5.2 this was 21, but effective default was computed based on font size
+	// and was 24 to 27 px depending on platform
+	public static final int TABLE_CELL_HEIGHT = 25;
 	// layout settings
 	private boolean showFormulaBar = Defaults.SHOW_FORMULA_BAR;
 	private boolean showGrid = Defaults.SHOW_GRID;

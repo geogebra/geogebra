@@ -179,4 +179,14 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	 * @return A generic error message to display for cells with errors.
 	 */
 	String getErrorString();
+
+	/**
+	 * Some data types may override default mouse down action.
+	 * @param row table row
+	 * @param column table column
+	 * @return whether specific handling happened
+	 */
+	default boolean handleMouseDown(int row, int column) {
+		return false;
+	}
 }

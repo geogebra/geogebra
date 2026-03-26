@@ -288,9 +288,9 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener, Set
 			// set color for the actual geos
 			for (int i = 0; i < selectedCells.size(); i++) {
 				TabularRange tr = selectedCells.get(i);
-				ArrayList<GeoElement> ar = CellRangeUtil.toGeoList(tr, app);
-				for (int j = 0; j < ar.size(); j++) {
-					GeoElement geo = ar.get(j);
+				ArrayList<GeoElement> elements = CellRangeUtil.toGeoList(tr,
+						app.getSpreadsheetTableModel());
+				for (GeoElement geo : elements) {
 					geo.setBackgroundColor(bgCol);
 					geo.updateVisualStyleRepaint(GProperty.COLOR);
 				}

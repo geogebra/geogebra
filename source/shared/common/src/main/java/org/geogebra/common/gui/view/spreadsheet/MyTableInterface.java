@@ -16,8 +16,11 @@
 
 package org.geogebra.common.gui.view.spreadsheet;
 
+import java.util.List;
+
 import org.geogebra.common.main.App;
 import org.geogebra.common.spreadsheet.core.SelectionType;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.spreadsheet.style.CellFormatInterface;
 
 /**
@@ -28,7 +31,7 @@ public interface MyTableInterface extends HasTableSelection {
 	/**
 	 * @return parent application
 	 */
-	public App getApplication();
+	App getApplication();
 
 	/**
 	 * Open editor for cell at given coordinates.
@@ -36,22 +39,22 @@ public interface MyTableInterface extends HasTableSelection {
 	 * @param selectedColumn column
 	 * @return success
 	 */
-	public boolean editCellAt(int selectedRow, int selectedColumn);
+	boolean editCellAt(int selectedRow, int selectedColumn);
 
 	/**
 	 * @return cell format handler
 	 */
-	public CellFormatInterface getCellFormatHandler();
+	CellFormatInterface getCellFormatHandler();
 
 	/**
 	 * @return selection type
 	 */
-	public SelectionType getSelectionType();
+	SelectionType getSelectionType();
 
 	/**
 	 * Called when selection changed.
 	 */
-	public void selectionChanged();
+	void selectionChanged();
 
 	/**
 	 * Select cell at given coordinates.
@@ -59,27 +62,27 @@ public interface MyTableInterface extends HasTableSelection {
 	 * @param j column
 	 * @return success
 	 */
-	public boolean setSelection(int i, int j);
+	boolean setSelection(int i, int j);
 
 	/**
 	 * @return number of columns
 	 */
-	public int getColumnCount();
+	int getColumnCount();
 
 	/**
 	 * @return number of rows
 	 */
-	public int getRowCount();
+	int getRowCount();
 
 	/**
 	 * @return whether special editors (dropdowns, checkboxes) are allowed
 	 */
-	public boolean allowSpecialEditor();
+	boolean allowSpecialEditor();
 
 	/**
 	 * @return cell range processor
 	 */
-	public CellRangeProcessor getCellRangeProcessor();
+	CellRangeProcessor getCellRangeProcessor();
 
 	/**
 	 * Update cell value
@@ -87,11 +90,11 @@ public interface MyTableInterface extends HasTableSelection {
 	 * @param row row
 	 * @param column column
 	 */
-	public void updateTableCellValue(Object value, int row, int column);
+	void updateTableCellValue(Object value, int row, int column);
 
 	/**
-	 * Repaint the table.
+	 * @return selected ranges
 	 */
-	public void repaintAll();
+	List<TabularRange> getSelectedRanges();
 
 }

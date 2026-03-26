@@ -204,6 +204,10 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	public void add(GeoElement geo) {
 		update(geo);
 		addToCellRangeAlgos(geo);
+		GuiManagerInterface guiManager = app.getGuiManager();
+		if (guiManager != null) {
+			guiManager.scrollSpreadsheetToCell(geo, null);
+		}
 	}
 
 	private void addWithoutTrace(GeoElement geo) {

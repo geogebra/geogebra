@@ -799,4 +799,14 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public void getAlgebraViewXML(XMLStringBuilder sb, boolean asPreference) {
 		// empty implementation for mobile
 	}
+
+	@Override
+	public boolean isSpreadsheetFocused() {
+		return false;
+	}
+
+	@Override
+	public void scrollSpreadsheetToCell(GeoElement geo, String labelNew) {
+		// only in desktop and web
+	}
 }

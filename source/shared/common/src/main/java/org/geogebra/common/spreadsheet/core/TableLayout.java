@@ -41,8 +41,8 @@ final class TableLayout {
 	private double[] rowHeights;
 	private double[] cumulativeWidths;
 	private double[] cumulativeHeights;
-	final double defaultRowHeight;
-	final double defaultColumnWidth;
+	double defaultRowHeight;
+	double defaultColumnWidth;
 	private double rowHeaderWidth = DEFAULT_ROW_HEADER_WIDTH;
 	private double columnHeaderHeight;
 
@@ -121,6 +121,14 @@ final class TableLayout {
 	 */
 	int numberOfRows() {
 		return rowHeights.length;
+	}
+
+	void setRowHeaderWidth(double rowHeaderWidth) {
+		this.rowHeaderWidth = rowHeaderWidth < 0 ? DEFAULT_ROW_HEADER_WIDTH : rowHeaderWidth;
+	}
+
+	void setColumnHeaderHeight(double columnHeaderHeight) {
+		this.columnHeaderHeight = columnHeaderHeight < 0 ? defaultRowHeight : columnHeaderHeight;
 	}
 
 	/**
@@ -452,6 +460,11 @@ final class TableLayout {
 			}
 		}
 		return heights;
+	}
+
+	public void setDefaultCellSize(double width, double height) {
+		defaultRowHeight = height;
+		defaultColumnWidth = width;
 	}
 
 	/**

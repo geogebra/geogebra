@@ -78,6 +78,7 @@ public final class ContextMenuBuilder {
 
     /**
      * Set the construction delegate (to check if certain features are available).
+     * @param constructionDelegate construction delegate
      */
     public void setSpreadsheetConstructionDelegate(
             @CheckForNull SpreadsheetConstructionDelegate constructionDelegate) {

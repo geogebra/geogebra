@@ -16,7 +16,6 @@
 
 package org.geogebra.common.gui.view.spreadsheet;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,8 +39,8 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public class CreateObjectModel {
-	private CellRangeProcessor cp;
-	private ArrayList<TabularRange> selectedRanges;
+	private SpreadsheetToolProcessor toolProcessor;
+	private List<TabularRange> selectedRanges;
 
 	public static final int TYPE_LIST = 0;
 	public static final int TYPE_MATRIX = 2;
@@ -272,12 +271,12 @@ public class CreateObjectModel {
 				// do nothing
 				break;
 			case TYPE_LIST:
-				newGeo = cp.createList(getSelectedRanges(), scanByColumn,
+				newGeo = toolProcessor.createList(getSelectedRanges(), scanByColumn,
 						copyByValue);
 				break;
 
 			case TYPE_LISTOFPOINTS:
-				newGeo = cp.createPointGeoList(getSelectedRanges(),
+				newGeo = toolProcessor.createPointGeoList(getSelectedRanges(),
 						copyByValue, leftToRight, doStoreUndo,
 						doCreateFreePoints);
 				newGeo.setLabel(null);
@@ -289,19 +288,19 @@ public class CreateObjectModel {
 				break;
 
 			case TYPE_MATRIX:
-				newGeo = cp.createMatrix(column1, column2, row1, row2,
+				newGeo = toolProcessor.createMatrix(column1, column2, row1, row2,
 						copyByValue, transpose);
 				break;
 
 			case TYPE_TABLETEXT:
-				newGeo = cp.createTableText(column1, column2, row1, row2,
+				newGeo = toolProcessor.createTableText(column1, column2, row1, row2,
 						copyByValue, transpose);
 				newGeo.setEuclidianVisible(false);
 				newGeo.updateRepaint();
 				break;
 
 			case TYPE_POLYLINE:
-				newGeo = cp.createPolyLine(getSelectedRanges(), copyByValue,
+				newGeo = toolProcessor.createPolyLine(getSelectedRanges(), copyByValue,
 						leftToRight);
 				newGeo.setLabel(null);
 				GeoPointND[] pts = ((AlgoPolyLine) newGeo.getParentAlgorithm())
@@ -357,19 +356,19 @@ public class CreateObjectModel {
 		return newGeo.toGeoElement().getAlgebraDescriptionTextOrHTMLDefault(sb);
 	}
 
-	public CellRangeProcessor getCellRangeProcessor() {
-		return cp;
+	public SpreadsheetToolProcessor getToolProcessor() {
+		return toolProcessor;
 	}
 
-	public void setCellRangeProcessor(CellRangeProcessor cp) {
-		this.cp = cp;
+	public void setToolProcessor(SpreadsheetToolProcessor toolProcessor) {
+		this.toolProcessor = toolProcessor;
 	}
 
-	public ArrayList<TabularRange> getSelectedRanges() {
+	public List<TabularRange> getSelectedRanges() {
 		return selectedRanges;
 	}
 
-	public void setSelectedRanges(ArrayList<TabularRange> selectedRanges) {
+	public void setSelectedRanges(List<TabularRange> selectedRanges) {
 		this.selectedRanges = selectedRanges;
 	}
 

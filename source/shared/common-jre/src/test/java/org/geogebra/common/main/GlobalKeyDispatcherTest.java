@@ -217,11 +217,12 @@ public class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 		GuiManager guiManager = mock(GuiManager.class);
 		getApp().setGuiManager(guiManager);
 		GeoPoint point = evaluateGeoElement("(1,1)");
+		assertEquals(2, getKernel().countViews());
 		getApp().getSelectionManager().addSelectedGeo(point);
 		dispatcher.handleSelectedGeosKeys(KeyCodes.BACKSPACE, List.of(point),
 				false, false, false, false);
 		assertEquals(0, getKernel().getConstruction().getGeoSetConstructionOrder().size());
-		verify(guiManager, never()).getSpreadsheetView();
+		assertEquals(2, getKernel().countViews());
 	}
 
 	@Test

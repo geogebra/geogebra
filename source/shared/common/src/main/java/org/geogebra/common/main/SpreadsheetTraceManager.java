@@ -64,7 +64,9 @@ public class SpreadsheetTraceManager {
 
 	// external components
 	@Weak
-	private App app;
+	private final App app;
+	@Weak
+	private final SpreadsheetTableModel tableModel;
 	@Weak
 	private Kernel kernel;
 
@@ -84,6 +86,7 @@ public class SpreadsheetTraceManager {
 	 */
 	public SpreadsheetTraceManager(App app) {
 		this.app = app;
+		this.tableModel = app.getSpreadsheetTableModel();
 		kernel = app.getKernel();
 
 		traceGeoCollection = new HashMap<>();
@@ -206,9 +209,11 @@ public class SpreadsheetTraceManager {
 
 	}
 
-	/** Remove a geo from the trace collection */
+	/**
+	 * Remove a geo from the trace collection
+	 * @param geo construction element
+	 */
 	public void removeSpreadsheetTraceGeo(GeoElement geo) {
-
 		if (!traceGeoCollection.containsKey(geo)) {
 			return;
 		}
@@ -419,6 +424,7 @@ public class SpreadsheetTraceManager {
 
 	/**
 	 * Delete the elements in the trace columns of a single geo.
+	 * @param geo construction element
 	 */
 	public void clearGeoTraceColumns(GeoElement geo) {
 		clearGeoTraceColumns(geo, false);
@@ -509,7 +515,7 @@ public class SpreadsheetTraceManager {
 							row--;
 							int col = t.traceColumn1;
 							do {
-								GeoElement cell = RelativeCopy.getValue(app,
+								GeoElement cell = RelativeCopy.getValue(tableModel,
 										col, row);
 								if (cell != null) {
 									emptyCells = false;
@@ -718,7 +724,7 @@ public class SpreadsheetTraceManager {
 				for (int r = minTraceRow; r <= t.traceRow2; r++) {
 
 					// get the source cell
-					sourceCell = RelativeCopy.getValue(app, c, r);
+					sourceCell = RelativeCopy.getValue(tableModel, c, r);
 
 					// copy the value from the source cell into the target cell
 					// below
@@ -832,7 +838,7 @@ public class SpreadsheetTraceManager {
 	protected final void setTraceCellAsGeoCopy(GeoElement geo,
 			int column, int row) {
 
-		GeoElement cell = RelativeCopy.getValue(app, column, row);
+		GeoElement cell = RelativeCopy.getValue(tableModel, column, row);
 
 		try {
 
@@ -868,7 +874,7 @@ public class SpreadsheetTraceManager {
 	protected void setTraceCell(Construction cons, int column, int row,
 			Object value, GeoClass geoClassType) {
 
-		GeoElement cell = RelativeCopy.getValue(app, column, row);
+		GeoElement cell = RelativeCopy.getValue(tableModel, column, row);
 		boolean isUpdateCell = cell != null
 				&& cell.getGeoClassType().equals(geoClassType);
 
@@ -934,7 +940,7 @@ public class SpreadsheetTraceManager {
 
 	private void createTraceListCell(Construction cons, int column, int row) {
 
-		GeoElement cell = RelativeCopy.getValue(app, column, row);
+		GeoElement cell = RelativeCopy.getValue(tableModel, column, row);
 		if (cell != null) {
 			CopyPasteCut.delete(app, column, row, column, row,
 					SelectionType.CELLS);
@@ -966,7 +972,7 @@ public class SpreadsheetTraceManager {
 	private void updateTraceListCell(Construction cons, GeoElement geo,
 			int column, int row, ArrayList<Double> values, int index) {
 
-		GeoElement cell = RelativeCopy.getValue(app, column, row);
+		GeoElement cell = RelativeCopy.getValue(tableModel, column, row);
 		if (cell == null || !cell.isGeoList()) {
 			return;
 		}
@@ -986,7 +992,7 @@ public class SpreadsheetTraceManager {
 
 	private void clearTraceListCell(int column, int row) {
 
-		GeoElement cell = RelativeCopy.getValue(app, column, row);
+		GeoElement cell = RelativeCopy.getValue(tableModel, column, row);
 		if (cell == null || !cell.isGeoList()) {
 			return;
 		}

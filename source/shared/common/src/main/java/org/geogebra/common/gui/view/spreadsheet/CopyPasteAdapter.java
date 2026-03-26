@@ -30,7 +30,7 @@ public class CopyPasteAdapter {
 
 	/**
 	 * @param app application
-	 * @param tableModel classic spreadsheet model (optional)
+	 * @param tableModel spreadsheet model -- used for cell lookup
 	 */
 	public CopyPasteAdapter(App app, SpreadsheetTableModel tableModel) {
 		this.app = app;
@@ -117,13 +117,13 @@ public class CopyPasteAdapter {
 					}
 					data[relY][relX] = data[relY][relX].trim();
 					if (data[relY][relX].isEmpty()) {
-						GeoElement value0 = RelativeCopy.getValue(app, column,
+						GeoElement value0 = RelativeCopy.getValue(tableModel, column,
 								row);
 						if (value0 != null) {
 							value0.removeOrSetUndefinedIfHasFixedDescendent();
 						}
 					} else {
-						GeoElement value0 = RelativeCopy.getValue(app, column,
+						GeoElement value0 = RelativeCopy.getValue(tableModel, column,
 								row);
 						values[relY][relX] = relativeCopy
 								.prepareAddingValueToTableNoStoringUndoInfo(

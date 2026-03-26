@@ -17,11 +17,16 @@
 package org.geogebra.web.full.gui.view.spreadsheet;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel.ICreateObjectListener;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetToolProcessor;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.spreadsheet.core.Spreadsheet;
+import org.geogebra.common.spreadsheet.core.TabularRange;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
@@ -85,14 +90,19 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 	 * @param title
 	 *            dialog title
 	 */
-	public CreateObjectDialogW(AppW app, SpreadsheetViewW view, int objectType, String title) {
+	public CreateObjectDialogW(AppW app, Spreadsheet view, int objectType, String title) {
 		super(app, new DialogData(title), false, false);
-		addStyleName("createObjDialog");
-		MyTableW table = view.getSpreadsheetTable();
-		coModel = new CreateObjectModel(app, objectType, this);
-		coModel.setCellRangeProcessor(table.getCellRangeProcessor());
-		coModel.setSelectedRanges(table.getSelectedRanges());
 		loc = app.getLocalization();
+		addStyleName("createObjDialog");
+		coModel = new CreateObjectModel(app, objectType, this);
+		coModel.setToolProcessor(new SpreadsheetToolProcessor(app,
+				app.getSpreadsheetTableModel().getCellFormat(null)));
+		List<TabularRange> selections = view.getSelections();
+		if (selections.isEmpty()) {
+			Log.debug("Selection empty.");
+			return;
+		}
+		coModel.setSelectedRanges(selections);
 
 		createAdditionalGUI();
 

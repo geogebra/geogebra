@@ -366,6 +366,6 @@ public class AppConfigDefault extends AbstractAppConfig {
 
 	@Override
 	public boolean hasSpreadsheetView() {
-		return false;
+		return true;
 	}
 }

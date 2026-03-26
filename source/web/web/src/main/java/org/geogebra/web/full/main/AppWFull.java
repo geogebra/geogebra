@@ -66,7 +66,7 @@ import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
-import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
+import org.geogebra.common.gui.view.spreadsheet.CopyPasteAdapter;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
@@ -779,10 +779,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public final void openCSV(String csv) {
 		String[][] data = DataImport.parseExternalData(this, csv, true);
-		CopyPasteCut cpc = getGuiManager().getSpreadsheetView()
-				.getSpreadsheetTable().getCopyPasteCut();
-		cpc.pasteExternal(data, 0, 0, data.length > 0 ? data[0].length - 1 : 0,
-				data.length);
+		int maxColumn = data.length > 0 ? data[0].length - 1 : 0;
+		new CopyPasteAdapter(this, getSpreadsheetTableModel())
+				.pasteExternal(data, 0, 0, maxColumn, data.length);
 		onOpenFile();
 	}
 
@@ -868,8 +867,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	public final void updateAVStylebar() {
 		if (getGuiManager() != null && getGuiManager().hasAlgebraView()) {
-			AlgebraStyleBarW styleBar = ((AlgebraViewW) getView(
-					App.VIEW_ALGEBRA)).getStyleBar(false);
+			AlgebraStyleBarW styleBar = getGuiManager().getAlgebraView().getStyleBar(false);
 			if (styleBar != null) {
 				styleBar.update(null);
 			}

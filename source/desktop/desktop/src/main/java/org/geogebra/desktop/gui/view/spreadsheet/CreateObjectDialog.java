@@ -100,7 +100,7 @@ public class CreateObjectDialog extends InputDialogD
 		super(app.getFrame(), false, app.getLocalization());
 		this.table = (MyTableD) view.getSpreadsheetTable();
 		coModel = new CreateObjectModel(app, objectType, this);
-		coModel.setCellRangeProcessor(table.getCellRangeProcessor());
+		coModel.setToolProcessor(table.getToolProcessor(app));
 		coModel.setSelectedRanges(table.getSelectedRanges());
 		this.app = app;
 		createGUI(coModel.getTitle(), "", false, 16, 1, false, false, false,

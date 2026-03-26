@@ -462,7 +462,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * handler for window resize
 	 */
-	protected final void windowResized() {
+	public final void windowResized() {
+		geoGebraElement.resetScale();
 		for (RequiresResize mtg : this.euclidianHandlers) {
 			mtg.onResize();
 		}

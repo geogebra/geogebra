@@ -70,8 +70,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	protected AdvancedFocusPanel spreadsheetWrapper;
 	private SpreadsheetStyleBarW styleBar;
 
-	// toolbar manager
-	SpreadsheetToolbarManagerW toolbarManager;
 	// panel that contains the spreadsheet table and headers
 	private AbsolutePanel spreadsheet;
 	private boolean allowSettingUpdate = true;
@@ -103,9 +101,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 		updateFonts();
 		attachView();
-
-		// Create tool bar manager to handle tool bar mode changes
-		toolbarManager = new SpreadsheetToolbarManagerW(app, this);
 
 		settingsChanged(settings());
 
@@ -221,7 +216,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	@Override
 	public void add(GeoElement geo) {
 		update(geo);
-		scrollIfNeeded(geo, null);
 	}
 
 	@Override
@@ -298,10 +292,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	/** Respond to changes in mode sent by GUI manager */
 	@Override
 	public void setMode(int mode, ModeSetter m) {
-		if (m != ModeSetter.TOOLBAR) {
-			return;
-		}
-		toolbarManager.handleModeChange(mode);
+		// todo
 	}
 
 	/**

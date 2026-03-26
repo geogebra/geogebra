@@ -88,6 +88,7 @@ public final class SpreadsheetController {
 
 	/**
 	 * @param tabularData underlying data for the spreadsheet
+	 * @param spreadsheetStyling styling information provider
 	 */
 	public SpreadsheetController(@Nonnull TabularData<?> tabularData,
 			@CheckForNull SpreadsheetStyling spreadsheetStyling) {
@@ -366,9 +367,15 @@ public final class SpreadsheetController {
 		Selection lastSelection = getLastSelection();
 		if (lastSelection != null && (cellDragPasteHandler == null
 				|| cellDragPasteHandler.getDragPasteDestinationRange() == null)) {
+			scrollRangeIntoView(lastSelection.getRange());
+		}
+	}
+
+	void scrollRangeIntoView(TabularRange range) {
+		if (viewportAdjuster != null) {
 			viewport = viewportAdjuster.adjustViewportIfNeeded(
-					lastSelection.getRange().getToRow(),
-					lastSelection.getRange().getToColumn(),
+					range.getToRow(),
+					range.getToColumn(),
 					viewport);
 		}
 	}
@@ -717,7 +724,9 @@ public final class SpreadsheetController {
 			showContextMenuForSelection(x, y);
 			return;
 		}
-
+		if (tabularData.handleMouseDown(row, column)) {
+			return;
+		}
 		if (row >= 0 && column >= 0 && selectionController.isOnlyCellSelected(row, column)) {
 			showCellEditor(row, column, true);
 			return;

@@ -472,18 +472,18 @@ public class CellFormat implements CellFormatInterface {
 	 * the given format type. If a format object does not exist, or not all
 	 * cells share the same format object, null is returned.
 	 * 
-	 * @param cr
+	 * @param range
 	 *            range
 	 * @param formatType
 	 *            format type
 	 * @return cell format
 	 */
-	public Object getCellFormat(TabularRange cr, int formatType) {
-		if (cr == null) {
+	public Object getCellFormat(TabularRange range, int formatType) {
+		if (range == null) {
 			return null;
 		}
 		// Get the format in the upper left cell
-		Object format = getCellFormat(cr.getMinColumn(), cr.getMinRow(),
+		Object format = getCellFormat(range.getMinColumn(), range.getMinRow(),
 				formatType);
 
 		if (format == null) {
@@ -491,8 +491,8 @@ public class CellFormat implements CellFormatInterface {
 		}
 
 		// Iterate through the range and test if they cells have the same format
-		for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {
-			for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
+		for (int row = range.getMinRow(); row <= range.getMaxRow(); row++) {
+			for (int col = range.getMinColumn(); col <= range.getMaxColumn(); col++) {
 				if (!format.equals(getCellFormat(col, row, formatType))) {
 					return null;
 				}
@@ -534,9 +534,9 @@ public class CellFormat implements CellFormatInterface {
 	 *
 	 * @return {@code true} if the overall format did change, {@code false} otherwise.
 	 */
-	public boolean setFormat(TabularRange cr, int formatType, Object formatValue) {
+	public boolean setFormat(TabularRange range, int formatType, Object formatValue) {
 		List<TabularRange> crList = new ArrayList<>();
-		crList.add(cr);
+		crList.add(range);
 		return setFormat(crList, formatType, formatValue);
 	}
 
@@ -570,16 +570,15 @@ public class CellFormat implements CellFormatInterface {
 		SpreadsheetCoords testRow = new SpreadsheetCoords();
 		SpreadsheetCoords testColumn = new SpreadsheetCoords();
 
-		for (TabularRange cr : crList) {
-			// cr.debug();
-			if (cr.isContiguousRows()) {
+		for (TabularRange range : crList) {
+			if (range.isContiguousRows()) {
 
-				if (highestIndexRow < cr.getMaxRow()) {
-					highestIndexRow = cr.getMaxRow();
+				if (highestIndexRow < range.getMaxRow()) {
+					highestIndexRow = range.getMaxRow();
 				}
 
 				// iterate through each row in the selection
-				for (int r = cr.getMinRow(); r <= cr.getMaxRow(); ++r) {
+				for (int r = range.getMinRow(); r <= range.getMaxRow(); ++r) {
 
 					// format the row
 					formatTable.put(newCoords(-1, r), value);
@@ -595,14 +594,14 @@ public class CellFormat implements CellFormatInterface {
 				}
 			}
 
-			else if (cr.isContiguousColumns()) {
+			else if (range.isContiguousColumns()) {
 
-				if (highestIndexColumn < cr.getMaxColumn()) {
-					highestIndexColumn = cr.getMaxColumn();
+				if (highestIndexColumn < range.getMaxColumn()) {
+					highestIndexColumn = range.getMaxColumn();
 				}
 
 				// iterate through each column in the selection
-				for (int c = cr.getMinColumn(); c <= cr.getMaxColumn(); ++c) {
+				for (int c = range.getMinColumn(); c <= range.getMaxColumn(); ++c) {
 
 					// format the column
 					formatTable.put(newCoords(c, -1), value);
@@ -623,14 +622,14 @@ public class CellFormat implements CellFormatInterface {
 
 			else {
 
-				if (highestIndexRow < cr.getMaxRow()) {
-					highestIndexRow = cr.getMaxRow();
+				if (highestIndexRow < range.getMaxRow()) {
+					highestIndexRow = range.getMaxRow();
 				}
-				if (highestIndexColumn < cr.getMaxColumn()) {
-					highestIndexColumn = cr.getMaxColumn();
+				if (highestIndexColumn < range.getMaxColumn()) {
+					highestIndexColumn = range.getMaxColumn();
 				}
 
-				for (SpreadsheetCoords cellPoint : cr.toCellList(true)) {
+				for (SpreadsheetCoords cellPoint : range.toCellList(true)) {
 					formatTable.put(cellPoint, value);
 				}
 			}
@@ -646,14 +645,14 @@ public class CellFormat implements CellFormatInterface {
 	 * sets the border format needed for each cell in order to produce the
 	 * specified border style
 	 * 
-	 * @param list
+	 * @param ranges
 	 *            cell ranges
 	 * @param borderStyle
 	 *            border style
 	 */
-	public void setBorderStyle(ArrayList<TabularRange> list, int borderStyle) {
-		for (TabularRange cr : list) {
-			setBorderStyle(cr, borderStyle);
+	public void setBorderStyle(ArrayList<TabularRange> ranges, int borderStyle) {
+		for (TabularRange range : ranges) {
+			setBorderStyle(range, borderStyle);
 		}
 	}
 
@@ -1085,26 +1084,15 @@ public class CellFormat implements CellFormatInterface {
 	/**
 	 * @param value
 	 *            value
-	 * @param position
-	 *            bit position
-	 * @return whether given bit is 0
-	 */
-	public static boolean isZeroBit(int value, int position) {
-		return (value & (1 << position)) == 0;
-	}
-
-	/**
-	 * @param value
-	 *            value
-	 * @param position
-	 *            bit position
+	 * @param mask
+	 *            bit mask
 	 * @return whether given bit is 1
 	 */
-	public static boolean isOneBit(Byte value, int position) {
+	public static boolean isOneBit(Byte value, int mask) {
 		if (value == null) {
 			return false;
 		}
-		return (value & (1 << position)) != 0;
+		return (value & mask) != 0;
 	}
 
 	/**

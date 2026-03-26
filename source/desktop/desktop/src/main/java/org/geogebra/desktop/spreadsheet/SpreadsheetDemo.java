@@ -61,9 +61,6 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetCellEditor;
 import org.geogebra.common.spreadsheet.core.SpreadsheetControlsDelegate;
 import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellDataSerializer;
 import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellProcessor;
-import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
-import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
-import org.geogebra.common.spreadsheet.settings.SpreadsheetSettingsAdapter;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
@@ -72,7 +69,6 @@ import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.desktop.awt.AwtFactoryD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidian.CursorMap;
-import org.geogebra.desktop.gui.spreadsheet.AwtReTeXGraphicsBridgeD;
 import org.geogebra.editor.desktop.MathFieldD;
 import org.geogebra.editor.share.editor.MathFieldInternal;
 

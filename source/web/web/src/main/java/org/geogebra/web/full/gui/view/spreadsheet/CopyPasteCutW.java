@@ -18,6 +18,7 @@ package org.geogebra.web.full.gui.view.spreadsheet;
 
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
+import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.main.App;
 import org.geogebra.common.spreadsheet.core.TabularRange;
@@ -26,8 +27,15 @@ import org.geogebra.web.html5.util.CopyPasteW;
 
 public class CopyPasteCutW extends CopyPasteCut {
 
-	public CopyPasteCutW(App app) {
-		super(app);
+	private final MyTableInterface table;
+
+	/**
+	 * @param app application
+	 * @param table table
+	 */
+	public CopyPasteCutW(App app, MyTableW table) {
+		super(app, table);
+		this.table = table;
 	}
 
 	@Override
@@ -68,7 +76,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 		if (skipGeoCopy) {
 			setCellBufferGeo(null);
 		} else {
-			setCellBufferGeo(RelativeCopy.getValues(app, column1, row1, column2,
+			setCellBufferGeo(RelativeCopy.getValues(tableModel, column1, row1, column2,
 					row2));
 		}
 	}
@@ -150,5 +158,10 @@ public class CopyPasteCutW extends CopyPasteCut {
 		// copy
 		resetCellBuffer();
 		return delete(column1, row1, column2, row2);
+	}
+
+	protected MyTableInterface getTable() {
+
+		return table;
 	}
 }

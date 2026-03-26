@@ -32,6 +32,7 @@ import javax.swing.JPopupMenu;
 
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetContextMenu;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetToolProcessor;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageResourceD;
@@ -57,8 +58,9 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu<JMenu> {
 	 * @param table
 	 *            spreadsheet table
 	 */
-	public SpreadsheetContextMenuD(MyTable table) {
-		super(table);
+	public SpreadsheetContextMenuD(MyTable table, SpreadsheetToolProcessor processor) {
+		super(table, processor);
+		createGUI();
 	}
 
 	/**
@@ -85,8 +87,6 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu<JMenu> {
 	// ======================================
 	// GUI implementation
 	// ======================================
-
-	@Override
 	public JPopupMenu getMenuContainer() {
 		return popup;
 	}
@@ -122,35 +122,35 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu<JMenu> {
 	}
 
 	@Override
-	public void addMenuItem(final String cmdString, String text,
+	public void addMenuItem(final MenuCommand command, String text,
 			boolean enabled) {
 		JMenuItem item = new JMenuItem(text);
-		item.setIcon(getIcon(cmdString));
-		item.addActionListener(e -> doCommand(cmdString));
+		item.setIcon(getIcon(command));
+		item.addActionListener(e -> doCommand(command));
 		item.setEnabled(enabled);
 		addItem(item);
 	}
 
 	@Override
-	public void addCheckBoxMenuItem(final String cmdString, String text,
+	public void addCheckBoxMenuItem(final MenuCommand command, String text,
 			boolean isSelected) {
 		JCheckBoxMenuItem item = new JCheckBoxMenuItem(text);
-		item.setIcon(getIcon(cmdString));
-		item.addActionListener(e -> doCommand(cmdString));
+		item.setIcon(getIcon(command));
+		item.addActionListener(e -> doCommand(command));
 		item.setSelected(isSelected);
 		addItem(item);
 	}
 
 	@Override
-	public JMenu addSubMenu(String text, String cmdString) {
+	public JMenu addSubMenu(String text, MenuCommand command) {
 		JMenu menu = new JMenu(text);
-		menu.setIcon(getIcon(cmdString));
+		menu.setIcon(getIcon(command));
 		addItem(menu);
 		return menu;
 	}
 
 	@Override
-	public void addSubMenuItem(JMenu menu, final String cmdString, String text,
+	public void addSubMenuItem(JMenu menu, final MenuCommand cmdString, String text,
 			boolean enabled) {
 		JMenuItem item = new JMenuItem(text, getIcon(cmdString));
 		item.addActionListener(e -> doCommand(cmdString));
@@ -173,51 +173,26 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu<JMenu> {
 		menu.add(item);
 	}
 
-	private Icon getIcon(String cmdString) {
-
+	private Icon getIcon(MenuCommand cmdString) {
 		if (cmdString == null) {
 			return ((AppD) app).getEmptyIcon();
 		}
 
-		ImageResourceD iconString = null;
-
-		switch (MenuCommand.valueOf(cmdString)) {
-		default:
-			// do nothing
-			break;
-		case Copy:
-			iconString = GuiResourcesD.MENU_EDIT_COPY;
-			break;
-		case Cut:
-			iconString = GuiResourcesD.MENU_EDIT_CUT;
-			break;
-		case Paste:
-			iconString = GuiResourcesD.MENU_EDIT_PASTE;
-			break;
-		case Delete:
-		case DeleteObjects:
-			iconString = GuiResourcesD.DELETE_SMALL;
-			break;
-		case ShowObject:
-			iconString = GuiResourcesD.MODE_SHOWHIDEOBJECT_GIF;
-			break;
-		case ShowLabel:
-			iconString = GuiResourcesD.MODE_SHOWHIDELABEL;
-			break;
-		case RecordToSpreadsheet:
-			iconString = GuiResourcesD.SPREADSHEETTRACE;
-			break;
-		case Properties:
-			iconString = GuiResourcesD.VIEW_PROPERTIES_16;
-			break;
-		case SpreadsheetOptions:
-			iconString = GuiResourcesD.VIEW_PROPERTIES_16;
-			break;
-		}
+		ImageResourceD iconResource = switch (cmdString) {
+			case Copy -> GuiResourcesD.MENU_EDIT_COPY;
+			case Cut -> GuiResourcesD.MENU_EDIT_CUT;
+			case Paste -> GuiResourcesD.MENU_EDIT_PASTE;
+			case Delete, DeleteObjects -> GuiResourcesD.DELETE_SMALL;
+			case ShowObject -> GuiResourcesD.MODE_SHOWHIDEOBJECT_GIF;
+			case ShowLabel -> GuiResourcesD.MODE_SHOWHIDELABEL;
+			case RecordToSpreadsheet -> GuiResourcesD.SPREADSHEETTRACE;
+			case Properties, SpreadsheetOptions -> GuiResourcesD.VIEW_PROPERTIES_16;
+			default -> null;
+		};
 
 		// convert string to icon
-		if (iconString != null) {
-			return ((AppD) app).getScaledIcon(iconString);
+		if (iconResource != null) {
+			return ((AppD) app).getScaledIcon(iconResource);
 		}
 		return ((AppD) app).getEmptyIcon();
 	}

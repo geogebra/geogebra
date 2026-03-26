@@ -21,8 +21,8 @@ import org.geogebra.web.full.cas.view.CASStylebarW;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
+import org.geogebra.web.full.gui.toolbarpanel.spreadsheet.stylebar.SpreadsheetStyleBar;
 import org.geogebra.web.full.gui.util.StyleBarW;
-import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetStyleBarW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -199,7 +199,7 @@ public class TitleBarPanel extends FlowPanel implements DockControlPanel {
 						dockPanel.showStyleBar && !app.getGuiManager().isDraggingViews());
 			}
 		}
-		if (styleBar instanceof SpreadsheetStyleBarW
+		if (styleBar instanceof SpreadsheetStyleBar
 				|| styleBar instanceof CASStylebarW
 				|| styleBar instanceof AlgebraStyleBarW) {
 			setStyleBarLongVisibility(dockPanel.isStyleBarVisible());

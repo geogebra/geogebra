@@ -28,8 +28,6 @@ import org.geogebra.common.cas.view.CASTable;
 import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
-import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.javax.swing.SwingConstants;
@@ -1292,50 +1290,23 @@ public class ConstructionProtocolView implements ConstructionStepper {
 
 	private static void addSpreadsheet(StringBuilder sb,
 			Kernel kernel2) {
-		
-		GuiManagerInterface gm = kernel2.getApplication().getGuiManager();
+
+		App app = kernel2.getApplication();
+		GuiManagerInterface gm = app.getGuiManager();
 
 		if (gm == null || !gm.hasSpreadsheetView()) {
 			return;
 		}
-
-		SpreadsheetViewInterface spreadsheet = gm.getSpreadsheetView();
-		
-		MyTableInterface table = spreadsheet.getSpreadsheetTable();
-		
-		int rows = table.getRowCount();
-		int cols = table.getColumnCount();
-		
 		// work out actual number of used rows/columns
-		int maxCol = -1;
-		int maxRow = -1;
-		for (int col = 0; col < cols; col++) {
-			for (int row = 0; row < rows; row++) {
-
-				if (col > maxCol || row > maxRow) {
-					String label = GeoElementSpreadsheet
-							.getSpreadsheetCellName(col, row);
-
-					GeoElement geo = kernel2.lookupLabel(label);
-
-					if (geo != null) {
-						if (row > maxRow) {
-							maxRow = row;
-						}
-						if (col > maxCol) {
-							maxCol = col;
-						}
-					}
-				}
-			}
-		}
+		int maxCol = app.getSpreadsheetTableModel().getHighestUsedColumn();
+		int maxRow = app.getSpreadsheetTableModel().getHighestUsedRow();
 
 		if (maxRow == -1 || maxCol == -1) {
 			return;
 		}
 
-		rows = maxRow + 1;
-		cols = maxCol + 1;
+		int rows = maxRow + 1;
+		int cols = maxCol + 1;
 
 		sb.append("<table border=\"1\">\n");
 		

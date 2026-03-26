@@ -87,17 +87,10 @@ public class SpreadsheetBorders {
 
 			// if the format includes right or left border then draw borders for
 			// each cell individually
-			if (!CellFormat.isZeroBit(v, 0) || !CellFormat.isZeroBit(v, 2)) {
+			if (CellFormat.isOneBit(v, CellFormat.BORDER_LEFT)
+					|| CellFormat.isOneBit(v, CellFormat.BORDER_RIGHT)) {
 				for (int c = 0; c < table.getColumnCount(); c++) {
 					drawPartialBorder(g2, table, c, row, c + 1, row + 1, v);
-				}
-
-				// if no row borders are given then this must be an inside
-				// border
-				// so inside row lines need to be drawn
-				if (!CellFormat.isZeroBit(v, 1)
-						|| !CellFormat.isZeroBit(v, 3)) {
-					// how?
 				}
 
 			}
@@ -105,11 +98,11 @@ public class SpreadsheetBorders {
 			// otherwise just draw a border line for an entire row
 			else {
 				// top bar
-				if (!CellFormat.isZeroBit(v, 1)) {
+				if (CellFormat.isOneBit(v, CellFormat.BORDER_TOP)) {
 					drawRowBorder(g2, table, row);
 				}
 				// bottom bar
-				if (!CellFormat.isZeroBit(v, 3)) {
+				if (CellFormat.isOneBit(v, CellFormat.BORDER_BOTTOM)) {
 					drawRowBorder(g2, table, row + 1);
 				}
 			}
@@ -120,7 +113,8 @@ public class SpreadsheetBorders {
 
 			// if the format includes row borders then draw each cell
 			// individually
-			if (!CellFormat.isZeroBit(v, 1) || !CellFormat.isZeroBit(v, 3)) {
+			if (CellFormat.isOneBit(v, CellFormat.BORDER_TOP)
+					|| CellFormat.isOneBit(v, CellFormat.BORDER_BOTTOM)) {
 				for (int r = 0; r < table.getRowCount(); r++) {
 					drawPartialBorder(g2, table, col, r, col + 1, r + 1, v);
 				}
@@ -129,11 +123,11 @@ public class SpreadsheetBorders {
 			// otherwise just draw a border line for an entire column
 			else {
 				// left column
-				if (!CellFormat.isZeroBit(v, 0)) {
+				if (CellFormat.isOneBit(v, CellFormat.BORDER_LEFT)) {
 					drawColumnBorder(g2, table, col);
 				}
 				// right column
-				if (!CellFormat.isZeroBit(v, 2)) {
+				if (CellFormat.isOneBit(v, CellFormat.BORDER_RIGHT)) {
 					drawColumnBorder(g2, table, col + 1);
 				}
 			}
@@ -170,19 +164,19 @@ public class SpreadsheetBorders {
 		// 3
 		//
 		// left bar, 0
-		if (!CellFormat.isZeroBit(v, 0)) {
+		if (CellFormat.isOneBit(v, CellFormat.BORDER_LEFT)) {
 			g2.drawLine(r1, c1, r1, c2);
 		}
 		// top bar, 1
-		if (!CellFormat.isZeroBit(v, 1)) {
+		if (CellFormat.isOneBit(v, CellFormat.BORDER_TOP)) {
 			g2.drawLine(r1, c1, r2, c1);
 		}
 		// right bar, 2
-		if (!CellFormat.isZeroBit(v, 2)) {
+		if (CellFormat.isOneBit(v, CellFormat.BORDER_RIGHT)) {
 			g2.drawLine(r2, c1, r2, c2);
 		}
 		// bottom bar, 3
-		if (!CellFormat.isZeroBit(v, 3)) {
+		if (CellFormat.isOneBit(v, CellFormat.BORDER_BOTTOM)) {
 			g2.drawLine(r1, c2, r2, c2);
 		}
 

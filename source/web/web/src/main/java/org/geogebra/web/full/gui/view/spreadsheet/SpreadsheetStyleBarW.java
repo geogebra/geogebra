@@ -205,7 +205,7 @@ public class SpreadsheetStyleBarW extends StyleBarW {
 		// set color for the actual geos
 		for (int i = 0; i < selectedCells.size(); i++) {
 			TabularRange tr = selectedCells.get(i);
-			ArrayList<GeoElement> ar = CellRangeUtil.toGeoList(tr, app);
+			ArrayList<GeoElement> ar = CellRangeUtil.toGeoList(tr, app.getSpreadsheetTableModel());
 			for (int j = 0; j < ar.size(); j++) {
 				GeoElement geo = ar.get(i);
 				geo.setBackgroundColor(bgCol);

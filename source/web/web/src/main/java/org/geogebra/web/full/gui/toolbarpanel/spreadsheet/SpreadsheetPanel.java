@@ -16,6 +16,8 @@
 
 package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetDelegate;
@@ -44,6 +46,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.ScrollPanel;
 
+import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;
 import elemental2.dom.HTMLElement;
@@ -105,6 +108,10 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			spreadsheet.handlePointerDown(getEventX(ptr), getEventY(ptr),
 					modifiers);
 			setPointerCapture(event);
+			if (!app.isUnbundled()) {
+				app.getGuiManager()
+						.setActivePanelAndToolbar(App.VIEW_SPREADSHEET);
+			}
 			if (modifiers.secondaryButton || spreadsheet.isEditorActive()) {
 				event.preventDefault();
 			}
@@ -132,13 +139,16 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		registry.addEventListener(DomGlobal.window, "pointerup", event -> {
 			elemental2.dom.Element target = Js.uncheckedCast(event.target);
 			if (target.closest(".spreadsheetScrollOverlay,.gwt-PopupPanel,.iconButton,"
-					+ ".colorChooser,.tabButton") != null) {
+					+ ".colorChooser,.tabButton,.toolBPanel,.TitleBarPanelContent") != null) {
 				return;
 			}
 			spreadsheet.clearSelectionOnly();
 			if (spreadsheetIsVisible()) {
 				repaint();
 			}
+		});
+		registry.addEventListener(DomGlobal.document.fonts, "loadingdone", ignore -> {
+			repaint();
 		});
 
 		ClickStartHandler.initDefaults(scrollContent, false, true);
@@ -159,6 +169,11 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		scrollOverlay.addScrollHandler(event -> {
 			updateViewport();
 			repaint();
+		});
+		app.getSettings().getSpreadsheet().addListener(settings -> {
+			SpreadsheetSettings spreadsheetSettings = (SpreadsheetSettings) settings;
+			setScrollingEnabled(spreadsheetSettings.showHScrollBar(),
+					spreadsheetSettings.showVScrollBar());
 		});
 	}
 
@@ -337,5 +352,23 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
 	private boolean spreadsheetIsVisible() {
 		return !getParent().getParent().getElement().hasClassName("tab-hidden");
+	}
+
+	/**
+	 * Paint this to a canvas context.
+	 * @param context2d context
+	 */
+	public void paintToCanvas(CanvasRenderingContext2D context2d, double left, double top) {
+		GGraphics2DW graphics1 = new GGraphics2DW(context2d);
+		graphics1.translate(left, top);
+		spreadsheet.draw(graphics1);
+		graphics1.translate(-left, -top);
+	}
+
+	private void setScrollingEnabled(boolean horizontal, boolean vertical) {
+		scrollOverlay.getElement().getStyle().setProperty("overflowX",
+				horizontal ? "auto" : "hidden");
+		scrollOverlay.getElement().getStyle().setProperty("overflowY",
+				vertical ? "auto" : "hidden");
 	}
 }

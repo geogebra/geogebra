@@ -45,7 +45,7 @@ final class TabularDataPasteGeos implements TabularDataPasteInterface<GeoElement
 	TabularDataPasteGeos(Kernel kernel) {
 		this.relativeCopy = new RelativeCopy(kernel);
 		this.app = kernel.getApplication();
-		adapter = new CopyPasteAdapter(app, null);
+		adapter = new CopyPasteAdapter(app, app.getSpreadsheetTableModel());
 	}
 
 	/**
@@ -84,7 +84,8 @@ final class TabularDataPasteGeos implements TabularDataPasteInterface<GeoElement
 					try {
 						GeoElement geo = (GeoElement) relativeCopy.doCopyNoStoringUndoInfo0(
 								buffer.contentAt(bufferRow, bufferCol),
-								RelativeCopy.getValue(app, destinationColumn, destinationRow),
+								RelativeCopy.getValue(app.getSpreadsheetTableModel(),
+										destinationColumn, destinationRow),
 								destination.getFromColumn() - source.getFromColumn(),
 								destination.getFromRow() - source.getFromRow());
 						if (geo != null) {

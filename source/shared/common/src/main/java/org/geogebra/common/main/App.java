@@ -46,6 +46,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianHost;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.MaskWidgetList;
 import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
@@ -95,7 +96,6 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.RandomNumberGenerator;
 import org.geogebra.common.kernel.Relation;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.Surds;
 import org.geogebra.common.kernel.arithmetic.simplifiers.Rationalization;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -1732,76 +1732,20 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * @param viewID
 	 *            view id
-	 * @return view with given ID
+	 * @return view with given ID, null if the ID does not belong to an EV
 	 */
-	public View getView(int viewID) {
+	public EuclidianViewInterfaceSlim getEuclidianViewById(int viewID) {
 		// check for PlotPanel ID family first
 		if ((getGuiManager() != null)
 				&& (getGuiManager().getPlotPanelView(viewID) != null)) {
 			return getGuiManager().getPlotPanelView(viewID);
 		}
-		switch (viewID) {
-		case VIEW_EUCLIDIAN:
-			return getEuclidianView1();
-		case VIEW_EUCLIDIAN3D:
-			return getEuclidianView3D();
-		case VIEW_ALGEBRA:
-			return getAlgebraView();
-		case VIEW_SPREADSHEET:
-			if (!isUsingFullGui()) {
-				return null;
-			} else if (getGuiManager() == null) {
-				initGuiManager();
-			}
-			if (getGuiManager() == null) {
-				return null;
-			}
-			return getGuiManager().getSpreadsheetView();
-		case VIEW_CAS:
-			if (!isUsingFullGui()) {
-				return null;
-			} else if (getGuiManager() == null) {
-				initGuiManager();
-			}
-			if (getGuiManager() == null) {
-				return null;
-			}
-			return getGuiManager().getCasView();
-		case VIEW_EUCLIDIAN2:
-			return hasEuclidianView2(1) ? getEuclidianView2(1) : null;
-		case VIEW_CONSTRUCTION_PROTOCOL:
-			if (!isUsingFullGui()) {
-				return null;
-			} else if (getGuiManager() == null) {
-				initGuiManager();
-			}
-			if (getGuiManager() == null) {
-				return null;
-			}
-			return getGuiManager().getConstructionProtocolData();
-		case VIEW_PROBABILITY_CALCULATOR:
-			if (!isUsingFullGui()) {
-				return null;
-			} else if (getGuiManager() == null) {
-				initGuiManager();
-			}
-			if (getGuiManager() == null) {
-				return null;
-			}
-			return getGuiManager().getProbabilityCalculator();
-		case VIEW_DATA_ANALYSIS:
-			if (!isUsingFullGui()) {
-				return null;
-			} else if (getGuiManager() == null) {
-				initGuiManager();
-			}
-			if (getGuiManager() == null) {
-				return null;
-			}
-			return getGuiManager().getDataAnalysisView();
-		}
-
-		return null;
+		return switch (viewID) {
+			case VIEW_EUCLIDIAN -> getEuclidianView1();
+			case VIEW_EUCLIDIAN3D -> getEuclidianView3D();
+			case VIEW_EUCLIDIAN2 -> hasEuclidianView2(1) ? getEuclidianView2(1) : null;
+			default -> null;
+		};
 	}
 
 	/**
@@ -4034,6 +3978,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 					factory,
 					new DefaultSpreadsheetConstructionDelegate(kernel.getAlgebraProcessor()),
 					getUndoManager());
+			if (!isUnbundled()) {
+				spreadsheet.setDefaultCellSize(
+						getSettings().getSpreadsheet().preferredColumnWidth(),
+						getSettings().getSpreadsheet().preferredRowHeight());
+			}
 			spreadsheetSettingsAdapter = new SpreadsheetSettingsAdapter(spreadsheet, this);
 			spreadsheetSettingsAdapter.registerListeners();
 		}

@@ -22,6 +22,8 @@ import java.util.Set;
 
 import javax.swing.ListCellRenderer;
 
+import org.geogebra.common.annotation.MissingDoc;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.util.ExtendedBoolean;
@@ -189,5 +191,15 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 	 * @param duplicateLabels duplicated labels
 	 */
 	void showRenamedObjectsDialog(boolean overwrite, Set<String> duplicateLabels);
+
+	/**
+	 * @return classic spreadsheet
+	 */
+	SpreadsheetViewInterface getSpreadsheetView();
+
+	/**
+	 * Reset th spreadsheet.
+	 */
+	void resetSpreadsheet();
 
 }

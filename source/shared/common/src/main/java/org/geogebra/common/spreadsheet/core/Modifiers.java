@@ -43,6 +43,7 @@ public final class Modifiers {
 	/**
 	 * @param alt alt pressed?
 	 * @param ctrlOrCmd ctrl (or cmd on Mac) pressed?
+	 * @param shift Shift key pressed?
 	 * @param secondaryButton right mouse button pressed?
 	 */
 	public Modifiers(boolean alt, boolean ctrlOrCmd, boolean shift, boolean secondaryButton) {

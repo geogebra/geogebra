@@ -173,7 +173,7 @@ public class FormulaBar extends JToolBar
 		fldCellName.addActionListener(this);
 
 		String cellContents = "";
-		GeoElement cellGeo = RelativeCopy.getValue(app, column, row);
+		GeoElement cellGeo = RelativeCopy.getValue(app.getSpreadsheetTableModel(), column, row);
 		if (cellGeo != null) {
 			cellContents = cellGeo.getRedefineString(true, false);
 			int index = cellContents.indexOf("=");

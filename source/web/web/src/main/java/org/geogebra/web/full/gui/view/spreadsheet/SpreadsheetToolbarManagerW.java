@@ -16,11 +16,18 @@
 
 package org.geogebra.web.full.gui.view.spreadsheet;
 
+import java.util.List;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel;
-import org.geogebra.common.gui.view.spreadsheet.MyTable;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetModeProcessor;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetToolProcessor;
+import org.geogebra.common.spreadsheet.core.Spreadsheet;
+import org.geogebra.common.spreadsheet.core.TabularRange;
+import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 /**
  * Utility class to handle toolbar menu mode changes
@@ -31,27 +38,16 @@ import org.geogebra.web.html5.main.AppW;
  */
 public class SpreadsheetToolbarManagerW {
 
-	private AppW app;
-	private SpreadsheetViewW view;
-	private MyTableW table;
-
-	private CreateObjectDialogW createObjectDialog;
-	public static final int TYPE_LIST = 0;
-	public static final int TYPE_MATRIX = 2;
-	public static final int TYPE_LISTOFPOINTS = 1;
-	public static final int TYPE_TABLETEXT = 3;
-	public static final int TYPE_POLYLINE = 4;
+	private final AppW app;
+	private final Spreadsheet spreadsheet;
 
 	/**
 	 * @param app
 	 *            application
-	 * @param view
-	 *            spreadsheet view
 	 */
-	public SpreadsheetToolbarManagerW(AppW app, SpreadsheetViewW view) {
+	public SpreadsheetToolbarManagerW(AppW app) {
 		this.app = app;
-		this.view = view;
-		this.table = view.getSpreadsheetTable();
+		this.spreadsheet = app.getSpreadsheet();
 	}
 
 	/**
@@ -59,41 +55,46 @@ public class SpreadsheetToolbarManagerW {
 	 *            app mode
 	 */
 	public void handleModeChange(int mode) {
-		table.setTableMode(MyTable.TABLE_MODE_STANDARD);
-
+		CellFormat format = (CellFormat) app.getSpreadsheetTableModel().getCellFormat(null);
+		SpreadsheetToolProcessor toolProcessor = new SpreadsheetToolProcessor(app, format);
+		if (spreadsheet == null) {
+			return;
+		}
+		List<TabularRange> selections = spreadsheet.getSelections();
 		switch (mode) {
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
-			//if(!app.getSelectedGeos().isEmpty() && prevMode == mode){
-			if (!CellRangeUtil.isEmpty(table.getFirstSelection(), app)) {
+			if (!selections.isEmpty()
+					&& !CellRangeUtil.isEmpty(selections.get(0),
+							app.getSpreadsheetTableModel())) {
 				openDialog(CreateObjectModel.TYPE_LIST);
 			}
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS:
-			if (table.getCellRangeProcessor()
-					.isCreatePointListPossible(table.getSelectedRanges())) {
+			if (toolProcessor
+					.isCreatePointListPossible(selections)) {
 				openDialog(CreateObjectModel.TYPE_LISTOFPOINTS);
 			}
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_MATRIX:
-			if (table.getCellRangeProcessor()
-					.isCreateMatrixPossible(table.getSelectedRanges())) {
+			if (toolProcessor
+					.isCreateMatrixPossible(selections)) {
 				openDialog(CreateObjectModel.TYPE_MATRIX);
 			}
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT:
-			if (table.getCellRangeProcessor()
-					.isCreateMatrixPossible(table.getSelectedRanges())) {
+			if (toolProcessor
+					.isCreateMatrixPossible(selections)) {
 				openDialog(CreateObjectModel.TYPE_TABLETEXT);
 			}
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_POLYLINE:
-			if (table.getCellRangeProcessor()
-					.isCreatePointListPossible(table.getSelectedRanges())) {
+			if (toolProcessor
+					.isCreatePointListPossible(selections)) {
 				openDialog(CreateObjectModel.TYPE_POLYLINE);
 			}
 			break;
@@ -103,11 +104,12 @@ public class SpreadsheetToolbarManagerW {
 		case EuclidianConstants.MODE_SPREADSHEET_COUNT:
 		case EuclidianConstants.MODE_SPREADSHEET_MIN:
 		case EuclidianConstants.MODE_SPREADSHEET_MAX:
-			
 			// Handle autofunction modes
-			
-			table.setTableMode(MyTable.TABLE_MODE_AUTOFUNCTION);
-
+			if (!selections.isEmpty()) {
+				new SpreadsheetModeProcessor(app, null).performAutoFunctionCreation(
+						selections.get(0),
+						GlobalKeyDispatcherW.getShiftDown());
+			}
 			break;
 
 		default:
@@ -116,8 +118,9 @@ public class SpreadsheetToolbarManagerW {
 	}
 
 	private void openDialog(int type) {
-		createObjectDialog = new CreateObjectDialogW(app, view, type,
-				CreateObjectModel.getTitle(type));
-		createObjectDialog.show();
+		if (spreadsheet != null) {
+			new CreateObjectDialogW(app, spreadsheet, type,
+					CreateObjectModel.getTitle(type)).show();
+		}
 	}
 }
