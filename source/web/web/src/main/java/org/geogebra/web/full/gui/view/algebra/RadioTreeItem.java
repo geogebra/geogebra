@@ -1937,6 +1937,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 			@Override
 			public void onClickStart(int x, int y,
 					final PointerEventType type) {
+				app.getSelectionManager().resetKeyboardSelection();
 				getLatexController().setOnScreenKeyboardTextField();
 			}
 		});

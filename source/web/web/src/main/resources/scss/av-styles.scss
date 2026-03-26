@@ -198,6 +198,10 @@
 				&.focused {
 					border-top: none;
 					border-bottom: none;
+
+					.scrollableTextBox {
+						border-bottom: colors.$purple-default solid 1px;
+					}
 				}
 			}
 
@@ -209,6 +213,17 @@
 				box-sizing: border-box;
 				min-height: 48px;
 			}
+		}
+		.avItem.avSelectedRow.keyboardFocus {
+			outline: 2px solid var(--ggb-dark-color);
+			outline-offset: -2px;
+
+			.elemText {
+				border-bottom: none;
+			}
+		}
+		.avItem.avSelectedRow .scrollableTextBox {
+			border-bottom: colors.$purple-default solid 1px;
 		}
 	}
 
