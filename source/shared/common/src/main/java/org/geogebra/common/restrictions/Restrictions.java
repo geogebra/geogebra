@@ -102,7 +102,7 @@ public class Restrictions {
 	 * @param outputExpressionFilters An optional set of expression filters (e.g., ||) to apply
 	 * to the algebra outputs.
 	 * @param commandFilters An optional command filter to apply.
-	 * @param commandArgumentFilters An optional command argument filter to applys.
+	 * @param commandArgumentFilters An optional command argument filter to applies.
 	 * @param operationFilter An optional operation filter to apply.
 	 * @param syntaxFilter An optional syntax filter to apply.
 	 * @param toolsFilter An optional filter for tools that should be unavailable.
