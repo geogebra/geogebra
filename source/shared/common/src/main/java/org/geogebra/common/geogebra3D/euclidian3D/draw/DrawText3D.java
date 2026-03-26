@@ -71,7 +71,7 @@ public final class DrawText3D extends Drawable3DCurves {
 
 	@Override
 	public CaptionText createStaticCaption3D(GeoElement geo) {
-		return new StaticText3D(geo);
+		return new StaticText3D(geo, getView3D());
 
 	}
 

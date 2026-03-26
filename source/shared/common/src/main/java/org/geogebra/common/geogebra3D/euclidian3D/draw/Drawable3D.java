@@ -2172,6 +2172,6 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	@Override
 	public CaptionText createStaticCaption3D(GeoElement geo) {
-		return new StaticCaption3D(geo);
+		return new StaticCaption3D(geo, m_view3D);
 	}
 }
