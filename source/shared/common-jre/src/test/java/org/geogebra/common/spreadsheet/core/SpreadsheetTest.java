@@ -195,7 +195,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.draw(graphics);
 		assertThat(graphics.toString(), endsWith(",5"));
 		graphics = new StringCapturingGraphics();
-		spreadsheet.setColumHeaderHeight(0);
+		spreadsheet.setColumnHeaderHeight(0);
 		spreadsheet.setRowHeaderWidth(0);
 		spreadsheet.draw(graphics);
 		assertEquals("", graphics.toString());

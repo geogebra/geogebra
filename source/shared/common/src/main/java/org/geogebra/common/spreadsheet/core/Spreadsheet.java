@@ -512,7 +512,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	/**
 	 * @param height column header height in points, -1 for default
 	 */
-	public void setColumHeaderHeight(double height) {
+	public void setColumnHeaderHeight(double height) {
 		controller.getLayout().setColumnHeaderHeight(height);
 	}
 

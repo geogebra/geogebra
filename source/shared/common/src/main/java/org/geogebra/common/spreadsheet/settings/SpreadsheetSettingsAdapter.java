@@ -56,7 +56,7 @@ public final class SpreadsheetSettingsAdapter {
 			SpreadsheetSettings settings1 = (SpreadsheetSettings) settings;
 			spreadsheet.setShowGrid(settings1.showGrid());
 			spreadsheet.setRowHeaderWidth(settings1.showRowHeader() ? -1 : 0);
-			spreadsheet.setColumHeaderHeight(settings1.showColumnHeader() ? -1 : 0);
+			spreadsheet.setColumnHeaderHeight(settings1.showColumnHeader() ? -1 : 0);
 			notifyIfSettingsCellFormatChanged();
 		});
 		app.getSettings().getFontSettings().addListener(s -> {
