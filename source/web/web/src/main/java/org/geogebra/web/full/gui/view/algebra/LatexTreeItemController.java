@@ -126,7 +126,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 				app.setScrollToShow(true);
 				obj.update();
 			}
-		}, keepFocus);
+		});
 	}
 
 	@Override

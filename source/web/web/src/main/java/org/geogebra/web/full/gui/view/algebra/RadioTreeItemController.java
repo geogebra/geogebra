@@ -488,7 +488,7 @@ public class RadioTreeItemController implements ClickHandler,
 		if (!editing) {
 			return;
 		}
-		item.stopEditing(item.getText(), null, true);
+		item.stopEditing(item.getText(), null);
 	}
 
 	/**

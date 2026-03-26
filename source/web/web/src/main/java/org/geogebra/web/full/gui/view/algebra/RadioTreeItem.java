@@ -185,7 +185,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	private int index;
 	private AlgebraOutputFormatButton symbolicButton;
 	private @CheckForNull FocusableCompositeW compositeFocus = null;
-	private AVCompositeFocusAssembler compositeFocusAssembler;
+	private @CheckForNull AVCompositeFocusAssembler compositeFocusAssembler;
 
 	/**
 	 * Mark this for update on next repaint.
@@ -914,12 +914,9 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	 *            value after edit
 	 * @param callback
 	 *            callback
-	 * @param allowSliderDialog
-	 *            whether to allow slider dialog
 	 */
 	public final void stopEditing(final String rawInput,
-			final AsyncOperation<GeoElementND> callback,
-			boolean allowSliderDialog) {
+			final AsyncOperation<GeoElementND> callback) {
 		lastTeX = null;
 		lastInput = null;
 		onStopEdit();
@@ -1845,7 +1842,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	 */
 	public void cancelEditing() {
 		GeoGebraActivity activity = app.getActivity();
-		stopEditing(activity.useValidInput() ? null : getText(), null, true);
+		stopEditing(activity.useValidInput() ? null : getText(), null);
 		updateIcons(this.errorMessage != null);
 		app.getActiveEuclidianView().requestFocus();
 	}
@@ -2032,8 +2029,10 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		canvas = null;
 		outputPanel = null;
 		doUpdate();
-		compositeFocusAssembler.rebuild(createFocusAccess(),
-				AVFocusContributorFactory.forItem(this));
+		if (compositeFocusAssembler != null) {
+			compositeFocusAssembler.rebuild(createFocusAccess(),
+					AVFocusContributorFactory.forItem(this));
+		}
 		// if type has changed, a new item is already registered.
 		if (!typeChanged()) {
 			registerCompositeFocus();
