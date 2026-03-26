@@ -88,18 +88,18 @@ public class TTFCMapTable extends TTFTable {
 
 		@Override
 		public String toString() {
-			String str = "";
+			StringBuilder strBuilder = new StringBuilder();
 			for (int i = 0; i < glyphIdArray.length; i++) {
 				if (i % 16 == 0) {
-					str += "\n    " + Integer.toHexString(i / 16) + "x: ";
+					strBuilder.append("\n    " + Integer.toHexString(i / 16) + "x: ");
 				}
 				String number = glyphIdArray[i] + "";
 				while (number.length() < 3) {
 					number = " " + number;
 				}
-				str += number + " ";
+				strBuilder.append(number + " ");
 			}
-			return str;
+			return strBuilder.toString();
 		}
 
 		@Override
