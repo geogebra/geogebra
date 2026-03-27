@@ -194,6 +194,12 @@ public class LaTeXTreeItem extends RadioTreeItem {
 	}
 
 	@Override
+	protected void resetCanvas() {
+		canvas = null;
+		mf = null;
+	}
+
+	@Override
 	public RadioTreeItem copy() {
 		return new LaTeXTreeItem(geo);
 	}

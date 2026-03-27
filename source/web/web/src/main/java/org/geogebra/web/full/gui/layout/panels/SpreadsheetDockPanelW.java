@@ -16,6 +16,10 @@
 
 package org.geogebra.web.full.gui.layout.panels;
 
+import java.util.Objects;
+
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -49,7 +53,7 @@ import elemental2.dom.CanvasRenderingContext2D;
 public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 
 	private SpreadsheetStyleBar sstylebar;
-	private SpreadsheetPanel spreadsheetPanel;
+	private @CheckForNull SpreadsheetPanel spreadsheetPanel;
 	private AbsolutePanel wrapview;
 	boolean scrollToShow = true;
 
@@ -77,7 +81,7 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 	protected Widget loadStyleBar() {
 		if (sstylebar == null) {
 			sstylebar = new SpreadsheetStyleBar(app,
-					spreadsheetPanel.getSpreadsheet(),
+					Objects.requireNonNull(spreadsheetPanel).getSpreadsheet(),
 					spreadsheetPanel.getStyleBarModel());
 			IconButton settingsBtn = new IconButton(app,
 					new ImageIconSpec(MaterialDesignResources.INSTANCE.gear()),
@@ -96,7 +100,9 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 	@Override
 	public void onResize() {
 		super.onResize();
-		spreadsheetPanel.onResize();
+		if (spreadsheetPanel != null) {
+			spreadsheetPanel.onResize();
+		}
 	}
 
 	private static String getDefaultToolbar() {
@@ -161,7 +167,7 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 
 	@Override
 	public MathKeyboardListener getKeyboardListener() {
-		return spreadsheetPanel.getKeyboardListener();
+		return spreadsheetPanel == null ? null : spreadsheetPanel.getKeyboardListener();
 	}
 
 	@Override
@@ -171,7 +177,9 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 		context2d.save();
 		context2d.rect(left, top, getOffsetWidth(), getOffsetHeight());
 		context2d.clip();
-		spreadsheetPanel.paintToCanvas(context2d, left, top);
+		if (spreadsheetPanel != null) {
+			spreadsheetPanel.paintToCanvas(context2d, left, top);
+		}
 		context2d.restore();
 		if (counter != null) {
 			counter.decrement();
@@ -190,7 +198,8 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 			location = GeoElementSpreadsheet.spreadsheetIndices(labelNew);
 		}
 
-		if (scrollToShow && location != null && (location.column > -1) && (location.row > -1)) {
+		if (scrollToShow && location != null && (location.column > -1) && (location.row > -1)
+				&& spreadsheetPanel != null) {
 			spreadsheetPanel.getSpreadsheet().scrollRangeIntoView(new TabularRange(location.row,
 					location.column));
 		}

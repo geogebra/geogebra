@@ -491,7 +491,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	}
 
 	private void buildItemContent() {
-		canvas = null;
+		resetCanvas();
 		if (mayNeedOutput()) {
 			if (controller.isEditing() || geo == null) {
 				return;
@@ -2027,7 +2027,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 
 	protected void rebuild() {
 		unregisterCompositeFocus();
-		canvas = null;
+		resetCanvas();
 		outputPanel = null;
 		doUpdate();
 		if (compositeFocusAssembler != null) {
@@ -2038,6 +2038,10 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		if (!typeChanged()) {
 			registerCompositeFocus();
 		}
+	}
+
+	protected void resetCanvas() {
+		canvas = null;
 	}
 
 	/**

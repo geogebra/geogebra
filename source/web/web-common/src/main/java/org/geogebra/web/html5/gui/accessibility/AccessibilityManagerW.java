@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -339,10 +338,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 
 		if (activeCompositeFocus == null) {
-			Optional<FocusableComposite> compositeFocus =
-					compositeFocusOwners.stream().filter(FocusableComposite::isFocused).findFirst();
-			compositeFocus.ifPresent(focusableComposite
-					-> activeCompositeFocus = focusableComposite);
+			activeCompositeFocus = compositeFocusOwners.stream()
+					.filter(FocusableComposite::isFocused)
+					.findFirst().orElse(null);
 		}
 	}
 
