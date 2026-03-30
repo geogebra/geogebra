@@ -224,7 +224,9 @@ public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHand
 	public void setText(String text) {
 		textField.setText(text);
 		setDefaultAriaLabel();
-		updatePreview();
+		if (getController().isEditing()) {
+			updatePreview();
+		}
 	}
 
 	@Override
