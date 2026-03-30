@@ -673,6 +673,23 @@ public abstract class PropertyView {
 		}
 
 		/**
+		 * Signals the start of a slider drag interaction.
+		 * Subsequent {@link #setValue(int)} calls are treated as part of one
+		 * continuous update sequence until {@link #onDragStopped()} is called.
+		 */
+		public void onDragStarted() {
+			property.beginSetValue();
+		}
+
+		/**
+		 * Signals the end of a slider drag interaction.
+		 * Completes the update sequence started by {@link #onDragStarted()}.
+		 */
+		public void onDragStopped() {
+			property.endSetValue();
+		}
+
+		/**
 		 * @return the minimum value
 		 */
 		public int getMin() {
