@@ -108,9 +108,9 @@ public abstract class ProbabilityCalculatorView
 	 */
 	protected Construction cons;
 
-	private static final GColor COLOR_NORMAL_OVERLAY = GColor.RED;
+	private static final GColor COLOR_NORMAL_OVERLAY = GeoGebraColorConstants.NEUTRAL_900;
 
-	private static final GColor COLOR_PDF_FILL = GColor.BLUE;
+	private static final GColor COLOR_PDF_FILL = GeoGebraColorConstants.PURPLE_600;
 
 	static final GColor COLOR_POINT = GColor.BLACK;
 
@@ -174,12 +174,12 @@ public abstract class ProbabilityCalculatorView
 	protected boolean showProbGeos = true;
 	protected boolean showNormalOverlay = false;
 
-	private static final double opacityIntegral = 0.5f;
+	private static final double opacityIntegral = 0.7f;
 	private static final double opacityDiscrete = 0.0f; // entire bar chart
-	private static final double opacityDiscreteInterval = 0.5f; // bar chart
+	private static final double opacityDiscreteInterval = 0.7f; // bar chart
 	// interval
 	private static final int thicknessCurve = 4;
-	private static final int thicknessBarChart = 3;
+	private static final int thicknessBarChart = 4;
 
 	protected static final double nearlyOne = 1 - 1E-6;
 
@@ -439,10 +439,6 @@ public abstract class ProbabilityCalculatorView
 	// =================================================
 	// Plotting
 	// =================================================
-	private static GColor colorPDF() {
-		return GeoGebraColorConstants.DARKBLUE;
-	}
-
 	/**
 	 * Creates the required GeoElements for the currently selected distribution
 	 * type and parameters.
@@ -503,7 +499,7 @@ public abstract class ProbabilityCalculatorView
 		cons.removeFromConstructionList(pAlgo);
 
 		GeoPoint curvePoint = (GeoPoint) pAlgo.getOutput(0);
-		curvePoint.setObjColor(COLOR_POINT);
+		curvePoint.setObjColor(GeoGebraColorConstants.GEOGEBRA_OBJECT_RED);
 		curvePoint.setPointSize(4);
 		curvePoint.setLayer(f.getLayer() + 1);
 		curvePoint.setSelectionAllowed(false);
@@ -525,8 +521,8 @@ public abstract class ProbabilityCalculatorView
 				curvePoint, (GeoPoint) pointAlgo.getOutput(0), null,
 				false);
 		GeoElement xSegment = seg1.getOutput(0);
-		xSegment.setObjColor(GColor.BLUE);
-		xSegment.setLineThickness(3);
+		xSegment.setObjColor(GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY);
+		xSegment.setLineThickness(4);
 		xSegment.setLineType(
 				EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		xSegment.setEuclidianVisible(showProbGeos);
@@ -549,8 +545,9 @@ public abstract class ProbabilityCalculatorView
 				curvePoint, v);
 		cons.removeFromConstructionList(seg2);
 		GeoElement ySegment = seg2.getOutput(0);
-		ySegment.setObjColor(GColor.RED);
-		ySegment.setLineThickness(3);
+		ySegment.setObjColor(GeoGebraColorConstants.GEOGEBRA_OBJECT_RED);
+		ySegment.setLineOpacity(204);
+		ySegment.setLineThickness(4);
 		ySegment.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
 		ySegment.setEuclidianVisible(showProbGeos);
 		ySegment.setFixed(true);
@@ -566,7 +563,8 @@ public abstract class ProbabilityCalculatorView
 			pdfCurve = buildDensityCurveExpression(selectedDist, false);
 			cons.removeFromConstructionList(pdfCurve);
 		}
-		densityCurve.setObjColor(colorPDF());
+		densityCurve.setObjColor(GeoGebraColorConstants.PURPLE_600);
+		densityCurve.setLineOpacity(255);
 		densityCurve.setLineThickness(thicknessCurve);
 		densityCurve.setFixed(true);
 		densityCurve.setSelectionAllowed(false);
@@ -732,10 +730,9 @@ public abstract class ProbabilityCalculatorView
 		}
 
 		if (isCumulative) {
-			graph.setObjColor(GColor.RED);
-			graph.setLineThickness(3);
-			graph
-					.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
+			graph.setObjColor(GeoGebraColorConstants.GEOGEBRA_OBJECT_RED);
+			graph.setLineThickness(4);
+			graph.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
 		} else if (graphType == GRAPH_LINE || graphType == GRAPH_STEP) {
 			graph.setObjColor(COLOR_PDF_FILL);
 			graph.setLineThickness(thicknessBarChart + 2);
@@ -779,7 +776,7 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	private void styleDiscreteGraph() {
-		discreteGraph.setObjColor(colorPDF());
+		discreteGraph.setObjColor(GeoGebraColorConstants.PURPLE_600);
 		discreteGraph.setAlphaValue(opacityDiscrete);
 		discreteGraph.setLineThickness(thicknessBarChart);
 		discreteGraph.setLayer(1);
@@ -984,7 +981,9 @@ public abstract class ProbabilityCalculatorView
 		GeoElement geo = algo.getResult();
 
 		geo.setObjColor(COLOR_NORMAL_OVERLAY);
-		geo.setLineThickness(thicknessCurve - 1);
+		geo.setLineOpacity(255);
+		geo.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
+		geo.setLineThickness(4);
 		geo.setEuclidianVisible(true);
 		geo.setFixed(true);
 		geo.setSelectionAllowed(false);
@@ -2030,7 +2029,6 @@ public abstract class ProbabilityCalculatorView
 		discreteGraph.update();
 		if (isTwoTailedMode()) {
 			discreteTwoTailedGraph.update();
-
 		} else {
 			discreteIntervalGraph.update();
 		}
