@@ -66,4 +66,12 @@ public class SizePropertyCollectionTests extends BaseAppTestSetup {
 						getLocalization(), List.of(evaluateGeoElement("Button()"))));
 		assertEquals(3, collection.getProperties().length);
 	}
+	
+	@Test
+	public void testPieChart() {
+		SizePropertyCollection collection = assertDoesNotThrow(
+				() -> new SizePropertyCollection(propertiesFactory, getAlgebraProcessor(),
+						getLocalization(), List.of(evaluateGeoElement("PieChart({1,2,3})"))));
+		assertEquals(1, collection.getProperties().length);
+	}
 }

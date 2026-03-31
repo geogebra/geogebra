@@ -59,9 +59,11 @@ public class SizePropertyCollection extends AbstractPropertyCollection<Property>
 				propertiesFactory.createOptionalPropertyFacade(elements,
 						element -> new ButtonSizeProperty.Height(processor, localization, element),
 						StringPropertyListFacade::new),
-				// Input box size
 				propertiesFactory.createOptionalPropertyFacade(elements,
 						element -> new InputBoxSizeProperty(processor, localization, element),
+						StringPropertyListFacade::new),
+				propertiesFactory.createOptionalPropertyFacade(elements,
+						element -> new PieChartRadiusProperty(processor, localization, element),
 						StringPropertyListFacade::new)
 		).filter(Objects::nonNull).toArray(Property[]::new);
 		if (properties.length == 0) {

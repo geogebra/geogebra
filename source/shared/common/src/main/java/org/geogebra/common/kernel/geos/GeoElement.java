@@ -1294,11 +1294,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		bgColor = geo.bgColor;
 		isColorSet = geo.isColorSet();
 
-		if (geo instanceof ChartStyleGeo && this instanceof ChartStyleGeo) {
-			int barNumber = ((ChartStyleGeo) geo).getIntervals();
-			for (int i = 0; i <= barNumber; i++) {
-				((ChartStyleGeo) this).getStyle().setBarColor(
-						((ChartStyleGeo) geo).getStyle().getBarColor(i), i);
+		if (geo instanceof ChartStyleGeo source && this instanceof ChartStyleGeo dest) {
+			int barNumber = source.getIntervals();
+			for (int i = 1; i <= barNumber; i++) {
+				dest.getStyle().setBarColor(source.getStyle().getBarColor(i), i);
 			}
 		}
 	}

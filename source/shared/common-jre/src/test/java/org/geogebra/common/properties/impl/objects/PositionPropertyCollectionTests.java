@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.statistics.GeoPieChart;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollection;
 import org.geogebra.common.properties.aliases.StringProperty;
@@ -53,6 +54,7 @@ public class PositionPropertyCollectionTests extends BaseAppTestSetup {
 		PositionPropertyCollection positionPropertyCollection = assertDoesNotThrow(() ->
 				new PositionPropertyCollection(
 						propertiesFactory, getLocalization(), List.of(geoImage)));
+		assertNotNull(positionPropertyCollection.getPlacementProperty());
 		assertNotNull(positionPropertyCollection.getAbsoluteScreenPositionPropertyCollection());
 		assertNull(positionPropertyCollection.getStartingPointPositionProperty());
 		assertNotNull(positionPropertyCollection.getCornerPositionProperties());
@@ -71,6 +73,8 @@ public class PositionPropertyCollectionTests extends BaseAppTestSetup {
 				positionPropertyCollection.getAbsoluteScreenPositionPropertyCollection();
 		List<StringPropertyWithSuggestions> cornerPositionProperties = positionPropertyCollection
 				.getCornerPositionProperties();
+
+		assertNotNull(positionPropertyCollection.getPlacementProperty());
 
 		positionPropertyCollection.getPlacementProperty().setValue(ABSOLUTE_POSITION_ON_SCREEN);
 		assertTrue(absoluteScreenPositionPropertyCollection.getProperties()[0].isAvailable());
@@ -102,6 +106,8 @@ public class PositionPropertyCollectionTests extends BaseAppTestSetup {
 		PropertyCollection<StringProperty> absoluteScreenPositionPropertyCollection =
 				positionPropertyCollection.getAbsoluteScreenPositionPropertyCollection();
 
+		assertNotNull(positionPropertyCollection.getPlacementProperty());
+
 		positionPropertyCollection.getPlacementProperty().setValue(ABSOLUTE_POSITION_ON_SCREEN);
 		assertTrue(absoluteScreenPositionPropertyCollection.getProperties()[0].isAvailable());
 		assertTrue(absoluteScreenPositionPropertyCollection.getProperties()[1].isAvailable());
@@ -120,6 +126,7 @@ public class PositionPropertyCollectionTests extends BaseAppTestSetup {
 		PositionPropertyCollection positionPropertyCollection = assertDoesNotThrow(() ->
 				new PositionPropertyCollection(
 						propertiesFactory, getLocalization(), List.of(geoBoolean)));
+		assertNotNull(positionPropertyCollection.getPlacementProperty());
 		assertNotNull(positionPropertyCollection.getAbsoluteScreenPositionPropertyCollection());
 		assertNull(positionPropertyCollection.getStartingPointPositionProperty());
 		assertNull(positionPropertyCollection.getCornerPositionProperties());
@@ -133,10 +140,26 @@ public class PositionPropertyCollectionTests extends BaseAppTestSetup {
 		PositionPropertyCollection positionPropertyCollection = assertDoesNotThrow(() ->
 				new PositionPropertyCollection(
 						propertiesFactory, getLocalization(), List.of(geoText)));
+		assertNotNull(positionPropertyCollection.getPlacementProperty());
 		assertNotNull(positionPropertyCollection.getAbsoluteScreenPositionPropertyCollection());
 		assertNotNull(positionPropertyCollection.getStartingPointPositionProperty());
 		assertNull(positionPropertyCollection.getCornerPositionProperties());
 		assertNull(positionPropertyCollection.getCenterImagePositionProperty());
+	}
+
+	@Test
+	public void testPropertyAvailabilityForPieChart() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoPieChart geoPieChart = evaluateGeoElement("PieChart({1, 2, 3})");
+		PositionPropertyCollection positionPropertyCollection = assertDoesNotThrow(() ->
+				new PositionPropertyCollection(
+						propertiesFactory, getLocalization(), List.of(geoPieChart)));
+		assertNull(positionPropertyCollection.getPlacementProperty());
+		assertNull(positionPropertyCollection.getAbsoluteScreenPositionPropertyCollection());
+		assertNull(positionPropertyCollection.getStartingPointPositionProperty());
+		assertNull(positionPropertyCollection.getCornerPositionProperties());
+		assertNull(positionPropertyCollection.getCenterImagePositionProperty());
+		assertNotNull(positionPropertyCollection.getPieChartCenterPositionProperty());
 	}
 
 	@ParameterizedTest

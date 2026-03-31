@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -49,6 +48,7 @@ import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.StringPropertyWithSuggestionsListFacade;
+import org.geogebra.common.properties.impl.objects.PlacementProperty.Placement;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 
@@ -56,17 +56,18 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * {@code PropertyCollection} containing {@code Property}s related to {@code GeoElement}
- * positioning. Depending on the selected {@link PlacementProperty.Placement} in
+ * positioning. Depending on the selected {@link Placement} in
  * {@link PlacementProperty}, the availability of the rest of the {@code Property}s will vary.
  */
 public class PositionPropertyCollection extends AbstractPropertyCollection<Property> {
-	private final NamedEnumeratedProperty<PlacementProperty.Placement> placementProperty;
+	private final NamedEnumeratedProperty<Placement> placementProperty;
 	private final PropertyCollection<StringProperty> absoluteScreenPositionPropertyCollection;
 	private final StringPropertyWithSuggestions startingPointPositionProperty;
 	private final StringPropertyWithSuggestions cornerPositionProperty1;
 	private final StringPropertyWithSuggestions cornerPositionProperty2;
 	private final StringPropertyWithSuggestions cornerPositionProperty4;
 	private final StringPropertyWithSuggestions centerImagePositionProperty;
+	private final StringPropertyWithSuggestions pieChartCenterPositionProperty;
 
 	/**
 	 * Constructs the property for the given elements.
@@ -81,7 +82,7 @@ public class PositionPropertyCollection extends AbstractPropertyCollection<Prope
 			GeoElementPropertiesFactory propertiesFactory, Localization localization,
 			List<GeoElement> elements) throws NotApplicablePropertyException {
 		super(localization, "Position");
-		this.placementProperty = propertiesFactory.createPropertyFacadeThrowing(elements,
+		this.placementProperty = propertiesFactory.createOptionalPropertyFacade(elements,
 				element -> new PlacementProperty(localization, element),
 				NamedEnumeratedPropertyListFacade::new);
 		this.absoluteScreenPositionPropertyCollection = tryOrNull(() ->
@@ -102,6 +103,9 @@ public class PositionPropertyCollection extends AbstractPropertyCollection<Prope
 		this.centerImagePositionProperty = propertiesFactory.createOptionalPropertyFacade(elements,
 				element -> new CenterImagePositionProperty(localization, element),
 				StringPropertyWithSuggestionsListFacade::new);
+		this.pieChartCenterPositionProperty = propertiesFactory.createOptionalPropertyFacade(
+				elements, element -> new PieChartCenterPositionProperty(localization, element),
+				StringPropertyWithSuggestionsListFacade::new);
 		setProperties(Stream.of(
 				placementProperty,
 				absoluteScreenPositionPropertyCollection,
@@ -109,14 +113,19 @@ public class PositionPropertyCollection extends AbstractPropertyCollection<Prope
 				cornerPositionProperty1,
 				cornerPositionProperty2,
 				cornerPositionProperty4,
-				centerImagePositionProperty
+				centerImagePositionProperty,
+				pieChartCenterPositionProperty
 		).filter(Objects::nonNull).toArray(Property[]::new));
-	}
+        if (getProperties().length == 0) {
+            throw new NotApplicablePropertyException(elements.get(0));
+        }
+    }
 
 	/**
-	 * @return the placement property
+	 * @return the placement property if it can be applied to the given element,
+	 * or {@code null} otherwise
 	 */
-	public @Nonnull NamedEnumeratedProperty<PlacementProperty.Placement> getPlacementProperty() {
+	public @CheckForNull NamedEnumeratedProperty<Placement> getPlacementProperty() {
 		return placementProperty;
 	}
 
@@ -149,11 +158,19 @@ public class PositionPropertyCollection extends AbstractPropertyCollection<Prope
 	}
 
 	/**
-	 * @return the center positioning properties if they can be applied to the given element,
+	 * @return the center positioning property if it can be applied to the given element,
 	 * or {@code null} otherwise
 	 */
 	public @CheckForNull StringPropertyWithSuggestions getCenterImagePositionProperty() {
 		return centerImagePositionProperty;
+	}
+
+	/**
+	 * @return the pie chart center positioning property if it can be applied to the given element,
+	 * or {@code null} otherwise
+	 */
+	public @CheckForNull StringPropertyWithSuggestions getPieChartCenterPositionProperty() {
+		return pieChartCenterPositionProperty;
 	}
 
 	/** Utility method for validating expression for point input. */

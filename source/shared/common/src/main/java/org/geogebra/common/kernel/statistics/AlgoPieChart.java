@@ -51,8 +51,9 @@ public class AlgoPieChart extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		input = radius == null ? new GeoElement[] {data, center}
-			: new GeoElement[] {data, center, radius.toGeoElement()};
+		input = radius == null
+                ? new GeoElement[] {data, center}
+                : new GeoElement[] {data, center, radius.toGeoElement()};
 		setOnlyOutput(chart);
 		setDependencies();
 	}
@@ -109,7 +110,21 @@ public class AlgoPieChart extends AlgoElement {
 		return chart;
 	}
 
-	private boolean isValidValue(double value) {
+    /**
+     * @return The index to {@link #getInput(int)} for the {@code center} (Point) parameter.
+     */
+    public int getCenterParamIndex() {
+        return 1;
+    }
+
+    /**
+     * @return The index to {@link #getInput(int)} for the {@code radius} (Number) parameter.
+     */
+    public int getRadiusParamIndex() {
+        return 2;
+    }
+
+    private boolean isValidValue(double value) {
 		return Double.isFinite(value) && value >= 0;
 	}
 }
