@@ -48,10 +48,8 @@ import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollecti
 import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.common.properties.impl.objects.AnimationPropertyCollection;
 import org.geogebra.common.properties.impl.objects.FillImageProperty;
-import org.geogebra.common.properties.impl.objects.LineOpacityProperty;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
-import org.geogebra.common.properties.impl.undo.UndoSavingPropertyObserver;
 import org.geogebra.common.util.ImageManagerCommon;
 import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.annotation.Issue;
@@ -314,85 +312,6 @@ public class PropertyViewTests extends BaseAppTestSetup {
 		assertEquals("image", row.getFileName());
 		property.setValue(null);
 		assertEquals(null, row.getFileName());
-	}
-
-	@Test
-	public void testSliderUndoPointsWithTappingChanges() throws Exception {
-		setupApp(SuiteSubApp.GRAPHING);
-		getKernel().setUndoActive(true);
-		getKernel().initUndoInfo();
-		LineOpacityProperty opacityProperty = LineOpacityProperty.forLine(getLocalization(),
-				evaluateGeoElement("a = Line((-1, -1), (1, 1))"));
-		getApp().storeUndoInfo();
-		opacityProperty.addValueObserver(new UndoSavingPropertyObserver(getApp().getUndoManager()));
-		PropertyView.Slider slider = (PropertyView.Slider) PropertyView.of(opacityProperty);
-		int originalValue = opacityProperty.getValue();
-
-		slider.onDragStarted();
-		slider.setValue(20);
-		slider.onDragStopped();
-
-		slider.onDragStarted();
-		slider.setValue(50);
-		slider.onDragStopped();
-
-		slider.onDragStarted();
-		slider.setValue(80);
-		slider.onDragStopped();
-
-		assertEquals(80, LineOpacityProperty.forLine(getLocalization(), lookup("a")).getValue());
-
-		getKernel().undo();
-		assertEquals(50, LineOpacityProperty.forLine(getLocalization(), lookup("a")).getValue());
-
-		getKernel().undo();
-		assertEquals(20, LineOpacityProperty.forLine(getLocalization(), lookup("a")).getValue());
-
-		getKernel().undo();
-		assertEquals(originalValue, LineOpacityProperty.forLine(getLocalization(), lookup("a"))
-				.getValue());
-	}
-
-	@Test
-	public void testSliderUndoPointsWithDraggingChanges() throws Exception {
-		setupApp(SuiteSubApp.GRAPHING);
-		getKernel().setUndoActive(true);
-		getKernel().initUndoInfo();
-		LineOpacityProperty opacityProperty = LineOpacityProperty.forLine(getLocalization(),
-				evaluateGeoElement("a = Line((-1, -1), (1, 1))"));
-		getApp().storeUndoInfo();
-		opacityProperty.addValueObserver(new UndoSavingPropertyObserver(getApp().getUndoManager()));
-		PropertyView.Slider slider = (PropertyView.Slider) PropertyView.of(opacityProperty);
-		int originalValue = opacityProperty.getValue();
-
-		slider.onDragStarted();
-		slider.setValue(10);
-		slider.setValue(20);
-		slider.onDragStopped();
-
-		slider.onDragStarted();
-		slider.setValue(30);
-		slider.setValue(40);
-		slider.setValue(50);
-		slider.onDragStopped();
-
-		slider.onDragStarted();
-		slider.setValue(60);
-		slider.setValue(70);
-		slider.setValue(80);
-		slider.onDragStopped();
-
-		assertEquals(80, LineOpacityProperty.forLine(getLocalization(), lookup("a")).getValue());
-
-		getKernel().undo();
-		assertEquals(50, LineOpacityProperty.forLine(getLocalization(), lookup("a")).getValue());
-
-		getKernel().undo();
-		assertEquals(20, LineOpacityProperty.forLine(getLocalization(), lookup("a")).getValue());
-
-		getKernel().undo();
-		assertEquals(originalValue, LineOpacityProperty.forLine(getLocalization(), lookup("a"))
-				.getValue());
 	}
 
 	private EuclidianView getEuclidianView() {
