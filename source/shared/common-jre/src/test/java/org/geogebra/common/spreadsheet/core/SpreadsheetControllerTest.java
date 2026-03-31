@@ -256,6 +256,32 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     }
 
     @Test
+    public void testMoveDownAtMaxRowsDoesNotGrowSpreadsheet() {
+        SpreadsheetController cappedController = createControllerWithDimensions(
+                Spreadsheet.MAX_ROWS, 5);
+
+        cappedController.selectCell(Spreadsheet.MAX_ROWS - 1, 0, false, false);
+        cappedController.moveDown(false);
+
+        assertEquals(Spreadsheet.MAX_ROWS, cappedController.getLayout().numberOfRows());
+        assertEquals(Spreadsheet.MAX_ROWS - 1,
+                cappedController.getLastSelection().getRange().getMinRow());
+    }
+
+    @Test
+    public void testMoveRightAtMaxColumnsDoesNotGrowSpreadsheet() {
+        SpreadsheetController cappedController = createControllerWithDimensions(
+                5, Spreadsheet.MAX_COLUMNS);
+
+        cappedController.selectCell(0, Spreadsheet.MAX_COLUMNS - 1, false, false);
+        cappedController.moveRight(false);
+
+        assertEquals(Spreadsheet.MAX_COLUMNS, cappedController.getLayout().numberOfColumns());
+        assertEquals(Spreadsheet.MAX_COLUMNS - 1,
+                cappedController.getLastSelection().getRange().getMinColumn());
+    }
+
+    @Test
     public void testTappingOnResizeRowWhileEverythingIsSelected() {
         // Tap of top left corner (select everything)
         double x = layout.getRowHeaderWidth() / 2;
@@ -289,6 +315,14 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         controller.handlePointerUp(x, y, Modifiers.NONE);
 
         assertEquals(initialSpreadsheetHeight, controller.getLayout().getTotalHeight(), 0.0);
+    }
+
+    private SpreadsheetController createControllerWithDimensions(int rows, int columns) {
+        SpreadsheetController cappedController = new SpreadsheetController(
+                new TestTabularData(rows, columns), new SpreadsheetStyling());
+        cappedController.setControlsDelegate(this);
+        cappedController.setSpreadsheetConstructionDelegate(this);
+        return cappedController;
     }
 
     @Test

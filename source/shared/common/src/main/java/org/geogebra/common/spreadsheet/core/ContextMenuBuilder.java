@@ -144,20 +144,28 @@ public final class ContextMenuBuilder {
                 getCalculateItem(),
                 getChartMenuItem(),
                 new Divider(),
-                new ActionableItem(INSERT_ROW_ABOVE,
-                        () -> spreadsheetController.insertRowAt(fromRow, false)),
-                new ActionableItem(INSERT_ROW_BELOW,
-                        () -> spreadsheetController.insertRowAt(toRow + 1, true)),
-                new ActionableItem(INSERT_COLUMN_LEFT,
-                        () -> spreadsheetController.insertColumnAt(fromCol, false)),
-                new ActionableItem(INSERT_COLUMN_RIGHT,
-                        () -> spreadsheetController.insertColumnAt(toCol + 1, true)),
+                getInsertRowItem(fromRow, false),
+                getInsertRowItem(toRow + 1, true),
+                getInsertColItem(fromCol, false),
+                getInsertColItem(toCol + 1, true),
                 allRows && allColumns ? null : new Divider(),
                 allRows ? null : new ActionableItem(DELETE_ROW,
                         () -> spreadsheetController.deleteRowAt(fromRow)),
                 allColumns ? null : new ActionableItem(DELETE_COLUMN,
                         () -> spreadsheetController.deleteColumnAt(fromCol))
         ).filter(Objects::nonNull).collect(Collectors.toList());
+    }
+
+    private @CheckForNull ContextMenuItem getInsertRowItem(int fromRow, boolean below) {
+        return spreadsheetController.canAddRow() ? new ActionableItem(
+                below ? INSERT_ROW_BELOW : INSERT_ROW_ABOVE,
+                () -> spreadsheetController.insertRowAt(fromRow, below)) : null;
+    }
+
+    private @CheckForNull ContextMenuItem getInsertColItem(int fromCol, boolean right) {
+        return spreadsheetController.canAddColumn() ? new ActionableItem(
+                right ? INSERT_COLUMN_RIGHT : INSERT_COLUMN_LEFT,
+                () -> spreadsheetController.insertColumnAt(fromCol, right)) : null;
     }
 
     private @CheckForNull ContextMenuItem getCalculateItem() {
@@ -253,10 +261,8 @@ public final class ContextMenuBuilder {
                 getCalculateItem(),
                 getChartMenuItem(),
                 new Divider(),
-                new ActionableItem(INSERT_ROW_ABOVE,
-                        () -> spreadsheetController.insertRowAt(fromRow, false)),
-                new ActionableItem(INSERT_ROW_BELOW,
-                        () -> spreadsheetController.insertRowAt(toRow + 1, true)),
+                getInsertRowItem(fromRow, false),
+                getInsertRowItem(toRow + 1, true),
                 allRows ? null : new Divider(),
                 allRows ? null : new ActionableItem(DELETE_ROW,
                         () -> spreadsheetController.deleteRowAt(fromRow))
@@ -273,10 +279,8 @@ public final class ContextMenuBuilder {
                 getCalculateItem(),
                 getChartMenuItem(),
                 new Divider(),
-                new ActionableItem(INSERT_COLUMN_LEFT,
-                        () -> spreadsheetController.insertColumnAt(fromCol, false)),
-                new ActionableItem(INSERT_COLUMN_RIGHT,
-                        () -> spreadsheetController.insertColumnAt(toCol + 1, true)),
+                getInsertColItem(fromCol, false),
+                getInsertColItem(toCol + 1, true),
                 allColumns ? null : new Divider(),
                 allColumns ? null : new ActionableItem(DELETE_COLUMN,
                         () -> spreadsheetController.deleteColumnAt(fromCol))

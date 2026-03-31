@@ -47,14 +47,23 @@ public class TestTabularData implements TabularData<String> {
 	 * Simple tabular data (initial size 100 x 100).
 	 */
 	public TestTabularData() {
-		for (int i = 0; i < 100; i++) {
-			data.add(buildRow(100));
+		this(100, 100);
+	}
+
+	/**
+	 * Simple tabular data.
+	 * @param rows number of rows
+	 * @param columns number of columns
+	 */
+	public TestTabularData(int rows, int columns) {
+		for (int i = 0; i < rows; i++) {
+			data.add(buildRow(columns));
 		}
 	}
 
-	private List<String> buildRow(int i) {
-		ArrayList<String> row = new ArrayList<>(100);
-		for (int j = 0; j < i; j++) {
+	private List<String> buildRow(int size) {
+		ArrayList<String> row = new ArrayList<>(size);
+		for (int j = 0; j < size; j++) {
 			row.add(null);
 		}
 		return row;

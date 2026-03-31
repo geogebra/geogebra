@@ -145,7 +145,7 @@ public final class SpreadsheetController {
 	}
 
 	/**
-	 * Inserts a row at a given index
+	 * Inserts a row at a given index.
 	 * @param row Index of where to insert the row
 	 * @param below Whether the row is being inserted below the currently selected row
 	 */
@@ -901,11 +901,11 @@ public final class SpreadsheetController {
 	}
 
 	private void adjustDataDimensionsForDrag() {
-		while (lastPointerPositionX + viewport.getMinX()
+		while (canAddColumn() && lastPointerPositionX + viewport.getMinX()
 				> layout.getTotalWidth() - layout.getRowHeaderWidth()) {
 			insertColumnRight();
 		}
-		while (lastPointerPositionY + viewport.getMinY()
+		while (canAddRow() && lastPointerPositionY + viewport.getMinY()
 				> layout.getTotalHeight() - layout.getColumnHeaderHeight()) {
 			insertRowBottom();
 		}
@@ -1197,7 +1197,7 @@ public final class SpreadsheetController {
 	 */
 	void moveDown(boolean extendingCurrentSelection) {
 		Selection lastSelection = selectionController.getLastSelection();
-		if (lastSelection != null
+		if (lastSelection != null && canAddRow()
 				&& lastSelection.getRange().getMaxRow() == tabularData.numberOfRows() - 1) {
 			insertRowBottom();
 		}
@@ -1216,11 +1216,25 @@ public final class SpreadsheetController {
 	 */
 	void moveRight(boolean extendingCurrentSelection) {
 		Selection lastSelection = selectionController.getLastSelection();
-		if (lastSelection != null
+		if (lastSelection != null && canAddColumn()
 				&& lastSelection.getRange().getMaxColumn() == tabularData.numberOfColumns() - 1) {
 			insertColumnRight();
 		}
 		selectionController.moveRight(extendingCurrentSelection, layout.numberOfColumns());
+	}
+
+	/**
+	 * @return whether a row can be inserted
+	 */
+	boolean canAddRow() {
+		return tabularData.numberOfRows() < Spreadsheet.MAX_ROWS;
+	}
+
+	/**
+	 * @return whether a column can be inserted
+	 */
+	boolean canAddColumn() {
+		return tabularData.numberOfColumns() < Spreadsheet.MAX_COLUMNS;
 	}
 
 	// Context menu

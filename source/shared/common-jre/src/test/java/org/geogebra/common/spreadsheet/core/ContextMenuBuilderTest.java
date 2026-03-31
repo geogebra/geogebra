@@ -55,7 +55,11 @@ public final class ContextMenuBuilderTest {
 
 	@Before
 	public void setUp() {
-		data = new TestTabularData();
+		setupWithSize(100, 100);
+	}
+
+	private void setupWithSize(int rows, int columns) {
+		data = new TestTabularData(rows, columns);
 		fillTestData();
 		clipboard = new TestClipboard();
 		controller = new SpreadsheetController(data, new SpreadsheetStyling());
@@ -112,6 +116,14 @@ public final class ContextMenuBuilderTest {
 	}
 
 	@Test
+	public void testRowMenuOrderMaxSize() {
+		setupWithSize(Spreadsheet.MAX_ROWS, 7);
+		testMenuOrder(1, HEADER_INDEX,
+				List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, CREATE_CHART, DIVIDER,
+						DIVIDER, DELETE_ROW));
+	}
+
+	@Test
 	public void testColumnMenuOrder() {
 		testMenuOrder(HEADER_INDEX, 1,
 				List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, CREATE_CHART, DIVIDER,
@@ -124,6 +136,14 @@ public final class ContextMenuBuilderTest {
 		assertEquals(List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, CREATE_CHART, DIVIDER,
 						INSERT_COLUMN_LEFT, INSERT_COLUMN_RIGHT),
 				getIdentifiers(menuItems));
+	}
+
+	@Test
+	public void testColumnMenuOrderMaxSize() {
+		setupWithSize(7, Spreadsheet.MAX_COLUMNS);
+		testMenuOrder(HEADER_INDEX, 1,
+				List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, CREATE_CHART, DIVIDER,
+						DIVIDER, DELETE_COLUMN));
 	}
 
 	private void runItemAt(int row, int column, Identifier id) {
