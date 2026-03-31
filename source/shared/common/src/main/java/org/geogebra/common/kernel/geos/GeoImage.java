@@ -622,8 +622,6 @@ public class GeoImage extends GeoElement implements
 		if (cropBox != null) {
 			getCropBoxXML(sb);
 		}
-		// sb.append(getXMLvisualTags());
-		// sb.append(getBreakpointXML());
 		super.getStyleXML(sb);
 	}
 

@@ -276,8 +276,8 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 
 	@Override
 	protected void getStyleXML(XMLStringBuilder sb) {
-		XMLBuilder.getXMLvisualTags(this, sb, isIndependent());
-		getXMLfixedTag(sb);
+		XMLBuilder.getXMLVisualTags(this, sb, isIndependent());
+		getXMLFixedTag(sb);
 		getAuxiliaryXML(sb);
 		getBreakpointXML(sb);
 		// checkbox fixed

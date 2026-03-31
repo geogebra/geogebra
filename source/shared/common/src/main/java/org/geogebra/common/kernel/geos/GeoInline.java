@@ -192,8 +192,8 @@ public abstract class GeoInline extends GeoElement implements Translateable, Rot
 	 */
 	@Override
 	protected void getStyleXML(XMLStringBuilder sb) {
-		getXMLfixedTag(sb);
-		getXMLvisualTags(sb);
+		getXMLFixedTag(sb);
+		getXMVisualTags(sb);
 		sb.startTag("contentSize")
 				.attr("width", contentWidth)
 				.attr("height", contentHeight)

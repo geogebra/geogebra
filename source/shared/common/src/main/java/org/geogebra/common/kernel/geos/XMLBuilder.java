@@ -49,7 +49,7 @@ public class XMLBuilder {
 	 * @param withLabelOffset
 	 *            true to include label offsets
 	 */
-	protected static void getXMLvisualTags(GeoElement geo,
+	protected static void getXMLVisualTags(GeoElement geo,
 			final XMLStringBuilder sb, final boolean withLabelOffset) {
 		final boolean isDrawable = geo.isDrawable();
 

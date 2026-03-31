@@ -644,9 +644,9 @@ public class GeoText extends GeoElement
 		if (isSymbolicMode()) {
 			sb.startTag("symbolic").attr("val", true).endTag();
 		}
-		XMLBuilder.getXMLvisualTags(this, sb, false);
+		XMLBuilder.getXMLVisualTags(this, sb, false);
 
-		getXMLfixedTag(sb);
+		getXMLFixedTag(sb);
 
 		if (isLaTeX) {
 			sb.startTag("isLaTeX").attr("val", true).endTag();

@@ -4580,8 +4580,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @param sb
 	 *            string builder
 	 */
-	protected void getXMLvisualTags(final XMLStringBuilder sb) {
-		XMLBuilder.getXMLvisualTags(this, sb, true);
+	protected void getXMVisualTags(final XMLStringBuilder sb) {
+		XMLBuilder.getXMLVisualTags(this, sb, true);
 	}
 
 	/**
@@ -4666,7 +4666,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @param sb
 	 *            string builder
 	 */
-	protected void getXMLfixedTag(final XMLStringBuilder sb) {
+	protected void getXMLFixedTag(final XMLStringBuilder sb) {
 		// is object fixed
 		if (fixed && isFixable()) {
 			sb.startTag("fixed").attr("val", true).endTag();
@@ -4688,9 +4688,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	protected void getStyleXML(XMLStringBuilder sb) {
-		getXMLvisualTags(sb);
+		getXMVisualTags(sb);
 		getXMLanimationTags(sb);
-		getXMLfixedTag(sb);
+		getXMLFixedTag(sb);
 		getAuxiliaryXML(sb);
 		getBreakpointXML(sb);
 		if (kernel.getSaveScriptsToXML()) {
