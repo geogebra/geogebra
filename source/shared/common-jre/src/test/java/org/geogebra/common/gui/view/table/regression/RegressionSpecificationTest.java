@@ -86,7 +86,7 @@ public class RegressionSpecificationTest extends BaseExamTestSetup {
 
 	@Test
 	public void testLogRegression() {
-		assertEquals("y = a + b\\cdot \\log(x), a = -7.59, b = 41.02, R\u00b2 = 0.76",
+		assertEquals("y = a + b\\cdot \\ln(x), a = -7.59, b = 41.02, R\u00b2 = 0.76",
 				getRegressionValues(1));
 		assertEquals("-7.59 + 41.02ln(x)", getRegressionFormula(1));
 	}

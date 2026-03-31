@@ -74,7 +74,7 @@ public class RegressionSpecificationBuilder implements Restrictable {
 
 	private void addStandardSpecs() {
 		addSpec(Regression.LINEAR, 1, null, "ba");
-		addSpec(Regression.LOG, 0, "y = a + b\\cdot \\log(x)", "ab");
+		addSpec(Regression.LOG, 0, "y = a + b\\cdot \\ln(x)", "ab");
 		addSpec(Regression.POW, 0, "y = a \\cdot x^b", "ab");
 		addSpec(Regression.POLY, 2, null, "cba");
 		addSpec(Regression.POLY, 3, null, "dcba");
