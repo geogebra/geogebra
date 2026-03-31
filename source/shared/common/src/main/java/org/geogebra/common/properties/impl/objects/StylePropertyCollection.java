@@ -88,7 +88,7 @@ public class StylePropertyCollection extends AbstractPropertyCollection<Property
 						new ThicknessProperty(localization, element),
 						RangePropertyListFacade::new),
 				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						LineOpacityProperty.forLine(localization, element),
+						new LineOpacityProperty(localization, element),
 						RangePropertyListFacade::new),
 				propertiesFactory.createOptionalPropertyFacade(elements, element ->
 						new SegmentStartProperty(localization, element),

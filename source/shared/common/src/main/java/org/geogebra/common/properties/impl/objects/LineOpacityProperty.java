@@ -21,44 +21,25 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractRangeProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
-import org.geogebra.common.properties.impl.objects.delegate.SliderPropertyDelegate;
 
 /**
  * {@code Property} responsible for setting the opacity of a line.
  */
-public final class LineOpacityProperty extends AbstractRangeProperty<Integer> {
+public class LineOpacityProperty extends AbstractRangeProperty<Integer> {
 	private final GeoElement element;
 
 	/**
-	 * Constructs the property for line opacity.
+	 * Constructs the property for the given element.
 	 * @param localization localization for translating property names
 	 * @param element the element to create the property for
-	 * @return line opacity property
 	 * @throws NotApplicablePropertyException if the property is not applicable for the given element
 	 */
-	public static LineOpacityProperty forLine(Localization localization, GeoElement element)
-			throws NotApplicablePropertyException {
+	public LineOpacityProperty(Localization localization, GeoElement element) throws
+			NotApplicablePropertyException {
+		super(localization, "LineOpacity", 0, 100, 1);
 		if (!element.showLineProperties()) {
 			throw new NotApplicablePropertyException(element);
 		}
-		return new LineOpacityProperty(localization, element, 1);
-	}
-
-	/**
-	 * Constructs the property for slider track opacity.
-	 * @param localization localization for translating property names
-	 * @param element the element to create the property for
-	 * @return slider track opacity property
-	 * @throws NotApplicablePropertyException if the property is not applicable for the given element
-	 */
-	public static LineOpacityProperty forSlider(Localization localization, GeoElement element)
-			throws NotApplicablePropertyException {
-		return new LineOpacityProperty(localization,
-				new SliderPropertyDelegate(element).getElement(), 5);
-	}
-
-	private LineOpacityProperty(Localization localization, GeoElement element, int step) {
-		super(localization, "LineOpacity", 0, 100, step);
 		this.element = element;
 	}
 

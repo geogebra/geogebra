@@ -83,7 +83,6 @@ public class GeoNumeric extends GeoElement
 	public static final int DEFAULT_THICKNESS = 2;
 	/** sliders */
 	public static final int DEFAULT_SLIDER_THICKNESS = 10;
-	public static final int DEFAULT_SLIDER_LINE_OPACITY = 100;
 	// on 10 range and 10 speed this should yield 0.1 increment
 	// (nextPrettyNumber(0.09)=0.1)
 	private static final double AUTO_STEP_MUL = 0.0009;
@@ -1813,7 +1812,6 @@ public class GeoNumeric extends GeoElement
 		num.setSliderWidth(defaultAngleOrNum.getSliderWidth(), true);
 		num.setRandom(defaultNum.isRandom());
 		num.setLineThickness(DEFAULT_SLIDER_THICKNESS);
-		num.setLineOpacity(DEFAULT_SLIDER_LINE_OPACITY);
 		num.update();
 		return num;
 	}

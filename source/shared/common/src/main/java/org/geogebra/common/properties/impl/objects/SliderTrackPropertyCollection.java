@@ -54,9 +54,6 @@ public class SliderTrackPropertyCollection extends AbstractPropertyCollection<Pr
 				propertiesFactory.createOptionalPropertyFacade(elements,
 						element -> new SliderTrackThicknessProperty(localization, element),
 						RangePropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> LineOpacityProperty.forSlider(localization, element),
-						RangePropertyListFacade::new),
 				tryOrNull(() -> new SliderTrackColorPropertyCollection(
 						propertiesFactory, localization, elements))
 		).filter(Objects::nonNull).toArray(Property[]::new);
