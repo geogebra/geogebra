@@ -3719,7 +3719,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	@Override
-	final public String getXMLtypeString() {
+	final public String getXMLTypeString() {
 		// don't use getTypeString() as it's overridden
 		return getGeoClassType().xmlName;
 	}
@@ -4492,7 +4492,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            string builder
 	 */
 	protected void getElementOpenTagXML(final XMLStringBuilder sb) {
-		final String type = getXMLtypeString();
+		final String type = getXMLTypeString();
 		sb.startOpeningTag("element", 0);
 		sb.attr("type", type);
 		sb.attr("label", label);
@@ -4625,7 +4625,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @param sb
 	 *            string builder
 	 */
-	protected void getXMLanimationTags(final XMLStringBuilder sb) {
+	protected void getXMLAnimationTags(final XMLStringBuilder sb) {
 		StringTemplate tpl = StringTemplate.xmlTemplate;
 		// animation step width
 		if (isPointerChangeable()) {
@@ -4689,7 +4689,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	protected void getStyleXML(XMLStringBuilder sb) {
 		getXMVisualTags(sb);
-		getXMLanimationTags(sb);
+		getXMLAnimationTags(sb);
 		getXMLFixedTag(sb);
 		getAuxiliaryXML(sb);
 		getBreakpointXML(sb);

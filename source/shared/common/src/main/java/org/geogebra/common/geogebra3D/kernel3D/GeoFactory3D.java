@@ -72,7 +72,7 @@ public class GeoFactory3D extends GeoFactory {
 	 * Creates a new GeoElement object for the given type string.
 	 * 
 	 * @param type
-	 *            : String as produced by GeoElement.getXMLtypeString()
+	 *            : String as produced by GeoElement.getXMLTypeString()
 	 */
 	@Override
 	public GeoElement createGeoElement(Construction cons1, String type)

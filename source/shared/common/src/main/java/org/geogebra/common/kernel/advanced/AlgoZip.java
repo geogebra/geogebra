@@ -122,7 +122,7 @@ public class AlgoZip extends AlgoElement {
 		}
 		setOnlyOutput(list);
 
-		list.setTypeStringForXML(expression.getXMLtypeString());
+		list.setTypeStringForXML(expression.getXMLTypeString());
 
 		setDependencies(); // done by AlgoElement
 	}

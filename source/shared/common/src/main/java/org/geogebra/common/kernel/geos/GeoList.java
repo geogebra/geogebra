@@ -733,7 +733,7 @@ public class GeoList extends GeoElement
 		elements.add(geo.toGeoElement());
 
 		if (elements.size() == 1) {
-			setTypeStringForXML(geo.getXMLtypeString());
+			setTypeStringForXML(geo.getXMLTypeString());
 		}
 
 		/*
@@ -2298,7 +2298,7 @@ public class GeoList extends GeoElement
 	}
 
 	/**
-	 * @return whether this list should be drawn as combobox
+	 * @return whether this list should be drawn as combo box
 	 */
 	public boolean drawAsComboBox() {
 		return drawAsComboBox;
@@ -2306,7 +2306,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * @param b
-	 *            whether this list should be drawn as combobox
+	 *            whether this list should be drawn as combo box
 	 */
 	public void setDrawAsComboBox(boolean b) {
 		drawAsComboBox = b;
@@ -2709,7 +2709,7 @@ public class GeoList extends GeoElement
 		case ISREFLEX:
 			// do nothing
 			break;
-		default: // ANGLE_ISANTICLOCKWISE
+		default: // ANTICLOCKWISE
 			if (!allowReflexAngle) {
 				setAngleStyle(AngleStyle.NOTREFLEX);
 			}

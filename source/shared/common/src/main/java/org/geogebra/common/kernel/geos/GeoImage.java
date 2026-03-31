@@ -611,7 +611,7 @@ public class GeoImage extends GeoElement implements
 
 		if (hasAbsoluteScreenLocation
 				&& (corners[0] == null || corners[0].isAbsoluteStartPoint())) {
-			getXMLabsScreenLoc(sb);
+			getXMLAbsScreenLoc(sb);
 		} else {
 			// store location of corners
 			for (int i = 0; i < corners.length; i++) {
@@ -625,7 +625,7 @@ public class GeoImage extends GeoElement implements
 		super.getStyleXML(sb);
 	}
 
-	private void getXMLabsScreenLoc(XMLStringBuilder sb) {
+	private void getXMLAbsScreenLoc(XMLStringBuilder sb) {
 		sb.startTag("absoluteScreenLocation")
 				.attr("x", getAbsoluteScreenLocX())
 				.attr("y", getAbsoluteScreenLocY()).endTag();
@@ -848,8 +848,8 @@ public class GeoImage extends GeoElement implements
 		GeoPoint B = corners[1];
 		GeoPoint D = corners[2];
 
-		double xscale = kernel.getXscale();
-		double yscale = kernel.getYscale();
+		double xScale = kernel.getXscale();
+		double yScale = kernel.getYscale();
 		final double width = pixelWidth;
 
 		switch (n) {
@@ -865,7 +865,7 @@ public class GeoImage extends GeoElement implements
 			} else { // B is not defined
 				if (D == null) {
 					// B and D are not defined
-					coords[0] = ax + width / xscale;
+					coords[0] = ax + width / xScale;
 					coords[1] = ay;
 				} else {
 					// D is defined, B isn't
@@ -886,7 +886,7 @@ public class GeoImage extends GeoElement implements
 				if (B == null) {
 					// B and D are not defined
 					coords[0] = ax;
-					coords[1] = ay + pixelHeight / yscale;
+					coords[1] = ay + pixelHeight / yScale;
 				} else {
 					// B is defined, D isn't
 					double nx = ay - B.inhomY;

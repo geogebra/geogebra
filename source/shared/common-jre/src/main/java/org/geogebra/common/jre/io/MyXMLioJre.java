@@ -86,17 +86,17 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 * 
 	 * @param is
 	 *            input stream
-	 * @param isGGTfile
+	 * @param isGGTFile
 	 *            true for ggt files
 	 * @throws XMLParseException if XML is not valid
 	 * @throws IOException if stream cannot be read
 	 */
-	public final void readZipFromInputStream(InputStream is, boolean isGGTfile)
+	public final void readZipFromInputStream(InputStream is, boolean isGGTFile)
 			throws IOException, XMLParseException {
 
 		ZipInputStream zip = new ZipInputStream(is);
 
-		readZip(zip, isGGTfile);
+		readZip(zip, isGGTFile);
 
 	}
 
@@ -120,12 +120,12 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 * 
 	 * @param zip
 	 *            zip input stream
-	 * @param isGGTfile
+	 * @param isGGTFile
 	 *            true for ggt files
 	 * @throws XMLParseException if XML is not valid
 	 * @throws IOException if stream cannot be read
 	 */
-	protected void readZip(ZipInputStream zip, boolean isGGTfile)
+	protected void readZip(ZipInputStream zip, boolean isGGTFile)
 			throws IOException, XMLParseException {
 		// we have to read everything (i.e. all images)
 		// before we process the XML file, that's why we
@@ -135,7 +135,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 		byte[] defaults2dXmlFileBuffer = null;
 		byte[] defaults3dXmlFileBuffer = null;
 		boolean xmlFound = false;
-		boolean macroXMLfound = false;
+		boolean macroXMLFound = false;
 		boolean javaScriptFound = false;
 		boolean structureFound = false;
 
@@ -170,7 +170,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 			} else if (name.equals(XML_FILE_MACRO)) {
 				// load macro xml file into memory first
 				macroXmlFileBuffer = StreamUtil.loadIntoMemory(zip);
-				macroXMLfound = true;
+				macroXMLFound = true;
 				handler = getGGBHandler();
 			} else if (name.equals(JAVASCRIPT_FILE)) {
 				// load JavaScript
@@ -192,7 +192,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 		}
 		zip.close();
 
-		if (!isGGTfile) {
+		if (!isGGTFile) {
 			// ggb file: remove all macros from kernel before processing
 			kernel.removeAllMacros();
 		}
@@ -201,15 +201,15 @@ public abstract class MyXMLioJre extends MyXMLio {
 		if (macroXmlFileBuffer != null) {
 			// don't clear kernel for macro files
 			kernel.getConstruction().setFileLoading(true);
-			processXMLBuffer(macroXmlFileBuffer, !isGGTfile, isGGTfile);
+			processXMLBuffer(macroXmlFileBuffer, !isGGTFile, isGGTFile);
 			kernel.getConstruction().setFileLoading(false);
 		}
 
 		// process construction
-		if (!isGGTfile && xmlFileBuffer != null) {
+		if (!isGGTFile && xmlFileBuffer != null) {
 			kernel.getConstruction().setFileLoading(true);
 			app.getCompanion().resetEuclidianViewForPlaneIds();
-			processXMLBuffer(xmlFileBuffer, !macroXMLfound, isGGTfile);
+			processXMLBuffer(xmlFileBuffer, !macroXMLFound, isGGTFile);
 			kernel.getConstruction().setFileLoading(false);
 		}
 
@@ -225,10 +225,10 @@ public abstract class MyXMLioJre extends MyXMLio {
 			kernel.getConstruction().setFileLoading(false);
 		}
 
-		if (!javaScriptFound && !isGGTfile) {
+		if (!javaScriptFound && !isGGTFile) {
 			kernel.resetLibraryJavaScript();
 		}
-		if (!(macroXMLfound || xmlFound || structureFound)) {
+		if (!(macroXMLFound || xmlFound || structureFound)) {
 			throw new IOException("No XML data found in file.");
 		}
 	}

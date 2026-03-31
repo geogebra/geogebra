@@ -375,7 +375,7 @@ public class CopyPasteW extends CopyPaste {
 	private static void pasteGeoGebraXML(App app, String clipboardContent) {
 		int endline = clipboardContent.indexOf('\n');
 
-		ArrayList<String> copiedXMLlabels = separateXMLLabels(clipboardContent, endline);
+		ArrayList<String> copiedXMLLabels = separateXMLLabels(clipboardContent, endline);
 
 		endline++;
 		while (clipboardContent.startsWith(InternalClipboard.imagePrefix, endline)
@@ -394,7 +394,7 @@ public class CopyPasteW extends CopyPaste {
 		String copiedXML = clipboardContent.substring(endline);
 
 		Scheduler.get().scheduleDeferred(
-				() -> InternalClipboard.pasteGeoGebraXMLInternal(app, copiedXMLlabels, copiedXML));
+				() -> InternalClipboard.pasteGeoGebraXMLInternal(app, copiedXMLLabels, copiedXML));
 	}
 
 	private static void handleSpecialLine(String[] tokens, App app) {

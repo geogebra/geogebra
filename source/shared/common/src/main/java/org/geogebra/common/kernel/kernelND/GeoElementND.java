@@ -572,7 +572,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * @return (lowercase) class name for XML
 	 */
-	String getXMLtypeString();
+	String getXMLTypeString();
 
 	/**
 	 * Copy 3D visibility from other element

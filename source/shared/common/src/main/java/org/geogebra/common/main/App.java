@@ -1643,7 +1643,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * @return XML for all macros or empty string if there are none
 	 */
-	public String getAllMacrosXMLorEmpty() {
+	public String getAllMacrosXMLOrEmpty() {
 		if (!kernel.hasMacros()) {
 			return "";
 		}
@@ -1662,7 +1662,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @param macro is the macro for which the XML is returned
 	 * @return XML for the given macro or empty string if it is null
 	 */
-	public String getMacroXMLorEmpty(Macro macro) {
+	public String getMacroXMLOrEmpty(Macro macro) {
 		if (macro == null) {
 			return "";
 		}

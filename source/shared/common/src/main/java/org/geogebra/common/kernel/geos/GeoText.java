@@ -291,7 +291,7 @@ public class GeoText extends GeoElement
 	final public void setTextString(String text2) {
 		String text = text2 == null ? "" : text2;
 		// Michael Borcherds 2008-05-11
-		// remove trailing linefeeds (FreeHEP EMF export doesn't like them)
+		// remove trailing line feeds (FreeHEP EMF export doesn't like them)
 		while (text.length() > 1 && text.charAt(text.length() - 1) == '\n') {
 			text = text.substring(0, text.length() - 1);
 		}
@@ -672,14 +672,14 @@ public class GeoText extends GeoElement
 		getXMLDynCaptionTag(sb);
 
 		// store location of text (and possible labelOffset)
-		getXMLlocation(sb);
+		getXMLLocation(sb);
 		getScriptTags(sb);
 	}
 
 	/**
 	 * Returns startPoint of this text in XML notation.
 	 */
-	private String getXMLlocation(XMLStringBuilder sb) {
+	private String getXMLLocation(XMLStringBuilder sb) {
 
 		if (hasAbsoluteScreenLocation && startPoint == null) {
 			sb.startTag("absoluteScreenLocation");
@@ -1611,8 +1611,8 @@ public class GeoText extends GeoElement
 		}
 	}
 
-	public void setHorizontalAlignment(Integer horizAlign) {
-		horizontalAlignment = horizAlign;
+	public void setHorizontalAlignment(Integer horizontalAlign) {
+		horizontalAlignment = horizontalAlign;
 	}
 
 	public Integer getHorizontalAlignment() {

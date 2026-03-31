@@ -135,7 +135,7 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 	protected void setInputOutput() {
 		// make sure that x(Element[list,1]) will work even if the output
 		// list's length is zero
-		list.setTypeStringForXML(expression.getXMLtypeString());
+		list.setTypeStringForXML(expression.getXMLTypeString());
 		int len = var_step == null ? 4 : 5;
 		input = new GeoElement[len];
 		input[0] = expression.toGeoElement();
@@ -423,7 +423,7 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 			// update all dependent algorithms of the local variable var
 			this.setStopUpdateCascade(true);
 
-			// needed for eg Sequence[If[liste1(i) < a
+			// needed for eg Sequence[If[list1(i) < a
 			boolean oldLabelStatus = cons.isSuppressLabelsActive();
 			kernel.getConstruction().setSuppressLabelCreation(true);
 

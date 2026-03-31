@@ -5151,7 +5151,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            construction
 	 * 
 	 * @param type
-	 *            String as produced by GeoElement.getXMLtypeString()
+	 *            String as produced by GeoElement.getXMLTypeString()
 	 * @return new element
 	 */
 	public GeoElement createGeoElement(Construction cons1, String type) {

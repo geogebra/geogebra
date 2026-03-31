@@ -54,11 +54,11 @@ public class CmdSetValueTest extends BaseUnitTest {
 	public void setValueShouldKeepImplicitCurveFormInXML() {
 		GeoImplicitCurve curve = add("eq1:x^2=y^3");
 		add("SetValue(eq1,?x^2=?y^3)");
-		String curveXMLform = "(NaN * x^(2)) = (NaN * y^(3))";
-		assertThat(curve.getXML(), containsString(curveXMLform));
+		String curveXMLForm = "(NaN * x^(2)) = (NaN * y^(3))";
+		assertThat(curve.getXML(), containsString(curveXMLForm));
 		getApp().setXML(getApp().getXML(), true);
 		GeoElement curveReloaded = lookup("eq1");
-		assertThat(curveReloaded.getXML(), containsString(curveXMLform));
+		assertThat(curveReloaded.getXML(), containsString(curveXMLForm));
 	}
 
 	@Test

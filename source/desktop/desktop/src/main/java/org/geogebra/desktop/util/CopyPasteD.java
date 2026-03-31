@@ -54,10 +54,10 @@ public class CopyPasteD extends CopyPaste {
 
 	protected HashSet<Macro> copiedMacros;
 	protected StringBuilder copiedXML;
-	protected ArrayList<String> copiedXMLlabels;
+	protected ArrayList<String> copiedXMLLabels;
 
-	protected StringBuilder copiedXMLforSameWindow;
-	protected ArrayList<String> copiedXMLlabelsforSameWindow;
+	protected StringBuilder copiedXMLForSameWindow;
+	protected ArrayList<String> copiedXMLLabelsForSameWindow;
 	protected EuclidianViewInterfaceCommon copySource;
 	protected AppState copyObject;
 	protected AppState copyObject2;
@@ -170,9 +170,9 @@ public class CopyPasteD extends CopyPaste {
 			boolean putdown) {
 
 		if (samewindow) {
-			copiedXMLlabelsforSameWindow = new ArrayList<>();
+			copiedXMLLabelsForSameWindow = new ArrayList<>();
 		} else {
-			copiedXMLlabels = new ArrayList<>();
+			copiedXMLLabels = new ArrayList<>();
 		}
 
 		ConstructionElement geo;
@@ -185,10 +185,10 @@ public class CopyPasteD extends CopyPaste {
 					((GeoElement) geo).addLabelPrefix(labelPrefix);
 
 					if (samewindow) {
-						copiedXMLlabelsforSameWindow
+						copiedXMLLabelsForSameWindow
 								.add(((GeoElement) geo).getLabelSimple());
 					} else {
-						copiedXMLlabels
+						copiedXMLLabels
 								.add(((GeoElement) geo).getLabelSimple());
 					}
 
@@ -279,9 +279,9 @@ public class CopyPasteD extends CopyPaste {
 		app.setBlockUpdateScripts(true);
 
 		copiedXML = new StringBuilder();
-		copiedXMLlabels = new ArrayList<>();
-		copiedXMLforSameWindow = new StringBuilder();
-		copiedXMLlabelsforSameWindow = new ArrayList<>();
+		copiedXMLLabels = new ArrayList<>();
+		copiedXMLForSameWindow = new StringBuilder();
+		copiedXMLLabelsForSameWindow = new ArrayList<>();
 		copySource = app.getActiveEuclidianView();
 		copyObject = app.getUndoManager().getCurrentUndoInfo();
 		copiedMacros = new HashSet<>();
@@ -376,13 +376,13 @@ public class CopyPasteD extends CopyPaste {
 			kernel.setSaveScriptsToXML(false);
 			try {
 				// step 5
-				copiedXMLforSameWindow = new StringBuilder();
+				copiedXMLForSameWindow = new StringBuilder();
 				ConstructionElement ce;
 
 				// loop through Construction to keep the good order of
 				// ConstructionElements
 				Construction cons = app.getKernel().getConstruction();
-				XMLStringBuilder xmlBuilder = new XMLStringBuilder(copiedXMLforSameWindow);
+				XMLStringBuilder xmlBuilder = new XMLStringBuilder(copiedXMLForSameWindow);
 				for (int i = 0; i < cons.steps(); ++i) {
 					ce = cons.getConstructionElement(i);
 					if (geoslocalsw.contains(ce)) {
@@ -391,7 +391,7 @@ public class CopyPasteD extends CopyPaste {
 				}
 			} catch (Exception e) {
 				Log.debug(e);
-				copiedXMLforSameWindow = new StringBuilder();
+				copiedXMLForSameWindow = new StringBuilder();
 			}
 			// restore kernel settings
 			// kernel.setCASPrintForm(oldPrintForm);
@@ -407,7 +407,7 @@ public class CopyPasteD extends CopyPaste {
 	}
 
 	/**
-	 * Checks whether the copyXMLforSameWindow may be used
+	 * Checks whether the {@code copiedXMLForSameWindow} may be used
 	 *
 	 * @param app
 	 *            application
@@ -435,14 +435,14 @@ public class CopyPasteD extends CopyPaste {
 		copyObject2 = app.getUndoManager().getCurrentUndoInfo();
 
 		if (pasteFast(app) && !putdown) {
-			if (copiedXMLforSameWindow == null
-					|| copiedXMLforSameWindow.length() == 0) {
+			if (copiedXMLForSameWindow == null
+					|| copiedXMLForSameWindow.length() == 0) {
 				return;
 			}
 		}
 
 		if (pasteFast(app)) {
-			app.getKernel().notifyPaste(copiedXMLforSameWindow.toString());
+			app.getKernel().notifyPaste(copiedXMLForSameWindow.toString());
 		} else {
 			app.getKernel().notifyPaste(copiedXML.toString());
 		}
@@ -460,7 +460,7 @@ public class CopyPasteD extends CopyPaste {
 		ArrayList<GeoElement> createdGeos;
 		if (pasteFast(app) && !putdown) {
 			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-			app.getGgbApi().evalXML(copiedXMLforSameWindow.toString());
+			app.getGgbApi().evalXML(copiedXMLForSameWindow.toString());
 			app.getKernel().getConstruction().updateConstruction(false);
 			if (ev == app.getEuclidianView1()) {
 				app.setActiveView(App.VIEW_EUCLIDIAN);
@@ -469,7 +469,7 @@ public class CopyPasteD extends CopyPaste {
 			} else {
 				app.setActiveView(App.VIEW_EUCLIDIAN2);
 			}
-			createdGeos = handleLabels(app, copiedXMLlabelsforSameWindow,
+			createdGeos = handleLabels(app, copiedXMLLabelsForSameWindow,
 					duplicateLabels, putdown);
 		} else {
 			// here the possible macros should be copied as well,
@@ -504,7 +504,7 @@ public class CopyPasteD extends CopyPaste {
 			} else {
 				app.setActiveView(App.VIEW_EUCLIDIAN2);
 			}
-			createdGeos = handleLabels(app, copiedXMLlabels,
+			createdGeos = handleLabels(app, copiedXMLLabels,
 					duplicateLabels, putdown);
 		}
 
@@ -536,8 +536,8 @@ public class CopyPasteD extends CopyPaste {
 		if (copiedXML != null) {
 			copiedXML.setLength(0);
 		}
-		if (copiedXMLforSameWindow != null) {
-			copiedXMLforSameWindow.setLength(0);
+		if (copiedXMLForSameWindow != null) {
+			copiedXMLForSameWindow.setLength(0);
 		}
 	}
 

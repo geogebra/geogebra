@@ -882,7 +882,7 @@ public class GeoPlane3D extends GeoElement3D
 	}
 
 	@Override
-	protected void getXMLanimationTags(final XMLStringBuilder sb) {
+	protected void getXMLAnimationTags(final XMLStringBuilder sb) {
 		// no need for planes
 	}
 

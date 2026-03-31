@@ -457,7 +457,7 @@ public class GgbAPIW extends GgbAPI {
 		((ImageManagerW) app.getImageManager())
 				.adjustConstructionImages(getConstruction());
 		String constructionXml = getApplication().getXML();
-		String allMacrosXml = getApplication().getAllMacrosXMLorEmpty();
+		String allMacrosXml = getApplication().getAllMacrosXMLOrEmpty();
 		XMLStringBuilder defaults2d = new XMLStringBuilder();
 		XMLStringBuilder defaults3d = null;
 		if (app.is3D()) {
@@ -571,7 +571,7 @@ public class GgbAPIW extends GgbAPI {
 	public GgbFile createAllMacrosArchive() {
 		GgbFile archiveContent = new GgbFile("");
 		writeMacroImages(archiveContent);
-		String allMacrosXml = getApplication().getAllMacrosXMLorEmpty();
+		String allMacrosXml = getApplication().getAllMacrosXMLOrEmpty();
 		if (!"".equals(allMacrosXml)) {
 			writeMacroImages(archiveContent);
 			archiveContent.put(MyXMLio.XML_FILE_MACRO, allMacrosXml);
@@ -587,7 +587,7 @@ public class GgbAPIW extends GgbAPI {
 	public GgbFile createMacroArchive(Macro macro) {
 		GgbFile archiveContent = new GgbFile("");
 		writeMacroImage(archiveContent, macro);
-		String macroXml = getApplication().getMacroXMLorEmpty(macro);
+		String macroXml = getApplication().getMacroXMLOrEmpty(macro);
 		if (!"".equals(macroXml)) {
 			writeMacroImage(archiveContent, macro);
 			archiveContent.put(MyXMLio.XML_FILE_MACRO, macroXml);

@@ -74,11 +74,11 @@ public class GeoFactory {
 	 *            construction
 	 *
 	 * @param type
-	 *            String as produced by GeoElement.getXMLtypeString()
+	 *            String as produced by GeoElement.getXMLTypeString()
 	 * @return created element
 	 */
 	public GeoElement createGeoElement(Construction cons1, String type) {
-		// the type strings are the classnames in lowercase without the
+		// the type strings are the class names in lowercase without the
 		// beginning "geo"
 		// due to a bug in GeoGebra 2.6c the type strings for conics
 		// in XML may be "ellipse", "hyperbola", ...

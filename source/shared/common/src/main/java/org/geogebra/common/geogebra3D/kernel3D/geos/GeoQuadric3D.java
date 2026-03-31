@@ -3402,7 +3402,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	}
 
 	@Override
-	protected void getXMLanimationTags(final XMLStringBuilder sb) {
+	protected void getXMLAnimationTags(final XMLStringBuilder sb) {
 		// no need for quadrics
 	}
 
