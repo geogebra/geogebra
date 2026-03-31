@@ -37,6 +37,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GColor;
@@ -126,10 +127,13 @@ public class AlgebraProcessorTests extends BaseUnitTest {
 	public void onlyAlgebraInputShouldBeLogged() {
 		ArrayList<Object> loggedCommands = new ArrayList<>();
 		Analytics mockAnalytics = new Analytics() {
-
 			@Override
 			protected void recordEvent(String name, @CheckForNull Map<String, Object> params) {
 				loggedCommands.add(Objects.requireNonNull(params).get(Analytics.Param.COMMAND));
+			}
+
+			@Override
+			protected void setDefaultEventParametersInternal(@Nonnull Map<String, Object> params) {
 			}
 		};
 		Analytics.setInstance(mockAnalytics);

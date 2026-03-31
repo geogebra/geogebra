@@ -23,4 +23,6 @@ import jsinterop.base.JsPropertyMap;
 public class FirebaseAnalytics {
 
 	public native void logEvent(String name, JsPropertyMap<Object> params);
+
+	public native void setDefaultEventParameters(JsPropertyMap<Object> params);
 }

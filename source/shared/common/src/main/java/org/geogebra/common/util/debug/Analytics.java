@@ -20,14 +20,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.main.AppConfig;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /** Subclass this and set the instance to use it for logging analytics events. */
 public abstract class Analytics {
 	private static Analytics INSTANCE = null;
 
 	/** Set the Analytics instance to log events */
+	@SuppressFBWarnings("EI_EXPOSE_STATIC_REP2")
 	public static void setInstance(Analytics analytics) {
 		INSTANCE = analytics;
 	}
@@ -58,11 +64,31 @@ public abstract class Analytics {
 	 * @param params parameters
 	 */
 	public static void logEvent(String name, @CheckForNull Map<String, Object> params) {
-		if (INSTANCE != null) {
-			INSTANCE.recordEvent(name, params);
-		} else {
+		if (INSTANCE == null) {
 			Log.trace("Analytics is not set, event with name '" + name + "' cannot be recorded");
+			return;
 		}
+		INSTANCE.recordEvent(name, params);
+	}
+
+	/**
+	 * Updates the default analytics parameters from the given app configuration.
+	 * @param config app config
+	 */
+	public static void updateDefaultAnalyticsParameters(@Nonnull AppConfig config) {
+		if (INSTANCE == null) {
+			Log.trace("Analytics is not set, default event parameters cannot be updated");
+			return;
+		}
+		Map<String, Object> params = new HashMap<>();
+		params.put(Param.GEOGEBRA_APP, config.getAppCode());
+		if (GeoGebraConstants.SUITE_APPCODE.equals(config.getAppCode())) {
+			SuiteSubApp subApp = SuiteSubApp.forCode(config.getSubAppCode());
+			if (subApp != null) {
+				params.put(Param.SUB_APP, Param.convertToSubAppParam(subApp));
+			}
+		}
+		INSTANCE.setDefaultEventParametersInternal(params);
 	}
 
 	/**
@@ -70,7 +96,14 @@ public abstract class Analytics {
 	 * @param name event name
 	 * @param params event parameters
 	 */
-	protected abstract void recordEvent(String name, @CheckForNull Map<String, Object> params);
+	protected abstract void recordEvent(@Nonnull String name,
+			@CheckForNull Map<String, Object> params);
+
+	/**
+	 * Sets analytics parameters that should be attached to all future events.
+	 * @param params default parameters
+	 */
+	protected abstract void setDefaultEventParametersInternal(@Nonnull Map<String, Object> params);
 
 	/**
 	 * Analytics events.
@@ -104,6 +137,7 @@ public abstract class Analytics {
 		public static final String NEW = "new";
 		public static final String OK = "ok";
 		public static final String ERROR = "error";
+		public static final String GEOGEBRA_APP = "geogebra_app";
 		public static final String SUB_APP = "sub_app";
 		public static final String SUB_APP_GRAPHING = "graphing";
 		public static final String SUB_APP_GEOMETRY = "geometry";

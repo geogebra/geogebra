@@ -19,6 +19,7 @@ package org.geogebra.web.html5.util.debug;
 import java.util.Map;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.web.html5.util.debug.firebase.Firebase;
@@ -45,6 +46,14 @@ public class AnalyticsW extends Analytics {
 	protected void recordEvent(String name, @CheckForNull Map<String, Object> params) {
 		JsPropertyMap<Object> map = params != null ? convertToJsPropertyMap(params) : null;
 		analytics.logEvent(name, map);
+	}
+
+	@Override
+	protected void setDefaultEventParametersInternal(@Nonnull Map<String, Object> params) {
+		if ("function".equals(Js.typeof(Js.asPropertyMap(analytics)
+				.get("setDefaultEventParameters")))) {
+			analytics.setDefaultEventParameters(convertToJsPropertyMap(params));
+		}
 	}
 
 	private JsPropertyMap<Object> convertToJsPropertyMap(Map<String, Object> map) {

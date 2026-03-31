@@ -3677,6 +3677,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private void initializeAnalytics() {
 		try {
 			Analytics.setInstance(new AnalyticsW());
+			Analytics.updateDefaultAnalyticsParameters(getConfig());
 		} catch (Throwable e) {
 			Log.debug("Could not initialize analytics object." + e);
 		}

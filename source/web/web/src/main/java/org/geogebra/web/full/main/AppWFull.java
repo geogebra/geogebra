@@ -117,6 +117,7 @@ import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SyntaxAdapterImpl;
+import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
@@ -2304,6 +2305,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				reinitAlgebraView();
 				getGuiManager().resetPanels();
 				setSuiteHeaderButton(subApp);
+				Analytics.updateDefaultAnalyticsParameters(getConfig());
 			}
 			getDialogManager().hideCalcChooser();
 		}
@@ -2573,6 +2575,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		getGuiManager().closePropertiesView();
 		activity = new SuiteActivity(subApp, !getSettings().getCasSettings().isEnabled());
 		setConfig(activity.getConfig());
+		Analytics.updateDefaultAnalyticsParameters(getConfig());
 		preloadAdvancedCommandsForSuiteCAS();
 		activity.start(this);
 		getKernel().removeAllMacros();
