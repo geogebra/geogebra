@@ -253,6 +253,22 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 				GColor.RED), colors);
 	}
 
+	@Test
+	@Issue("APPS-7336")
+	public void shouldIgnoreSliderLineColor() {
+		getKernel().attach((KernelTabularDataAdapter) tabularData);
+		spreadsheet.setViewport(new Rectangle(0, 300, 0, 300));
+		evaluate("A1 = Slider(1,2)");
+		lookup("A1").setBackgroundColor(GColor.RED);
+		evaluate("A2 = \"1\"");
+		lookup("A2").setBackgroundColor(GColor.BLUE);
+		Set<GColor> usedColors = new HashSet<>();
+		spreadsheet.draw(getColorCollectingGraphics(usedColors));
+		spreadsheet.draw(new GGraphicsCommon());
+		assertFalse(usedColors.contains(GColor.RED), "Should not contain red:" + usedColors);
+		assertTrue(usedColors.contains(GColor.BLUE), "Should contain blue:" + usedColors);
+	}
+
 	private GGraphicsCommon getColorCollectingGraphics(Set<GColor> colors) {
 		return new GGraphicsCommon() {
 			@Override

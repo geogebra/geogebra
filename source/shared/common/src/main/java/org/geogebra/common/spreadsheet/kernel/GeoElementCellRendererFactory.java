@@ -20,6 +20,8 @@ import static org.geogebra.common.euclidian.EuclidianConstants.DEFAULT_CHECKBOX_
 
 import java.util.function.Supplier;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.DrawBoolean;
@@ -28,6 +30,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.spreadsheet.core.CellRenderableFactory;
 import org.geogebra.common.spreadsheet.core.CellRenderer;
@@ -72,7 +75,7 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 		Integer fontStyle = styling.getFontStyle(row, column);
 		GeoElement geoElement = (GeoElement) data;
 		GColor background = styling.getBackgroundColor(row, column,
-				geoElement.getBackgroundColor());
+				getBackgroundColor(geoElement));
 		GColor textColor = styling.getTextColor(row, column, getTextColor(geoElement));
 		Integer align = styling.getAlignment(row, column);
 		if (align == null) {
@@ -106,6 +109,12 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 		return new SelfRenderable(stringRenderer, fontSize.get(), fontStyle, align,
 				getValueString(geoElement),
 				background, textColor);
+	}
+
+	private @CheckForNull GColor getBackgroundColor(GeoElement geoElement) {
+		return geoElement instanceof GeoNumeric number && number.isSliderable()
+				|| geoElement.isGeoButton()
+				? null : geoElement.getBackgroundColor();
 	}
 
 	private GColor getTextColor(GeoElement geoElement) {
