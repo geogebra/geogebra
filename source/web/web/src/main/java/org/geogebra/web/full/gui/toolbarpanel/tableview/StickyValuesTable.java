@@ -30,6 +30,7 @@ import org.geogebra.common.gui.view.table.keyboard.TableValuesKeyboardNavigation
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.util.AttributedString;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbarpanel.ContextMenuTV;
 import org.geogebra.web.full.gui.toolbarpanel.DefineFunctionsDialogTV;
@@ -224,8 +225,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	private void onHeaderClick(Element source, int column) {
-		contextMenu = new ContextMenuTV(app, view,
-				view.getEvaluatable(column).toGeoElement(), column);
+		contextMenu = new ContextMenuTV(app, view, column);
 		contextMenu.show(source, 0, source.getClientHeight() + CONTEXT_MENU_OFFSET);
 	}
 
@@ -333,8 +333,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	private Header<SafeHtml> getHeaderFor(int columnIndex) {
-		String headerHTMLName = TableUtil.getHeaderHtml(tableModel, columnIndex);
-		return headerCell.getHtmlHeader(headerHTMLName);
+		AttributedString columnHeader = TableUtil.getColumnHeader(tableModel, columnIndex);
+		return headerCell.getHtmlHeader(TableUtil.toHtml(columnHeader));
 	}
 
 	@Override

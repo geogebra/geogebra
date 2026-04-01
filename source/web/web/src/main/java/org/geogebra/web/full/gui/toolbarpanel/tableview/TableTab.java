@@ -81,7 +81,7 @@ public class TableTab extends ToolbarTab {
 			ensureTableExists().setHeight(getTabHeight());
 			setWidget(table);
 		}
-		if (table != null) {
+		if (table != null && !app.hasPopup()) {
 			table.selectFirstCell();
 		}
 	}

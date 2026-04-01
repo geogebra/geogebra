@@ -16,18 +16,20 @@
 
 package org.geogebra.web.full.gui.toolbarpanel;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
+
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
+import org.geogebra.common.contextmenu.TableValuesContextMenuActionHandler;
+import org.geogebra.common.contextmenu.TableValuesContextMenuActionHandler.PlotActionHandler;
 import org.geogebra.common.contextmenu.TableValuesContextMenuItem;
 import org.geogebra.common.gui.view.table.TableUtil;
-import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
@@ -36,8 +38,6 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.ownership.SuiteScope;
-import org.geogebra.common.plugin.Event;
-import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AttributedString;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -56,7 +56,7 @@ import org.gwtproject.user.client.Command;
 /**
  * Context menu which is opened with the table of values header 3dot button
  */
-public class ContextMenuTV {
+public class ContextMenuTV implements TableValuesContextMenuActionHandler.Delegate {
 	private final TableValuesView view;
 	/**
 	 * popup for the context menu
@@ -67,22 +67,17 @@ public class ContextMenuTV {
 	 */
 	protected AppWFull app;
 	private final int columnIdx;
-	private final GeoElement geo;
 
 	/**
 	 * @param app
 	 *            see {@link AppW}
-	 * @param geo
-	 *            label of geo
 	 * @param column
 	 *            index of column
 	 */
-	public ContextMenuTV(AppWFull app, TableValuesView view,
-			GeoElement geo, int column) {
+	public ContextMenuTV(AppWFull app, TableValuesView view, int column) {
 		this.app = app;
 		this.view = view;
 		this.columnIdx = column;
-		this.geo = geo;
 		buildGui();
 	}
 
@@ -112,11 +107,14 @@ public class ContextMenuTV {
 				.makeTableValuesContextMenu(column, columnIdx, view.getTableValuesModel(),
 				app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC,
 						isExamActive, contextMenuFilters);
+		TableValuesContextMenuActionHandler tableValuesContextMenuActionHandler =
+				new TableValuesContextMenuActionHandler(columnIdx, view, app,
+						app.getLocalization(), this);
 		for (TableValuesContextMenuItem item: items) {
 			if (item.getItem() == TableValuesContextMenuItem.Item.Separator) {
 				wrappedPopup.addVerticalSeparator();
 			} else {
-				addCommand(() -> executeItem(item),
+				addCommand(() -> tableValuesContextMenuActionHandler.handleSelectedItem(item),
 						item.getLocalizedTitle(app.getLocalization()),
 						getTestTitle(item.getItem()));
 			}
@@ -147,135 +145,6 @@ public class ContextMenuTV {
 		return "";
 	}
 
-	private void executeItem(TableValuesContextMenuItem item) {
-		switch (item.getItem()) {
-		case Edit:
-			edit();
-			break;
-		case ClearColumn:
-			view.clearValues();
-			break;
-		case RemoveColumn:
-			removeColumn();
-			break;
-		case HidePoints:
-		case ShowPoints:
-			showPoints();
-			break;
-		case ImportData:
-			importData();
-			break;
-		case Regression:
-			showRegression();
-			break;
-		case Statistics1:
-			showStats1Var();
-			break;
-		case Statistics2:
-			showStats2Var();
-			break;
-		case Separator:
-			break;
-		}
-	}
-
-	private void showStats2Var() {
-		DialogData twoVarStat = new DialogData("2VariableStatistics",
-				getColumnTitleHTML("x " + getHeaderHTMLName()), "Close", null);
-		showStats(view::getStatistics2Var, twoVarStat, "StatsDialog.NoDataMsg2VarStats");
-	}
-
-	private void showStats1Var() {
-		DialogData oneVarStat = new DialogData("1VariableStatistics",
-				getColumnTitleHTML(getHeaderHTMLName()), "Close", null);
-		showStats(view::getStatistics1Var, oneVarStat, "StatsDialog.NoDataMsg1VarStats");
-	}
-
-	private String getColumnTitleHTML(String argument) {
-		return app.getLocalization().getPlainDefault("ColumnA",
-				"Column %0", argument);
-	}
-
-	private void edit() {
-		if (getColumnIdx() == 0) {
-			DialogManager dialogManager = getApp().getDialogManager();
-			if (dialogManager != null) {
-				dialogManager.openTableViewDialog(null);
-			}
-			return;
-		}
-		GuiManagerInterfaceW guiManager = getApp().getGuiManager();
-		if (guiManager != null) {
-			guiManager.startEditing(geo);
-		}
-	}
-
-	private String getHeaderHTMLName() {
-		return TableUtil.getHeaderHtml(view.getTableValuesModel(), getColumnIdx());
-	}
-
-	private void showRegression() {
-		final List<RegressionSpecification> availableRegressions =
-				view.getRegressionSpecifications(columnIdx);
-		boolean canPlot = availableRegressions.stream().allMatch(RegressionSpecification::canPlot);
-		DialogData data = new DialogData("Regression",
-				getColumnTitleHTML(getHeaderHTMLName()), "Close",
-				canPlot ? "Plot" : null);
-		if (availableRegressions.isEmpty()) {
-			showErrorDialog(data, "StatsDialog.NoDataMsgRegression");
-			return;
-		}
-		app.getAsyncManager().scheduleCallback(() -> {
-			List<StatisticGroup> regression = view.getRegression(getColumnIdx(),
-					availableRegressions.get(0));
-			StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx(), data);
-			dialog.addRegressionChooser(availableRegressions, regression);
-		});
-	}
-
-	private void showErrorDialog(DialogData dialogData, String msgKey) {
-		DialogData errorDialogData = new DialogData(dialogData.getTitleTransKey(),
-				dialogData.getSubTitleHTML(), "Close", null);
-		ComponentDialog dialog = new ComponentDialog(app, errorDialogData, true, true);
-		dialog.addStyleName("statistics error");
-		InfoErrorData errorData = new InfoErrorData(app.getLocalization()
-				.getMenu("StatsDialog.NoData"), app.getLocalization()
-				.getMenu(msgKey), null, MaterialDesignResources.INSTANCE.bar_chart_black());
-		ComponentInfoErrorPanel infoPanel = new ComponentInfoErrorPanel(app.getLocalization(),
-				errorData, null);
-		dialog.addDialogContent(infoPanel);
-		dialog.show();
-	}
-
-	private void showStats(Function<Integer, List<StatisticGroup>> statFunction,
-			DialogData data, String noDataMsg) {
-		app.getAsyncManager().scheduleCallback(() -> {
-			List<StatisticGroup> rowData = statFunction.apply(getColumnIdx());
-			if (!rowData.isEmpty()) {
-				StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx(), data);
-				dialog.setRowsAndShow(rowData);
-			} else {
-				showErrorDialog(data, noDataMsg);
-			}
-		});
-	}
-
-	private void showPoints() {
-		final TableValuesPoints tvPoints = getApp().getGuiManager()
-				.getTableValuesPoints();
-		final int column = getColumnIdx();
-		dispatchShowPointsTV(column, !tvPoints.arePointsVisible(column));
-		tvPoints.setPointsVisible(column,
-				!tvPoints.arePointsVisible(column));
-	}
-
-	private void dispatchShowPointsTV(int column, boolean show) {
-		Map<String, Object> showPointsJson = new HashMap<>();
-		showPointsJson.put("column", column);
-		showPointsJson.put("show",  show);
-		app.dispatchEvent(new Event(EventType.SHOW_POINTS_TV).setJsonArgument(showPointsJson));
-	}
-
 	private void addCommand(Command command, AttributedString localizedName, String testTitle) {
 		AriaMenuItem item = new AriaMenuItem(localizedName,
 				null, command);
@@ -286,18 +155,6 @@ public class ContextMenuTV {
 		mi.addStyleName("no-image");
 		TestHarness.setAttr(mi, "menu_" + testTitle);
 		wrappedPopup.addItem(mi);
-	}
-
-	private void removeColumn() {
-		GeoEvaluatable column = view.getEvaluatable(getColumnIdx());
-		view.hideColumn(column);
-		if (!column.isGeoList()) {
-			app.dispatchEvent(new Event(EventType.REMOVE_TV, (GeoElement) column));
-		}
-	}
-
-	private void importData() {
-		app.getCsvHandler().execute();
 	}
 
 	/**
@@ -317,5 +174,59 @@ public class ContextMenuTV {
 	 */
 	public void hide() {
 		wrappedPopup.hideMenu();
+	}
+
+	@Override
+	public void showTableValuesDialog() {
+		DialogManager dialogManager = getApp().getDialogManager();
+		if (dialogManager != null) {
+			dialogManager.openTableViewDialog(null);
+		}
+	}
+
+	@Override
+	public void startEditingAlgebraViewItem(GeoElement geoElement) {
+		GuiManagerInterfaceW guiManager = getApp().getGuiManager();
+		if (guiManager != null) {
+			guiManager.startEditing(geoElement);
+		}
+	}
+
+	@Override
+	public void startDataImport() {
+		app.getCsvHandler().execute();
+	}
+
+	@Override
+	public void showStatisticsDialog(@Nonnull String title, @Nonnull AttributedString header,
+			@Nonnull List<StatisticGroup> statisticGroups) {
+		DialogData data = new DialogData(title, TableUtil.toHtml(header), "Close", null);
+		StatsDialogTV dialog = new StatsDialogTV(app, data);
+		dialog.setRowsAndShow(statisticGroups);
+	}
+
+	@Override
+	public void showRegressionDialog(@Nonnull String title, @Nonnull AttributedString header,
+			@Nonnull Map<RegressionSpecification, List<StatisticGroup>> regressionGroups,
+			@CheckForNull PlotActionHandler plotActionHandler) {
+		DialogData data = new DialogData(title, TableUtil.toHtml(header), "Close",
+				plotActionHandler != null ? "Plot" : null);
+		StatsDialogTV dialog = new StatsDialogTV(app, data);
+		dialog.addRegressionChooser(regressionGroups, plotActionHandler);
+	}
+
+	@Override
+	public void showErrorDialog(@Nonnull String title, @Nonnull AttributedString header,
+			@Nonnull String errorMessage) {
+		DialogData errorDialogData = new DialogData(title, TableUtil.toHtml(header), "Close", null);
+		ComponentDialog dialog = new ComponentDialog(app, errorDialogData, true, true);
+		dialog.addStyleName("statistics error");
+		InfoErrorData errorData = new InfoErrorData(
+				app.getLocalization().getMenu("StatsDialog.NoData"),
+				errorMessage, null, MaterialDesignResources.INSTANCE.bar_chart_black());
+		ComponentInfoErrorPanel infoPanel = new ComponentInfoErrorPanel(app.getLocalization(),
+				errorData, null);
+		dialog.addDialogContent(infoPanel);
+		dialog.show();
 	}
 }

@@ -74,11 +74,7 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 			ScheduledCommand cmd) {
 		this();
 		Set<Range> attribute = text.getAttribute(AttributedString.Attribute.Subscript);
-		if (attribute == null) {
-			setContent(text.getRawValue(), icon);
-		} else {
-			setHTMLContent(addSubscript(text.getRawValue(), attribute), icon);
-		}
+		setHTMLContent(addSubscript(text.getRawValue(), attribute), icon);
 		this.cmd = cmd;
 	}
 

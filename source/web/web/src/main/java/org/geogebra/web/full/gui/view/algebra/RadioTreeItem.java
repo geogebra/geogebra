@@ -289,7 +289,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 			getWidget().getElement().getStyle().setProperty("minHeight", 72,
 					Unit.PX);
 		}
-		updateDataTest(getIndex());
+		updateDataTest();
 		createCompositeFocus(app.getAccessibilityManager());
 		rebuildCompositeFocus();
 	}
@@ -332,10 +332,6 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		if (marblePanel != null) {
 			marblePanel.setIndex(index);
 		}
-	}
-
-	public int getIndex() {
-		return index;
 	}
 
 	protected void styleContent() {
@@ -2015,7 +2011,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		if (definitionValuePanel != null) {
 			updateFont(definitionValuePanel);
 		}
-		updateDataTest(getIndex());
+		updateDataTest();
 	}
 
 	void rebuildCompositeFocus() {
@@ -2198,11 +2194,15 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		if (controls != null) {
 			controls.updateDataTest(index);
 		}
-
 	}
 
+	/**
+	 * Set index, update UI (for SciCalc) and data-text attributes.
+	 * @param index index used in UI (1-based)
+	 */
 	public void setIndex(int index) {
 		this.index = index;
+		updateDataTest();
 	}
 
 	public Canvas getCanvas() {

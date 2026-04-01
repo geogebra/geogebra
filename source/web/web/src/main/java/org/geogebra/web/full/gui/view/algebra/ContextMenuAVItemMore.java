@@ -20,30 +20,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+
+import org.geogebra.common.contextmenu.AlgebraContextMenuActionHandler;
 import org.geogebra.common.contextmenu.AlgebraContextMenuItem;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.view.algebra.Suggestion;
-import org.geogebra.common.gui.view.algebra.SuggestionIntersectExtremum;
-import org.geogebra.common.gui.view.algebra.SuggestionSolve;
-import org.geogebra.common.gui.view.algebra.SuggestionSolveForSymbolic;
-import org.geogebra.common.gui.view.algebra.SuggestionStatistics;
-import org.geogebra.common.gui.view.algebra.contextmenu.impl.CreateSlider;
-import org.geogebra.common.gui.view.algebra.contextmenu.impl.RemoveSlider;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.ownership.SuiteScope;
-import org.geogebra.common.scientific.LabelController;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.action.DuplicateInputAction;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.action.DuplicateOutputAction;
+import org.geogebra.common.properties.PropertyView;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.user.client.ui.Widget;
@@ -52,7 +44,8 @@ import org.gwtproject.user.client.ui.Widget;
  * The ... menu for AV items
  *
  */
-public class ContextMenuAVItemMore implements SetLabels {
+public class ContextMenuAVItemMore implements SetLabels,
+		AlgebraContextMenuActionHandler.Delegate {
 
 	/** visible component */
 	protected final GPopupMenuW wrappedPopup;
@@ -127,97 +120,14 @@ public class ContextMenuAVItemMore implements SetLabels {
 	}
 
 	private void addAction(final AlgebraContextMenuItem menuItem) {
+		AlgebraContextMenuActionHandler algebraContextMenuActionHandler =
+				new AlgebraContextMenuActionHandler(mApp, mApp.getGuiManager()
+						.getTableValuesView(), geo, this);
 		AriaMenuItem itemWidget = new AriaMenuItem(menuItem.getLocalizedTitle(loc),
-				null, () -> select(menuItem));
+				null, () -> algebraContextMenuActionHandler.handleSelectedItem(menuItem));
 		TestHarness.setAttr(itemWidget, "menu" + menuItem.getTranslationKey());
 		itemWidget.addStyleName("no-image");
-		// Clearing is a special case, it must happen *before* focus shifts to the menu.
-		if (menuItem == AlgebraContextMenuItem.Delete && geo == null) {
-			ClickStartHandler.init(itemWidget, new ClickStartHandler() {
-				@Override
-				public void onClickStart(int x, int y, PointerEventType type) {
-					item.onClear();
-				}
-			});
-		}
 		wrappedPopup.addItem(itemWidget);
-	}
-
-	/**
-	 * @param menuItem
-	 *            action to be executed
-	 */
-	protected void select(final AlgebraContextMenuItem menuItem) {
-		AlgebraProcessor processor = mApp.getKernel().getAlgebraProcessor();
-		AlgebraViewW av = mApp.getAlgebraView();
-		switch (menuItem) {
-		case Statistics:
-			executeSuggestion(SuggestionStatistics.get(geo));
-			break;
-		case Delete:
-			deleteItem();
-			break;
-		case DuplicateInput:
-			new DuplicateInputAction(av).execute(geo);
-			break;
-		case DuplicateOutput:
-			new DuplicateOutputAction(av).execute(geo);
-			break;
-		case Settings:
-			mApp.getDialogManager().showPropertiesDialog(new ArrayList<>(List.of(geo)));
-			break;
-		case SpecialPoints:
-			executeSuggestion(SuggestionIntersectExtremum.get(geo));
-			break;
-		case CreateTableValues:
-			mApp.getGuiManager().showTableValuesView(geo);
-			break;
-		case RemoveLabel:
-			removeLabel();
-			break;
-		case AddLabel:
-			addLabel();
-			break;
-		case CreateSlider:
-			new CreateSlider(processor, new LabelController()).execute(geo);
-			break;
-		case RemoveSlider:
-			new RemoveSlider(processor).execute(geo);
-			break;
-		case Solve:
-			executeSuggestion(SuggestionSolveForSymbolic.isValid(geo)
-					? SuggestionSolveForSymbolic.get(geo)
-					: SuggestionSolve.get(geo));
-			break;
-		}
-	}
-
-	private void removeLabel() {
-		new LabelController().hideLabel(geo);
-		geo.removeDependentAlgos();
-		mApp.storeUndoInfo();
-	}
-
-	private void addLabel() {
-		new LabelController().showLabel(geo);
-		mApp.storeUndoInfo();
-	}
-
-	private void deleteItem() {
-		if (geo == null) {
-			item.onClear();
-		} else {
-			item.onDelete();
-			mApp.getAlgebraView().resetDataTestOnDelete(geo);
-			geo.remove();
-			mApp.storeUndoInfo();
-		}
-	}
-
-	private void executeSuggestion(Suggestion suggestion) {
-		if (suggestion != null) {
-			suggestion.execute(geo);
-		}
 	}
 
 	@Override
@@ -230,5 +140,50 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 */
 	void addClearInputItem() {
 		setGeo(null);
+	}
+
+	@Override
+	public void clearAlgebraInput() {
+		item.onClear();
+	}
+
+	@Override
+	public void showTableValuesDialog(GeoElement geoElement) {
+		mApp.getDialogManager().openTableViewDialog(geoElement);
+	}
+
+	@Override
+	public void scrollToTableValuesColumn(int columnIndex) {
+		GeoEvaluatable evaluatable = mApp.getGuiManager()
+				.getTableValuesView().getEvaluatable(columnIndex);
+		mApp.getGuiManager().getUnbundledToolbar().openTableView(evaluatable, false);
+	}
+
+	@Override
+	public void showTableValuesView() {
+		mApp.getGuiManager().getUnbundledToolbar().openTableView(null, true);
+	}
+
+	@Override
+	public void addFormulaToAlgebraView(@Nonnull String formula) {
+		RadioTreeItem input = mApp.getAlgebraView().getInputTreeItem();
+		RadioTreeItem currentNode = mApp.getAlgebraView().getNode(geo);
+		if (currentNode != null) {
+			currentNode.selectItem(false);
+		}
+		if (input != null) {
+			input.setText(formula);
+			input.setFocus(true);
+		}
+	}
+
+	@Override
+	public void showOldObjectProperties() {
+		mApp.getDialogManager().showPropertiesDialog(new ArrayList<>(List.of(geo)));
+	}
+
+	@Override
+	public void showObjectProperties(@Nonnull PropertyView.TabbedPageSelector tabbedPageSelector) {
+		mApp.getDialogManager().showPropertiesDialog(new ArrayList<>(List.of(geo))); // TODO
 	}
 }

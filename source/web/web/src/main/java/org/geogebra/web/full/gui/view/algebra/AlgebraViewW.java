@@ -1316,7 +1316,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		for (int i = removeIndex; i < this.getItemCount(); i++) {
 			TreeItem row = this.getItem(i);
 			if (row instanceof RadioTreeItem) {
-				((RadioTreeItem) row).getHelpToggle().setIndex(i + 1);
+				((RadioTreeItem) row).setIndex(i + 1);
 			}
 		}
 	}
@@ -1935,29 +1935,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 						updateAndSetLabels(ti.getChild(j));
 					}
 				}
-			}
-		}
-		this.repaintView();
-	}
-
-	/**
-	 * Resets all data-test attributes of the tree items after the deleted one
-	 * to support unique values that depends on the actual row
-	 * index after deleting a row.
-	 * FIXME: assumes that the tree is flat
-	 */
-	public void resetDataTestOnDelete(GeoElement geo) {
-		TreeItem node = nodeTable.get(geo);
-		if (node == null) {
-			return;
-		}
-
-		for (int i = indexOf(node) + 1; i < getItemCount(); i++) {
-			TreeItem ti = getItem(i);
-			if (ti instanceof RadioTreeItem) {
-				RadioTreeItem item = RadioTreeItem.as(ti);
-				item.setIndex(i);
-				item.updateDataTest();
 			}
 		}
 		this.repaintView();

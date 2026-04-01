@@ -16,6 +16,8 @@
 
 package org.geogebra.test;
 
+import java.util.Arrays;
+
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.AppCommonFactory;
@@ -24,6 +26,8 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.cas.MockedCasGiac;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
+import org.geogebra.common.gui.view.table.TableValues;
+import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -31,7 +35,9 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
@@ -99,21 +105,14 @@ public class BaseAppTestSetup {
 	}
 
 	private static AppConfig createConfig(SuiteSubApp subApp) {
-		switch (subApp) {
-		case CAS:
-			return new AppConfigCas(GeoGebraConstants.SUITE_APPCODE);
-		case GRAPHING:
-			return new AppConfigUnrestrictedGraphing(GeoGebraConstants.SUITE_APPCODE);
-		case GEOMETRY:
-			return new AppConfigGeometry(GeoGebraConstants.SUITE_APPCODE);
-		case SCIENTIFIC:
-			return new AppConfigScientific(GeoGebraConstants.SUITE_APPCODE);
-		case G3D:
-			return new AppConfigGraphing3D(GeoGebraConstants.SUITE_APPCODE);
-		case PROBABILITY:
-			return new AppConfigProbability(GeoGebraConstants.SUITE_APPCODE);
-		}
-		return null;
+		return switch (subApp) {
+			case CAS -> new AppConfigCas(GeoGebraConstants.SUITE_APPCODE);
+			case GRAPHING -> new AppConfigUnrestrictedGraphing(GeoGebraConstants.SUITE_APPCODE);
+			case GEOMETRY -> new AppConfigGeometry(GeoGebraConstants.SUITE_APPCODE);
+			case SCIENTIFIC -> new AppConfigScientific(GeoGebraConstants.SUITE_APPCODE);
+			case G3D -> new AppConfigGraphing3D(GeoGebraConstants.SUITE_APPCODE);
+			case PROBABILITY -> new AppConfigProbability(GeoGebraConstants.SUITE_APPCODE);
+		};
 	}
 
 	// Convenience getters for the most used app owned objects
@@ -178,5 +177,27 @@ public class BaseAppTestSetup {
 
 	protected GeoElement lookup(String label) {
 		return getKernel().lookupLabel(label);
+	}
+
+	protected TableValues setupTableValues(String... columnExpressions) {
+		return setupTableValues(Arrays.stream(columnExpressions)
+				.map(this::<GeoElement>evaluateGeoElement)
+				.toArray(GeoElement[]::new));
+	}
+
+	protected TableValues setupTableValues(GeoElement... columns) {
+		TableValues tableValues = new TableValuesView(getKernel());
+		getKernel().attach(tableValues);
+		if (columns.length > 0) {
+			if (!(columns[0] instanceof GeoList xColumnValues)) {
+				throw new IllegalStateException("First column must be a list");
+			}
+			getApp().getSettings().getTable().updateValueList(xColumnValues);
+		}
+		for (int columnIndex = 1; columnIndex < columns.length; columnIndex++) {
+			tableValues.add(columns[columnIndex]);
+			tableValues.showColumn((GeoEvaluatable) columns[columnIndex]);
+		}
+		return tableValues;
 	}
 }

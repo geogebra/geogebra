@@ -279,15 +279,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	void showExamInfoDialog(StandardButton examInfoBtn);
 
 	/**
-	 * Show table view with new column
-	 * If table was empty before, min/max/step
-	 * dialog shows up.
-	 *
-	 * @param geo {@link GeoElement}
-	 */
-	void showTableValuesView(GeoElement geo);
-
-	/**
 	 * Updates the unbundled toolbar.
 	 */
 	void updateUnbundledToolbar();

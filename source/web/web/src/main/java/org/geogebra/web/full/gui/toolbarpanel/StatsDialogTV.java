@@ -18,9 +18,12 @@ package org.geogebra.web.full.gui.toolbarpanel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.contextmenu.TableValuesContextMenuActionHandler.PlotActionHandler;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
@@ -35,21 +38,15 @@ import org.gwtproject.user.client.ui.Label;
 
 public class StatsDialogTV extends ComponentDialog {
 
-	private final int column;
-	private final TableValuesView view;
 	private FlowPanel statPanel;
 
 	/**
 	 * @param app application
-	 * @param view table view
-	 * @param column column
 	 * @param data dialog data
 	 */
-	public StatsDialogTV(AppW app, TableValuesView view, int column, DialogData data) {
+	public StatsDialogTV(AppW app, DialogData data) {
 		super(app, data, true, true);
 		addStyleName("statistics");
-		this.column = column;
-		this.view = view;
 	}
 
 	/**
@@ -92,10 +89,13 @@ public class StatsDialogTV extends ComponentDialog {
 
 	/**
 	 * Add regression UI and show
-	 * @param initialRegression pre-selected (linear) regression
+	 * @param regressionGroups map from regression specification to its statistic groups
+	 * @param plotActionHandler callback to plot the selected regression curve
 	 */
-	public void addRegressionChooser(List<RegressionSpecification> available,
-			List<StatisticGroup> initialRegression) {
+	public void addRegressionChooser(
+			Map<RegressionSpecification, List<StatisticGroup>> regressionGroups,
+			@CheckForNull PlotActionHandler plotActionHandler) {
+		List<RegressionSpecification> available = new ArrayList<>(regressionGroups.keySet());
 		List<String> items = new ArrayList<>();
 		available.forEach(spec -> items.add(app.getLocalization().getMenu(spec.getLabel())));
 
@@ -105,18 +105,15 @@ public class StatsDialogTV extends ComponentDialog {
 		regressionChooser.addChangeHandler(() -> {
 			RegressionSpecification regression = available
 					.get(regressionChooser.getSelectedIndex());
-			setRows(view.getRegression(column, regression));
+			setRows(regressionGroups.get(regression));
 		});
 
 		addDialogContent(regressionChooser);
 
-		setOnPositiveAction(() -> {
-			RegressionSpecification regression = available
-					.get(regressionChooser.getSelectedIndex());
-			if (regression.canPlot()) {
-				view.plotRegression(column, regression);
-			}
-		});
-		setRowsAndShow(initialRegression);
+		if (plotActionHandler != null) {
+			setOnPositiveAction(() -> plotActionHandler.onPlotButtonPressed(
+					available.get(regressionChooser.getSelectedIndex())));
+		}
+		setRowsAndShow(regressionGroups.get(available.get(0)));
 	}
 }

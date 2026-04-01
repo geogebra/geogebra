@@ -2143,15 +2143,6 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void showTableValuesView(GeoElement geo) {
-		if (getTableValuesView().isEmpty()) {
-			app.getDialogManager().openTableViewDialog(geo);
-		} else {
-			addGeoToTableValuesView(geo);
-		}
-	}
-
-	@Override
 	public void toggleSpreadsheetView() {
 		getUnbundledToolbar().toggleSpreadsheetView();
 	}

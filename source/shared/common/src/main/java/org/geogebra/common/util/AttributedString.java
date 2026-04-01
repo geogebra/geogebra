@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 /**
@@ -63,12 +62,12 @@ public final class AttributedString {
 	 * Retrieves the set of ranges where the specified attribute is applied.
 	 *
 	 * @param attribute The attribute to look for.
-	 * @return A set of {@link Range} objects where the attribute is applied, or {@code null} if
+	 * @return A set of {@link Range} objects where the attribute is applied, it can be empty if
 	* the attribute is not present.
 	 */
-	public @CheckForNull Set<Range> getAttribute(@Nonnull Attribute attribute) {
+	public @Nonnull Set<Range> getAttribute(@Nonnull Attribute attribute) {
         Set<Range> ranges = attributes.get(attribute);
-        return ranges == null ? null : Collections.unmodifiableSet(ranges);
+		return ranges == null ? Set.of() : Collections.unmodifiableSet(ranges);
     }
 
 	public @Nonnull String getRawValue() {
