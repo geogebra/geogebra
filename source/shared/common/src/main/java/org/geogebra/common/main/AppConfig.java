@@ -24,7 +24,6 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.EquationBehaviour;
@@ -53,7 +52,9 @@ public interface AppConfig extends Restrictable, Serializable {
 	 */
 	void adjust(DockPanelData dp);
 
-	@MissingDoc
+	/**
+	 * @return translation key for the algebra view title
+	 */
 	String getAVTitle();
 
 	/**
@@ -76,19 +77,24 @@ public interface AppConfig extends Restrictable, Serializable {
 	 */
 	String getAppNameWithoutCalc();
 
-	@MissingDoc
+	/**
+	 * @return translation key for the tutorial page of this app
+	 */
 	String getTutorialKey();
 
-	@MissingDoc
+	/**
+	 * @return whether the keyboard help button is shown
+	 */
 	boolean showKeyboardHelpButton();
 
-	@MissingDoc
-	boolean isSimpleMaterialPicker();
-
-	@MissingDoc
+	/**
+	 * @return whether special point (root, extremum) previews are shown while creating objects
+	 */
 	boolean hasPreviewPoints();
 
-	@MissingDoc
+	/**
+	 * @return whether command and input suggestions are enabled
+	 */
 	boolean allowsSuggestions();
 
 	/**
@@ -96,10 +102,14 @@ public interface AppConfig extends Restrictable, Serializable {
 	 */
 	boolean shouldKeepRatioEuclidian();
 
-	@MissingDoc
+	/**
+	 * @return default number of decimals used for numeric output
+	 */
 	int getDefaultPrintDecimals();
 
-	@MissingDoc
+	/**
+	 * @return whether the app uses a single Euclidian view and it is 3D
+	 */
 	boolean hasSingleEuclidianViewWhichIs3D();
 
 	/**
@@ -387,7 +397,9 @@ public interface AppConfig extends Restrictable, Serializable {
 	 */
 	int getMainGraphicsViewId();
 
-	@MissingDoc
+	/**
+	 * @return whether one-variable statistics are available
+	 */
 	boolean hasOneVarStatistics();
 
 	/**
@@ -395,6 +407,8 @@ public interface AppConfig extends Restrictable, Serializable {
 	 */
 	boolean hasSpreadsheetView();
 
-	@MissingDoc
+	/**
+	 * @return whether data import is available in this app
+	 */
 	boolean hasDataImport();
 }

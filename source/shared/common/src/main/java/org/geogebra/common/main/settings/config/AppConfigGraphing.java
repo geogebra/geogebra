@@ -110,11 +110,6 @@ public class AppConfigGraphing extends AbstractAppConfig {
 	}
 
 	@Override
-	public boolean isSimpleMaterialPicker() {
-		return false;
-	}
-
-	@Override
 	public boolean hasPreviewPoints() {
 		return true;
 	}

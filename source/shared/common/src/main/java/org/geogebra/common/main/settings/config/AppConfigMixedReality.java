@@ -40,11 +40,6 @@ public class AppConfigMixedReality extends AppConfigDefault {
 	}
 
 	@Override
-	public boolean isSimpleMaterialPicker() {
-		return true;
-	}
-
-	@Override
 	public GeoGebraConstants.Version getVersion() {
 		return GeoGebraConstants.Version.MIXED_REALITY;
 	}
