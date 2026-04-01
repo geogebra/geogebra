@@ -777,10 +777,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 		// remember selected tab
 		Component selectedTab = tabs.getSelectedComponent();
-
+		int visibleTabs = 0;
 		for (int i = 0; i < tabPanelList.size(); i++) {
 			TabPanel tp = tabPanelList.get(i);
-			tp.update(geos, tabs);
+			boolean visible = tp.update(geos, tabs, visibleTabs);
+			if (visible) {
+				visibleTabs++;
+			}
 		}
 
 		// switch back to previously selected tab
@@ -911,14 +914,16 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			this.title = title;
 		}
 
-		public void update(Object[] geos, JTabbedPane tabs) {
+		public boolean update(Object[] geos, JTabbedPane tabs, int index) {
 			if (updateTabPanel(panelList, geos)) {
 				if (!tabs.isAncestorOf(this)) {
-					tabs.addTab(title, this);
+					tabs.insertTab(title, null, this, null, Math.min(index, tabs.getTabCount()));
 				}
+				return true;
 			} else if (tabs.isAncestorOf(this)) {
 				tabs.remove(this);
 			}
+			return false;
 		}
 	}
 
