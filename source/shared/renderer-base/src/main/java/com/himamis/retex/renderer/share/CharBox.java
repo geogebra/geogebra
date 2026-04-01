@@ -46,22 +46,13 @@
 
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.platform.Graphics;
 import com.himamis.retex.renderer.share.platform.font.Font;
-import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 
 /**
  * A box representing a single character.
  */
 public class CharBox extends Box {
-
-	private static final FontRenderContext FRC;
-
-	static {
-		FRC = new Graphics().createImage(1, 1).createGraphics2D()
-				.getFontRenderContext();
-	}
 
 	protected CharFont cf;
 	protected double size;

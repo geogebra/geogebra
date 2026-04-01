@@ -33,14 +33,8 @@ public class SVGResourcePrototype implements SVGResource {
 
 	public static final SVGResource EMPTY = new SVGResourcePrototype("empty",
 			"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1\" height=\"1\"/>");
-	private static DOMParser parser;
-
-	private static XMLSerializer serializer;
-
-	static {
-		parser = new DOMParser();
-		serializer = new XMLSerializer();
-	}
+	private static final DOMParser parser = new DOMParser();
+	private static final XMLSerializer serializer = new XMLSerializer();
 
 	private String svg;
 	private String name;
