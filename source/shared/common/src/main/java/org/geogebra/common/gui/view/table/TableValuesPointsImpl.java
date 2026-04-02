@@ -95,6 +95,9 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	@Override
 	public void setPointsVisible(int column, boolean visible) {
 		GeoEvaluatable geoEvaluatable = view.getEvaluatable(column);
+		if (geoEvaluatable == null) {
+			return;
+		}
 		geoEvaluatable.setPointsVisible(visible);
 		if (visible && points.get(geoEvaluatable) == null) {
 			createAndAddPoints(geoEvaluatable);
