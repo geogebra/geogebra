@@ -196,8 +196,7 @@ public class Tools extends FlowPanel implements SetLabels {
 				app.setMode(mode);
 				showTooltip(mode);
 				app.updateDynamicStyleBars();
-				Analytics.logEvent(Analytics.Event.TOOL_SELECTED, Analytics.Param.TOOL_NAME,
-						app.getInternalToolName(mode));
+				Analytics.logToolSelected(app.getInternalToolName(mode));
 			});
 			return btn;
 		}

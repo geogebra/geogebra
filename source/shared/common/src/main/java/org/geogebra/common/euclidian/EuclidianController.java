@@ -195,6 +195,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
@@ -5571,7 +5572,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * selected.
 	 */
 	public void toolCompleted() {
-		// not used in common, overwritten for other projects
+		Analytics.logToolCreated();
 	}
 
 	/**
