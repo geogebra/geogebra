@@ -115,8 +115,7 @@ public class BaseCommandTest {
 	 * @param expected expected results (can be empty if command has no results)
 	 */
 	protected static void t(String input, StringTemplate tpl, String... expected) {
-		testSyntax(input, AlgebraTestHelper.getMatchers(expected), app, ap,
-				tpl);
+		testSyntax(input, AlgebraTestHelper.getMatchers(expected), app, ap, tpl);
 	}
 
 	/**
@@ -126,8 +125,7 @@ public class BaseCommandTest {
 	 * @param matcher expected results (can be empty if command has no results)
 	 */
 	protected static void t(String input, Matcher<String> matcher) {
-		testSyntax(input, Collections.singletonList(matcher), app, ap,
-				StringTemplate.xmlTemplate);
+		testSyntax(input, Collections.singletonList(matcher), app, ap, StringTemplate.xmlTemplate);
 	}
 
 	/**

@@ -266,7 +266,8 @@ public class BaseUnitTest {
 	 * @return construction element matcher
 	 */
 	public static TypeSafeMatcher<ExpressionValue> hasValue(String val) {
-		return hasProperty("value", geo -> geo.toValueString(StringTemplate.defaultTemplate), val);
+		return hasProperty("value", geo -> geo.toValueString(
+				StringTemplate.defaultTemplate.deriveWithoutCoefficientSimplification()), val);
 	}
 
 	/**

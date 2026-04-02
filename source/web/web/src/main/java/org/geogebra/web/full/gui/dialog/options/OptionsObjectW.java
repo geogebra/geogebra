@@ -68,6 +68,7 @@ import org.geogebra.common.gui.dialog.options.model.ShowLabelModel;
 import org.geogebra.common.gui.dialog.options.model.ShowLabelModel.IShowLabelListener;
 import org.geogebra.common.gui.dialog.options.model.ShowObjectModel;
 import org.geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectListener;
+import org.geogebra.common.gui.dialog.options.model.SimplifyCoefficientsModel;
 import org.geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
 import org.geogebra.common.gui.dialog.options.model.StartPointModel;
 import org.geogebra.common.gui.dialog.options.model.SymbolicModel;
@@ -887,6 +888,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		if (app.getConfig().getEquationBehaviour().allowsChangingEquationFormsByUser()) {
 			tab.addModel(new ConicEqnModel(app));
 		}
+		tab.addModel(new SimplifyCoefficientsModel(app));
 		tab.addModel(new AnimationSpeedModel(getAppW()));
 		tab.addModel(new AnimationStepModel(getAppW()));
 		tab.addModel(new VerticalIncrementModel(getAppW()));

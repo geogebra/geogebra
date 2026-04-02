@@ -115,6 +115,7 @@ import org.geogebra.common.properties.impl.objects.SerifProperty;
 import org.geogebra.common.properties.impl.objects.ShowInAVProperty;
 import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 import org.geogebra.common.properties.impl.objects.ShowTraceProperty;
+import org.geogebra.common.properties.impl.objects.SimplifyCoefficientsProperty;
 import org.geogebra.common.properties.impl.objects.SizePropertyCollection;
 import org.geogebra.common.properties.impl.objects.SliderBlobPropertyCollection;
 import org.geogebra.common.properties.impl.objects.SliderIntervalProperty;
@@ -206,6 +207,7 @@ public final class GeoElementPropertiesFactory {
 				createSlopeSizeProperty(localization, elements),
 				createLinearEquationProperty(localization, elements),
 				createQuadraticEquationProperty(localization, elements),
+				createSimplifyCoefficientsProperty(localization, elements),
 				createCaptionStyleProperty(localization, elements),
 				createShowTraceProperty(localization, elements),
 				createIsFixedObjectProperty(localization, elements),
@@ -277,6 +279,13 @@ public final class GeoElementPropertiesFactory {
 		return createOptionalPropertyFacade(elements,
 				element -> new LinearEquationFormProperty(localization, element),
 				NamedEnumeratedPropertyListFacade::new);
+	}
+
+	private Property createSimplifyCoefficientsProperty(Localization localization,
+			List<GeoElement> elements) {
+		return createOptionalPropertyFacade(elements,
+				element -> new SimplifyCoefficientsProperty(localization, element),
+				BooleanPropertyListFacade::new);
 	}
 
 	private Property createSlopeSizeProperty(Localization localization, List<GeoElement> elements) {

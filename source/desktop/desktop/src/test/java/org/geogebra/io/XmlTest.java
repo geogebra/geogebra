@@ -24,6 +24,7 @@ import java.util.Locale;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSpace;
 import org.geogebra.common.io.XmlTestUtil;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
@@ -140,6 +141,17 @@ public class XmlTest {
 		app.setLanguage(new Locale("pt", "BR"));
 		assertEquals(GeoNumeric.class, app.getKernel().lookupLabel("space").getClass());
 		assertEquals(GeoSpace.class, app.getKernel().lookupLabel("esp").getClass());
+	}
+
+	@Test
+	@Issue("APPS-7282")
+	public void functionShouldNotSimplifyCoefficientsWhenLoadingOldFile() {
+		processAlgebraCommand("f(x)=1x+0x+1");
+		String xml = app.getXML();
+		xml = xml.replace("<simplifyCoefficients val=\"true\"/>", "");
+		app.setXML(xml, true);
+		assertEquals("1x + 0x + 1",
+				app.getKernel().lookupLabel("f").toValueString(StringTemplate.defaultTemplate));
 	}
 
 	private GeoElementND processAlgebraCommand(String input) {

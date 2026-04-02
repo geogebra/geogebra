@@ -57,6 +57,7 @@ import org.geogebra.common.gui.dialog.options.model.PlaneEqnModel;
 import org.geogebra.common.gui.dialog.options.model.PointSizeModel;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.dialog.options.model.SegmentStyleModel;
+import org.geogebra.common.gui.dialog.options.model.SimplifyCoefficientsModel;
 import org.geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
 import org.geogebra.common.gui.dialog.options.model.StartPointModel;
 import org.geogebra.common.gui.dialog.options.model.SymbolicModel;
@@ -287,7 +288,8 @@ public class OptionsTab extends FlowPanel {
 		if (m instanceof IneqStyleModel
 			|| m instanceof SymbolicModel
 			|| m instanceof InterpolateImageModel
-			|| m instanceof AbsoluteScreenLocationModel) {
+			|| m instanceof AbsoluteScreenLocationModel
+			|| m instanceof SimplifyCoefficientsModel) {
 			return new CheckboxPanel(app.getLocalization(), (BooleanOptionModel) m);
 		}
 		if (m instanceof TextFieldSizeModel) {

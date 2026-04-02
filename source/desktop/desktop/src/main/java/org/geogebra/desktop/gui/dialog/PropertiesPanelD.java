@@ -102,6 +102,7 @@ import org.geogebra.common.gui.dialog.options.model.ShowLabelModel;
 import org.geogebra.common.gui.dialog.options.model.ShowLabelModel.IShowLabelListener;
 import org.geogebra.common.gui.dialog.options.model.ShowObjectModel;
 import org.geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectListener;
+import org.geogebra.common.gui.dialog.options.model.SimplifyCoefficientsModel;
 import org.geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
 import org.geogebra.common.gui.dialog.options.model.StartPointModel;
 import org.geogebra.common.gui.dialog.options.model.SymbolicModel;
@@ -169,6 +170,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private ShowObjectPanel showObjectPanel;
 	private CheckboxPanel selectionAllowed;
 	private CheckboxPanel showTrimmedIntersectionLines;
+	private CheckboxPanel simplifyCoefficientsPanel;
 	private ColorPanel colorPanel;
 	private LabelPanel labelPanel;
 	private ComboPanel tooltipPanel;
@@ -286,6 +288,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		selectionAllowed = getCheckboxPanel(new SelectionAllowedModel(null, app));
 		showTrimmedIntersectionLines = getCheckboxPanel(
 				new TrimmedIntersectionLinesModel(null, app));
+		simplifyCoefficientsPanel = getCheckboxPanel(new SimplifyCoefficientsModel(app));
 		colorPanel = new ColorPanel(this, colChooser);
 		coordPanel = new ComboPanel(new CoordsModel(app), app);
 		lineEqnPanel = new ComboPanel(new LineEqnModel(app), app);
@@ -554,6 +557,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		algebraTabList.add(lineEqnPanel);
 		algebraTabList.add(planeEqnPanel);
 		algebraTabList.add(conicEqnPanel);
+		algebraTabList.add(simplifyCoefficientsPanel);
 		algebraTabList.add(animStepPanel);
 		algebraTabList.add(verticalIncrementPanel);
 		algebraTabList.add(animSpeedPanel);
@@ -619,6 +623,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		symbolicPanel.setLabels();
 		selectionAllowed.setLabels();
 		showTrimmedIntersectionLines.setLabels();
+		simplifyCoefficientsPanel.setLabels();
 		colChooser.setLabels();
 		colorPanel.setLabels();
 		coordPanel.setLabels();
@@ -710,6 +715,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		showObjectPanel.updateFonts();
 		selectionAllowed.updateFonts();
 		showTrimmedIntersectionLines.updateFonts();
+		simplifyCoefficientsPanel.updateFonts();
 		colorPanel.updateFonts();
 		colChooser.updateFonts();
 		coordPanel.updateFonts();

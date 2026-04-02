@@ -999,9 +999,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		if (DoubleUtil.isZero(x) || DoubleUtil.isZero(y)) {
 			return kernel.buildExplicitEquation(g, vars, tpl, true).toString();
 		}
-		boolean useGCD = true;
-		return kernel.buildImplicitEquation(g, vars, useGCD, false, tpl, true)
-				.toString();
+		return kernel.buildImplicitEquation(g, vars, true, false, tpl, true).toString();
 	}
 
 	/**

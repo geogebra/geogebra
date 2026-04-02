@@ -64,14 +64,12 @@ public class AlgebraTest {
 
 	protected void t(String s, String... expected) {
 		CommandsTestCommon.testSyntax(s, AlgebraTestHelper.getMatchers(expected), app,
-				ap,
-				StringTemplate.xmlTemplate);
+				ap, StringTemplate.xmlTemplate);
 	}
 
 	protected void tRound(String s, String... expected) {
 		CommandsTestCommon.testSyntax(s, AlgebraTestHelper.getMatchers(expected), app,
-				ap,
-				StringTemplate.editTemplate);
+				ap, StringTemplate.editTemplate.deriveWithoutCoefficientSimplification());
 	}
 
 	protected void t(String s, Matcher<String> expected) {

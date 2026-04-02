@@ -76,7 +76,7 @@ public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 
 		String fitPolyString = "i(x)=FitPoly({(-1,-1),(0,1),(1,1),(2,5)},3)";
 		GeoFunction fitPoly = addAvInput(fitPolyString);
-		checkCaption(fitPoly, GeoElementND.LABEL_NAME_VALUE, "i(x) = x³ - x² + 0x + 1");
+		checkCaption(fitPoly, GeoElementND.LABEL_NAME_VALUE, "i(x) = x³ - x² + 1");
 
 		String fitLogString = "j(x)=FitLog({(ℯ,1),(ℯ^(2),4)})";
 		GeoFunction fitLog = addAvInput(fitLogString);

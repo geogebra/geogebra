@@ -52,6 +52,7 @@ import org.geogebra.common.util.MyMath;
 public class GeoConic extends GeoConicND implements ConicMirrorable,
 		SymbolicParametersBotanaAlgo, EquationValue, GeoEvaluatable,
 		GeoFunctionable, Functional {
+
 	private CoordSys coordSys;
 	private int tableColumn = -1;
 	private boolean pointsVisible = true;

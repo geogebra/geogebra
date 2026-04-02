@@ -3495,8 +3495,7 @@ public class MyXMLHandler implements DocHandler {
 			exp = exp.replace(", true]", "]");
 		}
 
-		// type may be vector or point, this is important to distinguish between
-		// them
+		// type may be vector or point, this is important to distinguish between them
 		String type = attrs.get("type");
 		// parse expression and process it
 		try {
@@ -3512,34 +3511,33 @@ public class MyXMLHandler implements DocHandler {
 			// enforce point or vector or line or plane type if it was given in
 			// attribute type
 			if (type != null) {
-				if (ve instanceof ExpressionNode) {
+				if (ve instanceof ExpressionNode expressionNode) {
 					if ("point".equals(type)) {
-						((ExpressionNode) ve).setForcePoint();
+						expressionNode.setForcePoint();
 					} else if ("vector".equals(type)) {
-						((ExpressionNode) ve).setForceVector();
+						expressionNode.setForceVector();
 						// we must check that we have Equation here as xAxis
 						// has also type "line" but is parsed as ExpressionNode
 					} else if ("inequality".equals(type)) {
-						((ExpressionNode) ve).setForceInequality();
+						expressionNode.setForceInequality();
 					} else if ("surfacecartesian".equals(type)) {
-						((ExpressionNode) ve).setForceSurfaceCartesian();
+						expressionNode.setForceSurfaceCartesian();
 					}
-				} else if (ve instanceof Equation) {
+				} else if (ve instanceof Equation equation) {
 					if ("line".equals(type)) {
-						((Equation) ve).setForceLine();
+						equation.setForceLine();
 					} else if ("plane".equals(type)) {
-						((Equation) ve).setForcePlane();
+						equation.setForcePlane();
 					} else if ("conic".equals(type)) {
-						((Equation) ve).setForceConic();
+						equation.setForceConic();
 					} else if ("quadric".equals(type)) {
-						((Equation) ve).setForceQuadric();
-					} else if ("implicitpoly".equals(type)
-							|| "implicitPoly".equals(type)) {
-						((Equation) ve).setForceImplicitPoly();
+						equation.setForceQuadric();
+					} else if ("implicitpoly".equals(type) || "implicitPoly".equals(type)) {
+						equation.setForceImplicitPoly();
 					} else if ("implicitsurface".equals(type)) {
-						((Equation) ve).setForceSurface();
+						equation.setForceSurface();
 					} else if ("function".equals(type)) {
-						((Equation) ve).setForceFunction();
+						equation.setForceFunction();
 					}
 				}
 			}
@@ -3556,18 +3554,15 @@ public class MyXMLHandler implements DocHandler {
 			// ensure that labels are set for invisible objects too
 			if (result != null && label != null && result.length == 1) {
 				result[0].setLoadedLabel(label);
-				if (result[0] instanceof GeoQuadric3DInterface) {
-					((GeoQuadric3DInterface) result[0]).setEquationForm(
-							QuadraticEquationRepresentable.Form.IMPLICIT);
+				if (result[0] instanceof GeoQuadric3DInterface quadric) {
+					quadric.setEquationForm(QuadraticEquationRepresentable.Form.IMPLICIT);
 				}
 			} else {
-				Log.error(
-						"error in <expression>: " + exp + ", label: " + label);
+				Log.error("error in <expression>: " + exp + ", label: " + label);
 			}
 
 		} catch (Exception | MyError e) {
-			String msg = "error in <expression>: label=" + label + ", exp= "
-					+ exp;
+			String msg = "error in <expression>: label=" + label + ", exp= " + exp;
 			Log.error(msg);
 			logError(e);
 			errors.add(msg);

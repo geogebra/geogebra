@@ -140,6 +140,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	private AlgoDependentFunction dependentFunction;
 	private int tableViewColumn = -1;
 	private boolean pointsVisible = true;
+	private boolean simplifyCoefficients = true;
 	private ConditionalSerializer conditionalSerializer;
 
 	/**
@@ -741,6 +742,20 @@ public class GeoFunction extends GeoElement implements Translateable,
 	}
 
 	/**
+	 * @param simplify Whether coefficients should be simplified.
+	 */
+	public void setSimplifyCoefficients(boolean simplify) {
+		simplifyCoefficients = simplify;
+	}
+
+	/**
+	 * @return Whether coefficients should be simplified when yielding the output of this function.
+	 */
+	public boolean hasSimplifiedCoefficients() {
+		return simplifyCoefficients;
+	}
+
+	/**
 	 * Returns whether this function includes a division by variable, e.g. f(x)
 	 * = 1/x, 1/(2+x), sin(3/x), ...
 	 * 
@@ -873,7 +888,8 @@ public class GeoFunction extends GeoElement implements Translateable,
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		if (isDefined() && fun != null) {
-			return fun.toValueString(tpl);
+			return fun.toValueString(simplifyCoefficients && tpl.allowsCoefficientSimplification()
+					? tpl.deriveWithSimplifiedCoefficients() : tpl);
 		}
 		return "?";
 	}
@@ -961,6 +977,10 @@ public class GeoFunction extends GeoElement implements Translateable,
 		if (showOnAxis()) {
 			sbxml.startTag("showOnAxis").attr("val", true).endTag();
 		}
+		// simplifyCoefficients tag should always be present so old files can be loaded correctly
+		sbxml.startTag("simplifyCoefficients")
+				.attr("val", simplifyCoefficients)
+				.endTag();
 	}
 
 	/**

@@ -28,15 +28,17 @@ public class FormulaTextTest extends BaseUnitTest {
 
 	@Test
 	public void testUnitCoefficients() {
+		StringTemplate algebraTemplate = StringTemplate.algebraTemplate
+				.deriveWithoutCoefficientSimplification();
 		// check that the AV preserves the input
 		add("f(x) = sin(1x+1x-1x)");
 		assertEquals("f(x) = sin(1x + 1x - 1x)",
-				lookup("f").toString(StringTemplate.algebraTemplate));
+				lookup("f").toString(algebraTemplate));
 
 		add("a = 1");
 		add("f(x) = sin(ax+ax-ax)");
 		assertEquals("f(x) = sin(1 x + 1 x - 1 x)",
-				lookup("f").toString(StringTemplate.algebraTemplate));
+				lookup("f").toString(algebraTemplate));
 
 		// but FormulaText removes unit coefficients
 		t("FormulaText(sin(1x+1x-1x))",

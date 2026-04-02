@@ -460,6 +460,9 @@ public class ConsElementXMLHandler {
 			geo.setVisibleInView3D(false);
 		} else if (geo instanceof GeoFunction || geo instanceof EquationValue) {
 			geo.setFixed(false);
+			if (geo instanceof GeoFunction function) {
+				function.setSimplifyCoefficients(false);
+			}
 		} else if (geo instanceof GeoAngle) {
 			((GeoAngle) geo).setEmphasizeRightAngle(true);
 		} else if (geo instanceof GeoText) {
@@ -2117,13 +2120,23 @@ public class ConsElementXMLHandler {
 			if (!(geo instanceof GeoFunction)) {
 				return false;
 			}
-			((GeoFunction) geo)
-					.setShowOnAxis(MyXMLHandler.parseBoolean(attrs.get("val")));
+			((GeoFunction) geo).setShowOnAxis(MyXMLHandler.parseBoolean(attrs.get("val")));
 			return true;
 
 		} catch (RuntimeException e) {
 			Log.debug(e);
 			return false;
+		}
+	}
+
+	private void handleSimplifyCoefficients(Map<String, String> attrs) {
+		try {
+			if (!(geo instanceof GeoFunction function)) {
+				return;
+			}
+			function.setSimplifyCoefficients(MyXMLHandler.parseBoolean(attrs.get("val")));
+		} catch (RuntimeException e) {
+			Log.debug(e);
 		}
 	}
 
@@ -2356,6 +2369,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "showOnAxis":
 				handleShowOnAxis(attrs);
+				break;
+			case "simplifyCoefficients":
+				handleSimplifyCoefficients(attrs);
 				break;
 			case "startPoint":
 				handleStartPoint(attrs);

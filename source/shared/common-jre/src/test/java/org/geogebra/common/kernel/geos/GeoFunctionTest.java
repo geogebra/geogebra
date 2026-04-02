@@ -16,6 +16,7 @@
 
 package org.geogebra.common.kernel.geos;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -115,5 +116,99 @@ public class GeoFunctionTest extends BaseUnitTest {
 		getApp().getSettings().getAlgebra().setStyle(AlgebraStyle.LINEAR_NOTATION);
 		assertEquals("g(x) = sqrt(x) + sqrt(x)", sum.getAlgebraDescriptionDefault());
 		assertEquals("sqrt(x) + sqrt(x)", sum.getAlgebraDescriptionRHS());
+	}
+
+	@Test
+	@Issue("APPS-7282")
+	public void testSimplifyZeroCoefficient() {
+		GeoFunction f = add("f(x)=x^2+0x-0x+1");
+		assertEquals("x² + 1", f.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@Issue("APPS-7282")
+	public void zeroCoefficientsShouldStayWhenSimplificationDisabled() {
+		GeoFunction f = add("f(x)=x^2+0x-0x+1");
+		f.setSimplifyCoefficients(false);
+		assertEquals("x² + 0x - 0x + 1", f.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@Issue("APPS-7282")
+	public void testSimplifyUnitCoefficientsInValueString() {
+		GeoFunction f = add("f(x)=1x-1x^2");
+		assertEquals("x - x²", f.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@Issue("APPS-7282")
+	public void reloadShouldSimplifyCoefficients() {
+		add("f(x)=x^2+0x-1x+1");
+		reload();
+		GeoElement reloaded = lookup("f");
+		assertEquals("x² - x + 1", reloaded.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@Issue("APPS-7282")
+	public void reloadShouldNotSimplifyCoefficients() {
+		GeoFunction f = add("f(x)=x^2+0x-1x+1");
+		f.setSimplifyCoefficients(false);
+		reload();
+		GeoElement reloaded = lookup("f");
+		assertEquals("x² + 0x - 1x + 1", reloaded.toValueString(StringTemplate.defaultTemplate));
+		assertThat(getApp().getXML(), containsString("<simplifyCoefficients val=\"false\"/>"));
+	}
+
+	@Test
+	@Issue("APPS-7282")
+	public void nonPolynomialShouldNotBeSimplified() {
+		GeoFunction f = add("f(x)=1x+0*ln(x)");
+		assertEquals("x + 0ln(x)", f.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@Issue("APPS-7282")
+	public void polynomialWithinArgumentShouldBeSimplified() {
+		GeoFunction f = add("f(x)=sqrt(0x)");
+		GeoFunction g = add("g(x)=sqrt(0x + 1)");
+		assertEquals("sqrt(0)", f.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("sqrt(1)", g.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@Issue("APPS-7282")
+	public void multipleZeroCoefficientsShouldBeSimplified() {
+		GeoFunction f = add("f(x)=0x-0x+0x*0x+2x");
+		assertEquals("2x", f.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@Issue("APPS-7282")
+	public void fractionsShouldBeSimplifiedCorrectly() {
+		GeoFunction f = add("f(x)=(0x)/(0x)");
+		GeoFunction g = add("g(x)=(1x)/(1x)");
+		assertEquals("(0) / (0)", f.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("(x) / (x)", g.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@Issue("APPS-7282")
+	public void multipleNegationsShouldBeSimplifiedCorrectly() {
+		GeoFunction f = add("f(x)=-(-1x)");
+		GeoFunction g = add("g(x)=--1x");
+		GeoFunction h = add("h(x)=---1x + 3x");
+		GeoFunction i = add("i(x)=-(-(-(-1x))) + 1x");
+		assertEquals("x", f.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("x", g.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("-x + 3x", h.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("x + x", i.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@Issue("APPS-7282")
+	public void zeroCoefficientShouldNotBeOmittedIfNotEqualToZero() {
+		GeoFunction f = add("f(x)=1x+0.001x^7");
+		assertEquals("x + 0x⁷", f.toValueString(StringTemplate.defaultTemplate));
 	}
 }

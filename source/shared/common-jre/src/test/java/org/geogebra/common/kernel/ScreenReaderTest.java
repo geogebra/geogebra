@@ -45,8 +45,9 @@ public class ScreenReaderTest {
 
 	private static void tsc(String string, String expected) {
 		GeoElementND geo = eval(string);
-		assertEquals(expected,
-				geo.toValueString(StringTemplate.screenReaderAscii).trim().replaceAll(" +", " "));
+		assertEquals(expected, geo.toValueString(
+				StringTemplate.screenReaderAscii.deriveWithoutCoefficientSimplification())
+				.trim().replaceAll(" +", " "));
 	}
 
 	private static GeoElementND eval(String string) {

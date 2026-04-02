@@ -182,7 +182,8 @@ public class RegressionSpecificationTest extends BaseExamTestSetup {
 
 	private String getRegressionFormula(int spec) {
 		GeoElement plot = view.plotRegression(column, getSpec(spec));
-		return plot.toValueString(StringTemplate.defaultTemplate);
+		return plot.toValueString(
+				StringTemplate.defaultTemplate.deriveWithoutCoefficientSimplification());
 	}
 
 	private String getRegressionValues(int spec) {
