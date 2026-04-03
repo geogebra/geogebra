@@ -145,7 +145,7 @@ public class GeoFactory {
 		case "polygon":
 			return new GeoPolygon(cons1, null);
 		case "polyline":
-			return new GeoPolyLine(cons1, new GeoPointND[]{});
+			return new GeoPolyLine(cons1, new GeoPointND[0]);
 		case "ray":
 			return new GeoRay(cons1, null);
 		case "segment":

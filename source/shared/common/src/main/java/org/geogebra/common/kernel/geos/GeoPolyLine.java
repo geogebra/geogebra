@@ -82,7 +82,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	 */
 	public GeoPolyLine(Construction cons) {
 		super(cons);
-		this.points = new GeoPointND[] {};
+		this.points = new GeoPointND[0];
 		// moved from GeoElement's constructor
 		// must be called from the subclass, see
 		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/

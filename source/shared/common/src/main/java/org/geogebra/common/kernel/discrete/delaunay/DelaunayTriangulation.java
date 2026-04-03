@@ -98,7 +98,7 @@ public class DelaunayTriangulation {
 	 * creates an empty Delaunay Triangulation.
 	 */
 	public DelaunayTriangulation() {
-		this(new PointDt[] {});
+		this(new PointDt[0]);
 	}
 
 	/**

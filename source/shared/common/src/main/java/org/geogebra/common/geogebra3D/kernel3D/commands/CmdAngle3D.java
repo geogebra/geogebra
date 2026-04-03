@@ -259,7 +259,7 @@ public class CmdAngle3D extends CmdAngle {
 
 		if (direction == kernel.getSpace()) { // TODO: should create point on
 												// circle
-			return new GeoElement[] {};
+			return new GeoElement[0];
 		}
 
 		if (direction == kernel

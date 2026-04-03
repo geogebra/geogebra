@@ -1431,7 +1431,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	private ExpressionValue functionNvarOrUndefined(GeoElement nextSublist) {
 		return nextSublist.isDefined() ? nextSublist
 				: new FunctionNVar(new ExpressionNode(getKernel(), Double.NaN),
-						new FunctionVariable[] {});
+						new FunctionVariable[0]);
 	}
 
 	/**

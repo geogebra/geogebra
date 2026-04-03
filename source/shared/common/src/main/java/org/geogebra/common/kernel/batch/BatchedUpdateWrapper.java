@@ -61,7 +61,7 @@ public class BatchedUpdateWrapper
 	}
 
 	private void addEvent(String name) {
-		addEvent(name, new Object[] {});
+		addEvent(name, new Object[0]);
 	}
 
 	private void addEvent(String name, GeoElement parameter) {

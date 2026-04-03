@@ -53,7 +53,7 @@ public class CmdExecute extends CmdScripting {
 		}
 		if (arg[0].isGeoList() && ((GeoList) arg[0]).size() == 0
 				|| !arg[0].isDefined()) {
-			return new GeoElement[] {};
+			return new GeoElement[0];
 		}
 		if (!arg[0].isGeoList() || !arg[0]
 				.getGeoElementForPropertiesDialog().isGeoText()) {

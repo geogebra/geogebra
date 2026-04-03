@@ -141,6 +141,6 @@ public final class TableUtil {
 				retVal.add(part.substring(1));
 			}
 		}
-		return retVal.toArray(new String[]{});
+		return retVal.toArray(new String[0]);
 	}
 }

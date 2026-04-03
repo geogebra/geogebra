@@ -53,7 +53,7 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 		 * @return this as menu item
 		 */
 		public TableValuesContextMenuItem toContextMenuItem() {
-			return new TableValuesContextMenuItem(this, new String[]{});
+			return new TableValuesContextMenuItem(this, new String[0]);
 		}
 
 		/**
