@@ -30,33 +30,10 @@ import jsinterop.base.JsPropertyMap;
 public final class FontLoader {
 	private static Map<String, FontState> injected = new HashMap<>();
 	private static FontProperty.FontFamily[] bundled = new FontProperty.FontFamily[]{
-			FontProperty.FontFamily.DYSLEXIC,
-			FontProperty.FontFamily.QUICKSAND,
-			FontProperty.FontFamily.SOURCE_SANS_PRO,
-			FontProperty.FontFamily.TITILLIUM,
-			FontProperty.FontFamily.ABeZehBlueRedEDUBold,
-			FontProperty.FontFamily.ABeZehBlueRedEDULight,
-			FontProperty.FontFamily.ABeZehBlueRedEDURegular,
-			FontProperty.FontFamily.ABeZehEDUBold,
-			FontProperty.FontFamily.ABeZehEDUBoldItalic,
-			FontProperty.FontFamily.ABeZehEDUItalic,
-			FontProperty.FontFamily.ABeZehEDULight,
-			FontProperty.FontFamily.ABeZehEDULightItalic,
-			FontProperty.FontFamily.ABeZehEDURegular,
-			FontProperty.FontFamily.ABeZehHokuspokusEDUDEBold,
-			FontProperty.FontFamily.ABeZehHokuspokusEDUDERegular,
-			FontProperty.FontFamily.ABeZehHokuspokusEDUENBold,
-			FontProperty.FontFamily.ABeZehHokuspokusEDUENRegular,
-			FontProperty.FontFamily.ABeZehIconsEDUDeutsch,
-			FontProperty.FontFamily.ABeZehIconsEDUEnglish,
-			FontProperty.FontFamily.ABeZehIconsEDUFrancais,
-			FontProperty.FontFamily.ABeZehLinieEDULight,
-			FontProperty.FontFamily.ABeZehLinieEDURegular,
-			FontProperty.FontFamily.ABeZehPfeilEDULight,
-			FontProperty.FontFamily.ABeZehPfeilEDURegular,
-			FontProperty.FontFamily.ABeZehPfeilEDULINKSLight,
-			FontProperty.FontFamily.ABeZehPunktEDULight,
-			FontProperty.FontFamily.ABeZehPunktEDURegular};
+			FontProperty.FontFamily.BY_DRUCK,
+			FontProperty.FontFamily.BY_DRUCK_LINEATUR,
+			FontProperty.FontFamily.BY_LESEN,
+			FontProperty.FontFamily.DYSLEXIC};
 
 	private enum FontState { LOADING, ACTIVE }
 
