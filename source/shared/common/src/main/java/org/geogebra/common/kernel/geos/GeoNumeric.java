@@ -1464,6 +1464,12 @@ public class GeoNumeric extends GeoElement
 				&& isIntervalMaxActive();
 	}
 
+	@Override
+	public boolean needsAnimationAttributes() {
+		return !isLocked() && isIndependent()
+				&& (definition == null || isSliderable() || getAnimationSpeedObject() != null);
+	}
+
 	/**
 	 * Sets the state of this object to animating on or off.
 	 */

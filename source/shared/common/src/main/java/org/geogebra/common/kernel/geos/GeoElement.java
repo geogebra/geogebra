@@ -2252,12 +2252,21 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * over ridden by types that implement Animateable
+	 * Overridden by types that implement Animateable.
 	 * 
 	 * @return true if this can be animated
 	 */
 	public boolean isAnimatable() {
 		return false;
+	}
+
+	/**
+	 * Similar to {@link #isAnimatable()}, but more permissive
+	 * (e.g. does not check valid interval for sliders).
+	 * @return whether animation attributes should be saved to XML
+	 */
+	public boolean needsAnimationAttributes() {
+		return isPointerChangeable();
 	}
 
 	@Override
@@ -4627,7 +4636,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	protected void getXMLAnimationTags(final XMLStringBuilder sb) {
 		StringTemplate tpl = StringTemplate.xmlTemplate;
 		// animation step width
-		if (isPointerChangeable()) {
+		if (needsAnimationAttributes()) {
 			sb.startTag("animation");
 			if (!isGeoNumeric() || !((GeoNumeric) this).isAutoStep()) {
 				final String animStep = animationIncrement == null ? "1"

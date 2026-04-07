@@ -278,6 +278,46 @@ public class GeoNumericTest extends BaseAppTestSetup {
 	}
 
 	@Test
+	@Issue("APPS-7343")
+	public void sliderShouldStoreVisualInfoInXML() {
+		addAvInput("a = Slider(1, 10)");
+		String xml = getApp().getGgbApi().getXML("a");
+		assertEquals("""
+		<element type="numeric" label="a">
+			<value val="1"/>
+			<lineStyle thickness="10" type="0" typeHidden="1"/>
+			<show object="true" label="true"/>
+			<objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+			<layer val="0"/>
+			<labelMode val="1"/>
+			<animation type="0" playing="false"/>
+		</element>
+		""".stripIndent(), xml.replaceAll("\t<slider.*\n", ""));
+	}
+
+	@Test
+	@Issue("APPS-7343")
+	public void plainNumberShouldHaveMinimalXML() {
+		addAvInput("a = 3 + 4");
+		String xml = getApp().getGgbApi().getXML("a");
+		assertEquals("""
+		<expression label="a" exp="3 + 4"/>
+		<element type="numeric" label="a">
+			<value val="7"/>
+		</element>
+		""".stripIndent(), xml);
+		addAvInput("b = 8");
+		String xmlB = getApp().getGgbApi().getXML("b");
+		assertEquals("""
+		<expression label="b" exp="8"/>
+		<element type="numeric" label="b">
+			<value val="8"/>
+			<show object="false" label="true"/>
+		</element>
+		""".stripIndent(), xmlB);
+	}
+
+	@Test
 	public void sliderShouldBeUndefinedWhenMinIsGreaterOrEqualToMax() {
 		addAvInput("a = Slider(1, 10)");
 		GeoNumeric slider = addAvInput("b = Slider(2, a)");
