@@ -16,13 +16,15 @@
 
 package org.geogebra.web.full.gui.components;
 
-import static org.geogebra.common.properties.PropertyView.*;
+import static org.geogebra.common.properties.PropertyView.Dropdown;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.PropertyView;
@@ -44,6 +46,7 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 	private final List<Runnable> changeHandlers = new ArrayList<>();
 	private final MulticastEvent<String> onHighlighted = new MulticastEvent<>();
 	private final PropertyView propertyView;
+	private final @CheckForNull ComponentDropDown.Styler styler;
 
 	/**
 	 * popup controller for dropdown and combo box
@@ -53,12 +56,15 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 	 * @param items list of items in popup
 	 * @param labelKey label of drop down or combo box
 	 * @param onClose handler to run on close
+	 * @param styler a function that applies style to an item
 	 */
 	public DropDownComboBoxController(final AppW app, PropertyView propertyView, Widget parent,
-			Supplier<List<String>> items, String labelKey, Runnable onClose) {
+			Supplier<List<String>> items, String labelKey, Runnable onClose,
+			ComponentDropDown.Styler styler) {
 		this.propertyView = propertyView;
 		this.parent = parent;
 		this.items = items;
+		this.styler = styler;
 
 		init(app, labelKey, onClose);
 	}
@@ -116,6 +122,9 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 			});
 			AriaHelper.setRole(item, "option");
 			item.getElement().setId(DOM.createUniqueId());
+			if (styler != null) {
+				styler.apply(item, i);
+			}
 			item.setStyleName("dropDownElement");
 			dropDownElementsList.add(item);
 		}

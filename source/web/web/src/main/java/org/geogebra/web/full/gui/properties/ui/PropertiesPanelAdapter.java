@@ -17,10 +17,29 @@
 package org.geogebra.web.full.gui.properties.ui;
 
 import static org.geogebra.common.main.GeoGebraColorConstants.NEUTRAL_700;
-import static org.geogebra.common.properties.PropertyView.*;
+import static org.geogebra.common.properties.PropertyView.ActionableButtonRow;
+import static org.geogebra.common.properties.PropertyView.ButtonIconEditor;
+import static org.geogebra.common.properties.PropertyView.ButtonWithIcon;
+import static org.geogebra.common.properties.PropertyView.Checkbox;
+import static org.geogebra.common.properties.PropertyView.ColorSelectorRow;
+import static org.geogebra.common.properties.PropertyView.ComboBox;
+import static org.geogebra.common.properties.PropertyView.ConnectedButtonGroup;
+import static org.geogebra.common.properties.PropertyView.DimensionRatioEditor;
+import static org.geogebra.common.properties.PropertyView.Dropdown;
+import static org.geogebra.common.properties.PropertyView.ExpandableList;
+import static org.geogebra.common.properties.PropertyView.GroupedIconButtonRow;
+import static org.geogebra.common.properties.PropertyView.HorizontalSplitView;
+import static org.geogebra.common.properties.PropertyView.ImagePicker;
+import static org.geogebra.common.properties.PropertyView.MultiSelectionIconRow;
+import static org.geogebra.common.properties.PropertyView.RelatedPropertyViewCollection;
+import static org.geogebra.common.properties.PropertyView.ScriptEditor;
+import static org.geogebra.common.properties.PropertyView.SingleSelectionIconRow;
+import static org.geogebra.common.properties.PropertyView.Slider;
+import static org.geogebra.common.properties.PropertyView.TextField;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.AccessibilityGroup;
@@ -28,6 +47,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.PropertyViewFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
+import org.geogebra.common.properties.impl.objects.FontProperty;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentComboBox;
 import org.geogebra.web.full.gui.components.ComponentConnectedButtonGroup;
@@ -199,9 +219,9 @@ public class PropertiesPanelAdapter {
 			}
 			return expandableList;
 		}
-		if (propertyView instanceof Dropdown) {
+		if (propertyView instanceof Dropdown dropDownView) {
 			ComponentDropDown dropDown = new ComponentDropDown(app,
-					((Dropdown) propertyView).getPropertyName(), (Dropdown) propertyView);
+					dropDownView.getPropertyName(), dropDownView, getItemStyler(dropDownView));
 			dropDown.setFullWidth(true);
 			return dropDown;
 		}
@@ -250,5 +270,17 @@ public class PropertiesPanelAdapter {
 			return inputField;
 		}
 		return new Label(propertyView.toString());
+	}
+
+	private ComponentDropDown.Styler getItemStyler(Dropdown dropDownView) {
+		Map<Integer, FontProperty.FontFamily> fontFamilies = dropDownView.getFontFamilies();
+		if (!fontFamilies.isEmpty()) {
+			return (item, index) -> {
+				FontProperty.FontFamily font = fontFamilies
+						.getOrDefault(index, FontProperty.FontFamily.ARIAL);
+				item.getElement().getStyle().setProperty("fontFamily", font.cssName());
+			};
+		}
+		return null;
 	}
 }

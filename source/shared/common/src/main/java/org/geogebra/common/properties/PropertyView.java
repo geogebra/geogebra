@@ -19,6 +19,7 @@ package org.geogebra.common.properties;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -73,12 +74,14 @@ import org.geogebra.common.properties.impl.objects.ChartSegmentSelection;
 import org.geogebra.common.properties.impl.objects.ChartSegmentSelectionDependentProperty;
 import org.geogebra.common.properties.impl.objects.DynamicColorSpaceProperty;
 import org.geogebra.common.properties.impl.objects.FillCategoryProperty;
+import org.geogebra.common.properties.impl.objects.FontProperty;
 import org.geogebra.common.properties.impl.objects.GeoElementDependentProperty;
 import org.geogebra.common.properties.impl.objects.LayoutPropertyCollection;
 import org.geogebra.common.properties.impl.objects.LocationPropertyCollection;
 import org.geogebra.common.properties.impl.objects.ObjectAllEventsProperty;
 import org.geogebra.common.properties.impl.objects.ObjectEventProperty;
 import org.geogebra.common.properties.impl.objects.SliderTrackColorPropertyCollection;
+import org.geogebra.common.properties.impl.objects.StyledItemProperty;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 
 import com.google.j2objc.annotations.Weak;
@@ -319,8 +322,17 @@ public abstract class PropertyView {
 	 * Representation of a dropdown menu with a label and a list of possible items.
 	 */
 	public static final class Dropdown extends PropertyBackedView<NamedEnumeratedProperty<?>> {
+		private final Map<Integer, FontProperty.FontFamily> fontFamilies;
+
 		Dropdown(NamedEnumeratedProperty<?> namedEnumeratedProperty) {
 			super(namedEnumeratedProperty);
+			fontFamilies = Map.of();
+		}
+
+		Dropdown(NamedEnumeratedProperty<?> namedEnumeratedProperty,
+				Map<Integer, FontProperty.FontFamily> fontFamilies) {
+			super(namedEnumeratedProperty);
+			this.fontFamilies = fontFamilies;
 		}
 
 		/**
@@ -335,6 +347,10 @@ public abstract class PropertyView {
 		 */
 		public @Nonnull List<String> getItems() {
 			return List.of(property.getValueNames());
+		}
+
+		public @Nonnull Map<Integer, FontProperty.FontFamily> getFontFamilies() {
+			return fontFamilies;
 		}
 
 		/**
@@ -1466,7 +1482,7 @@ public abstract class PropertyView {
 				|| facade.getFirstProperty() instanceof ChartSegmentFillCategoryProperty))) {
 			return new ConnectedButtonGroup((NamedEnumeratedProperty<?>) property);
 		} else if (property instanceof NamedEnumeratedProperty<?> namedEnumeratedProperty) {
-			return new Dropdown(namedEnumeratedProperty);
+			return createDropdown(namedEnumeratedProperty);
 		} else if (property instanceof StringPropertyWithSuggestions stringProperty) {
 			return new ComboBox(stringProperty);
 		} else if (property instanceof ImagePropertyListFacade imagePropertyListFacade) {
@@ -1574,6 +1590,17 @@ public abstract class PropertyView {
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * @param namedEnumeratedProperty property
+	 * @return dropdown for given property
+	 */
+	private static Dropdown createDropdown(NamedEnumeratedProperty<?> namedEnumeratedProperty) {
+		if (namedEnumeratedProperty instanceof StyledItemProperty styled) {
+			return new Dropdown(namedEnumeratedProperty, styled.getFontFamilies());
+		}
+		return new Dropdown(namedEnumeratedProperty);
 	}
 
 	private static List<PropertyView> propertyViewListOf(PropertyCollection<?> propertyCollection) {

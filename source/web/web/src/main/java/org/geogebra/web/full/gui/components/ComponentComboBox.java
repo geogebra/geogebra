@@ -16,7 +16,9 @@
 
 package org.geogebra.web.full.gui.components;
 
-import static org.geogebra.common.properties.PropertyView.*;
+import static org.geogebra.common.properties.PropertyView.ComboBox;
+import static org.geogebra.common.properties.PropertyView.ConfigurationUpdateDelegate;
+import static org.geogebra.common.properties.PropertyView.VisibilityUpdateDelegate;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -95,7 +97,7 @@ public class ComponentComboBox extends FlowPanel implements SetLabels,
 
 	private void initController(Supplier<List<String>> items) {
 		controller = new DropDownComboBoxController(appW, comboBoxProperty, this, items,
-				labelTextKey, this::onClose);
+				labelTextKey, this::onClose, null);
 		controller.addChangeHandler(() -> updateSelectionText(getSelectedText()));
 		controller.setPopupID(controlsID);
 		controller.setFocusAnchor(inputTextField.getInputElement());

@@ -49,6 +49,7 @@ import org.geogebra.web.full.gui.dialog.options.OptionsObjectW;
 import org.geogebra.web.full.gui.dialog.options.OptionsSpreadsheetW;
 import org.geogebra.web.full.gui.properties.ui.PropertiesPanelAdapter;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.euclidian.FontLoader;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSEvents;
@@ -115,6 +116,8 @@ public class PropertiesViewW extends PropertiesView
 		if (app instanceof AppWFull) {
 			((AppWFull) app).getExamEventBus().add(this);
 		}
+		// does not do anything if webfont path is empty
+		FontLoader.loadAllBundled(app.getAppletParameters().getParamWebfontsUrl());
 	}
 
 	private void initGUI() {

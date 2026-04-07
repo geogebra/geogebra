@@ -56,7 +56,7 @@ public final class TextStylePropertyCollection extends AbstractPropertyCollectio
 						ColorPropertyListFacade::new),
 				propertiesFactory.createOptionalPropertyFacade(elements,
 						element -> new FontProperty(localization, element),
-						NamedEnumeratedPropertyListFacade::new),
+						StyledNamedEnumeratedPropertyListFacade::new),
 				propertiesFactory.createOptionalPropertyFacade(elements,
 						element -> new FontSizeProperty(localization, element),
 						NamedEnumeratedPropertyListFacade::new),

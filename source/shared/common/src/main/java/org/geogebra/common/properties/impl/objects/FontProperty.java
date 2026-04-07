@@ -19,7 +19,9 @@ package org.geogebra.common.properties.impl.objects;
 import static java.util.Map.entry;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.geogebra.common.euclidian.draw.HasTextFormat;
@@ -29,7 +31,8 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.FontFamily> {
+public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.FontFamily>
+		implements StyledItemProperty {
 	public enum FontFamily {
 		ARIAL("Arial", "Arial, sans-serif"),
 		BY_DRUCK("By Druck", "ByDruck, sans-serif"),
@@ -121,5 +124,15 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 			}
 		}
 		return FontFamily.ARIAL;
+	}
+
+	@Override
+	public Map<Integer, FontFamily> getFontFamilies() {
+		Map<Integer, FontFamily> fontFamilies = new HashMap<>();
+		int i = 0;
+		for (FontFamily family : FontFamily.values()) {
+			fontFamilies.put(i++, family);
+		}
+		return fontFamilies;
 	}
 }

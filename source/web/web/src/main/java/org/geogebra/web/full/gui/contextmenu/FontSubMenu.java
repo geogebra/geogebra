@@ -55,6 +55,7 @@ public class FontSubMenu extends AriaMenuBar {
 		for (final FontProperty.FontFamily font : fonts) {
 			ScheduledCommand command = () -> setFontName(font.cssName());
 			AriaMenuItem item = new AriaMenuItem(font.displayName(), null, command);
+			item.getElement().getStyle().setProperty("fontFamily", font.cssName());
 			addItem(item);
 		}
 	}

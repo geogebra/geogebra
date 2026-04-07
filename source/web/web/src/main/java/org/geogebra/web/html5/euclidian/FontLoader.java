@@ -63,6 +63,19 @@ public final class FontLoader {
 		}
 	}
 
+	/**
+	 * Load all bundled web fonts.
+	 * @param baseUrl URL of the parent folder for web fonts.
+	 */
+	public static void loadAllBundled(String baseUrl) {
+		if (baseUrl.isEmpty()) {
+			return;
+		}
+		for (FontProperty.FontFamily family: bundled) {
+			loadFontFile(family.cssName().split(",")[0], baseUrl, () -> {});
+		}
+	}
+
 	private static void loadFontFile(String familyName, String baseUrl, final Runnable callback) {
 		if (!injected.containsKey(familyName)) {
 			String fileName = baseUrl + familyName;

@@ -16,7 +16,9 @@
 
 package org.geogebra.web.full.gui.components;
 
-import static org.geogebra.common.properties.PropertyView.*;
+import static org.geogebra.common.properties.PropertyView.ConfigurationUpdateDelegate;
+import static org.geogebra.common.properties.PropertyView.Dropdown;
+import static org.geogebra.common.properties.PropertyView.VisibilityUpdateDelegate;
 
 import java.util.List;
 
@@ -26,6 +28,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -39,6 +42,7 @@ import elemental2.dom.KeyboardEvent;
 public class ComponentDropDown extends FlowPanel implements SetLabels,
 		ConfigurationUpdateDelegate, VisibilityUpdateDelegate {
 	private final AppW app;
+	private final Styler styler;
 	private Label label;
 	private final String labelKey;
 	private Label selectedOption;
@@ -46,6 +50,17 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 	private DropDownComboBoxController controller;
 	private boolean fullWidth = false;
 	private @CheckForNull Dropdown dropDown;
+
+	/**
+	 * Style provider for individual items.
+	 */
+	public interface Styler {
+		/**
+		 * @param item item to apply style to
+		 * @param index item index
+		 */
+		void apply(AriaMenuItem item, int index);
+	}
 
 	/**
 	 * Material drop-down component.
@@ -56,6 +71,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 	private ComponentDropDown(AppW app, String label, List<String> items) {
 		this.app = app;
 		labelKey = label;
+		styler = null;
 
 		buildGUI(label);
 		initController(items);
@@ -87,9 +103,21 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 	 * @param property see {@link org.geogebra.common.properties.PropertyView.Dropdown}
 	 */
 	public ComponentDropDown(AppW app, String label, Dropdown property) {
+		this(app, label, property, null);
+	}
+
+	/**
+	 * @param app see {@link AppW}
+	 * @param label label of drop-down
+	 * @param property see {@link org.geogebra.common.properties.PropertyView.Dropdown}
+	 * @param styler a function that applies style to an item
+	 */
+	public ComponentDropDown(AppW app, String label, Dropdown property,
+			@CheckForNull Styler styler) {
 		this.app = app;
 		labelKey = label;
 		dropDown = property;
+		this.styler = styler;
 
 		buildGUI(label);
 		initController(property.getItems());
@@ -121,7 +149,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 				() -> items, labelKey, () -> {
 			removeStyleName("active");
 			AriaHelper.setAriaExpanded(this, false);
-		});
+		}, styler);
 		controller.addChangeHandler(() -> {
 			if (dropDown != null) {
 				dropDown.setSelectedItemIndex(controller.getSelectedIndex());

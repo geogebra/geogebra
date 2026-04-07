@@ -46,6 +46,7 @@ import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.euclidian.FontLoader;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -87,6 +88,8 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 		addHandlers();
 		buildGUI();
 		TestHarness.setAttr(this, "dynamicStyleBar");
+		// does not do anything if webfont path is empty
+		FontLoader.loadAllBundled(app.getAppletParameters().getParamWebfontsUrl());
 	}
 
 	private void buildGUI() {
