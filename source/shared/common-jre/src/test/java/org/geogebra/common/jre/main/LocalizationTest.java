@@ -18,11 +18,16 @@ package org.geogebra.common.jre.main;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.factories.AwtFactoryCommon;
@@ -31,10 +36,12 @@ import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.test.LocalizationCommonUTF;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class LocalizationTest {
 
+	private static final List<String> PERCENT_KEYS = List.of(
+			"TotalPercent", "RowPercent", "ColumnPercent");
 	private final LocalizationCommon loc = new LocalizationCommonUTF(3);
 
 	@Test
@@ -109,9 +116,9 @@ public class LocalizationTest {
 
 	private void checkAlias(Language lang, String... aliases) {
 		for (String alias : aliases) {
-			assertEquals(alias + " should stand for " + lang,
-					Language.fromLanguageTagOrLocaleString(alias),
-					lang);
+			assertEquals(Language.fromLanguageTagOrLocaleString(alias),
+					lang,
+					alias + " should stand for " + lang);
 		}
 	}
 
@@ -135,6 +142,50 @@ public class LocalizationTest {
 		loc.setLocale(Locale.FRENCH);
 		rounding = List.of(loc.getRoundingMenu()).subList(0, 3);
 		assertEquals(List.of("0 décimale", "1 décimale", "2 décimales"), rounding);
+	}
+
+	@Test
+	public void testPlaceholders() {
+		loc.setLocale(Locale.ENGLISH);
+		List<String> menuKeys = ((LocalizationJre) loc).getMenuKeys();
+		Map<String, Set<Character>> placeholderNumbers = new HashMap<>();
+		for (String key: menuKeys) {
+			if (!PERCENT_KEYS.contains(key)) {
+				placeholderNumbers.put(key, getPlaceholders(loc.getMenu(key)));
+			}
+		}
+		for (Language lang: loc.getSupportedLanguages(true)) {
+			loc.setLocale(Locale.forLanguageTag(lang.toLanguageTag()));
+			for (Map.Entry<String, Set<Character>> entry: placeholderNumbers.entrySet()) {
+				String translated = loc.getMenu(entry.getKey());
+				Set<Character> placeholders = getPlaceholders(translated);
+				assertEquals(entry.getValue(), placeholders,
+						"Placeholders should match for " + entry.getKey());
+			}
+		}
+	}
+
+	@Test
+	public void testPercent() {
+		for (Language lang: loc.getSupportedLanguages(true)) {
+			loc.setLocale(Locale.forLanguageTag(lang.toLanguageTag()));
+			for (String key: PERCENT_KEYS) {
+				String translated = loc.getMenu(key);
+				Set<Character> placeholders = getPlaceholders(translated);
+				// these either don't contain % at all, contain it at the end or followed by space
+				assertTrue(placeholders.isEmpty() || placeholders.equals(Set.of(' ')));
+			}
+		}
+	}
+
+	private Set<Character> getPlaceholders(String translated) {
+		Set<Character> placeholders = new HashSet<>();
+		for (int i = 0; i < translated.length() - 1; i++) {
+			if (translated.charAt(i) == '%') {
+				placeholders.add(translated.charAt(i + 1));
+			}
+		}
+		return placeholders;
 	}
 
 	private void assertLookupReturnsLanguageTag(String lookupTag, String expectedTag) {

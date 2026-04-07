@@ -20,6 +20,7 @@ import static org.geogebra.common.main.PreviewFeature.ALL_LANGUAGES;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -450,14 +451,23 @@ public abstract class LocalizationJre extends Localization {
 	 * @return whether translation exists in menu category
 	 */
 	public boolean hasMenu(String key) {
-		if (rbmenu == null) {
-			rbmenu = createBundle(getMenuResourcePath(), currentLocale);
-		}
+		ensureMenuLoaded();
 		try {
 			rbmenu.getString(key);
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	private void ensureMenuLoaded() {
+		if (rbmenu == null) {
+			rbmenu = createBundle(getMenuResourcePath(), currentLocale);
+		}
+	}
+
+	List<String> getMenuKeys() {
+		ensureMenuLoaded();
+		return Collections.list(rbmenu.getKeys());
 	}
 }
