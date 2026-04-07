@@ -51,13 +51,19 @@ import org.geogebra.common.properties.impl.objects.FillImageProperty;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.util.ImageManagerCommon;
+import org.geogebra.common.util.MockedCasValues;
+import org.geogebra.common.util.MockedCasValuesExtension;
 import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
-@SuppressWarnings("checkstyle:variableDeclarationUsageDistanceCheck")
+@SuppressWarnings({"variableDeclarationUsageDistanceCheck", "RegexpSinglelineCheck"})
+@ExtendWith(MockedCasValuesExtension.class)
 public class PropertyViewTests extends BaseAppTestSetup {
 
 	@BeforeAll
@@ -312,6 +318,28 @@ public class PropertyViewTests extends BaseAppTestSetup {
 		assertEquals("image", row.getFileName());
 		property.setValue(null);
 		assertEquals(null, row.getFileName());
+	}
+
+	@ParameterizedTest
+	@Issue("APPS-7499")
+	@CsvSource(delimiterString = "->", value = {
+			"(1, 2)			-> Point",
+			"f(x) = x^2		-> Function",
+			"x^2 + y^2 = 5	-> Circle"
+	})
+	@MockedCasValues({
+			"Evaluate((1, 2)) 		-> (1,2)",
+			"Evaluate(x²) 			-> x^2",
+			"Evaluate(x² + y² = 5) 	-> x^2+y^2=5",
+	})
+	public void testTabbedPageSelectorTitleForCasElements(
+			String element, String expectedTitleTransKey) {
+		setupApp(SuiteSubApp.CAS);
+		getApp().getSelectionManager().setSelectedGeos(List.of(evaluateGeoElement(element)));
+		PropertyView.TabbedPageSelector tabbedPageSelector =
+				PropertyViewFactory.propertyViewOfObjectSettings(getApp());
+		assertEquals(getLocalization().getMenu(expectedTitleTransKey),
+				tabbedPageSelector.getTitle());
 	}
 
 	private EuclidianView getEuclidianView() {

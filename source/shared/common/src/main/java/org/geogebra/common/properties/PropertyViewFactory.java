@@ -24,6 +24,8 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.ownership.SuiteScope;
@@ -93,6 +95,7 @@ public class PropertyViewFactory {
 	public static @Nonnull PropertyView.TabbedPageSelector propertyViewOfObjectSettings(
 			@Nonnull App app) {
 		List<GeoElement> geoElements = app.getSelectionManager().getSelectedGeos();
+		String title = app.getLocalization().getMenu(getTypeString(geoElements.get(0)));
 		SuiteScope suiteScope = GlobalScope.getSuiteScope(app);
 		assert suiteScope != null;
 		List<PropertiesArray> propertiesArrayList = suiteScope.geoElementPropertiesFactory
@@ -100,9 +103,7 @@ public class PropertyViewFactory {
 						app.getLocalization(), app.getImageManager(), geoElements);
 		propertiesArrayList.forEach(propertiesArray -> PropertyArrayValueObserving.addObserver(
 				propertiesArray, new UndoSavingPropertyObserver(app.getUndoManager())));
-		return new PropertyView.TabbedPageSelector(
-				app.getLocalization().getMenu(geoElements.get(0).getTypeString()),
-				propertiesArrayList, 0);
+		return new PropertyView.TabbedPageSelector(title, propertiesArrayList, 0);
 	}
 
 	/**
@@ -126,6 +127,17 @@ public class PropertyViewFactory {
 				propertyArrayList, objectPropertiesAreShown);
 		return new PropertyView.TabbedPageSelector(app.getLocalization().getMenu("Settings"),
 				propertyArrayList, initialSelectedTabIndex);
+	}
+
+	private static String getTypeString(GeoElement geoElement) {
+		if (!(geoElement instanceof GeoSymbolic geoSymbolic)) {
+			return geoElement.getTypeString();
+		}
+		GeoElementND twinGeo = geoSymbolic.getTwinGeo();
+		if (twinGeo == null) {
+			return "Settings";
+		}
+		return twinGeo.toGeoElement().getTypeString();
 	}
 
 	private static int calculateInitialSelectedTabIndex(
