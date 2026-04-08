@@ -289,15 +289,18 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 
 	@Override
 	public void clearView() {
+		resetValues();
+		highestUsedColumn = -1;
+		highestUsedRow = -1;
+		cellRangeManager.clear();
+	}
 
+	protected void resetValues() {
 		for (int c = 0; c < getColumnCount(); ++c) {
 			for (int r = 0; r < getRowCount(); ++r) {
 				setValueAt(null, r, c);
 			}
 		}
-		highestUsedColumn = -1;
-		highestUsedRow = -1;
-		cellRangeManager.clear();
 	}
 
 	@Override

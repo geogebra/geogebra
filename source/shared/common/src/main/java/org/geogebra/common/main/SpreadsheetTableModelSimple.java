@@ -17,9 +17,9 @@
 package org.geogebra.common.main;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Web implementation of the table model
@@ -31,12 +31,11 @@ public class SpreadsheetTableModelSimple extends SpreadsheetTableModel {
 
 	private ChangeListener listener = null;
 
-	// try with one-dimension ArrayList to represent two dimensions
-	private ArrayList<Object> defaultTableModel;
+	// try with two-dimension ArrayList to represent two dimensions
+	private final ArrayList<ArrayList<Object>> columns;
 
 	// it is easier to store the rowNum and colNum than computing them
-	private int rowNum = 0;
-	private int colNum = 0;
+	private int rowNum;
 
 	/**
 	 * Listens to changes in table size and values
@@ -66,22 +65,12 @@ public class SpreadsheetTableModelSimple extends SpreadsheetTableModel {
 	public SpreadsheetTableModelSimple(App app, int rows, int columns) {
 		super(app);
 		rowNum = rows;
-		colNum = columns;
-		defaultTableModel = new ArrayList<>(rows * columns);
-		for (int i = 0; i < rows * columns; i++) {
-			defaultTableModel.add(null);
+		this.columns = new ArrayList<>(columns);
+		for (int i =  0; i < columns; i++) {
+			this.columns.add(null);
 		}
 		attachView();
 		isIniting = false;
-	}
-
-	/**
-	 * Gets the JTable table model.
-	 * 
-	 * @return instance of Swing DefaultTableModel class
-	 */
-	public ArrayList<Object> getDefaultTableModel() {
-		return defaultTableModel;
 	}
 
 	/**
@@ -96,7 +85,7 @@ public class SpreadsheetTableModelSimple extends SpreadsheetTableModel {
 		Object value;
 		if (newTable != null) {
 			for (int i = 0; i < rowNum; i++) {
-				for (int j = 0; j < colNum; j++) {
+				for (int j = 0; j < columns.size(); j++) {
 					if ((value = getValueAt(i, j)) != null) {
 						newTable.updateTableCellValue(value, i, j);
 					}
@@ -112,60 +101,46 @@ public class SpreadsheetTableModelSimple extends SpreadsheetTableModel {
 
 	@Override
 	public int getColumnCount() {
-		return colNum;
+		return columns.size();
 	}
 
 	@Override
 	public void setRowCount(int rowCount) {
+		// only shrink lists that are too long,
+		// expanding lists that are too short happens in setValue
 		if (rowNum == rowCount) {
 			return;
 		} else if (rowNum > rowCount) {
-			for (int i = rowNum * colNum - 1; i >= rowCount * colNum; i--) {
-				defaultTableModel.remove(i);
-			}
-		} else {
-			defaultTableModel.ensureCapacity(rowCount * colNum);
-			for (int i = rowNum * colNum; i < rowCount * colNum; i++) {
-				defaultTableModel.add(null);
+			for (ArrayList<Object> column : columns) {
+				if (column != null && column.size() > rowCount) {
+					column.subList(rowCount, column.size()).clear();
+				}
 			}
 		}
 		rowNum = rowCount;
-		if (listener != null) {
-			listener.dimensionChange();
-		}
+		notifyDimensionChange();
 	}
 
 	@Override
 	public void setColumnCount(int columnCount) {
+		int colNum = columns.size();
 		if (colNum == columnCount) {
 			return;
 		} else if (colNum > columnCount) {
-			for (int i = rowNum - 1; i >= 0; i--) {
-				for (int j = colNum - 1; j >= columnCount; j--) {
-					defaultTableModel.remove(i * colNum + j);
-				}
-			}
+			columns.subList(columnCount, colNum).clear();
 		} else {
-			defaultTableModel.ensureCapacity(rowNum * columnCount);
-			for (int i = rowNum - 1; i >= 0; i--) {
-				for (int j = colNum; j < columnCount; j++) {
-					if (i * colNum + j >= defaultTableModel.size()) {
-						defaultTableModel.add(null);
-					} else {
-						defaultTableModel.add(i * colNum + j, null);
-					}
-				}
+			for (int col = colNum; col < columnCount; col++) {
+				columns.add(null);
 			}
 		}
-		colNum = columnCount;
-		if (listener != null) {
-			listener.dimensionChange();
-		}
+		notifyDimensionChange();
 	}
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		return defaultTableModel.get(row * colNum + column);
+		List<Object> columnValues = columns.get(column);
+		return columnValues != null && columnValues.size() > row
+				? columnValues.get(row) : null;
 	}
 
 	@Override
@@ -174,22 +149,24 @@ public class SpreadsheetTableModelSimple extends SpreadsheetTableModel {
 		// update column count if needed
 		if (column >= getColumnCount()) {
 			setColumnCount(column + 1);
-			if (listener != null) {
-				listener.dimensionChange();
+			notifyDimensionChange();
+		}
+		ArrayList<Object> columnValues = columns.get(column);
+		if (columnValues == null) {
+			columns.set(column, columnValues = new ArrayList<>());
+		}
+		if (columnValues.size() <= row) {
+			for (int r = columnValues.size(); r <= row; r++) {
+				columnValues.add(null);
 			}
 		}
-
-		if (row >= getRowCount()) {
-			setRowCount(row + 1);
-			if (listener != null) {
-				listener.dimensionChange();
-			}
+		if (row >= rowNum) {
+			rowNum = row + 1;
+			notifyDimensionChange();
 		}
-
-		if (value != null || defaultTableModel.get(row * colNum + column) != null) {
-			defaultTableModel.set(row * colNum + column, value);
+		if (value != null || columnValues.get(row) != null) {
+			columnValues.set(row, value);
 			if (table != null) {
-
 				table.updateTableCellValue(value, row, column);
 				// do this after updateTableCellValue, as it does no harm
 				// and the valueChange might need the table cell value!
@@ -198,12 +175,22 @@ public class SpreadsheetTableModelSimple extends SpreadsheetTableModel {
 				}
 			}
 		}
+	}
 
+	private void notifyDimensionChange() {
+		if (listener != null) {
+			listener.dimensionChange();
+		}
+	}
+
+	@Override
+	protected void resetValues() {
+		columns.clear();
+		rowNum = 0;
 	}
 
 	@Override
 	public boolean hasFocus() {
-		Log.debug("unimplemented");
 		return false;
 	}
 

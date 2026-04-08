@@ -2600,10 +2600,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 			// we need to also support wrapped GeoElements like
 			// $A4 that are implemented as dependent geos (using ExpressionNode)
-			final SpreadsheetCoords p = GeoElementSpreadsheet.spreadsheetIndices(
+			final SpreadsheetCoords p = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
 					getLabel(StringTemplate.defaultTemplate));
 
-			if ((p.column >= 0) && (p.row >= 0)) {
+			if (p != null) {
 				spreadsheetCoords.setLocation(p);
 			} else {
 				spreadsheetCoords = null;

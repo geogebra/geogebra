@@ -466,10 +466,10 @@ public class DataSource {
 		for (int i = 0; i < items.size(); i++) {
 			String range = items.get(i);
 
-			SpreadsheetCoords start = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
+			SpreadsheetCoords start = GeoElementSpreadsheet.getSpreadsheetCoordsSafe(
 					range.substring(0, range.indexOf(':')));
 
-			SpreadsheetCoords end = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
+			SpreadsheetCoords end = GeoElementSpreadsheet.getSpreadsheetCoordsSafe(
 					range.substring(range.indexOf(':') + 1));
 
 			TabularRange tr = new TabularRange(start.row, start.column, end.row, end.column);
@@ -479,10 +479,10 @@ public class DataSource {
 		if (frequencies != null) {
 			setFrequencyFromColumn(true);
 
-			SpreadsheetCoords start = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
+			SpreadsheetCoords start = GeoElementSpreadsheet.getSpreadsheetCoordsSafe(
 					frequencies.substring(0, frequencies.indexOf(':')));
 
-			SpreadsheetCoords end = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
+			SpreadsheetCoords end = GeoElementSpreadsheet.getSpreadsheetCoordsSafe(
 					frequencies.substring(frequencies.indexOf(':') + 1));
 
 			TabularRange tr = new TabularRange(start.row, start.column, end.row, end.column);

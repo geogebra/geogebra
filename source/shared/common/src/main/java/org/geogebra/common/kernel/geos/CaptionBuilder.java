@@ -51,7 +51,7 @@ public class CaptionBuilder {
 					String label = geo.getLabelSimple();
 					if (label != null) {
 						SpreadsheetCoords p = GeoElementSpreadsheet
-								.spreadsheetIndices(label);
+								.getSpreadsheetCoordsSafe(label);
 						if (p.column > -1 && p.row > -1) {
 							String labelR1 = GeoElementSpreadsheet
 									.getSpreadsheetCellName(p.column + 1, p.row);

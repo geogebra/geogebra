@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -44,20 +43,11 @@ public class CmdColumnName extends CommandProcessor {
 		GeoElement[] arg;
 		arg = resArgs(c, info);
 
-		switch (n) {
-		case 1:
-
-			if (GeoElementSpreadsheet.hasSpreadsheetLabel(arg[0])) {
-				AlgoColumnName algo = new AlgoColumnName(cons, c.getLabel(),
-						arg[0]);
-				GeoElement[] ret = { algo.getGeoText() };
-
-				return ret;
-			}
-			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		if (n == 1) {
+			AlgoColumnName algo = new AlgoColumnName(cons, arg[0]);
+			algo.getGeoText().setLabel(c.getLabel());
+			return new GeoElement[]{algo.getGeoText()};
 		}
+		throw argNumErr(c);
 	}
 }

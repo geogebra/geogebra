@@ -101,7 +101,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 
 	@Override
 	public void update(GeoElement geo) {
-		SpreadsheetCoords pt = GeoElementSpreadsheet.spreadsheetIndices(geo.getLabelSimple());
+		SpreadsheetCoords pt = GeoElementSpreadsheet.getSpreadsheetCoordsSafe(geo.getLabelSimple());
 		if (pt.column != -1) {
 			setContent(pt.row, pt.column, geo);
 			changeListeners.forEach(listener -> listener.tabularDataDidChange(pt.row, pt.column));
@@ -110,7 +110,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 
 	@Override
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
-		SpreadsheetCoords pt = GeoElementSpreadsheet.spreadsheetIndices(geo.getLabelSimple());
+		SpreadsheetCoords pt = GeoElementSpreadsheet.getSpreadsheetCoordsSafe(geo.getLabelSimple());
 		if (pt.column != -1) {
 			changeListeners.forEach(listener -> listener.tabularDataDidChange(pt.row, pt.column));
 		}
@@ -165,7 +165,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	// Helpers
 	
 	private void removeByLabel(String labelSimple) {
-		SpreadsheetCoords pt = GeoElementSpreadsheet.spreadsheetIndices(labelSimple);
+		SpreadsheetCoords pt = GeoElementSpreadsheet.getSpreadsheetCoordsSafe(labelSimple);
 		if (pt != null && pt.column != -1) {
 			setContent(pt.row, pt.column, null);
 			changeListeners.forEach(listener -> listener.tabularDataDidChange(pt.row, pt.column));

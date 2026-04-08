@@ -1115,11 +1115,13 @@ public class CommandsTestCommon extends BaseCommandTest {
 	@Test
 	public void cmdColumn() {
 		t("Column[ A1 ]", "1");
+		t("Column[ (1,1) ]", "NaN");
 	}
 
 	@Test
 	public void cmdColumnName() {
 		t("ColumnName[ A1 ]", "A");
+		t("ColumnName[ (1,1) ]", "");
 	}
 
 	@Test
@@ -3333,6 +3335,13 @@ public class CommandsTestCommon extends BaseCommandTest {
 	@Test
 	public void cmdRow() {
 		t("Row[ A1 ]", "1");
+		t("Row[ (1,1) ]", "NaN");
+		t("NTO9999=1", "1");
+		t("NTP9999=1", "1");
+		t("NTO10000=1", "1");
+		t("Row(NTO9999)", "9999");
+		t("Row(NTP9999)", "NaN");
+		t("Row(NTO10000)", "NaN");
 	}
 
 	@Test

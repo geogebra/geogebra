@@ -85,7 +85,7 @@ public class CommandsValidationTest extends BaseUnitTest {
 	}
 
 	private boolean acceptsAnyArgType(Commands cmdName) {
-		return Arrays.asList(Commands.Delete,
+		return List.of(Commands.Delete,
 				Commands.ConstructionStep,
 				Commands.Text,
 				Commands.LaTeX,
@@ -102,7 +102,12 @@ public class CommandsValidationTest extends BaseUnitTest {
 				Commands.SelectObjects,
 				Commands.Dot, Commands.Cross,
 				Commands.SetConstructionStep,
-				Commands.TableText, Commands.SetValue).contains(cmdName);
+				Commands.TableText,
+				Commands.SetValue,
+				Commands.Row,
+				Commands.Column,
+				Commands.ColumnName
+		).contains(cmdName);
 	}
 
 	private void checkArgumentNumberValidation(String cmdName,

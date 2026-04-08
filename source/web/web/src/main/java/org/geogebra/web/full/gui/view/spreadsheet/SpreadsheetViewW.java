@@ -223,7 +223,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		SpreadsheetCoords location = geo.getSpreadsheetCoords();
 
 		if (labelNew != null && location == null) {
-			location = GeoElementSpreadsheet.spreadsheetIndices(labelNew);
+			location = GeoElementSpreadsheet.getSpreadsheetCoordsSafe(labelNew);
 		}
 
 		if (scrollToShow && location != null && (location.column > -1) && (location.row > -1)) {

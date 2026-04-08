@@ -213,9 +213,8 @@ public class AlgoCellRange extends AlgoElement {
 	}
 
 	private void initFields() {
-		startCoords = GeoElementSpreadsheet
-				.getSpreadsheetCoordsForLabel(startCell);
-		endCoords = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(endCell);
+		startCoords = GeoElementSpreadsheet.getSpreadsheetCoordsSafe(startCell);
+		endCoords = GeoElementSpreadsheet.getSpreadsheetCoordsSafe(endCell);
 		toStringOutput = startCell + ":" + endCell;
 
 		tabularRange = new TabularRange(startCoords.row, startCoords.column,
@@ -357,6 +356,14 @@ public class AlgoCellRange extends AlgoElement {
 
 	public String getEnd() {
 		return endCell;
+	}
+
+	public SpreadsheetCoords getStartCoords() {
+		return startCoords;
+	}
+
+	public SpreadsheetCoords getEndCoords() {
+		return endCoords;
 	}
 
 	/**

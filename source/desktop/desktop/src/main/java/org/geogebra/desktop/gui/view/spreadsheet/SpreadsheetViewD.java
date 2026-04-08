@@ -317,7 +317,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		SpreadsheetCoords location = geo.getSpreadsheetCoords();
 
 		if (labelNew != null && location == null) {
-			location = GeoElementSpreadsheet.spreadsheetIndices(labelNew);
+			location = GeoElementSpreadsheet.getSpreadsheetCoordsSafe(labelNew);
 		}
 
 		if (location == null || (location.column == -1 && location.row == -1)) {

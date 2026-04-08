@@ -765,7 +765,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			return setSelection(-1, -1, -1, -1);
 		}
 
-		SpreadsheetCoords newCell = GeoElementSpreadsheet.spreadsheetIndices(cellName);
+		SpreadsheetCoords newCell = GeoElementSpreadsheet.getSpreadsheetCoordsSafe(cellName);
 		if (newCell.column != -1 && newCell.row != -1) {
 			return setSelection(newCell.column, newCell.row);
 		}

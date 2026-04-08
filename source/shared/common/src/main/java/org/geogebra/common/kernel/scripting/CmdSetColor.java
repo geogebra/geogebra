@@ -95,7 +95,7 @@ public class CmdSetColor extends CmdScripting {
 					&& LabelManager.isValidLabel(label, kernel, null)
 					&& GeoElementSpreadsheet.isSpreadsheetLabel(label)) {
 
-				SpreadsheetCoords coords = GeoElementSpreadsheet.spreadsheetIndices(label);
+				SpreadsheetCoords coords = GeoElementSpreadsheet.getSpreadsheetCoordsSafe(label);
 
 				CellFormatInterface formatHandler = kernel.getApplication()
 						.getSpreadsheetTableModel().getCellFormat(null);
@@ -133,7 +133,7 @@ public class CmdSetColor extends CmdScripting {
 					&& LabelManager.isValidLabel(label, kernel, null)
 					&& GeoElementSpreadsheet.isSpreadsheetLabel(label)) {
 
-				SpreadsheetCoords coords = GeoElementSpreadsheet.spreadsheetIndices(label);
+				SpreadsheetCoords coords = GeoElementSpreadsheet.getSpreadsheetCoordsSafe(label);
 
 				CellFormatInterface formatHandler = kernel.getApplication()
 						.getSpreadsheetTableModel().getCellFormat(null);

@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.statistics.AlgoCellRange;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.spreadsheet.core.SelectionType;
@@ -62,16 +61,12 @@ public class CmdDelete extends CmdScripting {
 			if (algoParent instanceof AlgoDependentGeoCopy) {
 				algoParent.getInput(0)
 						.removeOrSetUndefinedIfHasFixedDescendent();
-			} else if (algoParent instanceof AlgoCellRange) {
+			} else if (algoParent instanceof AlgoCellRange cellRange) {
 				// delete cells
-				AlgoCellRange algo = (AlgoCellRange) algoParent;
-				SpreadsheetCoords startCoords = GeoElementSpreadsheet
-						.getSpreadsheetCoordsForLabel(algo.getStart());
-				SpreadsheetCoords endCoords = GeoElementSpreadsheet
-						.getSpreadsheetCoordsForLabel(algo.getEnd());
+				SpreadsheetCoords startCoords = cellRange.getStartCoords();
+				SpreadsheetCoords endCoords = cellRange.getEndCoords();
 				CopyPasteCut.delete(app, startCoords.column, startCoords.row,
 						endCoords.column, endCoords.row, SelectionType.CELLS);
-
 			} else if (geo.isLabelSet()) {
 				// delete object
 				geo.removeOrSetUndefinedIfHasFixedDescendent();

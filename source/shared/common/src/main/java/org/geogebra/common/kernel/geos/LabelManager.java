@@ -177,7 +177,7 @@ public class LabelManager {
 		default:
 			// is this a spreadsheet label?
 			final SpreadsheetCoords p = GeoElementSpreadsheet
-					.spreadsheetIndices(labelPrefix);
+					.getSpreadsheetCoordsSafe(labelPrefix);
 			if ((p.column >= 0) && (p.row >= 0)) {
 				// more than one visible geo and it's a spreadsheet cell
 				// use D1, E1, F1, etc as names

@@ -36,12 +36,10 @@ public class AlgoColumn extends AlgoElement {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            output label
 	 * @param geo
 	 *            spreadsheet cell
 	 */
-	public AlgoColumn(Construction cons, String label, GeoElement geo) {
+	public AlgoColumn(Construction cons, GeoElement geo) {
 		super(cons);
 		this.geo = geo;
 
@@ -50,7 +48,6 @@ public class AlgoColumn extends AlgoElement {
 
 		// compute value of dependent number
 		compute();
-		num.setLabel(label);
 	}
 
 	@Override

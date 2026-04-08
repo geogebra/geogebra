@@ -30,13 +30,13 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
  */
 public class AlgoRow extends AlgoElement {
 
-	private GeoElement geo; // input
-	private GeoNumeric num; // output
+	private final GeoElement geo; // input
+	private final GeoNumeric num; // output
 
 	/**
 	 * Creates new row algo
 	 */
-	public AlgoRow(Construction cons, String label, GeoElement geo) {
+	public AlgoRow(Construction cons, GeoElement geo) {
 		super(cons);
 		this.geo = geo;
 
@@ -45,7 +45,6 @@ public class AlgoRow extends AlgoElement {
 
 		// compute value of dependent number
 		compute();
-		num.setLabel(label);
 	}
 
 	@Override
