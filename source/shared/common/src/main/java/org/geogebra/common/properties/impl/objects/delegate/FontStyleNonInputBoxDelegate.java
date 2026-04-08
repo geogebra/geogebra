@@ -29,7 +29,12 @@ public class FontStyleNonInputBoxDelegate extends AbstractGeoElementDelegate {
 
 	@Override
 	protected boolean checkIsApplicable(GeoElement element) {
-		return (element instanceof HasTextFormatter || element instanceof TextProperties)
+		return (isInlineWithSupportedFont(element) || element instanceof TextProperties)
 				&& !(element instanceof GeoInputBox);
+	}
+
+	private boolean isInlineWithSupportedFont(GeoElement element) {
+		return element instanceof HasTextFormatter formattedElement
+			&& !formattedElement.getFormat("font", "").startsWith("By");
 	}
 }

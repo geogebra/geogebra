@@ -68,7 +68,7 @@ public class FontSubMenu extends AriaMenuBar {
 
 		UpdateContentActionStore store = new UpdateContentActionStore(geosToStore);
 		for (HasTextFormat formatter : formatters) {
-			formatter.format("font", cssName);
+			formatter.formatFont(cssName);
 		}
 		if (store.needUndo()) {
 			store.storeUndo();

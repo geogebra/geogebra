@@ -215,6 +215,16 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	@Override
+	public void formatFont(String val) {
+		format("font", val);
+		if (val != null && val.contains("By")) {
+			format("bold", false);
+			format("italic", false);
+			format("underline", false);
+		}
+	}
+
+	@Override
 	public <T> T getFormat(String key, T fallback) {
 		return tableImpl.getFormatting(key, fallback);
 	}

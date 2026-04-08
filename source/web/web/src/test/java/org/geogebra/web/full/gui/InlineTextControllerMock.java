@@ -83,6 +83,11 @@ public class InlineTextControllerMock implements InlineTextController {
 	}
 
 	@Override
+	public void formatFont(String val) {
+
+	}
+
+	@Override
 	public void updateContent() {
 
 	}

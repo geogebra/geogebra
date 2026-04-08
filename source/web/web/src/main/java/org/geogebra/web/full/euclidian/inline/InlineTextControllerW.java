@@ -324,6 +324,16 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	@Override
+	public void formatFont(String val) {
+		format("font", val);
+		if (val != null && val.contains("By")) {
+			format("bold", false);
+			format("italic", false);
+			format("underline", false);
+		}
+	}
+
+	@Override
 	public void saveContent() {
 		geo.setContent(editor.getContent());
 	}

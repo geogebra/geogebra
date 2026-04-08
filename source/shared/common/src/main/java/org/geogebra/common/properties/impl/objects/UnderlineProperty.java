@@ -23,13 +23,11 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.ToggleableIconProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
-import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
-import org.geogebra.common.properties.impl.objects.delegate.TextFormatterDelegate;
 
 public class UnderlineProperty extends AbstractValuedProperty<Boolean>
 		implements ToggleableIconProperty {
-	private final GeoElementDelegate delegate;
+	private final HasTextFormatter element;
 
 	/**
 	 * Underline property
@@ -39,14 +37,20 @@ public class UnderlineProperty extends AbstractValuedProperty<Boolean>
 	public UnderlineProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "Underline");
-		delegate = new TextFormatterDelegate(element);
+		if (!isApplicable(element)) {
+			throw new NotApplicablePropertyException(element);
+		}
+		this.element = (HasTextFormatter) element;
+	}
+
+	private boolean isApplicable(GeoElement element) {
+		return element instanceof HasTextFormatter formattedElement
+			&& !formattedElement.getFormat("font", "").startsWith("By");
 	}
 
 	@Override
 	protected void doSetValue(Boolean value) {
-		HasTextFormatter element = (HasTextFormatter) delegate.getElement();
-		if (getLocalization() != null && !value.equals(element
-				.getFormat("underline", false))) {
+		if (!value.equals(element.getFormat("underline", false))) {
 			element.format("underline", value);
 		}
 		((GeoElement) element).updateVisualStyle(GProperty.COMBINED);
@@ -54,7 +58,6 @@ public class UnderlineProperty extends AbstractValuedProperty<Boolean>
 
 	@Override
 	public Boolean getValue() {
-		HasTextFormatter element = (HasTextFormatter) delegate.getElement();
 		return element.getFormat("underline", false);
 	}
 

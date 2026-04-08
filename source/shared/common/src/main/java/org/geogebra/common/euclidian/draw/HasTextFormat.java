@@ -35,6 +35,11 @@ public interface HasTextFormat {
 	void format(String key, Object val);
 
 	/**
+	 * @param val font family name
+	 */
+	void formatFont(String val);
+
+	/**
 	 * @param key formatting option name
 	 * @param fallback fallback when not set / indeterminate
 	 * @param <T> option type

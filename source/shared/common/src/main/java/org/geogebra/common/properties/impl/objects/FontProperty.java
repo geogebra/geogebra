@@ -108,7 +108,7 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 	protected void doSetValue(FontFamily value) {
 		HasTextFormat formatter = geoElement.getFormatter();
 		if (formatter != null) {
-			formatter.format("font", value.cssName());
+			formatter.formatFont(value.cssName());
 		}
 	}
 
