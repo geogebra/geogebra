@@ -106,5 +106,4 @@ public class AltGeoTabber implements FocusableComponent {
 	public AccessibilityGroup.ViewControlId getViewControlId() {
 		return AccessibilityGroup.ViewControlId.ALT_GEO;
 	}
-
 }

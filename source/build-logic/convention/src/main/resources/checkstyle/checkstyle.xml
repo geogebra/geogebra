@@ -54,6 +54,7 @@
         <property name="max" value="100"/>
         <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://|@|Regex"/>
     </module>
+    <module name="NewlineAtEndOfFile"/>
     <module name="TreeWalker">
         <module name="SuppressWarningsHolder" />
         <module name="Regexp">

@@ -22,7 +22,7 @@ package org.geogebra.keyboard.web;
 public interface KeyboardCloseListener {
 
 	/**
-	 * Hide keyboard
+	 * Hide keyboard.
 	 */
 	void closeKeyboard();
 

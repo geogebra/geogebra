@@ -794,8 +794,7 @@ public final class GColor implements GPaint {
 
 	private double lumComponent(int val) {
 		double valD = val / 255.0;
+		// If(x <= 0.03928 , x / 12.92, ((x + 0.055) / 1.055)^2.4)
 		return valD <= 0.03928 ? valD / 12.92 : Math.pow((valD + 0.055) / 1.055, 2.4);
 	}
 }
-
-// If(x <= 0.03928 , x / 12.92, ((x + 0.055) / 1.055)^2.4)

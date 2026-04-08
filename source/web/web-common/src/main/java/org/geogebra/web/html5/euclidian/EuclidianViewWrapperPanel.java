@@ -101,5 +101,4 @@ public class EuclidianViewWrapperPanel extends AbsolutePanel implements
 	public void enableZoomPanelEvents(boolean enable) {
 		// not needed
 	}
-
 }

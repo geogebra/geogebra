@@ -62,5 +62,4 @@ public class InputBarHelpPanelWTest {
         Mockito.verify(inputBarHelpPanelW, Mockito.times(1))
                 .showOnlineHelpButton(false);
     }
-
 }
