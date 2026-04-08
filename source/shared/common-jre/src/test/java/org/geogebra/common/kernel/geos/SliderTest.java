@@ -121,6 +121,22 @@ public class SliderTest extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue("APPS-7498")
+	public void removeSliderShouldHideAnimationButton() {
+		GeoNumeric slider = add("a = 1", info);
+		slider.createSlider();
+		slider.setAnimating(true);
+		getKernel().getAnimationManager().startAnimation();
+
+		assertThat(getKernel().needToShowAnimationButton(), is(true));
+
+		new RemoveSlider(getAlgebraProcessor()).execute(slider);
+
+		assertThat(slider.isAnimating(), is(false));
+		assertThat(getKernel().needToShowAnimationButton(), is(false));
+	}
+
+	@Test
 	public void autocreateSliderShouldHaveCorrectRangeGeometry() {
 		getApp().setConfig(new AppConfigGeometry());
 		getConstruction().getConstructionDefaults().createDefaultGeoElements();
