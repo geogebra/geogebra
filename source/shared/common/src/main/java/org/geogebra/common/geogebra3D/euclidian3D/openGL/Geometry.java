@@ -336,7 +336,7 @@ public class Geometry implements GeometryForExport {
 
 		case CURVE:
 			arrayI = manager.getBufferIndicesForCurve(size);
-			indicesLength = 3 * 2 * size * PlotterBrush.LATITUDES;
+			indicesLength = 3 * 2 * size * manager.getCurveLatitudeSplits();
 			hasSharedIndexBuffer = true;
 			break;
 

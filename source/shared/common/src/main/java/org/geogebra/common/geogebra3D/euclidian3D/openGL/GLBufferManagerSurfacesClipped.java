@@ -28,8 +28,6 @@ public class GLBufferManagerSurfacesClipped
 	static final private int ELEMENTS_SIZE_START = 4096;
 	static final private int INDICES_SIZE_START = ELEMENTS_SIZE_START * 3;
 
-	private ManagerShaders manager;
-
 	/**
 	 * constructor
 	 * 
@@ -37,19 +35,15 @@ public class GLBufferManagerSurfacesClipped
 	 *            geometries manager
 	 */
 	public GLBufferManagerSurfacesClipped(ManagerShaders manager) {
-		this.manager = manager;
+		super(manager);
 	}
 
 	@Override
 	protected int calculateIndicesLength(int size, TypeElement type) {
-		switch (type) {
-		case SURFACE:
-			return size;
-		case TRIANGLES:
+		if (type == TypeElement.TRIANGLES) {
 			return 3 * size;
-		default:
-			return size;
 		}
+		return size;
 	}
 
 	@Override

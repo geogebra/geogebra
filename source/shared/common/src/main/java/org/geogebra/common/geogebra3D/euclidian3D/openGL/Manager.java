@@ -61,7 +61,7 @@ abstract public class Manager {
 
 	// geogebra stuff
 	private EuclidianView3D view3D;
-	private Coords normalToScaleTmp = new Coords(3);
+	private final Coords normalToScaleTmp = new Coords(3);
 
 	/**
 	 * current scaler (identity/3D view)
@@ -77,6 +77,7 @@ abstract public class Manager {
 	private int curvesIndicesSize;
 	private int fanDirectIndicesSize;
 	private int fanIndirectIndicesSize;
+	private int latitudes = 8;
 
 	/**
 	 * create a manager for geometries
@@ -105,7 +106,7 @@ abstract public class Manager {
 		initGeometriesList();
 
 		// creating geometries
-
+		latitudes = newView3D.getLatitudes();
 		brush = newPlotterBrush();
 		surface = newPlotterSurface();
 
@@ -128,6 +129,13 @@ abstract public class Manager {
 	 */
 	public Manager(EuclidianView3D view3D) {
 		this.view3D = view3D;
+	}
+
+	/**
+	 * @return number of latitude-wise splits for curves
+	 */
+	public int getCurveLatitudeSplits() {
+		return latitudes;
 	}
 
 	/**
@@ -1052,23 +1060,23 @@ abstract public class Manager {
 			if (curvesIndices == null) {
 				curvesIndices = GLFactory.getPrototype().newBufferIndices();
 			}
-			curvesIndices.allocate(3 * 2 * size * PlotterBrush.LATITUDES);
+			curvesIndices.allocate(3 * 2 * size * latitudes);
 
 			for (int k = 0; k < size; k++) {
-				for (int i = 0; i < PlotterBrush.LATITUDES; i++) {
-					int iNext = (i + 1) % PlotterBrush.LATITUDES;
+				for (int i = 0; i < latitudes; i++) {
+					int iNext = (i + 1) % latitudes;
 					// first triangle
-					curvesIndices.put((short) (i + k * PlotterBrush.LATITUDES));
+					curvesIndices.put((short) (i + k * latitudes));
 					curvesIndices.put(
-							(short) (i + (k + 1) * PlotterBrush.LATITUDES));
+							(short) (i + (k + 1) * latitudes));
 					curvesIndices.put(
-							(short) (iNext + (k + 1) * PlotterBrush.LATITUDES));
+							(short) (iNext + (k + 1) * latitudes));
 					// second triangle
-					curvesIndices.put((short) (i + k * PlotterBrush.LATITUDES));
+					curvesIndices.put((short) (i + k * latitudes));
 					curvesIndices.put(
-							(short) (iNext + (k + 1) * PlotterBrush.LATITUDES));
+							(short) (iNext + (k + 1) * latitudes));
 					curvesIndices
-							.put((short) (iNext + k * PlotterBrush.LATITUDES));
+							.put((short) (iNext + k * latitudes));
 				}
 			}
 			curvesIndices.rewind();

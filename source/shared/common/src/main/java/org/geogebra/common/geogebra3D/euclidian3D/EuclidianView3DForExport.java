@@ -455,4 +455,9 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 		return 0.25f;
 	}
 
+	@Override
+	public int getLatitudes() {
+		return 64;
+	}
+
 }

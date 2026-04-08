@@ -30,13 +30,14 @@ abstract class GLBufferManager {
 
 	/** alpha value for invisible geometries */
 	static final int ALPHA_INVISIBLE = -1;
+	protected final ManagerShaders manager;
 
-	private Index currentIndex;
+	private final Index currentIndex;
 	/** current elements/indices lengths */
 	protected Index currentLengths;
 	/** current buffer segment */
 	protected BufferSegment currentBufferSegment;
-	private TreeMap<Index, BufferSegment> bufferSegments;
+	private final TreeMap<Index, BufferSegment> bufferSegments;
 	/** indices index for writing */
 	protected int indicesIndex;
 	/** segments available for reuse */
@@ -66,8 +67,8 @@ abstract class GLBufferManager {
 	 *            curve size
 	 * @return elements length for given curve size
 	 */
-	static int getElementsLengthForCurve(int size) {
-		return (size + 1) * PlotterBrush.LATITUDES;
+	int getElementsLengthForCurve(int size) {
+		return (size + 1) * manager.getCurveLatitudeSplits();
 	}
 
 	/**
@@ -76,8 +77,8 @@ abstract class GLBufferManager {
 	 *            elements length
 	 * @return size for given curve elements length
 	 */
-	static int getSizeForCurveFromElements(int elementsLength) {
-		return elementsLength / PlotterBrush.LATITUDES - 1;
+	int getSizeForCurveFromElements(int elementsLength) {
+		return elementsLength / manager.getCurveLatitudeSplits() - 1;
 	}
 
 	/**
@@ -86,14 +87,15 @@ abstract class GLBufferManager {
 	 *            curve size
 	 * @return indices length for given curve size
 	 */
-	static int getIndicesLengthForCurve(int size) {
-		return 3 * 2 * size * PlotterBrush.LATITUDES;
+	int getIndicesLengthForCurve(int size) {
+		return 3 * 2 * size * manager.getCurveLatitudeSplits();
 	}
 
 	/**
 	 * constructor
 	 */
-	GLBufferManager() {
+	GLBufferManager(ManagerShaders manager) {
+		this.manager = manager;
 		currentIndex = new Index();
 		bufferPackList = new ArrayList<>();
 
@@ -277,7 +279,7 @@ abstract class GLBufferManager {
 	 * @param bufferSegment
 	 *            buffer segment
 	 */
-	protected void addToAvailableSegments(BufferSegment bufferSegment) {
+	void addToAvailableSegments(BufferSegment bufferSegment) {
 		LinkedList<BufferSegment> list = availableSegments.get(currentLengths);
 		if (list == null) {
 			list = new LinkedList<>();
@@ -289,7 +291,7 @@ abstract class GLBufferManager {
 	/**
 	 * @return available segment for current length
 	 */
-	protected BufferSegment getAvailableSegment() {
+	BufferSegment getAvailableSegment() {
 		LinkedList<BufferSegment> list = availableSegments.get(currentLengths);
 		if (list == null || list.isEmpty()) {
 			return null;
@@ -548,18 +550,23 @@ abstract class GLBufferManager {
 	 *            curve size
 	 */
 	protected void putToIndicesForCurve(int size) {
+		int latitudes = manager.getCurveLatitudeSplits();
 		for (int k = 0; k < size; k++) {
-			for (int i = 0; i < PlotterBrush.LATITUDES; i++) {
-				int iNext = (i + 1) % PlotterBrush.LATITUDES;
+			for (int i = 0; i < latitudes; i++) {
+				int iNext = (i + 1) % latitudes;
 				// first triangle
-				putToIndices(i + k * PlotterBrush.LATITUDES);
-				putToIndices(i + (k + 1) * PlotterBrush.LATITUDES);
-				putToIndices(iNext + (k + 1) * PlotterBrush.LATITUDES);
+				putToIndices(i + k * latitudes);
+				putToIndices(i + (k + 1) * latitudes);
+				putToIndices(iNext + (k + 1) * latitudes);
 				// second triangle
-				putToIndices(i + k * PlotterBrush.LATITUDES);
-				putToIndices(iNext + (k + 1) * PlotterBrush.LATITUDES);
-				putToIndices(iNext + k * PlotterBrush.LATITUDES);
+				putToIndices(i + k * latitudes);
+				putToIndices(iNext + (k + 1) * latitudes);
+				putToIndices(iNext + k * latitudes);
 			}
 		}
+	}
+
+	public int getCurveLatitudeSplits() {
+		return manager.getCurveLatitudeSplits();
 	}
 }

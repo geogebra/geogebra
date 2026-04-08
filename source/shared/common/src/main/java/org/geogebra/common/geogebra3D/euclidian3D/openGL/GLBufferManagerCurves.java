@@ -31,29 +31,23 @@ public class GLBufferManagerCurves extends GLBufferManager {
 	// and 3 indices per triangle
 	static final private int INDICES_SIZE_START = ELEMENTS_SIZE_START * 3;
 
-	private ManagerShaders manager;
-
 	/**
 	 * 
 	 * @param manager
 	 *            manager
 	 */
 	public GLBufferManagerCurves(ManagerShaders manager) {
-		this.manager = manager;
+		super(manager);
 	}
 
 	@Override
 	protected int calculateIndicesLength(int size, TypeElement type) {
-		switch (type) {
-		case CURVE:
-			return 3 * 2 * size * PlotterBrush.LATITUDES;
-		case TRIANGLES:
-			return 3 * size;
-		case TEMPLATE:
-			return size;
-		default: // should not happen
-			return 0;
-		}
+		return switch (type) {
+			case CURVE -> 3 * 2 * size * manager.getCurveLatitudeSplits();
+			case TRIANGLES -> 3 * size;
+			case TEMPLATE -> size;
+			default -> 0; // should not happen
+		};
 	}
 
 	@Override

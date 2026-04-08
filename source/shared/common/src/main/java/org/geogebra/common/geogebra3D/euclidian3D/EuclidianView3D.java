@@ -5042,6 +5042,13 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
+	 * @return number of latitude-wise splits for curve plotting
+	 */
+	public int getLatitudes() {
+		return 8;
+	}
+
+	/**
 	 * @param isXRDrawing
 	 *            whether XR is active
 	 */

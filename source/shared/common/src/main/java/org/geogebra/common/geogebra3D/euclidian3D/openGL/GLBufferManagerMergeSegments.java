@@ -28,15 +28,17 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 
 	static final private int SPLIT_AVAILABLE_LIMIT = 2;
 
-	private Index startIndex;
-	private Index endIndex;
-	private TreeMap<Integer, LinkedList<BufferPackAbstract>> availableBufferPacks = new TreeMap<>();
+	private final Index startIndex;
+	private final Index endIndex;
+	private final TreeMap<Integer, LinkedList<BufferPackAbstract>> availableBufferPacks
+			= new TreeMap<>();
 	private boolean mayNeedToRemoveBuffers = false;
 
 	/**
 	 * constructor
 	 */
-	public GLBufferManagerMergeSegments() {
+	public GLBufferManagerMergeSegments(ManagerShaders manager) {
+		super(manager);
 		startIndex = new Index();
 		endIndex = new Index();
 	}
@@ -58,7 +60,7 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 	 * @param segment
 	 *            segment
 	 */
-	final protected void removeFromAvailableSegments(BufferSegment segment) {
+	private void removeFromAvailableSegments(BufferSegment segment) {
 		currentLengths.setAvailableLengths(segment);
 		LinkedList<BufferSegment> list = availableSegments.get(currentLengths);
 		if (list != null) {
@@ -107,7 +109,7 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 	}
 
 	@Override
-	final protected void addToAvailableSegments(BufferSegment bufferSegment) {
+	final void addToAvailableSegments(BufferSegment bufferSegment) {
 		super.addToAvailableSegments(bufferSegment);
 		currentBufferPack.getSegmentEnds().put(new Index(endIndex),
 				bufferSegment);
@@ -117,7 +119,7 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 	}
 
 	@Override
-	final protected BufferSegment getAvailableSegment() {
+	final BufferSegment getAvailableSegment() {
 		Map.Entry<Index, LinkedList<BufferSegment>> entry = availableSegments
 				.ceilingEntry(currentLengths);
 		if (entry == null) {
@@ -145,8 +147,7 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 			int size = getSizeForCurveFromElements(ret.getElementsLength());
 			int eLength = getElementsLengthForCurve(
 					size * SPLIT_AVAILABLE_LIMIT);
-			int iLength = getIndicesLengthForCurve(
-					size * SPLIT_AVAILABLE_LIMIT);
+			int iLength = getIndicesLengthForCurve(size * SPLIT_AVAILABLE_LIMIT);
 			BufferSegment remainSegment = new BufferSegment(currentBufferPack,
 					ret.elementsOffset + eLength,
 					ret.getElementsAvailableLength() - eLength,
@@ -167,8 +168,7 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 		Entry<Integer, LinkedList<BufferPackAbstract>> entry = availableBufferPacks
 				.ceilingEntry(elementsLength);
 		if (entry != null) {
-			BufferPackAbstract buffer = entry.getValue().getFirst();
-			currentBufferPack = buffer;
+			currentBufferPack = entry.getValue().getFirst();
 		} else {
 			super.useAnotherBufferPack();
 		}
@@ -189,11 +189,8 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 	private void addToAvailableBufferPacks(BufferPackAbstract buffer) {
 		int length = BufferPackAbstract.ELEMENT_SIZE_MAX
 				- buffer.elementsLength;
-		LinkedList<BufferPackAbstract> list = availableBufferPacks.get(length);
-		if (list == null) {
-			list = new LinkedList<>();
-			availableBufferPacks.put(length, list);
-		}
+		LinkedList<BufferPackAbstract> list =
+				availableBufferPacks.computeIfAbsent(length, k -> new LinkedList<>());
 		list.add(buffer);
 	}
 

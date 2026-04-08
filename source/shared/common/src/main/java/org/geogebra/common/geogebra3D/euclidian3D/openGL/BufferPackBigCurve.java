@@ -28,17 +28,14 @@ public class BufferPackBigCurve extends BufferPackAbstract {
 	/**
 	 * max size for a curve
 	 */
-	public static final int CURVE_SIZE_MAX = (Short.MAX_VALUE + 1)
-			/ PlotterBrush.LATITUDES - 1;
+	public final int curveSizeMax;
 
-	private static final int INDICES_LENGTH_MAX = GLBufferManager
-			.getIndicesLengthForCurve(CURVE_SIZE_MAX);
+	private final int indicesLengthMax;
 
-	private GLBufferManager manager;
+	private final GLBufferManager manager;
 	private BufferPack[] bufferPacks;
 	private BufferPack lastBuffer;
 	private int bufferCount;
-	private int lastBufferSize;
 	private int lastBufferElementsLength;
 	private int lastBufferIndicesLength;
 
@@ -48,10 +45,22 @@ public class BufferPackBigCurve extends BufferPackAbstract {
 	 * @param manager
 	 *            geometries manager
 	 */
-	public BufferPackBigCurve(GLBufferManager manager) {
+	BufferPackBigCurve(GLBufferManager manager) {
 		this.manager = manager;
+		curveSizeMax = getCurveSizeMax(manager);
+		indicesLengthMax = manager
+				.getIndicesLengthForCurve(curveSizeMax);
 		elementsLength = 0;
 		indicesLength = 0;
+	}
+
+	/**
+	 * @param manager3D geometry manager
+	 * @return maximum length of a curve
+	 */
+	static int getCurveSizeMax(GLBufferManager manager3D) {
+		return (Short.MAX_VALUE + 1)
+				/ manager3D.getCurveLatitudeSplits() - 1;
 	}
 
 	@Override
@@ -63,19 +72,19 @@ public class BufferPackBigCurve extends BufferPackAbstract {
 	public void addToLength(int elementsLengthToAdd, int indicesLengthToAdd) {
 		elementsLength = elementsLengthToAdd;
 		indicesLength = indicesLengthToAdd;
-		int size = elementsLength / PlotterBrush.LATITUDES - 1;
-		bufferCount = size / CURVE_SIZE_MAX;
+		int size = elementsLength / manager.getCurveLatitudeSplits() - 1;
+		bufferCount = size / curveSizeMax;
 		bufferPacks = new BufferPack[bufferCount];
 		for (int i = 0; i < bufferCount; i++) {
 			bufferPacks[i] = new BufferPack(manager, ELEMENT_SIZE_MAX,
-					INDICES_LENGTH_MAX);
-			bufferPacks[i].addToLength(ELEMENT_SIZE_MAX, INDICES_LENGTH_MAX);
+					indicesLengthMax);
+			bufferPacks[i].addToLength(ELEMENT_SIZE_MAX, indicesLengthMax);
 		}
-		lastBufferSize = size % CURVE_SIZE_MAX;
+		int lastBufferSize = size % curveSizeMax;
 		if (lastBufferSize > 0) {
-			lastBufferElementsLength = GLBufferManager
+			lastBufferElementsLength = manager
 					.getElementsLengthForCurve(lastBufferSize);
-			lastBufferIndicesLength = GLBufferManager
+			lastBufferIndicesLength = manager
 					.getIndicesLengthForCurve(lastBufferSize);
 			lastBuffer = new BufferPack(manager, lastBufferElementsLength,
 					lastBufferIndicesLength);

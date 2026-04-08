@@ -26,17 +26,23 @@ public class GLBufferManagerCurvesClipped extends GLBufferManagerMergeSegments {
 	static final private int ELEMENTS_SIZE_START = 2048;
 	static final private int INDICES_SIZE_START = ELEMENTS_SIZE_START * 6;
 
+	/**
+	 * @param manager geometry manager
+	 */
+	public GLBufferManagerCurvesClipped(ManagerShaders manager) {
+		super(manager);
+	}
+
 	@Override
 	protected int calculateIndicesLength(int size, TypeElement type) {
-		return 3 * 2 * size * PlotterBrush.LATITUDES;
+		return 3 * 2 * size * manager.getCurveLatitudeSplits();
 	}
 
 	@Override
 	protected void putIndices(int size, TypeElement type,
 			boolean reuseSegment) {
-		if (currentBufferSegment.bufferPack instanceof BufferPackBigCurve) {
-			BufferPackBigCurve bufferPack = (BufferPackBigCurve) currentBufferSegment.bufferPack;
-			putToIndicesForCurve(BufferPackBigCurve.CURVE_SIZE_MAX);
+		if (currentBufferSegment.bufferPack instanceof BufferPackBigCurve bufferPack) {
+			putToIndicesForCurve(BufferPackBigCurve.getCurveSizeMax(this));
 			bufferPack.cloneIndices();
 		} else {
 			putToIndicesForCurve(size);

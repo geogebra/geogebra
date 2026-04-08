@@ -38,9 +38,9 @@ public class GLBufferManagerTemplatesForPoints extends GLBufferManager {
 
 	private GLBufferIndicesArray bufferIndicesArray;
 
-	private ArrayList<Double>[] vertexTemplates;
-	private ArrayList<Double>[] normalTemplates;
-	private ArrayList<Short>[] indicesTemplates;
+	private final ArrayList<Double>[] vertexTemplates;
+	private final ArrayList<Double>[] normalTemplates;
+	private final ArrayList<Short>[] indicesTemplates;
 
 	private ArrayList<Double> currentVertexArray;
 	private ArrayList<Double> currentNormalArray;
@@ -77,7 +77,8 @@ public class GLBufferManagerTemplatesForPoints extends GLBufferManager {
 	 * constructor
 	 */
 	@SuppressWarnings("unchecked")
-	public GLBufferManagerTemplatesForPoints() {
+	public GLBufferManagerTemplatesForPoints(ManagerShaders manager) {
+		super(manager);
 		vertexTemplates = new ArrayList[POINT_TEMPLATES_COUNT];
 		normalTemplates = new ArrayList[POINT_TEMPLATES_COUNT];
 		indicesTemplates = new ArrayList[POINT_TEMPLATES_COUNT];

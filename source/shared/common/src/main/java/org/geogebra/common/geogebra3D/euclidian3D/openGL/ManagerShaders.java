@@ -63,19 +63,19 @@ public class ManagerShaders extends Manager {
 	/** color value for invisible parts */
 	public static final GColor COLOR_INVISIBLE = GColor.newColor(0, 0, 0, 0);
 
-	private GLBufferManagerCurves bufferManagerCurves;
-	private GLBufferManagerCurvesClipped bufferManagerCurvesClipped;
-	private GLBufferManagerSurfaces bufferManagerSurfaces;
-	private GLBufferManagerSurfaces bufferManagerSurfacesClosed;
-	private GLBufferManagerSurfacesClipped bufferManagerSurfacesClipped;
-	private GLBufferManagerPoints bufferManagerPoints;
-	private GLBufferManagerTemplatesForPoints bufferTemplates;
+	private final GLBufferManagerCurves bufferManagerCurves;
+	private final GLBufferManagerCurvesClipped bufferManagerCurvesClipped;
+	private final GLBufferManagerSurfaces bufferManagerSurfaces;
+	private final GLBufferManagerSurfaces bufferManagerSurfacesClosed;
+	private final GLBufferManagerSurfacesClipped bufferManagerSurfacesClipped;
+	private final GLBufferManagerPoints bufferManagerPoints;
+	private final GLBufferManagerTemplatesForPoints bufferTemplates;
 	private GLBufferManager currentBufferManager;
 	private GColor currentColor;
 	private int currentLayer;
 	private int currentTextureType;
 	private GLBufferIndicesArray indices;
-	private float[] translate;
+	private final float[] translate;
 	private float scale;
 
 	private boolean indicesDone;
@@ -119,9 +119,9 @@ public class ManagerShaders extends Manager {
 
 		setScalerView();
 
-		bufferTemplates = new GLBufferManagerTemplatesForPoints();
+		bufferTemplates = new GLBufferManagerTemplatesForPoints(this);
 		bufferManagerCurves = new GLBufferManagerCurves(this);
-		bufferManagerCurvesClipped = new GLBufferManagerCurvesClipped();
+		bufferManagerCurvesClipped = new GLBufferManagerCurvesClipped(this);
 		bufferManagerSurfaces = new GLBufferManagerSurfaces(this);
 		bufferManagerSurfacesClosed = new GLBufferManagerSurfaces(this);
 		bufferManagerSurfacesClipped = new GLBufferManagerSurfacesClipped(this);
@@ -239,8 +239,7 @@ public class ManagerShaders extends Manager {
 	@Override
 	public int startPolygons(Drawable3D d) {
 		setPackSurface(d, false);
-		int index = startNewList(d.getReusableSurfaceIndex(), true);
-		return index;
+		return startNewList(d.getReusableSurfaceIndex(), true);
 	}
 
 	@Override
@@ -796,7 +795,7 @@ public class ManagerShaders extends Manager {
 	 * @param bufferManager
 	 *            buffer manager
 	 */
-	public void setCurrentBufferManager(GLBufferManager bufferManager) {
+	private void setCurrentBufferManager(GLBufferManager bufferManager) {
 		currentBufferManager = bufferManager;
 	}
 
