@@ -14,7 +14,6 @@ tasks.register("extractJs") {
         configurations.runtimeClasspath.get().forEach { jarFile ->
             // on Jenkins the workspace name may contain webjars.npm-id-version
             if (jarFile.path.toString().contains("webjars.npm" + File.separator)) {
-                println(jarFile.path.toString())
                 val normalizedName = jarFile.name.replace("-[0-9].*".toRegex(), "").replace("-", "_")
                 copy {
                     from(zipTree(jarFile).matching { include("**/*.js", "**/*.mjs") })
