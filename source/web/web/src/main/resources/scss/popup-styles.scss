@@ -280,6 +280,17 @@
 				width: 252px;
 				height: 148px;
 			}
+
+			&.fontStyle {
+				.colorPalette {
+					width: 144px;
+					height: 36px;
+					margin-bottom: 16px;
+				}
+				.checkbox {
+					margin-left: 0;
+				}
+			}
 		}
 
 		.noColBtn {

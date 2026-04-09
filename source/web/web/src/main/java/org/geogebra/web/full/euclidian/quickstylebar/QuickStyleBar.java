@@ -171,6 +171,11 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 		addPropertyPopupButton(activeGeoList, "gwt-PopupPanel contextSubMenu", true,
 				UndoActionType.STYLE_OR_CONTENT, fontSizeProperty);
 
+		PropertiesArray fontStyleProperty = geoElementPropertiesFactory.createFontStyleProperties(
+				getApp().getLocalization(), activeGeoList);
+		addColorPropertyButton(activeGeoList, UndoActionType.STYLE_OR_CONTENT,
+				"fontStyle", fontStyleProperty.getProperties());
+
 		BooleanProperty boldProperty = geoElementPropertiesFactory
 				.createBoldProperty(getApp().getLocalization(), activeGeoList);
 		addTextFormatPropertyButton(activeGeoList, boldProperty);
@@ -208,12 +213,18 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 
 	private void addColorPropertyButton(List<GeoElement> geos, UndoActionType undoFiler,
 			PropertySupplier... properties) {
+		addColorPropertyButton(geos, undoFiler, "", properties);
+	}
+
+	private void addColorPropertyButton(List<GeoElement> geos, UndoActionType undoFiler,
+			String className, PropertySupplier... properties) {
 		if (properties.length == 0 || properties[0] == null || properties[0].get() == null) {
 			return;
 		}
 		Property firstProperty = properties[0].get();
 		propertyWrapper.addUndoActionObserver(properties, geos, undoFiler);
-		IconButtonWithProperty colorButton = new IconButtonWithProperty(getApp(), "colorStyle",
+		IconButtonWithProperty colorButton = new IconButtonWithProperty(
+				getApp(), className.isEmpty() ? "colorStyle" : "colorStyle " + className,
 				propertiesIconResource.getImageResource(firstProperty), firstProperty.getName(),
 				geos, true, properties);
 

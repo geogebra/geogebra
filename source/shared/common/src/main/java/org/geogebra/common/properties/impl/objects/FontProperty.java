@@ -36,7 +36,18 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 	public enum FontFamily {
 		ARIAL("Arial", "Arial, sans-serif"),
 		BY_DRUCK("By Druck", "ByDruck, sans-serif"),
-		BY_DRUCK_LINEATUR("By Druck Lineatur 1+2", "ByLineatur-tuerkis-Farbband, sans-serif"),
+		BY_DRUCK_LINEATUR_SCHWARZ("By Druck Lineatur 1+2", "ByLineatur-schwarz, sans-serif"),
+		BY_DRUCK_LINEATUR_SCHWARZ_FARBBAND("By Druck Lineatur 1+2",
+				"ByLineatur-schwarz-Farbband, sans-serif"),
+		BY_DRUCK_LINEATUR_TUERKIS("By Druck Lineatur 1+2", "ByLineatur-tuerkis, sans-serif"),
+		BY_DRUCK_LINEATUR_TUERKIS_FARBBAND("By Druck Lineatur 1+2",
+				"ByLineatur-tuerkis-Farbband, sans-serif"),
+		BY_DRUCK_LINEATUR_ORANGE_FARBBAND("By Druck Lineatur 1+2",
+				"ByLineatur-orange-Farbband, sans-serif"),
+		BY_DRUCK_LINEATUR_ORANGE("By Druck Lineatur 1+2", "ByLineatur-orange, sans-serif"),
+		BY_DRUCK_LINEATUR_GRUEN_FARBBAND("By Druck Lineatur 1+2",
+				"ByLineatur-gruen-Farbband, sans-serif"),
+		BY_DRUCK_LINEATUR_GRUEN("By Druck Lineatur 1+2", "ByLineatur-gruen, sans-serif"),
 		BY_LESEN("By Lesen", "ByLesen, sans-serif"),
 		CALIBRI("Calibri", "Calibri, sans-serif"),
 		COMIC_SANS("Comic Sans", "Comic Sans MS, sans-serif"),
@@ -75,7 +86,11 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 		 * @return list of available fonts
 		 */
 		public static List<FontFamily> getAvailableFonts(boolean isBycs) {
-			return isBycs ? Arrays.asList(FontFamily.values())
+			return isBycs ? Arrays.asList(FontFamily.ARIAL, FontFamily.BY_DRUCK,
+					FontFamily.BY_DRUCK_LINEATUR_SCHWARZ, FontFamily.BY_LESEN,
+					FontFamily.CALIBRI, FontFamily.COMIC_SANS, FontFamily.COURIER,
+					FontFamily.GEORGIA, FontFamily.DYSLEXIC, FontFamily.TIMES,
+					FontFamily.TREBUCHET, FontFamily.VERDANA)
 					: Arrays.asList(FontFamily.ARIAL, FontFamily.CALIBRI,
 					FontFamily.COMIC_SANS, FontFamily.COURIER,
 					FontFamily.GEORGIA, FontFamily.TIMES,

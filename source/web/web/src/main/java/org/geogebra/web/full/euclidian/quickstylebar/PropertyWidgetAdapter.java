@@ -21,16 +21,19 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.PropertySupplier;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
+import org.geogebra.common.properties.impl.facade.BooleanPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.FlagListPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.RangePropertyListFacade;
 import org.geogebra.web.full.euclidian.LabelSettingsPanel;
 import org.geogebra.web.full.euclidian.quickstylebar.components.BorderThicknessPanel;
 import org.geogebra.web.full.euclidian.quickstylebar.components.SliderWithProperty;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
@@ -145,5 +148,16 @@ public class PropertyWidgetAdapter {
 	 */
 	public LabelSettingsPanel getLabelPanel(FlagListPropertyListFacade<?> property) {
 		return new LabelSettingsPanel(property);
+	}
+
+	/**
+	 * @param property property
+	 * @param localization localization
+	 * @return checkbox component
+	 */
+	public ComponentCheckbox getCheckBox(BooleanPropertyListFacade<?> property,
+			Localization localization) {
+		return new ComponentCheckbox(localization, property.getValue(),
+				property.getName(), property::setValue);
 	}
 }

@@ -22,6 +22,7 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.impl.facade.AbstractPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.BorderColorProperty;
+import org.geogebra.common.properties.impl.objects.FontRulingColorProperty;
 import org.geogebra.common.properties.impl.objects.FontSizeProperty;
 import org.geogebra.common.properties.impl.objects.ImageOpacityProperty;
 import org.geogebra.common.properties.impl.objects.NameCaptionProperty;
@@ -214,6 +215,8 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 				return getColorIcon();
 			} else if (firstProperty instanceof TextColorProperty) {
 				return getTextColorIcon();
+			} else if (firstProperty instanceof FontRulingColorProperty) {
+				return getFontStyleIcon();
 			} else if (firstProperty instanceof BorderColorProperty) {
 				return matchIconWithResource(PropertyResource.ICON_BORDER_THIN);
 			} else if (firstProperty instanceof NameCaptionProperty) {
@@ -233,6 +236,10 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 	}
 
 	protected IconSpec getTextColorIcon() {
+		return new ImageIconSpec(MaterialDesignResources.INSTANCE.text_color());
+	}
+
+	protected IconSpec getFontStyleIcon() {
 		return new ImageIconSpec(MaterialDesignResources.INSTANCE.text_color());
 	}
 

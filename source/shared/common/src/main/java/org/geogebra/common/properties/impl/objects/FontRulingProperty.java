@@ -16,49 +16,56 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import org.geogebra.common.kernel.geos.GProperty;
+import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.PropertyResource;
-import org.geogebra.common.properties.ToggleableIconProperty;
+import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.FontStyleUtil;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-public class UnderlineProperty extends AbstractValuedProperty<Boolean>
-		implements ToggleableIconProperty {
-	private final HasTextFormatter element;
+public class FontRulingProperty extends AbstractValuedProperty<Boolean>
+		implements BooleanProperty {
+	private final HasTextFormatter geoElement;
 
 	/**
-	 * Underline property
+	 * Font ruling property
 	 * @param localization localization
 	 * @param element element
 	 */
-	public UnderlineProperty(Localization localization, GeoElement element)
+	public FontRulingProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
-		super(localization, "Underline");
-		if (!FontStyleUtil.isInlineWithSupportedFont(element)) {
+		super(localization, "Farbband");
+		if (!FontStyleUtil.isFontStyleApplicable(element)) {
 			throw new NotApplicablePropertyException(element);
 		}
-		this.element = (HasTextFormatter) element;
+		geoElement = (HasTextFormatter) element;
 	}
 
 	@Override
 	protected void doSetValue(Boolean value) {
-		if (!value.equals(element.getFormat("underline", false))) {
-			element.format("underline", value);
+		HasTextFormat formatter = geoElement.getFormatter();
+		if (formatter != null) {
+			String font = formatter.getFormat("font", "");
+			if (font.startsWith("ByLineatur")) {
+				formatter.format("font", getNewFont(font, value));
+			}
 		}
-		((GeoElement) element).updateVisualStyle(GProperty.COMBINED);
 	}
 
 	@Override
 	public Boolean getValue() {
-		return element.getFormat("underline", false);
+		HasTextFormat formatter = geoElement.getFormatter();
+		if (formatter != null) {
+			String font = formatter.getFormat("font", "");
+			return font.contains("Farbband");
+		}
+		return false;
 	}
 
-	@Override
-	public PropertyResource getIcon() {
-		return PropertyResource.ICON_UNDERLINE;
+	private String getNewFont(String oldFont, boolean hasRuling) {
+		return hasRuling ? oldFont.replace(",", "-Farbband,")
+				: oldFont.replace("-Farbband", "");
 	}
 }

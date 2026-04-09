@@ -80,6 +80,8 @@ import org.geogebra.common.properties.impl.objects.FillingStyleProperty;
 import org.geogebra.common.properties.impl.objects.FixCheckboxProperty;
 import org.geogebra.common.properties.impl.objects.FixObjectProperty;
 import org.geogebra.common.properties.impl.objects.FixSliderObjectProperty;
+import org.geogebra.common.properties.impl.objects.FontRulingColorProperty;
+import org.geogebra.common.properties.impl.objects.FontRulingProperty;
 import org.geogebra.common.properties.impl.objects.FontSizeProperty;
 import org.geogebra.common.properties.impl.objects.HorizontalAlignmentProperty;
 import org.geogebra.common.properties.impl.objects.ImageOpacityProperty;
@@ -554,6 +556,24 @@ public final class GeoElementPropertiesFactory {
 		return createPropertiesArray(localization, elements, keepNonNulls(
 				createCellBorderStyleProperty(localization, elements),
 				createCellBorderThicknessProperty(localization, elements)
+		));
+	}
+
+	/**
+	 * Creates font style properties for a list of GeoElements.
+	 * @param localization localization
+	 * @param elements input elements
+	 * @return the list of properties for the GeoElement(s)
+	 */
+	public PropertiesArray createFontStyleProperties(Localization localization,
+			List<GeoElement> elements) {
+		return createPropertiesArray(localization, elements, keepNonNulls(
+				createOptionalPropertyFacade(elements,
+						element -> new FontRulingColorProperty(localization, element),
+						ColorPropertyListFacade::new),
+				createOptionalPropertyFacade(elements,
+						element -> new FontRulingProperty(localization, element),
+						BooleanPropertyListFacade::new)
 		));
 	}
 

@@ -27,6 +27,7 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertySupplier;
 import org.geogebra.common.properties.RangeProperty;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
+import org.geogebra.common.properties.impl.facade.BooleanPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.ColorPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.FlagListPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.IconsEnumeratedPropertyListFacade;
@@ -198,6 +199,10 @@ public class IconButtonWithProperty extends IconButton {
 		if (property instanceof FlagListPropertyListFacade<?> valuedProperty) {
 			LabelSettingsPanel labelStylePanel = widgetAdapter.getLabelPanel(valuedProperty);
 			parent.add(labelStylePanel);
+		}
+
+		if (property instanceof BooleanPropertyListFacade<?> booleanProperty) {
+			parent.add(widgetAdapter.getCheckBox(booleanProperty, appW.getLocalization()));
 		}
 	}
 

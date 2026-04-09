@@ -18,7 +18,6 @@ package org.geogebra.common.properties.impl.objects.delegate;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.kernel.geos.TextProperties;
 
 public class FontStyleNonInputBoxDelegate extends AbstractGeoElementDelegate {
@@ -29,12 +28,8 @@ public class FontStyleNonInputBoxDelegate extends AbstractGeoElementDelegate {
 
 	@Override
 	protected boolean checkIsApplicable(GeoElement element) {
-		return (isInlineWithSupportedFont(element) || element instanceof TextProperties)
+		return (FontStyleUtil.isInlineWithSupportedFont(element)
+				|| element instanceof TextProperties)
 				&& !(element instanceof GeoInputBox);
-	}
-
-	private boolean isInlineWithSupportedFont(GeoElement element) {
-		return element instanceof HasTextFormatter formattedElement
-			&& !formattedElement.getFormat("font", "").startsWith("By");
 	}
 }
