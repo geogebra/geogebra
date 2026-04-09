@@ -32,9 +32,9 @@ public class GeoElementSpreadsheetTest {
 
 	@Test
 	void testSpreadsheetCoords() {
-		SpreadsheetCoords nto9999 = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel("NTO9999");
-		assertNotNull(nto9999);
-		assertEquals(9998, nto9999.row);
-		assertEquals(9998, nto9999.column);
+		SpreadsheetCoords lastCell = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel("NTO9999");
+		assertNotNull(lastCell);
+		assertEquals(9998, lastCell.row);
+		assertEquals(9998, lastCell.column);
 	}
 }
