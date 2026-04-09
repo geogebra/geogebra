@@ -705,7 +705,7 @@ public abstract class DialogManager {
 			boolean rw) {
 		app.setWaitCursor();
 
-		if (textInputDialog == null) {
+		if (textInputDialog == null || text == null) {
 			textInputDialog = createTextDialog(text, startPoint, rw);
 		} else {
 			textInputDialog.reInitEditor(text, startPoint, rw);

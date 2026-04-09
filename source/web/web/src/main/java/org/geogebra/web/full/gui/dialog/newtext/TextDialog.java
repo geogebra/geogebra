@@ -77,11 +77,15 @@ public class TextDialog extends ComponentDialog implements TextInputDialog {
 					setPosBtnDisabled(editPanel.getText().isEmpty());
 					if (previewPanel != null && editPanel.isLatex()) {
 						previewPanel.selectLatexCheckbox();
+						topBar.getTextStyle().setLatex(true);
 					}
 				}, KeyUpEvent.getType());
 
 		topBar = new TextTopBar(appW, geoText, editPanel,
-				() -> editPanel.updatePreviewPanel(false));
+				() -> {
+			editPanel.updatePreviewPanel(false);
+			setPosBtnDisabled(false);
+		});
 		setDialogContent(topBar);
 
 		GeoTextEditor editor = editPanel.getTextArea();
@@ -195,18 +199,53 @@ public class TextDialog extends ComponentDialog implements TextInputDialog {
 				return;
 			}
 			// create new GeoText
+			boolean createText = geoText == null;
 			handler.resetError();
-			TextBuilder textBuilder = new TextBuilder(appW, startPoint, rw, topBar.getTextStyle());
-			textBuilder.createText(inputValue, handler, callback);
+			if (createText) {
+				TextBuilder textBuilder = new TextBuilder(appW, startPoint, rw,
+						topBar.getTextStyle());
+				textBuilder.createText(inputValue, handler, callback);
+				return;
+			}
+			// change existing text
+			try {
+				kernel.getAlgebraProcessor().changeGeoElement(geoText,
+						inputValue, true, true, handler,
+						newText -> {
+							if (newText instanceof GeoText) {
+								// make sure newText is using correct LaTeX
+								// setting
+								((GeoText) newText).setLaTeX(topBar.getTextStyle().isLatex(),
+										true);
+
+								if (newText.getParentAlgorithm() != null) {
+									newText.getParentAlgorithm().update();
+								} else {
+									newText.updateRepaint();
+								}
+
+								app.doAfterRedefine(newText);
+								// make redefined text selected
+								app.getSelectionManager()
+										.addSelectedGeo(newText);
+							}
+						});
+
+				callback.callback(true);
+			} catch (Exception e) {
+				app.showGenericError(e);
+				callback.callback(false);
+			}
 		}
 	}
 
 	@Override
 	public void reInitEditor(GeoText text, GeoPointND startPoint, boolean rw) {
-		geoText = text == null ? new GeoText(appW.getKernel().getConstruction()) : text;
+		geoText = text;
 		this.startPoint = startPoint;
 		this.rw = rw;
 		createContent();
+		editPanel.setEditGeo(text);
 		editPanel.setText(text);
 		show();
 	}

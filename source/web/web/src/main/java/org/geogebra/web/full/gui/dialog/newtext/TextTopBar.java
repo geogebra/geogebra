@@ -102,7 +102,7 @@ public class TextTopBar extends FlowPanel {
 				new ImageIconSpec(MaterialDesignResources.INSTANCE.add_black()), "Insert");
 		insertButton.addFastClickHandler(source -> {
 			if (insertPopup == null) {
-				insertPopup = new InsertPopup(appW, textEditPanel);
+				insertPopup = new InsertPopup(appW, textEditPanel, previewUpdater);
 				insertPopup.addCloseHandler(event -> insertButton.setActive(false));
 			}
 			toggleInsertPopup(insertButton);

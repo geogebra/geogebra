@@ -39,15 +39,18 @@ import org.gwtproject.user.client.ui.Widget;
 public class InsertPopup extends GPopupPanel {
 	private final TextEditPanel textEditPanel;
 	private final Map<String, GeoElement> geosMap = new HashMap<>();
+	private final Runnable previewUpdater;
 
 	/**
 	 * Creates a popup with geos, symbols and latex
 	 * @param appW {@link AppW}
 	 * @param textEditPanel {@link TextEditPanel}
+	 * @param previewUpdater updates preview
 	 */
-	public InsertPopup(AppW appW, TextEditPanel textEditPanel) {
+	public InsertPopup(AppW appW, TextEditPanel textEditPanel, Runnable previewUpdater) {
 		super(appW.getAppletFrame(), appW);
 		this.textEditPanel = textEditPanel;
+		this.previewUpdater = previewUpdater;
 		addStyleName("insertPopup");
 		buildPopupContent();
 	}
@@ -151,6 +154,7 @@ public class InsertPopup extends GPopupPanel {
 					}
 				}
 				hide();
+				previewUpdater.run();
 			});
 			panel.add(widget);
 		}
