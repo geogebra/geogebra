@@ -362,6 +362,7 @@ public class RadioTreeItemController implements ClickHandler,
 	}
 
 	protected void onPointerDown(AbstractEvent event, MouseDownEvent nativeEvt) {
+		app.getSelectionManager().resetKeyboardSelection();
 		if (event.isRightClick()) {
 			onRightClick(nativeEvt);
 			return;

@@ -102,6 +102,9 @@ import org.gwtproject.user.client.ui.Widget;
 
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 
+import elemental2.dom.ScrollIntoViewOptions;
+import jsinterop.base.Js;
+
 /**
  * main -&gt; marblePanel content controls
  *
@@ -696,8 +699,6 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		boolean selected = geo.doHighlighting();
 
 		setSelected(selected);
-		boolean isKeyboardSelected = app.getSelectionManager().isKeyboardFocused(geo);
-		Dom.toggleClass(this, "keyboardFocus", selected && isKeyboardSelected);
 
 		// select only if it is in selection really.
 		selectItem(selected);
@@ -1210,7 +1211,11 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	 * Scroll into view.
 	 */
 	public void scrollIntoView() {
-		this.getElement().scrollIntoView();
+		elemental2.dom.Element element = Js.uncheckedCast(getElement());
+		ScrollIntoViewOptions options = ScrollIntoViewOptions.create();
+		options.setBlock("nearest");
+		options.setInline("start");
+		element.scrollIntoView(options);
 	}
 
 	/**
@@ -1282,6 +1287,11 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		}
 		selectedItem = selected;
 		setStyleName("avSelectedRow", selected);
+		boolean isKeyboardSelected = app.getSelectionManager().isKeyboardFocused(geo);
+		Dom.toggleClass(this, "keyboardFocus", selected && isKeyboardSelected);
+		if (isKeyboardSelected) {
+			scrollIntoView();
+		}
 	}
 
 	@Override
