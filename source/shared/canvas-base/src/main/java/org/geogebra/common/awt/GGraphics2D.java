@@ -39,7 +39,7 @@ public interface GGraphics2D {
 	 * @see #transform
 	 * 
 	 * 
-	 * @see #setClip
+	 * @see #setClip(GShape)
 	 * @see #setComposite
 	 */
 	void draw(@Nonnull GShape s);
@@ -109,7 +109,7 @@ public interface GGraphics2D {
 	 * @see #setFont
 	 * 
 	 * @see #setComposite
-	 * @see #setClip
+	 * @see #setClip(GShape)
 	 */
 	void drawString(String str, double x, double y);
 
@@ -126,7 +126,7 @@ public interface GGraphics2D {
 	 * @see #transform
 	 * 
 	 * @see #setComposite
-	 * @see #setClip
+	 * @see #setClip(GShape)
 	 */
 	void fill(@Nonnull GShape s);
 
@@ -348,16 +348,10 @@ public interface GGraphics2D {
 	void drawLine(int x1, int y1, int x2, int y2);
 
 	/**
-	 * Set clipping shape.
+	 * Set clipping shape. Should be paired with {@link #resetClip()}.
 	 * @param shape clipping shape
 	 */
 	void setClip(GShape shape);
-
-	/**
-	 * @param shape clip shape
-	 * @param saveContext whether to save context state before
-	 */
-	void setClip(GShape shape, boolean saveContext);
 
 	/**
 	 * Reset clipping.
@@ -373,6 +367,8 @@ public interface GGraphics2D {
 	void drawRect(int x, int y, int width, int height);
 
 	/**
+	 * Sets clipping, should be paired with {@link #resetClip()} to get
+	 * this graphics into the original state.
 	 * @param x left
 	 * @param y top
 	 * @param width width
@@ -381,6 +377,11 @@ public interface GGraphics2D {
 	void setClip(double x, double y, double width, double height);
 
 	/**
+	 * Sets clipping. If {@code saveContext} is false, context is not added to a stack,
+	 * this option only makes sense for graphics objects that are thrown away (e.g. export).
+	 * If it's true, this is equivalent to {@link #setClip(double, double, double, double)}.
+	 * @implNote saveContext is only honored in Web
+	 * TODO(APPS-7505) check if saveContext can be always true
 	 * @param x left
 	 * @param y top
 	 * @param width width

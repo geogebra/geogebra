@@ -216,7 +216,7 @@ final class SpreadsheetRenderer {
 	private void drawErrorString(GGraphics2D graphics,
 			double left, double top, double width, double height) {
 		graphics.setColor(SpreadsheetStyling.getDefaultTextColor());
-		graphics.setClip(left, top, width, height, true);
+		graphics.setClip(left, top, width, height);
 		errorRenderer.draw(tabularData.getErrorString(), converter.getFontSize(), GFont.ITALIC,
 				TEXT_PADDING, graphics, new Rectangle(left, left + width, top, top + height));
 		graphics.resetClip();
@@ -402,6 +402,11 @@ final class SpreadsheetRenderer {
 		if (bounds == null) {
 			return;
 		}
+		double columnHeaderHeight = layout.getColumnHeaderHeight();
+		double rowHeaderWidth = layout.getRowHeaderWidth();
+		graphics.setClip(rowHeaderWidth, columnHeaderHeight,
+				viewport.getWidth() - rowHeaderWidth,
+				viewport.getHeight() - columnHeaderHeight);
 		GColor color = REFERENCE_COLORS.get(referenceIndex % REFERENCE_COLORS.size());
 		if (filled) {
 			graphics.setColor(color.deriveWithAlpha(25)); // 0.1 * 255
@@ -412,6 +417,7 @@ final class SpreadsheetRenderer {
 		graphics.setStroke(referenceStrokes.get(referenceIndex % referenceStrokes.size()));
 		drawRectangleWithStraightLines(graphics,
 				bounds.getMinX(), bounds.getMinY(), bounds.getMaxX(), bounds.getMaxY());
+		graphics.resetClip();
 	}
 
 	private static double[] makeReferenceDashPattern(int index) {

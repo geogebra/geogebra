@@ -635,11 +635,10 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void setClip(GShape shape) {
-		setClip(shape, true);
+		doSetClip(shape, true);
 	}
 
-	@Override
-	public void setClip(GShape shape, boolean saveContext) {
+	private void doSetClip(GShape shape, boolean saveContext) {
 		if (shape == null) {
 			resetClip();
 			return;
@@ -707,7 +706,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void setClip(double x, double y, double width, double height) {
-		setClip(x, y, width, height, false);
+		setClip(x, y, width, height, true);
 	}
 
 	@Override
@@ -715,7 +714,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 			boolean saveContext) {
 		GRectangle2D sh = AwtFactory.getPrototype().newRectangle2D();
 		sh.setRect(x, y, width, height);
-		setClip(sh, saveContext);
+		doSetClip(sh, saveContext);
 
 		/*
 		 * alternative: makes clipping bad, see #3212

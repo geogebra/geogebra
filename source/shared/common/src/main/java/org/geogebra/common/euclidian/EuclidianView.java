@@ -5800,7 +5800,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			GRectangle rect = getSelectionRectangle();
 
 			g2d.setClip(0, 0, (int) rect.getWidth(),
-						(int) rect.getHeight());
+						(int) rect.getHeight(), false);
 
 			g2d.translate(-rect.getX(), -rect.getY());
 		} else {
@@ -5814,11 +5814,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				int exportWidth = (int) (x2 - x1 + 2);
 				int exportHeight = (int) (y2 - y1 + 2);
 
-				g2d.setClip(0, 0, exportWidth, exportHeight);
+				g2d.setClip(0, 0, exportWidth, exportHeight, false);
 				g2d.translate(-x1, -y1);
 			} else {
 				// or take full euclidian view
-				g2d.setClip(0, 0, getWidth(), getHeight());
+				g2d.setClip(0, 0, getWidth(), getHeight(), false);
 			}
 		}
 

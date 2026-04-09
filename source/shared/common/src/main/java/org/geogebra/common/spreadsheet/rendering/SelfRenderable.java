@@ -89,7 +89,7 @@ public final class SelfRenderable {
 			offset = cellBorder.getWidth() - width - HORIZONTAL_PADDING;
 		}
 		graphics.setClip(cellBorder.getMinX(), cellBorder.getMinY(),
-				cellBorder.getWidth(), cellBorder.getHeight(), true);
+				cellBorder.getWidth(), cellBorder.getHeight());
 		renderer.draw(renderable, fontSize, fontStyle, offset, graphics, cellBorder);
 		graphics.resetClip();
 	}

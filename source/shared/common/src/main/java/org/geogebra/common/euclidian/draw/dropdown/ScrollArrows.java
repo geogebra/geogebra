@@ -157,7 +157,7 @@ class ScrollArrows {
 		clip = dragOffset != 0 && intersect(item);
 		if (clip) {
 			g2.setClip(item.getLeft(), getUpBottom(), (int) item.getBoundsWidth(),
-					distanceBetween(), true);
+					distanceBetween());
 		}
 		return clip;
 	}

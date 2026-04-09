@@ -150,11 +150,6 @@ public class GGraphicsCommon implements GGraphics2D {
     }
 
     @Override
-    public void setClip(GShape shape, boolean saveContext) {
-        // ignore empty method
-    }
-
-    @Override
     public void resetClip() {
         // ignore empty method
     }

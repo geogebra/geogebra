@@ -252,7 +252,7 @@ public class DrawLocus extends Drawable {
 
 	void drawStrokedPath(GGraphics2D g2, GeneralPathClippedForCurvePlotter gp) {
 		if (partialHitClip != null) {
-			g2.setClip(partialHitClip, true);
+			g2.setClip(partialHitClip);
 			gp.draw(g2);
 			g2.resetClip();
 		} else {

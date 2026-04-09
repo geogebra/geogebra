@@ -231,11 +231,6 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	@Override
-	public void setClip(GShape shape, boolean saveContext) {
-		setClip(shape);
-	}
-
-	@Override
 	public void setClip(GShape shape) {
 		if (shape == null) {
 			resetClip();
