@@ -27,31 +27,16 @@ import jsinterop.base.Js;
 
 public class FormatFactoryW extends FormatFactory {
 	private static final class FastFormatAdapter
-			implements ScientificFormatAdapter {
-		private int d;
+			extends ScientificFormatAdapter {
 
 		private FastFormatAdapter(int d) {
-			this.d = d;
+			super(false, 42);
+			setSigDigits(d);
 		}
 
 		@Override
 		public String format(double x) {
-			return FormatFactoryW.toPrecision(x, d);
-		}
-
-		@Override
-		public int getSigDigits() {
-			return d;
-		}
-
-		@Override
-		public void setSigDigits(int sigDigits) {
-			d = sigDigits;
-		}
-
-		@Override
-		public void setMaxWidth(int mWidth) {
-			throw new UnsupportedOperationException();
+			return FormatFactoryW.toPrecision(x, sigDigits);
 		}
 
 	}

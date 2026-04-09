@@ -1739,7 +1739,7 @@ ExpressionValue myDouble():
 |
     <GRADIAN>
     {  // constant for gradians to radians
-        d = new MySpecialDouble(kernel, Math.PI / 200.0d, Unicode.GRADIAN);
+        d = new MySpecialDouble(kernel, Math.PI / 200.0d, String.valueOf(Unicode.GRADIAN));
         d.setAngle();
         ret = d;
     }

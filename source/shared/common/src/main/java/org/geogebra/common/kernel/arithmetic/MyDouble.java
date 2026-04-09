@@ -133,7 +133,7 @@ public class MyDouble extends ValidExpression
 			// // http://code.google.com/p/geogebra/issues/detail?id=87
 			// double angleVal = Kernel.convertToAngleValue(val);
 			// return kernel.formatAngle(angleVal, tpl, false).toString();
-			return kernel.formatAngle(val, tpl, true).toString();
+			return kernel.formatAngle(val, null, tpl, true).toString();
 		}
 
 		// String ret = kernel.format(Kernel.checkDecimalFraction(val), tpl);
@@ -651,7 +651,7 @@ public class MyDouble extends ValidExpression
 		return this;
 	}
 
-	private void doRound(int digits, int angleUnit) {
+	protected void doRound(int digits, int angleUnit) {
 		if (angleDim == 1 && Kernel.angleUnitUsesDegrees(angleUnit)) {
 			set(Kernel.PI_180 * Precision.round(val * Kernel.CONST_180_PI, digits));
 		} else {

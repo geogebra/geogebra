@@ -16,6 +16,8 @@
 
 package org.geogebra.common.kernel;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -1336,36 +1338,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 		// number formatting for CAS
 		case GIAC:
-			if (Double.isNaN(x)) {
-				return "?";
-			} else if (Double.isInfinite(x)) {
-				return (x < 0) ? "-inf" : "inf";
-			} else if (isLongInteger) {
-				return Long.toString(rounded);
-			} else if (DoubleUtil.isZero(x, Kernel.MAX_PRECISION)) {
-				// #4802
-				return "0";
-			} else {
-				double abs = Math.abs(x);
-				// number small enough that Double.toString() won't create E
-				// notation
-				if ((abs >= 10E-3) && (abs < 10E7)) {
-					String ret = MyDouble.toString(x);
-
-					// convert 0.125 to 1/8 so Giac treats it as an exact number
-					// Note: exact(0.3333333333333) gives 1/3
-					if (ret.indexOf('.') > -1) {
-						return StringUtil.wrapInExact(x, ret, tpl, this);
-					}
-
-					return ret;
-				}
-				// convert scientific notation 1.0E-20 to 1*10^(-20)
-				String scientificStr = MyDouble.toString(x);
-
-				return tpl.convertScientificNotationGiac(scientificStr);
-			}
-
+			return toGiacString(x, isLongInteger, rounded, tpl);
 			// number formatting for screen output
 		default:
 			if (Double.isNaN(x)) {
@@ -1377,19 +1350,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			}
 
 			boolean useSF = tpl.useScientific(useSignificantFigures);
-
-			// ROUNDING hack
-			// NumberFormat and SignificantFigures use ROUND_HALF_EVEN as
-			// default which is not changeable, so we need to hack this
-			// to get ROUND_HALF_UP like in schools: increase abs(x) slightly
-			// x = x * ROUND_HALF_UP_FACTOR;
-			// We don't do this for large numbers as
-			if (!isLongInteger && tpl.getPrecision(nf) > 5E-7) {
-				double abs = Math.abs(x);
-				// increase abs(x) slightly to round up
-				x = x * tpl.getRoundHalfUpFactor(abs, nf, sf, useSF);
-			}
-
 			if (tpl.shouldDisplayEngineeringNotation()) {
 				return tpl.convertEngineeringNotationForDisplay(number,
 						useSF ? value -> formatSF(value, tpl) : value -> formatNF(value, tpl));
@@ -1399,6 +1359,108 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			}
 			return formatNF(x, tpl);
 		}
+	}
+
+	private String toGiacString(double x, boolean isLongInteger, Long rounded, StringTemplate tpl) {
+		if (Double.isNaN(x)) {
+			return "?";
+		} else if (Double.isInfinite(x)) {
+			return (x < 0) ? "-inf" : "inf";
+		} else if (isLongInteger) {
+			return Long.toString(rounded);
+		} else if (DoubleUtil.isZero(x, Kernel.MAX_PRECISION)) {
+			// #4802
+			return "0";
+		} else {
+			double abs = Math.abs(x);
+			// number small enough that Double.toString() won't create E
+			// notation
+			if ((abs >= 10E-3) && (abs < 10E7)) {
+				String ret = MyDouble.toString(x);
+
+				// convert 0.125 to 1/8 so Giac treats it as an exact number
+				// Note: exact(0.3333333333333) gives 1/3
+				if (ret.indexOf('.') > -1) {
+					return StringUtil.wrapInExact(x, ret, tpl, this);
+				}
+
+				return ret;
+			}
+			// convert scientific notation 1.0E-20 to 1*10^(-20)
+			String scientificStr = MyDouble.toString(x);
+
+			return tpl.convertScientificNotationGiac(scientificStr);
+		}
+	}
+
+	/**
+	 * @param exactValue exact decimal value
+	 * @param tpl string template
+	 * @return formatter value, using decimal places or significant figures based
+	 * on kernel settings and the template overrides
+	 */
+	public String format(BigDecimal exactValue, StringTemplate tpl) {
+		double asDouble = exactValue.doubleValue();
+		if (tpl.hasType(StringType.GIAC)) {
+			long asLong = exactValue.longValue();
+			return toGiacString(asDouble, asDouble == asLong, asLong, tpl);
+		}
+		if (tpl.shouldDisplayEngineeringNotation()
+				|| asDouble == 0.0 || !Double.isFinite(asDouble)) {
+			return format(asDouble, tpl);
+		}
+		if (MyDouble.exactEqual(asDouble, Math.PI) && tpl.allowPiHack()) {
+			return tpl.getPi();
+		}
+		if (tpl.useScientific(useSignificantFigures)) {
+			ScientificFormatAdapter sf1 = tpl.getSF(sf);
+			double log = Math.log10(Math.abs(exactValue.doubleValue()));
+			if (log == (int) log) {
+				return format(exactValue.doubleValue(), tpl);
+			}
+			int sigDigits = sf1.getSigDigits();
+			int scale = sigDigits - 1 - (int) Math.floor(log);
+			scale = Math.min(scale, 16 - (int) Math.floor(log));
+			BigDecimal scaled = exactValue.setScale(scale,
+					RoundingMode.HALF_UP);
+			String strippedZeros = tpl.hasType(StringType.GEOGEBRA_XML)
+					? scaled.stripTrailingZeros().toString() : stripExtraZeros(scaled, sigDigits);
+			return internationalizeDigits(tpl.fixMinus(strippedZeros), tpl);
+		}
+		BigDecimal scaled = exactValue.setScale(tpl.getNF(nf).getMaximumFractionDigits(),
+				RoundingMode.HALF_UP).stripTrailingZeros();
+		return internationalizeDigits(tpl.fixMinus(scaled.toPlainString()), tpl);
+	}
+
+	private String stripExtraZeros(BigDecimal scaled, int sigDigits) {
+		String stripped = scaled.toString();
+		int periodIndex = stripped.indexOf('.');
+		if (!stripped.contains("E")) {
+			int firstSigDigit = -2;
+			for (int i = 0; i < stripped.length(); i++) {
+				if (stripped.charAt(i) > '0' && stripped.charAt(i) <= '9') {
+					firstSigDigit = i;
+					break;
+				}
+			}
+			boolean isInteger = true;
+			for (int i = periodIndex + 1; i < stripped.length(); i++) {
+				if (stripped.charAt(i) != '0') {
+					isInteger = false;
+					break;
+				}
+			}
+			int afterLastSigDigit = periodIndex > firstSigDigit ? firstSigDigit + sigDigits + 1
+					: firstSigDigit + sigDigits;
+			afterLastSigDigit = isInteger ? periodIndex
+					: Math.max(periodIndex, afterLastSigDigit);
+			if (afterLastSigDigit < stripped.length()) {
+				stripped = stripped.substring(0, afterLastSigDigit);
+			}
+		} else {
+			stripped = sf.prettyPrint(stripped);
+		}
+		return stripped;
 	}
 
 	/**
@@ -1453,7 +1515,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	public String internationalizeDigits(String num, StringTemplate tpl) {
 		if (!tpl.internationalizeDigits()
-				|| !getLocalization().isUsingLocalizedDigits()) {
+				|| getLocalization().usesNonAsciiDigits()) {
 			return num;
 		}
 
@@ -2192,11 +2254,11 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            whether to allow angles out of [0,2pi]
 	 * @return formatted angle
 	 */
-	final public StringBuilder formatAngle(double phi, StringTemplate tpl,
+	final public StringBuilder formatAngle(double phi, BigDecimal exactValue, StringTemplate tpl,
 			boolean unbounded) {
 		// STANDARD_PRECISION * 10 as we need a little leeway as we've converted
 		// from radians
-		return formatAngle(phi, 10, tpl, unbounded, false);
+		return formatAngle(phi, exactValue, 10, tpl, unbounded, false);
 	}
 
 	/**
@@ -2212,11 +2274,11 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            whether to keep format in degrees]
 	 * @return formatted angle
 	 */
-	final public StringBuilder formatAngle(double phi, StringTemplate tpl,
+	final public StringBuilder formatAngle(double phi, BigDecimal exactValue, StringTemplate tpl,
 			boolean unbounded, boolean forceDegrees) {
 		// STANDARD_PRECISION * 10 as we need a little leeway as we've converted
 		// from radians
-		return formatAngle(phi, 10, tpl, unbounded, forceDegrees);
+		return formatAngle(phi, exactValue, 10, tpl, unbounded, forceDegrees);
 	}
 
 	/**
@@ -2231,7 +2293,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @param forceDegrees whether to override kernel's degreeMode
 	 * @return formatted angle
 	 */
-	final public StringBuilder formatAngle(double alpha, double precision,
+	final public StringBuilder formatAngle(double alpha, BigDecimal exactValue, double precision,
 			StringTemplate tpl, boolean unbounded, boolean forceDegrees) {
 		double phi = alpha;
 		sbFormatAngle.setLength(0);
@@ -2246,8 +2308,12 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			if (isMinusOnRight) {
 				sbFormatAngle.append(Unicode.DEGREE_CHAR);
 			}
-
-			phi = Math.toDegrees(phi);
+			if (exactValue == null) {
+				phi = Math.toDegrees(phi);
+			} else {
+				phi = exactValue.divide(MySpecialDouble.DEGREE, 16, RoundingMode.HALF_UP)
+						.doubleValue();
+			}
 
 			// make sure 360.0000000002 -> 360
 			phi = DoubleUtil.checkInteger(phi);

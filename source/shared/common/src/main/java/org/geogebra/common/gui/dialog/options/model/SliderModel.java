@@ -177,7 +177,7 @@ public class SliderModel extends OptionsModel {
 			if (onlyAngles && (min0 == null
 					|| (!min0.isLabelSet() && min0.isIndependent()))) {
 				listener.setMinText(kernel
-						.formatAngle(num0.getIntervalMin(), highPrecision, true)
+						.formatAngle(num0.getIntervalMin(), num0.toDecimal(), highPrecision, true)
 						.toString());
 			} else {
 				listener.setMinText(
@@ -192,7 +192,7 @@ public class SliderModel extends OptionsModel {
 			if (onlyAngles && (max0 == null
 					|| (!max0.isLabelSet() && max0.isIndependent()))) {
 				listener.setMaxText(kernel
-						.formatAngle(num0.getIntervalMax(), highPrecision, true)
+						.formatAngle(num0.getIntervalMax(), num0.toDecimal(), highPrecision, true)
 						.toString());
 			} else {
 				listener.setMaxText(

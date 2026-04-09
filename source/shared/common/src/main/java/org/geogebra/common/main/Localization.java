@@ -1204,4 +1204,12 @@ public abstract class Localization extends LocalizationI {
 	public String getLanguageTagForLogin() {
 		return getLanguageTag().replace("-", "_");
 	}
+
+	/**
+	 * @return whether digits outside the ASCII range are used
+	 * (checks both the user preference and the current language)
+	 */
+	public boolean usesNonAsciiDigits() {
+		return !isUsingLocalizedDigits() || getZero() != '0';
+	}
 }

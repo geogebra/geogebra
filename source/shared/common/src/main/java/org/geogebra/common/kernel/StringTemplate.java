@@ -57,7 +57,6 @@ import org.geogebra.editor.share.util.Unicode;
 public class StringTemplate implements ExpressionNodeConstants {
 
 	// rounding hack, see Kernel.format()
-	private static final double ROUND_HALF_UP_FACTOR = 1.0 + 1E-15;
 	private static final String RAD = "rad";
 	private static final String LATEX_THICK_SPACE = "\\;";
 
@@ -126,13 +125,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * variables (ggbtmpvar)
 	 */
 	public static final StringTemplate prefixedDefault = new StringTemplate(
-			"prefixedDefault") {
-		@Override
-		public double getRoundHalfUpFactor(double abs, NumberFormatAdapter nf2,
-				ScientificFormatAdapter sf2, boolean useSF) {
-			return 1;
-		}
-	};
+			"prefixedDefault");
 
 	static {
 		prefixedDefault.localizeCmds = false;
@@ -147,14 +140,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * Template which prints numbers with maximal precision and adds prefix to
 	 * variables ({@link Kernel#TMP_VARIABLE_PREFIX})
 	 */
-	public static final StringTemplate prefixedDefaultSF = new StringTemplate(
-			"prefixedDefaultSF") {
-		@Override
-		public double getRoundHalfUpFactor(double abs, NumberFormatAdapter nf2,
-				ScientificFormatAdapter sf2, boolean useSF) {
-			return 1;
-		}
-	};
+	public static final StringTemplate prefixedDefaultSF = new StringTemplate("prefixedDefaultSF");
 
 	static {
 		prefixedDefaultSF.localizeCmds = false;
@@ -516,14 +502,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * Not localized template, allow bigger precision for Numeric command
 	 */
 	public static final StringTemplate numericNoLocal = new StringTemplate(
-			"numericNoLocal") {
-
-		@Override
-		public double getRoundHalfUpFactor(double abs, NumberFormatAdapter nf2,
-				ScientificFormatAdapter sf2, boolean useSF) {
-			return 1;
-		}
-	};
+			"numericNoLocal");
 
 	static {
 		numericNoLocal.allowMoreDigits = true;
@@ -682,6 +661,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		case GEOGEBRA_XML:
 			printFormPI = "pi";
+			allowPiHack = false;
 			printFormImaginary = Unicode.IMAGINARY + "";
 			break;
 
@@ -699,7 +679,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 			printFormPI = " pi ";
 			printFormImaginary = " i ";
 			break;
-
+		case PGF:
+		case PSTRICKS:
+			allowPiHack = false;
 		default:
 			// #5129
 			// #5130
@@ -865,54 +847,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public boolean isUseTempVariablePrefix() {
 		return usePrefix;
-	}
-
-	/**
-	 * Returns whether round hack is allowed for given number
-	 *
-	 * @param abs
-	 *            absolute value of number
-	 * @param nf2
-	 *            kernel's number format
-	 * @param sf2
-	 *            kernel's scientific format
-	 * @param useSF
-	 *            round to significant figuress or decimal places
-	 * @return factor to multiply (either 1 or 1+1E-15)
-	 */
-	public double getRoundHalfUpFactor(double abs, NumberFormatAdapter nf2,
-			ScientificFormatAdapter sf2, boolean useSF) {
-
-		int digits = useSF ? sf2.getSigDigits()
-				: nf2.getMaximumFractionDigits();
-
-		// eg make sure 1.2 not displayed as 1.2000000000001 when rounding set
-		// to 15sf
-		if (digits >= 15) {
-			return 1;
-		}
-
-		if (abs < 1000) {
-			return ROUND_HALF_UP_FACTOR;
-		}
-		if (abs > 10E7) {
-			return 1;
-		}
-
-		if (useSF) {
-			if (getSF(sf2) != null && getSF(sf2).getSigDigits() < 10) {
-				return ROUND_HALF_UP_FACTOR;
-			}
-		} else {
-			if (getNF(nf2) != null
-					&& getNF(nf2).getMaximumFractionDigits() < 10) {
-				return ROUND_HALF_UP_FACTOR;
-			}
-
-		}
-
-		return 1;
-
 	}
 
 	/**

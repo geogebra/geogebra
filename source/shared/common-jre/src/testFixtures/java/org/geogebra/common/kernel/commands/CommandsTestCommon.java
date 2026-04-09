@@ -352,11 +352,11 @@ public class CommandsTestCommon extends BaseCommandTest {
 	@Test
 	public void parsePower() {
 		t("a=4", "4");
-		t("pia", "12.566370614359172");
-		t("pi1", "3.141592653589793");
-		t("pi1a", "12.566370614359172");
-		t("pie", "8.539734222673566");
-		t("pii", "3.141592653589793ί");
+		t("pia", "12.5663706143592");
+		t("pi1", "3.14159265358979");
+		t("pi1a", "12.5663706143592");
+		t("pie", "8.53973422267357");
+		t("pii", "3.141592653589793" + Unicode.IMAGINARY);
 		t("pix", "(pi * x)");
 		t("sinx", "sin(x)");
 		t("sin x", "sin(x)");
@@ -612,11 +612,11 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void expandedFractionIsNotUsedForEvaluation() {
-		t("a=(1+1/143)^143", "2.7088378687594363");
+		t("a=(1+1/143)^143", "2.70883786875944");
 		((GeoNumeric) lookup("a")).setSymbolicMode(true, true);
 		t("a", "2.708837868759473");
 
-		t("b=(1+1/400)^400", "2.714891744381287");
+		t("b=(1+1/400)^400", "2.71489174438129");
 		((GeoNumeric) lookup("b")).setSymbolicMode(true, true);
 		t("b", "2.7148917443812293");
 	}
@@ -658,7 +658,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 		t("Angle[ (1,1) ]", "45*" + DEGREE_STRING);
 		t("Angle[ (1,1), (3,1/3), (2,1/2) ]", "8.972626614896395*" + DEGREE_STRING);
 		t("Angle[ (1,1), (4,1/4), 30" + DEGREE_STRING + " ]", "30*" + DEGREE_STRING,
-				"(1.026923788646684, -0.6004809471616708)");
+				"(1.026923788646684, -0.600480947161671)");
 		tRound("Angle[ Segment[(1,1),(2,1/2)], x+y=17 ]", "341.56505" + DEGREE_STRING);
 		t("Angle((1, -1, 0),(0, 0, 0),(-1, -1, 0), zAxis)", "270*" + DEGREE_STRING);
 	}
@@ -1589,7 +1589,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 	public void cmdFitLog() {
 		// slightly different result on M2 Mac with xmlTemplate, use maxPrecision instead
 		t("FitLog[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]", StringTemplate.maxPrecision,
-				"1.77913767533668 - 0.510849628173396ln(x)");
+				"1.77913767533668 - 0.510849628173395ln(x)");
 	}
 
 	@Test
@@ -2647,13 +2647,13 @@ public class CommandsTestCommon extends BaseCommandTest {
 		t("Numerator[ 12345678901/23456789012 ]", "12345678901");
 		t("Numerator[ 123456789012/3456789012 ]", "10288065751");
 		t("Numerator[ 1234567890123/45678901234 ]", "1234567890123");
-		t("frac=10/6", "1.6666666666666667");
+		t("frac=10/6", "1.66666666666667");
 		t("Numerator(frac)", "5");
 		t("Denominator(frac)", "3");
-		t("frac2=-10/6", "-1.6666666666666667");
+		t("frac2=-10/6", "-1.66666666666667");
 		t("Numerator(frac2)", "-5");
 		t("Denominator(frac2)", "3");
-		t("frac3=-10/-6", "1.6666666666666667");
+		t("frac3=-10/-6", "1.66666666666667");
 		t("Numerator(frac3)", "5");
 		t("Denominator(frac3)", "3");
 		t("Numerator(0.125/0.166666666666666666)", "3");
@@ -3329,7 +3329,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 	@Test
 	public void cmdRotateText() {
 		t("RotateText[ \"GeoGebra\",  30" + Unicode.DEGREE_STRING + " ]",
-				"\\rotatebox{29.999999999999996}{ \\text{ GeoGebra }  }");
+				"\\rotatebox{30.000000000000004}{ \\text{ GeoGebra }  }");
 	}
 
 	@Test

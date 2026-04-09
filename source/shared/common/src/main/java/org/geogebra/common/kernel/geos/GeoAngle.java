@@ -413,11 +413,11 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	@Override
 	final public String toValueString(StringTemplate tpl) {
 		if (isEuclidianVisible()) {
-			return kernel.formatAngle(value, 1 / getAnimationStep(), tpl,
+			return kernel.formatAngle(value, toDecimal(), 1 / getAnimationStep(), tpl,
 					angleStyle == AngleStyle.UNBOUNDED, keepDegrees).toString();
 		}
 		return kernel
-				.formatAngle(value, tpl, angleStyle == AngleStyle.UNBOUNDED,
+				.formatAngle(value, toDecimal(), tpl, angleStyle == AngleStyle.UNBOUNDED,
 						keepDegrees).toString();
 	}
 

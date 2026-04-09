@@ -95,7 +95,7 @@ public class SliderPanelW extends FlowPanel implements HasDataTest  {
 
 	private void printParts(Label label, double val, boolean degrees) {
 		if (degrees) {
-			label.setText(kernel.formatAngle(val,
+			label.setText(kernel.formatAngle(val, null,
 					StringTemplate.defaultTemplate, true).toString());
 			return;
 		}

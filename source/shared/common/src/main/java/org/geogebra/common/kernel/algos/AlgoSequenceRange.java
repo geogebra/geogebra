@@ -16,6 +16,8 @@
 
 package org.geogebra.common.kernel.algos;
 
+import java.math.BigDecimal;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.Commands;
@@ -38,12 +40,12 @@ public class AlgoSequenceRange extends AlgoElement {
 		SIMPLE, RANGE, FULL
 	}
 
-	private GeoNumberValue var_from;
-	private GeoNumberValue var_to;
+	private final GeoNumberValue var_from;
+	private final GeoNumberValue var_to;
 	private GeoNumberValue var_step;
-	private GeoList list; // output
+	private final GeoList list; // output
 
-	private SequenceType type;
+	private final SequenceType type;
 
 	private double last_to = Double.MIN_VALUE;
 
@@ -159,40 +161,35 @@ public class AlgoSequenceRange extends AlgoElement {
 		
 		list.clear();
 		double step = 1;
+		int sign = to >= from ? 1 : -1;
 		if (var_step != null) {
 			step = var_step.evaluateDouble();
-			if (to < from) {
-				step = -step;
-			}
-			if (DoubleUtil.isZero(step) || step < 0) {
+			if (DoubleUtil.isZero(step) || step * sign < 0) {
 				list.setUndefined();
 				return;
 			}
+		} else {
+			step *= sign;
 		}
 		// also see Operation.java case Sequence:
-		if (from < to) {
-
+		if (var_from.toDecimal() == null || var_step == null || var_step.toDecimal() == null
+				|| (to - from) / step > 100) {
 			// Kernel.MIN_PRECISION and isInteger() check for eg
 			// Sequence(1, 2, 0.1)
-
-			// increasing list
-			for (double k = from; k <= to + Kernel.MIN_PRECISION; k += step) {
+			double k = from;
+			for (int steps = 0; k * sign <= to * sign + Kernel.MIN_PRECISION;
+					steps++, k = from + steps * step) {
 				if (DoubleUtil.isInteger(k)) {
 					k = Math.round(k);
 				}
 				list.addNumber(k, null);
 			}
-
 		} else {
-
-			// decreasing list
-			for (double k = from; k >= to - Kernel.MIN_PRECISION; k -= step) {
-				if (DoubleUtil.isInteger(k)) {
-					k = Math.round(k);
-				}
+			for (BigDecimal k = var_from.toDecimal();
+					k.doubleValue() * sign <= to * sign + Kernel.MIN_PRECISION;
+					k = k.add(var_step.toDecimal())) {
 				list.addNumber(k, null);
 			}
-
 		}
 	}
 

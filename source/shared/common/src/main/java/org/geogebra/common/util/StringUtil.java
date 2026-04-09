@@ -1689,22 +1689,12 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 */
 	public static void appendFormat(StringBuilder sbFormatSF, double x,
 			ScientificFormatAdapter sfa) {
-		String absStr;
 		if (x == 0) {
 			// avoid output of "-0.00"
-			absStr = sfa.format(0);
-		} else if (x > 0) {
-			absStr = sfa.format(x);
+			sbFormatSF.append(sfa.format(0));
 		} else {
-			sbFormatSF.append('-');
-			absStr = sfa.format(-x);
+			sbFormatSF.append(sfa.format(x));
 		}
-
-		// make sure ".123" is returned as "0.123".
-		if (absStr.charAt(0) == '.') {
-			sbFormatSF.append('0');
-		}
-		sbFormatSF.append(absStr);
 	}
 
     /**

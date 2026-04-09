@@ -33,7 +33,7 @@ public class CoordsTest {
 		v1.val[0] = 3.0;
 		v1.val[1] = 4.0;
 
-		assertEquals(v1.dotproduct(v1), 25, 1E-8);
+		assertEquals(25, v1.dotproduct(v1), 1E-8);
 	}
 
 	@Test
@@ -41,7 +41,7 @@ public class CoordsTest {
 		FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
 		Coords v1 = new Coords(4);
 		v1.set(.5, .31, -.17);
-		assertEquals(v1.toString(2), "(+0.50  +0.31  -0.17  +0.00)");
+		assertEquals("(+0.50  +0.31  -0.17  +0.00)", v1.toString(2));
 	}
 
 	@Test

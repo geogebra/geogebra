@@ -712,6 +712,9 @@ public class GeoNumeric extends GeoElement
 				&& (!definition.isLeaf() || isWrappedFraction(definition))) {
 			return definition.toFractionString(tpl);
 		}
+		if (exactValue != null) {
+			return kernel.format(exactValue, tpl);
+		}
 		return kernel.format(value, tpl);
 	}
 

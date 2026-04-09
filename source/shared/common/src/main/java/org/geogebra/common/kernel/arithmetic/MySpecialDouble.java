@@ -17,9 +17,11 @@
 package org.geogebra.common.kernel.arithmetic;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import javax.annotation.CheckForNull;
 
+import org.apache.commons.math3.util.Precision;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.plugin.Operation;
@@ -36,6 +38,7 @@ import org.geogebra.editor.share.util.Unicode;
  */
 public class MySpecialDouble extends MyDouble {
 
+	public static final BigDecimal DEGREE = new BigDecimal("0.017453292519943295769");
 	private String strToString;
 	private final String originalString;
 	private final boolean keepOriginalString;
@@ -164,7 +167,7 @@ public class MySpecialDouble extends MyDouble {
 	public String toString(StringTemplate tpl) {
 		if (setFromOutside) {
 			if (getAngleDim() == 1) {
-				return kernel.formatAngle(getDouble(), tpl, true, keepDegree).toString();
+				return kernel.formatAngle(getDouble(), bd, tpl, true, keepDegree).toString();
 			}
 			return super.toString(tpl);
 		}
@@ -281,7 +284,7 @@ public class MySpecialDouble extends MyDouble {
 		}
 		if (bd == null && !setFromOutside) {
 			if (isLetterConstant) {
-				bd = BigDecimal.valueOf(getDouble());
+				bd = getConstantDecimal();
 			} else if (isPercentage()) {
 				bd = new BigDecimal(strToString.substring(0, strToString.length() - 1))
 						.multiply(BigDecimal.valueOf(0.01));
@@ -290,6 +293,22 @@ public class MySpecialDouble extends MyDouble {
 			}
 		}
 		return bd;
+	}
+
+	private BigDecimal getConstantDecimal() {
+		return switch (strToString.charAt(0)) {
+			case Unicode.pi -> new BigDecimal("3.1415926535897932385");
+			case Unicode.DEGREE_CHAR -> DEGREE;
+			case Unicode.EULER_CHAR -> {
+				if (strToString.equals(Unicode.EULER_GAMMA_STRING)) {
+					yield new BigDecimal("0.57721566490153286061");
+				}
+				yield new BigDecimal("2.7182818284590452353");
+			}
+			case 'r' -> BigDecimal.ONE;
+			case Unicode.GRADIAN -> new BigDecimal("0.015707963267948966192");
+			default -> throw new IllegalStateException();
+		};
 	}
 
 	public boolean isDecimal() {
@@ -339,6 +358,19 @@ public class MySpecialDouble extends MyDouble {
 			set(newVal);
 		} else {
 			set(new BigDecimal(newVal));
+		}
+	}
+
+	@Override
+	protected void doRound(int digits, int angleUnit) {
+		BigDecimal exact;
+		if (getAngleDim() == 1 && Kernel.angleUnitUsesDegrees(angleUnit)) {
+			set(Kernel.PI_180 * Precision.round(getDouble() * Kernel.CONST_180_PI, digits));
+		} else if ((exact = toDecimal()) != null) {
+			set(exact.setScale(digits, RoundingMode.HALF_UP));
+		} else {
+			// number or angle in radians
+			setPrecise(Precision.round(getDouble(), digits));
 		}
 	}
 

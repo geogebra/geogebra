@@ -274,8 +274,9 @@ public class AlgebraStyleTest extends BaseUnitTest {
 				"X = (-1, 2) + (-0.5 t, -0.25 t^2)");
 		checkEquation("y^2=x +x -1+y", QuadraticEquationRepresentable.Form.PARAMETRIC,
 				"X = (0.38, 0.5) + (0.5 t^2, t)");
+		getApp().setRounding("5d");
 		checkEquation("(x+y)^2=x +x -1+y", QuadraticEquationRepresentable.Form.PARAMETRIC,
-				"X = (0.81, -0.06) + (0.06 t^2 + 0.13 t, -0.06 t^2 + 0.13 t)");
+				"X = (0.8125, -0.0625) + (0.0625 t^2 + 0.125 t, -0.0625 t^2 + 0.125 t)");
 	}
 
 	@Test

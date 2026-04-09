@@ -30,8 +30,8 @@ import jsinterop.base.JsPropertyMap;
  */
 public class NumberFormatW implements NumberFormatAdapter {
 
-	private int maximumFractionDigits;
-	private NumberFormat nf;
+	private final int maximumFractionDigits;
+	private final NumberFormat nf;
 
 	/**
 	 * @param digits
@@ -39,7 +39,8 @@ public class NumberFormatW implements NumberFormatAdapter {
 	 */
 	public NumberFormatW(String pattern, int digits) {
 		maximumFractionDigits = digits;
-		JsPropertyMap<Object> props = JsPropertyMap.of("maximumFractionDigits", digits);
+		JsPropertyMap<Object> props = JsPropertyMap.of("maximumFractionDigits", digits,
+				"roundingMode", "halfExpand");
 		props.set("useGrouping", false);
 		if (pattern != null && pattern.contains("E")) {
 			props.set("notation", "scientific");

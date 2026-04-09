@@ -106,7 +106,7 @@ public class Unicode {
 	final public static String EULER_GAMMA_STRING = "\u212F_\u03B3";
 	public static final String ALPHA_BETA_GAMMA = Character.toString(alpha) + beta + gamma;
 	final public static String PI_STRING = Character.toString(pi);
-	final public static String GRADIAN = "\u1D4D";
+	final public static char GRADIAN = '\u1D4D';
 
 	// UPPER CASE Greek
 	public static final char Alpha = '\u0391';

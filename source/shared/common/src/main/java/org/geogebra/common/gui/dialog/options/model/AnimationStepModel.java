@@ -75,7 +75,7 @@ public class AnimationStepModel extends TextPropertyModel {
 			if (onlyAngles && (stepGeo == null
 					|| (!stepGeo.isLabelSet() && stepGeo.isIndependent()))) {
 				return app.getKernel()
-						.formatAngle(geo0.getAnimationStep(), highPrecision,
+						.formatAngle(geo0.getAnimationStep(), null, highPrecision,
 								((GeoAngle) geo0)
 										.getAngleStyle() == AngleStyle.UNBOUNDED)
 						.toString();

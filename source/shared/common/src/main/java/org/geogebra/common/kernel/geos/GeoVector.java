@@ -495,7 +495,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 			sbBuildValueString.append(kernel.format(MyMath.length(x, y), tpl));
 			sbBuildValueString.append("; ");
 			sbBuildValueString
-					.append(kernel.formatAngle(Math.atan2(y, x), tpl, false));
+					.append(kernel.formatAngle(Math.atan2(y, x), null, tpl, false));
 			sbBuildValueString.append(")");
 			break;
 
@@ -808,7 +808,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 			sb.append("(");
 			sb.append(kernel.format(MyMath.length(x, y), tpl));
 			sb.append("; ");
-			sb.append(kernel.formatAngle(Math.atan2(y, x), tpl, false));
+			sb.append(kernel.formatAngle(Math.atan2(y, x), null, tpl, false));
 			sb.append(")");
 			break;
 

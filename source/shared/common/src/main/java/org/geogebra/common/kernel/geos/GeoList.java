@@ -16,6 +16,7 @@
 
 package org.geogebra.common.kernel.geos;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.TreeSet;
 import java.util.function.UnaryOperator;
@@ -2869,7 +2870,22 @@ public class GeoList extends GeoElement
 	 * @param parent
 	 *            parent algo
 	 */
-	public void addNumber(double value, AlgoElement parent) {
+	public void addNumber(BigDecimal value, AlgoElement parent) {
+		GeoNumeric listElement = addNumber(value.doubleValue(), parent);
+		listElement.setExactValue(value);
+	}
+
+	/**
+	 * Add number to the end, use cache if possible. Assume all cached elements
+	 * are GeoNumerics.
+	 *
+	 * @param value
+	 *            value
+	 * @param parent
+	 *            parent algo
+	 * @return the number added
+	 */
+	public GeoNumeric addNumber(double value, AlgoElement parent) {
 		GeoNumeric listElement;
 		if (size() < getCacheSize()) {
 			// use existing list element
@@ -2884,6 +2900,7 @@ public class GeoList extends GeoElement
 
 		add(listElement);
 		listElement.setValue(value);
+		return listElement;
 	}
 
 	/**

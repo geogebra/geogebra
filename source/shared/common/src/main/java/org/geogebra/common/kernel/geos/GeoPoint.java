@@ -1643,10 +1643,10 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 		sbBuildValueString.append(radius);
 		sbBuildValueString.append("; ");
 		sbBuildValueString
-				.append(kernel.formatAngle(Math.atan2(y, x), tpl, false));
+				.append(kernel.formatAngle(Math.atan2(y, x), null, tpl, false));
 		sbBuildValueString.append("; ");
 		sbBuildValueString
-				.append(kernel.formatAngle(Math.atan2(z, lengthXY), tpl, true));
+				.append(kernel.formatAngle(Math.atan2(z, lengthXY), null, tpl, true));
 		sbBuildValueString.append(')');
 
 	}
@@ -1675,7 +1675,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 			sbBuildValueString.append(tpl.polarSeparator());
 			tpl.appendOptionalSpace(sbBuildValueString);
 			sbBuildValueString
-					.append(kernel.formatAngle(Math.atan2(y, x), tpl, false));
+					.append(kernel.formatAngle(Math.atan2(y, x), null, tpl, false));
 			sbBuildValueString.append(tpl.rightBracket());
 			break;
 
