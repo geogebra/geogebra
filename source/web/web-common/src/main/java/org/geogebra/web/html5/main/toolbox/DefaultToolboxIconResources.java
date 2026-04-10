@@ -166,4 +166,7 @@ public interface DefaultToolboxIconResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/stadium.svg")
 	SVGResource stadium_fontawesome();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/mask.svg")
+	SVGResource mask_fontawesome();
 }

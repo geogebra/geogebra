@@ -81,8 +81,6 @@ public class MebisToolboxIconProvider extends DefaultToolboxIconProvider {
 			return new FaIconSpec("fa-circle");
 		case LINE:
 			return new FaIconSpec("fa-horizontal-rule");
-		case MASK:
-			return new FaIconSpec("fa-rectangle");
 		case PEN:
 		case ELLIPSE:
 		case FREEFORM:
@@ -91,6 +89,7 @@ public class MebisToolboxIconProvider extends DefaultToolboxIconProvider {
 		case STADIUM:
 		case CURVE:
 		case GEOGEBRA:
+		case MASK:
 			return getFallbackSVG(icon);
 		}
 		return super.matchIconWithResource(icon);
@@ -107,6 +106,7 @@ public class MebisToolboxIconProvider extends DefaultToolboxIconProvider {
 		case STADIUM -> svgResource = res.stadium_fontawesome();
 		case CURVE -> svgResource = res.curve_fontawesome();
 		case GEOGEBRA -> svgResource = res.geogebra_fontawesome();
+		case MASK -> svgResource = res.mask_fontawesome();
 		default -> { }
 		}
 		return svgResource != null ? new ImageIconSpec(svgResource) : null;
