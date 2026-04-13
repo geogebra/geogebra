@@ -83,6 +83,7 @@ public final class SpreadsheetController {
 	private boolean autoscrollRow;
 	private boolean autoscrollColumn;
 	private boolean didScrollWhileEditorActive = false;
+	private @CheckForNull SpreadsheetCoords pendingEditorActivationCoords = null;
 
 	private static final int DOT_CATCH_RADIUS = 18;
 
@@ -531,6 +532,14 @@ public final class SpreadsheetController {
 
 	// Cell Editor
 
+	private void showCellEditor(@CheckForNull SpreadsheetCoords coords,
+			boolean editExistingContent) {
+		if (coords == null) {
+			return;
+		}
+		showCellEditor(coords.row, coords.column, editExistingContent);
+	}
+
 	private void showCellEditor(int row, int column, boolean editExistingContent) {
 		if (controlsDelegate == null) {
 			return; // cell editor not shown
@@ -686,6 +695,7 @@ public final class SpreadsheetController {
 	 * @param modifiers event modifiers
 	 */
 	public void handlePointerDown(double x, double y, @Nonnull Modifiers modifiers) {
+		pendingEditorActivationCoords = null;
 		if (controlsDelegate != null) {
 			controlsDelegate.hideContextMenu();
 			controlsDelegate.hideAutoCompleteSuggestions();
@@ -727,8 +737,10 @@ public final class SpreadsheetController {
 		if (tabularData.handleMouseDown(row, column)) {
 			return;
 		}
-		if (row >= 0 && column >= 0 && selectionController.isOnlyCellSelected(row, column)) {
-			showCellEditor(row, column, true);
+		if (!modifiers.ctrlOrCmd && !modifiers.shift && !modifiers.secondaryButton
+				&& row >= 0 && column >= 0
+				&& selectionController.isOnlyCellSelected(row, column)) {
+			pendingEditorActivationCoords = new SpreadsheetCoords(row, column);
 			return;
 		}
 		updateCellSelection(row, column, modifiers);
@@ -767,6 +779,10 @@ public final class SpreadsheetController {
 		lastPointerPositionX = x;
 		lastPointerPositionY = y;
 		autoscrollColumn = autoscrollRow = false;
+		if (pendingEditorActivationCoords != null
+				&& !pendingEditorActivationCoords.equals(cellCoords(x, y))) {
+			pendingEditorActivationCoords = null;
+		}
 		switch (dragState.cursor) {
 		case RESIZE_X:
 			// only handle the dragged column here, the rest of selection on pointer up
@@ -790,6 +806,10 @@ public final class SpreadsheetController {
 	 * @param modifiers event modifiers
 	 */
 	public void handlePointerUp(double x, double y, Modifiers modifiers) {
+		boolean shouldOpenEditor = dragState.cursor == MouseCursor.DEFAULT
+				&& pendingEditorActivationCoords != null
+				&& pendingEditorActivationCoords.equals(cellCoords(x, y))
+				&& selectionController.isOnlyCellSelected(pendingEditorActivationCoords);
 		switch (dragState.cursor) {
 		case RESIZE_X:
 			if (isSelected(-1, dragState.startColumn)) {
@@ -813,6 +833,10 @@ public final class SpreadsheetController {
 		}
 		autoscrollColumn = autoscrollRow = false;
 		resetDragAction();
+		if (shouldOpenEditor) {
+			showCellEditor(pendingEditorActivationCoords, true);
+		}
+		pendingEditorActivationCoords = null;
 	}
 
 	/**
@@ -1235,6 +1259,15 @@ public final class SpreadsheetController {
 	 */
 	boolean canAddColumn() {
 		return tabularData.numberOfColumns() < Spreadsheet.MAX_COLUMNS;
+	}
+
+	@CheckForNull SpreadsheetCoords cellCoords(double x, double y) {
+		int row = findRowOrHeader(y);
+		int column = findColumnOrHeader(x);
+		if (row < 0 || column < 0) {
+			return null;
+		}
+		return new SpreadsheetCoords(row, column);
 	}
 
 	// Context menu

@@ -486,10 +486,32 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     // Cell editing
 
     @Test
+    public void testPointerDownOnSelectedCellDoesNotActivateEditor() {
+        controller.selectCell(0, 0, false, false);
+        Point cellCenter = getCenter(0, 0);
+        controller.handlePointerDown(cellCenter.x, cellCenter.y, Modifiers.NONE);
+        assertFalse(controller.isEditorActive());
+    }
+
+    @Test
     public void testActivateCellEditorByClickOnSelectedCell() {
         controller.selectCell(0, 0, false, false);
         simulateCellMouseClick(0, 0, 1);
         assertTrue(controller.isEditorActive());
+    }
+
+    @Test
+    public void testDraggingFromSelectedCellExtendsSelectionWithoutActivatingEditor() {
+        controller.selectCell(0, 0, false, false);
+        Point cellCenter = getCenter(0, 0);
+
+        controller.handlePointerDown(cellCenter.x, cellCenter.y, Modifiers.NONE);
+        cellCenter = getCenter(0, 1);
+        controller.handlePointerMove(cellCenter.x, cellCenter.y, Modifiers.NONE);
+        controller.handlePointerUp(cellCenter.x, cellCenter.y, Modifiers.NONE);
+
+        assertFalse(controller.isEditorActive());
+        assertEquals(new TabularRange(0, 0, 0, 1), controller.getLastSelection().getRange());
     }
 
     @Test

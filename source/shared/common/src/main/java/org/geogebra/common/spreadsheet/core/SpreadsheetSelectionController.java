@@ -237,6 +237,18 @@ final class SpreadsheetSelectionController {
 	}
 
 	/**
+	 * @param coords spreadsheet coordinates
+	 * @return {@code false} if {@code coords} is {@code null},
+	 * or {@link #isOnlyCellSelected(int, int)} for the given row/column pair.
+	 */
+	boolean isOnlyCellSelected(@CheckForNull SpreadsheetCoords coords) {
+		if (coords == null) {
+			return false;
+		}
+		return isOnlyCellSelected(coords.row, coords.column);
+	}
+
+	/**
 	 * @param row Row index
 	 * @param column Column index
 	 * @return Whether there is only a single cell selected, and that cell is (row, col).
