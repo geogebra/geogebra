@@ -317,7 +317,7 @@ public class FileManagerW extends FileManager {
 	}
 
 	private boolean mayLogIn() {
-		return isOfflinePlatform()
+		return !isOfflinePlatform()
 				&& app.getLoginOperation().mayLogIn();
 	}
 
