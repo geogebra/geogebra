@@ -265,6 +265,44 @@ public class GeoNumericTest extends BaseAppTestSetup {
 	}
 
 	@Test
+	public void legacySliderShouldGetDefaultLineOpacity() {
+		getApp().getGgbApi().evalXML("""
+				<element type="numeric" label="a">
+					<value val="1"/>
+					<slider min="-5" max="5" absoluteScreenLocation="true"
+						width="200" x="203" y="273" fixed="false"
+						horizontal="true" showAlgebra="true"/>
+					<lineStyle thickness="10" type="0" typeHidden="1"/>
+					<show object="true" label="true"/>
+					<objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+					<layer val="0"/>
+					<labelMode val="1"/>
+					<animation type="0" playing="false"/>
+				</element>""");
+		GeoNumeric slider = (GeoNumeric) lookup("a");
+		assertThat(slider.getLineOpacity(), is(GeoNumeric.DEFAULT_SLIDER_LINE_OPACITY));
+	}
+
+	@Test
+	public void sliderShouldLoadLineOpacity() {
+		getApp().getGgbApi().evalXML("""
+				<element type="numeric" label="a">
+					<value val="1"/>
+					<slider min="-5" max="5" absoluteScreenLocation="true"
+						width="200" x="160" y="252" fixed="false"
+						horizontal="true" showAlgebra="true"/>
+					<lineStyle thickness="10" type="0" typeHidden="1" opacity="77"/>
+					<show object="true" label="true"/>
+					<objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+					<layer val="0"/>
+					<labelMode val="1"/>
+					<animation type="0" playing="false"/>
+				</element>""");
+		GeoNumeric slider = (GeoNumeric) lookup("a");
+		assertThat(slider.getLineOpacity(), is(77));
+	}
+
+	@Test
 	public void sliderShouldSaveVariableToXMLWhenMinIsGreaterOrEqualToMax() {
 		addAvInput("a = Slider(1, 10)");
 		addAvInput("b = Slider(2, a)");
@@ -285,7 +323,7 @@ public class GeoNumericTest extends BaseAppTestSetup {
 		assertEquals("""
 		<element type="numeric" label="a">
 			<value val="1"/>
-			<lineStyle thickness="10" type="0" typeHidden="1"/>
+			<lineStyle thickness="10" type="0" typeHidden="1" opacity="100"/>
 			<show object="true" label="true"/>
 			<objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
 			<layer val="0"/>

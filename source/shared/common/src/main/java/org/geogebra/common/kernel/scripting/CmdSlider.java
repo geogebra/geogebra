@@ -113,6 +113,7 @@ public class CmdSlider extends CommandProcessor {
 		slider.setAVSliderOrCheckboxVisible(true);
 		slider.setEuclidianVisible(true);
 		slider.setLineThickness(GeoNumeric.DEFAULT_SLIDER_THICKNESS);
+		slider.setLineOpacity(GeoNumeric.DEFAULT_SLIDER_LINE_OPACITY);
 		slider.setDrawable(true);
 		slider.setLabel(c.getLabel());
 		return new GeoElement[] { slider };

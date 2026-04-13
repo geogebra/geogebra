@@ -147,6 +147,7 @@ public class ConsElementXMLHandler {
 	private final LinkedList<GeoElement> animatingList = new LinkedList<>();
 	private final LinkedList<GeoNumericMinMax> minMaxList = new LinkedList<>();
 	private boolean lineStyleTagProcessed;
+	private boolean lineOpacityTagProcessed;
 	private boolean symbolicTagProcessed;
 	private boolean sliderTagProcessed;
 	private boolean fontTagProcessed;
@@ -445,6 +446,7 @@ public class ConsElementXMLHandler {
 		fontTagProcessed = false;
 		symbolicTagProcessed = false;
 		lineStyleTagProcessed = false;
+		lineOpacityTagProcessed = false;
 		geo = getGeoElement(attrs);
 		if (needsConstructionDefaults) {
 			// don't set auxiliary prop here, it will be loaded from XML
@@ -1376,6 +1378,7 @@ public class ConsElementXMLHandler {
 			}
 			String opacity = attrs.get("opacity");
 			if (opacity != null) {
+				lineOpacityTagProcessed = true;
 				geo.setLineOpacity(Integer.parseInt(opacity));
 			}
 			String drawArrows = attrs.get("drawArrow");
@@ -2029,6 +2032,9 @@ public class ConsElementXMLHandler {
 			geo.setLineThickness(0);
 		}
 
+		if (!lineOpacityTagProcessed && sliderTagProcessed && geo.isGeoNumeric()) {
+			geo.setLineOpacity(GeoNumeric.DEFAULT_SLIDER_LINE_OPACITY);
+		}
 		if (!symbolicTagProcessed && (geo.isGeoText() || geo.isGeoInputBox() || geo.isGeoList())) {
 			((HasSymbolicMode) geo).setSymbolicMode(false, false);
 		}
@@ -2720,6 +2726,7 @@ public class ConsElementXMLHandler {
 		sliderTagProcessed = false;
 		fontTagProcessed = false;
 		lineStyleTagProcessed = false;
+		lineOpacityTagProcessed = false;
 		symbolicTagProcessed = false;
 		setEigenvectorsCalled = false;
 	}

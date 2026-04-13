@@ -184,9 +184,10 @@ public class DrawSlider extends Drawable {
 	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
 			// horizontal line
-			g2.setPaint(geo.getBackgroundColor() == null
+			GColor trackColor = geo.getBackgroundColor() == null
 					? geo.getSelColor()
-					: geo.getBackgroundColor());
+					: geo.getBackgroundColor();
+			g2.setPaint(trackColor.deriveWithAlpha(geo.getLineOpacity()));
 			g2.setStroke(objStroke);
 			g2.drawStraightLine(line.getP1().getX(), line.getP1().getY(),
 					line.getP2().getX(), line.getP2().getY());
