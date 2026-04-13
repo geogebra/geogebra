@@ -73,14 +73,17 @@ public interface DefaultGeneralIconResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/control_point_duplicate.svg")
 	SVGResource duplicate();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/fontawesome/copy.svg")
+	SVGResource duplicate_fontawesome();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/rename_box_black_24px.svg")
 	SVGResource rename();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/fontawesome/pen-line.svg")
+	SVGResource rename_fontawesome();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/fontawesome/scissors.svg")
 	SVGResource scissors_fontawesome();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/fontawesome/copy.svg")
-	SVGResource copy_fontawesome();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/table_heading_column.svg")
 	SVGResource table_heading_column();

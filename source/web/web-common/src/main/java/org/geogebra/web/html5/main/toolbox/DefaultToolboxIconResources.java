@@ -143,9 +143,6 @@ public interface DefaultToolboxIconResources extends ClientBundle {
 	SVGResource target();
 
 	// MEBIS TOOLBOX SVGS
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/pen-line.svg")
-	SVGResource pen_fontawesome();
-
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/polygon.svg")
 	SVGResource pentagon_fontawesome();
 

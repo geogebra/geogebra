@@ -39,15 +39,14 @@ public class MebisGeneralIconProvider extends DefaultGeneralIconProvider {
 			case PIE_CHART -> new FaIconSpec("fa-chart-pie-simple");
 			case BULLET_LIST -> new FaIconSpec("fa-list-ul");
 			case NUMBERED_LIST -> new FaIconSpec("fa-list-ol");
+			case COPY -> new FaIconSpec("fa-copy");
 			case PASTE -> new FaIconSpec("fa-clipboard");
 			case LOCK -> new FaIconSpec("fa-lock-keyhole");
 			case SETTINGS -> new FaIconSpec("fa-gear");
 			case ARROW_RIGHT -> new FaIconSpec("fa-caret-right");
 			case ARROW_LEFT -> new FaIconSpec("fa-caret-left");
-			case RENAME -> new FaIconSpec("fa-pencil-line");
 			case PLUS -> new FaIconSpec("fa-plus");
-			case DUPLICATE -> new FaIconSpec("fa-clone-plus");
-			case COPY, CUT, TABLE_HEADING_COLUMN, TABLE_HEADING_ROW, X_SQUARE,
+			case RENAME, CUT, DUPLICATE, TABLE_HEADING_COLUMN, TABLE_HEADING_ROW, X_SQUARE,
 				 X_2 -> new ImageIconSpec(getFallbackSVG(icon));
 		default -> super.matchIconWithResource(icon);
 		};
@@ -55,8 +54,9 @@ public class MebisGeneralIconProvider extends DefaultGeneralIconProvider {
 
 	private SVGResource getFallbackSVG(GeneralIcon icon) {
 		return switch (icon) {
-			case COPY -> res.copy_fontawesome();
+			case RENAME -> res.rename_fontawesome();
 			case CUT -> res.scissors_fontawesome();
+			case DUPLICATE -> res.duplicate_fontawesome();
 			case TABLE_HEADING_COLUMN -> res.table_heading_column_fontawesome();
 			case TABLE_HEADING_ROW -> res.table_heading_row_fontawesome();
 			case X_SQUARE -> res.x_square_fontawesome();

@@ -29,6 +29,8 @@ public class MebisToolboxIconProvider extends DefaultToolboxIconProvider {
 		switch (icon) {
 		case MOUSE_CURSOR:
 			return new FaIconSpec("fa-arrow-pointer");
+		case PEN:
+			return new FaIconSpec("fa-pen");
 		case HIGHLIGHTER:
 			return new FaIconSpec("fa-highlighter");
 		case ERASER:
@@ -81,7 +83,6 @@ public class MebisToolboxIconProvider extends DefaultToolboxIconProvider {
 			return new FaIconSpec("fa-circle");
 		case LINE:
 			return new FaIconSpec("fa-horizontal-rule");
-		case PEN:
 		case ELLIPSE:
 		case FREEFORM:
 		case PENTAGON:
@@ -98,7 +99,6 @@ public class MebisToolboxIconProvider extends DefaultToolboxIconProvider {
 	private ImageIconSpec getFallbackSVG(ToolboxIcon icon) {
 		SVGResource svgResource = null;
 		switch (icon) {
-		case PEN -> svgResource = res.pen_fontawesome();
 		case ELLIPSE -> svgResource = res.ellipse_fontawesome();
 		case FREEFORM -> svgResource = res.freeform_fontawesome();
 		case PENTAGON -> svgResource = res.pentagon_fontawesome();
