@@ -36,7 +36,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.color.GeoColorValues;
-import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.properties.GeoElementPropertyFilter;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.Property;
@@ -49,7 +48,6 @@ import org.geogebra.common.properties.impl.facade.ColorPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.FlagListPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.IconsEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
-import org.geogebra.common.properties.impl.facade.ObjectEventPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.RangePropertyListFacade;
 import org.geogebra.common.properties.impl.facade.StringPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.StringPropertyWithSuggestionsListFacade;
@@ -74,7 +72,6 @@ import org.geogebra.common.properties.impl.objects.DefinitionProperty;
 import org.geogebra.common.properties.impl.objects.DrawArrowsProperty;
 import org.geogebra.common.properties.impl.objects.DynamicColorPropertyCollection;
 import org.geogebra.common.properties.impl.objects.ElementColorProperty;
-import org.geogebra.common.properties.impl.objects.ElementObjectEventProperty;
 import org.geogebra.common.properties.impl.objects.FillingPropertyCollection;
 import org.geogebra.common.properties.impl.objects.FillingStyleProperty;
 import org.geogebra.common.properties.impl.objects.FixCheckboxProperty;
@@ -101,8 +98,6 @@ import org.geogebra.common.properties.impl.objects.NameProperty;
 import org.geogebra.common.properties.impl.objects.NotesColorWithOpacityProperty;
 import org.geogebra.common.properties.impl.objects.NotesOpacityColorProperty;
 import org.geogebra.common.properties.impl.objects.NotesThicknessProperty;
-import org.geogebra.common.properties.impl.objects.ObjectAllEventsProperty;
-import org.geogebra.common.properties.impl.objects.ObjectEventProperty;
 import org.geogebra.common.properties.impl.objects.OldObjectColorProperty;
 import org.geogebra.common.properties.impl.objects.OldPointStyleProperty;
 import org.geogebra.common.properties.impl.objects.OpacityProperty;
@@ -111,6 +106,7 @@ import org.geogebra.common.properties.impl.objects.PointSizeProperty;
 import org.geogebra.common.properties.impl.objects.PointStyleExtendedProperty;
 import org.geogebra.common.properties.impl.objects.PositionPropertyCollection;
 import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty;
+import org.geogebra.common.properties.impl.objects.ScriptPropertyCollection;
 import org.geogebra.common.properties.impl.objects.SegmentEndProperty;
 import org.geogebra.common.properties.impl.objects.SegmentStartProperty;
 import org.geogebra.common.properties.impl.objects.SerifProperty;
@@ -301,17 +297,18 @@ public final class GeoElementPropertiesFactory {
 	 * @param processor algebra processor
 	 * @param localization localization
 	 * @param imageManager image manager
+	 * @param jsEnabled whether JavaScript is enabled
 	 * @param elements selected elements
 	 * @return properties organized in tabs
 	 */
 	public List<PropertiesArray> createStructuredProperties(
 			AlgebraProcessor processor, Localization localization,
-			ImageManager imageManager, List<GeoElement> elements) {
+			ImageManager imageManager, boolean jsEnabled, List<GeoElement> elements) {
 		return Stream.of(
 				createBasicProperties(localization, elements),
 				createStyleProperties(processor, imageManager, localization, elements),
 				createAdvancedProperties(processor, localization, elements),
-				createScriptProperties(localization, elements)
+				createScriptProperties(localization, jsEnabled, elements)
 		).filter(propertiesArray ->
 				propertiesArray.getProperties().length > 0).collect(Collectors.toList());
 	}
@@ -420,31 +417,9 @@ public final class GeoElementPropertiesFactory {
 	}
 
 	private @Nonnull PropertiesArray createScriptProperties(
-			Localization localization, List<GeoElement> elements) {
+			Localization localization, boolean jsEnabled, List<GeoElement> elements) {
 		return createPropsArray("Scripting", localization, Stream.of(
-				createObjectEventsProperty(localization, elements)
-			)
-		);
-	}
-
-	/**
-	 * Creates script related properties for a list of GeoElements.
-	 * @param localization localization
-	 * @param elements input elements
-	 * @return the list of properties for the GeoElement(s)
-	 */
-	public ObjectAllEventsProperty createObjectEventsProperty(
-			Localization localization, List<GeoElement> elements) {
-		ArrayList<ObjectEventProperty> props = new ArrayList<>();
-		for (EventType type : ElementObjectEventProperty.eventNames.keySet()) {
-			ObjectEventProperty op = createOptionalPropertyFacade(elements,
-					element -> new ElementObjectEventProperty(localization, element, type),
-					ObjectEventPropertyListFacade::new);
-			if (op != null) {
-				props.add(op);
-			}
-		}
-		return new ObjectAllEventsProperty(localization, props);
+				new ScriptPropertyCollection(this, localization, elements, jsEnabled)));
 	}
 
 	/**

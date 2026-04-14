@@ -22,4 +22,13 @@ import org.geogebra.common.properties.ConstrainedProperty;
  * A property that is represented as a String.
  */
 public interface StringProperty extends ConstrainedProperty<String> {
+	/**
+	 * @return {@code true} if the property should be displayed as a text area (see
+	 * {@link org.geogebra.common.properties.PropertyView.TextArea}, {@code false} if it should be
+	 * displayed as a simple text field (see
+	 * {@link org.geogebra.common.properties.PropertyView.TextField}.
+	 */
+	default boolean isDisplayedAsTextArea() {
+		return false;
+	}
 }

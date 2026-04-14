@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.PreviewFeature;
+import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.web.full.gui.components.sideSheet.ComponentSideSheet;
@@ -658,6 +659,7 @@ public class PropertiesViewW extends PropertiesView
 					app.getKernel().getAlgebraProcessor(),
 					app.getLocalization(),
 					app.getImageManager(),
+					app.getEventDispatcher().availableTypes().contains(ScriptType.JAVASCRIPT),
 					showableGeos);
 			sideSheet.setTitleTransKey(
 					showableGeos.size() == 1 ? showableGeos.get(0).getTypeString() : "Selection");

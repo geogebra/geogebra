@@ -16,7 +16,13 @@
 
 package org.geogebra.common.properties.impl.facade;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 
@@ -35,8 +41,42 @@ public class NamedEnumeratedPropertyListFacade<T extends NamedEnumeratedProperty
 	}
 
 	@Override
-	public String[] getValueNames() {
-		return getFirstProperty().getValueNames();
+	public List<V> getValues() {
+		List<V> sharedValues = new ArrayList<>(getFirstProperty().getValues());
+		for (int propertyIndex = 1; propertyIndex < properties.size(); propertyIndex++) {
+			Set<V> propertyValues = new HashSet<>(properties.get(propertyIndex).getValues());
+			sharedValues.removeIf(value -> !propertyValues.contains(value));
+		}
+		return sharedValues;
 	}
 
+	@Override
+	public String[] getValueNames() {
+		List<V> firstValues = getFirstProperty().getValues();
+		String[] firstValueNames = getFirstProperty().getValueNames();
+		Map<V, String> valueNames = new HashMap<>();
+		for (int valueIndex = 0; valueIndex < firstValues.size(); valueIndex++) {
+			valueNames.put(firstValues.get(valueIndex), firstValueNames[valueIndex]);
+		}
+		return getValues().stream().map(valueNames::get).toArray(String[]::new);
+	}
+
+	@Override
+	public int getIndex() {
+		V value = getFirstProperty().getValue();
+		if (value == null) {
+			return -1;
+		}
+		for (int propertyIndex = 1; propertyIndex < properties.size(); propertyIndex++) {
+			if (!Objects.equals(value, properties.get(propertyIndex).getValue())) {
+				return -1;
+			}
+		}
+		return getValues().indexOf(value);
+	}
+
+	@Override
+	public boolean isAvailable() {
+		return super.isAvailable() && !getValues().isEmpty();
+	}
 }

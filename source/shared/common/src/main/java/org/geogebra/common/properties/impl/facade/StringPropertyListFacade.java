@@ -45,4 +45,9 @@ public class StringPropertyListFacade<T extends StringProperty>
 		}
 		return null;
 	}
+
+	@Override
+	public boolean isDisplayedAsTextArea() {
+		return getFirstProperty().isDisplayedAsTextArea();
+	}
 }

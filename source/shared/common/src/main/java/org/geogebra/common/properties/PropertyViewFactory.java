@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.ownership.SuiteScope;
+import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.undo.UndoSavingPropertyObserver;
 import org.geogebra.common.properties.util.PropertyArrayValueObserving;
@@ -98,9 +99,11 @@ public class PropertyViewFactory {
 		String title = app.getLocalization().getMenu(getTypeString(geoElements.get(0)));
 		SuiteScope suiteScope = GlobalScope.getSuiteScope(app);
 		assert suiteScope != null;
+		boolean jsEnabled = !app.getPlatform().isMobile()
+				&& app.getEventDispatcher().availableTypes().contains(ScriptType.JAVASCRIPT);
 		List<PropertiesArray> propertiesArrayList = suiteScope.geoElementPropertiesFactory
 				.createStructuredProperties(app.getKernel().getAlgebraProcessor(),
-						app.getLocalization(), app.getImageManager(), geoElements);
+						app.getLocalization(), app.getImageManager(), jsEnabled, geoElements);
 		propertiesArrayList.forEach(propertiesArray -> PropertyArrayValueObserving.addObserver(
 				propertiesArray, new UndoSavingPropertyObserver(app.getUndoManager())));
 		return new PropertyView.TabbedPageSelector(title, propertiesArrayList, 0);

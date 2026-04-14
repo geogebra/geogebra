@@ -32,9 +32,10 @@ import static org.geogebra.common.properties.PropertyView.HorizontalSplitView;
 import static org.geogebra.common.properties.PropertyView.ImagePicker;
 import static org.geogebra.common.properties.PropertyView.MultiSelectionIconRow;
 import static org.geogebra.common.properties.PropertyView.RelatedPropertyViewCollection;
-import static org.geogebra.common.properties.PropertyView.ScriptEditor;
 import static org.geogebra.common.properties.PropertyView.SingleSelectionIconRow;
 import static org.geogebra.common.properties.PropertyView.Slider;
+import static org.geogebra.common.properties.PropertyView.TabList;
+import static org.geogebra.common.properties.PropertyView.TextArea;
 import static org.geogebra.common.properties.PropertyView.TextField;
 
 import java.util.ArrayList;
@@ -55,13 +56,13 @@ import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentExpandableList;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.components.ComponentSlider;
+import org.geogebra.web.full.gui.components.ComponentTextArea;
 import org.geogebra.web.full.gui.properties.ui.panel.ActionableButtonPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.ButtonIconEditorPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.DimensionRatioPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.IconButtonPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.ImagePickerPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.MultiSelectionIconRowPanel;
-import org.geogebra.web.full.gui.properties.ui.tabs.ScriptTabFactory;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -70,6 +71,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.tab.ComponentTab;
+import org.geogebra.web.shared.components.tab.TabData;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
@@ -203,11 +205,31 @@ public class PropertiesPanelAdapter {
 			}
 			return panel;
 		}
-		if (propertyView instanceof ScriptEditor scriptEditor) {
-			ScriptTabFactory tabBuilder = new ScriptTabFactory(app, scriptEditor);
-			ComponentTab scriptTab = tabBuilder.create();
-			widgets.add(scriptTab);
-			return scriptTab;
+		if (propertyView instanceof TabList tabList) {
+			List<String> tabTitles = tabList.getTabTitles();
+			TabData[] tabData = new TabData[tabTitles.size()];
+			for (int index = 0; index < tabTitles.size(); index++) {
+				FlowPanel tabContent = new FlowPanel();
+				for (PropertyView contentPropertyView : tabList.getTabContents().get(index)) {
+					tabContent.add(getWidget(contentPropertyView));
+				}
+				tabData[index] = new TabData(tabTitles.get(index), tabContent);
+			}
+			int selectedTabIndex = tabList.getSelectedTabIndex();
+			ComponentTab componentTab = new ComponentTab(app, "Scripting", selectedTabIndex, null,
+					tabData);
+			componentTab.addTabChangedListener(index -> {
+				if (tabList.getSelectedTabIndex() != index) {
+					tabList.setSelectedTabIndex(index);
+				}
+			});
+			tabList.setConfigurationUpdateDelegate(() -> {
+				int updatedIndex = tabList.getSelectedTabIndex();
+				if (componentTab.getSelectedTabIdx() != updatedIndex) {
+					componentTab.switchToTab(updatedIndex);
+				}
+			});
+			return componentTab;
 		}
 		if (propertyView instanceof ExpandableList) {
 			Checkbox leadProperty =
@@ -268,6 +290,9 @@ public class PropertiesPanelAdapter {
 			});
 			inputField.setDisabled(!((TextField) propertyView).isEnabled());
 			return inputField;
+		}
+		if (propertyView instanceof TextArea textAreaPropertyView) {
+			return new ComponentTextArea(app.getLocalization(), textAreaPropertyView);
 		}
 		return new Label(propertyView.toString());
 	}

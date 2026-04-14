@@ -34,7 +34,6 @@ import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.properties.aliases.ActionableIconProperty;
 import org.geogebra.common.properties.aliases.ActionableIconPropertyCollection;
 import org.geogebra.common.properties.aliases.BooleanProperty;
@@ -78,8 +77,7 @@ import org.geogebra.common.properties.impl.objects.FontProperty;
 import org.geogebra.common.properties.impl.objects.GeoElementDependentProperty;
 import org.geogebra.common.properties.impl.objects.LayoutPropertyCollection;
 import org.geogebra.common.properties.impl.objects.LocationPropertyCollection;
-import org.geogebra.common.properties.impl.objects.ObjectAllEventsProperty;
-import org.geogebra.common.properties.impl.objects.ObjectEventProperty;
+import org.geogebra.common.properties.impl.objects.ScriptPropertyCollection;
 import org.geogebra.common.properties.impl.objects.SliderTrackColorPropertyCollection;
 import org.geogebra.common.properties.impl.objects.StyledItemProperty;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
@@ -480,6 +478,10 @@ public abstract class PropertyView {
 
 		@Override
 		protected void onDependentGeoElementUpdated() {
+			refreshCachedValue();
+		}
+
+		private void refreshCachedValue() {
 			value = property.getValue() != null ? property.getValue() : "";
 			errorMessage = null;
 		}
@@ -536,7 +538,8 @@ public abstract class PropertyView {
 	}
 
 	/**
-	 * Representation of an input text field with a label and an optional error message.
+	 * Representation of an input text field with a label, an optional error message, and a
+	 * formatted input displayed in {@link org.geogebra.editor.share.editor.MathField}.
 	 */
 	public static final class TextField extends ValidatablePropertyBackedView<StringProperty> {
 		TextField(StringProperty stringProperty) {
@@ -545,6 +548,25 @@ public abstract class PropertyView {
 
 		/**
 		 * @return the label
+		 */
+		public @Nonnull String getLabel() {
+			return property.getName();
+		}
+	}
+
+	/**
+	 * Representation of a text area with a resizable input, a label, and text displayed in
+	 * raw string format.
+	 * @implNote It supports error handling, but the current single use case (scripting)
+	 * will never produce an error message.
+	 */
+	public static final class TextArea extends ValidatablePropertyBackedView<StringProperty> {
+		TextArea(StringProperty property) {
+			super(property);
+		}
+
+		/**
+		 * @return the label above the text area
 		 */
 		public @Nonnull String getLabel() {
 			return property.getName();
@@ -961,93 +983,54 @@ public abstract class PropertyView {
 	}
 
 	/**
-	 * Script tab with optional {@link ScriptType} drop-down and a script area.
+	 * Representation of a list of tabs with names in a horizontal scroll view with a selection
+	 * and per-tab content.
 	 */
-	public static final class ScriptTab extends PropertyBackedView<ObjectEventProperty> {
-		ScriptTab(ObjectEventProperty objectEventProperty) {
-			super(objectEventProperty);
+	public static final class TabList extends PropertyBackedView<NamedEnumeratedProperty<?>> {
+		private final List<String> tabTitles;
+		private final List<List<PropertyView>> tabContents;
+
+		TabList(NamedEnumeratedProperty<?> namedEnumeratedProperty,
+				List<? extends PropertyCollection<?>> propertyCollections) {
+			super(namedEnumeratedProperty);
+			this.tabTitles = List.of(namedEnumeratedProperty.getValueNames());
+			this.tabContents = propertyCollections.stream()
+					.map(PropertyView::propertyViewListOf).toList();
 		}
 
 		/**
-		 * Enable/disable JS.
-		 * @param jsEnabled whether JS is enabled in the app
+		 * @return the list of tab titles
 		 */
-		public void setJsEnabled(boolean jsEnabled) {
-			property.setJsEnabled(jsEnabled);
+		public @Nonnull List<String> getTabTitles() {
+			return tabTitles;
 		}
 
 		/**
-		 * @return true if JS is enabled in the app, false otherwise
+		 * @return the per-tab content views
 		 */
-		public boolean isJsEnabled() {
-			return property.isJsEnabled();
+		public @Nonnull List<List<PropertyView>> getTabContents() {
+			return tabContents;
 		}
 
 		/**
-		 * Sets the event script text associated with this {@link ObjectEventProperty}.
-		 * @param text script source to store
+		 * @return the index of the currently selected tab
 		 */
-		public void setScriptText(String text) {
-			property.setScriptText(text);
+		public int getSelectedTabIndex() {
+			return property.getIndex();
 		}
 
 		/**
-		 * Returns the script text associated with this {@link ObjectEventProperty}.
-		 * @return the event script text
+		 * Sets the index of the selected tab.
+		 * @param newIndex the new index of the selected tab
 		 */
-		public String getScriptText() {
-			return property.getScriptText();
+		public void setSelectedTabIndex(int newIndex) {
+			property.setIndex(newIndex);
 		}
 
-		/**
-		 * Sets the type of the current {@link ObjectEventProperty}.
-		 * @param scriptType {@link ScriptType}
-		 */
-		public void setScriptType(ScriptType scriptType) {
-			property.setScriptType(scriptType);
-		}
-
-		/**
-		 * Returns the type of the current {@link ObjectEventProperty}.
-		 * @return the {@link ScriptType} describing how the script should be interpreted
-		 */
-		public ScriptType getScriptType() {
-			return property.getScriptType();
-		}
-	}
-
-	/**
-	 * List of {@link ScriptTab} to edit script.
-	 */
-	public static final class ScriptEditor extends PropertyBackedView<ObjectAllEventsProperty> {
-		private final List<ScriptTab> scriptTabList;
-
-		ScriptEditor(ObjectAllEventsProperty objectAllEventsProperty) {
-			super(objectAllEventsProperty);
-			scriptTabList = new ArrayList<>();
-			for (ObjectEventProperty objectEventProperty : objectAllEventsProperty.getProps()) {
-				if (objectEventProperty.isEnabled()) {
-					scriptTabList.add(new ScriptTab(objectEventProperty));
-				}
-			}
-		}
-
-		/**
-		 * @return the number of {@link ScriptTab}
-		 */
-		public int count() {
-			return scriptTabList.size();
-		}
-
-		/**
-		 * @param index of {@link ScriptTab}
-		 * @return {@link ScriptTab} of given index
-		 */
-		public @CheckForNull ScriptTab getScriptTab(int index) {
-			if (index > -1 && index < count()) {
-				return scriptTabList.get(index);
-			}
-			return null;
+		@Override
+		public void detach() {
+			super.detach();
+			tabContents.forEach(views -> views.forEach(PropertyView::detach));
 		}
 	}
 
@@ -1472,8 +1455,8 @@ public abstract class PropertyView {
 		if (property instanceof BooleanProperty booleanProperty) {
 			return new Checkbox(booleanProperty);
 		} else if (property instanceof AlignmentPropertyCollection
-			|| property instanceof LayoutPropertyCollection
-			|| property instanceof BorderStylePropertyCollection) {
+				|| property instanceof LayoutPropertyCollection
+				|| property instanceof BorderStylePropertyCollection) {
 			return new GroupedIconButtonRow((AbstractPropertyCollection) property);
 		} else if (property instanceof DynamicColorSpaceProperty
 				|| (property instanceof NamedEnumeratedPropertyListFacade<?, ?> facade
@@ -1481,6 +1464,9 @@ public abstract class PropertyView {
 				|| facade.getFirstProperty() instanceof FillCategoryProperty
 				|| facade.getFirstProperty() instanceof ChartSegmentFillCategoryProperty))) {
 			return new ConnectedButtonGroup((NamedEnumeratedProperty<?>) property);
+		} else if (property instanceof ScriptPropertyCollection scriptPropertyCollection) {
+			return new TabList(scriptPropertyCollection.getScriptEventSelectionProperty(),
+					scriptPropertyCollection.getScriptEventPropertyCollections());
 		} else if (property instanceof NamedEnumeratedProperty<?> namedEnumeratedProperty) {
 			return createDropdown(namedEnumeratedProperty);
 		} else if (property instanceof StringPropertyWithSuggestions stringProperty) {
@@ -1488,7 +1474,8 @@ public abstract class PropertyView {
 		} else if (property instanceof ImagePropertyListFacade imagePropertyListFacade) {
 			return new ImagePicker(imagePropertyListFacade);
 		} else if (property instanceof StringProperty stringProperty) {
-			return new TextField(stringProperty);
+			return stringProperty.isDisplayedAsTextArea()
+					? new TextArea(stringProperty) : new TextField(stringProperty);
 		} else if (property instanceof IconsEnumeratedProperty<?> iconsEnumeratedProperty) {
 			return new SingleSelectionIconRow(iconsEnumeratedProperty);
 		} else if (property instanceof RangeProperty<?>) {
@@ -1581,8 +1568,6 @@ public abstract class PropertyView {
 					new TextField(collection.getProperties()[1]));
 		} else if (property instanceof ActionablePropertyCollection<?> propertyCollection) {
 			return new ActionableButtonRow(propertyCollection);
-		} else if (property instanceof ObjectAllEventsProperty objectAllEventsProperty) {
-			return new ScriptEditor(objectAllEventsProperty);
 		} else if (property instanceof ActionableIconProperty actionableIconProperty) {
 			return new ButtonWithIcon(actionableIconProperty);
 		} else if (property instanceof PropertyCollection<?> propertyCollection) {
