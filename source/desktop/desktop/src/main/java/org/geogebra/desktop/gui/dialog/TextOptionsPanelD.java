@@ -215,7 +215,7 @@ class TextOptionsPanelD extends JPanel
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
-
+		propertiesPanelD.applyModifications();
 		if (source == cbSize) {
 			boolean isCustom = cbSize.getSelectedIndex() == 7;
 			if (isCustom) {
