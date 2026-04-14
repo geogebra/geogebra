@@ -29,7 +29,6 @@ public class FontStyleUtil {
 	 */
 	public static boolean isFontStyleApplicable(GeoElement element) {
 		return element instanceof HasTextFormatter hasTextFormatter
-				&& hasTextFormatter.getFormatter() != null
 				&& hasTextFormatter.getFormat("font", "").startsWith("ByLineatur");
 	}
 
@@ -39,10 +38,19 @@ public class FontStyleUtil {
 	 * {@link org.geogebra.common.properties.impl.objects.UnderlineProperty} cannot be applied on
 	 * BY_DRUCK, BY_DRUCK_LINEATUR and BY_LESEN
 	 * @param element geo element
-	 * @return whether current font famility supports typographical emphasis
+	 * @return whether current font family supports typographical emphasis
 	 */
 	public static boolean isInlineWithSupportedFont(GeoElement element) {
 		return element instanceof HasTextFormatter formattedElement
 				&& !formattedElement.getFormat("font", "").startsWith("By");
+	}
+
+	/**
+	 * @param element element
+	 * @return whether element is editable and supporting special symbols
+	 */
+	public static boolean isInlineWithSymbols(GeoElement element) {
+		return element instanceof HasTextFormatter formattedElement
+				&& formattedElement.getFormat("font", "").startsWith("By");
 	}
 }

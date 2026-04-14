@@ -187,6 +187,12 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 		BooleanProperty underlineProperty = geoElementPropertiesFactory
 				.createUnderlineProperty(getApp().getLocalization(), activeGeoList);
 		addTextFormatPropertyButton(activeGeoList, underlineProperty);
+		PropertySupplier[] properties = SpecialSymbolProperty.forGeos(
+				ev.getApplication().getLocalization(), activeGeoList);
+		if (properties.length > 0) {
+			addPropertyPopupButton(activeGeoList, "symbolPopup", true,
+					UndoActionType.STYLE_OR_CONTENT, properties);
+		}
 
 		Property horizontalAlignmentProperty = geoElementPropertiesFactory
 				.createHorizontalAlignmentProperty(getApp().getLocalization(), activeGeoList);

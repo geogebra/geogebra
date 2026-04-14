@@ -42,6 +42,7 @@ import org.geogebra.common.properties.impl.objects.TextBackgroundColorProperty;
 import org.geogebra.web.full.euclidian.LabelSettingsPanel;
 import org.geogebra.web.full.euclidian.LabelValuePanel;
 import org.geogebra.web.full.euclidian.quickstylebar.PropertyWidgetAdapter;
+import org.geogebra.web.full.euclidian.quickstylebar.SpecialSymbolProperty;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -54,6 +55,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.general.GeneralIcon;
 import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
 
 public class IconButtonWithProperty extends IconButton {
 	private final AppW appW;
@@ -200,9 +202,14 @@ public class IconButtonWithProperty extends IconButton {
 			LabelSettingsPanel labelStylePanel = widgetAdapter.getLabelPanel(valuedProperty);
 			parent.add(labelStylePanel);
 		}
-
 		if (property instanceof BooleanPropertyListFacade<?> booleanProperty) {
 			parent.add(widgetAdapter.getCheckBox(booleanProperty, appW.getLocalization()));
+		}
+		if (property instanceof SpecialSymbolProperty symbolProperty) {
+			Label groupLabel = new Label(symbolProperty.getGroupName());
+			groupLabel.addStyleName("symbolGroup");
+			parent.add(groupLabel);
+			parent.add(new SymbolButtonGroup(symbolProperty));
 		}
 	}
 

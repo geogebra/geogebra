@@ -33,6 +33,7 @@ import org.geogebra.common.properties.impl.objects.TextColorProperty;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
+import org.geogebra.web.full.euclidian.quickstylebar.SpecialSymbolProperty;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
@@ -196,6 +197,9 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 
 	@Override
 	public final IconSpec matchIconWithResource(Property property) {
+		if (property instanceof SpecialSymbolProperty) {
+			return matchIconWithResource(PropertyResource.ICON_POINT_STYLE_PLUS);
+		}
 		if (property instanceof IconsEnumeratedProperty<?> enumeratedProperty) {
 			PropertyResource[] propertyIcons = enumeratedProperty.getValueIcons();
 			int selectedIndex = enumeratedProperty.getIndex();

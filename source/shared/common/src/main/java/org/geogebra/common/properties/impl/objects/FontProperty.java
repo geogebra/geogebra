@@ -68,6 +68,21 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 		}
 
 		/**
+		 * @param font font family stack
+		 * @param fallback fallback font
+		 * @return font family that exactly matches the CSS font family stack,
+		 *         {@code fallback} if not found
+		 */
+		public static FontFamily getByCssName(String font, FontFamily fallback) {
+			for (FontFamily family : FontFamily.values()) {
+				if (font.equals(family.cssName())) {
+					return family;
+				}
+			}
+			return fallback;
+		}
+
+		/**
 		 * @return display name
 		 */
 		public String displayName() {
@@ -87,7 +102,7 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 		 */
 		public static List<FontFamily> getAvailableFonts(boolean isBycs) {
 			return isBycs ? Arrays.asList(FontFamily.ARIAL, FontFamily.BY_DRUCK,
-					FontFamily.BY_DRUCK_LINEATUR_SCHWARZ, FontFamily.BY_LESEN,
+					FontFamily.BY_DRUCK_LINEATUR_TUERKIS_FARBBAND, FontFamily.BY_LESEN,
 					FontFamily.CALIBRI, FontFamily.COMIC_SANS, FontFamily.COURIER,
 					FontFamily.GEORGIA, FontFamily.DYSLEXIC, FontFamily.TIMES,
 					FontFamily.TREBUCHET, FontFamily.VERDANA)
@@ -132,11 +147,7 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 		HasTextFormat formatter = geoElement.getFormatter();
 		if (formatter != null) {
 			String font = formatter.getFormat("font", "");
-			for (FontFamily family : FontFamily.values()) {
-				if (font.equals(family.cssName())) {
-					return family;
-				}
-			}
+			return FontFamily.getByCssName(font, FontFamily.ARIAL);
 		}
 		return FontFamily.ARIAL;
 	}
