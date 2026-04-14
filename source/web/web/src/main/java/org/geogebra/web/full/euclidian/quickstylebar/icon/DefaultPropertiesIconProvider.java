@@ -198,7 +198,7 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 	@Override
 	public final IconSpec matchIconWithResource(Property property) {
 		if (property instanceof SpecialSymbolProperty) {
-			return matchIconWithResource(PropertyResource.ICON_POINT_STYLE_PLUS);
+			return getFontSpecialSymbolIcon();
 		}
 		if (property instanceof IconsEnumeratedProperty<?> enumeratedProperty) {
 			PropertyResource[] propertyIcons = enumeratedProperty.getValueIcons();
@@ -220,7 +220,7 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 			} else if (firstProperty instanceof TextColorProperty) {
 				return getTextColorIcon();
 			} else if (firstProperty instanceof FontRulingColorProperty) {
-				return getFontStyleIcon();
+				return getFontRulingIcon();
 			} else if (firstProperty instanceof BorderColorProperty) {
 				return matchIconWithResource(PropertyResource.ICON_BORDER_THIN);
 			} else if (firstProperty instanceof NameCaptionProperty) {
@@ -243,8 +243,12 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 		return new ImageIconSpec(MaterialDesignResources.INSTANCE.text_color());
 	}
 
-	protected IconSpec getFontStyleIcon() {
-		return new ImageIconSpec(MaterialDesignResources.INSTANCE.text_color());
+	protected IconSpec getFontRulingIcon() {
+		return new ImageIconSpec(MaterialDesignResources.INSTANCE.font_ruling());
+	}
+
+	protected IconSpec getFontSpecialSymbolIcon() {
+		return new ImageIconSpec(MaterialDesignResources.INSTANCE.font_special_symbol());
 	}
 
 	protected IconSpec getColorIcon() {
