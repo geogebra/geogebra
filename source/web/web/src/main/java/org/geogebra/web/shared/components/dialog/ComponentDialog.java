@@ -221,6 +221,14 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	}
 
 	/**
+	 * clears the dialog content
+	 */
+	protected void clearDialogContent() {
+		dialogContent.clear();
+		widgetList.clear();
+	}
+
+	/**
 	 * runs the negative action and hides the dialog
 	 */
 	private void onNegativeAction() {
@@ -279,7 +287,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 			if (posButton != null && !widgetList.contains(posButton)) {
 				widgetList.add(posButton);
 			}
-			widgetList.get(0).getElement().focus();
+			initialFocusWidget();
 		});
 	}
 
@@ -287,6 +295,18 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	public void hide() {
 		super.hide();
 		((AppW) app).unregisterPopup(this);
+	}
+
+	protected void initialFocusWidget() {
+		widgetList.get(0).getElement().focus();
+	}
+
+	protected void updateFocusIndex(Widget focusedWidget) {
+		for (Widget w : widgetList) {
+			if (w == focusedWidget) {
+				focusIndex = widgetList.indexOf(w);
+			}
+		}
 	}
 
 	/**
@@ -360,15 +380,16 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	public void onBrowserEvent(Event event) {
 		if (DOM.eventGetType(event) == Event.ONKEYDOWN
 				&& event.getKeyCode() == KeyCodes.KEY_TAB) {
-			handleTab();
+			handleTab(event.getShiftKey());
 			event.stopPropagation();
 			event.preventDefault();
 		}
 	}
 
-	private void handleTab() {
+	private void handleTab(boolean reverse) {
+		int increment = reverse ? -1 : 1;
 		do {
-			focusIndex = focusIndex >= widgetList.size() - 1 ? 0 : focusIndex + 1;
+			focusIndex = (focusIndex + widgetList.size() + increment) % widgetList.size();
 		} while (widgetList.get(focusIndex).getElement().getTabIndex() < 0);
 		if (widgetList.get(focusIndex) instanceof HasFocus) {
 			((HasFocus) widgetList.get(focusIndex)).focus();

@@ -1437,21 +1437,36 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.calcChooser {
-			 max-width: 984px;
-			 min-height: 232px;
-			 left: 0px;
-			 padding: 48px 36px;
-			 border-radius: 2px;
-			 box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
-			 box-sizing: border-box;
+			width: 100%;
+			max-width: 984px;
+			min-height: 232px;
+			padding: 24px 36px 48px 36px;
+			box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+			box-sizing: border-box;
 
-			.title {
+			.dialogMainPanel .dialogTitle {
 				height: 48px;
-				font-size: 175%;
+				font-size: 28px;
 				line-height: 48px;
 				max-width: 912px;
 				margin-bottom: 32px;
+				margin-left: 0;
 				text-align: center;
+			}
+
+			.dialogContent {
+				padding: 0;
+
+				.calcBtn.keyboardFocus:focus-visible {
+					outline-width: 0;
+
+					.imgHolder {
+						outline-color: var(--ggb-dark-color);
+						outline-width: 2px;
+						outline-style: solid;
+						outline-offset: 2px;
+					}
+				}
 			}
 
 			.calcBtn {
@@ -1459,7 +1474,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				max-height: 152px;
 				width: 100%;
 				height: 100%;
-				margin: 0px 16px;
+				margin: 4px 16px 0 16px;
 				display: inline-table;
 				cursor: pointer;
 				transition: background-color 0.15s;
