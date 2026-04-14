@@ -3664,17 +3664,12 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		// can give java.util.ConcurrentModificationException
 		try {
 			if (!notifyViewsActive) {
-				Log.debug("Number of registered views = 0");
+				Log.debug("No registered views.");
 			} else {
-				StringBuilder sb = new StringBuilder();
-				sb.append("Number of registered views = ");
-				sb.append(views.size());
-				for (View view : views) {
-					sb.append("\n * ");
-					sb.append(view.getClass());
-				}
-
-				Log.debug(sb.toString());
+				String message = "Registered views (" + views.size() + "): " + views.stream()
+						.map(view -> String.valueOf(view.getViewID())).collect(
+								Collectors.joining(", "));
+				Log.debug(message);
 			}
 		} catch (Exception e) {
 			Log.debug(e.getMessage());

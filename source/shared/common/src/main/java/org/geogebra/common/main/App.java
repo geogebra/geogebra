@@ -1210,7 +1210,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            geo
 	 */
 	public void resetTraceColumn(GeoElement ge) {
-		getTraceManager().setNeedsColumnReset(ge, true);
+		if (kernel.getConstruction().hasSpreadsheetTracingGeos()) {
+			getTraceManager().setNeedsColumnReset(ge, true);
+		}
 	}
 
 	/**
