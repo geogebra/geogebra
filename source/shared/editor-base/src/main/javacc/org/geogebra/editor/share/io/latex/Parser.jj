@@ -144,6 +144,7 @@ PARSER_END(Parser)
 	| < RFLOOR : "\u230b" >
 	| < QUOTE_START : "\""> : IN_QUOTE
 	| < SQRT : "sqrt(" | "\u221A(" >
+	| < SQRT_SHORT : "\u221A" >
 	| < CBRT : "cbrt(" >
 	| < NROOT : "nroot(" >
 	| < LOG : "log(" >
@@ -202,7 +203,7 @@ void atomicWrapper(InternalNode node) : {}
 	|
 	atomicPrePost(node)
 	|
-	absVecLimeq(node)
+	singleArgFunction(node)
 	|
 	LOOKAHEAD(<VERTICAL_BAR>, {shouldStartAbsoluteValue()})
 	absVerticalBar(node)
@@ -415,22 +416,28 @@ void atomicPrePost(InternalNode node) : {
 	} <PARENTHESES_CLOSE>
 }
 
-void absVecLimeq(InternalNode node) : {
+void singleArgFunction(InternalNode node) : {
 	Token symbol;
 }
 {
-	(symbol = <ABS> | symbol = <VEC> | symbol = <LIM_EQ> | symbol = <SQRT> | symbol = <CBRT>) {
+	((symbol = <ABS> | symbol = <VEC> | symbol = <LIM_EQ> | symbol = <SQRT> | symbol = <CBRT>) {
 		// cut off the parentheses from the end
 		String image = symbol.image.substring(0, symbol.image.length() - 1);
 		if (image.charAt(0) == Unicode.SQUARE_ROOT) {
 			image = "sqrt";
 		}
-		FunctionNode vec = new FunctionNode(catalog.getGeneral(Tag.lookup(image)));
+		FunctionNode functionNode = new FunctionNode(catalog.getGeneral(Tag.lookup(image)));
 		SequenceNode param1 = new SequenceNode();
 		mathContainerWithCommas(param1);
-		vec.setChild(0, param1);
-		node.addChild(vec);
-	} <PARENTHESES_CLOSE>
+		functionNode.setChild(0, param1);
+		node.addChild(functionNode);
+	} <PARENTHESES_CLOSE> ) | <SQRT_SHORT>  {
+		FunctionNode sqrtNode = new FunctionNode(catalog.getGeneral(Tag.lookup("sqrt")));
+		SequenceNode param2 = new SequenceNode();
+		mathAtomOrPower(param2);
+		sqrtNode.setChild(0, param2);
+		node.addChild(sqrtNode);
+	}
 }
 
 void log(InternalNode node) : { }

@@ -109,7 +109,7 @@ public class EditorParserTest {
 		assertParsesAs("r(2) / r(x) = 4".replace('r', Unicode.SQUARE_ROOT),
 				"((sqrt(2))/(sqrt(x))) = 4");
 		assertParsesAs("r2 / rx = 4".replace('r', Unicode.SQUARE_ROOT),
-				"((r2)/(rx)) = 4".replace('r', Unicode.SQUARE_ROOT));
+				"((sqrt(2))/(sqrt(x))) = 4");
 	}
 
 	@Test

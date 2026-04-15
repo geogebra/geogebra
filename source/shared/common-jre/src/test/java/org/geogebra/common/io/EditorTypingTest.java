@@ -1137,4 +1137,12 @@ public class EditorTypingTest extends BaseExamTestSetup {
 		checker.type("1+ 2").checkAsciiMath("1+ 2");
 		checker.type("\"1 2").checkAsciiMath("\"1 2\"");
 	}
+
+	@Test
+	public void surdLaTeX() {
+		checker.insert(String.valueOf(Unicode.SQUARE_ROOT))
+				.checkLaTeX("\\sqrt{{\\bgcolor{#dcdcdc}\\scalebox{1}[1.6]{\\phantom{g}}}}");
+		checker.insert(Unicode.SQUARE_ROOT + "15-1")
+				.checkLaTeX("\\sqrt{15}-1");
+	}
 }

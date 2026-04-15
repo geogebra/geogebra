@@ -94,12 +94,18 @@ public final class Configuration {
 
 	private static void add(String symbol, int type, int ch, FontInfo font,
 			char unicode) {
+		SymbolAtom sa = addWithoutLookup(symbol, type, ch, font, unicode);
+		CharMapping.getDefault().put(unicode,
+				new CharMapping.SymbolMapping(unicode, sa));
+	}
+
+	private static SymbolAtom addWithoutLookup(String symbol, int type, int ch, FontInfo font,
+			char unicode) {
 		CharFont cf = new CharFont((char) ch, font);
 		SymbolAtom sa = new SymbolAtom(cf, type, unicode);
 		fontMapping.put(symbol, cf);
 		symbolMapping.put(symbol, sa);
-		CharMapping.getDefault().put(unicode,
-				new CharMapping.SymbolMapping(unicode, sa));
+		return sa;
 	}
 
 	private static void add(String symbol, int type, int ch, FontInfo font,
@@ -1022,7 +1028,7 @@ public final class Configuration {
 		add("textpercent", TeXConstants.TYPE_ORDINARY, 37, fonts.cmr10);
 		add("thickapprox", TeXConstants.TYPE_RELATION, 116, fonts.msbm10,
 				'\ue306');
-		add("surdsign", TeXConstants.TYPE_ORDINARY, 112, fonts.cmsy10, '\u221a');
+		addWithoutLookup("surdsign", TeXConstants.TYPE_ORDINARY, 112, fonts.cmsy10, '\u221a');
 		add("i", TeXConstants.TYPE_ORDINARY, 179, fonts.cmti10, '\u0069');
 		add("subsetplus", TeXConstants.TYPE_RELATION, 100, fonts.stmary10);
 		add("j", TeXConstants.TYPE_ORDINARY, 180, fonts.cmti10);
