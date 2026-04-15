@@ -179,12 +179,24 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	public boolean isDefined() {
-		return true;
+		return value == null || !value.any(Inspecting::isUndefined);
 	}
 
 	@Override
 	public void setUndefined() {
-		// TODO Auto-generated method stub
+		// Keep all cached representations in a self-consistent undefined state so later
+		// rendering / toggle code observes the failure immediately instead of using stale data.
+		setValue(new ExpressionNode(kernel, Double.NaN));
+		casOutputString = "?";
+		numericValue = null;
+		asFunction = null;
+		fVars.clear();
+		if (twinGeo != null) {
+			twinGeo.remove();
+			twinGeo = null;
+		}
+		isTwinUpToDate = true;
+		isEuclidianShowable = false;
 	}
 
 	@Override
@@ -301,9 +313,25 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	@Override
+	public final void setDefinition(ExpressionNode root) {
+		if (root == null) {
+			throw invariantViolation("setDefinition", "missing definition");
+		}
+		super.setDefinition(root);
+	}
+
+	@Override
 	public void resetDefinition() {
-		super.resetDefinition();
-		fVars.clear();
+		throw invariantViolation("resetDefinition", "missing definition");
+	}
+
+	@Override
+	protected void reuseDefinition(GeoElementND geo) {
+		if (!geo.isIndependent() && geo.getDefinition() != null
+				&& !geo.getDefinition().isConstant()) {
+			throw invariantViolation("reuseDefinition", "missing definition");
+		}
+		super.reuseDefinition(geo);
 	}
 
 	private ExpressionValue fixMatrixInput(ExpressionValue casInputArg) {
@@ -323,6 +351,10 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	public void computeOutput() {
+		// `computeOutput()` is the central place where GeoSymbolic state is rebuilt.
+		// Validating the structural invariants here turns latent corruption into a
+		// deterministic failure close to the source of the problem.
+		ensureInvariant("computeOutput");
 		ExpressionValue casInputArg = getDefinition().deepCopy(kernel)
 				.traverse(FunctionExpander.newFunctionExpander(this));
 		casInputArg = fixMatrixInput(casInputArg);
@@ -335,6 +367,7 @@ public class GeoSymbolic extends GeoElement
 		} else {
 			computeUsingCAS(casInputArg);
 		}
+		ensureComputedInvariant("computeOutput");
 	}
 
 	private  boolean needsSymbolicComputation(ExpressionValue part) {
@@ -725,6 +758,8 @@ public class GeoSymbolic extends GeoElement
 	 * @return geo for drawing, null if the output contains variables
 	 */
 	public @CheckForNull GeoElementND getTwinGeo() {
+		// Twin creation depends on the symbolic definition and cached CAS output staying aligned.
+		ensureInvariant("getTwinGeo");
 		if (isTwinUpToDate) {
 			return twinGeo;
 		}
@@ -1169,6 +1204,9 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
+		// Description mode compares definition / symbolic value / numeric twin, so it only
+		// makes sense after a successful symbolic computation.
+		ensureComputedInvariant("getDescriptionMode");
 		GeoElementND twinGeo = getTwinGeo();
 		boolean symbolicMode = isSymbolicMode();
 		setSymbolicMode(true, false);
@@ -1193,6 +1231,8 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	public void setSymbolicMode(boolean mode, boolean updateParent) {
+		// Toggling the display mode must never be used to "paper over" broken symbolic state.
+		ensureInvariant("setSymbolicMode");
 		this.symbolicMode = mode;
 	}
 
@@ -1462,6 +1502,9 @@ public class GeoSymbolic extends GeoElement
 	@Override
 	public String getFormulaString(StringTemplate tpl,
 			boolean substituteNumbers) {
+		// Formula rendering sits directly on the crash path from the AV toggle, so validate
+		// the structural assumptions before we start unwrapping conditional outputs.
+		ensureInvariant("getFormulaString");
 		if (substituteNumbers && tpl.isLatex()) {
 			if (value != null && value.wrap().isTopLevelCommand("If")
 					&& !fVars.isEmpty()) {
@@ -1503,5 +1546,44 @@ public class GeoSymbolic extends GeoElement
 	@Override
 	public void setZero() {
 		setValue(new ExpressionNode(kernel, new MyDouble(kernel, 0.0)));
+	}
+
+	/**
+	 * Verify internal state assumptions that downstream AV / CAS code relies on.
+	 *
+	 * The most important one is that a live {@code GeoSymbolic} always has a definition.
+	 * Additional checks keep lazily computed caches coherent enough that rendering and
+	 * symbolic toggling fail early with an explanatory message rather than much later with
+	 * a generic null / class cast failure.
+	 *
+	 * @param context call-site label for diagnostics
+	 */
+	public void ensureInvariant(String context) {
+		if (getDefinition() == null) {
+			throw invariantViolation(context, "missing definition");
+		}
+		if (isTwinUpToDate && twinGeo != null && twinGeo.isLabelSet()) {
+			throw invariantViolation(context, "cached twin must stay unlabeled");
+		}
+	}
+
+	/**
+	 * Stronger variant of {@link #ensureInvariant(String)} for code paths that require the
+	 * symbolic evaluation to have completed already.
+	 */
+	private void ensureComputedInvariant(String context) {
+		ensureInvariant(context);
+		if (value == null) {
+			throw invariantViolation(context, "missing computed value");
+		}
+		if (casOutputString == null) {
+			throw invariantViolation(context, "missing CAS output string");
+		}
+	}
+
+	private IllegalStateException invariantViolation(String context, String detail) {
+		String label = isLabelSet() ? getLabelSimple() : "<unlabeled>";
+		return new IllegalStateException("GeoSymbolic invariant violated in "
+				+ context + " for " + label + ": " + detail);
 	}
 }
