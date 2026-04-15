@@ -330,7 +330,7 @@ public final class MyMath {
 		}
 
 		double sign = Math.signum(t) * Math.signum(mod);
-		return Math.ceil(Math.abs(t / mod)) * Math.abs(mod) * sign;
+		return Math.ceil(DoubleUtil.checkInteger(Math.abs(t / mod))) * Math.abs(mod) * sign;
 	}
 
 	/**

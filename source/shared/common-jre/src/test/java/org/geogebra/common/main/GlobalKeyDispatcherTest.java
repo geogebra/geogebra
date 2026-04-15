@@ -28,6 +28,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,6 +40,8 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.editor.share.util.KeyCodes;
 import org.geogebra.test.BaseAppTestSetup;
@@ -71,6 +74,24 @@ public class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 		handleKey(KeyCodes.DOWN, Arrays.asList(pt, list));
 		assertThat(pt, hasValue("(1, 1)"));
 		assertThat(list, hasValue("{(1, 1.1)}"));
+	}
+
+	@Test
+	@Issue("APPS-7291")
+	public void moveArrowPointsPiDistance() {
+		GeoPoint pt = evaluateGeoElement("(2pi, 0)");
+		pt.setAnimationStep(evaluateGeoElement("pi/12"));
+		EuclidianSettings euclidian = getApp().getSettings().getEuclidian(1);
+		euclidian.setPointCapturing(EuclidianStyleConstants.POINT_CAPTURING_ON_GRID);
+		euclidian.setGridDistances(
+				new double[]{ Math.PI / 12, Math.PI / 12, Math.PI / 12});
+		selectGeo(pt);
+		List<String> xCoords = new ArrayList<>();
+		for (int i = 0; i < 3; i++) {
+			handleKey(KeyCodes.LEFT, List.of(pt));
+			xCoords.add(Float.toString((float) pt.getX()));
+		}
+		assertEquals(List.of("6.021386", "5.7595863", "5.497787"), xCoords);
 	}
 
 	private void selectGeo(GeoElement pt) {
