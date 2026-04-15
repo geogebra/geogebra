@@ -62,7 +62,6 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 	private GeoPoint[] D; // D: old points
 	protected GeoPoint[] P; // output - Q permuted according to D
 	protected GeoPoint[] Q; // new points, not yet permuted
-	protected int intersectionType;
 
 	private HashMap<GeoElementND, PPolynomial[]> botanaPolynomials;
 	private HashMap<GeoElementND, PVariable[]> botanaVars;
@@ -637,7 +636,6 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 				sol[i].setUndefined();
 			}
 		}
-		intersectionType = ret;
 		return ret;
 	}
 

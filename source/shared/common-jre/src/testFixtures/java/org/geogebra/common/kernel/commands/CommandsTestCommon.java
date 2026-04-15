@@ -661,6 +661,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 				"(1.026923788646684, -0.600480947161671)");
 		tRound("Angle[ Segment[(1,1),(2,1/2)], x+y=17 ]", "341.56505" + DEGREE_STRING);
 		t("Angle((1, -1, 0),(0, 0, 0),(-1, -1, 0), zAxis)", "270*" + DEGREE_STRING);
+		t("Angle(pi)", "180*" + DEGREE_STRING);
 	}
 
 	@Test
@@ -2261,6 +2262,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 		t("Last[ {1,2,3,4,5} , 2 ]", "{4, 5}");
 		t("Last[ \"GeoGebra\" ]", "a");
 		t("Last[ \"GeoGebra\" , 3 ]", "bra");
+		t("Last[DataFunction({0,1},{2,3})]", "3");
 	}
 
 	@Test
@@ -2359,6 +2361,9 @@ public class CommandsTestCommon extends BaseCommandTest {
 		t("Q=P+(1,0)", "(1, 0)");
 		t("loc = Locus(Q,P)", "Locus[Q, P]");
 		assertThat(lookup("loc"), isDefined());
+		t("slider=Slider(0,5,0.1)", "0");
+		t("Q=(1+slider,0)", "(1, 0)");
+		t("First(Locus(Q,slider),1)", "{(1, 0)}");
 	}
 
 	@Test
@@ -3290,6 +3295,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 		t("Root(b)", "(NaN, NaN)");
 		t("Root(x^6 - 2x^5 - 4x^4 + 8x^3)", "(-2, 0)", "(0, 0)", "(2, 0)");
 		t("Root(x^8 - x^4)", "(-1, 0)", "(0, 0)", "(1, 0)");
+		t("{Root(If(-.1<x<2,x^3-x))}", "{(NaN, NaN), (0, 0), (1, 0)}");
 	}
 
 	@Test
@@ -4167,6 +4173,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 	public void cmdTranslate() {
 		t("Translate[Polygon[(1,1), (2,1/2), 4], (1,1)]", "1.25");
 		t("Translate[(1, 1), (3,1/3) ]", "(4, 1.3333333333333333)");
+		t("Translate(Vector((2, 3)), (1, 7))", "(2, 3)");
 	}
 
 	@Test
