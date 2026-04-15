@@ -46,13 +46,13 @@ public class GlitchesTest extends BaseUnitTest {
 	@Test
 	public void divByZeroThreshold() {
 		withHiResFunction("((1*10^(-13) x)/(1*10^(-13)))");
-		assertEquals(1, gp.getLog().size());
+		assertEquals(1 + 1920 * 2, gp.getLog().size());
 	}
 
 	@Test
 	public void divTwoConstantsBelowZeroThreshold() {
 		withHiResFunction("((1*10^(-13))/(1*10^(-13)))x");
-		assertEquals(1, gp.getLog().size());
+		assertEquals(1 + 1920 * 2, gp.getLog().size());
 	}
 
 	@Test
@@ -60,7 +60,7 @@ public class GlitchesTest extends BaseUnitTest {
 		withBounds(-1, 1, -8, -8);
 		withScreenSize(50, 50);
 		withFunction("0(1/x)");
-		assertEquals(1, gp.getLog().stream().filter(e -> DoubleUtil.isEqual(e.y(), 0))
+		assertEquals(101, gp.getLog().stream().filter(e -> DoubleUtil.isEqual(e.y(), 0))
 				.count());
 	}
 
@@ -86,7 +86,8 @@ public class GlitchesTest extends BaseUnitTest {
 		withBounds(0, 10, -8, -8);
 		withDefaultScreen();
 		withFunction("sin(0)^x");
-		assertEquals(1, gp.getLog().stream().filter(t -> t.y() == 0).count());
+		assertEquals(1919,
+				gp.getLog().stream().filter(t -> t.y() == 0).count());
 	}
 
 	@Test
@@ -94,7 +95,7 @@ public class GlitchesTest extends BaseUnitTest {
 		withBounds(-1E15, 1E15, -1E15, -1E15);
 		withScreenSize(50, 50);
 		withFunction("tan(x)");
-		assertEquals(1, gp.getLog().size());
+		assertEquals(101, gp.getLog().size());
 	}
 
 	@Test
@@ -135,7 +136,7 @@ public class GlitchesTest extends BaseUnitTest {
 		withBounds(5.0, 8.0, 5, 5);
 		withScreenSize(50, 50);
 		withFunction("1-exp(-5x)");
-		assertEquals(0, gp.getLog().stream().filter(
+		assertEquals(1, gp.getLog().stream().filter(
 				e -> e.operation() == IntervalPathMockEntry.PathOperation.MOVE_TO).count());
 	}
 }

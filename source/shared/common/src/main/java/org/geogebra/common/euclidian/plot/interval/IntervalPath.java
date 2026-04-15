@@ -109,9 +109,8 @@ public class IntervalPath {
 	}
 
 	private void drawNonInverted(IntervalTuple tuple) {
-		Interval y = tuple.y();
-		if (isEntirelyOffScreen(y) || y.hasInfinity()) {
-			noJoinForNextTuple();
+		if (tuple.y().hasInfinity()) {
+			drawNormalInfinity(tuple);
 		} else {
 			drawNormalJoined(tuple);
 		}
@@ -127,8 +126,25 @@ public class IntervalPath {
 
 	private void drawNormalJoined(IntervalTuple tuple) {
 		Interval screenY = bounds.toScreenIntervalY(tuple.y());
-		drawInterval.drawJoined(lastY, bounds.toScreenIntervalX(tuple.x()), screenY);
+
+		drawInterval.drawJoined(lastY,
+				bounds.toScreenIntervalX(tuple.x()),
+				screenY);
 		lastY.set(screenY);
+	}
+
+	private void drawNormalInfinity(IntervalTuple tuple) {
+		Interval x = tuple.x();
+		Interval y = tuple.y();
+		if (bounds.range().contains(y.getLow()) && Double.isInfinite(y.getHigh())) {
+			gp.leftToTop(bounds, x, y);
+			lastY.set(0);
+		} else if (bounds.range().contains(y.getHigh())) {
+			gp.leftToBottom(bounds, x, y);
+			lastY.set(bounds.getHeight());
+		} else {
+			lastY.setUndefined();
+		}
 	}
 
 	private void drawWhole(Interval x) {
@@ -137,22 +153,12 @@ public class IntervalPath {
 	}
 
 	private void drawTupleIndependent(int index) {
-		IntervalTuple tuple = data.at(index);
-		Interval y = tuple.y();
 		if (data.isInvertedAt(index)) {
 			drawInvertedInterval.draw(index);
-		} else if (isEntirelyOffScreen(y) || y.hasInfinity()) {
-			// Skip drawing when y interval is entirely off-screen or has infinity
-			noJoinForNextTuple();
 		} else {
-			Interval lastValue = drawInterval.drawIndependent(tuple);
+			Interval lastValue = drawInterval.drawIndependent(data.at(index));
 			lastY.set(lastValue);
 		}
-	}
-
-	private boolean isEntirelyOffScreen(Interval interval) {
-		Interval range = bounds.range();
-		return interval.getLow() > range.getHigh() || interval.getHigh() < range.getLow();
 	}
 
 	/**
