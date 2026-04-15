@@ -8,7 +8,7 @@ javagiac = "70464"
 gwt = "2.13.0"
 gwtTreblereel = "202602114"
 elemental2 = "1.3.2"
-murok = "1.0.202501301331"
+murok = "1.0.202604140857"
 mozilla-rhino = "1.7.15"
 quickJs = '1.0.202412181317-SNAPSHOT'
 multiplayer = "1.0.202412180729"
@@ -73,9 +73,9 @@ junit5-launcher = {module = 'org.junit.platform:junit-platform-launcher' }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 
-gwt-plugin = {module = "org.docstr.gwt:org.docstr.gwt.gradle.plugin", version = "2.2.7" }
-spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version = "6.1.7" }
-javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "4.0.1"}
+gwt-plugin = {module = "org.docstr.gwt:org.docstr.gwt.gradle.plugin", version = "2.2.9" }
+spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version = "6.5.0" }
+javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "4.0.3"}
 openrewrite-plugin = {module = "org.openrewrite.rewrite:org.openrewrite.rewrite.gradle.plugin", version = "7.4.1"}
 idea-ext = { module = "org.jetbrains.gradle.plugin.idea-ext:org.jetbrains.gradle.plugin.idea-ext.gradle.plugin", version.ref = "ideaExt" }
 
