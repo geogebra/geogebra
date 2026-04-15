@@ -21,9 +21,15 @@ import static org.junit.Assert.assertNull;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.plugin.GeoClass;
+import org.junit.Before;
 import org.junit.Test;
 
 public class EuclidianPenFreehandTest extends BaseEuclidianControllerTest {
+
+	@Before
+	public void setUp() {
+		setUpController();
+	}
 
 	@Test
 	public void freehandPenShouldRecognizeSegment() {

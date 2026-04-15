@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
@@ -53,6 +54,11 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		evt.setCommand(s);
 		events.add(evt);
 		add(s);
+	}
+
+	@Before
+	public void setUp() {
+		setUpController();
 	}
 
 	@Before
@@ -1096,7 +1102,8 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 
 	@Test
 	public void testMoveBoxPlotUndoRedo() {
-		activateUndo();
+		getApp().setUndoRedoMode(UndoRedoMode.GUI);
+		getApp().setUndoActive(true);
 		setMode(EuclidianConstants.MODE_MOVE);
 		GeoNumeric numeric = add("BoxPlot(0, 1, {1, 2, 3, 4})");
 		numeric.setFixed(false);

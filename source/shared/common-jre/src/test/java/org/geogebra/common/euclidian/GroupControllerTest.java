@@ -16,23 +16,30 @@
 
 package org.geogebra.common.euclidian;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class GroupControllerTest extends BaseEuclidianControllerTest {
+
+	@BeforeEach
+	public void setUp() {
+		setUpController();
+	}
 
 	@Test
 	public void clickShouldSelectAllGeosInGroup() {
 		setMode(EuclidianConstants.MODE_SELECT_MOW);
 		List<GeoElement> polygons = prepareGroupedGeos();
-		click(50, 50);
+		click(100, 100);
 		assertTrue(polygons.get(0).isSelected());
 		assertTrue(polygons.get(1).isSelected());
 	}
@@ -41,14 +48,24 @@ public class GroupControllerTest extends BaseEuclidianControllerTest {
 	public void secondClickShouldMakeFocusedSelection() {
 		setMode(EuclidianConstants.MODE_SELECT_MOW);
 		List<GeoElement> polygons = prepareGroupedGeos();
-		click(50, 50);
-		click(50, 80);
+		click(100, 100);
+		click(100, 130);
 		assertEquals(polygons.get(0), getApp().getSelectionManager().getFocusedGroupElement());
 	}
 
+	@Test
+	public void dragShouldNotSelectPartialGroup() {
+		setMode(EuclidianConstants.MODE_SELECT_MOW);
+		List<GeoElement> polygons = prepareGroupedGeos();
+		dragStart(0, 0);
+		dragEnd(250, 250);
+		assertEquals(0, getApp().getSelectionManager().getSelectedGeos().size());
+	}
+
 	private List<GeoElement> prepareGroupedGeos() {
-		GeoElement p = add("p=Polygon((0,0), (0,-3), (3, -3), (3, 0))");
-		GeoElement q = add("q=Polygon((4,0), (4,-3), (7, -3), (7, 0))");
+		GeoElement p = add("p=Polygon({(1,-1), (1,-4), (4, -4), (4, -1)})");
+		GeoElement q = add("q=Polygon({(5,-1), (5,-4), (8, -4), (8, -1)})");
+
 		List<GeoElement> list = Arrays.asList(p, q);
 		getApp().getKernel().getConstruction().createGroup(new ArrayList<>(list));
 		return list;

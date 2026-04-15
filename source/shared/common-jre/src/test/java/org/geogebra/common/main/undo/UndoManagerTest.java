@@ -16,6 +16,7 @@
 
 package org.geogebra.common.main.undo;
 
+import static org.geogebra.common.BaseUnitTest.hasValue;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -36,6 +37,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.jre.headless.EuclidianController3DNoGui;
 import org.geogebra.common.jre.headless.EuclidianView3DNoGui;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -45,14 +47,21 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
+import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.test.annotation.Issue;
+import org.junit.Before;
 import org.junit.Test;
 
 public class UndoManagerTest extends BaseEuclidianControllerTest {
+
+	@Before
+	public void setUp() {
+		setUpController();
+	}
 
 	@Test
 	public void undoDeletionGraphing() {
@@ -262,6 +271,11 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 		assertThat(pt, hasValue("(3, 0)"));
 	}
 
+	private void activateUndo() {
+		getApp().setUndoRedoMode(UndoRedoMode.GUI);
+		getApp().setUndoActive(true);
+	}
+
 	@Test
 	@Issue("APPS-5774")
 	public void undoDraggingSliderValue() {
@@ -382,7 +396,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 	private EuclidianView3D get3Dview() {
 		return new EuclidianView3DNoGui(
 				new EuclidianController3DNoGui(getApp(), getKernel()),
-				this.getSettings().getEuclidian(3));
+				getApp().getSettings().getEuclidian(3));
 	}
 
 	@Test
@@ -398,6 +412,10 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 	}
 
 	private AppState getCheckpoint() {
-		return getConstruction().getUndoManager().getCheckpoint(null).getAppState();
+		return getUndoManager().getCheckpoint(null).getAppState();
+	}
+
+	private Construction getConstruction() {
+		return getKernel().getConstruction();
 	}
 }

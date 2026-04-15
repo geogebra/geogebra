@@ -22,9 +22,15 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
+import org.junit.Before;
 import org.junit.Test;
 
 public class ModeChangeTest extends BaseEuclidianControllerTest {
+
+	@Before
+	public void setUp() {
+		setUpController();
+	}
 
 	@Test
 	public void previewPointsShouldBeRemovedOnCancel() {

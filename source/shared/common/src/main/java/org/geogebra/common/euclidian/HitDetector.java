@@ -17,6 +17,7 @@
 package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
@@ -26,7 +27,6 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.TestGeo;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -171,7 +171,7 @@ public class HitDetector {
 	 */
 	public void setIntersectionHits(GRectangle rect) {
 		hits.init();
-		addIntersectionHits(rect, TestGeo.OBJECT);
+		addIntersectionHits(rect, unused -> true);
 	}
 
 	/**
@@ -183,7 +183,7 @@ public class HitDetector {
 	 * @param filter
 	 *            filter to only check some geos
 	 */
-	public void addIntersectionHits(GRectangle rect, TestGeo filter) {
+	public void addIntersectionHits(GRectangle rect, Predicate<GeoElement> filter) {
 		if (rect == null) {
 			return;
 		}

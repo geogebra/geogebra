@@ -28,25 +28,20 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.main.settings.config.AppConfigDefault;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.TestEvent;
-import org.junit.Before;
 
-public class BaseEuclidianControllerTest extends BaseUnitTest {
+public class BaseEuclidianControllerTest extends BaseAppTestSetup {
 
 	protected EuclidianController ec;
-
-	@Override
-	public AppCommon createAppCommon() {
-		return AppCommonFactory.create3D(new AppConfigDefault());
-	}
 
 	/**
 	 * Set up the controller
 	 */
-	@Before
 	public void setUpController() {
+		setupClassicApp();
 		ec = getApp().getActiveEuclidianView().getEuclidianController();
 		reset();
 	}
@@ -201,6 +196,15 @@ public class BaseEuclidianControllerTest extends BaseUnitTest {
 		GeoImage img = new GeoImage(getApp().getKernel().getConstruction());
 		img.setImageFileName("foo.png", 50, 50);
 		return img;
+	}
+
+	protected <T extends GeoElement> T add(String input) {
+		GeoElementND[] evaluate = evaluate(input);
+		return evaluate.length > 0 ? (T) evaluate[0] : null;
+	}
+
+	protected Drawable getDrawable(GeoElement geo) {
+		return (Drawable) getApp().getActiveEuclidianView().getDrawableND(geo);
 	}
 
 }

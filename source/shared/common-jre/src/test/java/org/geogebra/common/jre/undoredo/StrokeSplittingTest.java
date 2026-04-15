@@ -31,6 +31,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStyleBarSelection;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.PropertySupplier;
@@ -49,6 +50,7 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 
 	@Before
 	public void setupApp() {
+		setUpController();
 		getApp().setNotesConfig();
 		getApp().setUndoActive(true);
 		propertyWrapper = new PropertyWrapper(getApp());
@@ -117,27 +119,27 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 		selectPartOfStroke();
 		dragStart(250, 100);
 		dragEnd(400, 200);
-
-		int undoPoints = getConstruction().getUndoManager().getHistorySize();
+		Construction cons = getKernel().getConstruction();
+		int undoPoints = cons.getUndoManager().getHistorySize();
 		assertEquals(6, undoPoints);
 		String s3Original = lookup("stroke3").getDefinition(StringTemplate.testTemplate);
 		getKernel().undo(); //undos dragging
 		String s3Dragged = lookup("stroke3").getDefinition(StringTemplate.testTemplate);
 		assertNotEquals(s3Original, s3Dragged);
 		getKernel().undo(); //undos split stroke
-		assertEquals(3, getConstruction().getUndoManager().getHistorySize());
+		assertEquals(3, cons.getUndoManager().getHistorySize());
 		getKernel().undo();
 		getKernel().undo();
 		getKernel().undo();
 		getKernel().undo();
-		assertEquals(0, getConstruction().getUndoManager().getHistorySize());
+		assertEquals(0, cons.getUndoManager().getHistorySize());
 		getKernel().redo();
 		getKernel().redo();
 		getKernel().redo();
 		getKernel().redo();
 		getKernel().redo();
 		getKernel().redo();
-		assertEquals(6, getConstruction().getUndoManager().getHistorySize());
+		assertEquals(6, cons.getUndoManager().getHistorySize());
 		assertThat(lookup("stroke3"), notNullValue());
 	}
 

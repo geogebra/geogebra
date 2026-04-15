@@ -34,6 +34,7 @@ public class BoundingBoxTest extends BaseEuclidianControllerTest {
 
 	@Before
 	public void setupNotes() {
+		setUpController();
 		getApp().setConfig(new AppConfigNotes());
 	}
 

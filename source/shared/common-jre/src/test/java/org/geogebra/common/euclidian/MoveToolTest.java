@@ -16,6 +16,7 @@
 
 package org.geogebra.common.euclidian;
 
+import static org.geogebra.common.BaseUnitTest.hasValue;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertArrayEquals;
@@ -46,10 +47,16 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.test.EventAccumulator;
 import org.geogebra.test.annotation.Issue;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 public class MoveToolTest extends BaseEuclidianControllerTest {
+
+	@Before
+	public void setUp() {
+		setUpController();
+	}
 
 	@Test
 	public void moveWithMouseShouldChangeSegment1() {
@@ -102,8 +109,8 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	public void casListShouldNotBeMoveable() {
 		MockedCasGiac mockGiac = setupGiac();
 		mockGiac.memorize("Intersect(x² + y² = 2, (x - 2)² + y² = 2)", "{(1,1),(1,-1)}");
-		GeoCasCell f = new GeoCasCell(getConstruction());
-		getConstruction().addToConstructionList(f, false);
+		GeoCasCell f = new GeoCasCell(getKernel().getConstruction());
+		getKernel().getConstruction().addToConstructionList(f, false);
 		f.setInput("l5:=Intersect(x^2+y^2=2,(x-2)^2+y^2=2)");
 		f.computeOutput();
 		GeoList list = (GeoList) f.getTwinGeo();
@@ -117,8 +124,8 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	public void casFreeListShouldNotBeMoveable() {
 		MockedCasGiac mockGiac = setupGiac();
 		mockGiac.memorize("Evaluate({(1, -1), (1, 1)})", "{(1,-1),(1,1)}");
-		GeoCasCell f = new GeoCasCell(getConstruction());
-		getConstruction().addToConstructionList(f, false);
+		GeoCasCell f = new GeoCasCell(getKernel().getConstruction());
+		getKernel().getConstruction().addToConstructionList(f, false);
 		f.setInput("l5:={(1, -1), (1, 1)}");
 		f.computeOutput();
 		GeoList list = (GeoList) f.getTwinGeo();

@@ -1027,24 +1027,25 @@ public class Hits extends ArrayList<GeoElement> {
 	}
 
 	/**
-	 * Get hits only that are grouped together or have no group
+	 * Get selected elements which either have no group
+	 * or have all group siblings also selected.
 	 *
-	 *  @return the grouped geos.
+	 * @return elements whose whole group is selected
 	 */
 	public Hits getHitsGrouped() {
 		Hits ret = new Hits();
 		for (int i = 0; i < size(); i++) {
 			GeoElement geo = get(i);
 			Group group = geo.getParentGroup();
-			if (group == null || containsGroup(group)) {
+			if (group == null || containsWholeGroup(group)) {
 				ret.add(geo);
 			}
 		}
 		return ret;
 	}
 
-	private boolean containsGroup(Group group) {
-		return group.stream().anyMatch(this::contains);
+	private boolean containsWholeGroup(Group group) {
+		return group.stream().allMatch(this::contains);
 	}
 
 	@Override

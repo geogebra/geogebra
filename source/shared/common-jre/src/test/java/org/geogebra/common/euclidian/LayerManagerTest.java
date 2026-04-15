@@ -41,11 +41,12 @@ public class LayerManagerTest extends BaseEuclidianControllerTest {
 
 	@Before
 	public void setupApp() {
+		setUpController();
 		getApp().setConfig(new AppConfigNotes());
 		layerManager = new LayerManager();
 		geos = new GeoElement[10];
 		for (int i = 0; i < geos.length; i++) {
-			geos[i] = createDummyGeo(getConstruction(), i);
+			geos[i] = createDummyGeo(getKernel().getConstruction(), i);
 			layerManager.addGeo(geos[i]);
 		}
 		getApp().setUndoActive(true);

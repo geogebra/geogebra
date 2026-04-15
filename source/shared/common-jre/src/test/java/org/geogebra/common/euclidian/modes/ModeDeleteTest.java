@@ -32,9 +32,15 @@ import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.test.annotation.Issue;
+import org.junit.Before;
 import org.junit.Test;
 
 public class ModeDeleteTest extends BaseEuclidianControllerTest {
+
+	@Before
+	public void setUp() {
+		setUpController();
+	}
 
 	@Test
 	public void eraserTest() {
@@ -111,7 +117,7 @@ public class ModeDeleteTest extends BaseEuclidianControllerTest {
 	public void eraserTestStraight() {
 		getApp().setUndoActive(true);
 		getApp().setConfig(new AppConfigNotes());
-		getConstruction().getUndoManager().setAllowCheckpoints(false);
+		getKernel().getConstruction().getUndoManager().setAllowCheckpoints(false);
 		setMode(EuclidianConstants.MODE_ERASER);
 		// delete the middle
 		add("stroke = PenStroke((2,-2),(3,-2),(4,-2))");
@@ -150,7 +156,7 @@ public class ModeDeleteTest extends BaseEuclidianControllerTest {
 	private void eraserTestLongDrag(AppConfig config) {
 		getApp().setUndoActive(true);
 		getApp().setConfig(config);
-		getConstruction().getUndoManager().setAllowCheckpoints(false);
+		getKernel().getConstruction().getUndoManager().setAllowCheckpoints(false);
 		setMode(EuclidianConstants.MODE_ERASER);
 		// delete the start
 		add("stroke = PenStroke((2,-2),(3,-2),(4,-2))");

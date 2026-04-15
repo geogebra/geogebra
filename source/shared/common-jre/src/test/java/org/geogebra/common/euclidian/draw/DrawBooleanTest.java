@@ -41,6 +41,11 @@ public class DrawBooleanTest extends BaseEuclidianControllerTest {
 	private GeoBoolean check;
 
 	@Before
+	public void setUp() {
+		setUpController();
+	}
+
+	@Before
 	public void setupCheckbox() {
 		check = add("a=true");
 		check.setEuclidianVisible(true);

@@ -27,9 +27,15 @@ import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
+import org.junit.Before;
 import org.junit.Test;
 
 public class DrawPolyLineTest extends BaseEuclidianControllerTest {
+
+	@Before
+	public void setUp() {
+		setUpController();
+	}
 
 	@Test
 	public void splitByDrag() {

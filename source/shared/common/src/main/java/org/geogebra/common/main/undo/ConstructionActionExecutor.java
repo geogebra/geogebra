@@ -47,7 +47,10 @@ public class ConstructionActionExecutor
 	public boolean executeAction(ActionType action, String... args) {
 		if (action == ActionType.REMOVE) {
 			for (String arg: args) {
-				app.getKernel().lookupLabel(arg).remove();
+				GeoElement element = app.getKernel().lookupLabel(arg);
+				if (element != null) {
+					element.remove();
+				}
 			}
 		} else if (action == ActionType.ADD) {
 			for (String arg: args) {
@@ -85,7 +88,10 @@ public class ConstructionActionExecutor
 			if (arg.charAt(0) == '<') {
 				evalXML(arg);
 			} else if (arg.startsWith(DEL)) {
-				app.getKernel().lookupLabel(arg.substring(DEL.length())).remove();
+				GeoElement element = app.getKernel().lookupLabel(arg.substring(DEL.length()));
+				if (element != null) {
+					element.remove();
+				}
 			} else if (arg.startsWith(RENAME)) {
 				String[] labels = arg.substring(RENAME.length()).split(" ");
 				app.getKernel().lookupLabel(labels[0]).setLabel(labels[1]);

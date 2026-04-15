@@ -23,9 +23,15 @@ import static org.junit.Assert.assertNull;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.test.annotation.Issue;
+import org.junit.Before;
 import org.junit.Test;
 
 public class NotesSelectionTest extends BaseEuclidianControllerTest {
+
+	@Before
+	public void setUp() {
+		setUpController();
+	}
 
 	@Test
 	public void selectionRectangleShouldSelectPartOfStroke() {

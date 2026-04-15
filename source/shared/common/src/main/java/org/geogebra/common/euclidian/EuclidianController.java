@@ -9633,7 +9633,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			} else if (mode == EuclidianConstants.MODE_SELECT_MOW) {
 				// check if it was a selection with the rectangle or just a drag
 				view.getHitDetector().addIntersectionHits(view.getSelectionRectangle(),
-						TestGeo.GEOLOCUS);
+						geo -> TestGeo.GEOLOCUS.test(geo) && geo.getParentGroup() == null);
 				if (view.getSelectionRectangle() != null) {
 					view.setSelectionRectangle(null);
 					// hit found

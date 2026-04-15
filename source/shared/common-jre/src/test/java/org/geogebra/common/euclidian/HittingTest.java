@@ -19,9 +19,15 @@ package org.geogebra.common.euclidian;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.junit.Before;
 import org.junit.Test;
 
 public class HittingTest extends BaseEuclidianControllerTest {
+
+	@Before
+	public void setUp() {
+		setUpController();
+	}
 
 	@Test
 	public void polygonTool() {
