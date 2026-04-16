@@ -32,7 +32,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -281,9 +280,12 @@ public class DrawImage extends Drawable {
 				g2.setComposite(alphaComp);
 			}
 			MyImage image = geoImage.getFillImage();
+			boolean needsHighlightingRectangle = !isInBackground
+					&& isHighlighted() && !view.getApplication().isWhiteboardActive();
 			if (absoluteLocation) {
 				g2.drawImage(image, screenX, screenY);
-				if (!isInBackground && isHighlighted()) {
+				g2.setComposite(oldComp);
+				if (needsHighlightingRectangle) {
 					drawHighlightRectangle(g2);
 				}
 			} else {
@@ -304,43 +306,33 @@ public class DrawImage extends Drawable {
 					g2.drawImage(image, 0, 0);
 				} else {
 					GRectangle2D rect = geoImage.getCropBoxRelative();
-
 					g2.drawImage(image, (int) rect.getX(), (int) rect.getY(),
 							(int) rect.getWidth(), (int) rect.getHeight(), (int) rect.getX(),
 							(int) rect.getY(), (int) rect.getWidth(), (int) rect.getHeight());
 				}
-
-				g2.restoreTransform();
-				if (!isInBackground && isHighlighted()) {
-
-					// changed to code below so that the line thicknesses aren't
-					// transformed
-					// g2.draw(labelRectangle);
-
-					App app = geoImage.getKernel().getApplication();
-
-					// no highlight if we have bounding box for mow
-					if (!app.isWhiteboardActive()) {
-						// First layer - 3px purple
-						g2.setStroke(AwtFactory.getPrototype().newBasicStroke(
-								Drawable.UI_ELEMENT_HIGHLIGHT_WIDTH * 1.5));
-						g2.setPaint(GeoGebraColorConstants.PURPLE_700);
-						drawHighlightRectangle(g2, -1);
-						// Second layer - 2px white (inside)
-						g2.setStroke(AwtFactory.getPrototype().newBasicStroke(
-								Drawable.UI_ELEMENT_HIGHLIGHT_WIDTH));
-						g2.setPaint(GColor.WHITE);
-						drawHighlightRectangle(g2, -2.5);
-					}
-
-				}
-
 				// reset previous values
 				g2.resetInterpolationHint(oldInterpolationHint);
-			}
+				g2.restoreTransform();
+				g2.setComposite(oldComp);
 
-			g2.setComposite(oldComp);
+				if (needsHighlightingRectangle) {
+					drawRealWorldCoordHighlightRectangle(g2);
+				}
+			}
 		}
+	}
+
+	private void drawRealWorldCoordHighlightRectangle(GGraphics2D g2) {
+		// First layer - 3px purple
+		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(
+				Drawable.UI_ELEMENT_HIGHLIGHT_WIDTH * 1.5));
+		g2.setPaint(GeoGebraColorConstants.PURPLE_700);
+		drawHighlightRectangle(g2, -1);
+		// Second layer - 2px white (inside)
+		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(
+				Drawable.UI_ELEMENT_HIGHLIGHT_WIDTH));
+		g2.setPaint(GColor.WHITE);
+		drawHighlightRectangle(g2, -2.5);
 	}
 
 	@Override
