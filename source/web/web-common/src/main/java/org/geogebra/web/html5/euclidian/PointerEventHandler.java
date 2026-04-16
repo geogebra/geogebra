@@ -21,6 +21,7 @@ import java.util.Locale;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.html5.event.HasOffsets;
@@ -30,7 +31,6 @@ import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.gwtproject.dom.client.Element;
 
 import elemental2.dom.DomGlobal;
-import elemental2.dom.EventListener;
 import jsinterop.base.Js;
 
 /**
@@ -49,6 +49,7 @@ public class PointerEventHandler {
 	private @CheckForNull PointerState second;
 	private @CheckForNull PointerState third;
 	private double lastOutId;
+	private @CheckForNull GPoint2D lastOutCoords;
 
 	/**
 	 * Mutable representation of pointer events
@@ -171,6 +172,7 @@ public class PointerEventHandler {
 			reset();
 			return;
 		}
+		lastOutCoords = null;
 		setCapture(element);
 		// APPS-5639 In mobile Safari copy only works from pointerup: collect now & run later
 		CopyPasteW.startCollectingCopyCalls();
@@ -204,10 +206,18 @@ public class PointerEventHandler {
 		return ex;
 	}
 
-	private void onPointerUp(elemental2.dom.PointerEvent event, Element element) {
+	private PointerEvent convertWithCoords(elemental2.dom.PointerEvent e, GPoint2D coords) {
+		PointerEvent ex = new PointerEvent(coords.x / off.getZoomLevel(),
+				coords.y / off.getZoomLevel(), types(e.pointerType), off);
+		adjust(ex, e);
+		return ex;
+	}
+
+	private void onPointerUp(elemental2.dom.PointerEvent event, Element element, boolean isLocal) {
 		if (pointerCapture != element) {
 			return;
 		}
+		event.stopPropagation();
 		resetPointer(event);
 		if (second == null && first == null) {
 			setCapture(null);
@@ -215,13 +225,18 @@ public class PointerEventHandler {
 		if (match(third, event)) {
 			return;
 		}
-		singleUp(convertEvent(event));
+		if (isLocal) {
+			singleUp(convertEvent(event));
+		} else if (lastOutCoords != null) {
+			singleUp(convertWithCoords(event, lastOutCoords));
+		}
 		setPointerType(event.pointerType, false);
 		CopyPasteW.stopCollectingCopyCalls();
 	}
 
 	private void onPointerOut(elemental2.dom.PointerEvent event) {
 		lastOutId = event.pointerId;
+		lastOutCoords = new GPoint2D(event.offsetX, event.offsetY);
 		resetPointer(event);
 		setPointerType(event.pointerType, false);
 	}
@@ -257,8 +272,13 @@ public class PointerEventHandler {
 		globalHandlers.addEventListener(element, "pointercanel",
 				evt -> onPointerOut(Js.uncheckedCast(evt)));
 
-		EventListener clickOutsideHandler = evt -> onPointerUp(Js.uncheckedCast(evt), element);
-		globalHandlers.addEventListener(DomGlobal.window, "pointerup", clickOutsideHandler);
+		// if pointer was released in the applet, process event coordinates like "pointerdown"
+		globalHandlers.addEventListener(element, "pointerup",
+				evt -> onPointerUp(Js.uncheckedCast(evt), element, true));
+		// if pointer was released outside, use coordinates of the last pointer leaving the applet
+		// stopPropagation makes sure only one "pointerup" handler runs
+		globalHandlers.addEventListener(DomGlobal.window, "pointerup",
+				evt -> onPointerUp(Js.uncheckedCast(evt), element, false));
 	}
 
 	/**
