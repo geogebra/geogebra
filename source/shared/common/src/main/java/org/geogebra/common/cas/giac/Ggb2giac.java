@@ -1063,9 +1063,9 @@ public class Ggb2giac {
 						// check for unicode0176u so that
 						// Numeric[acos((-11.4^2+5.8^2+7.2^2)/(2 5.8 7.2))]
 						// is better when returning degrees from inverse trig
-						"evalf(ggbnumans)" + "," +
+						"evalf(ggbnumans,13)" + "," +
 						// #4537
-						"normal(evalf(regroup(ggbnumans)))" + ")][2]");
+						"normal(evalf(regroup(ggbnumans),13))" + ")][2]");
 
 		p("Numeric.2",
 				numericInit

@@ -408,6 +408,8 @@ var __giac = [
 { cat:"Numeric.1", cmd:"Numeric[fractionalPart(2.7)]", result:"0.7" },
 { cat:"Numeric.1", cmd:"Numeric[a<b]", result:"a < b" },
 { cat:"Numeric.1", cmd:"Numeric[a>b]", result:"a > b" },
+{ cat:"Numeric.1", cmd:"Numeric(gamma(1+\u03AF))", result: "0.5 - 0.15\u03AF"},
+{ cat:"Numeric.1", cmd:"Numeric(gamma(0.1+\u03AF))", result: "-0.05 - 0.52\u03AF"},
 { cat:"Derivative", cmd:"Derivative[sqrt(x)]", result:"1 / 2 / sqrt(x)" },
 { cat:"Derivative", cmd:"Derivative[cbrt(x)]", result:"1 / 3 cbrt(x) / x" },
 { cat:"Derivative", cmd:"Derivative[abs(x)]", result:"abs(x) / x", notes:"changed from sgn(x) so correct at x=0" },
