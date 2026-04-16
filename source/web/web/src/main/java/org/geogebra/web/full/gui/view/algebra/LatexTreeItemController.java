@@ -61,6 +61,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 		} else {
 			super.startEdit(ctrl);
 		}
+		// store the initial input when activated using mouse
 		storeInitialInput();
 	}
 

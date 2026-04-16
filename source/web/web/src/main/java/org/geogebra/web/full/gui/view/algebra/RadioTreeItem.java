@@ -173,7 +173,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 
 	protected Localization loc;
 
-	protected LatexTreeItemController controller;
+	protected final LatexTreeItemController controller;
 
 	String lastTeX;
 
@@ -217,7 +217,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		syntaxController = new SyntaxController();
 		syntaxController.setUpdater(this);
 		setWidget(main);
-		setController(createController());
+		controller = createController();
 
 		getController().setLongTouchManager(LongTouchManager.getInstance());
 		setDraggable();
@@ -242,15 +242,6 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	public void onClear() {
 		setText("");
 		addDummyLabel();
-	}
-
-	/**
-	 * Cleanup before item will be deleted
-	 */
-	public void onDelete() {
-		if (compositeFocus != null) {
-			app.getAccessibilityManager().unregisterCompositeFocusContainer(compositeFocus);
-		}
 	}
 
 	/**
@@ -849,6 +840,8 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		if (!onEditStart()) {
 			return false;
 		}
+		// store the initial input when activated through keyboard
+		controller.storeInitialInput();
 		getLatexController().dispatchEditEvent(EventType.EDITOR_START);
 		if (controls != null) {
 			controls.setVisible(true);
@@ -1549,14 +1542,6 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	 */
 	public LatexTreeItemController getController() {
 		return controller;
-	}
-
-	/**
-	 * @param controller
-	 *            controller
-	 */
-	public void setController(LatexTreeItemController controller) {
-		this.controller = controller;
 	}
 
 	/**
