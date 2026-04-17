@@ -29,6 +29,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Dictionary;
@@ -165,72 +166,73 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	/** color chooser */
 	GeoGebraColorChooser colChooser;
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 	private NamePanelD namePanel;
-	private ShowObjectPanel showObjectPanel;
-	private CheckboxPanel selectionAllowed;
-	private CheckboxPanel showTrimmedIntersectionLines;
-	private CheckboxPanel simplifyCoefficientsPanel;
-	private ColorPanel colorPanel;
-	private LabelPanel labelPanel;
-	private ComboPanel tooltipPanel;
-	private ComboPanel layerPanel;
-	private ComboPanel coordPanel;
-	private ComboPanel lineEqnPanel;
-	private ComboPanel planeEqnPanel;
-	private CheckboxPanel symbolicPanel;
-	private ConicEqnPanel conicEqnPanel;
-	private PointSizePanel pointSizePanel;
-	private PointStylePanel pointStylePanel;
-	private TextOptionsPanelD textOptionsPanel;
-	private ArcSizePanel arcSizePanel;
-	private LineStylePanel lineStylePanel;
-	private LineStyleHiddenPanel lineStylePanelHidden;
-	private CheckboxPanel drawArrowsPanel;
-	private IconDropdownPanelD segmentStartStylePanel;
-	private IconDropdownPanelD segmentEndStylePanel;
-	private IconDropdownPanelD vectorStylePanel;
+	private final ShowObjectPanel showObjectPanel;
+	private final CheckboxPanel selectionAllowed;
+	private final CheckboxPanel showTrimmedIntersectionLines;
+	private final CheckboxPanel simplifyCoefficientsPanel;
+	private final ColorPanel colorPanel;
+	private  LabelPanel labelPanel;
+	private  ComboPanel tooltipPanel;
+	private  ComboPanel layerPanel;
+	private final ComboPanel coordPanel;
+	private final ComboPanel lineEqnPanel;
+	private final ComboPanel planeEqnPanel;
+	private final CheckboxPanel symbolicPanel;
+	private final ConicEqnPanel conicEqnPanel;
+	private final PointSizePanel pointSizePanel;
+	private final PointStylePanel pointStylePanel;
+	private final TextOptionsPanelD textOptionsPanel;
+	private final ArcSizePanel arcSizePanel;
+	private final LineStylePanel lineStylePanel;
+	private final LineStyleHiddenPanel lineStylePanelHidden;
+	private final CheckboxPanel drawArrowsPanel;
+	private final IconDropdownPanelD segmentStartStylePanel;
+	private final IconDropdownPanelD segmentEndStylePanel;
+	private final IconDropdownPanelD vectorStylePanel;
 	// added by Loic BEGIN
-	private DecoSegmentPanel decoSegmentPanel;
-	private DecoAnglePanel decoAnglePanel;
-	private RightAnglePanel rightAnglePanel;
+	private final DecoSegmentPanel decoSegmentPanel;
+	private final DecoAnglePanel decoAnglePanel;
+	private final RightAnglePanel rightAnglePanel;
 	// END
 
 	/** filling */
 	FillingPanelD fillingPanel;
-	private FadingPanel fadingPanel;
-	private LodPanel lodPanel;
-	private CheckboxPanel checkBoxInterpolateImage;
-	private CheckboxPanel tracePanel;
-	private CheckboxPanel animatingPanel;
-	private CheckboxPanel fixPanel;
-	private CheckboxPanel ineqStylePanel;
-	private CheckboxPanel checkBoxFixPanel;
-	private AllowReflexAnglePanel allowReflexAnglePanel;
-	private CheckboxPanel allowOutlyingIntersectionsPanel;
-	private CheckboxPanel auxPanel;
-	private TextPropertyPanel animStepPanel;
-	private TextPropertyPanel verticalIncrementPanel;
-	private TextPropertyPanel textFieldSizePanel;
-	private TextFieldAlignmentPanel textFieldAlignmentPanel;
-	private AnimationSpeedPanel animSpeedPanel;
-	private SliderPropertiesPanelD sliderPanel;
-	private SlopeTriangleSizePanel slopeTriangleSizePanel;
+	private final FadingPanel fadingPanel;
+	private final LodPanel lodPanel;
+	private final CheckboxPanel checkBoxInterpolateImage;
+	private final CheckboxPanel tracePanel;
+	private final CheckboxPanel animatingPanel;
+	private final CheckboxPanel fixPanel;
+	private final CheckboxPanel ineqStylePanel;
+	private final CheckboxPanel checkBoxFixPanel;
+	private final AllowReflexAnglePanel allowReflexAnglePanel;
+	private final CheckboxPanel allowOutlyingIntersectionsPanel;
+	private final CheckboxPanel auxPanel;
+	private final TextPropertyPanel animStepPanel;
+	private final TextPropertyPanel verticalIncrementPanel;
+	private final TextPropertyPanel textFieldSizePanel;
+	private final TextFieldAlignmentPanel textFieldAlignmentPanel;
+	private final AnimationSpeedPanel animSpeedPanel;
+	private final SliderPropertiesPanelD sliderPanel;
+	private final SlopeTriangleSizePanel slopeTriangleSizePanel;
 	private StartPointPanel startPointPanel;
 	private CornerPointsPanel cornerPointsPanel;
 	private TextEditPanel textEditPanel;
 	private ScriptEditPanel scriptEditPanel;
 	private CheckboxPanel bgImagePanel;
-	private CheckboxPanel absScreenLocPanel;
-	private CheckboxPanel centerImagePanel;
-	private CheckboxPanel comboBoxPanel;
+	private final CheckboxPanel absScreenLocPanel;
+	private final CheckboxPanel centerImagePanel;
+	private final CheckboxPanel comboBoxPanel;
 	private ShowConditionPanel showConditionPanel;
 	private ColorFunctionPanel colorFunctionPanel;
-	private TextPropertyPanel absPositionXPanel;
-	private TextPropertyPanel absPositionYPanel;
+	private final TextPropertyPanel absPositionXPanel;
+	private final TextPropertyPanel absPositionYPanel;
 
 	private GraphicsViewLocationPanel graphicsViewLocationPanel;
-	private ButtonSizePanel buttonSizePanel;
+	private final ButtonSizePanel buttonSizePanel;
 	private TabPanel basicTab;
 	private TabPanel colorTab;
 	private TabPanel styleTab;
@@ -247,7 +249,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	 */
 	boolean isDefaults;
 
-	private JTabbedPane tabs;
+	private final JTabbedPane tabs;
 
 	/**
 	 * @param app application
@@ -277,8 +279,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			showConditionPanel = new ShowConditionPanel(app, this);
 			colorFunctionPanel = new ColorFunctionPanel(app, this);
 
-			graphicsViewLocationPanel = new GraphicsViewLocationPanel(app,
-					this);
+			graphicsViewLocationPanel = new GraphicsViewLocationPanel(app);
 		}
 
 		allowReflexAnglePanel = new AllowReflexAnglePanel();
@@ -397,6 +398,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		if (textEditPanel != null) {
 			textEditPanel.applyModifications();
 		}
+		applyScriptModifications();
+	}
+
+	private void applyScriptModifications() {
 		if (scriptEditPanel != null) {
 			scriptEditPanel.applyModifications();
 		}
@@ -698,9 +703,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		if (tabs.getTabCount() > 0) {
 			int index = tabs.indexOfComponent(selectedTab);
 			tabs.setSelectedIndex(Math.max(0, index));
-			// tabs.setVisible(true);
-		} else {
-			// tabs.setVisible(false);
 		}
 	}
 
@@ -830,9 +832,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	 * @param geos selected geos
 	 */
 	public void updateSelection(Object[] geos) {
-		// if (geos == oldSelGeos) return;
-		// oldSelGeos = geos;
-
+		// only do this for scripts, text editor needs clicking [ok] explicitly
+		applyScriptModifications();
 		updateTabs(geos);
 	}
 
@@ -854,10 +855,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	private static class TabPanel extends JPanel {
 
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		private String title;
-		private ArrayList<JPanel> panelList;
+		private final ArrayList<JPanel> panelList;
 
 		public TabPanel(ArrayList<JPanel> pVec) {
 			this(pVec, false);
@@ -939,6 +941,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private class ShowObjectPanel extends CheckboxPanel
 			implements IShowObjectListener {
 
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		public ShowObjectPanel() {
@@ -959,13 +962,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	public class LabelPanel extends JPanel
 			implements ItemListener, ActionListener, UpdateablePropertiesPanel,
 			SetLabels, UpdateFonts, IShowLabelListener {
-		/**
-		 *
-		 */
+		@Serial
 		private static final long serialVersionUID = 1L;
-		private JCheckBox showLabelCB;
-		private JComboBox labelModeCB;
-		private ShowLabelModel model;
+		private final JCheckBox showLabelCB;
+		private final JComboBox labelModeCB;
+		private final ShowLabelModel model;
 		private boolean ignoreEvents;
 
 		/**
@@ -1123,13 +1124,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private class AllowReflexAnglePanel extends JPanel
 			implements ActionListener, SetLabels, UpdateFonts,
 			UpdateablePropertiesPanel, IReflexAngleListener {
-		/**
-		 *
-		 */
+		@Serial
 		private static final long serialVersionUID = 1L;
-		private JLabel intervalLabel;
-		private JComboBox intervalCombo;
-		private ReflexAngleModel model;
+		private final JLabel intervalLabel;
+		private final JComboBox intervalCombo;
+		private final ReflexAngleModel model;
 
 		public AllowReflexAnglePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
@@ -1237,14 +1236,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private class StartPointPanel extends JPanel
 			implements ActionListener, FocusListener, SetLabels, UpdateFonts,
 			UpdateablePropertiesPanel, IComboListener {
-		/**
-		 *
-		 */
+		@Serial
 		private static final long serialVersionUID = 1L;
-		private StartPointModel model;
-		private JLabel label;
-		private JComboBox cbLocation;
-		private DefaultComboBoxModel cbModel;
+		private final StartPointModel model;
+		private final JLabel label;
+		private final JComboBox cbLocation;
+		private final DefaultComboBoxModel cbModel;
 		List<String> currentContent;
 
 		public StartPointPanel() {
@@ -1360,8 +1357,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	}
 
 	private class ImageCornerPanel extends ComboPanel {
+		@Serial
 		private static final long serialVersionUID = 1L;
-		private ImageCornerModel model;
+		private final ImageCornerModel model;
 
 		public ImageCornerPanel(int cornerIdx) {
 			super(app, "CornerModel");
@@ -1377,15 +1375,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		}
 
 		ImageResourceD cornerIcon(int idx) {
-			switch (idx) {
-			case 0:
-				return GuiResourcesD.CORNER1;
-			case 1:
-				return GuiResourcesD.CORNER2;
-			case 2:
-				return GuiResourcesD.CORNER4;
-			}
-			return null;
+			return switch (idx) {
+				case 0 -> GuiResourcesD.CORNER1;
+				case 1 -> GuiResourcesD.CORNER2;
+				case 2 -> GuiResourcesD.CORNER4;
+				default -> null;
+			};
 		}
 
 		@Override
@@ -1415,12 +1410,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private class CornerPointsPanel extends JPanel
 			implements UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 
+		@Serial
 		private static final long serialVersionUID = 1L;
 
-		private ImageCornerPanel corner0;
-		private ImageCornerPanel corner1;
-		private ImageCornerPanel corner2;
-		private ImageCornerPanel center;
+		private final ImageCornerPanel corner0;
+		private final ImageCornerPanel corner1;
+		private final ImageCornerPanel corner2;
+		private final ImageCornerPanel center;
 
 		public CornerPointsPanel() {
 			corner0 = new ImageCornerPanel(0);
@@ -1432,9 +1428,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			add(corner0);
 			add(corner1);
 			add(corner2);
-			if (center != null) {
-				add(center);
-			}
+			add(center);
 		}
 
 		@Override
@@ -1490,13 +1484,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	 */
 	private class ScriptEditPanel extends JPanel implements
 			UpdateablePropertiesPanel, SetLabels, UpdateFonts {
-		/**
-		 *
-		 */
+		@Serial
 		private static final long serialVersionUID = 1L;
 		private final JTabbedPane tabbedPane;
 		ScriptInputModel[] models;
-		private List<ScriptInputDialog> panels = new ArrayList<>();
+		private final List<ScriptInputDialog> panels = new ArrayList<>();
 
 		public ScriptEditPanel() {
 			super(new BorderLayout());
@@ -1576,6 +1568,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	 * Panel for conic equation type
 	 */
 	private class ConicEqnPanel extends ComboPanel {
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		public ConicEqnPanel() {
@@ -1605,12 +1598,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private class PointSizePanel extends JPanel implements ChangeListener,
 			SetLabels, UpdateFonts, UpdateablePropertiesPanel, ISliderListener {
 
-		/**
-		 *
-		 */
+		@Serial
 		private static final long serialVersionUID = 1L;
-		private PointSizeModel model;
-		private JSlider slider;
+		private final PointSizeModel model;
+		private final JSlider slider;
 
 		public PointSizePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
@@ -1712,9 +1703,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private class PointStylePanel extends JPanel
 			implements UpdateablePropertiesPanel, SetLabels, UpdateFonts,
 			ActionListener, IComboListener {
+		@Serial
 		private static final long serialVersionUID = 1L;
-		private PointStyleModel model;
-		private JComboBox cbStyle;
+		private final PointStyleModel model;
+		private final JComboBox cbStyle;
 
 		public PointStylePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
@@ -1842,12 +1834,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			implements ChangeListener, UpdateablePropertiesPanel, SetLabels,
 			UpdateFonts, ISliderListener {
 
-		/**
-		 *
-		 */
+		@Serial
 		private static final long serialVersionUID = 1L;
-		private SlopeTriangleSizeModel model;
-		private JSlider slider;
+		private final SlopeTriangleSizeModel model;
+		private final JSlider slider;
 
 		public SlopeTriangleSizePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
@@ -1951,12 +1941,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private class ArcSizePanel extends JPanel implements ChangeListener,
 			SetLabels, UpdateFonts, UpdateablePropertiesPanel, ISliderListener {
 
-		/**
-		 *
-		 */
+		@Serial
 		private static final long serialVersionUID = 1L;
-		private AngleArcSizeModel model;
-		private JSlider slider;
+		private final AngleArcSizeModel model;
+		private final JSlider slider;
 
 		public ArcSizePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
@@ -2062,18 +2050,16 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			ActionListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
 			ILineStyleListener {
 
-		/**
-		 *
-		 */
+		@Serial
 		private static final long serialVersionUID = 1L;
-		private JSlider thicknessSlider;
-		private JPanel thicknessPanel;
-		private JPanel opacityPanel;
-		private JSlider opacitySlider;
-		private JLabel dashLabel;
-		private JComboBox dashCB;
-		private LineStyleModel model;
-		private JPanel dashPanel;
+		private final JSlider thicknessSlider;
+		private final JPanel thicknessPanel;
+		private final JPanel opacityPanel;
+		private final JSlider opacitySlider;
+		private final JLabel dashLabel;
+		private final JComboBox dashCB;
+		private final LineStyleModel model;
+		private final JPanel dashPanel;
 
 		public LineStylePanel() {
 			model = new LineStyleModel(app);
@@ -2298,9 +2284,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	 */
 	private class LineStyleHiddenPanel extends JPanel implements
 			UpdateablePropertiesPanel, SetLabels, UpdateFonts, ActionListener {
+		@Serial
 		private static final long serialVersionUID = 1L;
 		private Object[] geos;
-		private JRadioButton[] buttons;
+		private final JRadioButton[] buttons;
 
 		public LineStyleHiddenPanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
@@ -2415,12 +2402,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private class FadingPanel extends JPanel implements ChangeListener,
 			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 
-		/**
-		 *
-		 */
+		@Serial
 		private static final long serialVersionUID = 1L;
 		private Object[] geos;
-		private JSlider slider;
+		private final JSlider slider;
 
 		public FadingPanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
@@ -2485,7 +2470,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 				for (int i = 0; i < geos.length; i++) {
 					plane = (GeoPlaneND) geos[i];
 					plane.setFading((float) size / 100);
-					((GeoElement) plane).updateRepaint();
+					plane.updateRepaint();
 				}
 			}
 		}
@@ -2521,14 +2506,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private class LodPanel extends JPanel implements ActionListener, SetLabels,
 			UpdateFonts, UpdateablePropertiesPanel, IComboListener {
 
-		/**
-		 *
-		 */
+		@Serial
 		private static final long serialVersionUID = 1L;
 
-		private JLabel label;
-		private LodModel model;
-		private JComboBox combo;
+		private final JLabel label;
+		private final LodModel model;
+		private final JComboBox combo;
 
 		public LodPanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
@@ -2612,10 +2595,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	 */
 	private class DecoSegmentPanel extends JPanel implements ActionListener,
 			SetLabels, UpdateFonts, UpdateablePropertiesPanel, IComboListener {
+		@Serial
 		private static final long serialVersionUID = 1L;
-		private DecoSegmentModel model;
-		private JComboBox decoCombo;
-		private JLabel decoLabel;
+		private final DecoSegmentModel model;
+		private final JComboBox decoCombo;
+		private final JLabel decoLabel;
 
 		DecoSegmentPanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
@@ -2692,9 +2676,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	private class IconDropdownPanelD extends JPanel implements ActionListener, SetLabels,
 			UpdateFonts, UpdateablePropertiesPanel, IComboListener {
-		private IconOptionsModel model;
-		private PopupMenuButtonD dropdown;
-		private JLabel label;
+		private final IconOptionsModel model;
+		private final PopupMenuButtonD dropdown;
+		private final JLabel label;
 
 		IconDropdownPanelD(List<ImageResourceD> imgFileNameList, IconOptionsModel model,
 				int nrOfColumns) {
@@ -2773,10 +2757,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private class DecoAnglePanel extends JPanel
 			implements ActionListener, SetLabels, UpdateFonts,
 			UpdateablePropertiesPanel, IComboListener {
+		@Serial
 		private static final long serialVersionUID = 1L;
-		private JComboBox decoCombo;
-		private JLabel decoLabel;
-		private DecoAngleModel model;
+		private final JComboBox decoCombo;
+		private final JLabel decoLabel;
+		private final DecoAngleModel model;
 
 		DecoAnglePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
@@ -2852,9 +2837,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	// added 3/11/06
 	private class RightAnglePanel extends CheckboxPanel {
 
-		/**
-		 *
-		 */
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		RightAnglePanel() {
@@ -2908,8 +2891,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		private JLabel label;
 		private JComboBox<String> comboBox;
 
-		private AppD app;
-		private LocalizationD loc;
+		private final AppD app;
+		private final LocalizationD loc;
 
 		/**
 		 * Creates a new TextFieldAlignmentPanel instance.
@@ -3002,13 +2985,14 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			implements ActionListener, FocusListener, UpdateablePropertiesPanel,
 			SetLabels, UpdateFonts, IShowConditionListener {
 
+		@Serial
 		private static final long serialVersionUID = 1L;
 
-		private ShowConditionModel model;
-		private JTextField tfCondition;
+		private final ShowConditionModel model;
+		private final JTextField tfCondition;
 
-		private Kernel kernel;
-		private PropertiesPanelD propPanel;
+		private final Kernel kernel;
+		private final PropertiesPanelD propPanel;
 
 		/**
 		 * @param app application
@@ -3112,24 +3096,24 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			implements ActionListener, UpdateablePropertiesPanel, SetLabels,
 			UpdateFonts, IGraphicsViewLocationListener {
 
+		@Serial
 		private static final long serialVersionUID = 1L;
 
-		private ViewLocationModel model;
+		private final ViewLocationModel model;
 
-		private JCheckBox cbGraphicsView;
-		private JCheckBox cbGraphicsView2;
-		private JCheckBox cbGraphicsView3D;
-		private JCheckBox cbGraphicsViewForPlane;
+		private final JCheckBox cbGraphicsView;
+		private final JCheckBox cbGraphicsView2;
+		private final JCheckBox cbGraphicsView3D;
+		private final JCheckBox cbGraphicsViewForPlane;
 
-		private AppD app;
+		private final AppD app;
 
-		private LocalizationD loc;
+		private final LocalizationD loc;
 
 		/**
 		 * @param app app
-		 * @param propPanel props panel
 		 */
-		public GraphicsViewLocationPanel(AppD app, PropertiesPanelD propPanel) {
+		public GraphicsViewLocationPanel(AppD app) {
 			this.app = app;
 			this.loc = app.getLocalization();
 			model = new ViewLocationModel(app, this);
@@ -3255,17 +3239,18 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	static class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
 			UpdateablePropertiesPanel, SetLabels, UpdateFonts, IButtonSizeListener {
 
+		@Serial
 		private static final long serialVersionUID = 1L;
-		private ButtonSizeModel model;
+		private final ButtonSizeModel model;
 
-		private MyTextFieldD tfButtonWidth;
-		private MyTextFieldD tfButtonHeight;
-		private JLabel labelWidth;
-		private JLabel labelHeight;
-		private JLabel labelPixelW;
-		private JLabel labelPixelH;
-		private Localization loc;
-		private JCheckBox cbUseFixedSize;
+		private final MyTextFieldD tfButtonWidth;
+		private final MyTextFieldD tfButtonHeight;
+		private final JLabel labelWidth;
+		private final JLabel labelHeight;
+		private final JLabel labelPixelW;
+		private final JLabel labelPixelH;
+		private final Localization loc;
+		private final JCheckBox cbUseFixedSize;
 
 		/**
 		 * @param app app
@@ -3368,10 +3353,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 				if (!s.matches("\\d{2,3}")) {
 					return false;
 				}
-				if (Integer.parseInt(s) < 24 || Integer.parseInt(s) > 500) {
-					return false;
-				}
-				return true;
+				return Integer.parseInt(s) >= 24 && Integer.parseInt(s) <= 500;
 			}
 		}
 	}
