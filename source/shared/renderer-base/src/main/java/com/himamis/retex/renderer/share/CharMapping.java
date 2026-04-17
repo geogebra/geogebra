@@ -676,7 +676,9 @@ public final class CharMapping {
 		putForm('\u2004', "\\,");
 		putForm('\u2005', "\\:");
 		putForm('\u2008', "\\thinspace");
-		putForm('\u200B', "\\!");
+		// U+200B is a zero-width space, so keep zero spacing here; upstream JLM uses \!
+		// which has a different semantic (negative space)
+		putForm('\u200B', "\\hspace{0}");
 		putForm('\u200E', " ");
 		putForm('\u200F', " ");
 		putForm('\u201C', "\\text{``}");
