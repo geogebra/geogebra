@@ -352,9 +352,11 @@ public class SliderPropertiesPanelD extends JPanel
 	}
 
 	private void doLineColorActionPerformed() {
-		model.applyLineColor(
-				GColorD.newColor(((GuiManagerD) app.getGuiManager())
-						.showColorChooser(model.getLineColor())));
+		GColor color = GColorD.newColor(((GuiManagerD) app.getGuiManager())
+				.showColorChooser(model.getLineColor()));
+		model.applyLineColor(color);
+		btnLineColor.setForeground(GColorD.getAwtColor(getColorWithOpacity(color)));
+		btnLineColor.repaint();
 	}
 
 	/**
@@ -519,7 +521,7 @@ public class SliderPropertiesPanelD extends JPanel
 
 	@Override
 	public void setLineColor(GColor color) {
-		btnLineColor.setForeground(GColorD.getAwtColor(color));
+		btnLineColor.setForeground(GColorD.getAwtColor(getColorWithOpacity(color)));
 		btnLineColor.repaint();
 	}
 
@@ -531,6 +533,8 @@ public class SliderPropertiesPanelD extends JPanel
 	@Override
 	public void setLineOpacity(int value) {
 		sliderLineOpacity.setValue(value);
+		btnLineColor.setForeground(
+				GColorD.getAwtColor(getColorWithOpacity(model.getLineColor())));
 		sliderLineOpacity.repaint();
 	}
 

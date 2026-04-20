@@ -2033,7 +2033,13 @@ public class ConsElementXMLHandler {
 		}
 
 		if (!lineOpacityTagProcessed && sliderTagProcessed && geo.isGeoNumeric()) {
-			geo.setLineOpacity(GeoNumeric.DEFAULT_SLIDER_LINE_OPACITY);
+			GColor bgColor = geo.getBackgroundColor();
+			if (bgColor != null) {
+				geo.setLineOpacity(bgColor.getAlpha());
+				geo.setBackgroundColor(bgColor.deriveWithAlpha(255));
+			} else {
+				geo.setLineOpacity(GeoNumeric.DEFAULT_SLIDER_LINE_OPACITY);
+			}
 		}
 		if (!symbolicTagProcessed && (geo.isGeoText() || geo.isGeoInputBox() || geo.isGeoList())) {
 			((HasSymbolicMode) geo).setSymbolicMode(false, false);

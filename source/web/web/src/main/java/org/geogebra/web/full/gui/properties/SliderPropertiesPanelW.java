@@ -342,7 +342,7 @@ public class SliderPropertiesPanelW extends OptionPanel implements ISliderOption
 
 			@Override
 			public void onColorChange(GColor color) {
-				getModel().applyLineColor(getColorWithOpacity(color));
+				getModel().applyLineColor(color);
 				updateBlobOrLineColorButton(getColorWithOpacity(color), false);
 			}
 
@@ -564,6 +564,7 @@ public class SliderPropertiesPanelW extends OptionPanel implements ISliderOption
 	@Override
 	public void setLineOpacity(int value) {
 		sliderTransparency.setValue(value);
+		updateBlobOrLineColorButton(getColorWithOpacity(model.getLineColor()), false);
 	}
 
 	@Override
@@ -615,6 +616,6 @@ public class SliderPropertiesPanelW extends OptionPanel implements ISliderOption
 
 	@Override
 	public void setLineColor(GColor color) {
-		updateBlobOrLineColorButton(color, false);
+		updateBlobOrLineColorButton(getColorWithOpacity(color), false);
 	}
 }

@@ -40,6 +40,10 @@ public class SliderModel extends OptionsModel {
 	private GColor blobColor;
 	private GColor lineColor;
 
+	private static GColor opaqueColorOrNull(GColor color) {
+		return color == null ? null : color.deriveWithAlpha(255);
+	}
+
 	public interface ISliderOptionsListener extends PropertyListener {
 		@MissingDoc
 		void setMinText(String text);
@@ -221,8 +225,8 @@ public class SliderModel extends OptionsModel {
 			blobColor = num0.getObjectColor();
 		}
 		if (equalLineColor) {
-			listener.setLineColor(num0.getBackgroundColor());
-			lineColor = num0.getBackgroundColor();
+			lineColor = opaqueColorOrNull(num0.getBackgroundColor());
+			listener.setLineColor(lineColor);
 		} else {
 			lineColor = null;
 		}
@@ -232,7 +236,7 @@ public class SliderModel extends OptionsModel {
 							highPrecision));
 		}
 
-		listener.setLineOpacity(lineColor != null ? getLineColor().getAlpha() * 100 / 255 : 40);
+		listener.setLineOpacity(Math.round(num0.getLineOpacity() / 255f * 100f));
 
 		setLabelForWidthUnit();
 
@@ -334,12 +338,12 @@ public class SliderModel extends OptionsModel {
 	public void applyTransparency(int value) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoNumeric num = getNumericAt(i);
-			GColor lineCol = num.getBackgroundColor() == null ? GColor.BLACK
-					: num.getBackgroundColor();
-			GColor colorWithTransparency = GColor.newColor(lineCol.getRed(),
-					lineCol.getGreen(), lineCol.getBlue(), value * 255 / 100);
-			num.setBackgroundColor(colorWithTransparency);
-			num.updateVisualStyleRepaint(GProperty.COLOR);
+			num.setLineOpacity(Math.round(value / 100f * 255));
+			GColor backgroundColor = opaqueColorOrNull(num.getBackgroundColor());
+			if (backgroundColor != null) {
+				num.setBackgroundColor(backgroundColor);
+			}
+			num.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 		}
 	}
 
@@ -402,10 +406,10 @@ public class SliderModel extends OptionsModel {
 	 *            of line
 	 */
 	public void applyLineColor(GColor color) {
-		lineColor = color;
+		lineColor = opaqueColorOrNull(color);
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoNumeric num = getNumericAt(i);
-			num.setBackgroundColor(color);
+			num.setBackgroundColor(lineColor);
 			num.updateVisualStyleRepaint(GProperty.COLOR);
 		}
 		storeUndoInfo();

@@ -303,6 +303,28 @@ public class GeoNumericTest extends BaseAppTestSetup {
 	}
 
 	@Test
+	public void legacySliderWithBgColorShouldLoadLineOpacity() {
+		getApp().getGgbApi().evalXML("""
+				<element type="numeric" label="n">
+					<value val="1"/>
+					<slider min="1" max="30" absoluteScreenLocation="true"
+						width="575" x="114" y="300" fixed="true"
+						horizontal="true" showAlgebra="true"/>
+					<lineStyle thickness="10" type="0" typeHidden="1"/>
+					<show object="true" label="false"/>
+					<objColor r="101" g="87" b="210" alpha="0.10000000149011612"/>
+					<bgColor r="101" g="87" b="210" alpha="123"/>
+				</element>""");
+		GeoNumeric slider = (GeoNumeric) lookup("n");
+		assertThat(slider.getLineOpacity(), is(123));
+		assertNotNull(slider.getBackgroundColor());
+		assertThat(slider.getBackgroundColor().getRed(), is(101));
+		assertThat(slider.getBackgroundColor().getGreen(), is(87));
+		assertThat(slider.getBackgroundColor().getBlue(), is(210));
+		assertThat(slider.getBackgroundColor().getAlpha(), is(255));
+	}
+
+	@Test
 	public void sliderShouldSaveVariableToXMLWhenMinIsGreaterOrEqualToMax() {
 		addAvInput("a = Slider(1, 10)");
 		addAvInput("b = Slider(2, a)");
