@@ -63,6 +63,7 @@ public class ActionButton implements ActionView, SetLabels {
 
 	@Override
 	public void setEnabled(boolean enabled) {
+		AriaHelper.setAriaDisabled(view, !enabled);
 		Dom.toggleClass(view, "disabled", !enabled);
 	}
 
@@ -73,10 +74,6 @@ public class ActionButton implements ActionView, SetLabels {
 	public void setTitle(String titleLocalizationKey) {
 		this.titleLocalizationKey = titleLocalizationKey;
 		setLabels();
-	}
-
-	RootPanel getView() {
-		return view;
 	}
 
 	@Override

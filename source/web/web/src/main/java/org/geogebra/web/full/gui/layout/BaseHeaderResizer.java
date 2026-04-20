@@ -19,7 +19,6 @@ package org.geogebra.web.full.gui.layout;
 import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.util.Dom;
-import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Display;
 import org.gwtproject.user.client.DOM;
@@ -44,7 +43,6 @@ public class BaseHeaderResizer implements HeaderResizer {
 			} else {
 				header.removeClassName("compact");
 			}
-			GlobalHeader.INSTANCE.updateHeaderButtonVisibility(smallScreen);
 			frame.updateArticleHeight();
 		}
 	}

@@ -25,7 +25,13 @@ import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.Widget;
+
+import elemental2.dom.CSSStyleDeclaration;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.ViewCSS;
+import jsinterop.base.Js;
 
 public class FocusableWidget implements FocusableComponent {
 
@@ -71,6 +77,11 @@ public class FocusableWidget implements FocusableComponent {
 		return false;
 	}
 
+	private CSSStyleDeclaration getComputedStyle(Element element) {
+		ViewCSS view = Js.cast(DomGlobal.window);
+		return view.getComputedStyle(Js.uncheckedCast(element));
+	}
+
 	private boolean notAriaHidderOrAriaDisabled(Widget btn) {
 		return !"true".equals(btn.getElement().getAttribute("aria-hidden"))
 				&& !"true".equals(btn.getElement().getAttribute("aria-disabled"));
@@ -78,7 +89,10 @@ public class FocusableWidget implements FocusableComponent {
 
 	private boolean isButtonNotHidden(Widget btn) {
 		return !btn.getElement().hasClassName("hideButton")
-				&& !btn.getElement().getStyle().getVisibility().equals("hidden");
+				&& !btn.getElement().getStyle().getVisibility().equals("hidden")
+				&& !getComputedStyle(btn.getElement()).visibility.equals("hidden")
+				&& !btn.getElement().getStyle().getDisplay().equals("none")
+				&& !getComputedStyle(btn.getElement()).display.equals("none");
 	}
 
 	private boolean isParentVisible(Widget btn) {

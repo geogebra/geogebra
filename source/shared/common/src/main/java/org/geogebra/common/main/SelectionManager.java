@@ -946,8 +946,12 @@ public class SelectionManager {
 			return false;
 		}
 
-		return algebraViewShowing()
+		return (algebraViewShowing() && isVisibleInAlgebraView(geo))
 				|| (geo.isEuclidianVisible() && isVisibleInView(geo));
+	}
+
+	private boolean isVisibleInAlgebraView(GeoElement geo) {
+		return !geo.isAuxiliaryObject() || kernel.getApplication().showAuxiliaryObjects();
 	}
 
 	private boolean algebraViewShowing() {

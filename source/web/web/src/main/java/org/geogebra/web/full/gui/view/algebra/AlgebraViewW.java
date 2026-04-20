@@ -303,7 +303,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		List<GeoElement> geos = selectionCtrl.getSelectedGeos();
 		if (geos.size() == 1) {
 			RadioTreeItem ri = nodeTable.get(geos.get(0));
-			return ri.hasActiveCompositeFocus();
+			return ri != null && ri.hasActiveCompositeFocus();
 		}
 		return false;
 	}

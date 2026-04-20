@@ -16,8 +16,11 @@
 
 package org.geogebra.web.shared;
 
+import static org.geogebra.common.gui.AccessibilityGroup.REDO_SCI_CALC;
+import static org.geogebra.common.gui.AccessibilityGroup.SETTINGS;
 import static org.geogebra.common.gui.AccessibilityGroup.SIGN_IN_ICON;
 import static org.geogebra.common.gui.AccessibilityGroup.SIGN_IN_TEXT;
+import static org.geogebra.common.gui.AccessibilityGroup.UNDO_SCI_CALC;
 
 import java.util.ArrayList;
 
@@ -205,7 +208,7 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 	 * updating header button visibility on header resize or login
 	 * @param smallScreen - whether is small screen or not
 	 */
-	public void updateHeaderButtonVisibility(boolean smallScreen) {
+	private void updateHeaderButtonVisibility(boolean smallScreen) {
 		updateButtonVisibility(smallScreen, "#shareButton");
 
 		boolean isLoggedIn = app.getLoginOperation().isLoggedIn();
@@ -318,7 +321,7 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 
 	private void initSettingButtonIfOnHeader() {
 		if (settingsButton == null) {
-			settingsButton = getActionButton("settingsButton", "Settings");
+			settingsButton = getActionButton("settingsButton", "Settings", SETTINGS);
 			if (settingsButton != null) {
 				settingsButton.setAction(() -> app.getDialogManager().showPropertiesDialog(
 						OptionType.GLOBAL, null));
@@ -338,16 +341,17 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 	}
 
 	private ActionButton getUndoButton() {
-		return getActionButton("undoButton", "Undo");
+		return getActionButton("undoButton", "Undo", UNDO_SCI_CALC);
 	}
 
 	private ActionButton getRedoButton() {
-		return getActionButton("redoButton", "Redo");
+		return getActionButton("redoButton", "Redo", REDO_SCI_CALC);
 	}
 
-	private ActionButton getActionButton(String viewId, String title) {
+	private ActionButton getActionButton(String viewId, String title, AccessibilityGroup group) {
 		RootPanel view = getViewById(viewId);
 		if (view != null) {
+			registerFocusable(app, group, view);
 			return new ActionButton(app, view, title);
 		}
 		return null;

@@ -91,7 +91,6 @@ public class UndoRedoButtonsController implements UndoPossibleListener {
 	public static void addUndoRedoFunctionality(
 			ActionView undoWidget, ActionView redoWidget,
 			Kernel kernel) {
-
 		new UndoRedoButtonsController(kernel, undoWidget, redoWidget)
 				.startListeningToTriggerEvents();
 	}
