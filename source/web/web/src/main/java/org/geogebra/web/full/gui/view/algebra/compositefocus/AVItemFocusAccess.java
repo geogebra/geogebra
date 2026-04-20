@@ -17,7 +17,6 @@
 package org.geogebra.web.full.gui.view.algebra.compositefocus;
 
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
 
 /**
@@ -27,16 +26,6 @@ import org.gwtproject.user.client.ui.Widget;
  * focus traversal, decoupling focus logic from concrete item implementations.</p>
  */
 public interface AVItemFocusAccess {
-
-	/**
-	 * @return the main content canvas of the item, if present
-	 */
-	Widget canvas();
-
-	/**
-	 * @return the panel displaying definition and/or value, if present
-	 */
-	FlowPanel definitionValuePanel();
 
 	/**
 	 * @return the "more" (overflow) control of the item, if present

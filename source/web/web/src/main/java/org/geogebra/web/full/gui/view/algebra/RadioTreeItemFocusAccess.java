@@ -19,7 +19,6 @@ package org.geogebra.web.full.gui.view.algebra;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.gui.view.algebra.compositefocus.AVItemFocusAccess;
-import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
 
 public class RadioTreeItemFocusAccess implements AVItemFocusAccess {
@@ -28,16 +27,6 @@ public class RadioTreeItemFocusAccess implements AVItemFocusAccess {
 
 	public RadioTreeItemFocusAccess(RadioTreeItem item) {
 		this.item = item;
-	}
-
-	@Override
-	public Widget canvas() {
-		return item.canvas;
-	}
-
-	@Override
-	public FlowPanel definitionValuePanel() {
-		return item.getDefinitionValuePanel();
 	}
 
 	@Override
@@ -67,7 +56,7 @@ public class RadioTreeItemFocusAccess implements AVItemFocusAccess {
 
 	@Override
 	public Widget inputRow() {
-		return item.hasCanvas() ? canvas() : definitionValuePanel();
+		return item.hasCanvas() ? item.canvas : item.getDefinitionValuePanel();
 	}
 
 	@Override

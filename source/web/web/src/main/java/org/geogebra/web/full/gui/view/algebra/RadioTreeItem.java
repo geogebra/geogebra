@@ -407,6 +407,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 					StringTemplate.numericLatex);
 			definitionFromTeX(text);
 		} else if (geo != null) {
+			resetCanvas();
 			IndexHTMLBuilder sb = new DOMIndexHTMLBuilder(definitionPanel, app);
 			if (isAlgebraStyle(AlgebraStyle.DESCRIPTION)) {
 				if (AlgebraItem.needsPacking(geo)) {
@@ -481,7 +482,6 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	}
 
 	private void buildItemContent() {
-		resetCanvas();
 		if (mayNeedOutput()) {
 			if (controller.isEditing() || geo == null) {
 				return;
@@ -634,6 +634,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 			content.clear();
 			content.add(canvas);
 		} else {
+			resetCanvas();
 			if (!buildPlainTextSimple()) {
 				geo.getAlgebraDescriptionTextOrHTMLDefault(
 						new DOMIndexHTMLBuilder(getDefinitionValuePanel(), app));
@@ -974,7 +975,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 			}
 		} else {
 			if (isAlgebraStyle(AlgebraStyle.DEFINITION_AND_VALUE)) {
-				cancelDV();
+				doUpdateEnsureNoEditor();
 			}
 		}
 
@@ -1029,11 +1030,6 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	 */
 	protected ItemFactory getItemFactory() {
 		return getAV().getItemFactory();
-	}
-
-	private void cancelDV() {
-		// LayoutUtilW.replace(ihtml, definitionPanel, latexItem);
-		doUpdateEnsureNoEditor();
 	}
 
 	protected void clearErrorLabel() {
