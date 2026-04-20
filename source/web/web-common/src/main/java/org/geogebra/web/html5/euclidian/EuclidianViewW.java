@@ -68,6 +68,7 @@ import org.geogebra.web.html5.export.Canvas2Pdf;
 import org.geogebra.web.html5.export.Canvas2Svg;
 import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.accessibility.AccessibilityView;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FocusUtil;
@@ -842,10 +843,16 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public boolean requestFocusInWindow() {
-		if (!Browser.needsAccessibilityView()) {
+		if (!Browser.needsAccessibilityView() || isFocusMoveable()) {
 			FocusUtil.focusNoScroll(getCanvasElement());
 		}
 		return true;
+	}
+
+	private boolean isFocusMoveable() {
+		elemental2.dom.Element activeElement = DomGlobal.document.activeElement;
+		return activeElement == null
+				|| activeElement.closest("." + AccessibilityView.CLASSNAME) == null;
 	}
 
 	/**

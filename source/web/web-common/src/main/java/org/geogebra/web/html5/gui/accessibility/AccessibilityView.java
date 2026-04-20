@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 import org.gwtproject.dom.client.Element;
@@ -49,6 +50,7 @@ import elemental2.dom.DomGlobal;
  * View for representation of geo elements as hidden DOM controls
  */
 public class AccessibilityView implements View {
+	public static final String CLASSNAME = "accessibilityView";
 	private final BaseWidgetFactory sliderFactory;
 	private final FlowPanel controls;
 	private final Map<GeoElement, AccessibleWidget> widgets;
@@ -66,7 +68,7 @@ public class AccessibilityView implements View {
 	public AccessibilityView(final AppW app, BaseWidgetFactory sliderFactory) {
 		this.app = app;
 		this.controls = sliderFactory.newPanel();
-		controls.setStyleName("accessibilityView");
+		controls.setStyleName(CLASSNAME);
 		this.sliderFactory = sliderFactory;
 		widgets = new HashMap<>();
 		app.getKernel().attach(this);
@@ -321,6 +323,14 @@ public class AccessibilityView implements View {
 				((AccessibleDropDown) widget).close();
 			}
 		}
+	}
+
+	/**
+	 * @return whether keyboard focus is in this view
+	 */
+	public boolean isFocused() {
+		Element activeElement = Dom.getActiveElement();
+		return controls.getElement().isOrHasChild(activeElement);
 	}
 
 	/**
