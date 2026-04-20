@@ -29,9 +29,9 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 public class AlgoDoubleListSXX extends AlgoStats2D {
 
-	public AlgoDoubleListSXX(Construction cons, String label, GeoList geoListx,
-			GeoList geoListy) {
-		super(cons, label, geoListx, geoListy, AlgoStats2D.STATS_SXX);
+	public AlgoDoubleListSXX(Construction cons, String label, GeoList geoListX,
+			GeoList geoListY) {
+		super(cons, label, geoListX, geoListY, AlgoStats2D.STATS_SXX);
 	}
 
 	@Override

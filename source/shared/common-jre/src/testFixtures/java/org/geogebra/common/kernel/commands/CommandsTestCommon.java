@@ -1485,6 +1485,8 @@ public class CommandsTestCommon extends BaseCommandTest {
 		tRound("Extremum[ x^3-3x ]", "(-1, 2)", "(1, -2)");
 		tRound("Extremum[ nroot(x^(3) - 3x, 3) ]",
 				"(-1, 1.25992)", "(1, -1.25992)");
+		tRound("Extremum[ If(0<x<2, x^(3) - 3x) ]",
+				"(?, ?)", "(1, -2)");
 		// TODO t("Extremum((x^2-4)/(x-2),-9,9)", "(NaN, NaN)");
 	}
 
@@ -3983,6 +3985,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 	@Test
 	public void cmdSXX() {
 		t("Sxx[ {1,2,3,4,5} ]", "10");
+		t("Sxx[ {1,2,3,4,5}, {0,1,2,3,0} ]", "10");
 		t("Sxx[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]", "10");
 	}
 
@@ -4232,6 +4235,8 @@ public class CommandsTestCommon extends BaseCommandTest {
 	@Test
 	public void cmdTurningPoint() {
 		t("InflectionPoint[ x^3 ]", "(0, 0)");
+		tRound("InflectionPoint[ If(5<x<7,x^3 * (6-x)^3) ]",
+				"(?, ?)", "(?, ?)", "(?, ?)", "(6, 0)");
 	}
 
 	@Test
