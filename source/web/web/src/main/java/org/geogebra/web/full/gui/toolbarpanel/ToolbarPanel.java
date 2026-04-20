@@ -923,6 +923,9 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void switchTab(TabIds tab, boolean fade) {
+		if (isOpen && getSelectedTabId() == tab) {
+			return;
+		}
 		app.getToolTipManager().hideTooltip();
 		navRail.selectTab(tab);
 		openNoResize();
