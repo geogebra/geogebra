@@ -269,6 +269,18 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 		assertTrue(usedColors.contains(GColor.BLUE), "Should contain blue:" + usedColors);
 	}
 
+	@Test
+	public void testEnsureDimensions() {
+		getKernel().attach((KernelTabularDataAdapter) tabularData);
+		getApp().getSettings().getSpreadsheet().setPreferredColumnWidth(120);
+		assertEquals(3636.0, spreadsheet.getTotalHeight(), 0.0);
+		assertEquals(3172.0, spreadsheet.getTotalWidth(), 0.0);
+		getApp().getSettings().getSpreadsheet().ensureDimensions(300, 5);
+		assertEquals(10836.0, spreadsheet.getTotalHeight(), 0.0);
+		// changing spreadsheet dimensions normalizes column widths
+		assertEquals(3172.0, spreadsheet.getTotalWidth(), 0.0);
+	}
+
 	private GGraphicsCommon getColorCollectingGraphics(Set<GColor> colors) {
 		return new GGraphicsCommon() {
 			@Override

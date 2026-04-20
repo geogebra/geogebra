@@ -783,6 +783,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		int maxColumn = data.length > 0 ? data[0].length - 1 : 0;
 		new CopyPasteAdapter(this, getSpreadsheetTableModel())
 				.pasteExternal(data, 0, 0, maxColumn, data.length);
+		getSettings().getSpreadsheet().ensureDimensions(data.length, maxColumn);
 		onOpenFile();
 	}
 

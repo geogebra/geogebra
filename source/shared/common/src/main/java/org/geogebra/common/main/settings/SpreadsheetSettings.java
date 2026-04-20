@@ -28,6 +28,7 @@ import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.io.XMLStringBuilder;
+import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetDimensions;
 
 /**
@@ -802,6 +803,16 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 		this.rows = rows;
 		this.columns = columns;
 		settingChanged();
+	}
+
+	/**
+	 * Make sure the dimensions are at least equal to the given minimal values.
+	 * @param minRows minimal number of rows
+	 * @param minColumns minimal number of columns
+	 */
+	public void ensureDimensions(int minRows, int minColumns) {
+		setDimensions(Math.min(Math.max(rows, minRows), Spreadsheet.MAX_ROWS),
+				Math.min(Math.max(columns, minColumns), Spreadsheet.MAX_COLUMNS));
 	}
 
 	public void setRowsNoFire(int rows) {
