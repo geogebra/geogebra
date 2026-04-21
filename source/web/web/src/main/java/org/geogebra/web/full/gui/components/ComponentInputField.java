@@ -27,6 +27,7 @@ import org.geogebra.web.full.gui.dialog.ProcessInput;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.accessibility.HasFocus;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
@@ -129,8 +130,10 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 		inputTextField.getTextComponent().prepareShowSymbolButton(false);
 		// label of text field
 		if (labelTextKey != null && !labelTextKey.isBlank()) {
+			String localizedLabel = app.getLocalization().getMenu(labelTextKey);
 			labelText = BaseWidgetFactory.INSTANCE.newSecondaryText(
-					app.getLocalization().getMenu(labelTextKey), "label");
+					localizedLabel, "label");
+			AriaHelper.setTitle(inputTextField.getTextComponent().getTextField(), localizedLabel);
 		}
 		// placeholder if there is any
 		if (placeholderTextKey != null && !placeholderTextKey.isEmpty()) {
