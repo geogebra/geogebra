@@ -6888,10 +6888,29 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public void addAuralName(ScreenReaderBuilder sb) {
 		if (!addAuralCaption(sb)) {
+			if (addAuralUnlabeledValue(sb)) {
+				return;
+			}
 			addAuralType(sb);
 			addAuralLabel(sb);
 			addAuralValue(sb);
 		}
+	}
+
+	/**
+	 * Makes sure that the {@link LabelManager#HIDDEN_PREFIX} is not read out by the screen reader
+	 * and the input is read instead.
+	 * @param sb ScreenReaderBuilder
+	 * @return True if the original input has been added to the screen reader's output.
+	 */
+	private boolean addAuralUnlabeledValue(ScreenReaderBuilder sb) {
+		String label = getLabelSimple();
+		if (label != null && label.startsWith(LabelManager.HIDDEN_PREFIX)) {
+			sb.append(getDefinitionNoLabel(app.getScreenReaderTemplate()));
+			sb.endSentence();
+			return true;
+		}
+		return false;
 	}
 
 	@Override

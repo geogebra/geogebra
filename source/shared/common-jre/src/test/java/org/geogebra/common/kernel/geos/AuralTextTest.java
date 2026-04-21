@@ -19,6 +19,7 @@ package org.geogebra.common.kernel.geos;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -286,5 +287,15 @@ public class AuralTextTest {
 		String[] sentences = aural.split("\\.");
 		assertThat(aural, endsWith("."));
 		assertThat(sentences[0], containsString(out[0]));
+	}
+
+	@Test
+	@Issue("APPS-7350")
+	public void hiddenPrefixLabelShouldReadInputValueWithoutType() {
+		GeoElementND geo = add("2 + 3")[0];
+		geo.setLabelSimple(LabelManager.HIDDEN_PREFIX + "_{1}");
+		String aural = geo.getAuralText(new ScreenReaderBuilderDot(app.getLocalization()));
+		assertThat(aural, containsString("2 plus 3"));
+		assertThat(aural, not(containsString(LabelManager.HIDDEN_PREFIX)));
 	}
 }
