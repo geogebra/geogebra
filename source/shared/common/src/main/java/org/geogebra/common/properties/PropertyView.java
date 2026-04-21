@@ -72,6 +72,7 @@ import org.geogebra.common.properties.impl.objects.ChartSegmentFillCategoryPrope
 import org.geogebra.common.properties.impl.objects.ChartSegmentSelection;
 import org.geogebra.common.properties.impl.objects.ChartSegmentSelectionDependentProperty;
 import org.geogebra.common.properties.impl.objects.DynamicColorSpaceProperty;
+import org.geogebra.common.properties.impl.objects.ElementColorProperty;
 import org.geogebra.common.properties.impl.objects.FillCategoryProperty;
 import org.geogebra.common.properties.impl.objects.FontProperty;
 import org.geogebra.common.properties.impl.objects.GeoElementDependentProperty;
@@ -644,10 +645,17 @@ public abstract class PropertyView {
 		}
 
 		/**
+		 * @return an extended list of custom colors to show in a color picker.
+		 */
+		public @Nonnull List<GColor> getCustomColors() {
+			return ElementColorProperty.createColorValues();
+		}
+
+		/**
 		 * Sets a custom color resulting from custom color chooser.
 		 * @param color the new custom color
 		 */
-		public void setCustomColor(GColor color) {
+		public void setCustomColor(@Nonnull GColor color) {
 			property.setValue(color);
 		}
 
