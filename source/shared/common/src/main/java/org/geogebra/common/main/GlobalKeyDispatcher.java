@@ -970,7 +970,7 @@ public abstract class GlobalKeyDispatcher {
 		}
 	}
 
-	private void toggleAlgebraView() {
+	protected void toggleAlgebraView() {
 		// if there is no EV we cannot really close the side panel
 		if (app.getConfig().hasEuclidianView()) {
 			toggleView(App.VIEW_ALGEBRA);

@@ -104,7 +104,7 @@ public class AlgebraTab extends ToolbarTab {
 
 	@Override
 	public void open() {
-		toolbarPanel.openAlgebra(true);
+		toolbarPanel.openAlgebra(toolbarPanel.isOpen());
 	}
 
 	@Override

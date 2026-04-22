@@ -176,6 +176,9 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 
 	@Override
 	public void showContextMenu(@Nonnull List<ContextMenuItem> items, @Nonnull Point location) {
+		getApplication().registerPopup(contextMenu.getPopupPanel());
+		contextMenu.getPopupPanel().addCloseHandler(
+				ignore -> getApplication().unregisterPopup(contextMenu.getPopupPanel()));
 		contextMenu.clearItems();
 		parent.cancelFocus();
 		contextMenu.getApp().getAsyncManager().prefetch(null, "scripting", "stats");

@@ -976,6 +976,16 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	/**
+	 * If algebra view is active, hide the whole toolbar. If not, open the algebra view.
+	 */
+	public void toggleAlgebraView() {
+		navRail.onAlgebraPressed();
+		if (!navRail.isOpen()) {
+			app.getActiveEuclidianView().requestFocus();
+		}
+	}
+
+	/**
 	 * If table view is active, hide the whole toolbar. If not, open toolbar and focus TV.
 	 */
 	public void toggleTableView() {

@@ -214,11 +214,18 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	}
 
 	@Override
+	protected void toggleAlgebraView() {
+		if (!app.getConfig().hasAlgebraView()) {
+			return;
+		}
+		((GuiManagerInterfaceW) app.getGuiManager()).toggleAlgebraView();
+	}
+
+	@Override
 	protected void toggleTableView() {
 		if (!app.getConfig().hasTableView()) {
 			return;
 		}
-
 		((GuiManagerInterfaceW) app.getGuiManager()).toggleTableValuesView();
 	}
 
@@ -227,7 +234,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		if (!app.isSpreadsheetEnabled()) {
 			return;
 		}
-
 		((GuiManagerInterfaceW) app.getGuiManager()).toggleSpreadsheetView();
 	}
 
@@ -468,10 +474,22 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	public static boolean isGlobalEvent(NativeEvent event) {
 		int code = event.getKeyCode();
 		if (isControlKeyDown(event)) {
+			if (isViewTogglingShortcut(code, event.getShiftKey())) {
+				return true;
+			}
 			return code == JavaKeyCodes.VK_S || code == JavaKeyCodes.VK_D;
 		} else {
 			return code == JavaKeyCodes.VK_F4;
 		}
+	}
+
+	private static boolean isViewTogglingShortcut(int keyCode, boolean shift) {
+		return shift && switch (keyCode) {
+			case JavaKeyCodes.VK_A,
+				 JavaKeyCodes.VK_U,
+				 JavaKeyCodes.VK_S -> true;
+			default -> false;
+		};
 	}
 
 	@Override

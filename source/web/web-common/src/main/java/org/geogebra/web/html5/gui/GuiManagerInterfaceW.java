@@ -333,6 +333,11 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	void removeGeoFromTV(String label);
 
 	/**
+	 * Shows/hides algebra view
+	 */
+	void toggleAlgebraView();
+
+	/**
 	 * Shows/hides table of values view
 	 */
 	void toggleTableValuesView();

@@ -154,11 +154,11 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		ClickStartHandler.initDefaults(scrollContent, false, true);
 		scrollContent.getElement().setTabIndex(0);
 		scrollContent.addDomHandler(evt -> {
-			spreadsheet.handleKeyPressed(KeyCodeUtil.translateGWTCode(
-					evt.getNativeKeyCode()).getJavaKeyCode(),
-					getKey(evt.getNativeEvent()),
-					getKeyboardModifiers(evt));
-			evt.stopPropagation(); // do not let global event handler interfere
+			if (spreadsheet.handleKeyPressed(
+					KeyCodeUtil.translateGWTCode(evt.getNativeKeyCode()).getJavaKeyCode(),
+					getKey(evt.getNativeEvent()), getKeyboardModifiers(evt))) {
+				evt.stopPropagation(); // do not let global event handler interfere
+			}
 			evt.preventDefault(); // do not scroll the view
 			repaint();
 		}, KeyDownEvent.getType());

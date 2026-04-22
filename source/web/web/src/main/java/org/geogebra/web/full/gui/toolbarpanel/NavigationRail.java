@@ -251,6 +251,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 		updateIcons(null, useExamStyle());
 		addCloseOrientationStyles();
 		toolbarPanel.setMoveMode();
+		app.closePopups();
 		toolbarPanel.close(snap, time);
 		app.getAccessibilityManager().focusAnchorOrMenu();
 	}

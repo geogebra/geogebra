@@ -1057,10 +1057,11 @@ public final class SpreadsheetController {
 	/**
 	 * Handles keys being pressed
 	 * @param keyCode Key Code
-	 * @param key unicode value
+	 * @param key Unicode value
 	 * @param modifiers Modifiers
+	 * @return whether this was handled
 	 */
-	public void handleKeyPressed(int keyCode, @CheckForNull String key, @Nonnull Modifiers modifiers) {
+	public boolean handleKeyPressed(int keyCode, @CheckForNull String key, @Nonnull Modifiers modifiers) {
 		boolean cellSelectionChanged = false;
 
 		if (selectionController.hasSelection()) {
@@ -1083,9 +1084,10 @@ public final class SpreadsheetController {
 				cellSelectionChanged = true;
 				break;
 			case JavaKeyCodes.VK_A:
-				if (modifiers.ctrlOrCmd) {
+				// Ctrl + Shift + A represents a global shortcut (Toggle Algebra-View)
+				if (modifiers.ctrlOrCmd && !modifiers.shift) {
 					selectionController.selectAll();
-					return;
+					return true;
 				}
 				startTyping(key, modifiers);
 				break;
@@ -1104,7 +1106,7 @@ public final class SpreadsheetController {
 				break;
 			case JavaKeyCodes.VK_ENTER:
 				showCellEditorAtSelection(true);
-				return;
+				return true;
 			case JavaKeyCodes.VK_DELETE:
 			case JavaKeyCodes.VK_BACK_SPACE:
 			case JavaKeyCodes.VK_CLEAR:
@@ -1113,14 +1115,14 @@ public final class SpreadsheetController {
 			case JavaKeyCodes.VK_X:
 				if (modifiers.ctrlOrCmd) {
 					cutSelections();
-					return;
+					return true;
 				}
 				startTyping(key, modifiers);
 				break;
 			case JavaKeyCodes.VK_C:
 				if (modifiers.ctrlOrCmd) {
 					copySelections();
-					return;
+					return true;
 				}
 				startTyping(key, modifiers);
 				break;
@@ -1128,7 +1130,7 @@ public final class SpreadsheetController {
 				if (modifiers.ctrlOrCmd) {
 					pasteToSelections(selectionController.getSelections()
 							.map(Selection::getRange));
-					return;
+					return true;
 				}
 				startTyping(key, modifiers);
 				break;
@@ -1139,6 +1141,8 @@ public final class SpreadsheetController {
 		if (cellSelectionChanged) {
 			adjustViewportIfNeeded();
 		}
+		// Ctrl not pressed: we just opened the editor, handled an arrow or opened the menu
+		return !modifiers.ctrlOrCmd;
 	}
 
 	/**

@@ -527,6 +527,10 @@ public class GuiManagerW extends GuiManager
 		}
 
 		if (viewId == App.VIEW_SPREADSHEET) {
+			DockPanelW panel = layout.getDockManager().getPanel(App.VIEW_SPREADSHEET);
+			if (panel instanceof SpreadsheetDockPanelW spreadsheetDockPanel) {
+				spreadsheetDockPanel.saveContentAndHideCellEditor();
+			}
 			getApp().getActiveEuclidianView().requestFocus();
 		}
 	}
@@ -2108,6 +2112,16 @@ public class GuiManagerW extends GuiManager
 				.dispatchEvent(EventType.ADD_TV, geo);
 		addGeoToTV(geo);
 		getUnbundledToolbar().openTableView((GeoEvaluatable) geo, true);
+	}
+
+	@Override
+	public void toggleAlgebraView() {
+		ToolbarPanel toolbar = getUnbundledToolbar();
+		if (toolbar != null) {
+			toolbar.toggleAlgebraView();
+		} else {
+			setShowView(!showView(App.VIEW_ALGEBRA), App.VIEW_ALGEBRA);
+		}
 	}
 
 	@Override

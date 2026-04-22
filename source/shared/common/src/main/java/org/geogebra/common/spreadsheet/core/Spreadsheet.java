@@ -380,9 +380,11 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param keyCode keyboard code, see {@link org.geogebra.editor.share.util.JavaKeyCodes}
 	 * @param key key typed if printable, empty otherwise (Alt, Ctrl, F1, Backspace)
 	 * @param modifiers alt/shift/ctrl modifiers
+	 * @return True if this input was handled by the {@link SpreadsheetController}, false iff
+	 * this is a global shortcut.
 	 */
-	public void handleKeyPressed(int keyCode, String key, @Nonnull Modifiers modifiers) {
-		controller.handleKeyPressed(keyCode, key, modifiers);
+	public boolean handleKeyPressed(int keyCode, String key, @Nonnull Modifiers modifiers) {
+		return controller.handleKeyPressed(keyCode, key, modifiers);
 	}
 
 	/**

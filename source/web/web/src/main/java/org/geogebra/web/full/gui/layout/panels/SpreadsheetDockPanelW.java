@@ -208,4 +208,13 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 	public void setScrollToShow(boolean scrollToShow) {
 		this.scrollToShow = scrollToShow;
 	}
+
+	/**
+	 * Saves the current content and hides the cell editor.
+	 */
+	public void saveContentAndHideCellEditor() {
+		if (spreadsheetPanel != null) {
+			spreadsheetPanel.saveContentAndHideCellEditor();
+		}
+	}
 }
