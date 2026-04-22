@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Locale;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSpace;
 import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.kernel.StringTemplate;
@@ -32,9 +33,11 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.UtilD;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.annotation.Issue;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -152,6 +155,33 @@ public class XmlTest {
 		app.setXML(xml, true);
 		assertEquals("1x + 0x + 1",
 				app.getKernel().lookupLabel("f").toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@Issue("APPS-7345")
+	public void oldFilesShouldNotDisplayLargeNumbersUsingScientificNotation() {
+		processAlgebraCommand("a = " + MyMath.LARGEST_INTEGER);
+
+		String xml = app.getXML();
+		xml = xml.replace("version=\"" + GeoGebraConstants.VERSION_STRING + "\"",
+				"version=\"5.4.923.0\"");
+		app.setXML(xml, true);
+
+		String largestInteger = app.getKernel().lookupLabel("a")
+				.toValueString(StringTemplate.defaultTemplate);
+		assertEquals("9007199254740992", largestInteger);
+	}
+
+	@Test
+	@Issue("APPS-7345")
+	public void newFilesShouldDisplayLargeNumbersUsingScientificNotation() {
+		processAlgebraCommand("a = " + MyMath.LARGEST_INTEGER);
+		app.setXML(app.getXML(), true);
+
+		String largestInteger = app.getKernel().lookupLabel("a")
+				.toValueString(StringTemplate.defaultTemplate);
+		assertEquals("9.00719925474099 " + Unicode.CENTER_DOT + " 10"
+				+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_5, largestInteger);
 	}
 
 	private GeoElementND processAlgebraCommand(String input) {

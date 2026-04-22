@@ -126,8 +126,8 @@ public class RationalizationTest extends BaseAppTestSetup {
 			"1E100/1E99, 10",
 			"1E100 /(1E99+sqrt(2)), 10",
 			"1E50, 1*10^(50)",
-			"(10^10)^5, 100000000000000000000000000000000000000000000000000",
-			"1E50/sqrt(2), 70710678118654750000000000000000000000000000000000"
+			"(10^10)^5, 1 ⋅ 10⁵⁰",
+			"1E50/sqrt(2), 7.07106781186548 ⋅ 10⁴⁹"
 	})
 	public void testRationalizeBigNumbers(String definition, String expected) {
 		rationalizationShouldBe(definition, expected);

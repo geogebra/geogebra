@@ -361,9 +361,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private final StringBuilder sbBuildImplicitEquation = new StringBuilder(80);
 
 	private final StringBuilder sbBuildLHS = new StringBuilder(80);
-	private final StringBuilder sbBuildExplicitConicEquation = new StringBuilder(
-			80);
+	private final StringBuilder sbBuildExplicitConicEquation = new StringBuilder(80);
 	private StringBuilder sbFormatSF;
+	private boolean useLargeNumberScientific = true;
+	private ScientificFormatAdapter largeNumberSF;
 	/** default global JavaScript */
 	final public static String defaultLibraryJavaScript = "function ggbOnInit() {}";
 
@@ -1356,6 +1357,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			}
 			if (useSF) {
 				return formatSF(x, tpl);
+			} else if (useLargeNumberScientific && Math.abs(x) >= MyMath.LARGEST_INTEGER) {
+				return formatLargeNumberScientific(x, tpl);
 			}
 			return formatNF(x, tpl);
 		}
@@ -1426,6 +1429,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			String strippedZeros = tpl.hasType(StringType.GEOGEBRA_XML)
 					? scaled.stripTrailingZeros().toString() : stripExtraZeros(scaled, sigDigits);
 			return internationalizeDigits(tpl.fixMinus(strippedZeros), tpl);
+		}
+		if (useLargeNumberScientific && Math.abs(asDouble) >= MyMath.LARGEST_INTEGER) {
+			return formatLargeNumberScientific(asDouble, tpl);
 		}
 		BigDecimal scaled = exactValue.setScale(tpl.getNF(nf).getMaximumFractionDigits(),
 				RoundingMode.HALF_UP).stripTrailingZeros();
@@ -2036,6 +2042,42 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
+	 * Formats a number whose absolute value is >= {@link MyMath#LARGEST_INTEGER} in scientific
+	 * notation with 15 significant digits, trimming trailing zeros if they exist.
+	 * This should only be used when rounding is set to decimal places.
+	 */
+	private String formatLargeNumberScientific(double x, StringTemplate tpl) {
+		if (largeNumberSF == null) {
+			largeNumberSF = FormatFactory.getPrototype().getScientificFormat(15, 17, true);
+		}
+		if (sbFormatSF == null) {
+			sbFormatSF = new StringBuilder();
+		} else {
+			sbFormatSF.setLength(0);
+		}
+		StringUtil.appendFormat(sbFormatSF, x, largeNumberSF);
+		String raw = trimTrailingZerosInMantissa(sbFormatSF.toString());
+		return tpl.convertScientificNotationForDisplay(raw);
+	}
+
+	private static String trimTrailingZerosInMantissa(String scientificString) {
+		int indexOfE = scientificString.indexOf('E');
+		if (indexOfE < 0 || scientificString.indexOf('.') < 0) {
+			return scientificString;
+		}
+		String mantissa = scientificString.substring(0, indexOfE);
+		String exponent = scientificString.substring(indexOfE);
+		int end = mantissa.length();
+		while (end > 0 && mantissa.charAt(end - 1) == '0') {
+			end--;
+		}
+		if (end > 0 && mantissa.charAt(end - 1) == '.') {
+			end--;
+		}
+		return mantissa.substring(0, end) + exponent;
+	}
+
+	/**
 	 * append "two coeffs" expression
 	 *
 	 * @param plusMinusX
@@ -2379,14 +2421,21 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return sbFormatAngle;
 	}
 
+	/**
+	 * @param useLargeNumberScientific Whether large numbers ( >= {@link MyMath#LARGEST_INTEGER})
+	 * should be formatted using scientific notation.
+	 */
+	public void setUseLargeNumberScientific(boolean useLargeNumberScientific) {
+		this.useLargeNumberScientific = useLargeNumberScientific;
+	}
+
 	/** Resets global JavaSrcript to default value */
 	public void resetLibraryJavaScript() {
 		setLibraryJavaScript(defaultLibraryJavaScript);
 	}
 
 	/**
-	 * @param str
-	 *            global javascript
+	 * @param str global javascript
 	 */
 	public void setLibraryJavaScript(String str) {
 		Log.debug(str);
@@ -2406,7 +2455,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * return all points of the current construction
-	 *
 	 * @return points in construction
 	 */
 	public TreeSet<GeoElement> getPointSet() {

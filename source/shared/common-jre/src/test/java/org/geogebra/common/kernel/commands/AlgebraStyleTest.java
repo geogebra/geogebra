@@ -46,10 +46,12 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.config.equationforms.EquationBehaviourStandaloneGraphing;
 import org.geogebra.common.util.IndexHTMLBuilder;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
+import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Before;
 import org.junit.Test;
@@ -837,5 +839,67 @@ public class AlgebraStyleTest extends BaseUnitTest {
 		getKernel().setPrintDecimals(2);
 		small = add("0.0001");
 		assertTrue(small.isEngineeringNotationMode());
+	}
+
+	@Test
+	@Issue("APPS-7345")
+	public void largeNumberInDecimalModeFormatsAsScientific() {
+		getKernel().setPrintDecimals(2);
+		assertEquals("1 " + Unicode.CENTER_DOT + " 10"
+						+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_6,
+				getKernel().format(1E16, StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@Issue("APPS-7345")
+	public void largeNumberTrailingZerosTrimmed() {
+		getKernel().setPrintDecimals(2);
+		assertEquals("1.5 " + Unicode.CENTER_DOT + " 10"
+						+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_6,
+				getKernel().format(1.5E16, StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@Issue("APPS-7345")
+	public void largeNumberShowsFifteenSignificantDigits() {
+		getKernel().setPrintDecimals(2);
+		assertEquals("9.00719925474099 " + Unicode.CENTER_DOT + " 10"
+						+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_5,
+				getKernel().format(MyMath.LARGEST_INTEGER, StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@Issue("APPS-7345")
+	public void negativeLargeNumberFormatsAsScientific() {
+		getKernel().setPrintDecimals(2);
+		assertEquals("-2 " + Unicode.CENTER_DOT + " 10"
+						+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_6,
+				getKernel().format(-2E16, StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@Issue("APPS-7345")
+	public void largeNumberInSignificantFiguresModePreservesTrailingZeros() {
+		getKernel().setPrintFigures(5);
+		assertEquals("1.5000 " + Unicode.CENTER_DOT + " 10"
+						+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_6,
+				getKernel().format(1.5E16, StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@Issue("APPS-7345")
+	public void justBelowThresholdNotFormattedAsScientific() {
+		getKernel().setPrintDecimals(2);
+		String result = getKernel().format(
+				MyMath.LARGEST_INTEGER - 1, StringTemplate.defaultTemplate);
+		assertFalse(result.contains(Unicode.CENTER_DOT + ""));
+	}
+
+	@Test
+	@Issue("APPS-7345")
+	public void largeNumberInLatexTemplateFormatsCorrectly() {
+		getKernel().setPrintDecimals(2);
+		assertEquals("1.5 \\cdot 10^{16}",
+				getKernel().format(1.5E16, StringTemplate.latexTemplate));
 	}
 }

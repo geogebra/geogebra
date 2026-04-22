@@ -2554,8 +2554,8 @@ public class MyXMLHandler implements DocHandler {
 			if (!(kernel instanceof MacroKernel)) {
 				app.updateAppCodeSuite(SuiteSubApp.forCode(subAppCode), tmp_perspective);
 			}
-			cons.setAllowUnboundedAngles(
-					DoubleUtil.isGreaterEqual(ggbFileFormat, 4.4));
+			cons.setAllowUnboundedAngles(DoubleUtil.isGreaterEqual(ggbFileFormat, 4.4));
+			kernel.setUseLargeNumberScientific(!app.fileVersionBefore(5, 4, 924));
 			String title = attrs.get("title");
 			String author = attrs.get("author");
 			String date = attrs.get("date");

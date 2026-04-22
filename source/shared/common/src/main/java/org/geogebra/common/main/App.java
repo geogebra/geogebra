@@ -1395,8 +1395,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @param v
-	 *            version parts
+	 * @param v version parts
 	 * @return whether given version is newer than this code
 	 */
 	public boolean fileVersionBefore(int... v) {
