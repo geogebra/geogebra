@@ -16,8 +16,10 @@
 
 package org.geogebra.common.factories;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.javax.swing.RelationPane;
 
+@HasNativeSubclass
 public abstract class Factory {
 	private static final Object lock = new Object();
 	private static volatile Factory prototype;

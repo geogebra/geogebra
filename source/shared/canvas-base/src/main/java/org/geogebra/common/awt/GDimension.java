@@ -16,9 +16,12 @@
 
 package org.geogebra.common.awt;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
+
 /**
  * Describes dimensions of a 2D object.
  */
+@HasNativeSubclass
 public abstract class GDimension {
 
 	/**

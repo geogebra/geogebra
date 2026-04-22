@@ -19,6 +19,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
@@ -33,6 +34,7 @@ import org.geogebra.common.kernel.matrix.Coords3;
  * @author mathieu
  *
  */
+@HasNativeSubclass
 abstract public class Manager {
 
 	/**

@@ -18,6 +18,7 @@ package org.geogebra.common.cas.giac;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.error.TimeoutException;
 import org.geogebra.common.cas.giac.binding.CASGiacBinding;
@@ -28,6 +29,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Giac connector using C++ or JNI binding
  */
+@HasNativeSubclass
 public abstract class CASgiacB extends CASgiac {
 
 	/**

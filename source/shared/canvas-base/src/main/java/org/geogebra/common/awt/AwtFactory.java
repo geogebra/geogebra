@@ -16,8 +16,10 @@
 
 package org.geogebra.common.awt;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.awt.font.GTextLayout;
 
+@HasNativeSubclass
 public abstract class AwtFactory {
 
 	private static volatile AwtFactory prototype = null;

@@ -18,6 +18,7 @@ package org.geogebra.common.move.ggtapi.models;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
@@ -32,6 +33,7 @@ import org.geogebra.common.util.debug.Log;
  * Common base for geogebra.org JSON API
  * @author gabor
  */
+@HasNativeSubclass
 public abstract class GeoGebraTubeAPI implements BackendAPI {
 
 	/**

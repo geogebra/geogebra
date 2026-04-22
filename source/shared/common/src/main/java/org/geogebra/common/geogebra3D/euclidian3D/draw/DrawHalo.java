@@ -31,7 +31,7 @@ import org.geogebra.common.kernel.matrix.Coords;
  * @author mathieu
  *
  */
-public class DrawHalo extends DrawableTexture3D {
+public final class DrawHalo extends DrawableTexture3D {
 
 	private final Coords color = new Coords(4);
 

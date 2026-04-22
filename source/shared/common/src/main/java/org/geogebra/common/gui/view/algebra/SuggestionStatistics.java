@@ -32,7 +32,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.scientific.LabelController;
 
-public class SuggestionStatistics extends Suggestion {
+public final class SuggestionStatistics extends Suggestion {
 
 	private static Suggestion INSTANCE = new SuggestionStatistics();
 

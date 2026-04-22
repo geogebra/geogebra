@@ -38,7 +38,7 @@ import org.geogebra.common.util.DoubleUtil;
  * @author Mathieu
  *
  */
-public class SuggestionIntersectExtremum extends Suggestion {
+public final class SuggestionIntersectExtremum extends Suggestion {
 
 	private static Suggestion INSTANCE = new SuggestionIntersectExtremum();
 

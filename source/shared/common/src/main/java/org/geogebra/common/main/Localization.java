@@ -24,6 +24,7 @@ import java.util.Locale;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.main.MyError.Errors;
@@ -34,6 +35,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.editor.share.util.Unicode;
 
+@HasNativeSubclass
 public abstract class Localization extends LocalizationI {
 
 	/** CAS syntax suffix for keys in command bundle */

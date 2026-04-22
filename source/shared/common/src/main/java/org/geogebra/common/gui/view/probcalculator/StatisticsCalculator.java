@@ -19,6 +19,7 @@ package org.geogebra.common.gui.view.probcalculator;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -39,6 +40,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  * @author gabor
  */
+@HasNativeSubclass
 public abstract class StatisticsCalculator {
 	/** statistics data and settings */
 	protected final StatisticsCollection sc;

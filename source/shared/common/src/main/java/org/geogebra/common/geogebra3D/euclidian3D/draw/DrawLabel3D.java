@@ -42,7 +42,7 @@ import org.geogebra.common.util.MyMath;
  * @author mathieu
  *
  */
-public class DrawLabel3D extends DrawableTexture3D {
+public non-sealed class DrawLabel3D extends DrawableTexture3D {
 
 	private Runnable callBack = null;
 

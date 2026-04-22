@@ -17,10 +17,12 @@
 package org.geogebra.common.main;
 
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 
 /**
  * Handles different fonts used by application
  */
+@HasNativeSubclass
 public abstract class FontManager {
 
 	/**

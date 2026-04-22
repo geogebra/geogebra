@@ -16,12 +16,15 @@
 
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
+
 /**
  * factory for GL stuff
  * 
  * @author mathieu
  *
  */
+@HasNativeSubclass
 public abstract class GLFactory {
 
 	/**

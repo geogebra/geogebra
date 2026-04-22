@@ -23,7 +23,7 @@ import elemental2.dom.TextMetrics;
 /**
  * Font rendering context for Web
  */
-public class GFontRenderContextW extends GFontRenderContext {
+public class GFontRenderContextW implements GFontRenderContext {
 
 	private JLMContext2D context;
 

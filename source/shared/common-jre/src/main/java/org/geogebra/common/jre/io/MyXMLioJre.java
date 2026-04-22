@@ -37,6 +37,7 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.QDParser;
@@ -58,6 +59,7 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Markus Hohenwarter
  */
+@HasNativeSubclass
 public abstract class MyXMLioJre extends MyXMLio {
 
 	// Use the default (non-validating) parser

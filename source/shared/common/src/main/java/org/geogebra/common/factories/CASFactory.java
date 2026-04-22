@@ -16,6 +16,7 @@
 
 package org.geogebra.common.factories;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -23,6 +24,7 @@ import org.geogebra.common.kernel.Kernel;
 /**
  * Factory for CAS engine(s)
  */
+@HasNativeSubclass
 public abstract class CASFactory {
 	private static final Object lock = new Object();
 

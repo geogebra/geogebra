@@ -18,6 +18,7 @@ package org.geogebra.common.move.ggtapi.models;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
@@ -28,6 +29,7 @@ import org.geogebra.common.util.HttpRequest;
  * Base class for login logout operations
  * @author gabor
  */
+@HasNativeSubclass
 public abstract class AuthenticationModel {
 	private GeoGebraTubeUser loggedInUser = null;
 	// session time 115 min

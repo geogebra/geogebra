@@ -16,6 +16,7 @@
 
 package org.geogebra.common.factories;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.HttpRequest;
@@ -28,6 +29,7 @@ import org.geogebra.common.util.URLEncoder;
  * 
  * @author Zoltan Kovacs
  */
+@HasNativeSubclass
 public abstract class UtilFactory {
 	/**
 	 * UtilFactory prototype for various common utils

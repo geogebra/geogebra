@@ -16,6 +16,7 @@
 
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.xr.XRManagerInterface;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
@@ -26,6 +27,7 @@ import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
  * @author mathieu
  *
  */
+@HasNativeSubclass
 public abstract class RendererImplShaders extends RendererImpl {
 
 	final static public int GLSL_ATTRIB_POSITION = 0;

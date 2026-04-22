@@ -32,7 +32,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
  * @author matthieu
  *
  */
-public class DrawExtrusion3D extends DrawExtrusionOrConify3D {
+public final class DrawExtrusion3D extends DrawExtrusionOrConify3D {
 
 	/**
 	 * constructor

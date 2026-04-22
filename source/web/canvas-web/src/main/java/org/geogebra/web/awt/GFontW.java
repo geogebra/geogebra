@@ -20,7 +20,7 @@ import java.util.Objects;
 
 import org.geogebra.common.awt.GFont;
 
-public class GFontW extends GFont {
+public class GFontW implements GFont {
 	private static final String NORMAL_STR = "normal";
 	private static final String BOLD_STR = "bold";
 	private static final String ITALIC_STR = "italic";

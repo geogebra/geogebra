@@ -16,9 +16,11 @@
 
 package org.geogebra.common.gui.layout;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.euclidian.GetViewId;
 import org.geogebra.common.gui.SetLabels;
 
+@HasNativeSubclass
 public abstract class DockManager implements SetLabels {
 
 	/**

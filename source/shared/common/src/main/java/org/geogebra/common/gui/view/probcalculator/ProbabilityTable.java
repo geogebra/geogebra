@@ -16,6 +16,7 @@
 
 package org.geogebra.common.gui.view.probcalculator;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.statistics.AlgoDistribution;
@@ -33,6 +34,7 @@ import com.google.j2objc.annotations.AutoreleasePool;
  *         superclass for probability table
  *
  */
+@HasNativeSubclass
 public abstract class ProbabilityTable {
 
 	/**

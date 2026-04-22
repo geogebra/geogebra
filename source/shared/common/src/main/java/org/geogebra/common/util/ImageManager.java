@@ -23,6 +23,7 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.io.QDParser;
@@ -35,6 +36,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
+@HasNativeSubclass
 abstract public class ImageManager {
 
 	/**

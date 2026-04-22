@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3DForExport;
@@ -56,6 +57,7 @@ import org.geogebra.common.plugin.Geometry3DGetter;
  *
  *         Companion for 3D application
  */
+@HasNativeSubclass
 public abstract class App3DCompanion extends AppCompanion {
 	// id of the first view
 	private int viewId = App.VIEW_EUCLIDIAN_FOR_PLANE_START;

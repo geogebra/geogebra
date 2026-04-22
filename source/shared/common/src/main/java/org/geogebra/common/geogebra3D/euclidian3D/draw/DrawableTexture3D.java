@@ -22,7 +22,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.Coords;
 
-public abstract class DrawableTexture3D {
+public abstract sealed class DrawableTexture3D permits DrawHalo, DrawLabel3D {
 
 	/** says if the label is visible */
 	private boolean isVisible;

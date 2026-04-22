@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.StringUtil;
 
-public class SuggestionSolve extends Suggestion {
+public sealed class SuggestionSolve extends Suggestion permits SuggestionSolveForSymbolic {
 	
 	static final Suggestion SINGLE_SOLVE = new SuggestionSolve();
 	private String[] labels;

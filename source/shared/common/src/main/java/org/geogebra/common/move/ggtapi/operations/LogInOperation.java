@@ -16,6 +16,7 @@
 
 package org.geogebra.common.move.ggtapi.operations;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -35,6 +36,7 @@ import org.geogebra.common.util.debug.Log;
  *
  * @author stefan
  */
+@HasNativeSubclass
 public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 
 	/**

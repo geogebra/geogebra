@@ -20,9 +20,9 @@ import java.awt.Font;
 
 import org.geogebra.common.awt.GFont;
 
-public class GFontD extends GFont {
+public class GFontD implements GFont {
 
-	private Font impl = new Font("Default", GFont.PLAIN, 12);
+	private final Font impl;
 
 	public GFontD(Font font) {
 		impl = font;

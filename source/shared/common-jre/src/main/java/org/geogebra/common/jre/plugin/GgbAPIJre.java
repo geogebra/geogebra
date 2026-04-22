@@ -19,6 +19,7 @@ package org.geogebra.common.jre.plugin;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.io.file.ByteArrayZipFile;
 import org.geogebra.common.jre.io.MyXMLioJre;
@@ -30,6 +31,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Api for desktop and Android
  */
+@HasNativeSubclass
 public abstract class GgbAPIJre extends GgbAPI {
 
 	/**

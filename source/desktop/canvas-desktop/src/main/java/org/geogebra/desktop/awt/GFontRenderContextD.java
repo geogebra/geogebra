@@ -20,7 +20,7 @@ import java.awt.font.FontRenderContext;
 
 import org.geogebra.common.awt.GFontRenderContext;
 
-public class GFontRenderContextD extends GFontRenderContext {
+public class GFontRenderContextD implements GFontRenderContext {
 	private FontRenderContext impl;
 
 	public GFontRenderContextD(FontRenderContext frc) {

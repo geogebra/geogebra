@@ -16,11 +16,13 @@
 
 package org.geogebra.common.factories;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.util.LaTeXCache;
 
 /**
  * Factory for LaTeX related objects
  */
+@HasNativeSubclass
 public abstract class LaTeXFactory {
 	/** platform dependent prototype */
 	private static volatile LaTeXFactory prototype;

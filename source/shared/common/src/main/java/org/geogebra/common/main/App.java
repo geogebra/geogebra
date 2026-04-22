@@ -39,6 +39,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -176,6 +177,7 @@ import com.google.j2objc.annotations.Property;
 /**
  * Represents an application window, gives access to views and system stuff
  */
+@HasNativeSubclass
 public abstract class App implements UpdateSelection, AppInterface, EuclidianHost,
 		AlgebraOutputFiltering, Restrictable, ToolsProvider {
 

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.AwtFactory;
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.gui.toolbar.ToolBar;
@@ -45,6 +46,7 @@ import org.geogebra.common.util.debug.Log;
  *         Abstract class for Web and Desktop Layout
  *
  */
+@HasNativeSubclass
 public abstract class Layout implements SettingListener {
 	private static final double PORTRAIT_DIVIDER = 0.45;
 

@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -54,6 +55,7 @@ import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
+@HasNativeSubclass
 public abstract class GuiManager implements GuiManagerInterface {
 
 	@Weak

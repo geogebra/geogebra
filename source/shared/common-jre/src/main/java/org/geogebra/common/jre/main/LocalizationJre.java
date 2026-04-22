@@ -29,6 +29,7 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.PreviewFeature;
@@ -37,6 +38,7 @@ import org.geogebra.common.util.lang.Language;
 /**
  * common jre localization
  */
+@HasNativeSubclass
 public abstract class LocalizationJre extends Localization {
 
 	private ResourceBundle rbmenu;

@@ -16,6 +16,7 @@
 
 package org.geogebra.common.util;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 
 /**
@@ -24,6 +25,7 @@ import org.geogebra.common.move.ggtapi.models.AjaxCallback;
  *
  * @author Zoltan Kovacs
  */
+@HasNativeSubclass
 public abstract class HttpRequest implements Cancelable {
 	/**
 	 * the default HTTP request timeout in seconds

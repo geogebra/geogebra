@@ -25,11 +25,13 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.main.AppConfig;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /** Subclass this and set the instance to use it for logging analytics events. */
+@HasNativeSubclass
 public abstract class Analytics {
 	private static Analytics INSTANCE = null;
 	private static String lastSelectedToolName = null;

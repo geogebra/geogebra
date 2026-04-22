@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.InputHandler;
@@ -49,6 +50,7 @@ import org.geogebra.editor.share.util.Unicode;
 
 import com.google.j2objc.annotations.Weak;
 
+@HasNativeSubclass
 public abstract class DialogManager {
 	@Weak
 	protected App app;

@@ -21,7 +21,7 @@ import org.geogebra.common.awt.GFont;
 /**
  * Font used for testing.
  */
-public class GFontCommon extends GFont {
+public class GFontCommon implements GFont {
 
     private final double size;
 

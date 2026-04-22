@@ -26,7 +26,8 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
-abstract public class Suggestion {
+abstract sealed public class Suggestion
+		permits SuggestionIntersectExtremum, SuggestionSolve, SuggestionStatistics {
 
 	/**
 	 * @param geo

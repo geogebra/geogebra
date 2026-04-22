@@ -20,15 +20,15 @@ package org.geogebra.common.awt;
  * Platform independent Font
  *
  */
-public abstract class GFont {
+public interface GFont {
 	/** neither bold or italic font */
-	public static final int PLAIN = 0;
+	int PLAIN = 0;
 	/** bold font */
-	public static final int BOLD = 1;
+	int BOLD = 1;
 	/** italic font */
-	public static final int ITALIC = 2;
+	int ITALIC = 2;
 	/** underline font */
-	public static final int UNDERLINE = 4;
+	int UNDERLINE = 4;
 
 	/**
 	 * Returns the style of this <code>Font</code>. The style can be PLAIN,
@@ -38,7 +38,7 @@ public abstract class GFont {
 	 * @see #isBold
 	 * @see #isItalic
 	 */
-	public abstract int getStyle();
+	int getStyle();
 
 	/**
 	 * Returns the point size of this <code>Font</code>, rounded to an integer.
@@ -48,7 +48,7 @@ public abstract class GFont {
 	 * @return the point size of this <code>Font</code> in 1/72 of an inch
 	 *         units.
 	 */
-	public abstract double getSize();
+	double getSize();
 
 	/**
 	 * Indicates whether this <code>Font</code> object's style is ITALIC.
@@ -56,7 +56,7 @@ public abstract class GFont {
 	 * @return <code>true</code> if this <code>Font</code> object's style is
 	 *         ITALIC; <code>false</code> otherwise.
 	 */
-	public abstract boolean isItalic();
+	boolean isItalic();
 
 	/**
 	 * Indicates whether this <code>Font</code> object's style is BOLD.
@@ -64,7 +64,7 @@ public abstract class GFont {
 	 * @return <code>true</code> if this <code>Font</code> object's style is
 	 *         BOLD; <code>false</code> otherwise.
 	 */
-	public abstract boolean isBold();
+	boolean isBold();
 
 	/**
 	 * Indicates whether this <code>Font</code> can display a specified
@@ -82,7 +82,7 @@ public abstract class GFont {
 	 *         display; or <code>-1</code> if this <code>Font</code> can display
 	 *         all characters in <code>str</code>.
 	 */
-	public abstract int canDisplayUpTo(String str);
+	int canDisplayUpTo(String str);
 
 	/**
 	 * @param style
@@ -92,7 +92,7 @@ public abstract class GFont {
 	 *            font size
 	 * @return derive fonts
 	 */
-	public abstract GFont deriveFont(int style, int fontSize);
+	GFont deriveFont(int style, int fontSize);
 
 	/**
 	 * @param style
@@ -102,7 +102,7 @@ public abstract class GFont {
 	 *            font size
 	 * @return derive fonts
 	 */
-	public abstract GFont deriveFont(int style, double fontSize);
+	GFont deriveFont(int style, double fontSize);
 
 	/**
 	 * @param style
@@ -110,11 +110,11 @@ public abstract class GFont {
 	 *            or sum of the last two)
 	 * @return derive fonts
 	 */
-	public abstract GFont deriveFont(int style);
+	GFont deriveFont(int style);
 
 	/**
 	 * @return font name
 	 */
-	public abstract String getFontName();
+	String getFontName();
 
 }

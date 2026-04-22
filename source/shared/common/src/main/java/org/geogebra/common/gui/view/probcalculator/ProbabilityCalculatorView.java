@@ -22,6 +22,7 @@ import java.util.TreeSet;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.data.PlotSettings;
@@ -86,6 +87,7 @@ import org.geogebra.editor.share.util.Unicode;
  *
  * @author gabor
  */
+@HasNativeSubclass
 public abstract class ProbabilityCalculatorView
 		implements View, SettingListener, SetLabels {
 
@@ -1954,7 +1956,9 @@ public abstract class ProbabilityCalculatorView
 
 	protected abstract boolean isDistributionTabOpen();
 
-	protected abstract StatisticsCalculator getStatCalculator();
+	protected StatisticsCalculator getStatCalculator() {
+		return null;
+	}
 
 	/**
 	 * @return information about mean and standard deviation

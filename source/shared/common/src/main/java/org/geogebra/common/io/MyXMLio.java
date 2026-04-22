@@ -23,6 +23,7 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.Construction;
@@ -41,6 +42,7 @@ import com.google.j2objc.annotations.Weak;
 /**
  * Converts GeoGebra constructions to strings and vice versa
  */
+@HasNativeSubclass
 public abstract class MyXMLio {
 
 	/**

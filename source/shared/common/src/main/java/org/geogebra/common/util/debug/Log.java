@@ -19,6 +19,8 @@ package org.geogebra.common.util.debug;
 import java.util.Arrays;
 import java.util.Locale;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -26,7 +28,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * 
  * @author Zoltan Kovacs
  */
-
+@HasNativeSubclass
 public abstract class Log {
 
 	/** logger */

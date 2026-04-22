@@ -40,8 +40,8 @@ import org.geogebra.common.util.AsyncOperation;
  * @author matthieu
  *
  */
-public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
-		implements Previewable {
+public abstract sealed class DrawExtrusionOrConify3D extends Drawable3DSurfaces
+		implements Previewable permits DrawConify3D, DrawExtrusion3D {
 
 	/** basis */
 	private ArrayList<GeoPolygon> selectedPolygons;

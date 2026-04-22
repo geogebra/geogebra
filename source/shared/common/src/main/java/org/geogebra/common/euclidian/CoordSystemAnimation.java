@@ -16,12 +16,14 @@
 
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
  * AbstractZoomer is responsible for animated zooming of Euclidian View
  *
  */
+@HasNativeSubclass
 public abstract class CoordSystemAnimation {
 
 	private enum AnimationMode {

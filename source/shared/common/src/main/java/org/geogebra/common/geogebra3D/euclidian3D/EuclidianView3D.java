@@ -30,6 +30,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GPointWithZ;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -156,6 +157,7 @@ import org.geogebra.common.util.debug.Log;
  * @author mathieu
  *
  */
+@HasNativeSubclass
 public abstract class EuclidianView3D extends EuclidianView
 		implements EuclidianView3DInterface, ScalerXYZ {
 

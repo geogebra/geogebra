@@ -17,6 +17,7 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.util.Util;
 
 /**
@@ -24,6 +25,7 @@ import org.geogebra.common.util.Util;
  * 
  * @author Arpad
  */
+@HasNativeSubclass
 public abstract class GeoElementGraphicsAdapter {
 	/** image filename */
 	protected String imageFileName = "";

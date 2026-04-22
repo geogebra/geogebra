@@ -16,10 +16,13 @@
 
 package org.geogebra.common.main;
 
+import org.geogebra.common.awt.annotations.HasNativeSubclass;
+
 /**
  * factory for creating schedulers
  *
  */
+@HasNativeSubclass
 abstract public class SchedulerFactory {
 
 	private static volatile SchedulerFactory prototype;
