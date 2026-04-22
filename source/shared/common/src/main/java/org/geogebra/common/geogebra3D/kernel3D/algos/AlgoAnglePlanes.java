@@ -61,7 +61,6 @@ public class AlgoAnglePlanes extends AlgoAngle implements DrawInformationAlgo {
 
 		// compute angle
 		compute();
-
 	}
 
 	@Override
@@ -75,6 +74,9 @@ public class AlgoAnglePlanes extends AlgoAngle implements DrawInformationAlgo {
 		super(p.getConstruction(), false);
 		this.p = p;
 		this.q = q;
+
+		initCoords();
+		computeAngleAndUpdateCoordinates();
 	}
 
 	@Override
@@ -118,20 +120,19 @@ public class AlgoAnglePlanes extends AlgoAngle implements DrawInformationAlgo {
 
 	@Override
 	public final void compute() {
+		getAngle().setValue(computeAngleAndUpdateCoordinates());
+	}
 
+	private double computeAngleAndUpdateCoordinates() {
 		Coords vn1 = p.getDirectionInD3();
 		Coords vn2 = q.getDirectionInD3();
-
 		vn = vn1.crossProduct4(vn2).normalize();
 
 		// compute origin
 		if (vn.isZero()) { // parallel planes
-			getAngle().setValue(0);
 			o = Coords.UNDEFINED;
-			return;
+			return 0;
 		}
-
-		getAngle().setValue(AlgoAnglePoints3D.acos(vn1.dotproduct(vn2)));
 
 		v2 = vn1.crossProduct4(vn);
 		v1 = vn2.crossProduct4(vn);
@@ -140,12 +141,11 @@ public class AlgoAnglePlanes extends AlgoAngle implements DrawInformationAlgo {
 		// direction orthogonal to v and collinear to first plane
 		p.getCoordSys().getMatrixOrthonormal().getOrigin().projectPlaneThruV(
 				q.getCoordSys().getMatrixOrthonormal(), v2, o);
-
+		return AlgoAnglePoints3D.acos(vn1.dotproduct(vn2));
 	}
 
 	@Override
-	public boolean updateDrawInfo(double[] m, double[] firstVec,
-			DrawAngle drawable) {
+	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
 		return false;
 	}
 
@@ -156,7 +156,6 @@ public class AlgoAnglePlanes extends AlgoAngle implements DrawInformationAlgo {
 
 	@Override
 	public boolean getCoordsInD3(Coords[] drawCoords) {
-
 		if (!o.isDefined()) {
 			return false;
 		}

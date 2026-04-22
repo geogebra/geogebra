@@ -65,7 +65,6 @@ public class AlgoAngleLinePlane extends AlgoAngle
 
 		// compute angle
 		compute();
-
 	}
 
 	@Override
@@ -79,6 +78,9 @@ public class AlgoAngleLinePlane extends AlgoAngle
 		super(((GeoElement) g).getConstruction(), false);
 		this.g = g;
 		this.p = p;
+
+		initCoords();
+		computeAngleAndUpdateCoordinates();
 	}
 
 	/**
@@ -131,7 +133,6 @@ public class AlgoAngleLinePlane extends AlgoAngle
 		// simplified to allow better Chinese translation
 		return getLoc().getPlain("AngleBetweenAB", g.getLabel(tpl),
 				p.getLabel(tpl));
-
 	}
 
 	@Override
@@ -144,7 +145,10 @@ public class AlgoAngleLinePlane extends AlgoAngle
 
 	@Override
 	public final void compute() {
+		getAngle().setValue(computeAngleAndUpdateCoordinates());
+	}
 
+	private double computeAngleAndUpdateCoordinates() {
 		// line origin and direction
 		Coords o2 = g.getStartInhomCoords();
 		v2 = g.getDirectionInD3();
@@ -155,8 +159,7 @@ public class AlgoAngleLinePlane extends AlgoAngle
 		// project line origin on the plane
 		o2.projectPlaneThruV(pMat, v2, o);
 		if (!o.isDefined()) { // line parallel to plane
-			getAngle().setValue(0);
-			return;
+			return 0;
 		}
 
 		// project line direction on the plane
@@ -165,10 +168,9 @@ public class AlgoAngleLinePlane extends AlgoAngle
 		v1.setAdd3(v1.setMul3(vx, v2.dotproduct(vx)),
 				tmpCoords.setMul3(vy, v2.dotproduct(vy)));
 		if (v1.isZero()) { // line orthogonal to plane
-			getAngle().setValue(Math.PI / 2);
 			v1.set3(vx);
 			vn.setMul3(vy, -1);
-			return;
+			return Math.PI / 2;
 		}
 
 		v1.calcNorm();
@@ -178,11 +180,10 @@ public class AlgoAngleLinePlane extends AlgoAngle
 
 		double c = v1.dotproduct(v2) / (l1 * l2); // cosinus of the angle
 
-		getAngle().setValue(AlgoAnglePoints3D.acos(c));
-
 		vn.setCrossProduct4(v2, v1);
 		vn.normalize();
 
+		return AlgoAnglePoints3D.acos(c);
 	}
 
 	@Override
@@ -229,7 +230,6 @@ public class AlgoAngleLinePlane extends AlgoAngle
 
 	@Override
 	public boolean getCoordsInD3(Coords[] drawCoords) {
-
 		if (!o.isDefined()) {
 			return false;
 		}
