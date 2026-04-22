@@ -1310,7 +1310,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			int leftop = ExpressionNode.opID(left);
 			if (left instanceof Equation
 					|| (leftop >= 0 && leftop < Operation.PLUS.ordinal())) {
-				appendWithBrackets(sb, leftStr);
+				appendWithBrackets(sb, leftStr, loc);
 			} else {
 				sb.append(leftStr);
 			}
@@ -1328,7 +1328,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				} else {
 					getPlus(sb, loc);
 				}
-				appendWithBrackets(sb, rightStr);
+				appendWithBrackets(sb, rightStr, loc);
 			} else {
 				if (rightStr.charAt(0) == '-') { // convert + - to -
 					if (stringType.equals(StringType.LATEX)
@@ -1432,9 +1432,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 	/**
 	 * @return ( or \left(
 	 */
-	public String leftBracket() {
+	public String leftBracket(Localization loc) {
 		if (stringType == StringType.SCREEN_READER_ASCII) {
-			return ScreenReader.getOpenParenthesis();
+			return ScreenReader.getOpenParenthesis(loc);
 		}
 		return left() + "(";
 	}
@@ -1442,9 +1442,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 	/**
 	 * @return ) or \right)
 	 */
-	public String rightBracket() {
+	public String rightBracket(Localization loc) {
 		if (stringType == StringType.SCREEN_READER_ASCII) {
-			return ScreenReader.getCloseParenthesis();
+			return ScreenReader.getCloseParenthesis(loc);
 		}
 		return right() + ")";
 	}
@@ -1466,9 +1466,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 	/**
 	 * @return semicolon
 	 */
-	public String polarSeparator() {
+	public String polarSeparator(Localization loc) {
 		if (stringType.equals(StringType.SCREEN_READER_ASCII)) {
-			return ScreenReader.getPolarSeparator();
+			return ScreenReader.getSemicolon(loc);
 		}
 
 		return ";";
@@ -1687,7 +1687,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				break;
 			}
 			if (left instanceof Equation) {
-				appendWithBrackets(sb, leftStr);
+				appendWithBrackets(sb, leftStr, loc);
 			} else {
 				append(sb, leftStr, left, Operation.PLUS);
 			}
@@ -1728,7 +1728,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				} else {
 					getMinus(sb, loc);
 				}
-				appendWithBrackets(sb, rightStr);
+				appendWithBrackets(sb, rightStr, loc);
 			}
 			break;
 		}
@@ -1823,7 +1823,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// vector * (matrix * vector) needs brackets; always use brackets
 			// for internal templates
 			if (useExtensiveBrackets()) {
-				sb.append(leftBracket());
+				sb.append(leftBracket(loc));
 			}
 
 			// left wing
@@ -1836,14 +1836,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 							Unicode.RIGHT_TO_LEFT_UNARY_MINUS_SIGN)) {
 						// brackets needed for eg Arabic digits
 						sb.append(Unicode.RIGHT_TO_LEFT_MARK);
-						appendWithBrackets(sb, leftStr);
+						appendWithBrackets(sb, leftStr, loc);
 						sb.append(Unicode.RIGHT_TO_LEFT_MARK);
 					} else {
 						sb.append(leftStr);
 					}
 				}
 			} else {
-				appendWithBrackets(sb, leftStr);
+				appendWithBrackets(sb, leftStr, loc);
 			}
 
 			// right wing
@@ -1944,7 +1944,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					if (rtlMinus) {
 						sb.append(Unicode.RIGHT_TO_LEFT_MARK);
 					}
-					appendWithBrackets(sb, rightStr);
+					appendWithBrackets(sb, rightStr, loc);
 					if (rtlMinus) {
 						sb.append(Unicode.RIGHT_TO_LEFT_MARK);
 					}
@@ -1969,13 +1969,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 						sb.append(multiplicationSpace());
 					}
 				}
-				appendWithBrackets(sb, rightStr);
+				appendWithBrackets(sb, rightStr, loc);
 			}
 
 			// vector * (matrix * vector) needs brackets; always use brackets
 			// for internal templates
 			if (useExtensiveBrackets()) {
-				sb.append(rightBracket());
+				sb.append(rightBracket(loc));
 			}
 
 			break;
@@ -2288,7 +2288,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 						.chainedBooleanOp(ev.wrap().getOperation()))) {
 			sb.append(str);
 		} else {
-			appendWithBrackets(sb, str);
+			appendWithBrackets(sb, str, ev.getLocalization());
 		}
 	}
 
@@ -2356,9 +2356,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		default:
 			if (forEditorParser) {
-				appendWithBrackets(sb, leftStr);
+				appendWithBrackets(sb, leftStr, loc);
 				sb.append('/');
-				appendWithBrackets(sb, rightStr);
+				appendWithBrackets(sb, rightStr, loc);
 				break;
 			}
 
@@ -2372,7 +2372,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 							((ExpressionNode) left).getRight(), Math.PI)) {
 				sb.append(leftStr);
 			} else if (left.isLeaf() && !isSinglePowerArg(left, valueForm)) {
-				appendWithBrackets(sb, leftStr);
+				appendWithBrackets(sb, leftStr, loc);
 			} else {
 				append(sb, leftStr, left, Operation.DIVIDE);
 			}
@@ -2381,7 +2381,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			appendOptionalSpace(sb);
 			// right wing
 			if (right.isLeaf() && !isSinglePowerArg(right, valueForm)) {
-				appendWithBrackets(sb, rightStr);
+				appendWithBrackets(sb, rightStr, loc);
 			} else {
 				append(sb, rightStr, right, Operation.POWER); // not +, -, *, /
 			}
@@ -2396,7 +2396,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 *            serialized expression
 	 * @return !left
 	 */
-	public String notString(ExpressionValue left, String leftStr) {
+	public String notString(ExpressionValue left, String leftStr,
+			Localization loc) {
 		StringBuilder sb = new StringBuilder();
 
 		if (stringType.equals(StringType.CONTENT_MATHML)) {
@@ -2417,7 +2418,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			case GIAC:
 				sb.append("!");
-				appendWithBrackets(sb, leftStr);
+				appendWithBrackets(sb, leftStr, loc);
 				return sb.toString();
 
 			default:
@@ -2426,7 +2427,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			if (left.isLeaf()) {
 				sb.append(leftStr);
 			} else {
-				appendWithBrackets(sb, leftStr);
+				appendWithBrackets(sb, leftStr, loc);
 			}
 		}
 		return sb.toString();
@@ -2927,7 +2928,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				// we might need more brackets here #4764
 				sb.append(leftStr);
 			} else {
-				appendWithBrackets(sb, leftStr);
+				appendWithBrackets(sb, leftStr, loc);
 			}
 			break;
 		}
@@ -2947,7 +2948,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			sb.append('{');
 			if (addParentheses) {
-				appendWithBrackets(sb, rightStr);
+				appendWithBrackets(sb, rightStr, loc);
 			} else {
 				sb.append(rightStr);
 			}
@@ -2960,7 +2961,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		case PGF:
 		case GEOGEBRA_XML:
 			sb.append('^');
-			appendWithBrackets(sb, rightStr);
+			appendWithBrackets(sb, rightStr, loc);
 			break;
 
 		default:
@@ -2984,7 +2985,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				}
 			} else {
 				sb.append('^');
-				appendWithBrackets(sb, rightStr);
+				appendWithBrackets(sb, rightStr, loc);
 			}
 		}
 		return sb.toString();
@@ -3147,10 +3148,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @param expression
 	 *            serialized expression (String)
 	 */
-	public void appendWithBrackets(StringBuilder sb, String expression) {
-		sb.append(leftBracket());
+	public void appendWithBrackets(StringBuilder sb, String expression,
+			Localization loc) {
+		sb.append(leftBracket(loc));
 		sb.append(expression);
-		sb.append(rightBracket());
+		sb.append(rightBracket(loc));
 	}
 
 	/**
@@ -3402,11 +3404,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @param sb
 	 *            builder
 	 */
-	public void leftCurlyBracket(StringBuilder sb) {
+	public void leftCurlyBracket(StringBuilder sb, Localization loc) {
 		if (hasType(StringType.LATEX)) {
 			sb.append("\\left\\{");
 		} else if (hasType(StringType.SCREEN_READER_ASCII)) {
-			sb.append(ScreenReader.getOpenBrace());
+			sb.append(ScreenReader.getOpenBrace(loc));
 		} else {
 			sb.append("{");
 		}
@@ -3418,11 +3420,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @param sb
 	 *            builder
 	 */
-	public void rightCurlyBracket(StringBuilder sb) {
+	public void rightCurlyBracket(StringBuilder sb, Localization loc) {
 		if (hasType(StringType.LATEX)) {
 			sb.append("\\right\\}");
 		} else if (hasType(StringType.SCREEN_READER_ASCII)) {
-			sb.append(ScreenReader.getCloseBrace());
+			sb.append(ScreenReader.getCloseBrace(loc));
 		} else {
 			sb.append("}");
 		}
@@ -3587,9 +3589,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 *
 	 * @return ")" or, for XML, "]"
 	 */
-	public String rightCommandBracket() {
+	public String rightCommandBracket(Localization loc) {
 		return isPrintLocalizedCommandNames() || shouldPrintMethodsWithParenthesis
-				? rightBracket()
+				? rightBracket(loc)
 				: rightSquareBracket();
 	}
 
@@ -3597,9 +3599,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 *
 	 * @return "(" or, for XML, "["
 	 */
-	public String leftCommandBracket() {
+	public String leftCommandBracket(Localization loc) {
 		return isPrintLocalizedCommandNames() || shouldPrintMethodsWithParenthesis
-				? leftBracket()
+				? leftBracket(loc)
 				: leftSquareBracket();
 	}
 
@@ -3744,14 +3746,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		if (forEditorParser) {
 			return "=";
 		}
-		switch (stringType) {
-		case LATEX:
-			return "\\, = \\,";
-		case SCREEN_READER_ASCII:
-			return " equals ";
-		default:
-			return " = ";
-		}
+		return stringType == StringType.LATEX ? "\\, = \\," : " = ";
 	}
 
 	public boolean isLatex() {
@@ -3782,7 +3777,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				&& left.isOperation(Operation.ABS)) {
 			sb.append(str);
 		} else {
-			appendWithBrackets(sb, str);
+			appendWithBrackets(sb, str, left.getLocalization());
 		}
 	}
 
@@ -3800,7 +3795,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public void getCommaOptionalSpace(StringBuilder sb, Localization localization) {
 		if (hasType(StringType.SCREEN_READER_ASCII)) {
-			sb.append(ScreenReader.getComma());
+			sb.append(ScreenReader.getComma(localization));
 		} else {
 			sb.append(localization.getComma());
 			if (isLatex()) {

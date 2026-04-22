@@ -468,11 +468,7 @@ public abstract class Localization extends LocalizationI {
 		if (key == null) {
 			return "";
 		}
-		String ret = getMenu("Error." + key);
-		if (ret.equals("Error." + key)) {
-			return key;
-		}
-		return ret;
+		return getMenuDefault("Error." + key, key);
 	}
 
 	/**
@@ -513,11 +509,7 @@ public abstract class Localization extends LocalizationI {
 			return StringUtil.getGrayString(key.charAt(4), this);
 		}
 
-		String ret = getMenu("Color." + StringUtil.toLowerCaseUS(key));
-		if (ret.startsWith("Color.")) {
-			return key;
-		}
-		return ret;
+		return getMenuDefault("Color." + StringUtil.toLowerCaseUS(key), key);
 	}
 
 	/**
@@ -531,53 +523,37 @@ public abstract class Localization extends LocalizationI {
 	 *            arguments for replacement
 	 * @return translated key with replaced %*s
 	 */
-	final public String getPlainArray(String key, String defaultPattern,
-			String[] args) {
-		String str = getMenu(key);
-
-		if (defaultPattern != null && key.equals(str)) {
-			// lookup failed, use default
-			str = defaultPattern;
-		}
-
-		StringBuilder sbPlain = new StringBuilder();
-		sbPlain.setLength(0);
-		boolean found = false;
-		for (int i = 0; i < str.length(); i++) {
-			char ch = str.charAt(i);
-			if (ch == '%') {
-				// get number after %
-				i++;
-				int pos = str.charAt(i) - '0';
-				if ((pos >= 0) && (pos < args.length)) {
-					// success
-					sbPlain.append(args[pos]);
-					found = true;
+	final public @Nonnull String getPlainDefault(String key, String defaultPattern,
+			String... args) {
+		String str = getMenuDefault(key, defaultPattern);
+		if (!str.isEmpty()) {
+			StringBuilder sbPlain = new StringBuilder();
+			sbPlain.setLength(0);
+			for (int i = 0; i < str.length(); i++) {
+				char ch = str.charAt(i);
+				if (ch == '%') {
+					// get number after %
+					i++;
+					int pos = str.charAt(i) - '0';
+					if ((pos >= 0) && (pos < args.length)) {
+						// success
+						sbPlain.append(args[pos]);
+					} else {
+						// failed
+						sbPlain.append(ch);
+					}
 				} else {
-					// failed
 					sbPlain.append(ch);
 				}
-			} else {
-				sbPlain.append(ch);
 			}
+			// In some languages we may need some final fixes:
+			return translationFix(sbPlain.toString());
+		} else {
+			 // The key was not exported from the translation database yet.
+			 // In this case all parameters are appended to the displayed string to
+			 // help the developers.
+			return key + " " + String.join(" ", args);
 		}
-
-		if (!found) {
-
-			/*
-			 * If no parameters were found in key, this key is missing for some
-			 * reason (maybe it is not added to the ggbtrans database yet). In
-			 * this case all parameters are appended to the displayed string to
-			 * help the developers.
-			 */
-			for (String arg : args) {
-				sbPlain.append(" ");
-				sbPlain.append(arg);
-			}
-		}
-
-		// In some languages we may need some final fixes:
-		return translationFix(sbPlain.toString());
 	}
 
 	/**
@@ -591,9 +567,9 @@ public abstract class Localization extends LocalizationI {
 	 * @return "poly" (the suffix is added later)
 	 */
 	final public String getPlainLabel(String key, String fallback) {
-		String ret = getMenu("Name." + key);
+		String ret = getMenuDefault("Name." + key, "");
 
-		if (ret == null || ret.startsWith("Name.")) {
+		if (ret.isEmpty()) {
 			return fallback;
 		}
 
@@ -618,23 +594,7 @@ public abstract class Localization extends LocalizationI {
 	 * @return string with replacements
 	 */
 	final public String getPlain(String key, String... arg0) {
-		return getPlainArray(key, null, arg0);
-	}
-
-	/**
-	 * replace "%0" by arg0 etc.
-	 * 
-	 * @param key
-	 *            pattern key
-	 * @param default0
-	 *            pattern for default locale
-	 * @param arg0
-	 *            replace args
-	 * @return string with replacements
-	 */
-	final public String getPlainDefault(String key, String default0,
-			String... arg0) {
-		return getPlainArray(key, default0, arg0);
+		return getPlainDefault(key, "", arg0);
 	}
 
 	/**

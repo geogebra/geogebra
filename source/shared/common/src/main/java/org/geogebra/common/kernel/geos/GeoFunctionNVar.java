@@ -436,7 +436,7 @@ public class GeoFunctionNVar extends GeoElement
 		sbToString.setLength(0);
 		sbToString.append(tpl.printVariableName(label));
 		if (this.getLabelDelimiter() != ':') {
-			tpl.appendWithBrackets(sbToString, getVarString(tpl));
+			tpl.appendWithBrackets(sbToString, getVarString(tpl), kernel.getLocalization());
 		}
 		return sbToString.toString();
 	}

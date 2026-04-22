@@ -63,7 +63,7 @@ public class DefaultPropertiesFactoryTest extends BaseAppTestSetup {
 
 	protected static List<String> getNames(PropertiesArray props) {
 		return Arrays.stream(props.getProperties())
-				.map(p -> p.getName().isEmpty() ? p.getClass().getSimpleName() : p.getName())
+				.map(p -> p.getRawName().isEmpty() ? p.getClass().getSimpleName() : p.getName())
 				.collect(Collectors.toList());
 	}
 }

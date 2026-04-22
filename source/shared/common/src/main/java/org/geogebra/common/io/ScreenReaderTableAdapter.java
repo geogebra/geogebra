@@ -16,21 +16,32 @@
 
 package org.geogebra.common.io;
 
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OrdinalConverter;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.util.lang.Language;
 
 import com.himamis.retex.renderer.share.serialize.TableAdapter;
 
 public class ScreenReaderTableAdapter extends TableAdapter {
 	private boolean transpose;
-	String type = "table";
+	private String type = "table";
+	private final Localization loc;
+
+	public ScreenReaderTableAdapter(Localization loc) {
+		this.loc = loc;
+	}
 
 	@Override
 	public String matrixStart(int rows, int cols) {
 		if (transpose) {
-			return type + " with " + cols + " columns and " + rows + " rows ";
+			return loc.getPlainDefault("ScreenReader.MatrixAWithBColumnsAndCRows",
+					"%0 with %1 columns and %2 rows",
+					type, String.valueOf(cols), String.valueOf(rows)) + " ";
 		}
-		return type + " with " + rows + " rows and " + cols + " columns ";
+		return loc.getPlainDefault("ScreenReader.MatrixAWithBRowsAndCColumns",
+				"%0 with %1 rows and %2 columns",
+				type, String.valueOf(rows), String.valueOf(cols)) + " ";
 	}
 
 	@Override
@@ -68,7 +79,8 @@ public class ScreenReaderTableAdapter extends TableAdapter {
 	public void setMatrixType(String left, String right) {
 		if ("|".equals(left) && "|".equals(right)) {
 			type = "determinant";
-		} else if (" open parenthesis ".equals(left) && " close parenthesis ".equals(right)
+		} else if (ScreenReader.getOpenParenthesis(loc).equals(left)
+				&& ScreenReader.getCloseParenthesis(loc).equals(right)
 			|| "(".equals(left) && ")".equals(right)) {
 			type = "matrix";
 		} else {

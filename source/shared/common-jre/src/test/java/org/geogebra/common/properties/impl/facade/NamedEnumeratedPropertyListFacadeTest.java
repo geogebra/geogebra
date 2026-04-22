@@ -90,8 +90,10 @@ public class NamedEnumeratedPropertyListFacadeTest extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		NamedEnumeratedPropertyListFacade<TestNamedEnumeratedProperty, String> facade =
 				new NamedEnumeratedPropertyListFacade<>(List.of(
-						new TestNamedEnumeratedProperty(getLocalization(), List.of("one", "two")),
-						new TestNamedEnumeratedProperty(getLocalization(), List.of("three", "four"))
+						new TestNamedEnumeratedProperty(getLocalization(),
+								List.of("_one", "_two")),
+						new TestNamedEnumeratedProperty(getLocalization(),
+								List.of("_three", "_four"))
 				));
 
 		assertIterableEquals(List.of(), facade.getValues());

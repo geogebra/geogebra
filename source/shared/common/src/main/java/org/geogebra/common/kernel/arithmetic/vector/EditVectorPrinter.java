@@ -19,12 +19,14 @@ package org.geogebra.common.kernel.arithmetic.vector;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.Printer;
+import org.geogebra.common.main.Localization;
 
 class EditVectorPrinter implements Printer {
 
 	@Override
 	public String print(String xCoord,
-			String yCoord, String zCoord, PrintableVector vector, StringTemplate tpl) {
+			String yCoord, String zCoord, PrintableVector vector, StringTemplate tpl,
+			Localization loc) {
 		return "$vector("
 				+ xCoord
 				+ ","

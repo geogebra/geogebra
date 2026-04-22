@@ -18,6 +18,7 @@ package org.geogebra.common.kernel.printing.printable.vector;
 
 import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.main.Localization;
 
 /**
  * Printable vector.
@@ -38,4 +39,9 @@ public interface PrintableVector {
 
 	@MissingDoc
 	int getCoordinateSystem();
+
+	/**
+	 * @return localization
+	 */
+	Localization getLocalization();
 }

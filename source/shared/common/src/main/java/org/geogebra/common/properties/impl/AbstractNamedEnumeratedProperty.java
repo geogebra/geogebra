@@ -63,6 +63,10 @@ public abstract class AbstractNamedEnumeratedProperty<V> extends AbstractEnumera
 		)).toArray(String[]::new);
 	}
 
+	protected String getTranslationId(V index) {
+		return valueNameTranslationIds.get(index);
+	}
+
 	private void ensureValueNamesPresent() {
 		if (valueNameTranslationIds == null) {
 			throw new RuntimeException("Set values must be called in the constructor for "

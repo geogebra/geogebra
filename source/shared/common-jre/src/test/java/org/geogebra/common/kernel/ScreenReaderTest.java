@@ -16,53 +16,42 @@
 
 package org.geogebra.common.kernel;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 
-import org.geogebra.common.AppCommonFactory;
-import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.euclidian.ScreenReaderAdapter;
+import org.geogebra.common.jre.headless.EuclidianViewNoGui;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.test.TestErrorHandler;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.geogebra.common.main.ScreenReader;
+import org.geogebra.editor.share.io.latex.ParseException;
+import org.geogebra.editor.share.tree.Formula;
+import org.geogebra.editor.share.util.FormulaConverter;
+import org.geogebra.test.BaseAppTestSetup;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
-@SuppressWarnings("javadoc")
-public class ScreenReaderTest {
+class ScreenReaderTest extends BaseAppTestSetup {
+	ScreenReaderAdapter screenReader = Mockito.spy(ScreenReaderAdapter.class);
 
-	static AppCommon app;
-
-	@BeforeClass
-	public static void initialize() {
-		app = AppCommonFactory.create3D();
+	@BeforeEach
+	public void initialize() {
+		setupClassicApp();
 	}
 
-	@Before
-	public void cleanup() {
-		app.getKernel().clearConstruction(true);
-	}
-
-	private static void tsc(String string, String expected) {
-		GeoElementND geo = eval(string);
+	private void tsc(String string, String expected) {
+		GeoElementND geo = evaluateGeoElement(string);
 		assertEquals(expected, geo.toValueString(
 				StringTemplate.screenReaderAscii.deriveWithoutCoefficientSimplification())
 				.trim().replaceAll(" +", " "));
 	}
 
-	private static GeoElementND eval(String string) {
-		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
-		GeoElementND[] result = ap.processAlgebraCommandNoExceptionHandling(string, false,
-				TestErrorHandler.INSTANCE,
-				new EvalInfo(true).withSymbolic(true).addDegree(true),
-				null);
-		return result[0];
-	}
-
 	@Test
 	public void testLaTeXWithZero() {
-		String funct = "sin((2x)/(3) (4-5)) + 0";
-		tsc(funct,
+		String function = "sin((2x)/(3) (4-5)) + 0";
+		tsc(function,
 				"sin open parenthesis start fraction 2 times x over 3 end fraction "
 						+ "times open parenthesis 4 minus 5 close parenthesis close parenthesis "
 						+ "plus 0");
@@ -108,4 +97,29 @@ public class ScreenReaderTest {
 		tsc("x + pi deg", "x plus pi degrees");
 		tsc("pi deg", "pi degrees");
 	}
+
+	@Test
+	public void testReadDropDownItemSelected() {
+		// only test the closed dropdown case here, the rest is done in AuralTextTest
+		GeoList list = evaluateGeoElement("{3,4}");
+		list.setDrawAsComboBox(true);
+		list.setEuclidianVisible(true);
+		list.setSelectedIndex(1);
+		list.updateRepaint();
+		((EuclidianViewNoGui) getApp().getEuclidianView1()).setScreenReader(screenReader);
+		ScreenReader.readDropDownItemSelected(list);
+		verify(screenReader).readText(eq("Element 4 selected Dropdown closed"));
+	}
+
+	@Test
+	public void testGetAriaExpression() throws ParseException {
+		Formula formula = new FormulaConverter().buildFormula("6*7");
+		String forReader = ScreenReader.getAriaExpression(getApp(), formula, "42");
+		assertEquals("6 times 7 = 42", forReader);
+		Formula formulaList = new FormulaConverter().buildFormula("Length({3})");
+		String forReaderList = ScreenReader.getAriaExpression(getApp(), formulaList, "1");
+		assertEquals("Length open parenthesis  open brace 3"
+				+ " close brace  close parenthesis  = 1", forReaderList);
+	}
+
 }

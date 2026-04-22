@@ -1816,11 +1816,11 @@ public abstract class GlobalKeyDispatcher {
 	protected boolean handleEnter() {
 		if (selection.getSelectedGeos().size() == 1) {
 			GeoElement geo = selection.getSelectedGeos().get(0);
-			if (geo.isGeoList()) {
+			if (geo instanceof GeoList list) {
 				DrawDropDownList dropdown = DrawDropDownList.asDrawable(app, geo);
 				if (dropdown != null) {
 					dropdown.handleEnter();
-					ScreenReader.readDropDownItemSelected(geo);
+					ScreenReader.readDropDownItemSelected(list);
 					return true;
 				}
 			} else if (geo.isGeoInputBox() && geo.isEuclidianVisible()) {

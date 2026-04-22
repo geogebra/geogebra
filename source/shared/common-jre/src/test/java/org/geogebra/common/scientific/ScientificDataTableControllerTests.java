@@ -81,8 +81,8 @@ public final class ScientificDataTableControllerTests extends BaseUnitTest {
 		assertNotNull(controller.getFunctionF());
 		add(LabelManager.HIDDEN_PREFIX + "f:3x");
 		MyError error = assertThrows(MyError.class, () -> controller.setup(tableValuesView));
-		assertEquals("NameUsed", error.getMessage());
-		assertTrue(error.toString().contains("This label is already in use"));
+		assertTrue("Unexpected message " + error.getMessage(),
+				error.getMessage().startsWith("This label is already in use"));
 	}
 
 	@Test

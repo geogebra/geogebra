@@ -79,7 +79,7 @@ public class RoundingIndexProperty extends AbstractNamedEnumeratedProperty<Integ
 	@Override
 	public String[] getValueNames() {
 		setupValues(app.getLocalization());
-		return super.getValueNames();
+		return getValues().stream().map(this::getTranslationId).toArray(String[]::new);
 	}
 
 	/**

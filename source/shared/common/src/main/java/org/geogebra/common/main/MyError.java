@@ -34,7 +34,7 @@ public class MyError extends Error {
 	protected String commandName = null;
 	private String[] strs;
 	// Used for localization
-	private Errors message;
+	private Errors messageKey;
 	// Used for identification
 	private Errors errorType;
 
@@ -120,7 +120,7 @@ public class MyError extends Error {
 	public MyError(Localization loc0, Errors message0, String... strs0) {
 		super(message0.key);
 		this.loc = loc0;
-		this.message = message0;
+		this.messageKey = message0;
 		this.strs = strs0;
 	}
 
@@ -135,7 +135,7 @@ public class MyError extends Error {
 	public MyError(Localization loc0, Throwable cause, Errors message0, String... strs0) {
 		super(message0.key, cause);
 		this.loc = loc0;
-		this.message = message0;
+		this.messageKey = message0;
 		this.strs = strs0;
 	}
 
@@ -155,7 +155,7 @@ public class MyError extends Error {
 			ExpressionValue rt) {
 		super(message0.key);
 		this.loc = loc0;
-		this.message = message0;
+		this.messageKey = message0;
 
 		strs = new String[3];
 		strs[0] = toErrorString(lt);
@@ -187,7 +187,7 @@ public class MyError extends Error {
 	/**
 	 * @return associated command name
 	 */
-	public String getcommandName() {
+	public String getCommandName() {
 		return commandName;
 	}
 
@@ -200,13 +200,13 @@ public class MyError extends Error {
 	}
 
 	@Override
-	public String getLocalizedMessage() {
+	public String getMessage() {
 		StringBuilder sb = new StringBuilder();
 		// space needed in case error is displayed on one line
 		sb.append(getError());
 
 		// only needed for old "string" errors, not new enum errors
-		if (message == null && strs != null) {
+		if (messageKey == null && strs != null) {
 			sb.append(" \n");
 			for (String part : strs) {
 				sb.append(part);
@@ -219,39 +219,12 @@ public class MyError extends Error {
 	private String getError() {
 		
 		// using new Errors enum
-		if (message != null) {
-			String ret = message.getError(loc, strs);
-			return ret;
+		if (messageKey != null) {
+			return messageKey.getError(loc, strs);
 		}
 		
 		// using old string method
-		return getError(getMessage());
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-
-		sb.append(getClass().toString());
-		sb.append(": ");
-		sb.append(getError());
-		if (strs != null) {
-			for (int i = 0; i < strs.length; i++) {
-				sb.append(" : ");
-				sb.append(getError(strs[i]));
-			}
-		}
-		return sb.toString();
-	}
-
-	/**
-	 * @param s
-	 *            key
-	 * @return localized error
-	 */
-	private String getError(String s) {
-		String ret = loc == null ? s : loc.getError(s);
-		return ret;
+		return super.getMessage();
 	}
 
 	/**
@@ -341,7 +314,9 @@ public class MyError extends Error {
 
 		UnknownCommand("UnknownCommand", "Unknown command"),
 		NameUsed("NameUsed", "This label is already in use"),
+		LabelAlreadyUsed("LabelAlreadyUsed", "This label is already used."),
 		ChangeDependent("ChangeDependent", "Dependent objects may not be changed"),
+		IncompleteEquation("IncompleteEquation", "Incomplete equation"),
 
 		// IllegalArgumentAinCustomToolB("IllegalArgumentAinCustomToolB", "Illegal
 		// Argument %0 in Custom Tool %1"),

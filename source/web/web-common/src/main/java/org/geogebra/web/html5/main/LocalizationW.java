@@ -150,30 +150,15 @@ public final class LocalizationW extends Localization {
 	 *         items
 	 */
 	@Override
-	public String getMenu(String key) {
-		if ("undefined".equalsIgnoreCase(key)) {
-			Log.error("undefined");
-		}
+	public String getMenuDefault(String key, String fallback) {
 		if (key == null) {
 			return "";
 		}
 
 		String ret = getPropertyNative(languageTag, key, "menu");
 
-		// eg webSimple
-		if (ret == null || "".equals(ret)) {
-			// Log.debug("menu key not found: "+key);
-
-			// eg Symbol.And
-			if (key.startsWith(Localization.SYMBOL_PREFIX)) {
-				return key.substring(Localization.SYMBOL_PREFIX.length());
-			}
-
-			// eg Function.sin
-			if (key.startsWith(Localization.FUNCTION_PREFIX)) {
-				return key.substring(Localization.FUNCTION_PREFIX.length());
-			}
-			return key;
+		if (StringUtil.empty(ret)) {
+			return fallback;
 		}
 
 		return ret;

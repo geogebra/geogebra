@@ -97,7 +97,7 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 	@Override
 	public @Nonnull AttributedString getLocalizedTitle(@Nonnull Localization localization) {
 		return MenuItemFormatting.parse(
-				localization.getPlainArray(item.translationKey, null,
+				localization.getPlainDefault(item.translationKey, "",
 						translationPlaceholderValues)
 		);
 	}

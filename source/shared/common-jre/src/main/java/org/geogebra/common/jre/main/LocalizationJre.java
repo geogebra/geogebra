@@ -116,7 +116,7 @@ public abstract class LocalizationJre extends Localization {
 	}
 
 	@Override
-	final public @Nonnull String getMenu(String key) {
+	final public @Nonnull String getMenuDefault(String key, String fallback) {
 		if (key == null) {
 			return "";
 		}
@@ -132,8 +132,13 @@ public abstract class LocalizationJre extends Localization {
 		try {
 			return rbmenu.getString(key);
 		} catch (Exception e) {
-			return key;
+			reportMissing(key, fallback);
+			return fallback;
 		}
+	}
+
+	protected void reportMissing(String key, String fallback) {
+		// overridden in tests
 	}
 
 	/**

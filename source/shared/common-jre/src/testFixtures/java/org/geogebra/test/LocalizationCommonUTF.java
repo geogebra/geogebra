@@ -16,12 +16,20 @@
 
 package org.geogebra.test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.jre.headless.Utf8Control;
 
 public class LocalizationCommonUTF extends LocalizationCommon {
+	private static final Map<String, String> missingTranslations = new HashMap<>();
+
 	/**
 	 * @param dimension 3 for 3D
 	 */
@@ -35,17 +43,25 @@ public class LocalizationCommonUTF extends LocalizationCommon {
 		return true;
 	}
 
-	protected void reportError(String key) {
-		if (!List.of("Checkbox", "Dropdown", "ScreenReader.degrees",
-				"Unchecked", "Pressed", "double", "triple", "ScreenReader.plus",
-				"Name.shape", "Selected", "ScreenReader.degree", "prime",
-				"InlineText", "AofB", "ScreenReader.startRoot", "ScreenReader.squared",
-				"ScreenReader.startPower", "ScreenReader.endRoot", "ScreenReader.cubed",
-				 "ScreenReader.minus", "ScreenReader.startSqrtCbrt",
-				 "ScreenReader.endSqrt",
-				"ScreenReader.endPower", "ScreenReader.startFraction", "ScreenReader.times",
-				"ScreenReader.endFraction", "ScreenReader.fractionOver").contains(key)) {
-			throw new AssertionError("Key not found " + key);
+	@Override
+	protected void reportMissing(String key, String fallback) {
+		if (key.startsWith("_") || List.of(
+				"InlineText", "Function.npr", "Function.ncr",
+						"Name.l", "Name.f", "Name.m", "Name.shape").contains(key)) {
+			return;
+		}
+		missingTranslations.put(key, fallback);
+		String allMissing = "[\n" + missingTranslations.entrySet().stream()
+				.map(entry -> "{\"key\":\"" + entry.getKey()
+						+ "\",\"default\":\"" + entry.getValue() + "\"}")
+				.collect(Collectors.joining(",\n")) + "\n]";
+		try {
+			Files.writeString(Path.of("build/missing-translations"), allMissing);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		if (System.getenv("COLLECT_TRANSLATIONS") == null) {
+			throw new AssertionError("Key not found " + key + "; fallback is " + fallback);
 		}
 	}
 }

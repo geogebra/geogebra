@@ -611,13 +611,13 @@ public class TableSymbols {
 			String[] strs = function.split("\\(", 2);
 			String functionName = strs[0].trim();
 			if (parserFunctions.isReserved(functionName)) {
-				String translatedFunctionName = loc
-						.getMenu(Localization.FUNCTION_PREFIX + functionName);
-				if (translatedFunctionName
-						.startsWith(Localization.FUNCTION_PREFIX)) {
+				String key = Localization.FUNCTION_PREFIX + functionName;
+				if (!parserFunctions.isTranslatableFunction(key)) {
 					// translation not supported for this function
 					functions.add(function);
 				} else {
+					String translatedFunctionName = loc
+							.getFunction(key);
 					String translated = " " + translatedFunctionName + "(" + strs[1];
 					functions.add(translated);
 				}

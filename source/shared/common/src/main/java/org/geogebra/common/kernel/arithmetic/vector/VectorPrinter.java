@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.Printer;
+import org.geogebra.common.main.Localization;
 
 class VectorPrinter implements Printer {
 
@@ -35,8 +36,8 @@ class VectorPrinter implements Printer {
 
     @Override
     public String print(String xCoord, String yCoord, String zCoord,
-            PrintableVector vector, StringTemplate tpl) {
-        return getPrinterFor(tpl, vector).print(xCoord, yCoord, zCoord, vector, tpl);
+            PrintableVector vector, StringTemplate tpl, Localization loc) {
+        return getPrinterFor(tpl, vector).print(xCoord, yCoord, zCoord, vector, tpl, loc);
     }
 
     private Printer getPrinterFor(StringTemplate tpl, PrintableVector vector) {

@@ -16,6 +16,8 @@
 
 package org.geogebra.common.kernel.geos;
 
+import java.util.Locale;
+
 import org.geogebra.common.io.ScreenReaderTableAdapter;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ScreenReader;
@@ -27,7 +29,7 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 
 	private final Localization loc;
 	private final SymbolReader symbols;
-	private TableAdapter tableAdapter = new ScreenReaderTableAdapter();
+	private final TableAdapter tableAdapter;
 
 	/**
 	 *
@@ -36,6 +38,7 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 	public ScreenReaderSerializationAdapter(Localization loc) {
 		this.loc = loc;
 		symbols = new SymbolReader(loc);
+		tableAdapter = new ScreenReaderTableAdapter(loc);
 	}
 
 	@Override
@@ -65,13 +68,17 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 	@Override
 	public String transformBrackets(String left, String base, String right) {
 		if ("|".equals(left) && "|".equals(right)) {
-			return "start absolute value " + base + " end absolute value";
+			return ScreenReader.getStartAbs(loc) + base + ScreenReader.getEndAbs(loc);
 		}
-		if (base.isEmpty() && ScreenReader.getOpenParenthesis().equals(left)
-				&& ScreenReader.getCloseParenthesis().equals(right)) {
-			return "empty parentheses";
+		if (base.isEmpty() && ScreenReader.getOpenParenthesis(loc).equals(left)
+				&& ScreenReader.getCloseParenthesis(loc).equals(right)) {
+			return localize("EmptyParentheses", "empty parentheses");
 		}
 		return readBracket(left) + base + readBracket(right);
+	}
+
+	private String localize(String key, String defaultValue) {
+		return loc.getMenuDefault("ScreenReader." + key, defaultValue);
 	}
 
 	private String readBracket(String left) {
@@ -105,7 +112,7 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 
 	@Override
 	public String parenthesis(String paren) {
-		return "parenthesis";
+		return localize("Parenthesis", "parenthesis");
 	}
 
 	@Override
@@ -114,10 +121,10 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 		case "``":
 		case "''":
 			return "\"";
-		case "\u0338 equals ":
-			return " not equal to ";
-		case "\u0338 in ":
-			return " not in ";
+		case "\u0338=":
+			return "\u2260";
+		case "\u0338\u2208":
+			return "\u2209";
 		default:
 			return null;
 		}
@@ -129,7 +136,8 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 		for (int i = 0; i < s.length(); i++) {
 			char character = s.charAt(i);
 			if (character == '_') {
-				sb.append(" subscript ");
+				sb.append(" ").append(localize("Subscript", "subscript"))
+						.append(" ");
 			} else {
 				String str = convertCharacter(character);
 				if (!"".equals(str)) {
@@ -144,5 +152,48 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 	@Override
 	public TableAdapter getTableAdapter() {
 		return this.tableAdapter;
+	}
+
+	@Override
+	public String segment(String base) {
+		// order hardcoded, same in e.g. properties view
+		return loc.getMenu("Segment").toLowerCase(Locale.ROOT) + " " + base;
+	}
+
+	@Override
+	public String vector(String content) {
+		// order hardcoded, same in e.g. properties view
+		return loc.getMenu("Vector").toLowerCase(Locale.ROOT) + " " + content;
+	}
+
+	@Override
+	public String circled(String serialize) {
+		return loc.getPlainDefault("ScreenReader.Circled", "circled %0", serialize);
+	}
+
+	@Override
+	public String under(String decoration, String base) {
+		return loc.getPlainDefault("ScreenReader.AUnderB", "%0 under %1", decoration, base);
+	}
+
+	@Override
+	public String over(String decoration, String base) {
+		return loc.getPlainDefault("ScreenReader.AOverB", "%0 over %1", decoration, base);
+	}
+
+	@Override
+	public String blank() {
+		return localize("Blank", "blank");
+	}
+
+	@Override
+	public String operatorFromTo(String operator, String from, String to) {
+		return loc.getPlainDefault("ScreenReader.AFromBToC", "%0 from %1 to %2",
+				operator, from, to) + " ";
+	}
+
+	@Override
+	public String hyperbolic(String baseName) {
+		return " " + localize("Hyperbolic", "hyperbolic") + " " + baseName;
 	}
 }

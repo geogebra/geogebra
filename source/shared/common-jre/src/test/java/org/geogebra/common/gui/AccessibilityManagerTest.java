@@ -74,8 +74,8 @@ public class AccessibilityManagerTest extends BaseUnitTest {
 		add("SetValue(a,8)");
 		add("SetValue(a,7)");
 		FlushableTimer.flush();
-		verify(screenReaderAdapter).readText(startsWith("Slider a equals 1 Press space"));
-		verify(screenReaderAdapter).readText("Slider a equals 7 ");
+		verify(screenReaderAdapter).readText(startsWith("Slider a = 1 Press space"));
+		verify(screenReaderAdapter).readText("Slider a = 7 ");
 	}
 
 	@Test

@@ -186,6 +186,11 @@ public class MyDouble extends ValidExpression
 		return this;
 	}
 
+	@Override
+	public Localization getLocalization() {
+		return kernel.getLocalization();
+	}
+
 	/**
 	 * @return whether this is angle
 	 */

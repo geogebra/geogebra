@@ -63,7 +63,7 @@ val jacocoClasses by configurations.creating {
 }
 
 val sourceDirs = jacocoSources.files.filter {
-    it.isDirectory && it.absolutePath.endsWith("src/main/java")
+    it.isDirectory && it.absolutePath.replace("\\", "/").endsWith("src/main/java")
 }
 
 val classes = jacocoClasses.files.filter {
@@ -78,7 +78,7 @@ val classes = jacocoClasses.files.filter {
 tasks.jacocoTestReport {
     reports {
         xml.required = true
-        html.required = false
+        html.required = System.getenv("CI") == null
     }
     additionalSourceDirs(*sourceDirs.toTypedArray())
     additionalClassDirs(classes)

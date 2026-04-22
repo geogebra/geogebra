@@ -1553,9 +1553,9 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 			sb.append(kernel.format(x, tpl)).append(",");
 			sb.append(kernel.format(y, tpl)).append(",");
 			sb.append(kernel.format(z, tpl));
-			sb.append(tpl.rightBracket());
+			sb.append(tpl.rightBracket(kernel.getLocalization()));
 		} else {
-			sb.append(tpl.leftBracket());
+			sb.append(tpl.leftBracket(kernel.getLocalization()));
 			sb.append(kernel.format(x, tpl));
 			String separatorWithSpace = getValueSeparatorWithSpace(kernel, tpl);
 
@@ -1565,7 +1565,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 			sb.append(separatorWithSpace);
 			sb.append(kernel.format(z, tpl));
 
-			sb.append(tpl.rightBracket());
+			sb.append(tpl.rightBracket(kernel.getLocalization()));
 		}
 
 	}
@@ -1668,15 +1668,16 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	public static void buildValueString(Kernel kernel, StringTemplate tpl,
 			int toStringMode, double x, double y,
 			StringBuilder sbBuildValueString) {
+		Localization localization = kernel.getLocalization();
 		switch (toStringMode) {
 		case Kernel.COORD_POLAR:
-			sbBuildValueString.append(tpl.leftBracket());
+			sbBuildValueString.append(tpl.leftBracket(localization));
 			sbBuildValueString.append(kernel.format(MyMath.length(x, y), tpl));
-			sbBuildValueString.append(tpl.polarSeparator());
+			sbBuildValueString.append(tpl.polarSeparator(localization));
 			tpl.appendOptionalSpace(sbBuildValueString);
 			sbBuildValueString
 					.append(kernel.formatAngle(Math.atan2(y, x), null, tpl, false));
-			sbBuildValueString.append(tpl.rightBracket());
+			sbBuildValueString.append(tpl.rightBracket(localization));
 			break;
 
 		case Kernel.COORD_COMPLEX:
@@ -1700,7 +1701,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 						kernel.getApplication().getSettings().getGeneral().getPointEditorTemplate();
 				sbBuildValueString.append(pointEditorTemplate).append('(');
 			} else {
-				sbBuildValueString.append(tpl.leftBracket());
+				sbBuildValueString.append(tpl.leftBracket(localization));
 			}
 			sbBuildValueString.append(kernel.format(x, tpl));
 			if (tpl.getCoordStyle(kernel.getCoordStyle()) == Kernel.COORD_STYLE_AUSTRIAN) {
@@ -1708,10 +1709,10 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 				sbBuildValueString.append(tpl.getPointCoordBar());
 				tpl.appendOptionalSpace(sbBuildValueString);
 			} else {
-				tpl.getCommaOptionalSpace(sbBuildValueString, kernel.getLocalization());
+				tpl.getCommaOptionalSpace(sbBuildValueString, localization);
 			}
 			sbBuildValueString.append(kernel.format(y, tpl));
-			sbBuildValueString.append(tpl.rightBracket());
+			sbBuildValueString.append(tpl.rightBracket(localization));
 		}
 
 	}

@@ -880,7 +880,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 			stringBuilder.append(": ");
 		} else {
 			String var = fn.getVarString(tpl);
-			tpl.appendWithBrackets(stringBuilder, var);
+			tpl.appendWithBrackets(stringBuilder, var, fn.getKernel().getLocalization());
 			stringBuilder.append(tpl.getEqualsWithSpace());
 		}
 	}
@@ -1337,7 +1337,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 		sbToString.setLength(0);
 		sbToString.append(tpl.printVariableName(label));
 		if (this.getLabelDelimiter() != ':') {
-			tpl.appendWithBrackets(sbToString, getVarString(tpl));
+			tpl.appendWithBrackets(sbToString, getVarString(tpl), kernel.getLocalization());
 		}
 		return sbToString.toString();
 	}

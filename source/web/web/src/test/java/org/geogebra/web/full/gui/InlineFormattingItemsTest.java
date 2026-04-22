@@ -57,6 +57,8 @@ public class InlineFormattingItemsTest {
 	@Before
 	public void setUp() {
 		app = AppMocker.mockNotes();
+		AppMocker.mockLocalization(key ->
+				"ContextMenu.Font".equals(key) ? "Font" : key);
 		construction = app.getKernel().getConstruction();
 		point = new GPoint2D(0, 0);
 		controllerMockWithLink = new InlineTextControllerMock(LINK_URL);
@@ -74,7 +76,7 @@ public class InlineFormattingItemsTest {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createTextInline("text1", new InlineTextControllerMock()));
 		List<String> expected = Arrays.asList(
-				"TEXTTOOLBAR", "ContextMenu.Font", "Link",
+				"TEXTTOOLBAR", "Font", "Link",
 				"SEPARATOR", "Cut", "Copy", "Paste",
 				"SEPARATOR", "General.Order",
 				"SEPARATOR",
@@ -90,7 +92,7 @@ public class InlineFormattingItemsTest {
 		geos.add(createTableInline(InlineTableControllerMock.getWithSelection(true)));
 		List<String> expected = Arrays.asList(
 				"TEXTTOOLBAR",
-				"ContextMenu.Font",
+				"Font",
 				"Link",
 				"ContextMenu.textWrapping",
 				"ContextMenu.textRotation",
@@ -118,7 +120,7 @@ public class InlineFormattingItemsTest {
 		geos.add(createTableInline(InlineTableControllerMock.getWithSelection(false)));
 		List<String> expected = Arrays.asList(
 				"TEXTTOOLBAR",
-				"ContextMenu.Font",
+				"Font",
 				"Link",
 				"ContextMenu.textWrapping",
 				"ContextMenu.textRotation",
@@ -135,7 +137,7 @@ public class InlineFormattingItemsTest {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createTableInline(InlineTableControllerMock.get()));
 		List<String> expected = Arrays.asList(
-				"ContextMenu.Font",
+				"Font",
 				"ContextMenu.textWrapping",
 				"ContextMenu.textRotation",
 				"ContextMenu.Heading",
@@ -156,7 +158,7 @@ public class InlineFormattingItemsTest {
 		geos.add(createTextInline("text1", new InlineTextControllerMock()));
 		geos.add(createTableInline(InlineTableControllerMock.get()));
 		List<String> expected = Arrays.asList(
-				"ContextMenu.Font",
+				"Font",
 				"SEPARATOR", "Cut", "Copy", "Paste",
 				"SEPARATOR", "General.Order",
 				"SEPARATOR",
@@ -171,7 +173,7 @@ public class InlineFormattingItemsTest {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createTextInline("text1", controllerMockWithLink));
 		List<String> expected = Arrays.asList(
-				"TEXTTOOLBAR", "ContextMenu.Font", "editLink", "removeLink",
+				"TEXTTOOLBAR", "Font", "editLink", "removeLink",
 				"SEPARATOR", "Cut", "Copy", "Paste",
 				"SEPARATOR", "General.Order",
 				"SEPARATOR",
@@ -187,7 +189,7 @@ public class InlineFormattingItemsTest {
 		geos.add(createTextInline("text1", controllerMockWithLink));
 		geos.add(createTextInline("text2", controllerMockWithLink));
 		List<String> expected = Arrays.asList(
-				"TEXTTOOLBAR", "ContextMenu.Font",
+				"TEXTTOOLBAR", "Font",
 				"SEPARATOR", "Cut", "Copy", "Paste",
 				"SEPARATOR", "General.Order",
 				"SEPARATOR",
@@ -277,7 +279,7 @@ public class InlineFormattingItemsTest {
 		construction.createGroup(geos);
 		app.getSelectionManager().setFocusedGroupElement(geos.get(0));
 		List<String> expected = Arrays.asList(
-				"TEXTTOOLBAR", "ContextMenu.Font",
+				"TEXTTOOLBAR", "Font",
 				"editLink", "removeLink",
 				"SEPARATOR", "General.Order"
 		);

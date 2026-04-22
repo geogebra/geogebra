@@ -19,12 +19,13 @@ package org.geogebra.common.kernel.arithmetic.vector;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.Printer;
+import org.geogebra.common.main.Localization;
 
 class PolarPrinter implements Printer {
 
     @Override
     public String print(String xCoord, String yCoord, String zCoord,
-            PrintableVector vector, StringTemplate tpl) {
+            PrintableVector vector, StringTemplate tpl, Localization loc) {
         if (tpl.getStringType().isGiac()) {
             return "point(("
                     + xCoord
@@ -32,19 +33,11 @@ class PolarPrinter implements Printer {
                     + yCoord
                     + ")))";
         }
-        return printLeftParenthesis(tpl)
+        return tpl.leftBracket(loc)
                 + xCoord
                 + printDelimiter()
                 + yCoord
-                + printRightParenthesis(tpl);
-    }
-
-    private String printLeftParenthesis(StringTemplate tpl) {
-        return tpl.leftBracket();
-    }
-
-    private String printRightParenthesis(StringTemplate tpl) {
-        return tpl.rightBracket();
+                + tpl.rightBracket(loc);
     }
 
     private String printDelimiter() {

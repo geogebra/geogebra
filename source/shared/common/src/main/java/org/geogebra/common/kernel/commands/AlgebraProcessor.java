@@ -1094,7 +1094,7 @@ public class AlgebraProcessor {
 		}
 		if (label != null && kernel.lookupLabel(label) != null
 				&& !info.isLabelRedefinitionAllowedFor(label)) {
-			throw new MyError(kernel.getLocalization(), "LabelAlreadyUsed");
+			throw new MyError(kernel.getLocalization(), Errors.LabelAlreadyUsed);
 		}
 		setLabel(symbolic, label);
 		return symbolic;
@@ -1430,7 +1430,7 @@ public class AlgebraProcessor {
 			ExpressionNode expressionNode) {
 		expressionNode.resolveVariables(new EvalInfo(false));
 		if (expressionNode.containsFreeFunctionVariable(null)) {
-			throw new MyError(loc, "IncompleteEquation");
+			throw new MyError(loc, Errors.IncompleteEquation);
 		}
 		return (NumberValue) expressionNode
 				.evaluate(StringTemplate.defaultTemplate);

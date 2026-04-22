@@ -73,7 +73,7 @@ public class VectorNodeStringifier {
         return activePrinter.print(coordPrinter.print(vector.getX(), tpl),
                 coordPrinter.print(vector.getY(), tpl),
                 vector.getZ() == null ? "0" : coordPrinter.print(vector.getZ(), tpl),
-                vector, tpl);
+                vector, tpl, vector.getLocalization());
     }
 
     /**

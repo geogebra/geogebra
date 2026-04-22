@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.DoubleUtil;
 
 import com.google.j2objc.annotations.Weak;
@@ -702,6 +703,11 @@ final public class Geo3DVec extends ValidExpression
 	 */
 	public Kernel getKernel() {
 		return kernel;
+	}
+
+	@Override
+	public Localization getLocalization() {
+		return kernel.getLocalization();
 	}
 
 }

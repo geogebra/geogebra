@@ -121,7 +121,7 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 	 */
 	public FontProperty(Localization localization, GeoElement geoElement)
 			throws NotApplicablePropertyException {
-		super(localization, "Font");
+		super(localization, "ContextMenu.Font");
 		if (!(geoElement instanceof HasTextFormatter)) {
 			throw new NotApplicablePropertyException(geoElement);
 		}

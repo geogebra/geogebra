@@ -18,6 +18,7 @@ package org.geogebra.common.kernel.printing.printer;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
+import org.geogebra.common.main.Localization;
 
 /**
  * Vector value serializer.
@@ -31,8 +32,9 @@ public interface Printer {
      * @param zCoord vector's z-coordinate
      * @param vector vector object
      * @param tpl template
+     * @param loc localization
      * @return serialized vector
      */
     String print(String xCoord, String yCoord, String zCoord,
-            PrintableVector vector, StringTemplate tpl);
+            PrintableVector vector, StringTemplate tpl, Localization loc);
 }

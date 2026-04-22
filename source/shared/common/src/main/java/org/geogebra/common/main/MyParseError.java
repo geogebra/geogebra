@@ -16,6 +16,8 @@
 
 package org.geogebra.common.main;
 
+import java.io.Serial;
+
 /**
  *
  * @author Markus
@@ -23,6 +25,7 @@ package org.geogebra.common.main;
  */
 public class MyParseError extends MyError {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -38,9 +41,9 @@ public class MyParseError extends MyError {
 	}
 
 	@Override
-	public String getLocalizedMessage() {
+	public String getMessage() {
 		return Errors.InvalidInput.getError(loc)
 				+ " :\n"
-				+ super.getLocalizedMessage();
+				+ super.getMessage();
 	}
 }

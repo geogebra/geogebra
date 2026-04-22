@@ -1187,7 +1187,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 		int length = getInputLengthForCommandDescription();
 
-		sbAE.append(tpl.leftCommandBracket());
+		sbAE.append(tpl.leftCommandBracket(kernel.getLocalization()));
 
 		// input length is 0 for ConstructionStep[]
 		if (length > 0) {
@@ -1199,7 +1199,7 @@ public abstract class AlgoElement extends ConstructionElement
 			appendCheckVector(sbAE, getInput(i), tpl);
 		}
 
-		sbAE.append(tpl.rightCommandBracket());
+		sbAE.append(tpl.rightCommandBracket(kernel.getLocalization()));
 
 		return sbAE.toString();
 
@@ -1237,13 +1237,13 @@ public abstract class AlgoElement extends ConstructionElement
 			if (needsWrapping) {
 				sb.append(tpl.isPrintLocalizedCommandNames()
 						? getLoc().getCommand("Vector") : "Vector");
-				sb.append(tpl.leftCommandBracket());
+				sb.append(tpl.leftCommandBracket(kernel.getLocalization()));
 			}
 
 			sb.append(cmd);
 
 			if (needsWrapping) {
-				sb.append(tpl.rightCommandBracket());
+				sb.append(tpl.rightCommandBracket(kernel.getLocalization()));
 			}
 
 		} else {

@@ -21,6 +21,7 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.Printer;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.GeneralSettings;
 
 class CartesianPrinter3D implements Printer {
@@ -33,7 +34,7 @@ class CartesianPrinter3D implements Printer {
 
 	@Override
 	public String print(String xCoord, String yCoord, String zCoord,
-			PrintableVector vector, StringTemplate tpl) {
+			PrintableVector vector, StringTemplate tpl, Localization loc) {
 		if (tpl.getStringType().isGiac()) {
 			boolean vectorNot3dPoint = vector.isCASVector();
 			return (vectorNot3dPoint
@@ -55,12 +56,12 @@ class CartesianPrinter3D implements Printer {
 					+ ')';
 		}
 		String delimiter = tpl.getCartesianDelimiter(settings);
-		return tpl.leftBracket()
+		return tpl.leftBracket(loc)
 				+ xCoord
 				+ delimiter
 				+ yCoord
 				+ delimiter
 				+ zCoord
-				+ tpl.rightBracket();
+				+ tpl.rightBracket(loc);
 	}
 }

@@ -61,8 +61,8 @@ public class EditorKeyboardContext implements HasKeyboard {
 			}
 
 			@Override
-			public String getMenu(String key) {
-				return key;
+			public String getMenuDefault(String key, String fallback) {
+				return fallback.isEmpty() ? key : fallback;
 			}
 
 			@Override

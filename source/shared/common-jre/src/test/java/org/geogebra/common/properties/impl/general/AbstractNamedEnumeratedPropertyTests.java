@@ -39,16 +39,16 @@ public class AbstractNamedEnumeratedPropertyTests extends BaseUnitTest {
 		namedEnumeratedProperty = new TestNamedEnumeratedProperty(
 				getLocalization(),
 				"Test property",
-				List.of(entry("value1", "Value One"),
-						entry("value2", "Value Two"),
-						entry("value3", "Value Three")));
+				List.of(entry("value1", "_Value One"),
+						entry("value2", "_Value Two"),
+						entry("value3", "_Value Three")));
 	}
 
 	@Test
 	public void testInitialNamedValues() {
 		assertEquals(List.of("value1", "value2", "value3"),
 				namedEnumeratedProperty.getValues());
-		assertArrayEquals(new String[]{ "Value One", "Value Two", "Value Three" },
+		assertArrayEquals(new String[]{ "_Value One", "_Value Two", "_Value Three" },
 				namedEnumeratedProperty.getValueNames());
 	}
 
@@ -60,30 +60,30 @@ public class AbstractNamedEnumeratedPropertyTests extends BaseUnitTest {
 
 		namedEnumeratedProperty.addValueFilter(valueFilter1);
 		assertEquals(List.of("value1", "value3"), namedEnumeratedProperty.getValues());
-		assertArrayEquals(new String[]{ "Value One", "Value Three" },
+		assertArrayEquals(new String[]{ "_Value One", "_Value Three" },
 				namedEnumeratedProperty.getValueNames());
 
 		namedEnumeratedProperty.addValueFilter(valueFilter2);
 		assertEquals(List.of("value1"), namedEnumeratedProperty.getValues());
-		assertArrayEquals(new String[]{ "Value One" }, namedEnumeratedProperty.getValueNames());
+		assertArrayEquals(new String[]{ "_Value One" }, namedEnumeratedProperty.getValueNames());
 
 		namedEnumeratedProperty.addValueFilter(valueFilter3);
 		assertEquals(List.of("value1"), namedEnumeratedProperty.getValues());
-		assertArrayEquals(new String[]{ "Value One" }, namedEnumeratedProperty.getValueNames());
+		assertArrayEquals(new String[]{ "_Value One" }, namedEnumeratedProperty.getValueNames());
 
 		namedEnumeratedProperty.removeValueFilter(valueFilter1);
 		assertEquals(List.of("value1"), namedEnumeratedProperty.getValues());
-		assertArrayEquals(new String[]{ "Value One" }, namedEnumeratedProperty.getValueNames());
+		assertArrayEquals(new String[]{ "_Value One" }, namedEnumeratedProperty.getValueNames());
 
 		namedEnumeratedProperty.removeValueFilter(valueFilter2);
 		assertEquals(List.of("value1", "value3"), namedEnumeratedProperty.getValues());
-		assertArrayEquals(new String[]{ "Value One", "Value Three" },
+		assertArrayEquals(new String[]{ "_Value One", "_Value Three" },
 				namedEnumeratedProperty.getValueNames());
 
 		namedEnumeratedProperty.removeValueFilter(valueFilter3);
 		assertEquals(List.of("value1", "value2", "value3"),
 				namedEnumeratedProperty.getValues());
-		assertArrayEquals(new String[]{ "Value One", "Value Two", "Value Three" },
+		assertArrayEquals(new String[]{ "_Value One", "_Value Two", "_Value Three" },
 				namedEnumeratedProperty.getValueNames());
 	}
 

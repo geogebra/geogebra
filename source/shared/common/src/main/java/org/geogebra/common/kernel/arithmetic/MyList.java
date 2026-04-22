@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -815,7 +816,7 @@ public class MyList extends ValidExpression
 		StringBuilder sb = new StringBuilder();
 
 		if (printBrackets) {
-			tpl.leftCurlyBracket(sb);
+			tpl.leftCurlyBracket(sb, kernel.getLocalization());
 		}
 		// first (n-1) elements
 		int lastIndex = listElements.size() - 1;
@@ -833,7 +834,7 @@ public class MyList extends ValidExpression
 					: exp.toString(tpl));
 		}
 		if (printBrackets) {
-			tpl.rightCurlyBracket(sb);
+			tpl.rightCurlyBracket(sb, kernel.getLocalization());
 		}
 		return sb.toString();
 	}
@@ -1205,6 +1206,11 @@ public class MyList extends ValidExpression
 	 */
 	public Kernel getKernel() {
 		return kernel;
+	}
+
+	@Override
+	public Localization getLocalization() {
+		return kernel.getLocalization();
 	}
 
 	/**

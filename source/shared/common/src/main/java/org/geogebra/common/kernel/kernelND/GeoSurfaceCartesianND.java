@@ -325,7 +325,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 			}
 			StringBuilder sbTemp = new StringBuilder(80);
 			sbTemp.setLength(0);
-			sbTemp.append(tpl.leftBracket());
+			sbTemp.append(tpl.leftBracket(kernel.getLocalization()));
 
 			for (int i = 0; i < fun.length; i++) {
 				sbTemp.append(fun[i].toValueString(tpl));
@@ -334,7 +334,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 				}
 			}
 
-			sbTemp.append(tpl.rightBracket());
+			sbTemp.append(tpl.rightBracket(kernel.getLocalization()));
 			return sbTemp.toString();
 		}
 		return "?";
@@ -997,8 +997,8 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	@Override
 	public String getAssignmentLHS(StringTemplate tpl) {
 		if (complexVariable != null) {
-			return tpl.printVariableName(label) + tpl.leftBracket()
-					+ getVarString(tpl) + tpl.rightBracket();
+			return tpl.printVariableName(label) + tpl.leftBracket(kernel.getLocalization())
+					+ getVarString(tpl) + tpl.rightBracket(kernel.getLocalization());
 		}
 		return super.getAssignmentLHS(tpl);
 	}

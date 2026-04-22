@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
@@ -1053,12 +1054,12 @@ final public class GeoVec2D extends ValidExpression
 		} else if (mode == Kernel.COORD_COMPLEX) {
 			initStringBuilder();
 			sbToString.setLength(0);
-			sbToString.append(tpl.leftBracket());
+			sbToString.append(tpl.leftBracket(kernel.getLocalization()));
 			sbToString.append(kernel.format(x, tpl));
 			sbToString.append(" ");
 			kernel.formatSignedCoefficient(y, sbToString, tpl);
 			sbToString.append(tpl.getImaginary());
-			sbToString.append(tpl.rightBracket());
+			sbToString.append(tpl.rightBracket(kernel.getLocalization()));
 			return sbToString.toString();
 		}
 		initStringBuilder();
@@ -1365,6 +1366,11 @@ final public class GeoVec2D extends ValidExpression
 	 */
 	public Kernel getKernel() {
 		return kernel;
+	}
+
+	@Override
+	public Localization getLocalization() {
+		return kernel.getLocalization();
 	}
 
 	@Override

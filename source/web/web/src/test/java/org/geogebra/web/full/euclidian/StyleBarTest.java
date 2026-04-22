@@ -36,6 +36,8 @@ public class StyleBarTest {
 	public void updateGraphingStylebar() {
 		AppWFull app = AppMocker
 				.mockApplet(new AppletParameters("graphing"));
+		AppMocker.mockLocalization(key ->
+				"ContextMenu.Font".equals(key) ? "Font" : key);
 		EuclidianStyleBarW styleBar = new EuclidianStyleBarW(
 				app.getActiveEuclidianView(), 1);
 		checkUpdate(styleBar);

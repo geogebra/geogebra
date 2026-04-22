@@ -113,9 +113,9 @@ public class ErrorHelper {
 			Log.debug(e);
 		}
 
-		if (e.getcommandName() != null) {
+		if (e.getCommandName() != null) {
 			String internal = loc
-					.getReverseCommand(e.getcommandName());
+					.getReverseCommand(e.getCommandName());
 			handler.showCommandError(internal, e.getLocalizedMessage());
 		} else {
 			handler.showError(e.getLocalizedMessage());

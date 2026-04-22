@@ -37,7 +37,7 @@ public interface AnalyticsErrorLogger {
 			return;
 		}
 		Map<String, Object> params = new HashMap<>();
-		params.put(Analytics.Param.COMMAND, error.getcommandName());
+		params.put(Analytics.Param.COMMAND, error.getCommandName());
 		params.put(Analytics.Param.AV_INPUT, command);
 		params.put(Analytics.Param.ERROR_TYPE, error.getErrorType().name());
 		Analytics.logEvent(Analytics.Event.COMMAND_ERROR, params);

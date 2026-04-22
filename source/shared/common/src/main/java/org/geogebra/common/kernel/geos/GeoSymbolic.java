@@ -716,9 +716,9 @@ public class GeoSymbolic extends GeoElement
 	private void appendAssignmentLHS(StringBuilder sb, StringTemplate tpl) {
 		sb.append(getLabelSimple());
 		if (!fVars.isEmpty()) {
-			sb.append(tpl.leftBracket());
+			sb.append(tpl.leftBracket(kernel.getLocalization()));
 			appendVarString(sb, tpl);
-			sb.append(tpl.rightBracket());
+			sb.append(tpl.rightBracket(kernel.getLocalization()));
 		}
 	}
 

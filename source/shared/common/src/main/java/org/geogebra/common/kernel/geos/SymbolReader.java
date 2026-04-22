@@ -29,6 +29,7 @@ import org.geogebra.editor.share.util.Unicode;
  */
 public class SymbolReader {
 	private final Map<Character, String> map;
+	private final Localization loc;
 
 	/**
 	 * Constructor
@@ -36,72 +37,75 @@ public class SymbolReader {
 	 */
 	public SymbolReader(Localization loc) {
 		map = new HashMap<>();
+		this.loc = loc;
 		addOperatorsAndBraces();
-		addGreekLowerLetters(loc);
+		addGreekLowerLetters();
 		map.put('\u2218', ScreenReader.getDegrees(loc));
 
 	}
 
 	private void addOperatorsAndBraces() {
-		map.put('+', " plus ");
-		map.put('-', " minus ");
-		map.put('=', " equals ");
-		map.put('\u2208', " in ");
-		map.put('\u00b7', " times ");
-		map.put('\u22C5', " times ");
-		map.put(',', ScreenReader.getComma());
-		map.put('(', ScreenReader.getOpenParenthesis());
-		map.put(')', ScreenReader.getCloseParenthesis());
-		map.put('{', " open brace ");
-		map.put('}', " close brace ");
-		map.put('[', " open bracket ");
-		map.put(']', " close bracket ");
-		map.put(';', " semicolon ");
+		map.put('+', ScreenReader.getPlus(loc));
+		map.put('-', ScreenReader.getMinus(loc));
+		map.put('\u00b7', ScreenReader.getTimes(loc));
+		map.put('\u22C5', ScreenReader.getTimes(loc));
+		map.put(',', ScreenReader.getComma(loc));
+		map.put('(', ScreenReader.getOpenParenthesis(loc));
+		map.put(')', ScreenReader.getCloseParenthesis(loc));
+		map.put('{', ScreenReader.getOpenBrace(loc));
+		map.put('}', ScreenReader.getCloseBrace(loc));
+		map.put('[', ScreenReader.getOpenBracket(loc));
+		map.put(']', ScreenReader.getCloseBracket(loc));
+		map.put(';', ScreenReader.getSemicolon(loc));
 	}
 
-	private void addGreekLowerLetters(Localization loc) {
-		map.put(Unicode.alpha, loc.getMenuDefault("alpha", "alpha"));
-		map.put(Unicode.beta, loc.getMenuDefault("beta", "beta"));
-		map.put(Unicode.gamma, loc.getMenuDefault("gamma", "gamma"));
-		map.put(Unicode.delta, loc.getMenuDefault("delta", "delta"));
-		map.put(Unicode.epsilon, loc.getMenuDefault("epsilon", "epsilon"));
-		map.put(Unicode.zeta, loc.getMenuDefault("zeta", "zeta"));
-		map.put(Unicode.eta, loc.getMenuDefault("eta", "eta"));
-		map.put(Unicode.theta, loc.getMenuDefault("theta", "theta"));
-		map.put(Unicode.iota, loc.getMenuDefault("iota", "iota"));
-		map.put(Unicode.kappa, loc.getMenuDefault("kappa", "kappa"));
-		map.put(Unicode.lambda, loc.getMenuDefault("lambda", "lambda"));
-		map.put(Unicode.mu, loc.getMenuDefault("mu", "mu"));
-		map.put(Unicode.nu, loc.getMenuDefault("nu", "nu"));
-		map.put(Unicode.xi, loc.getMenuDefault("xi", "xi"));
-		map.put(Unicode.omicron, loc.getMenuDefault("omicron", "omicron"));
-		map.put(Unicode.pi, loc.getMenuDefault("pi", "pi"));
-		map.put(Unicode.rho, loc.getMenuDefault("rho", "rho"));
-		map.put(Unicode.sigma, loc.getMenuDefault("sigma", "sigma"));
-		map.put(Unicode.sigmaf, loc.getMenuDefault("sigma final form", "sigma  final form"));
-		map.put(Unicode.tau, loc.getMenuDefault("tau", "tau"));
-		map.put(Unicode.upsilon, loc.getMenuDefault("upsilon", "upsilon"));
-		map.put(Unicode.Alpha, loc.getMenuDefault("alpha", "alpha"));
-		map.put(Unicode.Beta, loc.getMenuDefault("beta", "beta"));
-		map.put(Unicode.Gamma, loc.getMenuDefault("gamma", "gamma"));
-		map.put(Unicode.Delta, loc.getMenuDefault("delta", "delta"));
-		map.put(Unicode.Epsilon, loc.getMenuDefault("epsilon", "epsilon"));
-		map.put(Unicode.Zeta, loc.getMenuDefault("zeta", "zeta"));
-		map.put(Unicode.Eta, loc.getMenuDefault("eta", "eta"));
-		map.put(Unicode.Theta, loc.getMenuDefault("theta", "theta"));
-		map.put(Unicode.Iota, loc.getMenuDefault("iota", "iota"));
-		map.put(Unicode.Kappa, loc.getMenuDefault("kappa", "kappa"));
-		map.put(Unicode.Lambda, loc.getMenuDefault("lambda", "lambda"));
-		map.put(Unicode.Mu, loc.getMenuDefault("mu", "mu"));
-		map.put(Unicode.Nu, loc.getMenuDefault("nu", "nu"));
-		map.put(Unicode.Xi, loc.getMenuDefault("xi", "xi"));
-		map.put(Unicode.Omicron, loc.getMenuDefault("omicron", "omicron"));
-		map.put(Unicode.Pi, loc.getMenuDefault("pi", "pi"));
-		map.put(Unicode.Rho, loc.getMenuDefault("rho", "rho"));
-		map.put(Unicode.Sigma, loc.getMenuDefault("sigma", "sigma"));
+	private void addGreekLowerLetters() {
+		map.put(Unicode.alpha, greek("alpha"));
+		map.put(Unicode.beta, greek("beta"));
+		map.put(Unicode.gamma, greek("gamma"));
+		map.put(Unicode.delta, greek("delta"));
+		map.put(Unicode.epsilon, greek("epsilon"));
+		map.put(Unicode.zeta, greek("zeta"));
+		map.put(Unicode.eta, greek("eta"));
+		map.put(Unicode.theta, greek("theta"));
+		map.put(Unicode.iota, greek("iota"));
+		map.put(Unicode.kappa, greek("kappa"));
+		map.put(Unicode.lambda, greek("lambda"));
+		map.put(Unicode.mu, greek("mu"));
+		map.put(Unicode.nu, greek("nu"));
+		map.put(Unicode.xi, greek("xi"));
+		map.put(Unicode.omicron, greek("omicron"));
+		map.put(Unicode.pi, greek("pi"));
+		map.put(Unicode.rho, greek("rho"));
+		map.put(Unicode.sigma, greek("sigma"));
+		map.put(Unicode.sigmaf, greek("sigmaFinalForm"));
+		map.put(Unicode.tau, greek("tau"));
+		map.put(Unicode.upsilon, greek("upsilon"));
+		map.put(Unicode.Alpha, greek("alpha"));
+		map.put(Unicode.Beta, greek("beta"));
+		map.put(Unicode.Gamma, greek("gamma"));
+		map.put(Unicode.Delta, greek("delta"));
+		map.put(Unicode.Epsilon, greek("epsilon"));
+		map.put(Unicode.Zeta, greek("zeta"));
+		map.put(Unicode.Eta, greek("eta"));
+		map.put(Unicode.Theta, greek("theta"));
+		map.put(Unicode.Iota, greek("iota"));
+		map.put(Unicode.Kappa, greek("kappa"));
+		map.put(Unicode.Lambda, greek("lambda"));
+		map.put(Unicode.Mu, greek("mu"));
+		map.put(Unicode.Nu, greek("nu"));
+		map.put(Unicode.Xi, greek("xi"));
+		map.put(Unicode.Omicron, greek("omicron"));
+		map.put(Unicode.Pi, greek("pi"));
+		map.put(Unicode.Rho, greek("rho"));
+		map.put(Unicode.Sigma, greek("sigma"));
 		//  Note: no Unicode.Sigmaf;
-		map.put(Unicode.Tau, loc.getMenuDefault("tau", "tau"));
-		map.put(Unicode.Upsilon, loc.getMenuDefault("upsilon", "upsilon"));
+		map.put(Unicode.Tau, greek("tau"));
+		map.put(Unicode.Upsilon, greek("upsilon"));
+	}
+
+	private String greek(String symbolName) {
+		return loc.getMenuDefault(symbolName, symbolName);
 	}
 
 	/**

@@ -935,9 +935,9 @@ public class GeoList extends GeoElement
 	// ignores isDefined on purpose
 	private StringBuilder buildValueString(StringTemplate tpl) {
 		sbBuildValueString.setLength(0);
-		tpl.leftCurlyBracket(sbBuildValueString);
+		tpl.leftCurlyBracket(sbBuildValueString, kernel.getLocalization());
 		appendElements(sbBuildValueString, tpl);
-		tpl.rightCurlyBracket(sbBuildValueString);
+		tpl.rightCurlyBracket(sbBuildValueString, kernel.getLocalization());
 		return sbBuildValueString;
 	}
 
@@ -3410,7 +3410,7 @@ public class GeoList extends GeoElement
 	 * @return localized "[index] of [size]"
 	 */
 	public String getIndexDescription(int selectedIndex) {
-		return kernel.getLocalization().getPlainDefault("AofB", "%0 of %1",
+		return kernel.getLocalization().getPlainDefault("AOfB", "%0 of %1",
 				(selectedIndex + 1) + "", size() + "");
 	}
 

@@ -89,7 +89,7 @@ public class AuralTextTest {
 		app.setRightClickEnabled(false);
 		aural("sl=Slider(-5,5)", "Slider", "increase",
 				"decrease", "edit");
-		assertEquals("Slider sl equals 0",
+		assertEquals("Slider sl = 0",
 				((GeoNumeric) get("sl")).getAuralText());
 		aural("4", "Number");
 	}
@@ -102,9 +102,9 @@ public class AuralTextTest {
 	public void numberCaptionAural() {
 		add("vec=Slider(-5,5)");
 		add("SetCaption(vec,\"Vector v = %v\")");
-		aural("vec", "Vector v  equals  0", "start animation", "increase",
+		aural("vec", "Vector v = 0", "start animation", "increase",
 				"decrease", "edit");
-		assertEquals("Vector v  equals  0",
+		assertEquals("Vector v = 0",
 				((GeoNumeric) get("vec")).getAuralText());
 	}
 
@@ -112,6 +112,11 @@ public class AuralTextTest {
 	public void checkboxAural() {
 		aural("checkbox()", "Checkbox", "uncheck", "edit");
 		aural("false", "Checkbox", " check", "edit");
+	}
+
+	@Test
+	public void functionAural() {
+		aural("f(x)=cbrt(x)", "Function f", "edit");
 	}
 
 	@Test
@@ -163,12 +168,20 @@ public class AuralTextTest {
 	}
 
 	@Test
+	public void textAuralIntegral() {
+		aural("LaTeX(\"\\int_{x=1}^{2}x dx\")",
+				Unicode.INTEGRAL + " from x=1 to 2 xdx", "edit");
+		aural("LaTeX(\"\\sum_{x=1}^{2}x\")",
+				"\u2211 from x=1 to 2 x", "edit");
+	}
+
+	@Test
 	public void textAural() {
 		aural("LaTeX(\"a\\geq b\\leq c\")", "a" + Unicode.GREATER_EQUAL + "b"
 				+ Unicode.LESS_EQUAL + "c", "edit");
 		aural("LaTeX(\"a\\ge b\\le c\")", "a" + Unicode.GREATER_EQUAL + "b"
 				+ Unicode.LESS_EQUAL + "c", "edit");
-		aural("LaTeX(\"b=a+\\mathbf{x^2}\")", "b equals a plus x squared", "edit");
+		aural("LaTeX(\"b=a+\\mathbf{x^2}\")", "b=a plus x squared", "edit");
 		aural("LaTeX(\"a+\\mathbf{x^3}\")", "a plus x cubed", "edit");
 		aural("LaTeX(\"a+\\mathbf{x^4}\")", "a plus x to the power of 4 end power", "edit");
 		aural("LaTeX(\"a_{bcd}\")", "a start subscript bcd end subscript", "edit");
@@ -222,8 +235,8 @@ public class AuralTextTest {
 		aural("LaTeX(\"x-y\")", "x minus y", "edit");
 		aural("LaTeX(\"\\text{x-y}\")", "x\u2010y", "edit");
 		aural("LaTeX((-1,2))", "open parenthesis  minus 1 comma  2 close parenthesis", "edit");
-		aural("LaTeX(\"A \\notin B\")", "A not in B", "edit");
-		aural("LaTeX(\"A \\neq B\")", "A not equal to B", "edit");
+		aural("LaTeX(\"A \\notin B\")", "A\u2209B", "edit");
+		aural("LaTeX(\"A \\neq B\")", "A" + Unicode.NOTEQUAL + "B", "edit");
 	}
 
 	@Test

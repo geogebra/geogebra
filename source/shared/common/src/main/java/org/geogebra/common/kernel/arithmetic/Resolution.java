@@ -22,7 +22,11 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Localization;
+import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.plugin.Operation;
+
+import com.google.j2objc.annotations.Weak;
 
 /**
  * Fake expression value for storing the result type in expression node
@@ -32,6 +36,13 @@ public class Resolution implements ExpressionValue {
 
 	private ExpressionValueType type = ValueType.UNKNOWN;
 	private int listDepth = 0;
+	@Weak
+	@NonOwning
+	private final Localization loc;
+
+	public Resolution(Localization loc) {
+		this.loc = loc;
+	}
 
 	/**
 	 * @param listDepth
@@ -229,7 +240,7 @@ public class Resolution implements ExpressionValue {
 
 	@Override
 	public ExpressionValue getUndefinedCopy(Kernel kernel) {
-		Resolution res = new Resolution();
+		Resolution res = new Resolution(kernel.getLocalization());
 		res.listDepth = this.listDepth;
 		res.type = this.type;
 		return res;
@@ -254,5 +265,10 @@ public class Resolution implements ExpressionValue {
 	@Override
 	public boolean isRecurringDecimal() {
 		return false;
+	}
+
+	@Override
+	public Localization getLocalization() {
+		return loc;
 	}
 }

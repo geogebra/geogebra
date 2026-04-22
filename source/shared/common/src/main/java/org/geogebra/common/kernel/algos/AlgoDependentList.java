@@ -167,7 +167,7 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 			sb.setLength(0);
 		}
 
-		tpl.leftCurlyBracket(sb);
+		tpl.leftCurlyBracket(sb, kernel.getLocalization());
 
 		if (input.length > 0) {
 			for (int i = 0; i < input.length - 1; i++) {
@@ -177,7 +177,7 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 			sb.append(input[input.length - 1].getLabel(tpl));
 		}
 
-		tpl.rightCurlyBracket(sb);
+		tpl.rightCurlyBracket(sb, kernel.getLocalization());
 
 		return sb.toString();
 	}

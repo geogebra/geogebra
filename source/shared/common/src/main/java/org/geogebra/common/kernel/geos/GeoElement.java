@@ -7221,4 +7221,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public boolean isFreeOrExpression() {
 		return algoParent == null || algoParent.getClassName() == Algos.Expression;
 	}
+
+	@Override
+	public Localization getLocalization() {
+		return kernel.getLocalization();
+	}
 }

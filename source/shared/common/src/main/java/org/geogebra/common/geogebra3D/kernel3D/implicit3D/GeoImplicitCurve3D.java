@@ -136,12 +136,12 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 			return "?";
 		}
 		StringBuilder valueSb = new StringBuilder(50);
-		valueSb.append(tpl.leftBracket());
+		valueSb.append(tpl.leftBracket(kernel.getLocalization()));
 		appendSurfaceEquation(valueSb, tpl);
 		valueSb.append(",");
 		valueSb.append(
 				GeoPlane3D.buildValueString(tpl, kernel, planeEquation, false));
-		valueSb.append(tpl.rightBracket());
+		valueSb.append(tpl.rightBracket(kernel.getLocalization()));
 		return valueSb.toString();
 	}
 

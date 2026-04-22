@@ -3797,4 +3797,9 @@ public class ExpressionNode extends ValidExpression
 			}
 		};
 	}
+
+	@Override
+	public Localization getLocalization() {
+		return loc;
+	}
 }

@@ -308,6 +308,11 @@ public class Variable extends ValidExpression {
 	}
 
 	@Override
+	public Localization getLocalization() {
+		return kernel.getLocalization();
+	}
+
+	@Override
 	public boolean hasCoords() {
 		GeoElement ge = kernel.lookupLabel(name, false, SymbolicMode.NONE);
 		if (ge != null && !(ge instanceof GeoDummyVariable)) {

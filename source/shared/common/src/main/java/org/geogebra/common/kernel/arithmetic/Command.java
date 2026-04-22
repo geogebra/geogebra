@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
@@ -141,6 +142,11 @@ public class Command extends ValidExpression
 	 */
 	public Kernel getKernel() {
 		return kernel;
+	}
+
+	@Override
+	public Localization getLocalization() {
+		return kernel.getLocalization();
 	}
 
 	/**
@@ -341,9 +347,9 @@ public class Command extends ValidExpression
 				|| args.get(0).getOperation().compareTo(Operation.MULTIPLY) > 0) {
 			sbToString.append(args.get(0).toString(tpl));
 		} else {
-			sbToString.append(tpl.leftBracket())
+			sbToString.append(tpl.leftBracket(kernel.getLocalization()))
 					.append(args.get(0).toString(tpl))
-					.append(tpl.rightBracket());
+					.append(tpl.rightBracket(kernel.getLocalization()));
 		}
 	}
 
@@ -554,8 +560,8 @@ public class Command extends ValidExpression
 			return result;
 		}
 		Log.debug("invalid command evaluation: " + name);
-		throw new MyError(app.getLocalization(),
-				app.getLocalization().getInvalidInputError() + ":\n" + this);
+		throw new MyError(app.getLocalization(), MyError.Errors.InvalidInput,
+				MyError.toErrorString(this));
 
 	}
 

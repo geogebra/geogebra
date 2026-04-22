@@ -19,12 +19,13 @@ package org.geogebra.common.kernel.arithmetic.vector;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.Printer;
+import org.geogebra.common.main.Localization;
 
 public class LatexVectorPrinter implements Printer {
 
 	@Override
 	public String print(String xCoord, String yCoord, String zCoord,
-			PrintableVector vector, StringTemplate tpl) {
+			PrintableVector vector, StringTemplate tpl, Localization loc) {
 		StringBuilder sb = new StringBuilder();
 		return printLaTeXVector(sb, xCoord, yCoord);
 	}
