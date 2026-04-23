@@ -384,7 +384,13 @@ public class CmdIntersect extends CommandProcessor {
 
 	private GeoElement[] intersect3(GeoElement[] arg, Command c) {
 		boolean[] ok = new boolean[3];
-		if ((ok[0] = arg[0].isGeoLine()) && (ok[1] = arg[1].isGeoConic())
+		// Line - Line
+		if ((ok[0] = arg[0].isGeoLine()) && (ok[1] = arg[1].isGeoLine())
+				&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
+			return new GeoElement[]{
+					(GeoElement) getAlgoDispatcher().intersectLines(
+							c.getLabel(), (GeoLine) arg[0], (GeoLine) arg[1]) };
+		} else if ((ok[0] = arg[0].isGeoLine()) && (ok[1] = arg[1].isGeoConic())
 				&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 			return new GeoElement[]{
 					intersectLineConicSingle(c.getLabel(), (GeoLine) arg[0],

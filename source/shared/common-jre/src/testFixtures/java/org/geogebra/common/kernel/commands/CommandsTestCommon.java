@@ -283,6 +283,14 @@ public class CommandsTestCommon extends BaseCommandTest {
 	}
 
 	@Test
+	public void intersectLineLineWithOrWithoutIndex() {
+		t("Intersect(x = 4, y = 4, 1)", "(4, 4)");
+		t("Intersect(y = 5, x = 5, 2)", "(5, 5)");
+		t("Intersect(x = 3, y = 3)", "(3, 3)");
+		t("Intersect(y = 2, x = 2)", "(2, 2)");
+	}
+
+	@Test
 	public void cmdSetConstructionStep() {
 		app.setSaved();
 		assertTrue(app.clearConstruction());
