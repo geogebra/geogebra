@@ -8,7 +8,7 @@ import org.docstr.gwt.GwtDevModeTask
 import org.geogebra.gradle.getCommonVersion
 import java.io.FileOutputStream
 import java.io.ObjectOutputStream
-import java.net.URL
+import java.net.URI
 
 plugins {
     alias(libs.plugins.geogebra.java)
@@ -405,7 +405,7 @@ fun replaceVendor(htmlContent: String, vendor: String): String {
 
 fun getCss() = css("bundles", "simple-bundle") + css("", "keyboard-styles") + css("bundles", "bundle")
 
-fun downloadAsString(url: String): String = URL(url).readText()
+fun downloadAsString(url: String): String = URI(url).toURL().readText()
 
 fun css(directory: String?, fileName: String): String {
     val base = if (directory.isNullOrEmpty()) "" else "$directory/"
@@ -433,7 +433,7 @@ fun appHtml(
     header = partials(header, app.partials)
     val inlinedCss = if (inlineCss) getCss() else ""
     val platformSpecific = if (offline) "<script src=\"platform.js\"></script>" else "<!--LANGUAGE LINKS-->"
-    val startscreenStyle = "startscreen " + app.id + (if (offline) " offline" else "")
+    val startScreenStyle = "startscreen " + app.id + (if (offline) " offline" else "")
     val appStoreBanner =
         if (app.appStoreId != null) "<meta name=\"apple-itunes-app\" " + "content=\"app-id=${app.appStoreId}\">" else ""
     val splashContent = template("${app.id}-splash.html")
@@ -444,7 +444,7 @@ fun appHtml(
     val firebaseAppId = app.firebaseAppId ?: ""
     val measurementId = app.measurementId ?: ""
     return replaceVendor(html, vendor)
-        .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">$splashContent</div>")
+        .replace("<!--SPLASH-->", "$header<div class=\"$startScreenStyle\">$splashContent</div>")
         .replace("<!--SPLASH STYLE-->", splashStyle)
         .replace("<!--PRELOADED CSS-->", inlinedCss)
         .replace(
