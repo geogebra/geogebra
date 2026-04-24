@@ -55,10 +55,7 @@ public class FocusablePartW implements FocusablePart {
 		this.focusKey = focusKey;
 		this.accessibleLabel = accessibleLabel;
 		this.onFocusCallback = onFocusCallback;
-		// text field contains the information as value, not as label
-		if (!(widget instanceof AutoCompleteTextFieldW)) {
-			AriaHelper.setLabel(widget, accessibleLabel);
-		}
+		AriaHelper.setLabel(widget, accessibleLabel);
 		widget.addStyleName("av-focusablePart");
 	}
 
