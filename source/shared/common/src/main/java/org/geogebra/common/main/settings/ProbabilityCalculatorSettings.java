@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * Settings for the probability calculator view.
  */
 public class ProbabilityCalculatorSettings extends AbstractSettings {
+
 	/** distributions */
 	public enum Dist {
 		/** normal */
@@ -94,6 +95,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	/** number of distributions */
 	public static final int distCount = Dist.values().length;
 
+	private boolean enabled = true;
 	private GeoNumeric[] parameters = { };
 	private Dist distributionType = Dist.NORMAL;
 	private boolean isCumulative = false;
@@ -242,6 +244,14 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	 */
 	public void setCollection(StatisticsCollection stats) {
 		this.stats = stats;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public boolean isEnabled() {
+		return this.enabled;
 	}
 
 	/**

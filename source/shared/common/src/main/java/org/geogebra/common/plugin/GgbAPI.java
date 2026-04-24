@@ -39,6 +39,7 @@ import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView.Columns;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.XMLStringBuilder;
+import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -1761,6 +1762,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				GlobalScope.isExamActive(app), app);
 		Perspective ps = PerspectiveDecoder.decode(code, kernel.getParser(),
 				allToolsNoMacros, app.getLayout());
+		if (ps != null && !allViewsSupported(ps)) {
+			return;
+		}
 		if (app.getGuiManager() == null) {
 			if (ps != null) {
 				app.setTmpPerspective(ps);
@@ -1769,6 +1773,15 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 
 		app.setPerspective(ps);
+	}
+
+	private boolean allViewsSupported(Perspective ps) {
+		for (DockPanelData panelData : ps.getDockPanelData()) {
+			if (panelData.isVisible() && !app.supportsView(panelData.getViewId())) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override

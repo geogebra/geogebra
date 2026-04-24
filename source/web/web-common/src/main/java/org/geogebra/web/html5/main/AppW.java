@@ -1707,27 +1707,33 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean is3DViewEnabled() {
-		return getAppletParameters().getDataParamEnable3D(true) && super.is3DViewEnabled();
+		return getAppletParameters().getParamEnable3D(true) && super.is3DViewEnabled();
 	}
 
 	private void setViewsEnabled() {
 		if (!getConfig().isCASEnabled()) {
 			getSettings().getCasSettings().setEnabled(false);
-		} else if (getAppletParameters().getDataParamEnableCAS(false)
-				|| !getAppletParameters().getDataParamEnableCAS(true)) {
+		} else if (getAppletParameters().getParamEnableCAS(false)
+				|| !getAppletParameters().getParamEnableCAS(true)) {
 			getSettings().getCasSettings().setEnabled(
-					getAppletParameters().getDataParamEnableCAS(false));
+					getAppletParameters().getParamEnableCAS(false));
 		}
 		if (getSettings().getCasSettings().isEnabled()) {
 			getKernel().setSymbolicMode(getConfig().getSymbolicMode());
 		}
 
 		if (getSettings().getEuclidian(-1) != null) {
-			if (getAppletParameters().getDataParamEnable3D(false)
-					|| !getAppletParameters().getDataParamEnable3D(true)) {
+			if (getAppletParameters().getParamEnable3D(false)
+					|| !getAppletParameters().getParamEnable3D(true)) {
 				getSettings().getEuclidian(-1)
-						.setEnabled(getAppletParameters().getDataParamEnable3D(false));
+						.setEnabled(getAppletParameters().getParamEnable3D(false));
 			}
+		}
+
+		if (getAppletParameters().getParamEnableProbability(false)
+				|| !getAppletParameters().getParamEnableProbability(true)) {
+			getSettings().getProbCalcSettings().setEnabled(
+					getAppletParameters().getParamEnableProbability(false));
 		}
 
 		String disableCAS = NavigatorUtil.getUrlParameter("disableCAS");
@@ -2411,10 +2417,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public boolean supportsView(int viewID) {
 		if (viewID == App.VIEW_CAS) {
 			return getSettings().getCasSettings().isEnabled()
-					&& getAppletParameters().getDataParamEnableCAS(true)
+					&& getAppletParameters().getParamEnableCAS(true)
 					&& getCASFactory().isEnabled();
 		}
-
+		if (viewID == App.VIEW_PROBABILITY_CALCULATOR) {
+			return getSettings().getProbCalcSettings().isEnabled();
+		}
 		return viewID != App.VIEW_EUCLIDIAN3D;
 	}
 

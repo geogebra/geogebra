@@ -70,7 +70,9 @@ public class CalculatorSwitcherDialog extends ComponentDialog implements Persist
 		if (app.getSettings().getCasSettings().isEnabled()) {
 			buildAndAddCalcButton(SuiteSubApp.CAS);
 		}
-		buildAndAddCalcButton(SuiteSubApp.PROBABILITY);
+		if (app.getSettings().getProbCalcSettings().isEnabled()) {
+			buildAndAddCalcButton(SuiteSubApp.PROBABILITY);
+		}
 		buildAndAddCalcButton(SuiteSubApp.SCIENTIFIC);
 	}
 

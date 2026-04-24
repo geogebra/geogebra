@@ -103,7 +103,9 @@ public abstract class Layout implements SettingListener {
 		perspectives.add(graphing3D);
 
 		boolean needAV = app.isSuite();
-		Perspective probability = createProbabilityPerspective(app, spData, defToolbar, needAV);
+		Perspective probability = app.getSettings().getProbCalcSettings().isEnabled()
+				? createProbabilityPerspective(app, spData, defToolbar, needAV)
+				: null;
 		perspectives.add(probability);
 
 		if (app.isWhiteboardActive()) {

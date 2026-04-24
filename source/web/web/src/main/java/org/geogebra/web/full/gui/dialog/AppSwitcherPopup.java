@@ -90,7 +90,9 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamListener {
 		if (app.getSettings().getCasSettings().isEnabled()) {
 			addElement(SuiteSubApp.CAS);
 		}
-		addElement(SuiteSubApp.PROBABILITY);
+		if (app.getSettings().getProbCalcSettings().isEnabled()) {
+			addElement(SuiteSubApp.PROBABILITY);
+		}
 		addElement(SuiteSubApp.SCIENTIFIC);
 	}
 

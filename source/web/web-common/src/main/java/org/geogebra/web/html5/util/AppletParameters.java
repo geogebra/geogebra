@@ -173,7 +173,7 @@ public class AppletParameters {
 	 *            fallback if parameter not set
 	 * @return data-param-enableCAS: whether CAS is enabled
 	 */
-	public boolean getDataParamEnableCAS(boolean def) {
+	public boolean getParamEnableCAS(boolean def) {
 		return getBoolDataParam("enableCAS", def);
 	}
 
@@ -182,8 +182,16 @@ public class AppletParameters {
 	 *            fallback if parameter not set
 	 * @return data-param-enable3D: whether 3D is enabled
 	 */
-	public boolean getDataParamEnable3D(boolean def) {
+	public boolean getParamEnable3D(boolean def) {
 		return getBoolDataParam("enable3D", def);
+	}
+
+	/**
+	 * @param def fallback if parameter not set
+	 * @return data-param-enableProbability: whether probability calculator is enabled
+	 */
+	public boolean getParamEnableProbability(boolean def) {
+		return getBoolDataParam("enableProbability", def);
 	}
 
 	/**

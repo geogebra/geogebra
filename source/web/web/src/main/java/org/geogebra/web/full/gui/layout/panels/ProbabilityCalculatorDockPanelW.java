@@ -21,6 +21,7 @@ import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.view.probcalculator.ProbabilityCalculatorViewW;
 import org.geogebra.web.full.main.AppWFull;
 import org.gwtproject.resources.client.ResourcePrototype;
+import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
 
 /**
@@ -60,6 +61,9 @@ public class ProbabilityCalculatorDockPanelW extends DockPanelW {
 
 	@Override
 	protected Widget loadComponent() {
+		if (!app.supportsView(App.VIEW_PROBABILITY_CALCULATOR)) {
+			return new FlowPanel();
+		}
 		return ((ProbabilityCalculatorViewW) app.getGuiManager()
 				.getProbabilityCalculator()).getWrapperPanel();
 	}

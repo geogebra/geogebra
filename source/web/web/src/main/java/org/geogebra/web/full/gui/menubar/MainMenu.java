@@ -173,9 +173,9 @@ public class MainMenu extends FlowPanel
 					// check if SignIn was clicked
 					// if we are offline, the last item is actually Help
 					Widget clicked = index >= 0 ? this.getWidget(index) : null;
-					if (clicked instanceof Submenu
-							&& ((Submenu) clicked).isEmpty()) {
-						((Submenu) clicked).handleHeaderClick();
+					if (clicked instanceof Submenu clickedSubmenu
+							&& clickedSubmenu.isEmpty()) {
+						clickedSubmenu.handleHeaderClick();
 						app.hideMenu();
 						return;
 					}
