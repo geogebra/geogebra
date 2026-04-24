@@ -202,6 +202,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			}, MouseDownEvent.getType());
 
 			setKeyListener(inputTextArea, keyListener);
+			canvas.addAttachHandler(event -> {
+				if (!event.isAttached()) {
+					instances.remove(this);
+				}
+			});
 		}
 	}
 
