@@ -688,27 +688,37 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 				width: 100%;
 				margin: 8px 0 0 0;
 			}
+			.colorPalette, .sliderComponent, .iconButtonPanel {
+				margin: 0;
+			}
 			.buttonWithIcon {
-				display: flex;
-				cursor: pointer;
-				gap: 12px;
-
-				&:hover {
-					background-color: neutral(200);
-				}
-
-				img {
-					margin: 6px 0;
-				}
+				margin: 0;
+				width: 100%;
 
 				.gwt-Label {
 					height: 36px;
 					line-height: 36px;
 				}
 			}
-			.colorPalette, .sliderComponent, .iconButtonPanel {
-				margin: 0;
-            }
+		}
+		.buttonWithIcon {
+			display: flex;
+			cursor: pointer;
+			gap: 12px;
+			margin: 0 16px;
+			width: calc(100% - 32px);
+
+			&:hover {
+				background-color: neutral(200);
+			}
+
+			img {
+				margin: 6px 0;
+			}
+			.gwt-Label {
+				height: 36px;
+				line-height: 36px;
+			}
 		}
 		.checkboxPanel {
 			display: flex;
@@ -760,6 +770,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			}
 			.checkmark, .plus {
 				top: 0;
+			}
+			.gwt-Label {
+				height: 32px;
+				line-height: 32px;
 			}
 		}
 		.labelStyle {
@@ -827,26 +841,26 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			align-items: center;
 			flex: 1 0 0;
 
-    		.imagePreview {
-    			width: 48px;
-    			height: 48px;
-    			border-radius: 8px;
-    			border: 1px solid neutral(500);
-    		}
+			.imagePreview {
+				width: 48px;
+				height: 48px;
+				border-radius: 8px;
+				border: 1px solid neutral(500);
+			}
 
-    		.imageName {
-    			flex: 1 0 0;
-    			font-size: 16px;
-    			line-height: 48px;
-    			letter-spacing: 0.5px;
-    			max-width: 200px;
-    			text-overflow: ellipsis;
-    			overflow: auto;
-    		}
+			.imageName {
+				flex: 1 0 0;
+				font-size: 16px;
+				line-height: 48px;
+				letter-spacing: 0.5px;
+				max-width: 200px;
+				text-overflow: ellipsis;
+				overflow: auto;
+			}
 
-    		.iconButton {
-    			margin: auto;
-    		}
+			.iconButton {
+				margin: auto;
+			}
 		}
 		.buttonIconEditor {
 			display: flex;
