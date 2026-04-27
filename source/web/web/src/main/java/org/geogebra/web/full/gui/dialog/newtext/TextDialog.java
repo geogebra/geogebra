@@ -85,6 +85,9 @@ public class TextDialog extends ComponentDialog implements TextInputDialog {
 				() -> {
 			editPanel.updatePreviewPanel(false);
 			setPosBtnDisabled(false);
+			if (geoText.isLaTeX()) {
+				previewPanel.selectLatexCheckbox();
+			}
 		});
 		setDialogContent(topBar);
 
