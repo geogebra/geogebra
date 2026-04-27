@@ -23,11 +23,11 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.color.NeutralColorValues;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
+import org.geogebra.common.properties.impl.DefaultColorValues;
 
 public class RulingGridColorProperty extends AbstractEnumeratedProperty<GColor>
 		implements ColorProperty, SettingsDependentProperty {
@@ -79,7 +79,7 @@ public class RulingGridColorProperty extends AbstractEnumeratedProperty<GColor>
 
 	@Override
 	public @Nonnull List<GColor> getValues() {
-		return NeutralColorValues.values();
+		return DefaultColorValues.NEUTRAL;
 	}
 
 	@Override
