@@ -506,7 +506,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 
 	@Override
 	public void addAuralType(ScreenReaderBuilder sb) {
-		sb.appendMenuDefault("Checkbox", "Checkbox");
+		sb.appendMenuDefault("CheckBox", "Check box");
 		sb.appendSpace();
 	}
 
