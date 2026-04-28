@@ -2162,6 +2162,11 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
+	public void toggleDistributionView() {
+		getUnbundledToolbar().toggleDistributionView();
+	}
+
+	@Override
 	public void updateUnbundledToolbar() {
 		if (getUnbundledToolbar() != null) {
 			getUnbundledToolbar().resizeTabs();

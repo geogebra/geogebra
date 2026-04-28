@@ -380,6 +380,11 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	void toggleSpreadsheetView();
 
 	/**
+	 * Show or hide the distribution view (Classic or unbundled).
+	 */
+	void toggleDistributionView();
+
+	/**
 	 * Open a help page in a new tab or external browser (if running in Electron)
 	 * @param page page type
 	 * @param detail page specifier

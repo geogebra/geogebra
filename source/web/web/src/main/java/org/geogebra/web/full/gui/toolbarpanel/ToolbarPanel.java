@@ -1534,4 +1534,11 @@ public class ToolbarPanel extends FlowPanel
 			app.getActiveEuclidianView().requestFocus();
 		}
 	}
+
+	/**
+	 * Toggles the distribution view.
+	 */
+	public void toggleDistributionView() {
+		navRail.onDistributionPressed();
+	}
 }

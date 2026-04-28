@@ -17,6 +17,7 @@
 package org.geogebra.web.full.main;
 
 import static org.geogebra.common.io.layout.DockPanelData.TabIds.ALGEBRA;
+import static org.geogebra.common.io.layout.DockPanelData.TabIds.DISTRIBUTION;
 import static org.geogebra.common.io.layout.DockPanelData.TabIds.SPREADSHEET;
 import static org.geogebra.common.io.layout.DockPanelData.TabIds.TABLE;
 import static org.geogebra.common.main.App.VIEW_ALGEBRA;
@@ -98,7 +99,7 @@ public class UnbundledInitialViewState implements InitialViewState {
 
 	@Override
 	public boolean hasProbability() {
-		return false; // not supported
+		return isToggleable(DISTRIBUTION);
 	}
 
 	@Override

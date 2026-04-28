@@ -237,6 +237,15 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		((GuiManagerInterfaceW) app.getGuiManager()).toggleSpreadsheetView();
 	}
 
+	@Override
+	protected void toggleDistributionView() {
+		if (app.isUnbundled()) {
+			((GuiManagerInterfaceW) app.getGuiManager()).toggleDistributionView();
+		} else {
+			super.toggleDistributionView();
+		}
+	}
+
 	private void handleCtrlAltX() {
 		app.hideMenu();
 		app.closePopups();
@@ -487,6 +496,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		return shift && switch (keyCode) {
 			case JavaKeyCodes.VK_A,
 				 JavaKeyCodes.VK_U,
+				 JavaKeyCodes.VK_P,
 				 JavaKeyCodes.VK_S -> true;
 			default -> false;
 		};

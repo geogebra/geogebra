@@ -665,12 +665,13 @@ public abstract class GlobalKeyDispatcher {
 		case P:
 			if (isShiftDown) {
 				if (initialViewState.hasProbability()) {
-					toggleView(App.VIEW_PROBABILITY_CALCULATOR);
+					toggleDistributionView();
+					consumed = true;
 				}
 			} else {
 				showPrintPreview(app);
+				consumed = true;
 			}
-			consumed = true;
 
 			break;
 		case W: // File -> Export -> Webpage
@@ -987,6 +988,10 @@ public abstract class GlobalKeyDispatcher {
 
 	protected void toggleSpreadsheetView() {
 		// web only
+	}
+
+	protected void toggleDistributionView() {
+		toggleView(App.VIEW_PROBABILITY_CALCULATOR);
 	}
 
 	private boolean isUndoRedoEnabled() {
