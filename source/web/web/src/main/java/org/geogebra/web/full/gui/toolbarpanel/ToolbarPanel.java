@@ -923,7 +923,7 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void switchTab(TabIds tab, boolean fade) {
-		if (isOpen && getSelectedTabId() == tab) {
+		if (isOpen && getSelectedTabId() == tab && isTabActive(tab)) {
 			return;
 		}
 		app.getToolTipManager().hideTooltip();
@@ -947,6 +947,15 @@ public class ToolbarPanel extends FlowPanel
 		if (spreadsheetStyleBar != null) {
 			spreadsheetStyleBar.setVisible(tab == TabIds.SPREADSHEET);
 		}
+	}
+
+	private boolean isTabActive(TabIds tab) {
+		for (ToolbarTab toolbarTab : tabs) {
+			if (toolbarTab.getID() == tab) {
+				return toolbarTab.isActive();
+			}
+		}
+		return false;
 	}
 
 	/**
