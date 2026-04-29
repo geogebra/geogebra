@@ -16,77 +16,381 @@
 
 package org.geogebra.common.kernel.interval.operators;
 
+import static java.lang.Double.NEGATIVE_INFINITY;
+import static java.lang.Double.POSITIVE_INFINITY;
+import static org.geogebra.common.kernel.interval.IntervalSet.empty;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.halfOpenLeft;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.halfOpenRight;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.invertedGap;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.whole;
+
 import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.IntervalSet;
+import org.geogebra.common.kernel.interval.IntervalSetOps;
 
-/**
- * Misc interval operands.
- */
-public interface IntervalMiscOperands {
+public class IntervalMiscOperands {
+
+	private final IntervalNodeEvaluator evaluator;
+
 	/**
-	 * Gives e^x where e is the euclidean constant
+	 * Creates the helper for non-arithmetic interval operations that still depend
+	 * on the shared evaluator for composed interval behavior.
 	 *
-	 * @return e^x
+	 * @param evaluator evaluator used for dependent interval operations
 	 */
-	Interval exp(Interval interval);
+	public IntervalMiscOperands(IntervalNodeEvaluator evaluator) {
+		this.evaluator = evaluator;
+	}
 
 	/**
+	 * Returns the exponential image of an interval set.
 	 *
-	 * @return the natural logarithm of the interval.
+	 * @param set input set
+	 * @return {@code exp(set)}
 	 */
-	Interval log(Interval interval);
+	public IntervalSet exp(IntervalSet set) {
+		if (set.isEmpty()) {
+			return empty();
+		}
+
+		if (set.isInverted()) {
+			return evaluator.computeUnaryInverted(set, this::exp);
+		}
+
+		if (!set.isConnected()) {
+			return empty();
+		}
+
+		Interval interval = connectedInterval(set);
+		return connected(RMath.prev(Math.exp(interval.getLow())),
+				RMath.next(Math.exp(interval.getHigh())));
+	}
 
 	/**
+	 * Returns the natural logarithm image of an interval set.
 	 *
-	 * @return base 10 logarithm of the interval
+	 * @param set input set
+	 * @return {@code log(set)}
 	 */
-	Interval log10(Interval interval);
+	public IntervalSet log(IntervalSet set) {
+		if (set.isEmpty()) {
+			return empty();
+		}
+
+		if (set.isInverted()) {
+			return evaluator.computeUnaryInverted(set, this::log);
+		}
+
+		if (set.isWhole()) {
+			return whole();
+		}
+
+		Interval interval = connectedInterval(set);
+		double high = interval.getHigh();
+		if (high >= 0) {
+			double low = interval.getLow();
+			if (interval.isExactSingleton() && interval.isOne()) {
+				return connected(0, 0);
+			}
+			return connected(low <= 0 ? NEGATIVE_INFINITY : RMath.prev(Math.log(low)),
+					RMath.next(Math.log(high)));
+		}
+
+		return IntervalSetOps.empty();
+	}
 
 	/**
+	 * Returns the base-2 logarithm image of an interval set.
 	 *
-	 * @return base 2 logarithm of the interval
+	 * @param set input set
+	 * @return {@code log_2(set)}
 	 */
-	Interval log2(Interval interval);
+	public IntervalSet log2(IntervalSet set) {
+		if (!set.isEmpty()) {
+			IntervalSet logExp2 = evaluator.logSet(connected(2, 2));
+			return evaluator.divideSet(log(set), logExp2);
+		}
+
+		return set;
+	}
 
 	/**
-	 * From interval-arithmetic.js:
+	 * Returns the base-10 logarithm image of an interval set.
 	 *
-	 * Computes an interval that has all the values of this and other, note that it may be
-	 * possible that values that don't belong to either this or other are included in the
-	 * interval that represents the hull
+	 * @param set input set
+	 * @return {@code log_10(set)}
+	 */
+	public IntervalSet log10(IntervalSet set) {
+		if (!set.isEmpty()) {
+			IntervalSet logExp10 = evaluator.logSet(connected(10, 10));
+			return evaluator.divideSet(log(set), logExp10);
+		}
+
+		return set;
+	}
+
+	/**
+	 * Returns the hull of two interval sets.
 	 *
-	 * @param other to compute the hull with
-	 * @return this as result.
+	 * @param set1 first set
+	 * @param set2 second set
+	 * @return the smallest interval set returned by the hull operation that
+	 *         contains both inputs
 	 */
-	Interval hull(Interval interval, Interval other);
+	public IntervalSet hull(IntervalSet set1, IntervalSet set2) {
+		if (set1.isEmpty() && set2.isEmpty()) {
+			return empty();
+		} else if (set1.isEmpty()) {
+			return set2;
+		} else if (set2.isEmpty()) {
+			return set1;
+		} else if (set1.isWhole() || set2.isWhole()
+				|| set1.isInverted() || set2.isInverted()) {
+			return whole();
+		} else {
+			Interval interval1 = connectedInterval(set1);
+			Interval interval2 = connectedInterval(set2);
+			return connected(Math.min(interval1.getLow(), interval2.getLow()),
+					Math.max(interval1.getHigh(), interval2.getHigh()));
+		}
+	}
 
 	/**
-	 * Computes an interval that has all the values that belong to both x and y
+	 * Returns the intersection of two interval sets.
 	 *
-	 * @param interval to intersect with
-	 * @return this as result
+	 * @param set1 first set
+	 * @param set2 second set
+	 * @return the common part of the two sets
 	 */
-	Interval intersect(Interval interval, Interval other);
+	public IntervalSet intersect(IntervalSet set1, IntervalSet set2) {
+		if (set1.isEmpty() || set2.isEmpty()) {
+			return empty();
+		}
+
+		if (set1.isWhole()) {
+			return set2;
+		}
+
+		if (set2.isWhole()) {
+			return set1;
+		}
+
+		if (set1.isInverted() && set2.isInverted()) {
+			Interval gap1 = invertedGap(set1);
+			Interval gap2 = invertedGap(set2);
+			double low1 = gap1.getLow();
+			double low2 = gap2.getLow();
+			double high1 = gap1.getHigh();
+			double high2 = gap2.getHigh();
+			if (Math.max(low1, low2) <= Math.min(high1, high2)) {
+				return IntervalSet.inverted(Math.min(low1, low2), Math.max(high1, high2));
+			}
+			return empty();
+		}
+
+		if (set1.isInverted()) {
+			Interval gap = invertedGap(set1);
+			return difference(set2, connected(gap.getLow(), gap.getHigh()));
+		}
+
+		if (set2.isInverted()) {
+			Interval gap = invertedGap(set2);
+			return difference(set1, connected(gap.getLow(), gap.getHigh()));
+		}
+
+		Interval interval1 = connectedInterval(set1);
+		Interval interval2 = connectedInterval(set2);
+		double low = Math.max(interval1.getLow(), interval2.getLow());
+		double high = Math.min(interval1.getHigh(), interval2.getHigh());
+		if (low <= high) {
+			return connected(low, high);
+		}
+		return empty();
+	}
 
 	/**
-	 * Union of intervals
-	 * @param other to union with.
-	 * @return this as result.
-	 */
-	Interval union(Interval interval, Interval other);
-
-	/**
-	 * Computes the difference between two intervals,
-	 * i.e. an interval with all the values of this interval that are
-	 * not in "other".
-	 * @param other to difference with.
-	 * @return this as result.
-	 */
-	Interval difference(Interval interval, Interval other);
-
-	/**
-	 * Absolute value of the interval.
+	 * Returns the union of two interval sets when that union is representable by
+	 * the current set model.
 	 *
-	 * @return this as result.
+	 * @param set1 first set
+	 * @param set2 second set
+	 * @return the union of the two sets, or {@link IntervalSet#empty()} when the
+	 *         union is not representable as one connected, inverted, whole, or
+	 *         empty result
 	 */
-	Interval abs(Interval interval);
+	public IntervalSet union(IntervalSet set1, IntervalSet set2) {
+		if (set1.isEmpty()) {
+			return set2;
+		}
+
+		if (set2.isEmpty()) {
+			return set1;
+		}
+
+		if (set1.isWhole() || set2.isWhole()) {
+			return whole();
+		}
+
+		if (set1.isInverted() && set2.isInverted()) {
+			Interval gap1 = invertedGap(set1);
+			Interval gap2 = invertedGap(set2);
+			double low = Math.max(gap1.getLow(), gap2.getLow());
+			double high = Math.min(gap1.getHigh(), gap2.getHigh());
+			return low <= high ? IntervalSet.inverted(low, high) : whole();
+		}
+
+		if (set1.isInverted()) {
+			return unionInvertedWithConnected(set1, set2);
+		}
+
+		if (set2.isInverted()) {
+			return unionInvertedWithConnected(set2, set1);
+		}
+
+		if (!isOverlap(set1, set2)) {
+			return empty();
+		}
+		Interval interval1 = connectedInterval(set1);
+		Interval interval2 = connectedInterval(set2);
+		return connected(Math.min(interval1.getLow(), interval2.getLow()),
+				Math.max(interval1.getHigh(), interval2.getHigh()));
+	}
+
+	/**
+	 * Tests whether two connected interval sets overlap.
+	 *
+	 * @param set1 first set
+	 * @param set2 second set
+	 * @return {@code true} iff the connected payloads intersect
+	 */
+	public static boolean isOverlap(IntervalSet set1, IntervalSet set2) {
+		if (set1.isEmpty() || set2.isEmpty()) {
+			return false;
+		}
+		Interval interval1 = connectedInterval(set1);
+		Interval interval2 = connectedInterval(set2);
+		double low1 = interval1.getLow();
+		double high1 = interval1.getHigh();
+		double low2 = interval2.getLow();
+		double high2 = interval2.getHigh();
+		return (low1 <= low2 && low2 <= high1)
+				|| (low2 <= low1 && low1 <= high2);
+	}
+
+	private IntervalSet unionInvertedWithConnected(IntervalSet invertedSet,
+			IntervalSet connectedSet) {
+		Interval gap = invertedGap(invertedSet);
+		Interval interval = connectedInterval(connectedSet);
+		double gapLow = gap.getLow();
+		double gapHigh = gap.getHigh();
+		double low = interval.getLow();
+		double high = interval.getHigh();
+
+		if (high < gapLow || low > gapHigh) {
+			return invertedSet;
+		}
+
+		if (low <= gapLow && high >= gapHigh) {
+			return whole();
+		}
+
+		if (low <= gapLow) {
+			return IntervalSet.inverted(high, gapHigh);
+		}
+
+		if (high >= gapHigh) {
+			return IntervalSet.inverted(gapLow, low);
+		}
+
+		return empty();
+	}
+
+	/**
+	 * Returns the set difference of two interval sets.
+	 *
+	 * @param set1 minuend
+	 * @param set2 subtrahend
+	 * @return {@code set1 \ set2}, or {@link IntervalSet#empty()} when the current
+	 *         set model cannot represent the result as a single value
+	 */
+	public IntervalSet difference(IntervalSet set1, IntervalSet set2) {
+		if (set1.isEmpty() || set2.isWhole()) {
+			return empty();
+		}
+
+		if (isOverlap(set1, set2)) {
+			Interval interval1 = connectedInterval(set1);
+			Interval interval2 = connectedInterval(set2);
+			double low1 = interval1.getLow();
+			double low2 = interval2.getLow();
+			double high1 = interval1.getHigh();
+			double high2 = interval2.getHigh();
+			if (low1 < low2 && high2 < high1) {
+				return empty();
+			}
+
+			if ((low2 <= low1 && high2 >= high1)
+					|| (low2 <= low1 && high2 == POSITIVE_INFINITY)
+					|| (high2 >= high1
+					&& low2 == NEGATIVE_INFINITY)) {
+				return empty();
+			}
+
+			if (low2 <= low1) {
+				return halfOpenLeft(high2, high1);
+			}
+
+			return halfOpenRight(low1, low2);
+
+		}
+		return set1;
+	}
+
+	/**
+	 * Returns the absolute-value image of an interval set.
+	 *
+	 * @param set input set
+	 * @return {@code abs(set)}
+	 */
+	public IntervalSet abs(IntervalSet set) {
+		if (set.isEmpty()) {
+			return set;
+		}
+
+		if (set.isWhole()) {
+			return connected(0, POSITIVE_INFINITY);
+		}
+
+		if (set.isInverted()) {
+			return absInverted(set);
+		}
+
+		Interval interval = connectedInterval(set);
+		if (interval.getLow() >= 0) {
+			return set;
+		}
+
+		if (interval.getHigh() <= 0) {
+			return connected(-interval.getHigh(), -interval.getLow());
+		}
+
+		return connected(0, Math.max(-interval.getLow(), interval.getHigh()));
+	}
+
+	private static IntervalSet absInverted(IntervalSet set) {
+		if (!set.isInverted()) {
+			throw new IllegalArgumentException("Set is not INVERTED");
+		}
+		Interval gap = invertedGap(set);
+		double low = gap.getLow();
+		double high = gap.getHigh();
+
+			if (low >= 0 || high <= 0) {
+				return connected(0, POSITIVE_INFINITY);
+			} else {
+				return connected(Math.min(-low, high), POSITIVE_INFINITY);
+			}
+	}
 }

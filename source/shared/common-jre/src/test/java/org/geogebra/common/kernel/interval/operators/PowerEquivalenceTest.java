@@ -16,6 +16,7 @@
  
 package org.geogebra.common.kernel.interval.operators;
 
+import static org.geogebra.common.kernel.interval.IntervalSetOps.toLegacy;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.kernel.interval.SamplerTest;
@@ -67,7 +68,9 @@ public class PowerEquivalenceTest extends SamplerTest {
 		for (int i = 0; i < samples.count(); i++) {
 			IntervalTuple tuple1 = samples.get(i);
 			IntervalTuple tuple2 = other.get(i);
-			ok = ok && (tuple1.x().equals(tuple2.x()) && tuple1.y().almostEqual(tuple2.y(), 1E-7));
+			ok = ok && (tuple1.xSet().equals(tuple2.xSet())
+					&& toLegacy(tuple1.ySet())
+					.almostEqual(toLegacy(tuple2.ySet()), 1E-7));
 		}
 		assertTrue(ok);
 	}

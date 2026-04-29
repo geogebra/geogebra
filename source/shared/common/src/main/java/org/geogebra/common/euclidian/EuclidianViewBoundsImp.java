@@ -20,8 +20,10 @@ import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
 import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
+import org.geogebra.common.util.DoubleUtil;
 
 public class EuclidianViewBoundsImp implements EuclidianViewBounds {
+	public static final int OFFSCREEN_Y_MARGIN = 25;
 	private final EuclidianView view;
 
 	public EuclidianViewBoundsImp(EuclidianView view) {
@@ -84,16 +86,20 @@ public class EuclidianViewBoundsImp implements EuclidianViewBounds {
 			return new Interval(toScreenCoordYd(view.getYmin()));
 		}
 
-		if (y.isPositiveInfinity()) {
-			return IntervalConstants.zero();
+		if (DoubleUtil.isEqual(y.getLow(), Double.POSITIVE_INFINITY)
+				&& DoubleUtil.isEqual(y.getHigh(), y.getLow())) {
+			return new Interval(-OFFSCREEN_Y_MARGIN);
 		}
 
 		double screenYLow = y.getHigh() == Double.POSITIVE_INFINITY
-				? 0
+				? -OFFSCREEN_Y_MARGIN
 				: toScreenCoordYd(y.getHigh());
 		double screenYHigh = y.getLow() == Double.NEGATIVE_INFINITY
-				? getHeight()
+				? getHeight() + OFFSCREEN_Y_MARGIN
 				: toScreenCoordYd(y.getLow());
+		if (screenYHigh < screenYLow) {
+			return IntervalConstants.undefined();
+		}
 		return new Interval(screenYLow, screenYHigh);
 	}
 

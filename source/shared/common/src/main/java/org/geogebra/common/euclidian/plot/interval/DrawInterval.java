@@ -16,15 +16,19 @@
 
 package org.geogebra.common.euclidian.plot.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.empty;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.fromLegacy;
+
 import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalConstants;
+import org.geogebra.common.kernel.interval.IntervalSet;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.util.DoubleUtil;
 
 public class DrawInterval {
 
 	private boolean joinToPrevious;
-	private IntervalPathPlotter gp;
+	private final IntervalPathPlotter gp;
 	private final EuclidianViewBounds bounds;
 
 	/**
@@ -46,8 +50,8 @@ public class DrawInterval {
 	 * @param x interval
 	 * @param y interval
 	 */
-	public void drawJoined(Interval lastY, Interval x, Interval y) {
-		if (y.isGreaterThan(lastY)) {
+	public void drawJoined(IntervalSet lastY, Interval x, Interval y) {
+		if (y.isGreaterThan(connectedInterval(lastY))) {
 			drawUp(x, y);
 		} else {
 			drawDown(x, y);
@@ -102,21 +106,32 @@ public class DrawInterval {
 				x.getLow(), bounds.getYmin(), x.getLow(), bounds.getYmax());
 	}
 
-	Interval drawIndependent(IntervalTuple tuple) {
-		Interval x = bounds.toScreenIntervalX(tuple.x());
-		Interval y = bounds.toScreenIntervalY(tuple.y());
+	IntervalSet drawIndependent(IntervalTuple tuple) {
+		IntervalSet xSet = tuple.xSet();
+		IntervalSet ySet = tuple.ySet();
 
-		if (y.isUndefined()) {
-			return IntervalConstants.undefined();
-		} else {
-			line(x, y);
-			return y;
+		if (ySet.isEmpty()) {
+			return empty();
 		}
+
+		if (ySet.isWhole()) {
+			drawWhole(connectedInterval(xSet));
+			return empty();
+		}
+		if (xSet.isConnected() && ySet.isConnected()) {
+			Interval x = bounds.toScreenIntervalX(connectedInterval(tuple.xSet()));
+			Interval y = bounds.toScreenIntervalY(connectedInterval(tuple.ySet()));
+			if (y.isUndefined()) {
+				return empty();
+			}
+			line(x, y);
+			return fromLegacy(y);
+		}
+		return empty();
 	}
 
 	/**
 	 * Draws straight vertical line at x.high of interval y.
-	 *
 	 * @param x interval
 	 * @param y interval
 	 */

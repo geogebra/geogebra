@@ -24,8 +24,10 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.around;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.fromLegacy;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.legacyInverted;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.toLegacy;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
-import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -43,6 +45,12 @@ public class IntervalMiscTest {
 				evaluator.exp(interval(-1, 1)));
 		assertEquals(interval(0.04978706836786394, 20.08553692318767),
 				evaluator.exp(interval(-3, 3)));
+	}
+
+	@Test
+	public void testExpWrapperMatchesExpSet() {
+		Interval input = interval(-3, 3);
+		assertEquals(evaluator.exp(input), toLegacy(evaluator.expSet(fromLegacy(input))));
 	}
 
 	@Test
@@ -87,6 +95,10 @@ public class IntervalMiscTest {
 				evaluator.hull(interval(-1, 1), new Interval(undefined())));
 		assertEquals(interval(-1, 1),
 				evaluator.hull(new Interval(undefined()), interval(-1, 1)));
+		assertEquals(whole(),
+				evaluator.hull(whole(), interval(-1, 1)));
+		assertEquals(whole(),
+				evaluator.hull(legacyInverted(-1, 1), interval(5, 7)));
 		assertTrue(evaluator.hull(undefined(), undefined()).isUndefined());
 	}
 
@@ -96,12 +108,20 @@ public class IntervalMiscTest {
 		assertTrue(evaluator.intersect(interval(-1, 1), undefined()).isUndefined());
 		assertEquals(interval(0, 1),
 				evaluator.intersect(interval(-1, 1), interval(0, 7)));
+		assertEquals(interval(-1, 1),
+				evaluator.intersect(whole(), interval(-1, 1)));
+		assertEquals(interval(2, 4),
+				evaluator.intersect(legacyInverted(-1, 1), interval(2, 4)));
 	}
 
 	@Test
 	public void testUnion() {
 		assertEquals(interval(1, 4),
 				evaluator.union(interval(1, 3), interval(2, 4)));
+		assertEquals(whole(),
+				evaluator.union(whole(), interval(1, 3)));
+		assertEquals(whole(),
+				evaluator.union(legacyInverted(-1, 1), interval(-2, 2)));
 	}
 
 	@Test
@@ -162,8 +182,8 @@ public class IntervalMiscTest {
 
 	@Test
 	public void testAbs1() {
-		assertEquals(interval(4, POSITIVE_INFINITY), evaluator.abs(invertedInterval(-4, 5)));
-		assertEquals(interval(5, POSITIVE_INFINITY), evaluator.abs(invertedInterval(-8, 5)));
+		assertEquals(interval(4, POSITIVE_INFINITY), evaluator.abs(legacyInverted(-4, 5)));
+		assertEquals(interval(5, POSITIVE_INFINITY), evaluator.abs(legacyInverted(-8, 5)));
 	}
 
 	@Test
@@ -204,7 +224,8 @@ public class IntervalMiscTest {
 		Interval log2 = evaluator.log(x2);
 		Interval div1 = evaluator.divide(zero(), log1);
 		Interval div2 = evaluator.divide(zero(), log2);
-		assertTrue(div1.isZero() && div2.isZero());
+		assertEquals(whole(), div1);
+		assertEquals(whole(), div2);
 	}
 
 	@Test
@@ -233,4 +254,5 @@ public class IntervalMiscTest {
 		Interval multiply = evaluator.multiply(zero(), inverse);
 		assertEquals(zero(), multiply);
 	}
+
 }

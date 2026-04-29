@@ -21,7 +21,7 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.around;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
-import static org.geogebra.common.kernel.interval.IntervalHelper.invertedInterval;
+import static org.geogebra.common.kernel.interval.IntervalHelper.invertedPayload;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -48,12 +48,13 @@ public class TanOperandTest {
 
 	@Test
 	public void testTanAtAroundPiHalf() {
-		assertEquals(undefined(), evaluator.tan(IntervalConstants.piHalf()));
+		assertEquals(undefined(), evaluator.tan(
+				new Interval(IntervalConstants.PI_HALF_LOW, IntervalConstants.PI_HALF_HIGH)));
 	}
 
 	@Test
 	public void testTanAtAroundPiHalfCase2() {
-		assertEquals(invertedInterval(-15.894544843864, 15.894544843866603), evaluator.tan(pi2()));
+		assertEquals(invertedPayload(-15.894544843864, 15.894544843866603), evaluator.tan(pi2()));
 	}
 
 	@Test

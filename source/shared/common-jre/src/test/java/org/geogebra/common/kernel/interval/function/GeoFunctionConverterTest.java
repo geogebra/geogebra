@@ -18,7 +18,6 @@ package org.geogebra.common.kernel.interval.function;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.pi;
-import static org.geogebra.common.kernel.interval.IntervalConstants.piHalf;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
@@ -54,7 +53,8 @@ public class GeoFunctionConverterTest extends BaseUnitTest {
 	public void testConvertSinXPlus1() {
 		IntervalNodeFunction function = convert("sin(x)+1");
 		assertEquals(one(), function.value(pi()));
-		assertEquals(new Interval(2), function.value(piHalf()));
+		assertEquals(new Interval(2), function.value(
+				new Interval(IntervalConstants.PI_HALF_LOW, IntervalConstants.PI_HALF_HIGH)));
 	}
 
 	@Test
@@ -67,7 +67,8 @@ public class GeoFunctionConverterTest extends BaseUnitTest {
 	@Test
 	public void testConvertSinBracketXPlus1Bracket() {
 		IntervalNodeFunction function = convert("sin(x+pi+pi)");
-		assertEquals(one(), function.value(piHalf()));
+		assertEquals(one(), function.value(
+				new Interval(IntervalConstants.PI_HALF_LOW, IntervalConstants.PI_HALF_HIGH)));
 		assertEquals(zero(), function.value(pi()));
 	}
 
@@ -100,7 +101,7 @@ public class GeoFunctionConverterTest extends BaseUnitTest {
 	@Test
 	public void testConvertTanSquaredXInverse() {
 		IntervalNodeFunction function = convert("1/(tan^(2)(x))");
-		assertEquals(whole(), function.value(around(Math.PI / 2, 1E-7)));
+		assertEquals(zero(), function.value(around(Math.PI / 2, 1E-7)));
 	}
 
 	@Test

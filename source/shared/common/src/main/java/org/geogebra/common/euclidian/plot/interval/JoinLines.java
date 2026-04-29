@@ -18,6 +18,8 @@ package org.geogebra.common.euclidian.plot.interval;
 
 import org.geogebra.common.euclidian.plot.TupleNeighbours;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.interval.IntervalSet;
+import org.geogebra.common.kernel.interval.IntervalSetOps;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -104,6 +106,10 @@ public class JoinLines {
 			return -1;
 		}
 
+		if (neighbours.isLeftWhole()) {
+			return bounds.toScreenCoordYd(Double.POSITIVE_INFINITY);
+		}
+
 		double diff = Math.abs(neighbours.currentYLow() - neighbours.leftYLow());
 		return bounds.toScreenCoordYd(diff);
 	}
@@ -111,6 +117,10 @@ public class JoinLines {
 	private double getRightScreenDifference(TupleNeighbours neighbours) {
 		if (!neighbours.hasRight()) {
 			return -1;
+		}
+
+		if (neighbours.isRightWhole()) {
+			return bounds.toScreenCoordYd(Double.NEGATIVE_INFINITY);
 		}
 
 		double diff = Math.abs(neighbours.currentYLow() - neighbours.rightYLow());
@@ -185,13 +195,13 @@ public class JoinLines {
 	 */
 	public void inverted(TupleNeighbours neighbours) {
 		if (neighbours.currentYHigh() < INFINITY_DISPLAYED) {
-			if (!neighbours.isLeftInfinite()) {
+			if (!isInfiniteBoundary(neighbours.leftTopology())) {
 				toTop(neighbours);
 			}
 		}
 
 		if (neighbours.currentYLow() > -INFINITY_DISPLAYED) {
-			if (neighbours.isRightInfinite()) {
+			if (isInfiniteBoundary(neighbours.rightTopology())) {
 				double y1 = neighbours.hasLeft() ? neighbours.leftYLow() : neighbours.currentYLow();
 				gp.segment(bounds, neighbours.currentXLow(), y1,
 						neighbours.currentXLow(), bounds.getYmin());
@@ -199,5 +209,10 @@ public class JoinLines {
 				toBottom(neighbours);
 			}
 		}
+	}
+
+	private boolean isInfiniteBoundary(IntervalSet ySet) {
+		return !ySet.isEmpty()
+				&& IntervalSetOps.hasInfinity(ySet);
 	}
 }

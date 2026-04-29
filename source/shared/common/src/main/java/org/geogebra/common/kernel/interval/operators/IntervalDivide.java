@@ -21,16 +21,29 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.positiveInfi
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.*;
 
 import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.IntervalSet;
+import org.geogebra.common.kernel.interval.IntervalSetOps;
+import org.geogebra.common.kernel.interval.LegacyIntervalAdapter;
 
+/**
+ * Divides interval values using the interval engine's set semantics.
+ *
+ * <p>The main contract lives in {@link #computeSet(IntervalSet, IntervalSet)}.
+ * The legacy {@link Interval} entry point preserves the older API by converting
+ * at the boundary.
+ */
 public class IntervalDivide {
 
 	private final IntervalNodeEvaluator evaluator;
 
 	/**
+	 * Creates a divider that can delegate union-based compatibility cases back to
+	 * the shared interval evaluator.
 	 *
-	 * @param evaluator {@link IntervalNodeEvaluator}
+	 * @param evaluator evaluator used for dependent interval operations
 	 */
 	public IntervalDivide(IntervalNodeEvaluator evaluator) {
 		this.evaluator = evaluator;
@@ -43,41 +56,118 @@ public class IntervalDivide {
 	 * @return the result of interval divided by divisor.
 	 */
 	public Interval compute(Interval numerator, Interval divisor) {
-		if (divisor.isInverted()) {
-			Interval result1 = divide(numerator, divisor.extractLow());
-			Interval result2 = divide(numerator, divisor.extractHigh());
-			return evaluator.union(result1, result2);
+		if (numerator.isWhole() && divisor.isUndefined()) {
+			return whole();
 		}
-
-		return divide(numerator, divisor);
-	}
-
-	private Interval divide(Interval numerator, Interval divisor) {
-		if (divisor.isZero()) {
-			return undefined();
-		}
-
-		if (isZeroByZero(numerator, divisor) || divisor.isWhole()
-				|| isWholeByNonZero(numerator, divisor)) {
-
-			return numerator.isZero() ? zero() : whole();
-		}
-
 		if (numerator.isUndefined() || divisor.isUndefined()) {
 			return undefined();
 		}
+		return toLegacy(computeSet(fromLegacy(numerator), fromLegacy(divisor)));
+	}
 
-		if (numerator.isPositiveInfinity()) {
-			return divideSingletonPositiveInfinity(divisor);
+	/**
+	 * Divides one interval set by another under the interval engine's set semantics.
+	 *
+	 * <p>The result may be connected, inverted, whole, or empty depending on the
+	 * divisor topology and on whether zero belongs to the divisor.
+	 *
+	 * @param numerator numerator set
+	 * @param divisor divisor set
+	 * @return the quotient set {@code numerator / divisor}
+	 */
+	public IntervalSet computeSet(IntervalSet numerator, IntervalSet divisor) {
+		if (numerator.isEmpty() || divisor.isEmpty()) {
+			return empty();
+		}
+
+		if (numerator.isWhole()) {
+			return IntervalSetOps.whole();
+		}
+
+		if (numerator.isInverted()) {
+			return divideInvertedNumerator(numerator, divisor);
+		}
+
+		if (divisor.isInverted()) {
+			Interval leftResult = toLegacy(computeSet(numerator, leftRayFromInverted(divisor)));
+			Interval rightResult = toLegacy(computeSet(numerator, rightRayFromInverted(divisor)));
+			return fromLegacy(evaluator.union(leftResult, rightResult));
+		}
+
+		return divideConnectedLike(numerator, divisor);
+	}
+
+	private IntervalSet divideInvertedNumerator(IntervalSet numerator, IntervalSet divisor) {
+		IntervalSet leftResult = computeSet(leftRayFromInverted(numerator), divisor);
+		IntervalSet rightResult = computeSet(rightRayFromInverted(numerator), divisor);
+		IntervalSet union = evaluator.unionSet(leftResult, rightResult);
+		if (!union.isEmpty()) {
+			return union;
+		}
+
+		if (leftResult.isConnected() && rightResult.isConnected()) {
+			Interval leftInterval = connectedInterval(leftResult);
+			Interval rightInterval = connectedInterval(rightResult);
+			if (leftInterval.getHigh() <= rightInterval.getLow()) {
+				return IntervalSet.inverted(leftInterval.getHigh(), rightInterval.getLow());
+			}
+			if (rightInterval.getHigh() <= leftInterval.getLow()) {
+				return IntervalSet.inverted(rightInterval.getHigh(), leftInterval.getLow());
+			}
+		}
+
+		return evaluator.unionInvertedSet(leftResult, rightResult);
+	}
+
+	private IntervalSet divideConnectedLike(IntervalSet numerator, IntervalSet divisor) {
+		if (divisor.isEmpty()) {
+			return empty();
+		}
+
+		Interval legacyNumerator = toLegacy(numerator);
+		Interval legacyDivisor = divisor.isConnected()
+				? connectedInterval(divisor) : toLegacy(divisor);
+
+		if (legacyDivisor.hasZero()) {
+			return divideByZeroContainingDivisor(legacyNumerator, legacyDivisor);
+		}
+
+		if (legacyNumerator.isUndefined() || legacyDivisor.isUndefined()) {
+			return empty();
+		}
+
+		if (legacyNumerator.isPositiveInfinity()) {
+			return fromLegacy(divideSingletonPositiveInfinity(legacyDivisor));
+		}
+
+		if (legacyNumerator.isNegative()) {
+			return fromLegacy(divideNegativeBy(legacyNumerator, legacyDivisor));
+		} else if (legacyNumerator.isPositive()) {
+			return fromLegacy(dividePositiveBy(legacyNumerator, legacyDivisor));
+		}
+
+		return fromLegacy(divideMixedBy(legacyNumerator, legacyDivisor));
+	}
+
+	private IntervalSet divideByZeroContainingDivisor(Interval numerator, Interval divisor) {
+		if (numerator.hasZero()) {
+			return IntervalSetOps.whole();
+		}
+
+		if (divisor.isZeroWithDelta(0)) {
+			return empty();
 		}
 
 		if (numerator.isNegative()) {
-			return divideNegativeBy(numerator, divisor);
-		} else if (numerator.isPositive()) {
-			return dividePositiveBy(numerator, divisor);
+			return fromLegacy(divideNegativeBy(numerator, divisor));
 		}
 
-		return divideMixedBy(numerator, divisor);
+		if (numerator.isPositive()) {
+			return fromLegacy(dividePositiveBy(numerator, divisor));
+		}
+
+		throw new IllegalStateException("Unhandled zero-containing divisor case: "
+				+ numerator + " / " + divisor);
 	}
 
 	private Interval divideSingletonPositiveInfinity(Interval divisor) {
@@ -92,10 +182,6 @@ public class IntervalDivide {
 		}
 
 		return whole();
-	}
-
-	private boolean isWholeByNonZero(Interval numerator, Interval divisor) {
-		return numerator.isWhole() && !divisor.hasZero();
 	}
 
 	private Interval divideNegativeBy(Interval numerator, Interval divisor) {
@@ -113,8 +199,8 @@ public class IntervalDivide {
 		}
 
 		if (hasZeroInBetween(divisor)) {
-			return new Interval(next(numerator.getHigh() / divisor.getHigh()),
-					prev(numerator.getHigh() / divisor.getLow())).invert();
+			return legacyInverted(next(numerator.getHigh() / divisor.getHigh()),
+					prev(numerator.getHigh() / divisor.getLow()));
 		}
 
 		if (divisor.lowEquals(0)) {
@@ -146,8 +232,8 @@ public class IntervalDivide {
 					next(numerator.getLow() / divisor.getLow()));
 		}
 		if (hasZeroInBetween(divisor)) {
-			return new Interval(next(numerator.getLow() / divisor.getLow()), prev(
-					numerator.getLow() / divisor.getHigh())).invert();
+			return legacyInverted(next(numerator.getLow() / divisor.getLow()), prev(
+					numerator.getLow() / divisor.getHigh()));
 		}
 		if (divisor.lowEquals(0)) {
 			return dividePositiveByNegativeWithZeroAsHigh(numerator.getLow(), divisor.getHigh());
@@ -172,10 +258,6 @@ public class IntervalDivide {
 		return new Interval(prev(a1 / b2), Double.POSITIVE_INFINITY);
 	}
 
-	private static boolean hasZeroInBetween(final Interval interval) {
-		return interval.containsExclusive(0);
-	}
-
 	private Interval divideNegativeByNegativeWithZeroAsHigh(double low) {
 		return new Interval(low, Double.POSITIVE_INFINITY);
 	}
@@ -196,10 +278,6 @@ public class IntervalDivide {
 				next(numerator.getHigh() / divisor.getLow()));
 	}
 
-	private boolean isZeroByZero(Interval numerator, Interval divisor) {
-		return numerator.hasZero() && divisor.hasZero();
-	}
-
 	// just for the notation of the paper
 	static double prev(double v) {
 		return v;
@@ -211,10 +289,11 @@ public class IntervalDivide {
 
 	private Interval divideMixedBy(Interval numerator, Interval divisor) {
 		if (divisor.isNegative()) {
-			Interval result = new Interval(prev(numerator.getHigh() / divisor.getHigh()),
-					next(numerator.getLow() / divisor.getHigh()));
-			result.setInverted(numerator.isInverted());
-			return result;
+			double low = prev(numerator.getHigh() / divisor.getHigh());
+			double high = next(numerator.getLow() / divisor.getHigh());
+			return LegacyIntervalAdapter.toIntervalSet(numerator).isInverted()
+					? legacyInverted(low, high)
+					: new Interval(low, high);
 		}
 
 		if (divisor.isPositive()) {
@@ -227,11 +306,16 @@ public class IntervalDivide {
 						next(numerator.getHigh() / divisor.getHigh()));
 			}
 
-			Interval result = new Interval(prev(numerator.getLow() / divisor.getLow()),
-					next(numerator.getHigh() / divisor.getLow()));
-			result.setInverted(numerator.isInverted());
-			return result;
+			double low = prev(numerator.getLow() / divisor.getLow());
+			double high = next(numerator.getHigh() / divisor.getLow());
+			return LegacyIntervalAdapter.toIntervalSet(numerator).isInverted()
+					? legacyInverted(low, high)
+					: new Interval(low, high);
 		}
 		return undefined();
+	}
+
+	private static boolean hasZeroInBetween(final Interval interval) {
+		return interval.containsExclusive(0);
 	}
 }

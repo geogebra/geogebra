@@ -19,18 +19,20 @@ package org.geogebra.common.kernel.interval.operators;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_HIGH;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_LOW;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_TWICE_LOW;
-import static org.geogebra.common.kernel.interval.IntervalConstants.pi;
 import static org.geogebra.common.kernel.interval.IntervalConstants.piTwice;
-import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.empty;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.isInfiniteSingleton;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
+import org.geogebra.common.kernel.interval.IntervalSet;
+import org.geogebra.common.util.DoubleUtil;
 
 public class IntervalSinCos {
 
 	private final IntervalNodeEvaluator evaluator;
-
-	private final Interval cache = new Interval();
 
 	/**
 	 *
@@ -40,96 +42,115 @@ public class IntervalSinCos {
 		this.evaluator = evaluator;
 	}
 
-	Interval cos(Interval interval) {
-		if (interval.isInverted()) {
-			Interval result = evaluator.unionInvertedResults(cos(interval.extractLow()),
-					cos(interval.extractHigh()));
-			return result.isUndefined() ? defaultInterval() : result;
+	IntervalSet cos(IntervalSet set) {
+		if (set.isEmpty()) {
+			return empty();
 		}
-		return cosNonInverted(interval);
+
+		if (set.isInverted()) {
+			return fullTrigRange();
+		}
+
+		if (set.isWhole()) {
+			return fullTrigRange();
+		}
+		return cosConnected(set);
 	}
 
-	Interval cosNonInverted(Interval interval) {
-		if (interval.isUndefined()) {
-			return undefined();
+	private IntervalSet fullTrigRange() {
+		return connected(-1, 1);
+	}
+
+	private IntervalSet cosConnected(IntervalSet set) {
+		if (isInfiniteSingleton(set)) {
+			return fullTrigRange();
 		}
 
-		if (interval.isUndefined() || interval.isInfiniteSingleton()) {
-			return defaultInterval();
+		IntervalSet cache = evaluator.fmodSet(
+				connectedInterval(set).getLow() < 0
+						? normalizeNegativeLowerBound(set)
+						: set,
+				connected(piTwice()));
+		Interval cacheInterval = connectedInterval(cache);
+
+		if (cacheInterval.getWidth() >= PI_TWICE_LOW) {
+			return fullTrigRange();
 		}
 
-		initCache(interval);
+		double low = cacheInterval.getLow();
+		double high = cacheInterval.getHigh();
 
-		evaluator.fmod(cache, piTwice());
-		if (cache.getWidth() >= PI_TWICE_LOW) {
-			return defaultInterval();
+		if (low >= PI_HIGH) {
+			IntervalSet result = cos(connected(cacheInterval.getLow() - PI_HIGH,
+					cacheInterval.getHigh() - PI_LOW));
+			Interval cosInterval = connectedInterval(result);
+			return connected(-cosInterval.getHigh(), -cosInterval.getLow());
 		}
 
-		if (cache.getLow() >= PI_HIGH) {
-			Interval result = cos(cache.subtract(pi()));
-			result.negative();
-			return result;
+		if (cacheInterval.isExactSingleton()) {
+			double value = Math.cos(low);
+			if (DoubleUtil.isEqual(value, 0, 1E-15)) {
+				return connected(0, 0);
+			}
 		}
 
-		double low = cache.getLow();
-		double high = cache.getHigh();
 		double rlo = RMath.prev(Math.cos(high));
 		double rhi = RMath.next(Math.cos(low));
 		// it's ensured that t.lo < pi and that t.lo >= 0
 		if (high <= PI_LOW) {
 			// when t.hi < pi
 			// [cos(t.lo), cos(t.hi)]
-			return new Interval(rlo, rhi);
+			return connected(rlo, rhi);
 		} else if (high <= PI_TWICE_LOW) {
 			// when t.hi < 2pi
 			// [-1, max(cos(t.lo), cos(t.hi))]
-			return new Interval(-1, Math.max(rlo, rhi));
+			return connected(-1, Math.max(rlo, rhi));
 		}
 		// t.lo < pi and t.hi > 2pi
 
-		return defaultInterval();
+		return fullTrigRange();
 	}
 
-	private Interval defaultInterval() {
-		return new Interval(-1, 1);
-	}
-
-	private void initCache(Interval interval) {
-		if (interval.getLow() < 0) {
-			negativeCache(interval);
-		} else {
-			cache.set(interval);
-		}
-	}
-
-	private void negativeCache(Interval interval) {
-		double low = interval.getLow();
-		double high = interval.getHigh();
+	private IntervalSet normalizeNegativeLowerBound(IntervalSet set) {
+		double low = connectedInterval(set).getLow();
+		double high = connectedInterval(set).getHigh();
 		if (low == Double.NEGATIVE_INFINITY) {
-			cache.set(0, Double.POSITIVE_INFINITY);
-		} else {
-			double n = Math.ceil(-low / PI_TWICE_LOW);
-			cache.set(low + PI_TWICE_LOW * n,
-					high + PI_TWICE_LOW * n);
+			return connected(0, Double.POSITIVE_INFINITY);
 		}
+
+		double n = Math.ceil(-low / PI_TWICE_LOW);
+		return connected(low + PI_TWICE_LOW * n, high + PI_TWICE_LOW * n);
+
 	}
 
 	/**
 	 *
-	 * @return sine of the interval
+	 * @return sine of the set
 	 */
-	public Interval sin(Interval interval) {
-		if (interval.isUndefined()) {
-			return undefined();
+	public IntervalSet sin(IntervalSet set) {
+		if (set.isEmpty()) {
+			return empty();
 		}
 
-		if (interval.isInverted()) {
-			return defaultInterval();
-		} else if (interval.isUndefined() || interval.isInfiniteSingleton()) {
-			return undefined();
+		if (set.isInverted()) {
+			return fullTrigRange();
 		}
 
-		return cos(new Interval(interval).subtract(IntervalConstants.piHalf()));
+		if (set.isWhole()) {
+			return fullTrigRange();
+		}
+
+		if (isInfiniteSingleton(set)) {
+			return empty();
+		}
+
+		return cos(shiftByHalfPi(set));
+	}
+
+	private IntervalSet shiftByHalfPi(IntervalSet set) {
+		return connected(
+				connectedInterval(set).getLow() - IntervalConstants.PI_HALF_HIGH,
+				connectedInterval(set).getHigh() - IntervalConstants.PI_HALF_LOW);
 	}
 
 }

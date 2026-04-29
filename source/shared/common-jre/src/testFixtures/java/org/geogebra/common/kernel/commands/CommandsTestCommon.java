@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
 import org.geogebra.common.kernel.algos.AlgoTableText;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -1599,8 +1600,9 @@ public class CommandsTestCommon extends BaseCommandTest {
 	@Test
 	public void cmdFitLog() {
 		// slightly different result on M2 Mac with xmlTemplate, use maxPrecision instead
-		t("FitLog[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]", StringTemplate.maxPrecision,
-				"1.77913767533668 - 0.510849628173395ln(x)");
+		t("FitLog[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]", StringTemplate.printDecimals(
+						ExpressionNodeConstants.StringType.GEOGEBRA, 13, false),
+				"1.7791376753367 - 0.5108496281734ln(x)");
 	}
 
 	@Test

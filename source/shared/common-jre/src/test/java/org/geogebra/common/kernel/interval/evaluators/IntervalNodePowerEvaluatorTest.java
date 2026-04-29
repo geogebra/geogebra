@@ -19,8 +19,10 @@ package org.geogebra.common.kernel.interval.evaluators;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PRECISION;
 import static org.geogebra.common.kernel.interval.IntervalConstants.aroundZero;
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
+import static org.geogebra.common.kernel.interval.IntervalConstants.positiveInfinity;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.empty;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -29,6 +31,9 @@ import static org.junit.Assert.assertTrue;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
+import org.geogebra.common.kernel.interval.IntervalSet;
+import org.geogebra.common.kernel.interval.IntervalSetOps;
+import org.geogebra.common.kernel.interval.LegacyIntervalAdapter;
 import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
 import org.geogebra.common.kernel.interval.function.IntervalNodeFunction;
 import org.geogebra.common.kernel.interval.operators.IntervalNodeEvaluator;
@@ -143,7 +148,8 @@ public class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
 	@Test
 	public void evaluatePowerOfFraction1underMinus3() {
 		Interval result = valueOnInterval("x^(1/-3)", -1, 1);
-		assertTrue("result should be inverted", result.isInverted());
+		assertTrue("result should be inverted",
+				LegacyIntervalAdapter.toIntervalSet(result).isInverted());
 	}
 
 	private Interval valueOnInterval(String definition, double low, double high) {
@@ -179,10 +185,10 @@ public class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
 	
 	@Test
 	public void xInverseOnPowerOfMinus2ShouldBeXSquared() {
-		Interval x = interval(-2.0539125955565396E-15, 0.19999999999999796);
-		Interval inverse = evaluator.inverse(x);
-		Interval pow = evaluator.pow(inverse, -2);
-		assertEquals(undefined().invert(), pow);
+		IntervalSet x = IntervalSetOps.connected(-2.0539125955565396E-15, 0.19999999999999796);
+		IntervalSet inverse = evaluator.inverseSet(x);
+		IntervalSet pow = evaluator.powSet(inverse, -2);
+		assertEquals(empty(), pow);
 	}
 
 	@Test

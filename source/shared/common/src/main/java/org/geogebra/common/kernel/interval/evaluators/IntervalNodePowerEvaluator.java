@@ -16,11 +16,19 @@
 
 package org.geogebra.common.kernel.interval.evaluators;
 
-import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.empty;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.hasZero;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.leftRayFromInverted;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.negative;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.rightRayFromInverted;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.IntervalSet;
+import org.geogebra.common.kernel.interval.IntervalSetOps;
 import org.geogebra.common.kernel.interval.node.IntervalExpressionNode;
 import org.geogebra.common.kernel.interval.node.IntervalNode;
 import org.geogebra.common.kernel.interval.node.IntervalOperation;
@@ -31,8 +39,25 @@ import org.geogebra.common.util.debug.Log;
  * Class to evaluate expressions on an interval that has power in it.
  */
 public class IntervalNodePowerEvaluator {
-
 	private final IntervalNodeEvaluator evaluator;
+
+	private static final class NegPowerResult {
+		private final boolean handled;
+		private final IntervalSet result;
+
+		private NegPowerResult(boolean handled, IntervalSet result) {
+			this.handled = handled;
+			this.result = result;
+		}
+
+		private static NegPowerResult handled(IntervalSet result) {
+			return new NegPowerResult(true, result);
+		}
+
+		private static NegPowerResult deferred() {
+			return new NegPowerResult(false, empty());
+		}
+	}
 
 	/**
 	 *
@@ -50,38 +75,71 @@ public class IntervalNodePowerEvaluator {
 	 * @param right node to compute.
 	 * @return the value of the power.
 	 */
-	public Interval handle(Interval base, Interval exponent, IntervalNode right) {
-		if (exponent.isUndefined()) {
-			return undefined();
+	public IntervalSet handle(IntervalSet base, IntervalSet exponent, IntervalNode right) {
+		if (exponent.isEmpty()) {
+			return empty();
 		}
 
-		if (MyDouble.exactEqual(base.getLow(), Math.E)) {
-			return evaluator.exp(exponent);
+		if (base.isConnected() && MyDouble.exactEqual(connectedInterval(base).getLow(), Math.E)) {
+			return evaluator.expSet(exponent);
 		}
 
-		if (!base.isPositive() && right.asExpressionNode() != null) {
+		if (!IntervalSetOps.isPositive(base) && right.asExpressionNode() != null) {
 			try {
-				Interval negPower = calculateNegPower(right.asExpressionNode(), base);
-				if (!negPower.isUndefined()) {
-					return negPower;
+				NegPowerResult negPower = calculateNegPowerSet(right.asExpressionNode(), base);
+				if (negPower.handled) {
+					return negPower.result;
 				}
 			} catch (Exception e) {
 				Log.debug(e);
 			}
 		}
 
-		return evaluator.pow(base, exponent);
+		return evaluator.powSet(base, exponent);
 	}
 
-	private Interval calculateNegPower(IntervalExpressionNode node, Interval base) {
-		if (isPositiveFraction(node)) {
-			return negativePower(base, node);
-		} else if (isNegativeFraction(node)) {
-			return evaluator.inverse(negativePower(base,
-					node.getRight().asExpressionNode()));
+	private NegPowerResult calculateNegPowerSet(IntervalExpressionNode node, IntervalSet base) {
+		if (base.isEmpty()) {
+			return NegPowerResult.handled(empty());
 		}
 
-		return undefined();
+		if (base.isWhole()) {
+			return NegPowerResult.deferred();
+		}
+
+		if (base.isConnected()) {
+			return calculateNegPowerConnected(node, base);
+		}
+		if (base.isInverted()) {
+			return calculateNegPowerInverted(node, base);
+		}
+		return NegPowerResult.deferred();
+	}
+
+	private NegPowerResult calculateNegPowerInverted(IntervalExpressionNode node,
+			IntervalSet base) {
+		NegPowerResult left = calculateNegPowerConnected(node, leftRayFromInverted(base));
+		NegPowerResult right = calculateNegPowerConnected(node, rightRayFromInverted(base));
+		if (!left.handled || !right.handled) {
+			return NegPowerResult.deferred();
+		}
+		return NegPowerResult.handled(combineRayResults(left.result, right.result));
+	}
+
+	private NegPowerResult calculateNegPowerConnected(IntervalExpressionNode node,
+			IntervalSet base) {
+		if (isPositiveFraction(node)) {
+			return negativePowerConnected(base, node);
+		} else if (isNegativeFraction(node)) {
+			NegPowerResult negativePower =
+					negativePowerConnected(base, node.getRight().asExpressionNode());
+			if (!negativePower.handled) {
+				return NegPowerResult.deferred();
+			}
+			return NegPowerResult.handled(evaluator.multiplicativeInverseSet(negativePower.result));
+		}
+
+		return NegPowerResult.deferred();
 	}
 
 	private boolean isPositiveFraction(IntervalExpressionNode node) {
@@ -98,60 +156,80 @@ public class IntervalNodePowerEvaluator {
 		return node != null && node.value().isMinusOne();
 	}
 
-	private Interval negativePower(Interval base, IntervalExpressionNode node) {
+	private NegPowerResult negativePowerConnected(IntervalSet baseSet,
+			IntervalExpressionNode node) {
 		Interval nominator = node.getLeft().value();
 		if (nominator.isSingletonInteger()) {
 			Interval denominator = node.getRight().value();
 			if (denominator.isUndefined()) {
-				return undefined();
+				return NegPowerResult.handled(empty());
 			} else if (denominator.isSingletonInteger()) {
-				return powerFraction(base, (long) nominator.getLow(),
-						(long) denominator.getLow());
+				return NegPowerResult.handled(powerFractionConnected(baseSet,
+						(long) nominator.getLow(), (long) denominator.getLow()));
 
 			}
 		}
-		return undefined();
+		return NegPowerResult.deferred();
 	}
 
-	private Interval powerFraction(Interval x, long a, long b) {
-		Interval posPower = powerFractionPositive(x, Math.abs(a), Math.abs(b));
-		posPower.setInverted(x.isInverted());
+	private IntervalSet powerFractionConnected(IntervalSet x, long a, long b) {
+		IntervalSet posPower = powerFractionPositiveConnected(x, Math.abs(a), Math.abs(b));
 		if (a * b < 0) {
-			return evaluator.inverse(posPower);
+			return evaluator.inverseSet(posPower);
 		} else {
 			return posPower;
 		}
 	}
 
-	private Interval powerFractionPositive(Interval x, long a, long b) {
+	private IntervalSet powerFractionPositiveConnected(IntervalSet x, long a, long b) {
 		long gcd = Kernel.gcd(a, b);
 		if (gcd == 0) {
-			return undefined();
+			return empty();
 		}
 
 		long nominator = a / gcd;
 		long denominator = b / gcd;
-		Interval interval = new Interval(x);
-		Interval base = nominator == 1
-				? interval
-				: evaluator.pow(interval, nominator);
+		IntervalSet base = nominator == 1 ? x : evaluator.powSet(x, nominator);
+		IntervalSet denominatorSet = connected(denominator, denominator);
 
-		if (base.isPositiveWithZero()) {
-			return evaluator.pow(base, 1d / denominator);
+		if (IntervalSetOps.isPositiveWithZero(base)) {
+			return evaluator.nthRootSet(base, denominatorSet);
 		}
-		if (base.contains(0)) {
+		if (hasZero(base)) {
+			Interval interval = connectedInterval(base);
 			if (isOdd(denominator)) {
-				return new Interval(-Math.pow(-base.getLow(), 1d / denominator),
-						Math.pow(base.getHigh(), 1d / denominator));
+				return connected(-Math.pow(-interval.getLow(), 1d / denominator),
+						Math.pow(interval.getHigh(), 1d / denominator));
 			}
 
-			return evaluator.pow(new Interval(0, base.getHigh()), 1d / denominator);
+			return evaluator.nthRootSet(connected(0, interval.getHigh()), denominatorSet);
 		}
 		if (isOdd(denominator)) {
-			return evaluator.pow(base.negative(), 1d / denominator).negative();
+			return negative(evaluator.nthRootSet(negative(base), denominatorSet));
 		}
 
-		return undefined();
+		return empty();
+	}
+
+	private IntervalSet combineRayResults(IntervalSet left, IntervalSet right) {
+		if (left.isEmpty()) {
+			return right;
+		}
+		if (right.isEmpty()) {
+			return left;
+		}
+		if (left.equals(right)) {
+			return left;
+		}
+		if (left.isConnected() && right.isConnected()) {
+			Interval leftInterval = connectedInterval(left);
+			Interval rightInterval = connectedInterval(right);
+			if (leftInterval.getHigh() < rightInterval.getLow()) {
+				return IntervalSetOps.invertedGapFromSeparatedResults(left, right);
+			}
+			return evaluator.unionSet(left, right);
+		}
+		return empty();
 	}
 
 	private boolean isOdd(long value) {

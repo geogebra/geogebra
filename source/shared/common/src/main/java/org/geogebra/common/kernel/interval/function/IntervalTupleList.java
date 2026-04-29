@@ -23,8 +23,6 @@ import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.kernel.interval.Interval;
-
 /**
  * List to hold IntervalTuples
  *
@@ -79,17 +77,16 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 	}
 
 	public boolean isValid() {
-		return countDefined() > 1;
+		return countNotEmpty() > 1;
 	}
 
-	private long countDefined() {
-		return stream().filter(t -> !t.y().isUndefined()).count();
+	private long countNotEmpty() {
+		return stream().filter(t -> !t.isEmpty()).count();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof IntervalTupleList) {
-			IntervalTupleList other = (IntervalTupleList) obj;
+		if (obj instanceof IntervalTupleList other) {
 			return list.equals(other.list);
 		}
 		return false;
@@ -121,16 +118,9 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 	}
 
 	/**
-	 * @param index index
-	 * @return interval at given index
-	 */
-	public Interval valueAt(int index) {
-		return get(index).y();
-	}
-
-	/**
+	 * Returns the tuples in encounter order as a stream.
 	 *
-	 * @return as a stream of {@link IntervalTuple}
+	 * @return stream view of the tuple list
 	 */
 	public Stream<IntervalTuple> stream() {
 		return list.stream();

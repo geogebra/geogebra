@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -16,7 +16,11 @@
 
 package org.geogebra.common.euclidian.plot;
 
-import org.geogebra.common.kernel.interval.Interval;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.empty;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.invertedGap;
+
+import org.geogebra.common.kernel.interval.IntervalSet;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 
 public class TupleNeighbours {
@@ -32,7 +36,6 @@ public class TupleNeighbours {
 	}
 
 	/**
-	 *
 	 * @param left neighbour tuple
 	 * @param current neighbour tuple
 	 * @param right neighbour tuple
@@ -42,7 +45,6 @@ public class TupleNeighbours {
 	}
 
 	/**
-	 *
 	 * @param left neighbour tuple
 	 * @param current neighbour tuple
 	 * @param right neighbour tuple
@@ -57,98 +59,120 @@ public class TupleNeighbours {
 	 * @return whether left exists and is defined
 	 */
 	public boolean hasLeft() {
-		return !(left == null || left.isUndefined());
+		return left != null && !left.isEmpty();
 	}
 
 	/**
 	 * @return whether right exists and is defined
 	 */
 	public boolean hasRight() {
-		return !(right == null || right.isUndefined());
+		return right != null && !right.isEmpty();
 	}
 
 	/**
 	 * @return left x low
 	 */
 	public double leftXLow() {
-		return left.x().getLow();
+		return lowX(left.xSet());
+	}
+
+	private double lowX(IntervalSet set) {
+		return connectedInterval(set).getLow();
+	}
+
+	private double payloadLow(IntervalSet set) {
+		if (set.isWhole()) {
+			return Double.NEGATIVE_INFINITY;
+		}
+		return set.isInverted() ? invertedGap(set).getLow() : connectedInterval(set).getLow();
 	}
 
 	/**
 	 * @return left x high
 	 */
 	public double leftXHigh() {
-		return left.x().getHigh();
+		return highX(left.xSet());
+	}
+
+	private double highX(IntervalSet set) {
+		return connectedInterval(set).getHigh();
+	}
+
+	private double payloadHigh(IntervalSet set) {
+		if (set.isWhole()) {
+			return Double.POSITIVE_INFINITY;
+		}
+		return set.isInverted() ? invertedGap(set).getHigh() : connectedInterval(set).getHigh();
 	}
 
 	/**
 	 * @return left y low
 	 */
 	public double leftYLow() {
-		return left.y().getLow();
+		return payloadLow(left.ySet());
 	}
 
 	/**
 	 * @return left y high
 	 */
 	public double leftYHigh() {
-		return left.y().getHigh();
+		return payloadHigh(left.ySet());
 	}
 
 	/**
 	 * @return current x low
 	 */
 	public double currentXLow() {
-		return current.x().getLow();
+		return lowX(current.xSet());
 	}
 
 	/**
 	 * @return current x high
 	 */
 	public double currentXHigh() {
-		return current.x().getHigh();
+		return highX(current.xSet());
 	}
 
 	/**
 	 * @return current y low
 	 */
 	public double currentYLow() {
-		return current.y().getLow();
+		return payloadLow(current.ySet());
 	}
 
 	/**
 	 * @return current y high
 	 */
 	public double currentYHigh() {
-		return current.y().getHigh();
+		return payloadHigh(current.ySet());
 	}
 
 	/**
 	 * @return right x low
 	 */
 	public double rightXLow() {
-		return right.x().getLow();
+		return lowX(right.xSet());
 	}
 
 	/**
 	 * @return right x high
 	 */
 	public double rightXHigh() {
-		return right.x().getHigh();
+		return highX(right.xSet());
 	}
 
 	/**
 	 * @return right y low
 	 */
 	public double rightYLow() {
-		return right.y().getLow();
+		return payloadLow(right.ySet());
 	}
 
 	/**
 	 * @return right y high
 	 */
 	public double rightYHigh() {
-		return right.y().getHigh();
+		return payloadHigh(right.ySet());
 	}
 
 	/**
@@ -159,10 +183,24 @@ public class TupleNeighbours {
 	}
 
 	/**
+	 * @return topology of left y interval
+	 */
+	public IntervalSet leftTopology() {
+		return hasLeft() ? left.ySet() : empty();
+	}
+
+	/**
 	 * @return current
 	 */
 	public IntervalTuple current() {
 		return current;
+	}
+
+	/**
+	 * @return topology of current y interval
+	 */
+	public IntervalSet currentTopology() {
+		return current.ySet();
 	}
 
 	/**
@@ -172,50 +210,42 @@ public class TupleNeighbours {
 		return right;
 	}
 
+	/**
+	 * @return topology of right y interval
+	 */
+	public IntervalSet rightTopology() {
+		return hasRight() ? right.ySet() : empty();
+	}
+
 	@Override
 	public String toString() {
-		return toStringForCode();
+		return "TupleNeighbours(\n"
+				+ left + ", \n"
+				+ current + ", \n"
+				+ right + ");";
 	}
 
-	private String toStringForCode() {
-		return "TupleNeighbours neighbours = new TupleNeighbours(\n"
-				+ tuple(left) + ", \n"
-				+ tuple(current) + ", \n"
-				+ tuple(right) + ");";
+	boolean isLeftInverted() {
+		return leftTopology().isInverted();
 	}
 
-	private String tuple(IntervalTuple tuple) {
-		if (tuple == null) {
-			return "null";
-		}
-		String result = "Tuples.";
-		if (tuple.isUndefined()) {
-			result += "undefined(" + comma(tuple.x()) + ") ";
-		} else if (tuple.y().isInverted()) {
-			result += "inverted(" + comma(tuple.x()) + ", " + comma(tuple.y()) + ") ";
-		} else {
-			result += "normal(" + comma(tuple.x()) + ", " + comma(tuple.y())  + ") ";
-		}
-		return result;
+	boolean isRightInverted() {
+		return rightTopology().isInverted();
 	}
 
-	private String comma(Interval x) {
-		return (x.getLow() + ", " + x.getHigh())
-				.replace("Infinity", "Double.POSITIVE_INFINITY")
-				.replace("-Infinity", "Double.POSITIVE_INFINITY");
+	public boolean isLeftWhole() {
+		return leftTopology().isWhole();
 	}
 
-	/**
-	 * @return whether left is infinite
-	 */
-	public boolean isLeftInfinite() {
-		return left != null && left.y().hasInfinity();
+	public boolean isRightWhole() {
+		return rightTopology().isWhole();
 	}
 
-	/**
-	 * @return whether right is infinite
-	 */
-	public boolean isRightInfinite() {
-		return right != null && right.y().hasInfinity();
+	boolean isLeftEmpty() {
+		return leftTopology().isEmpty();
+	}
+
+	boolean isRightEmpty() {
+		return rightTopology().isEmpty();
 	}
 }

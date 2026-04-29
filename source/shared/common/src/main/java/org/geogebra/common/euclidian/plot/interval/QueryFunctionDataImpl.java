@@ -16,13 +16,19 @@
 
 package org.geogebra.common.euclidian.plot.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.invertedGap;
+
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.geogebra.common.euclidian.plot.TupleNeighbours;
 import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.IntervalSet;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
+import org.geogebra.common.util.DoubleUtil;
 
 public class QueryFunctionDataImpl implements QueryFunctionData {
 	private final IntervalTupleList tuples;
@@ -47,13 +53,20 @@ public class QueryFunctionDataImpl implements QueryFunctionData {
 	}
 
 	@Override
+	public IntervalSet yTopologyAt(int index) {
+		return isValidIndex(index)
+				? at(index).ySet()
+				: IntervalSet.empty();
+	}
+
+	@Override
 	public boolean hasNext(int index) {
-		return index < tuples.count();
+		return index + 1 < tuples.count();
 	}
 
 	@Override
 	public boolean isInvertedAt(int index) {
-		return index >= tuples.count() || at(index).isInverted();
+		return index >= tuples.count() || yTopologyAt(index).isInverted();
 	}
 
 	/**
@@ -72,7 +85,7 @@ public class QueryFunctionDataImpl implements QueryFunctionData {
 	 */
 	@Override
 	public boolean isWholeAt(int index) {
-		return index >= tuples.count() || at(index).y().isWhole();
+		return index >= tuples.count() || yTopologyAt(index).isWhole();
 	}
 
 	@Override
@@ -86,13 +99,23 @@ public class QueryFunctionDataImpl implements QueryFunctionData {
 	}
 
 	private boolean isInvertedPositiveInfinity(int index) {
-		return isValidIndex(index)
-				&& at(index).y().isPositiveInfinity()
+		if (!isValidIndex(index)) {
+			return false;
+		}
+		IntervalSet set = at(index).ySet();
+		if (!set.isInverted()) {
+			return false;
+		}
+
+		Interval gap = invertedGap(set);
+
+		return DoubleUtil.isEqual(gap.getLow(), Double.POSITIVE_INFINITY)
+				&& DoubleUtil.isEqual(gap.getHigh(), gap.getLow())
 				&& isInvertedAt(index);
 	}
 
 	private boolean isValidIndex(int index) {
-		return index < tuples.count();
+		return index >= 0 && index < tuples.count();
 	}
 
 	@Override
@@ -101,7 +124,7 @@ public class QueryFunctionDataImpl implements QueryFunctionData {
 		if (xRange.isUndefined()) {
 			allIndexes().forEach(action);
 		} else {
-			allIndexes().filter(index -> xRange.contains(at(index).x()))
+			allIndexes().filter(index -> xRange.contains(connectedInterval(at(index).xSet())))
 					.forEach(action);
 		}
 	}
@@ -114,5 +137,10 @@ public class QueryFunctionDataImpl implements QueryFunctionData {
 	public TupleNeighbours neighboursAt(int index) {
 		neighbours.set(at(index - 1), at(index), at(index + 1));
 		return neighbours;
+	}
+
+	@Override
+	public Stream<IntervalTuple> stream() {
+		return tuples.stream();
 	}
 }

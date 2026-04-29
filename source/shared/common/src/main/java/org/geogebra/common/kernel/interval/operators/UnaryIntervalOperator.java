@@ -16,10 +16,20 @@
 
 package org.geogebra.common.kernel.interval.operators;
 
-import org.geogebra.common.annotation.MissingDoc;
-import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.IntervalSet;
 
-interface UnaryIntervalOperator {
-	@MissingDoc
-	Interval exec(Interval interval);
+/**
+ * Applies one unary operation to an {@link IntervalSet}.
+ *
+ * <p>Implementations return the image of the input set under a single-operand
+ * interval operation.
+ */
+public interface UnaryIntervalOperator {
+	/**
+	 * Returns the image of the input set under this unary operation.
+	 *
+	 * @param set input set
+	 * @return result of applying the unary operation to {@code set}
+	 */
+	IntervalSet exec(IntervalSet set);
 }

@@ -17,8 +17,10 @@
 package org.geogebra.common.euclidian.plot.interval;
 
 import java.util.function.IntConsumer;
+import java.util.stream.Stream;
 
 import org.geogebra.common.euclidian.plot.TupleNeighbours;
+import org.geogebra.common.kernel.interval.IntervalSet;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 
 /**
@@ -31,6 +33,12 @@ public interface QueryFunctionData {
 	 * @return the (x, y) value of the function at the given index.
 	 */
 	IntervalTuple at(int index);
+
+	/**
+	 * @param index to retrieve
+	 * @return explicit topology of the y interval at the given index
+	 */
+	IntervalSet yTopologyAt(int index);
 
 	/**
 	 *
@@ -84,4 +92,11 @@ public interface QueryFunctionData {
 	 * @return the neighbours around tuple given by index (including itself)
 	 */
 	TupleNeighbours neighboursAt(int index);
+
+	/**
+	 * Returns the sampled function tuples in index order as a stream.
+	 *
+	 * @return stream view of the queried function data
+	 */
+	Stream<IntervalTuple> stream();
 }

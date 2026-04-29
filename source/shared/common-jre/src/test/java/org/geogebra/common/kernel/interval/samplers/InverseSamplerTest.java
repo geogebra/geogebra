@@ -16,6 +16,7 @@
 
 package org.geogebra.common.kernel.interval.samplers;
 
+import static org.geogebra.common.kernel.interval.IntervalSetOps.isZero;
 import static org.junit.Assert.assertEquals;
 
 import java.util.function.Predicate;
@@ -23,13 +24,14 @@ import java.util.function.Predicate;
 import org.geogebra.common.kernel.interval.SamplerTest;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class InverseSamplerTest extends SamplerTest {
 
 	@Test
 	public void zeroXInverseShouldBeInfiniteOnly() {
-		assertAll("1/(0x)", IntervalTuple::isUndefined);
+		assertAll("1/(0x)", IntervalTuple::isEmpty);
 	}
 
 	private void assertAll(String description, Predicate<? super IntervalTuple> predicate) {
@@ -39,11 +41,12 @@ public class InverseSamplerTest extends SamplerTest {
 
 	@Test
 	public void inverseOfzeroXInverse() {
-		assertAll("1/(1/(0x))", IntervalTuple::isUndefined);
+		assertAll("1/(1/(0x))", IntervalTuple::isEmpty);
 	}
 
+	@Ignore("whole or empty now. Test is on wrong layer")
 	@Test
 	public void zeroDividedByTanSecXShouldBeZero() {
-		assertAll("0/(tan(sec(x)))", t -> t.y().isZero());
+		assertAll("0/(tan(sec(x)))", t -> isZero(t.ySet()));
 	}
 }

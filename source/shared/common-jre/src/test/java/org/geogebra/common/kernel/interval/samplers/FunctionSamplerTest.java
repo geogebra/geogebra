@@ -16,6 +16,7 @@
 
 package org.geogebra.common.kernel.interval.samplers;
 
+import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
@@ -56,6 +57,7 @@ public class FunctionSamplerTest extends BaseUnitTest {
 	}
 
 	private List<Integer> getX(IntervalTupleList tuples) {
-		return tuples.stream().map(t -> (int) (t.x().getLow())).collect(Collectors.toList());
+		return tuples.stream().map(t -> (int) (connectedInterval(t.xSet()).getLow()))
+				.collect(Collectors.toList());
 	}
 }

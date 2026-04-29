@@ -22,7 +22,7 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
-import static org.geogebra.common.kernel.interval.IntervalHelper.invertedInterval;
+import static org.geogebra.common.kernel.interval.IntervalHelper.invertedPayload;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.kernel.interval.Interval;
@@ -68,12 +68,12 @@ public class AbsOperandTest {
 
 	@Test
 	public void testMixedInvertedIntervals() {
-		assertEquals(interval(100, Double.POSITIVE_INFINITY), abs(invertedInterval(-100, 100)));
+		assertEquals(interval(100, Double.POSITIVE_INFINITY), abs(invertedPayload(-100, 100)));
 	}
 
 	@Test
 	public void testNegativeInvertedIntervals() {
 		assertEquals(interval(0, Double.POSITIVE_INFINITY),
-				abs(invertedInterval(-200, -100)));
+				abs(invertedPayload(-200, -100)));
 	}
 }

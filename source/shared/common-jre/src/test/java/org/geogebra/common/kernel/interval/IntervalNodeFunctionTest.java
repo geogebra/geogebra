@@ -18,7 +18,6 @@ package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.pi;
-import static org.geogebra.common.kernel.interval.IntervalConstants.piHalf;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
@@ -44,7 +43,8 @@ public class IntervalNodeFunctionTest {
 				new IntervalNodeFunction(node, functionVariable);
 		assertEquals(zero(), function.value(zero()));
 		assertEquals(zero(), function.value(pi()));
-		assertEquals(one(), function.value(piHalf()));
+		assertEquals(one(), function.value(
+				new Interval(IntervalConstants.PI_HALF_LOW, IntervalConstants.PI_HALF_HIGH)));
 	}
 
 	@Test

@@ -60,7 +60,10 @@ public class IntervalFunctionDomainInfo {
 	 * @param domain former domain
 	 */
 	public void update(Interval domain) {
-		domainBefore = domain;
+		if (domain == null) {
+			throw new IllegalArgumentException("domain is null");
+		}
+		domainBefore = new Interval(domain);
 	}
 
 	/**

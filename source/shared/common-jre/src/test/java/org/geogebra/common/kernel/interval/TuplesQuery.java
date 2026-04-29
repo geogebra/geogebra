@@ -29,7 +29,7 @@ public class TuplesQuery {
 	}
 
 	private Stream<IntervalTuple> emptyTuples() {
-		return tuples.stream().filter(t -> t.y().isUndefined());
+		return tuples.stream().filter(t -> t.ySet().isEmpty());
 	}
 
 	/**

@@ -16,24 +16,26 @@
 
 package org.geogebra.common.euclidian.plot.interval;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.junit.Before;
-import org.junit.Test;
+import org.geogebra.test.BaseAppTestSetup;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class ClippingTest extends BaseUnitTest {
+public class ClippingTest extends BaseAppTestSetup {
 	private EuclidianView view;
 	private GRectangle clipRectangle;
 
-	@Before
+	@BeforeEach
 	public void setupApp() {
+		setupApp(SuiteSubApp.GRAPHING);
 		view = getApp().getActiveEuclidianView();
 		clipRectangle = AwtFactory.getPrototype()
 				.newRectangle(0, 0, view.getViewWidth(), view.getViewHeight());
@@ -41,10 +43,10 @@ public class ClippingTest extends BaseUnitTest {
 
 	@Test
 	public void testNoArtifact() {
-		GeoFunction f = add("sec(cot(x))");
+		GeoFunction f = evaluateGeoElement("sec(cot(x))");
 		view.update(f);
 		view.setRealWorldCoordSystem(-10, 10, -0.5, 0.5);
-		Drawable drawable = getDrawable(f);
+		Drawable drawable = (Drawable) view.getDrawableFor(f);
 		if (drawable == null) {
 			fail();
 		}

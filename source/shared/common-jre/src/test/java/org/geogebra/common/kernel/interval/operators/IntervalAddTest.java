@@ -18,13 +18,18 @@ package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.inverted;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.leftRayFromInverted;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.legacyInverted;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.rightRayFromInverted;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
-import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.geogebra.common.kernel.interval.operators.IntervalDivide.next;
 import static org.geogebra.common.kernel.interval.operators.IntervalDivide.prev;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.IntervalSet;
 import org.junit.Test;
 
 public class IntervalAddTest {
@@ -101,23 +106,23 @@ public class IntervalAddTest {
 	}
 
 	@Test
-	public void testAddToInverted() {
-		Interval actual = invertedInterval(-3.45, 78.97)
-				.add(interval(12.34, 56.78));
-		assertEquals(interval(Double.NEGATIVE_INFINITY, 8.89),
-				actual.extractLow());
-		assertEquals(interval(135.75, Double.POSITIVE_INFINITY),
-				actual.extractHigh());
+	public void testAddToInvertedSet() {
+		IntervalSet set = inverted(legacyInverted(-3.45, 78.97)
+				.add(interval(12.34, 56.78)));
+		assertEquals(connected(Double.NEGATIVE_INFINITY, 8.89),
+				leftRayFromInverted(set));
+		assertEquals(connected(135.75, Double.POSITIVE_INFINITY),
+				rightRayFromInverted(set));
 	}
 
 	@Test
-	public void testAddInvertedTo() {
-		Interval actual = interval(12.34, 56.78)
-				.add(invertedInterval(-3.45, 78.97));
-		assertEquals(interval(Double.NEGATIVE_INFINITY, 8.89),
-				actual.extractLow());
-		assertEquals(interval(135.75, Double.POSITIVE_INFINITY),
-				actual.extractHigh());
+	public void testAddInvertedSetTo() {
+		IntervalSet set = inverted(interval(12.34, 56.78)
+				.add(legacyInverted(-3.45, 78.97)));
+		assertEquals(connected(Double.NEGATIVE_INFINITY, 8.89),
+				leftRayFromInverted(set));
+		assertEquals(connected(135.75, Double.POSITIVE_INFINITY),
+				rightRayFromInverted(set));
 	}
 
 }

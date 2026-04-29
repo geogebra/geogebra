@@ -17,9 +17,19 @@
 package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.empty;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.fromLegacy;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.inverted;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.invertedGap;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.leftRayFromInverted;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.rightRayFromInverted;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.toLegacy;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
+import org.geogebra.common.kernel.interval.IntervalSet;
 import org.geogebra.common.util.DoubleUtil;
 
 public class IntervalRoot {
@@ -56,25 +66,41 @@ public class IntervalRoot {
 	 * @return nth root of the interval.
 	 */
 	Interval compute(Interval interval, double n) {
-		if (interval.isUndefined()) {
-			return undefined();
+		return toLegacy(computeSet(fromLegacy(interval), n));
+	}
+
+	IntervalSet computeSet(IntervalSet set, double n) {
+		if (set.isEmpty()) {
+			return empty();
 		}
 
-		if (interval.isInverted()) {
+		if (set.isInverted()) {
 			if (isOdd(n)) {
-				return compute(interval.uninvert(), n).invert();
+				return inverted(compute(invertedGap(set), n));
 			}
 
-			return evaluator.unionInvertedResults(compute(interval.extractLow(), n),
-					compute(interval.extractHigh(), n));
+			return evaluator.unionInvertedSet(computeSet(leftRayFromInverted(set), n),
+					computeSet(rightRayFromInverted(set), n));
 		}
 
 		double power = 1 / n;
 		if (isPositiveOdd(n)) {
-			return new Interval(oddFractionPower(interval.getLow(), power),
+			Interval interval = connectedInterval(set);
+			return IntervalSet.connected(oddFractionPower(interval.getLow(), power),
 					oddFractionPower(interval.getHigh(), power));
 		}
-		return evaluator.pow(interval, power).round();
+		IntervalSet result = evaluator.powSet(set, power);
+		if (result.isConnected()) {
+			Interval interval1 = connectedInterval(result);
+			return connected(Math.abs(interval1.getLow()) < interval1.precision
+							? 0
+							: interval1.getLow(),
+					Math.abs(interval1.getHigh()) < interval1.precision
+							? 0
+							: interval1.getHigh());
+
+		}
+		return result;
 	}
 
 	private double oddFractionPower(double x, double power) {

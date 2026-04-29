@@ -16,8 +16,12 @@
 
 package org.geogebra.common.euclidian.plot.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.empty;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.invertedGap;
+
 import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalConstants;
+import org.geogebra.common.kernel.interval.IntervalSet;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 
 /**
@@ -27,7 +31,7 @@ public class DrawInvertedInterval {
 	private final IntervalPathPlotter gp;
 	private final QueryFunctionData data;
 	private final EuclidianViewBounds bounds;
-	private Interval lastY = new Interval();
+	private IntervalSet lastYSet = empty();
 	private final JoinLines join;
 
 	/**
@@ -48,18 +52,19 @@ public class DrawInvertedInterval {
 	 * Complete inverted interval on demand.
 	 *
 	 * @param idx tuple index in model
-	 * @param y inverted value to handle.
+	 * @param ySet inverted value to handle.
 	 * @return the last y interval.
 	 */
-	public Interval drawJoined(int idx,
-			Interval y) {
-		lastY = y;
-		if (lastY.isUndefined() || data.isWholeAt(idx)) {
-			this.lastY.setUndefined();
+	public IntervalSet drawJoined(int idx,
+			IntervalSet ySet) {
+		lastYSet = ySet;
+		IntervalSet yTopology = data.yTopologyAt(idx);
+		if (lastYSet.isEmpty() || yTopology.isWhole()) {
+			lastYSet = empty();
 		} else {
 			draw(idx);
 		}
-		return this.lastY;
+		return this.lastYSet;
 	}
 
 	/**
@@ -75,7 +80,7 @@ public class DrawInvertedInterval {
 		}
 
 		if (!isInvertedNextTo(index)) {
-			lastY.set(IntervalConstants.undefined());
+			lastYSet = empty();
 		}
 	}
 
@@ -85,27 +90,26 @@ public class DrawInvertedInterval {
 
 	private void drawSegments(int index) {
 		IntervalTuple current = data.at(index);
-		drawTopSegment(current);
-		drawBottomSegment(current);
+		Interval x = connectedInterval(current.xSet());
+		Interval y = invertedGap(current.ySet());
+		drawTopSegment(x, y);
+		drawBottomSegment(x, y);
 	}
 
 	private boolean hasNextToJoin(int index) {
 		return data.hasNext(index)
-				&& !data.isInvertedAt(index + 1);
+				&& !data.yTopologyAt(index + 1).isInverted();
 	}
 
-	private void drawBottomSegment(IntervalTuple current) {
-		Interval y = current.y();
+	private void drawBottomSegment(Interval x, Interval y) {
 		if (y.getHigh() > bounds.getYmin()) {
-			gp.segment(bounds, current.x().getLow(), bounds.getYmin(),
-					current.x().getHigh(), y.getLow());
+			gp.segment(bounds, x.getLow(), bounds.getYmin(),
+					x.getHigh(), y.getLow());
 		}
 	}
 
-	private void drawTopSegment(IntervalTuple current) {
-		Interval y = current.y();
+	private void drawTopSegment(Interval x, Interval y) {
 		if (y.getLow() < bounds.getYmax()) {
-			Interval x = current.x();
 			gp.segment(bounds,
 					x.getHigh(), bounds.getYmax(),
 					x.getHigh(), y.getHigh());
@@ -113,6 +117,6 @@ public class DrawInvertedInterval {
 	}
 
 	private boolean isInvertedNextTo(int idx) {
-		return data.getCount() > idx && data.isInvertedAt(idx + 1);
+		return data.hasNext(idx) && data.yTopologyAt(idx + 1).isInverted();
 	}
 }

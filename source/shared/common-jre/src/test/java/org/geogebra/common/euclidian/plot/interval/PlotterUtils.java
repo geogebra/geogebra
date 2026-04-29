@@ -16,8 +16,11 @@
 
 package org.geogebra.common.euclidian.plot.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
+
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.IntervalSetOps;
 import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
@@ -40,9 +43,7 @@ public class PlotterUtils {
 	 * @return a tuple with x,y range intervals.
 	 */
 	public static IntervalTuple newRange(double lowX, double highX, double lowY, double highY) {
-		Interval x = new Interval(lowX, highX);
-		Interval y = new Interval(lowY, highY);
-		return new IntervalTuple(x, y);
+		return new IntervalTuple(connected(lowX, highX), connected(lowY, highY));
 	}
 
 	/**
@@ -57,6 +58,7 @@ public class PlotterUtils {
 			int numberOfSamples, EuclidianViewBounds bounds) {
 		IntervalFunctionData data = new IntervalFunctionData(function, new GeoFunctionConverter(),
 				bounds, new IntervalTupleList());
-		return new FunctionSampler(data, range.x(), numberOfSamples);
+		return new FunctionSampler(data, IntervalSetOps.connectedInterval(range.xSet()),
+				numberOfSamples);
 	}
 }

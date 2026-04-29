@@ -18,6 +18,8 @@ package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.empty;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -96,9 +98,7 @@ public class IntervalRootTest {
 	}
 
 	@Test
-	public void testOddNRootWithInvertedXAroundZero() {
-		Interval x = interval(-2.0539125955565396E-15, 0.19999999999999796);
-		assertEquals(interval(-78669.43188987061, 1.7099759466767028).invert(),
-				evaluator.nthRoot(evaluator.inverse(x), 3));
+	public void testNthRootSetReturnsEmptyForNonSingletonExponent() {
+		assertEquals(empty(), evaluator.nthRootSet(connected(1, 4), connected(2, 3)));
 	}
 }
