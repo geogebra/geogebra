@@ -17,9 +17,13 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.annotation.Issue;
@@ -42,5 +46,26 @@ public class GeoPlane3DTest extends BaseAppTestSetup {
 				plane.getCoordSys().getEquationVector().toString());
 		assertEquals("-5x + 7y - z=0", plane.toValueString(StringTemplate.editorTemplate));
 		assertEquals(expectedCoords, plane.getCoordSys().getEquationVector().toString());
+	}
+
+	@Test
+	@Issue("APPS-7421")
+	public void pointChangedOnPlaneOnlyListLeavesPointUndefined() {
+		GeoList list = evaluateGeoElement("L = {z = 2}");
+		GeoPointND point = evaluateGeoElement("A = (1, 2, 3)");
+
+		list.pointChanged(point);
+
+		assertFalse(point.isDefined());
+		assertEquals(Coords.VX.toString(), list.getMainDirection().toString());
+	}
+
+	@Test
+	@Issue("APPS-7421")
+	public void planeOnlyListIsNotConsideredPath() {
+		GeoList list = evaluateGeoElement("L = {z = 2}");
+		GeoPointND point = evaluateGeoElement("A = (1, 2, 2)");
+
+		assertFalse(list.isOnPath(point, Kernel.STANDARD_PRECISION));
 	}
 }

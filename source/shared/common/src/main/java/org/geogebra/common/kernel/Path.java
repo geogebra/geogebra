@@ -20,5 +20,10 @@ package org.geogebra.common.kernel;
  * @author Markus Hohenwarter
  */
 public interface Path extends PathOrPoint {
-	// just tagging interface
+
+	/**
+	 * Returns a PathMover object for this path.
+	 * @return a PathMover object for this path.
+	 */
+	PathMover createPathMover();
 }

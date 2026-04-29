@@ -117,6 +117,9 @@ public class GeoList extends GeoElement
 	// Selection index for lists used in comboBoxes
 	private int selectedIndex = 0;
 
+	/**
+	 * Index of the nearest PathOrPoint element, or -1 if there is none.
+	 */
 	private int closestPointIndex;
 
 	private TraceModesEnum traceModes = null;
@@ -1758,12 +1761,11 @@ public class GeoList extends GeoElement
 	 */
 	@Override
 	public void pointChanged(final GeoPointND P) {
-
 		P.updateCoords();
 
 		// update closestPointIndex
 		getNearestPoint(P);
-		if (elements.size() == 0) {
+		if (elements.isEmpty() || closestPointIndex < 0) {
 			if (P.isDefined()) {
 				P.setUndefined();
 			}
@@ -1771,8 +1773,7 @@ public class GeoList extends GeoElement
 		}
 		final GeoElement geo = get(closestPointIndex);
 		if (!(geo instanceof PathOrPoint)) {
-			Log.debug("TODO: " + geo.getGeoClassType()
-					+ " should implement PathOrPoint interface");
+			Log.debug("TODO: " + geo.getGeoClassType() + " should implement PathOrPoint interface");
 			return;
 		}
 		final PathOrPoint path = (PathOrPoint) get(closestPointIndex);
@@ -1821,13 +1822,12 @@ public class GeoList extends GeoElement
 	 */
 	public void getNearestPoint(final GeoPointND p) {
 		double distance = Double.POSITIVE_INFINITY;
-		closestPointIndex = 0; // default - first object
+		closestPointIndex = -1;
 
-		// double closestIndex = -1;
 		for (int i = 0; i < elements.size(); i++) {
 			final GeoElement geo = elements.get(i);
-			if (geo instanceof PathOrPoint) {
-				final double d = p.distanceToPath((PathOrPoint) geo);
+			if (geo instanceof PathOrPoint pathOrPoint) {
+				final double d = p.distanceToPath(pathOrPoint);
 
 				// Log.debug(i+" "+d+" "+distance+" "+geo);
 				if (d < distance) {
@@ -1840,23 +1840,13 @@ public class GeoList extends GeoElement
 
 	@Override
 	public double distance(final GeoPoint p) {
-		double distance = Double.POSITIVE_INFINITY;
-		for (int i = 0; i < elements.size(); i++) {
-			final GeoElement geo = elements.get(i);
-			final double d = geo.distance(p);
-			if (d < distance) {
-				distance = d;
-			}
-		}
-
-		return distance;
+		return distance((GeoPointND) p);
 	}
 
 	@Override
 	public double distance(final GeoPointND p) {
 		double distance = Double.POSITIVE_INFINITY;
-		for (int i = 0; i < elements.size(); i++) {
-			final GeoElement geo = elements.get(i);
+		for (final GeoElement geo : elements) {
 			final double d = geo.distance(p);
 			if (d < distance) {
 				distance = d;
@@ -1950,7 +1940,7 @@ public class GeoList extends GeoElement
 	public boolean isOnPath(final GeoPointND PI, final double eps) {
 		for (int i = 0; i < elements.size(); i++) {
 			final GeoElement geo = elements.get(i);
-			if (((PathOrPoint) geo).isOnPath(PI, eps)) {
+			if (geo instanceof PathOrPoint pathOrPoint && pathOrPoint.isOnPath(PI, eps)) {
 				return true;
 			}
 		}
@@ -2626,7 +2616,7 @@ public class GeoList extends GeoElement
 
 	@Override
 	final public Coords getMainDirection() {
-		if (elements.size() <= closestPointIndex) {
+		if (closestPointIndex < 0 || elements.size() <= closestPointIndex) {
 			return Coords.VX;
 		}
 		return elements.get(closestPointIndex).getMainDirection();

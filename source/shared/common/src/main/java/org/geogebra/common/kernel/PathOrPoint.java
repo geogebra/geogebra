@@ -85,13 +85,6 @@ public interface PathOrPoint extends GeoElementND {
 	boolean isClosedPath();
 
 	/**
-	 * Returns a PathMover object for this path.
-	 * 
-	 * @return a PathMover object for this path.
-	 */
-	PathMover createPathMover();
-
-	/**
 	 * @param parameter path parameter
 	 * @param increment increment
 	 * @return whether adding increment would have no effect

@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.LocateableList;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
-import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.PathOrPoint;
 import org.geogebra.common.kernel.PathParameter;
@@ -1618,11 +1617,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	@Override
 	public boolean isClosedPath() {
 		return false;
-	}
-
-	@Override
-	public PathMover createPathMover() {
-		return null;
 	}
 
 	@Override
