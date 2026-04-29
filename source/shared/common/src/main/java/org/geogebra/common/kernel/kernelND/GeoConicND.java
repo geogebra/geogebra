@@ -123,17 +123,14 @@ public abstract class GeoConicND extends GeoQuadricND
 	// for classification
 	private double detS;
 	private double length;
-	private double temp;
-	private double temp1;
-	private double temp2;
 	private double nx;
 	private double ny;
 	private double lambda;
-	private GeoVec2D c = new GeoVec2D(kernel);
+	private final GeoVec2D c = new GeoVec2D(kernel);
 	/** error DetS */
 	public double errDetS = Kernel.STANDARD_PRECISION;
 
-	private double[] coeffs = new double[6];
+	private final double[] coeffs = new double[6];
 
 	private boolean eigenvectorsSetOnLoad = false;
 	private GgbMat polarMatrix;
@@ -1878,9 +1875,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            array in which the flat matrix should be stored
 	 */
 	final public void getMatrix(double[] out) {
-		for (int i = 0; i < 6; i++) {
-			out[i] = matrix[i];
-		}
+		System.arraycopy(matrix, 0, out, 0, 6);
 	}
 
 	/**
@@ -1891,9 +1886,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	final public void setMatrix(double[] matrix) {
 		setDefinition(null);
-		for (int i = 0; i < 6; i++) {
-			this.matrix[i] = matrix[i];
-		}
+		System.arraycopy(matrix, 0, this.matrix, 0, 6);
 		classifyConic();
 	}
 
@@ -1904,9 +1897,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            array from which the flat matrix should be read
 	 */
 	final public void setDegenerateMatrixFromArray(double[] matrix) {
-		for (int i = 0; i < 6; i++) {
-			this.matrix[i] = matrix[i];
-		}
+		System.arraycopy(matrix, 0, this.matrix, 0, 6);
 		classifyConic(true);
 	}
 
@@ -2762,8 +2753,8 @@ public abstract class GeoConicND extends GeoQuadricND
 		// set intersecting lines
 		getLines();
 		// n = T . (-mu, 1)
-		temp1 = eigenvec[0].getX() * mu1[0];
-		temp2 = eigenvec[0].getY() * mu1[0];
+		double temp1 = eigenvec[0].getX() * mu1[0];
+		double temp2 = eigenvec[0].getY() * mu1[0];
 		nx = eigenvec[1].getX() - temp1;
 		ny = eigenvec[1].getY() - temp2;
 
@@ -2805,7 +2796,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 			if (mu1[0] > mu1[1]) {
 				// swap eigenvectors and mu
-				temp = mu1[0];
+				double temp = mu1[0];
 				mu1[0] = mu1[1];
 				mu1[1] = temp;
 
@@ -2830,7 +2821,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		type = GeoConicNDConstants.CONIC_HYPERBOLA;
 		if (mu1[0] < 0) {
 			// swap eigenvectors and mu
-			temp = mu1[0];
+			double temp = mu1[0];
 			mu1[0] = mu1[1];
 			mu1[1] = temp;
 
@@ -2902,7 +2893,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		if (degenerate || DoubleUtil.isZero(c.getX())) {
 			findEigenvectors();
 			// b = T . (0, -c.y/lambda)
-			temp = c.getY() / lambda;
+			double temp = c.getY() / lambda;
 			/*
 			 * b.x = temp * eigenvecY; b.y = -temp * eigenvecX;
 			 */
@@ -2993,13 +2984,13 @@ public abstract class GeoConicND extends GeoQuadricND
 		getLines();
 		nx = -eigenvec[0].getY();
 		ny = eigenvec[0].getX();
-		temp1 = b.getX() * nx + b.getY() * ny;
+		double temp1 = b.getX() * nx + b.getY() * ny;
 		lines[0].x = nx;
 		lines[0].y = ny;
 		lines[1].x = nx;
 		lines[1].y = ny;
 		// smallest change:
-		temp2 = mu1[0] - temp1;
+		double temp2 = mu1[0] - temp1;
 		if (Math.abs(lines[0].z - temp2) < Math.abs(lines[1].z - temp2)) {
 			lines[0].z = temp2;
 			lines[1].z = -temp1 - mu1[0];
@@ -3022,14 +3013,12 @@ public abstract class GeoConicND extends GeoQuadricND
 		getLines();
 		nx = -eigenvec[0].getY();
 		ny = eigenvec[0].getX();
-		temp1 = b.getX() * nx + b.getY() * ny;
+		double temp1 = b.getX() * nx + b.getY() * ny;
 		lines[0].x = nx;
 		lines[0].y = ny;
 
 		// smallest change:
-		temp2 = mu1[0] - temp1;
-
-		lines[0].z = temp2;
+		lines[0].z = mu1[0] - temp1;
 
 		setStartPointsForLines();
 	}
@@ -3076,8 +3065,8 @@ public abstract class GeoConicND extends GeoQuadricND
 
 		// calc vertex = b
 		// b = T . ((c.y\u00b2/lambda - A2)/(2 c.x) , -c.y/lambda)
-		temp2 = c.getY() / lambda;
-		temp1 = (c.getY() * temp2 - matrix[2]) / (2 * c.getX());
+		double temp2 = c.getY() / lambda;
+		double temp1 = (c.getY() * temp2 - matrix[2]) / (2 * c.getX());
 		/*
 		 * b.x = eigenvecY * temp2 + eigenvecX * temp1; b.y = eigenvecY * temp1
 		 * - eigenvecX * temp2;
@@ -3421,16 +3410,13 @@ public abstract class GeoConicND extends GeoQuadricND
 			break;
 
 		case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+		case GeoConicNDConstants.CONIC_LINE:
 			ret = getLoc().getMenu("DoubleLineEquation");
 			break;
 
 		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
 			ret = getLoc().getMenu("ConicLinesEquation");
-			break;
-
-		case GeoConicNDConstants.CONIC_LINE:
-			ret = getLoc().getMenu("DoubleLineEquation");
 			break;
 
 		}
@@ -3453,14 +3439,12 @@ public abstract class GeoConicND extends GeoQuadricND
 				return "ParabolaEquation";
 
 			case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+			case GeoConicNDConstants.CONIC_LINE:
 				return "DoubleLineEquation";
 
 			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 			case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
 				return "ConicLinesEquation";
-
-			case GeoConicNDConstants.CONIC_LINE:
-				return "DoubleLineEquation";
 		}
 		return null;
 	}
@@ -3527,9 +3511,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	/**
 	 * Returns true if point is in circle/ellipse. Coordinates of PointInterface
 	 * are used directly to avoid rounding errors.
-	 * 
-	 * @author Michael Borcherds
-	 * @version 2010-05-17
+	 *
 	 * @param x0
 	 *            x-coord
 	 * @param y0
@@ -3566,8 +3548,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * Point's parameters are set to its EV coordinates
-	 * 
-	 * @version 2010-07-30
+	 *
 	 * @param PI
 	 *            point
 	 */
