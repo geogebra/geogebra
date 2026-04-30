@@ -81,7 +81,10 @@ public class ViewAltTexts {
 	 * specified by viewIndex.
 	 */
 	public GeoElement getAltGeo(int viewIndex) {
-		GeoElement geoElement = kernel.lookupLabel(get(viewIndex));
+		// viewIndex may be -1 in SciCalc
+		GeoElement geoElement = viewIndex >= 0 && viewIndex < visibleViews.size()
+				? kernel.lookupLabel(get(viewIndex))
+				: null;
 		return (geoElement == null || geoElement.isEuclidianVisible())
 				? null
 				: geoElement;

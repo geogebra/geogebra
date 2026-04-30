@@ -184,7 +184,7 @@ public class ToolbarDockPanelW extends DockPanelW
 
 	@Override
 	public int getInnerWidth() {
-		return getOffsetWidth();
+		return decorator.getAlgebraViewWidth(getOffsetWidth() - getNavigationRailWidth());
 	}
 
 	@Override

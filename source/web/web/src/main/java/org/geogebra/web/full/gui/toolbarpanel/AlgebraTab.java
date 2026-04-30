@@ -128,7 +128,7 @@ public class AlgebraTab extends ToolbarTab {
 			return;
 		}
 		aview.setUserWidth(tabWidth);
-		aview.resize(tabWidth);
+		aview.resize(getDecorator().getAlgebraViewWidth(tabWidth));
 		logo.onResize(aview, getTabHeight());
 		scrollToActiveItem();
 	}

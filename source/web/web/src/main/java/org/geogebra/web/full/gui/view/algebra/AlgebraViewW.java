@@ -127,10 +127,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/** whether it's attached to kernel */
 	protected boolean attached = false;
 
-	private AnimationCallback repaintCallback = ts -> doRepaint();
+	private final AnimationCallback repaintCallback = ts -> doRepaint();
 
-	private AnimationCallback repaintSlidersCallback = ts -> doRepaintSliders();
-	private GeoSelectionCallback selectionCallback = new GeoSelectionCallback();
+	private final AnimationCallback repaintSlidersCallback = ts -> doRepaintSliders();
+	private final GeoSelectionCallback selectionCallback = new GeoSelectionCallback();
 	/**
 	 * The mode of the tree, see MODE_DEPENDENCY, MODE_TYPE
 	 */
@@ -164,7 +164,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private TreeItem rootLayer;
 	private HashMap<Integer, TreeItem> layerNodesMap;
 
-	private HashMap<GeoElement, RadioTreeItem> nodeTable = new HashMap<>(500);
+	private final HashMap<GeoElement, RadioTreeItem> nodeTable = new HashMap<>(500);
 
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 
@@ -440,7 +440,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		return App.VIEW_ALGEBRA;
 	}
 
-	// TODO EuclidianView#setHighlighted() doesn't exist
 	/**
 	 * updates node of GeoElement geo (needed for highlighting)
 	 *
@@ -1960,7 +1959,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 *            minimal width
 	 */
 	public void resize(int minWidth) {
-		int resizedWidth = getOffsetWidth();
+		int resizedWidth = getAlgebraDockPanel().getInnerWidth();
 		setWidths(Math.max(minWidth, resizedWidth));
 		if (activeItem != null) {
 			activeItem.updateButtonPanelPosition();
@@ -2002,16 +2001,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			if (ti instanceof RadioTreeItem) {
 				RadioTreeItem ri = RadioTreeItem.as(ti);
 				ri.setItemWidth(width);
-
 			} else if (ti.getWidget() instanceof GroupHeader) {
-
 				for (int j = 0; j < ti.getChildCount(); j++) {
 					if (ti.getChild(j) instanceof RadioTreeItem) {
 						RadioTreeItem.as(ti.getChild(j)).setItemWidth(width);
-
 					}
 				}
-
 			}
 		}
 	}
@@ -2020,10 +2015,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * Update highlighting of rows
 	 */
 	public void updateSelection() {
-		// if (selectionCtrl.isMultiSelect()) {
-		// return;
-		// }
-
 		if (selectionCtrl.isEmpty()) {
 			removeCloseButton();
 		}
@@ -2045,24 +2036,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 						if (geo != null) {
 							selectRow(geo, geo.doHighlighting());
 						}
-
 					}
 				}
-
 			}
 		}
-	}
-
-	/**
-	 * Clears the selection of the last selected item, it also stops editing if
-	 * it is currently edited.
-	 */
-	public void unselectActiveItem() {
-		if (activeItem != null) {
-			activeItem.getController().stopEdit();
-			unselect(activeItem.getGeo());
-		}
-		// repaintView();
 	}
 
 	/**
@@ -2070,16 +2047,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	public void clearActiveItem() {
 		activeItem = null;
-		// repaintView();
-	}
-
-	private void unselect(GeoElement geo) {
-		if (geo == null) {
-			return;
-		}
-		RadioTreeItem node = nodeTable.get(geo);
-		node.selectItem(false);
-		selectRow(geo, false);
 	}
 
 	@Override
@@ -2155,9 +2122,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public int getFullWidth() {
 		int avWidth = getAlgebraDockPanel().getInnerWidth();
 		if (app.isUnbundled()) {
-			return avWidth - getAlgebraDockPanel().getNavigationRailWidth();
+			return avWidth;
 		}
-		return maxItemWidth < avWidth ? avWidth : maxItemWidth;
+		return Math.max(maxItemWidth, avWidth);
 	}
 
 	/**
@@ -2197,14 +2164,13 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (app.isUnbundled()) {
 			return;
 		}
-		int w = userWidth;
 		AlgebraPanelInterface avDockPanel = getAlgebraDockPanel();
 		DockSplitPaneW avParent = getAlgebraDockPanel().getParentSplitPane();
 		if (avParent == null || userWidth == 0
 				|| avParent.getOrientation() == SwingConstants.VERTICAL_SPLIT) {
 			return;
 		}
-
+		int w = userWidth;
 		// normally the "center" orientation should be handled by the
 		// VERTICAL_SPLIT check above
 		if (!avParent.isCenter(avDockPanel)) {
@@ -2256,13 +2222,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	public RadioTreeItem getNode(GeoElement geo) {
 		return nodeTable.get(geo);
-	}
-
-	/**
-	 * @return width determined by user resizing
-	 */
-	public int getUserWidth() {
-		return userWidth;
 	}
 
 	/**

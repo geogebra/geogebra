@@ -797,7 +797,6 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 				setWidth(width + "px");
 			}
 		}
-
 		onResize();
 	}
 
@@ -824,7 +823,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	public boolean enterEditMode(boolean substituteNumbers) {
 		content.addStyleName("scrollableTextBox");
 		if (isInputTreeItem()) {
-			setItemWidth(getAV().getOffsetWidth());
+			setItemWidth(getAV().getAlgebraDockPanel().getInnerWidth());
 		}
 
 		if (controller.isEditing()) {

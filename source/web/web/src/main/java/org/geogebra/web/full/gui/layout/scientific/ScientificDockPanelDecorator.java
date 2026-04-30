@@ -38,6 +38,8 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	// TODO to find out where is this come from.
 	public static final int TAB_HEIGHT_DIFFERENCE = 40;
 	public static final int TABLE_HEIGHT_DIFFERENCE = 64;
+	private static final int PADDING = 48;
+	private static final int MAX_SHEET_WIDTH = 800;
 	private FlowPanel main;
 	private Widget tableTab;
 	private Widget algebraTab;
@@ -117,6 +119,17 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	@Override
 	public boolean hasShadedColumns() {
 		return false;
+	}
+
+	@Override
+	public int getAlgebraViewWidth(int panelInnerWidth) {
+		if (app.getAppletFrame().shouldHaveSmallScreenLayout()) {
+			return panelInnerWidth;
+		}
+		if (panelInnerWidth > MAX_SHEET_WIDTH + PADDING) {
+			return MAX_SHEET_WIDTH;
+		}
+		return panelInnerWidth - PADDING;
 	}
 
 	@Override

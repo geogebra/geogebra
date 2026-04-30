@@ -82,4 +82,12 @@ public interface DockPanelDecorator {
 	 * @return whether table of values should have shaded columns
 	 */
 	boolean hasShadedColumns();
+
+	/**
+	 * @param panelInnerWidth width of the panel excluding the navigation rail
+	 * @return width usable for AV (in pixels)
+	 */
+	default int getAlgebraViewWidth(int panelInnerWidth) {
+		return panelInnerWidth;
+	}
 }

@@ -10,7 +10,7 @@ function installScript(filename) {
     var script = doc.createElement('script');
     var debug = new URLSearchParams(location.search).get('GeoGebraDebug');
     var sourceMaps = debug != null;
-    if (location.host && location.host.match(/localhost|apps-builds\./)) {
+    if (location.host && location.host.match(/127\.0\.0\.1|localhost|apps-builds\./)) {
       sourceMaps = debug != 'false';
     }
     if (location.protocol.startsWith("http") && !sourceMaps) {

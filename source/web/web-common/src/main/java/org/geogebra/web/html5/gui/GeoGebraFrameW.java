@@ -67,6 +67,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private static final String APPLET_UNFOCUSED_CLASSNAME = "applet-unfocused";
 	private static final ArrayList<GeoGebraFrameW> instances = new ArrayList<>();
 	private static final int SMALL_SCREEN_HEADER_HEIGHT = 48;
+	private static final double COMPACT_WIDTH = 600;
 	/** The application */
 	protected AppW app;
 
@@ -312,7 +313,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * @return whether navigation rail should be compact (based on app width)
 	 */
 	public boolean hasCompactNavigationRail() {
-		return app.getWidth() < 600;
+		return app.getWidth() < COMPACT_WIDTH;
 	}
 
 	private void setHeightWithCompactHeader() {
