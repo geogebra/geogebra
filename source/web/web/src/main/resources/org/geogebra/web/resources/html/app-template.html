@@ -15,9 +15,6 @@ var module = "web3d";
 var defaultParams = {"vendor":"<!--VENDOR-->", "preloadModules":""};
 var prerelease = false;
 var startDelay = 0;
-var marginTop = 0;
-var analyticsVersion = 'V'+latestVersion;
-var appOnline=true;
 var translation = {};
 var codebase = "<!--CODEBASE-->";
 </script>
@@ -317,15 +314,15 @@ var codebase = "<!--CODEBASE-->";
 		if (window.loadFontAwesome) {
 			window.loadFontAwesome();
 		}
-		app = document.createElement("script");
+		const app = document.createElement("script");
 		app.setAttribute("src",codebase+module+"/"+module+".nocache.js");
 		window.setTimeout(function(){
 			document.head.appendChild(app);
 		}, startDelay);
 	}
 
-	function isLocalhost(){
-		return location.protocol.match(/(chrome|app|file:)/) || location.host.match(/^([0-9.]*|localhost|apps-builds.s3.*.amazonaws.com)(:.+)?$/);
+	function isDevelopmentHost() {
+		return location.host && location.host.match(/^([0-9.]*|localhost|apps-builds.s3.*.amazonaws.com)(:.+)?$/);
 	}
 
 	function showStartScreen(){
@@ -348,8 +345,8 @@ var codebase = "<!--CODEBASE-->";
 		if (getURLParam("perspective")) {
 			return getURLParam("perspective");
 		}
-		var parts = location.pathname.split("/");
-		var path = parts.length == 1 || parts[parts.length-1].length? parts[parts.length-1] : parts[parts.length-2] ;
+		const parts = location.pathname.split("/");
+		const path = parts.length == 1 || parts[parts.length-1].length? parts[parts.length-1] : parts[parts.length-2] ;
 		if (location.hash.length || (path != '/apps' && path != '/apps/' && !path.match(/\.html$/))) {
 			return location.hash.length ? location.hash.replace('#','') : path;
 		}
@@ -378,7 +375,7 @@ var codebase = "<!--CODEBASE-->";
 		if ((prereleaseParam || prerelease) && ("false" != prereleaseParam)) {
 			setPrerelease();
 		}
-		if (isLocalhost()) {
+		if (isDevelopmentHost()) {
 			setDebug();
 		}
 	}
@@ -398,7 +395,7 @@ var codebase = "<!--CODEBASE-->";
 	}
 
 	function loadApp(){
-		if(isLocalhost()) {
+		if (isDevelopmentHost()) {
 			defaultParams.backendURL = "https://api-beta.geogebra.org/v1.0";
 		}
 
@@ -478,8 +475,8 @@ document.isChromeWebapp = function isChromeWebapp() {
         color: #666666;
         font-size: 14px;
         font-family: sans-serif;
-        margin: 0px;
-        padding: 0px;
+        margin: 0;
+        padding: 0;
         position: fixed;
         top:0;
         width:100%;

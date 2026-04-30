@@ -379,7 +379,7 @@ fun classicHtml(
         .replace("<!--ICON-->", "https://www.geogebra.org/apps/icons/geogebra.ico")
         .replace(
             "<!--PLATFORM SPECIFIC CODE-->",
-            "<script>prerelease=${prerelease};appOnline=${!offline};</script>" + platformSpecific
+            "<script>prerelease=${prerelease};</script>" + platformSpecific
         )
         .injectFirebaseMetadata(app.firebaseAppId ?: "", app.measurementId ?: "")
 }
@@ -449,7 +449,7 @@ fun appHtml(
         .replace("<!--PRELOADED CSS-->", inlinedCss)
         .replace(
             "<!--PLATFORM SPECIFIC CODE-->",
-            "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific
+            "<script>prerelease=${prerelease};appID=\"${appID}\";</script>" + platformSpecific
         )
         .replace(
             "<!--ICON-->",
