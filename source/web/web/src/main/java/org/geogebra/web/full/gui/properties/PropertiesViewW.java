@@ -681,7 +681,7 @@ public class PropertiesViewW extends PropertiesView
 		}
 		settingsTab = new ComponentTab((AppW) app, "Settings",
 				oldTab != -1 && oldTab < tabs.size() ? oldTab : 0,
-				selectedOptionType.getName(), tabs.toArray(new TabData[0]));
+				optionType.getName(), tabs.toArray(new TabData[0]));
 		sideSheet.addToContent(settingsTab);
 		this.objectPropertiesVisible = showObjectProperties;
 		wrappedPanel.add(sideSheet);
