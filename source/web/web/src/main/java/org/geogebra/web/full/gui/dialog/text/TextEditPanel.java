@@ -343,7 +343,7 @@ public class TextEditPanel extends FlowPanel
 		String inputValue = dTProcessor
 				.buildGeoGebraString(editor.getDynamicTextList(), isLatex());
 		boolean isLaTeX = previewer.updatePreviewText(editGeo,
-				inputValue, isLatex(),
+				inputValue, editGeo != null ? editGeo.isLaTeX() : isLatex(),
 				byUser && mayDetectLaTeX);
 		if (!wasLaTeX && isLaTeX) {
 			btnLatex.setSelected(true);
