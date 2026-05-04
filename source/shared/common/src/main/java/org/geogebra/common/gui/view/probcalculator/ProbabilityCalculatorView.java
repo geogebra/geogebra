@@ -17,9 +17,12 @@
 package org.geogebra.common.gui.view.probcalculator;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.TreeSet;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.annotations.HasNativeSubclass;
@@ -201,6 +204,16 @@ public abstract class ProbabilityCalculatorView
 	private GeoElement integralLeft;
 	private GeoElement integralRight;
 	private DiscreteTwoTailedGraph discreteTwoTailedGraph;
+	private final Set<Listener> listeners = new HashSet<>();
+
+	/**
+	 * Listener notified when the probability calculator view state changes in a way that may
+	 * affect dependent views.
+	 */
+	public interface Listener {
+		/** Called after the probability calculator view state has changed. */
+		void probabilityCalculatorViewChanged();
+	}
 
 	/**
 	 * @param app application
@@ -223,6 +236,26 @@ public abstract class ProbabilityCalculatorView
 		xAxis = new ProbabilityXAxis(kernel);
 		discreteDistributionFactory = new DiscreteDistributionFactory(cons);
 		updateRoundingFlags();
+	}
+
+	/**
+	 * Registers a listener for probability calculator view changes.
+	 * @param listener listener to add
+	 */
+	public void addListener(@Nonnull Listener listener) {
+		listeners.add(listener);
+	}
+
+	/**
+	 * Unregisters a probability calculator view change listener.
+	 * @param listener listener to remove
+	 */
+	public void removeListener(@Nonnull Listener listener) {
+		listeners.remove(listener);
+	}
+
+	private void notifyListeners() {
+		listeners.forEach(Listener::probabilityCalculatorViewChanged);
 	}
 
 	/**
@@ -286,6 +319,7 @@ public abstract class ProbabilityCalculatorView
 		if (setCumulativeNoFire(isCumulative)) {
 			changeProbabilityType();
 			updateAll(true);
+			notifyListeners();
 		}
 	}
 
@@ -351,6 +385,7 @@ public abstract class ProbabilityCalculatorView
 			GeoNumberValue[] parameters, boolean isCumulative) {
 		setProbabilityCalculatorNoFire(distributionType, parameters, isCumulative);
 		updateAll(true);
+		notifyListeners();
 	}
 
 	protected void setProbabilityCalculatorNoFire(Dist distributionType,
@@ -858,6 +893,7 @@ public abstract class ProbabilityCalculatorView
 		}
 		updateProbabilityType(getResultPanel());
 		updateResult(getResultPanel());
+		notifyListeners();
 	}
 
 	private GeoElement createIntegral(GeoNumberValue low, GeoNumberValue high) {
@@ -1403,6 +1439,7 @@ public abstract class ProbabilityCalculatorView
 		if (getStatCalculator() != null) {
 			getStatCalculator().settingsChanged();
 		}
+		notifyListeners();
 	}
 
 	/**
@@ -1575,6 +1612,7 @@ public abstract class ProbabilityCalculatorView
 				this.integral.updateCascade();
 			}
 		}
+		notifyListeners();
 	}
 
 	/**
@@ -2304,6 +2342,7 @@ public abstract class ProbabilityCalculatorView
 			updateProbabilityType(getResultPanel());
 		}
 		updateResult();
+		notifyListeners();
 	}
 
 	/**

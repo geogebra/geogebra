@@ -30,6 +30,11 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * @deprecated Legacy distribution result panel retained temporarily for iOS/Web migration.
+ * Remove after those platforms switch to the PropertyView-based distribution settings path.
+ */
+@Deprecated
 public class PropertyResultPanel implements ResultPanel {
 
 	private ProbabilityCalculatorView view;

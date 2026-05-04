@@ -23,14 +23,22 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.ownership.SuiteScope;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.properties.factory.PropertiesArray;
+import org.geogebra.common.properties.impl.distribution.DistributionParameterProperty;
+import org.geogebra.common.properties.impl.distribution.DistributionTypeProperty;
+import org.geogebra.common.properties.impl.distribution.IntervalProperty;
+import org.geogebra.common.properties.impl.distribution.IsCumulativeProperty;
+import org.geogebra.common.properties.impl.distribution.ProbabilityResultValuesProperty;
 import org.geogebra.common.properties.impl.undo.UndoSavingPropertyObserver;
 import org.geogebra.common.properties.util.PropertyArrayValueObserving;
 
@@ -121,8 +129,7 @@ public class PropertyViewFactory {
 	 * @return the {@code PropertyView} containing the app settings
 	 */
 	public static @Nonnull PropertyView.TabbedPageSelector propertyViewOfAppSettings(
-			@Nonnull App app,
-			@Nonnull PropertiesRegistry propertiesRegistry,
+			@Nonnull App app, @Nonnull PropertiesRegistry propertiesRegistry,
 			boolean objectPropertiesAreShown) {
 		List<PropertiesArray> propertyArrayList = app.getConfig().createPropertiesFactory()
 				.createProperties(app, app.getLocalization(), propertiesRegistry);
@@ -130,6 +137,36 @@ public class PropertyViewFactory {
 				propertyArrayList, objectPropertiesAreShown);
 		return new PropertyView.TabbedPageSelector(app.getLocalization().getMenu("Settings"),
 				propertyArrayList, initialSelectedTabIndex);
+	}
+
+	/**
+	 * Constructs the {@link Property}s for the distribution view and transforms them into a list of
+	 * {@code PropertyView} to be displayed.
+	 * @param localization the localization to translate property names with
+	 * @param algebraProcessor the algebra processor to use for probability result calculations
+	 * @param probabilityCalculatorView the backing probability calculator view
+	 * @param propertiesRegistry the {@link PropertiesRegistry} to register the properties with
+	 * @return the list of {@code PropertyView} to be displayed in the distribution view
+	 */
+	public static @Nonnull List<PropertyView> propertyViewOfDistributionSettings(
+			@Nonnull Localization localization, @Nonnull AlgebraProcessor algebraProcessor,
+			@Nonnull ProbabilityCalculatorView probabilityCalculatorView,
+			@Nonnull PropertiesRegistry propertiesRegistry) {
+		List<Property> properties = List.of(
+				new DistributionTypeProperty(localization, probabilityCalculatorView),
+				new IsCumulativeProperty(localization, probabilityCalculatorView),
+				new IntervalProperty(localization, probabilityCalculatorView),
+				new DistributionParameterProperty(algebraProcessor, probabilityCalculatorView,
+						localization, 0),
+				new DistributionParameterProperty(algebraProcessor, probabilityCalculatorView,
+						localization, 1),
+				new DistributionParameterProperty(algebraProcessor, probabilityCalculatorView,
+						localization, 2),
+				new ProbabilityResultValuesProperty(localization, algebraProcessor,
+						probabilityCalculatorView)
+		);
+		properties.forEach(propertiesRegistry::register);
+		return properties.stream().map(PropertyView::of).toList();
 	}
 
 	private static String getTypeString(GeoElement geoElement) {

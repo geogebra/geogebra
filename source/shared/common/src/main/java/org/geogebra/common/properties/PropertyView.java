@@ -16,6 +16,9 @@
 
 package org.geogebra.common.properties;
 
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.GEQ;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.LEQ;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,6 +31,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -41,8 +45,11 @@ import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.aliases.ImageProperty;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.factory.PropertiesArray;
+import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
 import org.geogebra.common.properties.impl.collections.ActionablePropertyCollection;
+import org.geogebra.common.properties.impl.distribution.ProbabilityCalculatorViewDependentProperty;
+import org.geogebra.common.properties.impl.distribution.ProbabilityResultValuesProperty;
 import org.geogebra.common.properties.impl.facade.AbstractPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.ImagePropertyListFacade;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
@@ -163,6 +170,7 @@ public abstract class PropertyView {
 
 	public abstract static class PropertyBackedView<T extends Property> extends PropertyView
 			implements PropertyValueObserver<Object>, SettingListener, EventListener,
+			ProbabilityCalculatorView.Listener, ValueFilter.Observer,
 			ChartSegmentSelection.Listener {
 		protected final @Nonnull T property;
 		private boolean previousAvailability;
@@ -173,20 +181,22 @@ public abstract class PropertyView {
 		protected PropertyBackedView(@Nonnull T property) {
 			this.property = property;
 			this.previousAvailability = property.isAvailable();
-			if (property instanceof SettingsDependentProperty) {
-				((SettingsDependentProperty) property).getSettings().addListener(this);
+			if (property instanceof SettingsDependentProperty settingsDependentProperty) {
+				settingsDependentProperty.getSettings().addListener(this);
 			}
-			if (property instanceof AbstractPropertyListFacade<?>) {
-				List<?> properties = ((AbstractPropertyListFacade<?>) property)
-						.getPropertyList();
+			if (property instanceof ProbabilityCalculatorViewDependentProperty) {
+				((ProbabilityCalculatorViewDependentProperty) property)
+						.getProbabilityCalculatorView().addListener(this);
+			}
+			if (property instanceof AbstractPropertyListFacade<?> abstractPropertyListFacade) {
+				List<?> properties = abstractPropertyListFacade.getPropertyList();
 				chartSelectionDependentProperties = properties.stream()
 						.filter(p -> p instanceof ChartSegmentSelectionDependentProperty)
 						.map(p -> (ChartSegmentSelectionDependentProperty) p)
 						.collect(Collectors.toList());
 				chartSelectionDependentProperties.forEach(dependentProperty ->
 						dependentProperty.getChartSegmentSelection().registerListener(this));
-				dependentGeoElements = properties
-						.stream()
+				dependentGeoElements = properties.stream()
 						.filter(p -> p instanceof GeoElementDependentProperty)
 						.map(p -> (GeoElementDependentProperty) p)
 						.map(GeoElementDependentProperty::getGeoElement)
@@ -194,20 +204,27 @@ public abstract class PropertyView {
 				dependentGeoElements.forEach(element -> element.getApp()
 						.getEventDispatcher().addEventListener(this));
 			}
-			if (property instanceof ValuedProperty) {
-				((ValuedProperty<?>) property).addValueObserver(this);
+			if (property instanceof ValuedProperty<?> valuedProperty) {
+				valuedProperty.addValueObserver(this);
+			}
+			if (property instanceof AbstractEnumeratedProperty<?> abstractEnumeratedProperty) {
+				abstractEnumeratedProperty.addValueFilterObserver(this);
 			}
 		}
 
-		protected void onDependentGeoElementUpdated() {
+		protected void updatePropertyViewValues() {
 			// Do nothing by default
 		}
 
 		@Override
 		public void detach() {
 			super.detach();
-			if (property instanceof SettingsDependentProperty) {
-				((SettingsDependentProperty) property).getSettings().removeListener(this);
+			if (property instanceof SettingsDependentProperty settingsDependentProperty) {
+				settingsDependentProperty.getSettings().removeListener(this);
+			}
+			if (property instanceof ProbabilityCalculatorViewDependentProperty) {
+				((ProbabilityCalculatorViewDependentProperty) property)
+						.getProbabilityCalculatorView().removeListener(this);
 			}
 			if (chartSelectionDependentProperties != null) {
 				chartSelectionDependentProperties.forEach(dependentProperty ->
@@ -218,8 +235,11 @@ public abstract class PropertyView {
 						.getEventDispatcher().removeEventListener(this));
 				dependentGeoElements = null;
 			}
-			if (property instanceof ValuedProperty) {
-				((ValuedProperty<?>) property).removeValueObserver(this);
+			if (property instanceof ValuedProperty<?> valuedProperty) {
+				valuedProperty.removeValueObserver(this);
+			}
+			if (property instanceof AbstractEnumeratedProperty<?> abstractEnumeratedProperty) {
+				abstractEnumeratedProperty.removeValueFilterObserver(this);
 			}
 		}
 
@@ -254,7 +274,17 @@ public abstract class PropertyView {
 		}
 
 		@Override
+		public void probabilityCalculatorViewChanged() {
+			notifyUpdateDelegates();
+		}
+
+		@Override
 		public void onDidSetValue(ValuedProperty<Object> property) {
+			notifyUpdateDelegates();
+		}
+
+		@Override
+		public void onValueFiltersChanged() {
 			notifyUpdateDelegates();
 		}
 
@@ -262,7 +292,7 @@ public abstract class PropertyView {
 		public void sendEvent(Event evt) {
 			if (dependentGeoElements != null && dependentGeoElements.contains(evt.target)) {
 				if (evt.type == EventType.UPDATE || evt.type == EventType.UPDATE_STYLE) {
-					onDependentGeoElementUpdated();
+					updatePropertyViewValues();
 					notifyUpdateDelegates();
 				}
 			}
@@ -478,7 +508,7 @@ public abstract class PropertyView {
 		}
 
 		@Override
-		protected void onDependentGeoElementUpdated() {
+		protected void updatePropertyViewValues() {
 			refreshCachedValue();
 		}
 
@@ -502,16 +532,19 @@ public abstract class PropertyView {
 			boolean valueShouldUpdate = !Objects.equals(value, newValue);
 			boolean errorMessageShouldUpdate = !Objects.equals(errorMessage,
 					property.validateValue(newValue));
+			if (!valueShouldUpdate && !errorMessageShouldUpdate) {
+				return;
+			}
 
 			value = newValue;
 			errorMessage = property.validateValue(newValue);
 
-			if (errorMessage == null && !isEditing) {
-				property.setValue(value);
-			} else if (valueShouldUpdate || errorMessageShouldUpdate) {
+			if (isEditing || errorMessage != null) {
 				if (configurationUpdateDelegate != null) {
 					configurationUpdateDelegate.configurationUpdated();
 				}
+			} else {
+				commitValue();
 			}
 		}
 
@@ -534,7 +567,14 @@ public abstract class PropertyView {
 		 */
 		public void stopEditing() {
 			isEditing = false;
-			setValue(value);
+			commitValue();
+		}
+
+		private void commitValue() {
+			String propertyValue = property.getValue() != null ? property.getValue() : "";
+			if (errorMessage == null && !Objects.equals(propertyValue, value)) {
+				property.setValue(value);
+			}
 		}
 	}
 
@@ -1453,6 +1493,92 @@ public abstract class PropertyView {
 	}
 
 	/**
+	 * Representation of a probability result row, containing a sequence of {@link Item.Text} and
+	 * {@link Item.InputField} items to be displayed in a flow row.
+	 */
+	public static final class ProbabilityResultRow
+			extends PropertyBackedView<ProbabilityResultValuesProperty> {
+		private final Item.InputField lowerBoundInputField;
+		private final Item.InputField upperBoundInputField;
+		private final Item.InputField probabilityResultInputField;
+
+		/** Item to be displayed in sequence in the row. */
+		public sealed interface Item permits Item.Text, Item.InputField {
+			/** Editable text input item. */
+			final class InputField extends ValidatablePropertyBackedView<StringProperty>
+					implements Item {
+				InputField(StringProperty stringProperty) {
+					super(stringProperty);
+				}
+
+				@Override
+				public void probabilityCalculatorViewChanged() {
+					updatePropertyViewValues();
+					super.probabilityCalculatorViewChanged();
+				}
+			}
+
+			/** Simple output-only text item. */
+			record Text(String text) implements Item {
+			}
+		}
+
+		ProbabilityResultRow(ProbabilityResultValuesProperty property) {
+			super(property);
+			lowerBoundInputField = new Item.InputField(property.getLowerBoundProperty());
+			upperBoundInputField = new Item.InputField(property.getUpperBoundProperty());
+			probabilityResultInputField = new Item.InputField(
+					property.getProbabilityResultProperty());
+		}
+
+		@Override
+		public void detach() {
+			super.detach();
+			lowerBoundInputField.detach();
+			upperBoundInputField.detach();
+			probabilityResultInputField.detach();
+		}
+
+		/**
+		 * @return the sequence of items to be displayed in the probability result row
+		 */
+		public @Nonnull List<Item> getItems() {
+			return switch (property.getMode()) {
+				case ProbabilityCalculatorView.PROB_LEFT -> List.of(
+						new Item.Text(property.getProbabilityExpressionPrefix() + "X " + LEQ + " "),
+						upperBoundInputField,
+						new Item.Text(property.getProbabilityExpressionSuffix() + " = "),
+						probabilityResultInputField);
+				case ProbabilityCalculatorView.PROB_RIGHT -> List.of(
+						new Item.Text(property.getProbabilityExpressionPrefix()),
+						lowerBoundInputField,
+						new Item.Text(" " + LEQ + " X"
+								+ property.getProbabilityExpressionSuffix() + " = "),
+						probabilityResultInputField);
+				case ProbabilityCalculatorView.PROB_TWO_TAILED -> List.of(
+						new Item.Text(property.getProbabilityExpressionPrefix() + "X " + LEQ + " "),
+						lowerBoundInputField,
+						new Item.Text(property.getProbabilityExpressionSuffix() + " + "
+								+ property.getProbabilityExpressionPrefix() + "X " + GEQ + " "),
+						upperBoundInputField,
+						new Item.Text(property.getProbabilityExpressionSuffix() + " = "),
+						new Item.Text(property.getLeftProbability()),
+						new Item.Text("+"),
+						new Item.Text(property.getRightProbability()),
+						new Item.Text("="),
+						new Item.Text(property.getTotalProbability()));
+				default -> List.of(
+						new Item.Text(property.getProbabilityExpressionPrefix()),
+						lowerBoundInputField,
+						new Item.Text(" " + LEQ + " X " + LEQ + " "),
+						upperBoundInputField,
+						new Item.Text(property.getProbabilityExpressionSuffix() + " = "),
+						new Item.Text(property.getProbabilityResultProperty().getValue()));
+			};
+		}
+	}
+
+	/**
 	 * Factory method that returns the appropriate {@code PropertyView}
 	 * for the given {@link Property}.
 	 * @param property the property for which to create the view
@@ -1578,6 +1704,9 @@ public abstract class PropertyView {
 			return new ActionableButtonRow(propertyCollection);
 		} else if (property instanceof ActionableIconProperty actionableIconProperty) {
 			return new ButtonWithIcon(actionableIconProperty);
+		} else if (property instanceof ProbabilityResultValuesProperty
+				probabilityResultValuesProperty) {
+			return new ProbabilityResultRow(probabilityResultValuesProperty);
 		} else if (property instanceof PropertyCollection<?> propertyCollection) {
 			return new ExpandableList(propertyCollection, propertyViewListOf(propertyCollection));
 		} else {

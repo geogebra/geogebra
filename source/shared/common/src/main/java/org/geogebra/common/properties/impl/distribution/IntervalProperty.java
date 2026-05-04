@@ -19,6 +19,7 @@ package org.geogebra.common.properties.impl.distribution;
 import java.util.List;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.main.Localization;
@@ -30,7 +31,7 @@ import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
  * Interval property.
  */
 public class IntervalProperty extends AbstractEnumeratedProperty<Integer> implements
-		IconsEnumeratedProperty<Integer> {
+		IconsEnumeratedProperty<Integer>, ProbabilityCalculatorViewDependentProperty {
 
 	private static final PropertyResource[] icons = {
 			PropertyResource.ICON_PROBABILITY_MODE_LEFT,
@@ -80,5 +81,10 @@ public class IntervalProperty extends AbstractEnumeratedProperty<Integer> implem
 	@Override
 	public boolean isEnabled() {
 		return !view.isCumulative();
+	}
+
+	@Override
+	public @Nonnull ProbabilityCalculatorView getProbabilityCalculatorView() {
+		return view;
 	}
 }

@@ -28,8 +28,10 @@ import org.geogebra.common.properties.PropertyKey;
 import org.geogebra.common.properties.impl.NumericPropertyUtil;
 
 /**
- * The result property on the distribution view.
+ * @deprecated Legacy distribution settings property retained temporarily for iOS/Web migration.
+ * Remove after those platforms switch to the PropertyView-based distribution settings path.
  */
+@Deprecated
 public class ProbabilityResultProperty implements Property {
 
 	/**

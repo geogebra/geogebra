@@ -26,8 +26,10 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNumericProperty;
 
 /**
- * The parameter property of the distribution view.
+ * @deprecated Legacy distribution settings property retained temporarily for iOS/Web migration.
+ * Remove after those platforms switch to the PropertyView-based distribution settings path.
  */
+@Deprecated
 public class ParameterProperty extends AbstractNumericProperty {
 
 	private final ProbabilityCalculatorView view;

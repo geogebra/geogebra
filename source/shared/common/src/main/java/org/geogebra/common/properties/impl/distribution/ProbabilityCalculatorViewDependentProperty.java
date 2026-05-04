@@ -14,29 +14,19 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.common.properties;
+package org.geogebra.common.properties.impl.distribution;
 
-import org.geogebra.common.restrictions.PropertyRestriction;
+import javax.annotation.Nonnull;
+
+import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 
 /**
- * A filter for property values.
- * <p>
- * See {@link PropertyRestriction} for a use case.
+ * Property whose visible state or displayed values may change when the backing
+ * {@link ProbabilityCalculatorView} changes.
  */
-@FunctionalInterface
-public interface ValueFilter {
-	/** Observer for changes to a property's value filters. */
-	@FunctionalInterface
-	interface Observer {
-		/** Called when value filters have changed. */
-		void onValueFiltersChanged();
-	}
-
+public interface ProbabilityCalculatorViewDependentProperty {
 	/**
-	 * Evaluates whether the specified value is allowed by this filter.
-	 *
-	 * @param value the value to be evaluated
-	 * @return {@code true} if the value is allowed, {@code false} otherwise
+	 * @return the probability calculator view this property depends on
 	 */
-	boolean isValueAllowed(Object value);
+	@Nonnull ProbabilityCalculatorView getProbabilityCalculatorView();
 }

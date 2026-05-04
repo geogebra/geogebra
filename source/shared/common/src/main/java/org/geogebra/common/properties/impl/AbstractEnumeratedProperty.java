@@ -17,7 +17,9 @@
 package org.geogebra.common.properties.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
@@ -37,6 +39,7 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 	private int[] groupDividerIndices = null;
 	private List<V> values = new ArrayList<>();
 	private final List<ValueFilter> valueFilters = new ArrayList<>();
+	private final Set<ValueFilter.Observer> valueFilterObservers = new HashSet<>();
 
 	/**
 	 * Constructs an AbstractEnumeratedProperty.
@@ -57,18 +60,42 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 	}
 
 	protected boolean filterValues(V value) {
-		return valueFilters.stream().allMatch(filter ->
-				filter.isValueAllowed(value));
+		return valueFilters.stream().allMatch(filter -> filter.isValueAllowed(value));
 	}
 
 	@Override
-	public void addValueFilter(@Nonnull ValueFilter valueFilter) {
+	public final void addValueFilter(@Nonnull ValueFilter valueFilter) {
 		valueFilters.add(valueFilter);
+		onValueFiltersChanged();
+		valueFilterObservers.forEach(ValueFilter.Observer::onValueFiltersChanged);
 	}
 
 	@Override
-	public void removeValueFilter(@Nonnull ValueFilter valueFilter) {
+	public final void removeValueFilter(@Nonnull ValueFilter valueFilter) {
 		valueFilters.remove(valueFilter);
+		onValueFiltersChanged();
+		valueFilterObservers.forEach(ValueFilter.Observer::onValueFiltersChanged);
+	}
+
+	/**
+	 * Adds an observer for value filter updates.
+	 * @param observer value filter observer
+	 */
+	public final void addValueFilterObserver(@Nonnull ValueFilter.Observer observer) {
+		valueFilterObservers.add(observer);
+	}
+
+	/**
+	 * Removes a previously added value filter observer.
+	 * @param observer value filter observer
+	 */
+	public final void removeValueFilterObserver(@Nonnull ValueFilter.Observer observer) {
+		valueFilterObservers.remove(observer);
+	}
+
+	/** Called after value filters change and before observers are notified. */
+	protected void onValueFiltersChanged() {
+		// To be overridden by subclasses that derive additional configuration from filters.
 	}
 
 	@Override

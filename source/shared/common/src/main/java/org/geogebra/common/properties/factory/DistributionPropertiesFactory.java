@@ -38,6 +38,11 @@ import org.geogebra.common.properties.impl.distribution.IsCumulativeProperty;
 import org.geogebra.common.properties.impl.distribution.ParameterProperty;
 import org.geogebra.common.properties.impl.distribution.ProbabilityResultProperty;
 
+/**
+ * @deprecated Legacy distribution settings factory retained temporarily for iOS/Web migration.
+ * Remove after those platforms switch to the PropertyView-based distribution settings path.
+ */
+@Deprecated
 public class DistributionPropertiesFactory implements PropertiesFactory {
 
 	private final ProbabilityCalculatorView probabilityCalculatorView;
