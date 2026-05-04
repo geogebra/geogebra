@@ -20,7 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -54,5 +56,14 @@ public class AlgoSequenceRangeTest extends BaseAppTestSetup {
 				.toValueString(StringTemplate.testTemplate));
 		assertEquals("?", evaluateGeoElement("Sequence(1,1,-1)")
 				.toValueString(StringTemplate.testTemplate));
+	}
+
+	@Test
+	@Issue("APPS-7291")
+	public void testRangeUpdate() {
+		evaluate("a=?");
+		GeoList list = evaluateGeoElement("Sequence(a,a,1)");
+		evaluate("SetValue(a,1)");
+		assertEquals("{1}", list.toValueString(StringTemplate.testTemplate));
 	}
 }

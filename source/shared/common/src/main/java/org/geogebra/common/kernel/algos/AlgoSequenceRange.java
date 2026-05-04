@@ -160,6 +160,7 @@ public class AlgoSequenceRange extends AlgoElement {
 		}
 		
 		list.clear();
+		list.setDefined(true);
 		double step = 1;
 		int sign = to >= from ? 1 : -1;
 		if (var_step != null) {
