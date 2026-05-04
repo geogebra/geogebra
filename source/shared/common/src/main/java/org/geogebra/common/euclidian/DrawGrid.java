@@ -295,13 +295,14 @@ public class DrawGrid {
 		g2.addStraightLineToGeneralPath(x1, y1, x2, y2);
 	}
 
-	protected void drawDotsGrid(GGraphics2D g2) {
+	protected void drawDotsGrid(GGraphics2D g2, double xCrossPix, double yCrossPix) {
 		double tickStepX = view.getXscale() * view.gridDistances[0];
 		double tickStepY = view.getYscale() * view.gridDistances[1];
-		double startX = (view.getXZero() % tickStepX) - tickStepX;
+		double startX = getFirstVisibleVerticalLineX(xCrossPix, tickStepX);
 		double startY = (view.getYZero() % tickStepY) - tickStepY;
 		double endX = view.getWidth();
-		double endY = view.getHeight() + 2 * tickStepY;
+		double endY = (view.positiveAxes[1] && yCrossPix < view.getHeight())
+				? yCrossPix : view.getHeight();
 
 		DrawBackground.drawDots(g2, startX, endX, startY, endY, tickStepX, tickStepY,
 				view.getSettings());

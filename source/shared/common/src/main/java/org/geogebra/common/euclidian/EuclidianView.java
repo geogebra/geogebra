@@ -4075,7 +4075,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 			break;
 		case GRID_DOTS:
-			drawGrid.drawDotsGrid(g2);
+			drawGrid.drawDotsGrid(g2, xCrossPix, yCrossPix);
 			break;
 		}
 
