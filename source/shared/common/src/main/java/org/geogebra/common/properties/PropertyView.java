@@ -16,9 +16,6 @@
 
 package org.geogebra.common.properties;
 
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.GEQ;
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.LEQ;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -89,6 +86,7 @@ import org.geogebra.common.properties.impl.objects.ScriptPropertyCollection;
 import org.geogebra.common.properties.impl.objects.SliderTrackColorPropertyCollection;
 import org.geogebra.common.properties.impl.objects.StyledItemProperty;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
+import org.geogebra.editor.share.util.Unicode;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -105,6 +103,8 @@ public abstract class PropertyView {
 	protected @Weak @CheckForNull VisibilityUpdateDelegate visibilityUpdateDelegate;
 	// Prevents overriding the visibility delegate when it relies solely on the parent's visibility.
 	protected boolean disableVisibilityUpdateDelegateSetter = false;
+	private static final char LEQ = Unicode.LESS_EQUAL;
+	private static final char GEQ = Unicode.GREATER_EQUAL;
 
 	/**
 	 * Delegate interface for receiving notifications about configuration updates.
