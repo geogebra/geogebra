@@ -26,10 +26,10 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-	String BUILD_DATE = "21 April 2026";
+	String BUILD_DATE = "04 May 2026";
 	/** complete version string */
 
-	String VERSION_STRING = "5.4.924.0";
+	String VERSION_STRING = "5.4.925.0";
 	/** proper noun, should NOT be translated / transliterated */
 	String APPLICATION_NAME = "GeoGebra";
 
