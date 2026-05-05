@@ -114,6 +114,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 				return;
 			}
 			item.getAV().setLaTeXLoaded();
+			app.getSelectionManager().resetKeyboardSelection();
 			evalInput.createGeoFromInput(keepFocus);
 			setEditing(false);
 			return;
