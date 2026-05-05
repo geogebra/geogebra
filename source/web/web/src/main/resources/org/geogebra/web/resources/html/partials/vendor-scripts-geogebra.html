@@ -1,17 +1,17 @@
 <script>
 function addAppletPreview(tubeid){
-	var previewDiv = document.createElement("div");
+	const previewDiv = document.createElement("div");
 	previewDiv.id = "ggbsplash";
 	previewDiv.style.zIndex = 1000;
-	var preview = document.createElement("img");
+	const preview = document.createElement("img");
 	preview.style.margin = "auto";
 	preview.style.position = "absolute";
-	
-	var xhr = new XMLHttpRequest();
-	var materialHost = isLocalhost() ? "https://beta.geogebra.org":"";
+
+	const xhr = new XMLHttpRequest();
+	const materialHost = isDevelopmentHost() ? "https://beta.geogebra.org" : "";
 	xhr.open("GET", materialHost + "/api/material_preview.php?u="+tubeid);
 	xhr.onreadystatechange = function() {
-		if (xhr.readyState == 4 && xhr.response) {
+		if (xhr.readyState === 4 && xhr.response) {
 			preview.addEventListener && preview.addEventListener("load",function(){
 			preview.style.top=(window.innerHeight/2-preview.height/2)+"px";
 			preview.style.left=(window.innerWidth/2-preview.width/2)+"px";
@@ -29,7 +29,7 @@ function addAppletPreview(tubeid){
 function isEmbed() {
 	return location.search.split(/[?&]/).indexOf("embed") >=0
 			|| location.pathname.match(/\/lti\//)
-			|| window.parent != window;
+			|| window.parent !== window;
 }
 if (location.protocol === "https:") {
 	window.addEventListener("load", () => {
