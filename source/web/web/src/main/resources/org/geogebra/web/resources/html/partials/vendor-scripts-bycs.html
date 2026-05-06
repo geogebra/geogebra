@@ -4,26 +4,6 @@
     defaultParams.fontAwesome = "light";
     var loadedFromStorage = false;
 
-    function ggbAppletOnLoad(id){
-        window.parent.postMessage("{\"action\":\"appletOnLoad\"}","*");
-        if (loadedFromStorage && id == defaultParams.id) {
-            window[defaultParams.id].setSaved(false);
-        }
-    }
-
-    function loadFontScript(basePath) {
-        var app = document.createElement("script");
-        app.setAttribute("src", basePath + "/js/webfont.js");
-        document.head.appendChild(app);
-    }
-
-    function addCssLinkToHead(link) {
-         var cssLink = document.createElement("link");
-         cssLink.rel = "stylesheet";
-         cssLink.setAttribute("href", link);
-         document.head.appendChild(cssLink);
-    }
-
     function loadUnsavedWork(ggw) {
         var storage = window.sessionStorage;
         var unsavedWork = storage.getItem('boardUnsaved');
