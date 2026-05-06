@@ -84,7 +84,7 @@ public class PositionPropertyCollection extends AbstractPropertyCollection<Prope
 	public PositionPropertyCollection(
 			GeoElementPropertiesFactory propertiesFactory, Localization localization,
 			List<GeoElement> elements) throws NotApplicablePropertyException {
-		super(localization, "Position");
+		super(localization, "Properties.Position");
 		this.placementProperty = propertiesFactory.createOptionalPropertyFacade(elements,
 				element -> new PlacementProperty(localization, element),
 				NamedEnumeratedPropertyListFacade::new);
