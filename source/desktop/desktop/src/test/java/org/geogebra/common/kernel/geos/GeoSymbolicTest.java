@@ -2669,4 +2669,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("a = 5");
 		assertNotNull(add("Integral(a)"));
 	}
+
+	@Test
+	public void testLimitWithDerivativeAndParameter() {
+		add("f(x)=x^3 + m");
+		t("Limit(f',3)", "27");
+		t("Limit(f'',3)", "18");
+	}
 }

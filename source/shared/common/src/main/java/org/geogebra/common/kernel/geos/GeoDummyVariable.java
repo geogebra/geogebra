@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.StringTemplate;
  */
 public class GeoDummyVariable extends GeoNumeric {
 
-	private String varName;
+	private final String varName;
 
 	/**
 	 * Creates new dummy variable

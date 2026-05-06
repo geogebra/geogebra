@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.parser.FunctionParser;
 
 class DerivativeCreator {
@@ -62,6 +63,8 @@ class DerivativeCreator {
 	}
 
 	private boolean hasDerivative(GeoElement geoElement) {
-		return geoElement.isRealValuedFunction() || geoElement.isGeoCurveCartesian();
+		return geoElement.isRealValuedFunction() || geoElement.isGeoCurveCartesian()
+				|| (geoElement instanceof GeoSymbolic symbolic
+						&& symbolic.getFunctionVariables().length == 1);
 	}
 }

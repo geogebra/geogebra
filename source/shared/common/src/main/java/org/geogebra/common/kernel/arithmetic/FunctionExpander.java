@@ -205,17 +205,7 @@ public class FunctionExpander implements Traversing {
 					}
 				}
 				if (deriv != null) {
-					CASGenericInterface cas = en.getKernel().getGeoGebraCAS()
-							.getCurrentCAS();
-					Command derivCommand = new Command(en.getKernel(),
-							"Derivative", false);
-					derivCommand.addArgument(en2);
-					if (fv != null && fv.length > 0) {
-						derivCommand.addArgument(fv[0].wrap());
-					}
-					derivCommand.addArgument(deriv.wrap());
-					en2 = cas.evaluateToExpression(derivCommand, null,
-							en.getKernel()).wrap();
+					en2 = getDerivative(en2, deriv, en.getKernel(), fv);
 
 				}
 				if (fv != null) {
@@ -275,6 +265,18 @@ public class FunctionExpander implements Traversing {
 		}
 
 		return ev;
+	}
+
+	private ExpressionNode getDerivative(ExpressionNode en, ExpressionValue deriv,
+			Kernel kernel, FunctionVariable[] fv) {
+		CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
+		Command derivCommand = new Command(kernel, "Derivative", false);
+		derivCommand.addArgument(en);
+		if (fv != null && fv.length > 0) {
+			derivCommand.addArgument(fv[0].wrap());
+		}
+		derivCommand.addArgument(deriv.wrap());
+		return cas.evaluateToExpression(derivCommand, null, kernel).wrap();
 	}
 
 	private ExpressionValue replaceFunctionVariables(ExpressionNode en, ExpressionNode en2,
