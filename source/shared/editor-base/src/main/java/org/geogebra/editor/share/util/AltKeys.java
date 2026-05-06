@@ -33,14 +33,14 @@ public class AltKeys {
 		lookupUpper.put('B', String.valueOf(Unicode.Beta));
 		lookupLower.put('D', String.valueOf(Unicode.delta));
 		lookupUpper.put('D', String.valueOf(Unicode.Delta));
-		lookupLower.put('E', " " + Unicode.EULER_STRING + " ");
-		lookupUpper.put('E', " " + Unicode.EULER_STRING + " ");
+		lookupLower.put('E', Unicode.EULER_STRING);
+		lookupUpper.put('E', Unicode.EULER_STRING);
 		lookupLower.put('F', String.valueOf(Unicode.phi_symbol));
 		lookupUpper.put('F', String.valueOf(Unicode.Phi));
 		lookupLower.put('G', String.valueOf(Unicode.gamma));
 		lookupUpper.put('G', String.valueOf(Unicode.Gamma));
-		lookupLower.put('I', " " + Unicode.IMAGINARY + " ");
-		lookupUpper.put('I', " " + Unicode.IMAGINARY + " ");
+		lookupLower.put('I', Unicode.IMAGINARY_STRING);
+		lookupUpper.put('I', Unicode.IMAGINARY_STRING);
 		lookupLower.put('L', String.valueOf(Unicode.lambda));
 		lookupUpper.put('L', String.valueOf(Unicode.Lambda));
 		lookupLower.put('M', String.valueOf(Unicode.mu));
@@ -49,7 +49,7 @@ public class AltKeys {
 		lookupUpper.put('N', String.valueOf(Unicode.Nu));
 		lookupLower.put('O', Unicode.DEGREE_STRING);
 		lookupUpper.put('O', Unicode.DEGREE_STRING);
-		lookupLower.put('P', " " + Unicode.pi + " ");
+		lookupLower.put('P', Unicode.PI_STRING);
 		lookupUpper.put('P', String.valueOf(Unicode.Pi));
 		lookupLower.put('R', String.valueOf(Unicode.SQUARE_ROOT));
 		lookupUpper.put('R', String.valueOf(Unicode.SQUARE_ROOT));
@@ -157,20 +157,13 @@ public class AltKeys {
 	}
 
 	/**
-	 * check for eg alt-a for alpha check for eg alt-shift-a for upper case
-	 * alpha
-	 * 
-	 * @param keyCode
-	 *            Key code without modifiers.
-	 * @param isShiftDown
-	 *            Determines if shift is down,
-	 * @param webApp
-	 *            whether we run this in a browser
-	 * @return The "alpha-string" ie the symbols.
+	 * Check for e.g. Alt-A for alpha, Alt-Shift-A for upper case alpha
+	 * @param keyCode Key code without modifiers.
+	 * @param isShiftDown Determines if shift is down,
+	 * @param webApp Whether we run this in a browser
+	 * @return The "alpha-string", i.e. the symbols.
 	 */
-	public static String getAltSymbols(int keyCode, boolean isShiftDown,
-			boolean webApp) {
-		
+	public static String getAltSymbols(int keyCode, boolean isShiftDown, boolean webApp) {
 		if (lookupUpper == null) {
 			init(webApp);
 		}

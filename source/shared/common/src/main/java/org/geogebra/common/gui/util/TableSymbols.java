@@ -517,11 +517,10 @@ public class TableSymbols {
 				{ String.valueOf(Unicode.SUPERSCRIPT_3),
 						app.getMenu("Symbol.Cube") }, // exponents^3
 				{ Unicode.DEGREE_STRING, app.getMenu("Symbol.Degree") }, // degree
-				{ " " + Unicode.IMAGINARY + " ", String.valueOf(Unicode.IMAGINARY) }, // sqrt(-1)
-				{ " " + Unicode.PI_STRING + " ", Unicode.PI_STRING }, // pi
-				{ " " + Unicode.EULER_STRING + " ", Unicode.EULER_STRING }, // e
-				{ String.valueOf(Unicode.NBSP), app.getMenu("Symbol.NBSP") }, // non-breaking
-																	// space
+				{ Unicode.IMAGINARY_STRING, Unicode.IMAGINARY_STRING }, // sqrt(-1)
+				{ Unicode.PI_STRING, Unicode.PI_STRING }, // pi
+				{ Unicode.EULER_STRING, Unicode.EULER_STRING }, // e
+				{ String.valueOf(Unicode.NBSP), app.getMenu("Symbol.NBSP") }, // non-breaking space
 		};
 	}
 
