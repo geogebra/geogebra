@@ -25,6 +25,7 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 public class DefinitionProperty extends AbstractValuedProperty<String> implements StringProperty {
 	private final GeoElement element;
@@ -34,8 +35,12 @@ public class DefinitionProperty extends AbstractValuedProperty<String> implement
 	 * @param localization this is used to localize the name
 	 * @param element the construction element
 	 */
-	public DefinitionProperty(Localization localization, GeoElement element) {
+	public DefinitionProperty(Localization localization, GeoElement element)
+			throws NotApplicablePropertyException {
 		super(localization, "Definition");
+		if (!element.isAlgebraViewEditable()) {
+			throw new NotApplicablePropertyException(element);
+		}
 		this.element = element;
 	}
 

@@ -169,7 +169,9 @@ public abstract class PropertyView {
 	}
 
 	public abstract static class PropertyBackedView<T extends Property> extends PropertyView
-			implements PropertyValueObserver<Object>, SettingListener, EventListener,
+			implements PropertyValueObserver<Object>,
+			GeoElementDependentProperty.RedefinitionObserver,
+			SettingListener, EventListener,
 			ProbabilityCalculatorView.Listener, ValueFilter.Observer,
 			ChartSegmentSelection.Listener {
 		protected final @Nonnull T property;
@@ -201,8 +203,14 @@ public abstract class PropertyView {
 						.map(p -> (GeoElementDependentProperty) p)
 						.map(GeoElementDependentProperty::getGeoElement)
 						.collect(Collectors.toList());
-				dependentGeoElements.forEach(element -> element.getApp()
-						.getEventDispatcher().addEventListener(this));
+				properties.stream()
+						.filter(p -> p instanceof GeoElementDependentProperty)
+						.map(p -> (GeoElementDependentProperty) p)
+						.forEach(p -> p.addRedefinitionObserver(this));
+				if (dependentGeoElements != null) {
+					dependentGeoElements.forEach(element -> element.getApp()
+							.getEventDispatcher().addEventListener(this));
+				}
 			}
 			if (property instanceof ValuedProperty<?> valuedProperty) {
 				valuedProperty.addValueObserver(this);
@@ -241,6 +249,17 @@ public abstract class PropertyView {
 			if (property instanceof AbstractEnumeratedProperty<?> abstractEnumeratedProperty) {
 				abstractEnumeratedProperty.removeValueFilterObserver(this);
 			}
+		}
+
+		@Override
+		public void onGeoElementRedefined(@Nonnull GeoElement originalElement,
+				@Nonnull GeoElement newElement) {
+			if (dependentGeoElements == null) {
+				return;
+			}
+			dependentGeoElements.remove(originalElement);
+			dependentGeoElements.add(newElement);
+			notifyUpdateDelegates();
 		}
 
 		@Override

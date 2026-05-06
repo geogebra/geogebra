@@ -27,8 +27,8 @@ import java.util.List;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.spreadsheet.TestTabularData;
+import org.geogebra.common.util.Box;
 import org.geogebra.common.util.MulticastEvent;
-import org.geogebra.common.utils.Box;
 import org.junit.Test;
 
 public class SpreadsheetSelectionControllerTest {

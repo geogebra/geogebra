@@ -17,6 +17,7 @@
 package org.geogebra.common.properties;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -37,9 +38,11 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.ImageProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
+import org.geogebra.common.properties.impl.facade.BooleanPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.ImagePropertyListFacade;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.graphics.AxisDistanceProperty;
@@ -50,6 +53,7 @@ import org.geogebra.common.properties.impl.objects.AnimationPropertyCollection;
 import org.geogebra.common.properties.impl.objects.FillImageProperty;
 import org.geogebra.common.properties.impl.objects.LineOpacityProperty;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
+import org.geogebra.common.properties.impl.objects.PenStrokeAbsolutePositionProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.undo.UndoSavingPropertyObserver;
 import org.geogebra.common.util.ImageManagerCommon;
@@ -274,6 +278,29 @@ public class PropertyViewTests extends BaseAppTestSetup {
 		linearEquationFormProperty.setFrozen(true);
 		propertyView = PropertyView.of(linearEquationFormProperty);
 		assertFalse(propertyView.isVisible());
+	}
+
+	@Test
+	public void testElementRedefinition() {
+		setupApp(SuiteSubApp.GRAPHING);
+
+		GeoElement penStroke = evaluateGeoElement("PenStroke((1, 2), (4, 3), (5, 6))");
+		PenStrokeAbsolutePositionProperty absolutePositionProperty = assertDoesNotThrow(() ->
+				new PenStrokeAbsolutePositionProperty(getLocalization(), penStroke));
+		BooleanProperty property = suiteScope.geoElementPropertiesFactory
+				.createOptionalPropertyFacade(List.of(penStroke), element ->
+						absolutePositionProperty, BooleanPropertyListFacade::new);
+		PropertyView.Checkbox checkbox = (PropertyView.Checkbox) PropertyView.of(property);
+		AtomicInteger configurationUpdatedCount = new AtomicInteger();
+		checkbox.setConfigurationUpdateDelegate(() -> configurationUpdatedCount.addAndGet(1));
+
+		assertFalse(checkbox.isSelected());
+		assertEquals(0, configurationUpdatedCount.get());
+
+		checkbox.setSelected(true);
+
+		assertTrue(checkbox.isSelected());
+		assertEquals(2, configurationUpdatedCount.get());
 	}
 
 	@Test

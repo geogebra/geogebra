@@ -43,9 +43,11 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollection;
+import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
+import org.geogebra.common.properties.impl.facade.BooleanPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.StringPropertyWithSuggestionsListFacade;
 import org.geogebra.common.properties.impl.objects.PlacementProperty.Placement;
@@ -62,6 +64,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class PositionPropertyCollection extends AbstractPropertyCollection<Property> {
 	private final NamedEnumeratedProperty<Placement> placementProperty;
 	private final PropertyCollection<StringProperty> absoluteScreenPositionPropertyCollection;
+	private final BooleanProperty penStrokeAbsolutePositionProperty;
 	private final StringPropertyWithSuggestions startingPointPositionProperty;
 	private final StringPropertyWithSuggestions cornerPositionProperty1;
 	private final StringPropertyWithSuggestions cornerPositionProperty2;
@@ -88,6 +91,9 @@ public class PositionPropertyCollection extends AbstractPropertyCollection<Prope
 		this.absoluteScreenPositionPropertyCollection = tryOrNull(() ->
 				new AbsoluteScreenPositionPropertyCollection(
 						propertiesFactory, localization, elements));
+		this.penStrokeAbsolutePositionProperty = propertiesFactory.createOptionalPropertyFacade(
+				elements, element -> new PenStrokeAbsolutePositionProperty(localization, element),
+				BooleanPropertyListFacade::new);
 		this.startingPointPositionProperty = propertiesFactory.createOptionalPropertyFacade(
 				elements, element -> new StartingPointPositionProperty(localization, element),
 				StringPropertyWithSuggestionsListFacade::new);
@@ -109,6 +115,7 @@ public class PositionPropertyCollection extends AbstractPropertyCollection<Prope
 		setProperties(Stream.of(
 				placementProperty,
 				absoluteScreenPositionPropertyCollection,
+				penStrokeAbsolutePositionProperty,
 				startingPointPositionProperty,
 				cornerPositionProperty1,
 				cornerPositionProperty2,

@@ -53,7 +53,7 @@ public class EventDispatcher implements ClientView {
 
 	@Weak
 	private App app;
-	private final ArrayList<EventListener> listeners = new ArrayList<>();
+	private final List<EventListener> listeners = new ArrayList<>();
 	protected boolean listenersEnabled = true;
 
 	private final Set<ScriptType> disabledScriptTypes = new HashSet<>();
@@ -74,7 +74,9 @@ public class EventDispatcher implements ClientView {
 	 *            the object that wants to receive notifications of events
 	 */
 	public void addEventListener(EventListener listener) {
-		listeners.add(listener);
+		if (!listeners.contains(listener)) {
+			listeners.add(listener);
+		}
 	}
 
 	/**
@@ -91,7 +93,7 @@ public class EventDispatcher implements ClientView {
 	 * For tests only.
 	 * @return listeners
 	 */
-	ArrayList<EventListener> getListeners() {
+	List<EventListener> getListeners() {
 		return listeners;
 	}
 

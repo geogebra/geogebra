@@ -323,7 +323,8 @@ public final class GeoElementPropertiesFactory {
 				createFixObjectProperty(localization, elements)))
 				: createPropsArray("Properties.Basic", localization, Stream.of(
 				createNameProperty(localization, elements),
-				elements.size() == 1 ? new DefinitionProperty(localization, elements.get(0)) : null,
+				createOptionalProperty(() -> elements.size() == 1
+						? new DefinitionProperty(localization, elements.get(0)) : null),
 				createOptionalPropertyFacade(elements,
 						element -> new CaptionProperty(localization, element),
 						StringPropertyWithSuggestionsListFacade::new),
@@ -351,12 +352,12 @@ public final class GeoElementPropertiesFactory {
 	}
 
 	/**
-	 * Creates an array of apliable properties for style tab.
+	 * Creates applicable properties for the Style tab.
 	 * @param processor {@link AlgebraProcessor}
 	 * @param imageManager {@link ImageManager}
 	 * @param localization {@link Localization}
 	 * @param elements list of geos
-	 * @return array of properties in style tab
+	 * @return array of properties for Style tab
 	 */
 	public @Nonnull PropertiesArray createStyleProperties(
 			AlgebraProcessor processor, ImageManager imageManager,

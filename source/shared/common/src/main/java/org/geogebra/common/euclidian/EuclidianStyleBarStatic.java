@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
@@ -48,6 +50,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
+import org.geogebra.common.util.Box;
 import org.geogebra.common.util.debug.Log;
 
 public class EuclidianStyleBarStatic {
@@ -64,9 +67,9 @@ public class EuclidianStyleBarStatic {
 	 *            fixed
 	 * @param ev
 	 *            view
-	 * @return new geoo if redefinition was needed
+	 * @return new geo if redefinition was needed
 	 */
-	public static GeoElement applyFixPosition(List<GeoElement> geos,
+	public static @CheckForNull GeoElement applyFixPosition(List<GeoElement> geos,
 			boolean flag, EuclidianViewInterfaceCommon ev) {
 		GeoElement ret = geos.get(0);
 		App app = geos.get(0).getKernel().getApplication();
@@ -241,21 +244,18 @@ public class EuclidianStyleBarStatic {
 	 *            new definition
 	 * @return redefined geo
 	 */
-	public static GeoElement redefineGeo(GeoElement geo, String cmdtext) {
-		GeoElement newGeo = null;
-
-		final App app = geo.getKernel().getApplication();
-
+	public static @CheckForNull GeoElement redefineGeo(GeoElement geo, String cmdtext) {
 		if (cmdtext == null) {
-			return newGeo;
+			return null;
 		}
-
 		Log.debug("redefining " + geo + " as " + cmdtext);
-
+		final App app = geo.getKernel().getApplication();
+		Box<GeoElementND> newGeo = new Box<>(null);
 		try {
 			app.getKernel().getAlgebraProcessor().changeGeoElement(geo, cmdtext,
 					true, true, app.getDefaultErrorHandler(),
 					newGeo1 -> {
+						newGeo.value = newGeo1;
 						if (newGeo1 != null) {
 							app.doAfterRedefine(newGeo1);
 							newGeo1.updateRepaint();
@@ -267,7 +267,10 @@ public class EuclidianStyleBarStatic {
 		} catch (MyError err) {
 			app.showError(err);
 		}
-		return newGeo;
+		if (newGeo.value instanceof GeoElement result) {
+			return result;
+		}
+		return null;
 	}
 
 	/**
