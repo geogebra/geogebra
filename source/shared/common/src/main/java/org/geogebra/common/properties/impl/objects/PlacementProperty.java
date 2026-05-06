@@ -17,6 +17,7 @@
 package org.geogebra.common.properties.impl.objects;
 
 import static java.util.Map.entry;
+import static org.geogebra.common.util.Classifier.isSlider;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -81,7 +82,13 @@ public class PlacementProperty extends AbstractNamedEnumeratedProperty<Placement
 	public PlacementProperty(Localization localization, GeoElement geoElement)
 			throws NotApplicablePropertyException {
 		super(localization, "ObjectProperties.Placement");
-		if (!(geoElement instanceof AbsoluteScreenLocateable) || geoElement.isGeoAngle()) {
+
+		// numerics that are not sliders don't have placement
+		// on the other hand, angles that are sliders do
+		if (geoElement.isGeoNumeric() && !isSlider(geoElement)) {
+			throw new NotApplicablePropertyException(geoElement);
+		}
+		if (!(geoElement instanceof AbsoluteScreenLocateable)) {
 			throw new NotApplicablePropertyException(geoElement);
 		}
 		this.geoElement = geoElement;

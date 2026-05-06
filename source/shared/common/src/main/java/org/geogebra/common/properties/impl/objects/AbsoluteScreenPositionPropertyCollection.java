@@ -16,6 +16,8 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import static org.geogebra.common.util.Classifier.isSlider;
+
 import java.util.List;
 
 import javax.annotation.CheckForNull;
@@ -28,7 +30,6 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.Localization;
@@ -54,8 +55,13 @@ public class AbsoluteScreenPositionPropertyCollection
 		AbsoluteScreenPositionProperty(Localization localization, GeoElement element, int axis)
 				throws NotApplicablePropertyException {
 			super(localization, axis == 0 ? "x" : "y");
-			if (!(element instanceof AbsoluteScreenLocateable)
-					|| element instanceof GeoNumeric && !((GeoNumeric) element).isSlider()) {
+
+			// numerics that are not sliders don't have placement
+			// on the other hand, angles that are sliders do
+			if (element.isGeoNumeric() && !isSlider(element)) {
+				throw new NotApplicablePropertyException(element);
+			}
+			if (!(element instanceof AbsoluteScreenLocateable)) {
 				throw new NotApplicablePropertyException(element);
 			}
 			this.axis = axis;

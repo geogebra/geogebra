@@ -16,6 +16,8 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import static org.geogebra.common.util.Classifier.isSlider;
+
 import java.util.List;
 
 import javax.annotation.CheckForNull;
@@ -45,8 +47,16 @@ public class StartingPointPositionProperty extends AbstractValuedProperty<String
 	public StartingPointPositionProperty(Localization localization, GeoElement geoElement)
 			throws NotApplicablePropertyException {
 		super(localization, "StartingPoint");
-		if (geoElement instanceof GeoImage || geoElement instanceof GeoBoolean
-				|| !(geoElement instanceof AbsoluteScreenLocateable) || geoElement.isGeoAngle()) {
+
+		if (geoElement instanceof GeoImage || geoElement instanceof GeoBoolean) {
+			throw new NotApplicablePropertyException(geoElement);
+		}
+		// numerics that are not sliders don't have placement
+		// on the other hand, angles that are sliders do
+		if (geoElement.isGeoNumeric() && !isSlider(geoElement)) {
+			throw new NotApplicablePropertyException(geoElement);
+		}
+		if (!(geoElement instanceof AbsoluteScreenLocateable)) {
 			throw new NotApplicablePropertyException(geoElement);
 		}
 		this.geoElement = geoElement;

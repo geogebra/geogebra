@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.List;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -42,6 +43,7 @@ public class AbsoluteScreenPositionPropertyCollectionTests extends BaseAppTestSe
 			"(1, 2)",
 			"f(x) = x^2",
 			"a = 1 + 2",
+			"BarChart({1,2,3},{4,5,6})"
 	})
 	public void testNotApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
@@ -53,7 +55,8 @@ public class AbsoluteScreenPositionPropertyCollectionTests extends BaseAppTestSe
 
 	@ParameterizedTest
 	@ValueSource(strings = {
-			"Slider(-5, 5, 1)",
+			"Slider(-5, 5, 1)", // number slider
+			"Slider(0, 10, 0.1, 0.1, 100, true, true, false, false)", // angle slider
 			"true",
 			"\"abc\"",
 	})

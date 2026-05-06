@@ -27,7 +27,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.List;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -43,6 +45,7 @@ public class PlacementPropertyTests extends BaseAppTestSetup {
 			"(1, 2)",
 			"Vector((1, 2))",
 			"β = Angle((0, 0), (1, 1), (2, 2))",
+			"BarChart({1,2,3},{4,5,6})"
 	})
 	public void testNotApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
@@ -70,10 +73,14 @@ public class PlacementPropertyTests extends BaseAppTestSetup {
 				placementProperty.getValues());
 	}
 
-	@Test
-	public void testSliderPlacementOptions() {
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"Slider(-5, 5, 1)", // number slider
+			"Slider(0, 10, 0.1, 0.1, 100, true, true, false, false)" // angle slider
+	})
+	public void testSliderPlacementOptions(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
-		GeoNumeric geoNumeric = evaluateGeoElement("Slider(-5, 5, 1)");
+		GeoNumeric geoNumeric = evaluateGeoElement(expression);
 		PlacementProperty placementProperty = assertDoesNotThrow(() ->
 				new PlacementProperty(getLocalization(), geoNumeric));
 		assertEquals(
