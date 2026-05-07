@@ -3281,9 +3281,9 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void cmdRigidPolygon() {
-		t("RigidPolygon[ (0,0), (1,0), (0,1) ]");
-		t("RigidPolygon[ Polygon[(1,1),(2,1/2),(3,1/3)] ]");
-		t("RigidPolygon[ Polygon[(1,1),(2,1/2),(3,1/3)], 42,4 ]");
+		tRound("RigidPolygon[ (0,0), (1,0), (0,1) ]", "0.5", "1", "1.41421", "1");
+		tRound("RigidPolygon[ Polygon[(1,1),(2,1/2),(3,1/3)] ]", "0.16667");
+		tRound("RigidPolygon[ Polygon[(1,1),(2,1/2),(3,1/3)], 42,4 ]", "0.16667");
 	}
 
 	@Test

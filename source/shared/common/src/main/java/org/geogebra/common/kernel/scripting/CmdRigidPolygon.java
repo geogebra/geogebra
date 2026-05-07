@@ -19,7 +19,8 @@ package org.geogebra.common.kernel.scripting;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -29,22 +30,30 @@ import org.geogebra.common.main.MyError;
 
 /**
  * RigidPolygon[ &lt;GeoPoint&gt;, ..., &lt;GeoPoint&gt; ]
- * 
- * Extends CmdScripting so that preview is disabled (otherwise it doesn't work)
  */
-public class CmdRigidPolygon extends CmdScripting {
+public class CmdRigidPolygon extends CommandProcessor {
+
 	/**
 	 * Creates new command processor
-	 * 
-	 * @param kernel
-	 *            kernel
+	 * @param kernel kernel
 	 */
 	public CmdRigidPolygon(Kernel kernel) {
 		super(kernel);
 	}
 
+	/**
+	 * Returns an empty array when not in scripting mode to disable preview;
+	 * otherwise executes the command.
+	 */
 	@Override
-	public GeoElement[] perform(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+		if (!info.isScripting()) {
+			return new GeoElement[0];
+		}
+		return perform(c);
+	}
+
+	private GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 

@@ -18,6 +18,7 @@ package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.kernel.scripting.CmdRigidPolygon;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -141,6 +142,8 @@ public class BasicCommandProcessorFactory implements CommandProcessorFactory {
 
 		case Polygon:
 			return new CmdPolygon(kernel);
+		case RigidPolygon:
+			return new CmdRigidPolygon(kernel);
 		case Area:
 			return new CmdArea(kernel);
 		case Circumference:

@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.scripting.CmdReadText;
 import org.geogebra.common.kernel.scripting.CmdRelation;
 import org.geogebra.common.kernel.scripting.CmdRename;
 import org.geogebra.common.kernel.scripting.CmdRepeat;
-import org.geogebra.common.kernel.scripting.CmdRigidPolygon;
 import org.geogebra.common.kernel.scripting.CmdRunClickScript;
 import org.geogebra.common.kernel.scripting.CmdRunUpdateScript;
 import org.geogebra.common.kernel.scripting.CmdSelectObjects;
@@ -88,8 +87,6 @@ public class ScriptingCommandProcessorFactory implements CommandProcessorFactory
 	public CommandProcessor getProcessor(Commands command, Kernel kernel) {
 		switch (command) {
 		// scripting
-		case RigidPolygon:
-			return new CmdRigidPolygon(kernel);
 		case Relation:
 			return new CmdRelation(kernel);
 		case CopyFreeObject:

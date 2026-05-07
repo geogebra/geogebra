@@ -341,7 +341,6 @@ public abstract class CommandDispatcher {
 			switch (command) {
 
 			// scripting
-			case RigidPolygon:
 			case Relation:
 			case CopyFreeObject:
 			case DataFunction:
@@ -594,6 +593,7 @@ public abstract class CommandDispatcher {
 			case CircumcircularArc:
 
 			case Polygon:
+			case RigidPolygon:
 			case Area:
 			case Circumference:
 			case Perimeter:
