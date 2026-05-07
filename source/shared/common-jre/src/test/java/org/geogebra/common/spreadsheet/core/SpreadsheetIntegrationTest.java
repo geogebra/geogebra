@@ -23,6 +23,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -42,6 +47,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.main.undo.UndoManager;
+import org.geogebra.common.spreadsheet.StringCapturingGraphics;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.spreadsheet.settings.SpreadsheetSettingsAdapter;
@@ -109,6 +115,30 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 				null);
 		new SpreadsheetSettingsAdapter(spreadsheet, getApp()).registerListeners();
 		Assertions.assertEquals(500 + 2 * 120 + 52, spreadsheet.getTotalWidth());
+	}
+
+	@Test
+	@Issue("APPS-6566")
+	public void testInitialSettings() {
+		SpreadsheetSettings spreadsheetSettings = getApp().getSettings().getSpreadsheet();
+		spreadsheetSettings.setColumnsNoFire(3);
+		spreadsheetSettings.setRowsNoFire(3);
+		spreadsheetSettings.setShowRowHeader(false);
+		spreadsheetSettings.setShowColumnHeader(false);
+		spreadsheetSettings.setShowGrid(false);
+		Spreadsheet spreadsheet = new Spreadsheet(tabularData,
+				new TestCellRenderableFactory(),
+				null,
+				null);
+		new SpreadsheetSettingsAdapter(spreadsheet, getApp()).registerListeners();
+		Assertions.assertEquals(3 * 120, spreadsheet.getTotalWidth());
+		Assertions.assertEquals(3 * 36, spreadsheet.getTotalHeight());
+		StringCapturingGraphics graphics = spy(new StringCapturingGraphics());
+		spreadsheet.draw(graphics);
+		assertEquals("", graphics.toString());
+		verify(graphics, never()).draw(any());
+		verify(graphics, never()).drawStraightLine(
+				anyDouble(), anyDouble(), anyDouble(), anyDouble());
 	}
 
 	@Test

@@ -170,11 +170,14 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			updateViewport();
 			repaint();
 		});
-		app.getSettings().getSpreadsheet().addListener(settings -> {
-			SpreadsheetSettings spreadsheetSettings = (SpreadsheetSettings) settings;
-			setScrollingEnabled(spreadsheetSettings.showHScrollBar(),
-					spreadsheetSettings.showVScrollBar());
+		SpreadsheetSettings spreadsheetSettings = app.getSettings().getSpreadsheet();
+		spreadsheetSettings.addListener(settings -> {
+			SpreadsheetSettings currentSettings = (SpreadsheetSettings) settings;
+			setScrollingEnabled(currentSettings.showHScrollBar(),
+					currentSettings.showVScrollBar());
 		});
+		setScrollingEnabled(spreadsheetSettings.showHScrollBar(),
+				spreadsheetSettings.showVScrollBar());
 	}
 
 	private void handlePointerMoved(double offsetX, double offsetY,

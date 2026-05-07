@@ -267,9 +267,13 @@ final class SpreadsheetRenderer {
 		fillRect(graphics, 0, 0, layout.getRowHeaderWidth(), rectangle.getHeight());
 		double bottom = layout.getColumnHeaderHeight();
 		graphics.setColor(styling.getGridColor());
-		graphics.drawStraightLine(0, bottom, rectangle.getWidth(), bottom);
+		if (bottom != 0) {
+			graphics.drawStraightLine(0, bottom, rectangle.getWidth(), bottom);
+		}
 		double right = layout.getRowHeaderWidth();
-		graphics.drawStraightLine(right, 0, right, rectangle.getHeight());
+		if (right != 0) {
+			graphics.drawStraightLine(right, 0, right, rectangle.getHeight());
+		}
 	}
 
 	void drawSelection(TabularRange selection, GGraphics2D graphics, Rectangle viewport) {

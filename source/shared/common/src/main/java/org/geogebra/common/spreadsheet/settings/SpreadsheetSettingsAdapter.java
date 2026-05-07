@@ -53,21 +53,25 @@ public final class SpreadsheetSettingsAdapter {
 		SpreadsheetSettings spreadsheetSettings = app.getSettings().getSpreadsheet();
 		// OK: the SpreadsheetSettings listeners are carried over when a new instance is created
 		spreadsheetSettings.addListener((settings) -> {
-			SpreadsheetSettings settings1 = (SpreadsheetSettings) settings;
-			spreadsheet.setShowGrid(settings1.showGrid());
-			spreadsheet.setRowHeaderWidth(settings1.showRowHeader() ? -1 : 0);
-			spreadsheet.setColumnHeaderHeight(settings1.showColumnHeader() ? -1 : 0);
+			applySettings((SpreadsheetSettings) settings);
 			notifyIfSettingsCellFormatChanged();
 		});
 		app.getSettings().getFontSettings().addListener(s -> {
 			spreadsheet.invalidateAndRepaint();
 		});
+		applySettings(spreadsheetSettings);
 		spreadsheet.tabularDataDimensionsDidChange(spreadsheetSettings);
 		previousCellFormatXml = spreadsheetSettings.getCellFormatXml();
 		spreadsheet.setCellFormatXml(previousCellFormatXml);
 
 		spreadsheet.cellSizesChanged.addListener(this::spreadsheetCellSizesDidChange);
 		spreadsheet.cellFormatXmlChanged.addListener(this::spreadsheetCellFormatDidChange);
+	}
+
+	private void applySettings(SpreadsheetSettings settings) {
+		spreadsheet.setShowGrid(settings.showGrid());
+		spreadsheet.setRowHeaderWidth(settings.showRowHeader() ? -1 : 0);
+		spreadsheet.setColumnHeaderHeight(settings.showColumnHeader() ? -1 : 0);
 	}
 
 	/**
