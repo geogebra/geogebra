@@ -230,6 +230,8 @@ import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.Widget;
 
+import com.google.gwt.core.client.Scheduler;
+
 import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.File;
@@ -2140,16 +2142,26 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void onMenuClosed() {
 		menuShowing = false;
 		updateMenuBtnStatus(false);
-		getAccessibilityManager().focusFirstElement();
+		ToolbarPanel toolbarPanel = getToolbarPanel();
+		if (toolbarPanel != null) {
+			// deferred needed because of https://github.com/nvaccess/nvda/issues/12738#issuecomment-3519405473
+			Scheduler.get().scheduleDeferred(toolbarPanel::focusMenu);
+		} else {
+			getAccessibilityManager().focusFirstElement();
+		}
+	}
+
+	private @CheckForNull ToolbarPanel getToolbarPanel() {
+		if (guiManager == null) {
+			return null;
+		}
+		return guiManager.getUnbundledToolbar();
 	}
 
 	private void updateMenuBtnStatus(boolean expanded) {
-		if (getGuiManager() != null) {
-			ToolbarPanel toolbarPanel = getGuiManager()
-					.getUnbundledToolbar();
-			if (toolbarPanel != null) {
-				toolbarPanel.markMenuAsExpanded(expanded);
-			}
+		ToolbarPanel toolbarPanel = getToolbarPanel();
+		if (toolbarPanel != null) {
+			toolbarPanel.markMenuAsExpanded(expanded);
 		}
 	}
 

@@ -16,6 +16,7 @@
 
 package org.geogebra.web.full.gui.menu;
 
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.gwtproject.user.client.ui.SimplePanel;
 
@@ -31,6 +32,10 @@ class FloatingMenuView extends SimplePanel {
 	public void setVisible(boolean visible) {
 		isVisible = visible;
 		Dom.toggleClass(this, "transitionIn", "transitionOut", visible);
+
+		// Make sure sub-elements cannot be reached (within browse mode) when menu is closed
+		AriaHelper.setHidden(this, !visible);
+		getElement().setPropertyBoolean("inert", !visible);
 	}
 
 	@Override
