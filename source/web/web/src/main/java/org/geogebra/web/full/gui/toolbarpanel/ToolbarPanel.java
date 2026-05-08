@@ -112,7 +112,7 @@ public class ToolbarPanel extends FlowPanel
 	private @CheckForNull ToolsTab tabTools;
 	private @CheckForNull SpreadsheetTab spreadsheetTab;
 	private ShowableTab tabContainer;
-	private boolean isOpen;
+	private boolean isOpen = true;
 	private final ScheduledCommand deferredOnRes = this::resize;
 	private final UndoRedoProvider undoRedoProvider;
 	private @CheckForNull UndoRedoPanel undoRedoPanel;

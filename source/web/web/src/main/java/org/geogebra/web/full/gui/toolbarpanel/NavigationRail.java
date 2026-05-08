@@ -87,11 +87,9 @@ class NavigationRail extends FlowPanel implements ExamListener {
 		setTabIndexes();
 		lastOrientation = app.isPortrait();
 		setStyleName("header");
-		updateIcons(GlobalScope.isExamActive(app));
+		updateIcons(toolbarPanel.isOpen() ? toolbarPanel.getSelectedTabId() : null,
+				useExamStyle());
 		app.getExamEventBus().add(this);
-		if (!toolbarPanel.isOpen()) {
-			updateIcons(null, useExamStyle());
-		}
 	}
 
 	private void createCenter() {
