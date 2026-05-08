@@ -1114,60 +1114,10 @@
 	/*========= End Dialogs ===========*/
 
 
-	/*========= FileChooser ===========*/
-
-	.GeoGebraFileChooser .titlePanel {
-		width: 100%;
-		padding: 5px;
-	}
-
-	.GeoGebraFileChooser .titlePanel input {
-		float: right;
-	}
-
-	.GeoGebraFileChooser .titlePanel .gwt-Label {
-		padding-right: 10px;
-	}
-
-	.GeoGebraFileChooser .buttonPanel {
-		float: right;
-	}
-
-	.GeoGebraFileChooser .buttonPanel button {
-		float: right;
-		margin-left: 5px;
-	}
-
-	.GeoGebraFileChooser .buttonPanel a {
-		float: right;
-		margin-left: 5px;
-	}
-
-	.GoogleFileDescriptors {
-		font-size: 80%;
-	}
-
-	.GoogleFileDescriptors .fileLabel {
-		padding-right: 3px;
-		font-weight: bold;
-	}
-
-	.GoogleFileDescriptors .fileName {
-		text-decoration: underline;
-	}
+	/*========= Context menu ===========*/
 
 	.menuTitle span {
 		font-weight: bold;
-	}
-
-	.GeoGebraFileChooser {
-		font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
-	}
-
-	.GeoGebraFileChooser .buttonPanel .save, .GeoGebraFileChooser .buttonPanel .cancel {
-		width: 60px;
-		text-align: center;
-		margin: auto;
 	}
 
 	/*========= End FileChooser ===========*/

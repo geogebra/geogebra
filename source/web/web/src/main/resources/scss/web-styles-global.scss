@@ -64,15 +64,6 @@ body.application[dir=rtl] .dialogContent .sliderWidthPanel div {
 	float: right;
 }
 
-body.application[dir=rtl] .GeoGebraFileChooser .titlePanel input {
-	float: left;
-}
-
-body.application[dir=rtl] .GeoGebraFileChooser .titlePanel .gwt-Label {
-	padding-right: 0;
-	padding-left: 10px;
-}
-
 body.application[dir=rtl] .GeoGebraMenuBar table {
 	margin-left: auto;
 }

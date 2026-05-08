@@ -169,53 +169,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			}
 	}
 
-	.dialogComponent.GeoGebraFileChooser {
-		max-width: 530px;
-
-		.titlePanel .coloredLabel {
-			font-size: 80%;
-		}
-
-		.titlePanel input[type="text"] {
-			border: none;
-			box-shadow: none;
-			border-bottom: 1px solid colors.$teal-default;
-			border-radius: 0px;
-			margin-bottom: 8px;
-
-		}
-
-		.checkboxPanel {
-			margin-top: 4px;
-			margin-bottom: 28px;
-
-			.checkbox {
-				&.selected {
-					.background {
-						border-color: colors.$teal-default;
-						background-color: colors.$teal-default;
-					}
-				}
-			}
-		}
-
-		.visibilityPanel {
-			.visibility {
-				position: absolute;
-				bottom: 12px;
-				width: 131px;
-				left: 76px;
-				top: auto;
-			 }
-
-			.IconButton {
-				border-radius: 2px;
-				bottom: 15px;
-				left: 24px !important;
-			}
-		}
-	}
-
 	/* text tool dialog */
 	.dialogComponent.TextInputDialog {
 		.ToggleButton {
