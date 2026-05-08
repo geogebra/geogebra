@@ -17,6 +17,7 @@
 package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
@@ -31,6 +32,7 @@ import org.geogebra.editor.web.KeyCodeUtil;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.awt.GGraphics2DW;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
+import org.geogebra.web.html5.euclidian.ReaderWidget;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
@@ -99,6 +101,14 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		scrollOverlay.setStyleName("spreadsheetScrollOverlay");
 		add(scrollOverlay);
 		spreadsheetElement = Js.uncheckedCast(scrollContent.getElement());
+
+		if (spreadsheet != null) {
+			ReaderWidget screenReader = new ReaderWidget(App.VIEW_SPREADSHEET,
+					scrollContent.getElement());
+			add(screenReader);
+			spreadsheet.setAccessibilityDelegate(screenReader::readText);
+			spreadsheet.setExpressionReader(ScreenReader.getExpressionReader(app));
+		}
 
 		GlobalHandlerRegistry registry = app.getGlobalHandlers();
 

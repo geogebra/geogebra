@@ -38,9 +38,11 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
+import org.geogebra.editor.share.controller.ExpressionReader;
 import org.geogebra.editor.share.editor.MathFieldInternal;
 import org.geogebra.editor.share.event.KeyEvent;
 import org.geogebra.editor.share.input.KeyboardInputAdapter;
+import org.geogebra.editor.share.serializer.ScreenReaderSerializer;
 import org.geogebra.editor.share.tree.CharacterNode;
 import org.geogebra.editor.share.util.JavaKeyCodes;
 
@@ -65,6 +67,8 @@ public final class SpreadsheetController {
 	private final @CheckForNull SpreadsheetStyling spreadsheetStyling;
 
 	private @CheckForNull SpreadsheetControlsDelegate controlsDelegate;
+	private @CheckForNull SpreadsheetAccessibilityDelegate accessibilityDelegate;
+	private @CheckForNull ExpressionReader expressionReader;
 	private @CheckForNull SpreadsheetConstructionDelegate constructionDelegate;
 	private final @Nonnull TableLayout layout;
 	private final @Nonnull ContextMenuBuilder contextMenuBuilder;
@@ -76,6 +80,7 @@ public final class SpreadsheetController {
 	private Rectangle viewport;
 	private @CheckForNull ViewportAdjuster viewportAdjuster;
 	private @CheckForNull UndoProvider undoProvider;
+	private @CheckForNull SpreadsheetCellDescriptionBuilder cellDescriptionBuilder;
 	private final @CheckForNull CellDragPasteHandler cellDragPasteHandler;
 	private double lastPointerPositionX = -1;
 	private double lastPointerPositionY = -1;
@@ -100,6 +105,7 @@ public final class SpreadsheetController {
 		this.dragState = new DragState(MouseCursor.DEFAULT, -1, -1);
 		layout = new TableLayout(tabularData.numberOfRows(), tabularData.numberOfColumns());
 		contextMenuBuilder = new ContextMenuBuilder(this);
+		selectionController.selectionsChanged.addListener(this::readSelectedCell);
 	}
 
 	// Delegates
@@ -137,6 +143,29 @@ public final class SpreadsheetController {
 	 */
 	public void setUndoProvider(@CheckForNull UndoProvider undoProvider) {
 		this.undoProvider = undoProvider;
+	}
+
+	/**
+	 * @param accessibilityDelegate Delegate for accessibility announcements
+	 */
+	public void setAccessibilityDelegate(
+			@CheckForNull SpreadsheetAccessibilityDelegate accessibilityDelegate) {
+		this.accessibilityDelegate = accessibilityDelegate;
+	}
+
+	/**
+	 * @param cellDescriptionBuilder {@link SpreadsheetCellDescriptionBuilder}
+	 */
+	public void setCellDescriptionBuilder(
+			@CheckForNull SpreadsheetCellDescriptionBuilder cellDescriptionBuilder) {
+		this.cellDescriptionBuilder = cellDescriptionBuilder;
+	}
+
+	/**
+	 * @param expressionReader ExpressionReader for screen reader serialization of editor content
+	 */
+	public void setExpressionReader(@CheckForNull ExpressionReader expressionReader) {
+		this.expressionReader = expressionReader;
 	}
 
 	// Tabular data
@@ -498,6 +527,32 @@ public final class SpreadsheetController {
 		return selectionController.areAllCellsSelected();
 	}
 
+	private void readSelectedCell(MulticastEvent.Void unused) {
+		if (accessibilityDelegate == null || cellDescriptionBuilder == null || isEditorActive()
+				|| !selectionController.isSingleCellSelected()) {
+			return;
+		}
+		SpreadsheetCoords coords = getLastSelectionUpperLeftCell();
+		if (coords != null) {
+			accessibilityDelegate.readText(
+					cellDescriptionBuilder.getCellDescription(coords.row, coords.column));
+		}
+	}
+
+	private void readNoMoreCells() {
+		if (accessibilityDelegate != null && cellDescriptionBuilder != null) {
+			accessibilityDelegate.readText(cellDescriptionBuilder.getNoMoreCellsDescription());
+		}
+	}
+
+	private void readCellEditorContent() {
+		if (accessibilityDelegate != null && editor != null && cellDescriptionBuilder != null) {
+			accessibilityDelegate.readText(
+					cellDescriptionBuilder.getEditorDescription(
+							editor.getEditorContent(expressionReader)));
+		}
+	}
+
 	/**
 	 * @param column column index
 	 * @return whether selection contains at least one cell in given column
@@ -550,6 +605,7 @@ public final class SpreadsheetController {
 		currentReferences = null;
 		didScrollWhileEditorActive = false;
 		editor.showAt(row, column, editExistingContent);
+		readCellEditorContent();
 		resetDragAction();
 	}
 
@@ -1217,6 +1273,9 @@ public final class SpreadsheetController {
 	 * @param extendingCurrentSelection True if the current selection should expand, false else
 	 */
 	void moveUp(boolean extendingCurrentSelection) {
+		if (isCellMoveBlocked(Direction.Up)) {
+			readNoMoreCells();
+		}
 		selectionController.moveUp(extendingCurrentSelection);
 	}
 
@@ -1224,6 +1283,9 @@ public final class SpreadsheetController {
 	 * @param extendingCurrentSelection True if the current selection should expand, false else
 	 */
 	void moveDown(boolean extendingCurrentSelection) {
+		if (isCellMoveBlocked(Direction.Down)) {
+			readNoMoreCells();
+		}
 		Selection lastSelection = selectionController.getLastSelection();
 		if (lastSelection != null && canAddRow()
 				&& lastSelection.getRange().getMaxRow() == tabularData.numberOfRows() - 1) {
@@ -1236,6 +1298,9 @@ public final class SpreadsheetController {
 	 * @param extendingCurrentSelection True if the current selection should expand, false else
 	 */
 	void moveLeft(boolean extendingCurrentSelection) {
+		if (isCellMoveBlocked(Direction.Left)) {
+			readNoMoreCells();
+		}
 		selectionController.moveLeft(extendingCurrentSelection);
 	}
 
@@ -1243,12 +1308,30 @@ public final class SpreadsheetController {
 	 * @param extendingCurrentSelection True if the current selection should expand, false else
 	 */
 	void moveRight(boolean extendingCurrentSelection) {
+		if (isCellMoveBlocked(Direction.Right)) {
+			readNoMoreCells();
+		}
 		Selection lastSelection = selectionController.getLastSelection();
 		if (lastSelection != null && canAddColumn()
 				&& lastSelection.getRange().getMaxColumn() == tabularData.numberOfColumns() - 1) {
 			insertColumnRight();
 		}
 		selectionController.moveRight(extendingCurrentSelection, layout.numberOfColumns());
+	}
+
+	private boolean isCellMoveBlocked(Direction direction) {
+		Selection lastSelection = selectionController.getLastSelection();
+		if (lastSelection == null) {
+			return false;
+		}
+		TabularRange range = lastSelection.getRange();
+		return switch (direction) {
+			case Up -> range.getMinRow() == 0;
+			case Down -> !canAddRow() && range.getMaxRow() == tabularData.numberOfRows() - 1;
+			case Left -> range.getMinColumn() == 0;
+			case Right -> !canAddColumn()
+					&& range.getMaxColumn() == tabularData.numberOfColumns() - 1;
+		};
 	}
 
 	/**
@@ -1699,6 +1782,20 @@ public final class SpreadsheetController {
 
 		boolean isComputedCell() {
 			return cellEditor.getMathField().getText().startsWith("=");
+		}
+
+		/**
+		 * @param expressionReader ExpressionReader
+		 * @return The serialized, textual content of the cell editor.
+		 * If the {@code expressionReader} is undefined, simply returns the plain text content.
+		 */
+		@Nonnull String getEditorContent(@CheckForNull ExpressionReader expressionReader) {
+			if (expressionReader != null) {
+				return ScreenReaderSerializer.fullDescription(
+						cellEditor.getMathField().getFormula().getRootNode(),
+						expressionReader.getAdapter());
+			}
+			return cellEditor.getMathField().getText();
 		}
 
 		void updateReference(String reference) {

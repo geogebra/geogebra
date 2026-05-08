@@ -129,6 +129,12 @@ public class TestTabularData implements TabularData<String> {
 	}
 
 	@Override
+	public boolean hasFormulaAt(int row, int column) {
+		// Currently not tested
+		return false;
+	}
+
+	@Override
 	public void addChangeListener(@Nonnull TabularDataChangeListener listener) {
 		// not needed in test
 	}

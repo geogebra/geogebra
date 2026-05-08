@@ -168,6 +168,13 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	@Nonnull String serializeContentAt(int row, int column);
 
 	/**
+	 * @param row Row index
+	 * @param column Column index
+	 * @return Whether the cell contains a formula.
+	 */
+	boolean hasFormulaAt(int row, int column);
+
+	/**
 	 * Check for errors in spreadsheet data.
 	 * @param row Row index of cell.
 	 * @param column Column index of cell.

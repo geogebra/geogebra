@@ -156,6 +156,7 @@ import org.geogebra.common.restrictions.AlgebraOutputFiltering;
 import org.geogebra.common.restrictions.FeatureRestriction;
 import org.geogebra.common.restrictions.Restrictable;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCellDescriptionBuilder;
 import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetConstructionDelegate;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
@@ -3981,6 +3982,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 					factory,
 					new DefaultSpreadsheetConstructionDelegate(kernel.getAlgebraProcessor()),
 					getUndoManager());
+			spreadsheet.setCellDescriptionBuilder(
+					new SpreadsheetCellDescriptionBuilder(tabularData, getLocalization()));
 			if (!isUnbundled()) {
 				spreadsheet.setDefaultCellSize(
 						getSettings().getSpreadsheet().preferredColumnWidth(),

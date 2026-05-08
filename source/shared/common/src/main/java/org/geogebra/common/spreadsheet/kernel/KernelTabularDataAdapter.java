@@ -311,6 +311,13 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
+	public boolean hasFormulaAt(int row, int column) {
+		GeoElement geo = contentAt(row, column);
+		return geo != null && (geo.getParentAlgorithm() != null
+				|| (geo.getDefinition() != null && geo.getDefinition().hasOperations()));
+	}
+
+	@Override
 	public boolean hasError(int row, int column) {
 		if (data.get(row) == null || data.get(row).get(column) == null) {
 			return false;

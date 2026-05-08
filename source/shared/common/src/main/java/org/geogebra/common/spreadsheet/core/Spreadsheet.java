@@ -29,6 +29,7 @@ import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.MulticastEvent;
 import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
+import org.geogebra.editor.share.controller.ExpressionReader;
 
 /**
  * A spreadsheet (of arbitrary size). This class provides public API  for both rendering
@@ -108,6 +109,29 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 */
 	public void setControlsDelegate(@CheckForNull SpreadsheetControlsDelegate controlsDelegate) {
 		controller.setControlsDelegate(controlsDelegate);
+	}
+
+	/**
+	 * @param accessibilityDelegate Delegate for accessibility announcements
+	 */
+	public void setAccessibilityDelegate(
+			@CheckForNull SpreadsheetAccessibilityDelegate accessibilityDelegate) {
+		controller.setAccessibilityDelegate(accessibilityDelegate);
+	}
+
+	/**
+	 * @param cellDescriptionBuilder {@link SpreadsheetCellDescriptionBuilder}
+	 */
+	public void setCellDescriptionBuilder(
+			@CheckForNull SpreadsheetCellDescriptionBuilder cellDescriptionBuilder) {
+		controller.setCellDescriptionBuilder(cellDescriptionBuilder);
+	}
+
+	/**
+	 * @param expressionReader ExpressionReader used to serialize content of the cell editor
+	 */
+	public void setExpressionReader(@CheckForNull ExpressionReader expressionReader) {
+		controller.setExpressionReader(expressionReader);
 	}
 
 	/**
