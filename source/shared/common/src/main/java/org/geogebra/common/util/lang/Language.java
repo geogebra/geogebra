@@ -91,10 +91,10 @@ public enum Language {
 			"Armenian / \u0540\u0561\u0575\u0565\u0580\u0565\u0576",
 			Script.ARMENIAN, ',', ""),
 
-	Assamese(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, Unicode.CURRENCY_INDIAN_RUPEE,
-			false, "as",
-			"Assamese / \u0985\u09B8\u09AE\u09C0\u09AF\u09BC\u09BE",
-			Script.BENGALI, ""),
+	// Assamese(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, Unicode.CURRENCY_INDIAN_RUPEE,
+	// false, "as",
+	// "Assamese / \u0985\u09B8\u09AE\u09C0\u09AF\u09BC\u09BE",
+	// Script.BENGALI, ""),*/
 
 	Azerbaijani(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, '$',
 			false, "az", "Azerbaijani", Script.LATIN, ',', ""),
@@ -111,6 +111,11 @@ public enum Language {
 			Unicode.CURRENCY_EURO, true, "bs",
 			"Bosnian / \u0431\u043E\u0441\u0430\u043D\u0441\u043A\u0438",
 			Script.LATIN, "-ti"),
+
+	Breton(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, false, "br",
+			"Breton",
+			Script.LATIN, ""),
 
 	Bulgarian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO, true, "bg",
@@ -373,6 +378,9 @@ public enum Language {
 
 	Tajik(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, '$', false,
 			"tg", "Tajik", Script.LATIN, ""),
+
+	// Tetun(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, '$', false,
+	// "tet", "Tetun", Script.LATIN, ""),
 
 	// Telugu("\u0C24", false, "te","te",
 	// "Telugu / \u0C24\u0C46\u0C32\u0C41\u0C17\u0C41", Country.India),

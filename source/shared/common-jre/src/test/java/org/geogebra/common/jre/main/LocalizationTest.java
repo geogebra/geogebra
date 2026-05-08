@@ -22,12 +22,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.factories.AwtFactoryCommon;
@@ -36,6 +41,7 @@ import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.test.LocalizationCommonUTF;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 public class LocalizationTest {
@@ -160,7 +166,7 @@ public class LocalizationTest {
 				String translated = loc.getMenu(entry.getKey());
 				Set<Character> placeholders = getPlaceholders(translated);
 				assertEquals(entry.getValue(), placeholders,
-						"Placeholders should match for " + entry.getKey());
+						"Placeholders should match for " + entry.getKey() + " in " + lang);
 			}
 		}
 	}
@@ -176,6 +182,26 @@ public class LocalizationTest {
 				assertTrue(placeholders.isEmpty() || placeholders.equals(Set.of(' ')));
 			}
 		}
+	}
+
+	@Test
+	public void jreTranslationFilesShouldMatchLanguages() throws IOException {
+		File dir = new File("src/main/resources/org/geogebra/common/jre/properties/");
+		TreeSet<String> available = new TreeSet<>();
+		for (File f : Objects.requireNonNull(dir.listFiles())) {
+			if (f.getName().contains("menu_") && (Files.readAllLines(f.toPath()).size() > 60
+					|| f.getName().split("_").length > 2
+					|| f.getName().contains("menu_en"))) {
+				available.add(f.getAbsolutePath());
+			}
+		}
+		for (Language lang : Language.values()) {
+			File trans = new File("src/main/resources/org/geogebra/common/jre/properties/"
+					+ "menu_" + lang.toLanguageTag().replace("-", "_")
+					.replace("he", "iw").replace("id", "in") + ".properties");
+			assertTrue(available.remove(trans.getAbsolutePath()), trans.getAbsolutePath());
+		}
+		assertEquals(Set.of(), available);
 	}
 
 	private Set<Character> getPlaceholders(String translated) {

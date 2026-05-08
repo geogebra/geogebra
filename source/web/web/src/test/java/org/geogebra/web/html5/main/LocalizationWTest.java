@@ -20,6 +20,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.util.Objects;
+import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.util.lang.Language;
@@ -31,7 +33,7 @@ public class LocalizationWTest {
 	public void gwtTranslationFilesShouldMatchLanguages() {
 		File dir = new File("src/main/resources/org/geogebra/web/pub/js/");
 		TreeSet<String> available = new TreeSet<>();
-		for (File f : dir.listFiles()) {
+		for (File f : Objects.requireNonNull(dir.listFiles())) {
 			if (f.getName().contains("properties_")) {
 				available.add(f.getAbsolutePath());
 			}
@@ -43,10 +45,6 @@ public class LocalizationWTest {
 					available.remove(trans.getAbsolutePath()));
 
 		}
-		StringBuilder sb = new StringBuilder();
-		for (String fn : available) {
-			sb.append(fn).append("\n");
-		}
-		assertEquals("", sb.toString());
+		assertEquals(Set.of(), available);
 	}
 }
