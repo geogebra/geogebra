@@ -562,8 +562,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		final double a = semiDiagMatrix.get(1, 4);
 		final double b = semiDiagMatrix.get(2, 4);
-		final double c = semiDiagMatrix.get(3, 4);
-		final double d = semiDiagMatrix.get(4, 4);
 
 		// set ev0 = (a*ev0+b*ev1)/norm and ev1 = (a*ev0-b*ev1)/norm
 		double norm = Math.sqrt(a * a + b * b);
@@ -586,6 +584,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		eigenval[1] = 0;
 		eigenval[2] = value;
 
+		final double c = semiDiagMatrix.get(3, 4);
+		final double d = semiDiagMatrix.get(4, 4);
 		// set midpoint
 		midpoint.set(Coords.O);
 		midpoint.addInside(tmpCoords.setMul(eigenvecND[0],

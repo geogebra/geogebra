@@ -462,8 +462,6 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		GeoList matrix = isRawData ? freq.getResult() : freqMatrix;
 		AlgoChiSquaredTest test = new AlgoChiSquaredTest(cons, matrix, null, null);
 		cons.removeFromConstructionList(test);
-		final GeoList result = test.getResult();
-
 		String split = "&";
 
 		sb.append("\\\\ ");
@@ -487,6 +485,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 				StringTemplate.numericDefault));
 
 		sb.append(split);
+		GeoList result = test.getResult();
 		sb.append(result.get(1).toValueString(StringTemplate.numericDefault));
 		sb.append(split);
 		sb.append(result.get(0).toValueString(StringTemplate.numericDefault));

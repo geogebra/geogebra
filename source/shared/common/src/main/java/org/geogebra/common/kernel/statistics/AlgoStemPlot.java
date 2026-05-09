@@ -287,15 +287,6 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 			magnitude = magnitude + s;
 		}
 
-		double factor = Math.pow(10.0, 1 - magnitude); // factor for creating
-														// the stem plot
-
-		// create stemLines -- a list of ArrayLists that stores the stem & leaf
-		// values for each line of the plot
-		final ArrayList<ArrayList<Integer>> stemLines = createStemPlotArray(
-				data,
-				factor, outlierIndex);
-
 		// ==========================================
 		// create LaTeX for the outliers
 
@@ -317,6 +308,12 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		}
 		high.append("} \\\\ "); // newline in LaTeX ie \\
 
+		// create stemLines -- a list of ArrayLists that stores the stem & leaf
+		// values for each line of the plot
+		double factor = Math.pow(10.0, 1 - magnitude); // factor for creating the stem plot
+		final ArrayList<ArrayList<Integer>> stemLines = createStemPlotArray(
+				data,
+				factor, outlierIndex);
 		double multUnit = Math.pow(10.0, magnitude - 1); // factor for building
 		// the key
 		stemPlot(data, outlierIndex, multUnit, stemLines);

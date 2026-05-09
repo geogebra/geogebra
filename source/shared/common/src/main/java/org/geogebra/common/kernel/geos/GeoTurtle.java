@@ -410,6 +410,7 @@ public class GeoTurtle extends GeoPoint {
 		speed = 0;
 		resetProgress();
 		cmdList.clear();
+		speed = s;
 		turnAngle = 0d;
 		sinAngle = 0d;
 		cosAngle = 1d;
@@ -417,7 +418,6 @@ public class GeoTurtle extends GeoPoint {
 		position[1] = 0d;
 		// currentPoint.setCoords(0d, 0d, 1d);
 		setCoords(0d, 0d, 1d);
-		speed = s;
 		doUpdate();
 	}
 

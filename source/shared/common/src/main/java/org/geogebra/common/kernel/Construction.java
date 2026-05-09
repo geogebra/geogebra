@@ -1522,12 +1522,8 @@ public class Construction {
 		if (!oldGeo.hasChildren()) {
 			String oldGeoLabel = oldGeo.getLabelSimple();
 			newGeo.moveDependencies(oldGeo);
-			isRemovingGeoToReplaceIt = true;
 			final Group grp = oldGeo.getParentGroup();
-			oldGeo.setParentGroup(null);
-			oldGeo.remove();
-			isRemovingGeoToReplaceIt = false;
-
+			removeForReplace(oldGeo);
 			// set properties first, set label later. See #933
 			copyStyleForRedefine(oldGeo, newGeo);
 
@@ -1632,6 +1628,13 @@ public class Construction {
 
 		// recall views for plane
 		app.getCompanion().recallViewCreators();
+	}
+
+	private void removeForReplace(GeoElement oldGeo) {
+		isRemovingGeoToReplaceIt = true;
+		oldGeo.setParentGroup(null);
+		oldGeo.remove();
+		isRemovingGeoToReplaceIt = false;
 	}
 
 	private boolean softRedefine(GeoElement oldGeo, GeoElement newGeo) {

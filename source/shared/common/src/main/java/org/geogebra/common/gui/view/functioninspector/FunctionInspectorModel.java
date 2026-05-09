@@ -459,30 +459,30 @@ public class FunctionInspectorModel {
 			value2.add(null);
 		}
 		// get the table
-		final double integral = ((GeoNumeric) integralGeo).getDouble();
-		final double area = ((GeoNumeric) areaGeo).getDouble();
-		final double mean = integral / (xMax - xMin);
-		final double length = ((GeoNumeric) lengthGeo).getDouble();
 
 		property.add(null);
 		values.add(null);
 		value2.add(null);
 
+		final double integral = ((GeoNumeric) integralGeo).getDouble();
 		property.add(loc.getCommand("Integral"));
 		values.add(format(integral));
 		Double[] in = { integral };
 		value2.add(in);
 
+		final double area = ((GeoNumeric) areaGeo).getDouble();
 		property.add(loc.getCommand("Area"));
 		values.add(format(area));
 		Double[] a = { area };
 		value2.add(a);
 
+		final double mean = integral / (xMax - xMin);
 		property.add(loc.getCommand("Mean"));
 		values.add(format(mean));
 		Double[] m = { mean };
 		value2.add(m);
 
+		final double length = ((GeoNumeric) lengthGeo).getDouble();
 		property.add(loc.getCommand("Length"));
 		values.add(format(length));
 		Double[] l = { length };
