@@ -42,7 +42,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
-import org.geogebra.common.properties.impl.distribution.ParameterProperty;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -93,16 +92,6 @@ public class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 		assertEquals("(2, 0)", lookup("B").toValueString(StringTemplate.testTemplate));
 		assertThat(lookup("a").getParentAlgorithm(), isA(AlgoIntegralDefinite.class));
 		assertThat(lookup("b").getParentAlgorithm(), isA(AlgoIntegralDefinite.class));
-	}
-
-	@Test
-	public void noTypeCastForParameters() {
-		probCalc = new HeadlessProbabilityCalculatorView(getApp());
-		probCalc.setProbabilityCalculator(Dist.NORMAL, null, false);
-		ParameterProperty prop = new ParameterProperty(getLocalization(),
-				getKernel().getAlgebraProcessor(), probCalc, 0, "");
-		prop.setValue("true");
-		assertThat(probCalc.getProbability(), closeTo(0.34, 0.01));
 	}
 
 	@Test

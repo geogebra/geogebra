@@ -891,8 +891,10 @@ public abstract class ProbabilityCalculatorView
 			}
 			validateLowHigh(oldProbMode);
 		}
-		updateProbabilityType(getResultPanel());
-		updateResult(getResultPanel());
+		if (getResultPanel() != null) {
+			updateProbabilityType(getResultPanel());
+			updateResult(getResultPanel());
+		}
 		notifyListeners();
 	}
 
