@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.HasExtendedAV;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
@@ -34,38 +34,39 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
  */
 public final class AlgebraViewVisibilityPropertyCollection
 		extends AbstractPropertyCollection<BooleanProperty> {
+
 	private static final class SliderVisibilityProperty extends AbstractValuedProperty<Boolean>
 			implements BooleanProperty, GeoElementDependentProperty {
-		private final GeoElement element;
+		private final GeoNumeric geoNumeric;
 
 		SliderVisibilityProperty(Localization localization, GeoElement element)
 				throws NotApplicablePropertyException {
 			super(localization, "ShowSliderInAlgebraView");
-			if (!(element instanceof HasExtendedAV)) {
+			if (!(element instanceof GeoNumeric geoNumeric && geoNumeric.isSlider())) {
 				throw new NotApplicablePropertyException(element);
 			}
-			this.element = element;
+			this.geoNumeric = geoNumeric;
 		}
 
 		@Override
 		public Boolean getValue() {
-			return ((HasExtendedAV) element).isAVSliderOrCheckboxVisible();
+			return geoNumeric.isAVSliderOrCheckboxVisible();
 		}
 
 		@Override
 		protected void doSetValue(Boolean value) {
-			((HasExtendedAV) element).setAVSliderOrCheckboxVisible(value);
-			element.updateVisualStyleRepaint(GProperty.COMBINED);
+			geoNumeric.setAVSliderOrCheckboxVisible(value);
+			geoNumeric.updateVisualStyleRepaint(GProperty.COMBINED);
 		}
 
 		@Override
 		public boolean isEnabled() {
-			return element.isAlgebraVisible();
+			return geoNumeric.isAlgebraVisible();
 		}
 
 		@Override
 		public GeoElement getGeoElement() {
-			return element;
+			return geoNumeric;
 		}
 	}
 
