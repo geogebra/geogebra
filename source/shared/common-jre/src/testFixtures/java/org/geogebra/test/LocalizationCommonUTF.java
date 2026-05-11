@@ -47,7 +47,10 @@ public class LocalizationCommonUTF extends LocalizationCommon {
 	protected void reportMissing(String key, String fallback) {
 		if (key.startsWith("_") || List.of(
 				"InlineText", "Function.npr", "Function.ncr",
-						"Name.l", "Name.f", "Name.m", "Name.shape").contains(key)) {
+						"Name.l", "Name.f", "Name.m", "Name.shape",
+				"ScreenReader.StartAbsoluteValue", "ScreenReader.EndAbsoluteValue",
+				"ScreenReader.startFraction", "ScreenReader.endFraction",
+				"ScreenReader.startSqrt", "ScreenReader.endSqrt").contains(key)) {
 			return;
 		}
 		missingTranslations.put(key, fallback);
