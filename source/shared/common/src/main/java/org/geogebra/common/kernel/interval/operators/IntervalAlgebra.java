@@ -305,7 +305,7 @@ public class IntervalAlgebra {
 			return empty();
 		}
 
-		if (base.getLow() > - 1 && base.getHigh() < 1) {
+		if (high < low) {
 			return connected(high, low);
 		}
 

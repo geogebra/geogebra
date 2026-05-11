@@ -24,6 +24,8 @@ import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class PathComponentTest extends BaseAppTestSetup {
 
@@ -58,14 +60,14 @@ public class PathComponentTest extends BaseAppTestSetup {
 		assertEquals(10, componentCount());
 	}
 
-	@Test
-	public void testFunctionsThrowNoExceptions() {
-		functionsThrowNoExceptions("lnx");
-		functionsThrowNoExceptions("-1/sqrt(ln(x))");
-
-	}
-
-	private void functionsThrowNoExceptions(String definition) {
+	@ParameterizedTest
+	@CsvSource({
+			"lnx",
+			"-1/sqrt(ln(x))",
+			"(x^2)^2",
+			"x^(2^2)"
+	})
+	public void functionsThrowNoExceptions(String definition) {
 		withBounds(5.0, 8.0, 5, 5);
 		withScreenSize(500, 500);
 		withFunction(definition);
