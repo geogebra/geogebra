@@ -17,14 +17,13 @@
 package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SettingListener;
 
 import com.google.j2objc.annotations.Weak;
 
-public class AxisChangeListener implements SettingListener {
+public class AxisChangeListener implements SettingListener<EuclidianSettings> {
 
 	@Weak
 	private AlgebraView view;
@@ -53,17 +52,14 @@ public class AxisChangeListener implements SettingListener {
 	}
 
 	@Override
-	public void settingsChanged(AbstractSettings settings) {
-		if (settings instanceof EuclidianSettings) {
-			EuclidianSettings euclidianSettings = (EuclidianSettings) settings;
-			boolean anyAxisVisible = isAnyAxisVisible(euclidianSettings);
-			if (anyAxisVisible != isAnyAxisVisible) {
-				isAnyAxisVisible = anyAxisVisible;
-				kernel.getApplication().getSettings().getAlgebra().setStyle(anyAxisVisible
-						? AlgebraStyle.DEFINITION_AND_VALUE
-						: AlgebraStyle.DESCRIPTION);
-				view.repaintView();
-			}
+	public void settingsChanged(EuclidianSettings settings) {
+		boolean anyAxisVisible = isAnyAxisVisible(settings);
+		if (anyAxisVisible != isAnyAxisVisible) {
+			isAnyAxisVisible = anyAxisVisible;
+			kernel.getApplication().getSettings().getAlgebra().setStyle(anyAxisVisible
+					? AlgebraStyle.DEFINITION_AND_VALUE
+					: AlgebraStyle.DESCRIPTION);
+			view.repaintView();
 		}
 	}
 }

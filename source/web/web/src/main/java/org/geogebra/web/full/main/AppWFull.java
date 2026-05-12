@@ -93,7 +93,6 @@ import org.geogebra.common.main.ShareController;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.localization.AutocompleteProvider;
-import org.geogebra.common.main.settings.FontSettings;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
@@ -2454,9 +2453,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
 		getSettings().getFontSettings().addListener(settings -> {
-			FontSettings fontSettings = (FontSettings) settings;
 			if (isWhiteboardActive()) {
-				CarotaUtil.setDefaultFontSize(fontSettings.getAppFontSize());
+				CarotaUtil.setDefaultFontSize(settings.getAppFontSize());
 			}
 		});
 		return super.newSettingsUpdaterBuilder();

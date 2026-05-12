@@ -93,7 +93,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.editor.share.util.Unicode;
 
 public class ConstructionProtocolViewD extends ConstructionProtocolView
-		implements Printable, SettingListener, SetLabels {
+		implements Printable, SettingListener<ConstructionProtocolSettings>, SetLabels {
 
 	static Color COLOR_STEP_HIGHLIGHT = AppD.COLOR_SELECTION;
 	private static final Color COLOR_DRAG_HIGHLIGHT = new Color(250, 250, 200);
@@ -1170,10 +1170,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	 */
 
 	@Override
-	public void settingsChanged(AbstractSettings settings) {
-		ConstructionProtocolSettings cps = (ConstructionProtocolSettings) settings;
-
-		boolean[] gcv = cps.getColsVisibility();
+	public void settingsChanged(ConstructionProtocolSettings settings) {
+		boolean[] gcv = settings.getColsVisibility();
 		if (gcv != null) {
 			if (gcv.length > 0) {
 				setColsVisibility(gcv);
@@ -1181,9 +1179,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		}
 
 		update();
-		((ConstructionTableDataD) getData()).initView();
+		getData().initView();
 		repaintScrollpane();
-
 	}
 
 	private void setColsVisibility(boolean[] colsVisibility) {

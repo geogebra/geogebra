@@ -181,11 +181,10 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			repaint();
 		});
 		SpreadsheetSettings spreadsheetSettings = app.getSettings().getSpreadsheet();
-		spreadsheetSettings.addListener(settings -> {
-			SpreadsheetSettings currentSettings = (SpreadsheetSettings) settings;
-			setScrollingEnabled(currentSettings.showHScrollBar(),
-					currentSettings.showVScrollBar());
-		});
+		spreadsheetSettings.addListener(settings ->
+			setScrollingEnabled(settings.showHScrollBar(),
+					settings.showVScrollBar())
+		);
 		setScrollingEnabled(spreadsheetSettings.showHScrollBar(),
 				spreadsheetSettings.showVScrollBar());
 	}

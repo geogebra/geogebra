@@ -41,7 +41,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.kernel.ConstructionStepper;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
@@ -54,7 +53,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
  */
 public class ConstructionProtocolNavigationD
 		extends ConstructionProtocolNavigation
-		implements ActionListener, SettingListener, SetLabels {
+		implements ActionListener, SettingListener<ConstructionProtocolSettings>, SetLabels {
 
 	private JButton btFirst;
 	private JButton btPrev;
@@ -370,11 +369,10 @@ public class ConstructionProtocolNavigationD
 	}
 
 	@Override
-	public void settingsChanged(AbstractSettings settings) {
-		ConstructionProtocolSettings cps = (ConstructionProtocolSettings) settings;
-		setPlayButtonVisible(cps.showPlayButton());
-		setPlayDelay(cps.getPlayDelay());
-		setConsProtButtonVisible(cps.showConsProtButton());
+	public void settingsChanged(ConstructionProtocolSettings settings) {
+		setPlayButtonVisible(settings.showPlayButton());
+		setPlayDelay(settings.getPlayDelay());
+		setConsProtButtonVisible(settings.showConsProtButton());
 		update();
 
 	}

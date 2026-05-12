@@ -104,7 +104,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 
 		setInputOutput();
 		// must set isLaTex before computing, #3846
-		table.isTextCommand = true;
+		table.setIsTextCommand(true);
 		table.setLaTeX(true, false);
 
 		compute();

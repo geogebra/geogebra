@@ -30,7 +30,7 @@ public class PenCategoryController {
 	 * @param appW - application
 	 * @param listener - settings listener
 	 */
-	public PenCategoryController(AppW appW, SettingListener listener) {
+	public PenCategoryController(AppW appW, SettingListener<PenToolsSettings> listener) {
 		this.appW = appW;
 		getPenSettings().addListener(listener);
 	}

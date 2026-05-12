@@ -19,7 +19,7 @@ package org.geogebra.common.main.settings;
 /**
  * Label settings.
  */
-public class LabelSettings extends AbstractSettings {
+public class LabelSettings extends AbstractSettings<LabelSettings> {
 
 	private LabelVisibility labelVisibility;
 	private LabelVisibility labelVisibilityForMenu;

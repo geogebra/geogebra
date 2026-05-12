@@ -70,7 +70,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		spreadsheetSettings.addListener((settings) -> {
 			// changeListeners is really just the Spreadsheet instance
 			for (TabularDataChangeListener listener: changeListeners) {
-				listener.tabularDataDimensionsDidChange((SpreadsheetSettings) settings);
+				listener.tabularDataDimensionsDidChange(settings);
 			}
 		});
 		this.kernel = app.getKernel();

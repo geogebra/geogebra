@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
+import org.geogebra.common.main.settings.LabelSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.ManualPage;
@@ -52,7 +53,7 @@ import org.geogebra.common.util.ManualPage;
  *
  */
 
-public interface GuiManagerInterface extends SettingListener {
+public interface GuiManagerInterface extends SettingListener<LabelSettings> {
 
 	@MissingDoc
 	void updateMenubar();

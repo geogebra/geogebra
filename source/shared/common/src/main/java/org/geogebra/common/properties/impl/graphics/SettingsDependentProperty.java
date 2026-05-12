@@ -27,5 +27,5 @@ public interface SettingsDependentProperty extends Property {
 	/**
 	 * @return the settings object which this property is dependent on.
 	 */
-	AbstractSettings getSettings();
+	AbstractSettings<?> getSettings();
 }

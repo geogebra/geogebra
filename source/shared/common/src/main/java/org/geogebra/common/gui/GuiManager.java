@@ -46,8 +46,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.InputKeyboardButton;
-import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
+import org.geogebra.common.main.settings.LabelSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.StringUtil;
@@ -788,7 +788,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	@Override
-	public void settingsChanged(AbstractSettings settings) {
+	public void settingsChanged(LabelSettings settings) {
 		updateMenubar();
 	}
 

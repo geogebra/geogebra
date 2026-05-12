@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
-import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
@@ -52,7 +51,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
 
 public class SpreadsheetViewW implements SpreadsheetViewInterface,
-		SettingListener, SetLabels, PrintableW {
+		SettingListener<SpreadsheetSettings>, SetLabels, PrintableW {
 
 	// ggb fields
 	protected AppW app;
@@ -620,7 +619,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	@Override
-	public void settingsChanged(AbstractSettings settings0) {
+	public void settingsChanged(SpreadsheetSettings settings0) {
 		Scheduler.get().scheduleDeferred(this::settingsChangedCommand);
 	}
 

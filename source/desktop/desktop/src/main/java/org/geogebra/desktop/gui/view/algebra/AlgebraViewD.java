@@ -48,7 +48,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.plugin.EventType;
@@ -63,7 +62,7 @@ import org.geogebra.desktop.main.AppD;
  * @author Markus
  */
 public class AlgebraViewD extends AlgebraTree
-		implements LayerView, Gridable, AlgebraView, SettingListener {
+		implements LayerView, Gridable, AlgebraView, SettingListener<AlgebraSettings> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -998,11 +997,10 @@ public class AlgebraViewD extends AlgebraTree
 	private boolean settingsChanged = false;
 
 	@Override
-	public void settingsChanged(AbstractSettings settings) {
+	public void settingsChanged(AlgebraSettings settings) {
 
-		AlgebraSettings algebraSettings = (AlgebraSettings) settings;
-		setTreeMode(algebraSettings.getTreeMode());
-		showAuxiliaryObjectsSettings = algebraSettings
+		setTreeMode(settings.getTreeMode());
+		showAuxiliaryObjectsSettings = settings
 				.getShowAuxiliaryObjects();
 
 		settingsChanged = true;

@@ -19,7 +19,7 @@ package org.geogebra.web.full.gui.dialog.options;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.PropertyView;
@@ -38,7 +38,7 @@ import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
 
 public class OptionsAlgebraW
-		implements OptionPanelW, SetLabels, SettingListener {
+		implements OptionPanelW, SetLabels, SettingListener<AlgebraSettings> {
 
 	private AppW app;
 	private final AlgebraTab algebraTab;
@@ -274,7 +274,7 @@ public class OptionsAlgebraW
 	}
 
 	@Override
-	public void settingsChanged(AbstractSettings settings) {
+	public void settingsChanged(AlgebraSettings settings) {
 		updateGUI();
 	}
 

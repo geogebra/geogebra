@@ -16,8 +16,6 @@
 
 package org.geogebra.common.main.settings;
 
-//import geogebra.gui.view.probcalculator.ProbabilityManager;
-
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -30,7 +28,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 /**
  * Settings for the probability calculator view.
  */
-public class ProbabilityCalculatorSettings extends AbstractSettings {
+public class ProbabilityCalculatorSettings extends AbstractSettings<ProbabilityCalculatorSettings> {
 
 	/** distributions */
 	public enum Dist {
@@ -115,7 +113,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	 *            listeners
 	 */
 	public ProbabilityCalculatorSettings(
-			LinkedList<SettingListener> listeners) {
+			LinkedList<SettingListener<ProbabilityCalculatorSettings>> listeners) {
 		super(listeners);
 	}
 

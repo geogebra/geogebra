@@ -21,7 +21,7 @@ import java.util.LinkedList;
 /**
  * Settings for the construction protocol.
  */
-public class ConstructionProtocolSettings extends AbstractSettings {
+public class ConstructionProtocolSettings extends AbstractSettings<ConstructionProtocolSettings> {
 	/**
 	 * Show construction protocol.
 	 */
@@ -53,7 +53,8 @@ public class ConstructionProtocolSettings extends AbstractSettings {
 	 * @param listeners
 	 *            settings listeners
 	 */
-	public ConstructionProtocolSettings(LinkedList<SettingListener> listeners) {
+	public ConstructionProtocolSettings(
+			LinkedList<SettingListener<ConstructionProtocolSettings>> listeners) {
 		super(listeners);
 	}
 

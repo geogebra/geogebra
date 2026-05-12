@@ -47,7 +47,7 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 @HasNativeSubclass
-public abstract class Layout implements SettingListener {
+public abstract class Layout implements SettingListener<LayoutSettings> {
 	private static final double PORTRAIT_DIVIDER = 0.45;
 
 	/**

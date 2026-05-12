@@ -24,13 +24,14 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
+import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.common.main.settings.SettingListener;
 
 /**
  * Generic interface for language-specific part of CAS which is plugged into
  * GoGebraCAS.
  */
-public interface CASGenericInterface extends SettingListener {
+public interface CASGenericInterface extends SettingListener<CASSettings> {
 
 	/**
 	 * Translates a variable/constant assignment like "x := 3" into the format

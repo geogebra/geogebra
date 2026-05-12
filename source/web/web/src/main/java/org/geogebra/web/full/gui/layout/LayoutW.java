@@ -26,7 +26,7 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.LayoutSettings;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.main.AppWFull;
@@ -161,7 +161,7 @@ public class LayoutW extends Layout {
 	}
 
 	@Override
-	public void settingsChanged(AbstractSettings settings) {
+	public void settingsChanged(LayoutSettings settings) {
 		// TODO Auto-generated method stub
 	}
 

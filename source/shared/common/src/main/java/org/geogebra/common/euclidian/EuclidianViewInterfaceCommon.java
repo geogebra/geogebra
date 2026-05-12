@@ -43,7 +43,7 @@ import org.geogebra.common.main.settings.SettingListener;
  *
  */
 public interface EuclidianViewInterfaceCommon
-		extends EuclidianViewInterfaceSlim, SettingListener {
+		extends EuclidianViewInterfaceSlim, SettingListener<EuclidianSettings> {
 
 	/** reference to x axis */
 	int AXIS_X = 0;

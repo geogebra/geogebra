@@ -48,7 +48,6 @@ import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
-import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.debug.Log;
 
@@ -65,7 +64,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 	private CoordMatrix4x4 transform;
 
 	private boolean initViewJustCreated = false;
-	private Coords tmpCoords = new Coords(4);
+	private final Coords tmpCoords = new Coords(4);
 
 	private CoordMatrix4x4 planeMatrix;
 	private CoordMatrix4x4 transformedMatrix;
@@ -334,10 +333,9 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 	}
 
 	@Override
-	public void settingsChanged(AbstractSettings settings) {
-
+	public void settingsChanged(EuclidianSettings settings) {
 		super.settingsChanged(settings);
-
+		assert settings instanceof EuclidianSettingsForPlane;
 		EuclidianSettingsForPlane evs = (EuclidianSettingsForPlane) settings;
 
 		// transform

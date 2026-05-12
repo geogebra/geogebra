@@ -54,7 +54,6 @@ import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
-import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MaxSizeHashMap;
@@ -872,9 +871,8 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	@Override
-	public void settingsChanged(AbstractSettings settings) {
-		CASSettings s = (CASSettings) settings;
-		timeoutMillis = s.getTimeoutMilliseconds();
+	public void settingsChanged(CASSettings settings) {
+		timeoutMillis = settings.getTimeoutMilliseconds();
 	}
 
 	@Override

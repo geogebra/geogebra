@@ -4800,9 +4800,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public AbstractSettings getKeyboardSettings(
 			AbstractSettings keyboardSettings) {
-		return new AbstractSettings() {
-			// no-op
-		};
+		return new AbstractSettings.Empty();
 	}
 
 	/**

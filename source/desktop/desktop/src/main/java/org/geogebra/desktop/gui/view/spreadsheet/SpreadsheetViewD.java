@@ -56,7 +56,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
@@ -70,8 +69,8 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.SpreadsheetTableModelD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
-public class SpreadsheetViewD implements SpreadsheetViewInterface,
-		ComponentListener, FocusListener, Gridable, SettingListener, SetLabels {
+public class SpreadsheetViewD implements SpreadsheetViewInterface, ComponentListener,
+		FocusListener, Gridable, SettingListener<SpreadsheetSettings>, SetLabels {
 
 	// ggb fields
 	protected AppD app;
@@ -936,19 +935,19 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	}
 
 	@Override
-	public void settingsChanged(AbstractSettings settings0) {
+	public void settingsChanged(SpreadsheetSettings settings0) {
 
 		allowSettingUpdate = false;
 
 		// layout
-		setShowColumnHeader(settings().showColumnHeader());
-		setShowRowHeader(settings().showRowHeader());
-		setShowVScrollBar(settings().showVScrollBar());
-		setShowHScrollBar(settings().showHScrollBar());
-		setShowGrid(settings().showGrid());
-		setShowFormulaBar(settings().showFormulaBar());
-		setEqualsRequired(settings().equalsRequired());
-		setEnableAutoComplete(settings().isEnableAutoComplete());
+		setShowColumnHeader(settings0.showColumnHeader());
+		setShowRowHeader(settings0.showRowHeader());
+		setShowVScrollBar(settings0.showVScrollBar());
+		setShowHScrollBar(settings0.showHScrollBar());
+		setShowGrid(settings0.showGrid());
+		setShowFormulaBar(settings0.showFormulaBar());
+		setEqualsRequired(settings0.equalsRequired());
+		setEnableAutoComplete(settings0.isEnableAutoComplete());
 
 		// row height and column widths
 		setColumnWidthsFromSettings();
@@ -956,12 +955,12 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 
 		// cell format
 		getSpreadsheetTable().getCellFormatHandler()
-				.processXMLString(settings().cellFormat());
+				.processXMLString(settings0.cellFormat());
 		spreadsheetWrapper.repaint();
 		table.repaint();
 		// preferredSize
 		spreadsheetWrapper.setPreferredSize(
-				GDimensionD.getAWTDimension(settings().preferredSize()));
+				GDimensionD.getAWTDimension(settings0.preferredSize()));
 
 		// initial position
 		// TODO not working yet ...

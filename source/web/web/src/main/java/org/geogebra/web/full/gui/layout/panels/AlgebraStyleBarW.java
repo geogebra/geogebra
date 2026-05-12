@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.SettingListener;
@@ -41,7 +40,7 @@ import org.geogebra.web.html5.main.AppW;
 /**
  * StyleBar for AlgebraView
  */
-public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
+public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener<AlgebraSettings> {
 
 	/** button to open the popup with the supported tree-modes */
 	PopupMenuButtonW treeModeButton;
@@ -202,7 +201,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 	}
 
 	@Override
-	public void settingsChanged(AbstractSettings settings) {
+	public void settingsChanged(AlgebraSettings settings) {
 		//
 	}
 

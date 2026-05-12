@@ -80,7 +80,7 @@ public class AxisDistanceProperty extends NumericPropertyWithSuggestions
 	}
 
 	@Override
-	public AbstractSettings getSettings() {
+	public AbstractSettings<?> getSettings() {
 		return euclidianSettings;
 	}
 }

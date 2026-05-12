@@ -21,7 +21,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.geos.XMLBuilder;
 
-public class PenToolsSettings extends AbstractSettings {
+public class PenToolsSettings extends AbstractSettings<PenToolsSettings> {
 
 	private GColor lastSelectedPenColor = GColor.BLACK;
 	private GColor lastSelectedHighlighterColor = GColor.newColorRGB(0x388C83);

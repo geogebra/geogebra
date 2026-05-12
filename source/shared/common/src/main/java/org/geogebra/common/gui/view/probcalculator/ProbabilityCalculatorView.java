@@ -76,7 +76,6 @@ import org.geogebra.common.kernel.statistics.CmdRealDistribution2Params;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.common.main.settings.SettingListener;
@@ -92,7 +91,7 @@ import org.geogebra.editor.share.util.Unicode;
  */
 @HasNativeSubclass
 public abstract class ProbabilityCalculatorView
-		implements View, SettingListener, SetLabels {
+		implements View, SettingListener<ProbabilityCalculatorSettings>, SetLabels {
 
 	public static final double PADDING_TOP_PX = 20.0;
 	private final DiscreteDistributionFactory discreteDistributionFactory;
@@ -1426,18 +1425,16 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	@Override
-	public void settingsChanged(AbstractSettings settings) {
-		ProbabilityCalculatorSettings pcSettings =
-				(ProbabilityCalculatorSettings) settings;
-		setProbabilityCalculatorNoFire(pcSettings.getDistributionType(),
-				pcSettings.getParameters(), pcSettings.isCumulative());
-		this.probMode = pcSettings.getProbMode();
-		if (pcSettings.isIntervalSet()) {
-			setLow(pcSettings.getLow());
-			setHigh(pcSettings.getHigh());
+	public void settingsChanged(ProbabilityCalculatorSettings settings) {
+		setProbabilityCalculatorNoFire(settings.getDistributionType(),
+				settings.getParameters(), settings.isCumulative());
+		this.probMode = settings.getProbMode();
+		if (settings.isIntervalSet()) {
+			setLow(settings.getLow());
+			setHigh(settings.getHigh());
 		}
-		setShowNormalOverlay(((ProbabilityCalculatorSettings) settings).isOverlayActive());
-		updateAll(!pcSettings.isIntervalSet());
+		setShowNormalOverlay(settings.isOverlayActive());
+		updateAll(!settings.isIntervalSet());
 		if (getStatCalculator() != null) {
 			getStatCalculator().settingsChanged();
 		}

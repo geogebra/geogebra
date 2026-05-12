@@ -34,7 +34,8 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetDimensions;
 /**
  * Settings for the spreadsheet view.
  */
-public class SpreadsheetSettings extends AbstractSettings implements SpreadsheetDimensions {
+public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
+		implements SpreadsheetDimensions {
 
 	public static final int TABLE_CELL_WIDTH = 70;
 	// in 5.2 this was 21, but effective default was computed based on font size
@@ -97,7 +98,7 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 	 * @param listeners
 	 *            settings listeners
 	 */
-	public SpreadsheetSettings(LinkedList<SettingListener> listeners) {
+	public SpreadsheetSettings(LinkedList<SettingListener<SpreadsheetSettings>> listeners) {
 		super(listeners);
 		preferredSize = AwtFactory.getPrototype().newDimension(0, 0);
 	}

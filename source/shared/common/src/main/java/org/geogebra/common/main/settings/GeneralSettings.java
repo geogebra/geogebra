@@ -23,11 +23,11 @@ import org.geogebra.common.kernel.Kernel;
 /**
  * General settings of the application.
  */
-public class GeneralSettings extends AbstractSettings {
+public class GeneralSettings extends AbstractSettings<GeneralSettings> {
 
 	private int coordFormat = CoordinatesFormat.COORD_FORMAT_DEFAULT;
 
-	public GeneralSettings(LinkedList<SettingListener> listeners) {
+	public GeneralSettings(LinkedList<SettingListener<GeneralSettings>> listeners) {
 		super(listeners);
 	}
 

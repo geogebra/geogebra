@@ -23,7 +23,7 @@ import java.util.LinkedList;
  * 
  * @author Florian Sonner
  */
-public class LayoutSettings extends AbstractSettings {
+public class LayoutSettings extends AbstractSettings<LayoutSettings> {
 	/**
 	 * Show the title bar of views. If disabled, the style bar is always
 	 * visible.
@@ -47,7 +47,7 @@ public class LayoutSettings extends AbstractSettings {
 	public LayoutSettings() {
 	}
 
-	public LayoutSettings(LinkedList<SettingListener> listeners) {
+	public LayoutSettings(LinkedList<SettingListener<LayoutSettings>> listeners) {
 		super(listeners);
 	}
 

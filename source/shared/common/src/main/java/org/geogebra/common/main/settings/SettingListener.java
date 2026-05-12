@@ -26,12 +26,12 @@ package org.geogebra.common.main.settings;
  * @author Florian Sonner
  */
 @FunctionalInterface
-public interface SettingListener {
+public interface SettingListener<T extends AbstractSettings<T>> {
 	/**
 	 * Notification that settings were changed.
 	 * 
 	 * @param settings
 	 *            Setting container.
 	 */
-	void settingsChanged(AbstractSettings settings);
+	void settingsChanged(T settings);
 }

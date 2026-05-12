@@ -33,7 +33,7 @@ import org.geogebra.common.main.Localization;
 /**
  * Settings for the algebra view.
  */
-public class AlgebraSettings extends AbstractSettings {
+public class AlgebraSettings extends AbstractSettings<AlgebraSettings> {
 
 	private SortMode treeMode = SortMode.TYPE;
 
@@ -54,7 +54,7 @@ public class AlgebraSettings extends AbstractSettings {
 	 * @param listeners
 	 *            settings listeners
 	 */
-	public AlgebraSettings(LinkedList<SettingListener> listeners) {
+	public AlgebraSettings(LinkedList<SettingListener<AlgebraSettings>> listeners) {
 		super(listeners);
 	}
 

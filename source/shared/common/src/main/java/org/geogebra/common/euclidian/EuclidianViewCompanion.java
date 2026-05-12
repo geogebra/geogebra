@@ -41,7 +41,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
-import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
 /**
@@ -242,23 +241,21 @@ public class EuclidianViewCompanion {
 	 * @param settings
 	 *            settings
 	 */
-	public void settingsChanged(AbstractSettings settings) {
-		EuclidianSettings evs = (EuclidianSettings) settings;
-
+	public void settingsChanged(EuclidianSettings settings) {
 		view.getKernel().getConstruction().setIgnoringNewTypes(true);
-		setMinMaxObjectsInView(evs);
+		setMinMaxObjectsInView(settings);
 		view.getKernel().getConstruction().setIgnoringNewTypes(false);
-		view.setBackground(evs.getBackground());
-		view.setAxesColor(evs.getAxesColor());
-		view.setGridColor(evs.getGridColor());
-		view.setAxesLineStyle(evs.getAxesLineStyle());
-		view.setGridLineStyle(evs.getGridLineStyle());
+		view.setBackground(settings.getBackground());
+		view.setAxesColor(settings.getAxesColor());
+		view.setGridColor(settings.getGridColor());
+		view.setAxesLineStyle(settings.getAxesLineStyle());
+		view.setGridLineStyle(settings.getGridLineStyle());
 
 		// bold/italic/size for axes labels
 		view.initFontCoords();
 
-		double[] d = evs.getGridDistances();
-		if (!evs.getAutomaticGridDistance() && (d == null)) {
+		double[] d = settings.getGridDistances();
+		if (!settings.getAutomaticGridDistance() && (d == null)) {
 			view.setAutomaticGridDistance(false);
 		} else if (d == null) {
 			view.setAutomaticGridDistance(true);
@@ -267,64 +264,64 @@ public class EuclidianViewCompanion {
 		}
 		int viewDim = view.getDimension();
 		for (int i = 0; i < viewDim; i++) {
-			view.setShowAxis(i, evs.getShowAxis(i), true);
+			view.setShowAxis(i, settings.getShowAxis(i), true);
 		}
-		String[] tempAxesLabels = evs.getAxesLabels();
+		String[] tempAxesLabels = settings.getAxesLabels();
 
 		// make sure <b>, <i> processed
 		for (int i = 0; i < viewDim; i++) {
 			view.setAxisLabel(i, tempAxesLabels[i]);
 		}
-		view.setAxesUnitLabels(evs.getAxesUnitLabels());
+		view.setAxesUnitLabels(settings.getAxesUnitLabels());
 
-		view.showAxesNumbers = evs.getShowAxisNumbers();
+		view.showAxesNumbers = settings.getShowAxisNumbers();
 
 		// might be Double.NaN, handled in setAxesNumberingDistance()
 		for (int i = 0; i < viewDim; i++) {
-			if (!evs.getAutomaticAxesNumberingDistance(i)
-					&& isNaN(evs.getAxisNumberingDistance(i))) {
+			if (!settings.getAutomaticAxesNumberingDistance(i)
+					&& isNaN(settings.getAxisNumberingDistance(i))) {
 				view.setAutomaticAxesNumberingDistance(false, i);
 			} else {
-				view.setAxesNumberingDistance(evs.getAxisNumberingDistance(i),
+				view.setAxesNumberingDistance(settings.getAxisNumberingDistance(i),
 						i);
 			}
 		}
 
 		for (int i = 0; i < viewDim; i++) {
-			view.setAxisTickStyle(i, evs.getAxesTickStyles()[i]);
+			view.setAxisTickStyle(i, settings.getAxesTickStyles()[i]);
 		}
 
-		view.setDrawBorderAxes(evs.getDrawBorderAxes());
+		view.setDrawBorderAxes(settings.getDrawBorderAxes());
 
 		for (int i = 0; i < viewDim; i++) {
-			view.axisCross[i] = evs.getAxesCross()[i];
-			view.positiveAxes[i] = evs.getPositiveAxes()[i];
+			view.axisCross[i] = settings.getAxesCross()[i];
+			view.positiveAxes[i] = settings.getPositiveAxes()[i];
 		}
 
-		GDimension ps = evs.getPreferredSize();
+		GDimension ps = settings.getPreferredSize();
 		if (ps != null) {
 			view.setPreferredSize(ps);
 		}
 
-		view.showGrid(evs.getShowGrid());
+		view.showGrid(settings.getShowGrid());
 
-		view.setGridIsBold(evs.getGridIsBold());
+		view.setGridIsBold(settings.getGridIsBold());
 
-		view.setGridType(evs.getGridType());
+		view.setGridType(settings.getGridType());
 
-		view.pointCapturingMode = evs.getPointCapturingMode();
+		view.pointCapturingMode = settings.getPointCapturingMode();
 
-		view.setAllowShowMouseCoords(evs.getAllowShowMouseCoords());
+		view.setAllowShowMouseCoords(settings.getAllowShowMouseCoords());
 
-		view.setAllowToolTips(evs.getAllowToolTips());
+		view.setAllowToolTips(settings.getAllowToolTips());
 
-		view.synchronizeMenuBarAndEuclidianStyleBar(evs);
+		view.synchronizeMenuBarAndEuclidianStyleBar(settings);
 
-		if (!evs.hasDynamicBounds()) {
+		if (!settings.hasDynamicBounds()) {
 			// the xmin, xmax, ... we read from Settings are nulls;
 			// use the double values instead
-			double x0 = evs.getXZero();
-			double y0 = evs.getYZero();
+			double x0 = settings.getXZero();
+			double y0 = settings.getYZero();
 			if (view.getKeepCenter() && view.isShowing()) {
 				// we may need to shift center if windows/settings sizes
 				// don't match
@@ -341,13 +338,13 @@ public class EuclidianViewCompanion {
 					}
 					x0 += (visibleWidth - settingsVisibleWidth) / 2.0;
 					y0 += (visibleHeight - settingsVisibleHeight) / 2.0;
-					evs.setSize(view.getWidth(), view.getHeight());
-					evs.setOriginNoUpdate(x0, y0);
+					settings.setSize(view.getWidth(), view.getHeight());
+					settings.setOriginNoUpdate(x0, y0);
 				}
 			}
 
-			view.setCoordSystem(x0, y0, evs.getXscale(), evs.getYscale(), true);
-			setMinMaxObjectsInSettings(evs);
+			view.setCoordSystem(x0, y0, settings.getXscale(), settings.getYscale(), true);
+			setMinMaxObjectsInSettings(settings);
 		} else {
 			// xmin, ... are OK; just update bounds
 			view.updateBounds(true, true);
@@ -355,7 +352,7 @@ public class EuclidianViewCompanion {
 
 		// let's do this after other updates because this might override e.g.
 		// xmin
-		view.setLockedAxesRatio(evs.getLockedAxesRatio());
+		view.setLockedAxesRatio(settings.getLockedAxesRatio());
 		view.repaintView();
 	}
 

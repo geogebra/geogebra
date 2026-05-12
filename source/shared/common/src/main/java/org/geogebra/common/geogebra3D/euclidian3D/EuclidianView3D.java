@@ -141,7 +141,6 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.kernel.matrix.Coords3;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
-import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -4380,9 +4379,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	@Override
-	public void settingsChanged(AbstractSettings settings) {
+	public void settingsChanged(EuclidianSettings settings) {
 		companion.settingsChanged(settings);
-
+		assert settings instanceof EuclidianSettings3D;
 		EuclidianSettings3D evs = (EuclidianSettings3D) settings;
 
 		evs.updateOrigin(this);

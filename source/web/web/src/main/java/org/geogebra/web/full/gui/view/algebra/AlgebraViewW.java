@@ -45,7 +45,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError.Errors;
-import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.SettingListener;
@@ -102,7 +101,8 @@ import jsinterop.base.Js;
  *
  */
 public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
-		OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW, HasThumbnailURL {
+		OpenHandler<TreeItem>, SettingListener<AlgebraSettings>,
+		ProvidesResize, PrintableW, HasThumbnailURL {
 
 	private final static int THUMBNAIL_SIZE = 256;
 	private final static double THUMBNAIL_SCALE = .75;
@@ -754,9 +754,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	@Override
-	public void settingsChanged(AbstractSettings settings) {
+	public void settingsChanged(AlgebraSettings algebraSettings) {
 		app.getAccessibilityManager().clearActiveCompositeFocus();
-		AlgebraSettings algebraSettings = (AlgebraSettings) settings;
 		setTreeMode(algebraSettings.getTreeMode());
 		showAuxiliaryObjectsSettings = algebraSettings
 				.getShowAuxiliaryObjects();

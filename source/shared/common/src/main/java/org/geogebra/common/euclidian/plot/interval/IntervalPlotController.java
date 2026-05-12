@@ -21,7 +21,6 @@ import org.geogebra.common.euclidian.CoordSystemInfo;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SettingListener;
 
@@ -30,7 +29,8 @@ import org.geogebra.common.main.settings.SettingListener;
  *
  * @author laszlo
  */
-public class IntervalPlotController implements CoordSystemAnimationListener, SettingListener {
+public class IntervalPlotController implements CoordSystemAnimationListener,
+		SettingListener<EuclidianSettings> {
 
 	private final IntervalFunctionModel model;
 	private final GeoFunction function;
@@ -95,7 +95,7 @@ public class IntervalPlotController implements CoordSystemAnimationListener, Set
 	}
 
 	@Override
-	public void settingsChanged(AbstractSettings settings) {
+	public void settingsChanged(EuclidianSettings settings) {
 		if (IntervalPlotSettings.isUpdateOnSettingsChangeEnabled()) {
 			model.resample();
 		}

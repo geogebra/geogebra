@@ -47,7 +47,7 @@ import com.google.j2objc.annotations.Weak;
  * Settings for an euclidian view. To which view these settings are associated
  * is determined in {@link Settings}.
  */
-public class EuclidianSettings extends AbstractSettings {
+public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 
 	public static final double UNSET_LOCK_RATIO = -1;
 	private static final String[] DEFAULT_AXIS_LABELS = { "x", "y", "z" };

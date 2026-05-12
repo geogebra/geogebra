@@ -106,7 +106,6 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.SelectionManager;
-import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -4339,7 +4338,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            settings
 	 */
 	@Override
-	public void settingsChanged(AbstractSettings settings) {
+	public void settingsChanged(EuclidianSettings settings) {
 		companion.settingsChanged(settings);
 
 		if (styleBar != null) {

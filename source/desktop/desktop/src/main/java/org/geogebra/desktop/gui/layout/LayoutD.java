@@ -28,8 +28,7 @@ import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.settings.AbstractSettings;
-import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.common.main.settings.LayoutSettings;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -40,7 +39,7 @@ import org.geogebra.desktop.main.AppD;
  * 
  * @author Florian Sonner
  */
-public class LayoutD extends Layout implements SettingListener {
+public class LayoutD extends Layout {
 
 	private AppD app;
 	private DockManagerD dockManager;
@@ -253,7 +252,7 @@ public class LayoutD extends Layout implements SettingListener {
 	 * Layout settings changed.
 	 */
 	@Override
-	public void settingsChanged(AbstractSettings abstractSettings) {
+	public void settingsChanged(LayoutSettings layoutSettings) {
 		dockManager.updatePanels();
 	}
 

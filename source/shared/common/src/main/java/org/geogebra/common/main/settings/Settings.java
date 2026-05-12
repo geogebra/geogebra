@@ -53,7 +53,7 @@ public class Settings {
 
 	private GeneralSettings generalSettings;
 
-	private AbstractSettings keyboardSettings;
+	private AbstractSettings<?> keyboardSettings;
 
 	private CASSettings casSettings;
 
@@ -354,7 +354,7 @@ public class Settings {
 	/**
 	 * @return desktop keyboard settings
 	 */
-	public final AbstractSettings getKeyboard() {
+	public final AbstractSettings<?> getKeyboard() {
 		return keyboardSettings;
 	}
 

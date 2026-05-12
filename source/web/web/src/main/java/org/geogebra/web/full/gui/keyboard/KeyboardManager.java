@@ -29,7 +29,7 @@ import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.GeneralSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.keyboard.base.KeyboardType;
@@ -63,7 +63,7 @@ import org.gwtproject.user.client.ui.RootPanel;
  * Handles creating, showing and updating the keyboard
  */
 public final class KeyboardManager
-		implements RequiresResize, KeyboardManagerInterface, SettingListener {
+		implements RequiresResize, KeyboardManagerInterface, SettingListener<GeneralSettings> {
 
 	private final AppW app;
 	private @CheckForNull VirtualKeyboardGUI keyboard;
@@ -375,7 +375,7 @@ public final class KeyboardManager
 	}
 
 	@Override
-	public void settingsChanged(AbstractSettings settings) {
+	public void settingsChanged(GeneralSettings settings) {
 		if (keyboard != null) {
 			keyboard.checkLanguage();
 		}

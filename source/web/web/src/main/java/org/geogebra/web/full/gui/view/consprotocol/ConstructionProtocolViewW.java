@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.Log;
@@ -64,7 +63,7 @@ import org.gwtproject.user.client.ui.ScrollPanel;
  *
  */
 public class ConstructionProtocolViewW extends ConstructionProtocolView
-		implements SetLabels, SettingListener, PrintableW {
+		implements SetLabels, SettingListener<ConstructionProtocolSettings>, PrintableW {
 
 	/**
 	 * contains a scrollPanel with the {@link #table constructionstep-table}
@@ -590,10 +589,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	}
 
 	@Override
-	public void settingsChanged(AbstractSettings settings) {
-		ConstructionProtocolSettings cps = (ConstructionProtocolSettings) settings;
-
-		boolean[] gcv = cps.getColsVisibility();
+	public void settingsChanged(ConstructionProtocolSettings settings) {
+		boolean[] gcv = settings.getColsVisibility();
 		if (gcv != null) {
 			if (gcv.length > 0) {
 				setColsVisibility(gcv);

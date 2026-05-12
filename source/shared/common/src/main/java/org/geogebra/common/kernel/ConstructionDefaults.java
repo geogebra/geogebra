@@ -60,7 +60,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.statistics.GeoPieChart;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
-import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.LabelSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
@@ -72,7 +72,7 @@ import com.google.j2objc.annotations.Weak;
  * 
  * @author Markus Hohenwarter
  */
-public class ConstructionDefaults implements SettingListener {
+public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	/** default alpha for polygons */
 	public static final float DEFAULT_POLYGON_ALPHA = 0.1f;
 
@@ -1213,7 +1213,7 @@ public class ConstructionDefaults implements SettingListener {
 	 * true)
 	 */
 	@Override
-	public void settingsChanged(AbstractSettings settings) {
+	public void settingsChanged(LabelSettings settings) {
 		for (GeoElement geo : defaultGeoElements.values()) {
 			if (!cons.getApplication().isUnbundledOrWhiteboard()
 					|| !(geo instanceof GeoAngle)) {

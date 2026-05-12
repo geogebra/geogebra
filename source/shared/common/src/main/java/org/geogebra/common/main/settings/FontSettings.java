@@ -21,7 +21,7 @@ import org.geogebra.common.util.Util;
 /**
  * Font settings.
  */
-public class FontSettings extends AbstractSettings {
+public class FontSettings extends AbstractSettings<FontSettings> {
 
 	private DefaultSettings defaultSettings;
 	private int appFontSize;

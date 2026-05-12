@@ -16,10 +16,9 @@
 
 package org.geogebra.web.full.gui.components;
 
-import static org.geogebra.common.properties.PropertyView.*;
+import static org.geogebra.common.properties.PropertyView.Checkbox;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -147,7 +146,7 @@ public class ComponentExpandableList extends FlowPanel implements SetLabels {
 	 * Check if settings update affects this property and update UI if needed.
 	 */
 	@SuppressWarnings("unused")
-	private void updateCheckbox(AbstractSettings settings) {
+	private void updateCheckbox() {
 		boolean selected = booleanProperty.isSelected();
 		if (checkbox.isSelected() != selected) {
 			if (!selected) {

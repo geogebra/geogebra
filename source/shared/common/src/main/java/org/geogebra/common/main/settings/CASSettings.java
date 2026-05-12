@@ -24,7 +24,7 @@ import java.util.LinkedList;
  * @author tom
  *
  */
-public class CASSettings extends AbstractSettings {
+public class CASSettings extends AbstractSettings<CASSettings> {
 
 	private long timeoutMillis;
 	private boolean showExpAsRoots;
@@ -34,7 +34,7 @@ public class CASSettings extends AbstractSettings {
 	 * @param listeners
 	 *            listeners
 	 */
-	public CASSettings(LinkedList<SettingListener> listeners) {
+	public CASSettings(LinkedList<SettingListener<CASSettings>> listeners) {
 		super(listeners);
 		init();
 	}

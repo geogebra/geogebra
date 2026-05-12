@@ -59,8 +59,8 @@ import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
-import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
+import org.geogebra.common.main.settings.LayoutSettings;
 import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
@@ -769,7 +769,7 @@ public class AppCommon extends App {
 		}
 
 		@Override
-		public void settingsChanged(AbstractSettings settings) {
+		public void settingsChanged(LayoutSettings settings) {
 			// stub
 		}
 	}

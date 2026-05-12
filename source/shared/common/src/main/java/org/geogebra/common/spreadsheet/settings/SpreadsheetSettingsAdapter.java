@@ -53,7 +53,7 @@ public final class SpreadsheetSettingsAdapter {
 		SpreadsheetSettings spreadsheetSettings = app.getSettings().getSpreadsheet();
 		// OK: the SpreadsheetSettings listeners are carried over when a new instance is created
 		spreadsheetSettings.addListener((settings) -> {
-			applySettings((SpreadsheetSettings) settings);
+			applySettings(settings);
 			notifyIfSettingsCellFormatChanged();
 		});
 		app.getSettings().getFontSettings().addListener(s -> {
