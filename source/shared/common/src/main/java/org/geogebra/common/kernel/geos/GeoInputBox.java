@@ -245,11 +245,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		return inputBoxRenderer.getText();
 	}
 
-	@Override
-	public boolean isLaTeXTextCommand() {
-		return super.isLaTeXTextCommand();
-	}
-
 	/**
 	 * Returns the linked geo
 	 * @return linked geo

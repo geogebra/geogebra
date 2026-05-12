@@ -260,11 +260,6 @@ public class DrawSlider extends Drawable {
 		return dx < r && dx > -r && dx * dx + dy * dy <= r * r;
 	}
 
-	@Override
-	public boolean hitLabel(int x, int y) {
-		return super.hitLabel(x, y);
-	}
-
 	/**
 	 * Returns true if the slider line was hit, false for fixed sliders
 	 * @param x mouse x-coord

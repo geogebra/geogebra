@@ -95,7 +95,6 @@
         <exclude name="AvoidCatchingGenericException"/>
         <exclude name="AvoidThrowingRawExceptionTypes"/>
         <exclude name="SingularField"/>
-        <exclude name="UselessOverridingMethod"/>
         <exclude name="CognitiveComplexity"/>
         <exclude name="CyclomaticComplexity"/>
         <exclude name="NPathComplexity"/>
@@ -113,6 +112,11 @@
         <exclude name="AvoidUncheckedExceptionsInSignatures"/>
         <exclude name="MutableStaticState"/>
         <exclude name="SimplifyBooleanReturns" />
+    </rule>
+    <rule ref="category/java/design.xml/UselessOverridingMethod">
+        <properties>
+            <property name="violationSuppressXPath" value=".[@Name = ('equals', 'hashCode')]"/>
+        </properties>
     </rule>
     <rule ref="category/java/design.xml/AvoidDeeplyNestedIfStmts">
         <properties>

@@ -66,11 +66,6 @@ public class ComponentLinkBox extends TextBox
 		this.isFocused = linkBoxFocused;
 	}
 
-	@Override
-	public void setReadOnly(boolean isReadOnly) {
-		super.setReadOnly(isReadOnly);
-	}
-
 	/**
 	 * focus textBox and select text
 	 */

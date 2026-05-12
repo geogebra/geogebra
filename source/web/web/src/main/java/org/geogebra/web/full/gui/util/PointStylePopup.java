@@ -111,11 +111,6 @@ public class PointStylePopup extends PopupMenuButtonW {
 	}
 
 	@Override
-	public void handlePopupActionEvent() {
-		super.handlePopupActionEvent();
-	}
-
-	@Override
 	public ImageOrText getButtonIcon() {
 		if (getSelectedIndex() > -1) {
 			return GeoGebraIconW

@@ -80,12 +80,11 @@ public class GPoint {
 
 	@Override
 	public boolean equals(Object o) {
-
-		if (!(o instanceof GPoint)) {
+		if (!(o instanceof GPoint point)) {
 			return false;
 		}
-		return ((GPoint) o).x == x && ((GPoint) o).y == y
-				&& ((GPoint) o).getZ() == getZ();
+		return point.x == x && point.y == y
+				&& point.getZ() == getZ();
 	}
 
 	@Override
@@ -98,7 +97,7 @@ public class GPoint {
 	 * @return distance to other point
 	 */
 	public double distance(GPoint d) {
-		return Math.sqrt((x - d.x) * (x - d.x) + (y - d.y) * (y - d.y));
+		return Math.hypot(x - d.x, y - d.y);
 	}
 
 	/**

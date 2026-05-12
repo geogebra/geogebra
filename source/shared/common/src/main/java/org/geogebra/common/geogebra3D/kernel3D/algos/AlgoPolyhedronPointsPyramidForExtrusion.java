@@ -72,8 +72,4 @@ public class AlgoPolyhedronPointsPyramidForExtrusion
 		return outputPolygonsSide.getElement(0);
 	}
 
-	@Override
-	public void setOutputPointsEuclidianVisible(boolean visible) {
-		super.setOutputPointsEuclidianVisible(visible);
-	}
 }

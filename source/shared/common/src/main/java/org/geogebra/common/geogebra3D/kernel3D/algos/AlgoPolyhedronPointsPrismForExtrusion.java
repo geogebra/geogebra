@@ -72,8 +72,4 @@ public class AlgoPolyhedronPointsPrismForExtrusion
 		return getTopFace();
 	}
 
-	@Override
-	public void setOutputPointsEuclidianVisible(boolean visible) {
-		super.setOutputPointsEuclidianVisible(visible);
-	}
 }
