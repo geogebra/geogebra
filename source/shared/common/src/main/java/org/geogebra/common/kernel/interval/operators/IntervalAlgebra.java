@@ -234,6 +234,9 @@ public class IntervalAlgebra {
 		}
 
 		// [positive, positive]
+		if (interval.isSingleton()) {
+			return new Interval(Math.pow(interval.getLow(), power));
+		}
 		return new Interval(powLow(interval.getLow(), power),
 					powHigh(interval.getHigh(), power));
 

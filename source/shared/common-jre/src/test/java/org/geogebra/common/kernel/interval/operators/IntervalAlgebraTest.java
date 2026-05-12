@@ -266,4 +266,14 @@ public class IntervalAlgebraTest {
 		assertEquals(invert, evaluator.pow(interval(2),
 				evaluator.inverse(interval(-2.9351521213527576E-15, 0.019999999999997065))));
 	}
+
+	@Test
+	public void testPowerOfPowerOfTwo() {
+		Interval two = interval(2, 2);
+		Interval square = evaluator.pow(two, 2);
+		assertEquals(interval(16), evaluator.pow(interval(-2), square));
+		assertEquals(interval(0), evaluator.pow(interval(0), square));
+		assertEquals(interval(16), evaluator.pow(interval(2), square));
+
+	}
 }
