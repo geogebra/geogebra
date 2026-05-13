@@ -18,7 +18,6 @@ package org.geogebra.common.properties.impl.objects;
 
 import java.util.List;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
