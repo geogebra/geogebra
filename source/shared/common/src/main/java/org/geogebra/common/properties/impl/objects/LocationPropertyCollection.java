@@ -18,6 +18,8 @@ package org.geogebra.common.properties.impl.objects;
 
 import java.util.List;
 
+import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -120,7 +122,8 @@ public final class LocationPropertyCollection extends AbstractPropertyCollection
 
 		@Override
 		public boolean isAvailable() {
-			return element.getApp().getEuclidianView2(1) != null;
+			App app = element.getApp();
+			return !app.isUnbundled() && app.getEuclidianView2(1) != null;
 		}
 
 		@Override
@@ -160,7 +163,11 @@ public final class LocationPropertyCollection extends AbstractPropertyCollection
 
 		@Override
 		public boolean isAvailable() {
-			return element.getApp().getEuclidianView3D() != null && element.hasDrawable3D();
+			App app = element.getApp();
+			return app.isSuite() && SuiteSubApp.G3D.equals(app.getConfig().getSubApp())
+					|| GeoGebraConstants.G3D_APPCODE.equals(app.getConfig().getAppCode())
+					|| !app.isUnbundled()
+					&& app.getEuclidianView3D() != null && element.hasDrawable3D();
 		}
 
 		@Override
