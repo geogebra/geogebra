@@ -92,6 +92,11 @@ public final class LocationPropertyCollection extends AbstractPropertyCollection
 		public GeoElement getGeoElement() {
 			return element;
 		}
+
+		@Override
+		public boolean isAvailable() {
+			return !isSingle3D(element.getApp());
+		}
 	}
 	
 	private static final class GraphicsView2LocationProperty
@@ -122,8 +127,7 @@ public final class LocationPropertyCollection extends AbstractPropertyCollection
 
 		@Override
 		public boolean isAvailable() {
-			App app = element.getApp();
-			return !app.isUnbundled() && app.getEuclidianView2(1) != null;
+			return !element.getApp().isUnbundled();
 		}
 
 		@Override
@@ -164,16 +168,20 @@ public final class LocationPropertyCollection extends AbstractPropertyCollection
 		@Override
 		public boolean isAvailable() {
 			App app = element.getApp();
-			return app.isSuite() && SuiteSubApp.G3D.equals(app.getConfig().getSubApp())
-					|| GeoGebraConstants.G3D_APPCODE.equals(app.getConfig().getAppCode())
-					|| !app.isUnbundled()
-					&& app.getEuclidianView3D() != null && element.hasDrawable3D();
+			return isSingle3D(app)
+
+					|| !app.isUnbundled() && app.supportsView(App.VIEW_EUCLIDIAN3D);
 		}
 
 		@Override
 		public GeoElement getGeoElement() {
 			return element;
 		}
+	}
+
+	private static boolean isSingle3D(App app) {
+		return app.isSuite() && SuiteSubApp.G3D.equals(app.getConfig().getSubApp())
+				|| app.getConfig().hasSingleEuclidianViewWhichIs3D();
 	}
 
 	/**
