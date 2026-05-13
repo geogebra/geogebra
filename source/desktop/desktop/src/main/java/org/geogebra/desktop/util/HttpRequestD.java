@@ -157,7 +157,7 @@ public class HttpRequestD extends HttpRequest {
 									// on
 			// its end
 			while ((s = in.readLine()) != null) {
-				if (!("".equals(ans.toString()))) {
+				if (!(ans.isEmpty())) {
 					// "\n"s, we
 					// ignore them
 					ans.append("\n");

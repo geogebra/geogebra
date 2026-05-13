@@ -1431,6 +1431,15 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testNumericToggleWithDoubleOverflow() {
+		GeoSymbolic fraction = add("(exp(1000)-exp(999))/exp(1000)");
+		assertEquals(AlgebraOutputFormat.APPROXIMATION, getNextFormat(fraction));
+		AlgebraOutputFormat.switchToNextFormat(fraction, false, Set.of());
+		assertEquals(AlgebraOutputFormat.EXACT, getNextFormat(fraction));
+		assertEquals("0.6321205588286", fraction.toValueString(StringTemplate.testTemplate));
+	}
+
+	@Test
 	public void testSolveNSolveCase2() {
 		// Solve and NSolve both work and give answers in a different form
 		// 1 variable

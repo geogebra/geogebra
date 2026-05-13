@@ -1139,7 +1139,8 @@ public class Ggb2giac {
 		p("Reverse.1", "revlist(%0)");
 
 		p("ReducedRowEchelonForm.1", "rref(%0)");
-		p("Round.2", "round(%0, %1)");
+		// evalf first, to handle computations outside of double range
+		p("Round.2", "round(evalf(%0), %1)");
 		p("Sample.2", "flatten1(seq(rand(1,%0),j,1,%1))");
 		p("Sample.3",
 				"[[[ggbsamarg0:=%0],[ggbsamarg1:=%1]],if %2==true then flatten1(seq(rand(1,ggbsamarg0),j,1,ggbsamarg1)) else rand(ggbsamarg1,ggbsamarg0) fi][1]");
