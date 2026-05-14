@@ -1,17 +1,8 @@
 package com.himamis.retex.renderer.share;
 
-public class BoxPosition {
-	public final double x;
-	public final double y;
-	public final double scale;
-	public final double baseline;
-
-	public BoxPosition(double x, double y, double scale, double baseline) {
-		this.x = x;
-		this.y = y;
-		this.scale = scale;
-		this.baseline = baseline;
-	}
+public record BoxPosition(double x, double y, double scale, double baseline) {
+	
+	public static final BoxPosition ZERO = new BoxPosition(0, 0, 1, 0);
 
 	public BoxPosition withPosition(double x, double y) {
 		return new BoxPosition(x, y, this.scale, this.baseline);

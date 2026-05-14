@@ -79,10 +79,10 @@ public class CursorBoxConsumer implements BoxConsumer {
 
 		GRectangle2D rectangle2D = AwtFactory.getPrototype().newRectangle2D();
 		rectangle2D.setRect(
-				cursorPosition.x + boxWidth,
-				cursorPosition.baseline - cursorPosition.scale * 0.8,
+				cursorPosition.x() + boxWidth,
+				cursorPosition.baseline() - cursorPosition.scale() * 0.8,
 				1,
-				cursorPosition.scale
+				cursorPosition.scale()
 		);
 		return rectangle2D;
 	}

@@ -34,6 +34,7 @@ import org.geogebra.editor.share.controller.ExpressionReader;
 import org.geogebra.editor.share.controller.InputController;
 import org.geogebra.editor.share.controller.KeyListenerImpl;
 import org.geogebra.editor.share.controller.MathFieldController;
+import org.geogebra.editor.share.controller.MatrixResizeController;
 import org.geogebra.editor.share.event.ClickListener;
 import org.geogebra.editor.share.event.FocusListener;
 import org.geogebra.editor.share.event.KeyEvent;
@@ -99,7 +100,8 @@ public class MathFieldInternal
 			= new ArrayList<>(Arrays.asList(0, 0, 0));
 
 	private final FormulaConverter formulaConverter;
-
+	private final MatrixResizeController matrixResizeController;
+	
 	/**
 	 * @param mathField
 	 *            editor component
@@ -109,11 +111,17 @@ public class MathFieldInternal
 		inputController = new InputController(mathField.getCatalog());
 		keyListener = new KeyListenerImpl(inputController);
 		formula = new Formula(mathField.getCatalog());
-		mathFieldController = new MathFieldController(mathField);
+		
+		matrixResizeController = new MatrixResizeController(this);
+		mathFieldController = new MathFieldController(mathField, matrixResizeController);
 		inputController.setMathField(mathField);
 		mathFieldInternalListeners = new HashSet<>();
 		formulaConverter = new FormulaConverter();
 		setupMathField();
+	}
+
+	public MatrixResizeController getMatrixResizeController() {
+		return matrixResizeController;
 	}
 
 	/**

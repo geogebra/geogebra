@@ -56,13 +56,14 @@ public class SelectionBoxConsumer implements BoxConsumer {
 		if (selectionParent == null
 				|| isBetween(node) || node != null && isBetween(node.getParent())) {
 			if (selectionBaseline == null) {
-				selectionBaseline = position.baseline;
+				selectionBaseline = position.baseline();
 			}
 
-			selectionX1 = Math.min(selectionX1, position.x);
-			selectionX2 = Math.max(selectionX2, position.x + box.getWidth());
+			selectionX1 = Math.min(selectionX1, position.x());
+			selectionX2 = Math.max(selectionX2, position.x() + box.getWidth());
 
-			selectionHeight = Math.max(position.scale, Math.max(box.getHeight(), selectionHeight));
+			selectionHeight = Math.max(position.scale(),
+					Math.max(box.getHeight(), selectionHeight));
 			selectionDepth = Math.max(box.getDepth(), selectionDepth);
 		}
 	}

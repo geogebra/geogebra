@@ -74,6 +74,10 @@ class EditorChecker {
 		typer = new EditorTyper(mathField);
 	}
 
+	public MathFieldCommon getMathField() {
+		return mathField;
+	}
+
 	public void checkAsciiMath(String output) {
 		SequenceNode rootComponent = getRootComponent();
 		assertEquals(output,

@@ -162,7 +162,7 @@ public class FramedBox extends Box {
 	@Override
 	public void inspect(BoxConsumer handler, BoxPosition position) {
 		super.inspect(handler, position);
-		box.inspect(handler, position.withPosition(position.x + space, position.y + space));
+		box.inspect(handler, position.withPosition(position.x() + space, position.y() + space));
 	}
 
 	public void setColor(GColor line) {

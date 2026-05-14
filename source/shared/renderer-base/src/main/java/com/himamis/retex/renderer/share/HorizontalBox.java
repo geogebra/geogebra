@@ -171,10 +171,10 @@ public class HorizontalBox extends Box {
 	public void inspect(BoxConsumer handler, BoxPosition position) {
 		super.inspect(handler, position);
 
-		double xPos = position.x;
+		double xPos = position.x();
 		for (Box box : children) {
-			BoxPosition current = new BoxPosition(xPos, position.y + box.shift,
-					position.scale, position.baseline + box.shift);
+			BoxPosition current = new BoxPosition(xPos, position.y() + box.shift,
+					position.scale(), position.baseline() + box.shift);
 			box.inspect(handler, current);
 			xPos += box.getWidth();
 		}

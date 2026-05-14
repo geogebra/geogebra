@@ -62,6 +62,42 @@ public class ArrayNode extends InternalNode {
 		rows += 1;
 	}
 
+	/**
+	 * Adds a new column with empty cells.
+	 */
+	public void addColumn() {
+		for (int i = rows - 1; i >= 0; i--) {
+			super.addChild(i * columns + columns, new SequenceNode());
+		}
+		columns += 1;
+	}
+
+	/**
+	 * Removes the last row.
+	 */
+	public void removeRow() {
+		if (rows <= 0) {
+			throw new IllegalStateException("Cannot remove rows from an empty matrix");
+		}
+		for (int i = 0; i < columns; i++) {
+			super.removeChild(size() - 1);
+		}
+		rows -= 1;
+	}
+
+	/**
+	 * Removes the last column.
+	 */
+	public void removeColumn() {
+		if (columns <= 0) {
+			throw new IllegalStateException("Cannot remove columns from an empty matrix.");
+		}
+		for (int i = rows - 1; i >= 0; i--) {
+			super.removeChild((i + 1) * columns - 1);
+		}
+		columns -= 1;
+	}
+
 	@Override
 	public SequenceNode getChild(int i) {
 		return (SequenceNode) super.getChild(i);

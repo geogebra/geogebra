@@ -137,6 +137,15 @@ public class TeXIcon implements Icon {
 	}
 
 	/**
+	 * Get the point size (scale) of the TeXIcon.
+	 * 
+	 * @return point size
+	 */
+	public double getPointSize() {
+		return size;
+	}
+
+	/**
 	 * Set the insets of the TeXIcon.
 	 *
 	 * @param insets

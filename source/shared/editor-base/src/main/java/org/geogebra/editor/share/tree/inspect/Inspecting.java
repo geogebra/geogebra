@@ -29,4 +29,11 @@ public interface Inspecting {
      */
     boolean check(Node node);
 
+    /**
+     * @param node to check against
+     * @return {@code true} if {@code this} contains {@code node} 
+     */
+    static Inspecting containsNode(Node node) {
+        return (currentNode) -> currentNode == node;
+    }
 }

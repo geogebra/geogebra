@@ -52,16 +52,18 @@ public class MathFieldController {
 
 	private final GraphicsStub graphics;
 	private final TeXBuilder texBuilder;
+	private final MatrixResizeController matrixResizeController;
 
 	/**
 	 * @param mathField
 	 *            editor
 	 */
-	public MathFieldController(MathField mathField) {
+	public MathFieldController(MathField mathField, MatrixResizeController matrixResizeController) {
 		this.mathField = mathField;
 		texSerializer = new TeXSerializer();
 		texBuilder = new TeXBuilder();
 		graphics = new GraphicsStub();
+		this.matrixResizeController = matrixResizeController;
 	}
 
 	/**
@@ -191,14 +193,15 @@ public class MathFieldController {
 			if (selectionStart == null) {
 				CursorBoxConsumer consumer
 						= new CursorBoxConsumer(texBuilder, currentField, currentOffset, input);
-				renderer.getBox().inspect(consumer, new BoxPosition(0, 0, 1, 0));
+				renderer.getBox().inspect(consumer, BoxPosition.ZERO);
 				renderer.cursorPosition = consumer.getBounds();
 			} else {
 				SelectionBoxConsumer consumer
 						= new SelectionBoxConsumer(texBuilder, selectionStart, selectionEnd, input);
-				renderer.getBox().inspect(consumer, new BoxPosition(0, 0, 1, 0));
+				renderer.getBox().inspect(consumer, BoxPosition.ZERO);
 				renderer.selectionPosition = consumer.getBounds();
 			}
+			matrixResizeController.updateState(texBuilder, renderer, currentField);
 
 			mathField.setTeXIcon(renderer);
 			mathField.fireInputChangedEvent();
