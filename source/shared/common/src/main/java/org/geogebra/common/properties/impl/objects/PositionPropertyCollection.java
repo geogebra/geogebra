@@ -222,7 +222,7 @@ public class PositionPropertyCollection extends AbstractPropertyCollection<Prope
 					pointExpression, errorHandler, true);
 			((Locateable) geoElement).setStartPoint(geoPointND, cornerIndex);
 			geoElement.updateRepaint();
-		} catch (CircularDefinitionException circularDefinitionException) { }
+		} catch (CircularDefinitionException ignored) { }
 	}
 
 	private static List<GeoPoint> getSuggestedPoints(Construction construction) {

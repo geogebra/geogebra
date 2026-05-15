@@ -126,9 +126,6 @@ public class AlgoIntersectPlaneQuadricLimited
 		super.end();
 	}
 
-	// /////////////////////////////////////////////
-	// COMPUTE
-
 	/**
 	 * 
 	 * @return bottom of the quadric as a conic
@@ -155,18 +152,12 @@ public class AlgoIntersectPlaneQuadricLimited
 
 	@Override
 	public void compute() {
-
 		super.compute();
 
 		// set part points
 		double[] bottomParameters = setPartPoints(algoBottom, getBottom(),
 				bottomP);
 		double[] topParameters = setPartPoints(algoTop, getTop(), topP);
-
-		/*
-		 * Log.debug(bottomParameters[0]+","+ bottomParameters[1]+","+
-		 * topParameters[0]+","+ topParameters[1]);
-		 */
 
 		switch (conic.getType()) {
 		case GeoConicNDConstants.CONIC_CIRCLE:
@@ -188,7 +179,6 @@ public class AlgoIntersectPlaneQuadricLimited
 			// if topParameters are NaN, and not bottomParameters,
 			// set twice the "middle" parameter for topParameters to check the
 			// order
-			// Log.debug(topParameters[0]+","+bottomParameters[0]);
 			if (Double.isNaN(topParameters[0])) {
 				if (!Double.isNaN(bottomParameters[0])) {
 					// if parameters are equal, no hole
@@ -208,7 +198,6 @@ public class AlgoIntersectPlaneQuadricLimited
 						conic.pathChangedWithoutCheck(P, pp, false);
 						P = conic.getPoint(P.getX(), P.getY(), new Coords(4));
 						// check if "midpoint" is on quadric side
-						// Log.debug("\n"+P+"\n"+ql.getSide().isInRegion(P));
 						if (getSide().isInRegion(P)) {
 							// set "midpoint"
 							topParameters[0] = midParameter;
@@ -248,34 +237,19 @@ public class AlgoIntersectPlaneQuadricLimited
 					setSinglePoint(topP[0], topP[1]);
 				}
 			} else if (DoubleUtil.isEqual(bottomParameters[0],
-					bottomParameters[1])) { // single
-											// point
+					bottomParameters[1])) { // single point
 				setSinglePoint(bottomP[0], bottomP[1]);
 			}
-
+			break;
+		default:
+			// degenerate conics not handled
 			break;
 		}
 
 		// set parameters to conic
 		GeoConicSection cp = (GeoConicSection) conic;
-
-		/*
-		 * App.error(bottomParameters[0]+","+ bottomParameters[1]+","+
-		 * topParameters[0]+","+ topParameters[1]);
-		 */
-
-		// Log.debug("\n"+bottomP[0]+"\n"+bottomP[1]+"\n"+topP[0]+"\n"+topP[1]);
-
-		/*
-		 * Log.debug(PathNormalizer.infFunction(bottomParameters[0])+","+
-		 * PathNormalizer.infFunction(topParameters[0])+","+
-		 * PathNormalizer.infFunction(bottomParameters[1]-2)+","+
-		 * PathNormalizer.infFunction(topParameters[1]-2));
-		 */
-
 		cp.setParameters(bottomParameters[0], bottomParameters[1],
 				topParameters[0], topParameters[1]);
-
 	}
 
 	protected double getBottomParameter() {
@@ -343,20 +317,13 @@ public class AlgoIntersectPlaneQuadricLimited
 
 	private double[] setPartPoints(AlgoIntersectPlaneConic algo, GeoConicND c,
 			GeoPoint3D[] points) {
-
-		// check if c is point or undefined
-		if (// c==null
-			// ||
-		!c.isDefined() || c.getType() == GeoConicNDConstants.CONIC_EMPTY
-		// || c.getType()==GeoConicNDConstants.CONIC_SINGLE_POINT
-		) {
+		// check if c is point or empty
+		if (!c.isDefined() || c.getType() == GeoConicNDConstants.CONIC_EMPTY) {
 			return new double[] { Double.NaN, Double.NaN };
 		}
 
 		// calc points
 		algo.intersect(plane, c, points);
-
-		// Log.debug(points[0].isDefined());
 
 		if (!points[0].isDefined()) {
 			return new double[] { Double.NaN, Double.NaN };

@@ -108,7 +108,7 @@
         </module>
         <module name="RightCurly">
             <property name="id" value="RightCurlyAlone"/>
-            <property name="option" value="alone"/>
+            <property name="option" value="alone_or_singleline"/>
             <property name="tokens" value="CLASS_DEF, METHOD_DEF, CTOR_DEF, LITERAL_FOR, LITERAL_WHILE, STATIC_INIT, INSTANCE_INIT"/>
         </module>
         <module name="SeparatorWrap">
@@ -136,6 +136,8 @@
         <module name="WhitespaceAfter"/>
         <module name="WhitespaceAround">
             <property name="allowEmptyLambdas" value="true"/>
+            <property name="allowEmptyMethods" value="true"/>
+            <property name="allowEmptyTypes" value="true"/>
         </module>
         <module name="MissingJavadocMethod">
             <property name="allowMissingPropertyJavadoc" value="true"/>

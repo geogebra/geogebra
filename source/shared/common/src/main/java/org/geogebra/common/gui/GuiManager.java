@@ -465,10 +465,10 @@ public abstract class GuiManager implements GuiManagerInterface {
 			return;
 		}
 
-		for (ConstructionProtocolNavigation constProtocolNavigation : constProtocolNavigationMap
-				.values()) {
-			constProtocolNavigation
-					.setConsProtButtonVisible(cps.showConsProtButton());
+		Collection<ConstructionProtocolNavigation> navigations = constProtocolNavigationMap
+				.values();
+		for (ConstructionProtocolNavigation constProtocolNavigation : navigations) {
+			constProtocolNavigation.setConsProtButtonVisible(cps.showConsProtButton());
 			constProtocolNavigation.setPlayDelay(cps.getPlayDelay());
 			constProtocolNavigation.setPlayButtonVisible(cps.showPlayButton());
 		}

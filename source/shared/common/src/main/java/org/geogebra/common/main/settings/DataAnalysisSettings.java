@@ -69,10 +69,10 @@ public class DataAnalysisSettings {
 	public String getFrequencies() {
 		return frequencies;
 	}
+
 	/**
 	 * @return app mode
 	 */
-
 	public int getMode() {
 		return mode;
 	}
