@@ -61,7 +61,8 @@ public class AbsoluteScreenPositionPropertyCollection
 			if (element.isGeoNumeric() && !isSlider(element)) {
 				throw new NotApplicablePropertyException(element);
 			}
-			if (!(element instanceof AbsoluteScreenLocateable)) {
+			if (!(element instanceof AbsoluteScreenLocateable)
+					|| PlacementProperty.isDependentTextCommand(element)) {
 				throw new NotApplicablePropertyException(element);
 			}
 			this.axis = axis;

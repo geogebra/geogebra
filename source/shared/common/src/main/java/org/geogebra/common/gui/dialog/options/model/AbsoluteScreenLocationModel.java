@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
+import org.geogebra.common.properties.impl.objects.PlacementProperty;
 
 public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 
@@ -92,11 +93,11 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 	@Override
 	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
-		if (geo instanceof AbsoluteScreenLocateable) {
-			AbsoluteScreenLocateable absLoc = (AbsoluteScreenLocateable) geo;
+		if (geo instanceof AbsoluteScreenLocateable absLoc) {
 			if (!absLoc.isAbsoluteScreenLocateable() || geo.isGeoBoolean()
 					|| geo instanceof GeoList || (geo instanceof GeoImage
-							&& ((GeoImage) geo).isCentered())) {
+							&& ((GeoImage) geo).isCentered())
+			|| PlacementProperty.isDependentTextCommand(geo)) {
 
 				return false;
 			}

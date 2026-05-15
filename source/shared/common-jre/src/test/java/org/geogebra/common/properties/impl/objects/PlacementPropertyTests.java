@@ -27,7 +27,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.List;
 
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -37,6 +36,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class PlacementPropertyTests extends BaseAppTestSetup {
@@ -45,12 +45,29 @@ public class PlacementPropertyTests extends BaseAppTestSetup {
 			"(1, 2)",
 			"Vector((1, 2))",
 			"β = Angle((0, 0), (1, 1), (2, 2))",
+			"IF(3 > 2, \"abc\", \"edf\")",
 			"BarChart({1,2,3},{4,5,6})"
 	})
 	public void testNotApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertThrows(NotApplicablePropertyException.class, () ->
 				new PlacementProperty(getLocalization(), evaluateGeoElement(expression)));
+	}
+
+	@ParameterizedTest
+	@CsvSource(value = {
+			"\"abc\": false",
+			"IF(3 > 2, Text(\"abc\"), Text(\"edf\")): true",
+			"IF(3 > 2, \"abc\", \"edf\"): true",
+			"IF(3 > 2, Text(\"abc\", (1, 2)), Text(\"edf\", (2, 3))): true",
+			"Element({Text(\"abc\"), Text(\"edf\")}, 1): true",
+			"Element({Text(\"abc\", (1, 2)), Text(\"edf\", (1, 2))}, 1): true",
+			"Element({\"abc\", \"edf\"}, 1): true"},
+			delimiterString = ":")
+	public void testIsDependentTextCommand(String expression, boolean expected) {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement geo = evaluateGeoElement(expression);
+		assertEquals(expected, PlacementProperty.isDependentTextCommand(geo));
 	}
 
 	@Test

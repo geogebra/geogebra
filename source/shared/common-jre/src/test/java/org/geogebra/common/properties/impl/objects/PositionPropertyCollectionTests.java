@@ -21,27 +21,34 @@ import static org.geogebra.common.properties.impl.objects.PlacementProperty.Plac
 import static org.geogebra.common.properties.impl.objects.PlacementProperty.Placement.CORNERS;
 import static org.geogebra.common.properties.impl.objects.PlacementProperty.Placement.STARTING_POINT;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.statistics.GeoPieChart;
+import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollection;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class PositionPropertyCollectionTests extends BaseAppTestSetup {
@@ -133,10 +140,14 @@ public class PositionPropertyCollectionTests extends BaseAppTestSetup {
 		assertNull(positionPropertyCollection.getCenterImagePositionProperty());
 	}
 
-	@Test
-	public void testPropertyAvailabilityForText() {
+	@ParameterizedTest
+	@CsvSource({
+			"\"abc\"",
+			"Text(\"abc\")"
+	})
+	public void testPropertyAvailabilityForText(String command) {
 		setupApp(SuiteSubApp.GRAPHING);
-		GeoText geoText = evaluateGeoElement("\"abc\"");
+		GeoText geoText = evaluateGeoElement(command);
 		PositionPropertyCollection positionPropertyCollection = assertDoesNotThrow(() ->
 				new PositionPropertyCollection(
 						propertiesFactory, getLocalization(), List.of(geoText)));
@@ -145,6 +156,21 @@ public class PositionPropertyCollectionTests extends BaseAppTestSetup {
 		assertNotNull(positionPropertyCollection.getStartingPointPositionProperty());
 		assertNull(positionPropertyCollection.getCornerPositionProperties());
 		assertNull(positionPropertyCollection.getCenterImagePositionProperty());
+	}
+
+	@ParameterizedTest
+	@CsvSource (value = {
+			"IF(3>2,\"abc\",\"def\")",
+			"IF(3>2,Text(\"abc\"), Text(\"def\", (1, 2)))",
+			"IF(3>2,Text(\"abc\", (8, 9)), Text(\"def\", (1, 2)))",
+			"Element({\"a\", \"b\"}, 1)"
+	}, delimiter = '#')
+	public void testPropertyNotAvailableForDependentText(String command) {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement geoText = evaluateGeoElement(command);
+		assertThrows(NotApplicablePropertyException.class, () ->
+				new PositionPropertyCollection(
+						propertiesFactory, getLocalization(), List.of(geoText)));
 	}
 
 	@Test

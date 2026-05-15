@@ -16,6 +16,7 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import static org.geogebra.common.properties.impl.objects.PlacementProperty.isDependentTextCommand;
 import static org.geogebra.common.util.Classifier.isSlider;
 
 import java.util.List;
@@ -56,7 +57,9 @@ public class StartingPointPositionProperty extends AbstractValuedProperty<String
 		if (geoElement.isGeoNumeric() && !isSlider(geoElement)) {
 			throw new NotApplicablePropertyException(geoElement);
 		}
-		if (!(geoElement instanceof AbsoluteScreenLocateable)) {
+
+		if (!(geoElement instanceof AbsoluteScreenLocateable)
+				|| isDependentTextCommand(geoElement)) {
 			throw new NotApplicablePropertyException(geoElement);
 		}
 		this.geoElement = geoElement;

@@ -16,6 +16,7 @@
 
 package org.geogebra.common.gui.dialog.options.model;
 
+
 import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Locateable;
@@ -30,6 +31,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.properties.impl.objects.PlacementProperty;
 import org.geogebra.common.util.debug.Log;
 
 public abstract class AbsoluteScreenPositionModel extends TextPropertyModel {
@@ -108,8 +110,9 @@ public abstract class AbsoluteScreenPositionModel extends TextPropertyModel {
 
 	@Override
 	protected boolean isValidAt(int index) {
-		return getGeoAt(index) instanceof AbsoluteScreenLocateable
-				&& ((AbsoluteScreenLocateable) getGeoAt(index)).isAbsoluteScreenLocActive();
+		return getGeoAt(index) instanceof AbsoluteScreenLocateable absLoc
+				&& absLoc.isAbsoluteScreenLocActive()
+				&& !PlacementProperty.isDependentTextCommand(getGeoAt(index));
 	}
 
 	@Override

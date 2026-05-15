@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.properties.impl.objects.PlacementProperty;
 import org.geogebra.common.util.StringUtil;
 
 public class StartPointModel extends MultipleGeosModel {
@@ -116,7 +117,8 @@ public class StartPointModel extends MultipleGeosModel {
 		if (!(geo instanceof Locateable && !((Locateable) geo).isAlwaysFixed())
 				|| geo.isGeoImage()
 				|| geo.getParentAlgorithm() instanceof AlgoVector
-				|| isAbsoluteLocation(geo)) {
+				|| isAbsoluteLocation(geo)
+				|| PlacementProperty.isDependentTextCommand(geo)) {
 			valid = false;
 		}
 		return valid;

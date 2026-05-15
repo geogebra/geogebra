@@ -21,10 +21,14 @@ import static org.geogebra.common.util.Classifier.isSlider;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Locateable;
+import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoIf;
+import org.geogebra.common.kernel.algos.AlgoListElement;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -88,13 +92,16 @@ public class PlacementProperty extends AbstractNamedEnumeratedProperty<Placement
 		if (geoElement.isGeoNumeric() && !isSlider(geoElement)) {
 			throw new NotApplicablePropertyException(geoElement);
 		}
-		if (!(geoElement instanceof AbsoluteScreenLocateable)) {
+
+		if (!(geoElement instanceof AbsoluteScreenLocateable)
+				|| isDependentTextCommand(geoElement)) {
 			throw new NotApplicablePropertyException(geoElement);
 		}
 		this.geoElement = geoElement;
-
 		ArrayList<Map.Entry<Placement, String>> namedValues = new ArrayList<>();
+
 		namedValues.add(entry(Placement.ABSOLUTE_POSITION_ON_SCREEN, "AbsoluteScreenLocation"));
+
 		if (!(geoElement instanceof GeoBoolean) && !(geoElement instanceof GeoImage)) {
 			namedValues.add(entry(Placement.STARTING_POINT, "StartingPoint"));
 		}
@@ -103,6 +110,25 @@ public class PlacementProperty extends AbstractNamedEnumeratedProperty<Placement
 			namedValues.add(entry(Placement.CENTER_IMAGE, "CenterImage"));
 		}
 		setNamedValues(namedValues);
+	}
+
+	/**
+	 * Checks whether the element is a text selected from a dependent text-producing command.
+	 *
+	 * @param geo element to check
+	 * @return whether the element comes from a dependent text command
+	 */
+	public static boolean isDependentTextCommand(GeoElement geo) {
+		AlgoElement algo = geo.getParentAlgorithm();
+		if (algo instanceof AlgoIf) {
+			return Stream.of(algo.getInput()).anyMatch(GeoElement::isGeoText);
+		}
+
+		if (algo instanceof AlgoListElement listElement) {
+			return listElement.getElement().isGeoText();
+		}
+
+		return false;
 	}
 
 	@Override
