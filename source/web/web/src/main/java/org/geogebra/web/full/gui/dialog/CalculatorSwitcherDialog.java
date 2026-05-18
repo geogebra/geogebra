@@ -24,16 +24,13 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
-import org.gwtproject.user.client.ui.RequiresResize;
 
 /**
  * Calculator chooser for suite
  */
-public class CalculatorSwitcherDialog extends ComponentDialog implements Persistable,
-		RequiresResize {
+public class CalculatorSwitcherDialog extends ComponentDialog {
 	private final SuiteScope suiteScope;
 	private StandardButton selectedSubAppButton;
 

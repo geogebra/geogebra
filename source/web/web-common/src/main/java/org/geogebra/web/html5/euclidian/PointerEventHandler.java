@@ -54,12 +54,12 @@ public class PointerEventHandler {
 	/**
 	 * Mutable representation of pointer events
 	 */
-	private class PointerState {
-		public double x;
-		public double y;
-		public double id;
+	private final class PointerState {
+		private double x;
+		private double y;
+		private final double id;
 
-		public PointerState(elemental2.dom.PointerEvent e) {
+		private PointerState(elemental2.dom.PointerEvent e) {
 			id = e.pointerId;
 			x = e.offsetX / off.getZoomLevel();
 			y = e.offsetY / off.getZoomLevel();

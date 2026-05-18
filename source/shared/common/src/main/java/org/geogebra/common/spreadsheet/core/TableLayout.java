@@ -462,7 +462,7 @@ final class TableLayout {
 		return heights;
 	}
 
-	public void setDefaultCellSize(double width, double height) {
+	void setDefaultCellSize(double width, double height) {
 		defaultRowHeight = height;
 		defaultColumnWidth = width;
 	}

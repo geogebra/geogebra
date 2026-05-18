@@ -653,12 +653,12 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 		private final Map<AriaMenuItem, GCollapseMenuItem> expandItems = new HashMap<>();
 		private GCollapseMenuItem activeCollapseItem = null;
 
-		public PopupMenuBar(AppW app1) {
+		PopupMenuBar(AppW app1) {
 			super("", app1);
 			setHandleArrows(true);
 		}
 
-		public void addItem(GCollapseMenuItem ci) {
+		void addItem(GCollapseMenuItem ci) {
 			expandItems.put(ci.getMenuItem(), ci);
 		}
 

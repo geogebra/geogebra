@@ -18,9 +18,8 @@ package org.geogebra.common.factories;
 
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.giac.CASgiac;
-import org.geogebra.common.kernel.CASGenericInterface;
 
-public class CASDummy extends CASgiac implements CASGenericInterface {
+public class CASDummy extends CASgiac {
 
 	public CASDummy(CASparser casParser) {
 		super(casParser);

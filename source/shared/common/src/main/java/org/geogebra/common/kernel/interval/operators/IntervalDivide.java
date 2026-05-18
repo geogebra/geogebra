@@ -21,7 +21,13 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.positiveInfi
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
-import static org.geogebra.common.kernel.interval.IntervalSetOps.*;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.empty;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.fromLegacy;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.leftRayFromInverted;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.legacyInverted;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.rightRayFromInverted;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.toLegacy;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalSet;

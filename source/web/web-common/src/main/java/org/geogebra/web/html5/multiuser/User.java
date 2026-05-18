@@ -58,12 +58,12 @@ class User {
 		this.color = color;
 	}
 
-	public void addSelection(EuclidianView view, String label) {
+	void addSelection(EuclidianView view, String label) {
 		selectedGeos.add(label);
 		view.repaintView();
 	}
 
-	public void addInteraction(EuclidianView view, String label) {
+	void addInteraction(EuclidianView view, String label) {
 		GeoElement geo = view.getApplication().getKernel().lookupLabel(label);
 		if (geo instanceof GeoLocusStroke && !selectedGeos.contains(label)) {
 			updatedGeos.computeIfAbsent(label, k -> new Timer() {
@@ -77,17 +77,17 @@ class User {
 		}
 	}
 
-	public void deselectAll(EuclidianView view) {
+	void deselectAll(EuclidianView view) {
 		selectedGeos.clear();
 		updatedGeos.clear();
 		view.repaintView();
 	}
 
-	public void removeSelection(String label) {
+	void removeSelection(String label) {
 		selectedGeos.remove(label);
 	}
 
-	public void paintInteractionBackgrounds(EuclidianView view, GGraphics2D graphics) {
+	void paintInteractionBackgrounds(EuclidianView view, GGraphics2D graphics) {
 		List<GeoElement> geos = getHighlightedGeos(view);
 		if (geos.size() == 1) {
 			GeoElement geo = geos.get(0);
@@ -105,7 +105,7 @@ class User {
 		}
 	}
 
-	public void paintInteractionBoxes(EuclidianView view, GGraphics2D graphics) {
+	void paintInteractionBoxes(EuclidianView view, GGraphics2D graphics) {
 		List<GeoElement> geos = getHighlightedGeos(view);
 
 		graphics.setColor(color);

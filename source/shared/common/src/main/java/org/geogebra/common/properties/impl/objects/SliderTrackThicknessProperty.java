@@ -20,13 +20,11 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.RangeProperty;
 import org.geogebra.common.properties.impl.AbstractRangeProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.SliderPropertyDelegate;
 
-public class SliderTrackThicknessProperty extends AbstractRangeProperty<Integer>
-		implements RangeProperty<Integer> {
+public class SliderTrackThicknessProperty extends AbstractRangeProperty<Integer> {
 
 	private final SliderPropertyDelegate delegate;
 

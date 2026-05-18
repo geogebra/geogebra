@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.geos.Animatable;
 import org.geogebra.common.kernel.geos.ChangeableParent;
 import org.geogebra.common.kernel.geos.ConicMirrorable;
@@ -54,7 +53,7 @@ import org.geogebra.common.kernel.matrix.Coords;
  */
 
 public interface GeoPointND extends PointProperties, Translateable,
-		SpreadsheetTraceable, MatrixTransformable, CoordStyle, VectorNDValue,
+		SpreadsheetTraceable, MatrixTransformable, CoordStyle,
 		Mirrorable, Dilateable, Animatable, ConicMirrorable {
 
 	/** cannot move */

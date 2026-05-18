@@ -16,24 +16,15 @@
 
 package org.geogebra.web.showcase;
 
-import static org.geogebra.common.properties.PropertyView.*;
+import static org.geogebra.common.properties.PropertyView.Checkbox;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import javax.annotation.CheckForNull;
-
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.factory.SimpleBooleanProperty;
-import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
-import org.geogebra.common.properties.impl.AbstractValuedProperty;
-import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.editor.share.syntax.SyntaxHintImpl;
@@ -183,56 +174,6 @@ public class Showcase implements EntryPoint {
 		StandardButton button = new StandardButton(label);
 		button.addStyleName("materialTextButton");
 		return button;
-	}
-
-	private static class SampleProperty extends AbstractNamedEnumeratedProperty<String> {
-		String value;
-
-		public SampleProperty(AppW app) {
-			super(app.getLocalization(), "Fruit");
-			setNamedValues(Stream.of("Apple", "Orang", "Banana")
-					.map(f -> Map.entry(f, f)).collect(Collectors.toList()));
-		}
-
-		@Override
-		public String getValue() {
-			return value;
-		}
-
-		@Override
-		protected void doSetValue(String value) {
-			this.value = value;
-		}
-	}
-
-	private static final class SampleSuggestionProperty extends AbstractValuedProperty<String>
-			implements StringPropertyWithSuggestions {
-
-		String value;
-
-		private SampleSuggestionProperty(Localization localization) {
-			super(localization, "Fruit");
-		}
-
-		@Override
-		public List<String> getSuggestions() {
-			return List.of("Apple", "Orange", "Banana");
-		}
-
-		@Override
-		public @CheckForNull String validateValue(String value) {
-			return value.length() < 2 ? "Too short" : null;
-		}
-
-		@Override
-		public String getValue() {
-			return value;
-		}
-
-		@Override
-		public void doSetValue(String value) {
-			this.value = value;
-		}
 	}
 
 	/**

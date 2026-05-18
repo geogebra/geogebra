@@ -74,7 +74,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		 * 
 		 * @param o - euclidian options
 		 */
-		public BasicTab3D(OptionsEuclidianW o) {
+		protected BasicTab3D(OptionsEuclidianW o) {
 			super(o);
 			addClippingOptionsPanel();
 		}
@@ -312,16 +312,15 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				buttons[buttonSelected].setSelected(true);
 			}
 
-			public ToggleButton getButton(int i) {
+			ToggleButton getButton(int i) {
 				return buttons[i];
 			}
 
 			@Override
 			public void onClick(Widget target) {
-				if (!(target instanceof ToggleButton)) {
+				if (!(target instanceof ToggleButton source)) {
 					return;
 				}
-				ToggleButton source = (ToggleButton) target;
 
 				if (source == buttons[get3dview().getProjection()]) {
 					source.setSelected(true);

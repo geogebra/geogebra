@@ -620,7 +620,7 @@ public class GSuggestBox extends Composite
 
 		private Suggestion suggestion;
 
-		public SuggestionMenuItem(Suggestion suggestion, Scheduler.ScheduledCommand command) {
+		SuggestionMenuItem(Suggestion suggestion, Scheduler.ScheduledCommand command) {
 			super(new InlineHTML(suggestion.getDisplayString()), command);
 			// Each suggestion should be placed in a single row in the
 			// suggestion
@@ -633,11 +633,11 @@ public class GSuggestBox extends Composite
 			setFocusable(false);
 		}
 
-		public Suggestion getSuggestion() {
+		Suggestion getSuggestion() {
 			return suggestion;
 		}
 
-		public void setSuggestion(Suggestion suggestion) {
+		void setSuggestion(Suggestion suggestion) {
 			this.suggestion = suggestion;
 		}
 	}

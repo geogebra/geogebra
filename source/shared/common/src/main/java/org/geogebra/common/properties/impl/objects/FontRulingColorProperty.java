@@ -25,13 +25,11 @@ import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.objects.delegate.FontStyleDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.FontStyleUtil;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-public class FontRulingColorProperty extends ElementColorProperty
-		implements ColorProperty {
+public class FontRulingColorProperty extends ElementColorProperty {
 	private final HasTextFormatter element;
 
 	public enum FontStyle {

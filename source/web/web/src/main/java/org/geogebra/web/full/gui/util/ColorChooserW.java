@@ -26,7 +26,6 @@ import org.geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.awt.GFontW;
 import org.geogebra.web.awt.JLMContext2D;
@@ -210,7 +209,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			ctx.strokeRect(x + padding, y + padding, w - padding, h - padding);
 		}
 
-		public void setFocus(int x, int y) {
+		void setFocus(int x, int y) {
 
 			if (x < left || x > (left + width) || y < top + tableOffsetY
 					|| y > (top + height + tableOffsetY)) {
@@ -233,14 +232,14 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			draw();
 		}
 
-		public void unselect() {
+		void unselect() {
 			setSelectedCol(-1);
 			setSelectedRow(-1);
 			currentCol = -1;
 			currentRow = -1;
 		}
 
-		public void select(int col, int row) {
+		void select(int col, int row) {
 			setSelectedCol(col);
 			setSelectedRow(row);
 			currentCol = col;
@@ -249,7 +248,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			draw();
 		}
 
-		public void selectByColor(GColor color) {
+		void selectByColor(GColor color) {
 			unselect();
 			for (int idx = 0; idx < palette.size(); idx++) {
 				if (colorEquals(color, palette.get(idx))) {
@@ -267,7 +266,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			return row >= 0 && row < maxRow;
 		}
 
-		protected int getIndex(int col, int row) {
+		int getIndex(int col, int row) {
 			return row * maxCol + col;
 		}
 
@@ -277,19 +276,19 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 					: null;
 		}
 
-		public void setHeight(int height) {
+		void setHeight(int height) {
 			this.height = height;
 		}
 
-		public int getWidth() {
+		int getWidth() {
 			return width;
 		}
 
-		public void setWidth(int width) {
+		void setWidth(int width) {
 			this.width = width;
 		}
 
-		public GColor getSelectedColor() {
+		GColor getSelectedColor() {
 			if (!(isValidCol(currentCol) && isValidRow(currentRow))) {
 				setSelectedCol(-1);
 				setSelectedRow(-1);
@@ -301,7 +300,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			return getColorFromPalette(currentCol, currentRow);
 		}
 
-		public void injectColor(GColor color) {
+		void injectColor(GColor color) {
 			palette.add(0, color);
 			draw();
 			if (palette.size() > getCapacity()) {
@@ -309,37 +308,37 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			}
 		}
 
-		public void setCheckNeeded(boolean checkNeeded) {
+		void setCheckNeeded(boolean checkNeeded) {
 			this.checkNeeded = checkNeeded;
 		}
 
-		public void setTitle(String title, int offsetX, int offsetY) {
+		void setTitle(String title, int offsetX, int offsetY) {
 			this.title = title;
 			titleOffsetX = offsetX;
 			titleOffsetY = offsetY;
 		}
 
-		public int getSelectedCol() {
+		int getSelectedCol() {
 			return selectedCol;
 		}
 
-		public void setSelectedCol(int selectedCol) {
+		void setSelectedCol(int selectedCol) {
 			this.selectedCol = selectedCol;
 		}
 
-		public int getSelectedRow() {
+		int getSelectedRow() {
 			return selectedRow;
 		}
 
-		public void setSelectedRow(int selectedRow) {
+		void setSelectedRow(int selectedRow) {
 			this.selectedRow = selectedRow;
 		}
 
-		public int getCapacity() {
+		int getCapacity() {
 			return capacity;
 		}
 
-		public void setCapacity(int capacity) {
+		void setCapacity(int capacity) {
 			this.capacity = capacity;
 		}
 	}
@@ -367,8 +366,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		public void injectFrom(ColorTable source) {
 			injectColor(source.getSelectedColor());
 			entries.add(0, new Entry(source));
-			Log.debug("capacity: " + getCapacity() + " Entries size: "
-					+ entries.size());
 			if (entries.size() > getCapacity()) {
 				entries.remove(getCapacity());
 			}

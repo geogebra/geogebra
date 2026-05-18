@@ -566,7 +566,7 @@ abstract class GLBufferManager {
 		}
 	}
 
-	public int getCurveLatitudeSplits() {
+	int getCurveLatitudeSplits() {
 		return manager.getCurveLatitudeSplits();
 	}
 }

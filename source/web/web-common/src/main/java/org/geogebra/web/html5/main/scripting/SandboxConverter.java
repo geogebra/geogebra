@@ -82,7 +82,7 @@ final class SandboxConverter {
 		}
 	}
 
-	public boolean isSandboxedFunction(Object listener) {
+	boolean isSandboxedFunction(Object listener) {
 		return listeners.includes(listener);
 	}
 }

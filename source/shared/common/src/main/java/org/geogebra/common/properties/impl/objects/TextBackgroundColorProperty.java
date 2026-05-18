@@ -23,12 +23,10 @@ import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.color.GeoColorValues;
-import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.TextColorPropertyDelegate;
 
-public class TextBackgroundColorProperty extends ElementColorProperty
-		implements ColorProperty {
+public class TextBackgroundColorProperty extends ElementColorProperty {
 
 	private final GeoElement element;
 

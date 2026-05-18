@@ -263,7 +263,7 @@ public class GPopupPanel extends SimplePanel implements
 		 * @param panel
 		 *            the panel to affect
 		 */
-		public ResizeAnimation(GPopupPanel panel, Panel root) {
+		ResizeAnimation(GPopupPanel panel, Panel root) {
 			this.curPanel = panel;
 			this.animationRoot = root;
 		}
@@ -276,7 +276,7 @@ public class GPopupPanel extends SimplePanel implements
 		 * @param showing
 		 *            true if the popup is showing, false if not
 		 */
-		public void setState(boolean showing, boolean isUnloading) {
+		void setState(boolean showing, boolean isUnloading) {
 			// Immediately complete previous open/close animation
 			this.isUnloading = isUnloading;
 			cancel();

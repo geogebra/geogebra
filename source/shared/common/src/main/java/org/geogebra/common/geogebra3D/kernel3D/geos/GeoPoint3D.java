@@ -29,7 +29,6 @@ import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.LocateableList;
-import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathNormalizer;
@@ -83,7 +82,7 @@ import org.geogebra.common.util.debug.Log;
  * @author Markus + ggb3D
  */
 public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
-		MatrixTransformable, RotatableND, Transformable, MirrorableAtPlane {
+		RotatableND, Transformable, MirrorableAtPlane {
 
 	private boolean isInfinite;
 	private boolean isDefined;

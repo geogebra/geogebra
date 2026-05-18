@@ -65,15 +65,15 @@ public class MyXMLioW extends MyXMLio {
 				new StringReader(((XMLStreamStringW) stream).getString()));
 	}
 
-	protected static class XMLStreamStringW implements XMLStream {
+	static class XMLStreamStringW implements XMLStream {
 
-		private String str;
+		private final String str;
 
-		public XMLStreamStringW(String str) {
+		XMLStreamStringW(String str) {
 			this.str = str;
 		}
 
-		public String getString() {
+		String getString() {
 			return str;
 		}
 

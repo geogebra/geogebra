@@ -32,7 +32,7 @@ final class ExportGraphicsW extends GGraphics2DW {
 	private final Inequality ineq;
 	private final FunctionalNVar geo;
 
-	public ExportGraphicsW(FunctionalNVar geo, Inequality ineq, GeoGebraExport export) {
+	ExportGraphicsW(FunctionalNVar geo, Inequality ineq, GeoGebraExport export) {
 
 		// dummy canvas
 		super(Canvas.createIfSupported());

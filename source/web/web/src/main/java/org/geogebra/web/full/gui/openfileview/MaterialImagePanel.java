@@ -22,7 +22,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 
 class MaterialImagePanel extends FlowPanel {
 
-	public MaterialImagePanel(Material material) {
+	MaterialImagePanel(Material material) {
 		setStyleName("cardImgPanel");
 		setBackground(material);
 	}
@@ -31,9 +31,9 @@ class MaterialImagePanel extends FlowPanel {
 	 * Update thumbnail from material
 	 * @param m material
 	 */
-	public void setBackground(Material m) {
+	void setBackground(Material m) {
 		final String thumb = m.getThumbnail();
-		if (thumb != null && thumb.length() > 0) {
+		if (thumb != null && !thumb.isEmpty()) {
 			setBackgroundImageUrl(thumb);
 		} else {
 			setBackgroundImageUrl(AppResources.INSTANCE.geogebra64().getSafeUri().asString());

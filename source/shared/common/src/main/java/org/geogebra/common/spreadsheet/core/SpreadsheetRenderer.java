@@ -451,7 +451,7 @@ final class SpreadsheetRenderer {
 				(int) Math.round(width), (int) Math.round(height));
 	}
 
-	public void invalidateAll() {
+	void invalidateAll() {
 		renderableCache.clear();
 		rowHeaders.clear();
 		columnHeaders.clear();

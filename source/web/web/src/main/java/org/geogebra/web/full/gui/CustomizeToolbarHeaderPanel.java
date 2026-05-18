@@ -51,14 +51,14 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 	}
 
 	private static class ViewButton extends ToggleButton {
-		private int id;
+		private final int id;
 
-		public ViewButton(ResourcePrototype img, int viewId) {
+		ViewButton(ResourcePrototype img, int viewId) {
 			super(img);
 			this.id = viewId;
 		}
 
-		public int getId() {
+		int getId() {
 			return id;
 		}
 

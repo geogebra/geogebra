@@ -60,14 +60,14 @@ public class CheckboxCreationDialogW extends ComponentDialog implements
 
 		private final List<GeoElement> geos;
 
-		public GeoAttachedListBox() {
+		GeoAttachedListBox() {
 			super();
 			setMultipleSelect(false);
 			geos = new ArrayList<>();
 			setVisibleItemCount(MAX_VISIBLE_ROWS);
 		}
 
-		public void add(GeoElement geo) {
+		void add(GeoElement geo) {
 			if (contains(geo)) {
 				return;
 			}
@@ -80,19 +80,19 @@ public class CheckboxCreationDialogW extends ComponentDialog implements
 			}
 		}
 
-		public GeoElement getGeoAt(int index) {
+		GeoElement getGeoAt(int index) {
 			return geos.get(index);
 		}
 
-		public GeoElement getSelectedGeo() {
+		GeoElement getSelectedGeo() {
 			return getGeoAt(getSelectedIndex());
 		}
 
-		protected boolean contains(GeoElement geo) {
+		private boolean contains(GeoElement geo) {
 			return geos.contains(geo);
 		}
 
-		public void remove(GeoElement geo) {
+		void remove(GeoElement geo) {
 			int idx = geos.lastIndexOf(geo);
 			if (idx >= 0) {
 				removeItem(idx);

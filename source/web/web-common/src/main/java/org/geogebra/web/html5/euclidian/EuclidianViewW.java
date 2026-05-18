@@ -1365,7 +1365,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 		private final GeoElementND geo;
 
-		public DrawLaTeXCallBack(GeoElementND geo) {
+		DrawLaTeXCallBack(GeoElementND geo) {
 			this.geo = geo;
 		}
 
