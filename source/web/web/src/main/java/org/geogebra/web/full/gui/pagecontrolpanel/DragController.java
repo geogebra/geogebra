@@ -29,7 +29,7 @@ import org.gwtproject.timer.client.Timer;
 
 class DragController {
 
-	private static final int DROPANIM_SPEED = 5;
+	private static final int DROP_ANIMATION_SPEED = 5;
 
 	private final Cards cards;
 	private final App app;
@@ -115,7 +115,7 @@ class DragController {
 			scheduleRepeating(SCROLL_TIME);
 		}
 		
-		public void checkIfNeeded(int y) {
+		void checkIfNeeded(int y) {
 			if (y < getApp().getAbsTop() + PagePreviewCard.MARGIN) {
 				start(-2);
 			} else if (y > getApp().getHeight() - PagePreviewCard.MARGIN) {
@@ -236,7 +236,7 @@ class DragController {
 		target = dragged.getPageIndex() + diff;
 	}
 
-	public void adjustTop(PagePreviewCard current) {
+	private void adjustTop(PagePreviewCard current) {
 		int index = current.getPageIndex();
 		if (dragged.getPageIndex() > index && index > target) {
 			index++;
@@ -251,7 +251,7 @@ class DragController {
 		return index() != -1 && getDropIndex() != -1;
 	}
 
-	public void cancel() {
+	private void cancel() {
 		CancelEventTimer.resetDrag();
 		if (isValid()) {
 			dragged.removeStyleName("dragged");
@@ -264,7 +264,7 @@ class DragController {
 	/**
 	 * @return see {@link App}
 	 */
-	public AppW getApp() {
+	private AppW getApp() {
 		return (AppW) app;
 	}
 
@@ -389,7 +389,7 @@ class DragController {
 
 	private void createDropAnimation() {
 		CancelEventTimer.resetDrag();
-		dropAnimTimer.scheduleRepeating(DROPANIM_SPEED);
+		dropAnimTimer.scheduleRepeating(DROP_ANIMATION_SPEED);
 	}
 
 	/**
@@ -436,7 +436,7 @@ class DragController {
 	 * @param y vertical position
 	 * @return true, if a card is found at position (x,y)
 	 */
-	public boolean hitCard(int x, int y) {
+	boolean hitCard(int x, int y) {
 		return cardIndexAt(x, y) != -1;
 	}
 }

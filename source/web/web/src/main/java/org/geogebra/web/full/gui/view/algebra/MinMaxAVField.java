@@ -35,7 +35,7 @@ class MinMaxAVField extends AutoCompleteTextFieldW {
 	 * @param columns field width
 	 * @param app application
 	 */
-	public MinMaxAVField(MinMaxPanel widgets, int columns, App app) {
+	MinMaxAVField(MinMaxPanel widgets, int columns, App app) {
 		super(columns, app);
 		this.widgets = widgets;
 		enableGGBKeyboard();

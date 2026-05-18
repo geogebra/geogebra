@@ -248,7 +248,7 @@ public class ConstructionProtocolNavigationW
 		 * Creates a new player to step through the construction
 		 * automatically.
 		 */
-		public AutomaticPlayer() {
+		AutomaticPlayer() {
 			timer = new Timer() {
 
 				@Override
@@ -266,7 +266,7 @@ public class ConstructionProtocolNavigationW
 			};
 		}
 
-		public synchronized void startAnimation() {
+		void startAnimation() {
 			//TODO set cursor:wait
 
 			setPlaying(true);
@@ -281,7 +281,7 @@ public class ConstructionProtocolNavigationW
 			timer.run();
 		}
 
-		public synchronized void stopAnimation() {
+		void stopAnimation() {
 			//TODO remove cursor:wait
 			timer.cancel();
 			setPlaying(false);

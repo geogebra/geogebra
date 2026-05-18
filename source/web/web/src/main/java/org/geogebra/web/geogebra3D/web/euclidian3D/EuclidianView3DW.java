@@ -207,7 +207,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	 * @author mathieu
 	 *
 	 */
-	private class EuclidianViewWrapperPanel3D extends EuclidianViewWrapperPanel
+	private final class EuclidianViewWrapperPanel3D extends EuclidianViewWrapperPanel
 			implements RequiresResize {
 
 		/**
@@ -216,7 +216,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		 * @param ev
 		 *            euclidian view
 		 */
-		public EuclidianViewWrapperPanel3D(EuclidianView ev) {
+		private EuclidianViewWrapperPanel3D(EuclidianView ev) {
 			super(ev);
 		}
 

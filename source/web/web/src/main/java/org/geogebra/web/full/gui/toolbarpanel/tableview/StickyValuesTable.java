@@ -558,11 +558,11 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		}
 	}
 
-	private class DataTableSafeHtmlColumn extends Column<TVRowData, SafeHtml> {
+	private final class DataTableSafeHtmlColumn extends Column<TVRowData, SafeHtml> {
 
 		private final int col;
 
-		public DataTableSafeHtmlColumn(int col) {
+		private DataTableSafeHtmlColumn(int col) {
 			super(new SafeHtmlCell());
 			this.col = col;
 		}

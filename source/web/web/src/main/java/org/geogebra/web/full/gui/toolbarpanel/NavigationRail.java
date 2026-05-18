@@ -71,7 +71,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 	 * @param toolbarPanel
 	 *            - panel containing the toolbar
 	 */
-	public NavigationRail(ToolbarPanel toolbarPanel) {
+	NavigationRail(ToolbarPanel toolbarPanel) {
 		this.app = toolbarPanel.getApp();
 		this.toolbarPanel = toolbarPanel;
 		examController = GlobalScope.getExamController(app);
@@ -318,7 +318,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 	/**
 	 * @param expanded - whether menu is expanded
 	 */
-	public void markMenuAsExpanded(boolean expanded) {
+	void markMenuAsExpanded(boolean expanded) {
 		if (btnMenu != null) {
 			btnMenu.getElement().setAttribute("aria-expanded",
 					String.valueOf(expanded));
@@ -365,14 +365,14 @@ class NavigationRail extends FlowPanel implements ExamListener {
 	/**
 	 * Hide the entire undo/redo panel (eg. during animation).
 	 */
-	public void hideUndoRedoPanel() {
+	void hideUndoRedoPanel() {
 		toolbarPanel.showHideUndoRedoPanel(false);
 	}
 
 	/**
 	 * @return - true if toolbar is open
 	 */
-	public boolean isOpen() {
+	boolean isOpen() {
 		return toolbarPanel.isOpen();
 	}
 
@@ -389,7 +389,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 	/**
 	 * update style of toolbar
 	 */
-	public void updateStyle() {
+	void updateStyle() {
 		if (isAnimating()) {
 			return;
 		}
@@ -429,7 +429,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 	/**
 	 * handle resize of toolbar
 	 */
-	public void resize() {
+	void resize() {
 		if (isAnimating()) {
 			return;
 		}
@@ -439,7 +439,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 	/**
 	 * @return true if animating
 	 */
-	public boolean isAnimating() {
+	boolean isAnimating() {
 		return animating;
 	}
 
@@ -447,14 +447,14 @@ class NavigationRail extends FlowPanel implements ExamListener {
 	 * @param b
 	 *            - set if animating
 	 */
-	public void setAnimating(boolean b) {
+	void setAnimating(boolean b) {
 		this.animating = b;
 	}
 
 	/**
 	 * Resets toolbar.
 	 */
-	public void reset() {
+	void reset() {
 		resize();
 		toolbarPanel.updateUndoRedoPosition();
 	}
@@ -462,7 +462,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 	/**
 	 * Called when app changes orientation.
 	 */
-	public void onOrientationChange() {
+	void onOrientationChange() {
 		if (lastOrientation != app.isPortrait()) {
 			removeOpenStyles();
 			removeCloseStyles();
@@ -502,7 +502,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 	/**
 	 * Sets tab order for header buttons.
 	 */
-	public void setTabIndexes() {
+	void setTabIndexes() {
 		if (btnMenu != null) {
 			new FocusableWidget(AccessibilityGroup.MENU, null, btnMenu).attachTo(app);
 		}
@@ -513,7 +513,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 	}
 
 	/** Sets focus to Burger menu */
-	public void focusMenu() {
+	void focusMenu() {
 		if (btnMenu != null) {
 			btnMenu.getElement().focus();
 		}
@@ -522,7 +522,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 	/**
 	 * After visibility changed in landscape
 	 */
-	public void onLandscapeAnimationEnd() {
+	void onLandscapeAnimationEnd() {
 		if (!isOpen()) {
 			getElement().getStyle().clearWidth();
 			toolbarPanel.updateUndoRedoPosition();
@@ -538,7 +538,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 		});
 	}
 
-	public void updateIcons(boolean exam) {
+	void updateIcons(boolean exam) {
 		updateIcons(toolbarPanel.getSelectedTabId(), exam);
 	}
 
@@ -555,7 +555,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 	 * @param left distance from left canvas edge
 	 * @param top distance from top canvas edge
 	 */
-	public void paintToCanvas(CanvasRenderingContext2D context2d, int left, int top) {
+	void paintToCanvas(CanvasRenderingContext2D context2d, int left, int top) {
 		int btnTop = 40;
 		context2d.globalAlpha = 0.54;
 		for (StandardButton btn: new StandardButton[]{btnAlgebra, btnTools, btnTableView,
@@ -574,7 +574,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 		removeStyleName("examCheat");
 	}
 
-	public void resetExamStyle() {
+	void resetExamStyle() {
 		resetHeaderClasses();
 		boolean examStyle = useExamStyle();
 		updateIcons(examStyle);

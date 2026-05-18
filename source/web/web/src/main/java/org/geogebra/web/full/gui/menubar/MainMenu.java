@@ -238,7 +238,7 @@ public class MainMenu extends FlowPanel
 			 * @param expanded
 			 *            for compatibility with AriaStackPanel
 			 */
-			public void setStackText(int index, @IsSafeHtml String text, String ariaLabel,
+			void setStackText(int index, @IsSafeHtml String text, String ariaLabel,
 					Boolean expanded) {
 				super.setStackText(index, text);
 				setAriaLabel(index, ariaLabel, expanded);

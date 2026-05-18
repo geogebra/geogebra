@@ -114,15 +114,15 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 		exportMenu.addItem(item);
 	}
 
-	private class ProbCalcTabLayoutPanel extends TabLayoutPanel implements ClickHandler {
+	private final class ProbCalcTabLayoutPanel extends TabLayoutPanel implements ClickHandler {
 
-		public ProbCalcTabLayoutPanel() {
+		private ProbCalcTabLayoutPanel() {
 			super(30, Unit.PX);
 			this.addDomHandler(this, ClickEvent.getType());
 		}
 
 		@Override
-		public final void onResize() {
+		public void onResize() {
 			tabResized();
 		}
 

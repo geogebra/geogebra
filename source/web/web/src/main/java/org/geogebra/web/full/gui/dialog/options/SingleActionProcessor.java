@@ -30,7 +30,7 @@ class SingleActionProcessor
 	boolean processed = false;
 	Command command;
 
-	public SingleActionProcessor(Command callback) {
+	SingleActionProcessor(Command callback) {
 		command = callback;
 	}
 

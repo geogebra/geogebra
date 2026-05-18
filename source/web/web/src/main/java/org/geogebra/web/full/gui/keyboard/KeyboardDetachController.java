@@ -92,11 +92,11 @@ final class KeyboardDetachController {
 		return hasCustomParent;
 	}
 
-	public boolean isEnabled() {
+	boolean isEnabled() {
 		return enabled;
 	}
 
-	public int getParentWidth() {
+	int getParentWidth() {
 		return customParent != null
 				? customParent.getClientWidth()
 				: NavigatorUtil.getWindowWidth();

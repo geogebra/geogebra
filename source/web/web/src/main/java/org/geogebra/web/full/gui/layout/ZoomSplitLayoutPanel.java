@@ -69,10 +69,10 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 	private static Element glassElem = null;
 
 	private final int splitterSize;
-	private GeoGebraElement ai;
+	private final GeoGebraElement appletElement;
 
   class HSplitter extends Splitter {
-    public HSplitter(Widget target, boolean reverse, ZoomSplitLayoutPanel splitPanel) {
+    HSplitter(Widget target, boolean reverse, ZoomSplitLayoutPanel splitPanel) {
       super(target, reverse, splitPanel);
       impl.setToHorizontal(splitterSize);
     }
@@ -151,7 +151,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 		}
 
 		public double getZoom() {
-			return 1 / this.splitPanel.ai.getScaleX();
+			return 1 / this.splitPanel.appletElement.getScaleX();
 		}
 
 		@Override
@@ -358,7 +358,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 	}
 
 	class VSplitter extends Splitter {
-    public VSplitter(Widget target, boolean reverse, ZoomSplitLayoutPanel splitPanel) {
+    VSplitter(Widget target, boolean reverse, ZoomSplitLayoutPanel splitPanel) {
       super(target, reverse, splitPanel);
       impl.setToVertical(splitterSize);
     }
@@ -427,8 +427,8 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 	 * Construct a new {@link SplitLayoutPanel} with the default splitter size
 	 * of 8px.
 	 */
-	public ZoomSplitLayoutPanel(GeoGebraElement ai) {
-		this(DEFAULT_SPLITTER_SIZE, ai);
+	public ZoomSplitLayoutPanel(GeoGebraElement appletElement) {
+		this(DEFAULT_SPLITTER_SIZE, appletElement);
 	}
 
   /**
@@ -437,11 +437,11 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
    *
    * @param splitterSize the size of the splitter in pixels
    */
-	public ZoomSplitLayoutPanel(int splitterSize, GeoGebraElement ai) {
+	public ZoomSplitLayoutPanel(int splitterSize, GeoGebraElement appletElement) {
 		super(Unit.PX);
 		this.splitterSize = splitterSize;
 		setStyleName("gwt-SplitLayoutPanel");
-		this.ai = ai;
+		this.appletElement = appletElement;
 	}
 
   /**

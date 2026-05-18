@@ -343,7 +343,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		}
 	}
 
-	private class RecentTable extends ColorTable {
+	private final class RecentTable extends ColorTable {
 		private final List<Entry> entries;
 
 		private class Entry {
@@ -351,19 +351,19 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			int col;
 			int row;
 
-			public Entry(ColorTable table) {
+			Entry(ColorTable table) {
 				this.table = table;
 				this.col = table.getSelectedCol();
 				this.row = table.getSelectedRow();
 			}
 		}
 
-		public RecentTable(int x, int y, int col, int row) {
+		private RecentTable(int x, int y, int col, int row) {
 			super(x, y, col, row, null);
 			entries = new ArrayList<>();
 		}
 
-		public void injectFrom(ColorTable source) {
+		private void injectFrom(ColorTable source) {
 			injectColor(source.getSelectedColor());
 			entries.add(0, new Entry(source));
 			if (entries.size() > getCapacity()) {
@@ -371,7 +371,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			}
 		}
 
-		public void apply() {
+		private void apply() {
 			Entry entry = entries
 					.get(getIndex(getSelectedCol(), getSelectedRow()));
 			entry.table.select(entry.col, entry.row);
@@ -379,7 +379,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 	}
 
-	private class PreviewPanel extends FlowPanel {
+	private final class PreviewPanel extends FlowPanel {
 		private final Label titleLabel;
 		Canvas previewCanvas;
 		private final JLMContext2D previewCtx;

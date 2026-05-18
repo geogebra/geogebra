@@ -72,7 +72,7 @@ public class Export3dDialog extends ComponentDialog
 		private final Localization localization;
 		private double parsedValue;
 
-		public ParsableComponentInputField(AppW app, String placeholder,
+		ParsableComponentInputField(AppW app, String placeholder,
 				String labelTxt, String errorTxt, String defaultValue, String suffixTxt) {
 			super(app, placeholder, labelTxt, errorTxt, defaultValue, suffixTxt, false);
 			numberValidator = new NumberValidator(
@@ -80,12 +80,12 @@ public class Export3dDialog extends ComponentDialog
 			localization = app.getLocalization();
 		}
 
-		public void setValue(double v, NumberFormatAdapter nf) {
+		void setValue(double v, NumberFormatAdapter nf) {
 			parsedValue = v;
 			setInputText(nf.format(v));
 		}
 
-		public double getParsedValue() {
+		double getParsedValue() {
 			return parsedValue;
 		}
 
@@ -100,7 +100,7 @@ public class Export3dDialog extends ComponentDialog
 		 *            if text field can be empty (value is 0)
 		 * @return true if parsed ok
 		 */
-		public boolean parse(boolean showError, boolean canBeEqual,
+		boolean parse(boolean showError, boolean canBeEqual,
 				boolean canBeEmpty) {
 			if (canBeEmpty && StringUtil.emptyTrim(getText())) {
 				parsedValue = 0;

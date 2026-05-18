@@ -418,8 +418,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		panelBasicProcedures.add(panelSample2);
 	}
 
-	private static class LineBreak extends FlowPanel {
-		public LineBreak() {
+	private static final class LineBreak extends FlowPanel {
+		private LineBreak() {
 			this.setStyleName("lineBreak");
 		}
 	}

@@ -62,7 +62,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	private final SpreadsheetPanel parent;
 	private AutoCompletePopup autocomplete;
 
-	private static class SpreadsheetCellEditorW implements SpreadsheetCellEditor {
+	private static final class SpreadsheetCellEditorW implements SpreadsheetCellEditor {
 		private final MathFieldEditor mathField;
 		private final SpreadsheetPanel parent;
 		private final AppW app;
@@ -70,7 +70,8 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		private DefaultSpreadsheetCellProcessor cellProcessor;
 		private Rectangle editorBounds;
 
-		public SpreadsheetCellEditorW(AppW app, SpreadsheetPanel parent, MathTextFieldW mathField) {
+		private SpreadsheetCellEditorW(AppW app, SpreadsheetPanel parent,
+				MathTextFieldW mathField) {
 			this.mathField = mathField;
 			this.mathField.getMathField().setForegroundColor(
 					GColor.getColorString(GeoGebraColorConstants.NEUTRAL_900));
@@ -83,7 +84,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			this.app = app;
 		}
 
-		public SpreadsheetPanel getSpreadsheetPanel() {
+		private SpreadsheetPanel getSpreadsheetPanel() {
 			return parent;
 		}
 

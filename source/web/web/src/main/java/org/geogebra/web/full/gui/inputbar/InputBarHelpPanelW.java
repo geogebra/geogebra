@@ -295,9 +295,9 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 		}
 	}
 
-	private class TreeItemButton extends InlineLabel {
+	private final class TreeItemButton extends InlineLabel {
 
-		public TreeItemButton(String text, final TreeItem item,
+		private TreeItemButton(String text, final TreeItem item,
 				final boolean isLeaf) {
 			super(text);
 			addStyleName("inputHelp-treeItem");

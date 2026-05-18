@@ -23,14 +23,14 @@ import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
 
 class MultiSelectButtonsPanel extends FlowPanel {
-	public interface ButtonsListener {
+	interface ButtonsListener {
 
 		void moveSelection(boolean b);
 
 		void deleteSelection();
 	}
 
-	public MultiSelectButtonsPanel(ButtonsListener widgets) {
+	MultiSelectButtonsPanel(ButtonsListener widgets) {
 		addStyleName("toolListButtons");
 
 		addIconButton(MaterialDesignResources.INSTANCE.arrow_drop_up(),

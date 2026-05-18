@@ -59,10 +59,10 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 
 	StandardButton openButton;
 
-	private static class MacroListBox extends ListBox {
+	private static final class MacroListBox extends ListBox {
 		List<Macro> macros;
 
-		public MacroListBox() {
+		private MacroListBox() {
 			macros = new ArrayList<>();
 		}
 
@@ -70,15 +70,15 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 			return macro.getToolName() + ": " + macro.getNeededTypesString();
 		}
 
-		public List<Macro> getMacros() {
+		List<Macro> getMacros() {
 			return macros;
 		}
 
-		public Macro getMacro(int index) {
+		Macro getMacro(int index) {
 			return macros.get(index);
 		}
 
-		public Macro getSelectedMacro() {
+		Macro getSelectedMacro() {
 			int idx = getSelectedIndex();
 			if (idx == -1) {
 				return null;
@@ -86,7 +86,7 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 			return getMacro(idx);
 		}
 
-		public void setSelectedMacro(Macro macro) {
+		void setSelectedMacro(Macro macro) {
 			int idx = getSelectedIndex();
 			if (idx == -1) {
 				return;
@@ -95,12 +95,12 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 			setItemText(idx, getMacroText(macro));
 		}
 
-		public void addMacro(Macro macro) {
+		void addMacro(Macro macro) {
 			macros.add(macro);
 			addItem(getMacroText(macro));
 		}
 
-		public void insertMacro(Macro macro, int index) {
+		void insertMacro(Macro macro, int index) {
 			macros.add(index, macro);
 			insertItem(getMacroText(macro), index);
 		}
@@ -112,7 +112,7 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 
 		}
 
-		public List<Macro> getSelectedMacros() {
+		List<Macro> getSelectedMacros() {
 			List<Macro> sel = null;
 			for (int i = 0; i < getItemCount(); i++) {
 				if (isItemSelected(i)) {
@@ -126,7 +126,7 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 			return sel;
 		}
 
-		public boolean isEmpty() {
+		boolean isEmpty() {
 			return macros.isEmpty();
 		}
 	}
