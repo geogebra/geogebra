@@ -31,6 +31,13 @@ val gwtInternal = configurations.create("gwtInternal") {
     }
 }
 
+configurations.all {
+    // workaround for https://github.com/gwtproject/gwt/issues/10045
+    resolutionStrategy {
+        force(versionCatalogs.named("libs").findLibrary("jdt-core").orElseThrow().get())
+    }
+}
+
 gwt {
     // https://github.com/gradle/gradle/issues/15383
     versionCatalogs.named("libs").findVersion("gwt").ifPresent {

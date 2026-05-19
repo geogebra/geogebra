@@ -430,9 +430,7 @@ public abstract class ProbabilityCalculatorView
 		if (setDefaultBounds && !isIniting) {
 			setDefaultBounds();
 		}
-		if (getResultPanel() != null) {
-			updateProbabilityType(getResultPanel());
-		}
+		updateProbabilityType(getResultPanel());
 		updateGUI();
 		updateStylebar();
 	}
@@ -890,10 +888,8 @@ public abstract class ProbabilityCalculatorView
 			}
 			validateLowHigh(oldProbMode);
 		}
-		if (getResultPanel() != null) {
-			updateProbabilityType(getResultPanel());
-			updateResult(getResultPanel());
-		}
+		updateProbabilityType(getResultPanel());
+		updateResult();
 		notifyListeners();
 	}
 
@@ -2103,20 +2099,30 @@ public abstract class ProbabilityCalculatorView
 		updateOutputForIntervals();
 		if (probMode == PROB_INTERVAL) {
 			xAxis.showBothPoints(showProbGeos);
-			resultPanel.showInterval();
+			if (resultPanel != null) {
+				resultPanel.showInterval();
+			}
 		} else if (probMode == PROB_TWO_TAILED) {
 			xAxis.showBothPoints(showProbGeos);
-			showTwoTailed(resultPanel);
+			if (resultPanel != null) {
+				showTwoTailed(resultPanel);
+			}
 		} else if (probMode == PROB_LEFT) {
-			resultPanel.showLeft();
+			if (resultPanel != null) {
+				resultPanel.showLeft();
+			}
 			switchToLeftProbability(oldProbMode);
 		} else if (probMode == PROB_RIGHT) {
-			resultPanel.showRight();
+			if (resultPanel != null) {
+				resultPanel.showRight();
+			}
 			switchToRightProbability(oldProbMode);
 		}
 
 		// make result field editable for inverse probability calculation
-		resultPanel.setResultEditable(probMode != PROB_INTERVAL && probMode != PROB_TWO_TAILED);
+		if (resultPanel != null) {
+			resultPanel.setResultEditable(probMode != PROB_INTERVAL && probMode != PROB_TWO_TAILED);
+		}
 
 		if (isDiscrete) {
 			setHigh(Math.round(getHigh()));
@@ -2278,7 +2284,9 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	protected void updateLowHigh(ResultPanel resultPanel) {
-		resultPanel.updateLowHigh(format(low), format(high));
+		if (resultPanel != null) {
+			resultPanel.updateLowHigh(format(low), format(high));
+		}
 	}
 
 	private boolean isResultEditable() {
@@ -2337,9 +2345,7 @@ public abstract class ProbabilityCalculatorView
 	public void onParameterUpdate() {
 		updateOutput(false);
 		setDefaultBounds();
-		if (getResultPanel() != null) {
-			updateProbabilityType(getResultPanel());
-		}
+		updateProbabilityType(getResultPanel());
 		updateResult();
 		notifyListeners();
 	}

@@ -50,61 +50,31 @@
 	}
 	.suiteDistrTab {
 		padding: 16px 0 0 16px;
+		display: grid;
+		gap: 16px;
 
-		.row {
-			margin-top: 20px;
-
-			.gwt-Label {
-				height: 48px;
-				line-height: 48px;
-				display: inline-block;
-			}
-
-			.switch {
-				margin: 12px 0;
-			}
+		.inputTextField {
+			margin: 8px 0 0 0;
 		}
 
-		.intervalsLbl {
-			font-size: 75%;
-			margin-top: 12px;
+		.gwt-Label {
+			height: 32px;
+			line-height: 32px;
 		}
 
-		.intervalPanel {
-			padding: 0;
+		.iconPanel {
+			display: flex;
+			gap: 8px;
 		}
 
-		.ToggleButton {
-			padding: 7px;
-			border-radius: 2px;
-			margin-left: 0;
-			margin-right: 8px;
-			margin-bottom: 12px;
-		}
-
-		.parameterPanel {
-			display: inherit;
-
-			.holder {
-				margin: 0;
-			}
-
-			.gwt-Label {
-				margin: 8px 0 0 0;
-				font-size: 75%;
-				line-height: unset;
-			}
+		.probabilityResultRow {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			gap: 4px;
 
 			.mathTextField {
-				width: 100%;
-				margin: 8px 0 20px 0;
-				box-sizing: border-box;
-			}
-
-			.holder.focusState {
-				 .mathTextField {
-					margin-bottom: 19px;
-				}
+				width: 120px;
 			}
 		}
 	}

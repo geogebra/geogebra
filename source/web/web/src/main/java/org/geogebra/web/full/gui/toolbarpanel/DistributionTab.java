@@ -28,26 +28,22 @@ public class DistributionTab extends ToolbarTab {
 
 	/**
 	 * Constructor
-	 * @param toolbarPanel - parent toolbar panel
+	 * @param toolbarPanel parent toolbar panel
 	 */
 	public DistributionTab(ToolbarPanel toolbarPanel, StickyProbabilityTable table) {
 		super(toolbarPanel);
 		this.toolbarPanel = toolbarPanel;
-		createContent(toolbarPanel, table);
+		createContent(table);
 	}
 
-	private void createContent(ToolbarPanel toolbarPanel, StickyProbabilityTable table) {
+	private void createContent(StickyProbabilityTable table) {
 		ProbabilityCalculatorViewW view = (ProbabilityCalculatorViewW) toolbarPanel.getApp()
 				.getGuiManager().getProbabilityCalculator();
-		distrPanel = new DistributionPanelSuite(view, toolbarPanel.getApp().getLocalization());
-		distrPanel.setLabels();
-		view.setDistributionPanel(distrPanel);
+		distrPanel = new DistributionPanelSuite(view, toolbarPanel.getApp());
 		ProbabilityTableAdapter probTable = new ProbabilityTableAdapter(table,
 				toolbarPanel.getApp(), view);
 		view.setTable(probTable);
 		view.updateDiscreteTable();
-		distrPanel.updateGUI(); // make sure the correct interval is selected
-		view.updateProbabilityType(distrPanel.getResultPanel());
 		view.updateLowHighResult();
 		add(distrPanel);
 	}
@@ -64,7 +60,14 @@ public class DistributionTab extends ToolbarTab {
 
 	@Override
 	public void setLabels() {
-		distrPanel.setLabels();
+		clear();
+		if (distrPanel != null) {
+			distrPanel.detachProperties();
+		}
+		ProbabilityCalculatorViewW view = (ProbabilityCalculatorViewW) toolbarPanel.getApp()
+				.getGuiManager().getProbabilityCalculator();
+		distrPanel = new DistributionPanelSuite(view, toolbarPanel.getApp());
+		add(distrPanel);
 	}
 
 	@Override

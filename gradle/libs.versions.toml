@@ -41,6 +41,7 @@ jna = "net.java.dev.jna:jna:5.18.1"
 
 gwt-user = { module = "org.gwtproject:gwt-user", version.ref = "gwt" }
 gwt-dev = { module = "org.gwtproject:gwt-dev", version.ref = "gwt" }
+jdt-core = "org.eclipse.jdt:org.eclipse.jdt.core:3.34.0"
 # https://github.com/gwtproject/gwt-core/pull/23
 gwt-core = "org.gwtproject.core:gwt-core:1.0.1-GGB"
 gwt-dom = "org.gwtproject.dom:gwt-dom:1.0.0-RC2"

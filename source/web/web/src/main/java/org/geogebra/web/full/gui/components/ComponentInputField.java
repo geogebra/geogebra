@@ -42,7 +42,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 		ConfigurationUpdateDelegate, VisibilityUpdateDelegate, HasFocus {
 	private final Localization loc;
 	private String errorTextKey;
-	private final String labelTextKey;
+	private String labelTextKey;
 	private final String placeholderTextKey;
 	private final String suffixTextKey;
 	private FlowPanel contentPanel;
@@ -335,7 +335,13 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 
 	@Override
 	public void configurationUpdated() {
+		labelTextKey = textFieldProperty.getLabel();
+		String localizedLabel = loc.getMenu(labelTextKey);
+		if (labelText != null) {
+			labelText.setText(localizedLabel);
+		}
 		setInputText(textFieldProperty.getValue());
+		AriaHelper.setTitle(inputTextField.getTextComponent().getTextField(), localizedLabel);
 		setDisabled(!textFieldProperty.isEnabled());
 		String error = textFieldProperty.getErrorMessage();
 		setError(error);

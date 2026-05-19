@@ -326,7 +326,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	public void setInterval(double low, double high) {
 		setLow(low);
 		setHigh(high);
-		getResultPanel().updateLowHigh("" + low, "" + high);
+		if (getResultPanel() != null) {
+			getResultPanel().updateLowHigh("" + low, "" + high);
+		}
 		setXAxisPoints();
 		updateIntervalProbability();
 		updateGUI();

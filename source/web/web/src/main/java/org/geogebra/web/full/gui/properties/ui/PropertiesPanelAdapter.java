@@ -64,6 +64,7 @@ import org.geogebra.web.full.gui.properties.ui.panel.IconButtonPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.ImagePickerPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.MultiSelectionIconRowPanel;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
+import org.geogebra.web.full.gui.view.probcalculator.ProbabilityResultRow;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.IconSpec;
@@ -293,6 +294,9 @@ public class PropertiesPanelAdapter {
 		}
 		if (propertyView instanceof TextArea textAreaPropertyView) {
 			return new ComponentTextArea(app.getLocalization(), textAreaPropertyView);
+		}
+		if (propertyView instanceof PropertyView.ProbabilityResultRow probabilityResultRow) {
+			return new ProbabilityResultRow(app, probabilityResultRow);
 		}
 		return new Label(propertyView.toString());
 	}

@@ -40,8 +40,8 @@ import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
 
 public class DistributionPanel extends FlowPanel implements InsertHandler, ExamListener {
-	private final ProbabilityCalculatorViewW view;
-	private final Localization loc;
+	protected final ProbabilityCalculatorViewW view;
+	protected final Localization loc;
 	private ComponentDropDown distributionDropDown;
 	private ToggleButton cumulativeWidget;
 	private Label[] lblParameterArray;
@@ -52,8 +52,8 @@ public class DistributionPanel extends FlowPanel implements InsertHandler, ExamL
 
 	/**
 	 * Creates a distribution panel.
-	 * @param view - prob calc view
-	 * @param loc - localization
+	 * @param view prob calc view
+	 * @param loc localization
 	 */
 	public DistributionPanel(ProbabilityCalculatorViewW view, Localization loc) {
 		this.view = view;
@@ -64,7 +64,7 @@ public class DistributionPanel extends FlowPanel implements InsertHandler, ExamL
 	}
 
 	/**
-	 * build distribution panel
+	 * Build distribution panel
 	 */
 	public void buildGUI() {
 		initCumulativeWidget();

@@ -191,6 +191,10 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 			case ICON_BUTTON_CENTER_VIEW -> GuiResourcesSimple.INSTANCE.center_view();
 			case ICON_BUTTON_HELP -> GuiResourcesSimple.INSTANCE.help();
 			case ICON_BUTTON_SETTINGS -> GuiResourcesSimple.INSTANCE.settings();
+			case ICON_PROBABILITY_MODE_LEFT -> GuiResources.INSTANCE.interval_left();
+			case ICON_PROBABILITY_MODE_INTERVAL -> GuiResources.INSTANCE.interval_between();
+			case ICON_PROBABILITY_MODE_TWO_TAILED -> GuiResources.INSTANCE.interval_two_tailed();
+			case ICON_PROBABILITY_MODE_RIGHT -> GuiResources.INSTANCE.interval_right();
 			default -> res.stylebar_empty();
 		};
 	}

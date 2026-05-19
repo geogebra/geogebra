@@ -177,6 +177,12 @@ public final class ProbabilityResultValuesProperty
 		public @Nonnull ProbabilityCalculatorView getProbabilityCalculatorView() {
 			return view;
 		}
+
+		@Override
+		public String getAriaLabel() {
+			return view.getProbMode() == ProbabilityCalculatorView.PROB_TWO_TAILED
+					? "Left.Upper.Bound" : "Lower.Bound";
+		}
 	}
 
 	private final class UpperBoundProperty extends AbstractValuedProperty<String>
@@ -215,6 +221,12 @@ public final class ProbabilityResultValuesProperty
 		@Override
 		public @Nonnull ProbabilityCalculatorView getProbabilityCalculatorView() {
 			return view;
+		}
+
+		@Override
+		public String getAriaLabel() {
+			return view.getProbMode() == ProbabilityCalculatorView.PROB_TWO_TAILED
+					? "Right.Lower.Bound" : "Upper.Bound";
 		}
 	}
 
@@ -258,6 +270,11 @@ public final class ProbabilityResultValuesProperty
 		@Override
 		public @Nonnull ProbabilityCalculatorView getProbabilityCalculatorView() {
 			return view;
+		}
+
+		@Override
+		public String getAriaLabel() {
+			return "Probability";
 		}
 	}
 }

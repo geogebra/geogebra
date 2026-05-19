@@ -1526,8 +1526,11 @@ public abstract class PropertyView {
 			/** Editable text input item. */
 			final class InputField extends ValidatablePropertyBackedView<StringProperty>
 					implements Item {
+				private final StringProperty stringProperty;
+
 				InputField(StringProperty stringProperty) {
 					super(stringProperty);
+					this.stringProperty = stringProperty;
 				}
 
 				@Override
@@ -1535,10 +1538,16 @@ public abstract class PropertyView {
 					updatePropertyViewValues();
 					super.probabilityCalculatorViewChanged();
 				}
+
+				public String getAriaLabel() {
+					return stringProperty.getAriaLabel();
+				}
 			}
 
-			/** Simple output-only text item. */
-			record Text(String text) implements Item {
+			record Text(String text, String ariaLabel) implements Item {
+				Text(String text) {
+					this(text, null);
+				}
 			}
 		}
 
@@ -1556,6 +1565,13 @@ public abstract class PropertyView {
 			lowerBoundInputField.detach();
 			upperBoundInputField.detach();
 			probabilityResultInputField.detach();
+		}
+
+		/**
+		 * @return the probability calculator view this property depends on
+		 */
+		public ProbabilityCalculatorView getView() {
+			return property.getProbabilityCalculatorView();
 		}
 
 		/**
@@ -1585,14 +1601,15 @@ public abstract class PropertyView {
 						new Item.Text("+"),
 						new Item.Text(property.getRightProbability()),
 						new Item.Text("="),
-						new Item.Text(property.getTotalProbability()));
+						new Item.Text(property.getTotalProbability(), "Probability"));
 				default -> List.of(
 						new Item.Text(property.getProbabilityExpressionPrefix()),
 						lowerBoundInputField,
 						new Item.Text(" " + LEQ + " X " + LEQ + " "),
 						upperBoundInputField,
 						new Item.Text(property.getProbabilityExpressionSuffix() + " = "),
-						new Item.Text(property.getProbabilityResultProperty().getValue()));
+						new Item.Text(property.getProbabilityResultProperty().getValue(),
+								"Probability"));
 			};
 		}
 	}

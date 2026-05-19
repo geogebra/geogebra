@@ -16,6 +16,8 @@
 
 package org.geogebra.common.properties.aliases;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.properties.ConstrainedProperty;
 
 /**
@@ -30,5 +32,14 @@ public interface StringProperty extends ConstrainedProperty<String> {
 	 */
 	default boolean isDisplayedAsTextArea() {
 		return false;
+	}
+
+	/**
+	 * Returns a label used as aria-title and data-title.
+	 * It is defined only in specific cases, null otherwise.
+	 * @return translation key of an accessibility label.
+	 */
+	default @CheckForNull String getAriaLabel() {
+		return null;
 	}
 }

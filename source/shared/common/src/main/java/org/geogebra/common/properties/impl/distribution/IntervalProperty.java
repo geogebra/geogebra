@@ -39,6 +39,9 @@ public class IntervalProperty extends AbstractEnumeratedProperty<Integer> implem
 			PropertyResource.ICON_PROBABILITY_MODE_TWO_TAILED,
 			PropertyResource.ICON_PROBABILITY_MODE_RIGHT
 	};
+	private static final String[] rawLabels = {
+			"LeftProb", "IntervalProb", "TwoTailedProb", "RightProb"
+	};
 
 	private final ProbabilityCalculatorView view;
 
@@ -65,7 +68,7 @@ public class IntervalProperty extends AbstractEnumeratedProperty<Integer> implem
 
 	@Override
 	public @CheckForNull String[] getToolTipLabels() {
-		return null;
+		return rawLabels;
 	}
 
 	@Override
