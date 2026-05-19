@@ -173,7 +173,7 @@ class User {
 		return app.getActiveEuclidianView().getAbsoluteLeft() - app.getAbsLeft();
 	}
 
-	public void rename(GeoElement target) {
+	void rename(GeoElement target) {
 		String oldLabel = target.getOldLabel();
 		if (selectedGeos.contains(oldLabel)) {
 			selectedGeos.remove(oldLabel);

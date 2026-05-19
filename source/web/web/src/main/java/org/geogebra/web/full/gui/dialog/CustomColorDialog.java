@@ -58,11 +58,11 @@ public class CustomColorDialog extends ComponentDialog {
 		void onCustomColor(GColor color);
 	}
 
-	private class ColorComponent extends FlowPanel {
+	private final class ColorComponent extends FlowPanel {
 		private Slider slider;
 		private GSpinnerW spinner;
 
-		public ColorComponent() {
+		private ColorComponent() {
 			setStyleName("colorComponent");
 
 			FlowPanel sp = new FlowPanel();
@@ -94,29 +94,28 @@ public class CustomColorDialog extends ComponentDialog {
 			});
 		}
 		
-		public void setValue(Integer value) {
+		void setValue(Integer value) {
 			slider.setValue(value);
 			spinner.setValue(value.toString());
 		}
 
-		public int getValue() {
+		int getValue() {
 			return slider.getValue();
 		}
 	}
 	
-	private class PreviewPanel extends FlowPanel {
-		private Label title;
-		private Canvas canvas;
-		private CanvasRenderingContext2D ctx;
+	private final class PreviewPanel extends FlowPanel {
+		private final Label title;
+		private final CanvasRenderingContext2D ctx;
 
-		public PreviewPanel(GColor oColor) {
+		private PreviewPanel(GColor oColor) {
 			setStyleName("CustomColorPreview");
 			title = new Label();
 			if (getApplication().isWhiteboardActive()) {
 				title.addStyleName("previewLbl");
 			}
 			add(title);
-			canvas = Canvas.createIfSupported();
+			Canvas canvas = Canvas.createIfSupported();
 			canvas.setSize(PREVIEW_WIDTH + "px", PREVIEW_HEIGHT + "px");
 			canvas.setCoordinateSpaceHeight(PREVIEW_HEIGHT);
 			canvas.setCoordinateSpaceWidth(PREVIEW_WIDTH * 2);
@@ -131,16 +130,16 @@ public class CustomColorDialog extends ComponentDialog {
 		 * @param oColor
 		 *            color for both rectangles
 		 */
-		public void reset(GColor oColor) {
+		void reset(GColor oColor) {
 			drawRect(0, oColor);
 			drawRect(PREVIEW_WIDTH, oColor);
 		}
 
-		public void update() {
+		void update() {
 			drawRect(PREVIEW_WIDTH, getColor());
 		}
-		
-		protected void drawRect(int x, GColor color) {
+
+		void drawRect(int x, GColor color) {
 			String htmlColor = StringUtil.toHtmlColor(color);
 			ctx.fillStyle = BaseRenderingContext2D.FillStyleUnionType.of(htmlColor);
 			ctx.globalAlpha = 1.0;

@@ -304,7 +304,7 @@ class DragController {
 	 * @param x - coordinate.
 	 * @param y - coordinate.
 	 */
-	public void start(int x, int y) {
+	void start(int x, int y) {
 		if (clicked != null || isValid()) {
 			cancelDrag();
 		}

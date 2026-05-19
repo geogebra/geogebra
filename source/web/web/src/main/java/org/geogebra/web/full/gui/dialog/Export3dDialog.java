@@ -196,11 +196,11 @@ public class Export3dDialog extends ComponentDialog
 			isUsed = true;
 		}
 
-		public void setInputField(ParsableComponentInputField field) {
+		void setInputField(ParsableComponentInputField field) {
 			this.inputField = field;
 		}
 
-		public void setInitValue(double v) {
+		void setInitValue(double v) {
 			this.initValue = v * MM_TO_CM;
 			setValue(initValue);
 			if (DoubleUtil.isZero(initValue)) {
@@ -213,7 +213,7 @@ public class Export3dDialog extends ComponentDialog
 			inputField.setValue(v, nf);
 		}
 
-		public void setController() {
+		void setController() {
 			// from hardware keyboard
 			inputField.getTextField().getTextComponent()
 					.addKeyUpHandler(e -> parseAndUpdateOthers());
@@ -254,7 +254,7 @@ public class Export3dDialog extends ComponentDialog
 			setValue(initValue * ratio);
 		}
 
-		public boolean parse() {
+		boolean parse() {
 			return !isUsed || inputField.parse(true, false, false);
 		}
 	}

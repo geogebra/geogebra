@@ -139,13 +139,12 @@ public class TextPreviewPanelW extends TextPreviewer {
 		getEVPanel().onResize();
 	}
 
-	/****************************************************************************
-	 * Extension of EuclidianViewD for displaying preview text strings
-	 * 
+	/**
+	 * Extension of EuclidianViewW for displaying preview text strings.
 	 */
-	private static class PreviewEuclidianView extends EuclidianViewW {
+	private static final class PreviewEuclidianView extends EuclidianViewW {
 
-		public PreviewEuclidianView(TextPreviewEuclidianViewPanelW panel,
+		private PreviewEuclidianView(TextPreviewEuclidianViewPanelW panel,
 				EuclidianController ec, int evno, EuclidianSettings settings) {
 			super(panel, ec, evno, settings);
 
@@ -175,16 +174,15 @@ public class TextPreviewPanelW extends TextPreviewer {
 		}
 	}
 
-	/****************************************************************************
-	 * Panel for EuclidianView
-	 * 
+	/**
+	 * Panel for EuclidianView.
 	 */
-	private class TextPreviewEuclidianViewPanelW extends AbsolutePanel
+	private final class TextPreviewEuclidianViewPanelW extends AbsolutePanel
 			implements EuclidianPanelWAbstract {
 
-		private Canvas canvas;
+		private final Canvas canvas;
 
-		public TextPreviewEuclidianViewPanelW() {
+		private TextPreviewEuclidianViewPanelW() {
 			super();
 			canvas = Canvas.createIfSupported();
 			canvas.getElement().getStyle().setPosition(Position.ABSOLUTE);

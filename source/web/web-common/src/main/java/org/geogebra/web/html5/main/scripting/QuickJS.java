@@ -95,7 +95,7 @@ public class QuickJS {
 	@JsType(isNative = true, namespace = JsPackage.GLOBAL)
 	static class ContextFactory {
 
-		public native QuickJSContext newContext();
+		native QuickJSContext newContext();
 	}
 
 	@JsType(isNative = true, namespace = JsPackage.GLOBAL)

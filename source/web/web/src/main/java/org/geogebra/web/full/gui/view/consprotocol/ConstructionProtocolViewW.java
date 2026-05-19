@@ -717,7 +717,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		 * @param gui
 		 *            gui element on which we delegate setLabels
 		 */
-		public ConstructionTableDataW(SetLabels gui) {
+		ConstructionTableDataW(SetLabels gui) {
 			super(gui);
 			// ctDataImpl = new MyGAbstractTableModel();
 		}
@@ -733,7 +733,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		/**
 		 * If there are some updates since last repaint, update the table
 		 */
-		public void repaintIfNeeded() {
+		void repaintIfNeeded() {
 			if (this.rowsChanged) {
 				rowsChanged = false;
 				needsUpdate = false;
@@ -764,7 +764,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		 *            to
 		 * @return whether something changed
 		 */
-		public boolean moveInConstructionList(int fromIndex, int toIndex) {
+		boolean moveInConstructionList(int fromIndex, int toIndex) {
 			boolean changed = kernel.moveInConstructionList(fromIndex, toIndex);
 
 			// reorder rows in this view

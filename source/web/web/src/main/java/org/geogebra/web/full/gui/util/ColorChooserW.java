@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.ColorObjectModel;
@@ -108,7 +110,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		private int selectedRow;
 		private int capacity;
 
-		public ColorTable(int x, int y, int col, int row, List<Integer> data) {
+		private ColorTable(int x, int y, int col, int row, List<Integer> data) {
 			left = x;
 			top = y;
 			tableOffsetY = 0;
@@ -155,7 +157,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			tableOffsetY = TITLE_HEIGHT;
 		}
 
-		public void draw() {
+		void draw() {
 			drawTitle();
 			ctx.save();
 			ctx.scale(1, 1);
@@ -385,7 +387,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		private final JLMContext2D previewCtx;
 		private final Label rgb;
 
-		public PreviewPanel() {
+		private PreviewPanel() {
 			FlowPanel m = new FlowPanel();
 			m.setStyleName("colorChooserPreview");
 			titleLabel = new Label();
@@ -401,8 +403,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			add(m);
 		}
 
-		public void update() {
-
+		void update() {
 			GColor color = getSelectedColor();
 			if (color == null) {
 				return;
@@ -424,17 +425,17 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			previewCtx.strokeRect(0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
 		}
 
-		public void setLabels(String previewTitle) {
+		void setLabels(String previewTitle) {
 			titleLabel.setText(previewTitle);
 		}
 
 	}
 
-	private class OpacityPanel extends FlowPanel implements SliderInputHandler {
+	private final class OpacityPanel extends FlowPanel implements SliderInputHandler {
 		private final Label title;
 		private final Slider slider;
 
-		public OpacityPanel() {
+		private OpacityPanel() {
 			title = new Label();
 			add(title);
 
@@ -461,24 +462,24 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			previewPanel.update();
 		}
 
-		public double getAlphaValue() {
+		double getAlphaValue() {
 			return isVisible() ? slider.getValue() / 100.0 : 1.0;
 		}
 
-		public void setLabels(String opacity) {
+		void setLabels(String opacity) {
 			title.setText(opacity);
 		}
 
-		public void setAlpaValue(double alpha) {
+		void setAlphaValue(double alpha) {
 			slider.setValue((int) (alpha * 100));
 		}
 	}
 
-	private class BackgroundColorPanel extends FlowPanel {
+	private final class BackgroundColorPanel extends FlowPanel {
 		RadioButtonPanel<Boolean> colorRadioBtnPanel;
 		StandardButton btnClearBackground;
 
-		public BackgroundColorPanel() {
+		private BackgroundColorPanel() {
 			setStyleName("BackgroundColorPanel");
 			colorRadioBtnPanel = new RadioButtonPanel<>(app.getLocalization(),
 					Arrays.asList(new RadioButtonData<>("ForegroundColor", false),
@@ -496,7 +497,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			btnClearBackground.addFastClickHandler(event -> changeHandler.onClearBackground());
 		}
 
-		protected void setBackground(boolean background) {
+		void setBackground(boolean background) {
 			if (background) {
 				changeHandler.onBackgroundSelected();
 			} else {
@@ -621,7 +622,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		});
 	}
 
-	private void colorChanged(ColorTable source, GColor color) {
+	private void colorChanged(@Nonnull ColorTable source, GColor color) {
 		selectedColor = color;
 		previewPanel.update();
 
@@ -642,9 +643,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			changeHandler.onColorChange(getSelectedColor());
 		}
 
-		if (source != null) {
-			source.draw();
-		}
+		source.draw();
 	}
 
 	/**
@@ -737,7 +736,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	 *            alpha value
 	 */
 	public void setAlphaValue(double alpha) {
-		opacityPanel.setAlpaValue(alpha);
+		opacityPanel.setAlphaValue(alpha);
 	}
 
 	/**
