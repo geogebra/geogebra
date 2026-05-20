@@ -176,10 +176,6 @@ public class ScriptManagerW extends ScriptManager {
 
 	@Override
 	protected void callClientListeners(List<JsReference> listeners, Event evt) {
-		if (listeners.isEmpty()) {
-			return;
-		}
-
 		// The array elements are for compatibility purposes only,
 		// only the named parameters are documented. Maybe if
 		// you are reading this years in the future, you can remove them

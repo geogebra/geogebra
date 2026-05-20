@@ -105,7 +105,9 @@ public abstract class ScriptManager implements EventListener {
 			callListeners(clearListeners, evt);
 			break;
 		default:
-			callClientListeners(clientListeners, evt);
+			if (!clientListeners.isEmpty()) {
+				callClientListeners(clientListeners, evt);
+			}
 		}
 	}
 
@@ -155,6 +157,10 @@ public abstract class ScriptManager implements EventListener {
 		// implemented in web and desktop
 	}
 
+	/**
+	 * @param listeners non-empty list of listeners
+	 * @param evt event
+	 */
 	protected void callClientListeners(List<JsReference> listeners, Event evt) {
 		// implemented in web and desktop
 	}
@@ -615,4 +621,10 @@ public abstract class ScriptManager implements EventListener {
 		return alias;
 	}
 
+	/**
+	 * Discard objects created by running global JS.
+	 */
+	public void clearGlobalObjects() {
+		// only in JRE
+	}
 }

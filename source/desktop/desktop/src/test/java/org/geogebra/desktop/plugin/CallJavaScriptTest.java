@@ -18,7 +18,10 @@ package org.geogebra.desktop.plugin;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.test.LocalizationCommonUTF;
 import org.junit.Test;
@@ -32,5 +35,16 @@ public class CallJavaScriptTest {
 		((ScriptManagerD) app.getScriptManager()).evalJavaScript(
 				"alert(1);alert(undefined,2);ggbApplet.evalCommand('a=42')");
 		assertThat(app.getKernel().lookupLabel("a").evaluateDouble(), equalTo(42.0));
+	}
+
+	@Test
+	public void testEval() {
+		AppDNoGui app = new AppDNoGui(new LocalizationCommonUTF(3), true);
+		CallJavaScript.evalGlobalScript(app);
+		RuntimeException ex = assertThrows(RuntimeException.class, () ->
+		((ScriptManagerD) app.getScriptManager()).evalJavaScript(
+				"ggbApplet.evalCommand('text1=\"'+ggbApplet.getClass().getName()+'\"')"));
+		assertEquals("Access to Java class \"java.lang.Class\" is prohibited. "
+						+ "(Error at line:#1)", ex.getMessage());
 	}
 }

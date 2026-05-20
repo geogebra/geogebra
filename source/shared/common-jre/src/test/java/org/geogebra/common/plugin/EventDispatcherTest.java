@@ -55,7 +55,7 @@ public class EventDispatcherTest extends BaseUnitTest implements EventListener {
 	public void dispatchEvent() {
 		scriptManager = spy(ScriptManager.class);
 		eventDispatcher.addEventListener(scriptManager);
-
+		scriptManager.registerClientListener("fake");
 		verifyClientListenersNotified(EventType.SIDE_PANEL_CLOSED);
 		verifyClientListenersNotified(EventType.SIDE_PANEL_OPENED);
 		verifyClientListenersNotified(EventType.ALGEBRA_PANEL_SELECTED);

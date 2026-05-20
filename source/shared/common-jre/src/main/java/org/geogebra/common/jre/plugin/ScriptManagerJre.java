@@ -56,10 +56,6 @@ public abstract class ScriptManagerJre extends ScriptManager {
 
     @Override
     protected void callClientListeners(List<JsReference> listeners, Event evt) {
-        if (listeners.isEmpty()) {
-            return;
-        }
-
         ArrayList<String> args = new ArrayList<>();
         args.add(evt.type.getName());
         if (evt.targets != null) {
@@ -81,35 +77,12 @@ public abstract class ScriptManagerJre extends ScriptManager {
     }
 
     /**
-     * For compatibility with all JS functions this should return a NativeArray
-     * (see desktop), default implementation returns Java array which allows array[0].
+     * Converts list into a NativeArray (which can be only referenced from platform code).
      * @param args arguments
      * @return arguments as array
      */
-    protected Object toNativeArray(ArrayList<String> args) {
-        return args.toArray(new String[0]);
-    }
-
-    @Override
-    protected void callListener(String jsFunction, Object[] args) {
-        evalJavaScript(createJavascriptFunction(jsFunction, args));
-    }
+    protected abstract Object toNativeArray(ArrayList<String> args);
 
     protected abstract void evalJavaScript(String jsFunction);
 
-    private String createJavascriptFunction(String jsFunction, Object[] args) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(jsFunction);
-        sb.append("(");
-        for (int i = 0; i < args.length; i++) {
-            sb.append('"');
-            sb.append(args[i]);
-            sb.append('"');
-            if (i < args.length - 1) {
-                sb.append(",");
-            }
-        }
-        sb.append(");");
-        return sb.toString();
-    }
 }

@@ -2432,6 +2432,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/** Resets global JavaSrcript to default value */
 	public void resetLibraryJavaScript() {
 		setLibraryJavaScript(defaultLibraryJavaScript);
+		if (app.hasScriptManager()) {
+			app.getScriptManager().clearGlobalObjects();
+		}
 	}
 
 	/**

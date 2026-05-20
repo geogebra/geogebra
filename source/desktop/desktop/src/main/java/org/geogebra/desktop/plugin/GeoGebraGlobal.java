@@ -43,39 +43,23 @@ public class GeoGebraGlobal implements IdFunctionCall {
 		this.loc = app.getLocalization();
 	}
 
-	private static void init(App app, Scriptable scope, boolean sealed) {
+	private static void init(App app, Scriptable scope) {
 		GeoGebraGlobal obj = new GeoGebraGlobal(app);
 
 		for (int id = 1; id <= LAST_SCOPE_FUNCTION_ID; ++id) {
 			String name;
 			int arity = 1;
-			switch (id) {
-			case Id_alert:
-				name = "alert";
-				break;
-			case Id_prompt:
-				name = "prompt";
-				break;
-			case Id_setTimeout:
-				name = "setTimeout";
-				break;
-			case Id_setInterval:
-				name = "setInterval";
-				break;
-			case Id_clearTimeout:
-				name = "clearTimeout";
-				break;
-			case Id_clearInterval:
-				name = "clearInterval";
-				break;
-			default:
-				throw Kit.codeBug();
-			}
+			name = switch (id) {
+				case Id_alert -> "alert";
+				case Id_prompt -> "prompt";
+				case Id_setTimeout -> "setTimeout";
+				case Id_setInterval -> "setInterval";
+				case Id_clearTimeout -> "clearTimeout";
+				case Id_clearInterval -> "clearInterval";
+				default -> throw Kit.codeBug();
+			};
 			IdFunctionObject f = new IdFunctionObject(obj, FTAG, id, name,
 					arity, scope);
-			if (sealed) {
-				f.sealObject();
-			}
 			f.exportAsScopeProperty();
 		}
 	}
@@ -116,22 +100,13 @@ public class GeoGebraGlobal implements IdFunctionCall {
 	/**
 	 * @param app application
 	 * @param scope scope
-	 * @param arg argument
-	 * @param sealed sealed?
 	 */
-	public static void initStandardObjects(App app, Scriptable scope,
-			String arg, boolean sealed) {
+	public static void initStandardObjects(App app, Scriptable scope) {
 		GgbAPI ggbApi = app.getGgbApi();
 		Object wrappedOut = Context.javaToJS(ggbApi, scope);
 		ScriptableObject.putProperty(scope, "ggbApplet", wrappedOut);
-
-		if (arg != null) {
-			Object wrappedArg = Context.javaToJS(arg, scope);
-			ScriptableObject.putProperty(scope, "arg", wrappedArg);
-		}
-
 		// add geogebra methods as top level js methods
-		init(app, scope, sealed);
+		init(app, scope);
 	}
 
 	private static final Object FTAG = "Global";

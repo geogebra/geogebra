@@ -26,6 +26,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -52,6 +53,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.JsObjectWrapper;
 import org.geogebra.common.plugin.ScriptManager;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.share.util.Greek;
 import org.geogebra.editor.share.util.Unicode;
@@ -526,6 +528,15 @@ public class GgbApiTest {
 	private class MockScriptManager extends ScriptManagerJre {
 		public MockScriptManager() {
 			super(GgbApiTest.this.app);
+		}
+
+		@Override
+		protected Object toNativeArray(ArrayList<String> args) {
+			return args.toArray(new Object[0]);
+		}
+
+		protected void callListener(String fn, Object[] args) {
+			evalJavaScript(fn + "(\"" + StringUtil.join("\",\"", args) + "\");");
 		}
 
 		@Override
