@@ -14,7 +14,7 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.web.full.gui.view.spreadsheet;
+package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
 import java.util.Arrays;
 import java.util.List;
