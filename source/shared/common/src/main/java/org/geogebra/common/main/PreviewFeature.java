@@ -42,10 +42,6 @@ public enum PreviewFeature {
 	/** APPS-5641 */
 	IB_EXAM,
 	/**
-	 * APPS-6759
-	 */
-	SETTINGS_VIEW,
-	/**
 	 * APPS-7232
 	 */
 	TEXT_DIALOG;

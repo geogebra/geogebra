@@ -22,9 +22,7 @@ import java.util.List;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.properties.PropertiesRegistry;
-import org.geogebra.common.properties.impl.general.AppFontSizeProperty;
 import org.geogebra.common.properties.impl.general.RoundingIndexProperty;
 import org.geogebra.common.util.NonNullList;
 
@@ -39,15 +37,10 @@ public class ProbabilityPropertiesFactory extends DefaultPropertiesFactory {
 	protected PropertiesArray createGeneralProperties(App app, Localization localization,
 			PropertiesRegistry propertiesRegistry) {
 		return new PropertiesArray("General", localization,
-				PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)
-				? registerProperties(propertiesRegistry, NonNullList.of(
+				registerProperties(propertiesRegistry, NonNullList.of(
 						app.appScope.getLanguageProperty(),
 						new RoundingIndexProperty(app, localization),
 						app.getPlatform().isMobile() ? null : createSaveRestoreSettingsProperties(
-								app, localization)))
-				: registerProperties(propertiesRegistry, List.of(
-						app.appScope.getLanguageProperty(),
-						new AppFontSizeProperty(localization, app.getSettings().getFontSettings(),
-								app.getFontSettingsUpdater()))));
+								app, localization))));
 	}
 }

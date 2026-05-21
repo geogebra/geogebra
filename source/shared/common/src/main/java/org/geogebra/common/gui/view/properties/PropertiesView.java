@@ -19,7 +19,6 @@ package org.geogebra.common.gui.view.properties;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.geogebra.common.gui.dialog.options.OptionsObject;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.View;
@@ -45,7 +44,6 @@ public abstract class PropertiesView implements View {
 	protected final Localization loc;
 	protected OptionType selectedOptionType = OptionType.EUCLIDIAN;
 
-	private OptionsObject objectPanel;
 	protected int selectedTab = 0;
 	final private static HashMap<Integer, OptionType> viewMap = new HashMap<>();
 
@@ -189,49 +187,6 @@ public abstract class PropertiesView implements View {
 	public abstract void attachView();
 
 	/**
-	 * @param type
-	 *            tab type
-	 * @return tab name
-	 */
-	public String getTypeString(OptionType type) {
-		switch (type) {
-		case DEFAULTS:
-			return app.isUnbundledOrWhiteboard()
-					? loc.getMenu("Defaults")
-					: loc.getPlain("PreferencesOfA", loc.getMenu("Defaults"));
-		case SPREADSHEET:
-			return loc.getPlain("PreferencesOfA", loc.getMenu("Spreadsheet"));
-		case EUCLIDIAN:
-			return app.isUnbundledOrWhiteboard()
-					? loc.getMenu("DrawingPad")
-					: loc.getPlain("PreferencesOfA", loc.getMenu("DrawingPad"));
-		case EUCLIDIAN2:
-			return loc.getPlain("PreferencesOfA", loc.getMenu("DrawingPad2"));
-		case EUCLIDIAN_FOR_PLANE:
-			return loc.getPlain("PreferencesOfA", loc.getMenu("ExtraViews"));
-		case EUCLIDIAN3D:
-			return loc.getPlain("PreferencesOfA",
-					loc.getMenu("GraphicsView3D"));
-		case CAS:
-			return loc.getPlain("PreferencesOfA", loc.getMenu("CAS"));
-		case GLOBAL:
-			return app.isUnbundledOrWhiteboard()
-					? loc.getMenu("Advanced")
-					: loc.getPlain("PreferencesOfA", loc.getMenu("Advanced"));
-		case ALGEBRA:
-			return app.isUnbundledOrWhiteboard()
-					? loc.getMenu("Algebra")
-					: loc.getPlain("PreferencesOfA", loc.getMenu("Algebra"));
-		case OBJECTS:
-			return objectPanel == null ? loc.getMenu("Objects") : objectPanel
-					.getSelectionDescription(loc);
-		case LAYOUT:
-			return loc.getPlain("PreferencesOfA", loc.getMenu("Layout"));
-		}
-		return null;
-	}
-
-	/**
 	 * @param loc
 	 *            localization
 	 * @param type
@@ -328,14 +283,7 @@ public abstract class PropertiesView implements View {
 	 *            says if euclidian view is in creator mode (ie not move mode)
 	 */
 	public void mouseReleasedForPropertiesView(boolean creatorMode) {
-
-		GeoElement geo;
-		if (objectPanel == null) {
-			geo = null;
-		} else {
-			geo = objectPanel.consumeGeoAdded();
-		}
-
+		GeoElement geo = getConsumedGeo();
 		if (app.getSelectionManager().selectedGeosSize() > 0) {
 			// selected geo is the most important
 			updatePropertiesViewCheckConstants(
@@ -355,6 +303,10 @@ public abstract class PropertiesView implements View {
 			setOptionPanelRegardingFocus(true);
 			// updatePropertiesView();
 		}
+	}
+
+	protected GeoElement getConsumedGeo() {
+		return null;
 	}
 
 	/**
@@ -506,14 +458,6 @@ public abstract class PropertiesView implements View {
 	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		// TODO
-	}
-
-	protected OptionsObject getObjectPanel() {
-		return objectPanel;
-	}
-
-	protected void setObjectPanel(OptionsObject objectPanel) {
-		this.objectPanel = objectPanel;
 	}
 
 	protected boolean isAttached() {

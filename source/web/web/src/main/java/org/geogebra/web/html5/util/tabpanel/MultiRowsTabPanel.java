@@ -31,10 +31,6 @@ public class MultiRowsTabPanel extends Composite
 	MultiRowsTabBar tabBar;
 	DeckPanel deck = new DeckPanel();
 
-	public MultiRowsTabPanel() {
-		this("propertiesPanel propView_deckPanel");
-	}
-
 	/**
 	 * Create new tab panel.
 	 */

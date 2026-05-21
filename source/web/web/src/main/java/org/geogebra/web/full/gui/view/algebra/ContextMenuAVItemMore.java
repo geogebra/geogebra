@@ -178,11 +178,6 @@ public class ContextMenuAVItemMore implements SetLabels,
 	}
 
 	@Override
-	public void showOldObjectProperties() {
-		mApp.getDialogManager().showPropertiesDialog(new ArrayList<>(List.of(geo)));
-	}
-
-	@Override
 	public void showObjectProperties(@Nonnull PropertyView.TabbedPageSelector tabbedPageSelector) {
 		mApp.getDialogManager().showPropertiesDialog(new ArrayList<>(List.of(geo))); // TODO
 	}

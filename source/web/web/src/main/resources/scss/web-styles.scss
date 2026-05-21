@@ -1622,16 +1622,6 @@
 		PROPERTIES
 	###################################################################*/
 
-	.contentsPanel {
-		overflow-x: hidden;
-		overflow-y: hidden;
-		height: 100%;
-	}
-
-	.contentsPanel > table.gwt-TabPanel {
-		width: 100%;
-	}
-
 	.ggb-MultiRowsTabPanel > * {
 		float: left;
 	}
@@ -1640,11 +1630,6 @@
 
 	.settingsBtn {
 		min-width: 160px;
-	}
-
-	.propView_deckPanel {
-		flex: 1;
-		overflow-x: hidden;
 	}
 
 	.panelTitle {

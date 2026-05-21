@@ -824,9 +824,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		resetAllToolbars();
 
 		resetToolbarPanel();
-
-		getGuiManager().updateGlobalOptions();
-
 		if (isUnbundled() && getGuiManager()
 				.getUnbundledToolbar() != null) {
 			getGuiManager().getUnbundledToolbar()
@@ -2711,7 +2708,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		initSettingsUpdater().resetSettingsOnAppStart();
 		guiManager.updatePropertiesView();
 		guiManager.updatePropertiesViewStylebar();
-		guiManager.updateGlobalOptions();
 	}
 
 	/**

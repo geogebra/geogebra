@@ -82,7 +82,6 @@ import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
-import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
 import org.geogebra.web.full.gui.dialog.template.TemplateChooserController;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
@@ -186,8 +185,6 @@ public class GuiManagerW extends GuiManager
 	private DataAnalysisViewW dataAnalysisView = null;
 	private boolean listeningToLogin = false;
 	private final GeoGebraFrameFull frame;
-
-	private ColorPanel colorPanel;
 
 	private final Localization loc;
 
@@ -1318,7 +1315,6 @@ public class GuiManagerW extends GuiManager
 			mainMenuBar.removeMenus();
 			mainMenuBar.init(getApp());
 		}
-		updateGlobalOptions();
 	}
 
 	@Override
@@ -1327,15 +1323,6 @@ public class GuiManagerW extends GuiManager
 				&& mainMenuBar.getMenubar().smallScreen != frame.shouldHaveSmallScreenLayout()) {
 			mainMenuBar.removeMenus();
 			mainMenuBar.init(getApp());
-			updateGlobalOptions();
-		}
-	}
-
-	@Override
-	public void updateGlobalOptions() {
-		if (propertiesView != null) {
-			((PropertiesViewW) this.getPropertiesView())
-					.getOptionPanel(OptionType.GLOBAL, 0).updateGUI();
 		}
 	}
 
@@ -2010,14 +1997,6 @@ public class GuiManagerW extends GuiManager
 			getAlgebraInput().setText(string);
 			getAlgebraInput().getTextField().setFocus(true);
 		}
-	}
-
-	public void setColorTab(ColorPanel colorPanel) {
-		this.colorPanel = colorPanel;
-	}
-
-	public ColorPanel getColorPanel() {
-		return colorPanel;
 	}
 
 	/**

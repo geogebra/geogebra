@@ -752,7 +752,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		if (btnBgColor.getSelectedIndex() >= 0) {
 			GColor color = btnBgColor.getSelectedColor();
 			if (color == null) {
-				openColorChooser(true);
+				openColorChooser(true, targetGeos);
 				return false;
 			}
 			double alpha = btnBgColor.getSliderValue() / 100.0;
@@ -802,7 +802,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		if (btnTextColor.getSelectedIndex() >= 0) {
 			GColor color = btnTextColor.getSelectedColor();
 			if (color == null) {
-				openColorChooser(false);
+				openColorChooser(false, targetGeos);
 				return false;
 			}
 			return applyColor(targetGeos, color, 1);

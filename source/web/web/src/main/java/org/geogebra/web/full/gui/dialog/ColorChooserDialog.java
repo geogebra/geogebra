@@ -69,8 +69,6 @@ public class ColorChooserDialog extends ComponentDialog {
 	private void buildGUI() {
 		final Dimension colorIconSizeW = new Dimension(20, 20);
 		colorChooserW = new ColorChooserW(app, 400, 210, colorIconSizeW, 4);
-		colorChooserW.enableOpacity(false);
-		colorChooserW.enableBackgroundColorPanel(false);
 		colorChooserW.onCustomColor(originalColor);
 		setSelectedColor(originalColor);
 		setDialogContent(colorChooserW);
@@ -78,38 +76,7 @@ public class ColorChooserDialog extends ComponentDialog {
 
 	private void setHandlers() {
 		setOnPositiveAction(() -> handler.onColorChange(getSelectedColor()));
-		colorChooserW.addChangeHandler(new ColorChangeHandler() {
-			@Override
-			public void onForegroundSelected() {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void onColorChange(GColor color) {
-				setSelectedColor(color);
-			}
-
-			@Override
-			public void onClearBackground() {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void onBackgroundSelected() {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void onAlphaChange() {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void onBarSelected() {
-				// TODO Auto-generated method stub
-			}
-		});
-
+		colorChooserW.addChangeHandler(this::setSelectedColor);
 	}
 
 	public GColor getSelectedColor() {

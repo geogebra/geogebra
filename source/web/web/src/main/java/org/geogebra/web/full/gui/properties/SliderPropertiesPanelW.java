@@ -19,8 +19,10 @@ package org.geogebra.web.full.gui.properties;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.AnimationStepModel;
+import org.geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import org.geogebra.common.gui.dialog.options.model.SliderModel;
 import org.geogebra.common.gui.dialog.options.model.SliderModel.ISliderOptionsListener;
+import org.geogebra.common.gui.dialog.options.model.TextPropertyModel;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -30,14 +32,15 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.CheckboxPanel;
-import org.geogebra.web.full.gui.dialog.options.OptionsTab;
 import org.geogebra.web.full.gui.dialog.options.model.ExtendedAVModel;
+import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
@@ -76,7 +79,7 @@ public class SliderPropertiesPanelW extends OptionPanel implements ISliderOption
 	private ComponentCheckbox cbRandom;
 	private ListBox lbSliderHorizontal;
 
-	private OptionsTab.TextPropertyPanel stepPanel;
+	private TextPropertyPanel stepPanel;
 	private AnimationSpeedPanelW speedPanel;
 	private Kernel kernel;
 	private FlowPanel intervalPanel;
@@ -88,6 +91,56 @@ public class SliderPropertiesPanelW extends OptionPanel implements ISliderOption
 
 	private CheckboxPanel avPanel;
 	private Localization loc;
+
+	public static class TextPropertyPanel extends OptionPanel implements
+			ITextFieldListener {
+
+		private final LocalizationW loc;
+		private final boolean inline;
+		TextPropertyModel model;
+		private final InputPanelW inputPanel;
+		AutoCompleteTextFieldW textField;
+		Label label;
+
+		/**
+		 * @param model0 model
+		 * @param app application
+		 * @param inline whether label and input are on single line
+		 */
+		public TextPropertyPanel(TextPropertyModel model0, AppW app, boolean inline) {
+			model = model0;
+			model.setListener(this);
+			this.inline = inline;
+			this.loc = app.getLocalization();
+			setModel(model);
+
+			FlowPanel mainPanel = new FlowPanel();
+			label = new Label();
+			inputPanel = new InputPanelW(null, app, false);
+			textField = inputPanel.getTextComponent();
+			textField.setAutoComplete(false);
+			textField.addEnterPressHandler(() -> model.applyChanges(textField.getText()));
+			if (inline) {
+				mainPanel.add(LayoutUtilW.panelRow(label, inputPanel));
+			} else {
+				mainPanel.add(label);
+				mainPanel.add(inputPanel);
+			}
+			mainPanel.setStyleName(inline ? "optionsPanel" : "optionsInput");
+			setWidget(mainPanel);
+		}
+
+		@Override
+		public void setText(String text) {
+			textField.setText(text);
+		}
+
+		@Override
+		public void setLabels() {
+			label.setText(loc.getMenu(model.getTitle()) + (inline ? ":" : ""));
+		}
+
+	}
 
 	/**
 	 * @param app
@@ -195,7 +248,7 @@ public class SliderPropertiesPanelW extends OptionPanel implements ISliderOption
 
 		// add increment to intervalPanel
 		AnimationStepModel animationModel = new AnimationStepModel(app);
-		stepPanel = new OptionsTab.TextPropertyPanel(animationModel, app, false);
+		stepPanel = new TextPropertyPanel(animationModel, app, false);
 		animationModel.setPartOfSlider(true);
 		stepPanel.getWidget().getElement().setClassName("inlineOption");
 		intervalPanel.add(stepPanel.getWidget());
@@ -276,38 +329,9 @@ public class SliderPropertiesPanelW extends OptionPanel implements ISliderOption
 	}
 
 	protected ColorChangeHandler getBlobColorHandler() {
-		return new ColorChangeHandler() {
-
-			@Override
-			public void onForegroundSelected() {
-				// do nothing
-			}
-
-			@Override
-			public void onColorChange(GColor color) {
-				getModel().applyBlobColor(color);
-				updateBlobOrLineColorButton(color, true);
-			}
-
-			@Override
-			public void onClearBackground() {
-				// do nothing
-			}
-
-			@Override
-			public void onBackgroundSelected() {
-				// do nothing
-			}
-
-			@Override
-			public void onAlphaChange() {
-				// do nothing
-			}
-
-			@Override
-			public void onBarSelected() {
-				// do nothing
-			}
+		return color -> {
+			getModel().applyBlobColor(color);
+			updateBlobOrLineColorButton(color, true);
 		};
 	}
 
@@ -333,38 +357,9 @@ public class SliderPropertiesPanelW extends OptionPanel implements ISliderOption
 	}
 
 	protected ColorChangeHandler getLineColorHandler() {
-		return new ColorChangeHandler() {
-
-			@Override
-			public void onForegroundSelected() {
-				// do nothing
-			}
-
-			@Override
-			public void onColorChange(GColor color) {
-				getModel().applyLineColor(color);
-				updateBlobOrLineColorButton(getColorWithOpacity(color), false);
-			}
-
-			@Override
-			public void onClearBackground() {
-				// do nothing
-			}
-
-			@Override
-			public void onBackgroundSelected() {
-				// do nothing
-			}
-
-			@Override
-			public void onAlphaChange() {
-				// do nothing
-			}
-
-			@Override
-			public void onBarSelected() {
-				// do nothing
-			}
+		return color -> {
+			getModel().applyLineColor(color);
+			updateBlobOrLineColorButton(getColorWithOpacity(color), false);
 		};
 	}
 

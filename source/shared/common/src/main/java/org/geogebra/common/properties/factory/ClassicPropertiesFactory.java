@@ -42,21 +42,21 @@ public class ClassicPropertiesFactory extends DefaultPropertiesFactory {
 		return NonNullList.of(
 				createGeneralProperties(app, localization, propertiesRegistry),
 				createAlgebraProperties(app, localization, propertiesRegistry),
-				createStructuredGraphicsProperties(app, localization, propertiesRegistry),
-				createStructuredGraphics2Properties(app, localization, propertiesRegistry),
-				createStructuredGraphics3DProperties(app, localization, propertiesRegistry),
+				createGraphicsProperties(app, localization, propertiesRegistry),
+				createGraphics2Properties(app, localization, propertiesRegistry),
+				createGraphics3DProperties(app, localization, propertiesRegistry),
 				createSpreadsheetProperties(localization, app),
 				createCASProperties(localization, app));
 	}
 
 	@Override
-	protected PropertiesArray createStructuredGraphicsProperties(App app, Localization localization,
+	protected PropertiesArray createGraphicsProperties(App app, Localization localization,
 			PropertiesRegistry propertiesRegistry) {
 		if (!app.getGuiManager().showView(App.VIEW_EUCLIDIAN)) {
 			return null;
 		}
 
-		return super.createStructuredGraphicsProperties(app, localization, propertiesRegistry);
+		return super.createGraphicsProperties(app, localization, propertiesRegistry);
 	}
 
 	@Override
@@ -70,23 +70,23 @@ public class ClassicPropertiesFactory extends DefaultPropertiesFactory {
 	}
 
 	@Override
-	protected PropertiesArray createStructuredGraphics2Properties(App app,
+	protected PropertiesArray createGraphics2Properties(App app,
 			Localization localization, PropertiesRegistry propertiesRegistry) {
 		if (!app.getGuiManager().showView(App.VIEW_EUCLIDIAN2)) {
 			return null;
 		}
 
-		return super.createStructuredGraphics2Properties(app, localization, propertiesRegistry);
+		return super.createGraphics2Properties(app, localization, propertiesRegistry);
 	}
 
 	@Override
-	protected PropertiesArray createStructuredGraphics3DProperties(App app,
+	protected PropertiesArray createGraphics3DProperties(App app,
 			Localization localization, PropertiesRegistry propertiesRegistry) {
 		if (!app.getGuiManager().showView(App.VIEW_EUCLIDIAN3D)) {
 			return null;
 
 		}
-		return super.createStructuredGraphics3DProperties(app, localization, propertiesRegistry);
+		return super.createGraphics3DProperties(app, localization, propertiesRegistry);
 	}
 
 	private PropertiesArray createSpreadsheetProperties(Localization localization, App app) {

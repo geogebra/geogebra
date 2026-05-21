@@ -16,7 +16,8 @@
 
 package org.geogebra.web.full.gui.toolbar.mow.popupcomponents;
 
-import static org.geogebra.common.properties.PropertyView.*;
+import static org.geogebra.common.properties.PropertyView.ColorSelectorRow;
+import static org.geogebra.common.properties.PropertyView.ConfigurationUpdateDelegate;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +26,6 @@ import java.util.function.Consumer;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -157,37 +157,7 @@ public class ColorChooserPanel extends FlowPanel implements SetLabels,
 		Dom.addEventListener(customColorButton.getElement(), "click", (event) -> {
 				if (!isDisabled()) {
 					((DialogManagerW) appW.getDialogManager()).showColorChooserDialog(activeColor,
-							new ColorChangeHandler() {
-								@Override
-								public void onColorChange(GColor color) {
-									updateColor(null, color);
-								}
-
-								@Override
-								public void onAlphaChange() {
-									// nothing to do here
-								}
-
-								@Override
-								public void onClearBackground() {
-									// nothing to do here
-								}
-
-								@Override
-								public void onForegroundSelected() {
-									// nothing to do here
-								}
-
-								@Override
-								public void onBackgroundSelected() {
-									// nothing to do here
-								}
-
-								@Override
-								public void onBarSelected() {
-									// nothing to do here
-								}
-							});
+							color -> updateColor(null, color));
 				}
 		});
 

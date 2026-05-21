@@ -16,11 +16,9 @@
 
 package org.geogebra.web.full.gui;
 
-import static org.geogebra.common.properties.PropertyView.*;
+import static org.geogebra.common.properties.PropertyView.SingleSelectionIconRow;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.impl.graphics.GridStyleIconProperty;
@@ -147,38 +145,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	protected void openColorChooser() {
 		((DialogManagerW) app.getDialogManager()).showColorChooserDialog(
 				app.getSettings().getEuclidian(1).getBackground(),
-				new ColorChangeHandler() {
-
-					@Override
-					public void onForegroundSelected() {
-						// do nothing
-					}
-
-					@Override
-					public void onColorChange(GColor color) {
-						// change graphics background color
-						app.getSettings().getEuclidian(1).setBackground(color);
-					}
-
-					@Override
-					public void onClearBackground() {
-						// do nothing
-					}
-
-					@Override
-					public void onBarSelected() {
-						// do nothing
-					}
-
-					@Override
-					public void onBackgroundSelected() {
-						// do nothing
-					}
-
-					@Override
-					public void onAlphaChange() {
-						// do nothing
-					}
+				color -> {
+					// change graphics background color
+					app.getSettings().getEuclidian(1).setBackground(color);
 				});
 	}
 

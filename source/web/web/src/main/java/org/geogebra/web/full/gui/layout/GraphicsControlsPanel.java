@@ -19,10 +19,7 @@ package org.geogebra.web.full.gui.layout;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.ContextMenuGraphicsWindowW;
-import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
@@ -30,7 +27,6 @@ import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.user.client.ui.FlowPanel;
 
 public class GraphicsControlsPanel extends FlowPanel implements DockControlPanel {
-	private static final int GEAR_CONTEXT_MENU_MARGIN = 16;
 	private final AppW app;
 	StandardButton graphicsContextMenuBtn;
 
@@ -62,7 +58,7 @@ public class GraphicsControlsPanel extends FlowPanel implements DockControlPanel
 
 		graphicsContextMenuBtn.addFastClickHandler(source -> {
 			app.getAccessibilityManager().setAnchor(focusableWidget);
-			onGraphicsSettingsPressed(parent);
+			onGraphicsSettingsPressed();
 		});
 
 		graphicsContextMenuBtn.addStyleName("flatButton");
@@ -75,27 +71,9 @@ public class GraphicsControlsPanel extends FlowPanel implements DockControlPanel
 	}
 
 	/** Graphics Settings button handler */
-	private void onGraphicsSettingsPressed(DockPanelW parent) {
+	private void onGraphicsSettingsPressed() {
 		app.closeMenuHideKeyboard();
-		if (PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)) {
-			app.getDialogManager().showPropertiesDialog(OptionType.GLOBAL, null);
-		} else {
-			final ContextMenuGraphicsWindowW contextMenu = parent.getGraphicsWindowContextMenu();
-
-			final GPopupPanel popup = contextMenu.getWrappedPopup().getPopupPanel();
-			popup.setPopupPositionAndShow((offsetWidth, offsetHeight) -> {
-				popup.setPopupPosition(
-						(int) app.getWidth() - offsetWidth - GEAR_CONTEXT_MENU_MARGIN,
-						GEAR_CONTEXT_MENU_MARGIN);
-				contextMenu.getWrappedPopup().getPopupMenu().focusDeferred();
-			});
-
-			popup.addCloseHandler(event -> {
-				if (event.isAutoClosed()) {
-					app.getEuclidianView1().getEuclidianController().setPopupJustClosed(true);
-				}
-			});
-		}
+		app.getDialogManager().showPropertiesDialog(OptionType.GLOBAL, null);
 	}
 
 	@Override

@@ -32,15 +32,10 @@ import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.awt.GFontW;
 import org.geogebra.web.awt.JLMContext2D;
 import org.geogebra.web.awt.JLMContextHelper;
-import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
-import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.gui.dialog.CustomColorDialog;
 import org.geogebra.web.full.gui.dialog.CustomColorDialog.ICustomColor;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.gui.util.Dom;
-import org.geogebra.web.html5.gui.util.Slider;
-import org.geogebra.web.html5.gui.util.SliderInputHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.canvas.client.Canvas;
@@ -79,14 +74,8 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	private GColor selectedColor;
 	ColorChangeHandler changeHandler;
 	PreviewPanel previewPanel;
-	private final OpacityPanel opacityPanel;
-	private final BackgroundColorPanel backgroundColorPanel;
 	private final StandardButton btnCustomColor;
 	App app;
-	BarList lbBars;
-	private int selectedBar;
-	private int chartBars;
-	private GColor allBarsColor;
 
 	private class ColorTable {
 		private final int left;
@@ -415,7 +404,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 			previewCtx.setFillStyle(htmlColor);
 
-			previewCtx.globalAlpha = getAlphaValue();
+			previewCtx.globalAlpha = 1;
 			previewCtx.fillRect(0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
 
 			previewCtx.setStrokeStyle(htmlColor);
@@ -429,82 +418,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			titleLabel.setText(previewTitle);
 		}
 
-	}
-
-	private final class OpacityPanel extends FlowPanel implements SliderInputHandler {
-		private final Label title;
-		private final Slider slider;
-
-		private OpacityPanel() {
-			title = new Label();
-			add(title);
-
-			FlowPanel sp = new FlowPanel();
-			sp.setStyleName("colorSlider");
-			Label minLabel = new Label("0");
-			sp.add(minLabel);
-
-			slider = new Slider(0, 100);
-			slider.setTickSpacing(1);
-
-			sp.add(slider);
-			Label maxLabel = new Label("100");
-			sp.add(maxLabel);
-			add(sp);
-			slider.addInputHandler(this);
-		}
-
-		@Override
-		public void onSliderInput() {
-			if (changeHandler != null) {
-				changeHandler.onAlphaChange();
-			}
-			previewPanel.update();
-		}
-
-		double getAlphaValue() {
-			return isVisible() ? slider.getValue() / 100.0 : 1.0;
-		}
-
-		void setLabels(String opacity) {
-			title.setText(opacity);
-		}
-
-		void setAlphaValue(double alpha) {
-			slider.setValue((int) (alpha * 100));
-		}
-	}
-
-	private final class BackgroundColorPanel extends FlowPanel {
-		RadioButtonPanel<Boolean> colorRadioBtnPanel;
-		StandardButton btnClearBackground;
-
-		private BackgroundColorPanel() {
-			setStyleName("BackgroundColorPanel");
-			colorRadioBtnPanel = new RadioButtonPanel<>(app.getLocalization(),
-					Arrays.asList(new RadioButtonData<>("ForegroundColor", false),
-							new RadioButtonData<>("BackgroundColor", true)),
-					false, this::setBackground);
-
-			btnClearBackground = new StandardButton(MaterialDesignResources.INSTANCE
-					.delete_black(), 24);
-			btnClearBackground.setStyleName("clearBackgroundButton");
-
-			add(colorRadioBtnPanel);
-			add(btnClearBackground);
-
-			btnClearBackground.setVisible(false);
-			btnClearBackground.addFastClickHandler(event -> changeHandler.onClearBackground());
-		}
-
-		void setBackground(boolean background) {
-			if (background) {
-				changeHandler.onBackgroundSelected();
-			} else {
-				changeHandler.onForegroundSelected();
-			}
-			btnClearBackground.setVisible(background);
-		}
 	}
 
 	/**
@@ -522,8 +435,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	public ColorChooserW(final App app, int width, int height,
 			Dimension colorIconSize, int padding) {
 		this.app = app;
-		lbBars = new BarList(app);
-		lbBars.setVisible(false);
 
 		canvas = Canvas.createIfSupported();
 		canvas.setSize(width + "px", height + "px");
@@ -572,10 +483,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		previewPanel = new PreviewPanel();
 		previewPanel.setStyleName("optionsPanel");
 
-		opacityPanel = new OpacityPanel();
-		opacityPanel.setStyleName("optionsPanel");
-
-		backgroundColorPanel = new BackgroundColorPanel();
 		tables = Arrays.asList(leftTable, mainTable, recentTable, otherTable);
 
 		setLabels();
@@ -589,9 +496,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		add(canvas);
 		add(sp);
 		add(previewPanel);
-		add(opacityPanel);
-		add(backgroundColorPanel);
-		add(lbBars);
 
 		canvas.addClickHandler(event -> {
 			for (ColorTable table : tables) {
@@ -609,15 +513,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			int my = event.getRelativeY(canvas.getElement());
 			for (ColorTable table : tables) {
 				table.setFocus(mx, my);
-			}
-		});
-
-		lbBars.addChangeHandler(event -> {
-			int idx = lbBars.getSelectedIndex();
-			setSelectedBar(idx);
-
-			if (changeHandler != null) {
-				changeHandler.onBarSelected();
 			}
 		});
 	}
@@ -671,19 +566,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	 */
 	public void update() {
 		updateTables();
-		lbBars.update(isBarChart());
-		setSelectedBar(lbBars.getSelectedIndex());
 		previewPanel.update();
-	}
-
-	/**
-	 * @param background
-	 *            whether tho use this for background color
-	 */
-	public void setBackground(boolean background) {
-		if (this.backgroundColorPanel != null) {
-			backgroundColorPanel.setBackground(background);
-		}
 	}
 
 	@Override
@@ -711,8 +594,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		recentTable.setTitle(loc.getMenu("RecentColor"), 0, 0);
 		otherTable.setTitle(loc.getMenu("Other"), 0, 0);
 		previewPanel.setLabels(loc.getMenu("Preview"));
-		opacityPanel.setLabels(loc.getMenu("Opacity"));
-		backgroundColorPanel.colorRadioBtnPanel.setLabels();
 		update();
 	}
 
@@ -722,55 +603,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	 */
 	public void addChangeHandler(ColorChangeHandler handler) {
 		this.changeHandler = handler;
-	}
-
-	/**
-	 * @return alpha value
-	 */
-	public double getAlphaValue() {
-		return opacityPanel.getAlphaValue();
-	}
-
-	/**
-	 * @param alpha
-	 *            alpha value
-	 */
-	public void setAlphaValue(double alpha) {
-		opacityPanel.setAlphaValue(alpha);
-	}
-
-	/**
-	 * @param enabled
-	 *            whether to enable color panel
-	 */
-	public void enableColorPanel(boolean enabled) {
-		canvas.setVisible(enabled);
-		previewPanel.setVisible(enabled);
-		btnCustomColor.setVisible(enabled);
-	}
-
-	/**
-	 * Enable or disable opacity
-	 * @param enabled whether to enable it
-	 */
-	public void enableOpacity(boolean enabled) {
-		opacityPanel.setVisible(enabled);
-	}
-
-	/**
-	 * @param enable
-	 *            whether to enable background color panel
-	 */
-	public void enableBackgroundColorPanel(boolean enable) {
-		backgroundColorPanel.setVisible(enable);
-	}
-
-	/**
-	 * @return whether background checkbox is checked (and visible)
-	 */
-	public boolean isBackgroundColorSelected() {
-		return backgroundColorPanel.isVisible()
-				&& backgroundColorPanel.colorRadioBtnPanel.getValue();
 	}
 
 	/**
@@ -791,48 +623,4 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		colorChanged(otherTable, color);
 	}
 
-	/**
-	 * adds a clickhandler to the color-preview, to open the
-	 * {@link CustomColorDialog}
-	 */
-	public void setColorPreviewClickable() {
-		this.previewPanel.previewCanvas.addClickHandler(event -> showCustomColorDialog());
-	}
-
-	/**
-	 * @return whether this is for a barchart
-	 */
-	public boolean isBarChart() {
-		return chartBars > 0;
-	}
-
-	/**
-	 * @param chartBars
-	 *            number of bars/slices in a chart
-	 */
-	public void setChartAlgo(int chartBars, Object[] geos) {
-		this.chartBars = chartBars;
-		lbBars.updateTranslationKeys(geos);
-		lbBars.setBarCount(chartBars);
-	}
-
-	public int getBarCount() {
-		return lbBars.getBarCount();
-	}
-
-	public int getSelectedBar() {
-		return selectedBar;
-	}
-
-	public void setSelectedBar(int selectedBar) {
-		this.selectedBar = selectedBar;
-	}
-
-	public GColor getAllBarsColor() {
-		return allBarsColor;
-	}
-
-	public void setAllBarsColor(GColor allBarsColor) {
-		this.allBarsColor = allBarsColor;
-	}
 }

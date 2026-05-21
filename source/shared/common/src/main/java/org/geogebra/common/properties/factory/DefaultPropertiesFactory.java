@@ -29,7 +29,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.main.settings.Settings;
@@ -64,15 +63,11 @@ import org.geogebra.common.properties.impl.graphics.AxisTickProperty;
 import org.geogebra.common.properties.impl.graphics.AxisUnitPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxisVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.Dimension2DPropertiesCollection;
-import org.geogebra.common.properties.impl.graphics.DistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GraphicsActionsPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GridStyleIconProperty;
-import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
 import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
-import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
-import org.geogebra.common.properties.impl.graphics.PointCapturingProperty;
 import org.geogebra.common.properties.impl.graphics.ProjectionPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.RulingGridBoldProperty;
 import org.geogebra.common.properties.impl.graphics.RulingGridColorProperty;
@@ -91,9 +86,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 		return Arrays.asList(
 				createGeneralProperties(app, localization, propertiesRegistry),
 				createAlgebraProperties(app, localization, propertiesRegistry),
-				PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)
-						? createStructuredGraphicsProperties(app, localization, propertiesRegistry)
-						: createGraphicsProperties(app, localization, propertiesRegistry));
+				createGraphicsProperties(app, localization, propertiesRegistry));
 	}
 
 	/**
@@ -108,8 +101,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 		Kernel kernel = app.getKernel();
 		Settings settings = app.getSettings();
 		return new PropertiesArray("General", localization,
-				PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)
-				? registerProperties(propertiesRegistry, NonNullList.of(
+				registerProperties(propertiesRegistry, NonNullList.of(
 						app.appScope.getLanguageProperty(),
 						new RoundingIndexProperty(app, localization),
 						new CoordinatesProperty(kernel, localization),
@@ -117,14 +109,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 						new AppFontSizeProperty(localization, settings.getFontSettings(),
 								app.getFontSettingsUpdater()),
 						app.getPlatform().isMobile() ? null : createSaveRestoreSettingsProperties(
-								app, localization)))
-				: registerProperties(propertiesRegistry, List.of(
-						app.appScope.getLanguageProperty(),
-						new RoundingIndexProperty(app, localization),
-						new CoordinatesProperty(kernel, localization),
-						new AngleUnitProperty(kernel, localization),
-						new AppFontSizeProperty(localization, settings.getFontSettings(),
-								app.getFontSettingsUpdater()))));
+								app, localization))));
 	}
 
 	/**
@@ -141,30 +126,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 						new ShowAuxiliaryProperty(app, localization)));
 	}
 
-	/**
-	 * Creates graphics-specific properties.
-	 * @param app properties for app
-	 * @param localization localization for properties
-	 * @return an array of graphics-specific properties
-	 */
 	protected PropertiesArray createGraphicsProperties(App app, Localization localization,
-			PropertiesRegistry propertiesRegistry) {
-		EuclidianView activeView = app.getActiveEuclidianView();
-		EuclidianSettings euclidianSettings = activeView.getSettings();
-		return new PropertiesArray("DrawingPad", localization,
-				registerProperties(propertiesRegistry,
-						new GraphicsActionsPropertyCollection(app, localization, activeView),
-						new AxesVisibilityProperty(localization, euclidianSettings),
-						new GridVisibilityProperty(localization, euclidianSettings),
-						new GridStyleProperty(localization, euclidianSettings),
-						new PointCapturingProperty(localization, activeView),
-						new DistancePropertyCollection(app, localization, euclidianSettings,
-								activeView),
-						new LabelsPropertyCollection(localization, euclidianSettings))
-		);
-	}
-
-	protected PropertiesArray createStructuredGraphicsProperties(App app, Localization localization,
 			PropertiesRegistry propertiesRegistry) {
 		EuclidianView view1 = app.getEuclidianView1();
 		EuclidianSettings euclidianSettings = view1.getSettings();
@@ -197,7 +159,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 								euclidianSettings, view1))));
 	}
 
-	protected PropertiesArray createStructuredGraphics2Properties(App app,
+	protected PropertiesArray createGraphics2Properties(App app,
 			Localization localization, PropertiesRegistry propertiesRegistry) {
 		EuclidianView activeView = app.getEuclidianView2(1);
 		EuclidianSettings euclidianSettings = activeView.getSettings();
@@ -229,7 +191,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 								euclidianSettings, activeView)));
 	}
 
-	protected PropertiesArray createStructuredGraphics3DProperties(App app,
+	protected PropertiesArray createGraphics3DProperties(App app,
 			Localization localization, PropertiesRegistry propertiesRegistry) {
 		EuclidianSettings euclidianSettings = app.getSettings().getEuclidian(-1);
 		EuclidianViewInterfaceCommon view = app.getEuclidianView3D();

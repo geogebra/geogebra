@@ -110,7 +110,7 @@ public class PropertyViewFactory {
 		boolean jsEnabled = !app.getPlatform().isMobile()
 				&& app.getEventDispatcher().availableTypes().contains(ScriptType.JAVASCRIPT);
 		List<PropertiesArray> propertiesArrayList = suiteScope.geoElementPropertiesFactory
-				.createStructuredProperties(app.getKernel().getAlgebraProcessor(),
+				.createProperties(app.getKernel().getAlgebraProcessor(),
 						app.getLocalization(), app.getImageManager(), jsEnabled, geoElements);
 		propertiesArrayList.forEach(propertiesArray -> PropertyArrayValueObserving.addObserver(
 				propertiesArray, new UndoSavingPropertyObserver(app.getUndoManager())));

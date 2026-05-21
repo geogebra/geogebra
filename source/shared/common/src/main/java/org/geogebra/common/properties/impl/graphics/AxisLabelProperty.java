@@ -27,7 +27,6 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
@@ -94,18 +93,5 @@ public class AxisLabelProperty extends AbstractValuedProperty<String>
 	@Override
 	public @CheckForNull String validateValue(String value) {
 		return null;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		if (PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)) {
-			return true;
-		}
-		String[] labels = euclidianSettings.getAxesLabels();
-		boolean enabled = false;
-		for (int i = 0; i < euclidianSettings.getDimension(); i++) {
-			enabled |= labels[i] != null;
-		}
-		return enabled;
 	}
 }

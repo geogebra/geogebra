@@ -301,7 +301,7 @@ public final class GeoElementPropertiesFactory {
 	 * @param elements selected elements
 	 * @return properties organized in tabs
 	 */
-	public List<PropertiesArray> createStructuredProperties(
+	public List<PropertiesArray> createProperties(
 			AlgebraProcessor processor, Localization localization,
 			ImageManager imageManager, boolean jsEnabled, List<GeoElement> elements) {
 		return Stream.of(

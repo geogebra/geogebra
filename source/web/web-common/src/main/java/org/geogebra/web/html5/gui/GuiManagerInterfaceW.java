@@ -292,11 +292,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	void clearAbsolutePanels();
 
 	/**
-	 * Update global tab of properties if exists
-	 */
-	void updateGlobalOptions();
-
-	/**
 	 * @param fallback fallback value
 	 * @return whether the root panel is split vertically
 	 */

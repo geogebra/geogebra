@@ -30,7 +30,6 @@ import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.properties.PropertyView;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +42,6 @@ class AlgebraContextMenuActionHandlerTests extends BaseAppTestSetup
 	private boolean showTableValueCreatingDialogCalled = false;
 	private int scrolledToColumnIndex = -1;
 	private boolean showObjectPropertiesCalled = false;
-	private boolean showOldObjectPropertiesCalled = false;
 
 	@BeforeEach
 	void setup() {
@@ -120,25 +118,12 @@ class AlgebraContextMenuActionHandlerTests extends BaseAppTestSetup
 	}
 
 	@Test
-	void testSettingsShowsOldObjectPropertiesWithPreviewFeaturesDisabled() {
+	void testSettingsShowsObjectProperties() {
 		GeoElement geoElement = evaluateGeoElement("A = (1, 2)");
 		AlgebraContextMenuActionHandler handler = new AlgebraContextMenuActionHandler(getApp(),
 				new TableValuesView(getKernel()), geoElement, this);
 		handler.handleSelectedItem(AlgebraContextMenuItem.Settings);
-		assertTrue(showOldObjectPropertiesCalled);
-		assertFalse(showObjectPropertiesCalled);
-	}
-
-	@Test
-	void testSettingsShowsNewObjectPropertiesWithPreviewFeaturesEnabled() {
-		PreviewFeature.setPreviewFeaturesEnabled(true);
-		GeoElement geoElement = evaluateGeoElement("A = (1, 2)");
-		AlgebraContextMenuActionHandler handler = new AlgebraContextMenuActionHandler(
-				getApp(), new TableValuesView(getKernel()), geoElement, this);
-		handler.handleSelectedItem(AlgebraContextMenuItem.Settings);
-		assertFalse(showOldObjectPropertiesCalled);
 		assertTrue(showObjectPropertiesCalled);
-		PreviewFeature.setPreviewFeaturesEnabled(false);
 	}
 
 	@Test
@@ -187,11 +172,6 @@ class AlgebraContextMenuActionHandlerTests extends BaseAppTestSetup
 	@Override
 	public void addFormulaToAlgebraView(@Nonnull String formula) {
 		// not needed for tests
-	}
-
-	@Override
-	public void showOldObjectProperties() {
-		showOldObjectPropertiesCalled = true;
 	}
 
 	@Override

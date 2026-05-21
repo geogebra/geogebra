@@ -18,15 +18,12 @@ package org.geogebra.web.geogebra3D.web.gui;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.main.OptionType;
 import org.geogebra.web.full.gui.ContextMenuGeoElementW;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
-import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.gui.layout.panels.EuclidianDockPanel3DW;
-import org.geogebra.web.geogebra3D.web.gui.view.properties.PropertiesView3DW;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.Command;
 
@@ -124,11 +121,6 @@ public class GuiManager3DW extends GuiManagerW {
 			getApp().storeUndoInfo();
 			getApp().updateMenubar();
 		};
-	}
-
-	@Override
-	protected PropertiesViewW newPropertiesViewW(AppW app1, OptionType optionType) {
-		return new PropertiesView3DW(app1, optionType);
 	}
 
 }

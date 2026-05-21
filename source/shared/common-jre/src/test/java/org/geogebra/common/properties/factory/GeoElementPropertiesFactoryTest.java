@@ -74,11 +74,11 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPointStructured() {
+	public void testPointProperties() {
 		GeoPoint zeroPoint = evaluateGeoElement("(0,0)");
 		GeoPoint onePoint = evaluateGeoElement("(1,1)");
 		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
-				.createStructuredProperties(getKernel().getAlgebraProcessor(),
+				.createProperties(getKernel().getAlgebraProcessor(),
 						getApp().getLocalization(), getApp().getImageManager(), true,
 						List.of(zeroPoint, onePoint));
 		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
@@ -88,10 +88,10 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testAngleStructured() {
+	public void testAngleProperties() {
 		GeoAngle angle = evaluateGeoElement("Angle[(0,1), (0,0), (1,0)]");
 		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
-				.createStructuredProperties(getKernel().getAlgebraProcessor(),
+				.createProperties(getKernel().getAlgebraProcessor(),
 						getApp().getLocalization(), getApp().getImageManager(), true,
 						List.of(angle));
 		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
@@ -101,10 +101,10 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testNumberStructured() {
+	public void testNumberProperties() {
 		GeoNumeric number = evaluateGeoElement("a=1.5");
 		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
-				.createStructuredProperties(getKernel().getAlgebraProcessor(),
+				.createProperties(getKernel().getAlgebraProcessor(),
 						getApp().getLocalization(), getApp().getImageManager(), true,
 						List.of(number));
 		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
@@ -118,7 +118,7 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 		GeoNumeric numeric1 = evaluateGeoElement("a = 5");
 		GeoNumeric numeric2 = evaluateGeoElement("a = 10");
 		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
-				.createStructuredProperties(getKernel().getAlgebraProcessor(),
+				.createProperties(getKernel().getAlgebraProcessor(),
 						getApp().getLocalization(), getApp().getImageManager(), true,
 						List.of(numeric1, numeric2));
 		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())

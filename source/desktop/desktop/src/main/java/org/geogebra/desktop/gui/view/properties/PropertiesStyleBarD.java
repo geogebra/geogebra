@@ -48,7 +48,7 @@ import org.geogebra.desktop.main.AppD;
 public class PropertiesStyleBarD {
 	protected static final String downTriangle = "  \u25BE  ";
 	private static final int MARGIN_Y = 5;
-	PropertiesView propertiesView;
+	PropertiesViewD propertiesView;
 	protected AppD app;
 
 	protected PopupMenuButtonD btnOption;
@@ -65,7 +65,7 @@ public class PropertiesStyleBarD {
 	 * @param propertiesView properties view
 	 * @param app app
 	 */
-	public PropertiesStyleBarD(PropertiesView propertiesView, AppD app) {
+	public PropertiesStyleBarD(PropertiesViewD propertiesView, AppD app) {
 		this.propertiesView = propertiesView;
 		this.app = app;
 

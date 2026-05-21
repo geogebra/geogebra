@@ -23,7 +23,6 @@ import java.util.List;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.AppFontSizeProperty;
@@ -43,20 +42,13 @@ public class ScientificPropertiesFactory extends DefaultPropertiesFactory {
 			PropertiesRegistry propertiesRegistry) {
 		Kernel kernel = app.getKernel();
 		return new PropertiesArray("General", localization,
-				PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)
-				? registerProperties(propertiesRegistry, NonNullList.of(
+				registerProperties(propertiesRegistry, NonNullList.of(
 						app.appScope.getLanguageProperty(),
 						new RoundingIndexProperty(app, localization),
 						new AngleUnitProperty(kernel, localization),
 						new AppFontSizeProperty(localization, app.getSettings().getFontSettings(),
 								app.getFontSettingsUpdater()),
 						app.getPlatform().isMobile() ? null : createSaveRestoreSettingsProperties(
-								app, localization)))
-				: registerProperties(propertiesRegistry, List.of(
-						app.appScope.getLanguageProperty(),
-						new RoundingIndexProperty(app, localization),
-						new AngleUnitProperty(kernel, localization),
-						new AppFontSizeProperty(localization, app.getSettings().getFontSettings(),
-								app.getFontSettingsUpdater()))));
+								app, localization))));
 	}
 }

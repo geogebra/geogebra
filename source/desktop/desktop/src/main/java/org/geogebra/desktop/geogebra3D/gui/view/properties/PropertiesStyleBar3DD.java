@@ -18,10 +18,10 @@ package org.geogebra.desktop.geogebra3D.gui.view.properties;
 
 import javax.swing.JMenuItem;
 
-import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.desktop.gui.view.properties.PropertiesStyleBarD;
+import org.geogebra.desktop.gui.view.properties.PropertiesViewD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -40,7 +40,7 @@ public class PropertiesStyleBar3DD extends PropertiesStyleBarD {
 	 * @param app
 	 *            application
 	 */
-	public PropertiesStyleBar3DD(PropertiesView propertiesView, AppD app) {
+	public PropertiesStyleBar3DD(PropertiesViewD propertiesView, AppD app) {
 		super(propertiesView, app);
 	}
 

@@ -25,24 +25,11 @@ import java.util.stream.Collectors;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.test.BaseAppTestSetup;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class DefaultPropertiesFactoryTest extends BaseAppTestSetup {
-
-	@BeforeAll
-	public static void setupFlag() {
-		PreviewFeature.setPreviewFeaturesEnabled(true);
-	}
-
-	@AfterAll
-	public static void removeFlag() {
-		PreviewFeature.setPreviewFeaturesEnabled(false);
-	}
 
 	@Test
 	public void testPropertiesGraphingWeb() {

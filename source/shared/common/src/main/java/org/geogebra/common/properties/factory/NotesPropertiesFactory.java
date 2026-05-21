@@ -24,7 +24,6 @@ import java.util.List;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertyCollectionWithLead;
@@ -45,30 +44,23 @@ public class NotesPropertiesFactory extends DefaultPropertiesFactory {
 			PropertiesRegistry propertiesRegistry) {
 		return Arrays.asList(
 				createGeneralProperties(app, localization, propertiesRegistry),
-				PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)
-						? createStructuredGraphicsProperties(app, localization, propertiesRegistry)
-						: createGraphicsProperties(app, localization, propertiesRegistry));
+				createGraphicsProperties(app, localization, propertiesRegistry));
 	}
 
 	@Override
 	protected PropertiesArray createGeneralProperties(App app, Localization localization,
 			PropertiesRegistry propertiesRegistry) {
-			return new PropertiesArray("General", localization,
-					PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)
-					? registerProperties(propertiesRegistry, NonNullList.of(
-                            app.appScope.getLanguageProperty(),
-							new AppFontSizeProperty(localization, app.getSettings()
-									.getFontSettings(), app.getFontSettingsUpdater()),
-							app.getPlatform().isMobile() ? null
-									: createSaveRestoreSettingsProperties(app, localization)))
-					: registerProperties(propertiesRegistry, List.of(
-							app.appScope.getLanguageProperty(),
-							new AppFontSizeProperty(localization, app.getSettings()
-									.getFontSettings(), app.getFontSettingsUpdater()))));
+		return new PropertiesArray("General", localization,
+				registerProperties(propertiesRegistry, NonNullList.of(
+						app.appScope.getLanguageProperty(),
+						new AppFontSizeProperty(localization, app.getSettings()
+								.getFontSettings(), app.getFontSettingsUpdater()),
+						app.getPlatform().isMobile() ? null
+								: createSaveRestoreSettingsProperties(app, localization))));
 	}
 
 	@Override
-	protected PropertiesArray createStructuredGraphicsProperties(App app, Localization localization,
+	protected PropertiesArray createGraphicsProperties(App app, Localization localization,
 			PropertiesRegistry propertiesRegistry) {
 		EuclidianView activeView = app.getActiveEuclidianView();
 		EuclidianSettings euclidianSettings = activeView.getSettings();

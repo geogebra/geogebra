@@ -24,21 +24,19 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.TextStyle;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.undo.UpdateStyleActionStore;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.euclidian.EuclidianLineStylePopup;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
-import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
+import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -97,8 +95,8 @@ public abstract class StyleBarW2 extends StyleBarW {
 	/**
 	 * Opens color chooser dialog in MOW or properties view elsewhere.
 	 */
-	protected void openColorChooser(boolean background) {
-		openPropertiesForColor(background);
+	protected void openColorChooser(boolean background, List<GeoElement> targetGeos) {
+		openPropertiesForColor(background, targetGeos);
 	}
 
 	private boolean processPointStyle(List<GeoElement> targetGeos) {
@@ -125,7 +123,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 	private boolean processColor(List<GeoElement> targetGeos) {
 		GColor color = btnColor.getSelectedColor();
 		if (color == null && !(targetGeos.get(0) instanceof GeoImage)) {
-			openColorChooser(false);
+			openColorChooser(false, targetGeos);
 		} else {
 			double alpha = btnColor.getSliderValue() / 100.0;
 			return EuclidianStyleBarStatic.applyColor(color, alpha, targetGeos);
@@ -133,17 +131,18 @@ public abstract class StyleBarW2 extends StyleBarW {
 		return false;
 	}
 
-	protected void openPropertiesForColor(boolean background) {
-		((GuiManagerW) app.getGuiManager())
-				.getPropertiesView(OptionType.OBJECTS)
-				.setOptionPanel(OptionType.OBJECTS, 3);
-		app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
-
-		ColorPanel colorPanel = ((GuiManagerW) app.getGuiManager())
-				.getColorPanel();
-		if (colorPanel != null) {
-			colorPanel.setBackground(background);
-		}
+	protected void openPropertiesForColor(boolean background, List<GeoElement> targetGeos) {
+		((DialogManagerW) app.getDialogManager()).showColorChooserDialog(
+				targetGeos.get(0).getObjectColor(), color -> {
+					if (background) {
+						targetGeos.forEach(geo -> geo.setBackgroundColor(color));
+					} else {
+						targetGeos.forEach(geo -> geo.setObjColor(color));
+					}
+					targetGeos.forEach(
+							geo -> geo.updateVisualStyleRepaint(GProperty.COLOR));
+					app.storeUndoInfo();
+				});
 	}
 
 	/**
