@@ -753,6 +753,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dialog/open_in_new.svg")
 	SVGResource open_in_new_tab();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dialog/123_sharp.svg")
+	SVGResource number();
+
 	// OPEN FILE VIEW
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/openFileView/folder_black_24dp.svg")

@@ -400,7 +400,7 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public boolean showSliderCreationDialog(int x, int y) {
 		DialogData data = new DialogData("Slider");
-		SliderDialogW sliderDialog = new SliderDialogW((AppW) app, data, x, y);
+		SliderDialog sliderDialog = new SliderDialog((AppW) app, data, x, y);
 		sliderDialog.show();
 		return true;
 	}

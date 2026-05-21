@@ -1327,17 +1327,22 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.dialogComponent.sliderDialog {
 		max-width: 504px;
 
-		.radioButtonPanel {
+		.firstRow {
 			display: flex;
 
-			.radioButton {
-				margin-right: 20px;
+			.nameField {
+				width: 100%;
+				margin-right: 16px;
+			}
+			.buttonsHolder {
+				display: flex;
+				gap: 8px;
+				margin-top: 14px;
 			}
 		}
-
-		.AutoCompleteTextFieldW {
-			// ignore this for now, we need new design
-			border-bottom: 1px solid colors.$teal-default !important;
+		.secondRow {
+			display: flex;
+			gap: 16px;
 		}
 	}
 
