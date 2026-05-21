@@ -74,22 +74,17 @@ public class CmdPoint3D extends CmdPoint {
 				GeoElement[] ret = {(GeoElement) kernel.getManager3D()
 						.point3DIn(c.getLabel(), (Region) arg[0], false)};
 				return ret;
-			} else if (arg[0].isGeoList() && arg[0]
-					.getGeoElementForPropertiesDialog().isGeoNumeric()) {
-				if ((((GeoList) arg[0]).get(0).isGeoNumeric()
-						&& ((GeoList) arg[0]).size() == 3)
-						|| (((GeoList) arg[0]).get(0).isGeoList()
-						&& ((GeoList) ((GeoList) arg[0]).get(0))
-						.size() == 3)) {
+			} else if (arg[0].isGeoList()
+					&& AlgoPointsFromList.isSupportedList((GeoList) arg[0])) {
+				AlgoPointsFromList algo = new AlgoPointsFromList(cons,
+						c.getLabels(), !cons.isSuppressLabelsActive(),
+						(GeoList) arg[0]);
 
-					AlgoPointsFromList algo = new AlgoPointsFromList(cons,
-							c.getLabels(), !cons.isSuppressLabelsActive(),
-							(GeoList) arg[0]);
+				GeoElement[] ret = algo.getOutputPoints().stream()
+						.map(GeoPointND::toGeoElement)
+						.toArray(GeoElement[]::new);
 
-					GeoElement[] ret = algo.getPoints3D();
-
-					return ret;
-				}
+				return ret;
 			}
 		}
 

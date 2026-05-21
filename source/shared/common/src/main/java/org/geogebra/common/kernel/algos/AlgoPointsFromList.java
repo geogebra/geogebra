@@ -16,7 +16,12 @@
 
 package org.geogebra.common.kernel.algos;
 
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -24,94 +29,67 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.LabelManager;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
- * Converts a list into a Point (or Points) adapted from AlgoRootsPolynomial
- * 
- * @author Michael
+ * Creates one or more points from a numeric list passed to the {@code Point} command.
+ * <p>
+ * Each point is created from a numeric row. Rows with one or two values create a 2D point, using
+ * {@code 0} for missing coordinates. Rows with three or more values create a 3D point; values
+ * after the z-coordinate are ignored.
+ * <p>
+ * A flat numeric list is interpreted as one row and creates a single point. A nested list creates
+ * one point from each numeric row. Each row is interpreted independently, so the result may contain
+ * both 2D and 3D points.
+ * <p>
+ * Examples:
+ * <ul>
+ * <li>{@code Point({1})} creates {@code A = (1, 0)}</li>
+ * <li>{@code Point({1, 2})} creates {@code A = (1, 2)}</li>
+ * <li>{@code Point({1, 2, 3, 4})} creates {@code A = (1, 2, 3)}</li>
+ * <li>{@code Point({{1}, {2, 3}, {4, 5, 6}, {7, 8, 9, 10}})} creates {@code A = (1, 0)},
+ * {@code B = (2, 3)}, {@code C = (4, 5, 6)}, and {@code D = (7, 8, 9)}</li>
+ * </ul>
+ * <p>
+ * When the source list changes, existing output points keep the dimension they were created with.
+ * A 3D output can be updated from a 2D row, in which case z is set to {@code 0}. A 2D output
+ * cannot be updated from a 3D row and becomes undefined until the corresponding row is 2D again.
+ * If the list grows, new outputs are appended using the dimensions of the new rows; if it shrinks
+ * or becomes unsupported, surplus outputs are kept but marked undefined.
  */
 public class AlgoPointsFromList extends AlgoElement {
-
-	private GeoList list; // input
-	private GeoPoint[] points; // output
-	private GeoPoint3D[] points3D; // output for 3D
-
-	private String[] labels;
-	private boolean initLabels;
-	private boolean setLabels;
+	private final GeoList inputList;
+	private final List<GeoPointND> outputPoints;
 
 	/**
-	 * @param cons
-	 *            construction
-	 * @param labels
-	 *            output labels
-	 * @param setLabels
-	 *            whether to set point labels
-	 * @param list
-	 *            list of numbers
+	 * @param cons construction
+	 * @param labels output labels
+	 * @param setLabels whether to set point labels
+	 * @param inputList list of numbers
 	 */
-	public AlgoPointsFromList(Construction cons, String[] labels,
-			boolean setLabels, GeoList list) {
+	public AlgoPointsFromList(@Nonnull Construction cons, @CheckForNull String[] labels,
+			boolean setLabels, @Nonnull GeoList inputList) {
 		super(cons);
-		this.list = list;
-
-		this.labels = labels;
-		this.setLabels = setLabels; // should labels be used?
-
-		// make sure root points is not null
-		int number = labels == null ? 1 : Math.max(1, labels.length);
-		if ((list.get(0).isGeoNumeric() && list.size() == 2)
-				|| (list.get(0).isGeoList()
-						&& ((GeoList) list.get(0)).size() == 2)) {
-			points = new GeoPoint[0];
-			initPoints(number);
-			initLabels = true;
-
-			setInputOutput(); // for AlgoElement
-			compute();
-
-			// show at least one root point in algebra view
-			// this is enforced here:
-			if (!points[0].isDefined()) {
-				points[0].setCoords(0, 0, 1);
-				points[0].update();
-				points[0].setUndefined();
-				points[0].update();
-			}
-		} else if ((list.get(0).isGeoNumeric() && list.size() == 3)
-				|| (list.get(0).isGeoList()
-						&& ((GeoList) list.get(0)).size() == 3)) {
-			points3D = new GeoPoint3D[0];
-			initPoints3D(number);
-			initLabels = true;
-
-			setInputOutput();
-			compute();
-			// show at least one root point in algebra view
-			// this is enforced here:
-			if (!points3D[0].isDefined()) {
-				points3D[0].setCoords(0, 0, 1);
-				points3D[0].update();
-				points3D[0].setUndefined();
-				points3D[0].update();
-			}
+		List<ParsedPoint> parsedPoints = parsePoints(inputList);
+		this.inputList = inputList;
+		this.outputPoints = new ArrayList<>();
+		addOutputPoints(parsedPoints, false);
+		setInputOutput();
+		compute();
+		if (setLabels) {
+			LabelManager.setLabels(labels, geoElementArrayOf(outputPoints));
 		}
 	}
 
 	/**
-	 * The given labels will be used for the resulting points.
+	 * @return whether the list can initialize point outputs
 	 */
-	public void setLabels(String[] labels) {
-		this.labels = labels;
-		setLabels = true;
+	public static boolean isSupportedList(@Nonnull GeoList list) {
+		return !parsePoints(list).isEmpty();
+	}
 
-		// make sure that there are at least as many
-		// points as labels
-		if (labels != null) {
-			initPoints(labels.length);
-		}
-
-		update();
+	public List<GeoPointND> getOutputPoints() {
+		return outputPoints;
 	}
 
 	@Override
@@ -122,322 +100,136 @@ public class AlgoPointsFromList extends AlgoElement {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-
-		input = new GeoElement[1];
-		input[0] = list;
-		if ((list.get(0).isGeoNumeric() && list.size() == 2)
-				|| (list.get(0).isGeoList()
-						&& ((GeoList) list.get(0)).size() == 2)) {
-			super.setOutput(points);
-			for (int i = 1; i < points.length; i++) {
-				points[i].showUndefinedInAlgebraView(false);
-			}
-			setDependencies();
-		} else if ((list.get(0).isGeoNumeric() && list.size() == 3)
-				|| (list.get(0).isGeoList()
-						&& ((GeoList) list.get(0)).size() == 3)) {
-			super.setOutput(points3D);
-			for (int i = 1; i < points3D.length; i++) {
-				points3D[i].showUndefinedInAlgebraView(false);
-			}
-			setDependencies();
+		input = new GeoElement[] {inputList};
+		super.setOutput(geoElementArrayOf(outputPoints));
+		for (int outputIndex = 1; outputIndex < outputPoints.size(); outputIndex++) {
+			outputPoints.get(outputIndex).showUndefinedInAlgebraView(false);
 		}
-	}
-
-	public GeoPoint[] getPoints() {
-		return points;
-	}
-
-	public GeoPoint3D[] getPoints3D() {
-		return points3D;
+		setDependencies();
 	}
 
 	@Override
 	public void compute() {
-		int n;
-		if (!list.isDefined() || (n = list.size()) == 0) {
-			setPoints(null, null, 0);
-			return;
-		}
+		// Parse the new input list
+		List<ParsedPoint> parsedPoints = parsePoints(inputList);
 
-		int length = -1;
-		double[] x = new double[n];
-		double[] y = new double[n];
-		double[] z = new double[n];
+		// Add new points to the output if necessary
+		addOutputPoints(parsedPoints, true);
 
-		// handle Point[ {1,2} ] case
-		if (list.get(0).isGeoNumeric() && list.size() == 2) {
-			GeoElement arg0, arg1;
-			if ((arg0 = list.get(0)).isGeoNumeric()
-					&& (arg1 = list.get(1)).isGeoNumeric()) {
-				x[0] = ((GeoNumeric) arg0).getDouble();
-				y[0] = ((GeoNumeric) arg1).getDouble();
-				length = 1;
-			}
-		}
-		// handle Point[ {1,2,3} ] case
-		if (list.get(0).isGeoNumeric() && list.size() == 3) {
-			GeoElement arg0, arg1, arg2;
-			if ((arg0 = list.get(0)).isGeoNumeric()
-					&& (arg1 = list.get(1)).isGeoNumeric()
-					&& (arg2 = list.get(2)).isGeoNumeric()) {
-				x[0] = ((GeoNumeric) arg0).getDouble();
-				y[0] = ((GeoNumeric) arg1).getDouble();
-				z[0] = ((GeoNumeric) arg2).getDouble();
-				length = 1;
-			}
-		}
-
-		if (length == -1) {
-			if (list.get(0).isGeoList()
-					&& ((GeoList) list.get(0)).size() == 2) {
-				// handle Point[ { {1,2}, {3,4} } ] case
-				for (int i = 0; i < n; i++) {
-					GeoElement geo = list.get(i);
-					if (geo.isGeoList()) {
-						GeoList geoList = (GeoList) geo;
-						if (geoList.size() < 2) {
-							x[i] = Double.NaN;
-							y[i] = Double.NaN;
-						} else {
-							GeoElement geoX = geoList.get(0);
-							GeoElement geoY = geoList.get(1);
-							x[i] = ((GeoNumeric) geoX).getDouble();
-							y[i] = ((GeoNumeric) geoY).getDouble();
-						}
-					}
-				}
-				length = x.length;
-			} else if (list.get(0).isGeoList()
-					&& ((GeoList) list.get(0)).size() == 3) {
-				// handle Point[ { {1,2,3}, {4,5,6} } ] case
-				for (int i = 0; i < n; i++) {
-					GeoElement geo = list.get(i);
-					if (geo.isGeoList()) {
-						GeoList geoList = (GeoList) geo;
-						if (geoList.size() < 3) {
-							x[i] = Double.NaN;
-							y[i] = Double.NaN;
-							z[i] = Double.NaN;
-						} else {
-							GeoElement geoX = geoList.get(0);
-							GeoElement geoY = geoList.get(1);
-							GeoElement geoZ = geoList.get(2);
-							x[i] = ((GeoNumeric) geoX).getDouble();
-							y[i] = ((GeoNumeric) geoY).getDouble();
-							z[i] = ((GeoNumeric) geoZ).getDouble();
-						}
-					}
-				}
-				length = x.length;
-			}
-
-		}
-
-		if (length > 0) {
-			if ((list.get(0).isGeoNumeric() && list.size() == 2)
-					|| (list.get(0).isGeoList()
-							&& ((GeoList) list.get(0)).size() == 2)) {
-				setPoints(x, y, length);
-			} else if ((list.get(0).isGeoNumeric() && list.size() == 3)
-					|| (list.get(0).isGeoList()
-							&& ((GeoList) list.get(0)).size() == 3)) {
-				setPoints3D(x, y, z, length);
-			}
-		}
-	}
-
-	// roots array and number of roots
-	final void setPoints(double[] x, double[] y, int number) {
-		initPoints(number);
-
-		// now set the new values of the roots
-		for (int i = 0; i < number; i++) {
-			points[i].setCoords(x[i], y[i], 1.0);
-		}
-
-		// all other roots are undefined
-		for (int i = number; i < points.length; i++) {
-			points[i].setUndefined();
-		}
-
-		if (setLabels) {
-			updateLabels(number);
-		}
-	}
-
-	// roots array and number of roots
-	final void setPoints3D(double[] x, double[] y, double[] z, int number) {
-		initPoints3D(number);
-
-		// now set the new values of the roots
-		for (int i = 0; i < number; i++) {
-			points3D[i].setCoords(x[i], y[i], z[i], 1);
-		}
-
-		// all other roots are undefined
-		for (int i = number; i < points3D.length; i++) {
-			points3D[i].setUndefined();
-		}
-
-		if (setLabels) {
-			updateLabels(number);
-		}
-	}
-
-	// number is the number of current roots
-	private void updateLabels(int number) {
-		if (list == null || list.size() == 0) {
-			return;
-		}
-
-		if ((list.get(0).isGeoNumeric() && list.size() == 2)
-				|| (list.get(0).isGeoList()
-						&& ((GeoList) list.get(0)).size() == 2)) {
-			if (initLabels) {
-				LabelManager.setLabels(labels, points);
-				initLabels = false;
-			} else {
-				for (int i = 0; i < number; i++) {
-					// check labeling
-					if (!points[i].isLabelSet()) {
-						// use user specified label if we have one
-						String newLabel = (labels != null && i < labels.length)
-								? labels[i] : null;
-						points[i].setLabel(newLabel);
-					}
+		// Update existing points
+		int updatePointCount = Math.min(parsedPoints.size(), outputPoints.size());
+		for (int index = 0; index < updatePointCount; index++) {
+			// Update coordinates if they are compatible
+			if (outputPoints.get(index).isGeoElement3D()
+					|| parsedPoints.get(index).dimension() == 2) {
+				if (outputPoints.get(index).isGeoElement3D()) {
+					outputPoints.get(index).setCoords(parsedPoints.get(index).x(),
+							parsedPoints.get(index).y(), parsedPoints.get(index).z(), 1);
+				} else {
+					outputPoints.get(index).setCoords(parsedPoints.get(index).x(),
+							parsedPoints.get(index).y(), 1);
 				}
 			}
+			// Otherwise mark them as undefined
+			else {
+				outputPoints.get(index).setUndefined();
+			}
+		}
 
-			// all other roots are undefined
-			for (int i = number; i < points.length; i++) {
-				points[i].setUndefined();
-			}
-		} else if ((list.get(0).isGeoNumeric() && list.size() == 3)
-				|| (list.get(0).isGeoList()
-						&& ((GeoList) list.get(0)).size() == 3)) {
-			if (initLabels) {
-				LabelManager.setLabels(labels, points3D);
-				initLabels = false;
-			} else {
-				for (int i = 0; i < number; i++) {
-					// check labeling
-					if (!points3D[i].isLabelSet()) {
-						// use user specified label if we have one
-						String newLabel = (labels != null && i < labels.length)
-								? labels[i] : null;
-						points3D[i].setLabel(newLabel);
-					}
-				}
-			}
-
-			// all other roots are undefined
-			for (int i = number; i < points3D.length; i++) {
-				points3D[i].setUndefined();
-			}
+		// Mark the rest (if any) as undefined
+		for (int index = updatePointCount; index < outputPoints.size(); index++) {
+			outputPoints.get(index).setUndefined();
 		}
 	}
 
 	/**
-	 * Removes only one single output element if possible. If this is not
-	 * possible the whole algorithm is removed.
+	 * Removes one output element. Outputs with dependent objects are kept undefined.
 	 */
 	@Override
-	public void remove(GeoElement output) {
-		// only single undefined points may be removed
-		if ((list.get(0).isGeoNumeric() && list.size() == 2)
-				|| (list.get(0).isGeoList()
-						&& ((GeoList) list.get(0)).size() == 2)) {
-			for (int i = 0; i < points.length; i++) {
-				if (points[i] == output && !points[i].isDefined()) {
-					removeRootPoint(i);
-					return;
-				}
-			}
-		} else if ((list.get(0).isGeoNumeric() && list.size() == 3)
-				|| (list.get(0).isGeoList()
-						&& ((GeoList) list.get(0)).size() == 3)) {
-			for (int i = 0; i < points3D.length; i++) {
-				if (points3D[i] == output && !points3D[i].isDefined()) {
-					removeRootPoint(i);
-					return;
-				}
-			}
+	public void remove(@Nonnull GeoElement output) {
+		if (output == inputList) {
+			super.remove();
+			return;
 		}
-
-		// if we get here removing output was not possible
-		// so we remove the whole algorithm
-		super.remove();
-	}
-
-	private void initPoints(int number) {
-		// make sure that there are enough points
-		if (points.length < number) {
-			GeoPoint[] temp = new GeoPoint[number];
-			for (int i = 0; i < points.length; i++) {
-				temp[i] = points[i];
-				temp[i].setCoords(0, 0, 1); // init as defined
+		if (output.getAlgoUpdateSet().isEmpty()) {
+			output.doRemove();
+			outputPoints.removeIf(point -> point == output);
+			super.setOutput(geoElementArrayOf(outputPoints));
+			if (outputPoints.isEmpty()) {
+				super.remove();
 			}
-			for (int i = points.length; i < temp.length; i++) {
-				temp[i] = new GeoPoint(cons);
-				temp[i].setCoords(0, 0, 1); // init as defined
-				temp[i].setParentAlgorithm(this);
-			}
-			points = temp;
-			super.setOutput(points);
+		} else {
+			output.notifyRemove(); // Notify UI to remove the Algebra view item
+			output.setUndefined();
+			((GeoPointND) output).showUndefinedInAlgebraView(false);
+			output.updateRepaint();
 		}
 	}
 
-	private void initPoints3D(int number) {
-		// make sure that there are enough points
-		if (points3D.length < number) {
-			GeoPoint3D[] temp = new GeoPoint3D[number];
-			for (int i = 0; i < points3D.length; i++) {
-				temp[i] = points3D[i];
-				temp[i].setCoords(0, 0, 1); // init as defined
+	private void addOutputPoints(@Nonnull List<ParsedPoint> parsedPoints, boolean setLabels) {
+		int oldSize = outputPoints.size();
+		for (int index = oldSize; index < parsedPoints.size(); index++) {
+			GeoPointND point = parsedPoints.get(index).dimension() == 2 ? new GeoPoint(cons)
+					: cons.getKernel().getGeoFactory().newPoint(3, cons);
+			point.setCoords(0, 0, 1);
+			outputPoints.add(point);
+			setOutputDependencies(point);
+			if (setLabels) {
+				point.setLabel(null);
 			}
-			for (int i = points3D.length; i < temp.length; i++) {
-				temp[i] = (GeoPoint3D) cons.getKernel().getGeoFactory().newPoint(3, cons);
-				temp[i].setCoords(0, 0, 1); // init as defined
-				temp[i].setParentAlgorithm(this);
+			if (outputPoints.size() > 1) {
+				point.showUndefinedInAlgebraView(false);
 			}
-			points3D = temp;
-			super.setOutput(points3D);
+		}
+		if (oldSize < outputPoints.size()) {
+			super.setOutput(geoElementArrayOf(outputPoints));
 		}
 	}
 
-	private void removeRootPoint(int pos) {
-		if ((list.get(0).isGeoNumeric() && list.size() == 2)
-				|| (list.get(0).isGeoList()
-						&& ((GeoList) list.get(0)).size() == 2)) {
-			points[pos].doRemove();
-
-			// build new rootPoints array without the removed point
-			GeoPoint[] temp = new GeoPoint[points.length - 1];
-			int i;
-			for (i = 0; i < pos; i++) {
-				temp[i] = points[i];
-			}
-			for (i = pos + 1; i < points.length; i++) {
-				temp[i - 1] = points[i];
-			}
-			points = temp;
-		} else if ((list.get(0).isGeoNumeric() && list.size() == 3)
-				|| (list.get(0).isGeoList()
-						&& ((GeoList) list.get(0)).size() == 3)) {
-			points3D[pos].doRemove();
-
-			// build new rootPoints array without the removed point
-			GeoPoint3D[] temp = new GeoPoint3D[points3D.length - 1];
-			int i;
-			for (i = 0; i < pos; i++) {
-				temp[i] = points3D[i];
-			}
-			for (i = pos + 1; i < points3D.length; i++) {
-				temp[i - 1] = points3D[i];
-			}
-			points3D = temp;
+	private static List<ParsedPoint> parsePoints(@Nonnull GeoList list) {
+		if (!list.isDefined() || list.size() == 0) {
+			return List.of();
 		}
+		if (list.get(0).isGeoNumeric()) {
+			return parseFlatList(list);
+		}
+		if (list.get(0).isGeoList()) {
+			return parseNestedList(list);
+		}
+		return List.of();
 	}
 
+	private static List<ParsedPoint> parseFlatList(@Nonnull GeoList list) {
+		if (!list.elements().allMatch(GeoElement::isGeoNumeric)) {
+			return List.of();
+		}
+		return List.of(parsedPointOf(list, list.size() > 2 ? 3 : 2));
+	}
+
+	private static List<ParsedPoint> parseNestedList(@Nonnull GeoList list) {
+		if (!list.elements().allMatch(row -> row instanceof GeoList
+				&& ((GeoList) row).elements().allMatch(GeoElement::isGeoNumeric))) {
+			return List.of();
+		}
+		return list.elements()
+				.map(element -> (GeoList) element)
+				.map(row -> parsedPointOf(row, row.size() > 2 ? 3 : 2))
+				.toList();
+	}
+
+	private static ParsedPoint parsedPointOf(@Nonnull GeoList row, int dimension) {
+		return new ParsedPoint(coordinateAt(0, row), coordinateAt(1, row),
+				dimension == 3 ? coordinateAt(2, row) : 0, dimension);
+	}
+
+	private static double coordinateAt(int index, @Nonnull GeoList row) {
+		return index < row.size() ? ((GeoNumeric) row.get(index)).getDouble() : 0;
+	}
+
+	private static GeoElement[] geoElementArrayOf(List<GeoPointND> geoPointNDs) {
+		return geoPointNDs.stream().map(GeoPointND::toGeoElement).toArray(GeoElement[]::new);
+	}
+
+	private record ParsedPoint(double x, double y, double z, int dimension) {
+	}
 }

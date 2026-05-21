@@ -78,11 +78,7 @@ public class BaseAppTestSetup {
 	// Initial app setup
 
 	protected void setupApp(SuiteSubApp subApp) {
-		if (subApp == SuiteSubApp.G3D) {
-			app = AppCommonFactory.create3D(createConfig(subApp));
-		} else {
-			app = AppCommonFactory.create(createConfig(subApp));
-		}
+		app = AppCommonFactory.create3D(createConfig(subApp));
 		if (subApp == SuiteSubApp.CAS) {
 			mockedCasGiac.applyTo(app);
 			processCallback = new LabelHiderCallback();

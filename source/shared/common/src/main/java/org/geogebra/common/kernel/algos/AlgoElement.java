@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
@@ -913,14 +914,14 @@ public abstract class AlgoElement extends ConstructionElement
 	 * @return whether all outputs have the same type
 	 */
 	final public boolean hasSingleOutputType() {
-		GeoClass type = getOutput(0).getGeoClassType();
-
-		for (int i = 1; i < getOutputLength(); ++i) {
-			if (getOutput(i).getGeoClassType() != type) {
-				return false;
-			}
+        Set<GeoClass> outputTypes = Arrays.stream(getOutput())
+                .map(GeoElement::getGeoClassType)
+                .collect(Collectors.toSet());
+        // 2D and 3D points are handled as the same output type.
+		if (outputTypes.equals(Set.of(GeoClass.POINT, GeoClass.POINT3D))) {
+			return true;
 		}
-		return true;
+		return outputTypes.size() == 1;
 	}
 
 	@Override
