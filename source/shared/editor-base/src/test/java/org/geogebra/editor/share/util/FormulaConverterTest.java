@@ -25,7 +25,7 @@ public class FormulaConverterTest {
 	public static final String END_PMATRIX = " \\end{pmatrix}";
 	public static final String BEGIN_PMATRIX = "\\begin{pmatrix} ";
 	public static final String GREY_BOX =
-			"\\bgcolor{#dcdcdc}\\scalebox{1}[1.6]{\\phantom{g}}";
+			"\\bgcolor{#e6e6eb}\\scalebox{1}[1.6]{\\phantom{g}}";
 	private final static String PLACEHOLDER1
 			= "{" + GREY_BOX + "}";
 	private final static String PLACEHOLDER = "{" + PLACEHOLDER1 + "}";

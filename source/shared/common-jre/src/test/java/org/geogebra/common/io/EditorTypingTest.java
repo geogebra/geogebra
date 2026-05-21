@@ -1141,7 +1141,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	@Test
 	public void surdLaTeX() {
 		checker.insert(String.valueOf(Unicode.SQUARE_ROOT))
-				.checkLaTeX("\\sqrt{{\\bgcolor{#dcdcdc}\\scalebox{1}[1.6]{\\phantom{g}}}}");
+				.checkLaTeX("\\sqrt{{\\bgcolor{#e6e6eb}\\scalebox{1}[1.6]{\\phantom{g}}}}");
 		checker.insert(Unicode.SQUARE_ROOT + "15-1")
 				.checkLaTeX("\\sqrt{15}-1");
 	}

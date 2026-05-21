@@ -33,7 +33,7 @@ import org.geogebra.editor.share.util.Unicode;
  */
 public class TeXSerializer extends SerializerAdapter {
 
-	public static final int placeholderColor = 0xDCDCDC;
+	public static final int placeholderColor = 0xE6E6EB;
 	public static final int commandPlaceholderColor = 0x9E9E9E;
 	public static final int placeholderBackground = 0xF3F2F7;
 

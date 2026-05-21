@@ -179,7 +179,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		inputBox.updateLinkedGeo("? /", tempDisplayInput);
 
 		String texInputBox
-				= "\\{\\bgcolor{#dcdcdc}\\scalebox{1}[1.6]{\\phantom{g}}} \\frac{\\nbsp}{\\nbsp}";
+				= "\\{\\bgcolor{#e6e6eb}\\scalebox{1}[1.6]{\\phantom{g}}} \\frac{\\nbsp}{\\nbsp}";
 		assertEquals(texInputBox, inputBox.getDisplayText());
 	}
 
