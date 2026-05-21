@@ -94,8 +94,9 @@ public class ComponentSideSheet extends FlowPanel implements SetLabels {
 		titleLabel.addStyleName("title");
 		titlePanel.add(titleLabel);
 
-		closeButton = new IconButton(appW, this::onClose,
+		closeButton = new IconButton(appW, () -> {},
 				new ImageIconSpec(GuiResourcesSimple.INSTANCE.close()), "Close");
+		closeButton.addKeyActivateHandler(this::onClose);
 		closeButton.addStyleName("closeBtn");
 		closeButton.getElement().setAttribute("tooltip-position", "right");
 		closeButton.setTabIndex(0);

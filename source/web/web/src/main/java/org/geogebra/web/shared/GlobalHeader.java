@@ -323,10 +323,24 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 		if (settingsButton == null) {
 			settingsButton = getActionButton("settingsButton", "Settings", SETTINGS);
 			if (settingsButton != null) {
-				settingsButton.setAction(() -> app.getDialogManager().showPropertiesDialog(
-						OptionType.GLOBAL, null));
+				settingsButton.setAction(() -> {
+					FocusableWidget focusableWidget = getSettingsFocusableWidget();
+					if (focusableWidget != null) {
+						app.getAccessibilityManager().setAnchor(focusableWidget);
+					}
+					app.getDialogManager().showPropertiesDialog(OptionType.GLOBAL, null);
+				});
 			}
 		}
+	}
+
+	private @CheckForNull FocusableWidget getSettingsFocusableWidget() {
+		for (FocusableWidget focusableWidget : focusableWidgets) {
+			if (focusableWidget.getAccessibilityGroup().equals(SETTINGS)) {
+				return focusableWidget;
+			}
+		}
+		return null;
 	}
 
 	private void initUndoRedoButtonsIfOnHeader() {
