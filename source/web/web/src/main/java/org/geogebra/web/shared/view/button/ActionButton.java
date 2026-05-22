@@ -24,7 +24,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.event.dom.client.KeyCodes;
-import org.gwtproject.event.dom.client.KeyUpEvent;
+import org.gwtproject.event.dom.client.KeyDownEvent;
 import org.gwtproject.user.client.ui.RootPanel;
 
 /**
@@ -64,8 +64,10 @@ public class ActionButton implements ActionView, SetLabels {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER
 					|| event.getNativeKeyCode() == KeyCodes.KEY_SPACE) {
 					action.run();
+					event.stopPropagation();
+					event.preventDefault();
 				}
-			}, KeyUpEvent.getType());
+			}, KeyDownEvent.getType());
 		}
 	}
 
