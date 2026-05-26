@@ -269,7 +269,8 @@ public class Command extends ValidExpression
 				sbToString = new StringBuilder();
 			}
 			sbToString.setLength(0);
-			if ("Integral".equals(name)) {
+			if ("Integral".equals(name) || "NIntegral".equals(name)
+					|| "IntegralSymbolic".equals(name)) {
 				return getIntegralLaTeX(tpl);
 			} else if ("Sum".equals(name) && getArgumentNumber() == 4) {
 				sbToString.append("\\sum_{");

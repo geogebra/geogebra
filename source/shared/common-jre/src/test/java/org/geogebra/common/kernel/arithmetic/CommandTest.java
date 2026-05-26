@@ -30,10 +30,18 @@ public class CommandTest extends BaseAppTestSetup {
     @ParameterizedTest
     @CsvSource(delimiterString = "->", value = {
             "Integral(cos(t)) -> \\int \\operatorname{cos} \\left( t \\right)\\,\\mathrm{d}t",
-            "Integral(cos(t), 1, 2) -> \\int\\limits_{1}^{2}\\operatorname{cos} "
-                    + "\\left( t \\right)\\,\\mathrm{d}t",
-            "Integral(cos(t), t, 1, 2) -> \\int\\limits_{1}^{2}\\operatorname{cos} "
-                    + "\\left( t \\right)\\,\\mathrm{d}t"
+            "Integral(cos(t), 1, 2) -> "
+                    + "\\int\\limits_{1}^{2}\\operatorname{cos} \\left( t \\right)\\,\\mathrm{d}t",
+            "Integral(cos(t), t, 1, 2) -> "
+                    + "\\int\\limits_{1}^{2}\\operatorname{cos} \\left( t \\right)\\,\\mathrm{d}t",
+            "NIntegral(cos(t), 1, 2) -> "
+                    + "\\int\\limits_{1}^{2}\\operatorname{cos} \\left( t \\right)\\,\\mathrm{d}t",
+            "NIntegral(cos(t), t, 1, 2) -> "
+                    + "\\int\\limits_{1}^{2}\\operatorname{cos} \\left( t \\right)\\,\\mathrm{d}t",
+            "IntegralSymbolic(cos(t)) -> "
+                    + "\\int \\operatorname{cos} \\left( t \\right)\\,\\mathrm{d}t",
+            "IntegralSymbolic(cos(t), t) -> "
+                    + "\\int \\operatorname{cos} \\left( t \\right)\\,\\mathrm{d}t",
     })
     public void testIntegralCommandToLaTeXString(String input, String expectedOutput) {
         setupApp(SuiteSubApp.CAS);

@@ -1176,7 +1176,8 @@ public abstract class AlgoElement extends ConstructionElement
 		if (input == null) {
 			return null;
 		}
-		if (tpl.isLatex() && getClassName() == Commands.Integral) {
+		if (tpl.isLatex() && (getClassName() == Commands.Integral
+				|| getClassName() == Commands.NIntegral)) {
 			return getIntegralLaTeXDefinition(tpl);
 		}
 		sbAE.setLength(0);
