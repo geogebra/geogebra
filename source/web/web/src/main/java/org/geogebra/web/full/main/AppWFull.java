@@ -339,7 +339,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		initCoreObjects();
 
 		examController = suiteScope.examController;
-		examController.addListener(getExamEventBus());
 		examControllerDelegate = new ExamControllerDelegateW(this);
 		ExamControllerIntegrationW.setup(suiteScope, examControllerDelegate,
 				examControllerDelegate);
@@ -2475,6 +2474,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	public void startExam(ExamType examType, ExamOptions options) {
 		ExamControllerIntegrationW.activate(this);
+		examController.addListener(getExamEventBus());
 		if (examController.getState() == ExamState.IDLE
 				|| examController.getState() == ExamState.PREPARING) {
 			examController.startExam(examType, options);
