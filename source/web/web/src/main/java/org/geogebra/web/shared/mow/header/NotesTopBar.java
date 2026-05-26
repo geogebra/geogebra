@@ -16,7 +16,7 @@
 
 package org.geogebra.web.shared.mow.header;
 
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TRANSLATEVIEW;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TRANSLATE_VIEW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -239,6 +239,6 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 			return;
 		}
 
-		dragBtn.setActive(mode == MODE_TRANSLATEVIEW);
+		dragBtn.setActive(mode == MODE_TRANSLATE_VIEW);
 	}
 }

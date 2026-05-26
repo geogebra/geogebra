@@ -575,7 +575,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public boolean isMultiSelection() {
 		return (mode == EuclidianConstants.MODE_SELECT_MOW
-				|| (mode == EuclidianConstants.MODE_TRANSLATEVIEW
+				|| (mode == EuclidianConstants.MODE_TRANSLATE_VIEW
 						&& temporaryMode
 						&& oldMode == EuclidianConstants.MODE_SELECT_MOW))
 				&& selection.getSelectedGeos().size() > 0 && getSpecialBoundingBox() == null;
@@ -6188,7 +6188,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					1d / EuclidianView.MODE_ZOOM_FACTOR, 15, false);
 			toggleModeChangedKernel = true;
 			break;
-		case EuclidianConstants.MODE_TRANSLATEVIEW:
+		case EuclidianConstants.MODE_TRANSLATE_VIEW:
 			if (draggingOccurred || !temporaryMode) {
 				changedKernel = true;
 
@@ -6415,7 +6415,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (hits.isEmpty()) {
 			view.setToolTipText(null);
 			if (shiftOrSpace
-					|| mode == EuclidianConstants.MODE_TRANSLATEVIEW) {
+					|| mode == EuclidianConstants.MODE_TRANSLATE_VIEW) {
 				setCursorForTranslateViewNoHit();
 			} else {
 				switch (mode) {
@@ -6431,7 +6431,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		} else {
 			if ((shiftOrSpace
-					|| mode == EuclidianConstants.MODE_TRANSLATEVIEW)
+					|| mode == EuclidianConstants.MODE_TRANSLATE_VIEW)
 					&& (hits.size() >= 1)) {
 				setCursorForTranslateView(hits);
 			} else {
@@ -7741,7 +7741,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case VIEW:
 			if (repaint) {
 				if (temporaryMode
-						&& mode != EuclidianConstants.MODE_TRANSLATEVIEW) {
+						&& mode != EuclidianConstants.MODE_TRANSLATE_VIEW) {
 					view.setCursor(MOVE);
 				}
 				moveView();
@@ -9145,7 +9145,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		// move drawing pad or axis
-		case EuclidianConstants.MODE_TRANSLATEVIEW:
+		case EuclidianConstants.MODE_TRANSLATE_VIEW:
 			mousePressedTranslatedView(type, specialMoveEvent(e));
 
 			break;
@@ -9448,7 +9448,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @return mode when "shall move view"
 	 */
 	protected int getModeForShallMoveView(AbstractEvent event) {
-		return EuclidianConstants.MODE_TRANSLATEVIEW;
+		return EuclidianConstants.MODE_TRANSLATE_VIEW;
 	}
 
 	private boolean shallMoveView(AbstractEvent event) {
@@ -10220,7 +10220,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (app.isWhiteboardActive()
-				&& mode == EuclidianConstants.MODE_TRANSLATEVIEW
+				&& mode == EuclidianConstants.MODE_TRANSLATE_VIEW
 				&& !draggingOccurred) {
 			app.setMode(EuclidianConstants.MODE_SELECT_MOW);
 
@@ -10485,7 +10485,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private boolean shouldClearSelectionAfterMove(boolean rightClick) {
 		boolean shouldClear = !EuclidianView.usesSelectionRectangleAsInput(mode) && !rightClick
 				&& mode != EuclidianConstants.MODE_SELECT
-				&& mode != EuclidianConstants.MODE_TRANSLATEVIEW
+				&& mode != EuclidianConstants.MODE_TRANSLATE_VIEW
 				&& temporaryMode
 				&& oldMode == EuclidianConstants.MODE_SELECT_MOW
 				&& !wasBoundingBoxDrag();

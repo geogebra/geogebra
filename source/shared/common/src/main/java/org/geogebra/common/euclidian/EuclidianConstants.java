@@ -145,7 +145,7 @@ public final class EuclidianConstants {
 	public static final int MODE_MOVE_ROTATE = 39;
 
 	/** Move Graphics View */
-	public static final int MODE_TRANSLATEVIEW = 40;
+	public static final int MODE_TRANSLATE_VIEW = 40;
 
 	/** Zoom In */
 	public static final int MODE_ZOOM_IN = 41;
@@ -675,7 +675,7 @@ public final class EuclidianConstants {
 		case EuclidianConstants.MODE_RELATION:
 			return "Relation";
 
-		case EuclidianConstants.MODE_TRANSLATEVIEW:
+		case EuclidianConstants.MODE_TRANSLATE_VIEW:
 			return "MoveGraphicsView";
 
 		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:

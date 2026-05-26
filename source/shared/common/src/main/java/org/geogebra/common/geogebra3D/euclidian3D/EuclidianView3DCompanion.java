@@ -249,7 +249,7 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 		}
 		return getView().cursorIsTranslateViewCursor()
 				|| getView().getEuclidianController()
-						.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW;
+						.getMode() == EuclidianConstants.MODE_TRANSLATE_VIEW;
 	}
 
 	protected void drawTranslateViewCursor(Renderer renderer1,

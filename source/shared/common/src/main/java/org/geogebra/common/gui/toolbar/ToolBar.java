@@ -278,7 +278,7 @@ public class ToolBar {
 
 		// properties
 		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_TRANSLATEVIEW);
+		sb.append(EuclidianConstants.MODE_TRANSLATE_VIEW);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_ZOOM_IN);
 		sb.append(" ");
@@ -446,7 +446,7 @@ public class ToolBar {
 
 		// properties
 		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_TRANSLATEVIEW);
+		sb.append(EuclidianConstants.MODE_TRANSLATE_VIEW);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_ZOOM_IN);
 		sb.append(" ");
@@ -633,7 +633,7 @@ public class ToolBar {
 		// view control
 		sb.append(EuclidianConstants.MODE_ROTATEVIEW);
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_TRANSLATEVIEW);
+		sb.append(EuclidianConstants.MODE_TRANSLATE_VIEW);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_ZOOM_IN);
 		sb.append(" ");

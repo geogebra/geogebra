@@ -138,7 +138,7 @@ public class EuclidianControllerW extends EuclidianController implements
 					.setActivePanelAndToolbar(App.VIEW_EUCLIDIAN);
 		} else {
 			if (EuclidianConstants.isMoveOrSelectionMode(mode)
-					|| mode == EuclidianConstants.MODE_TRANSLATEVIEW
+					|| mode == EuclidianConstants.MODE_TRANSLATE_VIEW
 					|| mode == EuclidianConstants.MODE_SELECTION_LISTENER) {
 				setMode(mode, ModeSetter.TOOLBAR);
 			}

@@ -117,7 +117,7 @@ public class GeometryToolCollectionFactory extends AbstractToolCollectionFactory
         impl.extendCategory(ToolCategory.BASIC);
 
         impl.extendCategory(ToolCategory.EDIT,
-                EuclidianConstants.MODE_TRANSLATEVIEW,
+                EuclidianConstants.MODE_TRANSLATE_VIEW,
                 EuclidianConstants.MODE_COPY_VISUAL_STYLE);
 
         impl.extendCategory(ToolCategory.CONSTRUCT,

@@ -141,7 +141,7 @@ public class Graphing3DToolCollectionFactory extends AbstractToolCollectionFacto
 
         List<Integer> others = new ArrayList<>(Arrays.asList(
                 EuclidianConstants.MODE_ROTATEVIEW,
-                EuclidianConstants.MODE_TRANSLATEVIEW,
+                EuclidianConstants.MODE_TRANSLATE_VIEW,
                 EuclidianConstants.MODE_COPY_VISUAL_STYLE
         ));
         if (!isMobileApp) {

@@ -130,7 +130,7 @@ public class TopBarController {
 		if (isDragButtonActive) {
 			appW.setMode(MODE_SELECT_MOW);
 		} else {
-			appW.setMode(EuclidianConstants.MODE_TRANSLATEVIEW);
+			appW.setMode(EuclidianConstants.MODE_TRANSLATE_VIEW);
 			appW.hideMenu();
 			appW.closePopups();
 		}

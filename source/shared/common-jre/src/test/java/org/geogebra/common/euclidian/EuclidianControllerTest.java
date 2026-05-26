@@ -608,7 +608,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 
 	@Test
 	public void translateViewTool() {
-		setMode(EuclidianConstants.MODE_TRANSLATEVIEW); // TODO 40
+		setMode(EuclidianConstants.MODE_TRANSLATE_VIEW); // TODO 40
 		t("C:Corner[4]");
 		checkHiddenContent("C = (-0.02, 0.02)");
 		dragStart(100, 100);

@@ -4168,7 +4168,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	@Override
 	protected int getModeForShallMoveView(AbstractEvent event) {
 		if (event.isShiftDown() || app.isMiddleClick(event)) {
-			return EuclidianConstants.MODE_TRANSLATEVIEW;
+			return EuclidianConstants.MODE_TRANSLATE_VIEW;
 		}
 		return EuclidianConstants.MODE_ROTATEVIEW;
 	}

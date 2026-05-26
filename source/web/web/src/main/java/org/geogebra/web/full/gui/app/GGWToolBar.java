@@ -789,7 +789,7 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
 			return resourceBundle.mode_translatebyvector_32();
 
-		case EuclidianConstants.MODE_TRANSLATEVIEW:
+		case EuclidianConstants.MODE_TRANSLATE_VIEW:
 			return resourceBundle.mode_translateview_32();
 
 		case EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS:

@@ -36,7 +36,7 @@ import org.junit.Test;
 
 public class EuclidianConstantsTest extends BaseUnitTest {
 
-	private static Set<Integer> modes = new TreeSet<>();
+	private static final Set<Integer> modes = new TreeSet<>();
 
 	/** Collect all modes other than macros */
 	@BeforeClass

@@ -57,7 +57,7 @@ public class SuiteToolCollectionFactory extends AbstractToolCollectionFactory {
 
         impl.extendCategory(ToolCategory.EDIT,
                 EuclidianConstants.MODE_SELECT,
-                EuclidianConstants.MODE_TRANSLATEVIEW,
+                EuclidianConstants.MODE_TRANSLATE_VIEW,
                 EuclidianConstants.MODE_DELETE,
                 EuclidianConstants.MODE_SHOW_HIDE_LABEL,
                 EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
