@@ -28,11 +28,14 @@ import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.properties.ui.panel.IconButtonPanel;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.topbar.TopBarIcon;
 import org.geogebra.web.shared.components.dialog.DialogData;
+
+import elemental2.dom.KeyboardEvent;
 
 /**
  * euclidian view/graphics view context menu
@@ -109,14 +112,24 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 
 	protected void addSettingsButton(OptionType optionType) {
 		StandardButton settingsButton = new StandardButton(loc.getMenu("General.OpenSettings"));
-		settingsButton.addFastClickHandler(source -> {
-			showOptionsDialog(optionType);
-			wrappedPopup.hide();
-		});
+		settingsButton.addFastClickHandler(source -> openSettings(optionType));
 		settingsButton.addStyleName("materialOutlinedButton");
 		AriaMenuItem settingsItem = new AriaMenuItem(settingsButton, () -> {});
 		settingsItem.addStyleName("settingsItem");
 		wrappedPopup.addItem(settingsItem);
+		Dom.addEventListener(settingsItem.getElement(), "keydown", event -> {
+			KeyboardEvent e = (KeyboardEvent) event;
+			if ("Space".equals(e.code) || "Enter".equals(e.code)) {
+				openSettings(optionType);
+				e.stopPropagation();
+				e.preventDefault();
+			}
+		});
+	}
+
+	private void openSettings(OptionType optionType) {
+		showOptionsDialog(optionType);
+		wrappedPopup.hide();
 	}
 
 	private void addRulingMenuItem() {
