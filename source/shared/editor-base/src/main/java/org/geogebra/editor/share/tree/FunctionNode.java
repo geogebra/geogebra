@@ -79,7 +79,7 @@ public class FunctionNode extends InternalNode {
 			return getChild(0).size() == 0 ? 0 : 1;
 		} else if (getName() == Tag.LOG) {
 			return 1;
-		} else if (getName() == Tag.ATOMIC_PRE) {
+		} else if (getName() == Tag.LOG_POWER || getName() == Tag.ATOMIC_PRE) {
 			return 2;
 		}
 		return 0;

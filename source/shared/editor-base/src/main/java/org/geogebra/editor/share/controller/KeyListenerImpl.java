@@ -74,7 +74,7 @@ public class KeyListenerImpl {
 		case JavaKeyCodes.VK_O:
 			if (ctrlPressed) {
 				if (!editorState.isInRecurringDecimal()) {
-					inputController.newFunction(editorState, "recurringDecimal", false, null);
+					inputController.newFunction(editorState, "recurringDecimal");
 				}
 				return true;
 			}

@@ -214,7 +214,7 @@ public class TeXBuilder {
 		}
 		if (parent instanceof FunctionNode node) {
 			Tag fn = node.getName();
-			if (fn == Tag.APPLY || fn == Tag.LOG) {
+			if (fn == Tag.APPLY || fn == Tag.LOG || fn == Tag.LOG_POWER) {
 				return getInvisiblePlaceholder();
 			}
 		}
@@ -467,6 +467,20 @@ public class TeXBuilder {
 			return wrap(
 					log,
 					buildFenced('(', ')', argument, 1)
+			);
+		case LOG_POWER:
+			Atom logPower = new RomanAtom(buildString("log"));
+			if (argument.getChild(0).size() > 0
+					|| argument.getChild(1).size() > 0
+					|| currentNode == argument.getChild(0)
+					|| currentNode == argument.getChild(1)) {
+				logPower = new ScriptsAtom(logPower, build(argument.getChild(0)),
+						build(argument.getChild(1)));
+			}
+
+			return wrap(
+					logPower,
+					buildFenced('(', ')', argument, 2)
 			);
 		case ABS:
 			return buildFenced('|', '|', argument, 0);

@@ -91,16 +91,31 @@ public class SolverSerializer extends SerializerAdapter {
 			sb.append(closingBracket);
 			break;
 		case LOG:
+			sb.append(functionName.getKey());
+			sb.append("_[");
 			if (function.getChild(0).size() == 0) {
-				sb.append(functionName.getKey());
-				sb.append(openingBracket);
 				sb.append("10"); //default base for log
-				sb.append(separator);
-				serialize(function.getChild(1), sb);
-				sb.append(closingBracket);
-				break;
+			} else {
+				serialize(function.getChild(0), sb);
 			}
-			generalFunction(function, sb);
+			sb.append("](");
+			serialize(function.getChild(1), sb);
+			sb.append(")");
+			break;
+		case LOG_POWER:
+			sb.append('[');
+			sb.append(functionName.getKey());
+			sb.append("_[");
+			if (function.getChild(0).size() == 0) {
+				sb.append("10"); //default base for log
+			} else {
+				serialize(function.getChild(0), sb);
+			}
+			sb.append("] ^ ");
+			serialize(function.getChild(1), sb);
+			sb.append("](");
+			serialize(function.getChild(2), sb);
+			sb.append(")");
 			break;
 		case NROOT: //root[x,n]
 			serializeAndAppendFnWithTwoArgs("root", function, separator,

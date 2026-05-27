@@ -48,6 +48,9 @@ class FunctionTemplateCatalog {
 				new FunctionTemplate(Tag.LOG, "\\log",
 						new Parameter[]{Parameter.BASIC, Parameter.BASIC}, 1),
 
+				new FunctionTemplate(Tag.LOG_POWER, "\\log",
+						new Parameter[]{Parameter.BASIC, Parameter.BASIC, Parameter.BASIC}, 1),
+
 				new FunctionTemplate(Tag.DEF_INT, "\\int",
 						new Parameter[]{createUpParameter(1), createDownParameter(0)}, 2),
 

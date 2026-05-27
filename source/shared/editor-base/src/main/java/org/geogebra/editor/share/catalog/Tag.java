@@ -50,6 +50,8 @@ public enum Tag {
 
 	LOG("log"),
 
+	LOG_POWER("$logPower"),
+
 	DEF_INT("$defint"),
 
 	LIM_EQ("$limeq"),

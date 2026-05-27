@@ -228,12 +228,25 @@ public class InputController {
 	private static FunctionPower getFunctionPower(EditorState editorState) {
 		FunctionPower power = new FunctionPower();
 		int initialOffset = editorState.getCurrentOffsetOrSelection();
-		Node last = editorState.getCurrentNode()
-				.getChild(initialOffset - 1);
-		power.script = FunctionNode.isScript(last) ? (FunctionNode) last
+		for (int i = 0; i < 2; i++) {
+			Node last = editorState.getCurrentNode()
+					.getChild(initialOffset - 1);
+			FunctionNode script = FunctionNode.isScript(last) ? (FunctionNode) last
 				: null;
-		if (power.script != null) {
-			initialOffset--;
+			if (script != null) {
+				initialOffset--;
+				if (script.hasTag(Tag.SUPERSCRIPT) && power.script == null) {
+					power.script = script;
+				} else if (power.subscript == null) {
+					power.subscript = script;
+				} else {
+					// two superscripts => invalid function
+					power.name = "";
+					return power;
+				}
+			} else {
+				break;
+			}
 		}
 		power.name = ArgumentHelper.readCharacters(editorState,
 				initialOffset);
@@ -250,28 +263,21 @@ public class InputController {
 		Tag tag = Tag.lookup(name);
 
 		if (tag == Tag.MATRIX) {
-			if (power.script != null) {
-				deleteSingleArg(editorState);
-			}
+			removeFunctionsScripts(power, editorState);
 			delCharacters(editorState, name.length());
 			newMatrix(editorState, 1, 1);
 			return;
 		}
 
 		if (ch == FUNCTION_OPEN_KEY && tag != null) {
-			if (power.script != null) {
-				deleteSingleArg(editorState);
-			}
+			removeFunctionsScripts(power, editorState);
 			delCharacters(editorState, name.length());
-			newFunction(editorState, name, false,
-					power.script);
+			newFunction(editorState, name, false, power.script, power.subscript);
 		} else if ((ch == FUNCTION_OPEN_KEY || ch == '[')
 				&& catalog.isFunction(name)) {
-			if (power.script != null) {
-				deleteSingleArg(editorState);
-			}
+			removeFunctionsScripts(power, editorState);
 			delCharacters(editorState, name.length());
-			newFunction(editorState, name, ch == '[', power.script);
+			newFunction(editorState, name, ch == '[', power.script, power.subscript);
 
 		} else {
 			int index = editorState.getCurrentOffsetOrSelection();
@@ -295,12 +301,21 @@ public class InputController {
 		}
 	}
 
+	private void removeFunctionsScripts(FunctionPower power, EditorState editorState) {
+		if (power.script != null) {
+			deleteSingleArg(editorState);
+		}
+		if (power.subscript != null) {
+			deleteSingleArg(editorState);
+		}
+	}
+
 	/**
 	 * Insert function by name.
 	 * @param name function
 	 */
 	public void newFunction(EditorState editorState, String name) {
-		newFunction(editorState, name, false, null);
+		newFunction(editorState, name, false, null, null);
 	}
 
 	/**
@@ -308,7 +323,7 @@ public class InputController {
 	 * @param name function
 	 */
 	public void newFunction(EditorState editorState, String name,
-			boolean square, FunctionNode exponent) {
+			boolean square, FunctionNode exponent, FunctionNode subscript) {
 		SequenceNode currentField = editorState.getCurrentNode();
 		int currentOffset = editorState.getCurrentOffset();
 		// add extra braces for sqrt, nthroot and fraction
@@ -341,17 +356,21 @@ public class InputController {
 		Tag tag = Tag.lookup(name);
 		final boolean hasSelection = editorState.getSelectionEnd() != null;
 		int offset = 0;
-		if (tag == Tag.LOG && exponent != null
-				&& exponent.getName() == Tag.SUBSCRIPT) {
-			function = buildLog(exponent);
-			offset = 1;
-		} else if (tag != null && exponent == null) {
+		if (tag == Tag.LOG && subscript != null) {
+			if (exponent == null) {
+				function = buildLog(subscript);
+				offset = 1;
+			} else {
+				function = buildLog(subscript, exponent);
+				offset = 2;
+			}
+		} else if (tag != null && exponent == null && subscript == null) {
 			FunctionTemplate functionTemplate = catalog.getGeneral(tag);
 			function = new FunctionNode(functionTemplate);
 		} else {
 			offset = 1;
 			tag = null; // reset tag if exponent was found
-			function = buildCustomFunction(name, square, exponent);
+			function = buildCustomFunction(name, square, exponent, subscript);
 		}
 		boolean builtin = tag != null;
 		// add sequences
@@ -377,7 +396,7 @@ public class InputController {
 				editorState.setCurrentNode((SequenceNode) array.getParent());
 				editorState.resetSelection();
 				editorState.setCurrentOffset(array.getParentIndex() + 1);
-				newFunction(editorState, name, square, null);
+				newFunction(editorState, name, square, null, null);
 				return;
 			}
 		} else {
@@ -415,20 +434,31 @@ public class InputController {
 		}
 	}
 
-	private FunctionNode buildLog(FunctionNode exponent) {
+	private FunctionNode buildLog(FunctionNode subscript) {
 		FunctionTemplate functionTemplate = catalog.getGeneral(Tag.LOG);
 		FunctionNode function = new FunctionNode(functionTemplate);
-		function.setChild(0, exponent.getChild(0));
+		function.setChild(0, subscript.getChild(0));
+		return function;
+	}
+
+	private FunctionNode buildLog(FunctionNode subscript, FunctionNode exponent) {
+		FunctionTemplate functionTemplate = catalog.getGeneral(Tag.LOG_POWER);
+		FunctionNode function = new FunctionNode(functionTemplate);
+		function.setChild(0, subscript.getChild(0));
+		function.setChild(1, exponent.getChild(0));
 		return function;
 	}
 
 	private FunctionNode buildCustomFunction(String name, boolean square,
-			Node exponent) {
+			Node exponent, Node subscript) {
 		FunctionTemplate template = catalog.getFunction(name, square);
 		SequenceNode nameS = new SequenceNode();
 		for (int i = 0; i < name.length(); i++) {
 			nameS.append(
 					catalog.getCharacter(name.charAt(i) + ""));
+		}
+		if (subscript != null) {
+			nameS.addChild(subscript);
 		}
 		if (exponent != null) {
 			nameS.addChild(exponent);
@@ -1203,14 +1233,14 @@ public class InputController {
 				handled = true;
 			} else if (ch == '/' || ch == '\u00f7') {
 				if (!editorState.isPreventingNestedFractions()) {
-					newFunction(editorState, "frac", false, null);
+					newFunction(editorState, "frac");
 				}
 				handled = true;
 			} else if (ch == Unicode.INVISIBLE_PLUS) {
 				// skip, handled as fraction
 				handled = true;
 			} else if (ch == Unicode.SQUARE_ROOT) {
-				newFunction(editorState, "sqrt", false, null);
+				newFunction(editorState, "sqrt");
 				handled = true;
 			} else if (isAbsDelimiter(ch)) {
 				newFunction(editorState, "abs");
@@ -1470,6 +1500,7 @@ public class InputController {
 	public static class FunctionPower {
 		/** subscript or superscript */
 		public FunctionNode script;
+		public FunctionNode subscript;
 		public String name;
 	}
 

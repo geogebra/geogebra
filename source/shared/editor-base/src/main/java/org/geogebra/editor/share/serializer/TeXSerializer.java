@@ -263,15 +263,24 @@ public class TeXSerializer extends SerializerAdapter {
 			break;
 		case LOG:
 			stringBuilder.append(function.getTexName());
-			// only proint log base if nonempty or contains cursor
-			if (function.getChild(0).size() > 0
-					|| mCurrentField == function.getChild(0)) {
-				stringBuilder.append("_{");
-				serialize(function.getChild(0), stringBuilder);
+			// only print log base if nonempty or contains cursor
+			appendLogIndex(function, stringBuilder);
+			stringBuilder.append("\\left(");
+			serialize(function.getChild(1), stringBuilder);
+			stringBuilder.append("\\right)");
+			break;
+		case LOG_POWER:
+			stringBuilder.append(function.getTexName());
+			// only print log base if nonempty or contains cursor
+			appendLogIndex(function, stringBuilder);
+			if (function.getChild(1).size() > 0
+					|| mCurrentField == function.getChild(1)) {
+				stringBuilder.append("^{");
+				serialize(function.getChild(1), stringBuilder);
 				stringBuilder.append('}');
 			}
 			stringBuilder.append("\\left(");
-			serialize(function.getChild(1), stringBuilder);
+			serialize(function.getChild(2), stringBuilder);
 			stringBuilder.append("\\right)");
 			break;
 		case SUM_EQ:
@@ -377,6 +386,15 @@ public class TeXSerializer extends SerializerAdapter {
 		}
 		if (function == currentSelEnd) {
 			stringBuilder.append(selection_end);
+		}
+	}
+
+	private void appendLogIndex(FunctionNode function, StringBuilder stringBuilder) {
+		if (function.getChild(0).size() > 0
+				|| mCurrentField == function.getChild(0)) {
+			stringBuilder.append("_{");
+			serialize(function.getChild(0), stringBuilder);
+			stringBuilder.append('}');
 		}
 	}
 

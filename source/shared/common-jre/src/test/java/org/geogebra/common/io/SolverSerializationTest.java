@@ -62,8 +62,6 @@ public class SolverSerializationTest {
 		parsesToSolverInput("223^3", "[223^3]");
 		parsesToSolverInput("(4/8)", "[4/8]");
 		parsesToSolverInput("(4.5/8)", "[4.5/8]");
-		parsesToSolverInput("log(4)", "log[10,4]");
-		parsesToSolverInput("log(8,4)", "log[8,4]");
 		parsesToSolverInput("nroot(16,4)", "root[16,4]");
 		parsesToSolverInput("sqrt(2)", "sqrt[2]");
 		parsesToSolverInput("|x|", "abs[x]");
@@ -167,8 +165,9 @@ public class SolverSerializationTest {
 
 	@Test
 	public void testLog() {
-		parsesToSolverInput("log(10,x)", "log[10,x]");
-		parsesToSolverInput("log(x)", "log[10,x]");
+		parsesToSolverInput("log(x)", "log_[10](x)");
+		parsesToSolverInput("log(10,x)", "log_[10](x)");
+		parsesToSolverInput("log(2,x)", "log_[2](x)");
 	}
 
 	@Test

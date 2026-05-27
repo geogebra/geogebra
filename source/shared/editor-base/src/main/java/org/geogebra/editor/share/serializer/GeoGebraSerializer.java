@@ -170,6 +170,22 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			}
 			generalFunction(functionNode, stringBuilder);
 			break;
+		case LOG_POWER:
+			if (functionNode.getChild(0).size() == 0) {
+				appendSingleArg("log", functionNode, stringBuilder, 2);
+				stringBuilder.append("^(");
+				serialize(functionNode.getChild(1), stringBuilder);
+				stringBuilder.append(')');
+				break;
+			}
+			stringBuilder.append("log(");
+			serialize(functionNode.getChild(0), stringBuilder);
+			stringBuilder.append(",");
+			serialize(functionNode.getChild(2), stringBuilder);
+			stringBuilder.append(")^(");
+			serialize(functionNode.getChild(1), stringBuilder);
+			stringBuilder.append(')');
+			break;
 		case NROOT:
 			if (functionNode.getChild(0).size() == 0) {
 				appendSingleArg("sqrt", functionNode, stringBuilder, 1);

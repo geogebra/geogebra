@@ -451,6 +451,17 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
+	public void testLogPower() {
+		checker.type("log_2").right(1)
+				.type("^3").right(1).type("(4").checkRaw(
+				"SequenceNode[FnLOG_POWER[SequenceNode[2], SequenceNode[3], SequenceNode[4]]]");
+		checker.checkAsciiMath("log(2,4)^(3)");
+		checker.type("log_2").right(1)
+				.type("^3").right(1).type("(4")
+				.checkLaTeX("\\log_{2}^{3}\\left(4\\right)");
+	}
+
+	@Test
 	public void testSlash1() {
 		checker.type("/1").right(1).type("2")
 				.checkAsciiMath("((1)/(2))");

@@ -935,7 +935,7 @@ public class MathFieldInternal
 	 *            function name
 	 */
 	public void insertFunction(String text) {
-		inputController.newFunction(editorState, text, false, null);
+		inputController.newFunction(editorState, text);
 		onKeyTyped();
 	}
 
