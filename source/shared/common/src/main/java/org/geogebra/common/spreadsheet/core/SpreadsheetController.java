@@ -607,6 +607,7 @@ public final class SpreadsheetController {
 		editor.showAt(row, column, editExistingContent);
 		readCellEditorContent();
 		resetDragAction();
+		updateTextMode();
 	}
 
 	private void showCellEditorAtSelection(boolean editExistingContent) {

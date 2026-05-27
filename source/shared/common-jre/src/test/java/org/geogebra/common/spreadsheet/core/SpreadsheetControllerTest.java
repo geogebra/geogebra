@@ -600,6 +600,17 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 	}
 
 	@Test
+	@Issue("APPS-7600")
+	public void textModeShouldUpdateForStats() {
+		simulateCellMouseClick(0, 0, 2);
+		simulateKeyPressInCellEditor(JavaKeyCodes.VK_1);
+		assertTrue(cellEditor.getMathField().getInputController().getPlainTextMode());
+		simulateCellMouseClick(0, 1,  1);
+		controller.calculate1VarStatistics(Statistic.SUM);
+		assertFalse(cellEditor.getMathField().getInputController().getPlainTextMode());
+	}
+
+	@Test
 	public void testSpaceShouldBeReplacedWithDotForEquationMode() {
 		simulateCellMouseClick(0, 0, 2);
 		simulateKeyPressInCellEditor(JavaKeyCodes.VK_EQUALS);
