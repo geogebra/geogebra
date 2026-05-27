@@ -89,6 +89,11 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		}
 
 		@Override
+		public double getFittingContentWidth() {
+			return mathField.getMathField().computeWidth();
+		}
+
+		@Override
 		public void show(@Nonnull Rectangle editorBounds, @Nonnull Rectangle viewport, int textAlignment) {
 			mathField.attach(parent);
 			updatePosition(editorBounds, viewport);

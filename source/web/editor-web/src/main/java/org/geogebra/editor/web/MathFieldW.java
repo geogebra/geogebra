@@ -665,7 +665,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		lastIcon.paintCursor(g, margin);
 	}
 
-	private double computeWidth() {
+	/**
+	 * @return the field's preferred width
+	 */
+	public double computeWidth() {
 		return roundUp(lastIcon.getIconWidth() + rightMargin);
 	}
 

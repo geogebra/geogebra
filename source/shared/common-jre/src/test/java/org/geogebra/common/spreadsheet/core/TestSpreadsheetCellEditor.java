@@ -39,6 +39,11 @@ final class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 	}
 
 	@Override
+	public double getFittingContentWidth() {
+		return 20;
+	}
+
+    @Override
 	public void show(@Nonnull Rectangle editorBounds, @Nonnull Rectangle viewport, int textAlignment) {
 		showing = true;
 	}

@@ -37,10 +37,11 @@ import org.geogebra.editor.share.controller.ExpressionReader;
  *
  * @apiNote This type is not designed to be thread-safe.
  */
-public final class Spreadsheet implements TabularDataChangeListener {
+public final class Spreadsheet implements SpreadsheetControllerDelegate,
+		TabularDataChangeListener {
 
 	public final MulticastEvent<String> cellFormatXmlChanged = new MulticastEvent<>();
-	public final MulticastEvent<CellSizes> cellSizesChanged;
+	public final MulticastEvent<CellSizes> cellSizesChanged = new MulticastEvent<>();
 
 	public static final int MAX_COLUMNS = 9999;
 	public static final int MAX_ROWS = 9999;
@@ -84,11 +85,10 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		styling.stylingXmlChanged.addListener(cellFormatXmlChanged::notifyListeners);
 
 		controller = new SpreadsheetController(tabularData, styling);
+		controller.setDelegate(this);
 		controller.setUndoProvider(undoProvider);
 		controller.setSpreadsheetConstructionDelegate(constructionDelegate);
 		controller.selectionController.selectionsChanged.addListener(this::selectionsChanged);
-		controller.referencesChanged.addListener(this::referencesChanged);
-		cellSizesChanged = controller.cellSizesChanged;
 
 		// get notified when number or size of rows/columns changes
 		tabularData.addChangeListener(this);
@@ -100,6 +100,13 @@ public final class Spreadsheet implements TabularDataChangeListener {
 				styling, tabularData);
 
 		setViewport(new Rectangle(0, 0, 0, 0));
+	}
+
+	/**
+	 * @return the controller.
+	 */
+	public @Nonnull SpreadsheetController getController() {
+		return controller;
 	}
 
 	// Delegates
@@ -446,79 +453,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		notifyRepaintNeeded();
 	}
 
-	// Editor
-
-	public boolean isEditorActive() {
-		return controller.isEditorActive();
-	}
-
-	/**
-	 * Scroll editor into view if visible
-	 */
-	public void scrollEditorIntoView() {
-		controller.scrollEditorIntoView();
-	}
-
-	/**
-	 * Saves the content of the editor and hides it afterwards.
-	 */
-	public void saveContentAndHideCellEditor() {
-		controller.saveContentAndHideCellEditor();
-	}
-
-	private void referencesChanged(MulticastEvent.Void unused) {
-		notifyRepaintNeeded();
-	}
-
-	// Context Menu
-
-	/**
-	 * Returns the context menu items
-	 * @param identifier identifier
-	 * @return list of context menu items
-	 */
-	public List<ContextMenuItem> getMenuItems(ContextMenuItem.Identifier identifier) {
-		return controller.getMenuItems(identifier);
-	}
-
-	// -- TabularDataChangeListener --
-
-	@Override
-	public void tabularDataDidChange(int row, int column) {
-		renderer.invalidate(row, column);
-		notifyRepaintNeeded();
-	}
-
-	// Call chain:
-	// KernelTabularDataAdapter (on settings change)
-	//   -> Spreadsheet.tabularDataDimensionsDidChange()
-	@Override
-	public void tabularDataDimensionsDidChange(SpreadsheetDimensions spreadsheetDimensions) {
-		controller.tabularDataDimensionsDidChange(spreadsheetDimensions);
-		notifyRepaintNeeded();
-	}
-
-	// Test support API (DO NOT USE except for tests!)
-
-	public SpreadsheetController getController() {
-		return controller;
-	}
-
-	SpreadsheetStyling getStyling() {
-		return styling;
-	}
-
-	void selectRow(int row, boolean extend, boolean add) {
-		controller.selectRow(row, extend, add);
-	}
-
-	void selectColumn(int column, boolean extend, boolean add) {
-		controller.selectColumn(column, extend, add);
-	}
-
-	void selectCell(int row, int column, boolean extend, boolean add) {
-		controller.selectCell(row, column, extend, add);
-	}
+	// Misc
 
 	/**
 	 * Toggle grid visibility, without repainting the view.
@@ -564,5 +499,99 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 */
 	public void scrollRangeIntoView(TabularRange tabularRange) {
 		controller.scrollRangeIntoView(tabularRange);
+	}
+
+	// Editor
+
+	public boolean isEditorActive() {
+		return controller.isEditorActive();
+	}
+
+	/**
+	 * Scroll editor into view if visible
+	 */
+	public void scrollEditorIntoView() {
+		controller.scrollEditorIntoView();
+	}
+
+	/**
+	 * Saves the content of the editor and hides it afterwards.
+	 */
+	public void saveContentAndHideCellEditor() {
+		controller.saveContentAndHideCellEditor();
+	}
+
+	// Context Menu
+
+	/**
+	 * Returns the context menu items
+	 * @param identifier identifier
+	 * @return list of context menu items
+	 */
+	public List<ContextMenuItem> getMenuItems(ContextMenuItem.Identifier identifier) {
+		return controller.getMenuItems(identifier);
+	}
+
+	// -- SpreadsheetControllerDelegate
+
+	@Override
+	public void cellSizesChanged(CellSizes cellSizes) {
+		cellSizesChanged.notifyListeners(cellSizes);
+	}
+
+	@Override
+	public void repaintNeeded() {
+		notifyRepaintNeeded();
+	}
+
+	// -- TabularDataChangeListener --
+
+	@Override
+	public void tabularDataDidChange(int row, int column) {
+		renderer.invalidate(row, column);
+		notifyRepaintNeeded();
+	}
+
+	// Call chain:
+	// KernelTabularDataAdapter (on settings change)
+	//   -> Spreadsheet.tabularDataDimensionsDidChange()
+	@Override
+	public void tabularDataDimensionsDidChange(SpreadsheetDimensions spreadsheetDimensions) {
+		controller.tabularDataDimensionsDidChange(spreadsheetDimensions);
+		notifyRepaintNeeded();
+	}
+
+	// -- Test support API (DO NOT USE except for tests!)
+
+	/**
+	 * @deprecated Test support API, do not use
+	 */
+	@Deprecated
+	SpreadsheetStyling getStyling() {
+		return styling;
+	}
+
+	/**
+	 * @deprecated Test support API, DO NOT USE
+	 */
+	@Deprecated
+	void selectRow(int row, boolean extend, boolean add) {
+		controller.selectRow(row, extend, add);
+	}
+
+	/**
+	 * @deprecated Test support API, DO NOT USE
+	 */
+	@Deprecated
+	void selectColumn(int column, boolean extend, boolean add) {
+		controller.selectColumn(column, extend, add);
+	}
+
+	/**
+	 * @deprecated Test support API, DO NOT USE
+	 */
+	@Deprecated
+	void selectCell(int row, int column, boolean extend, boolean add) {
+		controller.selectCell(row, column, extend, add);
 	}
 }

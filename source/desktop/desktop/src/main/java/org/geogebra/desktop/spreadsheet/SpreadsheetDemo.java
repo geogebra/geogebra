@@ -346,6 +346,11 @@ public class SpreadsheetDemo {
 			}
 
 			@Override
+			public double getFittingContentWidth() {
+				return mathField.getPreferredSize().width;
+			}
+
+			@Override
 			public void show(@Nonnull Rectangle editorBounds, @Nonnull Rectangle viewport, int textAlignment) {
 				if (!frame.getContentPane().isAncestorOf(editorBox)) {
 					frame.getContentPane().add(editorBox);

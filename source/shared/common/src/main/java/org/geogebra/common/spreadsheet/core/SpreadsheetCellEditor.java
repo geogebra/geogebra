@@ -31,6 +31,11 @@ import org.geogebra.editor.share.editor.MathFieldInternal;
 public interface SpreadsheetCellEditor {
 
 	/**
+	 * @return the fitting width of the current editor contents, including any padding.
+	 */
+	double getFittingContentWidth();
+
+	/**
 	 * Show the spreadsheet cell editor.
 	 * @param editorBounds The editor (=cell) bounds in viewport-relative coordinates.
 	 * @param viewport The current visible viewport.
