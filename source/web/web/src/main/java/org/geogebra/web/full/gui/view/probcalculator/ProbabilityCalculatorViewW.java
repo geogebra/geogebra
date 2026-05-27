@@ -16,6 +16,8 @@
 
 package org.geogebra.web.full.gui.view.probcalculator;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
@@ -24,11 +26,11 @@ import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.main.App;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.css.GuiResources;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.gui.view.data.PlotPanelEuclidianViewW;
-import org.geogebra.web.html5.euclidian.EuclidianViewW;
-import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.ToggleButton;
+import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.AsyncManager;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
@@ -49,7 +51,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	FlowPanel plotPanelPlus;
 
 	protected FlowPanel probCalcPanel;
-	private ToggleButton btnNormalOverlay;
+	private @CheckForNull IconButton overlayIconButton;
+	private @CheckForNull ToggleButton btnNormalOverlay;
 	private ToggleButton btnLineGraph;
 	private ToggleButton btnStepGraph;
 	private ToggleButton btnBarGraph;
@@ -58,7 +61,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	protected FlowPanel plotPanelOptions;
 
 	/**
-	 * @param app creates new probabilitycalculatorView
+	 * @param app creates new probability calculator view
 	 */
 	protected ProbabilityCalculatorViewW(AppW app) {
 		super(app);
@@ -99,12 +102,12 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		btnLineGraph.setTitle(loc.getMenu("LineGraph"));
 		btnStepGraph.setTitle(loc.getMenu("StepGraph"));
 		btnBarGraph.setTitle(loc.getMenu("BarChart"));
-		if (app.getConfig().hasDistributionView()) {
-			AriaHelper.setTitle(btnNormalOverlay, loc.getMenu("OverlayNormalCurve"));
-		} else {
+		if (overlayIconButton != null) {
+			overlayIconButton.setLabels();
+		} else if (btnNormalOverlay != null) {
 			btnNormalOverlay.setTitle(loc.getMenu("OverlayNormalCurve"));
+			btnNormalOverlay.getElement().setAttribute("tooltip-position", "right");
 		}
-		btnNormalOverlay.getElement().setAttribute("tooltip-position", "right");
 	}
 
 	/**
@@ -112,9 +115,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	 * panel to a EuclidianView. The viewID for the target EuclidianView is
 	 * stored as a property with key "euclidianViewID".
 	 *
-	 * This action is passed as a parameter to plotPanel where it is used in the
+	 * <p>This action is passed as a parameter to plotPanel where it is used in the
 	 * plotPanel context menu and the EuclidianView transfer handler when the
-	 * plot panel is dragged into an EV.
+	 * plot panel is dragged into an EV.</p>
 	 */
 	private void createExportToEvAction() {
 		exportToEVAction = () -> {
@@ -135,12 +138,14 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		plotPanelOptions = new FlowPanel();
 		plotPanelOptions.setStyleName("plotPanelOptions");
 
-		plotPanelOptions.add(btnNormalOverlay);
 		if (!app.getConfig().hasDistributionView()) {
+			plotPanelOptions.add(btnNormalOverlay);
 			plotPanelOptions.add(btnBarGraph);
 			plotPanelOptions.add(btnStepGraph);
 			plotPanelOptions.add(btnLineGraph);
 			updateGraphButtons();
+		} else {
+			plotPanelOptions.add(overlayIconButton);
 		}
 
 		plotPanelPlus = new FlowPanel();
@@ -158,18 +163,21 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	private void createGUIElements() {
 		setLabelArrays();
 
-		btnNormalOverlay = new ToggleButton(app.getConfig().hasDistributionView()
-				? GuiResources.INSTANCE.normal_overlay_black()
-				: GuiResources.INSTANCE.normal_overlay());
-		btnNormalOverlay.addStyleName("probCalcStylbarBtn");
 		if (app.getConfig().hasDistributionView()) {
-			btnNormalOverlay.removeStyleName("ToggleButton");
-			btnNormalOverlay.addStyleName("suite");
+			overlayIconButton = new IconButton((AppW) app, null,
+					new ImageIconSpec(GuiResources.INSTANCE.normal_overlay_black()),
+					"OverlayNormalCurve");
+			overlayIconButton.addStyleName("probCalcStylbarBtn");
+			overlayIconButton.setTooltipPositionRight();
+			overlayIconButton.addFastClickHandler(source -> onOverlayClicked());
+		} else {
+			btnNormalOverlay = new ToggleButton(GuiResources.INSTANCE.normal_overlay());
+			btnNormalOverlay.addStyleName("probCalcStylbarBtn");
+			btnNormalOverlay.addFastClickHandler(event -> {
+				Dom.toggleClass(btnNormalOverlay, "selected", btnNormalOverlay.isSelected());
+				onOverlayClicked();
+			});
 		}
-		btnNormalOverlay.addFastClickHandler(event -> {
-			Dom.toggleClass(btnNormalOverlay, "selected", btnNormalOverlay.isSelected());
-			onOverlayClicked();
-		});
 
 		btnLineGraph = new ToggleButton(GuiResources.INSTANCE.line_graph());
 		btnLineGraph.addStyleName("probCalcStylbarBtn");
@@ -188,7 +196,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	 * Overlay button action
 	 */
 	protected void onOverlayClicked() {
-		setShowNormalOverlay(btnNormalOverlay.isSelected());
+		setShowNormalOverlay(!isShowNormalOverlay());
 		updateAll(false);
 	}
 
@@ -234,7 +242,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 
 	@Override
 	protected void onDistributionUpdate() {
-		btnNormalOverlay.setVisible(isOverlayDefined());
+		if (overlayIconButton != null) {
+			overlayIconButton.setVisible(isOverlayDefined());
+		} else if (btnNormalOverlay != null) {
+			btnNormalOverlay.setVisible(isOverlayDefined());
+		}
 		getPlotPanel().repaintView();
 	}
 
@@ -273,7 +285,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 			distrPanel.updateGUI();
 		}
 		updateGraphButtons();
-		btnNormalOverlay.setSelected(isShowNormalOverlay());
+		if (btnNormalOverlay != null) {
+			btnNormalOverlay.setSelected(isShowNormalOverlay());
+		} else if (overlayIconButton != null) {
+			overlayIconButton.setActive(isShowNormalOverlay());
+		}
 	}
 
 	private void updateGraphButtons() {
@@ -307,19 +323,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		return true;
 	}
 
-	/**
-	 * @return ProbabilitiManager
-	 */
 	@Override
 	public ProbabilityManager getProbManager() {
 		return probManager;
-	}
-
-	/**
-	 * @return plot panel view
-	 */
-	public EuclidianViewW getPlotPanelEuclidianView() {
-		return getPlotPanel();
 	}
 
 	@Override

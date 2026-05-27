@@ -50,7 +50,7 @@ public class ScriptInputModel extends OptionsModel {
 				new ScriptInputModel(app, EventType.UPDATE, "OnUpdate"),
 				new ScriptInputModel(app, EventType.DRAG_END, "OnDragEnd"),
 				new ScriptInputModel(app, EventType.EDITOR_KEY_TYPED, "OnChange"),
-				new ScriptInputModel(app,  EventType.LOAD_PAGE, "GlobalJavaScript")
+				new ScriptInputModel(app, EventType.LOAD_PAGE, "GlobalJavaScript")
 		};
 	}
 

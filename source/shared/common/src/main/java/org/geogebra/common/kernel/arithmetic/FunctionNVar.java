@@ -841,18 +841,16 @@ public class FunctionNVar extends ValidExpression
 			tree.setOperation(adjustOp(op, negate));
 			tree.setLeft(new IneqTree());
 			tree.setRight(new IneqTree());
-			return initIneqs(leftTree,  tree.getLeft(), negate)
-					&& initIneqs(rightTree,  tree.getRight(),
-							negate);
+			return initIneqs(leftTree, tree.getLeft(), negate)
+					&& initIneqs(rightTree, tree.getRight(), negate);
 		} else if (op.equals(Operation.NOT)) {
-			return initIneqs(leftTree,  tree, !negate);
+			return initIneqs(leftTree, tree, !negate);
 		} else if (op.equals(Operation.IMPLICATION)) {
 			tree.setOperation(adjustOp(Operation.OR, negate));
 			tree.setLeft(new IneqTree());
 			tree.setRight(new IneqTree());
-			return initIneqs(leftTree,  tree.getLeft(), !negate)
-					&& initIneqs(rightTree,  tree.getRight(),
-							negate);
+			return initIneqs(leftTree, tree.getLeft(), !negate)
+					&& initIneqs(rightTree, tree.getRight(), negate);
 		} else if (op.equals(Operation.FUNCTION_NVAR)) {
 			FunctionalNVar nv = (FunctionalNVar) leftTree.getLeft();
 			ExpressionNode subExpr = nv.getFunction().getExpression()
@@ -863,7 +861,7 @@ public class FunctionNVar extends ValidExpression
 				subExpr.replace(subVars[i],
 						((MyList) rightTree.getLeft()).get(i));
 			}
-			return initIneqs(subExpr,  tree, negate);
+			return initIneqs(subExpr, tree, negate);
 		} else {
 			return false;
 		}

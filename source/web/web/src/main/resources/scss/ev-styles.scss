@@ -13,30 +13,9 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	.graphicsControlsPanel {
 		left: auto !important;
 		z-index: z-index.$z-on-top-of-graphics;
-	}
 
-	.flatButton.graphicsContextMenuBtn {
-		margin-top: 10px;
-		margin-right: 10px;
-		position: relative;
-		right: 0;
-		border-radius: 50%;
-		transition: background-color 150ms ease 0ms;
-		img {
-			opacity: 0.54;
-		}
-
-		&:hover {
-			img {
-				opacity: 0.84;
-			}
-		}
-
-		&.mow:hover {
-			background-color: colors.$mow_card_background_hover;
-			img {
-				opacity: 1;
-			}
+		.iconButton {
+			margin: 10px 10px 0 0;
 		}
 	}
 

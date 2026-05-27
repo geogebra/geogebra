@@ -993,10 +993,10 @@ public interface JavaScriptAPI {
 	 * 
 	 * <p>Example: First, set a change listening JavaScript function:
 	 * ggbApplet.registerObjectUpdateListener("A", "myJavaScriptFunction"); Then
-	 * the GeoGebra Applet will call the Javascript function
+	 * the GeoGebra Applet will call the JavaScript function
 	 * myJavaScriptFunction("A"); whenever object A changes.
 	 */
-	void registerObjectUpdateListener(String objName,  Object jsFunction);
+	void registerObjectUpdateListener(String objName, Object jsFunction);
 
 	/**
 	 * Removes a previously set change listener for the given object.

@@ -62,7 +62,7 @@ public class HatchingAngleProperty extends AbstractRangeProperty<Integer>
 	static @CheckForNull Integer getMaxHatchingAngleValue(FillType fillType) {
 		return switch (fillType) {
 			case HATCH, BRICK -> 180;
-			case CROSSHATCHED, CHESSBOARD,  WEAVING -> 45;
+			case CROSSHATCHED, CHESSBOARD, WEAVING -> 45;
 			default -> null;
 		};
 	}

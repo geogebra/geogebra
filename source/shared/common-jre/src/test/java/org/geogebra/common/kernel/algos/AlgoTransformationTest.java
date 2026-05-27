@@ -92,7 +92,7 @@ public class AlgoTransformationTest extends BaseUnitTest {
 		assertFalse(getDirection(arc));
 		// segment mapped to quarter-circle
 		assertEquals(0.0, arc.getParameterStart(), 0.01);
-		assertEquals(Math.PI / 2, arc.getParameterEnd(),  0.01);
+		assertEquals(Math.PI / 2, arc.getParameterEnd(), 0.01);
 	}
 
 	@Test

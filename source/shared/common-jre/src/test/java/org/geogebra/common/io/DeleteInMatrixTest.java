@@ -345,6 +345,6 @@ public class DeleteInMatrixTest {
 
 	@Test
 	public void testSelectAndReplaceLatexElement11FromMiddle() {
-		selectAllAndDelete(MATRIX_FRAC,  2, "1/(2*sqrt(2))");
+		selectAllAndDelete(MATRIX_FRAC, 2, "1/(2*sqrt(2))");
 	}
 }

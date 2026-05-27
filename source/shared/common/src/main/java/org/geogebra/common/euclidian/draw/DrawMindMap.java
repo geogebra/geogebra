@@ -406,7 +406,7 @@ public class DrawMindMap extends DrawInlineText {
 		} else {
 			double toMove = marginTop(newAlignment, children.size())
 					+ GeoMindMapNode.CHILD_HEIGHT - spaceGained;
-			MoveGeos.moveObjects(childGeos, new Coords(0, view.getInvYscale() * toMove / 2,  0),
+			MoveGeos.moveObjects(childGeos, new Coords(0, view.getInvYscale() * toMove / 2, 0),
 					null, null, view);
 		}
 	}

@@ -828,7 +828,7 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	@Override
-	public boolean executeAction(ActionType action,  String... args) {
+	public boolean executeAction(ActionType action, String... args) {
 		switch (action) {
 		case ADD_PAGE:
 			executeAddSlideAction(args);

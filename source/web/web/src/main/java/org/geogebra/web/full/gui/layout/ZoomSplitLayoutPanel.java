@@ -259,7 +259,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 			glass.getStyle().setHeight(height, Unit.PX);
 			glass.getStyle().setWidth(width, Unit.PX);
 
-			glass.getStyle().setProperty("cursor",  horizontal ? "ew-resize" : "ns-resize");
+			glass.getStyle().setProperty("cursor", horizontal ? "ew-resize" : "ns-resize");
 			Document.get().getBody().appendChild(glass);
 
 			offset = getEventPosition(event) - getAbsolutePosition();

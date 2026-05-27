@@ -450,7 +450,7 @@ public class ParametricProcessor {
 						kernel.getImaginaryUnit()));
 		ExpressionNode exp2 = exp.deepCopy(kernel).replace(fv, complex).wrap();
 		GeoElement[] surface =  processSurface(exp2,
-				new FunctionVariable[] { u, v },  2, true);
+				new FunctionVariable[] { u, v }, 2, true);
 		surface[0].setDefinition(exp);
 		((GeoSurfaceCartesianND) surface[0]).setComplexVariable(fv);
 		surface[0].setLabel(label);

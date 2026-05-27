@@ -341,7 +341,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 		edgeJT.getChangeableParent3D().record(view3D, startPoint);
 		edgeJT.getChangeableParent3D().move(new Coords(1, 0, 0),
 				null, view3D.getViewDirection(),
-				null, null,  view3D);
+				null, null, view3D);
 		assertThat(edgeJT.getStartPointAsGeoElement(), hasValue("(2, 0, 0)"));
 		assertThat(param, hasValue("1"));
 		assertEquals(20, getConstruction().getGeoSetLabelOrder(GeoClass.POINT3D).size());

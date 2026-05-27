@@ -148,7 +148,7 @@ public class ParserTest {
 		checkSameStructure(Unicode.PI_STRING + "(1.3)",
 				Unicode.PI_STRING + " 1.3");
 		checkSameStructure("pi(1.3)", Unicode.PI_STRING + " 1.3");
-		shouldReparseAs(Unicode.PI_STRING + "8",  Unicode.PI_STRING + " * 8");
+		shouldReparseAs(Unicode.PI_STRING + "8", Unicode.PI_STRING + " * 8");
 		shouldReparseAs("2" + Unicode.PI_STRING + "8",
 				"2" + Unicode.PI_STRING + " * 8");
 		// APPS-804

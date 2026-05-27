@@ -94,7 +94,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 	@Test
 	public void testQuadricExpr() {
 		t("-y^2=z-1", "(-y^(2)) = z - 1");
-		t("quad:y^2=1-z",  "y^(2) = 1 - z");
+		t("quad:y^2=1-z", "y^(2) = 1 - z");
 		GeoQuadric3D quad = (GeoQuadric3D) lookup("quad");
 		quad.setEquationForm(QuadraticEquationRepresentable.Form.IMPLICIT);
 		assertThat(quad, hasValue("y" + Unicode.SUPERSCRIPT_2 + " + 0z"
@@ -690,7 +690,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 	@Test
 	public void cmdAppend() {
 		t("Append[ {1,2,3,4,5}, Polygon[(1,1),(2,1/2),4] ]", "{1, 2, 3, 4, 5, 1.25}");
-		t("Append[ Polygon[(1,1),(2,1/2),4],  {1,2,3,4,5} ]", "{1.25, 1, 2, 3, 4, 5}");
+		t("Append[ Polygon[(1,1),(2,1/2),4], {1,2,3,4,5} ]", "{1.25, 1, 2, 3, 4, 5}");
 	}
 
 	@Test
@@ -3040,9 +3040,9 @@ public class CommandsTestCommon extends BaseCommandTest {
 	@Test
 	public void cmdProduct() {
 		t("Product[ {1,2,3,4} ]", "24");
-		t("Product[ 1..10,  5 ]", "120");
-		t("Product[ {1,2,3},  {100,1,2} ]", "18");
-		t("Product[ {{1,2,3},  {100,1,2}} ]", "{100, 2, 6}");
+		t("Product[ 1..10, 5 ]", "120");
+		t("Product[ {1,2,3}, {100,1,2} ]", "18");
+		t("Product[ {{1,2,3}, {100,1,2}} ]", "{100, 2, 6}");
 		tRound("Product[ k/(k+1),k,1,7 ]", "0.125");
 		t("Product[{x,y}]", "(x * y)");
 		t("Product[ Sequence({{1,k},{0,1}},k,1,10) ]", "{{1, 55}, {0, 1}}");
@@ -3346,7 +3346,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void cmdRotateText() {
-		t("RotateText[ \"GeoGebra\",  30" + Unicode.DEGREE_STRING + " ]",
+		t("RotateText[ \"GeoGebra\", 30" + Unicode.DEGREE_STRING + " ]",
 				"\\rotatebox{30.000000000000004}{ \\text{ GeoGebra }  }");
 	}
 
@@ -4137,7 +4137,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 	@Test
 	public void cmdTMean2Estimate() {
 		t("TMean2Estimate[ {1,2,3,4,5}, {1,2,3,4,5}, 13, false ]", "?");
-		t("TMean2Estimate[ 42, 4, 13, 50, 42, 4,  13, false]", "?");
+		t("TMean2Estimate[ 42, 4, 13, 50, 42, 4, 13, false]", "?");
 	}
 
 	@Test

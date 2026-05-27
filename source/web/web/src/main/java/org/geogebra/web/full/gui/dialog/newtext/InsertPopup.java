@@ -95,7 +95,7 @@ public class InsertPopup extends GPopupPanel {
 		addGroup(TableSymbols.basicSymbols(app.getLocalization(), TableSymbols.basicSymbolsMap(
 				app.getLocalization())), symbolsPanel, false, true, false);
 		addGroup(TableSymbols.OPERATORS, symbolsPanel, false, true, false);
-		addGroup(TableSymbols.greekLettersPlusVariants(), symbolsPanel,  false, true, false);
+		addGroup(TableSymbols.greekLettersPlusVariants(), symbolsPanel, false, true, false);
 		addGroup(TableSymbols.ANALYSIS, symbolsPanel, false, true, false);
 		addGroup(TableSymbols.SETS, symbolsPanel, false, true, false);
 		addGroup(TableSymbols.LOGICAL, symbolsPanel, false, true, false);
@@ -114,7 +114,7 @@ public class InsertPopup extends GPopupPanel {
 
 		addGroup(TableSymbolsLaTeX.roots_fractions, latexPanel, true, true, false);
 		addGroup(TableSymbolsLaTeX.sums, latexPanel, true, true, false);
-		addGroup(TableSymbolsLaTeX.accents, latexPanel,  true, true, false);
+		addGroup(TableSymbolsLaTeX.accents, latexPanel, true, true, false);
 		addGroup(TableSymbolsLaTeX.accentsExtended, latexPanel, true, true, false);
 		addGroup(TableSymbolsLaTeX.brackets, latexPanel, true, true, false);
 		addGroup(TableSymbolsLaTeX.borders, latexPanel, true, false, false);

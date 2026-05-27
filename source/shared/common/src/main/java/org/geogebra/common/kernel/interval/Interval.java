@@ -702,6 +702,6 @@ public class Interval {
 	 * @return whether low and high are exactly equal
 	 */
 	public boolean isExactSingleton() {
-		return MyDouble.exactEqual(low,  high);
+		return MyDouble.exactEqual(low, high);
 	}
 }

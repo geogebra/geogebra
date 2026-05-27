@@ -41,7 +41,7 @@ public class AlgoRayPointVector3D extends AlgoLinePointVector3D {
 	 */
 	public AlgoRayPointVector3D(Construction cons,
 			GeoPointND point, GeoVectorND v) {
-		super(cons,  point, v);
+		super(cons, point, v);
 	}
 
 	@Override

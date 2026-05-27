@@ -70,7 +70,7 @@ public class DiscreteSpaceCenteredTest {
 				2);
 		List<Interval> expected = createIntervals(-4, 2, 4);
 		List<Interval> actual = new ArrayList<>();
-		space.extendLeft(interval(-5, 3),  x -> {});
+		space.extendLeft(interval(-5, 3), x -> {});
 		space.forEach(actual::add);
 		assertEquals(expected, actual);
 	}
@@ -81,7 +81,7 @@ public class DiscreteSpaceCenteredTest {
 				2);
 		List<Interval> expected = createIntervals(-4, 2, 4);
 		List<Interval> actual = new ArrayList<>();
-		space.extendRight(interval(-3, 5),  x -> {});
+		space.extendRight(interval(-3, 5), x -> {});
 		space.forEach(actual::add);
 		assertEquals(expected, actual);
 	}

@@ -53,7 +53,7 @@ import com.google.j2objc.annotations.Weak;
  *     listeners).
  *     <li><b>Start/end date</b>: Setting the exam start and end date, and providing date and
  *     time formatting for these.
- *     <li><b>Restrictions</b>: Applying restrictions on certain components (e.g.,  the
+ *     <li><b>Restrictions</b>: Applying restrictions on certain components (e.g., the
  *     {@link CommandDispatcher}) at the start of an exam, and reverting those restrictions
  *     when the exam ends. The bulk of the restrictions is now handled by
  *     {@link RestrictionsController}, however.

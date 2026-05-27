@@ -55,7 +55,7 @@ public class ComponentConnectedButtonGroup extends FlowPanel
 		AriaHelper.setRole(this, "radiogroup");
 
 		widgets.addAll(buttonList);
-		Dom.addEventListener(getElement(),  "keydown", event -> {
+		Dom.addEventListener(getElement(), "keydown", event -> {
 			KeyboardEvent e = (KeyboardEvent) event;
 			if ("ArrowLeft".equals(e.code) || "ArrowRight".equals(e.code)) {
 				moveTabSelection("ArrowLeft".equals(e.code) ? -1 : 1);

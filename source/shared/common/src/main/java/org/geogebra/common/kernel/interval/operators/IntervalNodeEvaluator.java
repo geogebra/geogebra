@@ -614,7 +614,7 @@ public class IntervalNodeEvaluator {
 			return undefined();
 		}
 
-		return legacyInverted(result1.getHigh(),  result2.getLow());
+		return legacyInverted(result1.getHigh(), result2.getLow());
 	}
 
 	private boolean isNegativeOrEmpty(Interval interval) {

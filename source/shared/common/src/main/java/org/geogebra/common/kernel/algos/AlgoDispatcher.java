@@ -604,7 +604,7 @@ public class AlgoDispatcher {
 	 * @return segment
 	 */
 	final public GeoSegment segment(String label, GeoPoint P, GeoPoint Q) {
-		AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(cons,  P, Q);
+		AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(cons, P, Q);
 		GeoSegment s = algo.getSegment();
 		s.setLabel(label);
 		return s;

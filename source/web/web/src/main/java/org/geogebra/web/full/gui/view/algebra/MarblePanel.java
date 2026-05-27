@@ -184,7 +184,7 @@ public class MarblePanel extends FlowPanel
 			cmPlus = new ContextMenuAVPlus(item);
 		}
 		item.cancelEditing();
-		cmPlus.show(btnPlus,  16, 6);
+		cmPlus.show(btnPlus, 16, 6);
 	}
 
 	@Override

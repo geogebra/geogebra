@@ -3242,7 +3242,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getFileManager().showExportAsPictureDialog(url, getExportTitle(),
 					extension, "Export", this);
 		} else {
-			getFileManager().exportImage(url,  getExportTitle() + "." + extension,
+			getFileManager().exportImage(url, getExportTitle() + "." + extension,
 					extension);
 			dispatchEvent(new Event(EventType.EXPORT, null,
 					"[\"" + extension + "\"]"));

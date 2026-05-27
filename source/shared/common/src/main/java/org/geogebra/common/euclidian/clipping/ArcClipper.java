@@ -171,7 +171,7 @@ public class ArcClipper {
 		double dx = getMargin();
 		double[][] edges = new double[][]{{1, 0, dx},
 				{1, 0, -view.getWidth() - dx},
-				{0, 1,  dx},
+				{0, 1, dx},
 				{0, 1, -view.getHeight() - dx}};
 		IntersectionPoint pt1 = new IntersectionPoint();
 		IntersectionPoint pt2 = new IntersectionPoint();

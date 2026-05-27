@@ -244,7 +244,7 @@ public final class ContextMenuBuilderTest {
 	public void testInsertColumnLeft() {
 		runItemAt(HEADER_INDEX, 3, DELETE_COLUMN);
 		assertThat(data.numberOfColumns(), equalTo(99));
-		runItemAt(HEADER_INDEX, 5,  INSERT_COLUMN_LEFT);
+		runItemAt(HEADER_INDEX, 5, INSERT_COLUMN_LEFT);
 		checkNewColumnAt(5);
 		assertThat(data.numberOfColumns(), equalTo(100));
 	}
@@ -263,7 +263,7 @@ public final class ContextMenuBuilderTest {
 	public void testInsertColumnRight() {
 		runItemAt(HEADER_INDEX, 4, DELETE_COLUMN);
 		assertThat(data.numberOfColumns(), equalTo(99));
-		runItemAt(HEADER_INDEX, 5,  INSERT_COLUMN_RIGHT);
+		runItemAt(HEADER_INDEX, 5, INSERT_COLUMN_RIGHT);
 		checkNewColumnAt(6);
 		assertThat(data.numberOfColumns(), equalTo(100));
 	}

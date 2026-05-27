@@ -707,10 +707,10 @@ public abstract class Curve {
     public static int rectCrossingsForCubic(int crossings,
                                             double rxmin, double rymin,
                                             double rxmax, double rymax,
-                                            double x0,  double y0,
+                                            double x0, double y0,
                                             double xc0, double yc0,
                                             double xc1, double yc1,
-                                            double x1,  double y1,
+                                            double x1, double y1,
                                             int level)
     {
         if (y0 >= rymax && yc0 >= rymax && yc1 >= rymax && y1 >= rymax) {

@@ -1336,7 +1336,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 
 			for (int col = 0 ; col < cols ; col++) {
 				
-				String label = GeoElementSpreadsheet.getSpreadsheetCellName(col,  row);
+				String label = GeoElementSpreadsheet.getSpreadsheetCellName(col, row);
 
 				String cellText = "&nbsp;";
 

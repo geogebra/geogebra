@@ -82,7 +82,7 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 			switchToTab(initialTab);
 		}
 
-		Dom.addEventListener(scrollPanel.getElement(),  "keydown", event -> {
+		Dom.addEventListener(scrollPanel.getElement(), "keydown", event -> {
 			KeyboardEvent e = (KeyboardEvent) event;
 			if ("ArrowLeft".equals(e.code) || "ArrowRight".equals(e.code)) {
 				moveTabSelection("ArrowLeft".equals(e.code) ? -1 : 1);

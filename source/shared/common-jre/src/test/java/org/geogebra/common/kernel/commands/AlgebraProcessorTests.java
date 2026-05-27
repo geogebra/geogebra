@@ -80,7 +80,7 @@ public class AlgebraProcessorTests extends BaseUnitTest {
 	public void testCopyingPlainVariables() {
 		EvalInfo info = new EvalInfo(true).withCopyingPlainVariables(true);
 		GeoElementND[] elements = evalCommand(
-				"a=1",  info);
+				"a=1", info);
 		assertNotNull(elements);
 		assertEquals(1, elements.length);
 		GeoElementND a = elements[0];

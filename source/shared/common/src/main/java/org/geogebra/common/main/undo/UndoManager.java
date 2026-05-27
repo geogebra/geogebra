@@ -449,7 +449,7 @@ public abstract class UndoManager implements UndoProvider {
 	 * @param slideID slide ID
 	 * @param args action arguments
 	 */
-	public void storeActionWithSlideId(String slideID, ActionType action,  String[] args,
+	public void storeActionWithSlideId(String slideID, ActionType action, String[] args,
 			ActionType undoAction, String[] undoArgs) {
 		storeAndNotifyUnsaved(new UndoCommand(slideID, action, args, undoAction, undoArgs));
 	}

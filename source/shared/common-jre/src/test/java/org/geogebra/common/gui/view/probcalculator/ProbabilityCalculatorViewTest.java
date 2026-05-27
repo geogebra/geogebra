@@ -107,7 +107,7 @@ public class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 		forEachProbabilityShouldBe(0.40022, lows, highs, PASCAL, PROB_INTERVAL);
 		forEachProbabilityShouldBe(0.65023, highs, PASCAL, PROB_LEFT);
 		forEachProbabilityShouldBe(0.74998, lows, PASCAL, PROB_RIGHT);
-		forEachProbabilityShouldBe(0.79331, lows, highs,  PASCAL, PROB_TWO_TAILED);
+		forEachProbabilityShouldBe(0.79331, lows, highs, PASCAL, PROB_TWO_TAILED);
 
 	}
 

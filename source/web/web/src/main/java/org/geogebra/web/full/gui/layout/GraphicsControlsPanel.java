@@ -20,7 +20,8 @@ import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
+import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
@@ -28,7 +29,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 
 public class GraphicsControlsPanel extends FlowPanel implements DockControlPanel {
 	private final AppW app;
-	StandardButton graphicsContextMenuBtn;
+	private IconButton graphicsContextMenuBtn;
 
 	/**
 	 * Panel wrapping the settings icon and optional controls
@@ -45,13 +46,11 @@ public class GraphicsControlsPanel extends FlowPanel implements DockControlPanel
 	}
 
 	private void addSettingsIcon(final DockPanelW parent) {
-		graphicsContextMenuBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.settings_border(), null, 24);
-		graphicsContextMenuBtn
-				.setTitle(app.getLocalization().getMenu("Settings"));
+		graphicsContextMenuBtn = new IconButton(app, null,
+				new ImageIconSpec(MaterialDesignResources.INSTANCE.settings_border()), "Settings");
 		final FocusableWidget focusableWidget = new FocusableWidget(
 				AccessibilityGroup.getViewGroup(parent.getViewId()),
-				AccessibilityGroup.ViewControlId.SETTINGS_BUTTON,  graphicsContextMenuBtn);
+				AccessibilityGroup.ViewControlId.SETTINGS_BUTTON, graphicsContextMenuBtn);
 		if (parent.getViewId() == App.VIEW_EUCLIDIAN) {
 			focusableWidget.attachTo(app);
 		}
@@ -61,9 +60,6 @@ public class GraphicsControlsPanel extends FlowPanel implements DockControlPanel
 			onGraphicsSettingsPressed();
 		});
 
-		graphicsContextMenuBtn.addStyleName("flatButton");
-		graphicsContextMenuBtn.addStyleName(app.isWhiteboardActive()
-				? "graphicsContextMenuBtn mow" : "graphicsContextMenuBtn");
 		graphicsContextMenuBtn.getElement().setTabIndex(0);
 		TestHarness.setAttr(graphicsContextMenuBtn, "graphicsViewContextMenu");
 		graphicsContextMenuBtn.setTooltipPositionRight();
@@ -79,9 +75,7 @@ public class GraphicsControlsPanel extends FlowPanel implements DockControlPanel
 	@Override
 	public void setLabels() {
 		if (graphicsContextMenuBtn != null) {
-			String titletext = app.getLocalization().getMenu("Settings");
-			graphicsContextMenuBtn.setTitle(titletext);
-			graphicsContextMenuBtn.setAltText(titletext);
+			graphicsContextMenuBtn.setLabels();
 		}
 	}
 

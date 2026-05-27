@@ -53,8 +53,7 @@ public class LaTeXTextRenderer implements TextRenderer {
 		int textLeft = (int) Math.round(xPos) + settings.getFixMargin();
 
 		GFont font1 = getFont(font, settings.getRendererFontSize());
-		GDimension textDimension = drawInputBox.measureLatex(geo,
-				font1, text,  true);
+		GDimension textDimension = drawInputBox.measureLatex(geo, font1, text, true);
 		double inputBoxHeight = drawInputBox.getInputFieldBounds().getHeight()
 				+ 2 * settings.getFixMargin();
 		double diffToCenter = (inputBoxHeight - textDimension.getHeight()) / 2.0;

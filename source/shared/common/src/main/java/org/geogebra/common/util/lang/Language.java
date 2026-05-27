@@ -70,7 +70,7 @@ public enum Language {
 			Script.ARABIC, ',', '0', "MA", ""),
 
 	Arabic_Tunisia(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, '$',
-			true,  "ar",
+			true, "ar",
 			Unicode.LEFT_TO_RIGHT_MARK + "Arabic (Tunisia)"
 					+ Unicode.LEFT_TO_RIGHT_MARK + " / "
 					+ Unicode.RIGHT_TO_LEFT_MARK
@@ -232,7 +232,7 @@ public enum Language {
 	 * Code "id" from  <a href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO 639-1</a>
 	 */
 	Indonesian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, '$',
-			true,  "id", "Indonesian / Bahasa Indonesia",
+			true, "id", "Indonesian / Bahasa Indonesia",
 			Script.LATIN, ',', '0', null, null),
 
 	Italian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
@@ -296,7 +296,7 @@ public enum Language {
 			Unicode.CURRENCY_TUGHRIK, false, "mn",
 			"Mongolian Traditional / "
 					+ "\u182E\u1823\u1829\u182D\u1823\u182F \u182A\u1822\u1834\u1822\u182D\u180C",
-			Script.MONG, ',', '\u1810', null,  false, ""),
+			Script.MONG, ',', '\u1810', null, false, ""),
 
 	Nepalese(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_RUPEE, true, "ne",

@@ -655,7 +655,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 	public static synchronized int intersectLineConic(GeoLine g,
 			GeoConicND c, GeoPoint[] sol, double eps) {
 		g.getNormalizedCoefficients(xyz, 2, 0.5);
-		return intersectLineConic(xyz, c.getFlatMatrix(), c.getType(),  eps, sol);
+		return intersectLineConic(xyz, c.getFlatMatrix(), c.getType(), eps, sol);
 	}
 
 	/**

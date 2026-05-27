@@ -113,7 +113,7 @@ public class InputTokenizerTest extends TokenizerBaseTest {
 		withGeos("a");
 		shouldBeSplitTo("aa21", "a", "a", "21");
 		shouldBeSplitTo("aa2", "a", "a", "2");
-		shouldBeSplitTo("a2", "a",  "2");
+		shouldBeSplitTo("a2", "a", "2");
 	}
 
 	@Test

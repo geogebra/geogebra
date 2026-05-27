@@ -148,7 +148,7 @@ public class IconButton extends StandardButton implements SetLabels {
 	}
 
 	/**
-	 * Small press icon buttons, only with aria label (without data-title).
+	 * Small press icon buttons, only with aria-label (without data-title).
 	 * @param appW {@link AppW}
 	 * @param ariaLabel aria-label
 	 * @param icon {@link IconSpec} image
