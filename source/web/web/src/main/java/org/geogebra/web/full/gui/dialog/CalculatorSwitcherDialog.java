@@ -74,8 +74,7 @@ public class CalculatorSwitcherDialog extends ComponentDialog {
 	}
 
 	private void buildAndAddCalcButton(SuiteSubApp subAppCode) {
-		if (suiteScope.examController.isExamActive()
-				&& suiteScope.restrictionsController.isDisabledSubApp(subAppCode)) {
+		if (suiteScope.restrictionsController.isDisabledSubApp(subAppCode)) {
 			return;
 		}
 		AppDescription description = AppDescription.get(subAppCode) ;
