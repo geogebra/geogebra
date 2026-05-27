@@ -246,8 +246,9 @@ public class ZoomController {
 
 					@Override
 					public void run() {
+						state.fullScreenActive = true;
 						app.windowResized();
-						onFullscreen(fullscreenBtnSelectCB);
+						fullscreenBtnSelectCB.accept(true);
 					}
 				};
 				// delay scaling to make sure scrollbars disappear
