@@ -45,4 +45,9 @@ public class ActionableIconPropertyListFacade<T extends ActionableIconProperty>
 	public void performAction() {
 		getPropertyList().forEach(ActionableProperty::performAction);
 	}
+
+	@Override
+	public boolean isDisplayedAsOutlinedButton() {
+		return getFirstProperty().isDisplayedAsOutlinedButton();
+	}
 }

@@ -23,33 +23,23 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
-import org.geogebra.common.properties.impl.facade.ActionableIconPropertyListFacade;
-import org.geogebra.common.properties.impl.facade.ColorPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-/**
- * Collection of background color related properties.
- */
-public class BackgroundColorPropertyCollection extends AbstractPropertyCollection<Property> {
-
+/** {@code PropertyCollection} of background style related {@code Property}s. */
+public class BackgroundStylePropertyCollection extends AbstractPropertyCollection<Property> {
 	/**
-	 * Creates a collection of background color properties.
+	 * Constructs the property collection.
 	 * @param propertiesFactory the factory to create property facades
-	 * @param localization the localization
-	 * @param elements the elements to create properties for
-	 * @throws NotApplicablePropertyException if none of the elements support background color
+	 * @param localization localization for the label translations
+	 * @param elements the elements to create the properties for
+	 * @throws NotApplicablePropertyException if the property cannot be applied to the given elements
 	 */
-	public BackgroundColorPropertyCollection(GeoElementPropertiesFactory propertiesFactory,
-			Localization localization, List<GeoElement> elements)
-			throws NotApplicablePropertyException {
-		super(localization, "");
-		setProperties(new Property[]{
-				propertiesFactory.createPropertyFacadeThrowing(elements,
-						element -> new BackgroundColorProperty(localization, element),
-						ColorPropertyListFacade::new),
-				propertiesFactory.createPropertyFacadeThrowing(elements,
-						element -> new BackgroundColorResetProperty(localization, element),
-						ActionableIconPropertyListFacade::new),
+	public BackgroundStylePropertyCollection(
+			GeoElementPropertiesFactory propertiesFactory, Localization localization,
+			List<GeoElement> elements) throws NotApplicablePropertyException {
+		super(localization, "Background");
+		setProperties(new Property[] {
+				new BackgroundColorPropertyCollection(propertiesFactory, localization, elements)
 		});
 	}
 }

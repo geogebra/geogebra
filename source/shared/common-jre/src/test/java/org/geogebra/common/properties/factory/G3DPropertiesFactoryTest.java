@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 
 import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.test.BaseAppTestSetup;
@@ -31,15 +32,13 @@ public class G3DPropertiesFactoryTest extends BaseAppTestSetup {
 
 	@Test
 	public void testPropertiesSuite3D() {
-		AppCommon app = AppCommonFactory.create3D(new AppConfigGraphing3D());
-		suiteScope.registerApp(app);
-
-		app.setActiveView(AppCommon.VIEW_EUCLIDIAN);
+		setupApp(SuiteSubApp.G3D);
 		List<PropertiesArray> props = new G3DPropertiesFactory().createProperties(
-				app, app.getLocalization(), null);
+				getApp(), getLocalization(), null);
+
 		assertEquals(3, props.size());
-		assertEquals(List.of("Grid", "Axes", "xAxis", "yAxis", "zAxis", "Projection",
-						"Advanced"),
+		assertEquals(
+				List.of("Grid", "Axes", "xAxis", "yAxis", "zAxis", "Projection", "Advanced", "AR"),
 				getNames(props.get(2)));
 	}
 }

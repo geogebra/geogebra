@@ -16,33 +16,52 @@
 
 package org.geogebra.common.properties.impl.graphics;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.aliases.ActionableIconProperty;
 import org.geogebra.common.properties.impl.AbstractActionableProperty;
 
-public class RestartARAction extends AbstractActionableProperty implements ActionableIconProperty {
-
-	final EuclidianView3DInterface euclidianView;
+/** {@code Property} responsible for restarting AR mode. */
+public final class RestartARActionProperty extends AbstractActionableProperty
+		implements ActionableIconProperty, EuclidianView3DDependentProperty {
+	private final EuclidianView3DInterface euclidianView3D;
 
 	/**
-	 * Creates a RestartARAction property.
-	 * @param localization localization
-	 * @param euclidianView euclidean view
+	 * Constructs the property.
+	 * @param localization localization for the label translation
+	 * @param euclidianView3D the 3D euclidean view
 	 */
-	public RestartARAction(Localization localization, EuclidianView3DInterface euclidianView) {
+	public RestartARActionProperty(Localization localization,
+			EuclidianView3DInterface euclidianView3D) {
 		super(localization, "ar.restart");
-		this.euclidianView = euclidianView;
+		this.euclidianView3D = euclidianView3D;
 	}
 
 	@Override
 	protected void doPerformAction() {
-		euclidianView.getRenderer().setARShouldRestart();
+		euclidianView3D.getRenderer().setARShouldRestart();
 	}
 
 	@Override
 	public PropertyResource getIcon() {
 		return PropertyResource.ICON_RELOAD_AR;
+	}
+
+	@Override
+	public boolean isAvailable() {
+		return euclidianView3D.isXREnabled();
+	}
+
+	@Override
+	public @Nonnull EuclidianView3DInterface getEuclidianView3D() {
+		return euclidianView3D;
+	}
+
+	@Override
+	public boolean isDisplayedAsOutlinedButton() {
+		return true;
 	}
 }

@@ -16,32 +16,45 @@
 
 package org.geogebra.common.properties.impl.graphics;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
-public class ARRatioProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty {
-
-	private final EuclidianView3DInterface view3D;
+/** {@code Property} responsible for showing/hiding the AR ratio. */
+public final class ShowARRatioProperty extends AbstractValuedProperty<Boolean>
+		implements BooleanProperty, EuclidianView3DDependentProperty {
+	private final EuclidianView3DInterface euclidianView3D;
 
 	/**
-	 * Constructs an AR Ratio property.
-	 * @param localization localization for the title
-	 * @param view3D EuclidianView3D
+	 * Constructs the property.
+	 * @param localization localization for the label translation
+	 * @param euclidianView3D the 3D euclidian view
 	 */
-	ARRatioProperty(Localization localization, EuclidianView3DInterface view3D) {
-		super(localization, "Show");
-		this.view3D = view3D;
+	ShowARRatioProperty(Localization localization, EuclidianView3DInterface euclidianView3D) {
+		super(localization, "Properties.ShowARRatio");
+		this.euclidianView3D = euclidianView3D;
 	}
 
 	@Override
 	public Boolean getValue() {
-		return view3D.isARRatioShown();
+		return euclidianView3D.isARRatioShown();
 	}
 
 	@Override
 	public void doSetValue(Boolean value) {
-		view3D.setARRatioIsShown(value);
+		euclidianView3D.setARRatioIsShown(value);
+	}
+
+	@Override
+	public boolean isAvailable() {
+		return euclidianView3D.isXREnabled();
+	}
+
+	@Override
+	public @Nonnull EuclidianView3DInterface getEuclidianView3D() {
+		return euclidianView3D;
 	}
 }

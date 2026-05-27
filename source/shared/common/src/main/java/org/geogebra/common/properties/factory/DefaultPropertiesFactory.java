@@ -45,6 +45,7 @@ import org.geogebra.common.properties.impl.general.CoordinatesProperty;
 import org.geogebra.common.properties.impl.general.RestoreSettingsAction;
 import org.geogebra.common.properties.impl.general.RoundingIndexProperty;
 import org.geogebra.common.properties.impl.general.SaveSettingsAction;
+import org.geogebra.common.properties.impl.graphics.ARPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AdvancedApps2DPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.AdvancedApps3DPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.AdvancedClassic2DPropertiesCollection;
@@ -217,7 +218,8 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 								? new AdvancedApps3DPropertiesCollection(app, localization,
 								euclidianSettings, (EuclidianView3D) view)
 								: new AdvancedClassic3DPropertiesCollection(app, localization,
-								euclidianSettings, (EuclidianView3D) view)));
+								euclidianSettings, (EuclidianView3D) view),
+						new ARPropertyCollection(localization, (EuclidianView3D) view)));
 	}
 
 	protected ActionablePropertyCollection<ActionableProperty> createSaveRestoreSettingsProperties(

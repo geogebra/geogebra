@@ -28,6 +28,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.AbstractSettings;
@@ -52,6 +53,7 @@ import org.geogebra.common.properties.impl.facade.ImagePropertyListFacade;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.general.RestoreSettingsAction;
 import org.geogebra.common.properties.impl.general.SaveSettingsAction;
+import org.geogebra.common.properties.impl.graphics.ARRatioPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxisCrossPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxisDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxisUnitPropertyCollection;
@@ -60,6 +62,7 @@ import org.geogebra.common.properties.impl.graphics.Dimension2DPropertiesCollect
 import org.geogebra.common.properties.impl.graphics.Dimension3DPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.DimensionMinMaxProperty;
 import org.geogebra.common.properties.impl.graphics.DimensionRatioProperty;
+import org.geogebra.common.properties.impl.graphics.EuclidianView3DDependentProperty;
 import org.geogebra.common.properties.impl.graphics.GridAngleProperty;
 import org.geogebra.common.properties.impl.graphics.GridDistanceProperty;
 import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
@@ -169,11 +172,9 @@ public abstract class PropertyView {
 	}
 
 	public abstract static class PropertyBackedView<T extends Property> extends PropertyView
-			implements PropertyValueObserver<Object>,
-			GeoElementDependentProperty.RedefinitionObserver,
-			SettingListener, EventListener,
-			ProbabilityCalculatorView.Listener, ValueFilter.Observer,
-			ChartSegmentSelection.Listener {
+			implements PropertyValueObserver<Object>, EuclidianView3DInterface.Listener,
+			GeoElementDependentProperty.RedefinitionObserver, ProbabilityCalculatorView.Listener,
+			ValueFilter.Observer, ChartSegmentSelection.Listener, SettingListener, EventListener {
 		protected final @Nonnull T property;
 		private boolean previousAvailability;
 		private @CheckForNull List<GeoElement> dependentGeoElements;
@@ -186,9 +187,11 @@ public abstract class PropertyView {
 			if (property instanceof SettingsDependentProperty settingsDependentProperty) {
 				settingsDependentProperty.getSettings().addListener(this);
 			}
-			if (property instanceof ProbabilityCalculatorViewDependentProperty) {
-				((ProbabilityCalculatorViewDependentProperty) property)
-						.getProbabilityCalculatorView().addListener(this);
+			if (property instanceof ProbabilityCalculatorViewDependentProperty dependentProperty) {
+				dependentProperty.getProbabilityCalculatorView().addListener(this);
+			}
+			if (property instanceof EuclidianView3DDependentProperty dependentProperty) {
+				dependentProperty.getEuclidianView3D().addListener(this);
 			}
 			if (property instanceof AbstractPropertyListFacade<?> abstractPropertyListFacade) {
 				List<?> properties = abstractPropertyListFacade.getPropertyList();
@@ -230,9 +233,11 @@ public abstract class PropertyView {
 			if (property instanceof SettingsDependentProperty settingsDependentProperty) {
 				settingsDependentProperty.getSettings().removeListener(this);
 			}
-			if (property instanceof ProbabilityCalculatorViewDependentProperty) {
-				((ProbabilityCalculatorViewDependentProperty) property)
-						.getProbabilityCalculatorView().removeListener(this);
+			if (property instanceof ProbabilityCalculatorViewDependentProperty dependentProperty) {
+				dependentProperty.getProbabilityCalculatorView().removeListener(this);
+			}
+			if (property instanceof EuclidianView3DDependentProperty dependentProperty) {
+				dependentProperty.getEuclidianView3D().removeListener(this);
 			}
 			if (chartSelectionDependentProperties != null) {
 				chartSelectionDependentProperties.forEach(dependentProperty ->
@@ -294,6 +299,11 @@ public abstract class PropertyView {
 
 		@Override
 		public void probabilityCalculatorViewChanged() {
+			notifyUpdateDelegates();
+		}
+
+		@Override
+		public void arRatioVisibilityUpdated() {
 			notifyUpdateDelegates();
 		}
 
@@ -1308,11 +1318,13 @@ public abstract class PropertyView {
 		}
 	}
 
-	/**
-	 * Representation of a button with an icon, a label, and an action triggered when tapped.
-	 */
-	public static final class ButtonWithIcon
-			extends PropertyBackedView<ActionableIconProperty> {
+	/** Representation of a button with an icon, a label, and an action triggered when tapped. */
+	public static final class ButtonWithIcon extends PropertyBackedView<ActionableIconProperty> {
+		/** The possible style options to display the button with. */
+		public enum Style {
+			BORDERLESS, OUTLINED,
+		}
+
 		ButtonWithIcon(ActionableIconProperty property) {
 			super(property);
 		}
@@ -1327,15 +1339,22 @@ public abstract class PropertyView {
 		/**
 		 * @return the label of the button
 		 */
-		public String getLabel() {
+		public @Nonnull String getLabel() {
 			return property.getName();
 		}
 
 		/**
 		 * @return the icon of the button
 		 */
-		public PropertyResource getIcon() {
+		public @Nonnull PropertyResource getIcon() {
 			return property.getIcon();
+		}
+
+		/**
+		 * @return the style of the button
+		 */
+		public @Nonnull Style getStyle() {
+			return property.isDisplayedAsOutlinedButton() ? Style.OUTLINED : Style.BORDERLESS;
 		}
 	}
 
@@ -1666,9 +1685,10 @@ public abstract class PropertyView {
 		} else if (property instanceof PropertyCollection<?> propertyCollection
 				&& propertyCollection.getProperties()[0] instanceof ToggleableIconProperty) {
 			return new MultiSelectionIconRow((PropertyCollection<ToggleableIconProperty>) property);
-		} else if (property instanceof BackgroundColorPropertyCollection collection) {
-			return new ExpandableList(collection, List.of(new RelatedPropertyViewCollection(
-					null, propertyViewListOf(collection), 8)));
+		} else if (property instanceof BackgroundColorPropertyCollection
+				|| property instanceof ARRatioPropertyCollection) {
+			return new RelatedPropertyViewCollection(null,
+					propertyViewListOf((PropertyCollection<?>) property), 8);
 		} else if (property instanceof ButtonIconPropertyCollection buttonIconPropertyCollection) {
 			return new ExpandableList(buttonIconPropertyCollection,
 					List.of(new ButtonIconEditor(buttonIconPropertyCollection)));

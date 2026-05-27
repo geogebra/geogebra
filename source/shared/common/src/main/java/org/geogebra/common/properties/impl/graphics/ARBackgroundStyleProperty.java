@@ -20,24 +20,28 @@ import static java.util.Map.entry;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 
-public class BackgroundProperty extends AbstractNamedEnumeratedProperty<Renderer.BackgroundStyle> {
-
-	private App app;
+/** {@code Property} responsible for changing the style of the background in AR mode. */
+public final class ARBackgroundStyleProperty
+		extends AbstractNamedEnumeratedProperty<Renderer.BackgroundStyle>
+		implements EuclidianView3DDependentProperty {
+	private final EuclidianView3DInterface euclidianView3D;
 
 	/**
-	 * Constructs an BackgroundProperty
-	 * @param app app
-	 * @param localization the localization used
+	 * Constructs the property.
+	 * @param localization localization for the title and option translations
+	 * @param euclidianView3D the 3D euclidian view
 	 */
-	public BackgroundProperty(App app, Localization localization) {
+	public ARBackgroundStyleProperty(Localization localization,
+			EuclidianView3DInterface euclidianView3D) {
 		super(localization, "ar.background");
-		this.app = app;
+		this.euclidianView3D = euclidianView3D;
 		setNamedValues(List.of(
 				entry(Renderer.BackgroundStyle.NONE, "Camera"),
 				entry(Renderer.BackgroundStyle.TRANSPARENT, "ar.filter"),
@@ -47,14 +51,23 @@ public class BackgroundProperty extends AbstractNamedEnumeratedProperty<Renderer
 
 	@Override
 	public Renderer.BackgroundStyle getValue() {
-		return app.getEuclidianView3D().getRenderer().getBackgroundStyle();
+		return euclidianView3D.getRenderer().getBackgroundStyle();
 	}
 
 	@Override
 	protected void doSetValue(Renderer.BackgroundStyle value) {
-		EuclidianView3DInterface euclidianView3D = app.getEuclidianView3D();
 		if (euclidianView3D.isXREnabled()) {
 			euclidianView3D.getRenderer().setBackgroundStyle(value);
 		}
+	}
+
+	@Override
+	public boolean isAvailable() {
+		return euclidianView3D.isXREnabled();
+	}
+
+	@Override
+	public @Nonnull EuclidianView3DInterface getEuclidianView3D() {
+		return euclidianView3D;
 	}
 }

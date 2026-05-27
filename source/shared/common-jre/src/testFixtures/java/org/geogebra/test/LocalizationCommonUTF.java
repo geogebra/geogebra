@@ -50,7 +50,7 @@ public class LocalizationCommonUTF extends LocalizationCommon {
 						"Name.l", "Name.f", "Name.m", "Name.shape",
 				"ScreenReader.StartAbsoluteValue", "ScreenReader.EndAbsoluteValue",
 				"ScreenReader.startFraction", "ScreenReader.endFraction",
-				"ScreenReader.startSqrt", "ScreenReader.endSqrt").contains(key)) {
+				"ScreenReader.startSqrt", "ScreenReader.endSqrt", "AR").contains(key)) {
 			return;
 		}
 		missingTranslations.put(key, fallback);

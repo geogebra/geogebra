@@ -57,8 +57,8 @@ import org.geogebra.common.properties.impl.objects.AnimationPropertyCollection;
 import org.geogebra.common.properties.impl.objects.AnimationStepProperty;
 import org.geogebra.common.properties.impl.objects.AuxiliaryObjectProperty;
 import org.geogebra.common.properties.impl.objects.BackgroundAndBorderPropertyCollection;
-import org.geogebra.common.properties.impl.objects.BackgroundColorPropertyCollection;
 import org.geogebra.common.properties.impl.objects.BackgroundImageProperty;
+import org.geogebra.common.properties.impl.objects.BackgroundStylePropertyCollection;
 import org.geogebra.common.properties.impl.objects.BoldProperty;
 import org.geogebra.common.properties.impl.objects.BorderColorProperty;
 import org.geogebra.common.properties.impl.objects.BorderWidthProperty;
@@ -378,7 +378,7 @@ public final class GeoElementPropertiesFactory {
 				createOptionalProperty(isWhiteboard
 						? () -> new BackgroundAndBorderPropertyCollection(
 								this, localization, elements)
-						: () -> new BackgroundColorPropertyCollection(
+						: () -> new BackgroundStylePropertyCollection(
 								this, localization, elements)),
 				createOptionalProperty(() -> new SizePropertyCollection(
 						this, processor, localization, elements)),

@@ -16,6 +16,8 @@
 
 package org.geogebra.common.euclidian3D;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
@@ -42,6 +44,24 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
     int PROJECTION_PERSPECTIVE = 1;
     int PROJECTION_GLASSES = 2;
     int PROJECTION_OBLIQUE = 3;
+
+	/** Listener notified when the 3D view state changes in a way that may affect settings views. */
+	interface Listener {
+		/** Called after the AR ratio visibility has changed. */
+		void arRatioVisibilityUpdated();
+	}
+
+	/**
+	 * Registers a listener for 3D view state changes.
+	 * @param listener listener to add
+	 */
+	void addListener(@Nonnull Listener listener);
+
+	/**
+	 * Unregisters a 3D view state listener.
+	 * @param listener listener to remove
+	 */
+	void removeListener(@Nonnull Listener listener);
 
 	/**
 	 * rotate to default

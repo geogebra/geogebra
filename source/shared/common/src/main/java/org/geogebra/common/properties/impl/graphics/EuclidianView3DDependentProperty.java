@@ -14,19 +14,16 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.common.properties.aliases;
+package org.geogebra.common.properties.impl.graphics;
 
-import org.geogebra.common.properties.ActionableProperty;
-import org.geogebra.common.properties.IconAssociatedProperty;
+import javax.annotation.Nonnull;
 
-/**
- * A property associated with an action and an icon.
- */
-public interface ActionableIconProperty extends ActionableProperty, IconAssociatedProperty {
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+
+/** Property whose state may change when the backing 3D view changes. */
+public interface EuclidianView3DDependentProperty {
 	/**
-	 * @return whether it should be displayed as a button with an outline in the UI
+	 * @return the 3D view this property depends on
 	 */
-	default boolean isDisplayedAsOutlinedButton() {
-		return false;
-	}
+	@Nonnull EuclidianView3DInterface getEuclidianView3D();
 }

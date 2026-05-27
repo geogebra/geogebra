@@ -163,7 +163,10 @@ public class PropertiesPanelAdapter {
 			StandardButton button = new StandardButton(icon,
 					app.getLocalization().getMenu(buttonWithIcon.getLabel()), 24, 24);
 			button.addFastClickHandler(event -> buttonWithIcon.performAction());
-			button.addStyleName("buttonWithIcon");
+			button.addStyleName(switch (buttonWithIcon.getStyle()) {
+				case BORDERLESS -> "buttonWithIcon";
+				case OUTLINED -> "materialOutlinedButton";
+			});
 			return button;
 		}
 		if (propertyView instanceof Slider sliderProperty) {
