@@ -25,7 +25,7 @@ import org.geogebra.common.main.settings.PenToolsSettings;
 import org.geogebra.web.full.gui.util.PenPreview;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
+import org.geogebra.web.html5.util.sliderPanel.SliderW;
 import org.gwtproject.dom.style.shared.Visibility;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
@@ -36,7 +36,7 @@ public class PenHighlighterEraserSlider extends FlowPanel {
 	private static final int ERASER_STEP = 10;
 	private final AppW appW;
 	private PenPreview preview;
-	private SliderPanelW sliderPanel;
+	private SliderW slider;
 	private Label sliderLabel;
 	private int lastSelectedMode = MODE_PEN;
 
@@ -64,13 +64,13 @@ public class PenHighlighterEraserSlider extends FlowPanel {
 
 		add(labelPreviewHolder);
 		buildSlider();
-		add(sliderPanel);
+		add(slider);
 	}
 
 	private void buildSlider() {
-		sliderPanel = new SliderPanelW(0, 20, appW.getKernel(), false);
-		sliderPanel.getSlider().addStyleName("slider");
-		sliderPanel.getSlider().addInputHandler(() -> sliderValueChanged(sliderPanel.getValue()));
+		slider = new SliderW(0, 20);
+		slider.addStyleName("slider");
+		slider.addInputHandler(() -> sliderValueChanged(slider.getValue()));
 	}
 
 	/**
@@ -115,15 +115,15 @@ public class PenHighlighterEraserSlider extends FlowPanel {
 			break;
 		}
 
-		sliderPanel.setValue((double) sliderValue);
+		slider.setValue((double) sliderValue);
 	}
 
 	private void setSliderRange(boolean isPenOrHighlighter) {
-		sliderPanel.setMinimum(isPenOrHighlighter ? EuclidianConstants.MIN_PEN_HIGHLIGHTER_SIZE
-				: MIN_ERASER_SIZE, false);
-		sliderPanel.setMaximum(isPenOrHighlighter ? EuclidianConstants.MAX_PEN_HIGHLIGHTER_SIZE
-				: MAX_ERASER_SIZE, false);
-		sliderPanel.setStep(
+		slider.setMinimum(isPenOrHighlighter ? EuclidianConstants.MIN_PEN_HIGHLIGHTER_SIZE
+				: MIN_ERASER_SIZE);
+		slider.setMaximum(isPenOrHighlighter ? EuclidianConstants.MAX_PEN_HIGHLIGHTER_SIZE
+				: MAX_ERASER_SIZE);
+		slider.setStep(
 				isPenOrHighlighter ? EuclidianConstants.DEFAULT_PEN_STEP : ERASER_STEP);
 	}
 }

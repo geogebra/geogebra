@@ -26,7 +26,7 @@ import org.geogebra.common.properties.impl.objects.ThicknessProperty;
 import org.geogebra.web.full.gui.util.LineStylePreview;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
+import org.geogebra.web.html5.util.sliderPanel.SliderW;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
@@ -36,7 +36,7 @@ public class SliderWithProperty extends FlowPanel {
 	private final PropertySupplier propertySupplier;
 	private LineStylePreview preview;
 	private Label unitLabel;
-	private SliderPanelW sliderPanel;
+	private SliderW slider;
 	private int rangeValue;
 	private int lineType;
 	private GColor color;
@@ -82,7 +82,7 @@ public class SliderWithProperty extends FlowPanel {
 
 		add(labelPreviewHolder);
 		buildSlider();
-		add(sliderPanel);
+		add(slider);
 	}
 
 	private void addPropertyBasedPreview(FlowPanel parent) {
@@ -102,20 +102,19 @@ public class SliderWithProperty extends FlowPanel {
 	}
 
 	private void buildSlider() {
-		sliderPanel = new SliderPanelW(property.getMin(),
-				property.getMax(), appW.getKernel(), false);
-		sliderPanel.getSlider().addStyleName("slider");
+		slider = new SliderW(property.getMin(), property.getMax());
+		slider.addStyleName("slider");
 		setInitialValue();
-		sliderPanel.getSlider().addValueChangeHandler(event -> {
-			onInputChangeFinished(sliderPanel.getSlider().getValue().intValue());
+		slider.addValueChangeHandler(event -> {
+			onInputChangeFinished(slider.getValue().intValue());
 		});
-		sliderPanel.getSlider().addInputHandler(()
-				-> onInputChange(sliderPanel.getSlider().getValue().intValue()));
+		slider.addInputHandler(()
+				-> onInputChange(slider.getValue().intValue()));
 	}
 
 	private void setInitialValue() {
 		Integer val = property.getValue();
-		sliderPanel.setValue(val.doubleValue());
+		slider.setValue(val.doubleValue());
 		updatePreview();
 	}
 
