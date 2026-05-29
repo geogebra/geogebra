@@ -76,6 +76,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 		app.addWindowResizeListener(this);
 		setAccessibilityProperties(hasScrim);
 		sinkEvents(Event.ONKEYDOWN);
+		addCloseHandler(closed -> app.unregisterPopup(this));
 	}
 
 	private void buildDialog() {
@@ -276,7 +277,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 
 	@Override
 	public void show() {
-		// make sure that the dialog content loaded before decide if should be scrollable
+		// make sure that the dialog content is loaded before we decide if it should be scrollable
 		Scheduler.get().scheduleDeferred(() -> {
 			super.show();
 			super.centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
@@ -289,12 +290,6 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 			}
 			initialFocusWidget();
 		});
-	}
-
-	@Override
-	public void hide() {
-		super.hide();
-		((AppW) app).unregisterPopup(this);
 	}
 
 	protected void initialFocusWidget() {
