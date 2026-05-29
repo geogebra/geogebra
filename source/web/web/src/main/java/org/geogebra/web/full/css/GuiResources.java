@@ -99,7 +99,7 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/probability/normal_overlay.svg")
 	SVGResource normal_overlay();
 
-	@Source("org/geogebra/common/icons/svg/web/probability/normal_overlay_black.svg")
+	@Source("org/geogebra/common/icons/svg/web/probability/overlay.svg")
 	SVGResource normal_overlay_black();
 
 	@Source("org/geogebra/common/icons/svg/web/probability/bar_chart.svg")
