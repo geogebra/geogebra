@@ -120,7 +120,7 @@ public class QueryFunctionDataImpl implements QueryFunctionData {
 
 	@Override
 	public void forEach(IntConsumer action) {
-		Interval xRange = IntervalPlotSettings.visibleXRange();
+		Interval xRange = IntervalPlotSettings.VISIBLE_X_RANGE;
 		if (xRange.isUndefined()) {
 			allIndexes().forEach(action);
 		} else {

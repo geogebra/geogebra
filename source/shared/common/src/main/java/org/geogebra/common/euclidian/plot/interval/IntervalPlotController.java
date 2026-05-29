@@ -60,26 +60,33 @@ public class IntervalPlotController implements CoordSystemAnimationListener,
 
 	@Override
 	public void onZoomStop(CoordSystemInfo info) {
-		info.setXAxisZoom(false);
-		if (IntervalPlotSettings.isUpdateOnZoomStopEnabled()) {
+		info.cancelScaledAxis();
+		if (IntervalPlotSettings.UPDATE_ON_ZOOM_STOP_ENABLED) {
 			model.resample();
 		}
 	}
 
 	@Override
 	public void onMoveStop() {
-		if (IntervalPlotSettings.isUpdateOnMoveStopEnabled()) {
+		if (IntervalPlotSettings.UPDATE_ON_MOVE_STOP_ENABLED) {
+			model.resample();
+		}
+	}
+
+	@Override
+	public void onAxisZoomStop() {
+		if (IntervalPlotSettings.UPDATE_ON_AXIS_ZOOM_STOP_ENABLED) {
 			model.resample();
 		}
 	}
 
 	@Override
 	public void onMove(CoordSystemInfo info) {
-		if (info.isXAxisZoom() || info.isCenterView()) {
+		if (info.hasScaledAxis() || info.isCenterView()) {
 			return;
 		}
 
-		if (IntervalPlotSettings.isUpdateOnMoveEnabled()) {
+		if (IntervalPlotSettings.UPDATE_ON_MOVE_ENABLED) {
 			model.updateDomain();
 		}
 	}
@@ -96,7 +103,7 @@ public class IntervalPlotController implements CoordSystemAnimationListener,
 
 	@Override
 	public void settingsChanged(EuclidianSettings settings) {
-		if (IntervalPlotSettings.isUpdateOnSettingsChangeEnabled()) {
+		if (IntervalPlotSettings.UPDATE_ON_SETTINGS_CHANGE_ENABLED) {
 			model.resample();
 		}
 	}

@@ -45,6 +45,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.euclidian.CoordSystemInfo.ScaledAxis;
 import org.geogebra.common.euclidian.EuclidianPenFreehand.ShapeType;
 import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
 import org.geogebra.common.euclidian.draw.DrawAudio;
@@ -7998,6 +7999,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		view.setCoordSystem(newZero, view.getYZero(), newScale,
 				view.getYscale());
+		view.getCoordSystemInfo().setScaledAxis(ScaledAxis.X_AXIS);
+
 	}
 
 	protected void scaleYAxis() {
@@ -8012,6 +8015,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		view.setCoordSystem(view.getXZero(), newZero, view.getXscale(),
 				newScale);
+		view.getCoordSystemInfo().setScaledAxis(ScaledAxis.Y_AXIS);
+
 	}
 
 	/**
@@ -10351,6 +10356,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (moveMode == MoveMode.VIEW) {
 				notifyCoordSystemMoveStop();
 			}
+
 		} else {
 			if (movedGeoNumeric != null) {
 				storeUndo.storeUndo(); // single click updates fixed sliders, save changes here
@@ -12354,6 +12360,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		synchronized (zoomerAnimationListeners) {
 			for (CoordSystemAnimationListener listener : zoomerAnimationListeners.values()) {
 				listener.onMoveStop();
+			}
+		}
+	}
+
+	/**
+	 * Notify listeners that axis has stopped zooming.
+	 */
+	public void notifyCoordSystemAxisZoomStop() {
+		synchronized (zoomerAnimationListeners) {
+			for (CoordSystemAnimationListener listener : zoomerAnimationListeners.values()) {
+				listener.onAxisZoomStop();
 			}
 		}
 	}

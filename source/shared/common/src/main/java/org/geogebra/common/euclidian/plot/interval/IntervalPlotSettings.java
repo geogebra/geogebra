@@ -20,56 +20,40 @@ import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
 
 /**
- *  Optional settings for debug purposes
- *
+ * Debug settings for interval plotting.
  */
-
 public final class IntervalPlotSettings {
+	/**
+	 * Whether the plot model updates continuously while the view moves.
+	 */
+	static final boolean UPDATE_ON_MOVE_ENABLED = true;
 
 	/**
-	 *
-	 * @return if model should check its x range and re-evaluate them.
-	 * Set it false to debug line joins.
+	 * Whether the plot model updates when view movement stops.
 	 */
-	static boolean isUpdateOnMoveEnabled() {
-		return true;
-	}
+	static final boolean UPDATE_ON_MOVE_STOP_ENABLED = true;
 
 	/**
-	 *
-	 * @return if model should check its x range and re-evaluate them.
-	 * Set it false to debug line joins.
+	 * Whether the plot model updates when zooming stops.
 	 */
-	static boolean isUpdateOnMoveStopEnabled() {
-		return true;
-	}
+	static final boolean UPDATE_ON_ZOOM_STOP_ENABLED = true;
 
 	/**
-	 *
-	 * @return if model should check its x range and re-evaluate them.
-	 * Set it false to debug line joins.
+	 * Optional visible x-range override for glitch debugging.
 	 */
-	static boolean isUpdateOnZoomStopEnabled() {
-		return true;
-	}
+	static final Interval VISIBLE_X_RANGE = IntervalConstants.undefined();
 
 	/**
-	 * Limit the data to the given x range to plot.
-	 * Useful to debug glitches.
+	 * Whether data is resampled when view settings such as width change.
 	 */
-	static Interval visibleXRange() {
-		return IntervalConstants.undefined();
-	}
+	static final boolean UPDATE_ON_SETTINGS_CHANGE_ENABLED = true;
+
+	/**
+	 * Whether the plot model updates when axis-only zooming stops.
+	 */
+	static final boolean UPDATE_ON_AXIS_ZOOM_STOP_ENABLED = true;
 
 	private IntervalPlotSettings() {
 		throw new IllegalArgumentException("Should be not initialized");
-	}
-
-	/**
-	 *
-	 * @return if data should resampled on view settings (practically: width) change
-	 */
-	public static boolean isUpdateOnSettingsChangeEnabled() {
-		return true;
 	}
 }

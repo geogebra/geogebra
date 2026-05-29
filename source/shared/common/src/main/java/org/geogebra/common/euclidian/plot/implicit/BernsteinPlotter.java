@@ -77,4 +77,9 @@ public class BernsteinPlotter extends CoordSystemAnimatedPlotter {
 			super.enableUpdate();
 		}
 	}
+
+	@Override
+	public void onAxisZoomStop() {
+		// Not needed.
+	}
 }

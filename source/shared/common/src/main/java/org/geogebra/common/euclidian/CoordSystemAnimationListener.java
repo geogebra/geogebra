@@ -38,4 +38,9 @@ public interface CoordSystemAnimationListener {
 	 * Called when coordinate system stops moving.
 	 */
 	void onMoveStop();
+
+	/**
+	 * Called when axis stops scaling.
+	 */
+	void onAxisZoomStop();
 }

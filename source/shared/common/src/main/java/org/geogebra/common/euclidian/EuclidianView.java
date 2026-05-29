@@ -45,6 +45,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.euclidian.CoordSystemInfo.ScaledAxis;
 import org.geogebra.common.euclidian.background.DrawBackground;
 import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.euclidian.draw.DrawConic;
@@ -5308,7 +5309,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			axesRatioZoomer = newZoomer();
 		}
 
-		coordSystemInfo.setXAxisZoom(true);
+		coordSystemInfo.setScaledAxis(ScaledAxis.BOTH);
 		axesRatioZoomer.initAxes(newRatioX, newRatioY, storeUndo);
 		axesRatioZoomer.startAnimation();
 	}
@@ -5344,7 +5345,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 			axesRatioZoomer.initAxes(2, 2, false);
 			axesRatioZoomer.setStandardViewAfter(xzero, yzero);
-			coordSystemInfo.setXAxisZoom(true);
+			coordSystemInfo.setScaledAxis(ScaledAxis.BOTH);
 			axesRatioZoomer.startAnimation();
 		} else {
 			setAnimatedCoordSystem(xzero, yzero, STANDARD_VIEW_STEPS, false);
@@ -6618,18 +6619,27 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public void onResizeX() {
 		setCursor(EuclidianCursor.RESIZE_X);
-		coordSystemInfo.setXAxisZoom(true);
+		coordSystemInfo.setScaledAxis(ScaledAxis.X_AXIS);
 	}
 
 	/**
 	 * Runs when axis zoom is canceled.
 	 */
 	void onAxisZoomCancel() {
+		if (coordSystemInfo.hasScaledAxis()) {
+			notifyCoordSystemAxisZoomStop();
+		}
+
 		coordSystemInfo.setInteractive(false);
-		if (coordSystemInfo.isXAxisZoom()) {
-			coordSystemInfo.setXAxisZoom(false);
+		if (coordSystemInfo.hasScaledAxis()) {
+			coordSystemInfo.cancelScaledAxis();
 			euclidianController.notifyZoomerStopped();
 		}
+	}
+
+	private void notifyCoordSystemAxisZoomStop() {
+		euclidianController.notifyCoordSystemAxisZoomStop();
+		coordSystemInfo.cancelScaledAxis();
 	}
 
 	@Override
