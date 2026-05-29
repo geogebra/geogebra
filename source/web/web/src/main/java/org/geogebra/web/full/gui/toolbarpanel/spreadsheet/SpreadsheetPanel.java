@@ -103,7 +103,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		spreadsheetElement = Js.uncheckedCast(scrollContent.getElement());
 
 		if (spreadsheet != null) {
-			ReaderWidget screenReader = new ReaderWidget(App.VIEW_SPREADSHEET,
+			ReaderWidget screenReader = new ReaderWidget("S",
 					scrollContent.getElement());
 			add(screenReader);
 			spreadsheet.setAccessibilityDelegate(screenReader::readText);

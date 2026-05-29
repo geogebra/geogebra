@@ -45,14 +45,14 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	/**
 	 * Constructor.
 	 * 
-	 * @param evNo
-	 *            view number
+	 * @param idSuffix
+	 *            ID suffix identifying the view
 	 * @param anchor
 	 *            object to focus afterwards
 	 */
-	public ReaderWidget(int evNo, Element anchor) {
+	public ReaderWidget(String idSuffix, Element anchor) {
 		this.anchor = anchor;
-		getElement().setId("screenReader" + evNo);
+		getElement().setId("screenReader" + idSuffix);
 		getElement().addClassName("screenReaderStyle");
 		// can't be tabbed, but can get the focus programmatically
 		getElement().setTabIndex(-1);

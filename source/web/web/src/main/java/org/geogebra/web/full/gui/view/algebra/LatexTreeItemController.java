@@ -99,10 +99,8 @@ public class LatexTreeItemController extends RadioTreeItemController
 		if (isEditing()) {
 			dispatchEditEvent(EventType.EDITOR_STOP);
 		}
-		if (!item.isLastRadioTreeItem()) {
-			app.hideKeyboard();
-		}
 		if (item.isInputTreeItem() && item.isEmpty()) {
+			hideKeyboardIfNotLast();
 			item.styleEditor();
 			item.addDummyLabel();
 			setEditing(false);
@@ -110,6 +108,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 		}
 		item.setShowInputHelpPanel(false);
 		if (item.geo == null && isEditing()) {
+			hideKeyboardIfNotLast();
 			if (StringUtil.empty(item.getText())) {
 				return;
 			}
@@ -120,15 +119,24 @@ public class LatexTreeItemController extends RadioTreeItemController
 			return;
 		}
 		if (!isEditing()) {
+			hideKeyboardIfNotLast();
 			return;
 		}
-
 		item.stopEditing(item.getText(), obj -> {
+			if (obj != null) {
+				hideKeyboardIfNotLast();
+			}
 			if (obj != null && !keepFocus) {
 				app.setScrollToShow(true);
 				obj.update();
 			}
 		});
+	}
+
+	private void hideKeyboardIfNotLast() {
+		if (!item.isLastRadioTreeItem()) {
+			app.hideKeyboard();
+		}
 	}
 
 	@Override

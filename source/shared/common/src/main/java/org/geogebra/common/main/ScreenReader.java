@@ -17,6 +17,7 @@
 package org.geogebra.common.main;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.io.ScreenReaderTableAdapter;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -86,22 +87,29 @@ public final class ScreenReader {
 		if (text == null) {
 			return;
 		}
-
-		// MOW-137: if selection originated in AV we don't want to move focus to EV
-		GuiManagerInterface guiManager = app.getGuiManager();
-		int viewID = app.getActiveEuclidianView().getViewID();
-		if (guiManager != null && guiManager.getLayout() != null
-			&& guiManager.getLayout().getDockManager().getFocusedViewId() != viewID) {
-				return;
-		}
-
 		// WLY-298: do not steal focus from input box
 		GeoElement selectedGeo = getSelectedGeo(app);
 		if (selectedGeo != null && selectedGeo.isGeoInputBox()) {
 			return;
 		}
 
-		app.getActiveEuclidianView().getScreenReader().readText(text.trim());
+		// MOW-137: if selection originated in AV we don't want to move focus to EV
+		GuiManagerInterface guiManager = app.getGuiManager();
+		int activeEuclidianViewID = app.getActiveEuclidianView().getViewID();
+		int focusedViewID = getFocusedViewID(guiManager);
+		if (focusedViewID == activeEuclidianViewID) {
+			app.getActiveEuclidianView().getScreenReader().readText(text.trim());
+		} else if (focusedViewID == App.VIEW_ALGEBRA) {
+			ScreenReaderAdapter screenReader = app.getAlgebraView().getScreenReaderAdapter();
+			if (screenReader != null) {
+				screenReader.readText(text.trim());
+			}
+		}
+	}
+
+	private static int getFocusedViewID(GuiManagerInterface guiManager) {
+		return guiManager != null && guiManager.getLayout() != null
+				? guiManager.getLayout().getDockManager().getFocusedViewId() : App.VIEW_EUCLIDIAN;
 	}
 
 	// Handling DropDowns

@@ -1307,8 +1307,8 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	private void addScreenReader() {
-		screenReader = new ReaderWidget(evNo, g2p.getElement());
-		attachReaderWidget(screenReader, app);
+		screenReader = new ReaderWidget(Integer.toString(evNo), g2p.getElement());
+		attachReaderWidget(screenReader, (AppW) app);
 	}
 
 	/**
@@ -1317,11 +1317,11 @@ public class EuclidianViewW extends EuclidianView implements
 	 * @param app
 	 *            app it needs to be attached to
 	 */
-	public static void attachReaderWidget(ReaderWidget screenReaderWidget, App app) {
-		if (((AppW) app).getAppletFrame().getElement().getParentElement() != null) {
-			((AppW) app).getAppletFrame().getElement().getParentElement()
+	public static void attachReaderWidget(ReaderWidget screenReaderWidget, AppW app) {
+		if (app.getAppletFrame().getElement().getParentElement() != null) {
+			app.getAppletFrame().getElement().getParentElement()
 				.appendChild(screenReaderWidget.getElement());
-			((AppW) app).setLastFocusableWidget(screenReaderWidget);
+			app.setLastFocusableWidget(screenReaderWidget);
 		}
 	}
 

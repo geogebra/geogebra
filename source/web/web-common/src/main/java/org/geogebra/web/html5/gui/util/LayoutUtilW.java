@@ -54,24 +54,24 @@ public class LayoutUtilW {
 	}
 
 	/**
-	 * Replaces widget old with w in p.
+	 * Replaces oldWidget with newWidget in parent.
 	 *
-	 * @param p
+	 * @param parent
 	 *            The FlowPanel replace within.
-	 * @param w
+	 * @param newWidget
 	 *            The new widget.
-	 * @param old
+	 * @param oldWidget
 	 *            The widget to be replaced.
-	 * @return true if the replace was successful.
+	 * @return true if the replacement was successful.
 	 */
-	public static boolean replace(FlowPanel p, IsWidget w, IsWidget old) {
-		int idx = p.getWidgetIndex(old);
-		if (w == null || idx == -1) {
+	public static boolean replace(FlowPanel parent, IsWidget newWidget, IsWidget oldWidget) {
+		int idx = parent.getWidgetIndex(oldWidget);
+		if (newWidget == null || idx == -1) {
 			return false;
 		}
 
-		p.remove(idx);
-		p.insert(w, idx);
+		parent.remove(idx);
+		parent.insert(newWidget, idx);
 
 		return true;
 	}

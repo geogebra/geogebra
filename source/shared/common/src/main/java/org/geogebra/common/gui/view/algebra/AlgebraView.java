@@ -16,6 +16,9 @@
 
 package org.geogebra.common.gui.view.algebra;
 
+import javax.annotation.CheckForNull;
+
+import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.gui.Editing;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -48,6 +51,13 @@ public interface AlgebraView extends Editing, SetLabels {
 	 * @return element dragged from AV to graphics
 	 */
 	GeoElement getDraggedGeo();
+
+	/**
+	 * @return screen reader adapter for reading selected rows
+	 */
+	default @CheckForNull ScreenReaderAdapter getScreenReaderAdapter() {
+		return null;
+	}
 
 	/**
 	 * DEPENDENCY: Tree mode where the objects are categorized by their

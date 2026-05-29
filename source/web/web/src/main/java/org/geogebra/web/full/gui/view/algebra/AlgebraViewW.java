@@ -24,6 +24,7 @@ import java.util.Map.Entry;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.algebra.GeoSelectionCallback;
@@ -62,6 +63,8 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.PrintableW;
+import org.geogebra.web.html5.euclidian.EuclidianViewW;
+import org.geogebra.web.html5.euclidian.ReaderWidget;
 import org.geogebra.web.html5.gui.HasThumbnailURL;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -69,6 +72,7 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.TimerSystemW;
+import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.shared.SharedResources;
 import org.gwtproject.animation.client.AnimationScheduler;
 import org.gwtproject.animation.client.AnimationScheduler.AnimationCallback;
@@ -174,6 +178,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private final ItemFactory itemFactory;
 	private final List<GeoElement> addOnRepaint = new ArrayList<>();
 	private boolean scrollOnRepaint;
+	private ReaderWidget readerWidget;
 
 	/**
 	 * Creates new AV
@@ -1891,6 +1896,19 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public boolean hasFocus() {
 		// unimplemented
 		return false;
+	}
+
+	@Override
+	public @CheckForNull ScreenReaderAdapter getScreenReaderAdapter() {
+		elemental2.dom.Element activeElement = DomGlobal.document.activeElement;
+		if (activeElement != null && CopyPasteW.incorrectTarget(activeElement)) {
+			return null;
+		}
+		if (readerWidget == null) {
+			readerWidget = new ReaderWidget("A", getElement());
+			EuclidianViewW.attachReaderWidget(readerWidget, app);
+		}
+		return readerWidget;
 	}
 
 	@Override
