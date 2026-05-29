@@ -142,7 +142,6 @@ abstract public class ImageManager {
 	private void ensureImageHeightFitsInScreen(double x1, GeoPointND point,
 			App app, GeoImage image) {
 		EuclidianView ev = app.getActiveEuclidianView();
-		EdgeInsets safeArea = ev.getSafeAreaInsets();
 
 		double xScale = ev.getKernel().getXscale();
 		double yScale = ev.getKernel().getYscale();
@@ -151,6 +150,7 @@ abstract public class ImageManager {
 		double factor = imageHeight / imageWidth;
 		double realWorldWidth = image.getRealWorldX(1) - image.getRealWorldX(0);
 		double realWorldHeight = realWorldWidth * factor;
+		EdgeInsets safeArea = ev.getSafeAreaInsets();
 		double yMax = ev.toRealWorldCoordY(safeArea.getTop());
 		if (point.getInhomY() + realWorldHeight > yMax) {
 			double expectedHeight = (yMax - point.getInhomY()) * 0.9;

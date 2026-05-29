@@ -667,7 +667,11 @@ public class CellFormat implements CellFormatInterface {
 	 *            border style
 	 */
 	public void setBorderStyle(TabularRange cr, int borderStyle) {
-
+		// handle select all case first, then exit
+		if (table.isSelectAll() && borderStyle == BORDER_STYLE_NONE) {
+			formatMapArray[FORMAT_BORDER].clear();
+			return;
+		}
 		int r1 = cr.getMinRow();
 		int r2 = cr.getMaxRow();
 		int c1 = cr.getMinColumn();
@@ -675,13 +679,6 @@ public class CellFormat implements CellFormatInterface {
 
 		SpreadsheetCoords cell = new SpreadsheetCoords();
 		SpreadsheetCoords cell2 = new SpreadsheetCoords();
-
-		// handle select all case first, then exit
-		if (table.isSelectAll() && borderStyle == BORDER_STYLE_NONE) {
-			formatMapArray[FORMAT_BORDER].clear();
-			return;
-		}
-
 		if (cr.isContiguousRows()) {
 
 			switch (borderStyle) {

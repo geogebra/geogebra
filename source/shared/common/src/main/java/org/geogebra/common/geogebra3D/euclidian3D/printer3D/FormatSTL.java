@@ -26,13 +26,13 @@ import org.geogebra.common.kernel.matrix.Coords;
  */
 public class FormatSTL extends Format {
 
-	private ReusableArrayList<Double> verticesList = new ReusableArrayList<>();
-	private ReusableArrayList<Double> normalsList = new ReusableArrayList<>();
+	private final ReusableArrayList<Double> verticesList = new ReusableArrayList<>();
+	private final ReusableArrayList<Double> normalsList = new ReusableArrayList<>();
 
-	private Coords tmpCoords1 = new Coords(3);
-	private Coords tmpCoords2 = new Coords(3);
-	private Coords tmpCoords3 = new Coords(3);
-	private Coords n = new Coords(3);
+	private final Coords tmpCoords1 = new Coords(3);
+	private final Coords tmpCoords2 = new Coords(3);
+	private final Coords tmpCoords3 = new Coords(3);
+	private final Coords n = new Coords(3);
 
 	private double scale;
 
@@ -146,15 +146,15 @@ public class FormatSTL extends Format {
 			return true;
 		}
 
-		double v1x = verticesList.get(3 * v1);
-		double v1y = verticesList.get(3 * v1 + 1);
-		double v1z = verticesList.get(3 * v1 + 2);
-		double v2x = verticesList.get(3 * v2);
-		double v2y = verticesList.get(3 * v2 + 1);
-		double v2z = verticesList.get(3 * v2 + 2);
-		double v3x = verticesList.get(3 * v3);
-		double v3y = verticesList.get(3 * v3 + 1);
-		double v3z = verticesList.get(3 * v3 + 2);
+		final double v1x = verticesList.get(3 * v1);
+		final double v1y = verticesList.get(3 * v1 + 1);
+		final double v1z = verticesList.get(3 * v1 + 2);
+		final double v2x = verticesList.get(3 * v2);
+		final double v2y = verticesList.get(3 * v2 + 1);
+		final double v2z = verticesList.get(3 * v2 + 2);
+		final double v3x = verticesList.get(3 * v3);
+		final double v3y = verticesList.get(3 * v3 + 1);
+		final double v3z = verticesList.get(3 * v3 + 2);
 
 		// calculate normal from vertices
 		tmpCoords1.set(v1x, v1y, v1z);

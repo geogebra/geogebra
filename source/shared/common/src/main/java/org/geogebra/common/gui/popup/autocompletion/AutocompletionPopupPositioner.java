@@ -43,7 +43,7 @@ public class AutocompletionPopupPositioner {
 	public Rectangle calculatePopupFrame(Rectangle inputBounds, Size popupSize, Rectangle frame,
 			VerticalPosition verticalPosition) {
 		// Position
-		double x, y;
+		double x;
 
 		// Restrict popup size to max values
 		double width = MAX_WIDTH;
@@ -73,6 +73,7 @@ public class AutocompletionPopupPositioner {
 		double spaceBelow = frame.getMaxY() - inputBounds.getMaxY();
 		double spaceAbove = inputBounds.getMinY() - frame.getMinY();
 		double requiredHeight = Math.max(height, MIN_SPACE);
+		double y;
 		if (verticalPosition == VerticalPosition.BELOW
 				|| (verticalPosition != VerticalPosition.ABOVE
 				&& (requiredHeight <= spaceBelow || spaceBelow > spaceAbove))) {

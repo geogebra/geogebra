@@ -125,8 +125,8 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 
 	@Override
 	protected boolean distanceOK(GeoPointND point, int i) {
-		double[] min = { farXmin[i], farYmin[i], farZmin[i] };
-		double[] max = { farXmax[i], farYmax[i], farZmax[i] };
+		final double[] min = { farXmin[i], farYmin[i], farZmin[i] };
+		final double[] max = { farXmax[i], farYmax[i], farZmax[i] };
 		Coords coords = point.getInhomCoordsInD3();
 
 		// if last point Q' was far away and Q is far away

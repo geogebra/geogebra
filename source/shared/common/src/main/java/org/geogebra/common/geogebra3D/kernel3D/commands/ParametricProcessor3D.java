@@ -298,10 +298,8 @@ public class ParametricProcessor3D extends ParametricProcessor {
 	 */
 	public static void updateParabola(GeoConic3D conic, ExpressionValue[] coefX,
 			ExpressionValue[] coefY, ExpressionValue[] coefZ) {
-		Kernel kernel = conic.getKernel();
 		double mx = eval(coefX[0]), my = eval(coefY[0]), mz = eval(coefZ[0]);
 		double vx = eval(coefX[1]), vy = eval(coefY[1]), vz = eval(coefZ[1]);
-
 		double wx = eval(coefX[2]), wy = eval(coefY[2]), wz = eval(coefZ[2]);
 		CoordSys cs = new CoordSys(2);
 		cs.resetCoordSys();
@@ -312,6 +310,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 		Coords v = cs.getNormalProjection(new Coords(vx, vy, vz, 0))[1];
 		Coords w = cs.getNormalProjection(new Coords(wx, wy, wz, 0))[1];
 
+		Kernel kernel = conic.getKernel();
 		FunctionVariable px = new FunctionVariable(kernel, "x");
 		FunctionVariable py = new FunctionVariable(kernel, "y");
 		ExpressionNode t = px.wrap().multiply(w.getY())

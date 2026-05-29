@@ -532,8 +532,6 @@ public class ModeShape {
 	}
 
 	private GeoPoint[] getRealPointsOfLine(AbstractEvent event) {
-		GeoPoint[] points = new GeoPoint[2];
-
 		double startX = dragStartPoint.getX();
 		double startY = dragStartPoint.getY();
 		GeoPoint startPoint = invisibleScreenPoint(startX, startY);
@@ -542,10 +540,7 @@ public class ModeShape {
 		double endX = snap.getX();
 		double endY = snap.getY();
 		GeoPoint endPoint = invisibleScreenPoint(endX, endY);
-
-		points[0] = startPoint;
-		points[1] = endPoint;
-		return points;
+		return new GeoPoint[] {startPoint, endPoint};
 	}
 
 	private double[] getEquationOfConic(AbstractEvent event, boolean isCircle) {
