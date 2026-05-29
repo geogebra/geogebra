@@ -48,7 +48,7 @@ public class CmdFromBase extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			boolean oldMacroMode = cons.isSuppressLabelsActive();
+			final boolean oldMacroMode = cons.isSuppressLabelsActive();
 			EvalInfo argInfo = new EvalInfo(false);
 			// following part is very similar to normal resArgs,
 			// but allows autocorrection for eg FromBase[2,101010]

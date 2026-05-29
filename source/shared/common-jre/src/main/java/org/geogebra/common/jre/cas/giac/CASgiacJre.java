@@ -72,21 +72,17 @@ public abstract class CASgiacJre extends CASgiacB {
 	protected abstract boolean useThread();
 
 	class EvaluateThread extends Thread {
-		private final Runnable evaluateFunction;
 
 		EvaluateThread(Runnable evaluateFunction) {
-			this.evaluateFunction = evaluateFunction;
-		}
-
-		@Override
-		public void run() {
-			try {
-				evaluateFunction.run();
-			} catch (Throwable t) {
-				Log.debug("problem from JNI Giac: " + t.toString());
-				// force error in GeoGebra
-				threadResult = FORCE_ERROR;
-			}
+			super(() -> {
+				try {
+					evaluateFunction.run();
+				} catch (Throwable t) {
+					Log.debug("problem from JNI Giac: " + t.toString());
+					// force error in GeoGebra
+					threadResult = FORCE_ERROR;
+				}
+			});
 		}
 	}
 }

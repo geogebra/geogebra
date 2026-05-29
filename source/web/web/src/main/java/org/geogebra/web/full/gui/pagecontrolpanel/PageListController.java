@@ -226,7 +226,6 @@ public class PageListController implements PageListControllerInterface,
 		int width = (int) Math.floor(ev1.getExportWidth() * scale);
 		int height = (int) Math.floor(ev1.getExportHeight() * scale);
 
-		int currentIndex = selectedCard.getPageIndex();
 		savePreviewCard(selectedCard);
 
 		Canvas2Pdf.PdfContext ctx = PDFEncoderW.getContext(width, height,
@@ -243,7 +242,7 @@ public class PageListController implements PageListControllerInterface,
 		GGraphics2DW pdfGraphics = new GGraphics2DW(ctx);
 
 		this.exportedPages = 0;
-
+		int currentIndex = selectedCard.getPageIndex();
 		app.registerOpenFileListener(() -> {
 			int n = slides.size();
 			if (exportedPages == n) {

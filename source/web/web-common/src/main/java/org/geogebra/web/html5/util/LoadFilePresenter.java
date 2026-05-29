@@ -48,7 +48,7 @@ public class LoadFilePresenter {
 	 *            app
 	 */
 	public void onPageLoad(final AppletParameters view, final AppW app) {
-		ArchiveLoader loader = app.getArchiveLoader();
+		final ArchiveLoader loader = app.getArchiveLoader();
 		String base64String;
 		String filename;
 		String jsonString;

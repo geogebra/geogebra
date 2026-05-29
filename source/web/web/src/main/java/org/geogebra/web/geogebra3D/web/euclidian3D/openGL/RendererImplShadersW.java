@@ -500,7 +500,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 		// create texture
 		WebGLTexture texture;
 
-		int newIndex = texturesArray.size();
+		final int newIndex = texturesArray.size();
 		texture = glContext.createTexture();
 		texturesArray.add(texture);
 

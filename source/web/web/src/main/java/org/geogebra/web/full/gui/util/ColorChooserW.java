@@ -166,8 +166,8 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			int h = colorIconSize.getHeight();
 			int w = colorIconSize.getWidth();
 
-			int x = col * w;
-			int y = tableOffsetY + (row * h);
+			final int x = col * w;
+			final int y = tableOffsetY + (row * h);
 
 			GColor borderColor = NORMAL_TILE_COLOR;
 			ctx.setLineWidth(1);

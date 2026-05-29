@@ -600,20 +600,7 @@ public class GPopupPanel extends SimplePanel implements
 			show();
 		}
 
-		// If left/top are set from a previous center() call, and our content
-		// has changed, we may get a bogus getOffsetWidth because our new
-		// content
-		// is wrapping (giving a lower offset width) then it would without the
-		// previous left. Setting left/top back to 0 avoids this.
-		Element elem = getElement();
-		elem.getStyle().setPropertyPx("left", 0);
-		elem.getStyle().setPropertyPx("top", 0);
-
-		int left = (getRootPanel().getOffsetWidth() - getOffsetWidth()) >> 1;
-		int top = (getRootPanel().getOffsetHeight() - Math.min(getOffsetHeight(), getMaxHeight())
-				- (int) keyboardHeight) >> 1;
-		setPopupPosition(Math.max(left, 0), Math.max(top, 0));
-				
+		setCenteredPosition(keyboardHeight);
 		if (!initiallyShowing) {
 			setAnimationEnabled(initiallyAnimated);
 			// Run the animation. The popup is already visible, so we can skip
@@ -627,6 +614,22 @@ public class GPopupPanel extends SimplePanel implements
 				setVisible(true);
 			}
 		}
+	}
+
+	private void setCenteredPosition(double keyboardHeight) {
+		// If left/top are set from a previous center() call, and our content
+		// has changed, we may get a bogus getOffsetWidth because our new
+		// content
+		// is wrapping (giving a lower offset width) then it would without the
+		// previous left. Setting left/top back to 0 avoids this.
+		Element elem = getElement();
+		elem.getStyle().setPropertyPx("left", 0);
+		elem.getStyle().setPropertyPx("top", 0);
+
+		int left = (getRootPanel().getOffsetWidth() - getOffsetWidth()) >> 1;
+		int top = (getRootPanel().getOffsetHeight() - Math.min(getOffsetHeight(), getMaxHeight())
+				- (int) keyboardHeight) >> 1;
+		setPopupPosition(Math.max(left, 0), Math.max(top, 0));
 	}
 
 	/**

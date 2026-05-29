@@ -81,25 +81,18 @@ public class QDParser {
 	final public void parse(DocHandler doc, Reader r) throws IOException, XMLParseException {
 		// Stack stack = new Stack();
 		stack.clear();
-
-		int mode = PRE;
+		sb.setLength(0);
+		etag.setLength(0);
+		attrs.clear();
+		doc.startDocument();
 		int c;
 		int quotec = '"';
 		int depth = 0;
-		// StringBuilder sb = new StringBuilder();
-		// StringBuilder etag = new StringBuilder();
-		sb.setLength(0);
-		etag.setLength(0);
 		String tagName = null;
 		String lvalue = null;
-		String rvalue = null;
-
-		// attrs = new LinkedHashMap();
-		attrs.clear();
-
-		doc.startDocument();
 		int line = 1, col = 0;
 		boolean eol = false;
+		int mode = PRE;
 		while ((c = r.read()) != -1) {
 
 			// We need to map \r, \r\n, and \n to \n
@@ -343,7 +336,7 @@ public class QDParser {
 			// of an element's attribute.
 			case QUOTE:
 				if (c == quotec) {
-					rvalue = sb.toString();
+					String rvalue = sb.toString();
 					sb.setLength(0);
 					attrs.put(lvalue, rvalue);
 					mode = IN_TAG;

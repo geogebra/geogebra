@@ -169,7 +169,7 @@ public class ArcClipper {
 	private List<Double> findIntersectionAngles(
 			GeoConicND conic, GAffineTransform viewTransform, GAffineTransform conicTransform) {
 		double dx = getMargin();
-		double[][] edges = new double[][]{{1, 0, dx},
+		final double[][] edges = new double[][]{{1, 0, dx},
 				{1, 0, -view.getWidth() - dx},
 				{0, 1, dx},
 				{0, 1, -view.getHeight() - dx}};

@@ -635,8 +635,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		// if you can't select the specific equation
 		boolean specificPossible = conic.isSpecificFormPossible();
 		boolean explicitPossible = conic.isExplicitFormPossible();
-		boolean vertexformPossible = conic.isVertexFormPossible();
-		boolean conicformPossible = conic.isConicFormPossible();
 		boolean userPossible = conic.getDefinition() != null;
 		if (!(specificPossible || explicitPossible || userPossible)) {
 			return;
@@ -674,7 +672,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			addAction(action, sb.toString());
 		}
 
-		if (vertexformPossible && form != QuadraticEquationRepresentable.Form.VERTEX) {
+		if (conic.isVertexFormPossible() && form != QuadraticEquationRepresentable.Form.VERTEX) {
 			sb.setLength(0);
 			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');
@@ -683,7 +681,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			addAction(action, sb.toString());
 		}
 
-		if (conicformPossible && form != QuadraticEquationRepresentable.Form.CONICFORM) {
+		if (conic.isConicFormPossible() && form != QuadraticEquationRepresentable.Form.CONICFORM) {
 			sb.setLength(0);
 			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');

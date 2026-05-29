@@ -247,15 +247,14 @@ public abstract class CopyPasteCut {
 		}
 
 		app.setWaitCursor();
-		boolean succ = false;
-		int x1 = sourceColumn1;
-		int y1 = sourceRow1;
-		int x2 = sourceColumn1 + width - 1;
-		int y2 = sourceRow1 + height - 1;
-		int x3 = column1;
-		int y3 = row1;
-		int x4 = column1 + width - 1;
-		int y4 = row1 + height - 1;
+		final int x1 = sourceColumn1;
+		final int y1 = sourceRow1;
+		final int x2 = sourceColumn1 + width - 1;
+		final int y2 = sourceRow1 + height - 1;
+		final int x3 = column1;
+		final int y3 = row1;
+		final int x4 = column1 + width - 1;
+		final int y4 = row1 + height - 1;
 		GeoElementND[][] values2 = RelativeCopy.getValues(tableModel, x3, y3, x4, y4);
 		/*
 		 * for (int i = 0; i < values2.length; ++ i) { for (int j = 0; j <
@@ -279,6 +278,7 @@ public abstract class CopyPasteCut {
 		}
 
 		GeoElement[][] values1 = getCellBufferGeo();
+		boolean succ = false;
 		try {
 			for (int x = x1; x <= x2; ++x) {
 				int relX = x - x1;

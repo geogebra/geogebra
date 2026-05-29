@@ -456,7 +456,6 @@ public class GgbAPIW extends GgbAPI {
 		getKernel().setSaving(true);
 		((ImageManagerW) app.getImageManager())
 				.adjustConstructionImages(getConstruction());
-		String constructionXml = getApplication().getXML();
 		String allMacrosXml = getApplication().getAllMacrosXMLOrEmpty();
 		XMLStringBuilder defaults2d = new XMLStringBuilder();
 		XMLStringBuilder defaults3d = null;
@@ -485,7 +484,7 @@ public class GgbAPIW extends GgbAPI {
 		if (!StringUtil.emptyTrim(geogebraJavascript)) {
 			archiveContent.put(MyXMLio.JAVASCRIPT_FILE, geogebraJavascript);
 		}
-
+		String constructionXml = getApplication().getXML();
 		archiveContent.put(MyXMLio.XML_FILE, constructionXml);
 
 		// GGB-1758 write images at the end

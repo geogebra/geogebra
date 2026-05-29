@@ -165,10 +165,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * The application loading continues in the splashDialog onLoad handler
 	 */
 	public void createSplash() {
-
-		int splashWidth = LOGO_WIDTH;
-		int splashHeight = LOGO_HEIGHT;
-
 		// to not touch the DOM twice when computing width and height
 		preProcessFitToScreen();
 
@@ -179,6 +175,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		SplashDialog splashPopup = new SplashDialog(showLogo, geoGebraElement,
 				appletParameters, this);
 		this.splash = splashPopup;
+		int splashWidth = LOGO_WIDTH;
+		int splashHeight = LOGO_HEIGHT;
 		if (splashPopup.isPreviewExists()) {
 			splashWidth = width;
 			splashHeight = height;

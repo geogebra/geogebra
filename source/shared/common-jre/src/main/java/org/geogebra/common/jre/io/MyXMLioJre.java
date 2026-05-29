@@ -136,8 +136,6 @@ public abstract class MyXMLioJre extends MyXMLio {
 		byte[] macroXmlFileBuffer = null;
 		byte[] defaults2dXmlFileBuffer = null;
 		byte[] defaults3dXmlFileBuffer = null;
-		boolean xmlFound = false;
-		boolean macroXMLFound = false;
 		boolean javaScriptFound = false;
 		boolean structureFound = false;
 
@@ -159,7 +157,6 @@ public abstract class MyXMLioJre extends MyXMLio {
 			} else if (name.equals(XML_FILE)) {
 				// load xml file into memory first
 				xmlFileBuffer = StreamUtil.loadIntoMemory(zip);
-				xmlFound = true;
 				handler = getGGBHandler();
 			} else if (name.equals(XML_FILE_DEFAULTS_2D)) {
 				// load defaults xml file into memory first
@@ -172,7 +169,6 @@ public abstract class MyXMLioJre extends MyXMLio {
 			} else if (name.equals(XML_FILE_MACRO)) {
 				// load macro xml file into memory first
 				macroXmlFileBuffer = StreamUtil.loadIntoMemory(zip);
-				macroXMLFound = true;
 				handler = getGGBHandler();
 			} else if (name.equals(JAVASCRIPT_FILE)) {
 				// load JavaScript
@@ -211,7 +207,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 		if (!isGGTFile && xmlFileBuffer != null) {
 			kernel.getConstruction().setFileLoading(true);
 			app.getCompanion().resetEuclidianViewForPlaneIds();
-			processXMLBuffer(xmlFileBuffer, !macroXMLFound, isGGTFile);
+			processXMLBuffer(xmlFileBuffer, macroXmlFileBuffer == null, isGGTFile);
 			kernel.getConstruction().setFileLoading(false);
 		}
 
@@ -230,7 +226,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 		if (!javaScriptFound && !isGGTFile) {
 			kernel.resetLibraryJavaScript();
 		}
-		if (!(macroXMLFound || xmlFound || structureFound)) {
+		if (macroXmlFileBuffer == null && xmlFileBuffer == null && !structureFound) {
 			throw new IOException("No XML data found in file.");
 		}
 	}

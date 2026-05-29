@@ -531,7 +531,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	private String getCanvasBase64WithTypeString(double width, double height) {
-		Canvas foreground = ((RendererWInterface) this.renderer).getCanvas();
 		double ratio = width / height;
 		double thx = MyXMLio.THUMBNAIL_PIXELS_X;
 		double thy = MyXMLio.THUMBNAIL_PIXELS_Y;
@@ -547,7 +546,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		canv.setWidth((int) thx + "px");
 		canv.setHeight((int) thy + "px");
 		CanvasRenderingContext2D c2 = Js.uncheckedCast(canv.getContext2d());
-
+		Canvas foreground = ((RendererWInterface) this.renderer).getCanvas();
 		c2.drawImage(Js.<HTMLCanvasElement>uncheckedCast(foreground.getCanvasElement()),
 				0, 0, (int) thx, (int) thy);
 

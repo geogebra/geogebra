@@ -217,7 +217,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 			app.dispatchEvent(new Event(EventType.EMBED_LOADED, drawEmbed.getGeoEmbed())
 					.setJsonArgument(jsonArgument));
 		});
-		String jsonContent = content.get(drawEmbed.getEmbedID());
+		final String jsonContent = content.get(drawEmbed.getEmbedID());
 		if (SUITE_APPCODE.equals(drawEmbed.getGeoEmbed().getAppName())) {
 			parameters.setAttribute("preventFocus", "true");
 		}

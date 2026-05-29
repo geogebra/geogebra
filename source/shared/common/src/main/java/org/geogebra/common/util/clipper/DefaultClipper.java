@@ -1640,21 +1640,7 @@ public class DefaultClipper extends ClipperBase {
 				return;
 			} else if (e1.polyType == e2.polyType && e1.windDelta != e2.windDelta
 					&& clipType == ClipType.UNION) {
-				if (e1.windDelta == 0) {
-					if (e2Contributing) {
-						addOutPt(e1, pt);
-						if (e1Contributing) {
-							e1.outIdx = Edge.UNASSIGNED;
-						}
-					}
-				} else {
-					if (e1Contributing) {
-						addOutPt(e2, pt);
-						if (e2Contributing) {
-							e2.outIdx = Edge.UNASSIGNED;
-						}
-					}
-				}
+				unionEdges(e1, e2, e1Contributing, e2Contributing, pt);
 			} else if (e1.polyType != e2.polyType) {
 				if (e1.windDelta == 0 && Math.abs(e2.windCnt) == 1
 						&& (clipType != ClipType.UNION || e2.windCnt2 == 0)) {
@@ -1821,6 +1807,25 @@ public class DefaultClipper extends ClipperBase {
 				}
 			} else {
 				Edge.swapSides(e1, e2);
+			}
+		}
+	}
+
+	private void unionEdges(Edge e1, Edge e2, boolean e1Contributing, boolean e2Contributing,
+			DoublePoint pt) {
+		if (e1.windDelta == 0) {
+			if (e2Contributing) {
+				addOutPt(e1, pt);
+				if (e1Contributing) {
+					e1.outIdx = Edge.UNASSIGNED;
+				}
+			}
+		} else {
+			if (e1Contributing) {
+				addOutPt(e2, pt);
+				if (e2Contributing) {
+					e2.outIdx = Edge.UNASSIGNED;
+				}
 			}
 		}
 	}
@@ -2332,10 +2337,8 @@ public class DefaultClipper extends ClipperBase {
 	private void processIntersectList() {
 		for (int i = 0; i < intersectList.size(); i++) {
 			final IntersectNode iNode = intersectList.get(i);
-			{
-				intersectEdges(iNode.edge1, iNode.Edge2, iNode.getPt());
-				swapPositionsInAEL(iNode.edge1, iNode.Edge2);
-			}
+			intersectEdges(iNode.edge1, iNode.Edge2, iNode.getPt());
+			swapPositionsInAEL(iNode.edge1, iNode.Edge2);
 		}
 		intersectList.clear();
 	}

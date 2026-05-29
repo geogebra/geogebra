@@ -814,7 +814,6 @@ public class DockManagerW extends DockManager {
 			currentPane = (DockSplitPaneW) component;
 		}
 
-		int size = panel.getEmbeddedSize();
 		int lastPos = locations[locations.length - 1];
 
 		DockSplitPaneW newSplitPane = new DockSplitPaneW(app);
@@ -832,6 +831,7 @@ public class DockManagerW extends DockManager {
 
 		// the component opposite to the current component
 		int[] oppositeDim = new int[] { 0, 0 };
+		int size = panel.getEmbeddedSize();
 
 		Widget opposite = prepareRootPaneForInsert(oppositeDim, currentPane,
 					newSplitPane, lastPos, secondLastPos);
@@ -1067,8 +1067,8 @@ public class DockManagerW extends DockManager {
 		}
 
 		DockSplitPaneW parent = panel.getParentSplitPane();
-		int parentOffsetWidth = parent.getOffsetWidth();
-		int parentOffsetHeight = parent.getOffsetHeight();
+		final int parentOffsetWidth = parent.getOffsetWidth();
+		final int parentOffsetHeight = parent.getOffsetHeight();
 		app.persistWidthAndHeight();
 		// Save settings
 		if (parent.getOrientation() == SwingConstants.HORIZONTAL_SPLIT) {
