@@ -160,10 +160,10 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/vertical_align_top-24px.svg")
 	SVGResource vertical_align_top();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/ruling-D2.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/ruling.svg")
 	SVGResource font_ruling();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/fontspecific-C.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/fontspecific.svg")
 	SVGResource font_special_symbol();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/table_heading_column.svg")
