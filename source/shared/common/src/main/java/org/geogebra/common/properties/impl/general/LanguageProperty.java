@@ -72,7 +72,7 @@ public class LanguageProperty extends AbstractNamedEnumeratedProperty<String> {
     }
 
     @Override
-    public boolean isEnabled() {
+    public boolean isAvailable() {
         return !GlobalScope.isExamActive(app);
     }
 }

@@ -320,7 +320,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 		examController.startExam(ExamType.GENERIC, null);
 
 		LanguageProperty languageProperty = getApp().appScope.getLanguageProperty();
-		assertFalse(languageProperty.isEnabled()); // should be disabled during exam
+		assertFalse(languageProperty.isAvailable());
 	}
 
 	@Test
