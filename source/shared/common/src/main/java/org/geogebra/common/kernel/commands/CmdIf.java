@@ -187,7 +187,7 @@ public class CmdIf extends CommandProcessor {
 	private GeoElement[] specialFunction(Command c, String[] varName,
 			FunctionVariable[] fv, EvalInfo info) {
 		EvalInfo argInfo = info.withLabels(false);
-		boolean oldFlag = kernel.getConstruction().isSuppressLabelsActive();
+		final boolean oldFlag = kernel.getConstruction().isSuppressLabelsActive();
 		kernel.getConstruction().setSuppressLabelCreation(true);
 		ArrayList<FunctionalNVar> conditions = new ArrayList<>();
 		ArrayList<FunctionalNVar> functions = new ArrayList<>();

@@ -119,7 +119,6 @@ public class AlgoFractionText extends AlgoElement {
 	 */
 	public static double[] decimalToFraction(double decimal,
 			double accuracyFactor) {
-		double fractionNumerator, fractionDenominator;
 		double decimalSign;
 
 		double[] ret = { 0, 0 };
@@ -145,7 +144,7 @@ public class AlgoFractionText extends AlgoElement {
 		}
 
 		double decimalAbs = Math.abs(decimal);
-
+		double fractionNumerator, fractionDenominator;
 		if (Math.abs(decimalAbs - Math.floor(decimalAbs)) < accuracyFactor) {
 			// handles exact integers including 0
 			fractionNumerator = decimalAbs * decimalSign;

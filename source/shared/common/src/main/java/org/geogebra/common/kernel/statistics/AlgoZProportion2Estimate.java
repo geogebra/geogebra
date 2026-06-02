@@ -112,16 +112,9 @@ public class AlgoZProportion2Estimate extends AlgoElement {
 
 	@Override
 	public final void compute() {
-
-		double n1 = n.getDouble();
-		double phat1 = proportion.getDouble();
-		double n2 = n_2.getDouble();
-		double phat2 = proportion2.getDouble();
-		double cLevel = level.getDouble();
-
 		NormalDistribution normalDist = new NormalDistribution(0, 1);
-
-		double critZ = 0;
+		double cLevel = level.getDouble();
+		double critZ;
 
 		try {
 			critZ = normalDist.inverseCumulativeProbability((1 - cLevel) / 2);
@@ -130,6 +123,10 @@ public class AlgoZProportion2Estimate extends AlgoElement {
 			return;
 		}
 
+		double n1 = n.getDouble();
+		double phat1 = proportion.getDouble();
+		double n2 = n_2.getDouble();
+		double phat2 = proportion2.getDouble();
 		double stat = phat1 - phat2;
 		se = Math.sqrt(phat1 * (1 - phat1) / n1 + phat2 * (1 - phat2) / n2);
 		double z = Math.abs(critZ);

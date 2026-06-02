@@ -168,9 +168,6 @@ public class AlgoZMean2Estimate extends AlgoElement {
 		}
 
 		double n1, n2, mean1, mean2;
-		double sd1 = sd.getDouble();
-		double sd2 = sd_2.getDouble();
-		double cLevel = level.getDouble();
 
 		if (list == null) {
 
@@ -198,10 +195,12 @@ public class AlgoZMean2Estimate extends AlgoElement {
 			mean1 = list.mean();
 			mean2 = list2.mean();
 		}
-
+		double sd1 = sd.getDouble();
+		double sd2 = sd_2.getDouble();
+		double cLevel = level.getDouble();
 		NormalDistribution normalDist = new NormalDistribution(0, 1);
 
-		double critZ = 0;
+		double critZ;
 
 		try {
 			critZ = normalDist.inverseCumulativeProbability((1 - cLevel) / 2);

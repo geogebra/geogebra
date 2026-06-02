@@ -41,9 +41,7 @@ public class PolynomialUtils {
 	 * @return quotient of cp/cd
 	 */
 	public static double[] polynomialDivision(double[] cp, double[] cd) {
-		double[] cq;
-		double[] cpclone;
-		cpclone = new double[cp.length];
+		double[] cpclone = new double[cp.length];
 		for (int i = 0; i < cp.length; i++) {
 			cpclone[i] = cp[i];
 		}
@@ -57,7 +55,7 @@ public class PolynomialUtils {
 		if (cpclone.length - 1 < degD) {
 			return new double[] { 0 };
 		}
-		cq = new double[cpclone.length - degD];
+		double[] cq = new double[cpclone.length - degD];
 		double lcd = cd[degD];
 		int k = cpclone.length - 1;
 		for (int i = cq.length - 1; i >= 0; i--) {

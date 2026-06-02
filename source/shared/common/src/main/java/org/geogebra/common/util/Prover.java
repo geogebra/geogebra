@@ -289,7 +289,7 @@ public abstract class Prover {
 				}
 			}
 			// If there is no such line, we simply create one.
-			boolean oldMacroMode = cons.isSuppressLabelsActive();
+			final boolean oldMacroMode = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(false);
 			AlgoJoinPoints ajp = new AlgoJoinPoints(cons, null, P1, P2);
 			GeoLine line = ajp.getLine();

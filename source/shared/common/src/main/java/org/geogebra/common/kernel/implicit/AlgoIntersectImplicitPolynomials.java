@@ -182,7 +182,6 @@ public class AlgoIntersectImplicitPolynomials extends AlgoSimpleRootsPolynomial 
 		// univarType.
 
 		// int q = a.getDegY();
-		PolynomialFunction[][] mat = new PolynomialFunction[n][n];
 		PolynomialFunction[] aNew = new PolynomialFunction[m + n];
 		PolynomialFunction[] bPolys = new PolynomialFunction[n + 1];
 
@@ -213,6 +212,7 @@ public class AlgoIntersectImplicitPolynomials extends AlgoSimpleRootsPolynomial 
 			}
 			--leadIndex;
 		}
+		PolynomialFunction[][] mat = new PolynomialFunction[n][n];
 		while (leadIndex >= n) {
 			if (!(aNew[leadIndex].degree() == 0
 					&& aNew[leadIndex].getCoefficients()[0] == 0)) {

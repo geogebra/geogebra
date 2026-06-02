@@ -143,8 +143,6 @@ public abstract class ClipperBase implements Clipper {
 			edges1.add(new Edge());
 		}
 
-		boolean IsFlat = true;
-
 		// 1. Basic (first) edge initialization ...
 
 		// edges.get( 1 ).setCurrent( new LongPoint( pg.get( 1 ) ) );
@@ -220,11 +218,12 @@ public abstract class ClipperBase implements Clipper {
 		// 3. Do second stage of edge initialization ...
 
 		e = eStart;
+		boolean isFlat = true;
 		do {
 			initEdge2(e, polyType);
 			e = e.next;
-			if (IsFlat && e.getCurrent().getY() != eStart.getCurrent().getY()) {
-				IsFlat = false;
+			if (isFlat && e.getCurrent().getY() != eStart.getCurrent().getY()) {
+				isFlat = false;
 			}
 		} while (e != eStart);
 
@@ -232,7 +231,7 @@ public abstract class ClipperBase implements Clipper {
 
 		// Totally flat paths must be handled differently when adding them
 		// to LocalMinima list to avoid endless loops etc ...
-		if (IsFlat) {
+		if (isFlat) {
 			if (Closed) {
 				return false;
 			}

@@ -61,10 +61,10 @@ public class CmdSum extends CommandProcessor {
 		GeoElement[] arg;
 
 		// needed for Sum[]
-		if (c.getArgumentNumber() == 0) {
+		if (n == 0) {
 			throw argNumErr(c);
 		}
-		if (c.getArgumentNumber() == 4) {
+		if (n == 4) {
 			GeoElement[] res = processSymb(this, c, Operation.PLUS);
 			if (res != null) {
 				return res;

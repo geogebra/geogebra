@@ -1183,18 +1183,17 @@ public class MyList extends ValidExpression
 			return;
 		}
 
-		ExpressionNode x, y, z;
 		// size 3
-		z = new ExpressionNode(kernel, en, Operation.MINUS, en2);
+		ExpressionNode z = new ExpressionNode(kernel, en, Operation.MINUS, en2);
 		ExpressionValue az = get(2);
 		ExpressionValue bz = list.get(2);
 		en = new ExpressionNode(kernel, ay, Operation.MULTIPLY, bz);
 		en2 = new ExpressionNode(kernel, az, Operation.MULTIPLY, by);
-		x = new ExpressionNode(kernel, en, Operation.MINUS, en2);
+		ExpressionNode x = new ExpressionNode(kernel, en, Operation.MINUS, en2);
 
 		en = new ExpressionNode(kernel, az, Operation.MULTIPLY, bx);
 		en2 = new ExpressionNode(kernel, ax, Operation.MULTIPLY, bz);
-		y = new ExpressionNode(kernel, en, Operation.MINUS, en2);
+		ExpressionNode y = new ExpressionNode(kernel, en, Operation.MINUS, en2);
 
 		listElements.set(0, x);
 		listElements.set(1, y);
