@@ -22,8 +22,6 @@ import java.util.List;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
-import com.google.j2objc.annotations.Weak;
-
 /**
  * A multicast (i.e., one-to-many) eventing / notification mechanism.
  *
@@ -58,32 +56,17 @@ public final class MulticastEvent<T> {
 		void notify(@CheckForNull T argument);
 	}
 
-	/**
-	 * A "weak box" to avoid strong reference cycles on iOS.
-	 */
-	private final class WeakBox<T> {
-		@Weak
-		@CheckForNull T value;
-
-		WeakBox(T value) {
-			this.value = value;
-		}
-	}
-
-	private final List<WeakBox<MulticastEvent.Listener<T>>> listeners = new ArrayList<>();
+	private final List<MulticastEvent.Listener<T>> listeners = new ArrayList<>();
 
 	/**
 	 * Add a listener to the list of listeners (if not yet registered).
 	 * @param listener A listener.
 	 */
 	public void addListener(@Nonnull MulticastEvent.Listener<T> listener) {
-		listeners.removeIf(entry -> entry.value == null);
-		for (WeakBox<MulticastEvent.Listener<T>> entry : listeners) {
-			if (entry.value == listener) {
-				return;
-			}
+		if (listeners.contains(listener)) {
+			return;
 		}
-		listeners.add(new WeakBox(listener));
+		listeners.add(listener);
 	}
 
 	/**
@@ -91,8 +74,7 @@ public final class MulticastEvent<T> {
 	 * @param listener A listener.
 	 */
 	public void removeListener(@Nonnull MulticastEvent.Listener<T> listener) {
-		listeners.removeIf(entry ->
-			entry.value == listener || entry.value == null);
+		listeners.remove(listener);
 	}
 
 	/**
@@ -100,11 +82,6 @@ public final class MulticastEvent<T> {
 	 * @param argument event argument (payload)
 	 */
 	public void notifyListeners(@CheckForNull T argument) {
-		for (WeakBox<MulticastEvent.Listener<T>> entry : listeners) {
-			if (entry.value != null) {
-				entry.value.notify(argument);
-			}
-		}
-		listeners.removeIf(entry -> entry.value == null);
+		listeners.forEach(listener -> listener.notify(argument));
 	}
 }
