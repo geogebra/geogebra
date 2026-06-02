@@ -80,7 +80,7 @@ public class CASgiacW extends CASgiac {
 		try {
 			// replace Unicode when sending to JavaScript
 			// (encoding problem)
-			String processedExp = casParser.replaceIndices(exp, true);
+			String processedExp = CASparser.replaceIndices(exp, true);
 			String ret = evaluateRaw(processedExp);
 
 			return postProcess(ret);

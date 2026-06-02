@@ -127,7 +127,7 @@ public abstract class CASgiacB extends CASgiac {
 	@Override
 	public String evaluateCAS(String input) {
 		// don't need to replace Unicode when sending to JNI
-		String exp = casParser.replaceIndices(input, false);
+		String exp = CASparser.replaceIndices(input, false);
 
 		try {
 			return evaluate(exp, timeoutMillis);

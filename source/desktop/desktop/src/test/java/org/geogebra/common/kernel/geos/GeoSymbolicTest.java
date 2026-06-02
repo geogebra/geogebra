@@ -2685,4 +2685,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Limit(f',3)", "27");
 		t("Limit(f'',3)", "18");
 	}
+
+	@Test
+	public void fixIndices() {
+		t("PerpendicularBisector((x_{1},y_{1}),(x_{2},y_{2}))",
+				"y = (-x_1 + x_2) / (y_1 - y_2) * x + (x_1^(2) - x_2^(2) + y_1^(2)"
+						+ " - y_2^(2)) / (2 * y_1 - 2 * y_2)");
+		add("f=2g_{1}-6");
+		t("Solve(f,g_{1})", "{g_1 = 3}");
+	}
 }

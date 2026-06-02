@@ -243,16 +243,16 @@ public class CASparser implements CASParserInterface {
 
 	/**
 	 * Converts all index characters ('_', '{', '}') in the given String to
-	 * "unicode" + charactercode + DELIMITER Strings. This is needed so that
+	 * {@code "unicode" + charactercode + DELIMITER} Strings. This is needed so that
 	 * labels like a_{12} are preserved
 	 * 
 	 * @param str
 	 *            input string with _,{,}
 	 * @param replaceUnicode
-	 *            whether unicode characters need to be encoded
+	 *            whether Unicode characters need to be encoded
 	 * @return string where _,{,} are replaced
 	 */
-	public synchronized String replaceIndices(String str,
+	public static synchronized String replaceIndices(String str,
 			boolean replaceUnicode) {
 		int len = str.length();
 		StringBuilder replaceIndices = new StringBuilder();
@@ -269,11 +269,10 @@ public class CASparser implements CASParserInterface {
 						// \\_ is translated to _
 						replaceIndices
 								.deleteCharAt(replaceIndices.length() - 1);
-						replaceIndices.append('_');
 					} else {
 						state = FA.UNDERSCORE;
-						appendcode(replaceIndices, '_');
 					}
+					replaceIndices.append('_');
 				} else if (c == Unicode.EULER_CHAR) {
 					replaceIndices.append('e');
 				} else if (replaceUnicode && c > 127
@@ -291,26 +290,36 @@ public class CASparser implements CASParserInterface {
 
 			case UNDERSCORE:
 				if (c == '{') {
+					if (str.length() > i + 2 && str.charAt(i + 2) == '}') {
+						appendCharTo(replaceIndices, str.charAt(i + 1));
+						i += 2;
+						state = FA.NORMAL;
+						continue;
+					}
 					state = FA.LONG_INDEX;
 				} else {
 					state = FA.NORMAL;
 				}
-				appendcode(replaceIndices, c);
+				appendCharTo(replaceIndices, c);
 				break;
 
 			case LONG_INDEX:
 				if (c == '}') {
 					state = FA.NORMAL;
 				}
-				appendcode(replaceIndices, c);
+				appendCharTo(replaceIndices, c);
 				break;
 			}
 		}
-
-		// Log.debug(insertSpecialChars(replaceIndices.toString())+"
-		// "+replaceIndices.toString());
-
 		return replaceIndices.toString();
+	}
+
+	private static void appendCharTo(StringBuilder replaceIndices, char c) {
+		if ('0' <= c && c <= '9' || 'a' <= c && c <= 'z' || 'A' <= c && c <= 'Z') {
+			replaceIndices.append(c);
+		} else {
+			appendcode(replaceIndices, c);
+		}
 	}
 
 	private static void appendcode(StringBuilder replaceIndices, int code) {

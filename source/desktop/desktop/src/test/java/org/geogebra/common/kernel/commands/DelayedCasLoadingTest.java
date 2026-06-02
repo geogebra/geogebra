@@ -122,7 +122,7 @@ public class DelayedCasLoadingTest {
 		assertEquals("eq1:=?", f.getOutput(StringTemplate.testTemplate));
 		active = true;
 		app.getKernel().refreshCASCommands();
-		assertEquals("eq1: 77 / 10 = v * cos(t) + 11 / 5 * v_{M}",
+		assertEquals("eq1: 77 / 10 = v * cos(t) + 11 / 5 * v_M",
 				f.getOutput(StringTemplate.testTemplate));
 	}
 

@@ -1393,13 +1393,13 @@ public abstract class CASgiac implements CASGenericInterface {
 			nrOfReplacedConst += ret.length() * 3; // upper bound on number of
 													// constants in result
 			Log.debug("replacing arbitrary constants in " + ret);
-			ret = ret.replaceAll("c_([0-9]*)",
+			ret = ret.replaceAll("\\bc_([0-9]*)",
 					"arbconst($1+" + nrOfReplacedConst + ")");
 		}
 
 		if (ret.contains("n_")) {
 			Log.debug("replacing arbitrary integers in " + ret);
-			ret = ret.replaceAll("n_([0-9]*)", "arbint($1)");
+			ret = ret.replaceAll("\\bn_([0-9]*)", "arbint($1)");
 		}
 
 		// convert Giac's scientific notation from e.g. 3.24e-4 to
