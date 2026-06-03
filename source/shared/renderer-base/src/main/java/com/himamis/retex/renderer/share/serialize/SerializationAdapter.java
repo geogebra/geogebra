@@ -19,6 +19,14 @@ public interface SerializationAdapter {
 
 	String convertCharacter(char character);
 
+	/**
+	 * @param unicode character
+	 * @return full name of the character
+	 */
+	default String getCharacterName(char unicode) {
+		return convertCharacter(unicode);
+	}
+
 	String fraction(String numerator, String denominator);
 
 	String nroot(String base, String root);
@@ -55,4 +63,6 @@ public interface SerializationAdapter {
 	String operatorFromTo(String operator, String from, String to);
 
 	String hyperbolic(String baseName);
+
+
 }

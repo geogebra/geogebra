@@ -35,7 +35,9 @@ public class ScreenReaderSerializer {
 	 */
 	public static String fullDescription(Node expr, SerializationAdapter adapter) {
 		Atom atom = new TeXBuilder().build(expr, null, 0, false);
-		return new TeXAtomSerializer(adapter).serialize(atom);
+		String serialized = new TeXAtomSerializer(adapter).serialize(atom);
+		return serialized.length() == 1 && adapter != null
+				? adapter.getCharacterName(serialized.charAt(0)) : serialized;
 	}
 
 }

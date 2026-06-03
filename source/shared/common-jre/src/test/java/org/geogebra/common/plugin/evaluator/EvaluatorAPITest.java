@@ -57,7 +57,7 @@ public class EvaluatorAPITest extends BaseUnitTest {
 		assertEquals("{\\frac{1}{2}}", value.get("latex").toString());
 		assertEquals("((1)/(2))", value.get("content").toString());
 		assertEquals("0.5", value.get("eval").toString());
-		assertEquals("start fraction 1 over 2 end fraction",
+		assertEquals("start of fraction 1 over 2 end of fraction",
 				value.get("altText").toString().trim());
 	}
 

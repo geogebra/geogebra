@@ -47,9 +47,8 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
  *
  */
 public class TeXAtomSerializer {
-	public static final String DEGREE = "\u2218";
-	public static final String HYPERBOLICS = "sinh cosh tanh coth sech csch";
-	public static final String TRIGONOMETRICS = "sin cos tan cot sec csc" + HYPERBOLICS;
+	private static final String HYPERBOLICS = "sinh cosh tanh coth sech csch";
+	private static final String TRIGONOMETRICS = "sin cos tan cot sec csc" + HYPERBOLICS;
 	private final SerializationAdapter adapter;
 
 	/**
@@ -69,28 +68,23 @@ public class TeXAtomSerializer {
 		if (root instanceof FractionAtom) {
 			return serializeFractionAtom((FractionAtom) root);
 		}
-		if (root instanceof NthRoot) {
-			NthRoot nRoot = (NthRoot) root;
+		if (root instanceof NthRoot nRoot) {
 			String index = nRoot.getRoot() == null ? "" : serialize(nRoot.getRoot());
 			if (index.isEmpty()) {
 				return adapter.sqrt(serialize(nRoot.getTrueBase()));
 			}
 			return adapter.nroot(serialize(nRoot.getTrueBase()), index);
 		}
-		if (root instanceof CharAtom) {
-			CharAtom ch = (CharAtom) root;
+		if (root instanceof CharAtom ch) {
 			return adapter.convertCharacter(ch.getCharacter());
 		}
-		if (root instanceof TypedAtom) {
-			TypedAtom ch = (TypedAtom) root;
+		if (root instanceof TypedAtom ch) {
 			return serialize(ch.getBase());
 		}
-		if (root instanceof ScriptsAtom) {
-			ScriptsAtom ch = (ScriptsAtom) root;
+		if (root instanceof ScriptsAtom ch) {
 			return subSup(ch);
 		}
-		if (root instanceof FencedAtom) {
-			FencedAtom ch = (FencedAtom) root;
+		if (root instanceof FencedAtom ch) {
 			Atom bracketsContent = ch.getTrueBase();
 			if (isBinomial(bracketsContent)) {
 				return serialize(bracketsContent);
@@ -163,8 +157,7 @@ public class TeXAtomSerializer {
 			return ((HasCharacter) root).getCharacter();
 		}
 
-		if (root instanceof ColorAtom) {
-			ColorAtom row = (ColorAtom) root;
+		if (root instanceof ColorAtom row) {
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; row.getElement(i) != null; i++) {
 				sb.append(serialize(row.getElement(i)));
@@ -208,9 +201,7 @@ public class TeXAtomSerializer {
 		if (root == null) {
 			return "";
 		}
-		FactoryProvider.debugS("Unhandled atom:"
-				+ (root.getClass() + " " + root.toString()));
-
+		FactoryProvider.debugS("Unhandled atom:" + root.getClass() + " " + root);
 		return "?";
 	}
 

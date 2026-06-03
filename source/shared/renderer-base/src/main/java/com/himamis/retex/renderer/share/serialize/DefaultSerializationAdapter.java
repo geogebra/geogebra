@@ -27,6 +27,7 @@ public class DefaultSerializationAdapter implements SerializationAdapter {
 		return left + base + right;
 	}
 
+	@Override
 	public String sqrt(String base) {
 		return "sqrt(" + base + ")";
 	}
@@ -44,14 +45,12 @@ public class DefaultSerializationAdapter implements SerializationAdapter {
 
 	@Override
 	public String fraction(String numerator, String denominator) {
-		return "(" + numerator + ")/("
-				+ denominator + ")";
+		return "(" + numerator + ")/(" + denominator + ")";
 	}
 
 	@Override
 	public String nroot(String base, String root) {
-		return "nroot(" + base + ","
-				+ root + ")";
+		return "nroot(" + base + "," + root + ")";
 	}
 
 	@Override

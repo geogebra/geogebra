@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.kernel.geos.ScreenReaderSerializationAdapter;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.editor.share.controller.ExpRelation;
 import org.geogebra.editor.share.controller.ExpressionReader;
 import org.geogebra.editor.share.serializer.ScreenReaderSerializer;
 import org.geogebra.editor.share.tree.Formula;
@@ -175,7 +176,8 @@ public final class ScreenReader {
 	}
 
 	private static String getStartFraction(Localization loc) {
-		return localize(loc, "startFraction", "start fraction");
+		return " " + localizeRelation(loc, ExpRelation.START_OF,
+				loc.getMenuDefault("of.Fraction", "fraction")) + " ";
 	}
 
 	private static String localize(Localization loc, String key, String fallback) {
@@ -187,7 +189,8 @@ public final class ScreenReader {
 	}
 
 	private static String getEndFraction(Localization loc) {
-		return " " + localize(loc, "endFraction", "end fraction");
+		return " " + localizeRelation(loc, ExpRelation.END_OF,
+				loc.getMenuDefault("of.Fraction", "fraction")) + " ";
 	}
 
 	/**
@@ -219,7 +222,8 @@ public final class ScreenReader {
 	 * @return localized start of abs
 	 */
 	public static String getStartAbs(Localization loc) {
-		return localize(loc, "StartAbsoluteValue", "start absolute value") + " ";
+		return " " + localizeRelation(loc, ExpRelation.START_OF,
+				loc.getMenuDefault("of.Abs", "absolute value")) + " ";
 	}
 
 	/**
@@ -227,7 +231,8 @@ public final class ScreenReader {
 	 * @return localized end of abs
 	 */
 	public static String getEndAbs(Localization loc) {
-		return " " + localize(loc, "EndAbsoluteValue", "end absolute value");
+		return " " + localizeRelation(loc, ExpRelation.END_OF,
+				loc.getMenuDefault("of.Abs", "absolute value")) + " ";
 	}
 
 	/**
@@ -235,7 +240,8 @@ public final class ScreenReader {
 	 * @return localized start of sqrt
 	 */
 	public static String getStartSqrt(Localization loc) {
-		return localize(loc, "startSqrt", "start square root");
+		return " " + localizeRelation(loc, ExpRelation.START_OF,
+				loc.getMenuDefault("of.SquareRoot", "square root")) + " ";
 	}
 
 	/**
@@ -243,7 +249,8 @@ public final class ScreenReader {
 	 * @return localized end of sqrt
 	 */
 	public static String getEndSqrt(Localization loc) {
-		return " " + localize(loc, "endSqrt", "end square root");
+		return " " + localizeRelation(loc, ExpRelation.END_OF,
+				loc.getMenuDefault("of.SquareRoot", "square root")) + " ";
 	}
 
 	private static String getSquared(Localization loc) {
@@ -278,6 +285,12 @@ public final class ScreenReader {
 		return " " + localize(loc, "endPower", "end power");
 	}
 
+	private static String localizeRelation(Localization loc, ExpRelation key,
+			String... parameters) {
+		return loc.getPlainDefault("ScreenReader." + key.getKey(),
+				key.toString(), parameters);
+	}
+
 	/**
 	 * @param app
 	 *            application
@@ -288,12 +301,13 @@ public final class ScreenReader {
 		return new ExpressionReader() {
 
 			@Override
-			public String localize(String key, String... parameters) {
-				String out = key;
-				for (int i = 0; i < parameters.length; i++) {
-					out = out.replace("%" + i, parameters[i]);
-				}
-				return out;
+			public String localize(ExpRelation key, String... parameters) {
+				return localizeRelation(loc, key, parameters);
+			}
+
+			@Override
+			public String localize(String key, String fallbackValue) {
+				return loc.getMenuDefault(key, fallbackValue);
 			}
 
 			@Override
@@ -328,9 +342,11 @@ public final class ScreenReader {
 			extends DefaultSerializationAdapter {
 
 		private final TableAdapter tableAdapter;
+		private final Localization loc;
 
 		private UtfScreenReaderSerializationAdapter(Localization loc) {
 			 tableAdapter = new ScreenReaderTableAdapter(loc);
+			 this.loc = loc;
 		}
 
 		@Override
@@ -341,6 +357,15 @@ public final class ScreenReader {
 		@Override
 		public String transformWrapper(String baseString) {
 			return ",".equals(baseString) ? ", " : baseString;
+		}
+
+		@Override
+		public String getCharacterName(char unicode) {
+			return switch (unicode) {
+				case ',' -> ScreenReader.getComma(loc);
+				case '(' -> ScreenReader.localize(loc, "Parenthesis", "parenthesis");
+				default -> String.valueOf(unicode);
+			};
 		}
 
 		@Override
@@ -378,7 +403,7 @@ public final class ScreenReader {
 	 * @return localized "open parenthesis"
 	 */
 	public static String getOpenParenthesis(Localization loc) {
-		return " " + localize(loc, "OpenParenthesis", "open parenthesis");
+		return " " + loc.getMenuDefault("altText.OpenParenthesis", "open parenthesis") + " ";
 	}
 
 	/**
@@ -386,7 +411,7 @@ public final class ScreenReader {
 	 * @return localized "close parenthesis"
 	 */
 	public static String getCloseParenthesis(Localization loc) {
-		return " " + localize(loc, "CloseParenthesis", "close parenthesis");
+		return " " + loc.getMenuDefault("altText.CloseParenthesis", "close parenthesis") + " ";
 	}
 
 	/**

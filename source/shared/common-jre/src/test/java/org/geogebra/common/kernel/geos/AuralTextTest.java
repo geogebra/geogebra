@@ -187,7 +187,7 @@ public class AuralTextTest {
 		aural("LaTeX(\"a_{bcd}\")", "a start subscript bcd end subscript", "edit");
 		aural("LaTeX(\"\\sqrt{x}\")", "start square root x end root", "edit");
 		aural("LaTeX(\"\\sqrt[3]{x}\")", "start cube root x end root", "edit");
-		aural("LaTeX(\"\\frac{x}{2}\")", "start fraction x over 2 end fraction", "edit");
+		aural("LaTeX(\"\\frac{x}{2}\")", "start of fraction x over 2 end of fraction", "edit");
 		aural("LaTeX(\"\\vec{x}\")", " vector x", "edit");
 		aural("LaTeX(\"\\displaylines{x\\\\y}\")", "x y", "edit");
 		aural("LaTeX(\"\\overbrace{x}\")", "open brace  over x", "edit");
@@ -208,7 +208,7 @@ public class AuralTextTest {
 		aural("TableText({{1,2,3},{3,4,5}},\"v\")", "table with 2 columns and 3 rows "
 						+ "The 1st column is 1 2 3 The 2nd column is 3 4 5 end of table",
 				"edit");
-		aural("FractionText(1.5)", "start fraction 3 over 2 end fraction", "edit");
+		aural("FractionText(1.5)", "start of fraction 3 over 2 end of fraction", "edit");
 		aural("LaTeX(\"\\scalebox{0.5}{hello}\")", "hello", "edit");
 		aural("LaTeX(\"\\rotatebox{90}{hello}\")", "hello", "edit");
 		aural("LaTeX(\"\\textsf{textsf} \\mathsf{mathsf} \\sf{sf}\")",
@@ -271,7 +271,8 @@ public class AuralTextTest {
 		GeoInputBox box = (GeoInputBox) add("myBox=InputBox()")[0];
 		assertEquals("Input Box myBox", box.getAuralText().trim());
 		box.setCaption("$\\frac{1}{2}$");
-		assertEquals("Input Box start fraction 1 over 2 end fraction", box.getAuralText().trim());
+		assertEquals("Input Box  start of fraction 1 over 2 end of fraction",
+				box.getAuralText().trim());
 		box.setCaption("plainText");
 		assertEquals("Input Box plainText", box.getAuralText().trim());
 	}
@@ -282,7 +283,8 @@ public class AuralTextTest {
 		box.setLabelVisible(false);
 		assertEquals("Input Box", box.getAuralText().trim());
 		box.setCaption("$\\frac{1}{2}$");
-		assertEquals("Input Box start fraction 1 over 2 end fraction", box.getAuralText().trim());
+		assertEquals("Input Box  start of fraction 1 over 2 end of fraction",
+				box.getAuralText().trim());
 	}
 
 	@Test

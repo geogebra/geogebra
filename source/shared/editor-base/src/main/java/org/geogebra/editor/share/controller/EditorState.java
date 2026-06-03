@@ -16,7 +16,10 @@
 
 package org.geogebra.editor.share.controller;
 
+import java.util.Arrays;
+import java.util.Locale;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.geogebra.editor.share.catalog.CharacterTemplate;
 import org.geogebra.editor.share.catalog.Tag;
@@ -431,20 +434,21 @@ public class EditorState {
 		if (currentNode.getParent() == null) {
 			if (prev == null) {
 				return er
-						.localize("start of formula %0",
+						.localize(ExpRelation.START_FORMULA,
 								ScreenReaderSerializer.fullDescription(
 										currentNode, er.getAdapter()))
 						.trim();
 			}
 			if (next == null) {
 				return er
-						.localize("end of formula %0",
+						.localize(ExpRelation.END_FORMULA,
 								ScreenReaderSerializer.fullDescription(
 										currentNode, er.getAdapter()))
 						.trim();
 			}
 		}
 		if (next == null && prev == null) {
+			sb.append(" ");
 			return describeParent(ExpRelation.EMPTY, currentNode.getParent(),
 					er);
 		}
@@ -467,8 +471,8 @@ public class EditorState {
 			sb.append(describeNext(next, er));
 		} else if (endOfFunctionName()) {
 			sb.append(
-					er.localize(ExpRelation.BEFORE.toString(),
-							er.getAdapter().parenthesis("(")));
+					er.localize(ExpRelation.BEFORE,
+							er.getAdapter().getCharacterName('(')));
 		}
 		return sb.toString().trim();
 	}
@@ -505,59 +509,62 @@ public class EditorState {
 				&& currentNode.getParentIndex() == 0;
 	}
 
-	private String describePrev(Node parent, ExpressionReader er,
+	private String describePrev(Node node, ExpressionReader er,
 			EditorFeatures editorFeatures) {
-		if (parent instanceof FunctionNode node
-				&& Tag.SUPERSCRIPT == node.getName()) {
-			return er.localize(ExpRelation.AFTER.toString(), er.power(
+		if (node instanceof FunctionNode functionNode
+				&& Tag.SUPERSCRIPT == functionNode.getName()) {
+			return er.localize(ExpRelation.AFTER, er.power(
 					GeoGebraSerializer.serialize(currentNode
-							.getChild(currentNode.indexOf(parent) - 1), editorFeatures),
+							.getChild(currentNode.indexOf(node) - 1), editorFeatures),
 					GeoGebraSerializer
 							.serialize(
-									node.getChild(0), editorFeatures)));
+									functionNode.getChild(0), editorFeatures)));
 		}
-		if (parent instanceof CharacterNode) {
+		if (node instanceof CharacterNode) {
 			StringBuilder sb = new StringBuilder();
-			int i = currentNode.indexOf(parent);
+			int i = currentNode.indexOf(node);
 			while (MathFieldInternal.appendChar(sb, currentNode, i, CharacterNode::isCharacter)) {
 				i--;
 			}
 			if (!sb.isEmpty() && !isInsideQuotes()) {
 				try {
-					return er.localize(ExpRelation.AFTER.toString(),
-							mathExpression(sb.reverse().toString(), er));
+					return er.localize(ExpRelation.AFTER,
+							convertCharacters(sb.reverse().toString(), er));
 				} catch (Exception e) {
 					FactoryProvider.getInstance()
 							.debug("Invalid: " + sb.reverse());
 				}
 			}
 		}
-		return describe(ExpRelation.AFTER, parent, er);
+		return describe(ExpRelation.AFTER, node, er);
 	}
 
-	private String describeNext(Node parent, ExpressionReader er) {
-		if (parent instanceof CharacterNode) {
+	private String describeNext(Node node, ExpressionReader er) {
+		if (node instanceof CharacterNode) {
 			StringBuilder sb = new StringBuilder();
-			int i = currentNode.indexOf(parent);
+			int i = currentNode.indexOf(node);
 			while (MathFieldInternal.appendChar(sb, currentNode, i, CharacterNode::isCharacter)) {
 				i++;
 			}
 			if (!sb.isEmpty() && !isInsideQuotes()) {
 				try {
-					return er.localize(ExpRelation.BEFORE.toString(),
-							mathExpression(sb.toString(), er));
+					return er.localize(ExpRelation.BEFORE,
+							convertCharacters(sb.toString(), er));
 				} catch (Exception e) {
 					// no math alt text, fall back to reading as is
 				}
 			}
 		}
-		return describe(ExpRelation.BEFORE, parent, er);
+		return describe(ExpRelation.BEFORE, node, er);
 	}
 
-	private String mathExpression(String math, ExpressionReader er) {
-		StringBuilder sb = new StringBuilder(math.length());
-		for (int i = 0; i < math.length(); i++) {
-			sb.append(er.getAdapter().convertCharacter(math.charAt(i)));
+	private String convertCharacters(String characters, ExpressionReader er) {
+		if (characters.length() == 1) {
+			return er.getAdapter().getCharacterName(characters.charAt(0));
+		}
+		StringBuilder sb = new StringBuilder(characters.length());
+		for (int i = 0; i < characters.length(); i++) {
+			sb.append(er.getAdapter().convertCharacter(characters.charAt(i)));
 		}
 		return sb.toString();
 	}
@@ -566,54 +573,72 @@ public class EditorState {
 			ExpressionReader er) {
 		String name = describe(pattern, prev, -1, er);
 		if (name != null) {
-			return er.localize(pattern.toString(), name);
+			return er.localize(pattern, name);
 		}
-		return er.localize(pattern.toString(),
+		return er.localize(pattern,
 				ScreenReaderSerializer.fullDescription(prev, er.getAdapter()));
 	}
 
 	private static String describe(ExpRelation pattern, Node prev,
 			int index, ExpressionReader er) {
+		String key = getBaseKey(pattern, prev, index);
+		return key == null ? null : er.localize(getPrefix(pattern) + key,
+				camelCaseToWords(key)).toLowerCase(Locale.ROOT);
+	}
+
+	private static String camelCaseToWords(String key) {
+		if ("Abs".equals(key)) {
+			return "absolute value";
+		}
+		return Arrays.stream(key.split("(?=[A-Z])"))
+				.map(s -> s.toLowerCase(Locale.ROOT))
+				.collect(Collectors.joining(" "));
+	}
+
+	private static String getPrefix(ExpRelation rel) {
+		return switch (rel) {
+			case START_OF, END_OF -> "of.";
+			default -> "altText.";
+		};
+	}
+
+	private static String getBaseKey(ExpRelation pattern, Node prev, int index) {
 		if (prev instanceof FunctionNode node) {
-			switch (node.getName()) {
-			case FRAC:
-				return new String[]{"fraction", "numerator",
-						"denominator"}[index + 1];
-			case NROOT:
-				return new String[]{"root", "index", "radicand"}[index + 1];
-			case SQRT:
-				return "square root";
-			case CBRT:
-				return "cube root";
-			case SUPERSCRIPT:
-				return "superscript";
-			case ABS:
-				return "absolute value";
-			case APPLY:
-				if ((index == 1 && pattern == ExpRelation.START_OF)
-						|| (index == node.size() - 1
-						&& pattern == ExpRelation.END_OF)) {
-					return "parentheses";
+			return switch (node.getName()) {
+				case FRAC -> new String[]{"Fraction", "Numerator",
+						"Denominator"}[index + 1];
+				case NROOT -> new String[]{"Root", "Index", "Radicand"}[index + 1];
+				case SQRT -> "SquareRoot";
+				case CBRT -> "CubeRoot";
+				case SUPERSCRIPT -> "Superscript";
+				case POINT, POINT_AT -> index == -1 ? parenthesesFor(pattern) : "Coordinate";
+				case ABS -> "Abs";
+				case APPLY -> {
+					if ((index == 1 && pattern == ExpRelation.START_OF)
+							|| (index == node.size() - 1 && pattern == ExpRelation.END_OF)
+							|| (index == 1 && pattern == ExpRelation.EMPTY)) {
+						yield "Parentheses";
+					}
+					yield index >= 0 ? null : "Function";
 				}
-				return index >= 0 ? "" : "function";
-			default:
-				return "function";
-			}
+				default -> "Function";
+			};
 		}
 		if (prev instanceof ArrayNode node) {
 			if (node.getOpenDelimiter().getCharacter() == '"') {
-				return "quotes";
+				return "Quotes";
 			}
-			switch (pattern) {
-			case AFTER:
-				return er.getAdapter().parenthesis(")");
-			case BEFORE:
-				return er.getAdapter().parenthesis("(");
-			default:
-				return "parentheses";
-			}
+			return parenthesesFor(pattern);
 		}
 		return null;
+	}
+
+	private static String parenthesesFor(ExpRelation relation) {
+		return switch (relation) {
+			case BEFORE -> "OpenParenthesis";
+			case AFTER -> "CloseParenthesis";
+			default -> "Parentheses";
+		};
 	}
 
 	private String describeParent(ExpRelation pattern, InternalNode parent,
@@ -621,15 +646,15 @@ public class EditorState {
 		if (parent instanceof FunctionNode) {
 			String name = describe(pattern, parent,
 					parent.indexOf(currentNode), er);
-			if (name != null && name.isEmpty()) {
+			if (name == null || name.isEmpty()) {
 				return "";
 			}
-			return er.localize(pattern.toString(), name);
+			return er.localize(pattern, name);
 		} else if (parent instanceof ArrayNode node && node.isMatrix()) {
 			int childIndex = parent.indexOf(currentNode);
 			int row = childIndex / node.getColumns() + 1;
 			int column = childIndex % node.getColumns() + 1;
-			return er.localize(pattern.toString(), "row " + row + " column " + column);
+			return er.localize(pattern, "row " + row + " column " + column);
 		}
 
 		return describe(pattern, parent, er);

@@ -28,7 +28,14 @@ public interface ExpressionReader {
 	 * @param parameters parameters
 	 * @return localized string
 	 */
-	String localize(String key, String... parameters);
+	String localize(ExpRelation key, String... parameters);
+
+	/**
+	 * @param key localization key
+	 * @param fallbackValue default value
+	 * @return translated string
+	 */
+	String localize(String key, String fallbackValue);
 
 	/**
 	 * @param base base

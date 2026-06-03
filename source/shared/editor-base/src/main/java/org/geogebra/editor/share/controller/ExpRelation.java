@@ -17,13 +17,20 @@
 package org.geogebra.editor.share.controller;
 
 public enum ExpRelation {
-	EMPTY("%0 blank"), END_OF("end of %0"), START_OF("start of %0"), AFTER(
-			"after %0"), BEFORE("before %0");
+	EMPTY("ABlank", "%0 blank"),
+	END_OF("EndOfA", "end of %0"),
+	START_OF("StartOfA", "start of %0"),
+	AFTER("AfterA", "after %0"),
+	BEFORE("BeforeA", "before %0"),
+	START_FORMULA("StartOfFormulaA", "start of formula %0"),
+	END_FORMULA("EndOfFormulaA", "end of formula %0");
 
+	private final String key;
 	private final String pattern;
 
-	ExpRelation(String s) {
-		this.pattern = s;
+	ExpRelation(String key, String pattern) {
+		this.key = key;
+		this.pattern = pattern;
 	}
 
 	@Override
@@ -31,4 +38,7 @@ public enum ExpRelation {
 		return pattern;
 	}
 
+	public String getKey() {
+		return key;
+	}
 }

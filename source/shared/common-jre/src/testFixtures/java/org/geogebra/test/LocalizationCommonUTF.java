@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.jre.headless.Utf8Control;
+import org.geogebra.common.util.StringUtil;
 
 public class LocalizationCommonUTF extends LocalizationCommon {
 	private static final Map<String, String> missingTranslations = new HashMap<>();
@@ -47,10 +48,7 @@ public class LocalizationCommonUTF extends LocalizationCommon {
 	protected void reportMissing(String key, String fallback) {
 		if (key.startsWith("_") || List.of(
 				"InlineText", "Function.npr", "Function.ncr",
-						"Name.l", "Name.f", "Name.m", "Name.shape",
-				"ScreenReader.StartAbsoluteValue", "ScreenReader.EndAbsoluteValue",
-				"ScreenReader.startFraction", "ScreenReader.endFraction",
-				"ScreenReader.startSqrt", "ScreenReader.endSqrt", "AR").contains(key)) {
+						"Name.l", "Name.f", "Name.m", "Name.shape", "AR").contains(key)) {
 			return;
 		}
 		missingTranslations.put(key, fallback);
@@ -63,7 +61,7 @@ public class LocalizationCommonUTF extends LocalizationCommon {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		if (System.getenv("COLLECT_TRANSLATIONS") == null) {
+		if (System.getenv("COLLECT_TRANSLATIONS") == null || StringUtil.empty(key)) {
 			throw new AssertionError("Key not found " + key + "; fallback is " + fallback);
 		}
 	}

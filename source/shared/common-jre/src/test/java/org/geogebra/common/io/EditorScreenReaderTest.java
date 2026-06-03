@@ -18,6 +18,8 @@ package org.geogebra.common.io;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import org.geogebra.common.AppCommonFactory;
@@ -93,11 +95,11 @@ public class EditorScreenReaderTest {
 	@Test
 	public void testIncompleteFraction() {
 		checkReader("x^3/()",
-				"start of formula start fraction x cubed over end fraction",
+				"start of formula start of fraction x cubed over end of fraction",
 				"start of numerator before x", "after x before superscript",
 				"start of superscript before 3", "end of superscript after 3",
 				"end of numerator after x cubed", "denominator blank",
-				"end of formula start fraction x cubed over end fraction");
+				"end of formula start of fraction x cubed over end of fraction");
 	}
 
 	@Test
@@ -114,7 +116,7 @@ public class EditorScreenReaderTest {
 		checkReader("sin(x+1)",
 				"start of formula sin open parenthesis x plus 1 close parenthesis",
 				"before sin", "after s before in", "after si before n",
-				"after sin before parenthesis", "start of parentheses before x",
+				"after sin before open parenthesis", "start of parentheses before x",
 				"after x before plus", "after plus before 1",
 				"end of parentheses after 1",
 				"end of formula sin open parenthesis x plus 1 close parenthesis");
@@ -126,7 +128,7 @@ public class EditorScreenReaderTest {
 				"start of formula 3 minus sin open parenthesis x close parenthesis",
 				"after 3 before minus", "after minus before function",
 				"before sin", "after s before in", "after si before n",
-				"after sin before parenthesis", "start of parentheses before x",
+				"after sin before open parenthesis", "start of parentheses before x",
 				"end of parentheses after x",
 				"end of formula 3 minus sin open parenthesis x close parenthesis");
 	}
@@ -137,7 +139,7 @@ public class EditorScreenReaderTest {
 				"start of formula 3 plus sin open parenthesis x close parenthesis",
 				"after 3 before plus", "after plus before function",
 				"before sin", "after s before in", "after si before n",
-				"after sin before parenthesis", "start of parentheses before x",
+				"after sin before open parenthesis", "start of parentheses before x",
 				"end of parentheses after x",
 				"end of formula 3 plus sin open parenthesis x close parenthesis");
 	}
@@ -183,17 +185,17 @@ public class EditorScreenReaderTest {
 	@Test
 	public void testAbs() {
 		checkReader("abs(x+1)",
-				"start of formula start absolute value x plus 1 end absolute value",
+				"start of formula start of absolute value x plus 1 end of absolute value",
 				"start of absolute value before x", "after x before plus",
 				"after plus before 1", "end of absolute value after 1",
-				"end of formula start absolute value x plus 1 end absolute value");
+				"end of formula start of absolute value x plus 1 end of absolute value");
 	}
 
 	@Test
 	public void testReaderSqrt() {
 		checkReader("1+sqrt(x^2+2x+1/x+33)",
 				"start of formula 1 plus start square root x squared plus 2x"
-						+ " plus start fraction 1 over x end fraction plus 33 end root",
+						+ " plus start of fraction 1 over x end of fraction plus 33 end root",
 				"after 1 before plus", "after plus before square root",
 				"start of square root before x( squared)?",
 				"after x before superscript", "start of superscript before 2",
@@ -205,7 +207,7 @@ public class EditorScreenReaderTest {
 				"after fraction before plus", "after plus before 33",
 				"after 3 before 3", "end of square root after 33",
 				"end of formula 1 plus start square root x squared plus 2"
-						+ "x plus start fraction 1 over x end fraction plus 33 end root");
+						+ "x plus start of fraction 1 over x end of fraction plus 33 end root");
 	}
 
 	@Test
@@ -228,17 +230,17 @@ public class EditorScreenReaderTest {
 	public void testBrackets() {
 		checkReader("2*(3+4)-2",
 				"start of formula 2 times open parenthesis 3 plus 4 close parenthesis minus 2",
-				"after 2 before times", "after times before parenthesis",
+				"after 2 before times", "after times before open parenthesis",
 				"start of parentheses before 3", "after 3 before plus",
 				"after plus before 4", "end of parentheses after 4",
-				"after parenthesis before minus", "after minus before 2",
+				"after close parenthesis before minus", "after minus before 2",
 				"end of formula 2 times open parenthesis 3 plus 4 close parenthesis minus 2");
 	}
 
 	@Test
 	public void testBracketsIncomplete() {
 		checkReader("3-()", "start of formula 3 minus empty parentheses",
-				"after 3 before minus", "after minus before parenthesis",
+				"after 3 before minus", "after minus before open parenthesis",
 				"parentheses blank",
 				"end of formula 3 minus empty parentheses");
 	}
@@ -249,6 +251,38 @@ public class EditorScreenReaderTest {
 				"after 2 before times", "after times before pi",
 				"after p before i", "after pi before times",
 				"after times before x", "end of formula 2 times pi times x");
+	}
+
+	@Test
+	public void testFunction() {
+		checkReader("f(x)=x^2",
+				"start of formula f open parenthesis x close parenthesis =x squared",
+				"before f", "after f before open parenthesis", "start of parentheses before x",
+				"end of parentheses after x");
+	}
+
+	@Test
+	public void testPoint() {
+		checkReader("B=$point(1,2)",
+				"start of formula B= open parenthesis 1 comma 2 close parenthesis",
+				"after B before =", "after = before open parenthesis",
+				"start of coordinate before 1", "end of coordinate after 1");
+	}
+
+	@Test
+	public void testComma() {
+		checkReader("f(1,2)",
+				"start of formula f open parenthesis 1 comma 2 close parenthesis",
+				"before f", "after f before open parenthesis", "start of parentheses before 1",
+				"after 1 before comma", "after comma before 2");
+	}
+
+	@Test
+	public void testEmptyFunction() {
+		checkReader("f()",
+				"start of formula f empty parentheses",
+				"before f", "after f before open parenthesis", "parentheses blank",
+				"end of formula f empty parentheses");
 	}
 
 	@Test
@@ -264,7 +298,7 @@ public class EditorScreenReaderTest {
 		assertEquals("1,2", desc.toString());
 		GeoGebraSerializer gs = new GeoGebraSerializer(null);
 		gs.setComma("");
-		assertEquals(gs.serialize(mf), "(1,2)");
+		assertEquals("(1,2)", gs.serialize(mf));
 	}
 
 	private static void checkReader(String input, String... output) {
@@ -277,14 +311,20 @@ public class EditorScreenReaderTest {
 		CursorController.firstField(mfi.getEditorState());
 		mfi.update();
 		ExpressionReader er = ScreenReader.getExpressionReader(app);
+		List<String> readerOutputs = new ArrayList<>();
+		boolean fuzzyMatch = true;
 		for (String s : output) {
 			String readerOutput = mfi.getEditorState().getDescription(er, null)
 					.replaceAll(" +", " ");
 			if (!readerOutput.matches(s)) {
-				assertEquals(s, readerOutput);
+				fuzzyMatch = false;
 			}
+			readerOutputs.add(readerOutput);
 			CursorController.nextCharacter(mfi.getEditorState());
 			mfi.update();
+		}
+		if (!fuzzyMatch) {
+			assertEquals(String.join("\n", output), String.join("\n", readerOutputs));
 		}
 	}
 }

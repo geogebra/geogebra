@@ -72,7 +72,7 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 		}
 		if (base.isEmpty() && ScreenReader.getOpenParenthesis(loc).equals(left)
 				&& ScreenReader.getCloseParenthesis(loc).equals(right)) {
-			return localize("EmptyParentheses", "empty parentheses");
+			return " " + localize("EmptyParentheses", "empty parentheses");
 		}
 		return readBracket(left) + base + readBracket(right);
 	}
