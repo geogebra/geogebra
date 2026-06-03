@@ -52,7 +52,8 @@ public class ClickAdapterW
 		if (!field.isEnabled()) {
 			return;
 		}
-
+		HTMLElement target = Js.uncheckedCast(event.target);
+		target.setPointerCapture(event.pointerId);
 		event.preventDefault();
 		SelectionBox.setTouchSelection("touch".equals(event.pointerType));
 		handler.onPointerDown(toFormulaPx(event.offsetX), toFormulaPx(event.offsetY));
@@ -94,12 +95,14 @@ public class ClickAdapterW
 		HTMLElement element = Js.uncheckedCast(html.getElement());
 
 		element.addEventListener("pointerdown",
+				(event) -> onPointerDown(Js.uncheckedCast(event)));
+		element.addEventListener("pointerenter",
 				(event) -> {
-					onPointerDown(Js.uncheckedCast(event));
-					PointerEvent ptr = Js.uncheckedCast(event);
-					HTMLElement target = Js.uncheckedCast(event.target);
-					target.setPointerCapture(ptr.pointerId);
-				});
+			PointerEvent ptr = Js.uncheckedCast(event);
+			if (ptr.buttons > 0) {
+				onPointerDown(ptr);
+			}
+		});
 		element.addEventListener("pointerup",
 				(event) -> onPointerUp(Js.uncheckedCast(event)));
 		element.addEventListener("pointermove",

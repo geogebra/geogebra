@@ -952,7 +952,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	public void collapseSelectionOnArrowRight() {
-		checker.insert("1+2+3+4").select(3, 5).right(1).type("x")
+		checker.insert("1+2+3+4").select(3, 6).right(1).type("x")
 				.checkAsciiMath("1+2+3+x4");
 	}
 
@@ -1133,9 +1133,17 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
+	public void extendSelectionPower() {
+		checker.type("123^4").setModifiers(KeyEvent.SHIFT_MASK).left(3)
+				.checkSelection("3", "FnSUPERSCRIPT[SequenceNode[4]]");
+		checker.type("123^4").setModifiers(KeyEvent.SHIFT_MASK).left(4)
+				.checkSelection("2", "FnSUPERSCRIPT[SequenceNode[4]]");
+	}
+
+	@Test
 	public void selectAll() {
-		checker.type("123456").ctrlA().checkSelection("SequenceNode[1, 2, 3, 4, 5, 6]",
-				"SequenceNode[1, 2, 3, 4, 5, 6]");
+		checker.type("123456").ctrlA().checkSelection("1",
+				"6");
 		checker.type("123456").ctrlA().shiftOn().left(2)
 				.checkSelection("1", "4");
 	}

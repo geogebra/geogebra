@@ -134,16 +134,8 @@ public class RemoveContainer {
 	}
 
 	private static boolean isParentEmptyArray(SequenceNode currentField) {
-		return isParentAnArray(currentField)
+		return currentField.getParent() instanceof ArrayNode
 				&& currentField.getParent().size() == 1;
-	}
-
-	/**
-	 * @param sequence sequence node
-	 * @return if sequence is an array
-	 */
-	static boolean isParentAnArray(SequenceNode sequence) {
-		return sequence.getParent() instanceof ArrayNode;
 	}
 
 	// if parent is 1DArray or Vector and cursor is at the beginning of
@@ -192,8 +184,7 @@ public class RemoveContainer {
 		SequenceNode currentField = editorState.getCurrentNode();
 
 		// if parent is function (cursor is at the end of the field)
-		if (currentField.getParent() instanceof FunctionNode) {
-			FunctionNode parent = (FunctionNode) currentField.getParent();
+		if (currentField.getParent() instanceof FunctionNode parent) {
 
 			// fraction has operator like behavior
 			if (Tag.FRAC.equals(parent.getName())) {
@@ -215,10 +206,9 @@ public class RemoveContainer {
 			}
 
 			// if parent are empty braces
-		} else if (isParentAnArray(currentField)
+		} else if (currentField.getParent() instanceof ArrayNode parent
 				&& currentField.getParent().size() == 1
 				&& currentField.size() == 0) {
-			ArrayNode parent = (ArrayNode) currentField.getParent();
 			int size = parent.getChild(0).size();
 			deleteContainer(editorState, parent, parent.getChild(0));
 			// move after included characters
@@ -226,33 +216,32 @@ public class RemoveContainer {
 
 			// if parent is 1DArray or Vector and cursor is at the end of the
 			// field
-		} else if (isParentAnArray(currentField)
-				&& (((ArrayNode) currentField.getParent()).is1DArray()
-				|| ((ArrayNode) currentField.getParent()).isVector())
-				&& currentField.getParentIndex() + 1 < currentField.getParent()
-				.size()) {
+		} else {
+			if (currentField.getParent() instanceof ArrayNode parent
+					&& (parent.is1DArray() || parent.isVector())
+					&& currentField.getParentIndex() + 1 < currentField.getParent()
+					.size()) {
 
-			int index = currentField.getParentIndex();
-			ArrayNode parent = (ArrayNode) currentField.getParent();
-			SequenceNode field = parent.getChild(index + 1);
-			int size = currentField.size();
-			while (currentField.size() > 0) {
+				int index = currentField.getParentIndex();
+				SequenceNode field = parent.getChild(index + 1);
+				int size = currentField.size();
+				while (currentField.size() > 0) {
 
-				Node node = currentField.getChild(0);
-				currentField.deleteChild(0);
-				field.addChild(field.size(), node);
+					Node node = currentField.getChild(0);
+					currentField.deleteChild(0);
+					field.addChild(field.size(), node);
+				}
+				parent.deleteChild(index);
+				editorState.setCurrentNode(field);
+				editorState.setCurrentOffset(size);
 			}
-			parent.deleteChild(index);
-			editorState.setCurrentNode(field);
-			editorState.setCurrentOffset(size);
 		}
 	}
 
 	private static void deleteContainer(EditorState editorState,
 			InternalNode container, SequenceNode operand) {
-		if (container.getParent() instanceof SequenceNode) {
+		if (container.getParent() instanceof SequenceNode parent) {
 			// when parent is sequence
-			SequenceNode parent = (SequenceNode) container.getParent();
 			int offset = container.getParentIndex();
 			// delete container
 			parent.deleteChild(offset);

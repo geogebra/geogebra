@@ -53,7 +53,6 @@ public class EditorState {
 	private Node currentSelEnd;
 	private int selectionAnchor = -1;
 	private SequenceNode selectionParent;
-	private boolean selectionBackward = false;
 
 	/**
 	 * @param catalog {@link TemplateCatalog}
@@ -150,34 +149,38 @@ public class EditorState {
 		return currentSelEnd;
 	}
 
-	public void setSelectionStart(Node selStart) {
-		currentSelStart = selStart;
-	}
-
-	public void setSelectionEnd(Node selEnd) {
-		currentSelEnd = selEnd;
-	}
-
 	/**
 	 * Extends selection from current cursor position
 	 * @param left true to go to the left from cursor
+	 * @return whether selection changed
 	 */
-	public void extendSelection(boolean left) {
-		int increment = 0;
-		if (getSelectionStart() != null && rootNode.isProtected()
-				&& !contains(currentNode, getSelectionStart())) {
-			extendToParent(getCursorField(left));
-			return;
+	public boolean extendSelection(boolean left) {
+		boolean ret;
+		if (selectionParent == null) {
+			skipInvisiblePositions(left);
+			selectionParent = currentNode;
+			selectionAnchor = currentOffset;
 		}
-		if (selectionAnchor >= 0 && (left != selectionBackward)) {
-			increment = left ? -1 : 1;
+		if (left) {
+			ret = CursorController.prevCharacter(this);
+		} else {
+			ret = CursorController.nextCharacter(this);
 		}
-
-		int cursorField = getCursorOffset(left);
-		extendSelection(cursorField + increment,
-				selectionAnchor < 0 ? !left : selectionBackward);
+		extendSelection();
 		if (left && currentNode.size() == currentOffset) {
 			currentOffset--;
+		}
+		return ret;
+	}
+
+	private void skipInvisiblePositions(boolean left) {
+		if (left && currentNode.getChild(currentOffset - 1) instanceof FunctionNode funNode) {
+			currentNode = funNode.getChild(funNode.size() - 1);
+			currentOffset = currentNode.size();
+		}
+		if (!left && currentNode.getChild(currentOffset) instanceof FunctionNode funNode) {
+			currentNode = funNode.getChild(0);
+			currentOffset = 0;
 		}
 	}
 
@@ -186,102 +189,91 @@ public class EditorState {
 	 * @param cursorField newly selected field
 	 */
 	public void extendSelection(Node cursorField) {
-		extendSelection(cursorField.getParentIndex(), selectionBackward);
+		currentNode = cursorField.getParentSequence();
+		currentOffset = cursorField.getParentIndex();
+		extendSelection();
 	}
 
 	/**
 	 * Extends selection to include a field
-	 * @param cursorIndex index of newly selected field in currentNode
 	 */
-	public void extendSelection(int cursorIndex, boolean anchorStart) {
-		Node cursorField = currentNode.getChild(Math.min(Math.max(cursorIndex, 0),
-				currentNode.size() - 1));
-		if (cursorField == null) {
-			return;
-		}
+	public void extendSelection() {
+		int startDepth = selectionParent.getDepth();
+		int endDepth = currentNode.getDepth();
+		int startIndex = -1;
+		int endIndex = -1;
+		InternalNode startNode = selectionParent;
+		InternalNode endNode = currentNode;
 
-		if (selectionAnchor < 0) {
-			if (isGrandparentProtected(cursorField.getParent())
-					&& ",".equals(cursorField.toString())) {
-				return;
+		while (startDepth > endDepth) {
+			startIndex = startNode.getParentIndex();
+			startNode = startNode.getParent();
+			startDepth--;
+		}
+		while (endDepth > startDepth) {
+			endIndex = endNode.getParentIndex();
+			endNode = endNode.getParent();
+			endDepth--;
+		}
+		while (startNode != endNode) {
+			if (startNode.getParent() != null && startNode.getParent().getParent() != null
+					&& startNode.getParent().getParent().isProtected()) {
+				break;
 			}
-			selectionBackward = !anchorStart;
-			currentSelStart = cursorField;
-			currentSelEnd = cursorField;
-			this.selectionAnchor = cursorIndex  + (!anchorStart ? 1 : 0);
-			FactoryProvider.debugS("Anchored" + selectionAnchor + ":" + anchorStart);
-			selectionParent = currentNode;
+			startIndex = startNode.getParentIndex();
+			startNode = startNode.getParent();
+			endIndex = endNode.getParentIndex();
+			endNode = endNode.getParent();
+		}
+		if (startNode != endNode) {
+			if (startNode instanceof SequenceNode sequenceNode) {
+				if (startNode.getParentIndex() <= endNode.getParentIndex()) {
+					selectSubsequence(sequenceNode, 0, sequenceNode.size());
+				} else {
+					selectSubsequence(sequenceNode, sequenceNode.size(), 0);
+				}
+			} else {
+				SequenceNode parentSequence = startNode.getParentSequence();
+				selectSubsequence(parentSequence, 0, parentSequence.size());
+			}
 			return;
 		}
 
-		int selectionStartIndex = selectionAnchor + (!anchorStart ? -1 : 0);
-		if (selectionStartIndex == cursorIndex) {
-			currentOffset = selectionAnchor;
-			resetSelection();
+		if (!(startNode instanceof SequenceNode)) {
+			selectSubsequence(startNode.getParentSequence(),
+					startNode.getParentIndex(), startNode.getParentIndex() + 1);
 			return;
 		}
-		Node child = selectionParent.getChild(selectionBackward
-				? selectionAnchor - 1 : selectionAnchor);
-		if (child != null) {
-			this.currentSelStart = child;
+		int startOffset;
+		int endOffset;
+		if (startIndex == -1 && endIndex == -1) {
+			startOffset = selectionAnchor;
+			endOffset = currentOffset;
+		} else if (startIndex == -1) {
+			startOffset = selectionAnchor;
+			endOffset = endIndex >= selectionAnchor ? endIndex + 1 : endIndex;
+		} else if (endIndex == -1) {
+			endOffset = currentOffset;
+			startOffset = startIndex >= currentOffset ? startIndex + 1 : startIndex;
 		} else {
-			currentSelStart = selectionParent;
+			startOffset = Math.min(startIndex, endIndex);
+			endOffset = Math.max(startIndex, endIndex) + 1;
 		}
-		// go from selection start to the root until we find common root
-		InternalNode commonParent = extendToParent(cursorField);
-
-		currentSelEnd = cursorField;
-		selectionBackward = anchorStart;
-		// special case: start is inside end -> select single node
-		if (currentSelEnd == commonParent
-				|| commonParent instanceof FunctionNode node
-				&& node.getName() == Tag.FRAC) {
-			currentSelStart = commonParent;
-			currentSelEnd = commonParent;
-			return;
-		}
-
-		// go from selection end to the root
-		while (currentSelEnd != null
-				&& commonParent.indexOf(currentSelEnd) < 0) {
-			currentSelEnd = currentSelEnd.getParent();
-		}
-
 		// swap start and end when necessary
-		int to = commonParent.indexOf(currentSelEnd);
-		int from = commonParent.indexOf(currentSelStart);
-		if (from > to) {
-			int swapIdx = from;
-			from = to;
-			to = swapIdx;
-			Node swap = currentSelStart;
-			currentSelStart = currentSelEnd;
-			currentSelEnd = swap;
+		if (startOffset > endOffset) {
+			int swap = startOffset;
+			startOffset = endOffset;
+			endOffset = swap;
 		}
-		if (isGrandparentProtected(commonParent)) {
-			terminateSelectionAtComma(commonParent, from, to);
+		if (startOffset == endOffset) {
+			currentSelStart = currentSelEnd = null;
+		} else {
+			currentSelStart = startNode.getChild(startOffset);
+			currentSelEnd = startNode.getChild(endOffset - 1);
 		}
-
-	}
-
-	private InternalNode extendToParent(Node cursorField) {
-		InternalNode commonParent = currentSelStart.getParent();
-		while (commonParent != null && !contains(commonParent, cursorField)) {
-			currentSelStart = currentSelStart.getParent();
-			commonParent = currentSelStart.getParent();
-			if (commonParent.isRenderingOwnPlaceholders() && !isMatrix(commonParent)) {
-				currentSelStart = commonParent;
-				commonParent = currentSelStart.getParent();
-			}
+		if (isGrandparentProtected(startNode)) {
+			terminateSelectionAtComma(startNode, startOffset, endOffset);
 		}
-		if (commonParent == null) {
-			commonParent = rootNode;
-		}
-		return commonParent;
-	}
-
-	private boolean isMatrix(InternalNode container) {
-		return container instanceof ArrayNode && container.hasTag(Tag.MATRIX);
 	}
 
 	private void terminateSelectionAtComma(InternalNode commonParent, int from, int to) {
@@ -311,8 +303,6 @@ public class EditorState {
 	 */
 	public void selectAll() {
 		selectAll.execute();
-		cursorToSelectionEnd();
-		anchor();
 	}
 
 	/**
@@ -322,17 +312,13 @@ public class EditorState {
 		if (currentNode == rootNode && currentOffset == 0) {
 			return;
 		}
-		boolean anchorStart = false;
-		if (!selectionBackward) {
-			changeSelectionDirection();
-			anchorStart = currentOffset == 0;
+		if (selectionParent == null) {
+			selectionParent = currentNode;
+			selectionAnchor = currentOffset;
 		}
-		if (selectionAnchor < 0) {
-			extendSelection(getCursorOffset(anchorStart), anchorStart);
-		}
-		extendSelection(0, true);
-		cursorToSelectionStart();
-		selectionBackward = true;
+		currentNode = rootNode;
+		currentOffset = 0;
+		extendSelection();
 	}
 
 	/**
@@ -342,23 +328,13 @@ public class EditorState {
 		if (currentNode == rootNode && currentOffset == rootNode.size()) {
 			return;
 		}
-		if (selectionBackward) {
-			changeSelectionDirection();
+		if (selectionParent == null) {
+			selectionParent = currentNode;
+			selectionAnchor = currentOffset;
 		}
-		if (selectionAnchor < 0) {
-			extendSelection(getCursorOffset(true), true);
-		}
-		extendSelection(getCurrentNode().size(), true);
-		cursorToSelectionEnd();
-		selectionBackward = false;
-	}
-
-	private void changeSelectionDirection() {
-		if (selectionParent != null) {
-			currentOffset = selectionAnchor;
-			currentNode = selectionParent;
-		}
-		resetSelection();
+		currentNode = rootNode;
+		currentOffset = rootNode.size();
+		extendSelection();
 	}
 
 	/**
@@ -380,29 +356,14 @@ public class EditorState {
 						getCurrentNode().size()));
 	}
 
-	private static boolean contains(InternalNode commonParent,
-			Node cursorField0) {
-		Node cursorField = cursorField0;
-		while (cursorField != null) {
-			if (cursorField == commonParent) {
-				return true;
-			}
-			cursorField = cursorField.getParent();
-		}
-		return false;
-	}
-
 	/**
 	 * Reset selection start/end/anchor pointers (NOT the caret)
 	 */
 	public void resetSelection() {
-
 		selectionAnchor = -1;
-		selectionBackward = false;
 		selectionParent = null;
 		currentSelEnd = null;
 		currentSelStart = null;
-
 	}
 
 	/**
@@ -561,7 +522,7 @@ public class EditorState {
 			while (MathFieldInternal.appendChar(sb, currentNode, i, CharacterNode::isCharacter)) {
 				i--;
 			}
-			if (sb.length() > 0 && !isInsideQuotes()) {
+			if (!sb.isEmpty() && !isInsideQuotes()) {
 				try {
 					return er.localize(ExpRelation.AFTER.toString(),
 							mathExpression(sb.reverse().toString(), er));
@@ -581,7 +542,7 @@ public class EditorState {
 			while (MathFieldInternal.appendChar(sb, currentNode, i, CharacterNode::isCharacter)) {
 				i++;
 			}
-			if (sb.length() > 0 && !isInsideQuotes()) {
+			if (!sb.isEmpty() && !isInsideQuotes()) {
 				try {
 					return er.localize(ExpRelation.BEFORE.toString(),
 							mathExpression(sb.toString(), er));
@@ -729,13 +690,11 @@ public class EditorState {
 	 * Select the topmost ancestor that's not root or root's child.
 	 */
 	public void selectUpToRootComponent() {
-		while (currentSelStart != null && currentSelStart.getParent() != null
-				&& currentSelStart.getParent().getParent() != getRootNode()) {
-			anchor();
-			currentSelStart = currentSelStart.getParent();
+		while (currentNode.getParent() != null && currentNode.getParent().getParent() != null
+				&& !currentNode.getParent().getParent().isProtected()) {
+			currentNode = currentNode.getParentSequence();
 		}
-
-		setSelectionEnd(currentSelStart);
+		selectSubsequence(currentNode, 0, currentNode.size());
 	}
 
 	/**
@@ -763,5 +722,19 @@ public class EditorState {
 
 	public Node getComponentLeftOfCursor() {
 		return currentOffset > 0 ? currentNode.getChild(currentOffset - 1) : null;
+	}
+
+	/**
+	 * Select subsequence of a given sequence node.
+	 * @param sequenceNode internal node
+	 * @param from selection start offset (from 0 to {@code sequenceNode.size()})
+	 * @param to selection end offset (from 0 to {@code sequenceNode.size()})
+	 */
+	public void selectSubsequence(SequenceNode sequenceNode, int from, int to) {
+		selectionParent = sequenceNode;
+		selectionAnchor = from;
+		currentOffset = to;
+		currentNode = sequenceNode;
+		extendSelection();
 	}
 }

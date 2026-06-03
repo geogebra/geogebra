@@ -20,7 +20,6 @@ import org.geogebra.editor.share.tree.ArrayNode;
 import org.geogebra.editor.share.tree.CharPlaceholderNode;
 import org.geogebra.editor.share.tree.CharacterNode;
 import org.geogebra.editor.share.tree.FunctionNode;
-import org.geogebra.editor.share.tree.InternalNode;
 import org.geogebra.editor.share.tree.Node;
 import org.geogebra.editor.share.tree.SequenceNode;
 
@@ -55,16 +54,12 @@ public class SelectAllHandler {
 			if (isCharPlaceholder(root)) {
 				return;
 			}
-			setSelectionStart(root);
-			setSelectionEnd(root);
+			editorState.selectSubsequence(root, 0, root.size());
 		}
 	}
 
 	private void selectProtectedContent() {
 		Node first = editorState.getRootNode().getChild(0);
-		Node selectionStart = editorState.getCurrentNode().getChild(0);
-
-		setSelectionStart(selectionStart);
 		if (first instanceof ArrayNode array) {
 			if (array.isMatrix()) {
 				editorState.selectUpToRootComponent();
@@ -72,7 +67,8 @@ public class SelectAllHandler {
 				selectListElement(array.getChild(0));
 			}
 		} else {
-			setSelectionEnd(selectionStart);
+			editorState.selectSubsequence(editorState.getCurrentNode(), 0,
+					editorState.getCurrentNode().size());
 		}
 	}
 
@@ -83,32 +79,22 @@ public class SelectAllHandler {
 				fn.getChild(0)));
 	}
 
-	private void setSelectionStart(Node node) {
-		editorState.setSelectionStart(node);
-	}
-
-	private void setSelectionEnd(Node node) {
-		editorState.setSelectionEnd(node);
-	}
-
 	private void selectListElement(SequenceNode sequence) {
 		if (getCurrentField() != sequence) {
 			selectAllCompositeElement(sequence);
 		} else {
 			SequenceNode content = sequenceWithoutBrackets(sequence);
 			int left = firstSeparatorOnLeft(content);
-			setSelectionStart(content.getChild(left));
 			int right = firstSeparatorOnRight(content);
-			setSelectionEnd(content.getChild(right));
+			editorState.selectSubsequence(content, left, right);
 
 			if (isCharPlaceholder(editorState.getSelectionStart()) || right < left) {
-				editorState.setSelectionStart(null);
-				editorState.setSelectionEnd(null);
+				editorState.resetSelection();
 			}
 		}
 	}
 
-	private Node getCurrentField() {
+	private SequenceNode getCurrentField() {
 		return editorState.getCurrentNode();
 	}
 
@@ -119,21 +105,20 @@ public class SelectAllHandler {
 	}
 
 	private void selectAllCompositeElement(SequenceNode sequence) {
-		Node field = getCurrentField();
-		InternalNode parent = field.getParent();
+		SequenceNode field = getCurrentField();
+		SequenceNode parent = field.getParentSequence();
 		while (parent != sequence && parent != null) {
 			field = parent;
-			parent = parent.getParent();
+			parent = parent.getParentSequence();
 
 		}
-		setSelectionStart(field);
-		setSelectionEnd(field);
+		editorState.selectSubsequence(field, 0, field.size());
 	}
 
 	private int firstSeparatorOnRight(SequenceNode sequence) {
 		int offset = editorState.getCurrentOffset();
 		if (isSeparatorAt(sequence, offset)) {
-			return offset - 1;
+			return offset;
 		}
 
 		int i = offset;
@@ -141,7 +126,7 @@ public class SelectAllHandler {
 			i++;
 		}
 
-		return i - 1;
+		return i;
 	}
 
 	private boolean isSeparatorAt(SequenceNode sequence, int index) {

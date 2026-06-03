@@ -85,7 +85,7 @@ public class InputController {
 		this.plainTextMode = plainTextMode;
 	}
 
-	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {
+	public void setSyntaxAdapter(@CheckForNull SyntaxAdapter syntaxAdapter) {
 		this.syntaxAdapter = syntaxAdapter;
 	}
 
@@ -103,11 +103,10 @@ public class InputController {
 
 	static private String getLetter(Node node)
 			throws Exception {
-		if (!(node instanceof CharacterNode)) {
+		if (!(node instanceof CharacterNode character)) {
 			throw new Exception("Node is not a character");
 		}
 
-		CharacterNode character = (CharacterNode) node;
 		if (!character.isCharacter() || !character.isLetter()) {
 			throw new Exception("Node is not a character");
 		}
@@ -290,7 +289,7 @@ public class InputController {
 				SequenceNode seq = new SequenceNode();
 				array.setChild(0, seq);
 				editorState.getCurrentNode().addChild(index, array);
-				editorState.setSelectionStart(null);
+				editorState.resetSelection();
 				editorState.setCurrentNode(seq);
 				editorState.setCurrentOffset(0);
 				return;
@@ -330,9 +329,7 @@ public class InputController {
 		if ("^".equals(name) && currentOffset > 0
 				&& editorState.getSelectionEnd() == null) {
 			if (currentField
-					.getChild(currentOffset - 1) instanceof FunctionNode) {
-				FunctionNode function = (FunctionNode) currentField
-						.getChild(currentOffset - 1);
+					.getChild(currentOffset - 1) instanceof FunctionNode function) {
 				if (Tag.SQRT.equals(function.getName())
 						|| Tag.CBRT.equals(function.getName())
 						|| Tag.NROOT.equals(function.getName())
@@ -485,10 +482,8 @@ public class InputController {
 
 		int offset = currentOffset;
 		while (offset > 0 && currentField
-				.getChild(offset - 1) instanceof FunctionNode) {
+				.getChild(offset - 1) instanceof FunctionNode function) {
 
-			FunctionNode function = (FunctionNode) currentField
-					.getChild(offset - 1);
 			if (scriptTag == function.getName()) {
 				editorState.setCurrentNode(function.getChild(0));
 				editorState.setCurrentOffset(function.getChild(0).size());
@@ -502,10 +497,8 @@ public class InputController {
 		}
 		offset = currentOffset;
 		while (offset < currentField.size()
-				&& currentField.getChild(offset) instanceof FunctionNode) {
+				&& currentField.getChild(offset) instanceof FunctionNode function) {
 
-			FunctionNode function = (FunctionNode) currentField
-					.getChild(offset);
 			if (scriptTag == function.getName()) {
 				editorState.setCurrentNode(function.getChild(0));
 				editorState.setCurrentOffset(0);
@@ -518,17 +511,13 @@ public class InputController {
 			offset++;
 		}
 		if (currentOffset > 0 && currentField
-				.getChild(currentOffset - 1) instanceof FunctionNode) {
-			FunctionNode function = (FunctionNode) currentField
-					.getChild(currentOffset - 1);
+				.getChild(currentOffset - 1) instanceof FunctionNode function) {
 			if (Tag.SUPERSCRIPT == function.getName() && Tag.SUBSCRIPT == scriptTag) {
 				currentOffset--;
 			}
 		}
 		if (currentOffset < currentField.size() && currentField
-				.getChild(currentOffset) instanceof FunctionNode) {
-			FunctionNode function = (FunctionNode) currentField
-					.getChild(currentOffset);
+				.getChild(currentOffset) instanceof FunctionNode function) {
 			if (Tag.SUBSCRIPT == function.getName() && Tag.SUPERSCRIPT == scriptTag) {
 				currentOffset++;
 			}
@@ -649,8 +638,7 @@ public class InputController {
 		SequenceNode currentField = editorState.getCurrentNode();
 		int currentOffset = editorState.getCurrentOffset();
 		// first array specific ...
-		if (RemoveContainer.isParentAnArray(currentField)) {
-			ArrayNode parent = (ArrayNode) currentField.getParent();
+		if (currentField.getParent() instanceof ArrayNode parent) {
 
 			// if ',' typed within 1DArray or Vector ... add new field
 			if (ch == parent.getFieldDelimiter().getCharacter()
@@ -880,7 +868,7 @@ public class InputController {
 			Node prev = editorState.getCurrentNode()
 					.getChild(currentOffset - 1);
 			if (prev instanceof ArrayNode parent) {
-				extendBrackets(parent, editorState);
+				moveArgumentsAfter(parent, editorState, parent.getChild(parent.size() - 1));
 			}
 			if (prev instanceof FunctionNode node) {
 				bkspLastFunctionArg(node, editorState);
@@ -895,8 +883,9 @@ public class InputController {
 	private void bkspLastFunctionArg(FunctionNode function, EditorState editorState) {
 		SequenceNode functionArg = function.getChild(function.size() - 1);
 		if (function.getName() == Tag.APPLY || function.getName() == Tag.APPLY_SQUARE) {
-			moveArgumentsAfter(function, editorState, function.getChild(1));
-			bkspCharacter(editorState);
+			if (moveArgumentsAfter(function, editorState, function.getChild(1))) {
+				bkspCharacter(editorState);
+			}
 		} else if (isEqFunctionWithPlaceholders(function)) {
 			deleteSingleArg(editorState);
 		} else if (functionArg != null) {
@@ -959,14 +948,10 @@ public class InputController {
 		}
 	}
 
-	private static void extendBrackets(ArrayNode array, EditorState state) {
-		moveArgumentsAfter(array, state, array.getChild(array.size() - 1));
-	}
-
-	private static void moveArgumentsAfter(Node lastToKeep,
+	private static boolean moveArgumentsAfter(Node lastToKeep,
 			EditorState editorState, SequenceNode target) {
 		if (target == null || lastToKeep.getParent() == null) {
-			return;
+			return false;
 		}
 		int currentOffset = lastToKeep.getParentIndex() + 1;
 		InternalNode currentField = lastToKeep.getParent();
@@ -979,6 +964,7 @@ public class InputController {
 		}
 		editorState.setCurrentNode(target);
 		editorState.setCurrentOffset(oldSize);
+		return true;
 	}
 
 	/**
@@ -994,9 +980,8 @@ public class InputController {
 			bkspCharacter(editorState);
 
 		} else {
-			if (RemoveContainer.isParentAnArray(currentField)) {
-				extendBrackets((ArrayNode) currentField.getParent(),
-						editorState);
+			if (currentField.getParent() instanceof ArrayNode array) {
+				moveArgumentsAfter(array, editorState, array.getChild(array.size() - 1));
 			} else {
 				RemoveContainer.deleteContainer(editorState);
 			}
@@ -1008,10 +993,8 @@ public class InputController {
 		SequenceNode currentField = editorState.getCurrentNode();
 		int length = length0;
 		while (length > 0 && currentOffset > 0 && currentField
-				.getChild(currentOffset - 1) instanceof CharacterNode) {
+				.getChild(currentOffset - 1) instanceof CharacterNode character) {
 
-			CharacterNode character = (CharacterNode) currentField
-					.getChild(currentOffset - 1);
 			if (character.isOperator() || (character.isSymbol()
 					&& !character.isLetter())) {
 				break;
@@ -1471,7 +1454,7 @@ public class InputController {
 	/**
 	 * @param editorFeatures set of available editor features
 	 */
-	public void setEditorFeatures(EditorFeatures editorFeatures) {
+	public void setEditorFeatures(@CheckForNull EditorFeatures editorFeatures) {
 		this.editorFeatures = editorFeatures;
 	}
 

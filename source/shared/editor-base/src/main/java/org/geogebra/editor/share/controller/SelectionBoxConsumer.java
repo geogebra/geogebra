@@ -24,6 +24,7 @@ import org.geogebra.editor.share.tree.Node;
 import com.himamis.retex.renderer.share.Box;
 import com.himamis.retex.renderer.share.BoxConsumer;
 import com.himamis.retex.renderer.share.BoxPosition;
+import com.himamis.retex.renderer.share.ScriptsAtom;
 
 public class SelectionBoxConsumer implements BoxConsumer {
 
@@ -57,6 +58,11 @@ public class SelectionBoxConsumer implements BoxConsumer {
 				|| isBetween(node) || node != null && isBetween(node.getParent())) {
 			if (selectionBaseline == null) {
 				selectionBaseline = position.baseline();
+			}
+			if (box.getAtom() instanceof ScriptsAtom) {
+				// for x^2 both x and 2 belong to the script atom, but we
+				// should only consider x if the character itself is selected
+				return;
 			}
 
 			selectionX1 = Math.min(selectionX1, position.x());

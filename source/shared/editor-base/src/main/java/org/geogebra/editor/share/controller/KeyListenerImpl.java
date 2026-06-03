@@ -161,10 +161,8 @@ public class KeyListenerImpl {
 		Function<EditorState, Boolean>
 				navigate = left ? CursorController::prevCharacter : CursorController::nextCharacter;
 		if (shiftPressed) {
-			ret = navigate.apply(editorState);
-			if (ret) {
-				editorState.extendSelection(left);
-			}
+
+			ret = editorState.extendSelection(left);
 		} else {
 			ret = editorState.updateCursorFromSelection(left) || navigate.apply(editorState);
 			editorState.resetSelection();

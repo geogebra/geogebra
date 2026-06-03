@@ -374,8 +374,7 @@ class EditorChecker {
 
 	public EditorChecker select(int from, int to) {
 		EditorState state = mathField.getInternal().getEditorState();
-		state.setSelectionStart(state.getRootNode().getChild(from));
-		state.setSelectionEnd(state.getRootNode().getChild(to));
+		state.selectSubsequence(state.getRootNode(), from, to);
 		return this;
 	}
 

@@ -309,4 +309,8 @@ public class ScriptsAtom extends Atom implements HasTrueBase {
 		return base.getLimits();
 	}
 
+	@Override
+	public String toString() {
+		return "ScriptAtom {" + base + "_" + subscript + "^" + superscript + "}";
+	}
 }

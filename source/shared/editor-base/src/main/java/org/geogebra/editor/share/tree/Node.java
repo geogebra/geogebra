@@ -94,4 +94,18 @@ abstract public class Node implements Traversable, Inspectable, Serializable {
 		int parentIndex = getParentIndex();
 		return parentIndex >= parent.size() - 1 ? null : getParent().getChild(parentIndex + 1);
 	}
+
+	/**
+	 * @return closest sequence that is an ancestor of this
+	 */
+	public SequenceNode getParentSequence() {
+		if (getParent() == null) {
+			return null;
+		}
+		return getParent() instanceof SequenceNode seq ? seq : getParent().getParentSequence();
+	}
+
+	public int getDepth() {
+		return parent == null ? 0 : parent.getDepth() + 1;
+	}
 }

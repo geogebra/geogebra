@@ -125,7 +125,7 @@ public class DeleteInMatrixTest {
 		checker.down(1)
 				.right(4)
 				.shiftOn().left(2)
-				.shouldDeleteOnly(5);
+				.shouldDeleteOnly(6);
 	}
 
 	@Test
@@ -217,9 +217,17 @@ public class DeleteInMatrixTest {
 	@Test
 	public void testShouldDelete456FromLeft() {
 		EditorChecker checker = newMatrixChecker(MATRIX_MULIFIGURE);
+		checker.right(4)
+				.shiftOn().right(3)
+				.shouldDeleteOnly(456);
+	}
+
+	@Test
+	public void testShouldDelete123FromLeftWithSkip() {
+		EditorChecker checker = newMatrixChecker(MATRIX_MULIFIGURE);
 		checker.right(3)
 				.shiftOn().right(4)
-				.shouldDeleteOnly(456);
+				.shouldDeleteOnly(123);
 	}
 
 	@Test
