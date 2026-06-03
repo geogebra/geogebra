@@ -1533,7 +1533,9 @@ public class Ggb2giac {
 		// have both to avoid problems saving in eg German
 		// <expression value="Midpoint(L(1), L(2))" eval="Center(L(1),L(2))"
 		// evalCmd=""/>
-		String centerMidpoint1 = "coordinates(center(%0))";
+		String centerMidpoint1 = "[[ggbmidarg0:=%0],[ggbcoordarg0:=when(count_eq(z,lname(ggbmidarg0))==0,"
+				+ "center(ggbmidarg0),point(map(coordinates(center(quadric(ggbmidarg0))),t->t[2])))],"
+				+ "when(len(ggbcoordarg0)==4,coordinates(ggbcoordarg0[1]),coordinates(ggbcoordarg0))][2]";
 		// normal: nice form for Midpoint[(1/2,pi),(1,1)]
 		// factor: nice form for Midpoint[(a,b),(c,d)]
 		String centerMidpoint2 = "convert(factor((normal(coordinates(midpoint(%0,%1))))),25)";

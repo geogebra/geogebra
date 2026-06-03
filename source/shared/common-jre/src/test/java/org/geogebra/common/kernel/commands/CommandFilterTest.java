@@ -40,7 +40,7 @@ public class CommandFilterTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void noCASfilterTest() {
+	public void noCasFilterTest() {
 		CommandFilter cf = CommandFilterFactory
 				.createNoCasCommandFilter();
 		App app = getApp();

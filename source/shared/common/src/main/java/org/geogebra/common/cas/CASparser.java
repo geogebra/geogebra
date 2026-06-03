@@ -44,6 +44,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolicI;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
+import org.geogebra.common.kernel.parser.TokenMgrException;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.BracketsError;
@@ -225,10 +226,12 @@ public class CASparser implements CASParserInterface {
 	public ValidExpression parseGiac(String exp) throws CASException {
 		try {
 			return parser.parseGiac(exp);
-		} catch (Throwable t) {
-			Log.debug(t.getStackTrace());
-			return new MyDouble(parser.getKernel(), Double.NaN);
+		} catch (TokenMgrException | ParseException ex) {
+			Log.debug("Problem parsing " + exp +  ": " + ex.getMessage());
+		} catch (RuntimeException t) {
+			Log.debug(t);
 		}
+		return new MyDouble(parser.getKernel(), Double.NaN);
 	}
 
 	/**

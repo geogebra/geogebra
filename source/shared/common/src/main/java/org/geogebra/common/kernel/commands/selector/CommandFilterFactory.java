@@ -133,7 +133,7 @@ public final class CommandFilterFactory {
 				Commands.CircumcircleArc,
 				Commands.CircumcircleSector, Commands.Cubic, Commands.Direction,
 				Commands.Envelope, Commands.IntersectPath,
-				Commands.Locus, Commands.LocusEquation, Commands.Midpoint,
+				Commands.Locus, Commands.LocusEquation,
 				Commands.Polygon,
 				Commands.PolyLine, Commands.Prove, Commands.ProveDetails, Commands.Ray,
 				Commands.RigidPolygon, Commands.Sector, Commands.Segment,
@@ -145,7 +145,7 @@ public final class CommandFilterFactory {
 				// Probability commands
 				Commands.Bernoulli,
 				// Conic Commands
-				Commands.Axes, Commands.Center,
+				Commands.Axes,
 				Commands.Diameter, Commands.Focus,
 				// Chart Commands
 				Commands.BoxPlot, Commands.ContingencyTable,
