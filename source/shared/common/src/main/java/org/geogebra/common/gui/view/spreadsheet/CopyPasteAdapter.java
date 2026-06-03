@@ -85,12 +85,10 @@ public class CopyPasteAdapter {
 			int maxColumn, int maxRow) {
 		app.setWaitCursor();
 		boolean success = false;
-
 		try {
 			if (tableModel != null && tableModel.getRowCount() < minRow + data.length) {
 				tableModel.setRowCount(minRow + data.length);
 			}
-			GeoElementND[][] values = new GeoElement[data.length][];
 			int maxLen = -1;
 			RelativeCopy relativeCopy = new RelativeCopy(app.getKernel());
 			for (int row = minRow; row < minRow + data.length; ++row) {
@@ -98,7 +96,6 @@ public class CopyPasteAdapter {
 					continue;
 				}
 				int relY = row - minRow;
-				values[relY] = new GeoElement[data[relY].length];
 				if (maxLen < data[relY].length) {
 					maxLen = data[relY].length;
 				}
@@ -123,13 +120,13 @@ public class CopyPasteAdapter {
 							value0.removeOrSetUndefinedIfHasFixedDescendent();
 						}
 					} else {
-						GeoElement value0 = RelativeCopy.getValue(tableModel, column,
-								row);
-						values[relY][relX] = relativeCopy
+						GeoElement value0 = RelativeCopy.getValue(tableModel, column, row);
+						GeoElementND created = relativeCopy
 								.prepareAddingValueToTableNoStoringUndoInfo(
 										data[relY][relX], value0, column, row, true);
-						values[relY][relX].setAuxiliaryObject(true);
-
+						if (created != null) {
+							created.setAuxiliaryObject(true);
+						}
 					}
 				}
 			}

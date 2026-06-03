@@ -18,6 +18,7 @@ package org.geogebra.common.gui.view.spreadsheet;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.TreeSet;
 
 import org.geogebra.common.io.XMLParseException;
@@ -934,7 +935,7 @@ public class RelativeCopy {
 		}
 
 		// remove leading equal sign, e.g. "= A1 + A2"
-		if (text.length() > 0 && text.charAt(0) == '=') {
+		if (!text.isEmpty() && text.charAt(0) == '=') {
 			text = text.substring(1);
 		}
 		text = text.trim();
@@ -957,9 +958,7 @@ public class RelativeCopy {
 			// check if text was the label of an existing geo
 			// toUpperCase() added to fix bug A1=1, enter just 'a1' or 'A1' into
 			// cell B1 -> A1 disappears
-			if (StringUtil.toLowerCaseUS(text)
-					.equals(newValues[0]
-							.getLabelSimple())
+			if (text.toLowerCase(Locale.ROOT).equals(newValues[0].getLabelSimple())
 					// also need eg =a to work
 					|| text.equals(newValues[0]
 							.getLabelSimple())) {
@@ -1166,7 +1165,7 @@ public class RelativeCopy {
 		// trim the text
 		if (text != null) {
 			text = text.trim();
-			if (text.length() == 0) {
+			if (text.isEmpty()) {
 				text = null;
 			}
 		}
