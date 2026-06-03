@@ -88,7 +88,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 	public void updateProperties() {
 		// check if all conics have same type and mode
 		// and if specific, explicit is possible
-		GeoQuadricND temp, geo0 = getConicAt(0);
+		GeoQuadricND geo0 = getConicAt(0);
 		boolean equalType = true;
 		boolean equalMode = true;
 		boolean specificPossible = geo0.isSpecificFormPossible();
@@ -97,7 +97,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		boolean vertexformPossible = geo0.isVertexFormPossible();
 		boolean conicformPossible = geo0.isConicFormPossible();
 		for (int i = 1; i < getGeosLength(); i++) {
-			temp = getConicAt(i);
+			GeoQuadricND temp = getConicAt(i);
 			// same type?
 			if (geo0.getType() != temp.getType()) {
 				equalType = false;

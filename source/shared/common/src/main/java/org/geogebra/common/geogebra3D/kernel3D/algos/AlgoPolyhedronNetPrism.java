@@ -119,9 +119,6 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 		if (pp1 == null) {
 			pp1 = new Coords(4);
 		}
-
-		int sz = points.length;
-
 		Coords[] topP = getPointsCoords(polyhedron.getTopFace());
 
 		Coords topCo = topP[0];
@@ -139,10 +136,11 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 			faceDirection = faceDirection.mul(-1);
 		}
 
-		GeoPoint3D wpoint1 = null;
-		GeoPoint3D wpoint2 = null;
-		GeoPoint3D wpoint3 = null;
-		Coords cCoord = null; // Coords of the current top point
+		GeoPoint3D wpoint1;
+		GeoPoint3D wpoint2;
+		GeoPoint3D wpoint3;
+		Coords cCoord; // Coords of the current top point
+		int sz = points.length;
 		for (int i = 0; i < sz; i++) {
 			// triple creation of top points
 			wpoint1 = outputPointsSide.getElement(2 * i);
@@ -390,7 +388,7 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 		s[0] = segmentBottom;
 		s[1] = segmentSide1;
 		s[2] = segmentSide2;
-		s[2] = segmentSide3;
+		s[3] = segmentSide3;
 		polygon.setSegments(s);
 		polygon.calcArea();
 	}

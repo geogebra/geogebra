@@ -494,9 +494,9 @@ final public class Geo3DVec extends ValidExpression
 	 */
 	public void multiplyMatrix3x3(MyList list, VectorNDValue rt) {
 		GeoVecInterface v = rt.getVector();
-		double xx = v.getX();
-		double yy = v.getY();
-		double zz = v.getZ();
+		final double xx = v.getX();
+		final double yy = v.getY();
+		final double zz = v.getZ();
 
 		double a = MyList.getCellAsDouble(list, 0, 0);
 		double b = MyList.getCellAsDouble(list, 1, 0);
@@ -526,8 +526,7 @@ final public class Geo3DVec extends ValidExpression
 		double m, n, o, p, xx, yy, zz, ww;
 
 		boolean vector = false;
-		if (rt instanceof GeoPointND) { // 3D point
-			GeoPointND point = (GeoPointND) rt;
+		if (rt instanceof GeoPointND point) { // 3D point
 			// use homogeneous coordinates
 			Coords coords = point.getCoordsInD3();
 			xx = coords.getX();

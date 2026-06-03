@@ -108,7 +108,7 @@ public class SliderModel extends OptionsModel {
 	@Override
 	public void updateProperties() {
 		// check if properties have same values
-		GeoNumeric temp, num0 = getNumericAt(0);
+		GeoNumeric num0 = getNumericAt(0);
 		boolean equalMax = true;
 		boolean equalMin = true;
 		boolean equalWidth = true;
@@ -123,7 +123,7 @@ public class SliderModel extends OptionsModel {
 		boolean equalPinned = true;
 
 		for (int i = 0; i < getGeosLength(); i++) {
-			temp = getNumericAt(i);
+			GeoNumeric temp = getNumericAt(i);
 
 			// we don't check isIntervalMinActive, because we want to display
 			// the interval even if it's empty

@@ -936,7 +936,6 @@ public class ConsElementXMLHandler {
 		}
 
 		try {
-			GeoImage img = (GeoImage) geo;
 			double x = Double.parseDouble(attrs.get("x"));
 			double y = Double.parseDouble(attrs.get("y"));
 			double w = Double.parseDouble(attrs.get("width"));
@@ -944,6 +943,7 @@ public class ConsElementXMLHandler {
 			boolean cropped = MyXMLHandler.parseBoolean(attrs.get("cropped"));
 			GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
 			rect.setRect(x, y, w, h);
+			GeoImage img = (GeoImage) geo;
 			img.setCropBoxRelative(rect);
 			img.setCropped(cropped);
 			return true;

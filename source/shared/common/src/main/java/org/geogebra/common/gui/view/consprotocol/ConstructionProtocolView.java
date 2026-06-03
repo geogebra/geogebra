@@ -1313,9 +1313,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		String widthPercent = (100d / (cols + 1)) + "";
 
 		// headers
-		sb.append("<tr>\n");
-		sb.append("<th>&nbsp;");
-		sb.append("</th>");
+		sb.append("<tr>\n<th>&nbsp;</th>");
 
 		for (int col = 0; col < cols; col++) {
 			sb.append("<th>");

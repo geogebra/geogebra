@@ -342,7 +342,9 @@ public class GeoConicPart3D extends GeoConic3D
 		// if it is in [0, 1]
 
 		// remember the old values
-		double px = P.x, py = P.y, pz = P.z;
+		final double px = P.x;
+		final double py = P.y;
+		final double pz = P.z;
 		PathParameter tempParam = getTempPathParameter();
 		PathParameter pPP = P.getPathParameter();
 		tempParam.set(pPP);

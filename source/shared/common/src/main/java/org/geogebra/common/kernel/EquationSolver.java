@@ -731,7 +731,7 @@ public class EquationSolver implements EquationSolverInterface {
 			return solveCubicS(eqn, res, Kernel.STANDARD_PRECISION);
 		}
 
-		double a = eqn[3] / eqn[4], b = eqn[2] / eqn[4], c = eqn[1] / eqn[4],
+		final double a = eqn[3] / eqn[4], b = eqn[2] / eqn[4], c = eqn[1] / eqn[4],
 				d = eqn[0] / eqn[4];
 
 		/*
@@ -745,10 +745,6 @@ public class EquationSolver implements EquationSolverInterface {
 		double w1r, w1i, w2r, w2i, w3r;
 		double v1, v2, arg, theta;
 		double disc, h;
-		int k1 = 0, k2 = 0;
-
-		int roots = 0;
-
 		/*
 		 * Deal easily with the cases where the quartic is degenerate. The
 		 * ordering of solutions is done explicitly.
@@ -756,15 +752,15 @@ public class EquationSolver implements EquationSolverInterface {
 		if (0 == b && 0 == c) {
 			if (0 == d) {
 				if (a > 0) {
-					res[roots++] = -a;
-					res[roots++] = 0.0;
-					res[roots++] = 0.0;
-					res[roots++] = 0.0;
+					res[0] = -a;
+					res[1] = 0.0;
+					res[2] = 0.0;
+					res[3] = 0.0;
 				} else {
-					res[roots++] = 0.0;
-					res[roots++] = 0.0;
-					res[roots++] = 0.0;
-					res[roots++] = -a;
+					res[0] = 0.0;
+					res[1] = 0.0;
+					res[2] = 0.0;
+					res[3] = -a;
 				}
 				return 4;
 			} else if (0 == a) {
@@ -772,13 +768,12 @@ public class EquationSolver implements EquationSolverInterface {
 					return 0;
 				}
 
-				res[roots++] = Math.sqrt(Math.sqrt(-d));
-				res[roots] = -res[roots - 1];
-				roots++;
+				res[0] = Math.sqrt(Math.sqrt(-d));
+				res[1] = -res[0];
 				return 2;
 			}
 		}
-
+		int roots = 0;
 		if (0.0 == c && 0.0 == d) {
 			res[roots++] = 0.0;
 			res[roots++] = 0.0;
@@ -889,7 +884,8 @@ public class EquationSolver implements EquationSolverInterface {
 			if (0.0 == disc) {
 				u[2] = u[1];
 			}
-
+			int k1 = 0;
+			int k2 = 0;
 			if (0 >= disc) {
 				mt = 2;
 
@@ -905,8 +901,7 @@ public class EquationSolver implements EquationSolverInterface {
 
 				v1 = Math.max(Math.max(v[0], v[1]), v[2]);
 				/* Work out which two roots have the largest moduli */
-				k1 = 0;
-				k2 = 0;
+
 				if (v1 == v[0]) {
 					k1 = 0;
 					v2 = Math.max(v[1], v[2]);

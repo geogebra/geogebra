@@ -161,13 +161,13 @@ public final class DataImporter {
 	}
 
 	private List<Row> validateAndCollectRowsFromCSV(Reader reader, char decimalSeparator) {
+		final LineReader lineReader = new LineReader(reader);
+		final List<Row> rows = new ArrayList<>();
 		char csvSeparator = 0;
 		boolean dataHasHeader = false;
 		int columnCount = -1;
 		int currentRow = 0;
-		LineReader lineReader = new LineReader(reader);
 		CSVParser parser = new CSVParser();
-		List<Row> rows = new ArrayList<>();
 		String line;
 		try {
 			while ((line = lineReader.readLine()) != null) {

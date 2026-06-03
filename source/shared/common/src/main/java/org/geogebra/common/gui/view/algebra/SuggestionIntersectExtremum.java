@@ -72,7 +72,6 @@ public final class SuggestionIntersectExtremum extends Suggestion {
 
 	private void intersect(GeoElementND geo) {
 		PolyFunction polynomial = getPolynomial(geo);
-		AlgebraProcessor algebraProcessor = geo.getKernel().getAlgebraProcessor();
 		StringBuilder sb = new StringBuilder();
 		sb.append("Intersect[");
 		sb.append(geo.getLabelSimple());
@@ -86,8 +85,8 @@ public final class SuggestionIntersectExtremum extends Suggestion {
 			sb.append(bounds[1]);
 		}
 		sb.append("]");
+		AlgebraProcessor algebraProcessor = geo.getKernel().getAlgebraProcessor();
 		processCommand(algebraProcessor, sb.toString(), false);
-
 	}
 
 	private PolyFunction getPolynomial(GeoElementND geo) {

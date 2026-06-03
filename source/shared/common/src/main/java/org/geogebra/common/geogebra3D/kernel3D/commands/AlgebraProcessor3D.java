@@ -171,8 +171,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 
 	private GeoElement[] processQuadric(Equation equ, ExpressionNode def,
 			EvalInfo info) {
-		double xx = 0, yy = 0, zz = 0, xy = 0, xz = 0, yz = 0, x = 0, y = 0,
-				z = 0, c = 0;
+
 		GeoElement[] ret = new GeoElement[1];
 		GeoQuadric3D quadric;
 		String label = equ.getLabel();
@@ -181,16 +180,16 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		boolean isIndependent = lhs.isConstant(info);
 
 		if (isIndependent) {
-			xx = lhs.getCoeffValue("xx");
-			yy = lhs.getCoeffValue("yy");
-			zz = lhs.getCoeffValue("zz");
-			c = lhs.getCoeffValue("");
-			xy = lhs.getCoeffValue("xy") / 2;
-			xz = lhs.getCoeffValue("xz") / 2;
-			yz = lhs.getCoeffValue("yz") / 2;
-			x = lhs.getCoeffValue("x") / 2;
-			y = lhs.getCoeffValue("y") / 2;
-			z = lhs.getCoeffValue("z") / 2;
+			double xx = lhs.getCoeffValue("xx");
+			double yy = lhs.getCoeffValue("yy");
+			double zz = lhs.getCoeffValue("zz");
+			double c = lhs.getCoeffValue("");
+			double xy = lhs.getCoeffValue("xy") / 2;
+			double xz = lhs.getCoeffValue("xz") / 2;
+			double yz = lhs.getCoeffValue("yz") / 2;
+			double x = lhs.getCoeffValue("x") / 2;
+			double y = lhs.getCoeffValue("y") / 2;
+			double z = lhs.getCoeffValue("z") / 2;
 
 			double[] coeffs = { xx, yy, zz, c, xy, xz, yz, x, y, z };
 			quadric = new GeoQuadric3D(cons, coeffs);
