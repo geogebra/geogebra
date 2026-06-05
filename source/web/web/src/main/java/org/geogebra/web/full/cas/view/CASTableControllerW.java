@@ -82,7 +82,7 @@ public class CASTableControllerW extends CASTableCellController implements
 	}
 
 	@Override
-	public void handleLongTouch(int x, int y) {
+	public void handleLongTouch(double x, double y) {
 		CASTableW table = view.getConsoleTable();
 		if (!table.isSelectedIndex(startSelectRow)) {
 			table.setSelectedRows(startSelectRow, startSelectRow);

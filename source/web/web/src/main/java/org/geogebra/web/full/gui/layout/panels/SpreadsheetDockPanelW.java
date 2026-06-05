@@ -16,8 +16,6 @@
 
 package org.geogebra.web.full.gui.layout.panels;
 
-import java.util.Objects;
-
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -26,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -71,17 +70,20 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 		if (wrapview == null) {
 			wrapview = new AbsolutePanel();
 			wrapview.addStyleName("SpreadsheetWrapView");
-			spreadsheetPanel = new SpreadsheetPanel(app);
-			wrapview.add(spreadsheetPanel);
+			Spreadsheet spreadsheet = app.getSpreadsheet();
+			if (spreadsheet != null) {
+				spreadsheetPanel = new SpreadsheetPanel(app, spreadsheet);
+				wrapview.add(spreadsheetPanel);
+			}
 		}
 		return wrapview;
 	}
 
 	@Override
 	protected Widget loadStyleBar() {
-		if (sstylebar == null) {
+		if (sstylebar == null && spreadsheetPanel != null) {
 			sstylebar = new SpreadsheetStyleBar(app,
-					Objects.requireNonNull(spreadsheetPanel).getSpreadsheet(),
+					spreadsheetPanel.getSpreadsheet(),
 					spreadsheetPanel.getStyleBarModel());
 			IconButton settingsBtn = new IconButton(app,
 					new ImageIconSpec(MaterialDesignResources.INSTANCE.gear()),

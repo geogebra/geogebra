@@ -80,7 +80,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	}
 
 	@Override
-	public void handleLongTouch(int x, int y) {
+	public void handleLongTouch(double x, double y) {
 		if (!draggingOccurred) {
 			mtg.handleLongTouch(x, y);
 		}

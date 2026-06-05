@@ -16,6 +16,8 @@
 
 package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
@@ -33,7 +35,8 @@ import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.awt.GGraphics2DW;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.html5.euclidian.ReaderWidget;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.LongTouchManager;
+import org.geogebra.web.html5.gui.util.LongTouchTimer;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
@@ -54,9 +57,12 @@ import elemental2.dom.Event;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.KeyboardEvent;
 import elemental2.dom.PointerEvent;
+import elemental2.dom.Touch;
+import elemental2.dom.TouchEvent;
 import jsinterop.base.Js;
 
-public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
+public class SpreadsheetPanel extends FlowPanel implements RequiresResize,
+		LongTouchTimer.LongTouchHandler {
 
 	public static final int AUTOSCROLL_OFFSET = 30;
 	private final Spreadsheet spreadsheet;
@@ -73,11 +79,13 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	int viewportChanges;
 	boolean isPointerDown = false;
 	private FocusCommand focusCommand;
+	private boolean isTouchDragging;
 
 	/**
 	 * @param app application
+	 * @param spreadsheet spreadsheet
 	 */
-	public SpreadsheetPanel(AppW app) {
+	public SpreadsheetPanel(AppW app, @Nonnull Spreadsheet spreadsheet) {
 		Canvas spreadsheetWidget = Canvas.createIfSupported();
 		spreadsheetWidget.addStyleName("spreadsheetWidget");
 		graphics = new GGraphics2DW(spreadsheetWidget);
@@ -86,12 +94,10 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
 		mathField = new MathTextFieldW(app, new TemplateCatalog());
 
-		spreadsheet = app.getSpreadsheet();
-		if (spreadsheet != null) {
-			spreadsheet.setControlsDelegate(initControlsDelegate());
-			spreadsheet.setSpreadsheetDelegate(initSpreadsheetDelegate());
-			spreadsheet.setViewportAdjustmentHandler(createScrollable());
-		}
+		this.spreadsheet = spreadsheet;
+		spreadsheet.setControlsDelegate(initControlsDelegate());
+		spreadsheet.setSpreadsheetDelegate(initSpreadsheetDelegate());
+		spreadsheet.setViewportAdjustmentHandler(createScrollable());
 
 		add(spreadsheetWidget);
 		scrollOverlay = new ScrollPanel();
@@ -102,13 +108,11 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		add(scrollOverlay);
 		spreadsheetElement = Js.uncheckedCast(scrollContent.getElement());
 
-		if (spreadsheet != null) {
-			ReaderWidget screenReader = new ReaderWidget("S",
-					scrollContent.getElement());
-			add(screenReader);
-			spreadsheet.setAccessibilityDelegate(screenReader::readText);
-			spreadsheet.setExpressionReader(ScreenReader.getExpressionReader(app));
-		}
+		ReaderWidget screenReader = new ReaderWidget("S",
+				scrollContent.getElement());
+		add(screenReader);
+		spreadsheet.setAccessibilityDelegate(screenReader::readText);
+		spreadsheet.setExpressionReader(ScreenReader.getExpressionReader(app));
 
 		GlobalHandlerRegistry registry = app.getGlobalHandlers();
 
@@ -160,8 +164,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		registry.addEventListener(DomGlobal.document.fonts, "loadingdone", ignore -> {
 			repaint();
 		});
-
-		ClickStartHandler.initDefaults(scrollContent, false, true);
+		setupTouchAndMouseEvents(registry, scrollContent);
 		scrollContent.getElement().setTabIndex(0);
 		scrollContent.addDomHandler(evt -> {
 			if (spreadsheet.handleKeyPressed(
@@ -187,6 +190,30 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		);
 		setScrollingEnabled(spreadsheetSettings.showHScrollBar(),
 				spreadsheetSettings.showVScrollBar());
+	}
+
+	/*
+	 * Actual event handling is done using PointerEvent, mouse and touch events are only used to
+	 * turn touch-dragging on and off and to stop propagation.
+	 */
+	private void setupTouchAndMouseEvents(GlobalHandlerRegistry registry, FlowPanel scrollContent) {
+		registry.addEventListener(scrollContent.getElement(), "touchmove", event -> {
+			Touch touch = ((TouchEvent) event).touches.getAt(0);
+			LongTouchManager.getInstance().cancelIfDragged(touch.clientX, touch.clientY);
+			if (isTouchDragging) {
+				event.preventDefault();
+			}
+		});
+		registry.addEventListener(scrollContent.getElement(), "touchstart", event -> {
+			Touch touch = ((TouchEvent) event).touches.getAt(0);
+			LongTouchManager.getInstance().scheduleTimer(this, touch.clientX, touch.clientY);
+			event.stopPropagation();
+		});
+		registry.addEventListener(scrollContent.getElement(), "mousedown", Event::stopPropagation);
+		registry.addEventListener(scrollContent.getElement(), "touchend", event -> {
+			isTouchDragging = false;
+			LongTouchManager.getInstance().cancelTimer();
+		});
 	}
 
 	private void handlePointerMoved(double offsetX, double offsetY,
@@ -382,5 +409,10 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 				horizontal ? "auto" : "hidden");
 		scrollOverlay.getElement().getStyle().setProperty("overflowY",
 				vertical ? "auto" : "hidden");
+	}
+
+	@Override
+	public void handleLongTouch(double unusedX, double unusedY) {
+		isTouchDragging = true;
 	}
 }

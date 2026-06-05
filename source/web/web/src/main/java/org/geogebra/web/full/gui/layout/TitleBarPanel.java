@@ -16,6 +16,8 @@
 
 package org.geogebra.web.full.gui.layout;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.full.cas.view.CASStylebarW;
 import org.geogebra.web.full.css.GuiResources;
@@ -36,18 +38,18 @@ import org.gwtproject.user.client.ui.Widget;
 public class TitleBarPanel extends FlowPanel implements DockControlPanel {
 	private final AppW app;
 	private final DockPanelW dockPanel;
-	protected FlowPanel titleBarPanelContent;
+	private final FlowPanel titleBarPanelContent;
 	private FlowPanel dragPanel;
 	/**
 	 * Style bar component.
 	 */
-	Widget styleBar;
+	private @CheckForNull Widget styleBar;
 	/**
 	 * Panel for the styling bar if one is available.
 	 */
 	private final FlowPanel styleBarPanel;
 	/** button to collapse / expand stylebar */
-	protected StandardButton toggleStyleBarButton;
+	private StandardButton toggleStyleBarButton;
 	private final FlowPanel closeButtonPanel;
 
 	protected TitleBarPanel(AppW app, DockPanelW parent) {
@@ -88,7 +90,7 @@ public class TitleBarPanel extends FlowPanel implements DockControlPanel {
 	}
 
 	private void initToggleButton() {
-		// always show the view-icon; othrwise use showStylebar as parameter
+		// always show the view-icon; otherwise use showStylebar as parameter
 		toggleStyleBarButton = new StandardButton(getToggleImage(false), null,
 				32, 24);
 		toggleStyleBarButton.addStyleName("toggleStyleBar");
@@ -193,7 +195,7 @@ public class TitleBarPanel extends FlowPanel implements DockControlPanel {
 
 		styleBarPanel.setVisible(dockPanel.isStyleBarVisible());
 		if (dockPanel.isStyleBarVisible()) {
-			setStylebar();
+			setStyleBar();
 			if (styleBar != null) {
 				styleBar.setVisible(
 						dockPanel.showStyleBar && !app.getGuiManager().isDraggingViews());
@@ -218,9 +220,11 @@ public class TitleBarPanel extends FlowPanel implements DockControlPanel {
 		}
 	}
 
-	private void setStylebar() {
+	private void setStyleBar() {
 		styleBar = dockPanel.loadStyleBar();
-		styleBarPanel.add(styleBar);
+		if (styleBar != null) {
+			styleBarPanel.add(styleBar);
+		}
 	}
 
 	/**
@@ -246,7 +250,7 @@ public class TitleBarPanel extends FlowPanel implements DockControlPanel {
 	public void setLayout() {
 		if (dockPanel.isStyleBarVisible()) {
 			dockPanel.buildGUIIfNecessary(false);
-			setStylebar();
+			setStyleBar();
 		}
 		if (styleBar instanceof StyleBarW) {
 			((StyleBarW) styleBar).setOpen(dockPanel.showStyleBar);

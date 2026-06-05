@@ -248,7 +248,7 @@ public class CursorOverlayController implements TextFieldController,
 	}
 
 	@Override
-	public void handleLongTouch(int x, int y) {
+	public void handleLongTouch(double x, double y) {
 		CancelEventTimer.touchEventOccurred();
 		selectAll();
 	}

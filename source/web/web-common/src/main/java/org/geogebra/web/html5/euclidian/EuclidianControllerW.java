@@ -110,7 +110,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	@Override
-	public void handleLongTouch(int x, int y) {
+	public void handleLongTouch(double x, double y) {
 		mtg.handleLongTouch(x, y);
 	}
 
