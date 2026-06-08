@@ -81,6 +81,7 @@ public class HatchingHandler {
 
 		// round to nearest 5 degrees
 		double angle = Math.round(angleDegrees / 5) * Math.PI / 36;
+		GBasicStroke objStroke = defObjStroke;
 		// constrain angle between 0 and 175 degrees
 		if (angle < 0 || angle >= Math.PI) {
 			angle = 0;
@@ -125,7 +126,6 @@ public class HatchingHandler {
 		GGraphics2D g2d = createImage(bgColor, backgroundTransparency,
 				xInt * exportScale, yInt * exportScale, exportType);
 		g2d.setColor(color);
-		GBasicStroke objStroke = defObjStroke;
 		if (exportScale != 1) {
 			objStroke = AwtFactory.getPrototype()
 					.newBasicStroke(objStroke.getLineWidth() * exportScale);

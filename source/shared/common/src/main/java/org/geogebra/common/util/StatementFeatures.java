@@ -124,7 +124,7 @@ class StatementFeatures {
 	 * @param nodes
 	 *            nodes
 	 * @param categories
-	 *            categories
+	 *            ccategories
 	 */
 	static void generateStatistics(String description, List<?> nodes,
 			String[] categories) {
@@ -132,9 +132,9 @@ class StatementFeatures {
 		 * collecting algos, generating population and computing basic
 		 * statistics
 		 */
-		int size;
+		int size = 0;
 
-		double mean, minimum, maximum;
+		double mean, variation_coefficient, minimum, maximum, entropy;
 		HashMap<Object, Integer> frequencies = new HashMap<>();
 		Iterator<?> it = nodes.iterator();
 
@@ -188,12 +188,12 @@ class StatementFeatures {
 		/* computing rest of statistics */
 
 		/* ((3/7-1/23)^2+(1/7-1/23)^2*4+18*(1/23)^2)/23 == .00925 */
-		double variation_coefficient = 0;
+		variation_coefficient = 0;
 		/*
 		 * -((3/7)*log(3/7;A)+(1/7)*log(1/7;A)+(1/7)*log(1/7;A)+(1/7)*log(1/
 		 * 7 ;A)+(1/7)*log(1/7;A))
 		 */
-		double entropy = 0;
+		entropy = 0;
 		Iterator<Entry<Object, Integer>> it2 = frequencies.entrySet()
 				.iterator();
 		while (it2.hasNext()) {
@@ -286,6 +286,8 @@ class StatementFeatures {
 
 		TreeSet<GeoElement> geos = statement.getAllPredecessors();
 		geos.add(statement);
+		Iterator<GeoElement> it = geos.iterator();
+
 		List<Object> geo_nodes, nodes_in_deg, nodes_out_deg, nodes_deg,
 				types;
 		List<GeoElement> objs;
@@ -300,13 +302,14 @@ class StatementFeatures {
 		StringBuilder nodes_created = new StringBuilder("[");
 		boolean firstNode = true;
 		boolean firstNodesCreated = true;
+		String nodeLabel = null;
 		
 		int number_of_nodes = 0, free = 0, edges = 0;
-		Iterator<GeoElement> it = geos.iterator();
+
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			StringBuilder node_edges = new StringBuilder(" (");
-			String nodeLabel = nodeLabel(geo);
+			nodeLabel = nodeLabel(geo);
 			node_edges.append(nodeLabel(geo)).append(",[");
 			boolean firstEdge = true;
 			TreeSet<GeoElement> children = geo.getAllChildren();

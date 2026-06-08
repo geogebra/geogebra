@@ -265,9 +265,12 @@ public class DrawPointPlot extends Drawable {
 	 * Wilkinson's algorithm.
 	 */
 	private void doDotDensity() {
+
 		pointSize = pointList.getPointSize();
 		double h = 2 * pointSize * view.getInvXscale();
 		scaleFactor = algo.getScaleFactor();
+
+		GeoPoint pt = null;
 		GeoList xList = algo.getUniqueXList();
 		GeoList freqList = algo.getFrequencyList();
 
@@ -276,6 +279,7 @@ public class DrawPointPlot extends Drawable {
 		double stackX = ((GeoNumeric) xList.get(xIndex)).getDouble();
 
 		for (int i = 0; i < xList.size(); i++) {
+
 			double x = ((GeoNumeric) xList.get(i)).getDouble();
 			int freq = (int) ((GeoNumeric) freqList.get(i)).getDouble();
 
@@ -285,7 +289,7 @@ public class DrawPointPlot extends Drawable {
 			}
 
 			for (int k = 0; k < freq; k++) {
-				GeoPoint pt = (GeoPoint) pointList.get(xIndex);
+				pt = (GeoPoint) pointList.get(xIndex);
 				pt.setX(stackX);
 				pt.updateCoords();
 				setDotHeight(pt, dotCount);

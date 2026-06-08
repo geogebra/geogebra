@@ -81,11 +81,11 @@ public class DrawInlineText extends Drawable implements DrawInline {
 
 		GPoint2D point = text.getLocation();
 		if (textController != null && point != null) {
-			double contentWidth = text.getContentWidth();
-			double contentHeight = text.getContentHeight();
 			double angle = text.getAngle();
 			double width = text.getWidth();
 			double height = text.getHeight();
+			double contentWidth = text.getContentWidth();
+			double contentHeight = text.getContentHeight();
 
 			textController.setLocation(view.toScreenCoordX(point.getX()),
 					view.toScreenCoordY(point.getY()));

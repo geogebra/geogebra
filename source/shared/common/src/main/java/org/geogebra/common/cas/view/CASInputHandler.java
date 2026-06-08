@@ -99,14 +99,14 @@ public class CASInputHandler {
 		CASTableCellEditor cellEditor = consoleTable.getEditor();
 
 		// get possibly selected text
-		final String selectedText = cellEditor.getInputSelectedText();
+		String selectedText = cellEditor.getInputSelectedText();
 
-		final int selStart = cellEditor.getInputSelectionStart();
-		final int selEnd = cellEditor.getInputSelectionEnd();
+		int selStart = cellEditor.getInputSelectionStart();
+		int selEnd = cellEditor.getInputSelectionEnd();
 		String selRowInput = cellEditor.getInput();
 
 		// needed for GGB-517
-		if (cellValue.getLocalizedInput().isEmpty()) {
+		if (cellValue.getLocalizedInput().equals("")) {
 			cellValue.setInput(selRowInput);
 		}
 

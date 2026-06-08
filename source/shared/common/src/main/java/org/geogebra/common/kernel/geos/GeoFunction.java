@@ -1722,6 +1722,8 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 */
 	public static FunctionNVar applyNumberSymb(Operation op, Evaluate2Var fun1,
 			ExpressionValue ev, boolean right) {
+		ExpressionValue nv = ev;
+
 		if (fun1.getFunction() == null) {
 			return null;
 		}
@@ -1739,7 +1741,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 		}
 		ExpressionNode sum, myExpr;
 		myExpr = toExpr(fun1, varmap, kernel);
-		ExpressionValue nv = ev;
+
 		if (nv instanceof ExpressionNode) {
 			for (String name : varNames) {
 				((ExpressionNode) nv).replaceVariables(name, varmap.get(name));

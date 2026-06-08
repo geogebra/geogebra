@@ -153,6 +153,7 @@ public abstract class AlgoStats2D extends AlgoElement {
 		double sumxx = 0;
 		double sumxy = 0;
 		double sumyy = 0;
+		double valx, valy;
 		int sizex = geoListx.size();
 		int sizey = sizex;
 		if (mode == MODE_DOUBLELIST) {
@@ -168,8 +169,8 @@ public abstract class AlgoStats2D extends AlgoElement {
 				GeoElement geoy = geoListy.get(i);
 				if (geox instanceof NumberValue
 						&& geoy instanceof NumberValue) {
-					double valx = geox.evaluateDouble();
-					double valy = geoy.evaluateDouble();
+					valx = geox.evaluateDouble();
+					valy = geoy.evaluateDouble();
 					sumx += valx;
 					sumy += valy;
 					sumxx += valx * valx;
@@ -188,11 +189,13 @@ public abstract class AlgoStats2D extends AlgoElement {
 					double x = coords.getX();
 					double y = coords.getY();
 
-					sumx += x;
-					sumy += y;
-					sumxx += x * x;
-					sumyy += y * y;
-					sumxy += x * y;
+					valx = x;
+					valy = y;
+					sumx += valx;
+					sumy += valy;
+					sumxx += valx * valx;
+					sumyy += valy * valy;
+					sumxy += valx * valy;
 				} else {
 					result.setUndefined();
 					return;

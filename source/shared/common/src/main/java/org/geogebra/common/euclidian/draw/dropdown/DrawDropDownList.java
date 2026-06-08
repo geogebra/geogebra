@@ -187,7 +187,7 @@ public final class DrawDropDownList extends CanvasDrawable
 	@Override
 	protected void drawWidget(GGraphics2D g2) {
 		updateMetrics();
-		final int textLeft = boxLeft + COMBO_TEXT_MARGIN;
+		int textLeft = boxLeft + COMBO_TEXT_MARGIN;
 		GColor bgColor = geo.getBackgroundColor() != null ? geo.getBackgroundColor() : GColor.WHITE;
 
 		drawSelected.drawBounds(geoList, g2, bgColor, boxLeft, boxTop, boxWidth, boxHeight);

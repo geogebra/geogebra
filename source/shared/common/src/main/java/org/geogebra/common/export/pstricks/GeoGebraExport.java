@@ -997,8 +997,8 @@ public abstract class GeoGebraExport {
 		// calc midpoint (midX, midY) and perpendicular vector (nx, ny)
 		euclidianView.toScreenCoords(A);
 		euclidianView.toScreenCoords(B);
-		final double midX = (A[0] + B[0]) / 2.0;
-		final double midY = (A[1] + B[1]) / 2.0;
+		double midX = (A[0] + B[0]) / 2.0;
+		double midY = (A[1] + B[1]) / 2.0;
 		double nx = A[1] - B[1];
 		double ny = B[0] - A[0];
 		double nLength = MyMath.length(nx, ny);

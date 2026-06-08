@@ -313,10 +313,16 @@ public class EuclidianStyleBarStatic {
 	public static void applyTableTextFormat(List<GeoElement> geos,
 			String justify, boolean hSelected, boolean vSelected, int index,
 			App app) {
+
+		AlgoElement algo;
+		GeoElement[] input;
+		GeoElement geo;
 		String arg = justify;
+		// if (this.btnTableTextLinesH.isSelected())
 		if (hSelected) {
 			arg += "_";
 		}
+		// if (this.btnTableTextLinesV.isSelected())
 		if (vSelected) {
 			arg += "|";
 		}
@@ -324,13 +330,15 @@ public class EuclidianStyleBarStatic {
 			arg += bracketArray2[index];
 		}
 		ArrayList<GeoElement> newGeos = new ArrayList<>();
+
 		StringBuilder cmdText = new StringBuilder();
 
 		for (int i = 0; i < geos.size(); i++) {
+
 			// get the TableText algo for this geo and its input
-			GeoElement geo = geos.get(i);
-			AlgoElement algo = geo.getParentAlgorithm();
-			GeoElement[] input = algo.getInput();
+			geo = geos.get(i);
+			algo = geo.getParentAlgorithm();
+			input = algo.getInput();
 
 			// create a new TableText cmd
 			cmdText.setLength(0);

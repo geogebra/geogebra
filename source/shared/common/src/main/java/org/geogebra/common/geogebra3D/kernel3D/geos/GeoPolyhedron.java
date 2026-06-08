@@ -2020,7 +2020,7 @@ public class GeoPolyhedron extends GeoElement3D
 		Coords coordsOld = P.getInhomCoords().copyVector();
 
 		// prevent from region bad coords calculations
-		final Region region = P.getRegion();
+		Region region = P.getRegion();
 		P.setRegion(null);
 
 		double minDist = Double.POSITIVE_INFINITY;

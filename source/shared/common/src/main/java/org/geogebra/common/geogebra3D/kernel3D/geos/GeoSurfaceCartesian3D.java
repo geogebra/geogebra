@@ -505,6 +505,11 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 		// we want vector product AM*AB to equal 0, so A, B, M are collinear
 		// we only check first and second values of AM*AB since third will
 		// be a consequence
+
+		double gxc = z0 * vy - vz * y0;
+		double gyc = x0 * vz - vx * z0;
+		double gzc = y0 * vx - vy * x0;
+
 		double uMin, uMax;
 		if (isSurfaceOfRevolutionAroundOx) {
 			uMin = x0;
@@ -516,9 +521,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 
 		double vMin = getMinParameter(1);
 		double vMax = getMaxParameter(1);
-		double gxc = z0 * vy - vz * y0;
-		double gyc = x0 * vz - vx * z0;
-		double gzc = y0 * vx - vy * x0;
 
 		double finalError = Double.NaN;
 		double dotProduct = -1;

@@ -93,13 +93,13 @@ public class DrawLocus extends Drawable {
 			labelDesc = geo.getLabelDescription();
 			double xmin = view.getXmin();
 			double xmax = view.getXmax();
+			double ymin = view.getYmin();
+			double ymax = view.getYmax();
 			double x = labelPosition[0];
+			double y = labelPosition[1];
 			double width = view.getWidth();
 			double height = view.getHeight();
 			xLabel = (int) ((x - xmin) / (xmax - xmin) * width) + 5;
-			double ymin = view.getYmin();
-			double ymax = view.getYmax();
-			double y = labelPosition[1];
 			yLabel = (int) (height - (y - ymin) / (ymax - ymin) * height) + 4 + view.getFontSize();
 			/*
 			 * Adding (5,4) will hopefully move the label out of the curve's
