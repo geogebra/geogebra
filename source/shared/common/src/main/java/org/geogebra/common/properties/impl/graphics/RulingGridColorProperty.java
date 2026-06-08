@@ -29,52 +29,40 @@ import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.DefaultColorValues;
 
+/**
+ * {@code Property} responsible for changing the color of the ruling grid in the Euclidian view in Notes.
+ * @apiNote For other apps, {@link GridColorProperty} is used instead.
+ */
 public class RulingGridColorProperty extends AbstractEnumeratedProperty<GColor>
 		implements ColorProperty, SettingsDependentProperty {
 	private final EuclidianSettings euclidianSettings;
-	private final boolean isRuling;
-
-	/**
-	 * Creates a color property for grid lines
-	 * @param loc localization
-	 * @param euclidianSettings view settings
-	 */
-	public RulingGridColorProperty(Localization loc, EuclidianSettings euclidianSettings) {
-		this(loc, euclidianSettings, false);
-	}
 
 	/**
 	 * Creates a color property for ruling in notes
 	 * @param loc localization
 	 * @param euclidianSettings view settings
-	 * @param isRuling ruling for notes
 	 */
-	public RulingGridColorProperty(Localization loc, EuclidianSettings euclidianSettings,
-			boolean isRuling) {
+	public RulingGridColorProperty(Localization loc, EuclidianSettings euclidianSettings) {
 		super(loc, "Color");
 		this.euclidianSettings = euclidianSettings;
-		this.isRuling = isRuling;
 	}
 
 	@Override
 	protected void doSetValue(GColor value) {
-		if (isRuling) {
-			euclidianSettings.setBgRulerColor(value);
-		} else {
-			euclidianSettings.setGridColor(value);
-		}
+		euclidianSettings.setBgRulerColor(value);
 	}
 
 	@Override
 	public GColor getValue() {
-		return isRuling ? euclidianSettings.getBgRulerColor() : euclidianSettings.getGridColor();
+		return euclidianSettings.getBgRulerColor();
 	}
 
 	@Override
 	public boolean isAvailable() {
 		BackgroundType backgroundType = euclidianSettings.getBackgroundType();
-		return backgroundType == BackgroundType.RULER || backgroundType
-				== BackgroundType.SQUARE_SMALL || backgroundType == BackgroundType.SQUARE_BIG;
+		return backgroundType == BackgroundType.RULER
+				|| backgroundType == BackgroundType.SQUARE_SMALL
+				|| backgroundType == BackgroundType.SQUARE_BIG;
 	}
 
 	@Override
@@ -83,7 +71,7 @@ public class RulingGridColorProperty extends AbstractEnumeratedProperty<GColor>
 	}
 
 	@Override
-	public AbstractSettings getSettings() {
+	public AbstractSettings<?> getSettings() {
 		return euclidianSettings;
 	}
 }

@@ -107,6 +107,9 @@ public class DrawBackground {
 
 	private void drawSVG(GGraphics2D g2) {
 		MyImage svg = view.getSVGBackground();
+		if (svg == null) {
+			return;
+		}
 		double scale = view.getYscale() / EuclidianView.SCALE_STANDARD * SVG_SCALE;
 		int h = (int) (svg.getHeight() * scale);
 		int y = (int) (view.getYZero() % h);

@@ -42,6 +42,7 @@ import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AlgebraSettings;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
@@ -138,6 +139,10 @@ public class BaseAppTestSetup {
 
 	protected final @Nonnull Localization getLocalization() {
 		return getApp().getLocalization();
+	}
+
+	protected final @Nonnull EuclidianSettings getEuclidianSettings() {
+		return getApp().getSettings().getEuclidian(1);
 	}
 
 	// Basic functionalities for evaluating expressions

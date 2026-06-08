@@ -453,8 +453,4 @@ public class PropertyViewTests extends BaseAppTestSetup {
 	private EuclidianView getEuclidianView() {
 		return getApp().getActiveEuclidianView();
 	}
-
-	private EuclidianSettings getEuclidianSettings() {
-		return getApp().getActiveEuclidianView().getSettings();
-	}
 }

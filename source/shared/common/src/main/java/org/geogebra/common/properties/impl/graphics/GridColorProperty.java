@@ -16,47 +16,49 @@
 
 package org.geogebra.common.properties.impl.graphics;
 
-import org.geogebra.common.euclidian.background.BackgroundType;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.properties.aliases.BooleanProperty;
-import org.geogebra.common.properties.impl.AbstractValuedProperty;
+import org.geogebra.common.properties.aliases.ColorProperty;
+import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
+import org.geogebra.common.properties.impl.DefaultColorValues;
 
 /**
- * {@code Property} responsible for applying bold style to the euclidian view's grid in Notes.
- * @apiNote For other apps {@link GridBoldProperty} is used instead.
+ * {@code Property} responsible for changing the color of the grid in the Euclidean view.
+ * @apiNote For Notes, {@link RulingGridColorProperty} is used instead.
  */
-public class RulingGridBoldProperty extends AbstractValuedProperty<Boolean>
-		implements BooleanProperty, SettingsDependentProperty {
+public class GridColorProperty extends AbstractEnumeratedProperty<GColor>
+		implements ColorProperty, SettingsDependentProperty {
 	private final EuclidianSettings euclidianSettings;
 
 	/**
-	 * Creates bold property for grid
+	 * Constructs the property.
 	 * @param localization localization
 	 * @param euclidianSettings euclidian settings
 	 */
-	public RulingGridBoldProperty(Localization localization, EuclidianSettings euclidianSettings) {
-		super(localization, "Bold");
+	public GridColorProperty(Localization localization, EuclidianSettings euclidianSettings) {
+		super(localization, "Color");
 		this.euclidianSettings = euclidianSettings;
 	}
 
 	@Override
-	protected void doSetValue(Boolean value) {
-		euclidianSettings.setRulerBold(value);
+	protected void doSetValue(GColor value) {
+		euclidianSettings.setGridColor(value);
 	}
 
 	@Override
-	public Boolean getValue() {
-		return euclidianSettings.isRulerBold();
+	public GColor getValue() {
+		return euclidianSettings.getGridColor();
 	}
 
 	@Override
-	public boolean isAvailable() {
-		BackgroundType backgroundType = euclidianSettings.getBackgroundType();
-		return backgroundType == BackgroundType.RULER
-				|| backgroundType == BackgroundType.SQUARE_SMALL
-				|| backgroundType == BackgroundType.SQUARE_BIG;
+	public @Nonnull List<GColor> getValues() {
+		return DefaultColorValues.NEUTRAL;
 	}
 
 	@Override

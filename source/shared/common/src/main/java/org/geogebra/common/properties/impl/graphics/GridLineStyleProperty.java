@@ -18,7 +18,7 @@ package org.geogebra.common.properties.impl.graphics;
 
 import javax.annotation.CheckForNull;
 
-import org.geogebra.common.euclidian.background.BackgroundType;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -28,22 +28,21 @@ import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 
 /**
- * {@code Property} responsible for changing the line style of the ruling grid in Notes.
- * @apiNote For other apps {@link GridLineStyleProperty} is used instead.
+ * {@code Property} responsible for changing the line style of the euclidian view's grid.
+ * @apiNote For Notes {@link RulingGridLineStyleProperty} is used instead.
  */
-public class RulingGridLineStyleProperty extends AbstractEnumeratedProperty<Integer>
+public class GridLineStyleProperty extends AbstractEnumeratedProperty<Integer>
 		implements IconsEnumeratedProperty<Integer>, SettingsDependentProperty {
 	private final EuclidianSettings euclidianSettings;
 	private static final PropertyResource[] icons =
 			EuclidianStyleConstants.lineStyleIcons.toArray(new PropertyResource[0]);
 
 	/**
-	 * Constructs the property.
+	 * Creates a line style property for grid lines.
 	 * @param localization localization
 	 * @param euclidianSettings euclidian settings
 	 */
-	public RulingGridLineStyleProperty(Localization localization,
-			EuclidianSettings euclidianSettings) {
+	public GridLineStyleProperty(Localization localization, EuclidianSettings euclidianSettings) {
 		super(localization, "LineStyle");
 		this.euclidianSettings = euclidianSettings;
 		setValues(EuclidianStyleConstants.lineStyleList);
@@ -61,20 +60,17 @@ public class RulingGridLineStyleProperty extends AbstractEnumeratedProperty<Inte
 
 	@Override
 	protected void doSetValue(Integer value) {
-		euclidianSettings.setRulerLineStyle(value);
+		euclidianSettings.setGridLineStyle(value);
 	}
 
 	@Override
 	public Integer getValue() {
-		return euclidianSettings.getRulerLineStyle();
+		return euclidianSettings.getGridLineStyle();
 	}
 
 	@Override
 	public boolean isAvailable() {
-		BackgroundType backgroundType = euclidianSettings.getBackgroundType();
-		return backgroundType == BackgroundType.RULER
-				|| backgroundType == BackgroundType.SQUARE_SMALL
-				|| backgroundType == BackgroundType.SQUARE_BIG;
+		return euclidianSettings.getGridType() != EuclidianView.GRID_DOTS;
 	}
 
 	@Override
