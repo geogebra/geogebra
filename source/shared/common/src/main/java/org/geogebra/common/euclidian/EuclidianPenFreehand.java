@@ -537,7 +537,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 					new String[] { null, null }, conic);
 			GeoPointND[] focus = algo.getFocus();
 
-			int type = conic.getType();
+			final int type = conic.getType();
 			GeoPoint pointOnConic = this.app.getKernel().getAlgoDispatcher()
 					.point(null, conic, null);
 
@@ -852,8 +852,6 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	}
 
 	private void get_segment_geometry(Inertia s, RecoSegment r) {
-		int i;
-		int start = r.startpt;
 		r.xcenter = center_x(s);
 		r.ycenter = center_y(s);
 		double a1 = i_xx(s);
@@ -864,7 +862,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		double lmin = 0;
 		double lmax = 0;
 		double l;
-		for (i = start; i <= r.endpt; ++i) {
+		int start = r.startpt;
+		for (int i = start; i <= r.endpt; ++i) {
 			l = (penPoints.get(start).x - r.xcenter) * Math.cos(r.angle)
 					+ (penPoints.get(start).y - r.ycenter) * Math.sin(r.angle);
 			if (l < lmin) {

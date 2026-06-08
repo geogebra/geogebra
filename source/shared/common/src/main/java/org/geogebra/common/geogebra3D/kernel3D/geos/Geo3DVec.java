@@ -593,8 +593,8 @@ final public class Geo3DVec extends ValidExpression
 	 */
 	public void multiplyMatrix3x2(MyList list, VectorNDValue rt) {
 		GeoVecInterface v = rt.getVector();
-		double xx = v.getX();
-		double yy = v.getY();
+		final double xx = v.getX();
+		final double yy = v.getY();
 
 		double a = MyList.getCellAsDouble(list, 0, 0);
 		double b = MyList.getCellAsDouble(list, 1, 0);
@@ -622,9 +622,9 @@ final public class Geo3DVec extends ValidExpression
 			GeoVec2D ret) {
 
 		GeoVecInterface v = rt.getVector();
-		double xx = v.getX();
-		double yy = v.getY();
-		double zz = v.getZ();
+		final double xx = v.getX();
+		final double yy = v.getY();
+		final double zz = v.getZ();
 
 		double a = MyList.getCellAsDouble(list, 0, 0);
 		double b = MyList.getCellAsDouble(list, 1, 0);

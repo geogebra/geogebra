@@ -1007,9 +1007,9 @@ public abstract class GeoConicND extends GeoQuadricND
 		// if we get here let's handle the remaining cases
 
 		// remember coords of P
-		double Px = P.getX();
-		double Py = P.getY();
-		double Pz = P.getZ();
+		final double Px = P.getX();
+		final double Py = P.getY();
+		final double Pz = P.getZ();
 
 		// convert P to eigenvector coord system
 		if (type == GeoConicNDConstants.CONIC_CIRCLE) {
@@ -2112,15 +2112,15 @@ public abstract class GeoConicND extends GeoQuadricND
 		 */
 
 		// precalculations
-		double diff1 = b1 - c1;
-		double diff2 = b2 - c2;
-		double sqsumb = b1 * b1 + b2 * b2;
-		double sqsumc = c1 * c1 + c2 * c2;
-		double sqsumdiff = sqsumb - sqsumc;
-		double a2 = 2.0 * a;
-		double asq4 = a2 * a2;
-		double asq = a * a;
-		double afo = asq * asq;
+		final double diff1 = b1 - c1;
+		final double diff2 = b2 - c2;
+		final double sqsumb = b1 * b1 + b2 * b2;
+		final double sqsumc = c1 * c1 + c2 * c2;
+		final double sqsumdiff = sqsumb - sqsumc;
+		final double a2 = 2.0 * a;
+		final double asq4 = a2 * a2;
+		final double asq = a * a;
+		final double afo = asq * asq;
 
 		matrix[0] = 4.0 * (a2 - diff1) * (a2 + diff1);
 		matrix[3] = -4.0 * diff1 * diff2;

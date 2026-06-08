@@ -64,11 +64,11 @@ public class DrawFormula extends Drawable implements DrawInline {
 
 		GPoint2D point = formula.getLocation();
 		if (formulaController != null && point != null) {
+			double contentWidth = formula.getContentWidth();
+			double contentHeight = formula.getContentHeight();
 			double angle = formula.getAngle();
 			double width = formula.getWidth();
 			double height = formula.getHeight();
-			double contentWidth = formula.getContentWidth();
-			double contentHeight = formula.getContentHeight();
 
 			formulaController.setLocation(view.toScreenCoordX(point.getX()),
 					view.toScreenCoordY(point.getY()));

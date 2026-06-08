@@ -170,7 +170,7 @@ public abstract class CASSubDialog {
 		for (int i = 0; i < data.size(); i++) {
 			String fromExpr = data.get(i).get(0).trim();
 			String toExpr = data.get(i).get(1).trim();
-			if (!"".equals(fromExpr) && !"".equals(toExpr)) {
+			if (!fromExpr.isEmpty() && !toExpr.isEmpty()) {
 				if (substList.length() > 1) {
 					substList.append(',');
 					substComment.append(',');
