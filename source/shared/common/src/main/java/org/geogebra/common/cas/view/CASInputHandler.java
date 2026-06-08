@@ -99,14 +99,14 @@ public class CASInputHandler {
 		CASTableCellEditor cellEditor = consoleTable.getEditor();
 
 		// get possibly selected text
-		String selectedText = cellEditor.getInputSelectedText();
+		final String selectedText = cellEditor.getInputSelectedText();
 
-		int selStart = cellEditor.getInputSelectionStart();
-		int selEnd = cellEditor.getInputSelectionEnd();
+		final int selStart = cellEditor.getInputSelectionStart();
+		final int selEnd = cellEditor.getInputSelectionEnd();
 		String selRowInput = cellEditor.getInput();
 
 		// needed for GGB-517
-		if (cellValue.getLocalizedInput().equals("")) {
+		if (cellValue.getLocalizedInput().isEmpty()) {
 			cellValue.setInput(selRowInput);
 		}
 
@@ -602,16 +602,7 @@ public class CASInputHandler {
 	private void processMultipleRows(String ggbcmd, String oldXML) {
 		// get current row and input text
 		consoleTable.stopEditing();
-		int selRow = consoleTable.getSelectedRow();
-		if (selRow < 0) {
-			selRow = consoleTable.getRowCount() - 1;
-		}
-
-		int currentRow = selRow;
-
 		int[] selectedIndices = consoleTable.getSelectedRows();
-		int nrEquations;
-
 		// remove empty cells because empty cells' inputVE vars are null
 		ArrayList<Integer> l = new ArrayList<>();
 		for (int i = 0; i < selectedIndices.length; i++) {
@@ -623,15 +614,18 @@ public class CASInputHandler {
 		for (int i = 0; i < l.size(); i++) {
 			selectedIndices[i] = l.get(i);
 		}
-
-		boolean oneRowOnly = false;
-		if (selectedIndices.length == 1) {
-			oneRowOnly = true;
+		boolean oneRowOnly = selectedIndices.length == 1;
+		int nrEquations;
+		if (oneRowOnly) {
 			nrEquations = 1;
 		} else {
 			nrEquations = selectedIndices.length;
 		}
-
+		int selRow = consoleTable.getSelectedRow();
+		if (selRow < 0) {
+			selRow = consoleTable.getRowCount() - 1;
+		}
+		int currentRow = selRow;
 		GeoCasCell cellValue;
 		try {
 			cellValue = consoleTable.getGeoCasCell(currentRow);

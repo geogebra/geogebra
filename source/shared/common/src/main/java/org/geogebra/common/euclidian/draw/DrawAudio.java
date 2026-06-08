@@ -150,19 +150,16 @@ public class DrawAudio extends DrawWidget {
 	private void updateDot(double rwX, double rwY) {
 		coords[0] = rwX;
 		coords[1] = rwY;
-
-		double outerLeft = coords[0] - BLOB_RADIUS;
-		double outerTop = coords[1] - BLOB_RADIUS;
-
 		double innerLeft = coords[0] - INNER_BLOB_RADIUS;
 		double innerTop = coords[1] - INNER_BLOB_RADIUS;
-
 		diameter = 2 * BLOB_RADIUS + 1;
-		int innerDiameter = 2 * INNER_BLOB_RADIUS + 1;
 
+		int innerDiameter = 2 * INNER_BLOB_RADIUS + 1;
 		int highlightDiameter = 2 * BLOB_RADIUS + 1;
 		circle.setFrame(innerLeft, innerTop, innerDiameter, innerDiameter);
 		// selection area
+		double outerLeft = coords[0] - BLOB_RADIUS;
+		double outerTop = coords[1] - BLOB_RADIUS;
 		circleOuter.setFrame(outerLeft, outerTop, highlightDiameter, highlightDiameter);
 	}
 

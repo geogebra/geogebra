@@ -160,9 +160,6 @@ public abstract class CASSubDialog {
 	 * @return true iff any substitution applied
 	 */
 	protected boolean apply(String actionCommand) {
-
-		CASTable table = getCASView().getConsoleTable();
-
 		// create substitution list
 		StringBuilder substList = new StringBuilder("{");
 		StringBuilder substComment = new StringBuilder();
@@ -170,7 +167,7 @@ public abstract class CASSubDialog {
 		for (int i = 0; i < data.size(); i++) {
 			String fromExpr = data.get(i).get(0).trim();
 			String toExpr = data.get(i).get(1).trim();
-			if (!"".equals(fromExpr) && !"".equals(toExpr)) {
+			if (!fromExpr.isEmpty() && !toExpr.isEmpty()) {
 				if (substList.length() > 1) {
 					substList.append(',');
 					substComment.append(',');
@@ -205,6 +202,7 @@ public abstract class CASSubDialog {
 		}
 
 		try {
+			CASTable table = getCASView().getConsoleTable();
 			GeoCasCell currCell = table.getGeoCasCell(editRow);
 			StringBuilder oldXML = currCell.getConstruction().getCurrentUndoXML(false);
 			currCell.setProcessingInformation(prefix, subCmd, postfix);

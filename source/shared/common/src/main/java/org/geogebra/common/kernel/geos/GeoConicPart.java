@@ -333,7 +333,7 @@ public class GeoConicPart extends GeoConic
 		// if it is in [0, 1]
 
 		// remember the old values
-		double px = P.x, py = P.y, pz = P.z;
+		final double px = P.x, py = P.y, pz = P.z;
 		PathParameter tempParam = getTempPathParameter();
 		PathParameter pPP = P.getPathParameter();
 		tempParam.set(pPP);
@@ -740,7 +740,7 @@ public class GeoConicPart extends GeoConic
 	@Override
 	protected void moveBackToRegion(GeoPointND pi, RegionParameters rp) {
 		Coords coords = pi.getCoordsInD2(getCoordSys());
-		PathParameter pp = pi.getPathParameter();
+		final PathParameter pp = pi.getPathParameter();
 
 		// try to find the nearest point in the conic part
 		CoordNearest nearestPoint = new CoordNearest(coords);

@@ -142,8 +142,6 @@ public class ColorFunctionModel extends OptionsModel {
 			String strAlpha0, int colorSpace, final String defaultRed,
 			final String defaultGreen, final String defaultBlue,
 			final String defaultAlpha) {
-		GeoList list = null;
-		GeoList listAlpha = null;
 		String strRed = strRed0;
 		String strGreen = strGreen0;
 		String strBlue = strBlue0;
@@ -166,6 +164,8 @@ public class ColorFunctionModel extends OptionsModel {
 			strAlpha = defaultAlpha;
 			defaults++;
 		}
+		GeoList list = null;
+		GeoList listAlpha = null;
 		if (defaults < 4) {
 			list = kernel.getAlgebraProcessor().evaluateToList(
 					"{" + strRed + "," + strGreen + "," + strBlue + "}");

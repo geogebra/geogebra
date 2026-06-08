@@ -172,7 +172,6 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	private GeoElement[] processQuadric(Equation equ, ExpressionNode def,
 			EvalInfo info) {
 
-		GeoElement[] ret = new GeoElement[1];
 		GeoQuadric3D quadric;
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
@@ -205,8 +204,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			quadric.setToImplicitForm();
 		}
 		setEquationLabelAndVisualStyle(quadric, label, info);
-		ret[0] = quadric;
-		return ret;
+		return new GeoElement[] {quadric};
 	}
 
 	/**

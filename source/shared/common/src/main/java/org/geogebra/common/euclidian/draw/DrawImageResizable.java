@@ -67,13 +67,11 @@ public class DrawImageResizable extends DrawImage implements HasTransformation {
 
 	private void updateImageCrop(GPoint2D p,
 			EuclidianBoundingBoxHandler handler) {
-		double newWidth;
-		double newHeight;
+		geoImage.ensureCropBox();
 		MyImage image = geoImage.getFillImage();
 		int minWidth = Math.min(IMG_CROP_THRESHOLD, image.getWidth());
 		int minHeight = Math.min(IMG_CROP_THRESHOLD, image.getHeight());
 		GPoint2D event = atInverse.transform(p, null);
-		geoImage.ensureCropBox();
 		GRectangle2D cropBoxRelative = geoImage.getCropBoxRelative();
 		double cropTop = cropBoxRelative.getY();
 		double cropLeft = cropBoxRelative.getX();
@@ -82,6 +80,8 @@ public class DrawImageResizable extends DrawImage implements HasTransformation {
 		int imageWidth = geoImage.getFillImage().getWidth();
 		int imageHeight = geoImage.getFillImage().getHeight();
 		double originalRatio = transformableRectangle.getAspectRatio();
+		double newWidth;
+		double newHeight;
 		switch (handler) {
 		case BOTTOM:
 			newHeight = MyMath.clamp(event.y - cropTop,

@@ -342,14 +342,14 @@ public class DrawImage extends Drawable {
 
 	private void drawHighlightRectangle(GGraphics2D g2, double extraOffset) {
 		// draw parallelogram around edge
-		double offX = (HIGHLIGHT_OFFSET + extraOffset)
+		final double offX = (HIGHLIGHT_OFFSET + extraOffset)
 				* Math.abs(atInverse.getScaleX() + atInverse.getShearX());
-		double minX = labelRectangle.getMinX();
-		double offY = (HIGHLIGHT_OFFSET + extraOffset)
+		final double minX = labelRectangle.getMinX();
+		final double offY = (HIGHLIGHT_OFFSET + extraOffset)
 				* Math.abs(atInverse.getScaleY() + atInverse.getShearY());
-		double minY = labelRectangle.getMinY();
-		double maxX = labelRectangle.getMaxX();
-		double maxY = labelRectangle.getMaxY();
+		final double minY = labelRectangle.getMinY();
+		final double maxX = labelRectangle.getMaxX();
+		final double maxY = labelRectangle.getMaxY();
 		double rx = offX / 2;
 		double ry = offY / 2;
 		if (highlighting == null) {

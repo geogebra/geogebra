@@ -110,18 +110,19 @@ public final class ContextMenuFactory {
 				? SuggestionSolveForSymbolic.get(geoElement)
 				: SuggestionSolve.get(geoElement);
 
-		boolean showStatisticsSuggestion = statisticsSuggestion != null;
-		boolean showDuplicateOutput = AlgebraItem.shouldShowBothRows(geoElement, algebraSettings);
-		boolean showSpecialPointsSuggestion = specialPointsSuggestion != null;
-		boolean showCreateTableValues = hasTableOfValues(geoElement);
-		boolean isAlgebraLabelVisible = geoElement.isAlgebraLabelVisible();
-		boolean showCreateSlider = createSlider.isAvailable(geoElement);
-		boolean showRemoveSlider = removeSlider.isAvailable(geoElement);
-		boolean showSolveSuggestion = solveSuggestion != null;
-		boolean showDelete = !geoElement.isProtected(EventType.REMOVE);
+		final boolean showStatisticsSuggestion = statisticsSuggestion != null;
+		final boolean showDuplicateOutput = AlgebraItem.shouldShowBothRows(
+				geoElement, algebraSettings);
+		final boolean showSpecialPointsSuggestion = specialPointsSuggestion != null;
+		final boolean showCreateTableValues = hasTableOfValues(geoElement);
+		final boolean isAlgebraLabelVisible = geoElement.isAlgebraLabelVisible();
+		final boolean showCreateSlider = createSlider.isAvailable(geoElement);
+		final boolean showRemoveSlider = removeSlider.isAvailable(geoElement);
+		final boolean showSolveSuggestion = solveSuggestion != null;
+		final boolean showDelete = !geoElement.isProtected(EventType.REMOVE);
 		// not the same as showRemoveSlider: arbitrary constants from integral
 		// are sliders but do NOT allow removing sliders
-		boolean isSlider = geoElement.isGeoNumeric()
+		final boolean isSlider = geoElement.isGeoNumeric()
 				&& ((GeoNumeric) geoElement).isAVSliderOrCheckboxVisible();
 
 		switch (appCode) {

@@ -1278,8 +1278,7 @@ final public class GeoVec2D extends ValidExpression
 			zz = 0;
 			vector = true;
 
-		} else if (rt instanceof GeoPointND) { // 3D point
-			GeoPointND p = (GeoPointND) rt;
+		} else if (rt instanceof GeoPointND p) { // 3D point
 			// use inhomogeneous coordinates
 			xx = p.getInhomX();
 			yy = p.getInhomY();

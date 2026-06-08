@@ -711,7 +711,7 @@ public class GeoConicPart3D extends GeoConic3D
 	@Override
 	protected void moveBackToRegion(GeoPointND pi, RegionParameters rp) {
 		Coords coords = pi.getCoordsInD2(getCoordSys());
-		PathParameter pp = pi.getPathParameter();
+		final PathParameter pp = pi.getPathParameter();
 
 		// try to find the nearest point in the conic part
 		CoordNearest nearestPoint = new CoordNearest(coords);

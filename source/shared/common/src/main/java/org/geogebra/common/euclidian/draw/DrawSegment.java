@@ -173,8 +173,8 @@ public class DrawSegment extends SetDrawable implements Previewable, EndDecorate
 		}
 
 		// calc midpoint (midX, midY) and perpendicular vector (nx, ny)
-		double midX = (coordsA[0] + coordsB[0]) / 2.0;
-		double midY = (coordsA[1] + coordsB[1]) / 2.0;
+		final double midX = (coordsA[0] + coordsB[0]) / 2.0;
+		final double midY = (coordsA[1] + coordsB[1]) / 2.0;
 		double nx = coordsA[1] - coordsB[1];
 		double ny = coordsB[0] - coordsA[0];
 		double nLength = MyMath.length(nx, ny);

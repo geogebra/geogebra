@@ -553,9 +553,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 			// (xyz[1] - y0) * vz - (xyz[2] - z0) * vy;
 
 			// help values
-			double nx = (xyz[2] - z0) * vx - (xyz[0] - x0) * vz;
-			double ny = (xyz[0] - x0) * vy - (xyz[1] - y0) * vx;
-			double nz = (xyz[1] - y0) * vz - (xyz[2] - z0) * vy;
+			final double nx = (xyz[2] - z0) * vx - (xyz[0] - x0) * vz;
+			final double ny = (xyz[0] - x0) * vy - (xyz[1] - y0) * vx;
+			final double nz = (xyz[1] - y0) * vz - (xyz[2] - z0) * vy;
 			double nxDu = xyzDu[2] * vx - xyzDu[0] * vz;
 			double nyDu = xyzDu[0] * vy - xyzDu[1] * vx;
 			double nzDu = xyzDu[1] * vz - xyzDu[2] * vy;
@@ -671,10 +671,6 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 			bivariateDelta = new Coords(2);
 		}
 
-		// init to no solution
-		double dist = Double.POSITIVE_INFINITY;
-		xzyzuvOut[0] = Double.NaN;
-
 		// make several tries
 		double uMin = getMinParameter(0);
 		double uMax = getMaxParameter(0);
@@ -682,6 +678,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 		double vMax = getMaxParameter(1);
 		double du = (uMax - uMin) / BIVARIATE_SAMPLES;
 		double dv = (vMax - vMin) / BIVARIATE_SAMPLES;
+		// init to no solution
+		double dist = Double.POSITIVE_INFINITY;
+		xzyzuvOut[0] = Double.NaN;
 		for (int ui = 0; ui <= BIVARIATE_SAMPLES; ui++) {
 			uv[0] = uMin + ui * du;
 			for (int vi = 0; vi <= BIVARIATE_SAMPLES; vi++) {

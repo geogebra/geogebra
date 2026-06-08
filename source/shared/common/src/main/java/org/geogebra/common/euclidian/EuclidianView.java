@@ -4088,9 +4088,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private void drawIsometricGrid(GGraphics2D g2, double xCrossPix,
 			double yCrossPix) {
 		boolean clipX = positiveAxes[1] && yCrossPix < getHeight();
-		int yAxisEnd = clipX ? (int) yCrossPix : getHeight();
+		final int yAxisEnd = clipX ? (int) yCrossPix : getHeight();
 		boolean clipY = positiveAxes[0] && xCrossPix > 0;
-		int xAxisStart = clipY ? (int) xCrossPix : 0;
+		final int xAxisStart = clipY ? (int) xCrossPix : 0;
 
 		// set the clipping region to the region defined by the axes
 
@@ -4516,7 +4516,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		g2.setFont(getFontAxes());
 
-		int yAxisHeight = positiveAxes[1] ? (int) getYZero() : getHeight();
+		final int yAxisHeight = positiveAxes[1] ? (int) getYZero() : getHeight();
 		int maxY = positiveAxes[1] ? (int) getYZero() : getHeight()
 				- SCREEN_BORDER;
 
@@ -4650,7 +4650,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            true for preferences
 	 */
 	public void startXML(XMLStringBuilder sbxml, boolean asPreference) {
-		StringTemplate tpl = StringTemplate.xmlTemplate;
 		sbxml.startOpeningTag("euclidianView", 0).endTag();
 
 		companion.getXMLid(sbxml);
@@ -4673,6 +4672,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		sbxml.startTag("coordSystem");
 		if (!isZoomable() && !asPreference) {
+			StringTemplate tpl = StringTemplate.xmlTemplate;
 			sbxml.attr("xMin", ((GeoNumeric) xminObject).getLabel(tpl));
 			sbxml.attr("xMax", ((GeoNumeric) xmaxObject).getLabel(tpl));
 			sbxml.attr("yMin", ((GeoNumeric) yminObject).getLabel(tpl));

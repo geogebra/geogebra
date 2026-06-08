@@ -1272,17 +1272,7 @@ public class PlotterSurface {
                        Coords vz, double r1, double r2, double start, double extent,
                        double height, float fading) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
-
 		int longitude = manager.getLongitudeDefault();
-
-		double u, v;
-
-		float dt = (float) 1 / longitude;
-		float da = (float) (extent * dt);
-		// if (height > 0){ // ensure correct back/front face culling
-		// da *= -1;
-		// }
-
 		if (fading == 1) { // no fading
 			manager.setDummyTexture();
 		}
@@ -1290,14 +1280,14 @@ public class PlotterSurface {
 		center2.set(vz);
 		center2.mulInside3(height);
 		center2.addInside(center);
-
+		float dt = (float) 1 / longitude;
+		float da = (float) (extent * dt);
 		double r1h = r1 * -height;
 		double r2h = r2 * -height;
 		double rr = r1 * r2;
-
 		for (int i = 0; i <= longitude; i++) {
-			u = Math.cos(start + i * da);
-			v = Math.sin(start + i * da);
+			double u = Math.cos(start + i * da);
+			double v = Math.sin(start + i * da);
 
 			m.setAdd(tmpCoords2.setMul(vx, u * r1h),
 					tmpCoords3.setMul(vy, v * r2h));
@@ -1327,7 +1317,6 @@ public class PlotterSurface {
 		manager.endGeometry(longitude * 2, TypeElement.TRIANGLE_STRIP);
 
 		return center2;
-
 	}
 
 	/**
@@ -1370,7 +1359,10 @@ public class PlotterSurface {
 		center2.set(vz);
 		center2.mulInside3(max);
 		center2.addInside(center);
-
+		boolean fading = minFading || maxFading;
+		if (!fading) {
+			manager.setDummyTexture();
+		}
 		double rmin = r1 * min;
 		double rmax = r1 * max;
 		double ratio = r2 / r1;
@@ -1383,20 +1375,13 @@ public class PlotterSurface {
 			rmin *= -1;
 			rmax *= -1;
 		}
-
 		double rr = r1 * r2 * sgn;
-
-		boolean fading = minFading || maxFading;
-		if (!fading) {
-			manager.setDummyTexture();
-		}
 		int longitude = manager.getLongitudeDefault();
-		float u, v;
 		float dt = (float) 1 / longitude;
 		float da = (float) (extent * dt);
 		for (int i = 0; i <= longitude; i++) {
-			u = (float) Math.cos(start + i * da);
-			v = (float) Math.sin(start + i * da);
+			double u = (float) Math.cos(start + i * da);
+			double v = (float) Math.sin(start + i * da);
 
 			m.setAdd(tmpCoords2.setMul(vx, u),
 					tmpCoords3.setMul(vy, v * ratio));
