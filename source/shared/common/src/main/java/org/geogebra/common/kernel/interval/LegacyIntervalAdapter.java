@@ -63,7 +63,7 @@ public final class LegacyIntervalAdapter {
 		}
 
 		return switch (set.kind()) {
-			case EMPTY -> IntervalConstants.undefined();
+			case EMPTY, OVERFLOW -> IntervalConstants.undefined();
 			case WHOLE -> IntervalConstants.whole();
 			case CONNECTED -> set.interval();
 			case INVERTED -> set.toInvertedInterval();

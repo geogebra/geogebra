@@ -19,6 +19,7 @@ package org.geogebra.common.kernel.interval.operators;
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static org.geogebra.common.kernel.interval.IntervalSet.empty;
+import static org.geogebra.common.kernel.interval.IntervalSet.overflow;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.halfOpenLeft;
@@ -55,6 +56,10 @@ public class IntervalMiscOperands {
 			return empty();
 		}
 
+		if (set.isOverflow()) {
+			return overflow();
+		}
+
 		if (set.isInverted()) {
 			return evaluator.computeUnaryInverted(set, this::exp);
 		}
@@ -77,6 +82,10 @@ public class IntervalMiscOperands {
 	public IntervalSet log(IntervalSet set) {
 		if (set.isEmpty()) {
 			return empty();
+		}
+
+		if (set.isOverflow()) {
+			return overflow();
 		}
 
 		if (set.isInverted()) {
@@ -108,6 +117,10 @@ public class IntervalMiscOperands {
 	 * @return {@code log_2(set)}
 	 */
 	public IntervalSet log2(IntervalSet set) {
+		if (set.isOverflow()) {
+			return overflow();
+		}
+
 		if (!set.isEmpty()) {
 			IntervalSet logExp2 = evaluator.logSet(connected(2, 2));
 			return evaluator.divideSet(log(set), logExp2);
@@ -123,6 +136,10 @@ public class IntervalMiscOperands {
 	 * @return {@code log_10(set)}
 	 */
 	public IntervalSet log10(IntervalSet set) {
+		if (set.isOverflow()) {
+			return overflow();
+		}
+
 		if (!set.isEmpty()) {
 			IntervalSet logExp10 = evaluator.logSet(connected(10, 10));
 			return evaluator.divideSet(log(set), logExp10);
@@ -140,6 +157,10 @@ public class IntervalMiscOperands {
 	 *         contains both inputs
 	 */
 	public IntervalSet hull(IntervalSet set1, IntervalSet set2) {
+		if (set1.isOverflow() || set2.isOverflow()) {
+			return overflow();
+		}
+
 		if (set1.isEmpty() && set2.isEmpty()) {
 			return empty();
 		} else if (set1.isEmpty()) {
@@ -167,6 +188,10 @@ public class IntervalMiscOperands {
 	public IntervalSet intersect(IntervalSet set1, IntervalSet set2) {
 		if (set1.isEmpty() || set2.isEmpty()) {
 			return empty();
+		}
+
+		if (set1.isOverflow() || set2.isOverflow()) {
+			return overflow();
 		}
 
 		if (set1.isWhole()) {
@@ -221,6 +246,10 @@ public class IntervalMiscOperands {
 	 *         empty result
 	 */
 	public IntervalSet union(IntervalSet set1, IntervalSet set2) {
+		if (set1.isOverflow() || set2.isOverflow()) {
+			return overflow();
+		}
+
 		if (set1.isEmpty()) {
 			return set2;
 		}
@@ -266,9 +295,14 @@ public class IntervalMiscOperands {
 	 * @return {@code true} iff the connected payloads intersect
 	 */
 	public static boolean isOverlap(IntervalSet set1, IntervalSet set2) {
+		if (set1.isOverflow() || set2.isOverflow()) {
+			return false;
+		}
+
 		if (set1.isEmpty() || set2.isEmpty()) {
 			return false;
 		}
+
 		Interval interval1 = connectedInterval(set1);
 		Interval interval2 = connectedInterval(set2);
 		double low1 = interval1.getLow();
@@ -320,6 +354,10 @@ public class IntervalMiscOperands {
 			return empty();
 		}
 
+		if (set1.isOverflow() || set2.isOverflow()) {
+			return overflow();
+		}
+
 		if (isOverlap(set1, set2)) {
 			Interval interval1 = connectedInterval(set1);
 			Interval interval2 = connectedInterval(set2);
@@ -357,6 +395,10 @@ public class IntervalMiscOperands {
 	public IntervalSet abs(IntervalSet set) {
 		if (set.isEmpty()) {
 			return set;
+		}
+
+		if (set.isOverflow()) {
+			return overflow();
 		}
 
 		if (set.isWhole()) {

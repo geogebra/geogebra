@@ -740,7 +740,18 @@ public class IntervalNodeEvaluator {
 	 * @return {@code log_base(arg)}
 	 */
 	public Interval logBase(Interval base, Interval arg) {
-		return toLegacy(divideSet(logSet(fromLegacy(arg)), logSet(fromLegacy(base))));
+		return toLegacy(logBaseSet(fromLegacy(base), fromLegacy(arg)));
+	}
+
+	/**
+	 * Returns the logarithm of {@code arg} in the given base.
+	 *
+	 * @param baseSet logarithm base
+	 * @param argSet logarithm argument
+	 * @return {@code log_base(arg)}
+	 */
+	public IntervalSet logBaseSet(IntervalSet baseSet, IntervalSet argSet) {
+		return divideSet(logSet(argSet), logSet(baseSet));
 	}
 
 	/**

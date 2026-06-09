@@ -17,6 +17,7 @@
 package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalSet.empty;
+import static org.geogebra.common.kernel.interval.IntervalSet.overflow;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.fromLegacy;
@@ -39,7 +40,6 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Implements algebra functions in interval
- *
  *  fmod, pow, sqrt, nthRoot
  *
  * @author laszlo
@@ -68,6 +68,10 @@ public class IntervalAlgebra {
 	IntervalSet fmodSet(IntervalSet set1, IntervalSet set2) {
 		if (set1.isEmpty() || set2.isEmpty()) {
 			return empty();
+		}
+
+		if (set1.isOverflow() || set2.isOverflow()) {
+			return overflow();
 		}
 
 		if (!set2.isConnected() || IntervalSetOps.hasZero(set2)) {
@@ -110,6 +114,10 @@ public class IntervalAlgebra {
 			return empty();
 		}
 
+		if (set.isOverflow() || power.isOverflow()) {
+			return overflow();
+		}
+
 		if (isZero(set) && isZero(power)) {
 			return IntervalSetOps.one();
 		}
@@ -142,6 +150,10 @@ public class IntervalAlgebra {
 	}
 
 	IntervalSet powSet(IntervalSet set, double power) {
+		if (set.isOverflow()) {
+			return overflow();
+		}
+
 		if (set.isEmpty() || DoubleUtil.isEqual(power, 1)) {
 			return set;
 		}
@@ -263,6 +275,10 @@ public class IntervalAlgebra {
 	 * @return this as result.
 	 */
 	IntervalSet powOfSingleton(IntervalSet base, IntervalSet power) {
+		if (base.isOverflow()) {
+			return overflow();
+		}
+
 		if (isZero(power)) {
 			// x^0 should be 1 for x around 0, 0^x should be 0 for small x
 			return isZero(base) && isExactSingleton(base) && !isExactSingleton(power)
@@ -287,6 +303,10 @@ public class IntervalAlgebra {
 
 		if (baseSet.isWhole() || powerSet.isWhole()) {
 			return whole();
+		}
+
+		if (baseSet.isOverflow() || powerSet.isOverflow()) {
+			return overflow();
 		}
 
 		if (powerSet.isInverted()) {

@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 public class IntervalSetTest {
 
 	@Test
-	public void emptyHasNoPayload() {
+	void emptyHasNoPayload() {
 		IntervalSet set = IntervalSet.empty();
 
 		assertAll(
@@ -39,11 +39,12 @@ public class IntervalSetTest {
 				() -> assertFalse(set.isWhole()),
 				() -> assertFalse(set.isConnected()),
 				() -> assertFalse(set.isInverted()),
+				() -> assertFalse(set.isOverflow()),
 				() -> assertNull(set.interval()));
 	}
 
 	@Test
-	public void wholeHasNoPayload() {
+	void wholeHasNoPayload() {
 		IntervalSet set = IntervalSet.whole();
 
 		assertAll(
@@ -52,11 +53,26 @@ public class IntervalSetTest {
 				() -> assertTrue(set.isWhole()),
 				() -> assertFalse(set.isConnected()),
 				() -> assertFalse(set.isInverted()),
+				() -> assertFalse(set.isOverflow()),
 				() -> assertNull(set.interval()));
 	}
 
 	@Test
-	public void connectedCopiesPayload() {
+	void overflowHasNoPayload() {
+		IntervalSet set = IntervalSet.overflow();
+
+		assertAll(
+				() -> assertEquals(IntervalSet.Kind.OVERFLOW, set.kind()),
+				() -> assertFalse(set.isEmpty()),
+				() -> assertFalse(set.isWhole()),
+				() -> assertFalse(set.isConnected()),
+				() -> assertFalse(set.isInverted()),
+				() -> assertTrue(set.isOverflow()),
+				() -> assertNull(set.interval()));
+	}
+
+	@Test
+	void connectedCopiesPayload() {
 		IntervalSet set = IntervalSet.connected(new Interval(1, 2));
 		assertAll(
 				() -> assertEquals(IntervalSet.Kind.CONNECTED, set.kind()),
@@ -66,13 +82,13 @@ public class IntervalSetTest {
 	}
 
 	@Test
-	public void singletonConnectedIsAllowed() {
+	void singletonConnectedIsAllowed() {
 		IntervalSet set = IntervalSet.connected(3, 3);
 		assertEquals(new Interval(3, 3), set.interval());
 	}
 
 	@Test
-	public void connectedMayUseInfiniteBounds() {
+	void connectedMayUseInfiniteBounds() {
 		assertEquals(new Interval(Double.NEGATIVE_INFINITY, 5),
 				IntervalSet.connected(Double.NEGATIVE_INFINITY, 5).interval());
 		assertEquals(new Interval(7, Double.POSITIVE_INFINITY),
@@ -80,7 +96,7 @@ public class IntervalSetTest {
 	}
 
 	@Test
-	public void connectedWholeIntervalRemainsConnected() {
+	void connectedWholeIntervalRemainsConnected() {
 		IntervalSet set = IntervalSet.connected(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 
 		assertAll(
@@ -92,7 +108,7 @@ public class IntervalSetTest {
 	}
 
 	@Test
-	public void invertedCopiesGapPayload() {
+	void invertedCopiesGapPayload() {
 		IntervalSet set = IntervalSet.inverted(new Interval(1, 2));
 
 		assertAll(
@@ -103,33 +119,33 @@ public class IntervalSetTest {
 	}
 
 	@Test
-	public void connectedNullRejected() {
+	void connectedNullRejected() {
 		assertThrows(IllegalArgumentException.class, () -> IntervalSet.connected(null));
 	}
 
 	@Test
-	public void invertedNullRejected() {
+	void invertedNullRejected() {
 		assertThrows(IllegalArgumentException.class, () -> IntervalSet.inverted(null));
 	}
 
 	@Test
-	public void connectedUndefinedRejected() {
+	void connectedUndefinedRejected() {
 		assertThrows(IllegalArgumentException.class, () -> IntervalSet.connected(undefined()));
 	}
 
 	@Test
-	public void invertedUndefinedRejected() {
+	void invertedUndefinedRejected() {
 		assertThrows(IllegalArgumentException.class, () -> IntervalSet.inverted(undefined()));
 	}
 
 	@Test
-	public void invalidBoundsRejected() {
+	void invalidBoundsRejected() {
 		assertThrows(IllegalArgumentException.class, () -> IntervalSet.connected(2, 1));
 		assertThrows(IllegalArgumentException.class, () -> IntervalSet.inverted(2, 1));
 	}
 
 	@Test
-	public void equalsAndHashCodeUseKindAndPayloadValue() {
+	void equalsAndHashCodeUseKindAndPayloadValue() {
 		IntervalSet connected = IntervalSet.connected(1, 2);
 		IntervalSet sameConnected = IntervalSet.connected(new Interval(1, 2));
 		IntervalSet inverted = IntervalSet.inverted(1, 2);
@@ -141,7 +157,7 @@ public class IntervalSetTest {
 	}
 
 	@Test
-	public void sourceIntervalMutationDoesNotAffectStoredValue() {
+	void sourceIntervalMutationDoesNotAffectStoredValue() {
 		Interval source = new Interval(1, 2);
 		IntervalSet set = IntervalSet.connected(source);
 
@@ -151,7 +167,7 @@ public class IntervalSetTest {
 	}
 
 	@Test
-	public void returnedPayloadMutationDoesNotAffectStoredValue() {
+	void returnedPayloadMutationDoesNotAffectStoredValue() {
 		IntervalSet set = IntervalSet.connected(1, 2);
 		Interval payload = set.interval();
 
@@ -161,9 +177,10 @@ public class IntervalSetTest {
 	}
 
 	@Test
-	public void toStringIsReadable() {
+	void toStringIsReadable() {
 		assertEquals("IntervalSet{EMPTY}", IntervalSet.empty().toString());
 		assertEquals("IntervalSet{WHOLE}", IntervalSet.whole().toString());
+		assertEquals("IntervalSet{OVERFLOW}", IntervalSet.overflow().toString());
 		assertEquals("IntervalSet{CONNECTED: [1.0, 2.0]}",
 				IntervalSet.connected(1, 2).toString());
 		assertEquals("IntervalSet{INVERTED: [1.0, 2.0]}",

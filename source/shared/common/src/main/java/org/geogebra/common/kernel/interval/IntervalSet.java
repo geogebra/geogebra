@@ -92,6 +92,13 @@ public final class IntervalSet {
 		return new IntervalSet(Kind.INVERTED, new Interval(low, high));
 	}
 
+	/**
+	 * @return an overflown interval set
+	 */
+	public static IntervalSet overflow() {
+		return new IntervalSet(Kind.OVERFLOW, null);
+	}
+
 	private static void validateBounds(double low, double high, String type) {
 		if (low > high) {
 			throw new IllegalArgumentException(type + " interval requires low <= high");
@@ -141,6 +148,13 @@ public final class IntervalSet {
 	 */
 	public boolean isInverted() {
 		return kind == Kind.INVERTED;
+	}
+
+	/**
+	 * @return whether this is overflowing.
+	 */
+	public boolean isOverflow() {
+		return kind == Kind.OVERFLOW;
 	}
 
 	/**

@@ -90,44 +90,6 @@ public class Interval {
 	}
 
 	/**
-	 *
-	 * @param interval interval.
-	 * @param other interval.
-	 * @return the max of interval and other.
-	 */
-	public static Interval max(Interval interval, Interval other) {
-		if (interval.isUndefined() && other.isUndefined()) {
-			return undefined();
-		} else if (interval.isUndefined()) {
-			return other;
-		} else if (other.isUndefined()) {
-			return interval;
-		}
-
-		return new Interval(Math.max(interval.low, other.low),
-				Math.max(interval.high, other.high));
-	}
-
-	/**
-	 *
-	 * @param interval interval.
-	 * @param other interval.
-	 * @return the min of interval and other.
-	 */
-	public static Interval min(Interval interval, Interval other) {
-		if (interval.isUndefined() && other.isUndefined()) {
-			return undefined();
-		} else if (interval.isUndefined()) {
-			return other;
-		} else if (other.isUndefined()) {
-			return interval;
-		}
-
-		return new Interval(Math.min(interval.low, other.low),
-				Math.min(interval.high, other.high));
-	}
-
-	/**
 	 * Interval addition
 	 *
 	 * @param other interval to add

@@ -86,6 +86,10 @@ public class IntervalDivide {
 			return empty();
 		}
 
+		if (numerator.isOverflow() || divisor.isOverflow()) {
+			return IntervalSet.overflow();
+		}
+
 		if (numerator.isWhole()) {
 			return IntervalSetOps.whole();
 		}

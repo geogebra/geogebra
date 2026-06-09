@@ -156,4 +156,12 @@ public class LegacyIntervalAdapterTest {
 				() -> assertEquals(legacy, roundTripped),
 				() -> assertFalse(roundTripped.isZero()));
 	}
+
+	@Test
+	void overflowIntervalCollapsesToUndefined() {
+		Interval legacy = LegacyIntervalAdapter.toLegacyInterval(
+				IntervalSet.overflow());
+		assertEquals(undefined(), legacy);
+
+	}
 }

@@ -24,6 +24,9 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.around;
+import static org.geogebra.common.kernel.interval.IntervalSet.overflow;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.fromLegacy;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.legacyInverted;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.toLegacy;
@@ -45,6 +48,7 @@ public class IntervalMiscTest {
 				evaluator.exp(interval(-1, 1)));
 		assertEquals(interval(0.04978706836786394, 20.08553692318767),
 				evaluator.exp(interval(-3, 3)));
+		assertEquals(overflow(), evaluator.expSet(overflow()));
 	}
 
 	@Test
@@ -59,6 +63,7 @@ public class IntervalMiscTest {
 		assertEquals(interval(0, 3), evaluator.log(interval(1, Math.exp(3))));
 		assertEquals(IntervalConstants.undefined(),
 				evaluator.log(interval(NEGATIVE_INFINITY, -1)));
+		assertEquals(overflow(), evaluator.logSet(overflow()));
 	}
 
 	@Test
@@ -66,6 +71,8 @@ public class IntervalMiscTest {
 		assertEquals(interval(0, 0), evaluator.log10(interval(1, 1)));
 		assertEquals(interval(0, 1), evaluator.log10(interval(1, 10)));
 		assertEquals(interval(0, 2), evaluator.log10(interval(1, 100)));
+		assertEquals(overflow(), evaluator.log10Set(overflow()));
+
 	}
 
 	@Test
@@ -73,6 +80,7 @@ public class IntervalMiscTest {
 		assertEquals(interval(0, 0), evaluator.log2(interval(1, 1)));
 		assertEquals(interval(0, 1), evaluator.log2(interval(1, 2)));
 		assertEquals(interval(0, 3), evaluator.log2(interval(1, 8)));
+		assertEquals(overflow(), evaluator.log2Set(overflow()));
 	}
 
 	@Test
@@ -85,6 +93,11 @@ public class IntervalMiscTest {
 				interval(16, 16)));
 		assertEquals(undefined(), evaluator.logBase(interval(1, 1),
 				interval(3, 3)));
+		assertEquals(overflow(), evaluator.logBaseSet(connected(1, 2),
+				overflow()));
+		assertEquals(overflow(), evaluator.logBaseSet(overflow(), connected(1, 2)));
+		assertEquals(overflow(), evaluator.logBaseSet(overflow(), overflow()));
+
 	}
 
 	@Test
@@ -100,6 +113,12 @@ public class IntervalMiscTest {
 		assertEquals(whole(),
 				evaluator.hull(legacyInverted(-1, 1), interval(5, 7)));
 		assertTrue(evaluator.hull(undefined(), undefined()).isUndefined());
+
+		assertEquals(overflow(), evaluator.hullSet(connected(1, 2),
+				overflow()));
+		assertEquals(overflow(), evaluator.hullSet(overflow(), connected(1, 2)));
+		assertEquals(overflow(), evaluator.hullSet(overflow(), overflow()));
+
 	}
 
 	@Test
@@ -112,6 +131,12 @@ public class IntervalMiscTest {
 				evaluator.intersect(whole(), interval(-1, 1)));
 		assertEquals(interval(2, 4),
 				evaluator.intersect(legacyInverted(-1, 1), interval(2, 4)));
+
+		assertEquals(overflow(), evaluator.intersectSet(connected(1, 2),
+				overflow()));
+		assertEquals(overflow(), evaluator.intersectSet(overflow(), connected(1, 2)));
+		assertEquals(overflow(), evaluator.intersectSet(overflow(), overflow()));
+
 	}
 
 	@Test
@@ -122,6 +147,12 @@ public class IntervalMiscTest {
 				evaluator.union(whole(), interval(1, 3)));
 		assertEquals(whole(),
 				evaluator.union(legacyInverted(-1, 1), interval(-2, 2)));
+		assertEquals(overflow(),
+				evaluator.unionSet(connected(-1, 1), overflow()));
+		assertEquals(overflow(),
+				evaluator.unionSet(overflow(), connected(-1, 1)));
+		assertEquals(overflow(),
+				evaluator.unionSet(overflow(), overflow()));
 	}
 
 	@Test
@@ -166,6 +197,12 @@ public class IntervalMiscTest {
 
 		assertEquals(interval(5, 6),
 				evaluator.difference(interval(4, 6), interval(3, nextAfter(5, NEGATIVE_INFINITY))));
+		assertEquals(overflow(),
+				evaluator.differenceSet(connected(-1, 1), overflow()));
+		assertEquals(overflow(),
+				evaluator.differenceSet(overflow(), connected(-1, 1)));
+		assertEquals(overflow(),
+				evaluator.differenceSet(overflow(), overflow()));
 	}
 
 	@Test()
@@ -178,28 +215,13 @@ public class IntervalMiscTest {
 		assertEquals(interval(0, 1), evaluator.abs(interval(-1, 1)));
 		assertEquals(interval(2, 3), evaluator.abs(interval(-3, -2)));
 		assertEquals(interval(2, 3), evaluator.abs(interval(2, 3)));
+		assertEquals(overflow(), evaluator.absSet(overflow()));
 	}
 
 	@Test
 	public void testAbs1() {
 		assertEquals(interval(4, POSITIVE_INFINITY), evaluator.abs(legacyInverted(-4, 5)));
 		assertEquals(interval(5, POSITIVE_INFINITY), evaluator.abs(legacyInverted(-8, 5)));
-	}
-
-	@Test
-	public void testMax() {
-		assertEquals(interval(5, 7), Interval.max(interval(-1, 1),
-				interval(5, 7)));
-		assertEquals(interval(-1, 1),
-				Interval.max(undefined(), interval(-1, 1)));
-		assertEquals(interval(-1, 1),
-				Interval.max(interval(-1, 1), undefined()));
-	}
-
-	@Test
-	public void testMin() {
-		assertEquals(interval(-1, 1),
-				Interval.min(interval(-1, 1), interval(5, 7)));
 	}
 
 	@Test
@@ -254,5 +276,4 @@ public class IntervalMiscTest {
 		Interval multiply = evaluator.multiply(zero(), inverse);
 		assertEquals(zero(), multiply);
 	}
-
 }

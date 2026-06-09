@@ -21,6 +21,7 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.aroundZero;
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.invertedPayload;
+import static org.geogebra.common.kernel.interval.IntervalSet.overflow;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.halfOpenLeft;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.inverted;
@@ -75,6 +76,13 @@ public class IntervalAlgebraTest {
 	}
 
 	@Test
+	public void testFmodOverflow() {
+		assertEquals(overflow(), evaluator.fmodSet(connected(1, 1), overflow()));
+		assertEquals(overflow(), evaluator.fmodSet(overflow(), connected(1, 1)));
+		assertEquals(overflow(), evaluator.fmodSet(overflow(), overflow()));
+	}
+
+	@Test
 	public void testMultiplicativeInverse() {
 		assertTrue(interval(1, 1).almostEqual(
 				evaluator.inverse(one()), 1E-7));
@@ -84,6 +92,7 @@ public class IntervalAlgebraTest {
 
 		assertTrue(interval(-1 / 2.0, -1 / 6.0).almostEqual(
 				evaluator.inverse(interval(-6, -2)), 1E-7));
+		assertEquals(overflow(), evaluator.inverseSet(overflow()));
 	}
 
 	@Test
@@ -230,10 +239,18 @@ public class IntervalAlgebraTest {
 	}
 
 	@Test
+	public void testPowerOverflow() {
+		assertEquals(overflow(), evaluator.powSet(overflow(), 10));
+		assertEquals(overflow(), evaluator.powSet(connected(1, 2), overflow()));
+		assertEquals(overflow(), evaluator.powSet(overflow(), overflow()));
+	}
+
+	@Test
 	public void testSqrt() {
 		assertTrue(interval(2, 3).almostEqual(evaluator.sqrt(interval(4, 9)), 1E-7));
 		assertTrue(interval(0, 3).almostEqual(evaluator.sqrt(interval(-4, 9)), 1E-7));
 		assertTrue(evaluator.sqrt(interval(-9, -4)).isUndefined());
+		assertEquals(overflow(), evaluator.sqrtSet(overflow()));
 	}
 
 	@Test
