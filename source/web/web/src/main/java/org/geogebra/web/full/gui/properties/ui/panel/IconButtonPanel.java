@@ -29,6 +29,7 @@ import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Widget;
 
 public class IconButtonPanel extends FlowPanel implements SetLabels, ConfigurationUpdateDelegate,
 		VisibilityUpdateDelegate {
@@ -45,11 +46,12 @@ public class IconButtonPanel extends FlowPanel implements SetLabels, Configurati
 	 * @param property {@link org.geogebra.common.properties.PropertyView.SingleSelectionIconRow}
 	 * @param addTitle whether title should be added or not
 	 */
-	public IconButtonPanel(AppW appW, SingleSelectionIconRow property, boolean addTitle) {
+	public IconButtonPanel(AppW appW, SingleSelectionIconRow property, boolean addTitle,
+			List<Widget> widgets) {
 		this.appW = appW;
 		propertyList = List.of(property);
 		labelKey = property.getLabel();
-		buildGUI(addTitle);
+		buildGUI(addTitle, widgets);
 		property.setConfigurationUpdateDelegate(this);
 		property.setVisibilityUpdateDelegate(this);
 	}
@@ -60,11 +62,12 @@ public class IconButtonPanel extends FlowPanel implements SetLabels, Configurati
 	 * @param labelKey title
 	 * @param properties list of {@link SingleSelectionIconRow}
 	 */
-	public IconButtonPanel(AppW appW, String labelKey, List<SingleSelectionIconRow> properties) {
+	public IconButtonPanel(AppW appW, String labelKey, List<SingleSelectionIconRow> properties,
+			List<Widget> widgets) {
 		this.appW = appW;
 		propertyList = properties;
 		this.labelKey = labelKey;
-		buildGUI(true);
+		buildGUI(true, widgets);
 		for (SingleSelectionIconRow property : properties) {
 			property.setConfigurationUpdateDelegate(this);
 			property.setVisibilityUpdateDelegate(this);
@@ -80,11 +83,11 @@ public class IconButtonPanel extends FlowPanel implements SetLabels, Configurati
 	 */
 	public IconButtonPanel(AppW appW, SingleSelectionIconRow property,
 			boolean addTitle, Runnable callback) {
-		this(appW, property, addTitle);
+		this(appW, property, addTitle, new ArrayList<>());
 		this.callback = callback;
 	}
 
-	private void buildGUI(boolean addTitle) {
+	private void buildGUI(boolean addTitle, List<Widget> widgets) {
 		addStyleName("iconButtonPanel");
 		if (addTitle) {
 			label = new Label(appW.getLocalization().getMenu(labelKey));
@@ -134,6 +137,7 @@ public class IconButtonPanel extends FlowPanel implements SetLabels, Configurati
 			if (propertyList.indexOf(property) != propertyList.size() - 1) {
 				iconButtonListPanel.add(BaseWidgetFactory.INSTANCE.newDivider(true));
 			}
+			widgets.addAll(buttons);
 		}
 		add(iconButtonListPanel);
 	}

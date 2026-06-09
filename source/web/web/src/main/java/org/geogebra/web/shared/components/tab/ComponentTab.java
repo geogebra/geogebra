@@ -116,7 +116,7 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 		panelContainer.setWidth((tabData.length * 100) + "%");
 		fillTabList(tabList, tabData);
 		new FocusableWidget(AccessibilityGroup.SETTINGS_TAB_BUTTON,
-				AccessibilityGroup.ViewControlId.SETTINGS_VIEW, tabList) {
+				null, tabList) {
 			@Override
 			public void focus(Widget widget) {
 				for (int i = 0; i < tabList.getWidgetCount(); i++) {

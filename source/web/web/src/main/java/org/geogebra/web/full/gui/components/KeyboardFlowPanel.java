@@ -16,10 +16,27 @@
 
 package org.geogebra.web.full.gui.components;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
+import org.geogebra.web.html5.gui.accessibility.HasFocus;
 import org.gwtproject.user.client.ui.FlowPanel;
 
 public class KeyboardFlowPanel extends FlowPanel
-		implements HasKeyboardPopup {
+		implements HasKeyboardPopup, HasFocus {
+	private @CheckForNull Runnable focusDelegate;
 
+	@Override
+	public void focus() {
+		if (focusDelegate != null) {
+			focusDelegate.run();
+		}
+	}
+
+	/**
+	 * @param focusDelegate to be called when panel is focused
+	 */
+	public void setFocusDelegate(@CheckForNull Runnable focusDelegate) {
+		this.focusDelegate = focusDelegate;
+	}
 }

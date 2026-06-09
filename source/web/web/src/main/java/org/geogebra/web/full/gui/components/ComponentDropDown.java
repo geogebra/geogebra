@@ -138,7 +138,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 			KeyboardEvent e = (KeyboardEvent) event;
 			if ("Enter".equals(e.code) || "Space".equals(e.code)) {
 				if (!isDisabled) {
-					controller.toggleAsDropDown(fullWidth);
+					controller.toggleAsDropDown(fullWidth, getElement());
 				}
 			}
 		});
@@ -201,7 +201,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				if (!isDisabled) {
-					controller.toggleAsDropDown(fullWidth);
+					controller.toggleAsDropDown(fullWidth, getElement());
 				}
 			}
 		});

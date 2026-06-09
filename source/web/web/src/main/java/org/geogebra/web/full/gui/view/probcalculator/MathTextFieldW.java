@@ -91,7 +91,7 @@ public class MathTextFieldW extends MathFieldEditor implements MathFieldListener
 
 	@Override
 	public boolean onTab(boolean shiftDown) {
-		// TODO handle tab
+		getGlobalKeyDispatcher().handleTab(shiftDown);
 		return true;
 	}
 

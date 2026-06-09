@@ -262,7 +262,9 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	 */
 	public void hideMenu() {
 		popupPanel.hide();
-		hide();
+		if (!hide() && focusAnchor != null) {
+			focusAnchor.focus();
+		}
 	}
 
 	private IconSpec getSubMenuIcon(boolean isRTL) {
@@ -528,11 +530,12 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	}
 
 	/**
-	 * hide popup menu
+	 * Hide popup menu.
+	 * @return whether it was hidden by this call
 	 */
-	public final void hide() {
+	public final boolean hide() {
 		if (!popupPanel.isShowing()) {
-			return;
+			return false;
 		}
 
 		AccessibilityManagerInterface am = getApp()
@@ -549,6 +552,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 		} else {
 			returnFocus(anchor);
 		}
+		return true;
 	}
 
 	/**

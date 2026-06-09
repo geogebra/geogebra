@@ -81,14 +81,15 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 	}
 
 	/**
-	 * open/close dropdown
+	 * Open or close dropdown.
 	 * @param isFullWidth whether dropdown should have full width
+	 * @param anchor focus anchor
 	 */
-	public void toggleAsDropDown(boolean isFullWidth) {
+	public void toggleAsDropDown(boolean isFullWidth, Element anchor) {
 		if (isOpened()) {
 			closePopup();
 		} else {
-			showAsDropDown(isFullWidth);
+			showAsDropDown(isFullWidth, anchor);
 		}
 		AriaHelper.setAriaExpanded(parent, isOpened());
 		Dom.toggleClass(parent, "active", isOpened());
@@ -202,13 +203,10 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 		dropDown.positionAtBottomAnchor();
 	}
 
-	/**
-	 * shop popup and position as dropdown
-	 * @param isFullWidth - is dropdown should have full width
-	 */
-	public void showAsDropDown(boolean isFullWidth) {
+	private void showAsDropDown(boolean isFullWidth, Element anchor) {
 		dropDown.setAutoFocus(true);
 		dropDown.positionAtBottomAnchor();
+		dropDown.setFocusAnchor(anchor);
 		if (isFullWidth) {
 			dropDown.setWidthInPx(parent.asWidget().getElement().getClientWidth());
 		}

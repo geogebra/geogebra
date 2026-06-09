@@ -38,6 +38,7 @@ import org.geogebra.web.html5.gui.accessibility.AccessibleInputBox;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.EventUtil;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.client.Style;
@@ -110,6 +111,8 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 
 		mathField = new MathFieldW(new SyntaxAdapterImplWithPaste(app.getKernel()), main,
 				canvas, listener, catalog, app.getEditorFeatures());
+		mathField.removeCursor();
+		main.setFocusDelegate(this::editorClicked);
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
 		mathField.setOnBlur(this);
 		updatePixelRatio();
@@ -479,5 +482,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 
 	public void setInputBoxFunctionVars(List<String> inputBoxFunctionVars) {
 		this.inputBoxFunctionVars = inputBoxFunctionVars;
+	}
+
+	protected GlobalKeyDispatcherW getGlobalKeyDispatcher() {
+		return app.getGlobalKeyDispatcher();
 	}
 }

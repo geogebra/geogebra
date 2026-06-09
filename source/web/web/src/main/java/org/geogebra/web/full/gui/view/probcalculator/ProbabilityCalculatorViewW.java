@@ -18,6 +18,7 @@ package org.geogebra.web.full.gui.view.probcalculator;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
@@ -31,6 +32,7 @@ import org.geogebra.web.full.gui.view.data.PlotPanelEuclidianViewW;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.AsyncManager;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
@@ -170,6 +172,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 			overlayIconButton.addStyleName("probCalcStylbarBtn");
 			overlayIconButton.setTooltipPositionRight();
 			overlayIconButton.addFastClickHandler(source -> onOverlayClicked());
+			new FocusableWidget(AccessibilityGroup.PROBABILITY_OVERLAY, null, overlayIconButton)
+					.attachTo((AppW) app);
 		} else {
 			btnNormalOverlay = new ToggleButton(GuiResources.INSTANCE.normal_overlay());
 			btnNormalOverlay.addStyleName("probCalcStylbarBtn");

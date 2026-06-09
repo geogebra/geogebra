@@ -952,7 +952,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		event.stopPropagation();
 	}
 
-	private void removeCursor() {
+	/**
+	 * Make sure this is painted without selection or cursor,
+	 * stop autofocusing this element.
+	 */
+	public void removeCursor() {
 		boolean hadSelection = mathFieldInternal.getEditorState().hasSelection();
 		if (hadSelection) {
 			mathFieldInternal.getEditorState().resetSelection();

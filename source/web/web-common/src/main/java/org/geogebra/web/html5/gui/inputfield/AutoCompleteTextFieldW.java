@@ -767,15 +767,15 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (keyCode == GWTKeycodes.KEY_TAB && moveToNextArgument(true, false)) {
 			e.preventDefault();
 		}
-		if (keyCode == GWTKeycodes.KEY_TAB && usedForInputBox()) {
+		if (keyCode == GWTKeycodes.KEY_TAB) {
 			e.preventDefault();
-			AutoCompleteTextField tf = app.getActiveEuclidianView()
-					.getTextField();
-			if (tf != null) {
-				geoUsedForInputBox.updateLinkedGeo(tf.getText());
-				tf.setVisible(false);
+			if (usedForInputBox()) {
+				AutoCompleteTextField tf = app.getActiveEuclidianView().getTextField();
+				if (tf != null) {
+					geoUsedForInputBox.updateLinkedGeo(tf.getText());
+					tf.setVisible(false);
+				}
 			}
-
 			app.getGlobalKeyDispatcher().handleTab(e.isShiftKeyDown());
 			e.stopPropagation(); // avoid conflict with GeoTabber
 		}

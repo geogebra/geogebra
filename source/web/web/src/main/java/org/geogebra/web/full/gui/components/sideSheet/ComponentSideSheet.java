@@ -100,7 +100,7 @@ public class ComponentSideSheet extends FlowPanel implements SetLabels {
 		closeButton.getElement().setAttribute("tooltip-position", "right");
 		closeButton.setTabIndex(0);
 		new FocusableWidget(AccessibilityGroup.SETTINGS_CLOSE_BUTTON,
-				AccessibilityGroup.ViewControlId.SETTINGS_VIEW, closeButton) {
+				null, closeButton) {
 			@Override
 			public void focus(Widget widget) {
 				closeButton.addStyleName("keyboardFocus");

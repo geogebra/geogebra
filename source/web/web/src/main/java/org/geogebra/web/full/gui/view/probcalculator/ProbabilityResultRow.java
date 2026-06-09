@@ -29,19 +29,25 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Widget;
 
 public class ProbabilityResultRow extends FlowPanel {
 	private final AppW appW;
 	private final PropertyView.ProbabilityResultRow resultRowProperty;
 	private final List<Label> labels = new ArrayList<>();
+	private final List<Widget> fields = new ArrayList<>();
+	private final List<Widget> widgets;
 	private boolean isEditing;
 
 	/**
 	 * Result row in probability view.
 	 * @param appW {@link AppW}
 	 * @param resultRowProperty {@link PropertyView.ProbabilityResultRow}
+	 * @param widgets list of accessible widgets
 	 */
-	public ProbabilityResultRow(AppW appW, PropertyView.ProbabilityResultRow resultRowProperty) {
+	public ProbabilityResultRow(AppW appW, PropertyView.ProbabilityResultRow resultRowProperty,
+			List<Widget> widgets) {
+		this.widgets = widgets;
 		this.appW = appW;
 		this.resultRowProperty = resultRowProperty;
 		addStyleName("probabilityResultRow");
@@ -51,6 +57,8 @@ public class ProbabilityResultRow extends FlowPanel {
 	}
 
 	private void buildGUI() {
+		widgets.removeAll(fields);
+		fields.clear();
 		for (PropertyView.ProbabilityResultRow.Item item : resultRowProperty.getItems()) {
 			if (item instanceof PropertyView.ProbabilityResultRow.Item.Text text) {
 				Label label = new Label(text.text());
@@ -66,6 +74,7 @@ public class ProbabilityResultRow extends FlowPanel {
 					instanceof PropertyView.ProbabilityResultRow.Item.InputField inputField) {
 				FlowPanel holder = new FlowPanel();
 				MathTextFieldW mathTextFieldW = new MathTextFieldW(appW);
+				fields.add(mathTextFieldW.asWidget());
 				mathTextFieldW.setText(inputField.getValue());
 				AriaHelper.setLabel(mathTextFieldW.asWidget(),
 						appW.getLocalization().getMenu(inputField.getAriaLabel()));
@@ -88,6 +97,7 @@ public class ProbabilityResultRow extends FlowPanel {
 			}
 		}
 		updateAccessibleName();
+		widgets.addAll(fields);
 	}
 
 	/**

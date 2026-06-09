@@ -116,16 +116,15 @@ public class PropertiesPanelAdapter {
 			}
 		});
 
-		new FocusableWidget(AccessibilityGroup.SETTINGS_ITEM,
-				AccessibilityGroup.ViewControlId.SETTINGS_VIEW,
-				widgets.toArray(widgets.toArray(new Widget[0]))) {
-			@Override
-			public void focus(Widget widget) {
-				widget.addStyleName("keyboardFocus");
-				widget.getElement().focus();
-			}
-		}.attachTo(app);
+		addAccessibility(AccessibilityGroup.SETTINGS_ITEM);
 		return panel;
+	}
+
+	/**
+	 * @param accessibilityGroup accessibility group
+	 */
+	public void addAccessibility(AccessibilityGroup accessibilityGroup) {
+		new FocusableWidget(accessibilityGroup, null, widgets).attachTo(app);
 	}
 
 	/**
@@ -134,11 +133,15 @@ public class PropertiesPanelAdapter {
 	 * @return {@link Widget}
 	 */
 	public Widget getWidget(PropertyView propertyView) {
+		int oldLength = widgets.size();
 		Widget ret = createWidget(propertyView);
 		ret.setVisible(propertyView.isVisible());
 		propertyView.setVisibilityUpdateDelegate(() ->
 				ret.setVisible(propertyView.isVisible()));
-		widgets.add(ret);
+		if (oldLength == widgets.size()) {
+			// only add widget if it didn't contribute its parts to the widget list already
+			widgets.add(ret);
+		}
 		return ret;
 	}
 
@@ -172,24 +175,24 @@ public class PropertiesPanelAdapter {
 		if (propertyView instanceof Slider sliderProperty) {
 			return new ComponentSlider(app, sliderProperty);
 		}
-		if (propertyView instanceof ActionableButtonRow) {
-			return new ActionableButtonPanel((ActionableButtonRow) propertyView);
+		if (propertyView instanceof ActionableButtonRow buttonRow) {
+			return new ActionableButtonPanel(buttonRow);
 		}
-		if (propertyView instanceof MultiSelectionIconRow) {
-			return new MultiSelectionIconRowPanel((MultiSelectionIconRow) propertyView, app);
+		if (propertyView instanceof MultiSelectionIconRow multiSelectRow) {
+			return new MultiSelectionIconRowPanel(multiSelectRow, app);
 		}
-		if (propertyView instanceof DimensionRatioEditor) {
-			return new DimensionRatioPanel(app, this, (DimensionRatioEditor) propertyView);
+		if (propertyView instanceof DimensionRatioEditor dimensionRatioEditor) {
+			return new DimensionRatioPanel(app, this, dimensionRatioEditor);
 		}
 		if (propertyView instanceof GroupedIconButtonRow groupedIconButtonRow) {
 			return new IconButtonPanel(app, groupedIconButtonRow.getLabel(),
-					groupedIconButtonRow.getIconRowList());
+					groupedIconButtonRow.getIconRowList(), widgets);
 		}
-		if (propertyView instanceof HorizontalSplitView) {
+		if (propertyView instanceof HorizontalSplitView splitView) {
 			FlowPanel panel = new FlowPanel();
 			panel.addStyleName("horizontalSplitView");
-			panel.add(getWidget(((HorizontalSplitView) propertyView).getLeadingPropertyView()));
-			panel.add(getWidget(((HorizontalSplitView) propertyView).getTrailingPropertyView()));
+			panel.add(getWidget(splitView.getLeadingPropertyView()));
+			panel.add(getWidget(splitView.getTrailingPropertyView()));
 			return panel;
 		}
 		if (propertyView instanceof ButtonIconEditor buttonIconEditor) {
@@ -235,12 +238,11 @@ public class PropertiesPanelAdapter {
 			});
 			return componentTab;
 		}
-		if (propertyView instanceof ExpandableList) {
-			Checkbox leadProperty =
-					((ExpandableList) propertyView).getCheckbox();
+		if (propertyView instanceof ExpandableList expandable) {
+			Checkbox leadProperty = expandable.getCheckbox();
 			ComponentExpandableList expandableList = new ComponentExpandableList(app,
-					leadProperty, ((ExpandableList) propertyView).getTitle());
-			for (PropertyView prop : ((ExpandableList) propertyView).getItems()) {
+					leadProperty, expandable.getTitle());
+			for (PropertyView prop : expandable.getItems()) {
 				expandableList.addToContent(getWidget(prop));
 			}
 			return expandableList;
@@ -256,8 +258,8 @@ public class PropertiesPanelAdapter {
 			comboBox.setDisabled(!comboBoxProperty.isEnabled());
 			return comboBox;
 		}
-		if (propertyView instanceof SingleSelectionIconRow) {
-			return new IconButtonPanel(app, (SingleSelectionIconRow) propertyView, true);
+		if (propertyView instanceof SingleSelectionIconRow iconRow) {
+			return new IconButtonPanel(app, iconRow, true, widgets);
 		}
 		if (propertyView instanceof ColorSelectorRow colorSelectorRow) {
 			List<GColor> colors = colorSelectorRow.getColors();
@@ -285,21 +287,21 @@ public class PropertiesPanelAdapter {
 			colorPanel.addStyleName("colorPanel");
 			return colorPanel;
 		}
-		if (propertyView instanceof TextField) {
+		if (propertyView instanceof TextField textField) {
 			ComponentInputField inputField = new ComponentInputField(app, "", "",
-					(TextField) propertyView);
+					textField);
 			inputField.getTextField().getTextComponent().addEnterPressHandler(() -> {
 				String text = inputField.getText();
-				((TextField) propertyView).setValue(text);
+				textField.setValue(text);
 			});
-			inputField.setDisabled(!((TextField) propertyView).isEnabled());
+			inputField.setDisabled(!textField.isEnabled());
 			return inputField;
 		}
 		if (propertyView instanceof TextArea textAreaPropertyView) {
 			return new ComponentTextArea(app.getLocalization(), textAreaPropertyView);
 		}
 		if (propertyView instanceof PropertyView.ProbabilityResultRow probabilityResultRow) {
-			return new ProbabilityResultRow(app, probabilityResultRow);
+			return new ProbabilityResultRow(app, probabilityResultRow, widgets);
 		}
 		return new Label(propertyView.toString());
 	}

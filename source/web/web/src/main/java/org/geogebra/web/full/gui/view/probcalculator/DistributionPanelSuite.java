@@ -19,6 +19,7 @@ package org.geogebra.web.full.gui.view.probcalculator;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.PropertyViewFactory;
 import org.geogebra.web.full.gui.properties.ui.PropertiesPanelAdapter;
@@ -64,6 +65,7 @@ public class DistributionPanelSuite extends FlowPanel {
 			add(widget);
 			props.add(propertyView);
 		}
+		adapter.addAccessibility(AccessibilityGroup.PROBABILITY);
 	}
 
 	/**
