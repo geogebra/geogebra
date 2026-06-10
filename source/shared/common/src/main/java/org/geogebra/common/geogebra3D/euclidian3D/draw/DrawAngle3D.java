@@ -104,14 +104,9 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 	@Override
 	protected boolean updateForItSelf() {
-
 		// update alpha value
 		updateColors();
-
 		initCoords();
-
-		Renderer renderer = getView3D().getRenderer();
-
 		GeoAngle angle = (GeoAngle) getGeoElement();
 		angleValue = angle.getDouble();
 
@@ -121,9 +116,8 @@ public class DrawAngle3D extends Drawable3DCurves {
 			angleVisible = false;
 			return true;
 		}
-
+		Renderer renderer = getView3D().getRenderer();
 		size = angle.getArcSize() / getView3D().getScale();
-		double labelRadius = 1;
 
 		angleVisible = true;
 
@@ -194,7 +188,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 				}
 			}
 
-			labelRadius = size / 1.7;
+			double labelRadius = size / 1.7;
 			labelCenter.mulInside3(labelRadius);
 			labelCenter.addInside(center);
 

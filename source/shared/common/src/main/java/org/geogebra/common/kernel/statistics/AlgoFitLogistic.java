@@ -16,7 +16,6 @@
 
 package org.geogebra.common.kernel.statistics;
 
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Construction;
@@ -267,23 +266,13 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		double lambda; // LM-damping coefficient
 		double multfaktor = LMFACTORMULT; // later?: divfaktor=LMFACTORDIV;
 		double residual, old_residual = beta2(xd, yd, a, b, c);
-		// double diff = -1.0d; //negative to start it off
-
-		double da = EPSILONREG, db = EPSILONREG, dc = EPSILONREG; // Something
-																	// larger
-																	// than eps,
-																	// to get
-																	// started...
-		double b1, b2, b3; // At*beta
-		double m11, m12, m13, m21, m22, m23, m31, m32, m33, // At*A
-				n; // singular check
 		double x, y;
 		double dfa, dfb, dfc, beta, newa, newb, newc;
 		iterations = 0;
 		// ****checked up to here
 		// LM: optimal startlambda
-		b1 = b2 = b3 = 0.0d;
-		m11 = m22 = m33 = 0.0d;
+		double b1 = 0, b2 = 0, b3 = 0;
+		double m11 = 0, m22 = 0, m33 = 0;
 		for (int i = 0; i < size; i++) {
 			x = xd[i];
 			y = yd[i];
@@ -303,7 +292,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 		double startfaktor = Math.max(Math.max(m11, m22), m33);
 		lambda = startfaktor * 0.001; // heuristic... (Set to zero if no LM)
-
+		double da = EPSILONREG, db = EPSILONREG, dc = EPSILONREG;
 		while (Math.abs(da) + Math.abs(db) + Math.abs(dc) > EPSILONREG) {
 			// or while(Math.abs(diff)>EPSILON) ?
 			iterations++;
@@ -315,7 +304,8 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 				break;
 			}
 			b1 = b2 = b3 = 0.0d;
-			m11 = m12 = m13 = m21 = m22 = m23 = m31 = m32 = m33 = 0.0d;
+			double m12 = 0, m13 = 0, m23 = 0;
+			m11 = m22 = m33 = 0.0d;
 			for (int i = 0; i < size; i++) {
 				x = xd[i];
 				y = yd[i];
@@ -337,11 +327,11 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 			} // for all datapoints
 
 			// Symmetry:
-			m21 = m12;
-			m31 = m13;
-			m32 = m23;
+			double m21 = m12;
+			double m31 = m13;
+			double m32 = m23;
 
-			n = RegressionMath.det33(m11, m12, m13, m21, m22, m23, m31, m32,
+			double n = RegressionMath.det33(m11, m12, m13, m21, m22, m23, m31, m32,
 					m33);
 
 			if (Math.abs(n) < EPSSING) { // Not singular?
@@ -473,27 +463,23 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 		// problem bothering the gui: GeoList
 		// newlist=k.Sort("tmp_{FitLogistic}",geolist);
-		double[] xy = new double[2];
-		GeoPoint geoelement;
 		// This is code duplication of AlgoSort, but for the time being:
 		TreeSet<GeoPoint> sortedSet;
 		sortedSet = new TreeSet<>(GeoPoint.getComparatorX());
 		for (int i = 0; i < size; i++) {
-			if (geolist.get(i) instanceof GeoPoint) {
-				geoelement = (GeoPoint) geolist.get(i);
+			if (geolist.get(i) instanceof GeoPoint geoelement) {
 				sortedSet.add(geoelement);
 			} else {
 				error = true;
 			} // if point
 		} // for all points
-		Iterator<GeoPoint> iter = sortedSet.iterator();
 		int i = 0;
 		allplus = true;
 		allneg = true; // Need sign info in findParameters()
 		double[] xlist = new double[size];
 		double[] ylist = new double[size];
-		while (iter.hasNext()) {
-			geoelement = iter.next();
+		double[] xy = new double[2];
+		for (GeoPoint geoelement : sortedSet) {
 			geoelement.getInhomCoords(xy);
 			xlist[i] = xy[0];
 			ylist[i] = xy[1];

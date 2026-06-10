@@ -1304,8 +1304,6 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		if (maxRow == -1 || maxCol == -1) {
 			return;
 		}
-
-		int rows = maxRow + 1;
 		int cols = maxCol + 1;
 
 		sb.append("<table border=\"1\">\n");
@@ -1324,6 +1322,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		// end headers
 		sb.append("</tr>\n");
 		IndexHTMLBuilder ib = new IndexHTMLBuilder(false);
+		int rows = maxRow + 1;
 		for (int row = 0 ; row < rows ; row++) {
 			
 			sb.append("<tr>\n");

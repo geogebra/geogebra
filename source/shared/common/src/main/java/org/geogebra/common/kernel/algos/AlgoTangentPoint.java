@@ -322,8 +322,6 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 						botanaVarsThis = getBotanaVars(geo);
 					}
 
-					PPolynomial[] botanaPolynomialsThis = new PPolynomial[4];
-
 					PPolynomial m1 = new PPolynomial(botanaVarsThis[0]);
 					PPolynomial m2 = new PPolynomial(botanaVarsThis[1]);
 					// coordinates of focus point of parabola
@@ -337,6 +335,7 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 					PPolynomial t_2p = new PPolynomial(t_2);
 
 					// M midpoint of FT'
+					PPolynomial[] botanaPolynomialsThis = new PPolynomial[4];
 					botanaPolynomialsThis[0] = new PPolynomial(2).multiply(m1)
 							.subtract(f1).subtract(t_1p);
 					botanaPolynomialsThis[1] = new PPolynomial(2).multiply(m2)

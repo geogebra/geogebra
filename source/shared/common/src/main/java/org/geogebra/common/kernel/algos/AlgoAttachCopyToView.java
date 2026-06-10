@@ -185,10 +185,10 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 			return;
 		}
 
-		Coords c1 = corner1.getCoordsInD3();
-		Coords c3 = corner3.getCoordsInD3();
-		Coords c5 = screenCorner1.getCoordsInD3();
-		Coords c7 = screenCorner3.getCoordsInD3();
+		final Coords c1 = corner1.getCoordsInD3();
+		final Coords c3 = corner3.getCoordsInD3();
+		final Coords c5 = screenCorner1.getCoordsInD3();
+		final Coords c7 = screenCorner3.getCoordsInD3();
 
 		double c1x = ev.toRealWorldCoordX(c5.getX());
 		double c1y = ev.toRealWorldCoordY(c5.getY());

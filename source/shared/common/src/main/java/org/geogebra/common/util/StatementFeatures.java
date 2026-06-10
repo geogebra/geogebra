@@ -132,8 +132,6 @@ class StatementFeatures {
 		 * collecting algos, generating population and computing basic
 		 * statistics
 		 */
-		int size;
-
 		double mean, minimum, maximum;
 		HashMap<Object, Integer> frequencies = new HashMap<>();
 		Iterator<?> it = nodes.iterator();
@@ -172,6 +170,7 @@ class StatementFeatures {
 		}
 
 		int zeros;
+		int size;
 		if (categories != null) {
 			size = categories.length;
 			minimum = maximum;

@@ -85,8 +85,6 @@ public class CmdSetDynamicColor extends CmdScripting {
 					&& (ok[3] = arg2[3] instanceof GeoNumberValue)
 					&& (ok[4] = arg2[4] instanceof GeoNumberValue)) {
 
-				GeoElement geo = arg2[0];
-
 				ArrayList<GeoElement> listItems = new ArrayList<>();
 				listItems.add(arg2[1]);
 				listItems.add(arg2[2]);
@@ -96,7 +94,7 @@ public class CmdSetDynamicColor extends CmdScripting {
 						false);
 				kernel.getConstruction().removeFromConstructionList(algo);
 				GeoList list = algo.getGeoList();
-
+				GeoElement geo = arg2[0];
 				geo.setColorFunction(list);
 				geo.updateVisualStyleRepaint(GProperty.COLOR);
 

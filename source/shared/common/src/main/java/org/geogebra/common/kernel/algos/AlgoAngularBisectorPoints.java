@@ -128,8 +128,6 @@ public class AlgoAngularBisectorPoints extends AlgoElement
 
 	@Override
 	public final void compute() {
-		boolean infiniteB = B.isInfinite();
-
 		// compute lines g = B v A, h = B v C
 		GeoVec3D.cross(B, A, g);
 		GeoVec3D.cross(B, C, h);
@@ -150,7 +148,7 @@ public class AlgoAngularBisectorPoints extends AlgoElement
 
 		// set direction vector of bisector: (wx, wy)
 		double wx, wy;
-		if (infiniteB) {
+		if (B.isInfinite()) {
 			// if B is at infinity then g and h are parallel
 			// and the bisector line has same direction as g (and h)
 			wx = gx;

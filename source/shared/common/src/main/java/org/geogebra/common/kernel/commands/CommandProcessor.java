@@ -505,8 +505,6 @@ public abstract class CommandProcessor {
 			GeoList[] over, GeoNumeric[] number) {
 		// check if there is a local variable in arguments
 		int numArgs = c.getArgumentNumber();
-
-		Construction cmdCons = c.getKernel().getConstruction();
 		EvalInfo argInfo = new EvalInfo(false);
 		GeoElement geo = resArg(c.getArgument(numArgs - 2), argInfo);
 		if (geo != null && !(geo instanceof GeoList)) {
@@ -544,7 +542,7 @@ public abstract class CommandProcessor {
 			// add local variable name to construction
 
 			// initialize first value of local numeric variable from initPos
-
+			Construction cmdCons = c.getKernel().getConstruction();
 			cmdCons.addLocalVariable(localVarName, num);
 			replaceZvarIfNeeded(localVarName, c, 1);
 			// set local variable as our varPos argument

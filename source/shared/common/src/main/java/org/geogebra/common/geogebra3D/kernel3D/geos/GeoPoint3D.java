@@ -2174,7 +2174,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		Coords coordsOld = getInhomCoords().copyVector();
 
 		// prevent from region bad coords calculations
-		Region oldRegion = getRegion();
+		final Region oldRegion = getRegion();
 		setRegion(null);
 
 		double minDist = Double.POSITIVE_INFINITY;

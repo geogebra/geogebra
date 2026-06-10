@@ -800,7 +800,6 @@ public class Function extends FunctionNVar
 
 	private PolyFunction expandToPolyFunctionNoCas(ExpressionValue ev,
 			boolean symbolic, boolean keepFractions) {
-		PolyFunction polyFun = null;
 		FunctionVariable xVar = new FunctionVariable(kernel, "x");
 		ExpressionValue[][] coeff = null;
 		int terms = -1;
@@ -824,6 +823,7 @@ public class Function extends FunctionNVar
 		if (!equ.isPolynomial()) {
 			return null;
 		}
+		PolyFunction polyFun;
 		if (!symbolic) {
 			double[] coeffValues = new double[terms];
 			// shorten [5,0,0] to [5] but keep [0] as is

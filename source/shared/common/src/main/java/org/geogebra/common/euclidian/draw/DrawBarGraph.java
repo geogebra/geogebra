@@ -262,10 +262,8 @@ public class DrawBarGraph extends Drawable {
 
 		drawType = algo.getDrawType();
 		int pointType = algo.getPointType();
-		int pointStyle;
-
 		if (algo.hasPoints() && pointType != POINT_NONE) {
-
+			int pointStyle;
 			if (pointType == POINT_LEFT || pointType == POINT_LEFT_OPEN_RIGHT) {
 				pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
 			} else {

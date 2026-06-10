@@ -2050,7 +2050,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			// Suppose A+Bx+Cx^2 = 0, where A,B,C are linear combinations of 1
 			// and values in constValueboolean isAZero = true;
 			boolean isAZero = true;
-			boolean isARational = true;
 			boolean isBZero = true;
 			boolean isBRational = true;
 			boolean isCZero = true;
@@ -2065,6 +2064,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				isCZero = false;
 			}
 
+			boolean isARational = true;
 			for (int j = 0; j < numOfConsts; j++) {
 				if (bestRelation[j * 3] != 0) {
 					isAZero = false;
@@ -2199,18 +2199,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		 */
 		private int[][] mPSLQ(int n, double[] x, double accuracyFactor,
 				int bound) {
-
-			FixedScaleDecimalMatrix r2;
-
-			int rCols = 0; // tracks the number of solutions globally
-
-			// int[] orthoIndices = new int[n];
-			// int[][] B1 = new int[n][n];
-			// int[][] M = new int[n][n];
-			// int[][] B2 = new int[n][n];
-			// double[] xB2 = new double[n];
-
-			// now n>=2.
 			int p = n; // length of current x
 
 			/*
@@ -2237,7 +2225,8 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			// r2 stores all possible results. Numbers are initialized here
 			// because
 			// we need the correct field.
-			r2 = new FixedScaleDecimalMatrix(m.getBMatrix().getScale(), n, n);
+			FixedScaleDecimalMatrix r2 = new FixedScaleDecimalMatrix(
+					m.getBMatrix().getScale(), n, n);
 
 			FixedScaleDecimalMatrix result2 = m.getBSolMatrix();
 			if (result2 != null) {
@@ -2245,7 +2234,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			} else {
 				q = 0;
 			}
-
+			int rCols = 0; // tracks the number of solutions globally
 			// store the results to r2
 			for (int j = 0; j < q; j++) {
 				for (int i = 0; i < n; i++) {

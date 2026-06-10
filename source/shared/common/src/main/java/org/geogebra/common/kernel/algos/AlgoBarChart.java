@@ -821,8 +821,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	}
 
 	private void computeWithExp() {
-		GeoElement geo; // temporary var
-
 		if (!(a.isDefined() && b.isDefined() && list1.isDefined())) {
 			sum.setUndefined();
 			return;
@@ -856,7 +854,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		for (int i = 0; i < N; i++) {
 			leftBorder[i] = ad + i * barWidth;
 
-			geo = list1.get(i);
+			GeoElement geo = list1.get(i);
 			if (geo.isGeoNumeric()) {
 				yval[i] = ((GeoNumeric) geo).getDouble();
 			} else {
@@ -1203,18 +1201,17 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	public void setToolTipText(int index) {
 		int freq = (int) yval[index];
 		double percent = 100 * freq / dataSize;
-		StringBuilder sb = new StringBuilder();
-		sb.append(getLoc().getMenu("Value"));
-		sb.append(" = ");
-		sb.append(value[index]);
-		sb.append("<br>");
-		sb.append(getLoc().getMenu("Count"));
-		sb.append(" = ");
-		sb.append(kernel.format(freq, StringTemplate.defaultTemplate));
-		sb.append("<br>");
-		sb.append(kernel.format(percent, StringTemplate.defaultTemplate));
-		sb.append("%");
+		String tooltip = getLoc().getMenu("Value")
+				+ " = "
+				+ value[index]
+				+ "<br>"
+				+ getLoc().getMenu("Count")
+				+ " = "
+				+ kernel.format(freq, StringTemplate.defaultTemplate)
+				+ "<br>"
+				+ kernel.format(percent, StringTemplate.defaultTemplate)
+				+ "%";
 
-		sum.setToolTipText(sb.toString());
+		sum.setToolTipText(tooltip);
 	}
 }

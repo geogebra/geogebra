@@ -159,19 +159,8 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 *
 	 */
 	public void doUpdateMinMax() {
-
         EuclidianView3D view = getView3D();
-
         Renderer renderer = view.getRenderer();
-
-        double xscale = view.getXscale();
-        double yscale = view.getYscale();
-        double zscale = view.getZscale();
-
-		double x0 = -view.getXZero();
-		double y0 = -view.getYZero();
-		double z0 = -view.getZZero();
-
 		double halfWidth = renderer.getWidth() / 2.0;
 		double bottom = renderer.getBottom();
 		double top = renderer.getTop();
@@ -185,6 +174,13 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 				top *= arScaleFactor;
 			}
 		}
+
+		double xscale = view.getXscale();
+		double yscale = view.getYscale();
+		double zscale = view.getZscale();
+		double x0 = -view.getXZero();
+		double y0 = -view.getYZero();
+		double z0 = -view.getZZero();
 
         currentBounds[X][MIN] = -halfWidth / xscale + x0;
         currentBounds[X][MAX] = halfWidth / xscale + x0;

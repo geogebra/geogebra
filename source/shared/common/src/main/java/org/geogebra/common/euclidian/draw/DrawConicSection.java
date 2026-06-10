@@ -121,8 +121,7 @@ public class DrawConicSection extends DrawConic {
 	 * draw an edge of the ellipse (if not all in the view)
 	 */
 	private void updateEllipseEdge() {
-
-		Coords m = conic.getMidpoint3D();
+		final Coords m = conic.getMidpoint3D();
 		Coords ev0 = conic.getEigenvec3D(0);
 		Coords ev1 = conic.getEigenvec3D(1);
 		double r0 = conic.getHalfAxis(0);
@@ -234,9 +233,6 @@ public class DrawConicSection extends DrawConic {
 			}
 		}
 
-		// check for huge pixel radius
-		double xradius = halfAxes[0] * view.getXscale();
-		double yradius = halfAxes[1] * view.getYscale();
 		/*
 		 * if (xradius > DrawConic.HUGE_RADIUS || yradius >
 		 * DrawConic.HUGE_RADIUS) { isVisible = false; return; }
@@ -247,8 +243,8 @@ public class DrawConicSection extends DrawConic {
 			arc = AwtFactory.getPrototype().newArc2D();
 		}
 
-		Double extent0 = getExtent(0);
-		Double start1 = getStart(1);
+		double extent0 = getExtent(0);
+		double start1 = getStart(1);
 
 		// set the arc type : if one hole, add chord to close the arc, if two
 		// holes, let arcs open
@@ -287,6 +283,8 @@ public class DrawConicSection extends DrawConic {
 		setTransform(M);
 
 		// BIG RADIUS: larger than screen diagonal
+		double xradius = halfAxes[0] * view.getXscale();
+		double yradius = halfAxes[1] * view.getYscale();
 		int BIG_RADIUS = view.getWidth() + view.getHeight(); // > view's
 																// diagonal
 		if (xradius < BIG_RADIUS && yradius < BIG_RADIUS) {
@@ -502,8 +500,7 @@ public class DrawConicSection extends DrawConic {
 
 	@Override
 	protected void updateHyperbolaEdge() {
-
-		Coords m = conic.getMidpoint3D();
+		final Coords m = conic.getMidpoint3D();
 		Coords ev1 = conic.getEigenvec3D(0);
 		Coords ev2 = conic.getEigenvec3D(1);
 		double e1 = conic.getHalfAxis(0);

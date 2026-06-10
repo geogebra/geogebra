@@ -823,7 +823,7 @@ public interface Traversing {
 					&& !isException(name)) {
 				name = ((Variable) replace)
 						.getName(StringTemplate.defaultTemplate);
-				boolean old = kernel.getConstruction().isSuppressLabelsActive();
+				final boolean old = kernel.getConstruction().isSuppressLabelsActive();
 				kernel.getConstruction().setSuppressLabelCreation(false);
 				GeoNumeric slider = geoClass == GeoClass.ANGLE
 						? new GeoAngle(kernel.getConstruction(), Math.PI / 4)

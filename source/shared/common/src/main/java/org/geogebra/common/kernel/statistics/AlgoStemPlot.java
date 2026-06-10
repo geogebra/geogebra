@@ -189,7 +189,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 			double[] data, double stemFactor, int[] outlierIndex) {
 
 		ArrayList<ArrayList<Integer>> lines = new ArrayList<>();
-		int size = outlierIndex[1];
+		final int size = outlierIndex[1];
 		int startIndex = outlierIndex[0];
 
 		// ===========================================

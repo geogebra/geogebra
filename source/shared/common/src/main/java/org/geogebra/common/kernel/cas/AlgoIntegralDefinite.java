@@ -752,8 +752,6 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		ExpressionValue rt = exp.getRight();
 
 		ListValue keyList = (ListValue) ((MyNumberPair) rt).getX();
-		ListValue valueList = (ListValue) ((MyNumberPair) rt).getY();
-
 		int n = keyList.size();
 
 		if (n < 1) {
@@ -797,7 +795,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			return multiplier * trapeziumArea(x1, x2, y1, y2);
 
 		}
-
+		ListValue valueList = (ListValue) ((MyNumberPair) rt).getY();
 		for (int i = start; i < end - 1; i++) {
 			x1 = keyList.get(i).evaluateDouble();
 			x2 = keyList.get(i + 1).evaluateDouble();
@@ -816,44 +814,19 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		y1 = valueList.get(start - 1).evaluateDouble();
 		y2 = valueList.get(start).evaluateDouble();
 
-		// if (lowerLimit < x1 || lowerLimit > x2) {
-		// App.error(
-		// "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-		// }
-		//
-		// App.error("start = " + start + " lowerLimit = " + lowerLimit + "x1 =
-		// "
-		// + x1 + " x2 = " + x2 + " y1 = " + y1 + " y2 = " + y2);
-
 		// interpolate
 		y1 = ((lowerLimit - x1) * y2 + y1 * (x2 - lowerLimit)) / (x2 - x1);
 		x1 = lowerLimit;
 		// area of trapezium
 		area += trapeziumArea(x1, x2, y1, y2);
 
-		// App.error("x1 = " + x1 + " x2 = " + x2 + " y1 = " + y1 + " y2 = " +
-		// y2
-		// + " area = " + trapeziumArea(x1, x2, y1, y2));
-
 		x1 = keyList.get(end - 1).evaluateDouble();
 		y1 = valueList.get(end - 1).evaluateDouble();
-
-		// if (upperLimit < x1 || upperLimit > x2) {
-		// App.error(
-		// "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-		// }
-		// App.error("end = " + end + " upperLimit = " + upperLimit + "x1 = " +
-		// x1
-		// + " x2 = " + x2 + " y1 = " + y1 + " y2 = " + y2 + " area = "
-		// + trapeziumArea(x1, x2, y1, y2));
 
 		x2 = upperLimit;
 		y2 = f2.value(x2);
 		// area of trapezium
 		area += trapeziumArea(x1, x2, y1, y2);
-
-		// App.error("x1 = " + x1 + " x2 = " + x2 + " y1 = " + y1 + " y2 = " +
-		// y2);
 
 		return area * multiplier;
 

@@ -1243,9 +1243,6 @@ public abstract class GlobalKeyDispatcher {
 			List<GeoElement> geos, boolean isShiftDown,
 			boolean isControlDown, boolean isAltDown, boolean fromSpreadsheet) {
 		// SPECIAL KEYS
-		double changeValX = 0; // later: changeVal = base or -base
-		double changeValY = 0; // later: changeVal = base or -base
-		double changeValZ = 0; // later: changeVal = base or -base
 		// Shift : base = 0.1
 		// Default : base = 1
 		// Ctrl : base = 10
@@ -1337,6 +1334,9 @@ public abstract class GlobalKeyDispatcher {
 		boolean moved = false;
 		boolean isometric = app.getActiveEuclidianView().getGridType()
 				== EuclidianView.GRID_ISOMETRIC;
+		double changeValX = 0; // later: changeVal = base or -base
+		double changeValY = 0; // later: changeVal = base or -base
+		double changeValZ = 0; // later: changeVal = base or -base
 		switch (key) {
 		default:
 			// do nothing

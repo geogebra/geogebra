@@ -90,10 +90,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		Operation operation = expressionNode.getOperation();
 
 		boolean holdsLaTeXtext = expressionNode.holdsLaTeXtext;
-
-		ExpressionValue lt, rt;
-
-		lt = left.evaluate(tpl); // left tree
+		ExpressionValue lt = left.evaluate(tpl); // left tree
 		// TODO Evaluation of equations is expensive, but better soln needed
 		// #4816
 		if (left instanceof Equation) {
@@ -102,7 +99,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		if (operation.equals(Operation.NO_OPERATION)) {
 			return lt;
 		}
-		rt = right.evaluate(tpl); // right tree
+		ExpressionValue rt = right.evaluate(tpl); // right tree
 
 		// handle list operations first
 		ExpressionValue special = handleSpecial(lt, rt, left, right, operation,

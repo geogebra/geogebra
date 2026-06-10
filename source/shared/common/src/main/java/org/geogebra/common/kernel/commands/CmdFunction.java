@@ -132,9 +132,6 @@ public class CmdFunction extends CommandProcessor {
 			if ((ok[0] = arg[0].isRealValuedFunction())
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
-
-				String label = c.getLabel();
-
 				GeoFunctionable geoFun = (GeoFunctionable) arg[0];
 				GeoNumberValue low = (GeoNumberValue) arg[1];
 				GeoNumberValue high = (GeoNumberValue) arg[2];
@@ -164,6 +161,7 @@ public class CmdFunction extends CommandProcessor {
 							cons, fun, true);
 					gf = algo.getFunction();
 				}
+				String label = c.getLabel();
 				gf.setLabel(label);
 				gf.validate(label == null);
 				return new GeoElement[] { gf };

@@ -82,7 +82,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 			setRootsPolynomial(r);
 		} else {
 			Kernel ker = cons.getKernel();
-			boolean oldSilentMode = ker.isSilentMode();
+			final boolean oldSilentMode = ker.isSilentMode();
 			ker.setSilentMode(true);
 
 			GeoImplicit iPoly = kernel.newImplicitPoly(cons);

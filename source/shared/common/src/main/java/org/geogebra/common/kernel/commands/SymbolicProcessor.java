@@ -386,7 +386,6 @@ public class SymbolicProcessor {
 	public static void autoCompleteVariables(Command cmd) {
 		ExpressionNode en = cmd.getArgument(0);
 		Kernel kernel = cmd.getKernel();
-		Construction cons = kernel.getConstruction();
 		/*
 		 * Solve command has one argument which is an expression | equation |
 		 * list
@@ -442,6 +441,7 @@ public class SymbolicProcessor {
 
 		MyList variables = new MyList(kernel, n);
 		int i = 0;
+		Construction cons = kernel.getConstruction();
 		Iterator<String> ite = set.iterator();
 		if (n == 1) {
 			if (ite.hasNext()) {

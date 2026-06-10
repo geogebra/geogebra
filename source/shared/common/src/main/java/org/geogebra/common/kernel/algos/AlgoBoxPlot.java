@@ -306,7 +306,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 			cons.removeFromConstructionList(Q3Algo);
 			cons.removeFromConstructionList(medianAlgo);
 
-			double median = medianAlgo.getMedian().getDouble();
+			final double median = medianAlgo.getMedian().getDouble();
 			double Q1 = Q1Algo.getQ1().getDouble();
 			double Q3 = Q3Algo.getQ3().getDouble();
 			double min = Double.MAX_VALUE;

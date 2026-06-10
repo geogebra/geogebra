@@ -211,9 +211,6 @@ public class EditorState {
 		int endIndex = -1;
 		InternalNode startNode = selectionParent;
 		InternalNode endNode = currentNode;
-		final Node oldStart = currentSelStart;
-		final Node oldEnd = currentSelEnd;
-
 		while (startDepth > endDepth) {
 			startIndex = startNode.getParentIndex();
 			startNode = startNode.getParent();
@@ -234,6 +231,8 @@ public class EditorState {
 			endIndex = endNode.getParentIndex();
 			endNode = endNode.getParent();
 		}
+		final Node oldStart = currentSelStart;
+		final Node oldEnd = currentSelEnd;
 		if (startNode != endNode) {
 			if (startNode instanceof SequenceNode sequenceNode) {
 				if (startNode.getParentIndex() <= endNode.getParentIndex()) {

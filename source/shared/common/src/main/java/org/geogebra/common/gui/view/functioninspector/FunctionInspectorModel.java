@@ -334,9 +334,6 @@ public class FunctionInspectorModel {
 		highPoint.getCoords(coords);
 		xMax = coords[0];
 
-		ExtremumFinderI ef = kernel.getExtremumFinder();
-		UnivariateFunction fun = selectedGeo.getUnivariateFunctionY();
-
 		// value of x that gives min y at endpoints
 		double yMinXval;
 		// value of x that gives max y at endpoints
@@ -360,7 +357,8 @@ public class FunctionInspectorModel {
 			yMin = y2;
 			yMax = y1;
 		}
-
+		ExtremumFinderI ef = kernel.getExtremumFinder();
+		UnivariateFunction fun = selectedGeo.getUnivariateFunctionY();
 		// find (local) extremums in the range
 		double xMinInt = ef.findMinimum(xMin, xMax, fun, 5.0E-8);
 		double xMaxInt = ef.findMaximum(xMin, xMax, fun, 5.0E-8);

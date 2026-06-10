@@ -133,23 +133,12 @@ public class CmdGetTime extends CommandProcessor {
 	@SuppressWarnings("deprecation")
 	private static void decode(Date cal, char c, StringBuilder sb,
 			Localization loc) {
-
-		// GeoNumeric mins1 = new GeoNumeric(cons, cal.getMinutes());
 		int d = cal.getDay() + 1;
-		// GeoNumeric day = new GeoNumeric(cons, d);
 		int m = cal.getMonth() + 1;
-		// GeoNumeric month1 = new GeoNumeric(cons, m);
-		// GeoNumeric year1 = new GeoNumeric(cons, cal.getYear() + 1900);
-		// GeoNumeric secs1 = new GeoNumeric(cons, cal.getSeconds());
-		// GeoNumeric hours1 = new GeoNumeric(cons, cal.getHours());
-		// GeoNumeric date1 = new GeoNumeric(cons, cal.getDate());
-		// GeoNumeric ms1 = new GeoNumeric(cons, cal.getTime() % 1000);
 		int date = cal.getDate();
 		int month = cal.getMonth();
 		int year = cal.getYear() + 1900;
 		int hours = cal.getHours();
-		int mins = cal.getMinutes();
-		int secs = cal.getSeconds();
 		int yearday = 0;
 		String dayStr = loc == null ? "" : loc.getMenu("Day." + d);
 		String monthStr = loc == null ? "" : loc.getMenu("Month." + m);
@@ -304,6 +293,7 @@ public class CmdGetTime extends CommandProcessor {
 			}
 			break;
 		case 'i':
+			int mins = cal.getMinutes();
 			if (mins < 10) {
 				sb.append(0).append(mins);
 			} else {
@@ -311,6 +301,7 @@ public class CmdGetTime extends CommandProcessor {
 			}
 			break;
 		case 's':
+			int secs = cal.getSeconds();
 			if (secs < 10) {
 				sb.append(0).append(secs);
 			} else {

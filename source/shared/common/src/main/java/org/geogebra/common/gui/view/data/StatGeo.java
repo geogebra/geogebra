@@ -129,7 +129,7 @@ public class StatGeo {
 		}
 		// construction elements created by this method should always be
 		// removed from the construction
-		boolean currentRemoveFromConstructionStatus = removeFromConstruction;
+		final boolean currentRemoveFromConstructionStatus = removeFromConstruction;
 		removeFromConstruction = true;
 
 		// String label = dataList.getLabel();
@@ -247,10 +247,7 @@ public class StatGeo {
 	public GeoElementND createHistogram(GeoList dataList,
 			StatPanelSettings settings, boolean isFrequencyPolygon)
 			throws StatException {
-
-		AlgoElement al = null, algoHistogram = null;
 		histogramRight = !settings.isLeftRule();
-		GeoElementND geo;
 		GeoList valueList = (GeoList) (settings.groupType() == GroupType.RAWDATA ? dataList
 				: dataList.get(0));
 		// determine min/max X values
@@ -260,7 +257,7 @@ public class StatGeo {
 		} else if (settings.groupType() == GroupType.CLASS) {
 			// settings.numClasses = ((GeoList) dataList.get(0)).size();
 		}
-
+		AlgoElement al;
 		// determine class borders
 		if (settings.isUseManualClasses()
 				|| settings.groupType() == GroupType.CLASS) {
@@ -292,7 +289,7 @@ public class StatGeo {
 
 		// ==================
 		// create a histogram and (possibly) a frequency polygon
-
+		AlgoHistogram algoHistogram;
 		if (settings.groupType() == GroupType.RAWDATA) {
 			// histogram constructed from data values
 			algoHistogram = new AlgoHistogram(cons,
@@ -319,10 +316,10 @@ public class StatGeo {
 					"unexpected groupType: " + settings.groupType());
 
 		}
-
+		GeoElement geo;
 		if (isFrequencyPolygon) {
 			AlgoPolyLine al3 = createFrequencyPolygon(
-					(AlgoHistogram) algoHistogram, settings.isCumulative());
+					algoHistogram, settings.isCumulative());
 			geo = al3.getOutput(0);
 			geo.setObjColor(
 					listener.createColor(DataAnalysisModel.OVERLAY_COLOR_IDX));

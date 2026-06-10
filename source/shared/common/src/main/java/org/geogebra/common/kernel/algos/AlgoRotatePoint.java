@@ -235,7 +235,6 @@ public class AlgoRotatePoint extends AlgoTransformation
 			 */
 			double angleDoubleVal = angle.getDouble();
 			double angleDoubleValDeg = angleDoubleVal / Math.PI * 180;
-			int angleValDeg = (int) angleDoubleValDeg;
 			if (!DoubleUtil.isInteger(angleDoubleValDeg)) {
 				// unhandled angle, not an integer degree
 				throw new NoSymbolicParametersException();
@@ -249,7 +248,7 @@ public class AlgoRotatePoint extends AlgoTransformation
 			PPolynomial a_2 = new PPolynomial(botanaVars[1]);
 			PPolynomial t1 = new PPolynomial(botanaVars[6]);
 			PPolynomial t2 = new PPolynomial(botanaVars[7]);
-
+			int angleValDeg = (int) angleDoubleValDeg;
 			angleValDeg %= 360;
 			if (angleValDeg < 0) {
 				angleValDeg += 360; // be non-negative

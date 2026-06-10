@@ -47,6 +47,7 @@ tasks.compileJava {
 
 tasks.test {
     ignoreFailures = System.getenv("CI") != null
+    jvmArgs = listOf("-Xmx1g")
 }
 
 val jacocoSources by configurations.creating {

@@ -70,7 +70,6 @@ public final class AlgoStadium extends AlgoElement {
 	}
 
 	private void updatePoints() {
-		int steps = 50;
 		double radius = height.getValue() / 2.0;
 		points.clear();
 		double dx = q.getX() - p.getX();
@@ -79,7 +78,7 @@ public final class AlgoStadium extends AlgoElement {
 		double pi2 = -Math.PI / 2;
 		addAroundPoint(p, -radius, baseAngle + pi2, SegmentType.MOVE_TO);
 		lineAroundPoint(q, radius, baseAngle - pi2);
-
+		int steps = 50;
 		double angleStep = Math.PI / steps;
 		for (int i = steps; i > 0; i--) {
 			double angle = pi2 + i * angleStep;

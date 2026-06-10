@@ -100,7 +100,7 @@ public class GeoAssignment extends Assignment {
 		if (isValid()) {
 			callsToEqual = 0;
 			callsToCheckTypes = 0;
-			boolean oldSilentMode = cons.getKernel().isSilentMode();
+			final boolean oldSilentMode = cons.getKernel().isSilentMode();
 			cons.getKernel().setSilentMode(true);
 
 			TreeSet<GeoElement> possibleOutputGeos = new TreeSet<>(

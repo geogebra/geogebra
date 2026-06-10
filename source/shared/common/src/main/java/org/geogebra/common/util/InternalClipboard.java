@@ -106,7 +106,7 @@ public class InternalClipboard {
 		}
 		beforeSavingToXML(geosLocal, geosToHide);
 
-		boolean saveScriptsToXML = kernel.getSaveScriptsToXML();
+		final boolean saveScriptsToXML = kernel.getSaveScriptsToXML();
 		kernel.setSaveScriptsToXML(false);
 
 		copiedXml.setLength(0);

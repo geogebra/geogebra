@@ -1597,17 +1597,11 @@ public class PlotterSurface {
 
 		manager.texture(0, 0);
 		manager.normalToScale(v1.crossProduct(v2));
-
-		int longitude = manager.getLongitudeDefault();
-
-		Coords m1;
-
-		float dt = (float) (tMax - tMin) / longitude;
 		// first point
 		double t = tMin;
 		float u = (float) (p * t * t / 2);
 		float v = (float) (p * t);
-		m1 = v1.mul(u).add(v2.mul(v));
+		Coords m1 = v1.mul(u).add(v2.mul(v));
 
 		// center of the fan is midpoint of branch ends
 		t = tMax;
@@ -1618,7 +1612,8 @@ public class PlotterSurface {
 
 		// first point
 		manager.triangleFanVertex(center.add(m1));
-
+		int longitude = manager.getLongitudeDefault();
+		float dt = (float) (tMax - tMin) / longitude;
 		for (int i = 1; i <= longitude; i++) {
 			t = tMin + i * dt;
 			u = (float) (p * t * t / 2);

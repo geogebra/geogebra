@@ -737,16 +737,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		Coords o = getCoordSys().getOrigin();
 
 		double z = o.getZ();
-		/*
-		 * if (!Kernel.isZero(z)){ setUndefined(); return; }
-		 */
-
-		Coords v = getCoordSys().getVx();
-
-		double vz = v.getZ();
-		/*
-		 * if (!Kernel.isZero(vz)){ setUndefined(); return; }
-		 */
 
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
@@ -757,7 +747,8 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		double w = o.getW();
 
 		Coords oRot = new Coords(x * cos - y * sin, x * sin + y * cos, z, w);
-
+		Coords v = getCoordSys().getVx();
+		double vz = v.getZ();
 		double vx = v.getX();
 		double vy = v.getY();
 		double vw = v.getW();
@@ -766,7 +757,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 				vw);
 
 		setCoord(oRot, vRot);
-
 	}
 
 	@Override
@@ -774,16 +764,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		Coords o = getCoordSys().getOrigin();
 
 		double z = o.getZ();
-		/*
-		 * if (!Kernel.isZero(z)){ setUndefined(); return; }
-		 */
-
-		Coords v = getCoordSys().getVx();
-
-		double vz = v.getZ();
-		/*
-		 * if (!Kernel.isZero(vz)){ setUndefined(); return; }
-		 */
 
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
@@ -800,15 +780,16 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		Coords oRot = new Coords((x - qx) * cos + (qy - y) * sin + qx,
 				(x - qx) * sin + (y - qy) * cos + qy, z, w);
 
+		Coords v = getCoordSys().getVx();
 		double vx = v.getX();
 		double vy = v.getY();
+		double vz = v.getZ();
 		double vw = v.getW();
 
 		Coords vRot = new Coords(vx * cos - vy * sin, vx * sin + vy * cos, vz,
 				vw);
 
 		setCoord(oRot, vRot);
-
 	}
 
 	private void rotate(NumberValue phiValue, Coords o1, Coords vn) {

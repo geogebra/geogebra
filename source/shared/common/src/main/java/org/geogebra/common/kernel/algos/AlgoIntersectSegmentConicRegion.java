@@ -219,8 +219,6 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 		}
 
 		case 3: {
-			int[] order = { 0, 1, 2, 3 };
-
 			// select the intersecting points
 			GeoPoint[] pnt = new GeoPoint[4];
 			pnt[0] = getSegment().getStartPoint();
@@ -239,17 +237,14 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 			}
 			if (closureIntersect[1].isDefined()) {
 				pnt[count] = closureIntersect[1];
-				count++;
 			}
 			pnt[3] = getSegment().getEndPoint();
 
 			// sorting intersection points
 			double t1 = getSegment().getPossibleParameter(pnt[1].getCoords());
 			double t2 = getSegment().getPossibleParameter(pnt[2].getCoords());
+			int[] order = { 0, 1, 2, 3 };
 			if (t1 > t2) {
-				double temp = t1;
-				t1 = t2;
-				t2 = temp;
 				int intTemp = order[1];
 				order[1] = order[2];
 				order[2] = intTemp;
@@ -306,7 +301,6 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 			}
 			if (closureIntersect[1].isDefined()) {
 				pnt[count] = closureIntersect[1];
-				count++;
 			}
 			pnt[4] = getSegment().getEndPoint();
 
@@ -328,16 +322,12 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 			}
 			if (t1 > t3) {
 				temp = t1;
-				t1 = t3;
 				t3 = temp;
 				intTemp = order[1];
 				order[1] = order[3];
 				order[3] = intTemp;
 			}
 			if (t2 > t3) {
-				temp = t2;
-				t2 = t3;
-				t3 = temp;
 				intTemp = order[2];
 				order[2] = order[3];
 				order[3] = intTemp;

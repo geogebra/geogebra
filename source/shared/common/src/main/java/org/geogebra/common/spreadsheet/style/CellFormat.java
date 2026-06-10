@@ -672,11 +672,6 @@ public class CellFormat implements CellFormatInterface {
 			formatMapArray[FORMAT_BORDER].clear();
 			return;
 		}
-		int r1 = cr.getMinRow();
-		int r2 = cr.getMaxRow();
-		int c1 = cr.getMinColumn();
-		int c2 = cr.getMaxColumn();
-
 		SpreadsheetCoords cell = new SpreadsheetCoords();
 		SpreadsheetCoords cell2 = new SpreadsheetCoords();
 		if (cr.isContiguousRows()) {
@@ -783,6 +778,10 @@ public class CellFormat implements CellFormatInterface {
 
 		// handle all other selection types
 
+		int r1 = cr.getMinRow();
+		int r2 = cr.getMaxRow();
+		int c1 = cr.getMinColumn();
+		int c2 = cr.getMaxColumn();
 		switch (borderStyle) {
 		case BORDER_STYLE_NONE:
 			for (int r = r1; r <= r2; r++) {

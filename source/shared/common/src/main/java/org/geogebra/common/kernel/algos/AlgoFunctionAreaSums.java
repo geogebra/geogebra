@@ -773,8 +773,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements DrawIn
 				sum.setUndefined();
 				return;
 			}
-
-			UnivariateFunction fun = f.getFunction();
 			double ad = a.getDouble();
 			double bd = b.getDouble();
 			if (!onlyZoom) {
@@ -799,13 +797,13 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements DrawIn
 				yval = new double[N];
 				leftBorder = new double[N];
 			}
+			UnivariateFunction fun = f.getFunction();
 			UnivariateFunction fmin = fun;
 			if (type == SumType.UPPERSUM) {
 				fmin = new NegativeRealRootFunction(fun); // use -f to find
 															// maximum
 			}
 
-			double totalArea = 0;
 			double left, right, min;
 
 			// calculate the min and max x-coords of what actually needs to be
@@ -826,6 +824,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements DrawIn
 			boolean doSubSamples = !DoubleUtil.isZero(subStep)
 					&& Math.abs(STEP) > subStep;
 			boolean positiveStep = STEP >= 0;
+			double totalArea = 0;
 			for (int i = 0; i < N; i++) {
 				leftBorder[i] = ad + i * STEP;
 

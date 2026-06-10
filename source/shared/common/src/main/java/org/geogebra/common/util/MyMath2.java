@@ -256,14 +256,12 @@ public class MyMath2 {
 	}
 
 	private static Complex cisi(double a2) {
-
 		int i, k;
 		boolean odd;
-		double a, err, fact, sign, sum, sumc, sums, t, term;
 		Complex h, b, c, d, del, one, two;
 		one = new Complex(1, 0);
 		two = new Complex(2, 0);
-		t = Math.abs(a2);
+		double t = Math.abs(a2);
 		if (t == 0.0) {
 			return new Complex(Double.NEGATIVE_INFINITY, 0);
 
@@ -276,7 +274,7 @@ public class MyMath2 {
 			h = one.divide(b);
 
 			for (i = 2; i <= MAXIT; i++) {
-				a = -(i - 1) * (i - 1);
+				double a = -(i - 1) * (i - 1);
 				b = b.add(two);
 				// dinv = a*d+b
 				// d=1/dinv; Denominators cannot be zero.
@@ -300,6 +298,7 @@ public class MyMath2 {
 			return new Complex(-h.getReal(),
 					Math.signum(a2) * (Kernel.PI_HALF + h.getImaginary()));
 		}
+		double err, fact, sign, sum, sumc, sums, term;
 		if (t < Math.sqrt(Kernel.STANDARD_PRECISION)) {
 			sumc = 0.0;
 			sums = t;
