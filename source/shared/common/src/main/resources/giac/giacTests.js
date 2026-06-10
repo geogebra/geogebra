@@ -1260,7 +1260,7 @@ var __giac = [
 { cat:"InequalityOperation", cmd:"Evaluate[-3(x>=2)]", result:"-6 \u2265 -3 x|OR|-3x \u2264 -6" },
 { cat:"Simplify", cmd:"Simplify[(cos(\u03B1)\u00B2 + sin(\u03B1)\u00B2)]", result:"1" },
 { cat:"Evaluate", cmd:"Evaluate[3%]", result:"3/100" },
-{ cat:"Evaluate",cmd:"2x==x+x", result:"true" },
+{ cat:"Evaluate",cmd:"2x===x+x", result:"true" },
 { cat: "Evaluate", cmd:"abs(x)^0.8==abs(x)^(4/5)", result:"true"},
 { cat:"sin", cmd:"sin(x)^2+cos(x)^2==1", result:"true" },
 { cat:"Max", cmd:"Max[{Last[{1,2,3}]}]", result:"?", notes:"#2895" },
