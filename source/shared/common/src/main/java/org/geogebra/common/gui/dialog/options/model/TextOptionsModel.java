@@ -17,7 +17,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GFont;
@@ -34,7 +33,6 @@ import org.geogebra.common.kernel.geos.TextStyle;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError.Errors;
-import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -71,10 +69,6 @@ public class TextOptionsModel extends OptionsModel {
 
 		@MissingDoc
 		void updatePreviewPanel();
-
-		@MissingDoc
-		void reinitEditor();
-
 	}
 
 	public TextOptionsModel(App app) {
@@ -274,24 +268,8 @@ public class TextOptionsModel extends OptionsModel {
 		listener.updatePreviewPanel();
 	}
 
-	public String getGeoGebraString(ArrayList<DynamicTextElement> list,
-			boolean isLatex) {
-		return dTProcessor.buildGeoGebraString(list, isLatex);
-	}
-
-	public GeoText getEditGeo() {
-		return editGeo;
-	}
-
 	public void setEditGeo(GeoText editGeo) {
 		this.editGeo = editGeo;
-	}
-
-	public void applyEditedGeo(List<DynamicTextElement> text,
-			final boolean isLatex, ErrorHandler handler) {
-		GeoText geo0 = getGeoTextAt(0);
-		dTProcessor.process(text, geo0, isLatex, handler, () -> editGeo = null);
-		storeUndoInfo();
 	}
 
 	public void cancelEditGeo() {
@@ -333,12 +311,6 @@ public class TextOptionsModel extends OptionsModel {
 
 	public void setListener(ITextOptionsListener listener) {
 		this.listener = listener;
-	}
-
-	public void reinitEditor() {
-		if (listener != null) {
-			listener.reinitEditor();
-		}
 	}
 
 	public boolean hasFontStyle() {

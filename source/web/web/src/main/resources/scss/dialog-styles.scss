@@ -169,60 +169,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			}
 	}
 
-	/* text tool dialog */
-	.dialogComponent.TextInputDialog {
-		.ToggleButton {
-			border-radius: 2px;
-			line-height: 24px;
-			vertical-align: middle;
-			text-align: center;
-			min-width: 24px;
-			height: 24px;
-			font-size: 90%;
-			line-height: 24px;
-			text-align: center;
-			text-decoration: none;
-			overflow: hidden;
-			vertical-align: middle;
-			box-shadow: none;
-			padding: 3px;
-			margin-right: 8px;
-
-			img {
-				opacity: 0.54;
-			}
-		 }
-
-		.textEditor {
-			margin-right: 16px;
-			margin-top: 10px;
-			padding: 4px;
-			color: neutral(900);
-		}
-
-		.gwt-DisclosurePanel {
-			.textEditorAdvancedPanel.textEditorDisclosurePanelContent {
-				.latexPanel canvas:hover {
-					cursor: pointer;
-				}
-			}
-
-			.gwt-TabLayoutPanelTab {
-				padding-top: 6px;
-				height: 28px;
-			}
-
-			.SymbolTable td:hover, .GeoGebraFrame .SymbolTable td.focus {
-				background: colors.$white;
-				color: colors.$teal-default;
-			}
-		}
-
-		.gwt-TabLayoutPanelTabInner:hover {
-			color: colors.$teal-light;
-		}
-	}
-
 	.flatDialogBtn {
 		display: inline-block;
 		position: relative;
@@ -314,19 +260,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			}
 		}
 
-		.sliderIntervalPanel {
-			margin-top: 10px;
-
-			.gwt-TextBox {
-				border-bottom: 1px solid colors.$teal-default !important;
-				border-radius: 0px;
-			}
-
-			.gwt-Label {
-				margin-top: 0px;
-			}
-		}
-
 		.gwt-TabBar {
 			.gwt-Label {
 				font-size: 100% !important;
@@ -342,16 +275,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				.gwt-ListBox {
 					border-radius: 2px;
 					box-shadow: none;
-				}
-			}
-
-			.sliderWidthPanel {
-				.AutoCompleteTextFieldW {
-					 display: block;
-
-					 .unitLabel {
-						float: right;
-					 }
 				}
 			}
 		}
@@ -1381,16 +1304,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			.radioButton {
 				margin-right: 20px;
 			}
-		}
-	}
-
-	.TextInputDialog {
-		max-width: 430px;
-		height: auto;
-
-		.textEditorDisclosurePanelContent .gwt-Label {
-			font-size: 100%;
-			margin-top: 0px;
 		}
 	}
 

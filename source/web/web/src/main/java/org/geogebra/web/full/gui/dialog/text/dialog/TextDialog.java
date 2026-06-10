@@ -14,7 +14,7 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.web.full.gui.dialog.newtext;
+package org.geogebra.web.full.gui.dialog.text.dialog;
 
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.dialog.TextInputDialog;
@@ -39,6 +39,7 @@ import org.gwtproject.user.client.ui.TextBox;
 
 public class TextDialog extends ComponentDialog implements TextInputDialog {
 	private final AppWFull appW;
+	private boolean shouldCreateText = true;
 	private GeoText geoText;
 	private TextTopBar topBar;
 	private TextEditPanel editPanel;
@@ -75,7 +76,7 @@ public class TextDialog extends ComponentDialog implements TextInputDialog {
 		editPanel.getTextArea().addDomHandler(
 				event -> {
 					setPosBtnDisabled(editPanel.getText().isEmpty());
-					if (previewPanel != null && editPanel.isLatex()) {
+					if (previewPanel != null && editPanel.getEditGeo().isLaTeX()) {
 						previewPanel.selectLatexCheckbox();
 						topBar.getTextStyle().setLatex(true);
 					}
@@ -202,26 +203,22 @@ public class TextDialog extends ComponentDialog implements TextInputDialog {
 				callback.callback(false);
 				return;
 			}
+
 			// create new GeoText
-			boolean createText = geoText == null;
 			handler.resetError();
-			if (createText) {
+			if (shouldCreateText) {
 				TextBuilder textBuilder = new TextBuilder(appW, startPoint, rw,
 						topBar.getTextStyle());
 				textBuilder.createText(inputValue, handler, callback);
 				return;
 			}
+
 			// change existing text
 			try {
 				kernel.getAlgebraProcessor().changeGeoElement(geoText,
 						inputValue, true, true, handler,
 						newText -> {
 							if (newText instanceof GeoText) {
-								// make sure newText is using correct LaTeX
-								// setting
-								((GeoText) newText).setLaTeX(topBar.getTextStyle().isLatex(),
-										true);
-
 								if (newText.getParentAlgorithm() != null) {
 									newText.getParentAlgorithm().update();
 								} else {
@@ -245,6 +242,7 @@ public class TextDialog extends ComponentDialog implements TextInputDialog {
 
 	@Override
 	public void reInitEditor(GeoText text, GeoPointND startPoint, boolean rw) {
+		shouldCreateText = false;
 		geoText = text;
 		this.startPoint = startPoint;
 		this.rw = rw;

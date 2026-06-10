@@ -16,7 +16,6 @@
 
 package org.geogebra.common.gui.dialog.handler;
 
-import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -33,14 +32,13 @@ public class TextBuilder {
 	private final GeoPointND startPoint;
 	private final boolean rw;
 	private boolean isLaTeX;
-	private boolean isSerif;
-	private int fontStyle = GFont.PLAIN;
 	private TextStyle textStyle;
 
 	/**
 	 * @param app application
 	 * @param startPoint pos
 	 * @param rw whether to use rw coordinates
+	 * @param textStyle {@link TextStyle}
 	 */
 	public TextBuilder(App app, GeoPointND startPoint, boolean rw, TextStyle textStyle) {
 		this.app = app;
@@ -60,15 +58,6 @@ public class TextBuilder {
 		this.startPoint = startPoint;
 		this.rw = rw;
 		this.isLaTeX = isLaTeX;
-	}
-
-	/**
-	 * @param fontStyle se GFont.getStyle()
-	 * @param isSerif whether to use serif font
-	 */
-	public void setStyle(int fontStyle, boolean isSerif) {
-		this.fontStyle = fontStyle;
-		this.isSerif = isSerif;
 	}
 
 	/**
@@ -166,13 +155,10 @@ public class TextBuilder {
 					}
 				} else {
 					t.setLaTeX(isLaTeX, true);
-					t.setFontStyle(fontStyle);
-					t.setSerifFont(isSerif);
 					// make sure for new LaTeX texts we get nice "x"s
-					if (isLaTeX) {
-						t.setSerifFont(true);
-					}
+					t.setSerifFont(isLaTeX);
 				}
+
 				positionText(t);
 				app.storeUndoInfo();
 				callback.callback(true);
@@ -182,4 +168,3 @@ public class TextBuilder {
 		};
 	}
 }
-

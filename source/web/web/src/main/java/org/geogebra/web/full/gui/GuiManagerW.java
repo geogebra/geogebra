@@ -1296,7 +1296,6 @@ public class GuiManagerW extends GuiManager
 			propertiesView.setLabels();
 		}
 
-		getApp().getDialogManager().setLabels();
 		if (isOpenFileViewLoaded()) {
 			getBrowseView().setLabels();
 		}

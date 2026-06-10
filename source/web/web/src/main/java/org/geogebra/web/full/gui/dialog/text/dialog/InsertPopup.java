@@ -14,7 +14,7 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.web.full.gui.dialog.newtext;
+package org.geogebra.web.full.gui.dialog.text.dialog;
 
 import java.util.HashMap;
 import java.util.Map;

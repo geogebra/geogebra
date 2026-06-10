@@ -230,7 +230,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			}
 		}
 
-		.optionsInput, .sliderIntervalPanel {
+		.optionsInput {
 			margin-bottom: 10px;
 
 			.gwt-Label {
@@ -246,26 +246,6 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 
 			input[type="text"].gwt-SuggestBox {
 				width: 80%;
-			}
-		}
-
-		.sliderWidthPanel {
-			.gwt-Label {
-				font-size: 80%;
-				color: colors.$teal-default;
-			}
-
-			select {
-				display: block;
-				width: 100%;
-			}
-
-			.AutoCompleteTextFieldW {
-				display: flex;
-
-				.unitLabel {
-					font-size: 90%;
-				}
 			}
 		}
 

@@ -58,7 +58,6 @@ import jsinterop.base.Js;
  * 
  */
 public class GeoTextEditor extends FocusWidget implements HasKeyboardTF {
-
 	private static final String DYNAMIC_TEXT_CLASS = "dynamicText";
 	private final AppW app;
 	protected ITextEditPanel editPanel;

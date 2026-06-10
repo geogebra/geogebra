@@ -317,9 +317,4 @@ class TextOptionsPanelD extends JPanel
 	public void setEditorText(ArrayList<DynamicTextElement> list) {
 		// TODO Auto-generated method stub
 	}
-
-	@Override
-	public void reinitEditor() {
-		// only called in Web
-	}
 }

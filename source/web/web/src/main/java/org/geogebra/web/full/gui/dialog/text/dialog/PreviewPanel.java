@@ -14,7 +14,7 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.web.full.gui.dialog.newtext;
+package org.geogebra.web.full.gui.dialog.text.dialog;
 
 import org.geogebra.common.gui.dialog.handler.TextStyle;
 import org.geogebra.common.main.GeoGebraColorConstants;

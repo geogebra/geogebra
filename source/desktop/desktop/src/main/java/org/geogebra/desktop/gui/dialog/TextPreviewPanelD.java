@@ -116,7 +116,6 @@ public class TextPreviewPanelD extends TextPreviewer {
 		// update this panel
 		((EuclidianViewD) ev).setPreferredSize(d);
 		((EuclidianViewD) ev).revalidate();
-
 	}
 
 	@Override

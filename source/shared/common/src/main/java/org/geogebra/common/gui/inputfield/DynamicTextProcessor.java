@@ -50,10 +50,8 @@ import com.google.j2objc.annotations.Weak;
  * 
  */
 public class DynamicTextProcessor {
-
 	@Weak
 	private final App app;
-
 	private final ArrayList<DynamicTextElement> dList;
 
 	/**
@@ -76,7 +74,6 @@ public class DynamicTextProcessor {
 	 *         GeoText
 	 */
 	public ArrayList<DynamicTextElement> buildDynamicTextList(GeoText geo) {
-
 		dList.clear();
 
 		if (geo == null) {
@@ -98,7 +95,6 @@ public class DynamicTextProcessor {
 		// parse the root and set the text content
 		this.splitString(root, dList);
 		return dList;
-
 	}
 
 	/**
@@ -112,7 +108,6 @@ public class DynamicTextProcessor {
 	 */
 	private void splitString(ExpressionNode en,
 			ArrayList<DynamicTextElement> dynList) {
-
 		ExpressionValue left = en.getLeft();
 		ExpressionValue right = en.getRight();
 		StringTemplate tpl = StringTemplate.defaultTemplate;
@@ -139,7 +134,6 @@ public class DynamicTextProcessor {
 
 		// STANDARD case: no leaf
 		else {
-
 			if (right != null && isNotSplittable(en)) {
 				// neither left nor right are free texts, eg a+3 in
 				// (a+3)+"hello"
@@ -180,7 +174,6 @@ public class DynamicTextProcessor {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -194,7 +187,6 @@ public class DynamicTextProcessor {
 	 * @return DynamicText instance
 	 */
 	private DynamicTextElement createDynamicTextElement(String text) {
-
 		String contentString = text;
 		DynamicTextType type = DynamicTextType.VALUE;
 		String prefix;
@@ -246,7 +238,6 @@ public class DynamicTextProcessor {
 	 */
 	public String buildGeoGebraString(List<DynamicTextElement> list,
 			boolean latex) {
-
 		if (list == null || list.isEmpty()) {
 			return "";
 		}
@@ -293,7 +284,6 @@ public class DynamicTextProcessor {
 		sb.append('"');
 
 		return sb.toString();
-
 	}
 
 	/**

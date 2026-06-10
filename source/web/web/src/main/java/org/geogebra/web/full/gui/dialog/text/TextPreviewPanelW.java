@@ -111,9 +111,7 @@ public class TextPreviewPanelW extends TextPreviewer {
 
 	@Override
 	protected void removeEVMouseListeners() {
-		// ev.removeMouseListener(ev.getEuclidianController());
-		// ev.removeMouseMotionListener(ev.getEuclidianController());
-		// ev.removeMouseWheelListener(ev.getEuclidianController());
+		// nothing to do here
 	}
 
 	@Override

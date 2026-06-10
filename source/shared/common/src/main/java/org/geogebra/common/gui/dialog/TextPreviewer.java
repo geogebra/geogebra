@@ -38,7 +38,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 
 /**
- * 
  * Abstract class for displaying a preview of a GeoText while editing. The class
  * requires a GUI panel that encloses an instance of EuclidianView. The preview
  * is drawn as a GeoText element in this EuclidianView.
@@ -46,13 +45,8 @@ import org.geogebra.common.main.MyError;
  * The class maintains two hidden geos (previewGeoIndependent and
  * previewGeoDependent) that are used to preview the two possible types of
  * GeoText, independent and dependent.
- * 
- * 
- * @author G. Sturr
- * 
  */
 public abstract class TextPreviewer {
-
 	protected EuclidianView ev;
 	protected Kernel kernel;
 	private App app;
@@ -65,11 +59,9 @@ public abstract class TextPreviewer {
 	private boolean isIndependent;
 
 	/**
-	 * @param kernel
-	 *            Kernel
+	 * @param kernel Kernel
 	 */
 	public TextPreviewer(Kernel kernel) {
-
 		this.kernel = kernel;
 		this.cons = kernel.getConstruction();
 		this.ev = getEuclidianView();
@@ -81,7 +73,6 @@ public abstract class TextPreviewer {
 		ev.setAxesCornerCoordsVisible(false);
 		ev.updateFonts();
 		ev.updateSize();
-
 	}
 
 	protected abstract EuclidianView getEuclidianView();
@@ -98,8 +89,7 @@ public abstract class TextPreviewer {
 	 * the bounding box dimensions and must use dummy containers to estimate
 	 * these dimensions.
 	 * 
-	 * @param previewGeo
-	 *            preview text
+	 * @param previewGeo preview text
 	 */
 	protected abstract void updateViewportSize(GeoText previewGeo);
 
@@ -133,14 +123,10 @@ public abstract class TextPreviewer {
 	 * determined by the inputValue string and the visual style of the
 	 * targetGeo.
 	 * 
-	 * @param targetGeo
-	 *            geo being edited
-	 * @param inputValue
-	 *            input text
-	 * @param isLaTeXset
-	 *            whether user set it to LaTeX
-	 * @param mayDetectLaTeX
-	 *            whether we may change the LaTeX property
+	 * @param targetGeo geo being edited
+	 * @param inputValue input text
+	 * @param isLaTeXset whether user set it to LaTeX
+	 * @param mayDetectLaTeX whether we may change the LaTeX property
 	 * @return whether this is latex
 	 */
 	public boolean updatePreviewText(GeoText targetGeo, String inputValue,
@@ -165,9 +151,6 @@ public abstract class TextPreviewer {
 			previewGeoIndependent.addView(ev.getViewID());
 			ev.add(previewGeoIndependent);
 		}
-
-		// prepare the input string for processing
-		// String formattedInput = formatInputValue(inputValue);
 
 		// parse the input text
 		try {
@@ -297,7 +280,6 @@ public abstract class TextPreviewer {
 	 */
 	private void updateVisualProperties(GeoText geo, GeoText targetGeo,
 			boolean isLaTeX, boolean isErrorMessage) {
-
 		// set error message style
 		if (isErrorMessage) {
 			geo.setVisualStyle(cons.getConstructionDefaults()
@@ -324,11 +306,6 @@ public abstract class TextPreviewer {
 		// set geo position in upper left corner (it might need changing after
 		// isLaTeX change)
 		locateTextGeo(geo);
-
-		// Log.debug("preview text geo loc:" + geo.getAbsoluteScreenLocX() +
-		// " , "
-		// + geo.getAbsoluteScreenLocY());
-
 	}
 
 	/**
@@ -352,5 +329,4 @@ public abstract class TextPreviewer {
 	protected void setApp(App app) {
 		this.app = app;
 	}
-
 }

@@ -47,7 +47,6 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.GTimerListener;
@@ -58,8 +57,8 @@ import org.geogebra.web.full.gui.components.ComponentInputDialog;
 import org.geogebra.web.full.gui.dialog.image.ImageDialog;
 import org.geogebra.web.full.gui.dialog.image.UploadImagePanel;
 import org.geogebra.web.full.gui.dialog.image.WebcamInputDialog;
-import org.geogebra.web.full.gui.dialog.newtext.TextDialog;
 import org.geogebra.web.full.gui.dialog.template.TemplateChooser;
+import org.geogebra.web.full.gui.dialog.text.dialog.TextDialog;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.util.ColorChooserW;
 import org.geogebra.web.full.gui.util.SaveDialog;
@@ -611,15 +610,6 @@ public class DialogManagerW extends DialogManager
 	}
 
 	/**
-	 * Update labels in the GUI.
-	 */
-	public void setLabels() {
-		if (textInputDialog != null) {
-			((TextInputDialogW) textInputDialog).setLabels();
-		}
-	}
-
-	/**
 	 * Creates a new {@link ColorChooserDialog}.
 	 *
 	 * @param originalColor
@@ -652,14 +642,8 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint,
 			boolean rw) {
-		if (PreviewFeature.isAvailable(PreviewFeature.TEXT_DIALOG)) {
-			DialogData data = new DialogData("Text", "Cancel", "Ok");
-			return new TextDialog((AppWFull) app, data, startPoint, rw);
-		} else {
-			return new TextInputDialogW((AppW) app, app.getLocalization().getMenu("Text"),
-					text, startPoint, rw,
-					app.getMode() == EuclidianConstants.MODE_TEXT);
-		}
+		DialogData data = new DialogData("Text", "Cancel", "Ok");
+		return new TextDialog((AppWFull) app, data, startPoint, rw);
 	}
 
 	/**

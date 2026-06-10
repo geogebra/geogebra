@@ -725,8 +725,6 @@ public abstract class DialogManager {
 	public abstract TextInputDialog createTextDialog(GeoText text,
 			GeoPointND startPoint, boolean rw);
 
-	// public abstract void showOpenFromGGTDialog();
-
 	/**
 	 * @param ec
 	 *            controller
