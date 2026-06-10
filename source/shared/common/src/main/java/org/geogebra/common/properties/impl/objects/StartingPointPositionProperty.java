@@ -24,7 +24,6 @@ import java.util.List;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.kernel.Locateable;
-import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -58,7 +57,7 @@ public class StartingPointPositionProperty extends AbstractValuedProperty<String
 			throw new NotApplicablePropertyException(geoElement);
 		}
 
-		if (!(geoElement instanceof AbsoluteScreenLocateable)
+		if (!(geoElement instanceof Locateable)
 				|| isDependentTextCommand(geoElement)) {
 			throw new NotApplicablePropertyException(geoElement);
 		}

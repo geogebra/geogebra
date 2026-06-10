@@ -21,8 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.kernel.geos.GeoAngle;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
@@ -36,6 +34,7 @@ public class StartingPointPositionPropertyTests extends BaseAppTestSetup {
 	@ParameterizedTest
 	@ValueSource(strings = {
 			"Slider(-5, 5, 1)", // number slider
+			"Vector((1, 2))",
 			"Slider(0, 10, 0.1, 0.1, 100, true, true, false, false)", // angle slider
 			"\"abc\"",
 	})
@@ -49,7 +48,6 @@ public class StartingPointPositionPropertyTests extends BaseAppTestSetup {
 	@ValueSource(strings = {
 			"true",
 			"(1, 2)",
-			"Vector((1, 2))",
 			"β = Angle((0, 0), (1, 1), (2, 2))",
 			"BarChart({1,2,3},{4,5,6})"
 	})
