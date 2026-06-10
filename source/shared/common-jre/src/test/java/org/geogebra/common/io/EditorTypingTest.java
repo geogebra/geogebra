@@ -657,7 +657,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	public void testBracketsForSelectionSin() {
 		checker.type("sinx^2").right(1).type("+1")
 				.setModifiers(KeyEvent.SHIFT_MASK)
-				.left(5)
+				.left(4)
 				.setModifiers(0).type("(").checkAsciiMath("sin(x^(2)+1)");
 	}
 
@@ -683,6 +683,20 @@ public class EditorTypingTest extends BaseExamTestSetup {
 				.left(42).setModifiers(KeyEvent.SHIFT_MASK).right(42) // select as far as possible
 				.type("7")
 				.checkAsciiMath("(7,456)");
+	}
+
+	@Test
+	@Issue("APPS-7553")
+	public void testBracketsSelectionAtomic() {
+		checker.type("1+(2+3)+4")
+				.setModifiers(KeyEvent.SHIFT_MASK)
+				.left(3)
+				.checkSelection("ArrayNode[SequenceNode[2, +, 3]]", "4");
+		checker.type("1+(2+3)+4")
+				.setModifiers(KeyEvent.SHIFT_MASK)
+				.left(3)
+				.right(1)
+				.checkSelection("+", "4");
 	}
 
 	@Test

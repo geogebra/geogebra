@@ -158,22 +158,25 @@ public class EditorState {
 	 * @return whether selection changed
 	 */
 	public boolean extendSelection(boolean left) {
-		boolean ret;
+		boolean moved;
 		if (selectionParent == null) {
 			skipInvisiblePositions(left);
 			selectionParent = currentNode;
 			selectionAnchor = currentOffset;
 		}
-		if (left) {
-			ret = CursorController.prevCharacter(this);
-		} else {
-			ret = CursorController.nextCharacter(this);
-		}
-		extendSelection();
+		boolean changed;
+		do {
+			if (left) {
+				moved = CursorController.prevCharacter(this);
+			} else {
+				moved = CursorController.nextCharacter(this);
+			}
+			changed = extendSelection();
+		} while (moved && !changed);
 		if (left && currentNode.size() == currentOffset) {
 			currentOffset--;
 		}
-		return ret;
+		return moved;
 	}
 
 	private void skipInvisiblePositions(boolean left) {
@@ -199,14 +202,17 @@ public class EditorState {
 
 	/**
 	 * Extends selection to include a field
+	 * @return whether selection changed
 	 */
-	public void extendSelection() {
+	public boolean extendSelection() {
 		int startDepth = selectionParent.getDepth();
 		int endDepth = currentNode.getDepth();
 		int startIndex = -1;
 		int endIndex = -1;
 		InternalNode startNode = selectionParent;
 		InternalNode endNode = currentNode;
+		final Node oldStart = currentSelStart;
+		final Node oldEnd = currentSelEnd;
 
 		while (startDepth > endDepth) {
 			startIndex = startNode.getParentIndex();
@@ -239,13 +245,14 @@ public class EditorState {
 				SequenceNode parentSequence = startNode.getParentSequence();
 				selectSubsequence(parentSequence, 0, parentSequence.size());
 			}
-			return;
+			// if we're stuck in protected node, always consider the selection changed
+			return true;
 		}
 
 		if (!(startNode instanceof SequenceNode)) {
 			selectSubsequence(startNode.getParentSequence(),
 					startNode.getParentIndex(), startNode.getParentIndex() + 1);
-			return;
+			return didSelectionChange(oldStart, oldEnd);
 		}
 		int startOffset;
 		int endOffset;
@@ -276,7 +283,14 @@ public class EditorState {
 		}
 		if (isGrandparentProtected(startNode)) {
 			terminateSelectionAtComma(startNode, startOffset, endOffset);
+			// if we're stuck in protected node, always consider the selection changed
+			return true;
 		}
+		return didSelectionChange(oldStart, oldEnd);
+	}
+
+	private boolean didSelectionChange(Node oldStart, Node oldEnd) {
+		return oldStart != currentSelStart || oldEnd != currentSelEnd;
 	}
 
 	private void terminateSelectionAtComma(InternalNode commonParent, int from, int to) {
