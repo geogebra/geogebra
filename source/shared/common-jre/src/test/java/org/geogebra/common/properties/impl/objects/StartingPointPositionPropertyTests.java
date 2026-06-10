@@ -48,6 +48,7 @@ public class StartingPointPositionPropertyTests extends BaseAppTestSetup {
 	@ValueSource(strings = {
 			"true",
 			"(1, 2)",
+			"Vector((1, 2),(3,4))",
 			"β = Angle((0, 0), (1, 1), (2, 2))",
 			"BarChart({1,2,3},{4,5,6})"
 	})
