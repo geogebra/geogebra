@@ -170,15 +170,15 @@ public class MD5Checksum {
 	}
 
 	private static int[] convertToWordArray(String string) {
-		int lWordCount;
 		int lMessageLength = string.length();
 		int lNumberOfWords_temp1 = lMessageLength + 8;
 		int lNumberOfWords_temp2 = (lNumberOfWords_temp1
 				- (lNumberOfWords_temp1 % 64)) / 64;
 		int lNumberOfWords = (lNumberOfWords_temp2 + 1) * 16;
 		int[] lWordArray = new int[lNumberOfWords];
-		int lBytePosition = 0;
+		int lBytePosition;
 		int lByteCount = 0;
+		int lWordCount;
 		while (lByteCount < lMessageLength) {
 			lWordCount = (lByteCount - (lByteCount % 4)) / 4;
 			lBytePosition = (lByteCount % 4) * 8;

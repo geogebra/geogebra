@@ -1376,8 +1376,6 @@ public class PolygonTriangulation {
 				}
 
 			} else {
-
-				Point currentPoint;
 				Point currentPointNew;
 				Point nextPoint = start;
 				Point nextPointNew = nextPoint.duplicate();
@@ -1385,16 +1383,16 @@ public class PolygonTriangulation {
 				// polygonPoints.add(nextPointNew);
 
 				Segment segment = segStart;
-				Segment next = null;
+				Segment next;
 
 				Running running = Running.RIGHT;
 
 				while (running != Running.STOP) {
 					segment.running = running;
-					currentPoint = nextPoint;
+					final Point currentPoint = nextPoint;
 					currentPointNew = nextPointNew;
 					boolean needsDiagonal = false;
-					debug(nextPoint.name + ", " + segment + "");
+					debug(nextPoint.name + ", " + segment);
 					if (running == Running.RIGHT) {
 						nextPoint = segment.rightPoint;
 						if (nextPoint == start) {
@@ -1872,7 +1870,6 @@ public class PolygonTriangulation {
 		// points are re-used
 
 		while (!polygonPoints.isEmpty()) {
-			String s = "Monotone piece : ";
 
 			Point start = polygonPoints.first();
 			Point currentPoint = start;
@@ -1929,9 +1926,6 @@ public class PolygonTriangulation {
 
 					}
 				}
-
-				s += currentPoint.name;
-
 				segment.removeFromPoints();
 				if (oldRunning == Running.LEFT) {
 					if (segment.usable > 1) {
@@ -1991,8 +1985,6 @@ public class PolygonTriangulation {
 			} else {
 				debug("keep : " + start.name);
 			}
-
-			debug(s);
 
 			triangulate(segStart, segment);
 		}

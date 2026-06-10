@@ -523,7 +523,7 @@ public abstract class PropertyView {
 	 * {@code PropertyView} responsible for setting, retrieving, and validating the value of a
 	 * {@link StringProperty} depending on whether the user is currently editing.
 	 */
-	private abstract static class ValidatablePropertyBackedView<T extends StringProperty>
+	public abstract sealed static class ValidatablePropertyBackedView<T extends StringProperty>
 			extends PropertyBackedView<T> {
 		private String value;
 		private String errorMessage;

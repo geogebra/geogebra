@@ -262,13 +262,10 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	}
 
 	private void logisticReg() {
-
-		double lambda; // LM-damping coefficient
+		iterations = 0;
 		double multfaktor = LMFACTORMULT; // later?: divfaktor=LMFACTORDIV;
 		double residual, old_residual = beta2(xd, yd, a, b, c);
 		double x, y;
-		double dfa, dfb, dfc, beta, newa, newb, newc;
-		iterations = 0;
 		// ****checked up to here
 		// LM: optimal startlambda
 		double b1 = 0, b2 = 0, b3 = 0;
@@ -276,10 +273,10 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		for (int i = 0; i < size; i++) {
 			x = xd[i];
 			y = yd[i];
-			beta = beta(x, y, a, b, c);
-			dfa = df_a(x, a, b, c);
-			dfb = df_b(x, a, b, c);
-			dfc = df_c(x, a, b);
+			double beta = beta(x, y, a, b, c);
+			double dfa = df_a(x, a, b, c);
+			double dfb = df_b(x, a, b, c);
+			double dfc = df_c(x, a, b);
 			// b=At*beta
 			b1 += beta * dfa;
 			b2 += beta * dfb;
@@ -291,7 +288,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		} // for all datapoints
 
 		double startfaktor = Math.max(Math.max(m11, m22), m33);
-		lambda = startfaktor * 0.001; // heuristic... (Set to zero if no LM)
+		double lambda = startfaktor * 0.001; // heuristic... (Set to zero if no LM)
 		double da = EPSILONREG, db = EPSILONREG, dc = EPSILONREG;
 		while (Math.abs(da) + Math.abs(db) + Math.abs(dc) > EPSILONREG) {
 			// or while(Math.abs(diff)>EPSILON) ?
@@ -309,10 +306,10 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 			for (int i = 0; i < size; i++) {
 				x = xd[i];
 				y = yd[i];
-				beta = beta(x, y, a, b, c);
-				dfa = df_a(x, a, b, c);
-				dfb = df_b(x, a, b, c);
-				dfc = df_c(x, a, b);
+				double beta = beta(x, y, a, b, c);
+				double dfa = df_a(x, a, b, c);
+				double dfb = df_b(x, a, b, c);
+				double dfc = df_c(x, a, b);
 				// b=At*beta
 				b1 += beta * dfa;
 				b2 += beta * dfb;
@@ -345,9 +342,9 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 						m33) / n;
 				dc = RegressionMath.det33(m11, m12, b1, m21, m22, b2, m31, m32,
 						b3) / n;
-				newa = a + da;
-				newb = b + db;
-				newc = c + dc; // remember this and update later if ok
+				double newa = a + da;
+				double newb = b + db;
+				double newc = c + dc; // remember this and update later if ok
 				residual = beta2(xd, yd, newa, newb, newc);
 				// diff=residual-old_residual;
 				// //debug("Residual difference: "+diff+" lambda: "+lambda);

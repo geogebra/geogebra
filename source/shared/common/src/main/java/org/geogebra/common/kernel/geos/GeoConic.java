@@ -225,7 +225,6 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 			if (conic.getType() == GeoConicNDConstants.CONIC_CIRCLE) { // Mirror
 				// point in
 				// circle
-				double r = conic.getHalfAxes()[0];
 				GeoVec2D midPoint = conic.getTranslationVector();
 				double mx = midPoint.getX();
 				double my = midPoint.getY();
@@ -247,6 +246,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 						+ (perpY - my) * (perpY - my);
 				// if line goes through center, we keep it
 				if (!DoubleUtil.isZero(dist2)) {
+					double r = conic.getHalfAxes()[0];
 					double sf = r * r / dist2;
 					// GeoPoint p =new GeoPoint(cons,null,a+sf*(perpX-a),
 					// b+sf*(perpY-b) ,1.0);
@@ -418,23 +418,23 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 		 * ( A[0] A[3] A[4] ) matrix = ( A[3] A[1] A[5] ) ( A[4] A[5] A[2] )
 		 * P=matrix*B
 		 */
-		double p00 = matrix[0] * adj[0][0] + matrix[3] * adj[0][1]
+		final double p00 = matrix[0] * adj[0][0] + matrix[3] * adj[0][1]
 				+ matrix[4] * adj[0][2];
-		double p01 = matrix[0] * adj[1][0] + matrix[3] * adj[1][1]
+		final double p01 = matrix[0] * adj[1][0] + matrix[3] * adj[1][1]
 				+ matrix[4] * adj[1][2];
-		double p02 = matrix[0] * adj[2][0] + matrix[3] * adj[2][1]
+		final double p02 = matrix[0] * adj[2][0] + matrix[3] * adj[2][1]
 				+ matrix[4] * adj[2][2];
-		double p10 = matrix[3] * adj[0][0] + matrix[1] * adj[0][1]
+		final double p10 = matrix[3] * adj[0][0] + matrix[1] * adj[0][1]
 				+ matrix[5] * adj[0][2];
-		double p11 = matrix[3] * adj[1][0] + matrix[1] * adj[1][1]
+		final double p11 = matrix[3] * adj[1][0] + matrix[1] * adj[1][1]
 				+ matrix[5] * adj[1][2];
-		double p12 = matrix[3] * adj[2][0] + matrix[1] * adj[2][1]
+		final double p12 = matrix[3] * adj[2][0] + matrix[1] * adj[2][1]
 				+ matrix[5] * adj[2][2];
-		double p20 = matrix[4] * adj[0][0] + matrix[5] * adj[0][1]
+		final double p20 = matrix[4] * adj[0][0] + matrix[5] * adj[0][1]
 				+ matrix[2] * adj[0][2];
-		double p21 = matrix[4] * adj[1][0] + matrix[5] * adj[1][1]
+		final double p21 = matrix[4] * adj[1][0] + matrix[5] * adj[1][1]
 				+ matrix[2] * adj[1][2];
-		double p22 = matrix[4] * adj[2][0] + matrix[5] * adj[2][1]
+		final double p22 = matrix[4] * adj[2][0] + matrix[5] * adj[2][1]
 				+ matrix[2] * adj[2][2];
 
 		matrix[0] = adj[0][0] * p00 + adj[0][1] * p10 + adj[0][2] * p20;

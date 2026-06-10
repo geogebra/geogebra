@@ -442,36 +442,30 @@ public class ClipShape {
 			int y0, int w, int h) {
 		GPathIterator i = s.getPathIterator(t);
 		ClippedPath p = new ClippedPath(i.getWindingRule());
-		double initialX = 0;
-		double initialY = 0;
-		int k;
-		double[] f = doubleFactory.getArray(6);
-		double rTop = y0;
-		double rLeft = x0;
-		double rRight = x0 + w;
-		double rBottom = y0 + h;
+
+		final double[] f = doubleFactory.getArray(6);
+		final double rTop = y0;
+		final double rLeft = x0;
+		final double rRight = x0 + w;
+		final double rBottom = y0 + h;
+		// create 1 copy of all our possible functions,
+		// and recycle these objects constantly
+		// this way we avoid memory allocation:
+		final LFunction lxf = new LFunction();
+		final LFunction lyf = new LFunction();
+		final QFunction qxf = new QFunction();
+		final QFunction qyf = new QFunction();
+		final CFunction cxf = new CFunction();
+		final CFunction cyf = new CFunction();
+		final double[] interestingTimes = new double[16];
 		boolean shouldClose = false;
 		double lastX = 0;
 		double lastY = 0;
 		boolean lastValueWasCapped, thisValueIsCapped, midValueInvalid;
-		double cappedX, cappedY, x, y, x2, y2;
-
-		// create 1 copy of all our possible functions,
-		// and recycle these objects constantly
-		// this way we avoid memory allocation:
-		LFunction lxf = new LFunction();
-		LFunction lyf = new LFunction();
-		QFunction qxf = new QFunction();
-		QFunction qyf = new QFunction();
-		CFunction cxf = new CFunction();
-		CFunction cyf = new CFunction();
-		Function xf = null;
-		Function yf = null;
-		double[] interestingTimes = new double[16];
-		int tCtr;
-
+		double cappedX, cappedY, x2, y2;
+		double initialX = 0, initialY = 0;
 		while (!i.isDone()) {
-			k = i.currentSegment(f);
+			int k = i.currentSegment(f);
 			if (k == GPathIterator.SEG_MOVETO) {
 				initialX = f[0];
 				initialY = f[1];
@@ -498,7 +492,8 @@ public class ClipShape {
 				k = GPathIterator.SEG_LINETO;
 				shouldClose = true;
 			}
-			xf = null;
+			Function xf = null;
+			Function yf = null;
 			if (k == GPathIterator.SEG_LINETO) {
 				lxf.define(lastX, f[0]);
 				lyf.define(lastY, f[1]);
@@ -522,7 +517,7 @@ public class ClipShape {
 				// gather all the t values at which we might be
 				// crossing the bounds of our rectangle:
 
-				tCtr = 0;
+				int tCtr = 0;
 
 				tCtr += xf.evaluateInverse(rLeft, interestingTimes, tCtr);
 				tCtr += xf.evaluateInverse(rRight, interestingTimes, tCtr);
@@ -552,8 +547,8 @@ public class ClipShape {
 						// lines
 						// all we want to because the ClippedPath will clean up
 						// the mess.
-						x = xf.evaluate(interestingTimes[a]);
-						y = yf.evaluate(interestingTimes[a]);
+						double x = xf.evaluate(interestingTimes[a]);
+						double y = yf.evaluate(interestingTimes[a]);
 						cappedX = x;
 						cappedY = y;
 

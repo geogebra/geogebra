@@ -256,7 +256,6 @@ public class MyMath2 {
 	}
 
 	private static Complex cisi(double a2) {
-		int i, k;
 		boolean odd;
 		Complex h, b, c, d, del, one, two;
 		one = new Complex(1, 0);
@@ -273,7 +272,7 @@ public class MyMath2 {
 			d = one.divide(b);
 			h = one.divide(b);
 
-			for (i = 2; i <= MAXIT; i++) {
+			for (int i = 2; i <= MAXIT; i++) {
 				double a = -(i - 1) * (i - 1);
 				b = b.add(two);
 				// dinv = a*d+b
@@ -306,6 +305,7 @@ public class MyMath2 {
 			sum = sums = sumc = 0.0;
 			sign = fact = 1.0;
 			odd = true;
+			int k;
 			for (k = 1; k <= MAXIT; k++) {
 				fact *= t / k;
 				term = fact / k;
@@ -331,7 +331,6 @@ public class MyMath2 {
 
 		return new Complex(sumc + Math.log(t) + MyDouble.EULER_GAMMA,
 				Math.signum(a2) * sums);
-
 	}
 
 	/**

@@ -3007,7 +3007,7 @@ public class AlgebraProcessor {
 	protected GeoElement[] processLine(Equation equ, ExpressionNode def,
 			EvalInfo info) {
 		GeoLine line;
-		String label = equ.getLabel();
+		final String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
 		boolean isExplicit = equ.isExplicit("y");
 		boolean isIndependent = lhs.isConstant(info) && !def.any(Inspecting::isDynamicGeoElement);
@@ -3106,8 +3106,6 @@ public class AlgebraProcessor {
 	 */
 	public GeoElement[] processConic(Equation equ, ExpressionNode def,
 			EvalInfo info) {
-		double a, b, c, d, e, f;
-		GeoConic conic;
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
 
@@ -3115,8 +3113,9 @@ public class AlgebraProcessor {
 		boolean isSpecific = !isExplicit
 				&& (equ.isExplicit("yy") || equ.isExplicit("xx"));
 		boolean isIndependent = lhs.isConstant(info);
-
+		GeoConic conic;
 		if (isIndependent) {
+			double a, b, c, d, e, f;
 			a = lhs.getCoeffValue("xx");
 			b = lhs.getCoeffValue("xy");
 			c = lhs.getCoeffValue("yy");
@@ -3610,7 +3609,7 @@ public class AlgebraProcessor {
 
 		}
 
-		boolean polar = p.getToStringMode() == Kernel.COORD_POLAR;
+		final boolean polar = p.getToStringMode() == Kernel.COORD_POLAR;
 
 		// we want z = 3 + i to give a (complex) GeoPoint not a GeoVector
 		boolean complex = p.getToStringMode() == Kernel.COORD_COMPLEX;

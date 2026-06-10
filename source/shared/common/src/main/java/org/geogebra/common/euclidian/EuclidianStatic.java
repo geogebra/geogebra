@@ -212,8 +212,6 @@ public class EuclidianStatic {
 		lineHeights.add(lineSpread + lineSpace);
 		ArrayList<Integer> elementHeights = new ArrayList<>();
 
-		int depth = 0;
-
 		// use latex by default just if there is just a single element
 		boolean isLaTeX = elements.length == 1;
 
@@ -334,7 +332,7 @@ public class EuclidianStatic {
 		}
 
 		if (ret != null) {
-			ret.setBounds(xLabel - 3, yLabel - 3 + depth, width + 6,
+			ret.setBounds(xLabel - 3, yLabel - 3, width + 6,
 					height + 6);
 		}
 	}
@@ -475,25 +473,21 @@ public class EuclidianStatic {
 	public static GPoint drawIndexedString(App app, GGraphics2D g3, String str,
 			double xPos, double yPos, boolean serif,
 			boolean doDraw, EuclidianView view, GColor col) {
-
+		if (str == null) {
+			return null;
+		}
+		final int length = str.length();
 		GFont g2font = g3.getFont();
 		g2font = app.getFontCanDisplay(str, serif, g2font.getStyle(),
 				g2font.getSize());
 		GFont indexFont = getIndexFont(g2font);
-		GFont font = g2font;
-		// GTextLayout layout;
 		GFontRenderContext frc = g3.getFontRenderContext();
 
 		double indexOffset = indexFont.getSize() / 2;
 		double maxY = 0;
 		int depth = 0;
 		double x = xPos;
-		double y = yPos;
 		int startPos = 0;
-		if (str == null) {
-			return null;
-		}
-		int length = str.length();
 
 		for (int i = 0; i < length; i++) {
 			switch (str.charAt(i)) {
@@ -503,8 +497,8 @@ public class EuclidianStatic {
 			case '_':
 				// draw everything before _
 				if (i > startPos) {
-					font = (depth == 0) ? g2font : indexFont;
-					y = yPos + depth * indexOffset;
+					GFont font = (depth == 0) ? g2font : indexFont;
+					double y = yPos + depth * indexOffset;
 					if (y > maxY) {
 						maxY = y;
 					}
@@ -524,8 +518,8 @@ public class EuclidianStatic {
 				// check if next character is a '{' (beginning of index with
 				// several chars)
 				if (startPos < length && str.charAt(startPos) != '{') {
-					font = (depth == 0) ? g2font : indexFont;
-					y = yPos + depth * indexOffset;
+					GFont font = (depth == 0) ? g2font : indexFont;
+					double y = yPos + depth * indexOffset;
 					if (y > maxY) {
 						maxY = y;
 					}
@@ -544,17 +538,16 @@ public class EuclidianStatic {
 			case '}': // end of index with several characters
 				if (depth > 0) {
 					if (i > startPos) {
-						font = indexFont;
-						y = yPos + depth * indexOffset;
+						double y = yPos + depth * indexOffset;
 						if (y > maxY) {
 							maxY = y;
 						}
 						String tempStr = str.substring(startPos, i);
 						if (doDraw) {
-							g3.setFont(font);
+							g3.setFont(indexFont);
 							drawString(view, g3, tempStr, x, y, col);
 						}
-						x += measureString(tempStr, font, frc);
+						x += measureString(tempStr, indexFont, frc);
 					}
 					startPos = i + 1;
 					depth--;
@@ -564,8 +557,8 @@ public class EuclidianStatic {
 		}
 
 		if (startPos < length) {
-			font = (depth == 0) ? g2font : indexFont;
-			y = yPos + depth * indexOffset;
+			GFont font = (depth == 0) ? g2font : indexFont;
+			double y = yPos + depth * indexOffset;
 			if (y > maxY) {
 				maxY = y;
 			}
@@ -629,7 +622,6 @@ public class EuclidianStatic {
 			int xLabel, int yLabel, GGraphics2D g2, boolean serif,
 			GFont textFont, GRectangle ret, GeoElement geo, int margin) {
 
-		int lines = 0;
 		double fontSize = textFont.getSize();
 		double lineSpread = fontSize * 1.5f;
 
@@ -644,6 +636,7 @@ public class EuclidianStatic {
 		int length = labelDesc.length();
 		// fix jumping text in mow text editor
 		int yPos = yLabel;
+		int lines = 0;
 		for (int i = 0; i < length - 1; i++) {
 			if (labelDesc.charAt(i) == '\n') {
 
@@ -662,7 +655,7 @@ public class EuclidianStatic {
 
 				lines++;
 				lineBegin = i + 1;
-				yPos += lineSpread;
+				yPos = yPos + (int) lineSpread;
 			}
 		}
 
