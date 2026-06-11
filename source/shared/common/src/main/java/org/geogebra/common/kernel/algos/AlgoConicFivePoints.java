@@ -352,12 +352,7 @@ public class AlgoConicFivePoints extends AlgoElement
 		}
 		PVariable x = botanaVars[0];
 		PVariable y = botanaVars[1];
-		PVariable a = botanaVars[2];
-		PVariable b = botanaVars[3];
-		PVariable c = botanaVars[4];
-		PVariable d = botanaVars[5];
-		PVariable e = botanaVars[6];
-		PVariable f = botanaVars[7];
+
 		botanaPolynomials = new PPolynomial[6];
 		/* one for the curve and 5 for the constraints */
 		PPolynomial xp = new PPolynomial(x);
@@ -365,6 +360,12 @@ public class AlgoConicFivePoints extends AlgoElement
 		PPolynomial xx = PPolynomial.sqr(xp);
 		PPolynomial yy = PPolynomial.sqr(yp);
 		PPolynomial xy = xp.multiply(yp);
+		PVariable a = botanaVars[2];
+		PVariable b = botanaVars[3];
+		PVariable c = botanaVars[4];
+		PVariable d = botanaVars[5];
+		PVariable e = botanaVars[6];
+		PVariable f = botanaVars[7];
 		PPolynomial ap = new PPolynomial(a);
 		PPolynomial bp = new PPolynomial(b);
 		PPolynomial cp = new PPolynomial(c);

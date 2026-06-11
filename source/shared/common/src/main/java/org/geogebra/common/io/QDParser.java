@@ -88,8 +88,7 @@ public class QDParser {
 		int c;
 		int quotec = '"';
 		int depth = 0;
-		String tagName = null;
-		String lvalue = null;
+		String tagName = null, lvalue = null;
 		int line = 1, col = 0;
 		boolean eol = false;
 		int mode = PRE;

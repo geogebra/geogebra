@@ -72,8 +72,6 @@ public class AlgoCompleteSquare extends AlgoElement {
 				f.getVarString(StringTemplate.defaultTemplate))) {
 			initFunction();
 		}
-		int degInt;
-		GeoList coefs = null;
 		// px^2+qx+r; p+q+r=s;
 		double r = f.value(0);
 		double s = f.value(1);
@@ -89,6 +87,8 @@ public class AlgoCompleteSquare extends AlgoElement {
 				isQuadratic = false;
 			}
 		}
+		int degInt;
+
 		if (!isQuadratic) {
 			if (algoCoef == null) {
 				algoCoef = new AlgoCoefficients(cons, f);
@@ -97,7 +97,7 @@ public class AlgoCompleteSquare extends AlgoElement {
 			} else {
 				algoCoef.compute();
 			}
-			coefs = algoCoef.getResult();
+			GeoList coefs = algoCoef.getResult();
 
 			degInt = coefs.size() - 1;
 			isQuadratic = coefs.isDefined() && coefs.get(0).isDefined();

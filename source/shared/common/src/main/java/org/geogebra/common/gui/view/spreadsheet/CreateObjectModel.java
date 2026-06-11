@@ -252,10 +252,10 @@ public class CreateObjectModel {
 			newGeo.remove();
 		}
 
-		int column1 = selectedRanges.get(0).getMinColumn();
-		int column2 = selectedRanges.get(0).getMaxColumn();
-		int row1 = selectedRanges.get(0).getMinRow();
-		int row2 = selectedRanges.get(0).getMaxRow();
+		final int column1 = selectedRanges.get(0).getMinColumn();
+		final int column2 = selectedRanges.get(0).getMaxColumn();
+		final int row1 = selectedRanges.get(0).getMinRow();
+		final int row2 = selectedRanges.get(0).getMaxRow();
 
 		boolean copyByValue = listener.isCopiedByValue();
 		boolean scanByColumn = listener.isScannedByColumn();

@@ -285,8 +285,6 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 		}
 
 		case 3: {
-			int[] order = { 0, 1, 2, 3 };
-
 			// select the intersecting points
 			GeoPoint[] pnt = new GeoPoint[4];
 			pnt[0] = segment.getStartPoint();
@@ -305,17 +303,14 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 			}
 			if (closureIntersect[1].isDefined()) {
 				pnt[count] = closureIntersect[1];
-				count++;
 			}
 			pnt[3] = segment.getEndPoint();
 
 			// sorting intersection points
 			double t1 = segment.getPossibleParameter(pnt[1].getCoords());
 			double t2 = segment.getPossibleParameter(pnt[2].getCoords());
+			int[] order = { 0, 1, 2, 3 };
 			if (t1 > t2) {
-				double temp = t1;
-				t1 = t2;
-				t2 = temp;
 				int intTemp = order[1];
 				order[1] = order[2];
 				order[2] = intTemp;
@@ -344,8 +339,6 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 			break;
 		}
 		case 4: {
-			int[] order = { 0, 1, 2, 3, 4 };
-
 			// select the intersecting points
 			GeoPoint[] pnt = new GeoPoint[5];
 			int count = 1;
@@ -364,20 +357,18 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 			}
 			if (closureIntersect[1].isDefined()) {
 				pnt[count] = closureIntersect[1];
-				count++;
 			}
 			pnt[4] = segment.getEndPoint();
 
 			// sorting intersection points order on input segment starting from
 			// inputsegment.getStartPoint()
-			double temp;
 			double t1 = segment.getPossibleParameter(pnt[1].getCoords());
 			double t2 = segment.getPossibleParameter(pnt[2].getCoords());
 			double t3 = segment.getPossibleParameter(pnt[3].getCoords());
-
+			int[] order = { 0, 1, 2, 3, 4 };
 			int intTemp;
 			if (t1 > t2) {
-				temp = t1;
+				double temp = t1;
 				t1 = t2;
 				t2 = temp;
 				intTemp = order[1];
@@ -385,17 +376,12 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 				order[2] = intTemp;
 			}
 			if (t1 > t3) {
-				temp = t1;
-				t1 = t3;
-				t3 = temp;
+				t3 = t1;
 				intTemp = order[1];
 				order[1] = order[3];
 				order[3] = intTemp;
 			}
 			if (t2 > t3) {
-				temp = t2;
-				t2 = t3;
-				t3 = temp;
 				intTemp = order[2];
 				order[2] = order[3];
 				order[3] = intTemp;
@@ -426,7 +412,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 		}
 		case 5: {
 
-			double t1, t2, t3, t4, temp;
+			double t1, t2, t3, t4;
 			int[] order = { 0, 1, 2, 3, 4 };
 			int intTemp;
 
@@ -443,7 +429,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 			t4 = segment.getPossibleParameter(pnt[4].getCoords());
 
 			if (t1 > t2) {
-				temp = t1;
+				double temp = t1;
 				t1 = t2;
 				t2 = temp;
 				intTemp = order[1];
@@ -451,7 +437,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 				order[2] = intTemp;
 			}
 			if (t1 > t3) {
-				temp = t1;
+				double temp = t1;
 				t1 = t3;
 				t3 = temp;
 				intTemp = order[1];
@@ -459,15 +445,13 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 				order[3] = intTemp;
 			}
 			if (t1 > t4) {
-				temp = t1;
-				t1 = t4;
-				t4 = temp;
+				t4 = t1;
 				intTemp = order[1];
 				order[1] = order[4];
 				order[4] = intTemp;
 			}
 			if (t2 > t3) {
-				temp = t2;
+				double temp = t2;
 				t2 = t3;
 				t3 = temp;
 				intTemp = order[2];
@@ -475,17 +459,12 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 				order[3] = intTemp;
 			}
 			if (t2 > t4) {
-				temp = t2;
-				t2 = t4;
-				t4 = temp;
+				t4 = t2;
 				intTemp = order[2];
 				order[2] = order[4];
 				order[4] = intTemp;
 			}
 			if (t3 > t4) {
-				temp = t3;
-				t3 = t4;
-				t4 = temp;
 				intTemp = order[3];
 				order[3] = order[4];
 				order[4] = intTemp;

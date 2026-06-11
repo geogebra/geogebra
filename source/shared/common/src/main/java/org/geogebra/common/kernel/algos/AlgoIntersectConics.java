@@ -1097,15 +1097,14 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 
 		// a x^2 + b y^2 + c + 2d x y + 2e x + 2f y = 0
 		// k x^2 + l y^2 + m + 2n x y + 2o x + 2p y = 0
-		double a = Amatrix[0];
-		double b = Amatrix[1];
-		double c = Amatrix[2];
-		double d = Amatrix[3];
-		double e = Amatrix[4];
-		double f = Amatrix[5];
+		final double a = Amatrix[0];
+		final double b = Amatrix[1];
+		final double c = Amatrix[2];
+		final double d = Amatrix[3];
+		final double e = Amatrix[4];
+		final double f = Amatrix[5];
 
-		// double k = Bmatrix[0];
-		// double l = Bmatrix[1];
+		// k, l both 0;
 		double m = Bmatrix[2];
 		double n = Bmatrix[3];
 		double o = Bmatrix[4];

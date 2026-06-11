@@ -162,21 +162,20 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectCoordSysCurve
 			Function funy1 = curve.getFun(1);
 			Function funy2 = curve2.getFun(1);
 
-			ExpressionNode enx1 = funx1.getExpression();
-			ExpressionNode eny1 = funy1.getExpression();
-			ExpressionNode enx2 = funx2.getExpression();
-			ExpressionNode eny2 = funy2.getExpression();
-
-			FunctionVariable fVarx1 = funx1.getFunctionVariable();
-			FunctionVariable fVarx2 = funx2.getFunctionVariable();
-			FunctionVariable fVary1 = funy1.getFunctionVariable();
-			FunctionVariable fVary2 = funy2.getFunctionVariable();
-
 			// Jacobian matrix
 			// partial derivative of eg enx2 wrt
 			// curve.getFunX().getFunctionVariable() is zero, so ignore
+			ExpressionNode enx1 = funx1.getExpression();
+			ExpressionNode enx2 = funx2.getExpression();
+			FunctionVariable fVarx1 = funx1.getFunctionVariable();
+			FunctionVariable fVarx2 = funx2.getFunctionVariable();
 			ExpressionNode j00 = enx1.derivative(fVarx1, kernel);
 			ExpressionNode minusj10 = enx2.derivative(fVarx2, kernel);
+
+			ExpressionNode eny1 = funy1.getExpression();
+			ExpressionNode eny2 = funy2.getExpression();
+			FunctionVariable fVary1 = funy1.getFunctionVariable();
+			FunctionVariable fVary2 = funy2.getFunctionVariable();
 			ExpressionNode j01 = eny1.derivative(fVary1, kernel);
 			ExpressionNode minusj11 = eny2.derivative(fVary2, kernel);
 

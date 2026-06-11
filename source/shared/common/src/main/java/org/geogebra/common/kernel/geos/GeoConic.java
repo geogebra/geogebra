@@ -142,7 +142,6 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 
 		// Mirror point in circle
 		if (conic.isCircle() && (type == CONIC_SINGLE_POINT || type == CONIC_CIRCLE)) {
-			double r1 = conic.getHalfAxes()[0];
 			Coords midpoint1 = conic.getMidpointND();
 			double x1 = midpoint1.getX();
 			double y1 = midpoint1.getY();
@@ -168,7 +167,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 				update();
 				return;
 			}
-
+			double r1 = conic.getHalfAxes()[0];
 			// does circle being inverted pass through center of the other?
 			if (DoubleUtil.isEqual(dist, r2)) {
 				double dx = x2 - x1;

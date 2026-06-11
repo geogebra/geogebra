@@ -2443,13 +2443,11 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	private boolean handleView(Map<String, String> attrs) {
 		try {
-			int viewId = Integer.parseInt(attrs.get("id"));
-			String toolbar = attrs.get("toolbar");
-			boolean isVisible = !"false".equals(attrs.get("visible"));
-			boolean openInFrame = "true".equals(attrs.get("inframe"));
-			DockPanelData.TabIds tabId = getTabId(attrs.get("tab"));
-			String showStyleBarStr = attrs.get("stylebar");
-			boolean showStyleBar = !"false".equals(showStyleBarStr);
+			final int viewId = Integer.parseInt(attrs.get("id"));
+			final String toolbar = attrs.get("toolbar");
+			final boolean isVisible = !"false".equals(attrs.get("visible"));
+			final boolean openInFrame = "true".equals(attrs.get("inframe"));
+			final boolean showStyleBar = !"false".equals(attrs.get("stylebar"));
 
 			// the window rectangle is given in the format "x,y,width,height"
 			String[] window = attrs.get("window").split(",");
@@ -2467,6 +2465,7 @@ public class MyXMLHandler implements DocHandler {
 			if (app.getConfig() != null) {
 				app.getConfig().adjust(dp);
 			}
+			DockPanelData.TabIds tabId = getTabId(attrs.get("tab"));
 			if (tabId != null) {
 				dp.setTabId(tabId); // explicitly stored tab overrides config
 			}
@@ -2573,14 +2572,6 @@ public class MyXMLHandler implements DocHandler {
 	private void initMacro(Map<String, String> attrs) {
 		try {
 			String cmdName = attrs.get("cmdName");
-			String toolName = attrs.get("toolName");
-			String toolHelp = attrs.get("toolHelp");
-			String iconFile = attrs.get("iconFile");
-			boolean copyCaptions = parseBoolean(attrs.get("copyCaptions"));
-			Integer viewId = null;
-			if (attrs.containsKey("viewId")) {
-				viewId = Integer.parseInt(attrs.get("viewId"));
-			}
 			// Make sure we don't have a macro with the same name in kernel.
 			// This can happen when a macro file (ggt) is loaded because
 			// the previous macros are not cleared in this case.
@@ -2593,13 +2584,21 @@ public class MyXMLHandler implements DocHandler {
 
 			// create macro and a kernel for it
 			macro = new Macro(kernel, myCmdName);
+			String toolName = attrs.get("toolName");
 			macro.setToolName(toolName);
+			boolean copyCaptions = parseBoolean(attrs.get("copyCaptions"));
 			macro.setCopyCaptionsAndVisibility(copyCaptions);
+			String toolHelp = attrs.get("toolHelp");
 			macro.setToolHelp(toolHelp);
+			String iconFile = attrs.get("iconFile");
 			macro.setIconFileName(iconFile);
 			String strShowInToolBar = attrs.get("showInToolBar");
 			boolean showTool = strShowInToolBar == null || parseBoolean(strShowInToolBar);
 			macro.setShowInToolBar(showTool);
+			Integer viewId = null;
+			if (attrs.containsKey("viewId")) {
+				viewId = Integer.parseInt(attrs.get("viewId"));
+			}
 			macro.setViewId(viewId);
 
 			MacroKernel macroKernel = kernel.newMacroKernel();

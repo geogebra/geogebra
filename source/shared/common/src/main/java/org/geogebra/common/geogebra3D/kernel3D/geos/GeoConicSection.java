@@ -653,50 +653,44 @@ public class GeoConicSection extends GeoConic3D
 	@Override
 	protected void pathChangedWithoutCheckParabola(Coords P, PathParameter pp,
 			boolean checkSection) {
-
-		if (checkSection) {
-			if (edgeExists[0]) {
-				if (edgeStartParam[0] < edgeEndParam[0]) {
-					if (pp.t < edgeStartParam[0]) {
-						double a = -pp.t + edgeStartParam[0];
-						if (a < 1) {
-							P.setX(edgeStartX[0] * (1 - a) + edgeEndX[0] * a);
-							P.setY(edgeStartY[0] * (1 - a) + edgeEndY[0] * a);
-						} else { // prevent outside of edge when path changes
-							P.setX(edgeEndX[0]);
-							P.setY(edgeEndY[0]);
-						}
-						P.setZ(1);
-						return;
-					} else if (pp.t > edgeEndParam[0]) {
-						P.setX(edgeEndX[0]);
-						P.setY(edgeEndY[0]);
-						P.setZ(1);
-						return;
-					}
-				} else {
-					if (pp.t > edgeStartParam[0]) {
-						double a = pp.t - edgeStartParam[0];
-						if (a < 1) {
-							P.setX(edgeStartX[0] * (1 - a) + edgeEndX[0] * a);
-							P.setY(edgeStartY[0] * (1 - a) + edgeEndY[0] * a);
-						} else { // prevent outside of edge when path changes
-							P.setX(edgeEndX[0]);
-							P.setY(edgeEndY[0]);
-						}
-						P.setZ(1);
-						return;
-					} else if (pp.t < edgeEndParam[0]) {
-						P.setX(edgeEndX[0]);
-						P.setY(edgeEndY[0]);
-						P.setZ(1);
-						return;
-					}
+		if (checkSection && edgeExists[0]) {
+			if (edgeStartParam[0] < edgeEndParam[0]) {
+				if (pp.t < edgeStartParam[0]) {
+					double a = -pp.t + edgeStartParam[0];
+					setFromParam(P, a);
+					return;
+				} else if (pp.t > edgeEndParam[0]) {
+					P.setX(edgeEndX[0]);
+					P.setY(edgeEndY[0]);
+					P.setZ(1);
+					return;
+				}
+			} else {
+				if (pp.t > edgeStartParam[0]) {
+					double a = pp.t - edgeStartParam[0];
+					setFromParam(P, a);
+					return;
+				} else if (pp.t < edgeEndParam[0]) {
+					P.setX(edgeEndX[0]);
+					P.setY(edgeEndY[0]);
+					P.setZ(1);
+					return;
 				}
 			}
 		}
 
 		super.pathChangedWithoutCheckParabola(P, pp, checkSection);
+	}
+
+	private void setFromParam(Coords P, double a) {
+		if (a < 1) {
+			P.setX(edgeStartX[0] * (1 - a) + edgeEndX[0] * a);
+			P.setY(edgeStartY[0] * (1 - a) + edgeEndY[0] * a);
+		} else { // prevent outside of edge when path changes
+			P.setX(edgeEndX[0]);
+			P.setY(edgeEndY[0]);
+		}
+		P.setZ(1);
 	}
 
 	@Override

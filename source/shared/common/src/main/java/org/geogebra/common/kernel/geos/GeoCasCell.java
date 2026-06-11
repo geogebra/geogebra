@@ -2064,7 +2064,7 @@ public class GeoCasCell extends GeoElement
 		}
 		boolean wasFunction = outputVE instanceof FunctionNVar
 				|| Equation.isFunctionEquation(outputVE);
-		boolean wasCurve = twinGeo == null || twinGeo.isParametric();
+		final boolean wasCurve = twinGeo == null || twinGeo.isParametric();
 
 		// replace variables x and y with a FunctionVariable object
 		FunctionVariable fvX = new FunctionVariable(kernel, "x");
@@ -3152,11 +3152,11 @@ public class GeoCasCell extends GeoElement
 			return true;
 		}
 
-		String oldEvalComment = evalComment;
-		ValidExpression oldEvalVE = evalVE;
-		ValidExpression oldInputVE = getInputVE();
-		String oldAssignmentVar = assignmentVar;
-		AssignmentType oldOutputAssignmentType = getAssignmentType();
+		final String oldEvalComment = evalComment;
+		final ValidExpression oldEvalVE = evalVE;
+		final ValidExpression oldInputVE = getInputVE();
+		final String oldAssignmentVar = assignmentVar;
+		final AssignmentType oldOutputAssignmentType = getAssignmentType();
 
 		assignmentVar = getPlotVar();
 		adjustPointList(false);
