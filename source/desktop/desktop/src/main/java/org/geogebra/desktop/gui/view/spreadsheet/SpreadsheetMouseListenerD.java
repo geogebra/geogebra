@@ -139,8 +139,7 @@ public class SpreadsheetMouseListenerD
 			GeoElement geo = (GeoElement) model.getValueAt(row, col);
 			// let euclidianView know about the click
 			AbstractEvent event = MouseEventD.wrapEvent(e);
-			app.getActiveEuclidianView().clickedGeo(geo,
-					app.isControlDown(event));
+			app.getActiveEuclidianView().clickedGeo(geo, event.isControlDown());
 			event.release();
 		}
 

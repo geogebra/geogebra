@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.TreeSet;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GColor;
@@ -286,6 +287,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected Hits highlightedGeos = new Hits();
 	protected final ArrayList<GeoElement> justCreatedGeos = new ArrayList<>();
 	protected boolean temporaryMode = false;
+	private int autoPenMode = -1;
 	protected boolean dontClearSelection = false;
 	protected boolean draggingOccurred = false;
 	protected boolean draggingOccurredBeforeRelease = false;
@@ -404,7 +406,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private boolean altCopy;
 
 	private GeoNumeric circleRadius;
-	private PointerEventType oldEventType = PointerEventType.MOUSE;
 	private Runnable pointerUpCallback;
 
 	protected double newZero;
@@ -536,14 +537,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @return whether it's a pen or freehand mode
 	 */
 	public boolean penMode(int mode2) {
-		switch (mode2) {
-		case EuclidianConstants.MODE_PEN:
-		case EuclidianConstants.MODE_FREEHAND_SHAPE:
-		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
-		case EuclidianConstants.MODE_HIGHLIGHTER:
-			return true;
-		}
-		return false;
+		return switch (mode2) {
+			case EuclidianConstants.MODE_PEN,
+				 EuclidianConstants.MODE_FREEHAND_SHAPE,
+				 EuclidianConstants.MODE_FREEHAND_FUNCTION,
+				 EuclidianConstants.MODE_HIGHLIGHTER -> true;
+			default -> false;
+		};
 	}
 
 	/**
@@ -721,6 +721,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		if (pen != null) {
 			pen.resetPenOffsets();
+		}
+		if (ms == ModeSetter.TOOLBAR) {
+			autoPenMode = -1;
 		}
 
 		if (view.getShapePath() != null) {
@@ -5621,17 +5624,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return false;
 	}
 
-	/**
-	 * exit temporary mode (if set) and reset mode to old mode
-	 */
-	public void exitTemporaryMode() {
-		if (temporaryMode) {
-			view.setMode(oldMode, ModeSetter.EXIT_TEMPORARY_MODE);
-			this.defaultEventType = this.oldEventType;
-			temporaryMode = false;
-		}
-	}
-
 	protected final void rotateObject() {
 		double newAngle = Math.atan2(yRW - rotationCenter.inhomY,
 				xRW - rotationCenter.inhomX);
@@ -6336,7 +6328,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		view.setCursor(HIT);
 	}
 
-	protected void processMouseMoved(AbstractEvent event) {
+	protected void processMouseMoved(@Nonnull AbstractEvent event) {
 		boolean repaintNeeded;
 
 		// reset icon
@@ -6482,7 +6474,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			repaintNeeded = true;
 		}
 
-		boolean control = app.isControlDown(event);
+		boolean control = event.isControlDown();
 		if (noHighlighting ? refreshHighlighting(null, control, event.isShiftDown())
 				: refreshHighlighting(tempFullHits, control, event.isShiftDown())) {
 
@@ -6561,29 +6553,29 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected abstract void resetToolTipManager();
 
-    /**
-     * Process mouse exit event.
-     *
-     * @param event mouse exit event
-     */
-    public void wrapMouseExited(@CheckForNull AbstractEvent event) {
-        if (isTextfieldHasFocus()) {
-            return;
-        }
-        this.animationButtonPressed = false;
-        app.storeUndoInfoIfSetCoordSystemOccurred();
+	/**
+	 * Process mouse exit event.
+	 *
+	 * @param event mouse exit event
+	 */
+	public void wrapMouseExited(@CheckForNull AbstractEvent event) {
+		if (isTextfieldHasFocus()) {
+			return;
+		}
+		this.animationButtonPressed = false;
+		app.storeUndoInfoIfSetCoordSystemOccurred();
 
-        refreshHighlighting(null, app.isControlDown(event),
+		refreshHighlighting(null, event != null && event.isControlDown(),
 				event != null && event.isShiftDown());
-        resetToolTipManager();
-        view.setAnimationButtonsHighlighted(false);
-        view.setShowMouseCoords(false);
-        setMouseLocToNullIfNeeded();
-        kernel.notifyRepaint();
-        view.mouseExited();
-    }
+		resetToolTipManager();
+		view.setAnimationButtonsHighlighted(false);
+		view.setShowMouseCoords(false);
+		setMouseLocToNullIfNeeded();
+		kernel.notifyRepaint();
+		view.mouseExited();
+	}
 
-    protected void setMouseLocToNullIfNeeded() {
+	protected void setMouseLocToNullIfNeeded() {
         mouseLoc = null;
     }
 
@@ -6593,7 +6585,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			selection.clearSelectedGeos();
 		} else {
 			if (uniqueSelect) {
-				selection.toggleSelectedGeoWithGroup(chooseGeo(geos, true));
+				GeoElement geo = chooseGeo(geos, true);
+				if (geo != null) {
+					selection.toggleSelectedGeoWithGroup(geo);
+				}
 			} else {
 				Hits hits = new Hits();
 				hits.addAll(geos);
@@ -9465,7 +9460,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private boolean specialMoveEvent(AbstractEvent event) {
 		return app.isShiftDragZoomEnabled() && (
 		// MacOS: shift-cmd-drag is zoom
-		(event.isShiftDown() && !app.isControlDown(event)) // All Platforms: Shift key
+		(event.isShiftDown() && !event.isControlDown()) // All Platforms: Shift key
 				|| (event.isControlDown() && app.isWindows()
 				// old Windows key: Ctrl key
 				) || app.isMiddleClick(event))
@@ -10199,7 +10194,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @param mayFocus
 	 *            whether focusing view is allowed
 	 */
-	public void wrapMouseReleasedND(final AbstractEvent event,
+	public void wrapMouseReleasedND(final @Nonnull AbstractEvent event,
 			boolean mayFocus) {
 		boolean control = event.isControlDown();
 		final boolean alt = event.isAltDown();
@@ -10282,7 +10277,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// make sure we start the timer also for single point
 		if (penMode(mode)) {
 			getPen().handleMouseReleasedForPenMode(rightClick, x, y,
-					numOfTargets > 0);
+					numOfTargets > 0, event.getType());
 
 			draggingOccurred = false;
 			return;
@@ -10406,7 +10401,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				view.setCursor(EuclidianCursor.GRAB);
 			}
 			temporaryMode = false;
-			this.defaultEventType = oldEventType;
 			// Michael Borcherds 2007-12-08 BEGIN bugfix: couldn't select
 			// multiple points with Ctrl
 			if (!dontClearSelection) {
@@ -10592,8 +10586,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @param event
 	 *            pointer event
 	 */
-	public void endOfWrapMouseReleased(Hits hits, AbstractEvent event) {
-		boolean control = app.isControlDown(event);
+	public void endOfWrapMouseReleased(Hits hits, @Nonnull AbstractEvent event) {
+		boolean control = event.isControlDown();
 		boolean alt = event.isAltDown();
 		PointerEventType type = event.getType();
 		endOfWrapMouseReleased(hits, control, event.isShiftDown(), alt, type);
@@ -11676,10 +11670,18 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public final void setDefaultEventType(PointerEventType pointerEventType,
 			boolean down) {
-		if (down && app.getMode() == EuclidianConstants.MODE_PEN
+		int moveMode = app.isWhiteboardActive() ? EuclidianConstants.MODE_SELECT_MOW
+				: EuclidianConstants.MODE_MOVE;
+		if (down && penMode(app.getMode())
 				&& pointerEventType != PointerEventType.PEN
 				&& PointerEventType.PEN == defaultEventType) {
-			setTempMode(EuclidianConstants.MODE_MOVE);
+			autoPenMode = app.getMode();
+			app.setMode(moveMode, ModeSetter.DOCK_PANEL);
+		}
+		if (down && autoPenMode >= 0 && app.getMode() == moveMode
+				&& pointerEventType == PointerEventType.PEN
+				&& PointerEventType.PEN != defaultEventType) {
+			app.setMode(autoPenMode, ModeSetter.DOCK_PANEL);
 		}
 		this.defaultEventType = pointerEventType;
 	}
@@ -11687,7 +11689,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private void setTempMode(int modePen) {
 		temporaryMode = true;
 		oldMode = mode;
-		oldEventType = defaultEventType;
 		view.setMode(modePen, ModeSetter.DOCK_PANEL);
 	}
 

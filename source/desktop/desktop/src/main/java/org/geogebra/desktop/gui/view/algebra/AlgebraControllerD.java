@@ -221,7 +221,7 @@ public class AlgebraControllerD extends AlgebraTreeController
 		// let euclidianView know about the click
 		AbstractEvent event = org.geogebra.desktop.euclidian.event.MouseEventD
 				.wrapEvent(e);
-		ev.clickedGeo(geo, app.isControlDown(event));
+		ev.clickedGeo(geo, event.isControlDown());
 		event.release();
 	}
 

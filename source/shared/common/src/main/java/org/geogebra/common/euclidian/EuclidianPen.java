@@ -23,6 +23,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.measurement.MeasurementController;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
@@ -358,7 +359,7 @@ public class EuclidianPen implements GTimerListener {
 	 *
 	 */
 	public void handleMouseReleasedForPenMode(boolean right, int x, int y,
-			boolean isPinchZooming) {
+			boolean isPinchZooming, PointerEventType eventType) {
 		if (right || penPoints.isEmpty()) {
 			return;
 		}

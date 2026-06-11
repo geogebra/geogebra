@@ -16,6 +16,8 @@
 
 package org.geogebra.web.full.gui.view.algebra;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -49,7 +51,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController {
 	}
 
 	@Override
-	protected void onPointerUp(AbstractEvent event) {
+	protected void onPointerUp(@Nonnull AbstractEvent event) {
 		selectionCtrl.setSelectHandled(false);
 		if (slider.getMinMax().isVisible()) {
 			return;

@@ -24,6 +24,7 @@ import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.linear.SingularValueDecomposition;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
@@ -180,10 +181,10 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 	@Override
 	public void handleMouseReleasedForPenMode(boolean right, int x, int y,
-			boolean isPinchZooming) {
+			boolean isPinchZooming, PointerEventType eventType) {
 		penPoints.add(new GPoint(x, y));
 
-		GeoElement shape = checkExpectedShape();
+		GeoElement shape = checkExpectedShape(eventType);
 
 		penPoints.clear();
 		previewPoints.clear();
@@ -318,7 +319,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	/**
 	 * Creates predicted shape if possible
 	 */
-	GeoElement checkExpectedShape() {
+	GeoElement checkExpectedShape(PointerEventType eventType) {
 		if (expected == null) {
 			GeoElement shapeCreated = checkShapes();
 
@@ -335,7 +336,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		case vectorPolygon:
 			return createPolygon();
 		case circleThreePoints:
-			return createCircle();
+			return createCircle(eventType);
 		case function:
 			return createFunction();
 		}
@@ -346,8 +347,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	/**
 	 * creates a circle if possible
 	 */
-	private GeoElement createCircle() {
-		GeoElement circle = tryCircleThroughExistingPoints();
+	private GeoElement createCircle(PointerEventType eventType) {
+		GeoElement circle = tryCircleThroughExistingPoints(eventType);
 
 		if (circle != null) {
 			return circle;
@@ -361,12 +362,11 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 *
 	 * @return {@link GeoElement circle}
 	 */
-	private GeoElement tryCircleThroughExistingPoints() {
+	private GeoElement tryCircleThroughExistingPoints(PointerEventType eventType) {
 		GeoElement circle = null;
 		ArrayList<GeoPoint> list = new ArrayList<>();
 		for (GPoint p : this.penPoints) {
-			this.view.setHits(p,
-					this.view.getEuclidianController().getDefaultEventType());
+			this.view.setHits(p, eventType);
 			if (this.view.getHits().containsGeoPoint()) {
 				GeoPoint point = (GeoPoint) this.view.getHits()
 						.getFirstHit(TestGeo.GEOPOINT);

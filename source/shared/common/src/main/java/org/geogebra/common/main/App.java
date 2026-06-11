@@ -2271,15 +2271,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * @param e
 	 *            event
-	 * @return whether Ctrl on Win/Linux or Meta on Mac was pressed
-	 */
-	public boolean isControlDown(AbstractEvent e) {
-		return e != null && e.isControlDown();
-	}
-
-	/**
-	 * @param e
-	 *            event
 	 * @return whether middle button was clicked once
 	 */
 	public boolean isMiddleClick(AbstractEvent e) {

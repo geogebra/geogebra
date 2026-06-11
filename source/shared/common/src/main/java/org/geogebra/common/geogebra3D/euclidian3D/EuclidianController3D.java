@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -1657,13 +1659,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 	// mouse released
 
 	@Override
-	public void wrapMouseReleased(AbstractEvent e) {
+	public void wrapMouseReleased(@Nonnull AbstractEvent e) {
 		boolean longDragOccurred = isDraggingOccurredBeyondThreshold();
-		if (!longDragOccurred && !app.isControlDown(e)) {
+		if (!longDragOccurred && !e.isControlDown()) {
 			view3D.switchMoveCursor();
 		}
 
-        super.wrapMouseReleasedND(e, true);
+		super.wrapMouseReleasedND(e, true);
         if (!longDragOccurred && mode == EuclidianConstants.MODE_MOVE) {
             showDynamicStylebar();
         }
@@ -1822,7 +1824,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected void processMouseMoved(AbstractEvent e) {
+	protected void processMouseMoved(@Nonnull AbstractEvent e) {
 		view3D.setHasMouse(true);
 		// for next mouse move process
 		setMouseMovedEvent(e);
@@ -1830,7 +1832,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		// needed for non-animated renderers
 		view3D.repaintView();
-
 	}
 
 	/**

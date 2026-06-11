@@ -16,6 +16,8 @@
 
 package org.geogebra.web.geogebra3D.web.euclidian3D;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MoveMode;
@@ -182,7 +184,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	}
 
 	@Override
-	protected void processMouseMoved(AbstractEvent e) {
+	protected void processMouseMoved(@Nonnull AbstractEvent e) {
 		super.processMouseMoved(e);
 		processMouseMoved();
 	}

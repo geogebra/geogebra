@@ -200,7 +200,7 @@ public class PointerEvent extends AbstractEvent {
 	 */
 	public static PointerEvent wrapEvent(MouseEvent<?> event, HasOffsets off) {
 		PointerEvent evt = wrapEvent(event.getX(), event.getY(),
-				off.getDefaultEventType(), off, off.getMouseEventPool());
+				PointerEventType.MOUSE, off, off.getMouseEventPool());
 		setProperties(evt, event);
 		return evt;
 	}

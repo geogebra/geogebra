@@ -16,6 +16,8 @@
 
 package org.geogebra.web.full.gui.view.algebra;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
@@ -400,7 +402,7 @@ public class RadioTreeItemController implements ClickHandler,
 		app.dispatchEvent(new Event(eventType, item.getGeo(), null));
 	}
 
-	protected void onPointerUp(AbstractEvent event) {
+	protected void onPointerUp(@Nonnull AbstractEvent event) {
 		selectionCtrl.setSelectHandled(false);
 
 		GeoElement geo = item.geo;
@@ -428,7 +430,7 @@ public class RadioTreeItemController implements ClickHandler,
 		if (!EuclidianConstants.isMoveOrSelectionMode(mode)
 				&& mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			// let euclidianView know about the click
-			ev.clickedGeo(geo, app.isControlDown(event));
+			ev.clickedGeo(geo, event.isControlDown());
 		}
 		ev.mouseMovedOver(null);
 
