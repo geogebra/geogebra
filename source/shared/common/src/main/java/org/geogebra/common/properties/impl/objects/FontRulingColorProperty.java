@@ -33,10 +33,10 @@ public class FontRulingColorProperty extends ElementColorProperty {
 	private final HasTextFormatter element;
 
 	public enum FontStyle {
-		BLACK("schwarz", GColor.newColorRGB(0x5C6470)),
-		BLUE("tuerkis", GColor.newColorRGB(0x90CBC9)),
-		GREEN("gruen", GColor.newColorRGB(0x6CB672)),
-		ORANGE("orange", GColor.newColorRGB(0xDC7B3A));
+		BLACK("schwarz", GColor.newColorRGB(0x5C5C5C)),
+		BLUE("tuerkis", GColor.newColorRGB(0x3a6dac)),
+		GREEN("gruen", GColor.newColorRGB(0x377e22)),
+		ORANGE("orange", GColor.newColorRGB(0xbe2d2b));
 
 		private final String fontName;
 		private final GColor fontColor;
@@ -58,8 +58,8 @@ public class FontRulingColorProperty extends ElementColorProperty {
 	private static final List<FontStyle> fontStyles = Arrays.stream(FontStyle.values()).toList();
 
 	/**
-	 * @param localization - localization
-	 * @param element - element
+	 * @param localization localization
+	 * @param element element
 	 * @throws NotApplicablePropertyException when one of the elements has no color
 	 */
 	public FontRulingColorProperty(Localization localization,
