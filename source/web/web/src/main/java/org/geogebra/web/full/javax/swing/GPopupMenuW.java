@@ -229,9 +229,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	 * add separator to menu
 	 */
 	public void addSeparator() {
-		if (!app.isUnbundled()) {
-			popupMenu.addSeparator();
-		}
+		popupMenu.addSeparator();
 	}
 
 	/**
