@@ -1282,14 +1282,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		double[][] tmpCoeff = new double[newDegX + 1][newDegY + 1];
 		double[][] ratXCoeff = new double[newDegX + 1][newDegY + 1];
 		double[][] ratYCoeff = new double[newDegX + 1][newDegY + 1];
-		int tmpCoeffDegX = 0;
-		int tmpCoeffDegY = 0;
-		int newCoeffDegX = 0;
-		int newCoeffDegY = 0;
-		int ratXCoeffDegX = 0;
-		int ratXCoeffDegY = 0;
-		int ratYCoeffDegX = 0;
-		int ratYCoeffDegY = 0;
 
 		for (int i = 0; i < newDegX; i++) {
 			for (int j = 0; j < newDegY; j++) {
@@ -1300,7 +1292,15 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			}
 		}
 		ratXCoeff[0][0] = 1;
+		int newCoeffDegX = 0;
+		int newCoeffDegY = 0;
+		int ratXCoeffDegX = 0;
+		int ratXCoeffDegY = 0;
+		int ratYCoeffDegX = 0;
+		int ratYCoeffDegY = 0;
 		for (int x = coeff.length - 1; x >= 0; x--) {
+			int tmpCoeffDegX = 0;
+			int tmpCoeffDegY = 0;
 			if (qY != null) {
 				ratYCoeff[0][0] = 1;
 				ratYCoeffDegX = 0;
@@ -1358,8 +1358,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			}
 			newCoeffDegX = Math.max(newCoeffDegX, tmpCoeffDegX);
 			newCoeffDegY = Math.max(newCoeffDegY, tmpCoeffDegY);
-			tmpCoeffDegX = 0;
-			tmpCoeffDegY = 0;
 			if (x > 0) {
 				polyMult(newCoeff, pX, newCoeffDegX, newCoeffDegY, degXpX,
 						degYpX);
@@ -1596,16 +1594,14 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	public static List<Coords> probableInitialPoints(FunctionNVar f1,
 			FunctionNVar f2, double xMin, double yMin, double xMax, double yMax,
 			int n) {
-
-		int root = (int) (Math.sqrt(n) + 1);
 		List<Coords> out = new ArrayList<>();
 		if (xMin >= xMax || yMin >= yMax) {
 			// empty intersecting rectangle
 			return out;
 		}
-
-		double inx = (xMax - xMin) / (root + 1), inx2 = 0.5 * inx;
-		double iny = (yMax - yMin) / (root + 1), iny2 = 0.5 * iny;
+		int root = (int) (Math.sqrt(n) + 1);
+		final double inx = (xMax - xMin) / (root + 1), inx2 = 0.5 * inx;
+		final double iny = (yMax - yMin) / (root + 1), iny2 = 0.5 * iny;
 		double[] y1 = new double[root + 1];
 		double[] y2 = new double[root + 1];
 		boolean[] present = new boolean[n + 1];
@@ -1768,13 +1764,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 
 		int degree = (int) (0.5 * Math.sqrt(8 * (1 + points.size()))) - 1;
-		int realDegree = degree;
-
 		RealMatrix extendMatrix = new Array2DRowRealMatrix(points.size(),
 				points.size() + 1);
 		RealMatrix matrix = new Array2DRowRealMatrix(points.size(),
 				points.size());
-		double[][] coeffMatrix = new double[degree + 1][degree + 1];
+		final double[][] coeffMatrix = new double[degree + 1][degree + 1];
 
 		DecompositionSolver solver;
 
@@ -1794,7 +1788,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 
 		int solutionColumn = 0, noPoints = points.size();
-
+		int realDegree = degree;
 		do {
 			if (solutionColumn > noPoints) {
 				noPoints = noPoints - realDegree - 1;

@@ -256,7 +256,6 @@ public class MyMath2 {
 	}
 
 	private static Complex cisi(double a2) {
-		boolean odd;
 		Complex h, b, c, d, del, one, two;
 		one = new Complex(1, 0);
 		two = new Complex(2, 0);
@@ -304,7 +303,7 @@ public class MyMath2 {
 		} else {
 			sum = sums = sumc = 0.0;
 			sign = fact = 1.0;
-			odd = true;
+			boolean odd = true;
 			int k;
 			for (k = 1; k <= MAXIT; k++) {
 				fact *= t / k;

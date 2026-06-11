@@ -763,14 +763,13 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	final public void rotate(NumberValue phiValue, GeoPointND point) {
 		Coords o = getCoordSys().getOrigin();
 
-		double z = o.getZ();
-
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
 
 		double x = o.getX();
 		double y = o.getY();
+		double z = o.getZ();
 		double w = o.getW();
 
 		Coords Q = point.getInhomCoords();

@@ -621,10 +621,7 @@ public class EuclidianStatic {
 	public static GRectangle drawMultiLineText(App app, String labelDesc,
 			int xLabel, int yLabel, GGraphics2D g2, boolean serif,
 			GFont textFont, GRectangle ret, GeoElement geo, int margin) {
-
 		double fontSize = textFont.getSize();
-		double lineSpread = fontSize * 1.5f;
-
 		GFont font = app.getFontCanDisplay(labelDesc, serif,
 				textFont.getStyle(), fontSize);
 
@@ -637,6 +634,7 @@ public class EuclidianStatic {
 		// fix jumping text in mow text editor
 		int yPos = yLabel;
 		int lines = 0;
+		double lineSpread = fontSize * 1.5f;
 		for (int i = 0; i < length - 1; i++) {
 			if (labelDesc.charAt(i) == '\n') {
 

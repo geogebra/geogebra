@@ -263,8 +263,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 	private void logisticReg() {
 		iterations = 0;
-		double multfaktor = LMFACTORMULT; // later?: divfaktor=LMFACTORDIV;
-		double residual, old_residual = beta2(xd, yd, a, b, c);
+		double old_residual = beta2(xd, yd, a, b, c);
 		double x, y;
 		// ****checked up to here
 		// LM: optimal startlambda
@@ -290,6 +289,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		double startfaktor = Math.max(Math.max(m11, m22), m33);
 		double lambda = startfaktor * 0.001; // heuristic... (Set to zero if no LM)
 		double da = EPSILONREG, db = EPSILONREG, dc = EPSILONREG;
+		double multfaktor = LMFACTORMULT; // later?: divfaktor=LMFACTORDIV;
 		while (Math.abs(da) + Math.abs(db) + Math.abs(dc) > EPSILONREG) {
 			// or while(Math.abs(diff)>EPSILON) ?
 			iterations++;
@@ -345,7 +345,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 				double newa = a + da;
 				double newb = b + db;
 				double newc = c + dc; // remember this and update later if ok
-				residual = beta2(xd, yd, newa, newb, newc);
+				double residual = beta2(xd, yd, newa, newb, newc);
 				// diff=residual-old_residual;
 				// //debug("Residual difference: "+diff+" lambda: "+lambda);
 

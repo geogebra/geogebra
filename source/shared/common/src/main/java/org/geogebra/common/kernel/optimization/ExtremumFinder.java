@@ -195,18 +195,16 @@ public class ExtremumFinder implements ExtremumFinderI {
 			return Double.NaN;
 			/* *********** */
 		}
+		final double tol3 = tol / 3.0;
 		double w = v;
 		double fv = fx;
 		double fw = fx;
-		double tol3 = tol / 3.0;
-
 		double xm = .5 * (a + b);
 		double tol1 = eps * Math.abs(x) + tol3;
 		double t2 = 2.0 * tol1;
 
 		// main loop
 		int iterations = 0;
-		double p, q, r, u, fu;
 		double d = 0.0, e = 0.0;
 		while (Math.abs(x - xm) > (t2 - .5 * (b - a))) {
 
@@ -215,7 +213,7 @@ public class ExtremumFinder implements ExtremumFinderI {
 			}
 			iterations++;
 
-			p = q = r = 0.0;
+			double p = 0, q = 0, r = 0, u;
 
 			if (Math.abs(e) > tol1) {
 				// fit the parabola
@@ -269,7 +267,7 @@ public class ExtremumFinder implements ExtremumFinderI {
 				}
 			}
 
-			fu = minclass.value(u);
+			double fu = minclass.value(u);
 			/* added by Markus Hohenwarter */
 			if (Double.isNaN(fu)) {
 				return Double.NaN;

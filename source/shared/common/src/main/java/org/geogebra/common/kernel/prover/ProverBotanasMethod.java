@@ -1458,12 +1458,8 @@ public class ProverBotanasMethod {
 	 * @return if the statement is true
 	 */
 	public ProofResult prove(Prover prover) {
-
-		boolean investigateNonGeometricMaximalIndependentSet = false;
-
 		GeoElement statement = prover.getStatement();
 		ProverSettings proverSettings = ProverSettings.get();
-		Kernel k = statement.getKernel();
 		/*
 		 * Decide quickly if proving this kind of statement is already
 		 * implemented at all:
@@ -1529,6 +1525,7 @@ public class ProverBotanasMethod {
 		 * Giac cannot permute the variables at
 		 * the moment.
 		 */
+		Kernel k = statement.getKernel();
 		while (!found && permutation < MAX_PERMUTATIONS) {
 
 			eliminationIdeal = PPolynomial.eliminate(
@@ -1552,6 +1549,7 @@ public class ProverBotanasMethod {
 			List<NDGCondition> bestNdgSet = new ArrayList<>();
 			double bestScore = Double.POSITIVE_INFINITY;
 			int ndgI = 0;
+			boolean investigateNonGeometricMaximalIndependentSet = false;
 			while (ndgSet.hasNext()) {
 				ndgI++;
 				Log.debug("Considering NDG " + ndgI + "...");
@@ -1671,8 +1669,8 @@ public class ProverBotanasMethod {
 							 * Check if this elimination ideal equals to
 							 * {xM-xN,yM-yN}:
 							 */
-							xyRewrite = (xyRewrite
-									&& thisNdgSet.size() == 1);
+							xyRewrite = xyRewrite
+									&& thisNdgSet.size() == 1;
 							/*
 							 * Note that in some cases the CAS may return
 							 * (xM-xN)*(-1) which consists of two factors,
