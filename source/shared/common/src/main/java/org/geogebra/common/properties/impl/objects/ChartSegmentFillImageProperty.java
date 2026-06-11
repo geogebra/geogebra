@@ -72,8 +72,9 @@ public final class ChartSegmentFillImageProperty extends AbstractImageProperty
 
 	@Override
 	public boolean isAvailable() {
-		return chartSegmentSelection.getUniformValueOrNull(chartStyleGeo.getIntervals(),
-				index -> chartStyleGeo.getStyle().getBarFillType(index)) == FillType.IMAGE;
+		return super.isAvailable() && chartSegmentSelection.getUniformValueOrNull(chartStyleGeo
+				.getIntervals(), index -> chartStyleGeo.getStyle()
+				.getBarFillType(index)) == FillType.IMAGE;
 	}
 
 	@Override

@@ -25,6 +25,8 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.exam.ExamListener;
+import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.io.QDParser;
 import org.geogebra.common.kernel.Kernel;
@@ -37,7 +39,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 @HasNativeSubclass
-abstract public class ImageManager {
+abstract public class ImageManager implements ExamListener {
+	private boolean enabled = true;
 
 	/**
 	 * Set image corners; use selected points if any.
@@ -291,5 +294,14 @@ abstract public class ImageManager {
 	 */
 	public @CheckForNull MyImage getExternalImage(@Nonnull String path) {
 		return null;
+	}
+
+	@Override
+	public void examStateChanged(ExamState newState) {
+		this.enabled = newState == ExamState.IDLE;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
 	}
 }

@@ -28,7 +28,6 @@ import org.geogebra.common.util.ImageManager;
  */
 public abstract class AbstractImageProperty extends AbstractValuedProperty<ImageProperty.Value>
 		implements ImageProperty {
-
 	private final ImageManager imageManager;
 
 	/**
@@ -77,4 +76,9 @@ public abstract class AbstractImageProperty extends AbstractValuedProperty<Image
 	protected abstract @CheckForNull String getImagePath();
 	
 	protected abstract void setImagePath(@CheckForNull String path);
+
+	@Override
+	public boolean isAvailable() {
+		return imageManager.isEnabled();
+	}
 }

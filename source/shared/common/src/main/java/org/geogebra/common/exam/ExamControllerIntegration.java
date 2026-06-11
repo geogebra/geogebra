@@ -103,5 +103,6 @@ public final class ExamControllerIntegration {
 		for (Restrictable restrictable : restrictables) {
 			restrictionsController.registerRestrictable(restrictable);
 		}
+		examController.addListener(app.getImageManager());
 	}
 }

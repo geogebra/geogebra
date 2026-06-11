@@ -76,7 +76,7 @@ public final class FillImageProperty extends AbstractImageProperty
 
 	@Override
 	public boolean isAvailable() {
-		return delegate.getElement().getFillType() == FillType.IMAGE;
+		return super.isAvailable() && delegate.getElement().getFillType() == FillType.IMAGE;
 	}
 
 	@Override

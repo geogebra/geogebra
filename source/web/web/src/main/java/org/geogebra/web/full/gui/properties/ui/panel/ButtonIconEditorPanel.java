@@ -27,7 +27,8 @@ import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class ButtonIconEditorPanel extends FlowPanel implements ConfigurationUpdateDelegate {
+public class ButtonIconEditorPanel extends FlowPanel implements ConfigurationUpdateDelegate,
+	VisibilityUpdateDelegate {
 	private final AppW appW;
 	private final ButtonIconEditor buttonIconEditor;
 	private final ImagePicker imagePickerProperty;
@@ -46,6 +47,7 @@ public class ButtonIconEditorPanel extends FlowPanel implements ConfigurationUpd
 		imagePickerProperty = buttonIconEditor.getTrailingImagePicker();
 		createButtonIconEditor();
 		buttonIconEditor.setConfigurationUpdateDelegate(this);
+		buttonIconEditor.setVisibilityUpdateDelegate(this);
 	}
 
 	private void createButtonIconEditor() {
@@ -54,6 +56,7 @@ public class ButtonIconEditorPanel extends FlowPanel implements ConfigurationUpd
 		add(iconButtonPanel);
 
 		imagePickerPanel = new ImagePickerPanel(appW, imagePickerProperty);
+		imagePickerPanel.setVisible(imagePickerProperty.isVisible());
 		add(imagePickerPanel);
 	}
 
@@ -90,5 +93,10 @@ public class ButtonIconEditorPanel extends FlowPanel implements ConfigurationUpd
 		} else {
 			buttonIconEditor.setDefaultIcon("");
 		}
+	}
+
+	@Override
+	public void visibilityUpdated() {
+		imagePickerPanel.setVisible(imagePickerProperty.isVisible());
 	}
 }
