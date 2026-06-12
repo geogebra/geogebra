@@ -804,8 +804,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements DrawIn
 															// maximum
 			}
 
-			double left, right, min;
-
 			// calculate the min and max x-coords of what actually needs to be
 			// drawn
 			// do subsampling only in this region
@@ -827,7 +825,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements DrawIn
 			double totalArea = 0;
 			for (int i = 0; i < N; i++) {
 				leftBorder[i] = ad + i * STEP;
-
+				double left, right, min;
 				if (positiveStep) {
 					left = leftBorder[i];
 					right = leftBorder[i] + STEP;

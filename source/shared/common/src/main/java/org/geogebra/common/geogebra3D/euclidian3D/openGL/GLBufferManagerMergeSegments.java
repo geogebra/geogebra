@@ -224,19 +224,23 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 					BufferPackAbstract bufferPack = bufferPackList.get(i);
 					if (currentBufferPack != bufferPack && bufferPack.elementsLength > 0
 							&& bufferPack.getSegmentEnds().size() == 1) {
-						BufferSegment segment = bufferPack.getSegmentEnds()
-								.firstEntry().getValue();
-						if (segment.elementsOffset == 0 && segment
-								.getElementsAvailableLength() == bufferPack.elementsLength) {
-							bufferPackList.remove(i);
-							removeFromAvailableSegments(segment);
-							removeFromAvailableBufferPacks(bufferPack);
-						}
+						removeIfNeeded(bufferPack, i);
 					}
 				}
 			}
 		}
 		mayNeedToRemoveBuffers = false;
+	}
+
+	private void removeIfNeeded(BufferPackAbstract bufferPack, int i) {
+		BufferSegment segment = bufferPack.getSegmentEnds()
+				.firstEntry().getValue();
+		if (segment.elementsOffset == 0 && segment
+				.getElementsAvailableLength() == bufferPack.elementsLength) {
+			bufferPackList.remove(i);
+			removeFromAvailableSegments(segment);
+			removeFromAvailableBufferPacks(bufferPack);
+		}
 	}
 
 }

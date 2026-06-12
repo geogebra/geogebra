@@ -479,13 +479,13 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	private void updateEllipsoid(GeoQuadric3D quadric, Renderer renderer) {
 		setPackSurface();
+		PlotterSurface surface = renderer.getGeometryManager().getSurface();
+		surface.start(getReusableSurfaceIndex());
+		scale = getView3D().getMaxScale();
 		Coords center = quadric.getMidpoint3D();
 		double r0 = quadric.getHalfAxis(0);
 		double r1 = quadric.getHalfAxis(1);
 		double r2 = quadric.getHalfAxis(2);
-		PlotterSurface surface = renderer.getGeometryManager().getSurface();
-		surface.start(getReusableSurfaceIndex());
-		scale = getView3D().getMaxScale();
 		double radius = Math.max(r0, Math.max(r1, r2));
 		longitude = surface.calcSphereLongitudesNeeded(radius, scale);
 		Coords ev0 = quadric.getEigenvec3D(0);
