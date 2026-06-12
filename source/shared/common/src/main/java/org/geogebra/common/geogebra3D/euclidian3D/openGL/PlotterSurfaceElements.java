@@ -1001,12 +1001,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		// ///////////////
 		// set indices
 		arrayI = manager.getCurrentGeometryIndices(arrayIndex);
-
 		arrayIndex = 0;
-
-		short lastStartIndex = 0;
-		short lastLength = (short) longitudeLength;
-		short currentStartIndex = lastStartIndex;
 		short currentLength = (short) longitudeLength;
 
 		// both = 1 if only drawing up or down, both = 2 if drawing both
@@ -1033,7 +1028,8 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		debug("latitude : " + latitude + " , latitude-nextJump : "
 				+ (latitude - nextJump));
 		int next = 0;
-
+		short lastStartIndex = 0;
+		short currentStartIndex = lastStartIndex;
 		do {
 
 			next = Math.min(latitudeMax, latitude - nextJump);
@@ -1065,8 +1061,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				debug("vi : " + vi + " -- both : " + both);
 
 				lastStartIndex = currentStartIndex;
-				lastLength = currentLength;
-				currentStartIndex += lastLength * lastBoth;
+				currentStartIndex += currentLength * lastBoth;
 
 				if (lastDrawTop && drawTop) { // top triangles
 					short currentIndex = currentStartIndex;
@@ -1172,8 +1167,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				lastBoth = both;
 
 				lastStartIndex = currentStartIndex;
-				lastLength = currentLength;
-				currentStartIndex += lastLength * lastBoth;
+				currentStartIndex += currentLength * lastBoth;
 				currentLength /= 2;
 
 				if (lastDrawTop && drawTop) { // top triangles
@@ -1309,8 +1303,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		lastBoth = both;
 
 		lastStartIndex = currentStartIndex;
-		lastLength = currentLength;
-		currentStartIndex += lastLength * lastBoth;
+		currentStartIndex += currentLength * lastBoth;
 
 		if (dse.drawPoles()) {
 			// north pole

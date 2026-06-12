@@ -924,7 +924,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		x = euclidianView.toRealWorldCoordX(x);
 		y = euclidianView
 				.toRealWorldCoordY(y - euclidianView.getFont().getSize());
-		String st = geo.getTextString();
+		String st = geo.getTextStringSafe();
 		int id = st.indexOf("\n");
 		startBeamer(code);
 		// One line

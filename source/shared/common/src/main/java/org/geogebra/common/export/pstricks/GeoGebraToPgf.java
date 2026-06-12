@@ -1229,17 +1229,12 @@ public class GeoGebraToPgf extends GeoGebraExport {
 
 	@Override
 	protected void drawGeoConicPart(GeoConicPart geo) {
-
-		double startAngle = geo.getParameterStart();
 		double endAngle = geo.getParameterEnd();
 		// Get all coefficients form the transform matrix
 		GAffineTransform af = geo.getAffineTransform();
-		double m11 = af.getScaleX();
-		double m22 = af.getScaleY();
-		double m12 = af.getShearX();
-		double m21 = af.getShearY();
 		double tx = af.getTranslateX();
 		double ty = af.getTranslateY();
+		double startAngle = geo.getParameterStart();
 		if (startAngle > endAngle) {
 			startAngle = startAngle - Math.PI * 2;
 		}
@@ -1261,6 +1256,10 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		}
 		double r1 = geo.getHalfAxes()[0];
 		double r2 = geo.getHalfAxes()[1];
+		double m11 = af.getScaleX();
+		double m22 = af.getScaleY();
+		double m12 = af.getShearX();
+		double m21 = af.getShearY();
 		if (geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR) {
 			code.append(" (0,0) -- ");
 			StringBuilder sb1 = new StringBuilder();
@@ -3071,15 +3070,15 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		case INEQUALITY_1VAR_X:
 		case INEQUALITY_1VAR_Y:
 		case INEQUALITY_LINEAR:
-			double[] coords = new double[2];
-			double zeroY = ds[5] * ds[3];
-			double zeroX = ds[4] * (-ds[0]);
 			GPathIterator path = s.getPathIterator(null);
 			code.append("\\draw[");
 			code.append(lineOptionCode((GeoElement) geo, true));
 			code.append("]");
 			double precX = Integer.MAX_VALUE;
 			double precY = Integer.MAX_VALUE;
+			double[] coords = new double[2];
+			double zeroY = ds[5] * ds[3];
+			double zeroX = ds[4] * (-ds[0]);
 			while (!path.isDone()) {
 				path.currentSegment(coords);
 				if (coords[0] == precX && coords[1] == precY) {

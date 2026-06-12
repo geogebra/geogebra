@@ -1179,18 +1179,7 @@ public class AlgebraProcessor {
 			if (!containsRestrictedInputExpression && !containsRestrictedOutputExpressions) {
 				// apply the element setups,
 				if (!geoElementSetups.isEmpty()) {
-					Arrays.stream(geos).forEach(geoElement -> {
-						AtomicBoolean geoChanged = new AtomicBoolean(false);
-						geoElementSetups.forEach(setup -> {
-							if (setup.applyTo(geoElement)) {
-								geoChanged.set(true);
-							}
-						});
-
-						if (geoChanged.get()) {
-							geoElement.updateRepaint();
-						}
-					});
+					Arrays.stream(geos).forEach(this::applySetups);
 				}
 			} else {
 				// otherwise remove the elements from the construction.
@@ -1205,6 +1194,18 @@ public class AlgebraProcessor {
 			callback0.callback(filteredGeos);
 		}
 		return filteredGeos;
+	}
+
+	private void applySetups(GeoElementND geoElement) {
+		boolean geoChanged = false;
+		for (GeoElementSetup setup: geoElementSetups) {
+			if (setup.applyTo(geoElement)) {
+				geoChanged = true;
+			}
+		}
+		if (geoChanged) {
+			geoElement.updateRepaint();
+		}
 	}
 
 	private void removeSliders(Set<GeoNumeric> sliders) {
@@ -3106,7 +3107,6 @@ public class AlgebraProcessor {
 	 */
 	public GeoElement[] processConic(Equation equ, ExpressionNode def,
 			EvalInfo info) {
-		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
 
 		boolean isExplicit = equ.isExplicit("y");
@@ -3135,6 +3135,7 @@ public class AlgebraProcessor {
 			conic.setToSpecificForm();
 		}
 		conic.setDefinition(def);
+		String label = equ.getLabel();
 		setEquationLabelAndVisualStyle(conic, label, info);
 
 		return array(conic);

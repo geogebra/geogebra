@@ -266,9 +266,6 @@ public class ProverBotanasMethod {
 	private static HashMap<PVariable, BigInteger> fixValues(Prover prover,
 			int coords) throws NoSymbolicParametersException {
 
-		BigInteger[] fixCoords = {BigInteger.ZERO, BigInteger.ZERO,
-				BigInteger.ZERO, BigInteger.ONE};
-
 		GeoElement statement = prover.getStatement();
 		List<GeoElement> freePoints = getFreePoints(statement);
 		List<GeoElement> fixedPoints = new ArrayList<>();
@@ -281,6 +278,8 @@ public class ProverBotanasMethod {
 
 		Iterator<GeoElement> it = fixedPoints.iterator();
 		GeoElement[] geos = new GeoElement[2];
+		BigInteger[] fixCoords = {BigInteger.ZERO, BigInteger.ZERO,
+				BigInteger.ZERO, BigInteger.ONE};
 		int i = 0, j = 0;
 		while (it.hasNext() && i < 2 && j < coords) {
 			GeoElement geo = it.next();
@@ -1538,18 +1537,17 @@ public class ProverBotanasMethod {
 				return ProofResult.UNKNOWN;
 			}
 
-			Iterator<Set<PPolynomial>> ndgSet = eliminationIdeal.iterator();
-
 			List<HashSet<GeoPoint>> xEqualSet = new ArrayList<>();
 			// xEqualSet.add(new HashSet<GeoPoint>());
 			List<HashSet<GeoPoint>> yEqualSet = new ArrayList<>();
 			// yEqualSet.add(new HashSet<GeoPoint>());
-			boolean xyRewrite = (eliminationIdeal.size() == 2);
+			boolean xyRewrite = eliminationIdeal.size() == 2;
 
 			List<NDGCondition> bestNdgSet = new ArrayList<>();
 			double bestScore = Double.POSITIVE_INFINITY;
 			int ndgI = 0;
 			boolean investigateNonGeometricMaximalIndependentSet = false;
+			Iterator<Set<PPolynomial>> ndgSet = eliminationIdeal.iterator();
 			while (ndgSet.hasNext()) {
 				ndgI++;
 				Log.debug("Considering NDG " + ndgI + "...");
