@@ -197,8 +197,7 @@ public class ExtremumFinder implements ExtremumFinderI {
 		}
 		final double tol3 = tol / 3.0;
 		double w = v;
-		double fv = fx;
-		double fw = fx;
+		double fv = fx, fw = fx;
 		double xm = .5 * (a + b);
 		double tol1 = eps * Math.abs(x) + tol3;
 		double t2 = 2.0 * tol1;

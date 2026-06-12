@@ -1359,7 +1359,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			int pointCount = 0;
 			int freePointCount = 0;
 			int pointOnPathCount = 0;
-			int segmentCount = 0;
 			int minIndex = Integer.MAX_VALUE;
 
 			// count no of points in top layer
@@ -1454,8 +1453,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 
-			// int maxPolygonLayer = 0;
-			// count segments and polygons
+			// count segments
+			int segmentCount = 0;
 			for (GeoElement geo : geos) {
 				if (geo.isGeoSegment()) {
 					segmentCount++;
@@ -10196,9 +10195,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void wrapMouseReleasedND(final @Nonnull AbstractEvent event,
 			boolean mayFocus) {
-		boolean control = event.isControlDown();
-		final boolean alt = event.isAltDown();
-		final boolean meta = event.isPopupTrigger() || event.isMetaDown();
 		boolean rightClick = event.isRightClick();
 		PointerEventType type = event.getType();
 
@@ -10229,7 +10225,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				selectAndShowSelectionUI(geo);
 			}
 		}
-
+		boolean control = event.isControlDown();
+		final boolean alt = event.isAltDown();
+		final boolean meta = event.isPopupTrigger() || event.isMetaDown();
 		lastSelectionPressResult = SelectionToolPressResult.DEFAULT;
 
 		if (this.doubleClickStarted && !isDraggingOccurredBeyondThreshold() && !rightClick) {

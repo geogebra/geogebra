@@ -233,9 +233,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		double height = algo.getB().getDouble();
 		double[] lf = algo.getLeftBorders();
 		double min = lf[0];
-		double q1 = lf[1];
 		double med = lf[2];
-		double q3 = lf[3];
 		double max = lf[4];
 		startBeamer(code);
 		// Min vertical bar
@@ -244,6 +242,8 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		drawLine(max, y - height, max, y + height, geo);
 		// Med vertical bar
 		drawLine(med, y - height, med, y + height, geo);
+		double q1 = lf[1];
+		double q3 = lf[3];
 		// Min-q1 horizontal
 		drawLine(min, y, q1, y, geo);
 		// q3-max
@@ -899,10 +899,6 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 
 	@Override
 	protected void drawText(GeoText geo) {
-		boolean isLatex = geo.isLaTeX();
-		String st = geo.getTextString();
-		GColor geocolor = geo.getObjectColor();
-		int style = geo.getFontStyle();
 		double size = geo.getFontSize(getApp().getFontSizeDouble());
 		GeoPointND gp;
 		double x, y;
@@ -928,9 +924,13 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		x = euclidianView.toRealWorldCoordX(x);
 		y = euclidianView
 				.toRealWorldCoordY(y - euclidianView.getFont().getSize());
+		String st = geo.getTextString();
 		int id = st.indexOf("\n");
 		startBeamer(code);
 		// One line
+		boolean isLatex = geo.isLaTeX();
+		GColor geocolor = geo.getObjectColor();
+		int style = geo.getFontStyle();
 		if (id == -1 || isLatex) {
 			code.append("\\rput[tl](");
 			code.append(format(x));
@@ -994,7 +994,6 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		sb2.append("*sin(t)");
 		GAffineTransform af = geo.getAffineTransform();
 		double m11 = af.getScaleX();
-		double m12 = af.getShearX();
 		code.append(startAngle);
 		code.append("}{");
 		code.append(endAngle);
@@ -1003,24 +1002,25 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		code.append("*");
 		code.append(sb1);
 		code.append("+");
+		double m12 = af.getShearX();
 		code.append(format(m12));
 		code.append("*");
 		code.append(sb2);
 		code.append("+");
-		double m21 = af.getShearY();
-		double m22 = af.getScaleY();
 		double tx = af.getTranslateX();
-		double ty = af.getTranslateY();
 		code.append(format(tx));
 		code.append("|");
+		double m21 = af.getShearY();
 		code.append(format(m21));
 		code.append("*");
 		code.append(sb1);
 		code.append("+");
+		double m22 = af.getScaleY();
 		code.append(format(m22));
 		code.append("*");
 		code.append(sb2);
 		code.append("+");
+		double ty = af.getTranslateY();
 		code.append(format(ty));
 		code.append("}");
 		if (geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR) {

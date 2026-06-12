@@ -1222,7 +1222,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 */
 	public void plugInRatPoly(double[][] pX, double[][] pY, double[][] qX,
 			double[][] qY) {
-		int degXpX = pX.length - 1;
 		int degYpX = 0;
 		for (int i = 0; i < pX.length; i++) {
 			if (pX[i].length - 1 > degYpX) {
@@ -1239,7 +1238,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				}
 			}
 		}
-		int degXpY = pY.length - 1;
 		int degYpY = 0;
 		for (int i = 0; i < pY.length; i++) {
 			if (pY[i].length - 1 > degYpY) {
@@ -1273,6 +1271,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			// find the "common" degree, e.g. x^4+y^4->4, but x^4 y^4->8
 			commDeg = getDeg();
 		}
+		int degXpX = pX.length - 1;
+		int degXpY = pY.length - 1;
 		int newDegX = Math.max(degXpX, degXqX) * degX
 				+ Math.max(degXpY, degXqY) * degY;
 		int newDegY = Math.max(degYpX, degYqX) * degX

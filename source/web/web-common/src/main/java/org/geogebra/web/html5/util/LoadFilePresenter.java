@@ -165,7 +165,7 @@ public class LoadFilePresenter {
 	 * @return whether special perspective (search / customize) was used
 	 */
 	boolean openEmptyApp(final AppW app, AppletParameters ae) {
-		// we dont have content, it is an app
+		// we don't have content, it is an app
 		Log.debug("no base64content, App loaded");
 
 		// code moved here from AppWapplication.afterCoreObjectsInited - start

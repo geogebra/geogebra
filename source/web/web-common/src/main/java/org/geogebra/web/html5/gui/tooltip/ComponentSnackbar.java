@@ -104,7 +104,7 @@ public class ComponentSnackbar extends FlowPanel {
 
 	/**
 	 * @param toolTip - tooltip data
-	 * @return whether should add button, dont allow redirects in exam mode
+	 * @return whether to add button, depends on exam mode (to disallow redirects)
 	 */
 	private boolean shouldAddButton(ToolTip toolTip, AppW app) {
 		return !GlobalScope.isExamActive(app) || "Share".equals(toolTip.buttonTransKey);

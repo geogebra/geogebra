@@ -312,7 +312,6 @@ public class EquationSolver implements EquationSolverInterface {
 	 */
 	static public int solveCubicS(double[] eqn, double[] res,
 			double eps) {
-		int roots = 0;
 		double d = eqn[3];
 		if (Math.abs(d) < eps) {
 			// The cubic has degenerated to quadratic (or line or ...).
@@ -348,6 +347,7 @@ public class EquationSolver implements EquationSolverInterface {
 		// changed back to original GGB-1725
 		// if (Math.abs(R) < Kernel.STANDARD_PRECISION
 		// && Math.abs(Q) < Kernel.STANDARD_PRECISION)
+		int roots = 0;
 		if (R == 0 && Q == 0) {
 			res[roots++] = -a / 3;
 			res[roots++] = -a / 3;
@@ -550,8 +550,6 @@ public class EquationSolver implements EquationSolverInterface {
 		// for fast evaluation of polynomial (used for root polishing)
 		double[] coeff = (validCoeff == eqn.length) ? eqn : Arrays.copyOf(eqn, validCoeff);
 		PolyFunction polyFunc = new PolyFunction(coeff, coeff.length);
-		PolyFunction derivFunc = polyFunc.getDerivative();
-
 		Complex[] complexRoots = null;
 		try {
 			if (laguerreSolver == null) {
@@ -632,6 +630,7 @@ public class EquationSolver implements EquationSolverInterface {
 						rootFinderBrent = new BrentSolver();
 					}
 					if (left < right) {
+						PolyFunction derivFunc = polyFunc.getDerivative();
 						double brentRoot = rootFinderBrent.solve(
 								AlgoRootNewton.MAX_ITERATIONS, derivFunc,
 								left, right);
@@ -738,9 +737,6 @@ public class EquationSolver implements EquationSolverInterface {
 		 * This code is based on a simplification of the algorithm from
 		 * zsolve_quartic.c for real roots
 		 */
-		double[] u = new double[3];
-		double[] v = new double[3];
-		double[] zarr = new double[4];
 		double aa, pp, qq, rr, rc, sc, tc, mt;
 		double w1r, w1i, w2r, w2i, w3r;
 		double v1, v2, arg, theta;
@@ -813,6 +809,7 @@ public class EquationSolver implements EquationSolverInterface {
 			 * u[2], respectively. Additionally, this calculates the
 			 * discriminant of the cubic and puts it into the variable disc.
 			 */
+			double[] u = new double[3];
 			{
 				double qcub = rc * rc - 3 * sc;
 				double rcub = 2 * rc * rc * rc - 9 * rc * sc + 27 * tc;
@@ -895,6 +892,7 @@ public class EquationSolver implements EquationSolverInterface {
 				 * mt=1 under certain conditions below.
 				 */
 
+				double[] v = new double[3];
 				v[0] = Math.abs(u[0]);
 				v[1] = Math.abs(u[1]);
 				v[2] = Math.abs(u[2]);
@@ -956,6 +954,7 @@ public class EquationSolver implements EquationSolverInterface {
 					/ (w2i * w2i + w2r * w2r);
 			h = a / 4.0;
 
+			double[] zarr = new double[4];
 			zarr[0] = w1r + w2r + w3r - h;
 			zarr[1] = -w1r - w2r + w3r - h;
 			zarr[2] = -w1r + w2r - w3r - h;
