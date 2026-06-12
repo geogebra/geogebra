@@ -88,12 +88,11 @@ public class ProbabilityModeGroup extends FlowPanel implements SetLabels {
 	 * @return if button was toggled or not.
 	 */
 	public boolean handle(Object source) {
-		if (!(source instanceof  ToggleButton)) {
+		if (!(source instanceof ToggleButton toggleButton)) {
 			return false;
 		}
-		ToggleButton sourceButton = (ToggleButton) source;
-		buttons.values().forEach(button -> button.setSelected(button == sourceButton));
-		return buttons.containsValue(sourceButton);
+		buttons.values().forEach(button -> button.setSelected(button == toggleButton));
+		return buttons.containsValue(toggleButton);
 	}
 
 	/**
@@ -102,7 +101,6 @@ public class ProbabilityModeGroup extends FlowPanel implements SetLabels {
 	 */
 	public void setMode(int mode) {
 		buttons.forEach((k, v) -> v.setSelected(k == mode));
-
 	}
 
 	/**

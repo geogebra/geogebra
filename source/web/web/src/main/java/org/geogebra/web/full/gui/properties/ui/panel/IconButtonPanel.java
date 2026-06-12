@@ -16,7 +16,9 @@
 
 package org.geogebra.web.full.gui.properties.ui.panel;
 
-import static org.geogebra.common.properties.PropertyView.*;
+import static org.geogebra.common.properties.PropertyView.ConfigurationUpdateDelegate;
+import static org.geogebra.common.properties.PropertyView.SingleSelectionIconRow;
+import static org.geogebra.common.properties.PropertyView.VisibilityUpdateDelegate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +28,17 @@ import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.geogebra.web.html5.gui.accessibility.HasFocus;
+import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
-import org.gwtproject.user.client.ui.Widget;
+
+import elemental2.dom.KeyboardEvent;
 
 public class IconButtonPanel extends FlowPanel implements SetLabels, ConfigurationUpdateDelegate,
-		VisibilityUpdateDelegate {
+		VisibilityUpdateDelegate, HasFocus {
 	private final AppW appW;
 	private Label label;
 	private final String labelKey;
@@ -46,12 +52,11 @@ public class IconButtonPanel extends FlowPanel implements SetLabels, Configurati
 	 * @param property {@link org.geogebra.common.properties.PropertyView.SingleSelectionIconRow}
 	 * @param addTitle whether title should be added or not
 	 */
-	public IconButtonPanel(AppW appW, SingleSelectionIconRow property, boolean addTitle,
-			List<Widget> widgets) {
+	public IconButtonPanel(AppW appW, SingleSelectionIconRow property, boolean addTitle) {
 		this.appW = appW;
 		propertyList = List.of(property);
 		labelKey = property.getLabel();
-		buildGUI(addTitle, widgets);
+		buildGUI(addTitle);
 		property.setConfigurationUpdateDelegate(this);
 		property.setVisibilityUpdateDelegate(this);
 	}
@@ -62,12 +67,11 @@ public class IconButtonPanel extends FlowPanel implements SetLabels, Configurati
 	 * @param labelKey title
 	 * @param properties list of {@link SingleSelectionIconRow}
 	 */
-	public IconButtonPanel(AppW appW, String labelKey, List<SingleSelectionIconRow> properties,
-			List<Widget> widgets) {
+	public IconButtonPanel(AppW appW, String labelKey, List<SingleSelectionIconRow> properties) {
 		this.appW = appW;
 		propertyList = properties;
 		this.labelKey = labelKey;
-		buildGUI(true, widgets);
+		buildGUI(true);
 		for (SingleSelectionIconRow property : properties) {
 			property.setConfigurationUpdateDelegate(this);
 			property.setVisibilityUpdateDelegate(this);
@@ -83,14 +87,15 @@ public class IconButtonPanel extends FlowPanel implements SetLabels, Configurati
 	 */
 	public IconButtonPanel(AppW appW, SingleSelectionIconRow property,
 			boolean addTitle, Runnable callback) {
-		this(appW, property, addTitle, new ArrayList<>());
+		this(appW, property, addTitle);
 		this.callback = callback;
 	}
 
-	private void buildGUI(boolean addTitle, List<Widget> widgets) {
+	private void buildGUI(boolean addTitle) {
 		addStyleName("iconButtonPanel");
+		String localizedLabel = appW.getLocalization().getMenu(labelKey);
 		if (addTitle) {
-			label = new Label(appW.getLocalization().getMenu(labelKey));
+			label = new Label(localizedLabel);
 			add(label);
 		}
 
@@ -101,6 +106,8 @@ public class IconButtonPanel extends FlowPanel implements SetLabels, Configurati
 			List<IconButton> buttons = new ArrayList<>();
 			FlowPanel iconPanel = new FlowPanel();
 			iconPanel.addStyleName("iconPanel");
+			AriaHelper.setTitle(iconPanel, localizedLabel);
+			AriaHelper.setRole(iconPanel, "radiogroup");
 
 			PropertyResource[] icons = property.getIcons().toArray(new PropertyResource[0]);
 			String[] labels = property.getToolTipLabels();
@@ -115,11 +122,11 @@ public class IconButtonPanel extends FlowPanel implements SetLabels, Configurati
 				IconButton btn = new IconButton(appW, null,
 						((AppWFull) appW).getPropertiesIconResource().getImageResource(icon),
 						label);
-				btn.setDisabled(!property.isEnabled());
-				btn.setActive(selectedIdx == idx);
+				updateButton(property, btn, idx, selectedIdx);
 				iconPanel.add(btn);
 				buttons.add(btn);
 				final int index = idx;
+				addRadioKeyHandler(buttons, btn, index);
 				btn.addClickHandler(appW.getGlobalHandlers(),
 						(w) -> {
 							property.setSelectedIconIndex(index);
@@ -137,7 +144,6 @@ public class IconButtonPanel extends FlowPanel implements SetLabels, Configurati
 			if (propertyList.indexOf(property) != propertyList.size() - 1) {
 				iconButtonListPanel.add(BaseWidgetFactory.INSTANCE.newDivider(true));
 			}
-			widgets.addAll(buttons);
 		}
 		add(iconButtonListPanel);
 	}
@@ -175,7 +181,7 @@ public class IconButtonPanel extends FlowPanel implements SetLabels, Configurati
 	public void configurationUpdated() {
 		for (int i = 0; i < propertyList.size(); i++) {
 			SingleSelectionIconRow property = propertyList.get(i);
-			setDisabled(i, !property.isEnabled());
+			updateButtons(i, property);
 		}
 	}
 
@@ -184,5 +190,60 @@ public class IconButtonPanel extends FlowPanel implements SetLabels, Configurati
 		for (SingleSelectionIconRow property : propertyList) {
 			setVisible(property.isVisible());
 		}
+	}
+
+	@Override
+	public void focus() {
+		for (List<IconButton> buttons : iconButtonList) {
+			for (IconButton button : buttons) {
+				if (button.getElement().getTabIndex() == 0) {
+					button.getElement().focus();
+					button.addStyleName("keyboardFocus");
+					return;
+				}
+			}
+		}
+	}
+
+	private void setChecked(IconButton iconButton, boolean checked) {
+		AriaHelper.setRole(iconButton, "radio");
+		iconButton.setActive(checked);
+		AriaHelper.setChecked(iconButton, checked);
+	}
+
+	private void addRadioKeyHandler(List<IconButton> buttons, IconButton button, int index) {
+		Dom.addEventListener(button.getElement(), "keydown", event -> {
+			KeyboardEvent keyEvent = (KeyboardEvent) event;
+			switch (keyEvent.code) {
+			case "ArrowRight":
+			case "ArrowDown":
+				int nextButtonIndex = (index + 1) % buttons.size();
+				buttons.get(nextButtonIndex).getElement().focus();
+				break;
+			case "ArrowLeft":
+			case "ArrowUp":
+				int previousButtonIndex = (index - 1 + buttons.size()) % buttons.size();
+				buttons.get(previousButtonIndex).getElement().focus();
+				break;
+			default:
+				break;
+			}
+		});
+	}
+
+	private void updateButtons(int propertyIndex, SingleSelectionIconRow property) {
+		List<IconButton> iconButtons = iconButtonList.get(propertyIndex);
+		Integer selectedIndex = property.getSelectedIconIndex();
+		int focusIndex = selectedIndex == null ? 0 : selectedIndex;
+		for (int i = 0; i < iconButtons.size(); i++) {
+			updateButton(property, iconButtons.get(i), i, focusIndex);
+		}
+	}
+
+	private void updateButton(SingleSelectionIconRow property, IconButton iconButton,
+			int buttonIndex, int focusIndex) {
+		iconButton.setDisabled(!property.isEnabled());
+		setChecked(iconButton, focusIndex == buttonIndex);
+		iconButton.setTabIndex(focusIndex == buttonIndex ? 0 : -1);
 	}
 }

@@ -186,7 +186,7 @@ public class PropertiesPanelAdapter {
 		}
 		if (propertyView instanceof GroupedIconButtonRow groupedIconButtonRow) {
 			return new IconButtonPanel(app, groupedIconButtonRow.getLabel(),
-					groupedIconButtonRow.getIconRowList(), widgets);
+					groupedIconButtonRow.getIconRowList());
 		}
 		if (propertyView instanceof HorizontalSplitView splitView) {
 			FlowPanel panel = new FlowPanel();
@@ -259,7 +259,7 @@ public class PropertiesPanelAdapter {
 			return comboBox;
 		}
 		if (propertyView instanceof SingleSelectionIconRow iconRow) {
-			return new IconButtonPanel(app, iconRow, true, widgets);
+			return new IconButtonPanel(app, iconRow, true);
 		}
 		if (propertyView instanceof ColorSelectorRow colorSelectorRow) {
 			List<GColor> colors = colorSelectorRow.getColors();
