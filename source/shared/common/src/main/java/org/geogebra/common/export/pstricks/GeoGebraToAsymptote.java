@@ -360,9 +360,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 		double height = algo.getB().getDouble();
 		double[] lf = algo.getLeftBorders();
 		double min = lf[0];
-		double q1 = lf[1];
 		double med = lf[2];
-		double q3 = lf[3];
 		double max = lf[4];
 
 		// Min vertical bar
@@ -372,6 +370,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 		// Med vertical bar
 		drawLine(med, y - height, med, y + height, geo);
 		// Min-q1 horizontal
+		double q1 = lf[1];
+		double q3 = lf[3];
 		drawLine(min, y, q1, y, geo);
 		// q3-max
 		drawLine(q3, y, max, y, geo);
@@ -821,8 +821,6 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 
 			// draw the [circular?] dot if right angle and decoration is dot
 			if (drawAngleAs(geo, EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT)) {
-				double diameter = geo.getLineThickness()
-						/ euclidianView.getXscale();
 				double radius = arcSize / euclidianView.getXscale() / 1.7;
 				double labelAngle = (angSt + angExt) / 2.0;
 				double x1 = m[0] + radius * Math.cos(labelAngle);
@@ -836,6 +834,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 				}
 				addPoint(format(x1), format(x2), code);
 				code.append(",");
+				double diameter = geo.getLineThickness()
+						/ euclidianView.getXscale();
 				code.append(format(diameter));
 				code.append(")");
 				endDraw(geo);
@@ -918,9 +918,6 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 	@Override
 	protected void drawSlider(GeoNumeric geo) {
 		boolean horizontal = geo.isSliderHorizontal();
-		double max = geo.getIntervalMax();
-		double min = geo.getIntervalMin();
-		double value = geo.getValue();
 		double width = geo.getSliderWidth();
 		double x = geo.getSliderX();
 		double y = geo.getSliderY();
@@ -938,6 +935,9 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 		String label = StringUtil.toLaTeXString(geo.getLabelDescription(),
 				true);
 		geoPoint.setLabel(label);
+		double max = geo.getIntervalMax();
+		double min = geo.getIntervalMin();
+		double value = geo.getValue();
 		double param = (value - min) / (max - min);
 		geoPoint.setPointSize(2 + (geo.getLineThickness() + 1) / 3);
 		geoPoint.setLabelVisible(geo.isLabelVisible());
@@ -1007,9 +1007,6 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 				codePreamble.append("usepackage(\"eurosym\"); ");
 			}
 		}
-		GColor geocolor = geo.getObjectColor();
-		int style = geo.getFontStyle();
-		double size = geo.getFontSize(getApp().getFontSizeDouble());
 		GeoPointND gp;
 		double x, y;
 		// compute location of text
@@ -1036,7 +1033,9 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 				.toRealWorldCoordY(y - euclidianView.getFont().getSize());
 		int id = st.indexOf("\n");
 		boolean comma = false;
-
+		GColor geocolor = geo.getObjectColor();
+		int style = geo.getFontStyle();
+		double size = geo.getFontSize(getApp().getFontSizeDouble());
 		// One line
 		if (id == -1 || isLatex) {
 			if (!compact) {
@@ -1130,8 +1129,6 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 	@Override
 	protected void drawGeoConicPart(GeoConicPart geo) {
 		StringBuilder tempsb = new StringBuilder();
-		double r1 = geo.getHalfAxes()[0], r2 = geo.getHalfAxes()[1];
-		double startAngle = geo.getParameterStart();
 		double endAngle = geo.getParameterEnd();
 		// Get all coefficients form the transform matrix
 		GAffineTransform af = geo.getAffineTransform();
@@ -1141,10 +1138,11 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 		double m21 = af.getShearY();
 		double tx = af.getTranslateX();
 		double ty = af.getTranslateY();
-
+		double startAngle = geo.getParameterStart();
 		if (startAngle > endAngle) {
 			startAngle -= Math.PI * 2;
 		}
+		double r1 = geo.getHalfAxes()[0], r2 = geo.getHalfAxes()[1];
 		// Fill if: SECTOR and fill type not set to FILL_NONE
 		if (m11 == 1 && m22 == 1 && m12 == 0 && m21 == 0) {
 			if (geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR

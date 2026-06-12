@@ -1266,12 +1266,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 									split = true;
 								} else if (d > maxRWDistanceNoAngleCheck) { // check
 																			// angle
-									if (isAngleOK(maxBend, left.a, n, w)) { // angle
-																			// ok
-										split = false;
-									} else { // angle not ok
-										split = true;
-									}
+									split = !isAngleOK(maxBend, left.a, n, w);
 								} else { // no need to check angle
 									split = false;
 								}
@@ -1320,12 +1315,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 									split = true;
 								} else if (d > maxRWDistanceNoAngleCheck) { // check
 																			// angle
-									if (isAngleOK(maxBend, above, n, e)) { // angle
-																			// ok
-										split = false;
-									} else { // angle not ok
-										split = true;
-									}
+									split = !isAngleOK(maxBend, above, n, e);
 								} else { // no need to check angle
 									split = false;
 								}
@@ -1396,12 +1386,8 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 										split = true;
 									} else if (d > maxRWDistanceNoAngleCheck) { // check
 																				// angle
-										if (isAngleOKNoLoop(maxBend, above, e,
-												w, left.a)) { // angle ok
-											split = false;
-										} else { // angle not ok
-											split = true;
-										}
+										split = !isAngleOKNoLoop(maxBend, above, e,
+												w, left.a);
 									} else { // no need to check angle
 										split = false;
 									}
@@ -1456,12 +1442,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 									split = true;
 								} else if (d > maxRWDistanceNoAngleCheck) { // check
 																			// angle
-									if (isAngleOK(maxBend, left, s, w)) { // angle
-																			// ok
-										split = false;
-									} else { // angle not ok
-										split = true;
-									}
+									split = !isAngleOK(maxBend, left, s, w);
 								} else { // no need to check angle
 									split = false;
 								}
@@ -1533,12 +1514,8 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 										split = true;
 									} else if (d > maxRWDistanceNoAngleCheck) { // check
 																				// angle
-										if (isAngleOKNoLoop(maxBend, left.a, n,
-												s, left)) { // angle ok
-											split = false;
-										} else { // angle not ok
-											split = true;
-										}
+										split = !isAngleOKNoLoop(maxBend, left.a, n,
+												s, left);
 									} else { // no need to check angle
 										split = false;
 									}
@@ -1727,12 +1704,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 									split = true;
 								} else if (d > maxRWDistanceNoAngleCheck) { // check
 																			// angle
-									if (isAngleOK(maxBend, this, s, e)) { // angle
-																			// ok
-										split = false;
-									} else { // angle not ok
-										split = true;
-									}
+									split = !isAngleOK(maxBend, this, s, e);
 								} else { // no need to check angle
 									split = false;
 								}
@@ -1867,12 +1839,8 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 										split = true;
 									} else if (d > maxRWDistanceNoAngleCheck) { // check
 																				// angle
-										if (isAngleOKNoLoop(maxBend, this, s, n,
-												above)) { // angle ok
-											split = false;
-										} else { // angle not ok
-											split = true;
-										}
+										split = !isAngleOKNoLoop(maxBend, this, s, n,
+												above);
 									} else { // no need to check angle
 										split = false;
 									}
@@ -2003,12 +1971,10 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 										split = true;
 									} else if (d > maxRWDistanceNoAngleCheck) { // check
 																				// angle
-										if (isAngleOKNoLoop(maxBend, this, e, w,
-												left)) { // angle ok
-											split = false;
-										} else { // angle not ok
-											split = true;
-										}
+										// angle ok
+										// angle not ok
+										split = !isAngleOKNoLoop(maxBend, this, e, w,
+												left);
 									} else { // no need to check angle
 										split = false;
 									}
@@ -2048,12 +2014,8 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 									split = true;
 								} else if (d > maxRWDistanceNoAngleCheck) { // check
 																			// angle
-									if (isAngleOK(maxBend, left, left.a,
-											this)) { // angle ok
-										split = false;
-									} else { // angle not ok
-										split = true;
-									}
+									split = !isAngleOK(maxBend, left, left.a,
+											this);
 								} else { // no need to check angle
 									split = false;
 								}
