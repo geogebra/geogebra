@@ -1132,16 +1132,16 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 		double endAngle = geo.getParameterEnd();
 		// Get all coefficients form the transform matrix
 		GAffineTransform af = geo.getAffineTransform();
+		double startAngle = geo.getParameterStart();
+		if (startAngle > endAngle) {
+			startAngle -= Math.PI * 2;
+		}
 		double m11 = af.getScaleX();
 		double m22 = af.getScaleY();
 		double m12 = af.getShearX();
 		double m21 = af.getShearY();
 		double tx = af.getTranslateX();
 		double ty = af.getTranslateY();
-		double startAngle = geo.getParameterStart();
-		if (startAngle > endAngle) {
-			startAngle -= Math.PI * 2;
-		}
 		double r1 = geo.getHalfAxes()[0], r2 = geo.getHalfAxes()[1];
 		// Fill if: SECTOR and fill type not set to FILL_NONE
 		if (m11 == 1 && m22 == 1 && m12 == 0 && m21 == 0) {
@@ -1779,24 +1779,21 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 	 *            GeoPoint with style not equal to the standard dot style.
 	 */
 	protected void drawSpecialPoint(GeoPointND geo) {
-		// radius = dotsize (pt) * (2.54 cm)/(72 pt per inch) * XUnit / cm
-		double dotsize = geo.getPointSize();
-		double radius = dotsize * (2.54 / 72) * frame.getXUnit();
-		int dotstyle = geo.getPointStyle();
-		if (dotstyle == -1) { // default
-			dotstyle = EuclidianStyleConstants.POINT_STYLE_DOT;
-		}
 		double[] A = new double[3];
-
 		geo.getInhomCoords(A);
-
 		if (A[2] != 0) {
 			Log.error("can't export 3D Point" + geo.getLabelSimple());
 			return;
 		}
-
+		double dotsize = geo.getPointSize();
+		int dotstyle = geo.getPointStyle();
+		if (dotstyle == -1) { // default
+			dotstyle = EuclidianStyleConstants.POINT_STYLE_DOT;
+		}
 		double x = A[0];
 		double y = A[1];
+		// radius = dotsize (pt) * (2.54 cm)/(72 pt per inch) * XUnit / cm
+		double radius = dotsize * (2.54 / 72) * frame.getXUnit();
 		GColor dotcolor = geo.getObjectColor();
 
 		switch (dotstyle) {
@@ -2020,9 +2017,6 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 	@Override
 	protected void drawGeoRay(GeoRayND geo) {
 		GeoPointND pointStart = geo.getStartPoint();
-		double x1 = pointStart.getInhomX();
-		String y1 = format(pointStart.getInhomY());
-
 		Coords equation = geo
 				.getCartesianEquationVector(euclidianView.getMatrix());
 
@@ -2034,6 +2028,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 		// String tmpy = format(y);
 		double inf = xmin, sup = xmax; // determine left and right bounds on x
 										// to draw ray
+		double x1 = pointStart.getInhomX();
+		String y1 = format(pointStart.getInhomY());
 		if (y > 0) {
 			inf = x1;
 			yEndpoint = (-z - x * inf) / y;
@@ -2534,33 +2530,31 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 	// xaxis/yaxis.
 	// note: may shift around relative positions of certain labels.
 	private void drawAxis() {
-		boolean xAxis = euclidianView.getShowXaxis();
-		boolean yAxis = euclidianView.getShowYaxis();
-		boolean bx = euclidianView.getShowAxesNumbers()[0];
-		boolean by = euclidianView.getShowAxesNumbers()[1];
-		String Dx = format(euclidianView.getAxesNumberingDistances()[0]);
-		String Dy = format(euclidianView.getAxesNumberingDistances()[1]);
 		String[] label = euclidianView.getAxesLabels(false);
-		String[] units = euclidianView.getAxesUnitLabels();
-		int axisStyle = euclidianView.getAxesLineStyle();
-		int[] tickStyle = euclidianView.getAxesTickStyles();
-		GColor axisColor = euclidianView.getAxesColor();
-		boolean axisBold = (axisStyle & 2) == EuclidianStyleConstants.AXES_BOLD;
-
 		String lx = "", ly = ""; // axis labels
 		if (label[0] != null) {
 			lx = "$" + StringUtil.toLaTeXString(label[0], true) + "$";
 		}
 		if (label[1] != null) {
 			ly = "$" + StringUtil.toLaTeXString(label[1], true) + "$";
-		/*
-		 * follow format: void xaxis(picture pic=currentpicture, Label L="",
-		 * axis axis=YZero, real xmin=-infinity, real xmax=infinity, pen
-		 * p=currentpen, ticks ticks=NoTicks, arrowbar arrow=None, bool
-		 * above=false);
-		 */
+			/*
+			 * follow format: void xaxis(picture pic=currentpicture, Label L="",
+			 * axis axis=YZero, real xmin=-infinity, real xmax=infinity, pen
+			 * p=currentpen, ticks ticks=NoTicks, arrowbar arrow=None, bool
+			 * above=false);
+			 */
 		}
-
+		final boolean xAxis = euclidianView.getShowXaxis();
+		final boolean yAxis = euclidianView.getShowYaxis();
+		final boolean bx = euclidianView.getShowAxesNumbers()[0];
+		final boolean by = euclidianView.getShowAxesNumbers()[1];
+		String Dx = format(euclidianView.getAxesNumberingDistances()[0]);
+		String Dy = format(euclidianView.getAxesNumberingDistances()[1]);
+		String[] units = euclidianView.getAxesUnitLabels();
+		int axisStyle = euclidianView.getAxesLineStyle();
+		int[] tickStyle = euclidianView.getAxesTickStyles();
+		GColor axisColor = euclidianView.getAxesColor();
+		boolean axisBold = (axisStyle & 2) == EuclidianStyleConstants.AXES_BOLD;
 		// Note: code for xaxis and yaxis duplicated twice.
 		// When making changes, be sure to update both.
 		if (xAxis || yAxis) {

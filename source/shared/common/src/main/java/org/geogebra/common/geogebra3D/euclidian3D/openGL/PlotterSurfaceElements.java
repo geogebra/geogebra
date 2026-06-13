@@ -995,21 +995,14 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	}
 
-	private void setIndices(int longitude, int longitudeLength,
-			DrawEllipticSurface dse) {
-
+	private void setIndices(int longitude, int longitudeLength, DrawEllipticSurface dse) {
 		// ///////////////
 		// set indices
 		arrayI = manager.getCurrentGeometryIndices(arrayIndex);
 		arrayIndex = 0;
-		short currentLength = (short) longitudeLength;
-
 		// both = 1 if only drawing up or down, both = 2 if drawing both
 		boolean drawTop = true;
 		boolean drawBottom = true;
-		boolean lastDrawTop = true;
-		boolean lastDrawBottom = true;
-		short lastBoth = 1;
 		short both = 2;
 		int vi = latitudeMin + 1;
 		if (dse.drawEquator()) {
@@ -1024,12 +1017,13 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				both = 1;
 			}
 		}
+		boolean lastDrawTop = true, lastDrawBottom = true;
 		int nextJump = dse.initNextJump(latitude, longitude);
-		debug("latitude : " + latitude + " , latitude-nextJump : "
-				+ (latitude - nextJump));
-		int next = 0;
+		int next;
+		short lastBoth;
 		short lastStartIndex = 0;
 		short currentStartIndex = lastStartIndex;
+		short currentLength = (short) longitudeLength;
 		do {
 
 			next = Math.min(latitudeMax, latitude - nextJump);

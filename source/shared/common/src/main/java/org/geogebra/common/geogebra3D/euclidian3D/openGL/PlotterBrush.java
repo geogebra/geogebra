@@ -627,17 +627,16 @@ public class PlotterBrush implements PathPlotter {
 
 		vn2.setCrossProduct3(v2, v1);
 
-		float dt = (float) 1 / longitude;
-		float da = (float) (extent * dt);
-		float u, v;
-		u = (float) Math.cos(arcStart);
-		v = (float) Math.sin(arcStart);
+		float u = (float) Math.cos(arcStart);
+		float v = (float) Math.sin(arcStart);
 
 		setTextureX(0, 0);
 		vn1.setAdd(tmpCoords.setMul(v1, u), vn1.setMul(v2, v));
 		tmpCoords.setAdd(center, tmpCoords.setMul(vn1, radius));
 		down(tmpCoords, vn1, vn2);
 
+		float dt = (float) 1 / longitude;
+		float da = (float) (extent * dt);
 		for (int i = 1; i <= longitude; i++) {
 			u = (float) Math.cos(arcStart + i * da);
 			v = (float) Math.sin(arcStart + i * da);
@@ -647,7 +646,6 @@ public class PlotterBrush implements PathPlotter {
 			tmpCoords.setAdd(center, tmpCoords.setMul(vn1, radius));
 			moveTo(tmpCoords, vn1, vn2);
 		}
-
 	}
 
 	/**
@@ -763,25 +761,21 @@ public class PlotterBrush implements PathPlotter {
 		double f = Math.sqrt(a * a - b * b);
 		f1.setMul(v1, f);
 		f2.setMul(v1, -f);
-
-		int longitude = manager.getLongitudeDefault();
-
 		vn2.setCrossProduct3(v2, v1);
 
-		float dt = (float) 1 / longitude;
-		float da = (float) (extent * dt);
 		float u, v;
 		u = (float) Math.cos(arcStart);
 		v = (float) Math.sin(arcStart);
 
 		m.setAdd(m.setMul(v1, a * u), tmpCoords.setMul(v2, b * v));
-
 		vn1.setAdd(tmpCoords3.setSub(m, f1).normalize(),
 				tmpCoords4.setSub(m, f2).normalize()).normalize();
 
 		tmpCoords.setAdd(center, m);
 		down(tmpCoords, vn1, vn2);
-
+		int longitude = manager.getLongitudeDefault();
+		float dt = (float) 1 / longitude;
+		float da = (float) (extent * dt);
 		for (int i = 1; i <= longitude; i++) {
 			u = (float) Math.cos(arcStart + i * da);
 			v = (float) Math.sin(arcStart + i * da);
@@ -795,9 +789,7 @@ public class PlotterBrush implements PathPlotter {
 
 			tmpCoords.setAdd(center, m);
 			moveTo(tmpCoords, vn1, vn2);
-
 		}
-
 	}
 
 	private void addCurvePos(Coords coords) {
@@ -843,15 +835,10 @@ public class PlotterBrush implements PathPlotter {
 																// middle of an
 																// empty dash
 
-		int longitude = manager.getLongitudeDefault();
-
 		vn2.setCrossProduct3(v1, v2);
 
-		float dt = (float) (tMax - tMin) / longitude;
-
-		float u, v;
-		u = (float) Math.cosh(tMin);
-		v = (float) Math.sinh(tMin);
+		float u = (float) Math.cosh(tMin);
+		float v = (float) Math.sinh(tMin);
 
 		m.setAdd(m.setMul(v1, a * u), tmpCoords.setMul(v2, b * v));
 
@@ -860,7 +847,8 @@ public class PlotterBrush implements PathPlotter {
 
 		tmpCoords.setAdd(center, m);
 		down(tmpCoords, vn1, vn2);
-
+		int longitude = manager.getLongitudeDefault();
+		float dt = (float) (tMax - tMin) / longitude;
 		for (int i = 1; i <= longitude; i++) {
 			u = (float) Math.cosh(tMin + i * dt);
 			v = (float) Math.sinh(tMin + i * dt);
@@ -906,21 +894,16 @@ public class PlotterBrush implements PathPlotter {
 
 		vn2.setCrossProduct3(v1, v2);
 
-		int longitude = manager.getLongitudeDefault();
-
 		// dash
 		length = 1;
 		setTextureType(PlotterBrush.TEXTURE_LINEAR);
 		setCurvePos(0.75f / (TEXTURE_AFFINE_FACTOR * scale));
-
-		float dt = (float) (tMax - tMin) / longitude;
 
 		double t = tMin;
 		float u = (float) (p * t * t / 2);
 		float v = (float) (p * t);
 
 		m.setAdd(m.setMul(v1, u), tmpCoords.setMul(v2, v));
-
 		vn1.setSub(tmpCoords3.setSub(m, f1).normalize(), v1).normalize();
 
 		tmpCoords.setAdd(center, m);
@@ -929,7 +912,8 @@ public class PlotterBrush implements PathPlotter {
 		if (p1 != null) {
 			p1.set(tmpCoords);
 		}
-
+		int longitude = manager.getLongitudeDefault();
+		float dt = (float) (tMax - tMin) / longitude;
 		for (int i = 1; i <= longitude; i++) {
 
 			t = tMin + i * dt;

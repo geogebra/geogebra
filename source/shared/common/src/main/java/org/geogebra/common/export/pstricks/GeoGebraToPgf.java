@@ -18,7 +18,6 @@ package org.geogebra.common.export.pstricks;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 
 import org.geogebra.common.awt.AwtFactory;
@@ -248,8 +247,6 @@ public class GeoGebraToPgf extends GeoGebraExport {
 
 	@Override
 	protected void drawLocus(GeoLocus g) {
-		ArrayList<MyPoint> ll = g.getPoints();
-		Iterator<MyPoint> it = ll.iterator();
 		startBeamer(code);
 		code.append("\\draw");
 		String s = lineOptionCode(g, true);
@@ -259,8 +256,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		code.append(s);
 		boolean first = true;
 		boolean out = false;
-		while (it.hasNext()) {
-			MyPoint mp = it.next();
+		ArrayList<MyPoint> ll = g.getPoints();
+		for (MyPoint mp : ll) {
 			double x = mp.x;
 			double y = mp.y;
 			boolean b = mp.getLineTo();
@@ -276,9 +273,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				out = true;
 				code.append(" -- ");
 				writePoint(x, y, code);
-			}
-
-			else {
+			} else {
 				first = true;
 				out = false;
 			}
@@ -289,12 +284,6 @@ public class GeoGebraToPgf extends GeoGebraExport {
 
 	@Override
 	protected void drawBoxPlot(GeoNumeric geo) {
-		AlgoBoxPlot algo = (AlgoBoxPlot) geo.getParentAlgorithm();
-		double y = algo.getA().getDouble();
-		double height = algo.getB().getDouble();
-		double[] lf = algo.getLeftBorders();
-		double min = lf[0];
-
 		startBeamer(codeFilledObject);
 		codeFilledObject.append("\\draw ");
 		String s = lineOptionCode(geo, true);
@@ -302,6 +291,11 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			s = "[" + s + "] ";
 		}
 		codeFilledObject.append(s);
+		AlgoBoxPlot algo = (AlgoBoxPlot) geo.getParentAlgorithm();
+		double y = algo.getA().getDouble();
+		double height = algo.getB().getDouble();
+		double[] lf = algo.getLeftBorders();
+		double min = lf[0];
 		// Min vertical bar
 		writePoint(min, y - height, codeFilledObject);
 		codeFilledObject.append("-- ");
@@ -784,8 +778,6 @@ public class GeoGebraToPgf extends GeoGebraExport {
 
 			// draw the dot if angle= 90 and decoration=dot
 			if (drawAngleAs(geo, EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT)) {
-				double diameter = geo.getLineThickness()
-						/ euclidianView.getXscale();
 				double radius = arcSize / euclidianView.getXscale() / 1.7;
 				double labelAngle = (angSt + angExt) / 2.0;
 				double x1 = m[0] + radius * Math.cos(labelAngle);
@@ -799,6 +791,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
 					code.append("[").append(s).append("] ");
 				}
 				writePoint(x1, x2, code);
+				double diameter = geo.getLineThickness()
+						/ euclidianView.getXscale();
 				code.append(" circle (");
 				code.append(format(diameter / 2));
 				code.append(");\n");
@@ -912,9 +906,6 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	@Override
 	protected void drawSlider(GeoNumeric geo) {
 		boolean horizontal = geo.isSliderHorizontal();
-		double max = geo.getIntervalMax();
-		double min = geo.getIntervalMin();
-		double value = geo.getValue();
 		double width = geo.getSliderWidth();
 		double x = geo.getSliderX();
 		double y = geo.getSliderY();
@@ -931,6 +922,9 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		String label = StringUtil.toLaTeXString(geo.getLabelDescription(),
 				true);
 		geoPoint.setLabel(label);
+		double max = geo.getIntervalMax();
+		double min = geo.getIntervalMin();
+		double value = geo.getValue();
 		double param = (value - min) / (max - min);
 		geoPoint.setPointSize(2 + (geo.getLineThickness() + 1) / 3);
 		geoPoint.setLabelVisible(geo.isLabelVisible());
@@ -1004,10 +998,6 @@ public class GeoGebraToPgf extends GeoGebraExport {
 
 	@Override
 	protected void drawText(GeoText geo) {
-		boolean isLatex = geo.isLaTeX();
-		String st = geo.getTextString();
-		int style = geo.getFontStyle();
-		double size = geo.getFontSize(getApp().getFontSizeDouble());
 		GeoPointND gp;
 		double x, y;
 		// compute location of text
@@ -1032,6 +1022,10 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		x = euclidianView.toRealWorldCoordX(x);
 		y = euclidianView
 				.toRealWorldCoordY(y - euclidianView.getFont().getSize());
+		boolean isLatex = geo.isLaTeX();
+		String st = geo.getTextStringSafe();
+		int style = geo.getFontStyle();
+		double size = geo.getFontSize(getApp().getFontSizeDouble());
 		int id = st.indexOf("\n");
 		// One line
 		if (id == -1 || isLatex) {
@@ -1710,8 +1704,6 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		}
 		double[] coord = new double[3];
 		geo.getCoords(coord);
-		double x2 = coord[0] + x1;
-		double y2 = coord[1] + y1;
 		startBeamer(code);
 		code.append("\\draw [->");
 		String s = lineOptionCode(geo, true);
@@ -1720,6 +1712,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			code.append(s);
 		}
 		code.append("] ");
+		double x2 = coord[0] + x1;
+		double y2 = coord[1] + y1;
 		writePoint(x1, y1, code);
 		code.append(" -- ");
 		writePoint(x2, y2, code);
@@ -1732,10 +1726,6 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		if (xunit == yunit) {
 			// draw a circle
 			// command: \draw[options](x_center,y_center) circle (R cm)
-			double x = geo.getTranslationVector().getX();
-			double y = geo.getTranslationVector().getY();
-			double r = geo.getHalfAxes()[0];
-
 			startBeamer(build);
 			build.append("\\draw");
 			String s = lineOptionCode(geo, true);
@@ -1743,6 +1733,9 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				s = " [" + s + "] ";
 			}
 			build.append(s);
+			double x = geo.getTranslationVector().getX();
+			double y = geo.getTranslationVector().getY();
+			double r = geo.getHalfAxes()[0];
 			writePoint(x, y, build);
 			build.append(" circle (");
 			String tmpr = format(r * xunit);
@@ -2392,10 +2385,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
 
 	@Override
 	protected void drawGeoRay(GeoRayND geo) {
-
 		GeoPointND pointStart = geo.getStartPoint();
 		double x1 = pointStart.getInhomX();
-		double y1 = pointStart.getInhomY();
 
 		Coords equation = geo
 				.getCartesianEquationVector(euclidianView.getMatrix());
@@ -2446,6 +2437,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				s = "[" + s + "] ";
 			}
 			code.append(s);
+			double y1 = pointStart.getInhomY();
 			writePoint(x1, y1, code);
 			code.append(" -- ");
 			writePoint(x1, sup, code);
@@ -2502,7 +2494,6 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			double yLabel = drawGeo.getLabelY();
 			xLabel = euclidianView.toRealWorldCoordX(Math.round(xLabel));
 			yLabel = euclidianView.toRealWorldCoordY(Math.round(yLabel));
-			GColor geocolor = geo.getObjectColor();
 			startBeamer(codePoint);
 			int width = (int) Math.ceil(StringUtil.getPrototype()
 					.estimateLength(StringUtil
@@ -2518,6 +2509,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			translation[0] = euclidianView.toRealWorldCoordX(translation[0]);
 			translation[1] = euclidianView.toRealWorldCoordY(translation[1]);
 			codePoint.append("\\draw[color=");
+			GColor geocolor = geo.getObjectColor();
 			colorCode(geocolor, codePoint);
 			codePoint.append("] ");
 			writePoint(xLabel + translation[0], yLabel + translation[1],
@@ -3002,19 +2994,17 @@ public class GeoGebraToPgf extends GeoGebraExport {
 
 		liopco = "[" + liopco + "]";
 		String template = "\\pgflineto{\\pgfxy(%0,%1)}\n";
-		double p = curves[0].getMinParameter();
 		double y = curves[0].getFunY().value(curves[0].getMinParameter());
-		double yprec = y;
 		if (Math.abs(y) < 0.001) {
-			y = yprec = 0;
+			y = 0;
 		}
 		double xprec = curves[0].getFunX().value(curves[0].getMinParameter());
 		double x = xprec;
 		fill.append("\\pgfmoveto{\\pgfxy(").append(x).append(",").append(y).append(")}");
 		for (int i = 0; i < curves.length; i++) {
-			p = curves[i].getMinParameter();
+			double p = curves[i].getMinParameter();
 			y = curves[i].getFunY().value(curves[i].getMinParameter());
-			yprec = y;
+			double yprec = y;
 			if (Math.abs(y) < 0.001) {
 				y = yprec = 0;
 			}

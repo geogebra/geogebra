@@ -112,13 +112,6 @@ public class SliderModel extends OptionsModel {
 		boolean equalMax = true;
 		boolean equalMin = true;
 		boolean equalWidth = true;
-		boolean equalLineThickness = true;
-		boolean equalBlobSize = true;
-		boolean equalBlobColor = true;
-		boolean equalLineColor = true;
-		boolean equalSliderFixed = true;
-		boolean random = true;
-		boolean equalSliderHorizontal = true;
 		boolean onlyAngles = true;
 		boolean equalPinned = true;
 
@@ -141,29 +134,6 @@ public class SliderModel extends OptionsModel {
 			}
 			if (!DoubleUtil.isEqual(num0.getSliderWidth(), temp.getSliderWidth())) {
 				equalWidth = false;
-			}
-			if (!DoubleUtil.isEqual(num0.getLineThickness(),
-					temp.getLineThickness())) {
-				equalLineThickness = false;
-			}
-			if (!DoubleUtil.isEqual(num0.getSliderBlobSize(),
-					temp.getSliderBlobSize())) {
-				equalBlobSize = false;
-			}
-			if (num0.getObjectColor() != temp.getObjectColor()) {
-				equalBlobColor = false;
-			}
-			if (num0.getBackgroundColor() != temp.getBackgroundColor()) {
-				equalLineColor = false;
-			}
-			if (num0.isLockedPosition() != temp.isLockedPosition()) {
-				equalSliderFixed = false;
-			}
-			if (num0.isRandom() != temp.isRandom()) {
-				random = false;
-			}
-			if (num0.isSliderHorizontal() != temp.isSliderHorizontal()) {
-				equalSliderHorizontal = false;
 			}
 			if (num0.isPinned() != temp.isPinned()) {
 				equalPinned = false;
@@ -215,6 +185,40 @@ public class SliderModel extends OptionsModel {
 			}
 		} else {
 			listener.setMaxText("");
+		}
+
+		boolean equalLineThickness = true;
+		boolean equalBlobSize = true;
+		boolean equalBlobColor = true;
+		boolean equalLineColor = true;
+		boolean equalSliderFixed = true;
+		boolean random = true;
+		boolean equalSliderHorizontal = true;
+		for (int i = 0; i < getGeosLength(); i++) {
+			GeoNumeric temp = getNumericAt(i);
+			if (!DoubleUtil.isEqual(num0.getLineThickness(),
+					temp.getLineThickness())) {
+				equalLineThickness = false;
+			}
+			if (!DoubleUtil.isEqual(num0.getSliderBlobSize(),
+					temp.getSliderBlobSize())) {
+				equalBlobSize = false;
+			}
+			if (num0.getObjectColor() != temp.getObjectColor()) {
+				equalBlobColor = false;
+			}
+			if (num0.getBackgroundColor() != temp.getBackgroundColor()) {
+				equalLineColor = false;
+			}
+			if (num0.isLockedPosition() != temp.isLockedPosition()) {
+				equalSliderFixed = false;
+			}
+			if (num0.isRandom() != temp.isRandom()) {
+				random = false;
+			}
+			if (num0.isSliderHorizontal() != temp.isSliderHorizontal()) {
+				equalSliderHorizontal = false;
+			}
 		}
 		if (equalBlobSize) {
 			listener.setBlobSizeText(

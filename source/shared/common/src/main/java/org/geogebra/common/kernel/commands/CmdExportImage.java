@@ -197,8 +197,6 @@ public class CmdExportImage extends CmdScripting {
 
 		}
 
-		GgbAPI api = kernel.getApplication().getGgbApi();
-
 		// see CmdSetActiveView
 		switch (view) {
 		default:
@@ -256,7 +254,7 @@ public class CmdExportImage extends CmdScripting {
 		final String ffilename = filename;
 		final GeoPoint fcorner = corner;
 		final GeoPoint fcorner2 = corner2;
-
+		GgbAPI api = kernel.getApplication().getGgbApi();
 		switch (type) {
 		default:
 		case PNG:

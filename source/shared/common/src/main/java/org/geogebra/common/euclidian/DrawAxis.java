@@ -93,7 +93,7 @@ public class DrawAxis {
 				& EuclidianStyleConstants.AXES_RIGHT_ARROW) != 0)
 				&& !(view.positiveAxes[0]
 						&& (view.getXmax() < view.axisCross[1]));
-		boolean drawTopArrow = ((view.axesLineType
+		final boolean drawTopArrow = ((view.axesLineType
 				& EuclidianStyleConstants.AXES_RIGHT_ARROW) != 0)
 				&& !(view.positiveAxes[1]
 						&& (view.getYmax() < view.axisCross[0]));
@@ -104,10 +104,6 @@ public class DrawAxis {
 		final boolean drawBottomArrow = ((view.axesLineType
 				& EuclidianStyleConstants.AXES_LEFT_ARROW) != 0)
 				&& !view.positiveAxes[1];
-
-		// AXES_TICK_STYLE_MAJOR_MINOR = 0;
-		// AXES_TICK_STYLE_MAJOR = 1;
-		// AXES_TICK_STYLE_NONE = 2;
 
 		g2.setFont(view.getFontAxes());
 		double fontsize = view.getFontAxes().getSize();
@@ -890,7 +886,7 @@ public class DrawAxis {
 		double rw = view.getXmin()
 				- (view.getXmin() % view.axesNumberingDistances[0]);
 		long labelno = Math.round(rw / view.axesNumberingDistances[0]);
-		// by default we start with minor tick to the left of first major
+		// by default, we start with minor tick to the left of first major
 		// tick, exception is for positive only
 		double smallTickOffset = 0;
 		double axesStep = view.getXscale() * view.axesNumberingDistances[0]; // pixelstep
@@ -908,8 +904,6 @@ public class DrawAxis {
 		}
 		final int maxX = view.getWidth() - EuclidianView.SCREEN_BORDER;
 		final double tickStep = axesStep / 2;
-		double pix = view.getXZero() + (rw * view.getXscale());
-		double smallTickPix;
 		double labelLengthMax = Math.max(
 				view.estimateNumberWidth(rw, view.getFontAxes()),
 				view.estimateNumberWidth(
@@ -926,6 +920,7 @@ public class DrawAxis {
 		if (view.areAxesBold()) {
 			ySmall2++;
 		}
+		double pix = view.getXZero() + (rw * view.getXscale());
 		if (pix < EuclidianView.SCREEN_BORDER) {
 			// big tick
 			if (drawMajorTicks[0]) {
@@ -935,7 +930,7 @@ public class DrawAxis {
 			pix += axesStep;
 			labelno += 1;
 		}
-
+		double smallTickPix;
 		for (; pix < view.getWidth(); pix += axesStep) {
 
 			// 285, 285.1, 285.2 -> rounding problems
@@ -1027,15 +1022,13 @@ public class DrawAxis {
 		boolean[] drawMinorTicks = { view.getAxisTickStyle(0) == 0, view.getAxisTickStyle(1) == 0 };
 		// by default we start with minor tick to the left of first major
 		// tick, exception is for positive only
-		double smallTickOffset = 0;
 
 		final int maxX = view.getWidth() - EuclidianView.SCREEN_BORDER;
 
-		double smallTickPix;
 		// TODO use only pretty numbers when zoomed
 		String crossAtStr = view.kernel.formatPiE(view.axisCross[1],
 				view.axesNumberFormat[0], StringTemplate.defaultTemplate);
-		double yBig = yCrossPix + 3;
+		final double yBig = yCrossPix + 3;
 		double ySmall1 = yCrossPix + 0;
 		double ySmall2 = yCrossPix + 2;
 		if (view.areAxesBold()) {
@@ -1046,6 +1039,7 @@ public class DrawAxis {
 		double axisStep = view.getWidth()
 				/ (Math.log10(view.getXmax()) - Math.log10(view.getXmin()));
 		double pix = (Math.log10(pow) - Math.log10(view.getXmin())) * axisStep;
+		double smallTickPix;
 		while (pow < view.getXmax()) {
 
 			// 285, 285.1, 285.2 -> rounding problems
@@ -1101,7 +1095,7 @@ public class DrawAxis {
 			}
 
 			// small tick
-			smallTickPix = pix + smallTickOffset;
+			smallTickPix = pix;
 			if (drawMinorTicks[0]) {
 				g2.setStroke(view.tickStroke);
 				g2.drawStraightLine(smallTickPix, ySmall1, smallTickPix,
@@ -1111,7 +1105,7 @@ public class DrawAxis {
 			pix += axisStep;
 		}
 		// last small tick
-		smallTickPix = pix + smallTickOffset;
+		smallTickPix = pix;
 		if (drawMinorTicks[0]) {
 			g2.drawStraightLine(smallTickPix, ySmall1, smallTickPix, ySmall2);
 		}

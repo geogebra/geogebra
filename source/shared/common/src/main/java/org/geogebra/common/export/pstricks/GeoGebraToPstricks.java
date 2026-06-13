@@ -807,9 +807,6 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	@Override
 	protected void drawSlider(GeoNumeric geo) {
 		boolean horizontal = geo.isSliderHorizontal();
-		double max = geo.getIntervalMax();
-		double min = geo.getIntervalMin();
-		double value = geo.getValue();
 		double width = geo.getSliderWidth();
 		double x = geo.getSliderX();
 		double y = geo.getSliderY();
@@ -827,6 +824,9 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		String label = StringUtil.toLaTeXString(geo.getLabelDescription(),
 				true);
 		geoPoint.setLabel(label);
+		double max = geo.getIntervalMax();
+		double min = geo.getIntervalMin();
+		double value = geo.getValue();
 		double param = (value - min) / (max - min);
 		geoPoint.setPointSize(2 + (geo.getLineThickness() + 1) / 3);
 		geoPoint.setLabelVisible(geo.isLabelVisible());
@@ -1617,16 +1617,11 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	@Override
 	protected void drawGeoRay(GeoRayND geo) {
 		GeoPointND pointStart = geo.getStartPoint();
-		double x1 = pointStart.getInhomX();
 		String y1 = format(pointStart.getInhomY());
-
 		Coords equation = geo
 				.getCartesianEquationVector(euclidianView.getMatrix());
-
-		double x = equation.getX();
-		double y = equation.getY();
-		double z = equation.getZ();
 		startBeamer(code);
+		double y = equation.getY();
 		if (y != 0) {
 			code.append("\\psplot");
 		} else {
@@ -1634,12 +1629,15 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		}
 		code.append(lineOptionCode(geo, true));
 		double inf = xmin, sup = xmax;
+		double x1 = pointStart.getInhomX();
 		if (y > 0) {
 			inf = x1;
 		} else {
 			sup = x1;
 		}
+		double x = equation.getX();
 		if (y != 0) {
+			double z = equation.getZ();
 			code.append("{");
 			code.append(format(inf));
 			code.append("}{");
@@ -1885,7 +1883,6 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	}
 
 	private void pointOptionCode(GeoPointND geo) {
-		GColor dotcolor = geo.getObjectColor();
 		int dotsize = geo.getPointSize();
 		int dotstyle = geo.getPointStyle();
 		if (dotstyle == -1) { // default
@@ -1946,6 +1943,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 				break;
 			}
 		}
+		GColor dotcolor = geo.getObjectColor();
 		if (!dotcolor.equals(GColor.BLACK)) {
 			if (coma) {
 				codePoint.append(",");
@@ -2424,12 +2422,12 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		case INEQUALITY_1VAR_X:
 		case INEQUALITY_1VAR_Y:
 		case INEQUALITY_LINEAR:
-			double[] coords = new double[2];
-			double zeroY = ds[5] * ds[3];
-			double zeroX = ds[4] * (-ds[0]);
 			GPathIterator path = s.getPathIterator(null);
 			code.append("\\pspolygon");
 			code.append(lineOptionCode((GeoElement) geo, true));
+			double[] coords = new double[2];
+			double zeroY = ds[5] * ds[3];
+			double zeroX = ds[4] * (-ds[0]);
 			double precX = Integer.MAX_VALUE;
 			double precY = Integer.MAX_VALUE;
 			while (!path.isDone()) {
