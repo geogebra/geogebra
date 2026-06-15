@@ -691,20 +691,24 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 					hide();
 					event.stopPropagation();
 				} else if (keyCode == KeyCodes.KEY_TAB) {
-					if (event.getShiftKey()) {
-						if (!moveSelectionUp()) {
-							hide();
-						}
-					} else {
-						if (!moveSelectionDown()) {
-							hide();
-						}
-					}
+					handleTab(event.getShiftKey());
 					AriaMenuBar.eatEvent(event);
 					return;
 				}
 			}
 			super.onBrowserEvent(event);
+		}
+
+		private void handleTab(boolean shiftKey) {
+			if (shiftKey) {
+				if (!moveSelectionUp()) {
+					hide();
+				}
+			} else {
+				if (!moveSelectionDown()) {
+					hide();
+				}
+			}
 		}
 
 		@Override

@@ -229,19 +229,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 							}
 						}
 
-						if (hasFillable) {
-							if (geos.get(0) instanceof GeoImage) {
-								if (hasOpacity) {
-									setTitle(loc.getMenu("Opacity"));
-								} else {
-									super.setVisible(false);
-								}
-							} else {
-								setTitle(loc.getMenu("stylebar.ColorTransparency"));
-							}
-						} else {
-							setTitle(loc.getMenu("stylebar.Color"));
-						}
+						updateColorTitleAndVisibility(hasFillable, hasOpacity, geos, loc);
 
 						setSliderVisible(hasFillable && hasOpacity);
 
@@ -270,6 +258,23 @@ public abstract class StyleBarW2 extends StyleBarW {
 			}
 		};
 		setPopupHandlerWithUndoAction(btnColor, this::processColor);
+	}
+
+	private void updateColorTitleAndVisibility(boolean hasFillable, boolean hasOpacity,
+			List<GeoElement> geos, Localization loc) {
+		if (hasFillable) {
+			if (geos.get(0) instanceof GeoImage) {
+				if (hasOpacity) {
+					setTitle(loc.getMenu("Opacity"));
+				} else {
+					btnColor.setVisible(false);
+				}
+			} else {
+				setTitle(loc.getMenu("stylebar.ColorTransparency"));
+			}
+		} else {
+			setTitle(loc.getMenu("stylebar.Color"));
+		}
 	}
 
 	/**

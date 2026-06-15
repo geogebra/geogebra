@@ -261,64 +261,64 @@ public class DistributionPanel extends FlowPanel implements InsertHandler, ExamL
 			return;
 		}
 		String inputText = source.getText().trim();
+		if (inputText.isEmpty()) {
+			return;
+		}
+		Kernel kernel = view.getApp().getKernel();
+		// allow input such as sqrt(2)
+		GeoNumberValue nv = kernel.getAlgebraProcessor().evaluateToNumeric(
+				inputText, intervalCheck ? source : ErrorHelper.silent());
+		GeoNumberValue numericValue = nv != null
+				? nv : new GeoNumeric(kernel.getConstruction(), Double.NaN);
+		double value = numericValue.getDouble();
 
-		if (!inputText.isEmpty()) {
-			Kernel kernel = view.getApp().getKernel();
-			// allow input such as sqrt(2)
-			GeoNumberValue nv = kernel.getAlgebraProcessor().evaluateToNumeric(
-					inputText, intervalCheck ? source : ErrorHelper.silent());
-			GeoNumberValue numericValue = nv != null
-					? nv : new GeoNumeric(kernel.getConstruction(), Double.NaN);
-			double value = numericValue.getDouble();
-
-			if (Double.isNaN(value)) {
-				source.asWidget().getParent().addStyleName("errorStyle");
-				return;
-			} else {
-				resetError(source);
-			}
-			if (getResultPanel().isFieldLow(source)) {
-				checkBounds(numericValue, intervalCheck, false);
-			} else if (getResultPanel().isFieldHigh(source)) {
-				checkBounds(numericValue, intervalCheck, true);
-			} else if (getResultPanel().isFieldResult(source)) {
-				if (value < 0 || value > 1) {
-					if (!intervalCheck) {
-						updateLowHigh();
-						return;
-					}
-					updateGUI();
-				} else {
-					view.handleResultChange(value);
+		if (Double.isNaN(value)) {
+			source.asWidget().getParent().addStyleName("errorStyle");
+			return;
+		} else {
+			resetError(source);
+		}
+		if (getResultPanel().isFieldLow(source)) {
+			checkBounds(numericValue, intervalCheck, false);
+		} else if (getResultPanel().isFieldHigh(source)) {
+			checkBounds(numericValue, intervalCheck, true);
+		} else if (getResultPanel().isFieldResult(source)) {
+			if (value < 0 || value > 1) {
+				if (!intervalCheck) {
 					updateLowHigh();
-					view.setXAxisPoints();
-					if (intervalCheck) {
-						view.updateIntervalProbability();
-						view.updateLowHighResult();
-					}
+					return;
 				}
-			} else {
-				// handle parameter entry
-				for (int i = 0; i < view.getParameters().length; ++i) {
-					if (source == fldParameterArray[i]) {
-						if (view.isValidParameterChange(value, i)) {
-							view.getParameters()[i] = numericValue;
-							if (intervalCheck) {
-								view.updateAll(true);
-							} else {
-								view.updateOffscreenRange();
-								view.updateOutput(false);
-								view.updateLowHighResult();
-							}
-						}
-
-					}
-				}
-			}
-			if (intervalCheck) {
-				view.updateIntervalProbability();
 				updateGUI();
+			} else {
+				view.handleResultChange(value);
+				updateLowHigh();
+				view.setXAxisPoints();
+				if (intervalCheck) {
+					view.updateIntervalProbability();
+					view.updateLowHighResult();
+				}
 			}
+		} else {
+			// handle parameter entry
+			for (int i = 0; i < view.getParameters().length; ++i) {
+				if (source == fldParameterArray[i]) {
+					if (view.isValidParameterChange(value, i)) {
+						view.getParameters()[i] = numericValue;
+						if (intervalCheck) {
+							view.updateAll(true);
+						} else {
+							view.updateOffscreenRange();
+							view.updateOutput(false);
+							view.updateLowHighResult();
+						}
+					}
+
+				}
+			}
+		}
+		if (intervalCheck) {
+			view.updateIntervalProbability();
+			updateGUI();
 		}
 	}
 

@@ -964,10 +964,8 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 								}, AlgebraInputW.getWarningHandler(this, app));
 				// make sure edting ends: run callback even if not successful
 				// TODO maybe prevent running this twice?
-				if (!geo.isIndependent()) {
-					if (callback != null) {
-						callback.callback(geo);
-					}
+				if (!geo.isIndependent() && callback != null) {
+					callback.callback(geo);
 				}
 
 				return;

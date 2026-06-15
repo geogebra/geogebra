@@ -176,23 +176,7 @@ public class DockManagerW extends DockManager {
 
 			// cascade the split panes
 			if (rootPane != null) {
-				Widget rootPaneParent = rootPane.getParent();
-				String styles = rootPane.getStyleName();
-				rootPane.clear();
-				if (rootPaneParent != null) {
-					if (rootPaneParent instanceof DockLayoutPanel) {
-						rootPane.removeFromParent();
-						setRootPane(splitPanes[0]);
-						((DockLayoutPanel) rootPaneParent).add(rootPane);
-					} else {
-						setRootPane(splitPanes[0]);
-					}
-				} else {
-					setRootPane(splitPanes[0]);
-				}
-				if (rootPane != null) {
-					rootPane.setStyleName(styles);
-				}
+				replaceRootPane(rootPane, splitPanes[0]);
 			} else {
 				setRootPane(splitPanes[0]);
 			}
@@ -375,6 +359,26 @@ public class DockManagerW extends DockManager {
 		// update all labels at once
 		setLabels();
 		app.updateVoiceover();
+	}
+
+	private void replaceRootPane(DockSplitPaneW oldRootPane, DockSplitPaneW splitPane) {
+		Widget rootPaneParent = oldRootPane.getParent();
+		String styles = oldRootPane.getStyleName();
+		oldRootPane.clear();
+		if (rootPaneParent != null) {
+			if (rootPaneParent instanceof DockLayoutPanel) {
+				oldRootPane.removeFromParent();
+				setRootPane(splitPane);
+				((DockLayoutPanel) rootPaneParent).add(rootPane);
+			} else {
+				setRootPane(splitPane);
+			}
+		} else {
+			setRootPane(splitPane);
+		}
+		if (rootPane != null) {
+			rootPane.setStyleName(styles);
+		}
 	}
 
 	private void updatePanelsForPerspective(DockPanelData[] dpData) {
