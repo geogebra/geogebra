@@ -300,6 +300,7 @@ public class GeoElementSpreadsheet {
 		if (cell != null) {
 			cell.setVisualStyle(cellGeo);
 			cell.setAuxiliaryObject(true);
+			cell.setEmptySpreadsheetCell(false);
 		}
 	}
 

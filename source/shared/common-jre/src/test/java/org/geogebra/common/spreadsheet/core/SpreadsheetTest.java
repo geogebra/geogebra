@@ -34,6 +34,7 @@ import static org.mockito.Mockito.verifyNoInteractions;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
@@ -305,6 +306,15 @@ public class SpreadsheetTest extends BaseUnitTest {
 		simulateCellMouseClick(spreadsheet.getController(), 1, 0, 1);
 		spreadsheet.getController().deleteRowAt(1);
 		assertEquals("0,2,f,2", settings.getCellFormatXml());
+	}
+
+	@Test
+	@Issue("APPS-7608")
+	public void overwritingEmptyCellShouldBecomeNonEmpty() {
+		add("A1");
+		add("FillColumn(1,{9})");
+		GeoElement element = lookup("A1");
+		assertFalse(element.isEmptySpreadsheetCell());
 	}
 
 	// Helpers
