@@ -311,6 +311,22 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 		assertEquals(3172.0, spreadsheet.getTotalWidth(), 0.0);
 	}
 
+	@Test
+	@Issue("APPS-7662")
+	public void testGrowingSpreadsheetSizeWithCommands() {
+		evaluate("l1 = Sequence(k, k, 1, 150)");
+		evaluate("FillColumn(1, l1)");
+
+		assertEquals(150, tabularData.numberOfRows());
+		assertEquals(150, spreadsheet.getController().getLayout().numberOfRows());
+
+		spreadsheet.getController().selectCell(149, 0, false, false);
+		spreadsheet.getController().moveDown(false);
+
+		assertEquals(151, tabularData.numberOfRows());
+		assertEquals(151, spreadsheet.getController().getLayout().numberOfRows());
+	}
+
 	private GGraphicsCommon getColorCollectingGraphics(Set<GColor> colors) {
 		return new GGraphicsCommon() {
 			@Override

@@ -273,11 +273,18 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 			unfixSymbolic(geo);
 			setLabel(geo, row, column);
 			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, geo);
+			boolean dimensionsChanged = false;
 			if (numberOfRows() <= row) {
 				app.getSettings().getSpreadsheet().setRowsNoFire(row + 1);
+				dimensionsChanged = true;
 			}
 			if (numberOfColumns() <= column) {
 				app.getSettings().getSpreadsheet().setColumnsNoFire(column + 1);
+				dimensionsChanged = true;
+			}
+			if (dimensionsChanged) {
+				changeListeners.forEach(listener -> listener.tabularDataDimensionsDidChange(
+						app.getSettings().getSpreadsheet()));
 			}
 		} else {
 			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, null);
