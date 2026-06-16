@@ -32,7 +32,6 @@ public class QuadraticEquationFormDelegate extends AbstractGeoElementDelegate {
 	 */
 	public QuadraticEquationFormDelegate(GeoElement element) throws NotApplicablePropertyException {
 		super(element);
-		checkIsApplicable(element);
 	}
 
 	@Override

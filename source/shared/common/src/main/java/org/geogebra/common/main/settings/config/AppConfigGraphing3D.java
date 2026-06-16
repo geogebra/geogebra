@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.LabelVisibility;
+import org.geogebra.common.main.settings.config.equationforms.DefaultEquationBehaviour;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.G3DPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesFactory;
@@ -194,6 +195,11 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	@Override
 	public boolean shouldHideEquations() {
 		return false;
+	}
+
+	@Override
+	public void initializeEquationBehaviour() {
+		equationBehaviour = new DefaultEquationBehaviour();
 	}
 
 	@Override
