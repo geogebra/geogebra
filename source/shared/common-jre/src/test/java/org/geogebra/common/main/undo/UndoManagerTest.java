@@ -364,15 +364,17 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 		GeoLocusStroke stroke = add("PenStroke(0,0,1,1)");
 		AlgoElement parentAlgo = stroke.getParentAlgorithm();
 		String oldXML = Objects.requireNonNull(parentAlgo).getXML();
-		stroke.appendPointArray(List.of(new MyPoint(2, 1)));
+		stroke.appendPointArray(List.of(new MyPoint(2, 1)), null);
 		stroke.update();
-		getApp().getUndoManager().buildAction(ActionType.UPDATE, parentAlgo.getXML())
+		String currentXML = parentAlgo.getXML();
+		getApp().getUndoManager().buildAction(ActionType.UPDATE, currentXML)
 				.withUndo(ActionType.UPDATE, oldXML).withLabels("stroke1").storeAndNotifyUnsaved();
 		getUndoManager().undo();
-		assertThat(stroke, hasValue("PenStroke[0.0000E0,0.0000E0,1.0000E0,1.0000E0,NaN,NaN]"));
+		assertThat(stroke, hasValue("PenStrokeBezier[0.0000E0,0.0000E0,1,1.0000E0,1.0000E0,0,"
+				+ "NaN,NaN,0]"));
 		getUndoManager().redo();
-		assertThat(stroke, hasValue("PenStroke[0.0000E0,0.0000E0,1.0000E0,1.0000E0,NaN,NaN,"
-				+ "2.0000E0,1.0000E0,2.0000E0,1.0000E0,NaN,NaN]"));
+		assertThat(stroke, hasValue("PenStrokeBezier[0.0000E0,0.0000E0,1,1.0000E0,1.0000E0,0,"
+				+ "NaN,NaN,0,2.0000E0,1.0000E0,1,2.0000E0,1.0000E0,0,NaN,NaN,0]"));
 		assertThat(String.join(",", getApp().getGgbApi().getAllObjectNames()), equalTo("stroke1"));
 	}
 

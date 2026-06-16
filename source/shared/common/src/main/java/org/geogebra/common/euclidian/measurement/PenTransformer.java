@@ -18,7 +18,7 @@ package org.geogebra.common.euclidian.measurement;
 
 import java.util.List;
 
-import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 
 /**
@@ -35,13 +35,13 @@ public interface PenTransformer {
 	 * @param view view
 	 * @param previewPoints pen preview points
 	 */
-	void reset(EuclidianView view, List<GPoint> previewPoints);
+	void reset(EuclidianView view, List<GPoint2D> previewPoints);
 
 	/**
 	 * Update single preview point.
 	 * @param newPoint pen preview point
 	 */
-	void updatePreview(GPoint newPoint);
+	void updatePreview(GPoint2D newPoint);
 
 	/**
 	 * @return maximal distance for snapping to edge

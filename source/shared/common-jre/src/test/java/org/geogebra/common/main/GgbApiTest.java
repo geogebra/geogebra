@@ -299,8 +299,9 @@ public class GgbApiTest {
 		api.evalCommand("stroke=PenStroke()");
 		api.setCoords("stroke", 1, 2, 3 , 4, Double.NaN, Double.NaN,
 				5, 6, 7, 8);
-		assertEquals("PenStroke[1.0000E0,2.0000E0,3.0000E0,4.0000E0,NaN,NaN,"
-				+ "5.0000E0,6.0000E0,7.0000E0,8.0000E0,NaN,NaN]", api.getCommandString("stroke"));
+		assertEquals("PenStrokeBezier[1.0000E0,2.0000E0,1,3.0000E0,4.0000E0,0,NaN,NaN,"
+				+ "0,5.0000E0,6.0000E0,1,7.0000E0,8.0000E0,0,NaN,NaN,0]",
+				api.getCommandString("stroke"));
 	}
 
 	@Test

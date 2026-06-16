@@ -3712,4 +3712,5 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public boolean hasPageController() {
 		return isWhiteboardActive() && pageController != null;
 	}
+
 }

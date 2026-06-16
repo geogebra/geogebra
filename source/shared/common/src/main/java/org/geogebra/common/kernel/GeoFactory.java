@@ -42,6 +42,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoLocusND;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -140,6 +141,8 @@ public class GeoFactory {
 			return new GeoMindMapNode(cons1, null);
 		case "numeric":
 			return new GeoNumeric(cons1);
+		case "penstroke":
+			return new GeoLocusStroke(cons1);
 		case "point":
 			return new GeoPoint(cons1);
 		case "polygon":

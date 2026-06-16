@@ -3923,10 +3923,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Split selected strokes (if any) and deletes selected objects.
+	 * Deletes selected objects, including selected parts of strokes.
 	 */
 	public void splitAndDeleteSelectedObjects() {
-		getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
+		getActiveEuclidianView().getEuclidianController().deletePartiallySelectedStrokes();
 		deleteSelectedObjects(false);
 
 	}

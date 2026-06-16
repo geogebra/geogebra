@@ -25,6 +25,7 @@ import java.util.List;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
@@ -80,16 +81,16 @@ public class MeasurementToolTransformerTest extends BaseUnitTest {
 	@Test
 	public void testRuler() {
 		measurementController.toggleActiveTool(MODE_RULER);
-		List<GPoint> previewPoints = new ArrayList<>();
-		previewPoints.add(new GPoint(200, 309));
-		GPoint secondPoint = new GPoint(210, 305);
+		List<GPoint2D> previewPoints = new ArrayList<>();
+		previewPoints.add(new GPoint2D(200, 309));
+		GPoint2D secondPoint = new GPoint2D(210, 305);
 		measurementController.applyTransformer(view, secondPoint, previewPoints);
 		previewPoints.add(secondPoint);
-		measurementController.applyTransformer(view, new GPoint(220, 307), previewPoints);
+		measurementController.applyTransformer(view, new GPoint2D(220, 307), previewPoints);
 		assertEquals(2, previewPoints.size());
 		// 302 = bottom coordinate + line thickness
-		assertEquals(new GPoint(200, 302), previewPoints.get(0));
-		assertEquals(new GPoint(220, 302), previewPoints.get(1));
+		assertEquals(0, new GPoint2D(200, 302).distance(previewPoints.get(0)), 0.5);
+		assertEquals(0, new GPoint2D(220, 302).distance(previewPoints.get(1)), 0.5);
 	}
 
 }

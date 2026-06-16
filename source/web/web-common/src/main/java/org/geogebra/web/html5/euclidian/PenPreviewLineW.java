@@ -19,8 +19,11 @@ package org.geogebra.web.html5.euclidian;
 import java.util.List;
 
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.PenPreviewLine;
+import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
+import org.geogebra.common.util.Smoothing;
 import org.geogebra.web.awt.GGraphics2DW;
 import org.geogebra.web.awt.JLMContext2D;
 
@@ -31,11 +34,20 @@ import org.geogebra.web.awt.JLMContext2D;
 public class PenPreviewLineW extends PenPreviewLine {
 
 	@Override
-	protected void drawPolyline(List<GPoint> penPoints, GGraphics2D g2) {
-		int minQuadDistance = 20;
+	protected void drawPolyline(List<GPoint2D> rawPoints, GGraphics2D g2) {
 		JLMContext2D g2w = ((GGraphics2DW) g2).getContext();
 		g2w.beginPath();
-
+		List<? extends GPoint2D> penPoints = Smoothing.transform(rawPoints);
+		if (penPoints.isEmpty()) {
+			if (!rawPoints.isEmpty()) {
+				GPoint2D start = rawPoints.get(0);
+				g2w.moveTo(start.x, start.y);
+				GPoint2D end = rawPoints.get(rawPoints.size() - 1);
+				g2w.lineTo(end.x, end.y);
+				g2w.stroke();
+			}
+			return;
+		}
 		double prevx = penPoints.get(0).x;
 		double prevy = penPoints.get(0).y;
 
@@ -44,25 +56,26 @@ public class PenPreviewLineW extends PenPreviewLine {
 		if (penPoints.size() == 1) {
 			g2w.lineTo(prevx, prevy);
 		} else {
-			for (int i = 1; i < penPoints.size() - 2; i++) {
-				double c = (penPoints.get(i).x + penPoints.get(i + 1).x) / 2.0;
-				double d = (penPoints.get(i).y + penPoints.get(i + 1).y) / 2.0;
-				if (Math.abs(prevx - c) + Math.abs(prevy - d) > minQuadDistance) {
-					g2w.quadraticCurveTo(penPoints.get(i).x, penPoints.get(i).y, c, d);
-				} else {
-					g2w.lineTo(c, d);
+			MyPoint[] controls = new MyPoint[2];
+			GeoLocusStroke.processContinuous(penPoints, 1, pt -> {
+				switch (pt.getSegmentType()) {
+				case MOVE_TO -> g2w.moveTo(pt.x, pt.y);
+				case LINE_TO -> g2w.lineTo(pt.x, pt.y);
+				case CONTROL -> {
+					if (controls[0] == null) {
+						controls[0] = pt;
+					} else if (controls[1] == null) {
+						controls[1] = pt;
+					}
 				}
-				prevx = c;
-				prevy = d;
-			}
-
-			// For the last 2 points
-			g2w.quadraticCurveTo(
-					penPoints.get(penPoints.size() - 2).x,
-					penPoints.get(penPoints.size() - 2).y,
-					penPoints.get(penPoints.size() - 1).x,
-					penPoints.get(penPoints.size() - 1).y
-			);
+				case CURVE_TO -> {
+						g2w.bezierCurveTo(controls[0].x, controls[0].y,
+								controls[0].x, controls[0].y, pt.x, pt.y);
+						controls[0] = controls[1] = null;
+				}
+				case ARC_TO, AUXILIARY -> throw new IllegalStateException();
+				}
+			});
 		}
 
 		g2w.stroke();

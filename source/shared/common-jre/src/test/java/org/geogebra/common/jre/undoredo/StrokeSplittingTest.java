@@ -26,12 +26,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStyleBarSelection;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.PropertySupplier;
@@ -39,6 +42,7 @@ import org.geogebra.common.properties.PropertyWrapper;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.facade.ColorPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.EnumeratedPropertyListFacade;
+import org.geogebra.common.util.Smoothing;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -152,7 +156,7 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 		assertThat(lookup("stroke2"), notNullValue());
 		assertThat(lookup("stroke3"), notNullValue());
 		assertThat(lookup("stroke2").getXML(),
-				containsString("\"3.0000E0,-2.0000E0,8.0000E0,-2.0000E0,NaN,-2.0000E0\""));
+				containsString("\"3.0000E0,-2.0000E0,1,8.0000E0,-2.0000E0,0,NaN,NaN,0\""));
 		getKernel().undo();
 		assertThat(lookup("stroke1"), notNullValue());
 		assertThat(lookup("stroke2"), nullValue());
@@ -198,6 +202,36 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 		getKernel().redo();
 		assertEquals(LINE_TYPE_DASHED_DOTTED, lookup("stroke2").getLineType());
 		assertEquals(0, lookup("stroke3").getLineType());
+	}
+	
+	@Test
+	public void smoothingTest() {
+		List<? extends GPoint2D> pts = Smoothing.transform(List.of(
+			new MyPoint(3.78, -0.43),
+			new MyPoint(4.14, -0.47),
+			new MyPoint(4.7, -0.47),
+			new MyPoint(5.74, -0.41),
+			new MyPoint(7.12, -0.23),
+			new MyPoint(8.56, -0.03),
+			new MyPoint(10, 0.23),
+			new MyPoint(11.28, 0.47),
+			new MyPoint(12.24, 0.71),
+			new MyPoint(12.6, 0.79),
+			new MyPoint(12.02, 0.63),
+			new MyPoint(11.26, 0.41),
+			new MyPoint(10.4, 0.15),
+			new MyPoint(9.46, -0.17),
+			new MyPoint(8.76, -0.41),
+			new MyPoint(8.08, -0.75),
+			new MyPoint(7.46, -0.97),
+			new MyPoint(6.86, -1.25),
+			new MyPoint(6.58, -1.37),
+			new MyPoint(6.52, -1.39),
+			new MyPoint(6.58, -1.37),
+			new MyPoint(6.64, -1.33)
+		));
+		assertEquals(12.6, pts.stream().map(pt -> pt.x)
+				.max(Double::compare).orElse(Double.NaN), .01);
 	}
 
 	private void assertSelected(GeoElement... geos) {

@@ -19,8 +19,10 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.geogebra.common.awt.AwtFactory;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.DrawableND;
@@ -36,6 +38,7 @@ import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoLocusStroke;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -44,22 +47,20 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.ScientificFormatAdapter;
+import org.geogebra.common.util.Smoothing;
 import org.geogebra.common.util.StringUtil;
 
 /**
  * Class for polylines created using pen
- * 
  * @author Zbynek
  */
 public class GeoLocusStroke extends GeoLocus
 		implements MatrixTransformable, Translateable, Transformable, Mirrorable,
 		Dilateable {
-
-	private static final double MIN_CURVE_ANGLE = Math.PI / 60; // 3degrees
-	private static final int MAX_SEGMENT_LENGTH = 50;
-
-	/** cache the part of XML that follows after expression label="stroke1" */
-	private StringBuilder xmlPoints;
+	private static final double MIN_CURVE_ANGLE = Math.PI / 60;
+	private static final double MAX_SEGMENT_LENGTH = 50.0;
+	/** cache for full Bezier coords (including control points) */
+	private StringBuilder bezierXmlPoints;
 
 	private String splitParentLabel;
 
@@ -114,11 +115,15 @@ public class GeoLocusStroke extends GeoLocus
 		return ret;
 	}
 
+	@Override
+	public void set(GeoElementND geo) {
+		super.set(geo);
+		resetXMLPointBuilder();
+	}
+
 	/**
 	 * Run a callback for points, skipping the control points.
-	 * 
-	 * @param handler
-	 *            handler to be called for each point
+	 * @param handler handler to be called for each point
 	 */
 	public void processPointsWithoutControl(
 			AsyncOperation<MyPoint> handler) {
@@ -150,6 +155,7 @@ public class GeoLocusStroke extends GeoLocus
 			double y = pt.y;
 			pt.setLocation(a00 * x + a01 * y, a10 * x + a11 * y);
 		}
+		resetXMLPointBuilder();
 	}
 
 	@Override
@@ -162,6 +168,7 @@ public class GeoLocusStroke extends GeoLocus
 			pt.setLocation((a00 * x + a01 * y + a02) / z,
 					(a10 * x + a11 * y + a12) / z);
 		}
+		resetXMLPointBuilder();
 	}
 
 	@Override
@@ -173,6 +180,7 @@ public class GeoLocusStroke extends GeoLocus
 			pt.setLocation(rval * pt.x + crval * S.getX(),
 					rval * pt.y + crval * S.getY());
 		}
+		resetXMLPointBuilder();
 	}
 
 	@Override
@@ -180,6 +188,7 @@ public class GeoLocusStroke extends GeoLocus
 		for (MyPoint pt : getPoints()) {
 			pt.setLocation(2 * Q.getX() - pt.x, 2 * Q.getY() - pt.y);
 		}
+		resetXMLPointBuilder();
 	}
 
 	@Override
@@ -214,6 +223,7 @@ public class GeoLocusStroke extends GeoLocus
 			pt.setLocation(x * cos + y * sin + qx,
 					x * sin - y * cos + qy);
 		}
+		resetXMLPointBuilder();
 	}
 
 	@Override
@@ -290,14 +300,7 @@ public class GeoLocusStroke extends GeoLocus
 	 * Reset list of points for XML
 	 */
 	public void resetXMLPointBuilder() {
-		xmlPoints = null;
-	}
-
-	/**
-	 * @return builder fox XML representation of points
-	 */
-	public StringBuilder getXMLPointBuilder() {
-		return xmlPoints;
+		bezierXmlPoints = null;
 	}
 
 	@Override
@@ -309,49 +312,90 @@ public class GeoLocusStroke extends GeoLocus
 	 * Splits the stroke into two separate strokes
 	 * @param rectangle the real rectangle to use for the boundary of the split
 	 * @return a list of one or two elements, containing the inside
-	 *         and outside part of the stroke, if it exists
+	 * and outside part of the stroke, if it exists
 	 */
 	public ArrayList<GeoElement> split(GRectangle2D rectangle) {
 		ArrayList<MyPoint> inside = new ArrayList<>();
 		ArrayList<MyPoint> outside = new ArrayList<>();
+		ArrayList<MyPoint> pendingControls = new ArrayList<>();
+		boolean skipControls = false;
 
 		for (int i = 0; i < getPoints().size() - 1; i++) {
-			if (getPoints().get(i).getSegmentType() == SegmentType.CONTROL) {
+			MyPoint point = getPoints().get(i);
+
+			if (point.getSegmentType() == SegmentType.CONTROL) {
+				if (!skipControls) {
+					pendingControls.add(point);
+				}
 				continue;
 			}
 
-			if (!getPoints().get(i).isDefined()) {
+			if (!point.isDefined()) {
+				pendingControls.clear();
+				skipControls = false;
 				ensureTrailingNaN(inside);
 				ensureTrailingNaN(outside);
-
 				continue;
 			}
 
-			boolean insideF = rectangle.contains(getPoints().get(i).x, getPoints().get(i).y);
+			boolean insideF = rectangle.contains(point.x, point.y);
 			if (insideF) {
-				inside.add(getPoints().get(i));
+				inside.addAll(pendingControls);
+				inside.add(point);
 			} else {
-				outside.add(getPoints().get(i));
+				outside.addAll(pendingControls);
+				outside.add(point);
 			}
+			pendingControls.clear();
 
-			for (MyPoint intersection : getAllIntersectionPoints(i, rectangle)) {
-				inside.add(intersection);
-				outside.add(new MyPoint(intersection.getX(), intersection.getY()));
+			ArrayList<BezierSplitPoint> intersections = getAllIntersectionPoints(i, rectangle);
+			boolean isBezierSegment = i + 3 < getPoints().size()
+					&& getPoints().get(i + 1).getSegmentType() == SegmentType.CONTROL
+					&& getPoints().get(i + 2).getSegmentType() == SegmentType.CONTROL;
+			skipControls = !intersections.isEmpty();
+			if (isBezierSegment && intersections.size() == 1
+						&& intersections.get(0).isBezier) {
+				splitBezierAt(point,
+						getPoints().get(i + 1), getPoints().get(i + 2), getPoints().get(i + 3),
+						intersections.get(0).t,
+						insideF ? inside : outside,
+						insideF ? outside : inside,
+						pendingControls);
+			} else if (isBezierSegment && intersections.size() == 2
+					&& intersections.get(0).isBezier && intersections.get(1).isBezier) {
+				double t1 = Math.min(intersections.get(0).t, intersections.get(1).t);
+				double t2 = Math.max(intersections.get(0).t, intersections.get(1).t);
+				splitBezierAtTwo(point,
+						getPoints().get(i + 1), getPoints().get(i + 2), getPoints().get(i + 3),
+						t1, t2,
+						insideF ? inside : outside,
+						insideF ? outside : inside,
+						pendingControls);
+			} else {
+				for (BezierSplitPoint bsp : intersections) {
+					MyPoint intersection = bsp.point;
+					inside.add(insideF ? intersection
+							: intersection.withType(SegmentType.MOVE_TO));
+					outside.add(new MyPoint(intersection.getX(), intersection.getY(),
+							insideF ? SegmentType.MOVE_TO : SegmentType.LINE_TO));
 
-				if (insideF) {
-					ensureTrailingNaN(inside);
-				} else {
-					ensureTrailingNaN(outside);
+					if (insideF) {
+						ensureTrailingNaN(inside);
+					} else {
+						ensureTrailingNaN(outside);
+					}
+
+					insideF = !insideF;
 				}
-
-				insideF = !insideF;
 			}
 		}
 
 		MyPoint last = getPoints().get(getPointLength() - 1);
 		if (rectangle.contains(last.x, last.y)) {
+			inside.addAll(pendingControls);
 			inside.add(last);
 		} else {
+			outside.addAll(pendingControls);
 			outside.add(last);
 		}
 
@@ -366,10 +410,13 @@ public class GeoLocusStroke extends GeoLocus
 		return result;
 	}
 
-	private GeoElement partialStroke(ArrayList<MyPoint> inside) {
-		AlgoLocusStroke insideStroke = new AlgoLocusStroke(cons, inside);
-		insideStroke.getPenStroke().splitParentLabel = getLabelSimple();
-		return insideStroke.getPenStroke();
+	private GeoElement partialStroke(ArrayList<MyPoint> points) {
+		AlgoLocusStroke algo = new AlgoLocusStroke(cons, new ArrayList<>());
+		GeoLocusStroke stroke = algo.getPenStroke();
+		stroke.setDefined(true);
+		stroke.getPoints().addAll(points);
+		stroke.splitParentLabel = getLabelSimple();
+		return stroke;
 	}
 
 	@Override
@@ -411,69 +458,346 @@ public class GeoLocusStroke extends GeoLocus
 	/**
 	 * Deletes part of the pen stroke
 	 * @param rectangle the real rectangle, the inside part of which
-	 *                  should be removed from the pen stroke
+	 * should be removed from the pen stroke
 	 * @return true, if the pen stroke still has points left after the deletion
 	 */
 	public boolean deletePart(GRectangle2D rectangle) {
 		ArrayList<MyPoint> outside = new ArrayList<>();
+		ArrayList<MyPoint> controls = new ArrayList<>();
+		boolean skipControls = false;
 		for (int i = 0; i < getPoints().size(); i++) {
 			MyPoint currentPoint = getPoints().get(i);
-			if (!currentPoint.isDefined() || currentPoint.getSegmentType() == SegmentType.CONTROL) {
+			boolean defined = currentPoint.isDefined();
+			if (!defined || currentPoint.getSegmentType() == SegmentType.CONTROL) {
+				if (defined && !skipControls) {
+					controls.add(currentPoint);
+				}
 				continue;
 			}
 			boolean inside = rectangle.contains(currentPoint.x, currentPoint.y);
 			if (!inside) {
-				outside.add(currentPoint);
+				outside.addAll(controls);
+				boolean lineTo = currentPoint.getSegmentType() == SegmentType.CURVE_TO
+						&& controls.isEmpty();
+				outside.add(lineTo ? currentPoint.withType(SegmentType.LINE_TO) : currentPoint);
+				controls.clear();
 			}
 			MyPoint nextPoint = getNextPoint(i);
-			if (!nextPoint.isDefined()) {
+			if (nextPoint == null || !nextPoint.isDefined()) {
 				ensureTrailingNaN(outside);
 				continue;
 			}
 			boolean nextInside = rectangle.contains(nextPoint.x, nextPoint.y);
-			List<MyPoint> intersections = getAllIntersectionPoints(i, rectangle);
+			List<BezierSplitPoint> intersections = getAllIntersectionPoints(i, rectangle);
+			skipControls = inside || nextInside || !intersections.isEmpty();
 			if (inside && nextInside) {
 				// both points inside
 				if (intersections.size() == 2) {
 					ensureTrailingNaN(outside);
-					outside.addAll(intersections);
+					outside.add(intersections.get(0).point.withType(SegmentType.MOVE_TO));
+					outside.add(intersections.get(1).point);
 					ensureTrailingNaN(outside);
 				}
 			} else if (inside) {
 				// going from inside to outside
 				if (intersections.isEmpty()) {
-					outside.add(currentPoint);
+					outside.add(currentPoint.withType(SegmentType.MOVE_TO));
 				} else {
 					ensureTrailingNaN(outside);
-					outside.add(intersections.get(0));
+					outside.add(intersections.get(0).point.withType(SegmentType.MOVE_TO));
 				}
 			} else if (nextInside) {
 				// going from outside to inside
 				if (intersections.isEmpty()) {
+					// next point right at the edge = no intersections
+					if (nextPoint.getSegmentType() == SegmentType.CURVE_TO) {
+						outside.add(getPoints().get(i + 1));
+						outside.add(getPoints().get(i + 2));
+					}
 					outside.add(nextPoint);
 				} else {
-					outside.add(intersections.get(0));
+					outside.add(intersections.get(0).point);
 					ensureTrailingNaN(outside);
 				}
 			} else {
 				// both points outside
 				if (intersections.size() == 2) {
-					outside.add(intersections.get(0));
+					outside.add(intersections.get(0).point);
 					ensureTrailingNaN(outside);
-					outside.add(intersections.get(1));
+					outside.add(intersections.get(1).point.withType(SegmentType.MOVE_TO));
 				}
 			}
 		}
 		clearPoints();
-		doAppendPointArray(outside);
+		getPoints().addAll(outside);
+		resetXMLPointBuilder();
 		updateCascade();
 		return !outside.isEmpty();
 	}
 
+	private MyPoint getNextPoint(int i) {
+		if (i + 1 >= getPoints().size()) {
+			return null;
+		}
+		if (getPoints().get(i + 1).getSegmentType() == SegmentType.CONTROL
+				&& i + 3 < getPoints().size()) {
+			return getPoints().get(i + 3);
+		}
+		return getPoints().get(i + 1);
+	}
+
+	void ensureTrailingNaN(List<MyPoint> data) {
+		if (!data.isEmpty() && data.get(data.size() - 1).isDefined()) {
+			data.add(new MyPoint(Double.NaN, Double.NaN));
+		}
+	}
+
 	/**
-	 * Check for bezier segments longer than MAX_SEGMENT_LENGTH and split them
-	 * Returns the stroke points only, no control points.
+	 * Splits a Bezier segment at {@code t}.
+	 * The first sub-curve (anchor -> split) is appended to {@code first};
+	 * the second sub-curve's start point is appended to {@code second} and its
+	 * control points are stored in {@code pendingControls} for the next anchor.
 	 */
+	private void splitBezierAt(MyPoint anchor, MyPoint control1, MyPoint control2,
+			MyPoint nextAnchor, double t, List<MyPoint> first, List<MyPoint> second,
+			List<MyPoint> pendingControls) {
+		double mid01x = anchor.x + (control1.x - anchor.x) * t;
+		double mid01y = anchor.y + (control1.y - anchor.y) * t;
+		double mid12x = control1.x + (control2.x - control1.x) * t;
+		double mid12y = control1.y + (control2.y - control1.y) * t;
+		double mid23x = control2.x + (nextAnchor.x - control2.x) * t;
+		double mid23y = control2.y + (nextAnchor.y - control2.y) * t;
+
+		double mid012x = mid01x + (mid12x - mid01x) * t;
+		double mid012y = mid01y + (mid12y - mid01y) * t;
+		double mid123x = mid12x + (mid23x - mid12x) * t;
+		double mid123y = mid12y + (mid23y - mid12y) * t;
+
+		double splitX = mid012x + (mid123x - mid012x) * t;
+		double splitY = mid012y + (mid123y - mid012y) * t;
+
+		first.add(new MyPoint(mid01x, mid01y, SegmentType.CONTROL));
+		first.add(new MyPoint(mid012x, mid012y, SegmentType.CONTROL));
+		first.add(new MyPoint(splitX, splitY, SegmentType.CURVE_TO));
+		ensureTrailingNaN(first);
+
+		second.add(new MyPoint(splitX, splitY, SegmentType.MOVE_TO));
+		pendingControls.add(new MyPoint(mid123x, mid123y, SegmentType.CONTROL));
+		pendingControls.add(new MyPoint(mid23x, mid23y, SegmentType.CONTROL));
+	}
+
+	/**
+	 * Splits a cubic Bezier segment at two parameters {@code t1 < t2}.
+	 * The outer sub-curves (anchor -> split1 and split2 -> nextAnchor) go to {@code same};
+	 * the middle sub-curve (split1 -> split2) goes to {@code other}.
+	 */
+	private void splitBezierAtTwo(MyPoint anchor, MyPoint control1, MyPoint control2,
+			MyPoint nextAnchor, double t1, double t2,
+			List<MyPoint> same, List<MyPoint> other, List<MyPoint> pendingControls) {
+		double mid01x = anchor.x + (control1.x - anchor.x) * t1;
+		double mid01y = anchor.y + (control1.y - anchor.y) * t1;
+		double mid12x = control1.x + (control2.x - control1.x) * t1;
+		double mid12y = control1.y + (control2.y - control1.y) * t1;
+		double mid23x = control2.x + (nextAnchor.x - control2.x) * t1;
+		double mid23y = control2.y + (nextAnchor.y - control2.y) * t1;
+		double mid012x = mid01x + (mid12x - mid01x) * t1;
+		double mid012y = mid01y + (mid12y - mid01y) * t1;
+		double mid123x = mid12x + (mid23x - mid12x) * t1;
+		double mid123y = mid12y + (mid23y - mid12y) * t1;
+		double split1X = mid012x + (mid123x - mid012x) * t1;
+		double split1Y = mid012y + (mid123y - mid012y) * t1;
+
+		same.add(new MyPoint(mid01x, mid01y, SegmentType.CONTROL));
+		same.add(new MyPoint(mid012x, mid012y, SegmentType.CONTROL));
+		same.add(new MyPoint(split1X, split1Y, SegmentType.CURVE_TO));
+		ensureTrailingNaN(same);
+
+		double t2prime = (t2 - t1) / (1 - t1);
+		double sub01x = split1X + (mid123x - split1X) * t2prime;
+		double sub01y = split1Y + (mid123y - split1Y) * t2prime;
+		double sub12x = mid123x + (mid23x - mid123x) * t2prime;
+		double sub12y = mid123y + (mid23y - mid123y) * t2prime;
+		double sub23x = mid23x + (nextAnchor.x - mid23x) * t2prime;
+		double sub23y = mid23y + (nextAnchor.y - mid23y) * t2prime;
+		double sub012x = sub01x + (sub12x - sub01x) * t2prime;
+		double sub012y = sub01y + (sub12y - sub01y) * t2prime;
+		double sub123x = sub12x + (sub23x - sub12x) * t2prime;
+		double sub123y = sub12y + (sub23y - sub12y) * t2prime;
+		double split2X = sub012x + (sub123x - sub012x) * t2prime;
+		double split2Y = sub012y + (sub123y - sub012y) * t2prime;
+
+		other.add(new MyPoint(split1X, split1Y, SegmentType.MOVE_TO));
+		other.add(new MyPoint(sub01x, sub01y, SegmentType.CONTROL));
+		other.add(new MyPoint(sub012x, sub012y, SegmentType.CONTROL));
+		other.add(new MyPoint(split2X, split2Y, SegmentType.CURVE_TO));
+		ensureTrailingNaN(other);
+
+		same.add(new MyPoint(split2X, split2Y, SegmentType.MOVE_TO));
+		pendingControls.add(new MyPoint(sub123x, sub123y, SegmentType.CONTROL));
+		pendingControls.add(new MyPoint(sub23x, sub23y, SegmentType.CONTROL));
+	}
+
+	private ArrayList<BezierSplitPoint> getAllIntersectionPoints(final int index,
+			GRectangle2D rectangle) {
+		double x = rectangle.getX();
+		double y = rectangle.getY();
+		double width = rectangle.getWidth();
+		double height = rectangle.getHeight();
+
+		ArrayList<BezierSplitPoint> interPointList = new ArrayList<>();
+		if (getPoints().get(index + 1).getSegmentType() == SegmentType.CONTROL) {
+			MyPoint point1 = getPoints().get(index);
+			MyPoint control1 = getPoints().get(index + 1);
+			MyPoint control2 = getPoints().get(index + 2);
+			MyPoint point2 = getPoints().get(index + 3);
+			// Top line
+			getIntersectionPoints(interPointList, point1, control1, control2, point2,
+					x, y, x + width, y);
+
+			// Bottom line
+			getIntersectionPoints(interPointList, point1, control1, control2, point2,
+					x, y + height, x + width, y + height);
+
+			// Left side
+			getIntersectionPoints(interPointList, point1, control1, control2, point2,
+					x, y, x, y + height);
+
+			// Right side
+			getIntersectionPoints(interPointList, point1, control1, control2, point2,
+					x + width, y, x + width, y + height);
+		} else {
+			MyPoint point1 = getPoints().get(index);
+			MyPoint point2 = getPoints().get(index + 1);
+
+			double x1 = point1.getX();
+			double y1 = point1.getY();
+			double x2 = point2.getX();
+			double y2 = point2.getY();
+			// Top line
+			MyPoint topInter = getIntersectionPoint(x1, y1, x2, y2,
+					x, y, x + width, y);
+			if (topInter != null) {
+				interPointList.add(new BezierSplitPoint(topInter));
+			}
+			// Bottom line
+			MyPoint bottomInter = getIntersectionPoint(x1, y1, x2, y2,
+					x, y + height, x + width, y + height);
+			if (bottomInter != null) {
+				interPointList.add(new BezierSplitPoint(bottomInter));
+			}
+			// Left side
+			MyPoint leftInter = getIntersectionPoint(x1, y1, x2, y2,
+					x, y, x, y + height);
+			if (leftInter != null) {
+				interPointList.add(new BezierSplitPoint(leftInter));
+			}
+			// Right side
+			MyPoint rightInter = getIntersectionPoint(x1, y1, x2, y2,
+					x + width, y, x + width, y + height);
+			if (rightInter != null) {
+				interPointList.add(new BezierSplitPoint(rightInter));
+			}
+		}
+
+		final MyPoint p = getPoints().get(index);
+		interPointList.sort(Comparator.comparingDouble(bp -> p.distanceSq(bp.point)));
+		return interPointList;
+	}
+
+	private static void getIntersectionPoints(ArrayList<BezierSplitPoint> interPointList,
+			MyPoint point1, MyPoint control1, MyPoint control2, MyPoint point2,
+			double x1, double y1, double x2, double y2) {
+		double A = y2 - y1;
+		double B = x1 - x2;
+		double C = x1 * (y1 - y2) + y1 * (x2 - x1);
+
+		double[] bx = bezierCoeffs(point1.x, control1.x, control2.x, point2.x);
+		double[] by = bezierCoeffs(point1.y, control1.y, control2.y, point2.y);
+
+		double[] P = {
+				A * bx[3] + B * by[3] + C,
+				A * bx[2] + B * by[2],
+				A * bx[1] + B * by[1],
+				A * bx[0] + B * by[0],
+		};
+
+		double[] r = new double[3];
+		int roots = EquationSolver.solveCubicS(P, r, Kernel.MAX_PRECISION);
+
+		for (int i = 0; i < roots; i++) {
+			double t = r[i];
+			if (t < Kernel.MAX_PRECISION || t > 1 - Kernel.MAX_PRECISION) {
+				continue;
+			}
+			double x = evalCubic(bx, t);
+			double y = evalCubic(by, t);
+
+			if (onSegment(x1, y1, x, y, x2, y2)) {
+				interPointList.add(new BezierSplitPoint(new MyPoint(x, y), t));
+			}
+		}
+	}
+
+	private static double evalCubic(double[] bx, double t) {
+		return bx[0] * t * t * t + bx[1] * t * t + bx[2] * t + bx[3];
+	}
+
+	private static double[] bezierCoeffs(double P0, double P1, double P2, double P3) {
+		return new double[] {
+				-P0 + 3 * P1 - 3 * P2 + P3,
+				3 * P0 - 6 * P1 + 3 * P2,
+				-3 * P0 + 3 * P1,
+				P0,
+		};
+	}
+
+	private static MyPoint getIntersectionPoint(double x1, double y1, double x2, double y2,
+			double x3, double y3, double x4, double y4) {
+		MyPoint p = null;
+
+		double d = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+		// are not parallel
+		if (!DoubleUtil.isZero(d)) {
+			// coords of intersection point with line
+			double xi = ((x3 - x4) * (x1 * y2 - y1 * x2)
+					- (x1 - x2) * (x3 * y4 - y3 * x4)) / d;
+			double yi = ((y3 - y4) * (x1 * y2 - y1 * x2)
+					- (y1 - y2) * (x3 * y4 - y3 * x4)) / d;
+			// needed to get only the intersection points with segment
+			// and not with line
+			if (onSegment(x1, y1, xi, yi, x2, y2)
+					&& onSegment(x3, y3, xi, yi, x4, y4)) {
+				p = new MyPoint(xi, yi);
+			}
+		}
+		return p;
+	}
+
+	// check if intersection point is on segment
+	private static boolean onSegment(double segStartX, double segStartY,
+			double interPointX, double interPointY, double segEndX, double segEndY) {
+		return onSegmentCoord(segStartX, interPointX, segEndX)
+				&& onSegmentCoord(segStartY, interPointY, segEndY);
+	}
+
+	private static boolean onSegmentCoord(double segStart, double interPoint, double segEnd) {
+		return (interPoint <= Math.max(segStart, segEnd)
+				&& interPoint >= Math.min(segStart, segEnd))
+				|| DoubleUtil.isEqual(segStart, segEnd);
+	}
+
+	/**
+	 * @param data stroke vertices
+	 */
+	public void appendVertexPointArray(List<MyPoint> data) {
+		doAppendPointArray(data);
+		ArrayList<MyPoint> densePoints = increaseDensity();
+		if (densePoints.size() > data.size()) {
+			clearPoints();
+			doAppendPointArray(densePoints);
+		}
+	}
+
 	private ArrayList<MyPoint> increaseDensity() {
 		ArrayList<MyPoint> densePoints = new ArrayList<>();
 		int parts = 5;
@@ -508,183 +832,6 @@ public class GeoLocusStroke extends GeoLocus
 		return densePoints;
 	}
 
-	private MyPoint getNextPoint(int i) {
-		if (getPoints().get(i + 1).getSegmentType() == SegmentType.CONTROL) {
-			return getPoints().get(i + 3);
-		}
-		return getPoints().get(i + 1);
-	}
-
-	private void ensureTrailingNaN(List<MyPoint> data) {
-		if (!data.isEmpty() && data.get(data.size() - 1).isDefined()) {
-			data.add(new MyPoint(Double.NaN, Double.NaN));
-		}
-	}
-
-	private ArrayList<MyPoint> getAllIntersectionPoints(final int index, GRectangle2D rectangle) {
-		double x = rectangle.getX();
-		double y = rectangle.getY();
-		double width = rectangle.getWidth();
-		double height = rectangle.getHeight();
-
-		ArrayList<MyPoint> interPointList = new ArrayList<>();
-		if (getPoints().get(index + 1).getSegmentType() == SegmentType.CONTROL) {
-			MyPoint point1 = getPoints().get(index);
-			MyPoint control1 = getPoints().get(index + 1);
-			MyPoint control2 = getPoints().get(index + 2);
-			MyPoint point2 = getPoints().get(index + 3);
-
-			// Top line
-			getIntersectionPoints(interPointList, point1, control1, control2, point2,
-					x, y, x + width, y);
-
-			// Bottom line
-			getIntersectionPoints(interPointList, point1, control1, control2, point2,
-					x, y + height, x + width, y + height);
-
-			// Left side
-			getIntersectionPoints(interPointList, point1, control1, control2, point2,
-					x, y, x, y + height);
-
-			// Right side
-			getIntersectionPoints(interPointList, point1, control1, control2, point2,
-					x + width, y, x + width, y + height);
-		} else {
-			MyPoint point1 = getPoints().get(index);
-			MyPoint point2 = getPoints().get(index + 1);
-
-			double x1 = point1.getX();
-			double y1 = point1.getY();
-			double x2 = point2.getX();
-			double y2 = point2.getY();
-			// Top line
-			MyPoint topInter = getIntersectionPoint(x1, y1, x2, y2,
-					x, y, x + width, y);
-			if (topInter != null) {
-				interPointList.add(topInter);
-			}
-			// Bottom line
-			MyPoint bottomInter = getIntersectionPoint(x1, y1, x2, y2,
-					x, y + height, x + width, y + height);
-			if (bottomInter != null) {
-				interPointList.add(bottomInter);
-			}
-			// Left side
-			MyPoint leftInter = getIntersectionPoint(x1, y1, x2, y2,
-					x, y, x, y + height);
-			if (leftInter != null) {
-				interPointList.add(leftInter);
-			}
-			// Right side
-			MyPoint rightInter = getIntersectionPoint(x1, y1, x2, y2,
-					x + width, y, x + width, y + height);
-			if (rightInter != null) {
-				interPointList.add(rightInter);
-			}
-		}
-
-		final MyPoint p = getPoints().get(index);
-		interPointList.sort(Comparator.comparingDouble(p::distanceSq));
-		return interPointList;
-	}
-
-	private static void getIntersectionPoints(ArrayList<MyPoint> interPointList,
-				MyPoint point1, MyPoint control1, MyPoint control2, MyPoint point2,
-				double x1, double y1, double x2, double y2) {
-		double A = y2 - y1;
-		double B = x1 - x2;
-		double C = x1 * (y1 - y2) + y1 * (x2 - x1);
-
-		double[] bx = bezierCoeffs(point1.x, control1.x, control2.x, point2.x);
-		double[] by = bezierCoeffs(point1.y, control1.y, control2.y, point2.y);
-
-		double[] P = {
-				A * bx[3] + B * by[3] + C,
-				A * bx[2] + B * by[2],
-				A * bx[1] + B * by[1],
-				A * bx[0] + B * by[0],
-		};
-
-		double[] r = new double[3];
-		int roots = EquationSolver.solveCubicS(P, r, Kernel.MAX_PRECISION);
-
-		for (int i = 0; i < roots; i++) {
-			double t = r[i];
-			if (t < Kernel.MAX_PRECISION || t > 1 - Kernel.MAX_PRECISION) {
-				continue;
-			}
-			double x = evalCubic(bx, t);
-			double y = evalCubic(by, t);
-
-			if (onSegment(x1, y1, x, y, x2, y2)) {
-				interPointList.add(new MyPoint(x, y));
-			}
-		}
-	}
-
-	private static double evalCubic(double[] bx, double t) {
-		return bx[0] * t * t * t + bx[1] * t * t + bx[2] * t + bx[3];
-	}
-
-	private static double[] bezierCoeffs(double P0, double P1, double P2, double P3) {
-		return new double[] {
-				-P0 + 3 * P1 - 3 * P2 + P3,
-				3 * P0 - 6 * P1 + 3 * P2,
-				-3 * P0 + 3 * P1,
-				P0,
-		};
-	}
-
-	private static MyPoint getIntersectionPoint(double x1, double y1, double x2, double y2,
-			double x3, double y3, double x4, double y4) {
-		MyPoint p = null;
-
-		double d = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
-		// are not parallel
-		if (d != 0.0) {
-			// coords of intersection point with line
-			double xi = ((x3 - x4) * (x1 * y2 - y1 * x2)
-					- (x1 - x2) * (x3 * y4 - y3 * x4)) / d;
-			double yi = ((y3 - y4) * (x1 * y2 - y1 * x2)
-					- (y1 - y2) * (x3 * y4 - y3 * x4)) / d;
-			// needed to get only the intersection points with segment
-			// and not with line
-			if (onSegment(x1, y1, xi, yi, x2, y2)
-					&& onSegment(x3, y3, xi, yi, x4, y4)) {
-				p = new MyPoint(xi, yi);
-			}
-		}
-		return p;
-	}
-
-	// check if intersection point is on segment
-	private static boolean onSegment(double segStartX, double segStartY,
-			double interPointX, double interPointY, double segEndX, double segEndY) {
-		return onSegmentCoord(segStartX, interPointX, segEndX)
-				&& onSegmentCoord(segStartY, interPointY, segEndY);
-	}
-
-	private static boolean onSegmentCoord(double segStart, double interPoint, double segEnd) {
-		return (interPoint <= Math.max(segStart, segEnd)
-				&& interPoint >= Math.min(segStart, segEnd))
-				|| DoubleUtil.isEqual(segStart, segEnd);
-	}
-
-	/**
-	 * Append the given points to the locus stroke
-	 *
-	 * @param data
-	 *            points
-	 */
-	public void appendPointArray(List<MyPoint> data) {
-		doAppendPointArray(data);
-		ArrayList<MyPoint> densePoints = increaseDensity();
-		if (densePoints.size() > data.size()) {
-			clearPoints();
-			doAppendPointArray(densePoints);
-		}
-	}
-
 	private void doAppendPointArray(List<MyPoint> data) {
 		resetXMLPointBuilder();
 		setDefined(true);
@@ -694,10 +841,10 @@ public class GeoLocusStroke extends GeoLocus
 			int strokeSize = getPartOfPenStroke(index, data);
 
 			if (strokeSize != 0) {
-				addPointMoveTo(data.get(index));
+				getPoints().add(data.get(index).withType(SegmentType.MOVE_TO));
 				if (strokeSize < 3) {
-					// if we found single point
-					// just add it to the list without control points
+					// stroke is either single point (then draw line to self)
+					// or a segment (also just draw a line, no smoothing)
 					addPointLineTo(data.get(index + strokeSize - 1));
 				} else {
 					addBezierCurveWithControlPoints(data, index, strokeSize);
@@ -720,7 +867,7 @@ public class GeoLocusStroke extends GeoLocus
 			strokeMaybeAveraged = stroke.subList(start, start + length);
 		}
 		ArrayList<double[]> controlPoints =
-				getControlPoints(strokeMaybeAveraged, 0, strokeMaybeAveraged.size());
+				getControlPoints(strokeMaybeAveraged, strokeMaybeAveraged.size());
 		for (int i = 1; i < strokeMaybeAveraged.size(); i++) {
 			MyPoint ctrl1 = new MyPoint(controlPoints.get(0)[i - 1],
 					controlPoints.get(1)[i - 1],
@@ -741,6 +888,93 @@ public class GeoLocusStroke extends GeoLocus
 				addPointLineTo(endPoint);
 			}
 		}
+	}
+
+	// calculate control points for bezier curve
+	private static ArrayList<double[]> getControlPoints(List<MyPoint> stroke,
+			int length) {
+		ArrayList<double[]> values = new ArrayList<>();
+
+		if (length == 0) {
+			return values;
+		}
+
+		int n = length - 1;
+		double[] a = new double[n];
+		double[] b = new double[n];
+		double[] c = new double[n];
+		double[] rX = new double[n];
+		double[] rY = new double[n];
+		/* left most segment */
+		a[0] = 0;
+		b[0] = 2;
+		c[0] = 1;
+		rX[0] = stroke.get(0).getX() + 2 * stroke.get(0 + 1).getX();
+		rY[0] = stroke.get(0).getY() + 2 * stroke.get(0 + 1).getY();
+		/* internal segments */
+		for (int i = 1; i < n - 1; i++) {
+			a[i] = 1;
+			b[i] = 4;
+			c[i] = 1;
+			rX[i] = 4 * stroke.get(0 + i).getX() + 2 * stroke.get(0 + i + 1).getX();
+			rY[i] = 4 * stroke.get(0 + i).getY() + 2 * stroke.get(0 + i + 1).getY();
+		}
+		/* right segment */
+		a[n - 1] = 2;
+		b[n - 1] = 7;
+		c[n - 1] = 0;
+		rX[n - 1] = 8 * stroke.get(0 + n - 1).getX() + stroke.get(0 + n).getX();
+		rY[n - 1] = 8 * stroke.get(0 + n - 1).getY() + stroke.get(0 + n).getY();
+
+		/* solves Ax=b with the Thomas algorithm (from Wikipedia) */
+		for (int i = 1; i < n; i++) {
+			double m = a[i] / b[i - 1];
+			b[i] = b[i] - m * c[i - 1];
+			rX[i] = rX[i] - m * rX[i - 1];
+			rY[i] = rY[i] - m * rY[i - 1];
+		}
+
+		double[] xCoordsP1 = new double[n];
+		double[] xCoordsP2 = new double[n];
+		double[] yCoordsP1 = new double[n];
+		double[] yCoordsP2 = new double[n];
+		xCoordsP1[n - 1] = rX[n - 1] / b[n - 1];
+		yCoordsP1[n - 1] = rY[n - 1] / b[n - 1];
+		for (int i = n - 2; i >= 0; --i) {
+			xCoordsP1[i] = (rX[i] - c[i] * xCoordsP1[i + 1]) / b[i];
+			yCoordsP1[i] = (rY[i] - c[i] * yCoordsP1[i + 1]) / b[i];
+		}
+
+		/* we have p1, now compute p2 */
+		for (int i = 0; i < n - 1; i++) {
+			xCoordsP2[i] = 2 * stroke.get(0 + i + 1).getX() - xCoordsP1[i + 1];
+			yCoordsP2[i] = 2 * stroke.get(0 + i + 1).getY() - yCoordsP1[i + 1];
+		}
+		xCoordsP2[n - 1] = 0.5 * (stroke.get(0 + n).getX() + xCoordsP1[n - 1]);
+		yCoordsP2[n - 1] = 0.5 * (stroke.get(0 + n).getY() + yCoordsP1[n - 1]);
+
+		values.add(xCoordsP1);
+		values.add(yCoordsP1);
+		values.add(xCoordsP2);
+		values.add(yCoordsP2);
+		return values;
+	}
+
+	private static double angle(MyPoint a, MyPoint b, MyPoint c) {
+		double dx1 = a.x - b.x;
+		double dx2 = c.x - b.x;
+		double dy1 = a.y - b.y;
+		double dy2 = c.y - b.y;
+
+		return Math.PI - MyMath.angle(dx1, dy1, dx2, dy2);
+	}
+
+	private void addPointLineTo(MyPoint point) {
+		getPoints().add(point.withType(SegmentType.LINE_TO));
+	}
+
+	private void addPointCurveTo(MyPoint point) {
+		getPoints().add(point.withType(SegmentType.CURVE_TO));
 	}
 
 	private List<MyPoint> averageClosePoints(List<MyPoint> stroke, int start, int length) {
@@ -764,6 +998,13 @@ public class GeoLocusStroke extends GeoLocus
 		return averagedPoints;
 	}
 
+	private MyPoint calculateAveragePoint(MyPoint a, MyPoint b) {
+		double newX = (a.getX() + b.getX()) / 2;
+		double newY = (a.getY() + b.getY()) / 2;
+
+		return new MyPoint(newX, newY, SegmentType.LINE_TO);
+	}
+
 	private boolean areClosePoints(MyPoint a, MyPoint b) {
 		EuclidianView view = app.getActiveEuclidianView();
 		double screenCoordXA = view.toScreenCoordXd(a.getX());
@@ -775,114 +1016,127 @@ public class GeoLocusStroke extends GeoLocus
 				&& Math.abs(screenCoordYA - screenCoordYB) < 4;
 	}
 
-	private MyPoint calculateAveragePoint(MyPoint a, MyPoint b) {
-		double newX = (a.getX() + b.getX()) / 2;
-		double newY = (a.getY() + b.getY()) / 2;
+	/**
+	 * Append the given points to the locus stroke
+	 * @param data points
+	 */
+	public void appendPointArray(List<? extends GPoint2D> data, EuclidianView view) {
+		resetXMLPointBuilder();
+		setDefined(true);
 
-		return new MyPoint(newX, newY, SegmentType.LINE_TO);
+		int index = 0;
+		while (index <= data.size()) {
+			int strokeSize = getPartOfPenStroke(index, data);
+			List<? extends GPoint2D> toTransform = data.subList(index, index + strokeSize);
+			if (!toTransform.isEmpty()) {
+				List<? extends GPoint2D> transformed = Smoothing.transform(toTransform);
+				if (view != null) {
+					transformed = scalePoints(transformed, view);
+				}
+				if (transformed.size() < 3) {
+					if (!transformed.isEmpty()) {
+						addSegment(transformed);
+					} else {
+						transformed = view == null ? toTransform : scalePoints(toTransform, view);
+						addSegment(transformed);
+					}
+					index = index + Math.max(strokeSize, 1);
+					continue;
+				}
+				processContinuous(transformed, view == null ? 1 : view.getInvXscale(),
+						getPoints()::add);
+			}
+
+			if (index < data.size()) {
+				ensureTrailingNaN(getPoints());
+			}
+
+			index = index + Math.max(strokeSize, 1);
+		}
 	}
 
-	private void addPointMoveTo(MyPoint point) {
-		getPoints().add(point.withType(SegmentType.MOVE_TO));
+	private List<? extends GPoint2D> scalePoints(List<? extends GPoint2D> penPoints,
+			EuclidianView view) {
+		ArrayList<MyPoint> newPts = new ArrayList<>(penPoints.size());
+		for (GPoint2D p : penPoints) {
+			double x = view.toRealWorldCoordX(p.getX());
+			double y = view.toRealWorldCoordY(p.getY());
+
+			// change -2.4600000000000004 to -2.46 for smaller XML
+			newPts.add(new MyPoint(DoubleUtil.checkDecimalFraction(x),
+					DoubleUtil.checkDecimalFraction(y)));
+		}
+		return newPts;
 	}
 
-	private void addPointLineTo(MyPoint point) {
-		getPoints().add(point.withType(SegmentType.LINE_TO));
+	/**
+	 * Convert smoothing result into a curve.
+	 * @param transformed smoothed points
+	 * @param curve curve plotter
+	 */
+	public static void processContinuous(List<? extends GPoint2D> transformed, double scale,
+			Consumer<MyPoint> curve) {
+		MyPoint control = new MyPoint(transformed.get(1).x, transformed.get(1).y,
+				SegmentType.CONTROL);
+		MyPoint last = new MyPoint((transformed.get(1).x + transformed.get(2).x) / 2,
+				(transformed.get(1).y + transformed.get(2).y) / 2, SegmentType.CURVE_TO);
+		MyPoint start = new MyPoint(transformed.get(0).x, transformed.get(0).y,
+				SegmentType.MOVE_TO);
+		curve.accept(start);
+		curve.accept(control.barycenter(1 / 3.0, start, SegmentType.CONTROL));
+		curve.accept(control.barycenter(1 / 3.0, last, SegmentType.CONTROL));
+		curve.accept(last);
+
+		for (int i = 2, max = transformed.size() - 1; i < max; i++) {
+			GPoint2D a = transformed.get(i);
+			GPoint2D b = transformed.get(i + 1);
+			control.setLocation(2 * last.x - control.x, 2 * last.y - control.y);
+			MyPoint next = new MyPoint(.5 * (a.x + b.x), .5 * (a.y + b.y), SegmentType.CURVE_TO);
+			if (areCollinear(last, control, next, scale)) {
+				curve.accept(next.withType(SegmentType.LINE_TO));
+				last = next;
+				continue;
+			}
+			curve.accept(control.barycenter(1 / 3.0, last, SegmentType.CONTROL));
+			last = next;
+			curve.accept(control.barycenter(1 / 3.0, last, SegmentType.CONTROL));
+			curve.accept(last);
+		}
+		GPoint2D strokeEnd = transformed.get(transformed.size() - 1);
+		curve.accept(new MyPoint(strokeEnd.x, strokeEnd.y));
 	}
 
-	private void addPointCurveTo(MyPoint point) {
-		getPoints().add(point.withType(SegmentType.CURVE_TO));
-	}
-
-	private static double angle(MyPoint a, MyPoint b, MyPoint c) {
+	// collinear points + bezier buggy in Safari (?)
+	private static boolean areCollinear(MyPoint a, MyPoint b, MyPoint c, double scale) {
 		double dx1 = a.x - b.x;
-		double dx2 = c.x - b.x;
+		double dx2 = a.x - c.x;
 		double dy1 = a.y - b.y;
-		double dy2 = c.y - b.y;
+		double dy2 = a.y - c.y;
+		return DoubleUtil.isZero(dx1 * dy2 - dx2 * dy1, scale * scale);
+	}
 
-		return Math.PI - MyMath.angle(dx1, dy1, dx2, dy2);
+	private void addSegment(List<? extends GPoint2D> transformed) {
+		getPoints().add(new MyPoint(transformed.get(0).x, transformed.get(0).y,
+				SegmentType.MOVE_TO));
+		int last = transformed.size() - 1;
+		getPoints().add(
+				new MyPoint(transformed.get(last).x, transformed.get(last).y));
 	}
 
 	// returns the length of array started at index until first undef point
 	private static int getPartOfPenStroke(int index,
-			List<MyPoint> data) {
+			List<? extends GPoint2D> data) {
 		int i = index;
-		while (i < data.size() && data.get(i).isDefined()
-				&& (data.get(i).getSegmentType() != SegmentType.MOVE_TO
+		while (i < data.size() && Double.isFinite(data.get(i).getX())
+				&& (getSegmentTypeFor(data.get(i)) != SegmentType.MOVE_TO
 				|| i == index)) {
 			i++;
 		}
 		return i - index;
 	}
 
-	// calculate control points for bezier curve
-	private static ArrayList<double[]> getControlPoints(List<MyPoint> stroke, int start,
-			int length) {
-		ArrayList<double[]> values = new ArrayList<>();
-
-		if (length == 0) {
-			return values;
-		}
-
-		int n = length - 1;
-		double[] a = new double[n];
-		double[] b = new double[n];
-		double[] c = new double[n];
-		double[] rX = new double[n];
-		double[] rY = new double[n];
-		/* left most segment */
-		a[0] = 0;
-		b[0] = 2;
-		c[0] = 1;
-		rX[0] = stroke.get(start).getX() + 2 * stroke.get(start + 1).getX();
-		rY[0] = stroke.get(start).getY() + 2 * stroke.get(start + 1).getY();
-		/* internal segments */
-		for (int i = 1; i < n - 1; i++) {
-			a[i] = 1;
-			b[i] = 4;
-			c[i] = 1;
-			rX[i] = 4 * stroke.get(start + i).getX() + 2 * stroke.get(start + i + 1).getX();
-			rY[i] = 4 * stroke.get(start + i).getY() + 2 * stroke.get(start + i + 1).getY();
-		}
-		/* right segment */
-		a[n - 1] = 2;
-		b[n - 1] = 7;
-		c[n - 1] = 0;
-		rX[n - 1] = 8 * stroke.get(start + n - 1).getX() + stroke.get(start + n).getX();
-		rY[n - 1] = 8 * stroke.get(start + n - 1).getY() + stroke.get(start + n).getY();
-
-		/* solves Ax=b with the Thomas algorithm (from Wikipedia) */
-		for (int i = 1; i < n; i++) {
-			double m = a[i] / b[i - 1];
-			b[i] = b[i] - m * c[i - 1];
-			rX[i] = rX[i] - m * rX[i - 1];
-			rY[i] = rY[i] - m * rY[i - 1];
-		}
-
-		double[] xCoordsP1 = new double[n];
-		double[] xCoordsP2 = new double[n];
-		double[] yCoordsP1 = new double[n];
-		double[] yCoordsP2 = new double[n];
-		xCoordsP1[n - 1] = rX[n - 1] / b[n - 1];
-		yCoordsP1[n - 1] = rY[n - 1] / b[n - 1];
-		for (int i = n - 2; i >= 0; --i) {
-			xCoordsP1[i] = (rX[i] - c[i] * xCoordsP1[i + 1]) / b[i];
-			yCoordsP1[i] = (rY[i] - c[i] * yCoordsP1[i + 1]) / b[i];
-		}
-
-		/* we have p1, now compute p2 */
-		for (int i = 0; i < n - 1; i++) {
-			xCoordsP2[i] = 2 * stroke.get(start + i + 1).getX() - xCoordsP1[i + 1];
-			yCoordsP2[i] = 2 * stroke.get(start + i + 1).getY() - yCoordsP1[i + 1];
-		}
-		xCoordsP2[n - 1] = 0.5 * (stroke.get(start + n).getX() + xCoordsP1[n - 1]);
-		yCoordsP2[n - 1] = 0.5 * (stroke.get(start + n).getY() + yCoordsP1[n - 1]);
-
-		values.add(xCoordsP1);
-		values.add(yCoordsP1);
-		values.add(xCoordsP2);
-		values.add(yCoordsP2);
-		return values;
+	private static SegmentType getSegmentTypeFor(GPoint2D gPoint2D) {
+		return gPoint2D instanceof MyPoint pt ? pt.getSegmentType() : SegmentType.LINE_TO;
 	}
 
 	public String getSplitParentLabel() {
@@ -907,39 +1161,128 @@ public class GeoLocusStroke extends GeoLocus
 	 */
 	public void setCoords(double[] coords) {
 		myPointList.clear();
+		resetXMLPointBuilder();
+		setDefined(true);
+
 		ArrayList<MyPoint> points = new ArrayList<>();
 		for (int i = 0; i < coords.length - 1; i += 2) {
-			points.add(new MyPoint(coords[i], coords[i + 1]));
+			double x = coords[i];
+			double y = coords[i + 1];
+			if (!Double.isFinite(x)) {
+				if (!points.isEmpty()) {
+					processContinuousAdd(points);
+					points.clear();
+				}
+			} else {
+				points.add(new MyPoint(x, y));
+			}
 		}
-		appendPointArray(points);
+
+		if (!points.isEmpty()) {
+			processContinuousAdd(points);
+		}
 		updateRepaint();
+	}
+
+	private void processContinuousAdd(ArrayList<MyPoint> points) {
+		if (points.size() < 3) {
+			addSegment(points);
+		} else {
+			processContinuous(points, 1, getPoints()::add);
+		}
+		ensureTrailingNaN(getPoints());
 	}
 
 	@Override
 	public void getXMLTags(XMLStringBuilder builder) {
-		if (xmlPoints == null) {
-			xmlPoints = new StringBuilder();
-			appendPoints(xmlPoints);
+		if (bezierXmlPoints == null) {
+			bezierXmlPoints = new StringBuilder();
+			appendBezierCoords(bezierXmlPoints);
 		}
-		builder.startTag("strokeCoords").attrRaw("val", xmlPoints).endTag();
+		builder.startTag("strokeBezierCoords").attrRaw("val", bezierXmlPoints).endTag();
 		super.getXMLTags(builder);
 	}
 
 	/**
-	 * Append point coordinates to a string builder, using simple formatter
-	 * @param sb builder
+	 * @return smoothed points as a string
 	 */
-	public void appendPoints(final StringBuilder sb) {
+	public String getPointString() {
+		if (bezierXmlPoints == null) {
+			bezierXmlPoints = new StringBuilder();
+			appendBezierCoords(bezierXmlPoints);
+		}
+		return bezierXmlPoints.toString();
+	}
+
+	/**
+	 * Append exact stroke coordinates for XML, including Bezier control points.
+	 * @param sb StringBuilder
+	 */
+	private void appendBezierCoords(final StringBuilder sb) {
 		final ScientificFormatAdapter formatter = FormatFactory.getPrototype()
 				.getFastScientificFormat(5);
-		processPointsWithoutControl(m -> {
-			sb.append(formatter.format(m.getX()));
-			sb.append(",");
-			sb.append(formatter.format(m.getY()));
-			sb.append(",");
-		});
-		if (!myPointList.isEmpty()) {
-			sb.delete(sb.length() - 1, sb.length());
+		for (int i = 0; i < myPointList.size(); i++) {
+			MyPoint pt = myPointList.get(i);
+			if (i > 0) {
+				sb.append(",");
+			}
+			if (!pt.isDefined()) {
+				sb.append("NaN,NaN,0");
+			} else {
+				sb.append(formatter.format(pt.x));
+				sb.append(",");
+				sb.append(formatter.format(pt.y));
+				sb.append(",");
+				sb.append(pt.getSegmentType().code);
+			}
+		}
+	}
+
+	/**
+	 * Restore exact stroke coordinates from {@code x}, {@code y}, {@code code}
+	 * triplets as produced by {@link #appendBezierCoords}.
+	 * @param triplets Array of triplets
+	 */
+	public void setBezierCoords(double[] triplets) {
+		myPointList.clear();
+		resetXMLPointBuilder();
+		setDefined(true);
+		for (int i = 0; i + 2 < triplets.length; i += 3) {
+			double x = triplets[i];
+			double y = triplets[i + 1];
+			if (Double.isFinite(x)) {
+				SegmentType segmentType = SegmentType.fromCode((int) triplets[i + 2]);
+				if (segmentType == SegmentType.MOVE_TO && !myPointList.isEmpty()) {
+					ensureTrailingNaN(myPointList);
+				}
+				myPointList.add(new MyPoint(x, y, segmentType));
+			} else {
+				myPointList.add(new MyPoint(Double.NaN, Double.NaN));
+			}
+		}
+		ensureTrailingNaN(getPoints());
+		updateRepaint();
+	}
+
+	/**
+	 * Intersection point on a stroke segment. {@code isBezier} indicates whether
+	 * the segment is cubic; if so, {@code t} is the curve parameter at the crossing.
+	 */
+	private static final class BezierSplitPoint {
+		final MyPoint point;
+		final double t;
+		final boolean isBezier;
+
+		BezierSplitPoint(MyPoint point, double t) {
+			this.point = point;
+			this.t = t;
+			this.isBezier = true;
+		}
+
+		BezierSplitPoint(MyPoint point) {
+			this.point = point;
+			this.t = 0;
+			this.isBezier = false;
 		}
 	}
 }

@@ -2893,9 +2893,9 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void cmdPenStroke() {
-		t("PenStroke()", "PenStroke[]");
+		t("PenStroke()", "PenStrokeBezier[]");
 		t("PenStroke[(1,1),(2,2)]",
-				"PenStroke[1.0000E0,1.0000E0,2.0000E0,2.0000E0,NaN,NaN]");
+				"PenStrokeBezier[1.0000E0,1.0000E0,1,2.0000E0,2.0000E0,0,NaN,NaN,0]");
 	}
 
 	@Test

@@ -1792,6 +1792,19 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 				.replaceAll("[\u0300-\u036F]", "");
 	}
 
+	/**
+	 * @param coords input string
+	 * @return string parsed as array of doubles
+	 */
+	public static double[] parseDoubleArray(String coords) {
+		String[] coordsRaw = coords.split(",");
+		double[] coordsValues = new double[coordsRaw.length];
+		for (int i = 0; i < coordsRaw.length; i++) {
+			coordsValues[i] = Double.parseDouble(coordsRaw[i]);
+		}
+		return coordsValues;
+	}
+
 	private static void addTypoVariants(List<String> variants, String base, String index) {
 		String replacement;
 		if ((replacement = typoMapping.get(index)) != null) {

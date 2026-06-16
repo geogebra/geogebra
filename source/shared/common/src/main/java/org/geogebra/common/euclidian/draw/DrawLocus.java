@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
@@ -223,7 +224,7 @@ public class DrawLocus extends Drawable {
 	}
 
 	protected GeneralPathClippedForCurvePlotter newGeneralPath() {
-		return new GeneralPathClippedForCurvePlotter(view);
+		return new GeneralPathClippedForCurvePlotter(view, GPathIterator.WIND_NON_ZERO);
 	}
 
 	@Override

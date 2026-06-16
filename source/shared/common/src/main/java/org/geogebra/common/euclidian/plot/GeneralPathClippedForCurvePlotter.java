@@ -16,6 +16,7 @@
 
 package org.geogebra.common.euclidian.plot;
 
+import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -50,9 +51,13 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 	 * @param view
 	 *            Euclidian view
 	 */
-	public GeneralPathClippedForCurvePlotter(EuclidianViewInterfaceSlim view) {
-		super(view);
+	public GeneralPathClippedForCurvePlotter(EuclidianViewInterfaceSlim view, int winding) {
+		super(view, winding);
 		default2dView = view.isDefault2D();
+	}
+
+	public GeneralPathClippedForCurvePlotter(EuclidianViewInterfaceSlim view) {
+		this(view, GPathIterator.WIND_EVEN_ODD);
 	}
 
 	@Override

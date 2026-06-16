@@ -16,11 +16,10 @@
 
 package org.geogebra.common.euclidian;
 
-import static org.geogebra.common.kernel.StringTemplate.xmlTemplate;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 public class StrokeHelper {
@@ -35,13 +34,11 @@ public class StrokeHelper {
 	}
 
 	/**
-	 * getXml
 	 * @param stroke stroke
-	 * @return style xml
+	 * @return full xml
 	 */
 	public String getXML(GeoElement stroke) {
-		return "<expression label=\"" + stroke.getLabelSimple() + "\" exp=\""
-				+ stroke.getRedefineString(false, true, xmlTemplate)
-				+ "\"/>\n" + stroke.getStyleXML();
+		AlgoElement parentAlgorithm = stroke.getParentAlgorithm();
+		return parentAlgorithm != null ? parentAlgorithm.getXML() : stroke.getXML();
 	}
 }

@@ -503,8 +503,8 @@ public class RedefineTest extends BaseUnitTest {
 		GeoElement stroke = add("stroke1=PenStroke((1,1),(2,3))");
 		GeoLocusStroke redefined = add("stroke1=PenStroke((1,4),(2,5))");
 		assertEquals(stroke, redefined);
-		assertThat(redefined, hasValue("PenStroke[1.0000E0,4.0000E0,"
-				+ "2.0000E0,5.0000E0,NaN,NaN]"));
+		assertThat(redefined, hasValue("PenStrokeBezier[1.0000E0,4.0000E0,1,2.0000E0,5.0000E0,0,"
+				+ "NaN,NaN,0]"));
 	}
 
 	@Test

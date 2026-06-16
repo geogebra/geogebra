@@ -82,8 +82,9 @@ public class BasicCommandProcessorFactory implements CommandProcessorFactory {
 			return new CmdCAStoOperation(kernel, Operation.NPR);
 		case PolyLine:
 			return new CmdPolyLine(kernel);
+		case PenStrokeBezier:
 		case PenStroke:
-			return new CmdPenStroke(kernel);
+			return new CmdPenStroke(kernel, command == Commands.PenStrokeBezier);
 		case PointIn:
 			return new CmdPointIn(kernel);
 		case Line:

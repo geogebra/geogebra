@@ -563,6 +563,7 @@ public abstract class CommandDispatcher {
 			case PolyLine:
 			case Polyline:
 			case PenStroke:
+			case PenStrokeBezier:
 			case PointIn:
 			case Line:
 			case Ray:

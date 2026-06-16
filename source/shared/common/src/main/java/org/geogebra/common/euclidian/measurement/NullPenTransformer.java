@@ -18,7 +18,7 @@ package org.geogebra.common.euclidian.measurement;
 
 import java.util.List;
 
-import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 
 /**
@@ -49,12 +49,12 @@ public final class NullPenTransformer implements PenTransformer {
 	}
 
 	@Override
-	public void reset(EuclidianView view, List<GPoint> previewPoints) {
+	public void reset(EuclidianView view, List<GPoint2D> previewPoints) {
 		// stub
 	}
 
 	@Override
-	public void updatePreview(GPoint newPoint) {
+	public void updatePreview(GPoint2D newPoint) {
 		// stub
 	}
 }

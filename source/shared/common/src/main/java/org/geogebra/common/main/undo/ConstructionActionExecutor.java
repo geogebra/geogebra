@@ -104,12 +104,13 @@ public class ConstructionActionExecutor
 		}
 	}
 
-	private void processSetValue(String substring) {
+	private void processSetValue(String definition) {
 		try {
-			ValidExpression ve = app.getKernel().getParser().parseGeoGebraExpression(substring);
+			ValidExpression ve = app.getKernel().getParser().parseGeoGebraExpression(definition);
 			String label = ve.getLabel();
 			ve.setLabel(null);
 			AlgebraProcessor algebraProcessor = app.getKernel().getAlgebraProcessor();
+
 			CmdSetValue.setValue2(app.getKernel().lookupLabel(label),
 					algebraProcessor.processValidExpression(ve, new EvalInfo(false))[0]);
 		} catch (ParseException | MyError | CircularDefinitionException | RuntimeException e) {

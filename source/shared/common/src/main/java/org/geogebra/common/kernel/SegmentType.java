@@ -21,20 +21,44 @@ package org.geogebra.common.kernel;
  */
 public enum SegmentType {
 	/** lineto */
-	LINE_TO,
+	LINE_TO(0),
 	/** moveto */
-	MOVE_TO,
+	MOVE_TO(1),
 	/**
 	 * curveto using aux point as intersection of tangents, assumes angle &lt;=
 	 * pi/2
 	 */
-	ARC_TO,
+	ARC_TO(2),
 	/**
 	 * needed for pen stroke, uses bezier curve
 	 */
-	CURVE_TO,
+	CURVE_TO(3),
 	/** control point for curve_to */
-	CONTROL,
+	CONTROL(4),
 	/** aux point for arc_to */
-	AUXILIARY
+	AUXILIARY(5);
+
+	/**
+	 * Stable integer code for XML serialization. Unlike {@link #ordinal()}, this
+	 * value is fixed regardless of the order values appear in the enum declaration.
+	 */
+	public final int code;
+
+	SegmentType(int code) {
+		this.code = code;
+	}
+
+	/**
+	 * Reverse lookup by {@link #code}.
+	 * @param code the code as stored in XML
+	 * @return the matching type, or {@link #LINE_TO} as a safe fallback
+	 */
+	public static SegmentType fromCode(int code) {
+		for (SegmentType type : values()) {
+			if (type.code == code) {
+				return type;
+			}
+		}
+		return LINE_TO;
+	}
 }

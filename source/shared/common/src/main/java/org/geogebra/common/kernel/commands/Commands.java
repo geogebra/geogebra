@@ -164,6 +164,7 @@ public enum Commands implements CommandsConstants,
 	PolyLine(TABLE_GEOMETRY),
 
 	PenStroke(TABLE_GEOMETRY),
+	PenStrokeBezier(TABLE_ENGLISH),
 
 	PointIn(TABLE_GEOMETRY),
 

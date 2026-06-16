@@ -30,12 +30,15 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
 public class CmdPenStroke extends CommandProcessor {
+	private final boolean bezier;
+
 	/**
 	 * Creates new command processor
 	 * @param kernel kernel
 	 */
-	public CmdPenStroke(Kernel kernel) {
+	public CmdPenStroke(Kernel kernel, boolean bezier) {
 		super(kernel);
+		this.bezier = bezier;
 	}
 
 	@Override
@@ -43,22 +46,30 @@ public class CmdPenStroke extends CommandProcessor {
 			throws MyError, CircularDefinitionException {
 		int size = c.getArgumentNumber();
 		ArrayList<MyPoint> myPoints = new ArrayList<>();
+		double[] flat = new double[size];
 		for (int i = 0; i < size; i++) {
 			ExpressionValue current = c.getArgument(i).unwrap();
-			if (current instanceof MyDouble && i < size - 1) {
+			if (bezier && current instanceof MyDouble) {
+				flat[i] = current.evaluateDouble();
+			} else if (current instanceof MyDouble && i < size - 1) {
 				ExpressionValue next = c.getArgument(i + 1).unwrap();
 				myPoints.add(new MyPoint(current.evaluateDouble(),
 						next.evaluateDouble()));
 				i++;
-			} else if (current instanceof MyVecNode) {
-				MyVecNode vec = (MyVecNode) current;
+			} else if (current instanceof MyVecNode vec) {
 				myPoints.add(new MyPoint(vec.getX().evaluateDouble(),
 						vec.getY().evaluateDouble()));
 			} else {
 				throw argErr(c, current);
 			}
 		}
-		AlgoLocusStroke algo = new AlgoLocusStroke(cons, myPoints);
+		AlgoLocusStroke algo;
+		if (bezier) {
+			algo = new AlgoLocusStroke(cons, new ArrayList<>());
+			algo.getPenStroke().setBezierCoords(flat);
+		} else {
+			algo = new AlgoLocusStroke(cons, myPoints);
+		}
 		algo.getOutput(0).setLabel(c.getLabel());
 		return algo.getOutput();
 	}

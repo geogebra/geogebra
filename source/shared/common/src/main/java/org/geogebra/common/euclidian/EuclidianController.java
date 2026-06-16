@@ -7869,7 +7869,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		ArrayList<GeoElement> newSelection = new ArrayList<>();
 		ArrayList<GeoElement> oldSelection = new ArrayList<>(selection.getSelectedGeos());
 		ArrayList<GeoElement> splitStrokes = new ArrayList<>();
+		ArrayList<String> splitStrokeLabels = new ArrayList<>();
+		ArrayList<String> splitStrokeOriginalXML = new ArrayList<>();
+		StrokeHelper strokeHelper = new StrokeHelper();
 		for (GeoElement geo : oldSelection) {
+			String originalLabel = geo.getLabelSimple();
+			String originalXML = strokeHelper.getXML(geo);
 			List<GeoElement> splitParts = geo.getPartialSelection(removeOriginal);
 			if (!splitParts.isEmpty()) {
 				GeoElement replacement = splitParts.get(0);
@@ -7877,6 +7882,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				newSelection.add(replacement);
 				if (replacement != geo) {
 					changed = true;
+					splitStrokeLabels.add(originalLabel);
+					splitStrokeOriginalXML.add(originalXML);
 					replaceTranslated(geo, replacement);
 					if (!removeOriginal && splitParts.size() > 1) {
 						for (GeoElement part : splitParts) {
@@ -7892,14 +7899,66 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			showDynamicStylebar();
 			startBoundingBoxState = null;
 			if (removeOriginal) {
-				storeUndoableStrokeSplit(oldSelection, splitStrokes);
+				storeUndoableStrokeSplit(splitStrokeLabels, splitStrokeOriginalXML, splitStrokes);
 			}
 		}
 		return changed;
 	}
 
-	private void storeUndoableStrokeSplit(List<GeoElement> geos, List<GeoElement> splitParts) {
-		StrokeSplitHelper splitHelper = new StrokeSplitHelper(geos, splitParts);
+	/**
+	 * Delete selected stroke parts by updating the original stroke directly.
+	 */
+	public void deletePartiallySelectedStrokes() {
+		boolean changed = false;
+		UpdateActionStore updateStore = new UpdateActionStore(selection,
+				kernel.getConstruction().getUndoManager());
+		for (GeoElement geo : new ArrayList<>(selection.getSelectedGeos())) {
+			if (!(geo instanceof GeoLocusStroke stroke)) {
+				continue;
+			}
+			DrawableND drawable = view.getDrawableFor(stroke);
+			if (drawable == null || drawable.getPartialHitClip() == null) {
+				continue;
+			}
+			ArrayList<MyPoint> originalPoints = new ArrayList<>();
+			for (MyPoint point : stroke.getPoints()) {
+				originalPoints.add(point.copy());
+			}
+			updateStore.addIfNotPresent(stroke, MoveMode.NONE);
+			boolean hasVisiblePart = stroke.deletePart(toRealWorldRectangle(
+					drawable.getPartialHitClip()));
+			changed = true;
+			if (hasVisiblePart) {
+				selection.removeSelectedGeo(stroke, true, false);
+			} else {
+				updateStore.remove(stroke);
+				stroke.clearPoints();
+				stroke.getPoints().addAll(originalPoints);
+				stroke.resetXMLPointBuilder();
+				stroke.updateCascade();
+			}
+		}
+		if (changed && !updateStore.isEmpty()) {
+			updateStore.setStitching(!selection.getSelectedGeos().isEmpty());
+			updateStore.storeUndo();
+		}
+	}
+
+	private GRectangle2D toRealWorldRectangle(GRectangle viewRectangle) {
+		GRectangle2D realRectangle = AwtFactory.getPrototype().newRectangle2D();
+		realRectangle.setRect(
+				view.toRealWorldCoordX(viewRectangle.getX()),
+				view.toRealWorldCoordY(viewRectangle.getY() + viewRectangle.getHeight()),
+				viewRectangle.getWidth() * view.getInvXscale(),
+				viewRectangle.getHeight() * view.getInvYscale()
+		);
+		return realRectangle;
+	}
+
+	private void storeUndoableStrokeSplit(List<String> initialStrokeLabels,
+			List<String> initialStateXML, List<GeoElement> splitParts) {
+		StrokeSplitHelper splitHelper = new StrokeSplitHelper(initialStrokeLabels,
+				initialStateXML, splitParts);
 		app.getUndoManager().buildAction(ActionType.SPLIT_STROKE, splitHelper.toSplitActionArray())
 				.withUndo(ActionType.MERGE_STROKE, splitHelper.toMergeActionArray())
 				.withStitchToNext()

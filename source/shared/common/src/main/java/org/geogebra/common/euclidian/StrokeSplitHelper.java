@@ -25,24 +25,22 @@ import org.geogebra.common.kernel.geos.GeoElement;
 
 public class StrokeSplitHelper extends StrokeHelper {
 
-	List<GeoElement> initialStrokes;
-
-	List<GeoElement> splitParts;
-
-	List<String> initialStateXML;
-
-	List<String> splitStrokesXML;
+	private final List<String> initialStrokeLabels;
+	private final List<GeoElement> splitParts;
+	private final List<String> initialStateXML;
+	private final List<String> splitStrokesXML;
 
 	/**
-	 * Creates a new helper data structure that stores the original stroke and the split
-	 * up parts.
-	 * @param initialStrokes parent stroke
-	 * @param splitParts children stroke created after selection
+	 * Creates a new helper data structure that stores the original stroke and the split up parts.
+	 * @param initialStrokeLabels labels of the parent strokes
+	 * @param initialStateXML XML of the parent strokes before splitting
+	 * @param splitParts children strokes created after selection
 	 */
-	public StrokeSplitHelper(List<GeoElement> initialStrokes, List<GeoElement> splitParts) {
-		this.initialStrokes = initialStrokes;
+	public StrokeSplitHelper(List<String> initialStrokeLabels, List<String> initialStateXML,
+			List<GeoElement> splitParts) {
+		this.initialStrokeLabels = initialStrokeLabels;
 		this.splitParts = splitParts;
-		initialStateXML = getStrokesXML(initialStrokes);
+		this.initialStateXML = initialStateXML;
 		splitStrokesXML = getStrokesXML(splitParts);
 	}
 
@@ -52,7 +50,7 @@ public class StrokeSplitHelper extends StrokeHelper {
 	 * @return array of XMLs
 	 */
 	public String[] toSplitActionArray() {
-		return Stream.concat(initialStrokes.stream().map(s -> DEL + s.getLabelSimple()),
+		return Stream.concat(initialStrokeLabels.stream().map(label -> DEL + label),
 				splitStrokesXML.stream()).toArray(String[]::new);
 	}
 

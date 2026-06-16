@@ -69,17 +69,21 @@ public class GeneralPathClipped {
 	private GRectangle2D oldBounds;
 	private final ClipAlgoSutherlandHodogman clipAlgoSutherlandHodogman;
 
+	public GeneralPathClipped(EuclidianViewInterfaceSlim view) {
+		this(view, GPathIterator.WIND_EVEN_ODD);
+	}
+
 	/**
 	 * Creates new clipped general path
 	 *
 	 * @param view
 	 *            view
 	 */
-	public GeneralPathClipped(EuclidianViewInterfaceSlim view) {
+	public GeneralPathClipped(EuclidianViewInterfaceSlim view, int rule) {
 		this.view = view;
 		unprocessedPathPoints = new ArrayList<>();
 		clipAlgoSutherlandHodogman = new ClipAlgoSutherlandHodogman();
-		gp = AwtFactory.getPrototype().newGeneralPath();
+		gp = AwtFactory.getPrototype().newGeneralPath(rule);
 	}
 
 	/**
@@ -198,6 +202,12 @@ public class GeneralPathClipped {
 			if (!Double.isNaN(cont1X) && !Double.isNaN(cont1Y)
 					&& !Double.isNaN(cont2X) && !Double.isNaN(cont2Y)) {
 				gp.curveTo(cont1X, cont1Y, cont2X, cont2Y, q.getX(), q.getY());
+				cont1X = Double.NaN;
+				cont1Y = Double.NaN;
+				cont2X = Double.NaN;
+				cont2Y = Double.NaN;
+			} else if (!Double.isNaN(cont1X) && !Double.isNaN(cont1Y)) {
+				gp.quadTo(cont1X, cont1Y, q.getX(), q.getY());
 				cont1X = Double.NaN;
 				cont1Y = Double.NaN;
 				cont2X = Double.NaN;

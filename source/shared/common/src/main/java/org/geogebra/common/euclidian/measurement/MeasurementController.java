@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -134,8 +133,8 @@ public final class MeasurementController {
 	 * @param previewPoints the existing preview points of penstroke.
 	 * @return whether transform happened
 	 */
-	public boolean applyTransformer(EuclidianView view, GPoint newPoint,
-			List<GPoint> previewPoints) {
+	public boolean applyTransformer(EuclidianView view, GPoint2D newPoint,
+			List<GPoint2D> previewPoints) {
 		PenTransformer transformer = getTransformer();
 		transformer.reset(view, previewPoints);
 		if (transformer.isActive() && previewPoints.size() > 1) {

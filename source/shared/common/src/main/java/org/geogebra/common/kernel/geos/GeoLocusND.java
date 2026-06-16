@@ -258,7 +258,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 			closestPointParameter = 1;
 		}
 
-		return locusPoint.barycenter(closestPointParameter, locusPoint2);
+		return locusPoint.barycenter(closestPointParameter, locusPoint2, SegmentType.MOVE_TO);
 	}
 
 	/**

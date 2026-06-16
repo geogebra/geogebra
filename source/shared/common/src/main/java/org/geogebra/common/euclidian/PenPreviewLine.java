@@ -21,7 +21,7 @@ import java.util.List;
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GPoint2D;
 
 /**
  * Utility for drawing pen preview as polyline in graphics.
@@ -38,7 +38,7 @@ public class PenPreviewLine {
 	 * @param graphics
 	 *            graphics
 	 */
-	protected void drawPolyline(List<GPoint> penPoints, GGraphics2D graphics) {
+	protected void drawPolyline(List<GPoint2D> penPoints, GGraphics2D graphics) {
 		GGeneralPath gp = AwtFactory.getPrototype().newGeneralPath();
 		gp.moveTo(penPoints.get(0).x, penPoints.get(0).y);
 		for (int i = 1; i < penPoints.size() - 1; i++) {

@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.MacroConstruction;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.algos.ChartStyle;
@@ -2406,6 +2407,9 @@ public class ConsElementXMLHandler {
 			case "startStyle":
 				handleSegmentStartStyle(attrs);
 				break;
+			case "strokeBezierCoords":
+				handleStrokeBezierCoords(attrs);
+				break;
 			case "strokeCoords":
 				handleStrokeCoords(attrs);
 				break;
@@ -2455,19 +2459,33 @@ public class ConsElementXMLHandler {
 				Log.error("unknown tag in <element>: " + eName);
 			}
 		}
+	}
 
+	private void handleStrokeBezierCoords(Map<String, String> attrs) {
+		String coords = attrs.get("val");
+		if (!StringUtil.empty(coords) && geo instanceof GeoLocusStroke stroke) {
+			stroke.setBezierCoords(StringUtil.parseDoubleArray(coords));
+		}
 	}
 
 	private void handleStrokeCoords(Map<String, String> attrs) {
 		String coords = attrs.get("val");
-		if (!StringUtil.empty(coords) && geo instanceof GeoLocusStroke) {
-			String[] coordsRaw = coords.split(",");
-			double[] coordValues = new double[coordsRaw.length];
-			for (int i = 0; i < coordsRaw.length; i++) {
-				coordValues[i] = Double.parseDouble(coordsRaw[i]);
+		if (!StringUtil.empty(coords) && geo instanceof GeoLocusStroke stroke) {
+			if (!stroke.getPoints().isEmpty()) {
+				return; // Already handled by handleStrokeBezierCoords
 			}
-			((GeoLocusStroke) geo).setDefined(true);
-			((GeoLocusStroke) geo).setCoords(coordValues);
+			stroke.setDefined(true);
+
+			double[] numCoords = StringUtil.parseDoubleArray(coords);
+			List<MyPoint> pathPoints = new ArrayList<>(numCoords.length / 2);
+			for (int i = 0; i < numCoords.length; i++) {
+				if (i < numCoords.length - 1) {
+					pathPoints.add(new MyPoint(numCoords[i],
+							numCoords[i + 1]));
+					i++;
+				}
+			}
+			stroke.appendVertexPointArray(pathPoints);
 		}
 	}
 

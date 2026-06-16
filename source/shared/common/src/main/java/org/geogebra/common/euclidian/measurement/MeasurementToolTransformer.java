@@ -18,7 +18,7 @@ package org.geogebra.common.euclidian.measurement;
 
 import java.util.List;
 
-import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -30,8 +30,8 @@ import org.geogebra.common.kernel.matrix.Coords;
  */
 public final class MeasurementToolTransformer implements PenTransformer {
 	private EuclidianView view;
-	private List<GPoint> previewPoints;
-	private GPoint initialProjection;
+	private List<GPoint2D> previewPoints;
+	private GPoint2D initialProjection;
 	private List<MeasurementToolEdge> edges;
 	private MeasurementToolEdge activeEdge;
 	private final MeasurementController measurementController;
@@ -64,7 +64,7 @@ public final class MeasurementToolTransformer implements PenTransformer {
 	 * Reset internal state after a preview point is added
 	 */
 	@Override
-	public void reset(EuclidianView view, List<GPoint> previewPoints) {
+	public void reset(EuclidianView view, List<GPoint2D> previewPoints) {
 		this.view = view;
 		this.previewPoints = previewPoints;
 		GeoImage toolImage = measurementController.getActiveToolImage();
@@ -80,7 +80,7 @@ public final class MeasurementToolTransformer implements PenTransformer {
 	 * @param newPoint newly added point
 	 */
 	@Override
-	public void updatePreview(GPoint newPoint) {
+	public void updatePreview(GPoint2D newPoint) {
 		if (activeEdge == null) {
 			return;
 		}
@@ -90,7 +90,7 @@ public final class MeasurementToolTransformer implements PenTransformer {
 				getProjection(newPoint, activeEdge));
 	}
 
-	private void updateInitialProjection(GPoint p) {
+	private void updateInitialProjection(GPoint2D p) {
 		activeEdge = null;
 		if (!onBottomEdge(p)) {
 			initialProjection = null;
@@ -99,7 +99,7 @@ public final class MeasurementToolTransformer implements PenTransformer {
 
 		double oldDistance = Double.MAX_VALUE;
 		for (MeasurementToolEdge edge: edges) {
-			GPoint projection = getProjection(p, edge);
+			GPoint2D projection = getProjection(p, edge);
 			double distance = p.distance(projection);
 			if (distance < oldDistance) {
 				initialProjection = projection;
@@ -109,7 +109,7 @@ public final class MeasurementToolTransformer implements PenTransformer {
 		}
 	}
 
-	private boolean onBottomEdge(GPoint bottom) {
+	private boolean onBottomEdge(GPoint2D bottom) {
 		GeoImage toolImage = measurementController.getActiveToolImage();
 		double x1 = view.toScreenCoordXd(toolImage.getStartPoint(0).getInhomX());
 		double x2 = view.toScreenCoordXd(toolImage.getStartPoint(1).getInhomX());
@@ -123,7 +123,7 @@ public final class MeasurementToolTransformer implements PenTransformer {
 	}
 
 	@SuppressWarnings("SuspiciousNameCombination")
-	private GPoint getProjection(GPoint p, MeasurementToolEdge edge) {
+	private GPoint2D getProjection(GPoint2D p, MeasurementToolEdge edge) {
 		GeoImage toolImage = measurementController.getActiveToolImage();
 		edge.update(toolImage);
 		GeoPoint corner1 = edge.getEndpoint2();
@@ -144,6 +144,6 @@ public final class MeasurementToolTransformer implements PenTransformer {
 				- xn * thickness;
 		double transformedY = view.toScreenCoordYd(intersect.getY() / intersect.getZ())
 				+ yn * thickness;
-		return new GPoint((int) Math.round(transformedX), (int) Math.round(transformedY));
+		return new GPoint2D(transformedX, transformedY);
 	}
 }

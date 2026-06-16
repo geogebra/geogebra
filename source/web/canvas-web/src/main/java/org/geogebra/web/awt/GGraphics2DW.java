@@ -42,6 +42,7 @@ import elemental2.dom.BaseRenderingContext2D;
 import elemental2.dom.CanvasPattern;
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DOMMatrix;
+import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLCanvasElement;
 import elemental2.dom.HTMLImageElement;
 import jsinterop.base.Js;
@@ -63,7 +64,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 	private double devicePixelRatio = 1;
 
 	private double[] coords = new double[6];
-	private boolean debug = false;
+	private boolean debug = DomGlobal.location.search.contains("GeoGebraDebug=graphics");
 	private boolean setFontFailed = false;
 
 	/**
@@ -693,6 +694,9 @@ public class GGraphics2DW implements GGraphics2DWI {
 			}
 		} else {
 			context.fill();
+		}
+		if (debug) {
+			debug(shape);
 		}
 	}
 
