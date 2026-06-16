@@ -16,6 +16,8 @@
 
 package org.geogebra.common.properties.impl.graphics;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -58,31 +60,53 @@ public class DimensionRatioProperty extends AbstractPropertyCollection<Property>
 
 		@Override
 		protected NumberValue getNumberValue() {
-			return new MyDouble(euclidianView.getKernel(),
-					axis == 0 ? euclidianView.getXscale() : euclidianView.getYscale());
+			double xscale = euclidianView.getXscale();
+			double yscale = euclidianView.getYscale();
+			double value = axis == 0
+					? (xscale >= yscale ? 1.0 : yscale / xscale)
+					: (xscale >= yscale ? xscale / yscale : 1.0);
+			return new MyDouble(euclidianView.getKernel(), value);
 		}
 
 		@Override
 		protected void setNumberValue(GeoNumberValue value) {
-			if (value == null) {
+			if (isInvalid(value)) {
 				return;
 			}
-			double xScale;
-			double yScale;
-			if (axis == 0) {
-				xScale = value.getDouble();
-				yScale = euclidianView.getYscale();
-			} else {
-				xScale = euclidianView.getXscale();
-				yScale = value.getDouble();
-			}
-			euclidianView.setCoordSystem(euclidianView.getXZero(), euclidianView.getYZero(),
-					xScale, yScale);
+			double v = value.getDouble();
+			double xscale = euclidianView.getXscale();
+			double yscale = euclidianView.getYscale();
+			double newYscale = axis == 0
+					? Math.min(xscale, yscale) * v
+					: Math.max(xscale, yscale) / v;
+			euclidianView.setCoordSystem(euclidianView.getXZero(),
+					euclidianView.getYZero(), xscale, newYscale);
 		}
 
 		@Override
 		public boolean isEnabled() {
 			return euclidianView.isZoomable() && !euclidianView.isLockedAxesRatio();
+		}
+
+		@Override
+		public @CheckForNull String validateValue(String value) {
+			String errorMessage = super.validateValue(value);
+			if (errorMessage != null) {
+				return errorMessage;
+			}
+			GeoNumberValue numeric = util.parseInputString(value);
+			if (isInvalid(numeric)) {
+				return getLocalization().getError("InvalidInput");
+			}
+			return null;
+		}
+
+		private boolean isInvalid(GeoNumberValue value) {
+			if (value == null) {
+				return true;
+			}
+			double v = value.getDouble();
+			return !Double.isFinite(v) || v <= 0;
 		}
 
 		@Override

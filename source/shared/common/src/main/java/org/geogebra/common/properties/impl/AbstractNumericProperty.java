@@ -31,7 +31,7 @@ import org.geogebra.common.properties.aliases.StringProperty;
 public abstract class AbstractNumericProperty extends AbstractValuedProperty<String>
 		implements StringProperty {
 
-	private final NumericPropertyUtil util;
+	protected final NumericPropertyUtil util;
 
 	/***/
 	public AbstractNumericProperty(AlgebraProcessor algebraProcessor, Localization localization,
