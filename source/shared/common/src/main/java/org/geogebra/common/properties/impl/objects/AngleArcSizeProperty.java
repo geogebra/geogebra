@@ -18,6 +18,7 @@ package org.geogebra.common.properties.impl.objects;
 
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.GProperty;
+import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.RangeProperty;
@@ -36,11 +37,13 @@ public class AngleArcSizeProperty extends AbstractValuedProperty<Integer>
 	public AngleArcSizeProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "Size");
-		if (element instanceof AngleProperties) {
-			geoElement = (AngleProperties) element;
-		} else {
+		if (element instanceof GeoAngle angle && angle.isSlider()) {
+			throw new NotApplicablePropertyException(element); // don't show for angle sliders
+		}
+		if (!(element instanceof AngleProperties)) {
 			throw new NotApplicablePropertyException(element);
 		}
+		geoElement = (AngleProperties) element;
 	}
 
 	@Override

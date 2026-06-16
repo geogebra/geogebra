@@ -34,7 +34,7 @@ public class AngleDecorationProperty extends AbstractEnumeratedProperty<Integer>
 		implements IconsEnumeratedProperty<Integer> {
 
 	private static List<Integer> values = List.of(GeoAngle.getDecoTypes());
-	private final GeoElement element;
+	private final AngleProperties element;
 
 	/**
 	 * @param localization localization
@@ -43,11 +43,14 @@ public class AngleDecorationProperty extends AbstractEnumeratedProperty<Integer>
 	public AngleDecorationProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "Decoration");
+		if (element instanceof GeoAngle angle && angle.isSlider()) {
+			throw new NotApplicablePropertyException(element); // don't show for angle sliders
+		}
 		if (!(element instanceof AngleProperties)) {
 			throw new NotApplicablePropertyException(element);
 		}
+		this.element = (AngleProperties) element;
 		setValues(values);
-		this.element = element;
 	}
 
 	@Override

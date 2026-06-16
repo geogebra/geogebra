@@ -35,6 +35,9 @@ public class EmphasizeRightAngleProperty extends AbstractValuedProperty<Boolean>
 	public EmphasizeRightAngleProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "EmphasizeRightAngle");
+		if (element instanceof GeoAngle angle && angle.isSlider()) {
+			throw new NotApplicablePropertyException(element); // don't show for angle sliders
+		}
 		if (!(element instanceof GeoAngle)) {
 			throw new NotApplicablePropertyException(element);
 		}
