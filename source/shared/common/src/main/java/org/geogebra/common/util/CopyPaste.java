@@ -218,16 +218,7 @@ public abstract class CopyPaste {
 					}
 				}
 			} else if (geo.isGeoList()) {
-				// TODO: note that there are a whole lot of other list algos
-				if (Algos.isUsedFor(Commands.Sequence, geo)
-						|| parentAlgorithm instanceof AlgoDependentList) {
-					GeoElement[] pgeos = parentAlgorithm.getInput();
-					if (pgeos.length > 1) {
-						if (!geos.contains(pgeos[0])) {
-							geos.add(pgeos[0]);
-						}
-					}
-				}
+				handleList(geo, parentAlgorithm, geos);
 			}
 
 			if (geo.isGeoPolyhedron()) {
@@ -329,6 +320,20 @@ public abstract class CopyPaste {
 					}
 				}
 
+			}
+		}
+	}
+
+	private static void handleList(GeoElement geo, AlgoElement parentAlgorithm,
+			ArrayList<ConstructionElement> geos) {
+		// TODO: note that there are a whole lot of other list algos
+		if (Algos.isUsedFor(Commands.Sequence, geo)
+				|| parentAlgorithm instanceof AlgoDependentList) {
+			GeoElement[] pgeos = parentAlgorithm.getInput();
+			if (pgeos.length > 1) {
+				if (!geos.contains(pgeos[0])) {
+					geos.add(pgeos[0]);
+				}
 			}
 		}
 	}

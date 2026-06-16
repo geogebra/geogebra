@@ -47,20 +47,7 @@ public class CaptionBuilder {
 				switch (ch) {
 				case 'c':
 					// (text value) of next cell to the right
-					String cText = "";
-					String label = geo.getLabelSimple();
-					if (label != null) {
-						SpreadsheetCoords p = GeoElementSpreadsheet
-								.getSpreadsheetCoordsSafe(label);
-						if (p.column > -1 && p.row > -1) {
-							String labelR1 = GeoElementSpreadsheet
-									.getSpreadsheetCellName(p.column + 1, p.row);
-							GeoElement geoR1 = kernel.lookupLabel(labelR1);
-							if (geoR1 != null) {
-								cText = geoR1.toValueString(tpl);
-							}
-						}
-					}
+					String cText = buildCellText(geo, tpl);
 					captionSB.append(cText);
 					break;
 				case 'f':
@@ -143,6 +130,24 @@ public class CaptionBuilder {
 		}
 
 		return captionSB.toString();
+	}
+
+	private static String buildCellText(GeoElement geo,StringTemplate tpl) {
+		String cText = "";
+		String label = geo.getLabelSimple();
+		if (label != null) {
+			SpreadsheetCoords p = GeoElementSpreadsheet
+					.getSpreadsheetCoordsSafe(label);
+			if (p.column > -1 && p.row > -1) {
+				String labelR1 = GeoElementSpreadsheet
+						.getSpreadsheetCellName(p.column + 1, p.row);
+				GeoElement geoR1 = geo.getKernel().lookupLabel(labelR1);
+				if (geoR1 != null) {
+					cText = geoR1.toValueString(tpl);
+				}
+			}
+		}
+		return cText;
 	}
 
 }

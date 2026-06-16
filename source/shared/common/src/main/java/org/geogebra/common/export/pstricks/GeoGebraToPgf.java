@@ -2166,104 +2166,84 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			AlgoElement algo = gp.getParentAlgorithm();
 
 			if (algo instanceof AlgoIntersectAbstract) {
-				double x1 = euclidianView.toScreenCoordXd(gp.getInhomX());
-				double y1 = euclidianView.toScreenCoordYd(gp.getInhomY());
-				double x2 = euclidianView.toScreenCoordXd(gp.getInhomX()) + 30;
-				double y2 = euclidianView.toScreenCoordYd(gp.getInhomY()) + 30;
-				x1 = euclidianView.toRealWorldCoordX(x1);
-				x2 = euclidianView.toRealWorldCoordX(x2);
-				y1 = euclidianView.toRealWorldCoordY(y1);
-				y2 = euclidianView.toRealWorldCoordY(y2);
-
-				StringBuilder s = new StringBuilder();
-				if (format == GeoGebraToPgf.FORMAT_LATEX) {
-					s.append("\\begin{scope}\n");
-				} else if (format == GeoGebraToPgf.FORMAT_CONTEXT) {
-					s.append("\\startscope\n");
-				} else if (format == GeoGebraToPgf.FORMAT_PLAIN_TEX) {
-					s.append("\\scope\n");
-				}
-				s.append("\\clip (");
-				s.append(format(x1));
-				s.append(",");
-				s.append(format(y1));
-				double r1 = Math.abs(x2 - x1);
-				double r2 = Math.abs(y2 - y1);
-				s.append(") ellipse (");
-				s.append(format(r1));
-				s.append("cm and ");
-				s.append(format(r2));
-				s.append("cm);\n");
-				// Latex format
-				String end = "\\end{scope}\n";
-				if (format == GeoGebraToPgf.FORMAT_CONTEXT) {
-					end = "\\stopscope\n";
-				} else if (format == GeoGebraToPgf.FORMAT_PLAIN_TEX) {
-					end = "\\endscope\n";
-				}
-				boolean fill1 = false;
-				GeoElement[] geos = algo.getInput();
-				boolean draw = !geos[0].isEuclidianVisible();
-				if (draw) {
-					fill1 = geos[0].isFillable()
-							&& geos[0].getAlphaValue() > 0.0f;
-					if (fill1) {
-						codeFilledObject.append(s);
-					} else {
-						code.append(s);
-					}
-					drawGeoElement(geos[0], false, true);
-				}
-				if (geos.length > 1 && !geos[1].isEuclidianVisible()) {
-					boolean fill2 = geos[1].isFillable()
-							&& (geos[1].getAlphaValue() > 0.0f);
-					if (draw) {
-						if (fill1 == fill2) {
-							drawGeoElement(geos[1], false, true);
-							if (fill1) {
-								codeFilledObject.append(end);
-							} else {
-								code.append(end);
-							}
-						} else {
-							if (fill1) {
-								codeFilledObject.append(end);
-							} else {
-								code.append(end);
-							}
-							if (fill2) {
-								codeFilledObject.append(s);
-							} else {
-								code.append(s);
-							}
-							drawGeoElement(geos[1], false, true);
-							if (fill2) {
-								codeFilledObject.append(end);
-							} else {
-								code.append(end);
-							}
-						}
-					} else {
-						if (fill2) {
-							codeFilledObject.append(s);
-						} else {
-							code.append(s);
-						}
-						drawGeoElement(geos[1], false, true);
-						if (fill2) {
-							codeFilledObject.append(end);
-						} else {
-							code.append(end);
-						}
-					}
-				} else if (draw) {
-					if (fill1) {
-						codeFilledObject.append(end);
-					} else {
-						code.append(end);
-					}
-				}
+				drawTrimmedParts(gp, algo);
 			}
+		}
+	}
+
+	private void drawTrimmedParts(GeoPointND gp, AlgoElement algo) {
+		double x1 = euclidianView.toScreenCoordXd(gp.getInhomX());
+		double y1 = euclidianView.toScreenCoordYd(gp.getInhomY());
+		double x2 = euclidianView.toScreenCoordXd(gp.getInhomX()) + 30;
+		double y2 = euclidianView.toScreenCoordYd(gp.getInhomY()) + 30;
+		x1 = euclidianView.toRealWorldCoordX(x1);
+		x2 = euclidianView.toRealWorldCoordX(x2);
+		y1 = euclidianView.toRealWorldCoordY(y1);
+		y2 = euclidianView.toRealWorldCoordY(y2);
+
+		StringBuilder s = new StringBuilder();
+		if (format == GeoGebraToPgf.FORMAT_LATEX) {
+			s.append("\\begin{scope}\n");
+		} else if (format == GeoGebraToPgf.FORMAT_CONTEXT) {
+			s.append("\\startscope\n");
+		} else if (format == GeoGebraToPgf.FORMAT_PLAIN_TEX) {
+			s.append("\\scope\n");
+		}
+		s.append("\\clip (");
+		s.append(format(x1));
+		s.append(",");
+		s.append(format(y1));
+		double r1 = Math.abs(x2 - x1);
+		double r2 = Math.abs(y2 - y1);
+		s.append(") ellipse (");
+		s.append(format(r1));
+		s.append("cm and ");
+		s.append(format(r2));
+		s.append("cm);\n");
+		// Latex format
+		String end = "\\end{scope}\n";
+		if (format == GeoGebraToPgf.FORMAT_CONTEXT) {
+			end = "\\stopscope\n";
+		} else if (format == GeoGebraToPgf.FORMAT_PLAIN_TEX) {
+			end = "\\endscope\n";
+		}
+		boolean fill1 = false;
+		GeoElement[] geos = algo.getInput();
+		boolean draw = !geos[0].isEuclidianVisible();
+		if (draw) {
+			fill1 = geos[0].isFillable()
+					&& geos[0].getAlphaValue() > 0.0f;
+			appendToBuilder(s, fill1);
+			drawGeoElement(geos[0], false, true);
+		}
+		if (geos.length > 1 && !geos[1].isEuclidianVisible()) {
+			boolean fill2 = geos[1].isFillable()
+					&& (geos[1].getAlphaValue() > 0.0f);
+			if (draw) {
+				if (fill1 == fill2) {
+					drawGeoElement(geos[1], false, true);
+					appendToBuilder(end, fill1);
+				} else {
+					appendToBuilder(end, fill1);
+					appendToBuilder(s, fill2);
+					drawGeoElement(geos[1], false, true);
+					appendToBuilder(end, fill2);
+				}
+			} else {
+				appendToBuilder(s, fill2);
+				drawGeoElement(geos[1], false, true);
+				appendToBuilder(end, fill2);
+			}
+		} else if (draw) {
+			appendToBuilder(end, fill1);
+		}
+	}
+
+	private void appendToBuilder(CharSequence sequence, boolean fill) {
+		if (fill) {
+			codeFilledObject.append(sequence);
+		} else {
+			code.append(sequence);
 		}
 	}
 

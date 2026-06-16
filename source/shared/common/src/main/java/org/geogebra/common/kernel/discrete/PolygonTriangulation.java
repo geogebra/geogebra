@@ -1772,13 +1772,7 @@ public class PolygonTriangulation {
 					if (pt.needsDiagonal) {
 						// error("diagonal to right :
 						// "+below+"<"+pt.name+"<"+above);
-						Point pt2;
-						if (below.rightPoint
-								.compareToOnly(above.rightPoint) < 0) {
-							pt2 = below.rightPoint;
-						} else {
-							pt2 = above.rightPoint;
-						}
+						Point pt2 = pickRightPoint(above, below);
 
 						Segment diagonal = new Segment(
 								Math.atan2(pt2.y - pt.y, pt2.x - pt.x), pt,
@@ -1989,6 +1983,15 @@ public class PolygonTriangulation {
 			triangulate(segStart, segment);
 		}
 
+	}
+
+	private Point pickRightPoint(Segment above, Segment below) {
+		if (below.rightPoint
+				.compareToOnly(above.rightPoint) < 0) {
+			return below.rightPoint;
+		} else {
+			return above.rightPoint;
+		}
 	}
 
 	static private boolean needsDiagonal(Segment seg1, Segment seg2) {

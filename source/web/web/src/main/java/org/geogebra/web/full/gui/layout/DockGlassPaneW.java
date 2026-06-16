@@ -254,8 +254,8 @@ public class DockGlassPaneW extends AbsolutePanel
 
 		int orientation = ((DockSplitPaneW) target.getParent()).getOrientation();
 
-		double leftPercent = relativeLeft * 1.0 / target.getOffsetWidth();
-		double topPercent = relativeTop * 1.0 / target.getOffsetHeight();
+		double leftPercent = relativeLeft * 1.0 / w;
+		double topPercent = relativeTop * 1.0 / h;
 		double maxDist = 0.35;
 
 		color = COLOR_DEFAULT;

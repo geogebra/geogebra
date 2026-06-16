@@ -443,17 +443,7 @@ public abstract class ClipperBase implements Clipper {
 				EStart = e.next;
 			}
 			if (EStart.outIdx != Edge.SKIP) {
-				if (equalsEdgeHorizontal(EStart.deltaX)) // ie an adjoining
-															// horizontal skip
-															// edge
-				{
-					if (EStart.getBot().getX() != e.getBot().getX()
-							&& EStart.getTop().getX() != e.getBot().getX()) {
-						e.reverseHorizontal();
-					}
-				} else if (EStart.getBot().getX() != e.getBot().getX()) {
-					e.reverseHorizontal();
-				}
+				checkReverseHorizontal(EStart, e);
 			}
 		}
 
@@ -527,6 +517,20 @@ public abstract class ClipperBase implements Clipper {
 			result = result.prev; // move to the edge just beyond current bound
 		}
 		return result;
+	}
+
+	private void checkReverseHorizontal(Edge EStart, Edge e) {
+		if (equalsEdgeHorizontal(EStart.deltaX)) // ie an adjoining
+		// horizontal skip
+		// edge
+		{
+			if (EStart.getBot().getX() != e.getBot().getX()
+					&& EStart.getTop().getX() != e.getBot().getX()) {
+				e.reverseHorizontal();
+			}
+		} else if (EStart.getBot().getX() != e.getBot().getX()) {
+			e.reverseHorizontal();
+		}
 	}
 
 	private static boolean equalsEdgeHorizontal(double d) {

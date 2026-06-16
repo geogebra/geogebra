@@ -1400,19 +1400,22 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 			Coords vn = geo.getMainDirection();
 			if (vn != null) {
-				if (view3D.hasMouse()) {
-					if (view3D.isXREnabled()) {
-						view3D.setRotAnimationAR(view3D.getCursorNormal());
-					} else {
-						view3D.setRotAnimation(view3D.getCursorNormal());
-					}
-				} else { // doesn't come from 3D view
-					view3D.setClosestRotAnimation(vn, true);
-				}
+				setRotAnimationForDirection(vn);
 			}
 		}
-
 		return false;
+	}
+
+	private void setRotAnimationForDirection(Coords vn) {
+		if (view3D.hasMouse()) {
+			if (view3D.isXREnabled()) {
+				view3D.setRotAnimationAR(view3D.getCursorNormal());
+			} else {
+				view3D.setRotAnimation(view3D.getCursorNormal());
+			}
+		} else { // doesn't come from 3D view
+			view3D.setClosestRotAnimation(vn, true);
+		}
 	}
 
 	/**
@@ -1470,23 +1473,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 
 		if (!hits.isEmpty()) { // hits may be empty at the end of using the tool
-
-			// we don't need to replace or de-select a polygon, since
-			// we'll open immediately a dialog
-			int basisAdded = selPolygons() + selConics();
-
-			if (basisAdded == 0) { // if no basis for now, try to add polygon
-				basisAdded += addSelectedPolygon(hits, 1, false, selPreview);
-				if (basisAdded == 0) { // try to add conic
-					basisAdded += addSelectedConic(hits, 1, false, selPreview);
-					if (basisAdded == 0) { // if polygon/conic has been added,
-											// the height
-						// will be entered through dialog manager
-						addSelectedNumberValue(hits, 1, false, selPreview);
-					}
-				}
-			}
-
+			addExtrudableElements(hits, selPreview);
 		}
 
 		if (selNumberValues() == 1) {
@@ -1518,6 +1505,24 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 
 		return null;
+	}
+
+	private void addExtrudableElements(Hits hits, boolean selPreview) {
+		// we don't need to replace or de-select a polygon, since
+		// we'll open immediately a dialog
+		int basisAdded = selPolygons() + selConics();
+
+		if (basisAdded == 0) { // if no basis for now, try to add polygon
+			basisAdded += addSelectedPolygon(hits, 1, false, selPreview);
+			if (basisAdded == 0) { // try to add conic
+				basisAdded += addSelectedConic(hits, 1, false, selPreview);
+				if (basisAdded == 0) { // if polygon/conic has been added,
+					// the height
+					// will be entered through dialog manager
+					addSelectedNumberValue(hits, 1, false, selPreview);
+				}
+			}
+		}
 	}
 
 	final protected GeoElement[] surfaceOfRevolution(Hits hits,
