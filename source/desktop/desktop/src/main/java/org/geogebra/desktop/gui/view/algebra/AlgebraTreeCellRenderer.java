@@ -59,6 +59,7 @@ public class AlgebraTreeCellRenderer extends DefaultTreeCellRenderer {
 	 */
 	public AlgebraTreeCellRenderer(AppD app, AlgebraTree view) {
 		setOpaque(true);
+		setBackgroundSelectionColor(Color.white);
 		this.app = app;
 		this.kernel = app.getKernel();
 		update();
