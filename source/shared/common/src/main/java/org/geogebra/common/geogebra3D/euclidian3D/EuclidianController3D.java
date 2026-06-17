@@ -1577,19 +1577,15 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (pyramidBasis == null) { // try to find/create a polygon
 			if (selPolygons() == 0) { // try to create a polygon
 				// if the first point is clicked again, we create a polygon
-				if (selPoints() > 2) {
-					// check if first point was clicked again
-					boolean finished = !selPreview
-							&& hits.contains(getSelectedPointList().get(0));
-					if (finished) {
-						// store basis
-						((DrawPolyhedron3D) view3D.getPreviewDrawable())
-								.previewBasisIsFinished();
-						pyramidBasis = getSelectedPointsND();
-						// cancel last switch of point move mode
-						cancelSwitchPointMoveModeIfNeeded();
-						return null;
-					}
+				if (!selPreview && selPoints() > 2
+						&& hits.contains(getSelectedPointList().get(0))) {
+					// store basis
+					((DrawPolyhedron3D) view3D.getPreviewDrawable())
+							.previewBasisIsFinished();
+					pyramidBasis = getSelectedPointsND();
+					// cancel last switch of point move mode
+					cancelSwitchPointMoveModeIfNeeded();
+					return null;
 				}
 
 				if (addSelectedPoint(hits, GeoPolygon.POLYGON_MAX_POINTS, false,
@@ -3906,14 +3902,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 				ArrayList<GeoElement> ret = new ArrayList<>();
 
 				for (GeoElement geo : geos) {
-					if (geo != mirror) {
-						if (geo instanceof Transformable) {
-							ret.addAll(Arrays.asList(kernel.getManager3D()
-									.mirror3D(null, geo, plane)));
-						} else if (geo.isGeoPolygon()) {
-							ret.addAll(Arrays.asList(kernel.getManager3D()
-									.mirror3D(null, geo, plane)));
-						}
+					if (geo != mirror && (geo instanceof Transformable || geo.isGeoPolygon())) {
+						ret.addAll(Arrays.asList(kernel.getManager3D()
+								.mirror3D(null, geo, plane)));
 					}
 				}
 

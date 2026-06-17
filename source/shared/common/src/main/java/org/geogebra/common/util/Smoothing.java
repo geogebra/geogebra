@@ -34,12 +34,12 @@ public class Smoothing {
 		return getStrokeOutlinePoints(getStrokePoints(toTransform));
 	}
 
-	private static class StrokePoint {
+	private final static class StrokePoint {
 		final GPoint2D point;
 		GPoint2D dirVector;
 		final double runningLength;
 
-		public StrokePoint(GPoint2D point, GPoint2D direction, double length) {
+		private StrokePoint(GPoint2D point, GPoint2D direction, double length) {
 			this.point = point;
 			this.dirVector = direction;
 			this.runningLength = length;
@@ -154,15 +154,14 @@ public class Smoothing {
 		boolean isPrevPointSharpCorner = false;
 
 		for (int i = 0; i < points.size(); i++) {
-			GPoint2D point = points.get(i).point;
-			GPoint2D vector = points.get(i).dirVector;
 			double runningLength = points.get(i).runningLength;
 
 			// Removes noise from the end of the line
 			if (i < points.size() - 1 && totalLength - runningLength < 3 / SCALE) {
 				continue;
 			}
-
+			GPoint2D point = points.get(i).point;
+			GPoint2D vector = points.get(i).dirVector;
 			GPoint2D nextVector = points.get(i < points.size() - 1 ? i + 1 : i).dirVector;
 			double nextDpr = i < points.size() - 1 ? dpr(vector, nextVector) : 1.0;
 			double prevDpr = dpr(vector, prevVector);
@@ -175,8 +174,8 @@ public class Smoothing {
 				leftPts.add(tl);
 				pl = tl;
 				if (isNextPointSharpCorner) {
-						leftPts.add(points.get(i).point);
-						leftPts.add(points.get(i).point);
+					leftPts.add(point);
+					leftPts.add(point);
 					isPrevPointSharpCorner = true;
 				} else {
 					leftPts.add(tl);

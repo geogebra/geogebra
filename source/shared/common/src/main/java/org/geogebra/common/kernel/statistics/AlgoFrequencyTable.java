@@ -359,32 +359,7 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 
 				strHeader = new String[2];
 				strHeader[0] = getLoc().getMenu("Value");
-				if (useDens) {
-					if (scale != null) {
-						double scaleValue = scale.getDouble();
-						if (DoubleUtil.isEqual(scaleValue, 1.0)) {
-							strHeader[1] = getLoc()
-									.getMenuDefault("FrequencyTable.Count",
-											"Frequency");
-						} else if (DoubleUtil.isEqual(scaleValue * dataList.size(),
-								1)) {
-							strHeader[1] = getLoc().getMenuDefault(
-									"FrequencyTable.RelativeFrequency",
-									"Relative Frequency");
-						} else {
-							strHeader[1] = getLoc()
-									.getMenuDefault("FrequencyTable.Frequency",
-											"Frequency");
-						}
-					} else {
-						strHeader[1] = getLoc()
-								.getMenuDefault("FrequencyTable.Frequency",
-										"Frequency");
-					}
-				} else {
-					strHeader[1] = getLoc().getMenuDefault(
-							"FrequencyTable.Count", "Frequency");
-				}
+				updateHeader(useDens);
 
 				strValue = new String[length];
 				strFrequency = new String[length];
@@ -430,6 +405,35 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		}
 
 		table.setTextString(sb.toString());
+	}
+
+	private void updateHeader(boolean useDens) {
+		if (useDens) {
+			if (scale != null) {
+				double scaleValue = scale.getDouble();
+				if (DoubleUtil.isEqual(scaleValue, 1.0)) {
+					strHeader[1] = getLoc()
+							.getMenuDefault("FrequencyTable.Count",
+									"Frequency");
+				} else if (DoubleUtil.isEqual(scaleValue * dataList.size(),
+						1)) {
+					strHeader[1] = getLoc().getMenuDefault(
+							"FrequencyTable.RelativeFrequency",
+							"Relative Frequency");
+				} else {
+					strHeader[1] = getLoc()
+							.getMenuDefault("FrequencyTable.Frequency",
+									"Frequency");
+				}
+			} else {
+				strHeader[1] = getLoc()
+						.getMenuDefault("FrequencyTable.Frequency",
+								"Frequency");
+			}
+		} else {
+			strHeader[1] = getLoc().getMenuDefault(
+					"FrequencyTable.Count", "Frequency");
+		}
 	}
 
 	private void createLaTeXTable(boolean useClassList) {

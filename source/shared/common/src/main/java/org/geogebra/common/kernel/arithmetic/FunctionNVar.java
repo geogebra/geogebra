@@ -1091,26 +1091,13 @@ public class FunctionNVar extends ValidExpression
 			// is there a constant number to the right?
 			if (right instanceof MyDouble && right.isConstant()) {
 				MyDouble num = (MyDouble) right;
-				double temp;
 				switch (en.getOperation()) {
 				case MULTIPLY:
-					temp = num.getDouble() / vx;
-					if (DoubleUtil.isEqual(1, temp)) {
-						expression = expression.replace(en, fVars[varNo])
-								.wrap();
-					} else {
-						num.set(temp);
-					}
+					replaceCoefficient(num, num.getDouble() / vx, en, varNo);
 					return;
 
 				case DIVIDE:
-					temp = num.getDouble() * vx;
-					if (DoubleUtil.isEqual(1, temp)) {
-						expression = expression.replace(en, fVars[varNo])
-								.wrap();
-					} else {
-						num.set(temp);
-					}
+					replaceCoefficient(num, num.getDouble() * vx, en, varNo);
 					return;
 
 				default:
@@ -1128,15 +1115,8 @@ public class FunctionNVar extends ValidExpression
 			// is there a constant number to the left?
 			if (left instanceof MyDouble && left.isConstant()) {
 				MyDouble num = (MyDouble) left;
-				double temp;
 				if (en.isOperation(Operation.MULTIPLY)) {
-					temp = num.getDouble() / vx;
-					if (DoubleUtil.isEqual(1, temp)) {
-						expression = expression.replace(en, fVars[varNo])
-								.wrap();
-					} else {
-						num.set(temp);
-					}
+					replaceCoefficient(num, num.getDouble() / vx, en, varNo);
 				} else {
 					en.setRight(multXnode(vx, varNo));
 				}
@@ -1145,6 +1125,14 @@ public class FunctionNVar extends ValidExpression
 			}
 		} else {
 			dilateExpressionX(right, vx, varNo);
+		}
+	}
+
+	private void replaceCoefficient(MyDouble num, double temp, ExpressionNode en, int varNo) {
+		if (DoubleUtil.isEqual(1, temp)) {
+			expression = expression.replace(en, fVars[varNo]).wrap();
+		} else {
+			num.set(temp);
 		}
 	}
 

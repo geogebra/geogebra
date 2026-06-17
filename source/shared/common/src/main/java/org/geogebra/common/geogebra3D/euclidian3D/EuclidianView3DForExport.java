@@ -194,36 +194,10 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 		if (format.needsScale()) {
 			if (updateObjectsBounds(true, true, true)) {
 				useSpecificThickness = true;
-				double thickness = THICKNESS_FOR_PRINT_LINES;
-				GeoElement thicknessGeo = getKernel()
-						.lookupLabel(THICKNESS_GEO_NAME);
-				if (thicknessGeo != null && thicknessGeo.isNumberValue()) {
-					double t = ((NumberValue) thicknessGeo).getDouble() / 2;
-					if (t > 0) {
-						thickness = t;
-					}
-				}
-				double scale = -1;
-				GeoElement scaleGeo = getKernel().lookupLabel(SCALE_GEO_NAME);
-				if (scaleGeo != null && scaleGeo.isNumberValue()) {
-					// 1unit = 10mm
-					scale = ((NumberValue) scaleGeo).getDouble() * 10;
-				}
+
 				double[] dimensions = new double[3];
-				for (int i = 0; i < 3; i++) {
-					dimensions[i] = (boundsMax.get(i + 1)
-							- boundsMin.get(i + 1))
-							* getScale(i) / getXscale();
-				}
-				if (scale < 0) {
-					double d = dimensions[0];
-					for (int i = 1; i < 3; i++) {
-						if (d < dimensions[i]) {
-							d = dimensions[i];
-						}
-					}
-					scale = EDGE_FOR_PRINT / d;
-				}
+				double thickness = computeThickness();
+				double scale = computeScale(dimensions);
 
 				if (dialog != null) {
 					dialog.show(dimensions[0] * scale, dimensions[1] * scale,
@@ -251,6 +225,43 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 		ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(this,
 				renderer.getGeometryManager());
 		return exportToPrinter.export(format);
+	}
+
+	private double computeScale(double[] dimensions) {
+		double scale = -1;
+		GeoElement scaleGeo = getKernel().lookupLabel(SCALE_GEO_NAME);
+		if (scaleGeo != null && scaleGeo.isNumberValue()) {
+			// 1unit = 10mm
+			scale = ((NumberValue) scaleGeo).getDouble() * 10;
+		}
+		for (int i = 0; i < 3; i++) {
+			dimensions[i] = (boundsMax.get(i + 1)
+					- boundsMin.get(i + 1))
+					* getScale(i) / getXscale();
+		}
+		if (scale < 0) {
+			double d = dimensions[0];
+			for (int i = 1; i < 3; i++) {
+				if (d < dimensions[i]) {
+					d = dimensions[i];
+				}
+			}
+			scale = EDGE_FOR_PRINT / d;
+		}
+		return scale;
+	}
+
+	private double computeThickness() {
+		double thickness = THICKNESS_FOR_PRINT_LINES;
+		GeoElement thicknessGeo = getKernel()
+				.lookupLabel(THICKNESS_GEO_NAME);
+		if (thicknessGeo != null && thicknessGeo.isNumberValue()) {
+			double t = ((NumberValue) thicknessGeo).getDouble() / 2;
+			if (t > 0) {
+				thickness = t;
+			}
+		}
+		return thickness;
 	}
 
 	/**
