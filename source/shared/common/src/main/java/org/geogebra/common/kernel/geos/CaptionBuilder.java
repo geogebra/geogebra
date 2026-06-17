@@ -123,7 +123,7 @@ public class CaptionBuilder {
 			}
 		}
 
-		if (captionSB.length() == 0) {
+		if (captionSB.isEmpty()) {
 			// can't return empty string
 			// eg if %c used when not a spreadsheet cell
 			return geo.getLabel(tpl);
@@ -132,7 +132,7 @@ public class CaptionBuilder {
 		return captionSB.toString();
 	}
 
-	private static String buildCellText(GeoElement geo,StringTemplate tpl) {
+	private static String buildCellText(GeoElement geo, StringTemplate tpl) {
 		String cText = "";
 		String label = geo.getLabelSimple();
 		if (label != null) {
