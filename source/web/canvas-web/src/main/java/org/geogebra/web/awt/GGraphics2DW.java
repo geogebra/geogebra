@@ -78,6 +78,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 		if (context != null) { // check for 3D view
 			this.context.initTransform();
 		}
+		updateCanvasColor();
 		preventContextMenu(canvas.getElement());
 	}
 
