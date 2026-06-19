@@ -28,6 +28,7 @@ import org.geogebra.common.properties.impl.objects.ImageOpacityProperty;
 import org.geogebra.common.properties.impl.objects.NameCaptionProperty;
 import org.geogebra.common.properties.impl.objects.NotesColorWithOpacityProperty;
 import org.geogebra.common.properties.impl.objects.OldObjectColorProperty;
+import org.geogebra.common.properties.impl.objects.StyledNamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.TextBackgroundColorProperty;
 import org.geogebra.common.properties.impl.objects.TextColorProperty;
 import org.geogebra.web.full.css.GuiResources;
@@ -37,6 +38,7 @@ import org.geogebra.web.full.euclidian.quickstylebar.SpecialSymbolProperty;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
+import org.geogebra.web.html5.main.toolbox.TextIconSpec;
 import org.geogebra.web.resources.SVGResource;
 
 public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
@@ -229,6 +231,8 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 				return matchIconWithResource(PropertyResource.ICON_BORDER_THIN);
 			} else if (firstProperty instanceof NameCaptionProperty) {
 				return new ImageIconSpec(ToolbarSvgResourcesSync.INSTANCE.mode_showhidelabel_32());
+			} else if (property instanceof StyledNamedEnumeratedPropertyListFacade fontProperty) {
+				return new TextIconSpec(fontProperty.getSelectedFontDisplayName());
 			}
 		}
 

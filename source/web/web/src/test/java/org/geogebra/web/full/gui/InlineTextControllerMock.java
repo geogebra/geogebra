@@ -88,6 +88,11 @@ public class InlineTextControllerMock implements InlineTextController {
 	}
 
 	@Override
+	public boolean hasIndeterminableFont() {
+		return false;
+	}
+
+	@Override
 	public void updateContent() {
 
 	}

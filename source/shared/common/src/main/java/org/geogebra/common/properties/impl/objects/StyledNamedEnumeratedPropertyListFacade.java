@@ -36,4 +36,16 @@ public class StyledNamedEnumeratedPropertyListFacade
 	public Map<Integer, FontProperty.FontFamily> getFontFamilies() {
 		return getFirstProperty().getFontFamilies();
 	}
+
+	/**
+	 * @return The selected font display name. If a selection contains more than one font,
+	 * or multiple text elements with different fonts selected, returns an empty string.
+	 */
+	public String getSelectedFontDisplayName() {
+		if (getIndex() == -1 || getFirstProperty().hasIndeterminableFont()) {
+			return "";
+		}
+		FontProperty.FontFamily value = getValue();
+		return value == null ? "" : value.displayName();
+	}
 }

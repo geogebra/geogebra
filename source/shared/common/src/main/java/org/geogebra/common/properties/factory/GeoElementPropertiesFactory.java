@@ -77,6 +77,7 @@ import org.geogebra.common.properties.impl.objects.FillingStyleProperty;
 import org.geogebra.common.properties.impl.objects.FixCheckboxProperty;
 import org.geogebra.common.properties.impl.objects.FixObjectProperty;
 import org.geogebra.common.properties.impl.objects.FixSliderObjectProperty;
+import org.geogebra.common.properties.impl.objects.FontProperty;
 import org.geogebra.common.properties.impl.objects.FontRulingColorProperty;
 import org.geogebra.common.properties.impl.objects.FontRulingProperty;
 import org.geogebra.common.properties.impl.objects.FontSizeProperty;
@@ -120,6 +121,7 @@ import org.geogebra.common.properties.impl.objects.SliderIntervalProperty;
 import org.geogebra.common.properties.impl.objects.SliderTrackPropertyCollection;
 import org.geogebra.common.properties.impl.objects.SlopeSizeProperty;
 import org.geogebra.common.properties.impl.objects.StylePropertyCollection;
+import org.geogebra.common.properties.impl.objects.StyledNamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.TextBackgroundColorProperty;
 import org.geogebra.common.properties.impl.objects.TextColorProperty;
 import org.geogebra.common.properties.impl.objects.TextStylePropertyCollection;
@@ -641,7 +643,20 @@ public final class GeoElementPropertiesFactory {
 	}
 
 	/**
-	 * Creates a font color property for inline object and text
+	 * Creates a font property for inline objects and text.
+	 * @param localization localization
+	 * @param elements elements
+	 * @return font property
+	 */
+	public StyledNamedEnumeratedPropertyListFacade createFontProperty(Localization localization,
+			List<GeoElement> elements) {
+		return createOptionalPropertyFacade(elements,
+				element -> new FontProperty(localization, element),
+				StyledNamedEnumeratedPropertyListFacade::new);
+	}
+
+	/**
+	 * Creates a font color property for inline objects and text
 	 * @param localization localization
 	 * @param elements elements
 	 * @return color property

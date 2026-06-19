@@ -225,6 +225,11 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	@Override
+	public boolean hasIndeterminableFont() {
+		return tableImpl.getFormatting("font", "").isEmpty();
+	}
+
+	@Override
 	public <T> T getFormat(String key, T fallback) {
 		return tableImpl.getFormatting(key, fallback);
 	}

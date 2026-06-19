@@ -40,6 +40,12 @@ public interface HasTextFormat {
 	void formatFont(String val);
 
 	/**
+	 * @return Whether the font cannot be determined. This is the case if a selection contains
+	 * more than one font.
+	 */
+	boolean hasIndeterminableFont();
+
+	/**
 	 * @param key formatting option name
 	 * @param fallback fallback when not set / indeterminate
 	 * @param <T> option type

@@ -161,4 +161,13 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 		}
 		return fontFamilies;
 	}
+
+	/**
+	 * @return Whether the font cannot be determined. This is the case if a selection contains
+	 * more than one font.
+	 */
+	public boolean hasIndeterminableFont() {
+		HasTextFormat formatter = geoElement.getFormatter();
+		return formatter != null && formatter.hasIndeterminableFont();
+	}
 }

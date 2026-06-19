@@ -134,7 +134,7 @@ public class PropertyWidgetAdapter {
 				appW.closePopups();
 					});
 			if (selectedFontIdx == finalI) {
-				item.addStyleName("selectedItem");
+				item.addStyleName("selectedValue");
 			}
 			fontSizeMenu.addItem(item);
 		}

@@ -334,6 +334,11 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	@Override
+	public boolean hasIndeterminableFont() {
+		return editor.getFormat("font", "").isEmpty();
+	}
+
+	@Override
 	public void saveContent() {
 		geo.setContent(editor.getContent());
 	}

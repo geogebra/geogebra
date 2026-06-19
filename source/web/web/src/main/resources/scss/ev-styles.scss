@@ -90,6 +90,51 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			}
 
 		}
+
+		.iconButton.fontButton {
+			box-sizing: border-box;
+			width: 72px;
+			height: 36px;
+			padding: 0 8px;
+			border: none;
+			border-radius: 8px;
+			background-color: transparent;
+			text-align: left;
+
+			.textIcon {
+				display: block;
+				width: 100%;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				line-height: 32px;
+				font-size: 16px;
+				color: neutral(900);
+			}
+
+			&:hover,
+			&.focus {
+				background-color: neutral(200);
+			}
+
+			&.active {
+				background-color: neutral(300);
+			}
+
+			&:focus-visible {
+				background-color: purple(100);
+			}
+		}
+	}
+
+	.gwt-PopupPanel.contextSubMenu.fontPopup {
+		.listMenuItem.selectedItem {
+			background-color: neutral(200);
+		}
+
+		.listMenuItem.selectedValue {
+			background-color: neutral(300);
+		}
 	}
 
 	/* text size popup */

@@ -39,7 +39,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.contextmenu.FontSubMenu;
 import org.geogebra.web.full.gui.dialog.HyperlinkDialog;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.EmbedManagerW;
@@ -123,7 +122,6 @@ public class InlineFormattingItems {
 		}
 
 		addToolbar();
-		addFontSubmenu();
 		addHyperlinkItems();
 		addTextWrappingItem();
 		addTextRotationItem();
@@ -318,14 +316,6 @@ public class InlineFormattingItems {
 			AriaMenuItem toolbar = factory.newInlineTextToolbar(inlines, app);
 			menu.addItem(toolbar, false);
 		}
-	}
-
-	private void addFontSubmenu() {
-		AriaMenuItem item = factory.newAriaMenuItem(loc.getMenu("ContextMenu.Font"),
-				null,
-				new FontSubMenu((AppW) app, inlines));
-		item.addStyleName("no-image");
-		menu.addItem(item);
 	}
 
 	private void addItem(String text, Command command) {
