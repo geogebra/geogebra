@@ -1021,9 +1021,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	public ExpressionValue handleFunction(ExpressionValue lt,
 			ExpressionValue rt, ExpressionValue left) {
 		// function(number)
-		if (rt instanceof NumberValue) {
+		if (rt instanceof NumberValue arg) {
 			if (lt instanceof Evaluatable) {
-				NumberValue arg = (NumberValue) rt;
 				if ((lt instanceof GeoFunction)
 						&& ((GeoFunction) lt).isGeoFunctionBoolean()) {
 					return new MyBoolean(kernel, ((GeoFunction) lt)
@@ -1051,28 +1050,28 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return geo;
 			} else if (left instanceof GeoCasCell
 					&& ((GeoCasCell) left).getTwinGeo() instanceof GeoLine) {
-				return ((NumberValue) rt).getNumber()
+				return arg.getNumber()
 						.apply((Evaluatable) ((GeoCasCell) left).getTwinGeo());
 			} else {
 				Log.debug(lt);
 			}
-		} else if (rt instanceof VectorNDValue) {
-			if (lt instanceof Evaluatable) {
-				VectorNDValue pt = (VectorNDValue) rt;
-				if (lt instanceof GeoFunction) {
-					Function fun = ((GeoFunction) lt).getFunction();
-					if (pt.getToStringMode() == Kernel.COORD_COMPLEX
-							&& rt instanceof VectorValue) {
-						return fun.evalComplex(((VectorValue) rt).getVector());
-					}
-					return evaluateFunctionNvar(fun, pt, lt);
-				} else if (lt instanceof GeoFunctionable) {
-					// eg GeoLine
-					return evaluateFunctionNvar(((GeoFunctionable) lt)
-							.getFunction(), pt, lt);
-				} else {
-					Log.warn("missing case in ExpressionNodeEvaluator");
+		} else if (rt instanceof VectorNDValue pt && lt instanceof Evaluatable) {
+			if (lt instanceof GeoFunction) {
+				Function fun = ((GeoFunction) lt).getFunction();
+				if (fun == null) {
+					return new MyDouble(kernel, Double.NaN);
 				}
+				if (pt.getToStringMode() == Kernel.COORD_COMPLEX
+						&& rt instanceof VectorValue) {
+					return fun.evalComplex(((VectorValue) rt).getVector());
+				}
+				return evaluateFunctionNvar(fun, pt, lt);
+			} else if (lt instanceof GeoFunctionable) {
+				// eg GeoLine
+				return evaluateFunctionNvar(((GeoFunctionable) lt)
+						.getFunction(), pt, lt);
+			} else {
+				Log.warn("missing case in ExpressionNodeEvaluator");
 			}
 		}
 		throw new MyError(loc, Errors.IllegalArgument, MyError.toErrorString(rt));
