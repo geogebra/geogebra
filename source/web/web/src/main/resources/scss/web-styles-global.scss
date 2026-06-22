@@ -47,16 +47,6 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	background-position: center right;
 }
 
-body.application[dir=rtl] .dialogContent .gwt-CheckBox {
-	margin-right: 0;
-	margin-left: 10px;
-}
-
-body.application[dir=rtl] .Dialog-messagePanel img {
-	margin-left: 10px;
-	margin-right: 0;
-}
-
 body.application[dir=rtl] .dialogContent .sliderIntervalPanel div,
 body.application[dir=rtl] .dialogContent .sliderWidthPanel div {
 	margin-right: 0;
@@ -138,10 +128,6 @@ body.application[dir=rtl] .AutoCompleteTextFieldW .SymbolToggleButton {
 	width: 6px;
 	height: 6px;
 	overflow: hidden;
-}
-
-* html .gwt-TreeItem .gwt-RadioButton input, * html .gwt-TreeItem .gwt-CheckBox input {
-	margin-left: -4px;
 }
 
 /*

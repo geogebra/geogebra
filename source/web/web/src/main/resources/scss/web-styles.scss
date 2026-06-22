@@ -173,32 +173,6 @@
 		float: right;
 	}
 
-	.textButton {
-		color: #6161FF;
-		cursor: pointer;
-	}
-
-	.textButton:hover {
-		text-decoration: underline;
-	}
-
-	.gwt-DisclosurePanel {
-		margin-top: 5px;
-	}
-
-	.gwt-DisclosurePanel .header, .gwt-DisclosurePanel .header a,
-	.gwt-DisclosurePanel .header td {
-		text-decoration: none; /* Remove underline from header */
-		cursor: pointer;
-		color: #666666;
-	}
-
-	.gwt-DisclosurePanel .content {
-		border-left: 3px solid #e7e7e7;
-		padding: 4px 0 4px 8px;
-		margin-left: 6px;
-	}
-
 	.gwt-Frame {
 		border-top: 2px solid #666;
 		border-left: 2px solid #666;
@@ -461,7 +435,7 @@
 		cursor: pointer;
 	}
 
-	.gwt-TreeItem .gwt-RadioButton input, .gwt-TreeItem .gwt-CheckBox input {
+	.gwt-TreeItem .gwt-RadioButton input {
 		margin-left: 0;
 	}
 
@@ -1575,71 +1549,6 @@
 
 	/* OBJECT PROPERTIES */
 
-	.settingsBtn {
-		min-width: 160px;
-	}
-
-	.panelTitle {
-		margin-bottom: 8px;
-		margin-top: 16px;
-		padding-bottom: 0px;
-		display: block;
-		color: colors.$black;
-		font-size: 95%;
-		opacity: 0.7;
-		border-bottom: 1px solid colors.$tool-border;
-	}
-
-	.panelRow, .panelRowIndent, .panelIndent, .listBoxPanel, .optionsInput, .optionsPanel,
-	.optionsPanel .optionsPanelIndent {
-		display: block;
-	}
-
-	.panelIndent, .panelRowIndent, .optionsPanelIndent {
-		padding-left: 25px;
-	}
-
-	.optionsInput, .optionsPanel, .textPropertiesTab > * {
-		margin-bottom: 10px;
-	}
-
-	.panelRow > *, .listBoxPanel > *, .panelRowIndent > *, .panelRowCell > *,
-	.panelRowCell > *, .optionsPanel > *, .optionsPanelIndent > *, .optionsPanelCell > *,
-	.textOptionsToolBar > *, .BackgroundColorPanel > * {
-		display: inline-block;
-		vertical-align: middle;
-		margin: 3px 10px 3px 0;
-	}
-
-	.optionsInput > *, .CustomColorPreview > * {
-		display: block;
-		margin: 3px 0 3px 0;
-	}
-
-	.panelRowCell {
-		white-space: nowrap;
-		margin-right: 20px;
-	}
-
-	.optionsPanelCell {
-		display: block;
-	}
-
-	.optionsPanelCell .gwt-Label {
-		min-width: 100px;
-	}
-
-	.optionsInput table {
-		display: inline-table;
-		button {
-				display: none;
-			}
-	}
-
-	.textOptionsToolBar {
-		display: inline-block;
-	}
-
 	.colorChooserPreview, .optionsSlider {
 		display: table-row;
 		margin-top: 5px;
@@ -1655,14 +1564,6 @@
 		padding: 3px;
 		border-radius: 5px;
 		border: 1px solid #DCDCDC;
-	}
-
-	.gwt-PopupPanel .panelTitle {
-		padding: 5px 10px 10px 10px;
-	}
-
-	.textOptionsToolBar .gwt-ToggleButton {
-		display: inline-block;
 	}
 
 	.colorComponent {
@@ -1712,21 +1613,6 @@
 	.scriptArea {
 		height: 300px;
 		width: 100%;
-	}
-
-	.scriptTabPanel {
-		width: 100%;
-	}
-
-	/* disabled styles */
-
-	.disabled > .panelIndent, .disabled > div > .panelRowIndent {
-		color: #CCCCCC;
-	}
-
-	.disabled .gwt-ListBox {
-		opacity: 0.4;
-		cursor: default;
 	}
 
 	/*#####################################################################################
@@ -1876,25 +1762,14 @@
 		width: 100%;
 	}
 
-	.StatisticsCalculatorW .gwt-RadioButton label,
-	.StatisticsCalculatorW .gwt-CheckBox label {
+	.StatisticsCalculatorW .gwt-RadioButton label {
 		margin: 0 20px 0 5px;
-	}
-
-	.StatisticsCalculatorW span.gwt-CheckBox {
-		margin-top: 10px;
-		min-width: 170px;
 	}
 
 	.StatisticsCalculatorW .lblSampleStat {
 		min-width: 80px;
 		text-align: right;
 	}
-
-	.StatisticsCalculatorW .checkboxPanel .checkboxLbl {
-        margin-right: 30px;
-        margin-left: 8px;
-    }
 
 	.StatisticsCalculatorW .gwt-Label, .StatisticsCalculatorW .AutoCompleteTextFieldW,
 	.StatisticsCalculatorW .gwt-ListBox, .StatisticsCalculatorW .gwt-RadioButton {
@@ -2382,10 +2257,6 @@
 		overflow-y: hidden;
 	}
 
-	.usedToolsPanel .panelTitle, .allToolsPanel .panelTitle {
-		cursor: default;
-	}
-
 	.toolBarDropping {
 		background-color: rgba(204, 204, 255, 0.3);
 	}
@@ -2492,22 +2363,6 @@
 		color: inherit;
 	}
 
-	/* CAS Context menu */
-
-	.gwt-PopupPanel td.gwt-MenuItemSeparator {
-		height: 0;
-		padding: 0;
-		border: 0;
-		border-top: 1px solid #dcdcdc;
-		overflow: hidden
-	}
-
-	.stepTree {
-		td:first-child {
-			width: 30px;
-		}
-	}
-
 	/*
 	   ########################################
 	   ###       New Start Screen           ###
@@ -2525,12 +2380,6 @@
 
 	.fiButton img {
 		opacity: 0.54;
-	}
-
-	.materialPopupPanel {
-		border-radius: 4px;
-		padding: 8px;
-		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
 	}
 
 	.panelRow .optionsSlider input[type=range] {

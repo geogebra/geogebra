@@ -67,35 +67,6 @@
 	}
 
 /*****************
-*   STYLEBAR with Feature.MOW_COLOR_FILLING_LINE
-******************/
-	.mowDynStyleBar {
-		.btnCrop,.btnBold,.btnItalic,.btnUnderline {
-			border-radius: 2px;
-			margin-left: 0px;
-			margin-right: 8px;
-
-			img {
-				opacity: 0.7;
-			}
-
-			&:hover, &:focus {
-				border: colors.$mow_primary solid 1px !important;
-			}
-
-			&.gwt-ToggleButton-down {
-				border: colors.$mow_primary solid 1px !important;
-			}
-		}
-
-		.matDynStyleContextButton:hover {
-			margin-right: 0px !important;
-			margin-left: 0px !important;
-			border: none !important;
-		}
-	}
-
-/*****************
 *   BURGER MENU
 ******************/
 	.mowMenubar {

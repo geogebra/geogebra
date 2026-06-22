@@ -123,13 +123,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.dialogComponent.Checkbox {
 		max-width: 391px;
 
-		.panelTitle {
-			display: block;
-			cursor: default;
-			color: colors.$teal-default;
-			border-bottom: 1px solid colors.$teal-default;
-		}
-
 		.panelRow {
 			display: flex;
 		}
@@ -217,15 +210,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			color: colors.$teal-default;
 		}
 
-		.Dialog-messagePanel {
-			margin-bottom: 0px;
-
-			.gwt-Label {
-				margin-top: 0px;
-				color: colors.$teal-default;
-			}
-		}
-
 		.coloredLabel {
 			font-size: 80%;
 			color: colors.$teal-default;
@@ -233,14 +217,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		.gwt-RadioButton label {
 			padding-left: 8px;
-		}
-
-		.gwt-CheckBox label {
-			padding-left: 8px;
-		}
-
-		.gwt-CheckBox {
-			margin-right: 16px;
 		}
 
 		.gwt-ListBox {

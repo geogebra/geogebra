@@ -58,7 +58,6 @@ public class ScriptInputModel extends OptionsModel {
 		return type == EventType.LOAD_PAGE;
 	}
 
-
 	public interface IScriptInputListener extends PropertyListener {
 		@MissingDoc
 		void setInput(String text, ScriptType type);
@@ -173,8 +172,7 @@ public class ScriptInputModel extends OptionsModel {
 
 	@Override
 	public void updateProperties() {
-		// TODO Auto-generated method stub
-
+		// nothing to do
 	}
 
 	public boolean isEditOccurred() {

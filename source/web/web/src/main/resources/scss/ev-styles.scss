@@ -410,8 +410,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 
 	input[type="text"], input[type="number"], .gwt-TextBox,
 	select, textarea,
-	.gwt-TextArea, .gwt-SuggestBox,
-	.objectPropertiesTextEditor {
+	.gwt-TextArea, .gwt-SuggestBox {
 		border: #DCDCDC solid 1px;
 		background: #FFFFFF;
 		padding: 4px 5px;
@@ -503,10 +502,6 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		right: 0.6em;
 		top: 50%;
 		margin-top: -0.66em;
-	}
-
-	.advanced-TextButtonPanel .AutoCompleteTextFieldW .SymbolToggleButton {
-		right: 1.6em;
 	}
 
 	.AutoCompleteTextFieldW.SymbolCanBeShown input:focus+.SymbolToggleButton {

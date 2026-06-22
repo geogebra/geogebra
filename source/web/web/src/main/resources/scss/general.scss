@@ -66,19 +66,6 @@
 		min-width: 0;
 	}
 
-	.Dialog-messagePanel {
-		margin-bottom: 10px;
-	}
-
-	.Dialog-errorPanel, .Dialog-errorPanel td {
-		color: red;
-	}
-
-	.Dialog-errorPanel {
-		color: red;
-		display: block;
-	}
-
 	@each $colorname, $color in $neutrals {
 		.neutral-#{$colorname} {
 		   background-color: $color;
