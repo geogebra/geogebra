@@ -465,43 +465,6 @@ public class MathMLParser {
 			for (Greek ch : Greek.values()) {
 				latexMap.put(ch.getHTML(), "\\" + ch.getLaTeX());
 			}
-
-			// latexMap.put("&alpha;", "\\alpha");
-			// latexMap.put("&beta;", "\\beta");
-			// latexMap.put("&gamma;", "\\gamma ");
-			// latexMap.put("&delta;", "\\delta ");
-			// latexMap.put("&epsi;", "\\epsilon ");
-			// latexMap.put("&eta;", "\\eta ");
-			// latexMap.put("&iota;", "\\iota ");
-			// latexMap.put("&kappa;", "\\kappa ");
-			// latexMap.put("&lambda;", "\\lambda ");
-			// latexMap.put("&mu;", "\\mu ");
-			// latexMap.put("&nu;", "\\nu ");
-			// latexMap.put("&omicron;", "o ");
-			// latexMap.put("&pi;", "\\pi ");
-			// latexMap.put("&theta;", "\\theta ");
-			// latexMap.put("&rho;", "\\rho ");
-			// latexMap.put("&sigma;", "\\sigma ");
-			// latexMap.put("&tau;", "\\tau ");
-			// latexMap.put("&upsilon;", "\\upsilon ");
-			// latexMap.put("&phi;", "\\varphi");
-			// latexMap.put("&chi;", "\\chi ");
-			// latexMap.put("&omega;", "\\omega ");
-			// latexMap.put("&xi;", "\\xi ");
-			// latexMap.put("&psi;", "\\psi ");
-			// latexMap.put("&zeta;", "\\zeta ");
-			// latexMap.put("&Delta;", "\\Delta ");
-			// latexMap.put("&Phi;", "\\Phi ");
-			// latexMap.put("&Gamma;", "\\Gamma ");
-			// latexMap.put("&Lambda;", "\\Lambda ");
-			// latexMap.put("&Pi;", "\\Pi ");
-			// latexMap.put("&Theta;", "\\Theta ");
-			// latexMap.put("&Sigma;", "\\Sigma ");
-			// latexMap.put("&Upsilon;", "\\Upsilon ");
-			// latexMap.put("&Omega;", "\\Omega ");
-			// latexMap.put("&Xi;", "\\Xi ");
-			// latexMap.put("&Psi;", "\\Psi ");
-
 			latexMap.put("&epsiv;", "\\epsilon ");
 			latexMap.put("&phgr;", "\\phi ");
 			latexMap.put("&ggr;", "\\gamma ");
@@ -843,7 +806,10 @@ public class MathMLParser {
 			// TODO besser result stutzen? -> return new
 			// StringBuilder(result) o. result.toString()
 			return result.toString();
-		} catch (XMLParseException | RuntimeException e) {
+		} catch (XMLParseException e) {
+			Log.debug(e.getMessage());
+		} catch (RuntimeException e) {
+			// unexpected: print full stacktrace
 			Log.debug(e);
 		}
 		return null; // TODO statt exception, speter lo(umlaut)schen
@@ -1039,18 +1005,19 @@ public class MathMLParser {
 	/**
 	 * Jumps to the next tag, reads it into 'startTag' an generates the
 	 * corresponding 'endTag'.
+	 * @throws XMLParseException if there is no valid tag
 	 */
-	private String getNextTag() {
-
+	private String getNextTag() throws XMLParseException {
 		while (strBuf.charAt(pos) != '<') {
 			pos++;
 		}
-
 		tagBuf.setLength(0);
-
-		while (strBuf.charAt(pos) != '>') {
+		while (pos < strBuf.length() && strBuf.charAt(pos) != '>') {
 			tagBuf.append(strBuf.charAt(pos));
 			pos++;
+		}
+		if (pos == strBuf.length()) {
+			throw new XMLParseException("Missing >");
 		}
 		pos++;
 		tagBuf.append('>');
@@ -1097,9 +1064,9 @@ public class MathMLParser {
 	 * 
 	 * @param blocksToSkip
 	 *            the number of blocks to skip
+	 * @throws XMLParseException if mismatched &lt; is found
 	 */
-	void skipBlocks(int blocksToSkip) {
-
+	void skipBlocks(int blocksToSkip) throws XMLParseException {
 		if (blocksToSkip > 0) {
 			for (int i = 0; i < blocksToSkip; i++) {
 

@@ -16,10 +16,11 @@
  
 package org.geogebra.common.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.AppCommonFactory;
-import org.junit.Test;
+import org.geogebra.test.annotation.Issue;
+import org.junit.jupiter.api.Test;
 
 public class SyntaxAdapterImplTest {
 
@@ -33,5 +34,18 @@ public class SyntaxAdapterImplTest {
 	@Test
 	public void testConvert() {
 		assertEquals("x^{2}", syntaxAdapter.convert("x^{2}"));
+	}
+
+	@Test
+	@Issue("APPS-7697")
+	public void testConvertWithMathML() {
+		assertEquals("n ! ",
+				syntaxAdapter.convert("<math><mrow><mi>n</mi><mo>!</mo></mrow> </math>"));
+	}
+
+	@Test
+	@Issue("APPS-7697")
+	public void testConvertWithInvalidXML() {
+		assertEquals("<3", syntaxAdapter.convert("<3"));
 	}
 }

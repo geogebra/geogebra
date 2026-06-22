@@ -40,8 +40,9 @@ public abstract class AbstractSyntaxAdapter implements SyntaxAdapter {
 	@Override
 	public String convert(String exp) {
 		// might start <math> or <mrow> etc
-		if (exp.startsWith("<")) {
-			return convertMathMLtoGGB(exp);
+		if (exp.trim().startsWith("<")) {
+			String converted = convertMathMLtoGGB(exp);
+			return converted == null ? exp : converted;
 		} else if (mightBeLaTeXSyntax(exp)) {
 			return convertLaTeXtoGGB(exp);
 		} else if (checkClipboardFormat(exp)) {
