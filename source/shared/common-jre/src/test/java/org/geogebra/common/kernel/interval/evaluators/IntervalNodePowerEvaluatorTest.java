@@ -263,4 +263,14 @@ public class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
 		Interval exponent2 = interval(2.000000009);
 		assertNotEquals(evaluator.pow(base, exponent1), evaluator.pow(base, exponent2));
 	}
+
+	@Test
+	@Issue("APPS-7561")
+	public void powOfXPlusOne() {
+		IntervalSet exponent = evaluator.plusSet(
+				evaluator.multiplicativeInverseSet(IntervalSetOps.zero()), IntervalSetOps.one());
+
+		assertEquals(IntervalSet.overflow(),
+				evaluator.powSet(IntervalSet.connected(2, 2), exponent));
+	}
 }

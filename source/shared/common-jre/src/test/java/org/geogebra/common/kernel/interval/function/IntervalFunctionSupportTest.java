@@ -20,6 +20,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.editor.share.util.Unicode;
 import org.junit.Test;
 
 public class IntervalFunctionSupportTest extends BaseUnitTest {
@@ -54,6 +55,7 @@ public class IntervalFunctionSupportTest extends BaseUnitTest {
 		shouldBeSupported("2^sin(x)");
 		shouldBeSupported("2^x");
 		shouldBeSupported("2^(1/x)");
+		shouldBeSupported("x^" + Unicode.INFINITY);
 	}
 
 	private void shouldBeSupported(String command) {

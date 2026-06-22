@@ -25,9 +25,9 @@ import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterv
 import static org.geogebra.common.kernel.interval.IntervalSetOps.empty;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.fromLegacy;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.leftRayFromInverted;
-import static org.geogebra.common.kernel.interval.IntervalSetOps.legacyInverted;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.rightRayFromInverted;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.toLegacy;
+import static org.geogebra.common.kernel.interval.LegacyIntervalAdapter.legacyInverted;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalSet;
@@ -165,7 +165,7 @@ public class IntervalDivide {
 		}
 
 		if (divisor.isZeroWithDelta(0)) {
-			return empty();
+			return IntervalSet.overflow();
 		}
 
 		if (numerator.isNegative()) {

@@ -110,4 +110,13 @@ public class RMath {
 		return next(Math.pow(n, power));
 	}
 
+	/**
+	 * Tests whether a numeric result is outside the finite interval payload range.
+	 *
+	 * @param v numeric result
+	 * @return whether {@code v} represents overflow
+	 */
+	public static boolean hasOverflow(double v) {
+		return Double.isInfinite(v) || Double.isNaN(v);
+	}
 }

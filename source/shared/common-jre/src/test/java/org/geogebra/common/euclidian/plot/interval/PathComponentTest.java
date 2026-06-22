@@ -43,7 +43,7 @@ public class PathComponentTest extends BaseAppTestSetup {
 		withBounds(5.0, 8.0, 5, 5);
 		withScreenSize(50, 50);
 		withFunction("sqrt(tan(cot(x)))");
-		assertEquals(4, componentCount());
+		assertEquals(6, componentCount());
 	}
 
 	private long componentCount() {

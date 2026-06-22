@@ -17,7 +17,7 @@
 package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
-import static org.geogebra.common.kernel.interval.IntervalHelper.invertedPayload;
+import static org.geogebra.common.kernel.interval.LegacyIntervalAdapter.legacyInverted;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -128,7 +128,7 @@ public class IntervalSetOpsTest {
 
 	@Test
 	public void fromLegacyMirrorsAdapterSemantics() {
-		Interval inverted = invertedPayload(1, 2);
+		Interval inverted = legacyInverted(1, 2);
 
 		assertAll(
 				() -> assertEquals(IntervalSet.connected(1, 2),

@@ -17,10 +17,7 @@
 package org.geogebra.test.euclidian.plot;
 
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
-import static org.geogebra.common.kernel.interval.IntervalSetOps.legacyInverted;
 
-import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.interval.IntervalSetOps;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 

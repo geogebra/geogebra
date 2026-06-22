@@ -17,14 +17,17 @@
 package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
+import static org.geogebra.common.kernel.interval.IntervalSet.inverted;
+import static org.geogebra.common.kernel.interval.IntervalSet.overflow;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.empty;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.fromLegacy;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.hasGeneratedOverflow;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.leftRayFromInverted;
-import static org.geogebra.common.kernel.interval.IntervalSetOps.legacyInverted;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.rightRayFromInverted;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.toLegacy;
+import static org.geogebra.common.kernel.interval.LegacyIntervalAdapter.legacyInverted;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalSet;
@@ -216,28 +219,6 @@ public class IntervalNodeEvaluator {
 
 	private IntervalSet nthRootSet(IntervalSet set, double n) {
 		return nroot.computeSet(set, n);
-	}
-
-	/**
-	 * Returns the set difference of two legacy intervals.
-	 *
-	 * @param interval minuend
-	 * @param other subtrahend
-	 * @return {@code interval \ other}
-	 */
-	public Interval difference(Interval interval, Interval other) {
-		return toLegacy(differenceSet(fromLegacy(interval), fromLegacy(other)));
-	}
-
-	/**
-	 * Returns the set difference of two interval sets.
-	 *
-	 * @param set1 minuend
-	 * @param set2 subtrahend
-	 * @return {@code set1 \ set2}
-	 */
-	public IntervalSet differenceSet(IntervalSet set1, IntervalSet set2) {
-		return misc.difference(set1, set2);
 	}
 
 	/**
@@ -513,28 +494,6 @@ public class IntervalNodeEvaluator {
 	}
 
 	/**
-	 * Returns the convex hull of two legacy intervals.
-	 *
-	 * @param interval first interval
-	 * @param other second interval
-	 * @return the smallest interval set containing both inputs, in legacy form
-	 */
-	public Interval hull(Interval interval, Interval other) {
-		return toLegacy(hullSet(fromLegacy(interval), fromLegacy(other)));
-	}
-
-	/**
-	 * Returns the convex hull of two interval sets.
-	 *
-	 * @param set1 first set
-	 * @param set2 second set
-	 * @return the smallest set returned by the hull operation
-	 */
-	public IntervalSet hullSet(IntervalSet set1, IntervalSet set2) {
-		return misc.hull(set1, set2);
-	}
-
-	/**
 	 * Returns the intersection of two legacy intervals.
 	 *
 	 * @param interval first interval
@@ -644,6 +603,10 @@ public class IntervalNodeEvaluator {
 			return IntervalSetOps.empty();
 		}
 
+		if (set1.isOverflow() || set2.isOverflow()) {
+			return overflow();
+		}
+
 		// Compatibility bridge: legacy add() is not equivalent for all topology-driven
 		// callers here (for example, 0^0 paths rely on the old undefined propagation),
 		// so plusSet keeps the pre-existing explicit empty/inverted semantics.
@@ -655,6 +618,12 @@ public class IntervalNodeEvaluator {
 		Interval interval2 = toLegacy(set2);
 		double low = interval1.getLow() + interval2.getLow();
 		double high = interval1.getHigh() + interval2.getHigh();
+		double value1 = interval1.getHigh();
+		double value3 = interval1.getLow();
+		if (hasGeneratedOverflow(low, value3, interval2.getLow())
+				|| hasGeneratedOverflow(high, value1, interval2.getHigh())) {
+			return overflow();
+		}
 		if (set1.isInverted() || set2.isInverted()) {
 			return IntervalSet.inverted(low, high);
 		}
@@ -685,7 +654,26 @@ public class IntervalNodeEvaluator {
 			return IntervalSetOps.empty();
 		}
 
-		return fromLegacy(toLegacy(set1).subtract(toLegacy(set2)));
+		if (set1.isOverflow() || set2.isOverflow()) {
+			return overflow();
+		}
+
+		Interval interval1 = toLegacy(set1);
+		Interval interval2 = toLegacy(set2);
+		double low = interval1.getLow() - interval2.getHigh();
+		double high = interval1.getHigh() - interval2.getLow();
+		double high1 = interval1.getHigh();
+		double low1 = interval1.getLow();
+		if (hasGeneratedOverflow(low, low1, interval2.getHigh())
+				|| hasGeneratedOverflow(high, high1, interval2.getLow())) {
+			return overflow();
+		}
+
+		if (set1.isInverted() || set2.isInverted()) {
+			return inverted(low, high);
+		}
+
+		return connected(low, high);
 	}
 
 	/**

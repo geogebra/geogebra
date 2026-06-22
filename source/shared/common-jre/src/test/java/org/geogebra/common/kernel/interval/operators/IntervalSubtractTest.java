@@ -17,8 +17,8 @@
 package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
-import static org.geogebra.common.kernel.interval.IntervalSetOps.legacyInverted;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
+import static org.geogebra.common.kernel.interval.LegacyIntervalAdapter.legacyInverted;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.kernel.interval.Interval;

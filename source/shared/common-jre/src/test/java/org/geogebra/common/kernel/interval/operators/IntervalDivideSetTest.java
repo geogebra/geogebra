@@ -100,6 +100,20 @@ public class IntervalDivideSetTest {
 	}
 
 	@Test
+	public void computeSetReturnsOverflowForPositiveByExactZero() {
+		IntervalSet result = divide.computeSet(connected(2, 2), connected(0, 0));
+
+		assertEquals(IntervalSet.overflow(), result);
+	}
+
+	@Test
+	public void computeSetReturnsOverflowForNegativeByExactZero() {
+		IntervalSet result = divide.computeSet(connected(-2, -2), connected(0, 0));
+
+		assertEquals(IntervalSet.overflow(), result);
+	}
+
+	@Test
 	public void computeSetHandlesInvertedNumeratorWithZeroContainingDivisor() {
 		IntervalSet result = divide.computeSet(inverted(-1, 1), connected(-1, 1));
 

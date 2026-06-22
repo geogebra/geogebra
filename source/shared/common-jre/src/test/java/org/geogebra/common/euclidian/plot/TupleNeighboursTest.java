@@ -20,13 +20,10 @@ import static org.geogebra.common.kernel.interval.IntervalSet.connected;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.empty;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.inverted;
-import static org.geogebra.common.kernel.interval.IntervalSetOps.legacyInverted;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.interval.IntervalSet;
 import org.geogebra.common.kernel.interval.IntervalSetOps;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;

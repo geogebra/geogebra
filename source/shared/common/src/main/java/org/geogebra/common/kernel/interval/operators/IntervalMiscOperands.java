@@ -19,6 +19,7 @@ package org.geogebra.common.kernel.interval.operators;
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static org.geogebra.common.kernel.interval.IntervalSet.empty;
+import static org.geogebra.common.kernel.interval.IntervalSet.inverted;
 import static org.geogebra.common.kernel.interval.IntervalSet.overflow;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
@@ -26,6 +27,7 @@ import static org.geogebra.common.kernel.interval.IntervalSetOps.halfOpenLeft;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.halfOpenRight;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.invertedGap;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.whole;
+import static org.geogebra.common.kernel.interval.operators.RMath.hasOverflow;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalSet;
@@ -61,7 +63,7 @@ public class IntervalMiscOperands {
 		}
 
 		if (set.isInverted()) {
-			return evaluator.computeUnaryInverted(set, this::exp);
+			return connected(0, POSITIVE_INFINITY);
 		}
 
 		if (!set.isConnected()) {
@@ -69,8 +71,29 @@ public class IntervalMiscOperands {
 		}
 
 		Interval interval = connectedInterval(set);
-		return connected(RMath.prev(Math.exp(interval.getLow())),
-				RMath.next(Math.exp(interval.getHigh())));
+		double expLow = Math.exp(interval.getLow());
+		double expHigh = Math.exp(interval.getHigh());
+
+		if (isUnderflow(expLow) || isUnderflow(expHigh)) {
+			return overflow();
+		}
+		double prev = lowerExpBound(expLow);
+		double next = RMath.next(expHigh);
+
+		if (hasOverflow(prev) || hasOverflow(next)) {
+			return overflow();
+		}
+
+		return connected(prev, next);
+	}
+
+	private static double lowerExpBound(double expLow) {
+		double previous = RMath.prev(expLow);
+		return previous == 0 ? expLow : previous;
+	}
+
+	private static boolean isUnderflow(double expLow) {
+		return expLow == 0 && Double.isFinite(expLow);
 	}
 
 	/**
@@ -80,12 +103,12 @@ public class IntervalMiscOperands {
 	 * @return {@code log(set)}
 	 */
 	public IntervalSet log(IntervalSet set) {
-		if (set.isEmpty()) {
-			return empty();
-		}
-
 		if (set.isOverflow()) {
 			return overflow();
+		}
+
+		if (set.isEmpty()) {
+			return empty();
 		}
 
 		if (set.isInverted()) {
@@ -210,7 +233,7 @@ public class IntervalMiscOperands {
 			double high1 = gap1.getHigh();
 			double high2 = gap2.getHigh();
 			if (Math.max(low1, low2) <= Math.min(high1, high2)) {
-				return IntervalSet.inverted(Math.min(low1, low2), Math.max(high1, high2));
+				return inverted(Math.min(low1, low2), Math.max(high1, high2));
 			}
 			return empty();
 		}
@@ -267,7 +290,7 @@ public class IntervalMiscOperands {
 			Interval gap2 = invertedGap(set2);
 			double low = Math.max(gap1.getLow(), gap2.getLow());
 			double high = Math.min(gap1.getHigh(), gap2.getHigh());
-			return low <= high ? IntervalSet.inverted(low, high) : whole();
+			return low <= high ? inverted(low, high) : whole();
 		}
 
 		if (set1.isInverted()) {
@@ -331,11 +354,11 @@ public class IntervalMiscOperands {
 		}
 
 		if (low <= gapLow) {
-			return IntervalSet.inverted(high, gapHigh);
+			return inverted(high, gapHigh);
 		}
 
 		if (high >= gapHigh) {
-			return IntervalSet.inverted(gapLow, low);
+			return inverted(gapLow, low);
 		}
 
 		return empty();

@@ -18,7 +18,6 @@ package org.geogebra.common.kernel.interval.operators;
 
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
-import static org.apache.commons.math3.util.FastMath.nextAfter;
 import static org.geogebra.common.kernel.interval.IntervalConstants.aroundZero;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
@@ -28,14 +27,17 @@ import static org.geogebra.common.kernel.interval.IntervalSet.overflow;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.fromLegacy;
-import static org.geogebra.common.kernel.interval.IntervalSetOps.legacyInverted;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.inverted;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.toLegacy;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
+import static org.geogebra.common.kernel.interval.LegacyIntervalAdapter.legacyInverted;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
+import org.geogebra.common.kernel.interval.IntervalSet;
 import org.junit.Test;
 
 public class IntervalMiscTest {
@@ -49,6 +51,52 @@ public class IntervalMiscTest {
 		assertEquals(interval(0.04978706836786394, 20.08553692318767),
 				evaluator.exp(interval(-3, 3)));
 		assertEquals(overflow(), evaluator.expSet(overflow()));
+		assertTrue(evaluator.expSet(connected(711, 711)).isOverflow());
+		assertTrue(evaluator.expSet(connected(711, 712)).isOverflow());
+		assertTrue(evaluator.expSet(connected(700, 711)).isOverflow());
+		assertTrue(evaluator.expSet(connected(-1, 711)).isOverflow());
+		assertTrue(evaluator.expSet(connected(-711, 711)).isOverflow());
+		assertTrue(evaluator.expSet(connected(Double.MAX_VALUE, Double.MAX_VALUE)).isOverflow());
+		assertFalse(evaluator.expSet(connected(700, 700)).isOverflow());
+		assertFalse(evaluator.expSet(connected(709, 709)).isOverflow());
+	}
+
+	@Test
+	public void name() {
+		assertTrue(evaluator.expSet(connected(-800, -746)).isOverflow());
+	}
+
+	@Test
+	public void expLowerBoundShouldStayPositiveForSubnormalResult() {
+		IntervalSet result = evaluator.expSet(connected(-745, -743.75));
+
+		assertTrue(connectedInterval(result).getLow() > 0);
+	}
+
+	@Test
+	public void lnExpShouldNotProduceNegativeInfinityFromSubnormalExp() {
+		IntervalSet result = evaluator.logSet(evaluator.expSet(connected(-745, -743.75)));
+
+		assertFalse(Double.isInfinite(connectedInterval(result).getLow()));
+	}
+
+	@Test
+	public void expOfInvertedShouldNotOverflow() {
+		assertFalse(evaluator.expSet(inverted(-711, 711)).isOverflow());
+		assertFalse(evaluator.expSet(inverted(-1000, 1000)).isOverflow());
+		assertFalse(evaluator.expSet(inverted(-Double.MAX_VALUE / 2,
+				Double.MAX_VALUE / 2)).isOverflow());
+
+	}
+
+	@Test
+	public void expOfInvertedShouldKeepTrueUnboundedResultDistinctFromOverflow() {
+		IntervalSet result = evaluator.expSet(inverted(-711, 711));
+		assertFalse(result.isOverflow());
+		assertTrue(result.isConnected());
+		assertEquals(0, connectedInterval(result).getLow(), 0);
+		assertTrue(Double.isInfinite(connectedInterval(result).getHigh()));
+
 	}
 
 	@Test
@@ -101,27 +149,6 @@ public class IntervalMiscTest {
 	}
 
 	@Test
-	public void testHull() {
-		assertEquals(interval(-1, 7),
-				evaluator.hull(interval(-1, 1), interval(5, 7)));
-		assertEquals(interval(-1, 1),
-				evaluator.hull(interval(-1, 1), new Interval(undefined())));
-		assertEquals(interval(-1, 1),
-				evaluator.hull(new Interval(undefined()), interval(-1, 1)));
-		assertEquals(whole(),
-				evaluator.hull(whole(), interval(-1, 1)));
-		assertEquals(whole(),
-				evaluator.hull(legacyInverted(-1, 1), interval(5, 7)));
-		assertTrue(evaluator.hull(undefined(), undefined()).isUndefined());
-
-		assertEquals(overflow(), evaluator.hullSet(connected(1, 2),
-				overflow()));
-		assertEquals(overflow(), evaluator.hullSet(overflow(), connected(1, 2)));
-		assertEquals(overflow(), evaluator.hullSet(overflow(), overflow()));
-
-	}
-
-	@Test
 	public void testIntersection() {
 		assertTrue(evaluator.intersect(interval(-1, 1), interval(5, 7)).isUndefined());
 		assertTrue(evaluator.intersect(interval(-1, 1), undefined()).isUndefined());
@@ -158,56 +185,6 @@ public class IntervalMiscTest {
 	@Test
 	public void testNonOverlappingUnionShouldBeEmpty() {
 		assertEquals(undefined(), evaluator.union(interval(1, 2), interval(3, 4)));
-	}
-
-	@Test
-	public void testDifference() {
-		assertEquals(interval(3, 4),
-				evaluator.difference(interval(3, 5), interval(4, 6)));
-
-		assertEquals(interval(5, 6),
-				evaluator.difference(interval(4, 6), interval(3, 5)));
-
-		assertEquals(interval(4, 6),
-				evaluator.difference(interval(4, 6), interval(8, 9)));
-
-		Interval diff = evaluator.difference(interval(0, 3), interval(0, 1));
-		assertTrue(diff.getLow() > 1 && diff.getHigh() == 3);
-
-		diff = evaluator.difference(interval(0, 3), interval(1, 3));
-		assertTrue(diff.getLow() == 0 && diff.getHigh() < 1);
-
-		assertTrue(evaluator.difference(interval(0, 3), interval(0, 3))
-				.isUndefined());
-
-		assertEquals(interval(0, 1),
-				evaluator.difference(interval(0, 1), undefined()));
-
-		assertTrue(evaluator.difference(interval(0, 1), whole()).isUndefined());
-
-		assertTrue(evaluator.difference(interval(0, POSITIVE_INFINITY),
-				interval(0, POSITIVE_INFINITY)).isUndefined());
-		assertTrue(evaluator.difference(interval(NEGATIVE_INFINITY, 0),
-						interval(NEGATIVE_INFINITY, 0)).isUndefined());
-		assertTrue(evaluator.difference(interval(NEGATIVE_INFINITY, 0), whole()).isUndefined());
-		assertTrue(evaluator.difference(whole(), whole()).isUndefined());
-
-		diff = evaluator.difference(interval(3, nextAfter(5, NEGATIVE_INFINITY)), interval(4, 6));
-		assertTrue(diff.getLow() == 3 && diff.getHigh() < 4);
-
-		assertEquals(interval(5, 6),
-				evaluator.difference(interval(4, 6), interval(3, nextAfter(5, NEGATIVE_INFINITY))));
-		assertEquals(overflow(),
-				evaluator.differenceSet(connected(-1, 1), overflow()));
-		assertEquals(overflow(),
-				evaluator.differenceSet(overflow(), connected(-1, 1)));
-		assertEquals(overflow(),
-				evaluator.differenceSet(overflow(), overflow()));
-	}
-
-	@Test()
-	public void testEmptyDifference() {
-		assertEquals(undefined(), evaluator.difference(interval(1, 4), interval(2, 3)));
 	}
 
 	@Test

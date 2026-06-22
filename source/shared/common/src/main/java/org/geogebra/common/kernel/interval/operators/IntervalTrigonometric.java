@@ -18,12 +18,14 @@ package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_HALF_HIGH;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_HIGH;
+import static org.geogebra.common.kernel.interval.IntervalSet.overflow;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.empty;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.inverted;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.invertedGap;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.whole;
+import static org.geogebra.common.kernel.interval.operators.RMath.hasOverflow;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalSet;
@@ -31,12 +33,18 @@ import org.geogebra.common.kernel.interval.IntervalSet;
 public class IntervalTrigonometric {
 
 	/**
+	 * Returns the arc sine image of an interval set.
 	 *
-	 * @return arc sine of the set
+	 * @param set input set
+	 * @return {@code asin(set)}
 	 */
 	public IntervalSet asin(IntervalSet set) {
 		if (set.isEmpty()) {
 			return empty();
+		}
+
+		if (set.isOverflow()) {
+			return overflow();
 		}
 
 		if (set.isWhole()) {
@@ -86,12 +94,18 @@ public class IntervalTrigonometric {
 	}
 
 	/**
+	 * Returns the arc cosine image of an interval set.
 	 *
-	 * @return arc cosine of the interval
+	 * @param set input set
+	 * @return {@code acos(set)}
 	 */
 	public IntervalSet acos(IntervalSet set) {
 		if (set.isEmpty()) {
 			return empty();
+		}
+
+		if (set.isOverflow()) {
+			return overflow();
 		}
 
 		if (set.isWhole()) {
@@ -139,12 +153,18 @@ public class IntervalTrigonometric {
 	}
 
 	/**
+	 * Returns the arc tangent image of an interval set.
 	 *
-	 * @return arc tangent of the interval
+	 * @param set input set
+	 * @return {@code atan(set)}
 	 */
 	public IntervalSet atan(IntervalSet set) {
 		if (set.isEmpty()) {
 			return set;
+		}
+
+		if (set.isOverflow()) {
+			return overflow();
 		}
 
 		if (set.isWhole()) {
@@ -163,33 +183,54 @@ public class IntervalTrigonometric {
 	}
 
 	/**
+	 * Returns the hyperbolic sine image of an interval set.
 	 *
-	 * @return hyperbolic sine of the set
+	 * @param set input set
+	 * @return {@code sinh(set)}
 	 */
 	public IntervalSet sinh(IntervalSet set) {
 		if (set.isEmpty()) {
 			return empty();
 		}
+
+		if (set.isOverflow()) {
+			return overflow();
+		}
+
 		if (set.isWhole()) {
 			return whole();
 		}
 		if (set.isInverted()) {
 			Interval gap = invertedGap(set);
-			return inverted(RMath.prev(Math.sinh(gap.getLow())),
-					RMath.next(Math.sinh(gap.getHigh())));
+			double prev = RMath.prev(Math.sinh(gap.getLow()));
+			double next = RMath.next(Math.sinh(gap.getHigh()));
+			if (hasOverflow(prev) || hasOverflow(next)) {
+				return whole(); // safer semantic result for sinh of unbounded inverted input
+			}
+			return inverted(prev, next);
 		}
 		Interval interval = connectedInterval(set);
-		return connected(RMath.prev(Math.sinh(interval.getLow())),
-				RMath.next(Math.sinh(interval.getHigh())));
+		double prev = RMath.prev(Math.sinh(interval.getLow()));
+		double next = RMath.next(Math.sinh(interval.getHigh()));
+		if (hasOverflow(prev) || hasOverflow(next)) {
+			return overflow();
+		}
+		return connected(prev, next);
 	}
 
 	/**
+	 * Returns the hyperbolic cosine image of an interval set.
 	 *
-	 * @return hyperbolic cosine of the interval
+	 * @param set input set
+	 * @return {@code cosh(set)}
 	 */
 	public IntervalSet cosh(IntervalSet set) {
 		if (set.isEmpty()) {
 			return empty();
+		}
+
+		if (set.isOverflow()) {
+			return overflow();
 		}
 
 		if (set.isWhole()) {
@@ -202,7 +243,11 @@ public class IntervalTrigonometric {
 				return connected(1, Double.POSITIVE_INFINITY);
 			}
 			double minAbs = Math.min(-gap.getLow(), gap.getHigh());
-			return connected(RMath.prev(Math.cosh(minAbs)), Double.POSITIVE_INFINITY);
+			double prev = RMath.prev(Math.cosh(minAbs));
+			if (hasOverflow(prev)) {
+				return connected(1, Double.POSITIVE_INFINITY);
+			}
+			return connected(prev, Double.POSITIVE_INFINITY);
 		}
 
 		Interval interval = connectedInterval(set);
@@ -211,25 +256,46 @@ public class IntervalTrigonometric {
 		double high = interval.getHigh();
 		if (high < 0) {
 			double prev = RMath.prev(Math.cosh(high));
-			return connected(prev, RMath.next(Math.cosh(low)));
+			double next = RMath.next(Math.cosh(low));
+			if (hasOverflow(prev) || hasOverflow(next)) {
+				return overflow();
+			}
+			return connected(prev, next);
 		} else if (low >= 0) {
-			return connected(RMath.prev(Math.cosh(low)), RMath.next(Math.cosh(high)));
+			double prev = RMath.prev(Math.cosh(low));
+			if (hasOverflow(prev)) {
+				return overflow();
+			}
+			double next = RMath.next(Math.cosh(high));
+			if (hasOverflow(next)) {
+				return overflow();
+			}
+			return connected(prev, next);
 		}
 
-		return connected(1, RMath.next(Math.cosh(-low > high ? low : high)));
+		double next = RMath.next(Math.cosh(-low > high ? low : high));
+		return hasOverflow(next) ? overflow() : connected(1, next);
 	}
 
 	/**
+	 * Returns the hyperbolic tangent image of an interval set.
 	 *
-	 * @return hyperbolic tangent of the interval
+	 * @param set input set
+	 * @return {@code tanh(set)}
 	 */
 	public IntervalSet tanh(IntervalSet set) {
 		if (set.isEmpty()) {
 			return empty();
 		}
+
+		if (set.isOverflow()) {
+			return overflow();
+		}
+
 		if (set.isWhole()) {
 			return connected(-1, 1);
 		}
+
 		if (set.isInverted()) {
 			Interval gap = invertedGap(set);
 			return inverted(RMath.prev(Math.tanh(gap.getLow())),

@@ -18,10 +18,10 @@ package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
-import static org.geogebra.common.kernel.interval.IntervalHelper.invertedPayload;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.fromLegacy;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.toLegacy;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
+import static org.geogebra.common.kernel.interval.LegacyIntervalAdapter.legacyInverted;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -52,7 +52,7 @@ public class IntervalInverseTopologyTest {
 
 	@Test
 	public void inverseOfInvertedIntervalMatchesUnionOfReciprocalRays() {
-		Interval inverted = invertedPayload(1, 2);
+		Interval inverted = legacyInverted(1, 2);
 		Interval leftRay = interval(Double.NEGATIVE_INFINITY, 1);
 		Interval rightRay = interval(2, Double.POSITIVE_INFINITY);
 
@@ -71,7 +71,7 @@ public class IntervalInverseTopologyTest {
 	@Test
 	public void inverseOfWholeCurrentlyStaysWhole() {
 		Interval actual = evaluator.inverse(whole());
-		assertEquals(invertedPayload(0, 0), actual);
+		assertEquals(legacyInverted(0, 0), actual);
 	}
 
 	@Test

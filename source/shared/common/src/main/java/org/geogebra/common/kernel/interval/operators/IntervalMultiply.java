@@ -16,6 +16,7 @@
 
 package org.geogebra.common.kernel.interval.operators;
 
+import static org.geogebra.common.kernel.interval.IntervalSet.overflow;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.empty;
@@ -25,6 +26,7 @@ import static org.geogebra.common.kernel.interval.IntervalSetOps.invertedGap;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.isZero;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.toLegacy;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.zero;
+import static org.geogebra.common.kernel.interval.operators.RMath.hasOverflow;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalSet;
@@ -48,6 +50,10 @@ public class IntervalMultiply {
 	public IntervalSet computeSet(IntervalSet set1, IntervalSet set2) {
 		if (set1.isEmpty() || set2.isEmpty()) {
 			return empty();
+		}
+
+		if (set1.isOverflow() || set2.isOverflow()) {
+			return overflow();
 		}
 
 		if (isExactZeroSingleton(set1) || isExactZeroSingleton(set2)) {
@@ -101,6 +107,12 @@ public class IntervalMultiply {
 		double ad = multiplyBound(interval.getLow(), other.getHigh());
 		double bc = multiplyBound(interval.getHigh(), other.getLow());
 		double bd = multiplyBound(interval.getHigh(), other.getHigh());
+		if (hasGeneratedOverflow(ac, interval.getLow(), other.getLow())
+				|| hasGeneratedOverflow(ad, interval.getLow(), other.getHigh())
+				|| hasGeneratedOverflow(bc, interval.getHigh(), other.getLow())
+				|| hasGeneratedOverflow(bd, interval.getHigh(), other.getHigh())) {
+			return overflow();
+		}
 		double low = Math.min(Math.min(prev(ac), prev(ad)), Math.min(prev(bc), prev(bd)));
 		double high = Math.max(Math.max(next(ac), next(ad)), Math.max(next(bc), next(bd)));
 
@@ -109,6 +121,10 @@ public class IntervalMultiply {
 		}
 
 		return connected(low, high);
+	}
+
+	private boolean hasGeneratedOverflow(double result, double factor1, double factor2) {
+		return hasOverflow(result) && Double.isFinite(factor1) && Double.isFinite(factor2);
 	}
 
 	private double multiplyBound(double a, double b) {

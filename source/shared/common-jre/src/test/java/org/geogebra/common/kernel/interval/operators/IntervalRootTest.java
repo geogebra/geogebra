@@ -93,7 +93,7 @@ public class IntervalRootTest {
 	@Test
 	public void testEvenNRootWithInvertedXAroundZero() {
 		Interval x = interval(-2.0539125955565396E-15, 0.19999999999999796);
-		assertEquals(interval(2.2360679774998005, Double.POSITIVE_INFINITY),
+		assertEquals(interval(2.236067977499801, Double.POSITIVE_INFINITY),
 				evaluator.nthRoot(evaluator.inverse(x), 2));
 	}
 

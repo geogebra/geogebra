@@ -73,11 +73,15 @@ public final class LegacyIntervalAdapter {
 	}
 
 	/**
-	 * Create a legacy inverted interval carrying the old mutable topology flag.
+	 * Constructs a legacy inverted interval payload.
 	 *
-	 * @param low lower gap bound
-	 * @param high upper gap bound
-	 * @return legacy inverted interval
+	 * <p>This is a boundary helper for legacy compatibility. It does not create an
+	 * {@link IntervalSet}; it creates the legacy interval encoding for
+	 * {@code (-inf, low] U [high, +inf)}.
+	 *
+	 * @param low lower end of the excluded gap
+	 * @param high upper end of the excluded gap
+	 * @return legacy inverted interval payload
 	 */
 	public static Interval legacyInverted(double low, double high) {
 		return Interval.legacyInverted(low, high);

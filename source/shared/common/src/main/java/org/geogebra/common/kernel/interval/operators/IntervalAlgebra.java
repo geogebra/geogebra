@@ -29,6 +29,7 @@ import static org.geogebra.common.kernel.interval.IntervalSetOps.rightRayFromInv
 import static org.geogebra.common.kernel.interval.IntervalSetOps.toLegacy;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.whole;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.zero;
+import static org.geogebra.common.kernel.interval.operators.RMath.hasOverflow;
 import static org.geogebra.common.kernel.interval.operators.RMath.powHigh;
 import static org.geogebra.common.kernel.interval.operators.RMath.powLow;
 
@@ -162,6 +163,11 @@ public class IntervalAlgebra {
 			return evaluator.multiplicativeInverseSet(set);
 		}
 
+		long reciprocal = positiveOddReciprocal(power);
+		if (reciprocal > 0) {
+			return evaluator.nthRootSet(set, connected(reciprocal, reciprocal));
+		}
+
 		if (set.isInverted()) {
 			IntervalSet left = leftRayFromInverted(set);
 			IntervalSet right = rightRayFromInverted(set);
@@ -196,13 +202,31 @@ public class IntervalAlgebra {
 		return legacyIntegerPowerFallback(set, Math.round(power));
 	}
 
+	private long positiveOddReciprocal(double power) {
+		double reciprocal = 1 / power;
+		long rounded = Math.round(reciprocal);
+		return power > 0 && DoubleUtil.isInteger(reciprocal) && rounded % 2 != 0
+				? rounded
+				: -1;
+	}
+
 	private boolean isCloseToInteger(double power) {
 		return DoubleUtil.isEqual(power, Math.round(power), IntervalConstants.PRECISION * 2);
 	}
 
 	private IntervalSet legacyIntegerPowerFallback(IntervalSet set, long power) {
 		// Integer powers still rely on the legacy numeric kernel for compatibility.
-		return fromLegacy(powOfInteger(toLegacy(set), power));
+		if (set.isOverflow()) {
+			return overflow();
+		}
+		Interval interval = toLegacy(set);
+		Interval result = powOfInteger(interval, power);
+		return hasGeneratedPowerOverflow(interval, result) ? overflow() : fromLegacy(result);
+	}
+
+	private boolean hasGeneratedPowerOverflow(Interval source, Interval result) {
+		return (hasOverflow(result.getLow()) || hasOverflow(result.getHigh()))
+				&& Double.isFinite(source.getLow()) && Double.isFinite(source.getHigh());
 	}
 
 	private IntervalSet powerOfDoubleSet(IntervalSet set, double power) {
@@ -324,8 +348,11 @@ public class IntervalAlgebra {
 		double low = powLow(base.getLow(), power.getLow());
 		double high = powHigh(base.getHigh(), power.getHigh());
 
-		if (Double.isNaN(low) || Double.isNaN(high)) {
-			return empty();
+		double value1 = base.getHigh();
+		double value3 = base.getLow();
+		if (IntervalSetOps.hasGeneratedOverflow(low, value3, power.getLow())
+				|| IntervalSetOps.hasGeneratedOverflow(high, value1, power.getHigh())) {
+			return overflow();
 		}
 
 		if (high < low) {
@@ -334,4 +361,5 @@ public class IntervalAlgebra {
 
 		return connected(low, high);
 	}
+
 }

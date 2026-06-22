@@ -154,4 +154,4 @@ public class IntervalArithmeticTest {
 		assertEquals(zero(), evaluator.multiply(zero(), interval(1, 2)));
 		assertEquals(zero(), evaluator.multiply(zero(), interval(0, 0)));
 	}
-	}
+}

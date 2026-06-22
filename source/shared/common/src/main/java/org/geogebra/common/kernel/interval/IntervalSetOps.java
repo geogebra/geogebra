@@ -16,6 +16,8 @@
 
 package org.geogebra.common.kernel.interval;
 
+import static org.geogebra.common.kernel.interval.operators.RMath.hasOverflow;
+
 import java.util.Objects;
 
 import org.geogebra.common.kernel.Kernel;
@@ -154,21 +156,6 @@ public final class IntervalSetOps {
 	public static Interval invertedGap(IntervalSet set) {
 		validateSet(set, IntervalSet.Kind.INVERTED, "inverted gap");
 		return set.interval();
-	}
-
-	/**
-	 * Constructs a legacy inverted interval payload.
-	 *
-	 * <p>This is a boundary helper for legacy compatibility. It does not create an
-	 * {@link IntervalSet}; it creates the legacy interval encoding for
-	 * {@code (-inf, low] U [high, +inf)}.
-	 *
-	 * @param low lower end of the excluded gap
-	 * @param high upper end of the excluded gap
-	 * @return legacy inverted interval payload
-	 */
-	public static Interval legacyInverted(double low, double high) {
-		return LegacyIntervalAdapter.legacyInverted(low, high);
 	}
 
 	/**
@@ -384,5 +371,17 @@ public final class IntervalSetOps {
 		}
 		Interval interval = connectedInterval(set);
 		return DoubleUtil.isEqual(interval.getLow(), interval.getHigh(), 0);
+	}
+
+	/**
+	 * Tests whether a finite-input operation produced a non-finite numeric result.
+	 *
+	 * @param result operation result to test
+	 * @param value1 first input value
+	 * @param value2 second input value
+	 * @return {@code true} iff both inputs were finite and the result overflowed
+	 */
+	public static boolean hasGeneratedOverflow(double result, double value1, double value2) {
+		return hasOverflow(result) && Double.isFinite(value1) && Double.isFinite(value2);
 	}
 }

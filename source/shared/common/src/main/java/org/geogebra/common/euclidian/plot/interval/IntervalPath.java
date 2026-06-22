@@ -68,12 +68,20 @@ public class IntervalPath {
 
 	private void drawAt(int index) {
 		IntervalSet ySet = data.yTopologyAt(index);
-		if (ySet.isEmpty()) {
+		if (shouldBreakPath(ySet)) {
 			noJoinForNextTuple();
 		} else {
 			drawTupleAt(index);
 		}
-		drawInterval.setJoinToPrevious(!ySet.isEmpty());
+		drawInterval.setJoinToPrevious(shouldDraw(ySet));
+	}
+
+	private boolean shouldBreakPath(IntervalSet ySet) {
+		return ySet.isEmpty() || ySet.isOverflow();
+	}
+
+	private boolean shouldDraw(IntervalSet ySet) {
+		return !shouldBreakPath(ySet);
 	}
 
 	private void noJoinForNextTuple() {

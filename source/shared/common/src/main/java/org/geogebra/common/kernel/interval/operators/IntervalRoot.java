@@ -17,6 +17,7 @@
 package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
+import static org.geogebra.common.kernel.interval.IntervalSet.overflow;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.empty;
@@ -74,6 +75,14 @@ public class IntervalRoot {
 			return empty();
 		}
 
+		if (set.isOverflow()) {
+			return overflow();
+		}
+
+		if (isPositiveEven(n)) {
+			return positiveEvenRoot(set, n);
+		}
+
 		if (set.isInverted()) {
 			if (isOdd(n)) {
 				return inverted(compute(invertedGap(set), n));
@@ -103,6 +112,59 @@ public class IntervalRoot {
 		return result;
 	}
 
+	private IntervalSet positiveEvenRoot(IntervalSet set, double n) {
+		if (set.isWhole()) {
+			return connected(0, Double.POSITIVE_INFINITY);
+		}
+
+		if (set.isInverted()) {
+			return positiveEvenRootOfInverted(set, n);
+		}
+
+		return positiveEvenRootOfConnected(connectedInterval(set), n);
+	}
+
+	private IntervalSet positiveEvenRootOfConnected(Interval interval, double n) {
+		if (interval.getHigh() < 0) {
+			return empty();
+		}
+
+		return connected(rootLow(Math.max(0, interval.getLow()), n),
+				rootHigh(interval.getHigh(), n));
+	}
+
+	private IntervalSet positiveEvenRootOfInverted(IntervalSet set, double n) {
+		Interval gap = invertedGap(set);
+		if (gap.getHigh() <= 0) {
+			return connected(0, Double.POSITIVE_INFINITY);
+		}
+
+		IntervalSet right = connected(rootLow(gap.getHigh(), n), Double.POSITIVE_INFINITY);
+		if (gap.getLow() < 0) {
+			return right;
+		}
+
+		double leftHigh = rootHigh(gap.getLow(), n);
+		double rightLow = rootLow(gap.getHigh(), n);
+		return leftHigh >= rightLow
+				? connected(0, Double.POSITIVE_INFINITY)
+				: inverted(leftHigh, rightLow);
+	}
+
+	private double rootLow(double value, double n) {
+		if (value == 0 || Double.isInfinite(value)) {
+			return value;
+		}
+		return RMath.prev(Math.pow(value, 1 / n));
+	}
+
+	private double rootHigh(double value, double n) {
+		if (value == 0 || Double.isInfinite(value)) {
+			return value;
+		}
+		return RMath.next(Math.pow(value, 1 / n));
+	}
+
 	private double oddFractionPower(double x, double power) {
 		double fractionPower = Math.pow(Math.abs(x), power);
 		return x > 0
@@ -112,6 +174,10 @@ public class IntervalRoot {
 
 	private boolean isPositiveOdd(double n) {
 		return n > 0 && isOdd(n);
+	}
+
+	private boolean isPositiveEven(double n) {
+		return n > 0 && DoubleUtil.isInteger(n) && ((int) n) % 2 == 0;
 	}
 
 	private boolean isOdd(double n) {

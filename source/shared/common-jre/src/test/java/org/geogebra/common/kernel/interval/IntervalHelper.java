@@ -16,8 +16,6 @@
 
 package org.geogebra.common.kernel.interval;
 
-import static org.geogebra.common.kernel.interval.IntervalSetOps.inverted;
-
 import org.geogebra.common.kernel.interval.operators.RMath;
 
 public class IntervalHelper {
@@ -29,15 +27,6 @@ public class IntervalHelper {
 	 */
 	public static Interval interval(double singleton) {
 		return new Interval(singleton);
-	}
-
-	/**
-	 * @param low minimum
-	 * @param high maximum
-	 * @return inverted interval
-	 */
-	public static Interval invertedPayload(double low, double high) {
-		return IntervalSetOps.legacyInverted(low, high);
 	}
 
 	/**

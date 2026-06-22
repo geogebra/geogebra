@@ -19,7 +19,7 @@ package org.geogebra.common.kernel.interval.operators;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
-import static org.geogebra.common.kernel.interval.IntervalHelper.invertedPayload;
+import static org.geogebra.common.kernel.interval.LegacyIntervalAdapter.legacyInverted;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.kernel.interval.Interval;
@@ -102,18 +102,18 @@ public class SqrtOperandTest {
 
 	@Test
 	public void sqrtOfPositiveInvertedInterval() {
-		assertEquals(invertedPayload(2, 3), evaluator.sqrt(invertedPayload(4, 9)));
+		assertEquals(legacyInverted(2, 3), evaluator.sqrt(legacyInverted(4, 9)));
 	}
 
 	@Test
 	public void sqrtOfMixedInvertedInterval() {
 		assertEquals(interval(3, Double.POSITIVE_INFINITY),
-				evaluator.sqrt(invertedPayload(-4, 9)));
+				evaluator.sqrt(legacyInverted(-4, 9)));
 	}
 
 	@Test
 	public void sqrtOfNegativeInvertedInterval() {
-		assertEquals(undefined(), evaluator.sqrt(invertedPayload(-4, -9)));
+		assertEquals(undefined(), evaluator.sqrt(legacyInverted(-4, -9)));
 	}
 
 	@Test

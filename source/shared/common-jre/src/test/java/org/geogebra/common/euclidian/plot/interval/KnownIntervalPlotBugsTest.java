@@ -17,6 +17,7 @@
 package org.geogebra.common.euclidian.plot.interval;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -46,6 +47,15 @@ class KnownIntervalPlotBugsTest extends BaseAppTestSetup {
 		withFunction("ln(cosh(x))");
 
 		assertEquals(0, gp.getLog().stream().filter(e -> Double.isInfinite(e.y())).count());
+	}
+
+	@Test
+	void lnExpShouldNotProduceFalseNegativeInfinityRay() {
+		withBounds(-750, 750, -5500, 5500);
+		withScreenSize(1200, 900);
+		withFunction("ln(e^x)");
+
+		assertFalse(gp.getLog().stream().anyMatch(e -> e.y() < -1000), gp.getLog().toString());
 	}
 
 	private void withBounds(double xmin, double xmax, double ymin, double ymax) {

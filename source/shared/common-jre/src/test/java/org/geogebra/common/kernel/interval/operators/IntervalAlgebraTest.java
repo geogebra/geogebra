@@ -20,13 +20,13 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.PRECISION;
 import static org.geogebra.common.kernel.interval.IntervalConstants.aroundZero;
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
-import static org.geogebra.common.kernel.interval.IntervalHelper.invertedPayload;
 import static org.geogebra.common.kernel.interval.IntervalSet.overflow;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.halfOpenLeft;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.inverted;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.whole;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
+import static org.geogebra.common.kernel.interval.LegacyIntervalAdapter.legacyInverted;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -117,7 +117,7 @@ public class IntervalAlgebraTest {
 
 	@Test
 	public void testMultiplicativeInverseResultInverted() {
-		assertEquals(invertedPayload(-0.16666666666666669, 0.5000000000000001),
+		assertEquals(legacyInverted(-0.16666666666666669, 0.5000000000000001),
 				evaluator.inverse(interval(-6, 2)));
 	}
 
@@ -174,13 +174,13 @@ public class IntervalAlgebraTest {
 	@Test
 	public void testEvenPowerOfInvertedCollapsesToConnectedPositive() {
 		assertEquals(interval(4, Double.POSITIVE_INFINITY),
-				evaluator.pow(invertedPayload(-3, 2), 2));
+				evaluator.pow(legacyInverted(-3, 2), 2));
 	}
 
 	@Test
 	public void testOddPowerOfInvertedStaysInverted() {
-		assertEquals(invertedPayload(-27, 8),
-				evaluator.pow(invertedPayload(-3, 2), 3));
+		assertEquals(legacyInverted(-27, 8),
+				evaluator.pow(legacyInverted(-3, 2), 3));
 	}
 
 	@Test
