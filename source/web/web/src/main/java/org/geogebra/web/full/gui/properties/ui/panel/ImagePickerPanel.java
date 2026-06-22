@@ -53,9 +53,8 @@ public class ImagePickerPanel extends FlowPanel {
 	}
 
 	private void buildImagePicker() {
-		fileChooser = new StandardButton(appW.getLocalization()
-				.getMenu(imagePicker.getChooseFromFileLabel()));
-		fileChooser.addStyleName("materialOutlinedButton");
+		fileChooser = BaseWidgetFactory.INSTANCE.newOutlinedButton(
+				appW.getLocalization().getMenu(imagePicker.getChooseFromFileLabel()));
 		fileChooser.addFastClickHandler(event -> UploadImagePanel.getUploadButton(appW,
 				this::uploadImageUpdateUI).click());
 		add(fileChooser);

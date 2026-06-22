@@ -27,6 +27,7 @@ import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.properties.ui.panel.IconButtonPanel;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.IconSpec;
@@ -111,9 +112,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	}
 
 	protected void addSettingsButton(OptionType optionType) {
-		StandardButton settingsButton = new StandardButton(loc.getMenu("General.OpenSettings"));
+		StandardButton settingsButton = BaseWidgetFactory.INSTANCE.newTextButton(
+				loc.getMenu("General.OpenSettings"));
 		settingsButton.addFastClickHandler(source -> openSettings(optionType));
-		settingsButton.addStyleName("materialOutlinedButton");
 		AriaMenuItem settingsItem = new AriaMenuItem(settingsButton, () -> {});
 		settingsItem.addStyleName("settingsItem");
 		wrappedPopup.addItem(settingsItem);

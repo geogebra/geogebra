@@ -30,6 +30,7 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconResources;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
@@ -240,9 +241,8 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 
 	private StandardButton addStyledButton(SVGResource img, FlowPanel rootPanel,
 			String label, FastClickHandler clickHandler) {
-		StandardButton btn = new StandardButton(img, label, 18);
+		StandardButton btn = BaseWidgetFactory.INSTANCE.newTonalButton(img, label);
 		btn.addFastClickHandler(clickHandler);
-		btn.addStyleName("containedButton");
 		rootPanel.add(btn);
 		return btn;
 	}

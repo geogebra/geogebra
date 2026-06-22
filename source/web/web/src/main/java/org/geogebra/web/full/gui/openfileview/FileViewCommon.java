@@ -26,6 +26,7 @@ import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.gui.layout.scientific.SettingsAnimator;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.laf.LoadSpinner;
 import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -41,7 +42,6 @@ import org.geogebra.web.shared.components.ComponentSearchBar;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.gwtproject.animation.client.AnimationScheduler;
-import org.gwtproject.user.client.ui.Button;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
@@ -59,7 +59,7 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 	// material panel
 	private FlowPanel materialPanel;
 	private final LocalizationW loc;
-	private Button signInTextButton;
+	private StandardButton signInTextButton;
 	private IconButton signInIconButton;
 	private ProfileAvatar profilePanel;
 	private IconButton examInfoBtn;
@@ -153,7 +153,7 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 		SignInControllerI signInController = app.getLAF()
 				.getSignInController(app);
 		signInTextButton = getLoginTextButton(signInController);
-		signInTextButton.setStyleName("signIn");
+		signInTextButton.addStyleName("signIn");
 		getHeader().add(signInTextButton);
 
 		signInIconButton = getLoginIconButton(signInController);
@@ -173,11 +173,12 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 		}
 	}
 
-	private Button getLoginTextButton(SignInControllerI signInController) {
-		Button button = new Button(app.getLocalization().getMenu("SignIn"));
+	private StandardButton getLoginTextButton(SignInControllerI signInController) {
+		StandardButton button = BaseWidgetFactory.INSTANCE.newTextButton(
+				app.getLocalization().getMenu("SignIn"));
 		button.getElement().setAttribute("type", "button");
 		button.addStyleName("signInButton");
-		button.addClickHandler(event -> {
+		button.addFastClickHandler(event -> {
 			signInController.login();
 			signInController.initLoginTimer();
 		});

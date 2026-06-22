@@ -338,27 +338,34 @@ $keyboard_button_transition: opacity .3s ease;
 
 	/** Material Design TEXT BUTTON **/
 	.materialTextButton {
-		display: inline-block;
+		display: inline-flex;
 		min-width: 64px;
-		height: 36px;
+		height: 40px;
 		background: transparent;
-		color: var(--ggb-primary-color);
-		font-size: 90%;
-		letter-spacing: .04em;
-		line-height: 36px;
-		text-transform: uppercase;
-		border-radius: 4px;
-		padding: 0px 8px;
-		margin-left: 8px;
+		color: var(--ggb-dark-color);
+		font-size: 14px;
+		letter-spacing: .1px;
+		line-height: 20px;
+		border-radius: var(--ggb-button-border-radius);
+		padding: 0px 16px;
 		cursor: pointer;
 		transition: background 280ms cubic-bezier(0.4, 0, 0.2, 1);
 
-		&:hover {
-			background: neutral(200);
+		&:hover, &.keyboardFocus:focus-visible {
+			background: var(--ggb-light-color);
+		}
+
+		img {
+			width: 24px;
+			height: 24px;
+			margin: 8px 8px 8px 0;
 		}
 
 		.gwt-Label {
 			text-align: center;
+			height: 20px;
+			line-height: 20px;
+			margin: auto;
 		}
 
 		&.disabled {
@@ -369,33 +376,30 @@ $keyboard_button_transition: opacity .3s ease;
 				cursor: default;
 			}
 		}
+
+		&.keyboardFocus:focus-visible {
+			outline-color: var(--ggb-dark-color);
+			outline-width: 2px;
+			outline-style: solid;
+			outline-offset: 2px;
+		}
 	}
 
-	/** Material Design CONTAINED BUTTON **/
-	.materialContainedButton {
+	/** Material Design FILLED BUTTON **/
+	.materialFilledButton {
 		@extend .materialTextButton;
 
-		padding: 0px 16px;
 		background-color: var(--ggb-primary-color);
 		color: white;
-		box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
-		transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
 		text-align: center;
 
-		&:hover {
-			background: var(--ggb-primary-color);
-			box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0,0,0,.12);
+		&:hover, &.keyboardFocus:focus-visible {
+			background: var(--ggb-dark-color);
 		}
 
-		&.disabled {
+		&.disabled, &.disabled:hover {
 			background-color: neutral(300);
 			color: neutral(500);
-
-			&:hover {
-				cursor: default;
-				background: neutral(300);
-				box-shadow: none;
-			}
 		}
 	}
 
@@ -403,92 +407,18 @@ $keyboard_button_transition: opacity .3s ease;
 	.materialOutlinedButton {
 		@extend .materialTextButton;
 
-		border: 1px solid colors.$black-12;
+		border: 1px solid neutral(300);
 		box-sizing: border-box;
 	}
 
-	/** Material TEXT BUTTON used for dialogs negative action **/
-	.dialogTextButton {
+	/** Material Design TONAL BUTTON **/
+	.materialTonalButton {
 		@extend .materialTextButton;
 
-		color: neutral(700);
-		margin: 0;
+		background: neutral(200);
 
-		&:hover {
-			color: neutral(700);
-			background-color: neutral(200);
-		}
-
-		&:focus-visible {
-			outline-color: var(--ggb-dark-color);
-			outline-width: 2px;
-			outline-style: solid;
-			outline-offset: 3px;
-			background: var(--ggb-light-color);
-		}
-	}
-
-	/** Material CONTAINED BUTTON used for dialogs positive action **/
-	.dialogContainedButton {
-		@extend .materialContainedButton;
-
-		box-shadow: none;
-		margin: 0;
-
-		&:focus-visible {
-			outline-color: var(--ggb-dark-color);
-			outline-width: 2px;
-			outline-style: solid;
-			outline-offset: 3px;
-		}
-	}
-
-	.containedButton {
-		cursor: pointer;
-		float: left;
-		min-width: 64px;
-		height: header.$button_height;
-		border-radius: 4px;
-		background-color: neutral(200);
-		transition: header.$button_hover_transition;
-		&:hover {
-			background-color: neutral(300);
-		}
-
-		img {
-			float: left;
-			width: 18px;
-			height: 18px;
-			padding: 9px 8px 9px 12px;
-			opacity: 0.54;
-		}
-
-		.gwt-Label {
-			float: left;
-			padding: 11px 16px 11px 0px;
-			text-transform: uppercase;
-			font-size: 87.5%; // (=14px)
-			line-height: 1;
-			color: neutral(700);
-		}
-
-		&.disabled, &[disabled] {
-			img {
-				opacity: 0.34;
-			}
-
-			.gwt-Label {
-				color: neutral(500);
-				background-color: neutral(200);
-			}
-
-			&:hover {
-				cursor: default;
-				background-color: neutral(200);
-				img {
-					opacity: 0.34;
-				}
-			}
+		&:hover, &.keyboardFocus:focus-visible, &.disabled, &.disabled:hover {
+			background: neutral(300);
 		}
 	}
 
@@ -616,7 +546,7 @@ $keyboard_button_transition: opacity .3s ease;
 			letter-spacing: 0.2px;
 		}
 
-		.dialogContainedButton {
+		.materialFilledButton {
 			display: block;
 			margin: 24px auto 0 auto;
 		}

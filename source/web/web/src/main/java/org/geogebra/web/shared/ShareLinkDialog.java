@@ -75,9 +75,7 @@ public class ShareLinkDialog extends ComponentDialog {
 		Label linkLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(
 				localize("Link"), "linkLabel");
 
-		StandardButton copyBtn = new StandardButton(localize("Copy"));
-		copyBtn.setStyleName("copyButton");
-
+		StandardButton copyBtn = BaseWidgetFactory.INSTANCE.newTextButton(localize("Copy"));
 		copyBtn.addFastClickHandler(source -> {
 			app.getCopyPaste().copyTextToSystemClipboard(linkBox.getText());
 			hide();

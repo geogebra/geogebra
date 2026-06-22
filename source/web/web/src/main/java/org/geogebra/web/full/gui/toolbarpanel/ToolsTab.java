@@ -25,6 +25,7 @@ import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.util.CustomScrollbar;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.gwtproject.user.client.ui.ScrollPanel;
@@ -92,14 +93,12 @@ public class ToolsTab extends ToolbarTab implements ExamListener {
 	}
 
 	private void createMoreLessButtons() {
-		moreBtn = new StandardButton(
+		moreBtn = BaseWidgetFactory.INSTANCE.newTextButton(
 				app.getLocalization().getMenu("Tools.More"));
 		AriaHelper.hide(moreBtn);
-		moreBtn.setStyleName("materialTextButton");
-		lessBtn = new StandardButton(
+		lessBtn = BaseWidgetFactory.INSTANCE.newTextButton(
 				app.getLocalization().getMenu("Tools.Less"));
 		AriaHelper.hide(lessBtn);
-		lessBtn.setStyleName("materialTextButton");
 		moreBtn.addFastClickHandler(source -> onMorePressed());
 
 		lessBtn.addFastClickHandler(source -> onLessPressed());

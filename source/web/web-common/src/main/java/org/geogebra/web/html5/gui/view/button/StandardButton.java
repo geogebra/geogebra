@@ -309,6 +309,7 @@ public class StandardButton extends Widget implements HasResource {
 	 * @param enabled whether to add or remove the "disabled" property
 	 */
 	public void setEnabled(boolean enabled) {
+		Dom.toggleClass(this, "disabled", !enabled);
 		AriaHelper.setDisabled(this, !enabled);
 	}
 

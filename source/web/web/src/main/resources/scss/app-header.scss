@@ -39,17 +39,9 @@
 	box-sizing: border-box;
 }
 
-.GeoGebraHeader .signIn {
-	color: neutral(900);
-	padding: 4px 8px;
-	margin: 16px 12px;
-	background-color: transparent;
-	transition: background-color 280ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.GeoGebraHeader .signIn:hover,
-.GeoGebraHeader .signIn:focus {
-	background-color: neutral(200);
+.GeoGebraHeader .materialTextButton.signIn {
+	display: block;
+	text-align: center;
 }
 
 .GeoGebraHeader .appName {
@@ -87,10 +79,10 @@
 
 .GeoGebraFrame .buttons {
 	position: absolute;
-	top: 0px;
+	top: 0;
 	right: 12px;
 	display: flex;
-	min-height: 48px;
+	min-height: 64px;
 	align-items: center;
 }
 
@@ -109,15 +101,16 @@
 	margin: 6px;
 }
 
-.GeoGebraFrame .dialogContainedButton.assignBtn {
+.GeoGebraFrame .materialFilledButton.assignBtn {
 	margin: 0 12px;
+	display: block;
 }
 
-.GeoGebraFrame .dialogContainedButton.assignBtn:focus {
+.GeoGebraFrame .materialFilledButton.assignBtn:focus {
 	background-color: purple(700);
 }
 
-.GeoGebraHeader .profilePanel, .GeoGebraHeader .signIn {
+.GeoGebraHeader .profilePanel {
 	text-transform: uppercase;
 	line-height: 24px;
 	border-radius: 2px;

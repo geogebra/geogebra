@@ -35,21 +35,21 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.BrowserDevice;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.gwtproject.user.client.ui.FlowPanel;
 
 public class OpenFileView extends HeaderFileView
 		implements OpenFileListener, EventRenderable {
-
 	private final FileViewCommon common;
 	private final AppWFull app;
 	private final BrowserDevice.FileOpenButton openFileBtn;
 	private StandardButton googleDriveBtn;
 
 	/**
-	 * @param app - application
-	 * @param openFileButton - button to open file picker
+	 * @param app application
+	 * @param openFileButton button to open file picker
 	 */
 	public OpenFileView(AppWFull app, BrowserDevice.FileOpenButton openFileButton) {
 		this.app = app;
@@ -72,9 +72,7 @@ public class OpenFileView extends HeaderFileView
 		FlowPanel buttonPanel = new FlowPanel();
 		buttonPanel.addStyleName("fileViewButtonPanel");
 
-		openFileBtn.setImageAndText(
-				MaterialDesignResources.INSTANCE.open_local_file()
-						.getSafeUri().asString(),
+		openFileBtn.setImageAndText(MaterialDesignResources.INSTANCE.open_local_file(),
 				app.getLocalization().getMenu("OpenFileView.LocalFile"));
 		openFileBtn.setAcceptedFileType(app.getFileExtension());
 		if (app.enableFileFeatures()) {
@@ -86,11 +84,9 @@ public class OpenFileView extends HeaderFileView
 	}
 
 	private void addGoogleDriveButton(FlowPanel parent) {
-		googleDriveBtn = new StandardButton(
+		googleDriveBtn = BaseWidgetFactory.INSTANCE.newTonalButton(
 				MaterialDesignResources.INSTANCE.google_drive(),
-				app.getLocalization().getMenu("GoogleDrive"), 18);
-		googleDriveBtn.addStyleName("containedButton");
-		googleDriveBtn.addStyleName("buttonMargin16");
+				app.getLocalization().getMenu("GoogleDrive"));
 
 		googleDriveBtn.addFastClickHandler(source -> {
 			if (app.getGoogleDriveOperation() != null) {

@@ -47,6 +47,7 @@ import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -166,10 +167,9 @@ public class IconButtonWithProperty extends IconButton {
 			parent.add(colorPanel);
 
 			if (colorProperty.getFirstProperty() instanceof TextBackgroundColorProperty) {
-				StandardButton noColorButton = new StandardButton(
+				StandardButton noColorButton = BaseWidgetFactory.INSTANCE.newTextButton(
 						appW.getGeneralIconResource().getImageResource(GeneralIcon.NO_COLOR),
-						appW.getLocalization().getMenu("noColor"), 24, 24);
-				noColorButton.addStyleName("noColBtn");
+						appW.getLocalization().getMenu("noColor"));
 				noColorButton.addFastClickHandler(source -> {
 					if (popupHandler != null) {
 						popupHandler.fireActionPerformed(colorProperty, null);

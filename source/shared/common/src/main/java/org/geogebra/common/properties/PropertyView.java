@@ -1446,7 +1446,7 @@ public abstract class PropertyView {
 			ActionableProperty actionableProperty =
 					actionablePropertyCollection.getProperties()[index];
 			if (actionableProperty instanceof SaveSettingsAction) {
-				return "dialogContainedButton";
+				return "materialFilledButton";
 			} else if (actionableProperty instanceof RestoreSettingsAction) {
 				return "materialOutlinedButton";
 			}

@@ -39,6 +39,7 @@ import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.BrowserDevice.FileOpenButton;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.util.HttpRequestW;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
@@ -147,9 +148,7 @@ public class OpenFileViewMebis extends HeaderFileView
 				localize("New.Mebis"), 18);
 		newFileBtn.addFastClickHandler(source -> newFile());
 
-		openFileBtn.setImageAndText(
-				MaterialDesignResources.INSTANCE.mow_pdf_open_folder()
-						.getSafeUri().asString(),
+		openFileBtn.setImageAndText(MaterialDesignResources.INSTANCE.mow_pdf_open_folder(),
 				localize("mow.offlineMyFiles"));
 		openFileBtn.setAcceptedFileType(".ggs");
 
@@ -209,7 +208,6 @@ public class OpenFileViewMebis extends HeaderFileView
 	private void setExtendedButtonStyle() {
 		newFileBtn.setStyleName("extendedFAB");
 		newFileBtn.addStyleName("FABteal");
-		newFileBtn.addStyleName("buttonMargin24");
 		openFileBtn.setStyleName("extendedFAB");
 		openFileBtn.addStyleName("FABwhite");
 		buttonPanel.setStyleName("fileViewButtonPanel");
@@ -217,11 +215,8 @@ public class OpenFileViewMebis extends HeaderFileView
 	}
 
 	private void setSmallButtonStyle() {
-		downloadAllFiles.setStyleName("containedButton");
-		newFileBtn.setStyleName("containedButton");
-		newFileBtn.addStyleName("buttonMargin16");
-		openFileBtn.setStyleName("containedButton");
-		openFileBtn.addStyleName("buttonMargin16");
+		downloadAllFiles.setStyleName("materialTonalButton");
+		newFileBtn.setStyleName("materialTonalButton");
 		buttonPanel.setStyleName("fileViewButtonPanel");
 	}
 
@@ -267,11 +262,8 @@ public class OpenFileViewMebis extends HeaderFileView
 	@Override
 	public void setLabels() {
 		newFileBtn.setText(localize("New.Mebis"));
-		openFileBtn
-				.setImageAndText(
-						MaterialDesignResources.INSTANCE.mow_pdf_open_folder()
-								.getSafeUri().asString(),
-						localize("mow.offlineMyFiles"));
+		openFileBtn.setImageAndText(MaterialDesignResources.INSTANCE.mow_pdf_open_folder(),
+				localize("mow.offlineMyFiles"));
 		if (sortDropDown != null) {
 			sortDropDown.setItemText(0, localize("SortBy"));
 			for (int i = 0; i < map.length; i++) {
@@ -392,7 +384,8 @@ public class OpenFileViewMebis extends HeaderFileView
 	}
 
 	private void addLoadMoreFilesButton(int materialCount) {
-		StandardButton loadMoreFilesButton = new StandardButton(localize("loadMore.Mebis"));
+		StandardButton loadMoreFilesButton = BaseWidgetFactory.INSTANCE.newFilledButton(
+				localize("loadMore.Mebis"));
 		loadMoreFilesButton.addFastClickHandler(source -> {
 			loadMoreFilesButton.setText(null);
 			loadMoreFilesButton.addStyleName("spinner-button");
@@ -403,7 +396,6 @@ public class OpenFileViewMebis extends HeaderFileView
 			DOM.appendChild(loadMoreFilesButton.getElement(), loading.getElement());
 			loadAllMaterials(materialCount);
 		});
-		loadMoreFilesButton.setStyleName("dialogContainedButton");
 		loadMoreFilesPanel.add(loadMoreFilesButton);
 	}
 

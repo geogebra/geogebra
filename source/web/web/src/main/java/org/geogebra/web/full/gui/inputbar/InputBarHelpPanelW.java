@@ -30,10 +30,10 @@ import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.gwtproject.dom.style.shared.Float;
 import org.gwtproject.dom.style.shared.TextAlign;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.InlineLabel;
@@ -90,20 +90,20 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 
 		// button panel
 		FlowPanel pnlButton = new FlowPanel();
-		pnlButton.getElement().getStyle().setFloat(Float.RIGHT);
+		pnlButton.addStyleName("buttonPanel");
 
 		// create help button
-		btnOnlineHelp = new StandardButton(app.getLocalization().getMenu("ShowOnlineHelp"));
+		btnOnlineHelp = BaseWidgetFactory.INSTANCE.newOutlinedButton(
+				app.getLocalization().getMenu("ShowOnlineHelp"));
 		btnOnlineHelp.addFastClickHandler(event -> openOnlineHelp());
 		render(app.getNetworkOperation().isOnline());
 		app.getNetworkOperation().getView().add(this);
-		btnOnlineHelp.addStyleName("inputHelp-OnlineHelpBtn");
 		pnlButton.add(btnOnlineHelp);
 
 		// create close button
-		btnClose = new StandardButton(app.getLocalization().getMenu("Close"));
+		btnClose = BaseWidgetFactory.INSTANCE.newTextButton(
+				app.getLocalization().getMenu("Close"));
 		btnClose.addFastClickHandler(event -> hide());
-		btnClose.setStyleName("inputHelp-CancelBtn");
 		pnlButton.add(btnClose);
 
 		// create detail title panel

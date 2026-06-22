@@ -67,9 +67,8 @@ public class ComponentInfoErrorPanel extends FlowPanel {
 		}
 
 		if (data.getActionButtonText() != null) {
-			actionButton =
-					new StandardButton(loc.getMenu(data.getActionButtonText()));
-			actionButton.addStyleName("dialogContainedButton");
+			actionButton = BaseWidgetFactory.INSTANCE.newFilledButton(
+					loc.getMenu(data.getActionButtonText()));
 			actionButton.addFastClickHandler(source -> {
 					if (!actionButton.getStyleName().contains("disabled")) {
 						buttonAction.run();

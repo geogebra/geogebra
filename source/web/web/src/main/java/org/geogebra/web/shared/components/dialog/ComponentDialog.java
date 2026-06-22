@@ -134,11 +134,8 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 			return;
 		}
 
-		negButton = new StandardButton(app.getLocalization()
+		negButton = BaseWidgetFactory.INSTANCE.newTextButton(app.getLocalization()
 				.getMenu(negTransKey));
-		negButton.setStyleName("dialogTextButton");
-		negButton.addStyleName("keyboardFocus");
-
 		negButton.addClickHandler(((AppW) app).getGlobalHandlers(), source -> onNegativeAction());
 		dialogButtonPanel.add(negButton);
 	}
@@ -148,11 +145,8 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 			return;
 		}
 
-		posButton = new StandardButton(app.getLocalization()
+		posButton = BaseWidgetFactory.INSTANCE.newFilledButton(app.getLocalization()
 				.getMenu(posTransKey));
-		posButton.setStyleName("dialogContainedButton");
-		posButton.addStyleName("keyboardFocus");
-
 		posButton.addClickHandler(((AppW) app).getGlobalHandlers(), source -> onPositiveAction());
 		dialogButtonPanel.add(posButton);
 	}
@@ -333,7 +327,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 				&& !isTextarea(nativeEvent.getEventTarget())) {
 			EventTarget target = nativeEvent.getEventTarget();
 			if (Element.is(target)
-					&& Element.as(target).getClassName().contains("dialogTextButton")) {
+					&& Element.as(target).getClassName().contains("materialTextButton")) {
 				onEscape();
 			} else {
 				onPositiveAction();

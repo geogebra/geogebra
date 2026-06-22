@@ -206,10 +206,9 @@
 		padding: 0;
 		background-color: white;
 		cursor: default;
+		margin-bottom: 8px;
 
-		.materialOutlinedButton {
-			border: none;
-			text-transform: none;
+		.materialTextButton {
 			display: block;
 			margin: auto;
 		}

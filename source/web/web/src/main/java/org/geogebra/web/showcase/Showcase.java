@@ -38,6 +38,7 @@ import org.geogebra.web.full.gui.components.ComponentTextArea;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.gui.view.algebra.ToastController;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -171,9 +172,7 @@ public class Showcase implements EntryPoint {
 	}
 
 	private StandardButton newStandardButton(String label) {
-		StandardButton button = new StandardButton(label);
-		button.addStyleName("materialTextButton");
-		return button;
+		return BaseWidgetFactory.INSTANCE.newTextButton(label);
 	}
 
 	/**

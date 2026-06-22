@@ -1395,12 +1395,19 @@
 		width: 100%;
 		height: 37px;
 		font-weight: bold;
-		padding: 1px 10px;
+		padding: 0 10px 10px;
 		border-bottom: 1px solid lightgray;
 		cursor: default;
 
 		.gwt-InlineLabel {
 			line-height: 36px;
+		}
+
+		.buttonPanel {
+			margin-right: 10px;
+			float: right;
+			display: flex;
+			gap: 8px;
 		}
 	}
 
@@ -1417,32 +1424,6 @@
 	.inputHelp-CAScmdSyntax {
 		font-style: italic;
 		color: darkred;
-	}
-
-	.inputHelp-OnlineHelpBtn {
-		text-align: right;
-		font-size: 100%;
-		margin: 3px;
-	}
-
-	.inputHelp-CancelBtn {
-		font-size: 110%;
-		margin: 3px;
-		color: #666666;
-		border: none;
-		background: none;
-		text-decoration: underline;
-		padding: 5px 15px;
-		box-shadow: none;
-		font-weight: normal;
-	}
-
-	.inputHelp-CancelBtn:hover,
-	.inputHelp-CancelBtn:active {
-		color: #6161FF;
-		background: none;
-		border: none;
-		box-shadow: none;
 	}
 
 	.inputHelp-headerCAS {
@@ -2310,11 +2291,6 @@
 		border-top: 1px solid #EDEDED;
 		box-shadow: 0 0 2px rgba(204, 204, 204, 0.5);
 	}
-
-	.customizeToolbarButtonPanel .gwt-Button {
-		margin-left: 10px;
-	}
-
 	/*
 	  ########################################
 	  ###   END OF CUSTOMIZE TOOLBAR GUI   ###

@@ -87,7 +87,7 @@
 					line-height: 20px;
 				}
 
-				.dialogContainedButton {
+				.materialFilledButton {
 					min-width: 190px;
 					margin: auto 12px auto 0;
 				}
@@ -216,7 +216,7 @@
 					width: calc(100% - 16px);
 					margin-bottom: 16px;
 
-					.dialogContainedButton {
+					.materialFilledButton {
 						display: block;
 						margin: auto;
 						min-width: 140px;
@@ -266,8 +266,8 @@
 			}
 
 				.fileViewButtonPanel {
-					display: table;
-					border-collapse: separate;
+					display: flex;
+					gap: 16px;
 				}
 				.extendedFAB {
 					cursor: pointer;
@@ -434,7 +434,7 @@
 	.fileViewButtonPanel {
 		margin-left: 24px;
 		margin-bottom: 24px;
-		.containedButton {
+		button {
 			form {
 				height: 0;
 				input {
@@ -448,18 +448,10 @@
 					opacity: 0;
 				}
 			}
-		}
 
-		.buttonMargin16 {
-			margin-left: 16px;
-		}
-
-		.buttonMargin24 {
-			margin-left: 24px;
-		}
-
-		.hover {
-			background-color: colors.$mow_card_background_hover;
+			&:hover .materialTonalButton {
+				background: neutral(300);
+			}
 		}
 	}
 }

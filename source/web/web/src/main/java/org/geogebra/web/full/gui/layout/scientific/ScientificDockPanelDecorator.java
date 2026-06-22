@@ -19,6 +19,7 @@ package org.geogebra.web.full.gui.layout.scientific;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.util.StickyTable;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -141,9 +142,8 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 		SimplePanel btnHolder = new SimplePanel();
 		btnHolder.addStyleName("btnRow");
 
-		defFuncBtn = new StandardButton(app.getLocalization()
-				.getMenu("DefineFunctions"));
-		defFuncBtn.addStyleName("materialTextButton");
+		defFuncBtn = BaseWidgetFactory.INSTANCE.newTextButton(
+				app.getLocalization().getMenu("DefineFunctions"));
 		btnHolder.add(defFuncBtn);
 		table.getElement().insertBefore(btnHolder.getElement(), table.getElement().getChild(0));
 

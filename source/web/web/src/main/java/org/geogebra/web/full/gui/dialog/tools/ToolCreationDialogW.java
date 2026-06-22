@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
@@ -240,7 +241,6 @@ public class ToolCreationDialogW extends ComponentDialog implements
 		default:
 			break;
 		}
-
 	}
 
 	private void createNavigation() {
@@ -248,16 +248,16 @@ public class ToolCreationDialogW extends ComponentDialog implements
 		addDialogContent(bottomWidget = new FlowPanel());
 		bottomWidget.setStyleName("dialogNavigation");
 		// buttons
-		btBack = new StandardButton("< " + loc.getMenu("Back"));
-		btBack.addStyleName("materialOutlinedButton ");
+		btBack = BaseWidgetFactory.INSTANCE.newOutlinedButton(
+				"< " + loc.getMenu("Back"));
 		btBack.addFastClickHandler(e ->
 			tabPanel.selectTab(getSelectedTab() - 1)
 		);
 		btBack.setEnabled(false);
 		btBack.getElement().getStyle().setMargin(3, Unit.PX);
 
-		btNext = new StandardButton(loc.getMenu("Next") + " >");
-		btNext.addStyleName("materialOutlinedButton ");
+		btNext = BaseWidgetFactory.INSTANCE.newOutlinedButton(
+				loc.getMenu("Next") + " >");
 		btNext.addFastClickHandler(e -> {
 			if (getSelectedTab() == tabPanel.getTabBar().getWidgetCount() - 1) {
 				finish();

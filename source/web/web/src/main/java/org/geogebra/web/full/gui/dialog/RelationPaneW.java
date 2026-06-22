@@ -19,6 +19,7 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.kernel.Relation;
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -70,9 +71,8 @@ public class RelationPaneW extends ComponentDialog
 		mainPanel.add(numerical);
 
 		if (hasSymbolicSolution(relations)) {
-			StandardButton checkSym = new StandardButton(app.getLocalization()
-					.getMenu("RelationDialog.CheckSymbolically"));
-			checkSym.addStyleName("materialTextButton");
+			StandardButton checkSym = BaseWidgetFactory.INSTANCE.newTextButton(
+					app.getLocalization().getMenu("RelationDialog.CheckSymbolically"));
 			checkSym.addStyleName("checkSymBtn");
 			checkSym.addFastClickHandler(this);
 			mainPanel.add(checkSym);

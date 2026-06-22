@@ -560,24 +560,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			.linkBox::selection {
 				background: colors.$teal-default-20;
 			}
-			.copyButton {
-				cursor: pointer;
-				min-width: 64px;
-				height: 36px;
-				border-radius: 2px;
-				padding: 0 8px;
+			.materialTextButton {
 				margin-left: 32px;
-				display: inline-flex;
-				align-items: center;
-				justify-content: center;
-				vertical-align: middle;
-				color: neutral(900);
-				text-transform: uppercase;
-				transition: background-color 0.15s;
-
-				&:hover {
-					background-color: colors.$mow_card_background_hover;
-				}
 			}
 		}
 
@@ -979,24 +963,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					background: rgba(colors.$mow_primary, 0.2);
 				}
 
-				.copyButton {
-					cursor: pointer;
-					min-width: 64px;
-					height: 36px;
-					border-radius: 2px;
-					padding: 0 8px;
+				.materialTextButton {
 					margin-left: 32px;
-					display: inline-flex;
-					align-items: center;
-					justify-content: center;
-					vertical-align: middle;
-					color: neutral(900);
-					text-transform: uppercase;
-					transition: background-color 0.15s;
-
-					&:hover {
-						background-color: colors.$mow_card_background_hover;
-					}
 				}
 			}
 
@@ -1427,12 +1395,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.toolButtons {
-			display: inline-block;
+			display: inline-flex;
+			gap: 8px;
 			margin-bottom: 16px;
-		}
-
-		.containedButton {
-			margin-right: 8px;
 		}
 	}
 
@@ -1501,16 +1466,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 			.materialOutlinedButton {
 				min-width: 94px;
-			}
-
-			.materialOutlinedButton:disabled {
-				color: colors.$black-38;
-				opacity: 1;
-
-				&:hover {
-					background: white;
-				}
-
 			}
 		}
 	}

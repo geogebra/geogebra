@@ -32,26 +32,6 @@
 		background-color: white;
 		box-shadow: 0 0 2px 1px colors.$popup-shadow;
 
-		.inputHelp-CancelBtn,
-			.inputHelp-OnlineHelpBtn {
-			text-decoration: none;
-			text-align: center;
-			color: colors.$teal-default;
-			min-width: 64px;
-			height: 36px;
-			border-radius: 2px;
-			padding: 0px 8px;
-			border: none;
-			box-shadow: none;
-			font-size: 100%;
-			cursor: pointer;
-
-			&:hover,&:active {
-				background: colors.$black-10 !important;
-				color: colors.$teal-dark;
-			}
-		}
-
 		.inputHelp-leaf {
 			font-size: 90%;
 
@@ -293,31 +273,12 @@
 			}
 		}
 
-		.noColBtn {
-			display: inline-flex;
-			cursor: pointer;
+		.materialTextButton {
 			margin: 16px 0 0 0;
-			width: 100%;
-
-			&:hover {
-				background-color: neutral(200);
-			}
-
-			img, .fa-solid, .fa-light {
-				opacity: 0.54;
-				margin: 8px 0;
-			}
 
 			.fa-solid, .fa-light {
 				padding: 4px;
-			}
-
-			.gwt-Label {
-				font-size: 16px;
-				margin: 8px 0px 8px 12px;
-				height: 24px;
-				line-height: 24px;
-				cursor: pointer;
+				margin: 8px 8px 0 0;
 			}
 		}
 

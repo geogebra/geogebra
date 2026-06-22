@@ -101,9 +101,8 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 		FlowPanel buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("dialogPanel");
 
-		StandardButton positiveBtn = new StandardButton(app.getLocalization()
-				.getMenu(positiveKey));
-		positiveBtn.addStyleName("dialogTextButton");
+		StandardButton positiveBtn = BaseWidgetFactory.INSTANCE.newTextButton(
+				app.getLocalization().getMenu(positiveKey));
 		positiveBtn.addFastClickHandler(ignored -> {
 			if (isLogDialog) {
 				hide();

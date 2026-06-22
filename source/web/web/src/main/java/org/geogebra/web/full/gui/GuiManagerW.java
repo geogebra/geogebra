@@ -1733,7 +1733,7 @@ public class GuiManagerW extends GuiManager
 			return new OpenTemporaryFileView(app);
 		} else {
 			BrowserDevice.FileOpenButton fileOpenButton =
-					new BrowserDevice.FileOpenButton("containedButton", app);
+					new BrowserDevice.FileOpenButton(app);
 			BrowseViewI openFileView;
 			if (app.isByCS()) {
 				openFileView = new OpenFileViewMebis(app, fileOpenButton);

@@ -31,6 +31,7 @@ import org.geogebra.web.full.gui.CustomizeToolbarHeaderPanel.CustomizeToolbarLis
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -597,16 +598,14 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	}
 
 	private void addFooter() {
-		btDefaultToolbar = new StandardButton("");
+		btDefaultToolbar = BaseWidgetFactory.INSTANCE.newOutlinedButton("");
 		btDefaultToolbar.addFastClickHandler(event -> {
-			Log.debug("[Customize] reset");
 			resetDefaultToolbar();
 
 		});
 
-		btApply = new StandardButton("");
+		btApply = BaseWidgetFactory.INSTANCE.newOutlinedButton("");
 		btApply.addFastClickHandler(event -> {
-			Log.debug("[Customize] apply");
 			apply();
 		});
 
@@ -870,7 +869,6 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	 * 
 	 */
 	public void resetDefaultToolbar() {
-
 		if (dockPanel != null && dockPanel.getDefaultToolbarString() != null) {
 			buildUsedTools(dockPanel.getDefaultToolbarString());
 		} else {

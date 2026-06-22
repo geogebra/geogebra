@@ -20,6 +20,7 @@ import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.FocusUtil;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
@@ -138,15 +139,13 @@ public class ComponentSideSheet extends FlowPanel implements SetLabels {
 	}
 
 	private void initPositiveButton() {
-		positiveButton = new StandardButton(appW.getLocalization().getMenu(
-				data.getPositiveBtnTransKey()));
-		positiveButton.setStyleName("dialogContainedButton");
+		positiveButton = BaseWidgetFactory.INSTANCE.newFilledButton(
+				appW.getLocalization().getMenu(data.getPositiveBtnTransKey()));
 	}
 
 	private void initNegativeButton() {
-		negativeButton = new StandardButton(appW.getLocalization().getMenu(
-				data.getNegativeBtnTransKey()));
-		negativeButton.setStyleName("materialOutlinedButton");
+		negativeButton = BaseWidgetFactory.INSTANCE.newOutlinedButton(
+				appW.getLocalization().getMenu(data.getNegativeBtnTransKey()));
 	}
 
 	/**
