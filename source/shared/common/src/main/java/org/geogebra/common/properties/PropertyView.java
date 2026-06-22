@@ -612,6 +612,11 @@ public abstract class PropertyView {
 	 * formatted input displayed in {@link org.geogebra.editor.share.editor.MathField}.
 	 */
 	public static final class TextField extends ValidatablePropertyBackedView<StringProperty> {
+		/** The possible formats of the text. */
+		public enum Format {
+			MATH, PLAIN_TEXT,
+		}
+
 		TextField(StringProperty stringProperty) {
 			super(stringProperty);
 		}
