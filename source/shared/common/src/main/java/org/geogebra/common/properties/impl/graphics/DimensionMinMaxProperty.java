@@ -18,6 +18,8 @@ package org.geogebra.common.properties.impl.graphics;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -29,25 +31,27 @@ import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 public class DimensionMinMaxProperty extends AbstractValuedProperty<String>
-		implements StringProperty {
-	private App app;
-	private EuclidianOptionsModel.MinMaxType type;
-	private EuclidianSettings euclidianSettings;
+		implements StringProperty, EuclidianViewDimensionDependentProperty {
+	private final App app;
+	private final EuclidianOptionsModel.MinMaxType type;
+	private final EuclidianViewInterfaceCommon euclidianView;
+	private final EuclidianSettings euclidianSettings;
 
 	/**
 	 * Creates a bounds property of graphics view
 	 * @param app application
 	 * @param localization localization
 	 * @param name name of property
-	 * @param euclidianSettings euclidian settings
+	 * @param euclidianView euclidian view
 	 * @param type
 	 * {@link org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.MinMaxType}
 	 */
 	public DimensionMinMaxProperty(App app, Localization localization, String name,
-			EuclidianSettings euclidianSettings, EuclidianOptionsModel.MinMaxType type) {
+			EuclidianViewInterfaceCommon euclidianView, EuclidianOptionsModel.MinMaxType type) {
 		super(localization, name);
 		this.app = app;
-		this.euclidianSettings = euclidianSettings;
+		this.euclidianView = euclidianView;
+		this.euclidianSettings = euclidianView.getSettings();
 		this.type = type;
 	}
 
@@ -57,6 +61,9 @@ public class DimensionMinMaxProperty extends AbstractValuedProperty<String>
 				.evaluateToNumeric(value, true);
 		if (numberValue == null) {
 			return;
+		}
+		if (euclidianSettings instanceof EuclidianSettings3D euclidianSettings3D) {
+			euclidianSettings3D.setUpdateScaleOrigin(true);
 		}
 		switch (type) {
 		case maxX:
@@ -83,31 +90,27 @@ public class DimensionMinMaxProperty extends AbstractValuedProperty<String>
 
 	@Override
 	public String getValue() {
-		switch (type) {
-		case maxX:
-			return euclidianSettings.getXmaxObject().getLabel(StringTemplate.editTemplate);
-		case maxY:
-			return euclidianSettings.getYmaxObject().getLabel(StringTemplate.editTemplate);
-		case minX:
-			return euclidianSettings.getXminObject().getLabel(StringTemplate.editTemplate);
-		case minY:
-			return euclidianSettings.getYminObject().getLabel(StringTemplate.editTemplate);
-		case minZ:
-			return ((EuclidianSettings3D) euclidianSettings).getZminObject()
+		return switch (type) {
+			case minX -> euclidianView.getXminObject().getLabel(StringTemplate.editTemplate);
+			case maxX -> euclidianView.getXmaxObject().getLabel(StringTemplate.editTemplate);
+			case minY -> euclidianView.getYminObject().getLabel(StringTemplate.editTemplate);
+			case maxY -> euclidianView.getYmaxObject().getLabel(StringTemplate.editTemplate);
+			case minZ -> ((EuclidianView3D) euclidianView).getZminObject()
 					.getLabel(StringTemplate.editTemplate);
-		case maxZ:
-			return ((EuclidianSettings3D) euclidianSettings).getZmaxObject()
+			case maxZ -> ((EuclidianView3D) euclidianView).getZmaxObject()
 					.getLabel(StringTemplate.editTemplate);
-		default:
-			return "";
-		}
+		};
 	}
 
 	@Override
 	public @CheckForNull String validateValue(String value) {
 		NumberValue numberValue = app.getKernel().getAlgebraProcessor()
 					.evaluateToNumeric(value, true);
-		return numberValue == null ? getLocalization().getError("InputError.Enter_a_number")
-				: null;
+		return numberValue == null ? getLocalization().getError("InputError.Enter_a_number") : null;
+	}
+
+	@Override
+	public EuclidianViewInterfaceCommon getEuclidianView() {
+		return euclidianView;
 	}
 }

@@ -149,8 +149,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 								new AxesLineStyleProperty(localization, euclidianSettings),
 								new AxesBoldProperty(localization, euclidianSettings),
 								new LabelStylePropertyCollection(localization, euclidianSettings)),
-						new Dimension2DPropertiesCollection(app, localization, euclidianSettings,
-								view1),
+						new Dimension2DPropertiesCollection(app, localization, view1),
 						axisExpandableProperty2D(0, "xAxis", app, localization, view1),
 						axisExpandableProperty2D(1, "yAxis", app, localization, view1),
 						app.isUnbundled()
@@ -181,8 +180,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 								new AxesBoldProperty(localization, euclidianSettings),
 								new LabelStylePropertyCollection(localization, euclidianSettings)
 						),
-						new Dimension2DPropertiesCollection(app, localization,
-								euclidianSettings, activeView),
+						new Dimension2DPropertiesCollection(app, localization, activeView),
 						axisExpandableProperty2D(0, "xAxis", app, localization, activeView),
 						axisExpandableProperty2D(1, "yAxis", app, localization, activeView),
 						app.isUnbundled()

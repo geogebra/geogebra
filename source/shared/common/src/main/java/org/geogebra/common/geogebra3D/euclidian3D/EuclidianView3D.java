@@ -3463,6 +3463,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			((GeoNumeric) ymaxObject).setValue(getYmax());
 			((GeoNumeric) zminObject).setValue(getZmin());
 			((GeoNumeric) zmaxObject).setValue(getZmax());
+			dimensionListeners.forEach(DimensionListener::dimensionsUpdated);
 		}
 	}
 

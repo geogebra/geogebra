@@ -28,6 +28,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -63,6 +64,7 @@ import org.geogebra.common.properties.impl.graphics.Dimension3DPropertiesCollect
 import org.geogebra.common.properties.impl.graphics.DimensionMinMaxProperty;
 import org.geogebra.common.properties.impl.graphics.DimensionRatioProperty;
 import org.geogebra.common.properties.impl.graphics.EuclidianView3DDependentProperty;
+import org.geogebra.common.properties.impl.graphics.EuclidianViewDimensionDependentProperty;
 import org.geogebra.common.properties.impl.graphics.GridAngleProperty;
 import org.geogebra.common.properties.impl.graphics.GridDistanceProperty;
 import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
@@ -174,7 +176,8 @@ public abstract class PropertyView {
 	public abstract static class PropertyBackedView<T extends Property> extends PropertyView
 			implements PropertyValueObserver<Object>, EuclidianView3DInterface.Listener,
 			GeoElementDependentProperty.RedefinitionObserver, ProbabilityCalculatorView.Listener,
-			ValueFilter.Observer, ChartSegmentSelection.Listener, SettingListener, EventListener {
+			ValueFilter.Observer, ChartSegmentSelection.Listener, SettingListener, EventListener,
+			EuclidianViewInterfaceCommon.DimensionListener {
 		protected final @Nonnull T property;
 		private boolean previousAvailability;
 		private @CheckForNull List<GeoElement> dependentGeoElements;
@@ -192,6 +195,9 @@ public abstract class PropertyView {
 			}
 			if (property instanceof EuclidianView3DDependentProperty dependentProperty) {
 				dependentProperty.getEuclidianView3D().addListener(this);
+			}
+			if (property instanceof EuclidianViewDimensionDependentProperty dependentProperty) {
+				dependentProperty.getEuclidianView().addDimensionListener(this);
 			}
 			if (property instanceof AbstractPropertyListFacade<?> abstractPropertyListFacade) {
 				List<?> properties = abstractPropertyListFacade.getPropertyList();
@@ -238,6 +244,9 @@ public abstract class PropertyView {
 			}
 			if (property instanceof EuclidianView3DDependentProperty dependentProperty) {
 				dependentProperty.getEuclidianView3D().removeListener(this);
+			}
+			if (property instanceof EuclidianViewDimensionDependentProperty dependentProperty) {
+				dependentProperty.getEuclidianView().removeDimensionListener(this);
 			}
 			if (chartSelectionDependentProperties != null) {
 				chartSelectionDependentProperties.forEach(dependentProperty ->
@@ -325,6 +334,12 @@ public abstract class PropertyView {
 					notifyUpdateDelegates();
 				}
 			}
+		}
+
+		@Override
+		public void dimensionsUpdated() {
+			updatePropertyViewValues();
+			notifyUpdateDelegates();
 		}
 
 		@Override

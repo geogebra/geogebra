@@ -18,6 +18,8 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
@@ -51,6 +53,12 @@ public interface EuclidianViewInterfaceCommon
 	int AXIS_Y = 1;
 	/** reference to z axis */
 	int AXIS_Z = 2;
+
+	/** Listener notified when the dimensions of the Euclidian view change. */
+	interface DimensionListener {
+		/** Called after the Euclidian view's dimensions have changed. */
+		void dimensionsUpdated();
+	}
 
 	/**
 	 * Zooms around fixed point (px, py)
@@ -1098,4 +1106,16 @@ public interface EuclidianViewInterfaceCommon
 	 * @return axis distance definitions
 	 */
 	GeoNumberValue[] getAxesDistanceObjects();
+
+	/**
+	 * Registers a listener for Euclidian view dimension changes.
+	 * @param dimensionListener the listener to add
+	 */
+	void addDimensionListener(@Nonnull DimensionListener dimensionListener);
+
+	/**
+	 * Unregisters an Euclidian view dimension change listener.
+	 * @param dimensionListener the listener to remove
+	 */
+	void removeDimensionListener(@Nonnull DimensionListener dimensionListener);
 }

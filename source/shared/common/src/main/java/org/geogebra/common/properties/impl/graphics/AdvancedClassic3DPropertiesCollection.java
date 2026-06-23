@@ -51,7 +51,7 @@ public class AdvancedClassic3DPropertiesCollection extends AbstractPropertyColle
 				LabelVisibility.PointsOnly));
 		properties.add(new ViewDirectionProperty(localization, euclidianView));
 		properties.add(new ClippingPropertyCollection(localization, euclidianView));
-		properties.add(new Dimension3DPropertiesCollection(app, localization, settings));
+		properties.add(new Dimension3DPropertiesCollection(app, localization, euclidianView));
 		properties.add(new PlaneVisibilityProperty(localization, euclidianView.getSettings()));
 		properties.add(new UseLightingBooleanProperty(localization, euclidianView.getSettings(),
 				euclidianView));

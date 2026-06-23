@@ -20,6 +20,7 @@ import static org.geogebra.common.main.GeoGebraColorConstants.NEUTRAL_500;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -539,6 +540,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private Rectangle visibleRect = new Rectangle();
 	private EdgeInsets safeAreaInsets = new EdgeInsets(MINIMUM_SAFE_AREA);
 
+	protected final Set<DimensionListener> dimensionListeners = new HashSet<>();
+
 	/** @return line types */
 	public static Integer[] getLineTypes() {
 		Integer[] ret = new Integer[lineTypes.length];
@@ -848,6 +851,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			((GeoNumeric) xmaxObject).setValue(getXmax());
 			((GeoNumeric) yminObject).setValue(getYmin());
 			((GeoNumeric) ymaxObject).setValue(getYmax());
+			dimensionListeners.forEach(DimensionListener::dimensionsUpdated);
 		}
 	}
 
@@ -6690,5 +6694,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	public void setHitHandler(ControlPointHandler controlPointHandler) {
 		this.hitHandler = controlPointHandler;
+	}
+
+	@Override
+	public void addDimensionListener(@Nonnull DimensionListener dimensionListener) {
+		dimensionListeners.add(dimensionListener);
+	}
+
+	@Override
+	public void removeDimensionListener(@Nonnull DimensionListener dimensionListener) {
+		dimensionListeners.remove(dimensionListener);
 	}
 }

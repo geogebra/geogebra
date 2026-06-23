@@ -18,10 +18,10 @@ package org.geogebra.common.properties.impl.graphics;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
 
 /**
@@ -33,24 +33,24 @@ public class Dimension3DPropertiesCollection
 	/**
 	 * @param app application
 	 * @param localization localization
-	 * @param settings euclidian settings
+	 * @param euclidianView euclidian view
 	 */
 	public Dimension3DPropertiesCollection(App app, Localization localization,
-			EuclidianSettings settings) {
+			EuclidianViewInterfaceCommon euclidianView) {
 		super(localization, "Dimensions");
 
 		ArrayList<DimensionMinMaxProperty> properties = new ArrayList<>();
-		properties.add(new DimensionMinMaxProperty(app, localization, "xmin", settings,
+		properties.add(new DimensionMinMaxProperty(app, localization, "xmin", euclidianView,
 				EuclidianOptionsModel.MinMaxType.minX));
-		properties.add(new DimensionMinMaxProperty(app, localization, "xmax", settings,
+		properties.add(new DimensionMinMaxProperty(app, localization, "xmax", euclidianView,
 				EuclidianOptionsModel.MinMaxType.maxX));
-		properties.add(new DimensionMinMaxProperty(app, localization, "ymin", settings,
+		properties.add(new DimensionMinMaxProperty(app, localization, "ymin", euclidianView,
 				EuclidianOptionsModel.MinMaxType.minY));
-		properties.add(new DimensionMinMaxProperty(app, localization, "ymax", settings,
+		properties.add(new DimensionMinMaxProperty(app, localization, "ymax", euclidianView,
 				EuclidianOptionsModel.MinMaxType.maxY));
-		properties.add(new DimensionMinMaxProperty(app, localization, "zmin", settings,
+		properties.add(new DimensionMinMaxProperty(app, localization, "zmin", euclidianView,
 				EuclidianOptionsModel.MinMaxType.minZ));
-		properties.add(new DimensionMinMaxProperty(app, localization, "zmax", settings,
+		properties.add(new DimensionMinMaxProperty(app, localization, "zmax", euclidianView,
 				EuclidianOptionsModel.MinMaxType.maxZ));
 		setProperties(properties.toArray(new DimensionMinMaxProperty[0]));
 	}
