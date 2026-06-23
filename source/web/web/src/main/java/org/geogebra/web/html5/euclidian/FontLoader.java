@@ -28,16 +28,16 @@ import elemental2.dom.DomGlobal;
 public final class FontLoader {
 	private static final Map<String, FontState> injected = new HashMap<>();
 	private static final FontProperty.FontFamily[] bundled = new FontProperty.FontFamily[]{
-			FontProperty.FontFamily.BY_DRUCK,
-			FontProperty.FontFamily.BY_DRUCK_LINEATUR_SCHWARZ,
-			FontProperty.FontFamily.BY_DRUCK_LINEATUR_SCHWARZ_FARBBAND,
-			FontProperty.FontFamily.BY_DRUCK_LINEATUR_TUERKIS,
-			FontProperty.FontFamily.BY_DRUCK_LINEATUR_TUERKIS_FARBBAND,
-			FontProperty.FontFamily.BY_DRUCK_LINEATUR_ORANGE_FARBBAND,
-			FontProperty.FontFamily.BY_DRUCK_LINEATUR_ORANGE,
-			FontProperty.FontFamily.BY_DRUCK_LINEATUR_GRUEN_FARBBAND,
-			FontProperty.FontFamily.BY_DRUCK_LINEATUR_GRUEN,
-			FontProperty.FontFamily.BY_LESEN,
+			FontProperty.FontFamily.BY_DS_LERNEN_SCHWARZ,
+			FontProperty.FontFamily.BY_DS_LERNEN_SCHWARZ_FARBBAND,
+			FontProperty.FontFamily.BY_DS_LERNEN_TUERKIS,
+			FontProperty.FontFamily.BY_DS_LERNEN_TUERKIS_FARBBAND,
+			FontProperty.FontFamily.BY_DS_LERNEN_ORANGE_FARBBAND,
+			FontProperty.FontFamily.BY_DS_LERNEN_ORANGE,
+			FontProperty.FontFamily.BY_DS_LERNEN_GRUEN_FARBBAND,
+			FontProperty.FontFamily.BY_DS_LERNEN_GRUEN,
+			FontProperty.FontFamily.BY_DS_LERNEN_OHNE_LINEATUR,
+			FontProperty.FontFamily.BY_DS_LESEN,
 			FontProperty.FontFamily.DYSLEXIC};
 
 	private enum FontState { LOADING, ACTIVE }

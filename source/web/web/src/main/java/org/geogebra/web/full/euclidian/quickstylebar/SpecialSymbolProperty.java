@@ -61,7 +61,7 @@ public final class SpecialSymbolProperty
 			fontFamily = formatter.getFormat("font", "");
 		}
 		return FontProperty.FontFamily.getByCssName(fontFamily,
-				FontProperty.FontFamily.BY_DRUCK_LINEATUR_TUERKIS_FARBBAND);
+				FontProperty.FontFamily.BY_DS_LERNEN_TUERKIS_FARBBAND);
 	}
 
 	public String getGroupName() {
