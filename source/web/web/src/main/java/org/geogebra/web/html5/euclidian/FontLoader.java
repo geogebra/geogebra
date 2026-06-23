@@ -37,6 +37,8 @@ public final class FontLoader {
 			FontProperty.FontFamily.BY_DS_LERNEN_GRUEN_FARBBAND,
 			FontProperty.FontFamily.BY_DS_LERNEN_GRUEN,
 			FontProperty.FontFamily.BY_DS_LERNEN_OHNE_LINEATUR,
+			FontProperty.FontFamily.BY_DS_LERNEN_KONTUR,
+			FontProperty.FontFamily.BY_DS_LERNEN_WURM,
 			FontProperty.FontFamily.BY_DS_LESEN,
 			FontProperty.FontFamily.DYSLEXIC};
 

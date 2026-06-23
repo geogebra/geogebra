@@ -53,4 +53,13 @@ public class FontStyleUtil {
 		return element instanceof HasTextFormatter formattedElement
 				&& formattedElement.getFormat("font", "").startsWith("By");
 	}
+
+	/**
+	 * @param element element
+	 * @return whether element is editable and supporting wurm symbol
+	 */
+	public static boolean isInlineWithWurm(GeoElement element) {
+		return element instanceof HasTextFormatter formattedElement
+				&& formattedElement.getFormat("font", "").startsWith("ByDS Lernen Wurm");
+	}
 }

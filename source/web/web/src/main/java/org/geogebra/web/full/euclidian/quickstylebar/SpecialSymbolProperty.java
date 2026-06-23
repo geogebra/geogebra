@@ -82,7 +82,9 @@ public final class SpecialSymbolProperty
 		PUZZLE1("\ue001", "Teil 1"),
 		PUZZLE2("\ue002", "Teil 2"),
 		PUZZLE3("\ue003", "Teil 3"),
-		PUZZLE4("\ue004", "Teil 4");
+		PUZZLE4("\ue004", "Teil 4"),
+
+		WURM("\ue031", "Kopf");
 		public final String symbol;
 		public final String description;
 
@@ -111,6 +113,10 @@ public final class SpecialSymbolProperty
 			SpecialSymbolProperty puzzles = new SpecialSymbolProperty(
 					loc, "Puzzle", "PUZZLE", geo);
 			return new PropertySupplier[] { basics, diffs, puzzles };
+		} else if (FontStyleUtil.isInlineWithWurm(geo)) {
+			SpecialSymbolProperty wurm = new SpecialSymbolProperty(
+					loc, "Wurm", "WURM", geo);
+			return new PropertySupplier[] { wurm, diffs};
 		} else {
 			return new PropertySupplier[] { diffs};
 		}

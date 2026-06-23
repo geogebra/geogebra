@@ -49,6 +49,8 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 				"ByLineatur-gruen-Farbband, sans-serif"),
 		BY_DS_LERNEN_GRUEN("ByDS Lernen 1+2", "ByLineatur-gruen, sans-serif"),
 		BY_DS_LERNEN_OHNE_LINEATUR("ByDS Lernen 1+2 (ohne Lineatur)", "ByDruck, sans-serif"),
+		BY_DS_LERNEN_KONTUR("ByDS Lernen Kontur", "ByDS Lernen Kontur, sans-serif"),
+		BY_DS_LERNEN_WURM("ByDS Lernen Wurm", "ByDS Lernen Wurm, sans-serif"),
 		BY_DS_LESEN("ByDS Lesen", "ByLesen, sans-serif"),
 		CALIBRI("Calibri", "Calibri, sans-serif"),
 		COMIC_SANS("Comic Sans", "Comic Sans MS, sans-serif"),
@@ -104,7 +106,8 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 		public static List<FontFamily> getAvailableFonts(boolean isBycs) {
 			return isBycs ? Arrays.asList(FontFamily.ARIAL,
 					FontFamily.BY_DS_LERNEN_TUERKIS_FARBBAND,
-					FontFamily.BY_DS_LERNEN_OHNE_LINEATUR, FontFamily.BY_DS_LESEN,
+					FontFamily.BY_DS_LERNEN_OHNE_LINEATUR, FontFamily.BY_DS_LERNEN_KONTUR,
+					FontFamily.BY_DS_LERNEN_WURM, FontFamily.BY_DS_LESEN,
 					FontFamily.CALIBRI, FontFamily.COMIC_SANS, FontFamily.COURIER,
 					FontFamily.GEORGIA, FontFamily.DYSLEXIC, FontFamily.TIMES,
 					FontFamily.TREBUCHET, FontFamily.VERDANA)
