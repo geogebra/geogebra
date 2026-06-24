@@ -1794,7 +1794,7 @@ public abstract class PropertyView {
 	 * @param namedEnumeratedProperty property
 	 * @return dropdown for given property
 	 */
-	private static Dropdown createDropdown(NamedEnumeratedProperty<?> namedEnumeratedProperty) {
+	public static Dropdown createDropdown(NamedEnumeratedProperty<?> namedEnumeratedProperty) {
 		if (namedEnumeratedProperty instanceof StyledItemProperty styled) {
 			return new Dropdown(namedEnumeratedProperty, styled.getFontFamilies());
 		}

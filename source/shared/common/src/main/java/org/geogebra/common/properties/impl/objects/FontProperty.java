@@ -161,7 +161,7 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 	public Map<Integer, FontFamily> getFontFamilies() {
 		Map<Integer, FontFamily> fontFamilies = new HashMap<>();
 		int i = 0;
-		for (FontFamily family : FontFamily.values()) {
+		for (FontFamily family : getValues()) {
 			fontFamilies.put(i++, family);
 		}
 		return fontFamilies;

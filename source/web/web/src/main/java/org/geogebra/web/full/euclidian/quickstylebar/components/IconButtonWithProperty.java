@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertySupplier;
+import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.RangeProperty;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.facade.BooleanPropertyListFacade;
@@ -145,10 +146,10 @@ public class IconButtonWithProperty extends IconButton {
 			parent.add(enumeratedPropertyButtonPanel);
 		}
 
-		if (property instanceof NamedEnumeratedPropertyListFacade) {
-			GPopupMenuW fontSizeMenu = widgetAdapter.getMenuWidget(
-					(NamedEnumeratedPropertyListFacade<?, ?>) property);
-			parent.add(fontSizeMenu.getPopupMenu());
+		if (property instanceof NamedEnumeratedPropertyListFacade<?, ?> namedFacade) {
+			GPopupMenuW menu;
+			menu = widgetAdapter.getMenuWidget(PropertyView.createDropdown(namedFacade));
+			parent.add(menu.getPopupMenu());
 		}
 
 		if (property instanceof ColorPropertyListFacade<?> colorProperty) {
