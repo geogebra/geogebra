@@ -511,7 +511,7 @@ public class DialogManagerW extends DialogManager
 		int subType = -1;
 		// select geos
 		if (geos != null) {
-			if (app.getSelectionManager().getSelectedGeos().size() == 0) {
+			if (app.getSelectionManager().getSelectedGeos().isEmpty()) {
 				app.getSelectionManager().addSelectedGeos(geos, true);
 			}
 
@@ -643,7 +643,11 @@ public class DialogManagerW extends DialogManager
 	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint,
 			boolean rw) {
 		DialogData data = new DialogData("Text", "Cancel", "Ok");
-		return new TextDialog((AppWFull) app, data, startPoint, rw);
+		TextDialog dialog = new TextDialog((AppWFull) app, data, startPoint, rw);
+		if (text != null) {
+			dialog.reInitEditor(text, startPoint, rw);
+		}
+		return dialog;
 	}
 
 	/**

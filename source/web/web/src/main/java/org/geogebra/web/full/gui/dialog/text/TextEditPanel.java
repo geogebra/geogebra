@@ -23,17 +23,13 @@ import org.geogebra.common.gui.inputfield.DynamicTextProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.web.html5.main.AppW;
-import org.gwtproject.event.dom.client.FocusEvent;
-import org.gwtproject.event.dom.client.FocusHandler;
 import org.gwtproject.user.client.ui.FlowPanel;
 
 /**
  * Panel to manage editing of GeoText strings.
  */
-public class TextEditPanel extends FlowPanel
-		implements FocusHandler, ITextEditPanel {
+public class TextEditPanel extends FlowPanel implements ITextEditPanel {
 	private final AppW app;
 	private final DynamicTextProcessor dTProcessor;
 	/** editor */
@@ -41,7 +37,6 @@ public class TextEditPanel extends FlowPanel
 	private final TextPreviewPanelW previewer;
 	/** GeoText edited by this panel */
 	protected GeoText editGeo = null;
-	private GeoElementSelectionListener sl;
 
 	/**
 	 * @param app - application
@@ -62,8 +57,6 @@ public class TextEditPanel extends FlowPanel
 		setSize("100%", "100%");
 		add(editor);
 
-		registerListeners();
-
 		// force a dummy geo to be created on first use
 		setEditGeo(null);
 	}
@@ -82,27 +75,12 @@ public class TextEditPanel extends FlowPanel
 		}
 	}
 
-	@Override
-	public void onFocus(FocusEvent event) {
-		app.setSelectionListenerMode(sl);
-	}
-
 	/**
 	 * Updates PreviewPanel with current editor content.
 	 */
 	@Override
 	public void updatePreviewPanel() {
 		updatePreviewPanel(false);
-	}
-
-	private void registerListeners() {
-		sl = (geo, addToSelection) -> {
-			if (geo != editGeo) {
-				editor.insertGeoElement(geo);
-			}
-		};
-
-		editor.addFocusHandler(this);
 	}
 
 	/**
