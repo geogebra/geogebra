@@ -120,6 +120,13 @@ public class AuralTextTest {
 	}
 
 	@Test
+	public void functionAuralWithNegativeCoefficient() {
+		add("c = -1");
+		GeoElementND[] f = add(" f(x)=x^2+x+c");
+		assertEquals("x² + x − 1", f[0].toValueString(StringTemplate.screenReaderUnicode));
+	}
+
+	@Test
 	public void dropdownAural() {
 		GeoElementND[] geos = add("mylist={x,-x}");
 		GeoList dropdown = (GeoList) geos[0];

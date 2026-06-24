@@ -1330,7 +1330,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 				}
 				appendWithBrackets(sb, rightStr, loc);
 			} else {
-				if (rightStr.charAt(0) == '-') { // convert + - to -
+				// convert + - to -
+				if (rightStr.charAt(0) == '-' || rightStr.charAt(0) == Unicode.MINUS) {
 					if (stringType.equals(StringType.LATEX)
 							&& isInsertLineBreaks()) {
 						sb.append(" \\-- ");
