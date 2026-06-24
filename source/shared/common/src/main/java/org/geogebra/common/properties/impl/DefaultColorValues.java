@@ -35,6 +35,19 @@ public final class DefaultColorValues {
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_RED
 	);
 
+	/** Bright color values, used in the style bar. */
+	public static final List<GColor> BRIGHT_STYLE_BAR = List.of(
+			GeoGebraColorConstants.NEUTRAL_900,
+			GeoGebraColorConstants.MEBIS_ACCENT,
+			GeoGebraColorConstants.PURPLE_600,
+			GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE,
+			GColor.newColorRGB(0x388C83),
+			GColor.WHITE,
+			GColor.newColorRGB(0xFFCC02),
+			GColor.newColorRGB(0xE07415),
+			GeoGebraColorConstants.GEOGEBRA_OBJECT_RED
+	);
+
 	/** Pale color values, commonly used for background color */
 	public static final List<GColor> PALE = List.of(
 			GColor.WHITE,

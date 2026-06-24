@@ -22,6 +22,7 @@ import java.util.List;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.awt.AwtFactory;
+import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
@@ -30,6 +31,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawPoint;
+import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
@@ -63,13 +65,20 @@ public class StylebarPositioner {
 	private final static int ROTATION_HANDLER_SIZE = 24;
 
 	/**
-	 * @param app
-	 *            The instance of the App class.
+	 * @param app app
 	 */
 	public StylebarPositioner(App app) {
+		this(app, app.getActiveEuclidianView());
+	}
+
+	/**
+	 * @param app app
+	 * @param euclidianView euclidean view
+	 */
+	public StylebarPositioner(App app, EuclidianView euclidianView) {
 		this.app = app;
-		euclidianView = app.getActiveEuclidianView();
-		selectionManager = app.getSelectionManager();
+		this.euclidianView = euclidianView;
+		this.selectionManager = app.getSelectionManager();
 	}
 
 	/**
@@ -182,6 +191,31 @@ public class StylebarPositioner {
 		}
 		left = Math.min(maxXPosition, Math.max(minXPosition, left));
 		return new GPoint((int) left, (int) top);
+	}
+
+	/**
+	 * Calculates the position of a popup of the given size on the canvas,
+	 * keeping it within the safe area of the euclidean view.
+	 * @param popupSize size of the popup
+	 * @return position on the canvas, or null if there is no place for the popup
+	 */
+	public @CheckForNull GPoint getPositionOnCanvas(GDimension popupSize) {
+		int euclideanViewWidth = euclidianView.getWidth();
+		int euclideanViewHeight = euclidianView.getHeight();
+		EdgeInsets safeArea = euclidianView.getSafeAreaInsets();
+
+		GRectangle rectangle = getGRectangle(
+				safeArea.getLeft(),
+				safeArea.getTop(),
+				euclideanViewWidth - safeArea.getRight(),
+				euclideanViewHeight - safeArea.getBottom() - popupSize.getHeight()
+		);
+
+		return getPositionOnCanvas(
+				popupSize.getHeight(),
+				popupSize.getWidth(),
+				rectangle
+		);
 	}
 
 	/**

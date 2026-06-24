@@ -16,6 +16,7 @@
 
 package org.geogebra.common.properties.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -78,6 +79,7 @@ public abstract class AbstractValuedProperty<S> extends AbstractProperty
 	protected abstract void doSetValue(S value);
 
 	private void notifyObservers(Consumer<PropertyValueObserver> eventCall) {
-		observers.forEach(eventCall);
+		// Iterate through a copy so that observers can remove themselves during a notification
+		new ArrayList<>(observers).forEach(eventCall);
 	}
 }

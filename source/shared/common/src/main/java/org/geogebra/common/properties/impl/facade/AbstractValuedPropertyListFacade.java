@@ -16,6 +16,7 @@
 
 package org.geogebra.common.properties.impl.facade;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,7 +46,8 @@ abstract class AbstractValuedPropertyListFacade<T extends ValuedProperty<S>, S>
 	}
 
 	private void notifyObservers(Consumer<PropertyValueObserver> observerConsumer) {
-		observers.forEach(observerConsumer);
+		// Iterate through a copy so that observers can remove themselves during a notification
+		new ArrayList<>(observers).forEach(observerConsumer);
 	}
 
 	private void callProperty(Consumer<T> propertyConsumer) {

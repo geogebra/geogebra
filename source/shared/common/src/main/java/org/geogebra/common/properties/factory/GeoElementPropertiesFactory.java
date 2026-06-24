@@ -31,6 +31,7 @@ import java.util.stream.Stream;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -99,6 +100,7 @@ import org.geogebra.common.properties.impl.objects.NameProperty;
 import org.geogebra.common.properties.impl.objects.NotesColorWithOpacityProperty;
 import org.geogebra.common.properties.impl.objects.NotesOpacityColorProperty;
 import org.geogebra.common.properties.impl.objects.NotesThicknessProperty;
+import org.geogebra.common.properties.impl.objects.ObjectColorProperty;
 import org.geogebra.common.properties.impl.objects.OldObjectColorProperty;
 import org.geogebra.common.properties.impl.objects.OldPointStyleProperty;
 import org.geogebra.common.properties.impl.objects.OpacityProperty;
@@ -616,6 +618,34 @@ public final class GeoElementPropertiesFactory {
 	}
 
 	/**
+	 * Creates a color property for the elements with the given color palette
+	 * @param localization localization
+	 * @param elements elements
+	 * @param colors applicable colors
+	 * @return color property
+	 */
+	public ColorProperty createObjectColorProperty(Localization localization,
+			List<GeoElement> elements, List<GColor> colors) {
+		return createOptionalPropertyFacade(elements,
+				element -> new ObjectColorProperty(localization, element, colors),
+				ColorPropertyListFacade::new);
+	}
+
+	/**
+	 * Creates a properties array containing the color property with the given color palette
+	 * @param localization localization
+	 * @param elements elements
+	 * @param colors applicable colors
+	 * @return properties array
+	 */
+	public PropertiesArray createObjectColorProperties(Localization localization,
+			List<GeoElement> elements, List<GColor> colors) {
+		return createPropertiesArray(localization, elements, keepNonNulls(
+				createObjectColorProperty(localization, elements, colors)
+		));
+	}
+
+	/**
 	 * Creates a color property for strokes, shapes, lines, point, rays, sliders, points with
 	 * the new color palette, see {@link org.geogebra.common.main.color.GeoColorValues}
 	 * @param localization localization
@@ -640,6 +670,19 @@ public final class GeoElementPropertiesFactory {
 		return createOptionalPropertyFacade(elements,
 				element -> new NotesColorWithOpacityProperty(localization, element),
 				ColorPropertyListFacade::new);
+	}
+
+	/**
+	 * Creates a properties array containing the image opacity property
+	 * @param localization localization
+	 * @param elements elements
+	 * @return properties array
+	 */
+	public PropertiesArray createOpacityProperties(Localization localization,
+			List<GeoElement> elements) {
+		return createPropertiesArray(localization, elements, keepNonNulls(
+				createImageOpacityProperty(localization, elements)
+		));
 	}
 
 	/**
