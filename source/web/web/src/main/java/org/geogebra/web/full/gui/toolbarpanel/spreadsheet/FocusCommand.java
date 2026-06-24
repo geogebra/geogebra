@@ -22,16 +22,23 @@ import elemental2.dom.Element;
 
 public class FocusCommand implements Scheduler.ScheduledCommand {
 	private final Element element;
+	private final Element.FocusOptionsType focusOptionsType;
 	private boolean canceled;
 
+	/**
+	 * Constructor
+	 * @param element The element which should be focused when this FocusCommand is executed.
+	 */
 	public FocusCommand(Element element) {
 		this.element = element;
+		this.focusOptionsType = Element.FocusOptionsType.create();
+		focusOptionsType.setPreventScroll(true);
 	}
 
 	@Override
 	public void execute() {
 		if (!canceled) {
-			element.focus();
+			element.focus(focusOptionsType);
 		}
 	}
 
