@@ -17,6 +17,7 @@
 package org.geogebra.web.html5.main;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.SetLabels;
@@ -97,14 +98,18 @@ public final class LocalizationW extends Localization {
 			return "";
 		}
 
-		if (Js.isTruthy(GeoGebraGlobal.__GGB__keysVar.get(language))) {
-			// translated
-			return GeoGebraGlobal.__GGB__keysVar.get(language).get(section).get(key);
-		} else if (Js.isTruthy(GeoGebraGlobal.__GGB__keysVar.get("en"))) {
-			// translated
-			return GeoGebraGlobal.__GGB__keysVar.get("en").get(section).get(key);
+		JsPropertyMap<JsPropertyMap<String>> dictionary
+				= GeoGebraGlobal.__GGB__keysVar.get(language);
+		if (dictionary != null) {
+			return Objects.requireNonNull(dictionary.get(section)).get(key);
 		} else {
-			return "";
+			JsPropertyMap<JsPropertyMap<String>> enDictionary
+					= GeoGebraGlobal.__GGB__keysVar.get("en");
+			if (enDictionary != null) {
+				return Objects.requireNonNull(enDictionary.get(section)).get(key);
+			} else {
+				return "";
+			}
 		}
 	}
 

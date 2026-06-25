@@ -421,81 +421,7 @@ public class PlotterBrush implements PathPlotter {
 
 			setTextureX(0);
 			if (ticksDistance > 0) {
-				switch (ticks) {
-				case MAJOR:
-				default:
-					tmpCoords4.setSub(p2, p1);
-					tmpCoords4.normalize();
-					float thicknessOld = this.thickness;
-					float ticksDistanceNormed = ticksDistance / lengthInScene;
-
-					float i = ticksOffset
-							- ((int) (ticksOffset / ticksDistanceNormed))
-									* ticksDistanceNormed;
-					float ticksDelta = manager.getView3D().getTicksDeltaFactor()
-							* thicknessOld * lengthInScene / length;
-					float ticksThickness = manager.getView3D()
-							.getTicksThicknessFactor() * thicknessOld;
-					if (i * lengthInScene <= ticksDelta) {
-						i += ticksDistanceNormed;
-					}
-
-					for (; i <= 1 - arrowPos; i += ticksDistanceNormed) {
-						double x = i * lengthInScene;
-						tmpCoords.setAdd(p1,
-								tmpCoords.setMul(tmpCoords4, x - ticksDelta));
-						tmpCoords2.setAdd(p1,
-								tmpCoords2.setMul(tmpCoords4, x + ticksDelta));
-
-						drawTick(tmpCoords, tmpCoords2, i, ticksThickness,
-								thicknessOld);
-					}
-					break;
-				case MAJOR_AND_MINOR:
-					tmpCoords4.setSub(p2, p1);
-					tmpCoords4.normalize();
-					thicknessOld = this.thickness;
-					ticksDistanceNormed = ticksDistance / lengthInScene;
-
-					i = ticksOffset
-							- ((int) (ticksOffset / ticksDistanceNormed))
-									* ticksDistanceNormed;
-					if (i < 0) {
-						i += ticksDistanceNormed;
-					}
-					ticksDelta = manager.getView3D().getTicksDeltaFactor()
-							* thicknessOld * lengthInScene / length;
-					ticksThickness = manager.getView3D()
-							.getTicksThicknessFactor() * thicknessOld;
-					float ticksMinorThickness = manager.getView3D()
-							.getTicksMinorThicknessFactor() * thicknessOld;
-					boolean minor = false;
-					if (i > ticksDistanceNormed / 2
-							+ ticksDelta / lengthInScene) {
-						minor = true;
-						i -= ticksDistanceNormed / 2;
-					} else if (i * lengthInScene <= ticksDelta) {
-						i += ticksDistanceNormed / 2;
-						minor = true;
-					}
-
-					for (; i <= 1 - arrowPos; i += ticksDistanceNormed / 2) {
-						double x = i * lengthInScene;
-						tmpCoords.setAdd(p1,
-								tmpCoords.setMul(tmpCoords4, x - ticksDelta));
-						tmpCoords2.setAdd(p1,
-								tmpCoords2.setMul(tmpCoords4, x + ticksDelta));
-
-						drawTick(tmpCoords, tmpCoords2, i,
-								minor ? ticksMinorThickness : ticksThickness,
-								thicknessOld);
-
-						minor = !minor;
-					}
-					break;
-				case NONE:
-					break;
-				}
+				drawTicks(p1, p2, lengthInScene, arrowPos);
 			}
 
 			drawArrowBase(arrowPos, tmpCoords3);
@@ -512,6 +438,85 @@ public class PlotterBrush implements PathPlotter {
 		if (arrowType == ARROW_TYPE_CLOSED) {
 			setThickness(0);
 			moveTo(p2);
+		}
+	}
+
+	private void drawTicks(Coords p1, Coords p2, float lengthInScene, float arrowPos) {
+		float thicknessOld, ticksDistanceNormed, i, ticksDelta, ticksThickness;
+		switch (ticks) {
+		case MAJOR_AND_MINOR:
+			tmpCoords4.setSub(p2, p1);
+			tmpCoords4.normalize();
+			thicknessOld = this.thickness;
+			ticksDistanceNormed = ticksDistance / lengthInScene;
+
+			i = ticksOffset
+					- ((int) (ticksOffset / ticksDistanceNormed))
+					* ticksDistanceNormed;
+			if (i < 0) {
+				i += ticksDistanceNormed;
+			}
+			ticksDelta = manager.getView3D().getTicksDeltaFactor()
+					* thicknessOld * lengthInScene / length;
+			ticksThickness = manager.getView3D()
+					.getTicksThicknessFactor() * thicknessOld;
+			float ticksMinorThickness = manager.getView3D()
+					.getTicksMinorThicknessFactor() * thicknessOld;
+			boolean minor = false;
+			if (i > ticksDistanceNormed / 2
+					+ ticksDelta / lengthInScene) {
+				minor = true;
+				i -= ticksDistanceNormed / 2;
+			} else if (i * lengthInScene <= ticksDelta) {
+				i += ticksDistanceNormed / 2;
+				minor = true;
+			}
+
+			for (; i <= 1 - arrowPos; i += ticksDistanceNormed / 2) {
+				double x = i * lengthInScene;
+				tmpCoords.setAdd(p1,
+						tmpCoords.setMul(tmpCoords4, x - ticksDelta));
+				tmpCoords2.setAdd(p1,
+						tmpCoords2.setMul(tmpCoords4, x + ticksDelta));
+
+				drawTick(tmpCoords, tmpCoords2, i,
+						minor ? ticksMinorThickness : ticksThickness,
+						thicknessOld);
+
+				minor = !minor;
+			}
+			break;
+		case NONE:
+			break;
+		case MAJOR:
+		default:
+			tmpCoords4.setSub(p2, p1);
+			tmpCoords4.normalize();
+			thicknessOld = this.thickness;
+			ticksDistanceNormed = ticksDistance / lengthInScene;
+
+			i = ticksOffset
+					- ((int) (ticksOffset / ticksDistanceNormed))
+					* ticksDistanceNormed;
+			ticksDelta = manager.getView3D().getTicksDeltaFactor()
+					* thicknessOld * lengthInScene / length;
+			ticksThickness = manager.getView3D()
+					.getTicksThicknessFactor() * thicknessOld;
+			if (i * lengthInScene <= ticksDelta) {
+				i += ticksDistanceNormed;
+			}
+
+			for (; i <= 1 - arrowPos; i += ticksDistanceNormed) {
+				double x = i * lengthInScene;
+				tmpCoords.setAdd(p1,
+						tmpCoords.setMul(tmpCoords4, x - ticksDelta));
+				tmpCoords2.setAdd(p1,
+						tmpCoords2.setMul(tmpCoords4, x + ticksDelta));
+
+				drawTick(tmpCoords, tmpCoords2, i, ticksThickness,
+						thicknessOld);
+			}
+			break;
 		}
 	}
 

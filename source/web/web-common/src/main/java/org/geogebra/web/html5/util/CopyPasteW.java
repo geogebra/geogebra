@@ -42,6 +42,7 @@ import org.geogebra.common.util.InternalClipboard;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.JsObject;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
@@ -571,6 +572,6 @@ public class CopyPasteW extends CopyPaste {
 
 	static boolean clipboardSupports(String s) {
 		return Js.isTruthy(navigator.clipboard)
-				&& Js.isTruthy(Js.asPropertyMap(navigator.clipboard).get(s));
+				&& Js.isTruthy(JsObject.of(navigator.clipboard).get(s));
 	}
 }

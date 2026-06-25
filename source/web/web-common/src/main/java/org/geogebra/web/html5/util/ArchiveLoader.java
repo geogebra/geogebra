@@ -17,6 +17,7 @@
 package org.geogebra.web.html5.util;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
@@ -183,7 +184,7 @@ public class ArchiveLoader {
 			request.onload = (e) -> {
 				if (request.readyState == 4) {
 					if (request.status == 200) {
-						processBinaryData(Js.uncheckedCast(request.response.asJsObject()));
+						processBinaryData(Js.uncheckedCast(request.response));
 					} else {
 						onError.onInvoke(e);
 					}
@@ -229,7 +230,7 @@ public class ArchiveLoader {
 		if (json.has("archive")) {
 			JsArray<JsPropertyMap<String>> content = Js.uncheckedCast(json.get("archive"));
 			for (int i = 0; i < content.length; i++) {
-				JsPropertyMap<String> entry = content.getAt(i);
+				JsPropertyMap<String> entry = Objects.requireNonNull(content.getAt(i));
 				String fileName = entry.get("fileName");
 				file.put(fileName, new ArchiveEntry(fileName, entry.get("fileContent")));
 			}

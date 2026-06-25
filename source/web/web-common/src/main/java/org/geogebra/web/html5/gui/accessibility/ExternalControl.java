@@ -93,6 +93,9 @@ public class ExternalControl implements FocusableComponent {
 		}
 		for (String selector: selectors) {
 			Element control = document.querySelector(selector);
+			if (control == null) {
+				continue;
+			}
 			registry.addEventListener(control, "keydown", evt -> {
 				KeyboardEvent kbd = Js.uncheckedCast(evt);
 				if ("Tab".equals(kbd.code)) {

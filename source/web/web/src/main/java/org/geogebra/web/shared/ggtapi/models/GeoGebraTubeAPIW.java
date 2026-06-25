@@ -18,6 +18,8 @@ package org.geogebra.web.shared.ggtapi.models;
 
 import static elemental2.core.Global.JSON;
 
+import java.util.Objects;
+
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.util.debug.Log;
@@ -59,11 +61,15 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 			String result) {
 		try {
 			JsPropertyMap<Object> parsedResult = Js.asPropertyMap(JSON.parse(result));
-			JsPropertyMap<Object> responses = Js.asPropertyMap(parsedResult.get("responses"));
-
+			JsPropertyMap<Object> responses = parsedResult == null ? null
+					: Js.asPropertyMap(parsedResult.get("responses"));
+			if (responses == null) {
+				return false;
+			}
 			JsPropertyMap<Object> response = Js.asPropertyMap(
-					Js.asArrayLike(responses.get("response")).getAt(0));
-			JsPropertyMap<Object> userinfo = Js.asPropertyMap(response.get("userinfo"));
+					Objects.requireNonNull(Js.asArrayLike(responses.get("response"))).getAt(0));
+			JsPropertyMap<Object> userinfo = Objects.requireNonNull(Js.asPropertyMap(
+					Objects.requireNonNull(response).get("userinfo")));
 
 			user.setUserId(Js.coerceToInt(userinfo.get("user_id")));
 			// "username" is real name by default, uses login as fallback

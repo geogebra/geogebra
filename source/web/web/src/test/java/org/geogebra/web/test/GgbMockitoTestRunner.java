@@ -20,6 +20,7 @@ import java.util.Collection;
 
 import org.geogebra.editor.web.ClickAdapterW;
 import org.geogebra.editor.web.MathFieldW;
+import org.geogebra.gwtutil.JsObject;
 import org.geogebra.regexp.client.NativeRegExp;
 import org.geogebra.web.awt.GGraphics2DW;
 import org.geogebra.web.awt.JLMContext2D;
@@ -103,6 +104,8 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
     public GgbMockitoTestRunner(Class<?> unitTestClass) throws InitializationError {
         super(unitTestClass);
         StubGenerator.replaceMethodWithMock(Js.class, "asPropertyMap",
+                JsPropertyMap.class);
+        StubGenerator.replaceMethodWithMock(JsObject.class, "of",
                 JsPropertyMap.class);
         StubGenerator.replaceMethodWithMock(DomGlobal.class, "setInterval",
                 Double.class);

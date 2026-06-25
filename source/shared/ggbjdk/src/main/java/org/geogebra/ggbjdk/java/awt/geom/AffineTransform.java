@@ -2941,38 +2941,17 @@ public class AffineTransform implements GAffineTransform {
             /* NOTREACHED */
 			//$FALL-THROUGH$
 		case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
-            x -= m02;
-            y -= m12;
-            //$FALL-THROUGH$
+            return shearAndScalePoint(x - m02, y - m12, ptDst);
         case (APPLY_SHEAR | APPLY_SCALE):
-            double det = m00 * m11 - m01 * m10;
-            if (Math.abs(det) <= Double.MIN_VALUE) {
-                throw new NoninvertibleTransformException("Determinant is "+
-                                                          det);
-            }
-            ptDst.setLocation((x * m11 - y * m01) / det,
-                              (y * m00 - x * m10) / det);
-            return ptDst;
+            return shearAndScalePoint(x, y, ptDst);
         case (APPLY_SHEAR | APPLY_TRANSLATE):
-            x -= m02;
-            y -= m12;
-            //$FALL-THROUGH$
+            return shearPoint(x - m02, y - m12, ptDst);
         case (APPLY_SHEAR):
-            if (m01 == 0.0 || m10 == 0.0) {
-                throw new NoninvertibleTransformException("Determinant is 0");
-            }
-            ptDst.setLocation(y / m10, x / m01);
-            return ptDst;
+            return shearPoint(x, y, ptDst);
         case (APPLY_SCALE | APPLY_TRANSLATE):
-            x -= m02;
-            y -= m12;
-            //$FALL-THROUGH$
+            return scalePoint(x - m02, y - m12, ptDst);
         case (APPLY_SCALE):
-            if (m00 == 0.0 || m11 == 0.0) {
-                throw new NoninvertibleTransformException("Determinant is 0");
-            }
-            ptDst.setLocation(x / m00, y / m11);
-            return ptDst;
+            return scalePoint(x, y, ptDst);
         case (APPLY_TRANSLATE):
             ptDst.setLocation(x - m02, y - m12);
             return ptDst;
@@ -2980,8 +2959,36 @@ public class AffineTransform implements GAffineTransform {
             ptDst.setLocation(x, y);
             return ptDst;
         }
+    }
 
-        /* NOTREACHED */
+    private GPoint2D shearAndScalePoint(double x, double y, GPoint2D ptDst)
+            throws NoninvertibleTransformException {
+        double det = m00 * m11 - m01 * m10;
+        if (Math.abs(det) <= Double.MIN_VALUE) {
+            throw new NoninvertibleTransformException("Determinant is "+
+                    det);
+        }
+        ptDst.setLocation((x * m11 - y * m01) / det,
+                (y * m00 - x * m10) / det);
+        return ptDst;
+    }
+
+    private GPoint2D shearPoint(double x, double y, GPoint2D ptDst)
+            throws NoninvertibleTransformException {
+        if (m01 == 0.0 || m10 == 0.0) {
+            throw new NoninvertibleTransformException("Determinant is 0");
+        }
+        ptDst.setLocation(y / m10, x / m01);
+        return ptDst;
+    }
+
+    private GPoint2D scalePoint(double x, double y, GPoint2D ptDst)
+            throws NoninvertibleTransformException {
+        if (m00 == 0.0 || m11 == 0.0) {
+            throw new NoninvertibleTransformException("Determinant is 0");
+        }
+        ptDst.setLocation(x / m00, y / m11);
+        return ptDst;
     }
 
     /**

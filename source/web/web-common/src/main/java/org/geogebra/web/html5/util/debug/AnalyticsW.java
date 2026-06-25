@@ -22,6 +22,7 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.util.debug.Analytics;
+import org.geogebra.gwtutil.JsObject;
 import org.geogebra.web.html5.util.debug.firebase.Firebase;
 import org.geogebra.web.html5.util.debug.firebase.FirebaseAnalytics;
 
@@ -37,7 +38,7 @@ public class AnalyticsW extends Analytics {
 	 */
 	public AnalyticsW() {
 		analytics = Firebase.get();
-		if (!"function".equals(Js.typeof(Js.asPropertyMap(analytics).get("logEvent")))) {
+		if (!"function".equals(Js.typeof(JsObject.of(analytics).get("logEvent")))) {
 			throw new IllegalStateException();
 		}
 	}
@@ -50,7 +51,7 @@ public class AnalyticsW extends Analytics {
 
 	@Override
 	protected void setDefaultEventParametersInternal(@Nonnull Map<String, Object> params) {
-		if ("function".equals(Js.typeof(Js.asPropertyMap(analytics)
+		if ("function".equals(Js.typeof(JsObject.of(analytics)
 				.get("setDefaultEventParameters")))) {
 			analytics.setDefaultEventParameters(convertToJsPropertyMap(params));
 		}

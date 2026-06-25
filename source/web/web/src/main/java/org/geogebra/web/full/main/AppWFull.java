@@ -120,6 +120,7 @@ import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
+import org.geogebra.gwtutil.JsObject;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.keyboard.base.impl.TemplateKeyProvider;
 import org.geogebra.keyboard.web.HasKeyboard;
@@ -589,7 +590,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					String editedMacroMessage = message.data.toString();
 					try {
 						JsPropertyMap<Object> messageProperties =
-								Js.asPropertyMap(Global.JSON.parse(editedMacroMessage));
+								JsObject.of(Global.JSON.parse(editedMacroMessage));
 						Object macroName = messageProperties
 								.get(EDITED_MACRO_NAME_KEY);
 						if (macroName != null) {

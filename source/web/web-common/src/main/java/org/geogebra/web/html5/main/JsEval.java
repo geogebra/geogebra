@@ -18,6 +18,7 @@ package org.geogebra.web.html5.main;
 
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.gwtutil.JsConsumer;
+import org.geogebra.gwtutil.JsObject;
 
 import elemental2.core.Function;
 import elemental2.dom.DomGlobal;
@@ -34,7 +35,7 @@ public class JsEval {
 	 */
 	public static void evalScriptNative(String script,
 			GgbAPI api) {
-		JsPropertyMap<Object> wnd = Js.asPropertyMap(DomGlobal.window);
+		JsPropertyMap<Object> wnd = JsObject.of(DomGlobal.window);
 		Object oldAlert = wnd.get("alert");
 		wnd.set("alert", (JsConsumer<String>) api::showTooltip);
 		try {
@@ -50,7 +51,7 @@ public class JsEval {
 	 * @param args arguments
 	 */
 	public static void callNativeGlobalFunction(String funcname, Object... args) {
-		Object globalFunction = Js.asPropertyMap(DomGlobal.window).get(funcname);
+		Object globalFunction = JsObject.of(DomGlobal.window).get(funcname);
 		callNativeFunction(globalFunction, args);
 	}
 

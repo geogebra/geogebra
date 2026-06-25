@@ -20,6 +20,7 @@ import java.util.Arrays;
 
 import org.geogebra.common.util.InjectJsInterop;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.JsObject;
 
 import elemental2.core.Function;
 import elemental2.core.JsArray;
@@ -38,7 +39,7 @@ public class QuickJS {
 
 	@JsOverlay
 	static QuickJS get() {
-		return Js.uncheckedCast(Js.asPropertyMap(DomGlobal.window).get("QJS"));
+		return Js.uncheckedCast(JsObject.of(DomGlobal.window).get("QJS"));
 	}
 
 	native Promise<Object> getQuickJS();
@@ -108,7 +109,7 @@ public class QuickJS {
 	// in the same file as MethodWrapper class so that JsInterop with varargs works correctly
 	@JsOverlay
 	static Promise<Object> afterLibraryLoaded(Object exportedApi, SandboxConverter converter) {
-		final JsPropertyMap<Object> bundle = Js.asPropertyMap(exportedApi);
+		final JsPropertyMap<Object> bundle = JsObject.of(exportedApi);
 		return QuickJS.get().getQuickJS().then(factory -> {
 			QuickJSContext vm = Js.<QuickJS.ContextFactory>uncheckedCast(factory).newContext();
 			QuickJSHandle ggbApplet = vm.newObject();
@@ -116,10 +117,10 @@ public class QuickJS {
 			vm.setProp(vm.global, "window", vm.global);
 			vm.setProp(vm.global, "console", console);
 			vm.setProp(vm.global, "ggbApplet", ggbApplet);
-			JsPropertyMap<?> methods = Js.asPropertyMap(exportedApi);
+			JsPropertyMap<?> methods = JsObject.of(exportedApi);
 			methods.forEach(method ->
 					addWrappedMethod(ggbApplet, method, bundle, method, vm, converter));
-			JsPropertyMap<Object> consoleBundle = Js.asPropertyMap(DomGlobal.console);
+			JsPropertyMap<Object> consoleBundle = JsObject.of(DomGlobal.console);
 			Arrays.asList("error", "info", "log", "warn").forEach(method ->
 				addWrappedMethod(console, method, consoleBundle, method, vm, converter)
 			);

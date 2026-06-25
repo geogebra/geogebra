@@ -9,6 +9,9 @@
             <Bug pattern="SE_COMPARATOR_SHOULD_BE_SERIALIZABLE" />
             <Bug pattern="CT_CONSTRUCTOR_THROW" />
             <Bug pattern="SING_SINGLETON_GETTER_NOT_SYNCHRONIZED" />
+            <Bug pattern="USO_UNSAFE_STATIC_METHOD_SYNCHRONIZATION"/>
+            <Bug pattern="USO_UNSAFE_OBJECT_SYNCHRONIZATION"/>
+            <Bug pattern="USO_UNSAFE_METHOD_SYNCHRONIZATION"/>
             <Bug pattern="AT_NONATOMIC_64BIT_PRIMITIVE"/>
             <Bug pattern="AT_STALE_THREAD_WRITE_OF_PRIMITIVE"/>
             <Bug pattern="AT_NONATOMIC_OPERATIONS_ON_SHARED_VARIABLE"/>
@@ -49,6 +52,7 @@
             <Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" />
             <Bug pattern="UC_USELESS_VOID_METHOD"/>
             <Bug pattern="URF_UNREAD_FIELD"/>
+            <Bug pattern="SF_SWITCH_FALLTHROUGH"/>
         </Or>
     </Match>
     <Match>

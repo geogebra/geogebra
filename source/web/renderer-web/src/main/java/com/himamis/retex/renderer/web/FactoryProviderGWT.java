@@ -45,6 +45,7 @@
 package com.himamis.retex.renderer.web;
 
 import org.geogebra.common.awt.AwtFactory;
+import org.geogebra.gwtutil.JsObject;
 import org.geogebra.web.awt.AwtFactoryW;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -84,7 +85,7 @@ public final class FactoryProviderGWT extends FactoryProvider {
 
 	@Override
 	public void debug(Object msg) {
-		if (Js.isTruthy(Js.asPropertyMap(DomGlobal.console).get("log"))) {
+		if (Js.isTruthy(JsObject.of(DomGlobal.console).get("log"))) {
 			DomGlobal.console.log("[LaTeX]", msg);
 		}
 	}

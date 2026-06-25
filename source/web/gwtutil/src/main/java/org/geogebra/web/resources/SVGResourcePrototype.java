@@ -17,6 +17,7 @@
 package org.geogebra.web.resources;
 
 import org.geogebra.gwtutil.DOMParser;
+import org.geogebra.gwtutil.JsObject;
 import org.geogebra.gwtutil.XMLSerializer;
 import org.gwtproject.safehtml.shared.SafeUri;
 import org.gwtproject.safehtml.shared.UriUtils;
@@ -73,7 +74,7 @@ public class SVGResourcePrototype implements SVGResource {
 	 */
 	public static String createFilled(String color, String svg) {
 		Document doc = parser.parseFromString(svg, "image/svg+xml");
-		CSSStyleDeclaration style = Js.uncheckedCast(Js.asPropertyMap(doc)
+		CSSStyleDeclaration style = Js.uncheckedCast(JsObject.of(doc)
 				.nestedGet("rootElement.style"));
 		if (style != null) {
 			style.setProperty("fill", color);

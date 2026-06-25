@@ -114,13 +114,13 @@ public class JLMContext2D extends CanvasRenderingContext2D {
 	@JsOverlay
 	public final void restoreTransform() {
 		JsArray<Double> t = this.ggbTransformCache.pop();
-		if (Js.isTruthy(t)) {
-			this.m00_ = t.getAt(0);
-			this.m10_ = t.getAt(1);
-			this.m01_ = t.getAt(2);
-			this.m11_ = t.getAt(3);
-			this.m02_ = t.getAt(4);
-			this.m12_ = t.getAt(5);
+		if (t != null) {
+			this.m00_ = t.at(0);
+			this.m10_ = t.at(1);
+			this.m01_ = t.at(2);
+			this.m11_ = t.at(3);
+			this.m02_ = t.at(4);
+			this.m12_ = t.at(5);
 		}
 		this.restore();
 	}

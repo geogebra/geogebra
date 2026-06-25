@@ -34,6 +34,7 @@ import org.geogebra.common.awt.VectorPatternPaint;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 import org.geogebra.ggbjdk.java.awt.geom.Path2D;
 import org.geogebra.ggbjdk.java.awt.geom.Shape;
+import org.geogebra.gwtutil.JsObject;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.client.Element;
 
@@ -364,7 +365,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 		double startY = pdfPaint.getStartY();
 		Canvas2Pdf.PdfContext canvas2Pdf = Js.uncheckedCast(context);
 		try {
-			Js.asPropertyMap(content.getContext()).set("boundingBox",
+			JsObject.of(content.getContext()).set("boundingBox",
 					JsArray.of(startX,
 							startY, startX + width, startY + height));
 			CanvasPattern pattern =

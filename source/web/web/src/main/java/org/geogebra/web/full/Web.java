@@ -16,9 +16,12 @@
 
 package org.geogebra.web.full;
 
+import java.util.Objects;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.gwtutil.JsConsumer;
+import org.geogebra.gwtutil.JsObject;
 import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.laf.BundleLookAndFeel;
@@ -38,7 +41,6 @@ import com.google.gwt.core.client.EntryPoint;
 
 import elemental2.core.JsArray;
 import elemental2.dom.HTMLCollection;
-import jsinterop.base.Js;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -79,9 +81,9 @@ public abstract class Web implements EntryPoint {
 	 * By removing the backing object's stacktrace we make sure it has no link to Web either.
 	 */
 	private void removeBackingObject(Throwable t) {
-		Object back  = Js.asPropertyMap(t).get("backingJsObject");
-		if (Js.isTruthy(back)) {
-			Js.asPropertyMap(back).set("stack", JsArray.of());
+		Object back = JsObject.of(t).get("backingJsObject");
+		if (back != null) {
+			JsObject.of(back).set("stack", JsArray.of());
 		}
 	}
 
@@ -116,7 +118,7 @@ public abstract class Web implements EntryPoint {
 		HTMLCollection<elemental2.dom.Element> nodes =
 				Dom.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		for (int i = 0; i < nodes.getLength(); i++) {
-			String laf = nodes.getAt(i).getAttribute("data-param-laf");
+			String laf = Objects.requireNonNull(nodes.getAt(i)).getAttribute("data-param-laf");
 			switch (laf) {
 			case "smart":
 				return new SmartLookAndFeel();

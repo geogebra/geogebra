@@ -16,6 +16,7 @@
 
 package org.geogebra.web.full.gui.dialog.image;
 
+import org.geogebra.gwtutil.JsObject;
 import org.geogebra.web.html5.Browser;
 import org.gwtproject.canvas.client.Canvas;
 
@@ -24,6 +25,7 @@ import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLVideoElement;
 import elemental2.dom.MediaStream;
 import elemental2.dom.MediaStreamConstraints;
+import elemental2.dom.MediaStreamTrack;
 import elemental2.dom.MediaTrackConstraints;
 import jsinterop.base.Js;
 
@@ -141,7 +143,7 @@ public class WebCamAPI {
 				return null;
 			}).catch_((err) -> {
 				accessDenied = true;
-				onCameraError((String) Js.asPropertyMap(err).get("name"));
+				onCameraError((String) JsObject.of(err).get("name"));
 				return null;
 			});
 
@@ -156,7 +158,10 @@ public class WebCamAPI {
 		if (stream == null) {
 			return;
 		}
-		stream.getVideoTracks().getAt(0).stop();
+		MediaStreamTrack track = stream.getVideoTracks().getAt(0);
+		if (track != null) {
+			track.stop();
+		}
 		stream = null;
 	}
 

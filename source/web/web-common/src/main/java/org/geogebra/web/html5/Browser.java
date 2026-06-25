@@ -23,6 +23,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.share.util.GWTKeycodes;
+import org.geogebra.gwtutil.JsObject;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -61,7 +62,7 @@ public class Browser {
 	 * @return true if Safari browser
 	 */
 	public static boolean isSafariByVendor() {
-		String vendorString = (String) Js.asPropertyMap(DomGlobal.navigator).get("vendor");
+		String vendorString = (String) JsObject.of(DomGlobal.navigator).get("vendor");
 		return "Apple Computer, Inc.".equals(vendorString) && !isChrome();
 	}
 
@@ -101,7 +102,7 @@ public class Browser {
 	 * @return whether given object has a truthy property with given name
 	 */
 	public static boolean hasProperty(Object base, String propertyName) {
-		return base != null && Js.isTruthy(Js.asPropertyMap(base).get(propertyName));
+		return base != null && Js.isTruthy(JsObject.of(base).get(propertyName));
 	}
 
 	/**
@@ -110,7 +111,7 @@ public class Browser {
 	 * @return whether property is declared for given object (may be falsy)
 	 */
 	public static boolean hasDeclaredProperty(Object base, String propertyName) {
-		return base != null && Js.asPropertyMap(base).has(propertyName);
+		return base != null && JsObject.of(base).has(propertyName);
 	}
 
 	/**

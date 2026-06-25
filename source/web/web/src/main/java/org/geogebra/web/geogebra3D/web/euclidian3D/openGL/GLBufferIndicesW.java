@@ -87,7 +87,7 @@ public class GLBufferIndicesW implements GLBufferIndices {
 
 	@Override
 	public short get() {
-		short ret = impl.getAt(mIndex).shortValue();
+		short ret = (short) impl.at(mIndex);
 		mIndex++;
 		return ret;
 	}
@@ -108,7 +108,8 @@ public class GLBufferIndicesW implements GLBufferIndices {
 			return;
 		}
 		for (int i = 0; i < ret.length; i++) {
-			ret[i] = impl.getAt(i).shortValue();
+			double value = impl.at(i);
+			ret[i] = (short) value;
 		}
 	}
 

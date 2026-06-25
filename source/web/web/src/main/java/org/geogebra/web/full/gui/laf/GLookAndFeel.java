@@ -26,6 +26,7 @@ import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.gwtutil.Cookies;
+import org.geogebra.gwtutil.JsObject;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -38,7 +39,6 @@ import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;
 import elemental2.dom.EventListener;
 import elemental2.promise.Promise;
-import jsinterop.base.Js;
 
 /**
  * Represents different designs/platforms of GeoGebra deployment
@@ -96,7 +96,7 @@ public class GLookAndFeel implements GLookAndFeelI {
 
 	private void askForSave(Event evt) {
 		// Message set by browser https://developer.chrome.com/blog/chrome-51-deprecations/
-		Js.asPropertyMap(evt).set("returnValue", 1);
+		JsObject.of(evt).set("returnValue", 1);
 		evt.preventDefault();
 	}
 

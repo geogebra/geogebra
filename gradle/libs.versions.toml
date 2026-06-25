@@ -12,7 +12,7 @@ murok = "1.0.202604140857"
 mozilla-rhino = "1.8.1" # 1.9.1 requires Android SDK update
 quickJs = '1.0.202412181317-SNAPSHOT'
 multiplayer = "1.0.202412180729"
-spotbugs = "4.9.2"
+spotbugs = "4.10.2"
 ideaExt = "1.4"
 jakartaServlet = "6.1.0"
 androidPlugin = "8.7.2"
@@ -75,7 +75,7 @@ mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 
 gwt-plugin = {module = "org.docstr.gwt:org.docstr.gwt.gradle.plugin", version = "2.2.9" }
-spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version = "6.5.0" }
+spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version = "6.5.8" }
 javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "4.0.3"}
 openrewrite-plugin = {module = "org.openrewrite.rewrite:org.openrewrite.rewrite.gradle.plugin", version = "7.4.1"}
 idea-ext = { module = "org.jetbrains.gradle.plugin.idea-ext:org.jetbrains.gradle.plugin.idea-ext.gradle.plugin", version.ref = "ideaExt" }

@@ -16,19 +16,17 @@
 
 package org.geogebra.gwtutil;
 
-import elemental2.dom.DomGlobal;
-import elemental2.promise.Promise;
-import jsinterop.annotations.JsOverlay;
-import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsType;
+import javax.annotation.Nonnull;
+
+import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
-@JsType(isNative = true, name = "window", namespace = JsPackage.GLOBAL)
-public class FileSystemAPI {
-	public static native Promise<FileSystemFileHandle> showSaveFilePicker(JsPropertyMap<?> options);
-
-	@JsOverlay
-	public static boolean isSupported() {
-		return JsObject.of(DomGlobal.window).has("showSaveFilePicker");
+public class JsObject {
+	/**
+	 * @param object DOM object
+	 * @return DOM object as a property map
+	 */
+	public static @Nonnull JsPropertyMap<Object> of(@Nonnull Object object) {
+		return Js.uncheckedCast(object);
 	}
 }

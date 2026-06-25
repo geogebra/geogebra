@@ -27,6 +27,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.debug.analytics.LoginAnalytics;
 import org.geogebra.gwtutil.Cookies;
+import org.geogebra.gwtutil.JsObject;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.models.AuthenticationModelW;
 
@@ -90,7 +91,7 @@ public class LoginOperationW extends LogInOperation {
 							if ("string".equals(Js.typeof(data))) {
 								try {
 									JsPropertyMap<Object> dataObject =
-											Js.asPropertyMap(Global.JSON.parse((String) data));
+											JsObject.of(Global.JSON.parse((String) data));
 
 									Object action = dataObject.get("action");
 									if ("logintoken".equals(action)) {

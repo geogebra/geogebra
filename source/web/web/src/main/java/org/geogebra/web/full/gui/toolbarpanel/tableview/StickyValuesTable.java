@@ -17,6 +17,7 @@
 package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.CheckForNull;
 
@@ -377,8 +378,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			int rowsDeleted = elems.getLength() - 2 - tableModel.getRowCount();
 			for (int i = 1; i <= Math.abs(rowsDeleted); i++) {
 				elemental2.dom.Element e = elems.getAt(elems.getLength() - i);
-				elemental2.dom.Element parent = e.parentElement;
-				parent.classList.add("deleteRowAut");
+				if (e != null) {
+					elemental2.dom.Element parent = Objects.requireNonNull(e.parentElement);
+					parent.classList.add("deleteRowAut");
+				}
 			}
 		}
 		rowsChange = 0;
@@ -408,7 +411,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 		for (int i = 0; i < elems.getLength(); i++) {
 			elemental2.dom.Element e = elems.getAt(i);
-			e.classList.add("deleteCol");
+			Objects.requireNonNull(e).classList.add("deleteCol");
 		}
 	}
 

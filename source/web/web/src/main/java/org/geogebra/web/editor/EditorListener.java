@@ -92,7 +92,7 @@ public class EditorListener implements MathFieldListener {
 	private void notifyListeners(Object o) {
 		for (int i = 0; i < listeners.length; i++) {
 			try {
-				listeners.getAt(i).call(DomGlobal.window, o);
+				listeners.at(i).call(DomGlobal.window, o);
 			} catch (Exception e) {
 				ExceptionUnwrapper.printErrorMessage(e);
 			}

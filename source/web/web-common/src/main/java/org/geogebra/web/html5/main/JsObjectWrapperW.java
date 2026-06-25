@@ -19,6 +19,7 @@ package org.geogebra.web.html5.main;
 import java.util.function.Consumer;
 
 import org.geogebra.common.plugin.JsObjectWrapper;
+import org.geogebra.gwtutil.JsObject;
 
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
@@ -27,7 +28,7 @@ public class JsObjectWrapperW extends JsObjectWrapper {
 	private final JsPropertyMap<Object> options;
 
 	public JsObjectWrapperW(Object options) {
-		this.options = Js.asPropertyMap(options);
+		this.options = JsObject.of(options);
 	}
 
 	@Override

@@ -17,6 +17,7 @@
 package org.geogebra.web.full.gui.dialog.text;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.gui.inputfield.DynamicTextElement.DynamicTextType;
@@ -146,7 +147,7 @@ public class GeoTextEditor extends FocusWidget implements HasKeyboardTF {
 	private String getUnformattedContent(Node e) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < e.childNodes.length; i++) {
-			Node c = e.childNodes.getAt(i);
+			Node c = Objects.requireNonNull(e.childNodes.getAt(i));
 			if (c.childNodes.length > 0) {
 				sb.append(getUnformattedContent(c));
 			} else {
@@ -207,7 +208,8 @@ public class GeoTextEditor extends FocusWidget implements HasKeyboardTF {
 	public void insertElement(Node elem) {
 		getElement().focus();
 		try {
-			Range range = DomGlobal.document.getSelection().getRangeAt(0);
+			Range range = Objects.requireNonNull(DomGlobal.document.getSelection())
+					.getRangeAt(0);
 			range.deleteContents();
 			range.insertNode(elem);
 			range.collapse(false);
@@ -319,7 +321,7 @@ public class GeoTextEditor extends FocusWidget implements HasKeyboardTF {
 		}
 
 		for (int i = 0; i < node.childNodes.length; i++) {
-			Node child = node.childNodes.getAt(i);
+			Node child = Objects.requireNonNull(node.childNodes.getAt(i));
 			if (child.nodeType == Node.TEXT_NODE) {
 				processTextNode(child, list);
 			} else if (child.nodeType == Node.ELEMENT_NODE) {

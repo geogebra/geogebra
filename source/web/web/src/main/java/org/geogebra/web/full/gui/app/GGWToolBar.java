@@ -17,6 +17,7 @@
 package org.geogebra.web.full.gui.app;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import javax.annotation.CheckForNull;
 
@@ -69,8 +70,8 @@ import org.gwtproject.user.client.ui.ScrollPanel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 
-import elemental2.dom.HTMLCollection;
 import elemental2.dom.HTMLElement;
+import elemental2.dom.NodeList;
 import jsinterop.base.Js;
 
 /**
@@ -288,13 +289,11 @@ public class GGWToolBar extends Composite
 	 *            to white
 	 */
 	private void makeTimerWhite(elemental2.dom.Element element) {
-		HTMLCollection<elemental2.dom.Element> timerElements = element
-				.getElementsByClassName("rightButtonPanel")
-				.getAt(0)
-				.getElementsByClassName("timer");
+		NodeList<elemental2.dom.Element> timerElements = element
+				.querySelectorAll(".rightButtonPanel .timer");
 
 		for (int i = 0; i < timerElements.length; i++) {
-			((HTMLElement) timerElements.getAt(i)).style
+			Objects.requireNonNull((HTMLElement) timerElements.getAt(i)).style
 					.setProperty("color", "white", "important");
 		}
 	}

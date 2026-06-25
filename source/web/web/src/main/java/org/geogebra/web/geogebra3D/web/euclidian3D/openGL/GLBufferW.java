@@ -82,7 +82,7 @@ public class GLBufferW implements GLBuffer {
 
 	@Override
 	public double get() {
-		double ret = impl.getAt(index);
+		double ret = impl.at(index);
 		index++;
 		return ret;
 	}
@@ -148,7 +148,7 @@ public class GLBufferW implements GLBuffer {
 			return;
 		}
 		for (int i = 0; i < ret.length; i++) {
-			ret[i] = impl.getAt(i).floatValue();
+			ret[i] = (float) impl.at(i);
 		}
 	}
 

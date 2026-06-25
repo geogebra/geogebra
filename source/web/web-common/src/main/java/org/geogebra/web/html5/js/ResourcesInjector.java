@@ -16,6 +16,8 @@
 
 package org.geogebra.web.html5.js;
 
+import java.util.Objects;
+
 import org.geogebra.gwtutil.JavaScriptInjector;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.util.AppletParameters;
@@ -76,13 +78,13 @@ public class ResourcesInjector {
 		NodeList<Element> resources = DomGlobal.document
 				.querySelectorAll("." + StyleInjector.CLASSNAME);
 		for (int i = 0; i < resources.getLength(); i++) {
-			resources.getAt(i).remove();
+			Objects.requireNonNull(resources.getAt(i)).remove();
 		}
 
 		NodeList<Element> scripts = DomGlobal.document
 				.querySelectorAll("script[src$=\"cache.js\"]");
 		for (int i = 0; i < scripts.getLength(); i++) {
-			scripts.getAt(i).remove();
+			Objects.requireNonNull(scripts.getAt(i)).remove();
 		}
 	}
 

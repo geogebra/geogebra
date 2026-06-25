@@ -39,6 +39,7 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+    jvmArgs = listOf("-Xmx1g")
 }
 
 tasks.compileJava {

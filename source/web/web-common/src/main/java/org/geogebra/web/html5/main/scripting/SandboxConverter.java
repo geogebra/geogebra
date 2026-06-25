@@ -17,6 +17,7 @@
 package org.geogebra.web.html5.main.scripting;
 
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.JsObject;
 
 import elemental2.core.JsArray;
 import jsinterop.base.Js;
@@ -66,7 +67,7 @@ final class SandboxConverter {
 
 			QuickJS.QuickJSHandle sandboxed = JsArray.isArray(rawResult)
 					? vm.newArray() : vm.newObject();
-			JsPropertyMap<Object> props = Js.asPropertyMap(rawResult);
+			JsPropertyMap<Object> props = JsObject.of(rawResult);
 			if (maxDepth > 0) {
 				props.forEach(propName ->
 					vm.setProp(sandboxed, propName,

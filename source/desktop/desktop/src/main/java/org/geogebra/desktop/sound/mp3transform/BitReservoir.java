@@ -25,8 +25,6 @@
  */
 package org.geogebra.desktop.sound.mp3transform;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * Stores single bits as a word in the buffer. If a bit is set, the
  * corresponding word in the buffer will be non-zero. If a bit is clear, the
@@ -44,7 +42,6 @@ public class BitReservoir {
 		return bitCount;
 	}
 
-	@SuppressFBWarnings(value = "SA_FIELD_SELF_ASSIGNMENT", justification = "https://github.com/spotbugs/spotbugs/issues/2258")
 	int getBits(int n) {
 		bitCount += n;
 		int val = 0;

@@ -19,6 +19,7 @@ package org.geogebra.web.full.gui.pagecontrolpanel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Optional;
 
 import javax.annotation.Nonnull;
@@ -644,12 +645,12 @@ public class PageListController implements PageListControllerInterface,
 
 		case "renamePage":
 			findById(pageId).ifPresent(renameCard -> renameCard.setCardTitle(
-					args.get("title").toString()));
+					Objects.requireNonNull(args.get("title")).toString()));
 			break;
 		case "pastePage":
 			GgbFile file = new GgbFile(pageId);
 			file.put("geogebra.xml", (String) args.get("xml"));
-			int to = args.getAsAny("to").asInt();
+			int to = Objects.requireNonNull(args.getAsAny("to")).asInt();
 			PagePreviewCard pastedCard = addNewPreviewCard(to, file);
 			pastedCard.clearBackground();
 			break;

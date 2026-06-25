@@ -21,6 +21,7 @@ import java.util.Date;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.gwtutil.JsObject;
 import org.geogebra.regexp.shared.MatchResult;
 import org.geogebra.regexp.shared.RegExp;
 import org.geogebra.web.html5.Browser;
@@ -167,9 +168,10 @@ public final class GeoGebraElement {
 				sy *= mul;
 			}
 
-			if (!StringUtil.empty((String) Js.asPropertyMap(style).get("zoom"))
+			Object zoomProp = JsObject.of(style).get("zoom");
+	        if (!StringUtil.empty((String) zoomProp)
 					&& current != Document.get().getBody().getParentElement()) {
-				double zoom = Double.parseDouble((String) Js.asPropertyMap(style).get("zoom"));
+				double zoom = Double.parseDouble((String) zoomProp);
 				sx *= zoom;
 				sy *= zoom;
 			}

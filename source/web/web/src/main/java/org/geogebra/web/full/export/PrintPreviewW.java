@@ -184,8 +184,9 @@ public class PrintPreviewW extends ComponentDialog {
 	private static void removePrintPanelFromDOM() {
 		HTMLCollection<elemental2.dom.Element> pp = Dom
 				.getElementsByClassName("printPanel");
-		if (pp.getLength() != 0) {
-			pp.getAt(0).remove();
+		elemental2.dom.Element element = pp.getAt(0);
+		if (element != null) {
+			element.remove();
 		}
 	}
 }

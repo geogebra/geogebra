@@ -18,6 +18,7 @@ package org.geogebra.web.full.gui.laf;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.gwtutil.JsConsumer;
+import org.geogebra.gwtutil.JsObject;
 
 import elemental2.dom.DomGlobal;
 import elemental2.promise.Promise;
@@ -85,7 +86,7 @@ public class ChromeLookAndFeel extends GLookAndFeel {
 	}
 
 	private Object getStorage() {
-		return Js.asPropertyMap(DomGlobal.window).nestedGet("chrome.storage.local");
+		return JsObject.of(DomGlobal.window).nestedGet("chrome.storage.local");
 	}
 
 	@Override

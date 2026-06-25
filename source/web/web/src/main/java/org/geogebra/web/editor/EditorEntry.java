@@ -18,6 +18,7 @@ package org.geogebra.web.editor;
 
 import org.geogebra.editor.web.JlmEditorLib;
 import org.geogebra.gwtutil.JsConsumer;
+import org.geogebra.gwtutil.JsObject;
 import org.geogebra.web.html5.bridge.RenderGgbElement;
 import org.geogebra.web.resources.StyleInjector;
 
@@ -30,7 +31,6 @@ import com.himamis.retex.renderer.web.font.opentype.Opentype;
 
 import elemental2.core.Function;
 import elemental2.dom.DomGlobal;
-import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 public class EditorEntry implements EntryPoint {
@@ -38,7 +38,7 @@ public class EditorEntry implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		FactoryProviderGWT.ensureLoaded();
-		Function onReady = (Function) Js.asPropertyMap(DomGlobal.window)
+		Function onReady = (Function) JsObject.of(DomGlobal.window)
 				.nestedGet("editor.onReady");
 		initFontAndCss();
 
@@ -79,6 +79,6 @@ public class EditorEntry implements EntryPoint {
 	}
 
 	private boolean isSuperDev() {
-		return Js.asPropertyMap(DomGlobal.window).has("__gwt_sdm");
+		return JsObject.of(DomGlobal.window).has("__gwt_sdm");
 	}
 }

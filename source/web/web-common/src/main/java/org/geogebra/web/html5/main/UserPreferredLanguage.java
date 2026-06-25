@@ -91,7 +91,7 @@ public class UserPreferredLanguage {
 	private static void translate(App app, Element elem) {
 		for (int i = 0; i < elem.childNodes.length; i++) {
 			Node child = elem.childNodes.item(i);
-			if (child.nodeType == Node.ELEMENT_NODE) {
+			if (child != null && child.nodeType == Node.ELEMENT_NODE) {
 				HTMLElement childEl = Js.uncheckedCast(child);
 				if (childEl.hasAttribute(DATA_TRANS_KEY)) {
 					childEl.textContent = app.getLocalization()
