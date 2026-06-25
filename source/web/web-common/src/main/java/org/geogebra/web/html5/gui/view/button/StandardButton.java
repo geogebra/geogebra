@@ -16,6 +16,7 @@
 
 package org.geogebra.web.html5.gui.view.button;
 
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
@@ -25,6 +26,7 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
+import org.geogebra.web.resources.SVGResourcePrototype;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.Label;
@@ -311,6 +313,10 @@ public class StandardButton extends Widget implements HasResource {
 	public void setEnabled(boolean enabled) {
 		Dom.toggleClass(this, "disabled", !enabled);
 		AriaHelper.setDisabled(this, !enabled);
+		if (icon instanceof SVGResourcePrototype svg) {
+			setResource(svg.withFill(enabled ? GeoGebraColorConstants.PURPLE_700.toString()
+					: GeoGebraColorConstants.NEUTRAL_500.toString()));
+		}
 	}
 
 	/**
