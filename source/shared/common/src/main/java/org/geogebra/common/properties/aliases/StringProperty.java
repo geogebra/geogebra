@@ -26,11 +26,19 @@ import org.geogebra.common.properties.ConstrainedProperty;
 public interface StringProperty extends ConstrainedProperty<String> {
 	/**
 	 * @return {@code true} if the property should be displayed as a text area (see
-	 * {@link org.geogebra.common.properties.PropertyView.TextArea}, {@code false} if it should be
-	 * displayed as a simple text field (see
-	 * {@link org.geogebra.common.properties.PropertyView.TextField}.
+	 * {@link org.geogebra.common.properties.PropertyView.TextArea}, {@code false} otherwise (see
+	 * {@link org.geogebra.common.properties.PropertyView.TextField} and
+     * {@link org.geogebra.common.properties.PropertyView.ComboBox}).
 	 */
 	default boolean isDisplayedAsTextArea() {
+		return false;
+	}
+
+	/**
+	 * @return {@code true} if the property should be displayed with a math editor,
+	 * {@code false} if it should be displayed as plain text.
+	 */
+	default boolean isDisplayedInMathFormat() {
 		return false;
 	}
 

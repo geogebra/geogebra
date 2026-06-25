@@ -119,6 +119,11 @@ public final class DistributionParameterProperty extends AbstractNumericProperty
 	}
 
 	@Override
+	public boolean isDisplayedInMathFormat() {
+		return true;
+	}
+
+	@Override
 	public boolean isAvailable() {
 		return parameterIndex
 				< ProbabilityManager.getParamCount(probabilityCalculatorView.getSelectedDist());

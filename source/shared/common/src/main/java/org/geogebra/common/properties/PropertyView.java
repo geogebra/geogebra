@@ -91,6 +91,7 @@ import org.geogebra.common.properties.impl.objects.ScriptPropertyCollection;
 import org.geogebra.common.properties.impl.objects.SliderTrackColorPropertyCollection;
 import org.geogebra.common.properties.impl.objects.StyledItemProperty;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
+import org.geogebra.common.util.TextFormat;
 import org.geogebra.editor.share.util.Unicode;
 
 import com.google.j2objc.annotations.Weak;
@@ -474,6 +475,13 @@ public abstract class PropertyView {
 		public @Nonnull List<String> getItems() {
 			return property.getSuggestions();
 		}
+
+		/**
+		 * @return the format of the text
+		 */
+		public @Nonnull TextFormat getFormat() {
+			return property.isDisplayedInMathFormat() ? TextFormat.MATH : TextFormat.PLAIN;
+		}
 	}
 
 	/**
@@ -627,11 +635,6 @@ public abstract class PropertyView {
 	 * formatted input displayed in {@link org.geogebra.editor.share.editor.MathField}.
 	 */
 	public static final class TextField extends ValidatablePropertyBackedView<StringProperty> {
-		/** The possible formats of the text. */
-		public enum Format {
-			MATH, PLAIN_TEXT,
-		}
-
 		TextField(StringProperty stringProperty) {
 			super(stringProperty);
 		}
@@ -641,6 +644,13 @@ public abstract class PropertyView {
 		 */
 		public @Nonnull String getLabel() {
 			return property.getName();
+		}
+
+		/**
+		 * @return the format of the text
+		 */
+		public @Nonnull TextFormat getFormat() {
+			return property.isDisplayedInMathFormat() ? TextFormat.MATH : TextFormat.PLAIN;
 		}
 	}
 
