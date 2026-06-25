@@ -54,6 +54,12 @@ public enum Tag {
 
 	DEF_INT("$defint"),
 
+	INTEGRAL("Integral"),
+
+	N_INTEGRAL("NIntegral"),
+
+	INTEGRAL_SYMBOLIC("IntegralSymbolic"),
+
 	LIM_EQ("$limeq"),
 
 	PROD_EQ("$prodeq"),

@@ -19,6 +19,7 @@ package org.geogebra.web.full.gui.view.algebra;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.ScreenReader;
+import org.geogebra.common.util.CommandSyntaxLookupImpl;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.editor.share.serializer.TeXSerializer;
 import org.geogebra.editor.web.MathFieldW;
@@ -87,6 +88,8 @@ public class LaTeXTreeItem extends RadioTreeItem {
 		FactoryProviderGWT.ensureLoaded();
 		mf = new MathFieldW(new SyntaxAdapterImplWithPaste(app.getKernel()), latexItem, canvas,
 				getLatexController(), app.getEditorFeatures());
+		mf.getInternal().getInputController()
+				.setCommandSyntaxLookup(new CommandSyntaxLookupImpl(app));
 		DataTest.ALGEBRA_INPUT.apply(mf.getInputTextArea());
 		mf.setExpressionReader(ScreenReader.getExpressionReader(app));
 		updateEditorAriaLabel("");

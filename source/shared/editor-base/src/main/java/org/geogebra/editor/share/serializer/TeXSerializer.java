@@ -26,6 +26,7 @@ import org.geogebra.editor.share.tree.InternalNode;
 import org.geogebra.editor.share.tree.Node;
 import org.geogebra.editor.share.tree.PlaceholderNode;
 import org.geogebra.editor.share.tree.SequenceNode;
+import org.geogebra.editor.share.util.IntegralHelper;
 import org.geogebra.editor.share.util.Unicode;
 
 /**
@@ -293,6 +294,9 @@ public class TeXSerializer extends SerializerAdapter {
 			serialize(function.getChild(1), stringBuilder);
 			stringBuilder.append("{}");
 			break;
+		case INTEGRAL, N_INTEGRAL, INTEGRAL_SYMBOLIC:
+			serializeIntegral(function, stringBuilder);
+			break;
 		case LIM_EQ:
 			stringBuilder.append("\\lim_{");
 			serialize(function.getChild(0), stringBuilder);
@@ -416,6 +420,33 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("}\\\\");
 		}
 		stringBuilder.append("\\end{pmatrix}");
+	}
+
+	private void serializeIntegral(FunctionNode integral, StringBuilder stringBuilder) {
+		stringBuilder.append(integral.getTexName());
+		if (IntegralHelper.shouldRenderLimits(integral, mCurrentField)) {
+			stringBuilder.append("\\limits_{");
+			serializeIntegralField(integral.getChild(IntegralHelper.LOWER_LIMIT), stringBuilder);
+			stringBuilder.append("}^{");
+			serializeIntegralField(integral.getChild(IntegralHelper.UPPER_LIMIT), stringBuilder);
+			stringBuilder.append("}");
+		} else {
+			stringBuilder.append("{}");
+		}
+		serializeIntegralField(integral.getChild(IntegralHelper.INTEGRAND), stringBuilder);
+		stringBuilder.append("\\,\\mathrm{d}");
+		serializeIntegralField(integral.getChild(IntegralHelper.VARIABLE), stringBuilder);
+	}
+
+	private void serializeIntegralField(SequenceNode field, StringBuilder stringBuilder) {
+		if (field.size() == 0 && field == mCurrentField) {
+			stringBuilder.append(PLACEHOLDER);
+			if (currentSelStart == null) {
+				stringBuilder.append(cursorBig);
+			}
+			return;
+		}
+		serialize(field, stringBuilder);
 	}
 
 	/**

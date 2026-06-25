@@ -257,7 +257,7 @@ public class EditorPointTest {
 		checker.type("1/(2)")
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.right(2)
-				.checkPath(1);
+				.checkCaret(1);
 	}
 
 	@Test

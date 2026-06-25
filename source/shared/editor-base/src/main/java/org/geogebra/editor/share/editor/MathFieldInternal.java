@@ -29,6 +29,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.editor.share.catalog.Tag;
 import org.geogebra.editor.share.controller.CursorController;
+import org.geogebra.editor.share.controller.CursorController.Traversal;
 import org.geogebra.editor.share.controller.EditorState;
 import org.geogebra.editor.share.controller.ExpressionReader;
 import org.geogebra.editor.share.controller.InputController;
@@ -529,7 +530,8 @@ public class MathFieldInternal
 	}
 
 	private void moveToSelectionIterative(int x, int y) {
-		CursorController.firstField(editorState);
+		CursorController.firstField(editorState, editorState.getRootNode().extractLocked(),
+				Traversal.SELECTABLE_FIELDS);
 		double dist = Integer.MAX_VALUE;
 		SequenceNode closestComponent = null;
 		int closestOffset = -1;
@@ -544,7 +546,8 @@ public class MathFieldInternal
 				closestComponent = editorState.getCurrentNode();
 				closestOffset = editorState.getCurrentOffset();
 			}
-		} while (CursorController.nextCharacter(editorState, false));
+		} while (CursorController.nextCharacter(editorState, false,
+				Traversal.SELECTABLE_FIELDS));
 		if (closestComponent != null) {
 			moveCaretToClosestValidPoint(closestComponent, closestOffset);
 			mathFieldController.updateCursorPosition(formula,
@@ -827,7 +830,8 @@ public class MathFieldInternal
 			KeyboardInputAdapter.type(this, text);
 		} else {
 			try {
-				SequenceNode root = new Parser(mathField.getCatalog()).parse(text)
+				String normalizedText = inputController.normalizeIntegralCommand(text);
+				SequenceNode root = new Parser(mathField.getCatalog()).parse(normalizedText)
 						.getRootNode();
 
 				if (allSelected && isMatrixWithSameDimension(rootBefore, root)) {

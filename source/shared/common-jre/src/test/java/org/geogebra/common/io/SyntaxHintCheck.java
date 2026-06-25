@@ -19,6 +19,8 @@ package org.geogebra.common.io;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.geogebra.common.awt.AwtFactory;
+import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.editor.share.catalog.TemplateCatalog;
 import org.geogebra.editor.share.input.KeyboardInputAdapter;
 import org.geogebra.editor.share.syntax.SyntaxController;
@@ -43,6 +45,7 @@ public class SyntaxHintCheck {
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderCommon());
 		}
+		AwtFactory.setPrototypeIfNull(new AwtFactoryCommon());
 	}
 
 	@Before

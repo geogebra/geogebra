@@ -18,10 +18,16 @@ options {
 PARSER_BEGIN(Parser)
 package org.geogebra.editor.share.io.latex;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.IntPredicate;
+
 import org.geogebra.editor.share.catalog.*;
 import org.geogebra.editor.share.controller.*;
 import org.geogebra.editor.share.editor.FractionBracketRemover;
 import org.geogebra.editor.share.tree.*;
+import org.geogebra.editor.share.util.IntegralHelper;
+import org.geogebra.editor.share.util.IntegralHelper.IntegralForm;
 import org.geogebra.editor.share.util.Unicode;
 
 public class Parser {
@@ -99,6 +105,111 @@ public class Parser {
 				|| token.kind == PARENTHESES_OPEN) && absoluteValueDepth < absoluteValueCount;
 	}
 
+	private FunctionNode buildIntegralOrCommand(Tag tag, List<SequenceNode> arguments) {
+		IntegralHelper.IntegralForm form = IntegralHelper.getIntegralForm(tag, arguments.size(),
+				new IntPredicate() {
+					@Override
+					public boolean test(int argument) {
+						return isVariable(arguments.get(argument));
+					}
+				},
+				new IntPredicate() {
+					@Override
+					public boolean test(int argument) {
+						return isBooleanLiteral(arguments.get(argument));
+					}
+				});
+		if (form == null) {
+			return createCommand(tag.getKey(), arguments);
+		}
+		switch (form) {
+		case INTEGRAND_ONLY: return createIntegral(tag, arguments.get(0), null, null, null);
+		case INTEGRAND_VARIABLE: return createIntegral(tag, arguments.get(0), arguments.get(1), null, null);
+		case INTEGRAND_LIMITS: return createIntegral(tag, arguments.get(0), null, arguments.get(1), arguments.get(2));
+		case INTEGRAND_VARIABLE_LIMITS: return createIntegral(tag, arguments.get(0), arguments.get(1), arguments.get(2), arguments.get(3));
+		default: return createCommand(tag.getKey(), arguments);
+		}
+	}
+
+	private FunctionNode createIntegral(Tag tag, SequenceNode integrand,
+			SequenceNode explicitVariable, SequenceNode lowerLimit, SequenceNode upperLimit) {
+		SequenceNode variable = explicitVariable != null ? explicitVariable : getInferredVariable(integrand);
+		FunctionNode integral = IntegralHelper.create(catalog, tag, IntegralForm.INTEGRAND_ONLY);
+		if (lowerLimit != null) integral.setChild(IntegralHelper.LOWER_LIMIT, lowerLimit);
+		if (upperLimit != null) integral.setChild(IntegralHelper.UPPER_LIMIT, upperLimit);
+		integral.setChild(IntegralHelper.INTEGRAND, integrand);
+		if (variable != null) integral.setChild(IntegralHelper.VARIABLE, variable);
+		integral.setIntegralAutoDefaultVariable(explicitVariable == null);
+		integral.setIntegralLimitsVisible(IntegralHelper.hasLimits(tag) && (lowerLimit != null || upperLimit != null));
+		return integral;
+	}
+
+	private SequenceNode getInferredVariable(SequenceNode integrand) {
+		List<String> variables = new ArrayList<>();
+		collectVariables(integrand, variables, false);
+		if (variables.size() != 1) {
+			return null;
+		}
+		SequenceNode variable = new SequenceNode();
+		variable.append(catalog.getCharacter(variables.get(0)));
+		return variable;
+	}
+
+	private void collectVariables(Node integrand, List<String> variables, boolean allowBare) {
+		if (integrand instanceof CharacterNode) {
+			CharacterNode character = (CharacterNode) integrand;
+			String variable = character.getUnicodeString();
+			if (character.isLetter() && !variables.contains(variable)) {
+				variables.add(variable);
+			}
+		} else if (integrand instanceof SequenceNode) {
+			SequenceNode sequence = (SequenceNode) integrand;
+			if (!allowBare && isVariable(sequence)) {
+				return;
+			}
+			for (Node child : sequence) {
+				collectVariables(child, variables, true);
+			}
+		} else if (integrand instanceof FunctionNode) {
+			FunctionNode function = (FunctionNode) integrand;
+			int start = function.getName() == Tag.APPLY || function.getName() == Tag.APPLY_SQUARE ? 1 : 0;
+			for (int i = start; i < function.size(); i++) {
+				collectVariables(function.getChild(i), variables, true);
+			}
+		}
+	}
+
+	private boolean isVariable(SequenceNode argument) {
+		return argument.size() == 1 && argument.getChild(0) instanceof CharacterNode && ((CharacterNode) argument.getChild(0)).isLetter();
+	}
+
+	private boolean isBooleanLiteral(SequenceNode argument) {
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < argument.size(); i++) {
+			if (!(argument.getChild(i) instanceof CharacterNode)) {
+				return false;
+			}
+			builder.append(((CharacterNode) argument.getChild(i)).getUnicodeString());
+		}
+		return "true".contentEquals(builder) || "false".contentEquals(builder);
+	}
+
+	private FunctionNode createCommand(String name, List<SequenceNode> arguments) {
+		FunctionNode command = new FunctionNode(catalog.getFunction(name, false));
+		SequenceNode nameSequence = new SequenceNode();
+		for (int i = 0; i < name.length(); i++) {
+			nameSequence.append(catalog.getCharacter(name.charAt(i) + ""));
+		}
+		command.setChild(0, nameSequence);
+		if (!arguments.isEmpty()) {
+			command.setChild(1, arguments.get(0));
+		}
+		for (int i = 1; i < arguments.size(); i++) {
+			command.addChild(arguments.get(i));
+		}
+		return command;
+	}
+
 	public Formula parse(String text) throws ParseException {
 		absoluteValueCount = countVerticalBars(text);
 		if (absoluteValueCount % 2 != 0) {
@@ -148,6 +259,9 @@ PARSER_END(Parser)
 	| < CBRT : "cbrt(" >
 	| < NROOT : "nroot(" >
 	| < LOG : "log(" >
+	| < INTEGRAL : "Integral(" >
+	| < N_INTEGRAL : "NIntegral(" >
+	| < INTEGRAL_SYMBOLIC : "IntegralSymbolic(" >
 	| < ABS : "abs(" >
 	| < DEF_INT : "$defint" >
 	| < PROD_EQ : "$prodeq" >
@@ -198,6 +312,8 @@ void atomicWrapper(InternalNode node) : {}
 	nroot(node)
 	|
 	log(node)
+	|
+	integral(node)
 	|
 	defintSumProduct(node)
 	|
@@ -456,6 +572,32 @@ void log(InternalNode node) : { }
 	})? <PARENTHESES_CLOSE>
 	{
 	  node.addChild(nroot);
+	}
+}
+
+void integral(InternalNode node) :
+{
+	Token symbol;
+	Tag tag;
+	List<SequenceNode> arguments;
+	SequenceNode argument;
+}
+{
+	(symbol = <INTEGRAL> | symbol = <N_INTEGRAL> | symbol = <INTEGRAL_SYMBOLIC>) {
+		tag = Tag.lookup(symbol.image.substring(0, symbol.image.length() - 1));
+		arguments = new ArrayList<>();
+		argument = new SequenceNode();
+		internalNode(argument);
+		arguments.add(argument);
+	}
+	(
+		<COMMA> {
+			argument = new SequenceNode();
+			internalNode(argument);
+			arguments.add(argument);
+		}
+	)* <PARENTHESES_CLOSE> {
+		node.addChild(buildIntegralOrCommand(tag, arguments));
 	}
 }
 

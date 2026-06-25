@@ -75,5 +75,4 @@ public class SyntaxAdapterImpl extends AbstractSyntaxAdapter {
 	protected Kernel getKernel() {
 		return kernel;
 	}
-
 }

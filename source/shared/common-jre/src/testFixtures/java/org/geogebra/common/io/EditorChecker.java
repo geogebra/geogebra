@@ -102,7 +102,7 @@ class EditorChecker {
 		String exp = new GeoGebraSerializer(editorFeatures)
 				.serialize(rootComponent, new StringBuilder()).toString();
 		try {
-			ValidExpression en = parse(exp);
+			ValidExpression en = app.getKernel().getParser().parseGeoGebraExpression(exp);
 			assertEquals(output, en.toString(StringTemplate.defaultTemplate));
 		} catch (ParseException e) {
 			Log.debug(e);
@@ -238,7 +238,7 @@ class EditorChecker {
 		return this;
 	}
 
-	public EditorChecker fromParser(String input) {
+	public EditorChecker parse(String input) {
 		Parser parser = new Parser(mathField.getCatalog());
 		Formula formula;
 		try {
@@ -303,7 +303,7 @@ class EditorChecker {
 		return this;
 	}
 
-	public EditorChecker checkPath(Integer... indexes) {
+	public EditorChecker checkCaret(Integer... indexes) {
 		MathFieldInternal mathFieldInternal = mathField.getInternal();
 		mathField.requestViewFocus();
 		mathFieldInternal.update();
@@ -321,10 +321,6 @@ class EditorChecker {
 
 	protected void checkEditorInsert(String input, String output) {
 		new EditorChecker(app).insert(input).checkAsciiMath(output);
-	}
-
-	public ValidExpression parse(String exp) throws ParseException {
-		return app.getKernel().getParser().parseGeoGebraExpression(exp);
 	}
 
 	public void setFormatConverter(SyntaxAdapterImpl formatConverter) {
@@ -425,7 +421,7 @@ class EditorChecker {
 	}
 
 	private void reset() {
-		fromParser("");
+		parse("");
 		setModifiers(0);
 	}
 }

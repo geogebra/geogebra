@@ -41,7 +41,7 @@ public class SelectAllTest {
 	@Test
 	public void testPointSimpleCoordinateX() {
 		EditorChecker checker = new EditorChecker(app);
-		checker.fromParser("(321.45,4)")
+		checker.parse("(321.45,4)")
 				.setModifiers(KeyEvent.CTRL_MASK)
 				.protect()
 				.left(8)
@@ -53,7 +53,7 @@ public class SelectAllTest {
 	@Test
 	public void testPointSimpleCoordinateXFromMiddle() {
 		EditorChecker checker = new EditorChecker(app);
-		checker.fromParser("(321.45,4)")
+		checker.parse("(321.45,4)")
 				.protect()
 				.left(4)
 				.setModifiers(KeyEvent.CTRL_MASK)
@@ -65,7 +65,7 @@ public class SelectAllTest {
 	@Test
 	public void testPoint3DCoordinateDeleteMiddle() {
 		EditorChecker checker = new EditorChecker(app);
-		checker.fromParser("(1,2,3)")
+		checker.parse("(1,2,3)")
 				.protect()
 				.left(4)
 				.setModifiers(KeyEvent.CTRL_MASK)
@@ -80,7 +80,7 @@ public class SelectAllTest {
 	@Test
 	public void testPointDeleteLast() {
 		EditorChecker checker = new EditorChecker(app);
-		checker.fromParser("(,)")
+		checker.parse("(,)")
 				.protect()
 				.left(1)
 				.insert("3")
@@ -93,7 +93,7 @@ public class SelectAllTest {
 	@Test
 	public void testPointSelectFirst() {
 		EditorChecker checker = new EditorChecker(app);
-		checker.fromParser("(,,)")
+		checker.parse("(,,)")
 				.protect()
 				.withPlaceholders()
 				.left(20)
@@ -107,7 +107,7 @@ public class SelectAllTest {
 	@Test
 	public void listShouldSelectAllElements() {
 		EditorChecker checker = new EditorChecker(app);
-		checker.fromParser("{1,2,3}")
+		checker.parse("{1,2,3}")
 				.left(1)
 				.setModifiers(KeyEvent.CTRL_MASK)
 				.typeKey(JavaKeyCodes.VK_A)

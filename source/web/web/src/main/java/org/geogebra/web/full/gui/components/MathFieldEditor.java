@@ -25,6 +25,7 @@ import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ScreenReader;
+import org.geogebra.common.util.CommandSyntaxLookupImpl;
 import org.geogebra.editor.share.catalog.TemplateCatalog;
 import org.geogebra.editor.share.editor.UnhandledArrowListener;
 import org.geogebra.editor.share.event.MathFieldListener;
@@ -111,6 +112,8 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 
 		mathField = new MathFieldW(new SyntaxAdapterImplWithPaste(app.getKernel()), main,
 				canvas, listener, catalog, app.getEditorFeatures());
+		mathField.getInternal().getInputController()
+				.setCommandSyntaxLookup(new CommandSyntaxLookupImpl(app));
 		mathField.removeCursor();
 		main.setFocusDelegate(this::editorClicked);
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));

@@ -61,6 +61,7 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetCellEditor;
 import org.geogebra.common.spreadsheet.core.SpreadsheetControlsDelegate;
 import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellDataSerializer;
 import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellProcessor;
+import org.geogebra.common.util.CommandSyntaxLookupImpl;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
@@ -185,6 +186,8 @@ public class SpreadsheetDemo {
 			this.spreadsheet = spreadsheet;
 			this.mathField = new MathFieldD(new SyntaxAdapterImpl(app.getKernel()),
 					editorBox::repaint);
+			mathField.getInternal().getInputController()
+					.setCommandSyntaxLookup(new CommandSyntaxLookupImpl(app));
 			editorBox.setBorder(new BevelBorder(BevelBorder.RAISED));
 			editorBox.add(mathField);
 			mathField.setBounds(0, 0, 200, 200);

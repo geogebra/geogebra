@@ -21,6 +21,8 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.geogebra.common.awt.AwtFactory;
+import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.editor.share.catalog.TemplateCatalog;
 import org.geogebra.editor.share.controller.CursorController;
@@ -40,6 +42,7 @@ public class EditorStateAPITest {
 	@BeforeClass
 	public static void setupFactoryProvider() {
 		FactoryProvider.setInstance(new FactoryProviderCommon());
+		AwtFactory.setPrototypeIfNull(new AwtFactoryCommon());
 	}
 
 	@Test

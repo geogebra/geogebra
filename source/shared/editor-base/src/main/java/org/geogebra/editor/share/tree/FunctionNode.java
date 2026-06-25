@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.geogebra.editor.share.catalog.FunctionTemplate;
 import org.geogebra.editor.share.catalog.Tag;
+import org.geogebra.editor.share.util.IntegralHelper;
 
 /**
  * Function. This class is part of model.
@@ -33,6 +34,8 @@ public class FunctionNode extends InternalNode {
 	private final List<String> placeholders = new ArrayList<>();
 	private String commandForSyntax;
 	private boolean preventNestedFractions;
+	private boolean integralLimitsVisible;
+	private boolean integralAutoDefaultVariable = true;
 
 	/**
 	 * Use MathFormula.newFunction(...)
@@ -79,7 +82,8 @@ public class FunctionNode extends InternalNode {
 			return getChild(0).size() == 0 ? 0 : 1;
 		} else if (getName() == Tag.LOG) {
 			return 1;
-		} else if (getName() == Tag.LOG_POWER || getName() == Tag.ATOMIC_PRE) {
+		} else if (getName() == Tag.LOG_POWER || getName() == Tag.ATOMIC_PRE
+				|| IntegralHelper.isIntegral(getName())) {
 			return 2;
 		}
 		return 0;
@@ -155,6 +159,22 @@ public class FunctionNode extends InternalNode {
 
 	public void setPreventingNestedFractions(boolean prevent) {
 		this.preventNestedFractions = prevent;
+	}
+
+	public boolean isIntegralLimitsVisible() {
+		return integralLimitsVisible;
+	}
+
+	public void setIntegralLimitsVisible(boolean limitsVisible) {
+		this.integralLimitsVisible = limitsVisible;
+	}
+
+	public boolean isIntegralAutoDefaultVariable() {
+		return integralAutoDefaultVariable;
+	}
+	
+	public void setIntegralAutoDefaultVariable(boolean autoDefaultVariable) {
+		this.integralAutoDefaultVariable = autoDefaultVariable;
 	}
 
 	@Override

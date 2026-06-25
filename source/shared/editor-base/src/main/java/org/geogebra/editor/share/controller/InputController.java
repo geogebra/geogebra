@@ -25,8 +25,10 @@ import javax.annotation.CheckForNull;
 import org.geogebra.editor.share.catalog.ArrayTemplate;
 import org.geogebra.editor.share.catalog.CharacterTemplate;
 import org.geogebra.editor.share.catalog.FunctionTemplate;
+import org.geogebra.editor.share.catalog.FunctionTemplateFactory;
 import org.geogebra.editor.share.catalog.Tag;
 import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.editor.CommandSyntaxLookup;
 import org.geogebra.editor.share.editor.EditorFeatures;
 import org.geogebra.editor.share.editor.MathField;
 import org.geogebra.editor.share.editor.SyntaxAdapter;
@@ -38,6 +40,9 @@ import org.geogebra.editor.share.tree.InternalNode;
 import org.geogebra.editor.share.tree.Node;
 import org.geogebra.editor.share.tree.PlaceholderNode;
 import org.geogebra.editor.share.tree.SequenceNode;
+import org.geogebra.editor.share.util.CommandParser;
+import org.geogebra.editor.share.util.IntegralHelper;
+import org.geogebra.editor.share.util.IntegralHelper.IntegralForm;
 import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.geogebra.editor.share.util.Unicode;
 
@@ -57,6 +62,7 @@ public class InputController {
 
 	private boolean plainTextMode = false;
 	private @CheckForNull SyntaxAdapter syntaxAdapter;
+	private @CheckForNull CommandSyntaxLookup commandSyntaxLookup;
 	private @CheckForNull EditorFeatures editorFeatures;
 	private boolean useSimpleScripts = true;
 	private boolean allowAbs = true;
@@ -87,6 +93,13 @@ public class InputController {
 
 	public void setSyntaxAdapter(@CheckForNull SyntaxAdapter syntaxAdapter) {
 		this.syntaxAdapter = syntaxAdapter;
+	}
+
+	/**
+	 * @param commandSyntaxLookup lookup for resolving localized command names and syntaxes
+	 */
+	public void setCommandSyntaxLookup(@CheckForNull CommandSyntaxLookup commandSyntaxLookup) {
+		this.commandSyntaxLookup = commandSyntaxLookup;
 	}
 
 	public void setUseSimpleScripts(boolean useSimpleScripts) {
@@ -268,6 +281,15 @@ public class InputController {
 			return;
 		}
 
+		Tag integralTag = getIntegralTag(name);
+		if (ch == FUNCTION_OPEN_KEY && integralTag != null) {
+			removeFunctionsScripts(power, editorState);
+			delCharacters(editorState, name.length());
+			insertFunction(editorState, IntegralHelper.create(catalog, integralTag,
+					IntegralForm.INTEGRAND_ONLY), IntegralHelper.INTEGRAND);
+			return;
+		}
+
 		if (ch == FUNCTION_OPEN_KEY && tag != null) {
 			removeFunctionsScripts(power, editorState);
 			delCharacters(editorState, name.length());
@@ -315,6 +337,74 @@ public class InputController {
 	 */
 	public void newFunction(EditorState editorState, String name) {
 		newFunction(editorState, name, false, null, null);
+	}
+
+	/**
+	 * Insert a command template from autocomplete input.
+	 * @param editorState editor state
+	 * @param commandString full command syntax
+	 * @return whether a command template was inserted
+	 */
+	public boolean insertCommand(EditorState editorState, String commandString) {
+		List<String> splitCommand = CommandParser.parseCommand(commandString);
+		String commandName = splitCommand.get(0);
+		List<String> commandArguments = splitCommand.subList(1, splitCommand.size());
+		Tag integralTag = getIntegralTag(commandName);
+		IntegralForm integralForm = getInlineIntegralForm(integralTag, commandArguments.size(),
+				commandString);
+		if (integralForm != null) {
+			FunctionNode integral = IntegralHelper.create(editorState.getCatalog(), integralTag,
+					integralForm);
+			boolean hasPlaceholders = commandString.indexOf('<') >= 0;
+			if (integralForm == IntegralForm.INTEGRAND_VARIABLE && hasPlaceholders) {
+				integral.setIntegralAutoDefaultVariable(true);
+			}
+			insertFunction(editorState, integral, IntegralHelper.INTEGRAND);
+			return true;
+		}
+		if (!FunctionTemplateFactory.isAcceptable(commandName)) {
+			return false;
+		}
+		FunctionNode command = buildCustomFunction(commandName, false, null, null);
+		initArguments(command, 1);
+		insertFunction(editorState, command, 1);
+		PlaceholderController.insertPlaceholders(editorState, commandArguments, commandName);
+		return true;
+	}
+
+	private IntegralForm getInlineIntegralForm(Tag integralTag, int argumentCount,
+			String commandString) {
+		if (integralTag == null) {
+			return null;
+		}
+		if (argumentCount == 0) {
+			return IntegralForm.INTEGRAND_ONLY;
+		}
+		if (commandSyntaxLookup == null) {
+			return null;
+		}
+
+		IntegralForm integralForm = commandSyntaxLookup.getIntegralForm(integralTag, commandString);
+		return integralForm == IntegralForm.INTEGRAND_LIMITS_EVALUATE
+				|| integralForm == IntegralForm.INTEGRAND_LIMITS_CURVE ? null : integralForm;
+	}
+
+	private void insertFunction(EditorState editorState, FunctionNode function, int targetIndex) {
+		SequenceNode currentField = editorState.getCurrentNode();
+		int currentOffset = editorState.getCurrentOffset();
+		if (editorState.getSelectionEnd() != null) {
+			ArrayList<Node> removed = cut(currentField, currentOffset, -1, editorState, function,
+					true);
+			SequenceNode targetField = function.getChild(targetIndex);
+			insertReverse(targetField, -1, removed);
+			editorState.resetSelection();
+			editorState.setCurrentNode(targetField);
+			editorState.setCurrentOffset(targetField.size());
+		} else {
+			currentField.addChild(currentOffset, function);
+			editorState.setCurrentNode(function.getChild(targetIndex));
+			editorState.setCurrentOffset(0);
+		}
 	}
 
 	/**
@@ -416,8 +506,8 @@ public class InputController {
 		int select = function.getInitialIndex();
 		if (function.hasChildren()) {
 			// set current sequence
-			CursorController.firstField(editorState,
-					function.getChild(select));
+			CursorController.firstField(editorState, function.getChild(select),
+					CursorController.Traversal.NAVIGABLE_FIELDS);
 			editorState.setCurrentOffset(editorState.getCurrentNode().size());
 		} else {
 			editorState.incCurrentOffset();
@@ -561,6 +651,11 @@ public class InputController {
 	 */
 	public void newCharacter(EditorState editorState, CharacterTemplate template) {
 		int currentOffset = editorState.getCurrentOffset();
+		if (editorState.getCurrentNode().getParent() instanceof FunctionNode integral
+				&& IntegralHelper.isIntegral(integral)
+				&& editorState.getCurrentNode().getParentIndex() == IntegralHelper.VARIABLE) {
+			integral.setIntegralAutoDefaultVariable(false);
+		}
 		Node last = editorState.getCurrentNode()
 				.getChild(currentOffset - 1);
 		StringBuilder suffix = new StringBuilder(template.getUnicodeString());
@@ -863,6 +958,9 @@ public class InputController {
 	 * @param editorState current state
 	 */
 	public void bkspCharacter(EditorState editorState) {
+		if (handleIntegralRemove(editorState, true)) {
+			return;
+		}
 		int currentOffset = editorState.getCurrentOffsetOrSelection();
 		if (currentOffset > 0) {
 			Node prev = editorState.getCurrentNode()
@@ -871,6 +969,13 @@ public class InputController {
 				moveArgumentsAfter(parent, editorState, parent.getChild(parent.size() - 1));
 			}
 			if (prev instanceof FunctionNode node) {
+				if (IntegralHelper.isIntegral(node) && deleteIntegralIfEmpty(editorState, node)) {
+					return;
+				}
+				if (IntegralHelper.isIntegral(node)) {
+					moveToIntegralZone(editorState, node, IntegralHelper.VARIABLE, true);
+					return;
+				}
 				bkspLastFunctionArg(node, editorState);
 			} else {
 				deleteSingleArg(editorState);
@@ -972,10 +1077,20 @@ public class InputController {
 	 * @param editorState current state
 	 */
 	public void delCharacter(EditorState editorState) {
+		if (handleIntegralRemove(editorState, false)) {
+			return;
+		}
 		int currentOffset = editorState.getCurrentOffset();
 		SequenceNode currentField = editorState.getCurrentNode();
 		if (currentOffset < currentField.size()) {
-
+			Node next = currentField.getChild(currentOffset);
+			if (IntegralHelper.isIntegral(next)) {
+				FunctionNode integral = (FunctionNode) next;
+				moveToIntegralZone(editorState, integral,
+						IntegralHelper.hasLimits(integral.getName()) ? IntegralHelper.UPPER_LIMIT
+								: IntegralHelper.INTEGRAND, false);
+				return;
+			}
 			CursorController.nextCharacter(editorState);
 			bkspCharacter(editorState);
 
@@ -985,6 +1100,92 @@ public class InputController {
 			} else {
 				RemoveContainer.deleteContainer(editorState);
 			}
+		}
+	}
+
+	private boolean handleIntegralRemove(EditorState editorState, boolean backspace) {
+		if (!(editorState.getCurrentNode().getParent() instanceof FunctionNode integral)
+				|| !IntegralHelper.isIntegral(integral)) {
+			return false;
+		}
+		if (deleteIntegralIfEmpty(editorState, integral)) {
+			return true;
+		}
+		SequenceNode currentField = editorState.getCurrentNode();
+		int currentOffset = backspace ? editorState.getCurrentOffsetOrSelection()
+				: editorState.getCurrentOffset();
+		boolean hasCharacterToDelete = backspace
+				? currentOffset > 0 : currentOffset < currentField.size();
+		if (hasCharacterToDelete) {
+			if (currentField.getParentIndex() == IntegralHelper.VARIABLE) {
+				integral.setIntegralAutoDefaultVariable(false);
+			}
+			return false;
+		}
+		if (backspace) { // whether "backspace" or "delete" was used
+			moveToPreviousIntegralZone(editorState, integral, currentField.getParentIndex());
+		} else {
+			moveToNextIntegralZone(editorState, integral, currentField.getParentIndex());
+		}
+		return true;
+	}
+
+	private boolean deleteIntegralIfEmpty(EditorState editorState, FunctionNode integral) {
+		if (integral.getChild(IntegralHelper.LOWER_LIMIT).size() != 0
+				|| integral.getChild(IntegralHelper.UPPER_LIMIT).size() != 0
+				|| integral.getChild(IntegralHelper.INTEGRAND).size() != 0
+				|| integral.getChild(IntegralHelper.VARIABLE).size() != 0) {
+			return false;
+		}
+		if (!(integral.getParent() instanceof SequenceNode parent)) {
+			return false;
+		}
+		int offset = integral.getParentIndex();
+		parent.deleteChild(offset);
+		editorState.setCurrentNode(parent);
+		editorState.setCurrentOffset(offset);
+		return true;
+	}
+
+	private void moveToPreviousIntegralZone(EditorState editorState, FunctionNode integral,
+			int currentFieldIndex) {
+		if (currentFieldIndex == IntegralHelper.VARIABLE) {
+			moveToIntegralZone(editorState, integral, IntegralHelper.INTEGRAND, true);
+		} else if (currentFieldIndex == IntegralHelper.INTEGRAND
+				&& IntegralHelper.hasLimits(integral.getName())) {
+			moveToIntegralZone(editorState, integral, IntegralHelper.UPPER_LIMIT, true);
+		} else {
+			moveOutsideIntegral(editorState, integral, false);
+		}
+	}
+
+	private void moveToNextIntegralZone(EditorState editorState, FunctionNode integral,
+			int currentFieldIndex) {
+		if (IntegralHelper.hasLimits(integral.getName())
+				&& currentFieldIndex < IntegralHelper.INTEGRAND) {
+			moveToIntegralZone(editorState, integral, IntegralHelper.INTEGRAND, false);
+		} else if (currentFieldIndex == IntegralHelper.INTEGRAND) {
+			moveToIntegralZone(editorState, integral, IntegralHelper.VARIABLE, false);
+		} else {
+			moveOutsideIntegral(editorState, integral, true);
+		}
+	}
+
+	private void moveToIntegralZone(EditorState editorState, FunctionNode integral,
+			int fieldIndex, boolean placeAtFieldEnd) {
+		if (IntegralHelper.shouldRevealLimits(integral, fieldIndex)) {
+			IntegralHelper.revealLimits(integral);
+		}
+		SequenceNode field = integral.getChild(fieldIndex);
+		editorState.setCurrentNode(field);
+		editorState.setCurrentOffset(placeAtFieldEnd ? field.size() : 0);
+	}
+
+	private void moveOutsideIntegral(EditorState editorState, FunctionNode integral,
+			boolean after) {
+		if (integral.getParent() instanceof SequenceNode parent) {
+			editorState.setCurrentNode(parent);
+			editorState.setCurrentOffset(integral.getParentIndex() + (after ? 1 : 0));
 		}
 	}
 
@@ -1079,6 +1280,12 @@ public class InputController {
 		boolean nonempty = false;
 		if (editorState.getSelectionStart() != null) {
 			InternalNode parent = editorState.getSelectionStart().getParent();
+			if (parent instanceof SequenceNode sequence
+					&& sequence.getParent() instanceof FunctionNode integral
+					&& IntegralHelper.isIntegral(integral)
+					&& sequence.getParentIndex() == IntegralHelper.VARIABLE) {
+				integral.setIntegralAutoDefaultVariable(false);
+			}
 
 			if (isProtected(editorState.getSelectionStart())) {
 				return true;
@@ -1165,7 +1372,8 @@ public class InputController {
 
 		// Move cursor out of a recurring decimal if the typed character is not a digit
 		if (editorState.isInRecurringDecimal() && !Character.isDigit(ch)) {
-			CursorController.nextField(editorState);
+			CursorController.nextField(editorState, editorState.getCurrentNode(),
+					CursorController.Traversal.NAVIGABLE_FIELDS);
 		}
 
 		TemplateCatalog catalog = editorState.getCatalog();
@@ -1471,6 +1679,30 @@ public class InputController {
 	 */
 	public String convert(String exp) {
 		return syntaxAdapter == null ? exp : syntaxAdapter.convert(exp);
+	}
+
+	private @CheckForNull Tag getIntegralTag(String commandName) {
+		Tag tag = Tag.lookup(commandName);
+		if (tag == null && commandSyntaxLookup != null) {
+			String internalCommand = commandSyntaxLookup.getInternalCommand(commandName);
+			tag = internalCommand == null ? null : Tag.lookup(internalCommand);
+		}
+		return tag != null && IntegralHelper.isIntegral(tag) ? tag : null;
+	}
+
+	/**
+	 * @param text input text
+	 * @return input text with a localized integral command head replaced by the internal name
+	 */
+	public String normalizeIntegralCommand(String text) {
+		int commandEnd = text.indexOf(FUNCTION_OPEN_KEY);
+		if (commandEnd < 1) {
+			return text;
+		}
+		String commandName = text.substring(0, commandEnd);
+		Tag tag = getIntegralTag(commandName);
+		return tag == null || commandName.equals(tag.getKey())
+				? text : tag.getKey() + text.substring(commandEnd);
 	}
 
 	/**

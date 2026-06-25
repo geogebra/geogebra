@@ -24,7 +24,6 @@ import org.geogebra.editor.share.catalog.Tag;
 import org.geogebra.editor.share.controller.CursorController;
 import org.geogebra.editor.share.controller.EditorState;
 import org.geogebra.editor.share.controller.KeyListenerImpl;
-import org.geogebra.editor.share.controller.PlaceholderController;
 import org.geogebra.editor.share.editor.MathFieldInternal;
 import org.geogebra.editor.share.input.adapter.FunctionsAdapter;
 import org.geogebra.editor.share.input.adapter.KeyboardAdapter;
@@ -36,7 +35,6 @@ import org.geogebra.editor.share.tree.CharacterNode;
 import org.geogebra.editor.share.tree.FunctionNode;
 import org.geogebra.editor.share.tree.InternalNode;
 import org.geogebra.editor.share.tree.SequenceNode;
-import org.geogebra.editor.share.util.CommandParser;
 import org.geogebra.editor.share.util.Unicode;
 
 public class KeyboardInputAdapter {
@@ -215,15 +213,12 @@ public class KeyboardInputAdapter {
 	}
 
 	private static void commitCommand(MathFieldInternal mfi, String commandString) {
-		List<String> splitCommand = CommandParser.parseCommand(commandString);
-
 		EditorState editorState = mfi.getEditorState();
-		type(mfi, splitCommand.get(0));
-		mfi.getInputController().newBraces(editorState, '(');
+		if (!mfi.getInputController().insertCommand(editorState, commandString)) {
+			mfi.insertString(commandString);
+			return;
+		}
 		mfi.notifyAndUpdate("(");
-		PlaceholderController.insertPlaceholders(editorState,
-				splitCommand.subList(1, splitCommand.size()),
-				splitCommand.get(0));
 	}
 
 	/**

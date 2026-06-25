@@ -543,17 +543,17 @@ public class EditorTypingTest extends BaseExamTestSetup {
 		inputBoxChecker.setFormatConverter(new SyntaxAdapterImpl(app.getKernel()));
 
 		inputBoxChecker.type("sin9x").checkAsciiMath("sin(9x)");
-		inputBoxChecker.fromParser("");
+		inputBoxChecker.parse("");
 
 		inputBoxChecker.type("sinhb").checkAsciiMath("sinh(b)");
-		inputBoxChecker.fromParser("");
+		inputBoxChecker.parse("");
 
 		inputBoxChecker.type("xsinxcosx").checkAsciiMath("xsin(xcos(x))");
-		inputBoxChecker.fromParser("");
+		inputBoxChecker.parse("");
 
 		inputBoxChecker.type("sin^2").right(1).type("a")
 				.checkAsciiMath("sin^(2)(a)");
-		inputBoxChecker.fromParser("");
+		inputBoxChecker.parse("");
 
 		inputBoxChecker.type("log_3").right(1).type("x")
 				.checkAsciiMath("log(3,x)");

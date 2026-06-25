@@ -54,6 +54,15 @@ class FunctionTemplateCatalog {
 				new FunctionTemplate(Tag.DEF_INT, "\\int",
 						new Parameter[]{createUpParameter(1), createDownParameter(0)}, 2),
 
+				new FunctionTemplate(Tag.INTEGRAL, "\\int",
+						Parameter.BASIC, Parameter.BASIC, Parameter.BASIC, Parameter.BASIC),
+
+				new FunctionTemplate(Tag.N_INTEGRAL, "\\int",
+						Parameter.BASIC, Parameter.BASIC, Parameter.BASIC, Parameter.BASIC),
+
+				new FunctionTemplate(Tag.INTEGRAL_SYMBOLIC, "\\int",
+						Parameter.BASIC, Parameter.BASIC, Parameter.BASIC, Parameter.BASIC),
+
 				new FunctionTemplate(Tag.LIM_EQ, "\\lim", new Parameter[]{
 						Parameter.BASIC}, 1),
 

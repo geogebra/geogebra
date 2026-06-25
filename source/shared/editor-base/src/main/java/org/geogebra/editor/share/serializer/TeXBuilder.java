@@ -31,6 +31,7 @@ import org.geogebra.editor.share.tree.InternalNode;
 import org.geogebra.editor.share.tree.Node;
 import org.geogebra.editor.share.tree.PlaceholderNode;
 import org.geogebra.editor.share.tree.SequenceNode;
+import org.geogebra.editor.share.util.IntegralHelper;
 import org.geogebra.editor.share.util.Unicode;
 
 import com.himamis.retex.renderer.share.AccentedAtom;
@@ -494,6 +495,8 @@ public class TeXBuilder {
 					build(argument.getChild(0)),
 					build(argument.getChild(1))
 			);
+		case INTEGRAL, N_INTEGRAL, INTEGRAL_SYMBOLIC:
+			return buildIntegral(argument);
 		case SUM_EQ:
 			Atom sum = newCharAtom('\u2211');
 			sum.type_limits = TeXConstants.SCRIPT_NORMAL;
@@ -568,6 +571,29 @@ public class TeXBuilder {
 							argument, 1)
 			);
 		}
+	}
+
+	private Atom buildIntegral(FunctionNode integral) {
+		Atom integralSymbol = Symbols.INTOP.duplicate().changeLimits(TeXConstants.SCRIPT_LIMITS);
+		if (IntegralHelper.shouldRenderLimits(integral, currentNode)) {
+			integralSymbol = new ScriptsAtom(integralSymbol,
+					buildIntegralField(integral.getChild(IntegralHelper.LOWER_LIMIT)),
+					buildIntegralField(integral.getChild(IntegralHelper.UPPER_LIMIT)));
+		}
+		return wrap(integralSymbol, buildIntegralField(integral.getChild(IntegralHelper.INTEGRAND)),
+				new SpaceAtom(TeXConstants.Muskip.THIN), new RomanAtom(buildString("d")),
+				buildIntegralField(integral.getChild(IntegralHelper.VARIABLE)));
+	}
+
+	private Atom buildIntegralField(SequenceNode field) {
+		if (field == currentNode && field.size() == 0) {
+			// Keep focused empty integral fields sized without drawing a visible placeholder.
+			Atom placeholder = new ScaleAtom(new PhantomAtom(new CharAtom('g')), 1,
+					DEFAULT_PLACEHOLDER_Y_SCALE);
+			atomToNode.put(placeholder, SELECTION);
+			return placeholder;
+		}
+		return build(field);
 	}
 
 	private Atom wrap(Atom... atoms) {

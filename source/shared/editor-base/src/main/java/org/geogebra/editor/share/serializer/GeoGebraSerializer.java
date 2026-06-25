@@ -30,6 +30,7 @@ import org.geogebra.editor.share.tree.FunctionNode;
 import org.geogebra.editor.share.tree.InternalNode;
 import org.geogebra.editor.share.tree.Node;
 import org.geogebra.editor.share.tree.SequenceNode;
+import org.geogebra.editor.share.util.IntegralHelper;
 import org.geogebra.editor.share.util.Unicode;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -203,6 +204,27 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			maybeInsertTimes(functionNode, stringBuilder);
 			serialize(functionNode.getChild(0), stringBuilder);
 			serializeArgs(functionNode, stringBuilder, 1);
+			break;
+		case INTEGRAL:
+		case N_INTEGRAL:
+		case INTEGRAL_SYMBOLIC:
+			StringBuilder lowerLimit = new StringBuilder();
+			StringBuilder upperLimit = new StringBuilder();
+			serialize(functionNode.getChild(IntegralHelper.LOWER_LIMIT), lowerLimit);
+			serialize(functionNode.getChild(IntegralHelper.UPPER_LIMIT), upperLimit);
+			maybeInsertTimes(functionNode, stringBuilder);
+			stringBuilder.append(functionNode.getName().getKey()).append('(');
+			serialize(functionNode.getChild(IntegralHelper.INTEGRAND), stringBuilder);
+			if (!functionNode.isIntegralAutoDefaultVariable()
+					&& functionNode.getChild(IntegralHelper.VARIABLE).size() != 0) {
+				stringBuilder.append(',');
+				serialize(functionNode.getChild(IntegralHelper.VARIABLE), stringBuilder);
+			}
+			if (IntegralHelper.hasLimits(functionNode.getName())
+					&& (lowerLimit.length() != 0 || upperLimit.length() != 0)) {
+				stringBuilder.append(',').append(lowerLimit).append(',').append(upperLimit);
+			}
+			stringBuilder.append(')');
 			break;
 		case VECTOR:
 		case POINT:
