@@ -59,7 +59,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	private ToggleButton btnStepGraph;
 	private ToggleButton btnBarGraph;
 
-	private DistributionPanel distrPanel;
 	protected FlowPanel plotPanelOptions;
 
 	/**
@@ -81,20 +80,13 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		ProbabilityCalculatorViewW view = new ProbabilityCalculatorViewW(app);
 		view.isIniting = false;
 		view.init();
+		view.settingsChanged(app.getSettings().getProbCalcSettings());
 		return view;
-	}
-
-	@Override
-	public void disableInterval(boolean disable) {
-		distrPanel.disableInterval(disable);
 	}
 
 	@Override
 	public void setLabels() {
 		setLabelArrays();
-		if (distrPanel != null) {
-			distrPanel.setLabels();
-		}
 
 		ProbabilityTable table = getTable();
 		if (table != null) {
@@ -159,7 +151,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	protected void init() {
 		setLabels();
 		attachView();
-		settingsChanged(getApp().getSettings().getProbCalcSettings());
 	}
 
 	private void createGUIElements() {
@@ -212,36 +203,12 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	}
 
 	@Override
-	public ResultPanelW getResultPanel() {
-		return distrPanel == null ? null : distrPanel.getResultPanel();
-	}
-
-	@Override
 	protected void updateOutput(boolean updateDistributionView) {
 		updateDistribution();
 		updatePlotSettings();
 		updateIntervalProbability();
 		updateDiscreteTable();
 		setXAxisPoints();
-	}
-
-	@Override
-	protected void changeProbabilityType() {
-		if (isCumulative) {
-			probMode = PROB_LEFT;
-		} else if (distrPanel != null) {
-			int oldProbMode = probMode;
-			if (oldProbMode == PROB_TWO_TAILED) {
-				removeTwoTailedGraph();
-			}
-			probMode = distrPanel.getModeGroupValue();
-
-			if (probMode == PROB_TWO_TAILED) {
-				addTwoTailedGraph();
-			}
-
-			validateLowHigh(oldProbMode);
-		}
 	}
 
 	@Override
@@ -285,9 +252,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	@Override
 	protected void updateGUI() {
 		updateLowHighResult();
-		if (distrPanel != null) {
-			distrPanel.updateGUI();
-		}
 		updateGraphButtons();
 		if (btnNormalOverlay != null) {
 			btnNormalOverlay.setSelected(isShowNormalOverlay());
@@ -379,8 +343,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 				? Math.max(PlotPanelEuclidianViewW.DEFAULT_HEIGHT, maxHeight / 2)
 				: Math.max(maxHeight, 40);
 		getPlotPanel().setPreferredSize(new Dimension(width, height));
-		getPlotPanel().getCanvasElement().getStyle().setMarginTop((maxHeight - height) / 2.0,
-				Unit.PX);
+		if (app.isUnbundled()) {
+			getPlotPanel().getCanvasElement().getStyle().setMarginTop((maxHeight - height) / 2.0,
+					Unit.PX);
+		}
 		getPlotPanel().repaintView();
 		getPlotPanel().getEuclidianController().calculateEnvironment();
 	}
@@ -395,10 +361,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	 */
 	protected App getApp() {
 		return app;
-	}
-
-	public void setDistributionPanel(DistributionPanel widgets) {
-		this.distrPanel = widgets;
 	}
 
 	/** table only for discrete distribution

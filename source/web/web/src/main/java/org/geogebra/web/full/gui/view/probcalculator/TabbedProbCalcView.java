@@ -35,6 +35,7 @@ import org.gwtproject.user.client.ui.TabLayoutPanel;
 public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 	private final ProbCalcTabLayoutPanel tabbedPane;
 	protected final StatisticsCalculatorW statCalculator;
+	protected DistributionPanel distrPanel;
 	protected FlowPanel plotSplitPane;
 	protected FlowPanel mainSplitPane;
 	private Label lblMeanSigma;
@@ -52,6 +53,7 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 		//table panel
 		setTable(new ProbabilityTableW(app, this));
 		buildButtons();
+		settingsChanged(getApp().getSettings().getProbCalcSettings());
 		buildProbCalcPanel();
 		isIniting = false;
 		statCalculator = new StatisticsCalculatorW(app);
@@ -164,6 +166,7 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 	public void setLabels() {
 		super.setLabels();
 		statCalculator.setLabels();
+		distrPanel.rebuild();
 		tabbedPane.setTabText(0, loc.getMenu("Distribution"));
 		tabbedPane.setTabText(1, loc.getMenu("Statistics"));
 	}
@@ -179,9 +182,7 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 	}
 
 	protected void buildProbCalcPanel() {
-		DistributionPanel distrPanel = new DistributionPanel(this, loc);
-		distrPanel.addStyleName("distrPanelClassic");
-		setDistributionPanel(distrPanel);
+		distrPanel = new DistributionPanel(this, (AppW) app);
 		plotSplitPane = new FlowPanel();
 		plotSplitPane.add(plotPanelPlus);
 		plotSplitPane.add(distrPanel);
@@ -197,6 +198,9 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 
 	@Override
 	protected void addRemoveTable(boolean showTable) {
+		if (mainSplitPane == null) {
+			return;
+		}
 		ProbabilityTableW table = (ProbabilityTableW) getTable();
 		if (table != null) {
 			FlowPanel tablePanel = table.getWrappedPanel();

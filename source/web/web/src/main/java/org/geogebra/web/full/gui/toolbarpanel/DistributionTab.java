@@ -18,13 +18,13 @@ package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyProbabilityTable;
-import org.geogebra.web.full.gui.view.probcalculator.DistributionPanelSuite;
+import org.geogebra.web.full.gui.view.probcalculator.DistributionPanel;
 import org.geogebra.web.full.gui.view.probcalculator.ProbabilityCalculatorViewW;
 
 public class DistributionTab extends ToolbarTab {
 
 	private final ToolbarPanel toolbarPanel;
-	private DistributionPanelSuite distrPanel;
+	private DistributionPanel distrPanel;
 
 	/**
 	 * Constructor
@@ -39,7 +39,7 @@ public class DistributionTab extends ToolbarTab {
 	private void createContent(StickyProbabilityTable table) {
 		ProbabilityCalculatorViewW view = (ProbabilityCalculatorViewW) toolbarPanel.getApp()
 				.getGuiManager().getProbabilityCalculator();
-		distrPanel = new DistributionPanelSuite(view, toolbarPanel.getApp());
+		distrPanel = new DistributionPanel(view, toolbarPanel.getApp());
 		ProbabilityTableAdapter probTable = new ProbabilityTableAdapter(table,
 				toolbarPanel.getApp(), view);
 		view.setTable(probTable);
@@ -61,12 +61,9 @@ public class DistributionTab extends ToolbarTab {
 	@Override
 	public void setLabels() {
 		clear();
-		if (distrPanel != null) {
-			distrPanel.detachProperties();
-		}
 		ProbabilityCalculatorViewW view = (ProbabilityCalculatorViewW) toolbarPanel.getApp()
 				.getGuiManager().getProbabilityCalculator();
-		distrPanel = new DistributionPanelSuite(view, toolbarPanel.getApp());
+		distrPanel = new DistributionPanel(view, toolbarPanel.getApp());
 		add(distrPanel);
 	}
 

@@ -169,6 +169,53 @@ public class PropertyViewFactory {
 		return properties.stream().map(PropertyView::of).toList();
 	}
 
+	/**
+	 * Constructs the {@link Property}s for the distribution and parameters and transforms them
+	 * into a list of {@code PropertyView} to be displayed.
+	 * @param localization the localization to translate property names with
+	 * @param algebraProcessor the algebra processor to use for probability result calculations
+	 * @param probabilityCalculatorView the backing probability calculator view
+	 * @param propertiesRegistry the {@link PropertiesRegistry} to register the properties with
+	 * @return the list of {@code PropertyView} to be displayed in the distribution view in classic
+	 */
+	public static @Nonnull List<PropertyView> propertyClassicDistributionParametersSettings(
+			@Nonnull Localization localization, @Nonnull AlgebraProcessor algebraProcessor,
+			@Nonnull ProbabilityCalculatorView probabilityCalculatorView,
+			@Nonnull PropertiesRegistry propertiesRegistry) {
+		List<Property> properties = List.of(
+				new DistributionTypeProperty(localization, probabilityCalculatorView),
+				new DistributionParameterProperty(algebraProcessor, probabilityCalculatorView,
+						localization, 0),
+				new DistributionParameterProperty(algebraProcessor, probabilityCalculatorView,
+						localization, 1),
+				new DistributionParameterProperty(algebraProcessor, probabilityCalculatorView,
+						localization, 2));
+		properties.forEach(propertiesRegistry::register);
+		return properties.stream().map(PropertyView::of).toList();
+	}
+
+	/**
+	 * Constructs the {@link Property}s for the distribution settings other than distribution and
+	 * parameters and transforms them into a list of {@code PropertyView} to be displayed.
+	 * @param localization the localization to translate property names with
+	 * @param algebraProcessor the algebra processor to use for probability result calculations
+	 * @param probabilityCalculatorView the backing probability calculator view
+	 * @param propertiesRegistry the {@link PropertiesRegistry} to register the properties with
+	 * @return the list of {@code PropertyView} to be displayed in the distribution view in classic
+	 */
+	public static @Nonnull List<PropertyView> propertyClassicDistributionViewSettings(
+			@Nonnull Localization localization, @Nonnull AlgebraProcessor algebraProcessor,
+			@Nonnull ProbabilityCalculatorView probabilityCalculatorView,
+			@Nonnull PropertiesRegistry propertiesRegistry) {
+		List<Property> properties = List.of(
+				new IsCumulativeProperty(localization, probabilityCalculatorView),
+				new IntervalProperty(localization, probabilityCalculatorView),
+				new ProbabilityResultValuesProperty(localization, algebraProcessor,
+						probabilityCalculatorView));
+		properties.forEach(propertiesRegistry::register);
+		return properties.stream().map(PropertyView::of).toList();
+	}
+
 	private static String getTypeString(GeoElement geoElement) {
 		if (!(geoElement instanceof GeoSymbolic geoSymbolic)) {
 			return geoElement.getTypeString();

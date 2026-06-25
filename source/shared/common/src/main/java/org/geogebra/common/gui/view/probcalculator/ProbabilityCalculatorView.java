@@ -223,7 +223,7 @@ public abstract class ProbabilityCalculatorView
 		this.loc = app.getLocalization();
 		kernel = app.getKernel();
 		cons = kernel.getConstruction();
-		low = new GeoNumeric(cons, 0);
+		low = new GeoNumeric(cons, -1);
 		high = new GeoNumeric(cons, 1);
 
 		// Initialize settings and register listener
@@ -316,7 +316,6 @@ public abstract class ProbabilityCalculatorView
 	 */
 	public final void setCumulative(boolean isCumulative) {
 		if (setCumulativeNoFire(isCumulative)) {
-			changeProbabilityType();
 			updateAll(true);
 			notifyListeners();
 		}
@@ -327,11 +326,10 @@ public abstract class ProbabilityCalculatorView
 			return false;
 		}
 		this.isCumulative = isCumulative;
+		setProbabilityMode(probMode);
 		graphType = isCumulative ? graphTypeCDF : graphTypePDF;
 		return true;
 	}
-
-	protected abstract void changeProbabilityType();
 
 	protected void validateLowHigh(int oldProbMode) {
 		if (probMode == PROB_LEFT && oldProbMode == PROB_RIGHT) {
@@ -438,7 +436,9 @@ public abstract class ProbabilityCalculatorView
 	/**
 	 * @return the result panel
 	 */
-	public abstract ResultPanel getResultPanel();
+	public ResultPanel getResultPanel() {
+		return null;
+	}
 
 	protected abstract void updateOutput(boolean updateDistributionView);
 
@@ -2348,13 +2348,6 @@ public abstract class ProbabilityCalculatorView
 		updateProbabilityType(getResultPanel());
 		updateResult();
 		notifyListeners();
-	}
-
-	/**
-	 * @param disable whether to disable or not
-	 */
-	public void disableInterval(boolean disable) {
-		// overridden for platform
 	}
 
 	/**

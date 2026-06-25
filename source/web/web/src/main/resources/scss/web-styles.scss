@@ -1658,35 +1658,10 @@
 		float: right;
 	}
 
-	.distrPanel {
-		display: grid;
-	}
-
-	.comboParamPanel, .resultPanel {
-		display: flex;
-		flex-wrap: wrap;
-	}
-
 	.resultPanel {
 		.gwt-Label {
 			line-height: 52px;
 		}
-	}
-
-	.comboParamPanel .comboDistribution {
-		line-height: 20px
-	}
-
-	.comboParamPanel .parameterPanel {
-		margin-top: 12px;
-	}
-
-	.comboParamPanel, .intervalPanel {
-		padding: 8px 0;
-		float: left;
-		white-space: nowrap;
-		flex-wrap: wrap;
-		align-items: center;
 	}
 
 	.intervalPanel.disabled {
@@ -1698,31 +1673,8 @@
 		}
 	}
 
-	.parameterPanel, .resultPanel {
-		display: flex;
-		align-items: center;
-
-		.mathTextField {
-			min-width: 64px;
-			width: 64px;
-		}
-
-		.holder .gwt-Label {
-			line-height: 36px;
-		}
-	}
-
-	.comboParamPanel .ToggleButton, .comboParamPanel .gwt-ListBox {
-		display: inline-block;
-		margin-right: 10px;
-	}
-
-	.parameterPanel > *, .resultPanel > *, .parameterPanel .holder > * {
+	.resultPanel > * {
 		margin: 0 5px;
-	}
-
-	.distrPanelClassic .holder {
-		display: flex;
 	}
 
 	/* --------- STATISTICS CALCULATOR --------------- */

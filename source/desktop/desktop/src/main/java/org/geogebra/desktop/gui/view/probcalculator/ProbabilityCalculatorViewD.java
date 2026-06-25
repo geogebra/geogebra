@@ -624,8 +624,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		updateResult(resultPanel);
 	}
 
-	@Override
-	protected void changeProbabilityType() {
+	private void changeProbabilityType() {
 		if (isCumulative) {
 			probMode = PROB_LEFT;
 		} else {
@@ -803,8 +802,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		return statCalculator;
 	}
 
-	@Override
-	public void disableInterval(boolean disable) {
+	private void disableInterval(boolean disable) {
 		btnIntervalLeft.setEnabled(!disable);
 		btnIntervalBetween.setEnabled(!disable);
 		btnIntervalTwoTailed.setEnabled(!disable);

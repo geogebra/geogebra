@@ -2,7 +2,41 @@
 @use 'z-index';
 
 .GeoGebraFrame {
-	.distrPanel {
+	.distributionPanel {
+		padding: 16px 0 0 16px;
+		display: grid;
+		gap: 16px;
+
+		.holder {
+			display: flex;
+			gap: 8px;
+		}
+
+		.inputTextField {
+			margin: 0;
+		}
+
+		.gwt-Label {
+			height: 32px;
+			line-height: 32px;
+		}
+
+		.iconPanel {
+			display: flex;
+			gap: 8px;
+		}
+
+		.probabilityResultRow {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			gap: 4px;
+
+			.mathTextField {
+				width: 120px;
+			}
+		}
+
 		.mathTextField {
 			border: none;
 			border-bottom: 1px colors.$black-42 solid;
@@ -45,36 +79,6 @@
 
 			.mathTextField {
 				border-bottom-color: colors.$error;
-			}
-		}
-	}
-	.suiteDistrTab {
-		padding: 16px 0 0 16px;
-		display: grid;
-		gap: 16px;
-
-		.inputTextField {
-			margin: 8px 0 0 0;
-		}
-
-		.gwt-Label {
-			height: 32px;
-			line-height: 32px;
-		}
-
-		.iconPanel {
-			display: flex;
-			gap: 8px;
-		}
-
-		.probabilityResultRow {
-			display: flex;
-			flex-direction: row;
-			flex-wrap: wrap;
-			gap: 4px;
-
-			.mathTextField {
-				width: 120px;
 			}
 		}
 	}

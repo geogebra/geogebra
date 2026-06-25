@@ -40,11 +40,6 @@ class HeadlessProbabilityCalculatorView extends ProbabilityCalculatorView {
 	}
 
 	@Override
-	protected void changeProbabilityType() {
-		// no UI
-	}
-
-	@Override
 	public ResultPanel getResultPanel() {
 		return Mockito.mock(ResultPanel.class);
 	}

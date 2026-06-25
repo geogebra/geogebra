@@ -196,16 +196,16 @@ public class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 	public void testProbabilityTableRowSelection() {
 		withProbabilityTable(BINOMIAL, PROB_INTERVAL, 1.9, 10.1)
 				.shouldBeHighlightedBetween(2, 10);
-		withProbabilityTable(BINOMIAL, PROB_LEFT, 1.9, Double.NaN)
+		withProbabilityTable(BINOMIAL, PROB_RIGHT, 1.9, Double.NaN)
 				.shouldBeHighlightedFrom(2);
-		withProbabilityTable(BINOMIAL, PROB_RIGHT, Double.NaN, 10)
-				.shouldBeHighlightedBetween(0, 10);
+		withProbabilityTable(BINOMIAL, PROB_LEFT, Double.NaN, 10)
+				.shouldBeHighlightedBetween(-1, 10);
 		withProbabilityTable(PASCAL, PROB_INTERVAL, 0.9, 10.6)
 				.shouldBeHighlightedBetween(1, 11);
-		withProbabilityTable(POISSON, PROB_LEFT, 19.43, Double.NaN)
+		withProbabilityTable(POISSON, PROB_RIGHT, 19.43, Double.NaN)
 				.shouldBeHighlightedFrom(19);
-		withProbabilityTable(PASCAL, PROB_RIGHT, Double.NaN, 5.55)
-				.shouldBeHighlightedBetween(0, 6);
+		withProbabilityTable(PASCAL, PROB_LEFT, Double.NaN, 5.55)
+				.shouldBeHighlightedBetween(-1, 6);
 	}
 
 	@Test
