@@ -769,8 +769,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 		return this.wrappedPopup;
 	}
 
-	@Override
-	public void recordToSpreadSheetCmd() {
+	private void recordToSpreadSheetCmd() {
 		GeoElement geoRecordToSpreadSheet;
 		if (getGeos().size() == 1) {
 			geoRecordToSpreadSheet = getGeo();

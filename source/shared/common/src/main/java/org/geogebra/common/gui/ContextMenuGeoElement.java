@@ -46,7 +46,6 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
-import org.geogebra.common.main.SpreadsheetTraceManager;
 import org.geogebra.common.main.undo.UpdateStyleActionStore;
 import org.geogebra.common.util.CopyPaste;
 
@@ -620,18 +619,6 @@ public class ContextMenuGeoElement {
 			Hits hits = new Hits();
 			hits.add(cmdGeo);
 			v.getEuclidianController().processMode(hits, false, false);
-		}
-	}
-
-	/**
-	 * Add or remove spreadsheet trace
-	 */
-	public void recordToSpreadSheetCmd() {
-		SpreadsheetTraceManager traceManager = app.getTraceManager();
-		if (!traceManager.isTraceGeo(getGeo())) {
-			traceManager.addSpreadsheetTraceGeo(getGeo());
-		} else {
-			traceManager.removeSpreadsheetTraceGeo(getGeo());
 		}
 	}
 

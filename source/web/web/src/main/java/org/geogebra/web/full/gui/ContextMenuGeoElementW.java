@@ -355,7 +355,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
 					img, loc.getMenu("RecordToSpreadsheet"),
 					getGeo().getSpreadsheetTrace(),
-					this::recordToSpreadSheetCmd
+					() -> app.getTraceManager().toggleTraceElement(getGeo())
 			);
 			wrappedPopup.addItem(cmItem);
 		}

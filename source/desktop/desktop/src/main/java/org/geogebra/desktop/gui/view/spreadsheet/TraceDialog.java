@@ -813,7 +813,6 @@ public class TraceDialog extends Dialog
 	private void removeTrace() {
 		GeoElement geo1 = (GeoElement) traceGeoList.getSelectedValue();
 		traceManager.removeSpreadsheetTraceGeo(geo1);
-		geo1.setSpreadsheetTrace(false);
 		geo1.setTraceSettings(null);
 
 		updateTraceGeoList();

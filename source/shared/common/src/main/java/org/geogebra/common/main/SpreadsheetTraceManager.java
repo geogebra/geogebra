@@ -214,15 +214,11 @@ public class SpreadsheetTraceManager {
 	 * @param geo construction element
 	 */
 	public void removeSpreadsheetTraceGeo(GeoElement geo) {
-		if (!traceGeoCollection.containsKey(geo)) {
-			return;
+		if (traceGeoCollection.containsKey(geo)) {
+			traceGeoCollection.remove(geo);
+			app.repaintSpreadsheet();
 		}
-		traceGeoCollection.remove(geo);
-		app.repaintSpreadsheet();
-
-		if (app.isWhiteboardActive()) {
-			geo.setSpreadsheetTrace(false);
-		}
+		geo.setSpreadsheetTrace(false);
 	}
 
 	/** Remove all geos from the trace collection. */
@@ -1074,4 +1070,15 @@ public class SpreadsheetTraceManager {
 		return !traceGeoCollection.isEmpty();
 	}
 
+	/**
+	 * Turn tracing on or off.
+	 * @param geo element
+	 */
+	public void toggleTraceElement(GeoElement geo) {
+		if (!isTraceGeo(geo)) {
+			addSpreadsheetTraceGeo(geo);
+		} else {
+			removeSpreadsheetTraceGeo(geo);
+		}
+	}
 }
