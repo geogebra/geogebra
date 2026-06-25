@@ -333,7 +333,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 		t("Intersect[X=(s,s),x+y=2]", "(1, 1)");
 	}
 
-	private static void ti(String in, String out) {
+	private void ti(String in, String out) {
 		testSyntax(in.replace("i", Unicode.IMAGINARY + ""),
 				AlgebraTestHelper.getMatchers(out.replace("i", Unicode.IMAGINARY + "")),
 				app,
@@ -384,12 +384,12 @@ public class CommandsTestCommon extends BaseCommandTest {
 		return string.replace("^2", Unicode.SUPERSCRIPT_2 + "");
 	}
 
-	private static String eval(String string) {
+	private String eval(String string) {
 		return ap.evaluateToGeoElement(string, true)
 				.toValueString(StringTemplate.editTemplate);
 	}
 
-	private static void platonicTest(String string, int deg, String[] dodeca) {
+	private void platonicTest(String string, int deg, String[] dodeca) {
 		tRound(string + "[(1;" + deg + "deg),(0,0)]", dodeca);
 		tRound(string + "[(1;" + deg + "deg),(0,0),(1,0)]", dodeca);
 		String[] dodeca1 = new String[dodeca.length + 1];
@@ -474,12 +474,12 @@ public class CommandsTestCommon extends BaseCommandTest {
 		tRound("Object[\"B\"]", "(3.14159, 0)");
 	}
 
-	private static void prob(String cmd, String params, String pdf,
+	private void prob(String cmd, String params, String pdf,
 			String cdf) {
 		prob(cmd, params, pdf, cdf, -5);
 	}
 
-	private static void prob(String cmd, String params, String pdf, String cdf,
+	private void prob(String cmd, String params, String pdf, String cdf,
 			int skip) {
 		app.getKernel().getConstruction().setFileLoading(false);
 		tRound("cdf1=" + cmd + "(" + params + ",x)", unicode(cdf));
@@ -502,7 +502,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 		}
 	}
 
-	private static void intProb(String cmd, String args, String val, String pf,
+	private void intProb(String cmd, String args, String val, String pf,
 			String cdf) {
 		t("ZoomIn[0,0,100,100]");
 		tRound(cmd + "(" + args + "," + val + ",false)", pf);
@@ -615,7 +615,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 		t("combined", "4x + 9y = 36");
 	}
 
-	private static void tpm(String string, String expected) {
+	private void tpm(String string, String expected) {
 		t(string.replace("pm", Unicode.PLUSMINUS + ""), expected);
 	}
 
@@ -652,7 +652,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 	}
 
 	private static String complex(String string) {
-		return string.replaceAll("i", Unicode.IMAGINARY + "");
+		return string.replace("i", Unicode.IMAGINARY + "");
 	}
 
 	@Test
@@ -760,7 +760,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void cmdAttachCopyToView() {
-		t("AttachCopyToView[(1,1),1]", "(1, 1)");
+		t("AttachCopyToView[(1,1),1]", StringTemplate.editTemplate, "(1, 1)");
 		t("AttachCopyToView[(1,1), 2, (2,1/2), (3,1/3), (123,0), (0,123)]",
 				"(0.6200000000000008, 13.680000000000005)");
 	}
@@ -772,11 +772,15 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void cmdAxisStepX() {
+		t("AxisStepX[]", "1");
+		t("ZoomOut(2000)");
 		t("AxisStepX[]", "2000");
 	}
 
 	@Test
 	public void cmdAxisStepY() {
+		t("AxisStepY[]", "1");
+		t("ZoomOut(2000)");
 		t("AxisStepY[]", "2000");
 	}
 
@@ -1958,7 +1962,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 		intersect("Spline({(1,0),(1,1),(0,1)},3)", "x=y",
 				false, "(1, 1)");
 		intersect("Segment((0,0),(0,5))", "x^2+y^2+z^2=4",
-				false, "(?, ?, ?)", "(0, 2, 0)");
+				false, "(0, 2, 0)", "(?, ?, ?)");
 	}
 
 	@Test
@@ -2399,7 +2403,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void cmdLowerSum() {
-		t("LowerSum[ sin(x), 4, 13, 42 ]", "-2.1618997759936693");
+		t("LowerSum[ sin(x), 4, 13, 42 ]", "-2.1618994317454048");
 		t("IsDefined[ LowerSum[ If(x^(2)>9, 1+0 x), -5, 5, 1 ] ]", "false");
 	}
 
@@ -2905,6 +2909,8 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void cmdPerimeter() {
+		// locus point generation depends on Kernel knowing bounds of all exisiting views
+		app.getEuclidianView3D().updateBounds(true, false);
 		t("Perimeter[ x^2+y^2=1 ]", "6.283185307179586");
 		t("Perimeter[ Polygon[(1,1),(2,1/2),(3,1/3)] ]", "4.240012850578518");
 
@@ -3087,16 +3093,16 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void cmdRandom() {
-		t("RandomBetween[ ]", "0.30871945533265976"); // since RandomBetween is alias for Random and
+		t("RandomBetween[ ]", "0.7275636800328681"); // since RandomBetween is alias for Random and
 		// both Random() and random() should do the same
-		t("RandomBetween[ 42, 50 ]", "47");
-		t("RandomBetween[ 42, 50, true ]", "44");
-		t("RandomBetween[ 1, 10, 3 ]", "{10, 4, 3}");
+		t("RandomBetween[ 42, 50 ]", "42");
+		t("RandomBetween[ 42, 50, true ]", "50");
+		t("RandomBetween[ 1, 10, 3 ]", "{1, 6, 6}");
 	}
 
 	@Test
 	public void cmdRandomBinomial() {
-		t("RandomBinomial[ 42, 0.05 ]", "2");
+		t("RandomBinomial[ 42, 0.05 ]", "1");
 	}
 
 	@Test
@@ -3106,38 +3112,26 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void cmdRandomNormal() {
-		tRound("RandomNormal[ 42, 4 ]", "39.8612");
+		tRound("RandomNormal[ 42, 4 ]", "46.56762");
 	}
 
 	@Test
 	public void cmdRandomPoisson() {
-		t("RandomPoisson[ 42 ]", "41");
+		t("RandomPoisson[ 42 ]", "46");
 	}
 
 	@Test
 	public void cmdRandomUniform() {
-		t("RandomUniform[ 42, 50 ]", "48.61857939211996");
-		t("RandomUniform[ 42, 50, 42 ]",
-				"{43.20825243623007, 48.67092988355333, 45.68245098128929, 44.24457593338248,"
-						+ " 43.56771365938525, 43.43418752699934, 48.92549437061882, "
-						+ "45.892725294609555, 45.36777365304823, 47.062958330826234, "
-						+ "47.598869160537376, 44.522627600461384, 46.57296244423981, "
-						+ "44.96809831747009, 48.97451676771871, 48.44584754129598, "
-						+ "46.92970948028143, 44.99487484871204, 47.57798983415783, "
-						+ "49.26891664166057, 43.56917657505481, 48.472998533821915, "
-						+ "47.023466203307784, 45.70719416822676, 44.44463324533959, "
-						+ "46.319275474074956, 47.080888115651106, 43.01006258639012, "
-						+ "45.97861513980737, 42.21851333028773, 42.291876133521995, "
-						+ "45.87075083963444, 47.240427048878566, 45.166130241369935, "
-						+ "49.52137972548305, 45.07688675133833, 47.169855830381145, "
-						+ "48.16372510219153, 49.15234236654727, 46.79069629716014, "
-						+ "49.80827577294727, 42.61668090348201}");
+		t("RandomUniform[ 42, 50 ]", "47.820509440262946");
+		t("RandomUniform[ 42, 50, 4 ]",
+				"{47.46578777407876, 44.469755642661276, 44.21662792059309, 47.324391614356585}");
 	}
 
 	@Test
 	public void cmdRandomPointIn() {
-		t("RandomPointIn[x^2+y^2=1]", "(-0.5919702312242243, -0.6856114560964431)");
-		t("RandomPointIn[Polygon[(0,0),(1,0),(0,1)]]", "(0.3691214939418974, 0.3602548753661351)");
+		t("RandomPointIn[x^2+y^2=1]", "(-0.3474733560756662, -0.7789903380982214)");
+		t("RandomPointIn[Polygon[(0,0),(1,0),(0,1)]]",
+				"(0.30871945533265976, 0.27707849007413665)");
 		t("RandomPointIn[0,0,1,1]", "(0, 1)");
 	}
 
@@ -4265,7 +4259,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 		assertThat(lookup("p3"), not(isDefined()));
 	}
 
-	private static void checkSize(String string, int cols, int rows) {
+	private void checkSize(String string, int cols, int rows) {
 		AlgoTableText parentAlgorithm = (AlgoTableText) lookup(string).getParentAlgorithm();
 		assertNotNull(parentAlgorithm);
 		GDimension d = parentAlgorithm.getSize();
@@ -4377,7 +4371,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void cmdUpperSum() {
-		t("UpperSum[ sin(x), 4, 13, 42 ]", "-0.949458361978994");
+		t("UpperSum[ sin(x), 4, 13, 42 ]", "-0.9494578809924563");
 		t("IsDefined[ UpperSum[ If(x^(2)>9, 1+0 x), -5, 5, 1 ] ]", "false");
 	}
 

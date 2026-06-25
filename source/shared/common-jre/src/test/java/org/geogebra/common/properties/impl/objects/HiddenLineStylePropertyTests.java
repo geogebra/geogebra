@@ -38,6 +38,14 @@ public class HiddenLineStylePropertyTests extends BaseAppTestSetup {
 				getLocalization(), evaluateGeoElement("Line((0, 0), (1, 1))")));
 	}
 
+	@Test
+	public void testAvailableInClassic() {
+		setupClassicApp();
+		getApp().getEuclidianView3D();
+		assertDoesNotThrow(() -> new HiddenLineStyleProperty(
+				getLocalization(), evaluateGeoElement("Line((0, 0), (1, 1))")));
+	}
+
 	@ParameterizedTest
 	@EnumSource(value = SuiteSubApp.class, names = {"GRAPHING", "GEOMETRY", "CAS"})
 	public void testUnavailableInOtherApps(SuiteSubApp suiteSubApp) {

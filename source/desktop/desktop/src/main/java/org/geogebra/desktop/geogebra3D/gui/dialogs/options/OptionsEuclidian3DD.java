@@ -649,7 +649,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 	@Override
 	protected void actionBtBackgroundColor() {
 		EuclidianSettings settings = view.getSettings();
-		GColor old = settings == null ? view.getBackground()
+		GColor old = settings == null ? view.getBackgroundCommon()
 				: settings.getBackground();
 		GColor color = GColorD.newColor(
 				((GuiManagerD) (app.getGuiManager())).showColorChooser(old));

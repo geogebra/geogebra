@@ -43,6 +43,11 @@ public abstract class UtilFactoryJre extends UtilFactory  {
 	}
 
 	@Override
+	public double getMillisecondTime() {
+		return System.nanoTime() / 1000000d;
+	}
+
+	@Override
 	public URLEncoder newURLEncoder() {
 		return urlComponent -> {
 			try {

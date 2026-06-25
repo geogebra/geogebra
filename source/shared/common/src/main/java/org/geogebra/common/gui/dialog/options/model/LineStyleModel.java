@@ -28,7 +28,6 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 public class LineStyleModel extends OptionsModel {
 	private boolean lineTypeEnabled;
-	private boolean lineStyleHiddenEnabled;
 	private boolean lineOpacityEnabled;
 
 	private static List<Integer> lineStyleArray = null;
@@ -54,12 +53,6 @@ public class LineStyleModel extends OptionsModel {
 
 		@MissingDoc
 		void setLineTypeVisible(boolean value);
-
-		@MissingDoc
-		void setLineStyleHiddenVisible(boolean value);
-
-		@MissingDoc
-		void selectCommonLineStyleHidden(boolean equalStyle, int type);
 
 		@MissingDoc
 		void setLineOpacityVisible(boolean value);
@@ -120,7 +113,6 @@ public class LineStyleModel extends OptionsModel {
 			listener.setThicknessSliderMinimum(maxMinimumThickness());
 			listener.setOpacitySliderValue(getOpacityPercentage());
 			listener.setLineTypeVisible(lineTypeEnabled);
-			listener.setLineStyleHiddenVisible(lineStyleHiddenEnabled);
 			listener.setLineOpacityVisible(lineOpacityEnabled);
 		}
 		// check if geos have same line style
@@ -139,24 +131,6 @@ public class LineStyleModel extends OptionsModel {
 				listener.selectCommonLineStyle(equalStyle, type0);
 			}
 		}
-
-		// check if geos have same line style
-		if (lineStyleHiddenEnabled) {
-			boolean equalStyle = true;
-			int type0 = geo0.getLineTypeHidden();
-			for (int i = 1; i < getGeosLength(); i++) {
-				temp = getGeoAt(i);
-				// same style?
-				if (type0 != temp.getLineTypeHidden()) {
-					equalStyle = false;
-				}
-			}
-
-			if (listener != null) {
-				listener.selectCommonLineStyleHidden(equalStyle, type0);
-			}
-		}
-
 	}
 
 	public int getOpacityPercentage() {
@@ -222,7 +196,6 @@ public class LineStyleModel extends OptionsModel {
 	public boolean checkGeos() {
 		boolean geosOK = true;
 		lineTypeEnabled = true;
-		lineStyleHiddenEnabled = true;
 		lineOpacityEnabled = true;
 		for (int i = 0; i < getGeosLength(); i++) {
 			if (!isValidAt(i)) {
@@ -231,13 +204,8 @@ public class LineStyleModel extends OptionsModel {
 			}
 
 			GeoElement geo = getGeoAt(i);
-			if (i == 0) {
-				lineStyleHiddenEnabled = geo.getKernel().getApplication()
-						.isEuclidianView3Dinited();
-			}
 			if ((geo instanceof GeoNumeric) && ((GeoNumeric) geo).isSlider()) {
 				lineTypeEnabled = false;
-				lineStyleHiddenEnabled = false;
 				lineOpacityEnabled = false;
 			}
 		}

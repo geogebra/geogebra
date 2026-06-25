@@ -20,6 +20,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.factories.UtilFactory;
+import org.geogebra.common.factories.UtilFactoryCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoIntersectPolyLines;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -29,21 +31,22 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.CommandSignatures;
 import org.hamcrest.Matcher;
-import org.junit.BeforeClass;
+import org.junit.Before;
 
 public class BaseCommandTest {
 
 	private static final int UNINITIALIZED = -1000;
-	static AppCommon3D app;
-	static AlgebraProcessor ap;
+	AppCommon3D app;
+	AlgebraProcessor ap;
 	static List<Integer> signature;
 	protected static int uncheckedSyntaxesCount = UNINITIALIZED;
 
 	/**
 	 * Create the app
 	 */
-	@BeforeClass
-	public static void setupApp() {
+	@Before
+	public void setupApp() {
+		UtilFactory.setPrototypeIfNull(new UtilFactoryCommon());
 		app = AppCommonFactory.create3D();
 		ap = app.getKernel().getAlgebraProcessor();
 		app.setRandomSeed(42);
@@ -93,7 +96,7 @@ public class BaseCommandTest {
 	 * @param input input expression
 	 * @param expected expected results (can be empty if command has no results)
 	 */
-	protected static void tRound(String input, String... expected) {
+	protected void tRound(String input, String... expected) {
 		t(input, StringTemplate.editTemplate, expected);
 	}
 
@@ -102,7 +105,7 @@ public class BaseCommandTest {
 	 * @param input input expression
 	 * @param expected expected results (can be empty if command has no results)
 	 */
-	protected static void t(String input, String... expected) {
+	protected void t(String input, String... expected) {
 		testSyntax(input, AlgebraTestHelper.getMatchers(expected), app, ap,
 				StringTemplate.xmlTemplate);
 	}
@@ -114,7 +117,7 @@ public class BaseCommandTest {
 	 * @param tpl serialization template
 	 * @param expected expected results (can be empty if command has no results)
 	 */
-	protected static void t(String input, StringTemplate tpl, String... expected) {
+	protected void t(String input, StringTemplate tpl, String... expected) {
 		testSyntax(input, AlgebraTestHelper.getMatchers(expected), app, ap, tpl);
 	}
 
@@ -124,14 +127,14 @@ public class BaseCommandTest {
 	 * @param input input expression
 	 * @param matcher expected results (can be empty if command has no results)
 	 */
-	protected static void t(String input, Matcher<String> matcher) {
+	protected void t(String input, Matcher<String> matcher) {
 		testSyntax(input, Collections.singletonList(matcher), app, ap, StringTemplate.xmlTemplate);
 	}
 
 	/**
 	 * @see #intersect(String, String, boolean, boolean, String...)
 	 */
-	protected static void intersect(String arg1, String arg2, boolean checkNumbered,
+	protected void intersect(String arg1, String arg2, boolean checkNumbered,
 			String... results) {
 		intersect(arg1, arg2, checkNumbered, checkNumbered, results);
 	}
@@ -150,7 +153,7 @@ public class BaseCommandTest {
 	 * @param checkClosest whether to test the [argX,argY,Intersect[...]] syntax
 	 * @param results expected result
 	 */
-	protected static void intersect(String arg1, String arg2, boolean checkNumbered,
+	protected void intersect(String arg1, String arg2, boolean checkNumbered,
 			boolean checkClosest, String... results) {
 		app.getKernel().clearConstruction(true);
 		app.getKernel().getConstruction().setSuppressLabelCreation(false);
@@ -176,7 +179,7 @@ public class BaseCommandTest {
 		}
 	}
 
-	protected static GeoElement lookup(String label) {
+	protected GeoElement lookup(String label) {
 		return app.getKernel().lookupLabel(label);
 	}
 }

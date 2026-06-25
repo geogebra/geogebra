@@ -78,6 +78,11 @@ public class AppCommon3D extends AppCommon {
 	}
 
 	@Override
+	public boolean isEuclidianView3Dinited() {
+		return ev3d != null;
+	}
+
+	@Override
 	public DrawEquation getDrawEquation() {
 		if (drawEquation == null) {
 			drawEquation = new DrawEquationCommon();

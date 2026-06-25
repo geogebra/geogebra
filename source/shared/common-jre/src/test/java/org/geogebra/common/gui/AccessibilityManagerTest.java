@@ -23,15 +23,13 @@ import static org.mockito.Mockito.verify;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.factories.UtilFactory;
+import org.geogebra.common.factories.UtilFactoryCommon;
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
-import org.geogebra.common.jre.util.UtilFactoryJre;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
-import org.geogebra.common.util.HttpRequest;
-import org.geogebra.common.util.Prover;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,22 +39,7 @@ public class AccessibilityManagerTest extends BaseUnitTest {
 
 	@Before
 	public void setupTimer() {
-		UtilFactory.setPrototypeIfNull(new UtilFactoryJre() {
-			@Override
-			public HttpRequest newHttpRequest() {
-				return null;
-			}
-
-			@Override
-			public Prover newProver() {
-				return null;
-			}
-
-			@Override
-			public double getMillisecondTime() {
-				return 0;
-			}
-
+		UtilFactory.setPrototypeIfNull(new UtilFactoryCommon() {
 			@Override
 			public GTimer newTimer(GTimerListener listener, int delay) {
 				return new FlushableTimer(listener);
