@@ -2909,7 +2909,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void cmdPerimeter() {
-		// locus point generation depends on Kernel knowing bounds of all exisiting views
+		// locus point generation depends on Kernel knowing bounds of all existing views
 		app.getEuclidianView3D().updateBounds(true, false);
 		t("Perimeter[ x^2+y^2=1 ]", "6.283185307179586");
 		t("Perimeter[ Polygon[(1,1),(2,1/2),(3,1/3)] ]", "4.240012850578518");
