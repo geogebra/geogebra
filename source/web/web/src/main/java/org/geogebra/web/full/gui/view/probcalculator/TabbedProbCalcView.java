@@ -17,7 +17,6 @@
 package org.geogebra.web.full.gui.view.probcalculator;
 
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
-import org.geogebra.common.main.App;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
@@ -25,16 +24,14 @@ import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.tab.ComponentTab;
+import org.geogebra.web.shared.components.tab.TabData;
 import org.gwtproject.core.client.Scheduler;
-import org.gwtproject.dom.style.shared.Unit;
-import org.gwtproject.event.dom.client.ClickEvent;
-import org.gwtproject.event.dom.client.ClickHandler;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
-import org.gwtproject.user.client.ui.TabLayoutPanel;
 
 public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
-	private final ProbCalcTabLayoutPanel tabbedPane;
+	private ComponentTab probabilityTab;
 	protected final StatisticsCalculatorW statCalculator;
 	protected DistributionPanel distrPanel;
 	protected FlowPanel plotSplitPane;
@@ -58,15 +55,19 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 		buildProbCalcPanel();
 		isIniting = false;
 		statCalculator = new StatisticsCalculatorW(app);
-		tabbedPane = new ProbCalcTabLayoutPanel();
-		tabbedPane.add(probCalcPanel, loc.getMenu("Distribution"));
-		tabbedPane.add(statCalculator.getWrappedPanel(),
-				loc.getMenu("Statistics"));
 
-		tabbedPane.onResize();
-		tabbedPane.selectTab(getApp().getSettings().getProbCalcSettings()
-				.getCollection().isActive() ? 1 : 0);
+		buildTab();
 		init();
+	}
+
+	private void buildTab() {
+		TabData distributionTab = new TabData("Distribution", probCalcPanel);
+		TabData statisticsTab = new TabData("Statistics", statCalculator.getWrappedPanel());
+		probabilityTab = new ComponentTab((AppW) app, "", distributionTab, statisticsTab);
+		probabilityTab.addStyleName("probabilityTab");
+		probabilityTab.onResize();
+		probabilityTab.switchToTab(getApp().getSettings().getProbCalcSettings()
+				.getCollection().isActive() ? 1 : 0);
 	}
 
 	private void buildButtons() {
@@ -117,24 +118,6 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 		exportMenu.addItem(item);
 	}
 
-	private final class ProbCalcTabLayoutPanel extends TabLayoutPanel implements ClickHandler {
-
-		private ProbCalcTabLayoutPanel() {
-			super(30, Unit.PX);
-			this.addDomHandler(this, ClickEvent.getType());
-		}
-
-		@Override
-		public void onResize() {
-			tabResized();
-		}
-
-		@Override
-		public void onClick(ClickEvent event) {
-			getApp().setActiveView(App.VIEW_PROBABILITY_CALCULATOR);
-		}
-	}
-
 	@Override
 	public void tabResized() {
 		ProbabilityTableW table = (ProbabilityTableW) getTable();
@@ -160,7 +143,7 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 	 */
 	@Override
 	public boolean isDistributionTabOpen() {
-		return tabbedPane.getSelectedIndex() == 0;
+		return probabilityTab.getSelectedTabIdx() == 0;
 	}
 
 	@Override
@@ -168,13 +151,12 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 		super.setLabels();
 		statCalculator.setLabels();
 		distrPanel.rebuild();
-		tabbedPane.setTabText(0, loc.getMenu("Distribution"));
-		tabbedPane.setTabText(1, loc.getMenu("Statistics"));
+		probabilityTab.setLabels();
 	}
 
 	@Override
-	public TabLayoutPanel getWrapperPanel() {
-		return tabbedPane;
+	public ComponentTab getWrapperPanel() {
+		return probabilityTab;
 	}
 
 	@Override

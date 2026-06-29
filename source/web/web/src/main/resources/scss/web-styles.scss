@@ -439,11 +439,7 @@
 		margin-left: 0;
 	}
 
-	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs {
-		border-bottom: 1px solid #DCDCDC;
-	}
-
-	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab, .gwt-TabBar .gwt-TabBarItem {
+	.gwt-TabBar .gwt-TabBarItem {
 		position: relative;
 		bottom: -1px;
 		margin-right: 4px;
@@ -467,12 +463,7 @@
 		margin: 0;
 	}
 
-	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab img {
-		height: 16px;
-		margin: -2px 0;
-	}
-
-	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected, .gwt-TabBar .gwt-TabBarItem-selected {
+	.gwt-TabBar .gwt-TabBarItem-selected {
 		cursor: default;
 		background: white;
 		color: colors.$teal-default;
@@ -488,8 +479,7 @@
 		box-sizing: border-box;
 	}
 
-	.gwt-TabPanelBottom,
-	.gwt-TabLayoutPanelContent {
+	.gwt-TabPanelBottom {
 		padding: 8px;
 		border: 1px solid #DCDCDC;
 	}
@@ -1600,10 +1590,6 @@
 	###       PROBABILITY CALCULATOR
 	#####################################################################################*/
 
-	.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent.ProbCalcPanel {
-		// no scrollbar for main panel, only for value table
-		overflow: hidden;
-	}
 	.plotSplitPane {
 		float: left;
 	}

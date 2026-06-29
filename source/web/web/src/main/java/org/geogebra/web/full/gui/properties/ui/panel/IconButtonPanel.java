@@ -106,7 +106,7 @@ public class IconButtonPanel extends FlowPanel implements SetLabels, Configurati
 			List<IconButton> buttons = new ArrayList<>();
 			FlowPanel iconPanel = new FlowPanel();
 			iconPanel.addStyleName("iconPanel");
-			AriaHelper.setTitle(iconPanel, localizedLabel);
+			AriaHelper.setLabel(iconPanel, localizedLabel);
 			AriaHelper.setRole(iconPanel, "radiogroup");
 
 			PropertyResource[] icons = property.getIcons().toArray(new PropertyResource[0]);
