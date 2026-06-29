@@ -84,9 +84,12 @@
 	}
 
 	.probCalcStylbarBtn.iconButton {
-		position: absolute;
-		right: 0;
+		float: right;
 		z-index: z-index.$z-on-top-of-graphics;
-		margin: 16px 16px 0 0;
+		margin: 0 8px 16px 0;
+
+		&.singleButton {
+			margin: 16px 16px 16px 0;
+		}
 	}
 }

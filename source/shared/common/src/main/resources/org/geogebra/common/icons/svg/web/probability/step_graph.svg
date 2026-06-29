@@ -1,1 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512"><path fill="none" stroke="#00f" stroke-miterlimit="10" stroke-width="42" d="M448 106.67H256v298.66H64"/></svg>
+<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M11,4H21V6H13V20H3V18H11Z"/>
+</svg>

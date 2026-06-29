@@ -20,9 +20,10 @@ import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.main.App;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
-import org.geogebra.web.html5.gui.util.ToggleButton;
+import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.style.shared.Unit;
@@ -69,17 +70,17 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 	}
 
 	private void buildButtons() {
-		lblMeanSigma = new Label();
-		lblMeanSigma.addStyleName("lblMeanSigma");
-		plotPanelOptions.add(lblMeanSigma);
 		if (!GlobalScope.isExamActive(app)) {
-			ToggleButton btnExport = createExportMenu();
+			IconButton btnExport = createExportMenu();
 			btnExport.addStyleName("probCalcStylbarBtn");
 			plotPanelOptions.add(btnExport);
 		}
+		lblMeanSigma = new Label();
+		lblMeanSigma.addStyleName("lblMeanSigma");
+		plotPanelOptions.add(lblMeanSigma);
 	}
 
-	private ToggleButton createExportMenu() {
+	private IconButton createExportMenu() {
 		GPopupMenuW menuExport = new GPopupMenuW((AppW) app, true);
 		menuExport.getPopupMenu().addStyleName("probCalcStylbarBtn");
 
@@ -89,8 +90,8 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 		if (((AppW) app).getLAF().copyToClipboardSupported()) {
 			addExportItem(menuExport, "ExportAsPicture", this::showExportDialog);
 		}
-		ToggleButton btnExport = new ToggleButton(MaterialDesignResources.INSTANCE
-				.prob_calc_export());
+		IconButton btnExport = new IconButton((AppW) app, null,
+				new ImageIconSpec(MaterialDesignResources.INSTANCE.signout_black()), null);
 		btnExport.addFastClickHandler(e -> {
 			if (menuExport.isMenuShown()) {
 				menuExport.hide();
@@ -99,7 +100,7 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 			}
 		});
 		menuExport.getPopupPanel().addAutoHidePartner(btnExport.getElement());
-		menuExport.getPopupPanel().addCloseHandler(i -> btnExport.setSelected(false));
+		menuExport.getPopupPanel().addCloseHandler(i -> btnExport.setActive(false));
 		return btnExport;
 	}
 
