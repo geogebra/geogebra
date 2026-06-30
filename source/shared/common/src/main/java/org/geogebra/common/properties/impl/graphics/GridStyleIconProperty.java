@@ -22,6 +22,7 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
@@ -31,7 +32,7 @@ import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
  * This property controls the style of the grid.
  */
 public class GridStyleIconProperty extends AbstractEnumeratedProperty<Integer>
-		implements IconsEnumeratedProperty<Integer> {
+		implements IconsEnumeratedProperty<Integer>, SettingsDependentProperty {
 
 	private EuclidianSettings euclidianSettings;
 
@@ -79,5 +80,10 @@ public class GridStyleIconProperty extends AbstractEnumeratedProperty<Integer>
 	@Override
 	public @CheckForNull String[] getToolTipLabels() {
 		return rawLabels;
+	}
+
+	@Override
+	public AbstractSettings<?> getSettings() {
+		return euclidianSettings;
 	}
 }
