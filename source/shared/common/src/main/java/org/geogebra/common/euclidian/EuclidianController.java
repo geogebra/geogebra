@@ -287,7 +287,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected Hits highlightedGeos = new Hits();
 	protected final ArrayList<GeoElement> justCreatedGeos = new ArrayList<>();
 	protected boolean temporaryMode = false;
-	private int autoPenMode = -1;
+	private int autoPenMode;
 	protected boolean dontClearSelection = false;
 	protected boolean draggingOccurred = false;
 	protected boolean draggingOccurredBeforeRelease = false;
@@ -504,6 +504,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		this.selection = app.getSelectionManager();
 		this.localization = app.getLocalization();
 		this.priorityComparator = app.getGeoPriorityComparator();
+		this.autoPenMode = app.isWhiteboardActive() ? EuclidianConstants.MODE_PEN : -1;
 		spotlightController = new SpotlightController(app);
 		storeUndo = new UpdateActionStore(selection, app.getUndoManager());
 		createCompanions();

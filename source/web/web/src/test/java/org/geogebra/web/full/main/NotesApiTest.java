@@ -21,7 +21,10 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.background.BackgroundType;
+import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
@@ -40,12 +43,20 @@ public class NotesApiTest {
 
 	@Test
 	public void getContentShouldNotTriggerEvents() {
-		AppW app = AppMocker
-				.mockApplet(new AppletParameters("notes"));
+		AppW app = AppMocker.mockApplet(new AppletParameters("notes"));
 		app.getActiveEuclidianView().getSettings().setBackgroundType(BackgroundType.POLAR);
 		ArrayList<String> events = new ArrayList<>();
 		app.getEventDispatcher().addEventListener(evt -> events.add(evt.getType().name()));
 		app.getGgbApi().getPageContent("main");
 		assertEquals(Collections.emptyList(), events);
+	}
+
+	@Test
+	public void penInputAtStartupShouldActivatePenMode() {
+		AppW app = AppMocker.mockApplet(new AppletParameters("notes"));
+		app.setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.DOCK_PANEL);
+		app.getActiveEuclidianView().getEuclidianController()
+				.setDefaultEventType(PointerEventType.PEN, true);
+		assertEquals(EuclidianConstants.MODE_PEN, app.getMode());
 	}
 }
