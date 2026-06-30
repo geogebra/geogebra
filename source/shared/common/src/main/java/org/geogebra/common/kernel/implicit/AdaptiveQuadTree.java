@@ -228,7 +228,7 @@ class AdaptiveQuadTree extends QuadTree {
 	}
 
 	@Override
-	public void polishPointOnPath(GeoPointND pt) {
+	void polishPointOnPath(GeoPointND pt) {
 		pt.updateCoords();
 		double x1 = onScreen(pt.getInhomX(), this.x, this.x + this.w);
 		double y1 = onScreen(pt.getInhomY(), this.y, this.y + this.h);

@@ -890,18 +890,6 @@ public class CoordMatrix {
 	}
 
 	/**
-	 * says if the matrix is a square-matrix
-	 * 
-	 * @return true if the matrix is a square-matrix
-	 */
-	public boolean isSquare() {
-		if (isSingular()) {
-			return false;
-		}
-		return getRows() == getColumns();
-	}
-
-	/**
 	 * returns inverse matrix (2x2 or larger). You must check with isSquare()
 	 * before calling this
 	 * 
@@ -1122,7 +1110,7 @@ public class CoordMatrix {
 		}
 
 		@Override
-		public void divideAndSub(double[][] matrix, ArrayList<Integer> stack,
+		void divideAndSub(double[][] matrix, ArrayList<Integer> stack,
 				int step, int index, double value) {
 
 			if (DoubleUtil.isZero(value)) {
@@ -1151,7 +1139,7 @@ public class CoordMatrix {
 		}
 
 		@Override
-		public void lastStep(ArrayList<Integer> stack, double[][] matrix) {
+		void lastStep(ArrayList<Integer> stack, double[][] matrix) {
 			// String str = "\n++++++++++++ last step : ";
 			// for (int i : stack) {
 			// str += i + ", ";
@@ -1197,7 +1185,7 @@ public class CoordMatrix {
 		}
 
 		@Override
-		public boolean handleZeroValue(double value, int step) {
+		boolean handleZeroValue(double value, int step) {
 			return DoubleUtil.isZero(value);
 		}
 
@@ -1238,22 +1226,22 @@ public class CoordMatrix {
 		}
 
 		@Override
-		public void divideFirst(int index, double factor) {
+		void divideFirst(int index, double factor) {
 			sol[index] = res[0] / factor;
 		}
 
 		@Override
-		public void divideRes(int step, double value) {
+		void divideRes(int step, double value) {
 			res[step] /= value;
 		}
 
 		@Override
-		public void subRes(int l, int step, double coef) {
+		void subRes(int l, int step, double coef) {
 			res[l] -= coef * res[step];
 		}
 
 		@Override
-		public void calcSol(int index, int step, double[][] matrix,
+		void calcSol(int index, int step, double[][] matrix,
 				ArrayList<Integer> stack, double value) {
 			double s = res[step]; // value at (step, index) is 1
 			for (int i : stack) {
@@ -1273,21 +1261,21 @@ public class CoordMatrix {
 		private Coords[] inverse;
 
 		@Override
-		public void divideFirst(int index, double factor) {
+		void divideFirst(int index, double factor) {
 			for (int i = 0; i < columns; i++) {
 				inverse[i].set(index + 1, matrixRes[i * columns] / factor);
 			}
 		}
 
 		@Override
-		public void divideRes(int step, double value) {
+		void divideRes(int step, double value) {
 			for (int i = 0; i < columns; i++) {
 				matrixRes[step + i * columns] /= value;
 			}
 		}
 
 		@Override
-		public void subRes(int l, int step, double coef) {
+		void subRes(int l, int step, double coef) {
 			for (int i = 0; i < columns; i++) {
 				matrixRes[l + i * columns] -= coef
 						* matrixRes[step + i * columns];
@@ -1295,7 +1283,7 @@ public class CoordMatrix {
 		}
 
 		@Override
-		public void calcSol(int index, int step, double[][] matrix,
+		void calcSol(int index, int step, double[][] matrix,
 				ArrayList<Integer> stack, double value) {
 			for (int j = 0; j < columns; j++) {
 				double s = matrixRes[step + j * columns]; // value at (step,
@@ -1385,7 +1373,7 @@ public class CoordMatrix {
 	 * @param psr
 	 *            pivot solution-result
 	 */
-	static public void pivot(double[][] matrix, PivotAbstract psr) {
+	static void pivot(double[][] matrix, PivotAbstract psr) {
 		int size = matrix.length;
 		ArrayList<Integer> stack = new ArrayList<>();
 		for (int i = size - 1; i >= 0; i--) {
@@ -1444,26 +1432,6 @@ public class CoordMatrix {
 				stack.add(index);
 			}
 		}
-	}
-
-	/*
-	 * returns whether the matrix is singular, eg after an inverse
-	 */
-	/**
-	 * @return true if the matrix is singular
-	 */
-	public boolean isSingular() {
-		return Double.isNaN(vectors[0].get(1));
-	}
-
-	/**
-	 * sets if the matrix is singular
-	 * 
-	 * @param isSingular
-	 *            ignored (assume true)
-	 */
-	public void setIsSingular(boolean isSingular) {
-		vectors[0].set(1, Double.NaN);
 	}
 
 	// /////////////////////////////////////////////////
