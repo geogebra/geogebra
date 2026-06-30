@@ -1161,7 +1161,7 @@ public class CoordMatrix {
 		}
 
 		@Override
-		public void calcSol(int index, int step, double[][] matrix,
+		void calcSol(int index, int step, double[][] matrix,
 				ArrayList<Integer> stack, double value) {
 			double s = res[step]; // value at (step, index) is 1
 			if (DoubleUtil.isZero(value)) {

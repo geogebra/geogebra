@@ -33,8 +33,10 @@ describe('Keyboard ANS button test', () => {
         // is shown before we start with the actions
         cy.wait(3000);
         selectors.graphicsViewContextMenu.get().click();
-        cy.get('.gwt-MenuItem').contains('settings').click();
-        cy.get('.gwt-SuggestBox').first().click();
+        cy.get('.tabBtn').contains('Graphics').click();
+        cy.get('.expandableList .header').contains('Dimensions').click();
+        selectors.showKeyboardButton.click();
+        cy.get('.gwt-SuggestBox[aria-label="x Min"]').click();
         cy.get('div[aria-label="ans"]').should("not.be.visible");
     });
 

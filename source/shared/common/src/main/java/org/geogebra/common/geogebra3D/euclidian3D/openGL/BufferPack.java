@@ -38,8 +38,8 @@ class BufferPack extends BufferPackAbstract {
 	private int indicesSize;
 
 	/**
-	 * creates a new buffer pack, using approx. 2MB (4 bytes per float * 32768 * 15)
-	 * at max
+	 * Creates a new buffer pack, using approx. 2MB (4 bytes per float * 32768 * 15)
+	 * at max.
 	 * 
 	 * @param manager
 	 *            geometries manager
@@ -50,7 +50,7 @@ class BufferPack extends BufferPackAbstract {
 	}
 
 	/**
-	 * creates a new buffer pack
+	 * Creates a new buffer pack.
 	 * 
 	 * @param manager
 	 *            geometries manager
@@ -101,21 +101,11 @@ class BufferPack extends BufferPackAbstract {
 		return ret;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeBufferPackInterface#canAdd(int, int)
-	 */
 	@Override
 	boolean canAdd(int elementsLengthOther, int indicesLengthOther) {
 		return this.elementsLength + elementsLengthOther < ELEMENT_SIZE_MAX;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see BufferPackInterface#addToLength(int, int)
-	 */
 	@Override
 	void addToLength(int elementsLengthToAdd, int indicesLengthToAdd) {
 		elementsLength += elementsLengthToAdd;
@@ -134,9 +124,6 @@ class BufferPack extends BufferPackAbstract {
 		indicesBuffer.setLimit(this.indicesLength);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#setElements()
-	 */
 	@Override
 	void setElements() {
 		int offset = manager.currentBufferSegment.elementsOffset;
@@ -180,11 +167,8 @@ class BufferPack extends BufferPackAbstract {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#setElements(float[], float, boolean)
-	 */
 	@Override
-	public void setElements(float[] translate, float scale,
+	void setElements(float[] translate, float scale,
 			boolean reuseSegment) {
 		int offset = manager.currentBufferSegment.elementsOffset;
 		int length = manager.currentBufferSegment.getElementsLength();
@@ -200,9 +184,6 @@ class BufferPack extends BufferPackAbstract {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#setColor(org.geogebra.common.awt.GColor, int, int)
-	 */
 	@Override
 	void setColorAndLayer(GColor color, int layer, int offset, int length) {
 		int colorOffset = offset * 4;

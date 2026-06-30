@@ -334,13 +334,13 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	}
 
 	/**
-	 * Replaces special unicode letters (e.g. greek letters) in str by LaTeX
+	 * Replaces special Unicode letters (e.g. greek letters) in str by LaTeX
 	 * strings.
 	 * 
 	 * @param str
-	 *            unicode string
+	 *            Unicode string
 	 * @param convertGreekLetters
-	 *            whether to convert unicode alpha to \alpha
+	 *            whether to convert Unicode alpha to \alpha
 	 * @return latex string
 	 */
 	public static synchronized String toLaTeXString(String str,
@@ -375,29 +375,23 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 					sbReplaceExp.append("\\");
 				}
 				sbReplaceExp.append("%");
-			} else {
-				if (!convertGreekLetters) {
-					sbReplaceExp.append(c);
+			} else if (!convertGreekLetters) {
+				sbReplaceExp.append(c);
+			} else if (c == Unicode.phi_symbol) {
+				sbReplaceExp.append("\\phi");
+			} else if ((c >= Unicode.alpha && c <= Unicode.omega)
+					|| (c >= Unicode.Alpha && c <= Unicode.Omega)) {
+				// might be null, there are more than 24*2 characters in
+				// range eg sigmaf
+				String greekLaTeX = Greek.getLaTeX(c);
+				if (greekLaTeX != null) {
+					sbReplaceExp.append("\\");
+					sbReplaceExp.append(greekLaTeX);
 				} else {
-
-					if (c == Unicode.phi_symbol) {
-						sbReplaceExp.append("\\phi");
-					} else if ((c >= Unicode.alpha && c <= Unicode.omega)
-							|| (c >= Unicode.Alpha && c <= Unicode.Omega)) {
-
-						// might be null, there are more than 24*2 characters in
-						// range eg sigmaf
-						String greekLaTeX = Greek.getLaTeX(c);
-						if (greekLaTeX != null) {
-							sbReplaceExp.append("\\");
-							sbReplaceExp.append(greekLaTeX);
-						} else {
-							sbReplaceExp.append(c);
-						}
-					} else {
-						sbReplaceExp.append(c);
-					}
+					sbReplaceExp.append(c);
 				}
+			} else {
+				sbReplaceExp.append(c);
 			}
 		}
 		return sbReplaceExp.toString();
