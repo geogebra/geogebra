@@ -92,7 +92,7 @@ public class EditMenuW extends Submenu {
 						new MenuCommand(getApp()) {
 
 							@Override
-							public void doExecute() {
+							void doExecute() {
 								selection.invertSelection();
 							}
 						}));
@@ -115,7 +115,7 @@ public class EditMenuW extends Submenu {
 				new MenuCommand(getApp()) {
 
 					@Override
-					public void doExecute() {
+					void doExecute() {
 						selection.showHideSelectionLabels();
 					}
 				}));
@@ -126,7 +126,7 @@ public class EditMenuW extends Submenu {
 				new MenuCommand(getApp()) {
 
 					@Override
-					public void doExecute() {
+					void doExecute() {
 						selection.showHideSelection();
 					}
 				}));
@@ -138,7 +138,7 @@ public class EditMenuW extends Submenu {
 				loc.getMenu("Delete"), new MenuCommand(getApp()) {
 
 					@Override
-					public void doExecute() {
+					void doExecute() {
 						getApp().deleteSelectedObjects(false);
 					}
 				}));
@@ -150,7 +150,7 @@ public class EditMenuW extends Submenu {
 				loc.getMenu("Paste"), new MenuCommand(getApp()) {
 
 					@Override
-					public void doExecute() {
+					void doExecute() {
 						getApp().setWaitCursor();
 						getApp().getCopyPaste().pasteFromXML(getApp());
 						getApp().setDefaultCursor();
@@ -165,7 +165,7 @@ public class EditMenuW extends Submenu {
 				new MenuCommand(getApp()) {
 
 					@Override
-					public void doExecute() {
+					void doExecute() {
 						app.copyGraphicsViewToClipboard();
 						app.getToolTipManager().showBottomMessage(
 								loc.getMenu("GraphicsViewCopiedToClipboard"), app);
@@ -181,7 +181,7 @@ public class EditMenuW extends Submenu {
 				new MenuCommand(getApp()) {
 
 					@Override
-					public void doExecute() {
+					void doExecute() {
 						if (!getApp().getKernel().isEmpty()) {
 							selection.selectAll(-1);
 						}
@@ -197,7 +197,7 @@ public class EditMenuW extends Submenu {
 					new MenuCommand(getApp()) {
 
 						@Override
-						public void doExecute() {
+						void doExecute() {
 							selection.selectAllPredecessors();
 						}
 					}));
@@ -212,7 +212,7 @@ public class EditMenuW extends Submenu {
 					new MenuCommand(getApp()) {
 
 						@Override
-						public void doExecute() {
+						void doExecute() {
 							selection.selectAllDescendants();
 						}
 					}));
@@ -227,7 +227,7 @@ public class EditMenuW extends Submenu {
 					new MenuCommand(getApp()) {
 
 						@Override
-						public void doExecute() {
+						void doExecute() {
 							int layer1 = selection.getSelectedLayer();
 							if (layer1 != -1) {
 								selection.selectAll(layer1); // select all
@@ -250,7 +250,7 @@ public class EditMenuW extends Submenu {
 				new MenuCommand(getApp()) {
 
 					@Override
-					public void doExecute() {
+					void doExecute() {
 						getApp().getDialogManager()
 								.showPropertiesDialog(OptionType.OBJECTS, null);
 					}
@@ -264,7 +264,7 @@ public class EditMenuW extends Submenu {
 						loc.getMenu("Copy"), new MenuCommand(getApp()) {
 
 					@Override
-					public void doExecute() {
+					void doExecute() {
 						if (!selection.getSelectedGeos().isEmpty()) {
 							getApp().setWaitCursor();
 							getApp().getCopyPaste().copyToXML(getApp(),

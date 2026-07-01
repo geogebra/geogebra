@@ -43,7 +43,7 @@ public class MenuCommand implements Command {
 	/**
 	 * code that is executed if the menuEntry was clicked
 	 */
-	protected void doExecute() {
+	void doExecute() {
 		// this may be not needed if execute is overridden
 	}
 

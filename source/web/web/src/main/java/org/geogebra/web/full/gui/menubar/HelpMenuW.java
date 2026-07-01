@@ -81,7 +81,7 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 					new MenuCommand(app) {
 
 						@Override
-						public void doExecute() {
+						void doExecute() {
 							app.getFileManager().open(tutorialURL);
 						}
 					}));
@@ -96,7 +96,7 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 				new MenuCommand(app) {
 
 					@Override
-					public void doExecute() {
+					void doExecute() {
 						app.getGuiManager().openHelp(ManualPage.MAIN_PAGE, null);
 					}
 				}));
@@ -110,7 +110,7 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 				new MenuCommand(app) {
 
 					@Override
-					public void doExecute() {
+					void doExecute() {
 						app.getFileManager().open(GeoGebraConstants.FORUM_URL);
 					}
 				}));
@@ -124,7 +124,7 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 				new MenuCommand(app) {
 
 					@Override
-					public void doExecute() {
+					void doExecute() {
 						app.getFileManager().open(GeoGebraConstants.REPORT_BUG_URL);
 					}
 				}));

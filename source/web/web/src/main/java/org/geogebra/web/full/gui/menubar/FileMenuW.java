@@ -166,7 +166,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable {
 				new MenuCommand(getApp()) {
 
 			@Override
-			public void doExecute() {
+			void doExecute() {
 				app.openSearch(null);
 			}
 		}));
@@ -189,7 +189,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable {
 							loc.getMenu("PrintPreview"),
 					new MenuCommand(getApp()) {
 						@Override
-						public void doExecute() {
+						void doExecute() {
 							getApp().getDialogManager()
 									.showPrintPreview();
 						}

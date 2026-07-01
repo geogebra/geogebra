@@ -131,7 +131,7 @@ public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHand
 		insertHelpToggle();
 		new FocusableWidget(AccessibilityGroup.ALGEBRA_ITEM, null, content) {
 			@Override
-			public void focus(Widget widget) {
+			protected void focus(Widget widget) {
 				setFocus(true);
 			}
 

@@ -73,17 +73,17 @@ public class ViewMenuW extends Submenu {
 				new MenuCommand(app) {
 
 					@Override
-					public void doExecute() {
+					void doExecute() {
 						app.refreshViews();
 					}
 				}));
 		addItem(MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("RecomputeAllViews"),
 				new MenuCommand(app) {
 
-			@Override
-			public void doExecute() {
+					@Override
+					void doExecute() {
 						app.getKernel().updateConstruction(true);
-			}
+				}
 		}));
 	}
 
@@ -110,7 +110,7 @@ public class ViewMenuW extends Submenu {
 				new MenuCommand(app) {
 
 					@Override
-					public void doExecute() {
+					void doExecute() {
 						app.persistWidthAndHeight();
 						app.getAppletParameters()
 								.setAttribute("showAlgebraInput", "true");
@@ -147,7 +147,7 @@ public class ViewMenuW extends Submenu {
 				new MenuCommand(app) {
 
 			@Override
-			public void doExecute() {
+			void doExecute() {
 				if (consProtNav.isSelected()) {
 					app.setShowConstructionProtocolNavigation(false);
 				} else {

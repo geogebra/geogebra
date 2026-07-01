@@ -2071,7 +2071,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		renderLatex("", false);
 		new FocusableWidget(AccessibilityGroup.ALGEBRA_ITEM, null, content) {
 			@Override
-			public void focus(Widget widget) {
+			protected void focus(Widget widget) {
 				setFocus(true);
 			}
 		}.attachTo(app);

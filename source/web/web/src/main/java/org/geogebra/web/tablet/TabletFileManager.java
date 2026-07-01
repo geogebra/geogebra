@@ -124,13 +124,13 @@ public class TabletFileManager extends FileManagerT {
 		String fileName = getFileKey(material);
 		int callback = addNewCallback(new NativeBridgeCallback() {
 			@Override
-			public void onSuccess(Object result) {
+			void onSuccess(Object result) {
 				material.setBase64((String) result);
 				doOpenMaterial(material);
 			}
 
 			@Override
-			public void onFailure(Object result) {
+			void onFailure(Object result) {
 				// not needed
 			}
 		});
@@ -161,13 +161,13 @@ public class TabletFileManager extends FileManagerT {
 		if (cb != null) {
 			callback = addNewCallback(new NativeBridgeCallback() {
 				@Override
-				public void onSuccess(Object result) {
+				void onSuccess(Object result) {
 					saveFileMaterial.setLocalID((Integer) result);
 					cb.onSaved(saveFileMaterial, true);
 				}
 
 				@Override
-				public void onFailure(Object result) {
+				void onFailure(Object result) {
 					cb.onError();
 				}
 			});
@@ -264,14 +264,14 @@ public class TabletFileManager extends FileManagerT {
 		mat.setTitle(newTitle);
 		int callback1 = addNewCallback(new NativeBridgeCallback() {
 			@Override
-			public void onSuccess(Object result) {
+			void onSuccess(Object result) {
 				if (callback != null) {
 					callback.run();
 				}
 			}
 
 			@Override
-			public void onFailure(Object reason) {
+			void onFailure(Object reason) {
 				// not needed
 			}
 		});
@@ -309,13 +309,13 @@ public class TabletFileManager extends FileManagerT {
 
 		int callback = addNewCallback(new NativeBridgeCallback() {
 			@Override
-			public void onSuccess(Object result) {
+			void onSuccess(Object result) {
 				removeFile(mat);
 				onSuccess.run();
 			}
 
 			@Override
-			public void onFailure(Object result) {
+			void onFailure(Object result) {
 				// not needed
 			}
 		});

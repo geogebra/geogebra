@@ -118,7 +118,7 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 		new FocusableWidget(AccessibilityGroup.SETTINGS_TAB_BUTTON,
 				null, tabList) {
 			@Override
-			public void focus(Widget widget) {
+			protected void focus(Widget widget) {
 				for (int i = 0; i < tabList.getWidgetCount(); i++) {
 					if (tabList.getWidget(i) == selectedBtn) {
 						tabList.getWidget(i).getElement().focus();

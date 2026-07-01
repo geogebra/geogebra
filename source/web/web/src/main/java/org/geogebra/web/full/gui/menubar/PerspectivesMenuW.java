@@ -67,7 +67,7 @@ public class PerspectivesMenuW extends Submenu {
 																					// Mode"
 						new MenuCommand(app) {
 							@Override
-							public void doExecute() {
+							void doExecute() {
 								app.getSaveController().showDialogIfNeeded(getExamCallback(), true);
 							}
 						}));
@@ -86,7 +86,7 @@ public class PerspectivesMenuW extends Submenu {
 				new MenuCommand(app) {
 
 					@Override
-					public void doExecute() {
+					void doExecute() {
 						setPerspective(app, perspective);
 						if (!GlobalScope.isExamActive(app)) {
 							app.showStartTooltip(perspective);

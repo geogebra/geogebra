@@ -585,27 +585,30 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 						removeAllMacrosFromStorage());
 				// After the macro is edited and the save button is pressed, the editing tab
 				// sends a message to the original app containing the XML of the edited macro.
-				getGlobalHandlers().addEventListener(DomGlobal.window, "message", event -> {
-					MessageEvent<?> message = Js.uncheckedCast(event);
-					String editedMacroMessage = message.data.toString();
-					try {
-						JsPropertyMap<Object> messageProperties =
-								JsObject.of(Global.JSON.parse(editedMacroMessage));
-						Object macroName = messageProperties
-								.get(EDITED_MACRO_NAME_KEY);
-						if (macroName != null) {
-							getKernel().removeMacro(macroName.toString());
-							if (addMacroXML(
-									messageProperties.get(EDITED_MACRO_XML_KEY).toString())) {
-								setXML(getXML(), true);
-							}
-						}
-					} catch (Throwable err) {
-						Log.debug("Error occurred while updating the macro XML: " + err.getMessage()
-								+ "\nEdited macro message: " + editedMacroMessage);
-					}
-				});
+				getGlobalHandlers().addEventListener(DomGlobal.window, "message",
+						this::handleMacroEditingMessage);
 			}
+		}
+	}
+
+	private void handleMacroEditingMessage(elemental2.dom.Event event) {
+		MessageEvent<?> message = Js.uncheckedCast(event);
+		String editedMacroMessage = message.data.toString();
+		try {
+			JsPropertyMap<Object> messageProperties =
+					JsObject.of(Global.JSON.parse(editedMacroMessage));
+			Object macroName = messageProperties
+					.get(EDITED_MACRO_NAME_KEY);
+			if (macroName != null) {
+				getKernel().removeMacro(macroName.toString());
+				if (addMacroXML(
+						messageProperties.get(EDITED_MACRO_XML_KEY).toString())) {
+					setXML(getXML(), true);
+				}
+			}
+		} catch (Throwable err) {
+			Log.debug("Error occurred while updating the macro XML: " + err.getMessage()
+					+ "\nEdited macro message: " + editedMacroMessage);
 		}
 	}
 

@@ -109,7 +109,7 @@ public abstract class Submenu extends GMenuBar {
 				new MenuCommand(getApp()) { // Close
 
 					@Override
-					public void doExecute() {
+					void doExecute() {
 						action.execute((AppWFull) getApp());
 					}
 				}));

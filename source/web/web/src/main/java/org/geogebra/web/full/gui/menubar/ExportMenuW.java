@@ -66,7 +66,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				new MenuCommand(app) {
 
 					@Override
-					public void doExecute() {
+					void doExecute() {
 						menu.hide();
 						app.getFileManager().export(app);
 					}
@@ -126,7 +126,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 		// app.getLocalization().getMenu("AnimatedGIF")), true,
 		// new MenuCommand(app) {
 		// @Override
-		// public void doExecute() {
+		// void doExecute() {
 		// hide();
 		// dialogEvent("exportGIF");
 		// ((DialogManagerW) app.getDialogManager())
@@ -165,7 +165,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 							+ FileExtensions.HTML + ")",
 					new MenuCommand(app) {
 						@Override
-						public void doExecute() {
+						void doExecute() {
 							menu.hide();
 							app.exportStringToFile("html",
 									app.getGgbApi().exportConstruction("color",
@@ -179,7 +179,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 							+ FileExtensions.HTML + ")",
 					new MenuCommand(app) {
 						@Override
-						public void doExecute() {
+						void doExecute() {
 							menu.hide();
 							app.exportStringToFile("html",
 									HTML5Export.getFullString(app), true);
@@ -201,7 +201,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 			menu.addItem(menuText(app.getLocalization()
 					.getMenu("Download.3DPrint"), new MenuCommand(app) {
 				@Override
-				public void doExecute() {
+				void doExecute() {
 					menu.hide();
 					app.setExport3D(new FormatSTL());
 				}
@@ -211,7 +211,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				menu.addItem(menuText(app.getLocalization()
 						.getMenu("Download.ColladaDae"), new MenuCommand(app) {
 					@Override
-					public void doExecute() {
+					void doExecute() {
 						menu.hide();
 						app.exportCollada(false);
 					}
@@ -221,7 +221,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 								.getMenu("Download.ColladaHtml"),
 						new MenuCommand(app) {
 							@Override
-							public void doExecute() {
+							void doExecute() {
 								menu.hide();
 								app.exportCollada(true);
 							}

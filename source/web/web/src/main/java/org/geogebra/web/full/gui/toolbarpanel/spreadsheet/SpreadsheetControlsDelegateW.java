@@ -165,7 +165,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		this.parent = parent;
 		contextMenu = new GPopupMenuW(app) {
 			@Override
-			public void returnFocus(FocusableComponent anchor) {
+			protected void returnFocus(FocusableComponent anchor) {
 				parent.requestFocus();
 			}
 		};

@@ -36,7 +36,7 @@ public class UserSubmenu extends Submenu {
 				app.getLocalization().getMenu("SignOut"), new MenuCommand(app) {
 
 					@Override
-					public void doExecute() {
+					void doExecute() {
 						app.getLoginOperation().showLogoutUI();
 						app.getLoginOperation().performLogOut();
 					}

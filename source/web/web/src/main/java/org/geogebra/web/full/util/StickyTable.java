@@ -281,12 +281,12 @@ public abstract class StickyTable<T> extends FlowPanel {
 	private final class CellTableWithBody extends CellTable<T> {
 
 		@Override
-		public TableSectionElement getTableBodyElement() {
+		protected TableSectionElement getTableBodyElement() {
 			return super.getTableBodyElement();
 		}
 
 		@Override
-		public TableSectionElement getTableHeadElement() {
+		protected TableSectionElement getTableHeadElement() {
 			return super.getTableHeadElement();
 		}
 	}

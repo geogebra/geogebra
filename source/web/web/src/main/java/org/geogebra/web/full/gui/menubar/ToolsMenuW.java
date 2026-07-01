@@ -58,7 +58,7 @@ public class ToolsMenuW extends Submenu {
 					new MenuCommand(getApp()) {
 
 						@Override
-						public void doExecute() {
+						void doExecute() {
 							getApp().showCustomizeToolbarGUI();
 						}
 					}));
@@ -71,7 +71,7 @@ public class ToolsMenuW extends Submenu {
 				new MenuCommand(getApp()) {
 
 					@Override
-					public void doExecute() {
+					void doExecute() {
 						ToolCreationDialogW toolCreationDialog = new ToolCreationDialogW(
 								getApp());
 						toolCreationDialog.center();
@@ -86,7 +86,7 @@ public class ToolsMenuW extends Submenu {
 					new MenuCommand(getApp()) {
 
 						@Override
-						public void doExecute() {
+						void doExecute() {
 							DialogData data = new DialogData("Tool.Manage", "Close", null);
 							ToolManagerDialogW toolManageDialog = new ToolManagerDialogW(
 									getApp(), data);

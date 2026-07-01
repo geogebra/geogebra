@@ -312,14 +312,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 						insertPopup(tb, sb);
 
 					} else {
-						String headerTitle;
-						if ("ToolbarIcon".equals(title)) {
-							headerTitle = "Icon";
-						} else if ("Breakpoint".equals(title)) {
-							headerTitle = "Breakpoint.short";
-						} else {
-							headerTitle = title;
-						}
+						String headerTitle = getHeaderTitle(title);
 						sb.append(SafeHtmlUtils.fromSafeConstant("<div>"
 								+ app.getLocalization().getMenu(headerTitle)
 								+ "</div>"));
@@ -328,6 +321,16 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 					tb.addColumn(col, sb.toSafeHtml());
 				}
 			}
+		}
+	}
+
+	private String getHeaderTitle(String title) {
+		if ("ToolbarIcon".equals(title)) {
+			return "Icon";
+		} else if ("Breakpoint".equals(title)) {
+			return "Breakpoint.short";
+		} else {
+			return title;
 		}
 	}
 
@@ -778,21 +781,21 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		}
 
 		@Override
-		public void fireTableRowsInserted(int firstRow, int lastRow) {
+		protected void fireTableRowsInserted(int firstRow, int lastRow) {
 			rowsChanged = true;
 			needsUpdate = true;
 			repaintView();
 		}
 
 		@Override
-		public void fireTableRowsUpdated(int firstRow, int lastRow) {
+		protected void fireTableRowsUpdated(int firstRow, int lastRow) {
 			// TODO: maybe it's not necessary to reinit the all table
 			needsUpdate = true;
 			repaintView();
 		}
 
 		@Override
-		public void fireTableRowsDeleted(int firstRow, int lastRow) {
+		protected void fireTableRowsDeleted(int firstRow, int lastRow) {
 			rowsChanged = true;
 			needsUpdate = true;
 			repaintView();

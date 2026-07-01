@@ -103,7 +103,7 @@ public class ComponentSideSheet extends FlowPanel implements SetLabels {
 		new FocusableWidget(AccessibilityGroup.SETTINGS_CLOSE_BUTTON,
 				null, closeButton) {
 			@Override
-			public void focus(Widget widget) {
+			protected void focus(Widget widget) {
 				closeButton.addStyleName("keyboardFocus");
 				closeButton.getElement().focus();
 			}
