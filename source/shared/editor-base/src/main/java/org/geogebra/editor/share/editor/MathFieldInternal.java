@@ -956,7 +956,7 @@ public class MathFieldInternal
 		int initialOffset = editorState.getCurrentOffset();
 		while (shiftDown
 				? CursorController.prevCharacter(editorState)
-				: CursorController.nextCharacter(editorState, false)) {
+				: CursorController.nextCharacter(editorState, false, Traversal.NAVIGABLE_FIELDS)) {
 			if (editorState.getCurrentNode().getChild(editorState.getCurrentOffset())
 					instanceof PlaceholderNode) {
 				editorState.resetSelection();
