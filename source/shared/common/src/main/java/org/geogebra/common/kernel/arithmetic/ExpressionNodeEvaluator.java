@@ -100,7 +100,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return lt;
 		}
 		ExpressionValue rt = right.evaluate(tpl); // right tree
-
+		if (expressionNode.isForcedPoint() && operation.isRealToComplex()) {
+			lt = wrapComplex(lt);
+		}
 		// handle list operations first
 		ExpressionValue special = handleSpecial(lt, rt, left, right, operation,
 				tpl);
@@ -110,6 +112,16 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 		// NON-List operations (apart from EQUAL_BOOLEAN and list + text)
 		return handleOp(operation, lt, rt, left, right, tpl, holdsLaTeXtext);
+	}
+
+	private ExpressionValue wrapComplex(ExpressionValue lt) {
+		if (lt instanceof NumberValue) {
+			GeoVec2D ret = new GeoVec2D(kernel, lt.evaluateDouble(),
+					0);
+			ret.setMode(Kernel.COORD_COMPLEX);
+			return ret;
+		}
+		return lt;
 	}
 
 	/**

@@ -456,6 +456,20 @@ public class ArithmeticTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void complexRoots() {
+		t("sqrt(-25)+i", "6" + Unicode.IMAGINARY);
+		t("nroot(-64,4)+i", "2 + 3" + Unicode.IMAGINARY, StringTemplate.editTemplate);
+	}
+
+	@Test
+	public void complexInverseTrig() {
+		t("asin(2)+i", "1.5708 - 0.31696" + Unicode.IMAGINARY, StringTemplate.editTemplate);
+		t("asind(2)+i", "1.5708 - 0.31696" + Unicode.IMAGINARY, StringTemplate.editTemplate);
+		t("acos(2)+i", "2.31696" + Unicode.IMAGINARY, StringTemplate.editTemplate);
+		t("acosd(2)+i", "2.31696" + Unicode.IMAGINARY, StringTemplate.editTemplate);
+	}
+
+	@Test
 	@Issue("APPS-6846")
 	public void inverseTrig() {
 		t("sin^-1(.5)", "30*" + Unicode.DEGREE_STRING);

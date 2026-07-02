@@ -21,23 +21,23 @@ import static org.junit.Assert.assertEquals;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.editor.share.util.Unicode;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
 public class GeoInputBoxForComplexTest extends BaseUnitTest {
 
-	public static final String IMAGINARY_UNIT = "i";
-
 	@Test
+	@Issue("WLY-28")
 	public void rootOfMinusOneShouldBeImaginaryWithComplexNumber() {
 		add("z_1 = 3 + 2i");
-		shouldBeUpdatedAs("sqrt(-1)", IMAGINARY_UNIT);
+		shouldBeUpdatedAs("sqrt(-1)", "i");
 	}
 
 	@Test
 	public void imaginaryUnitShouldOverrideUserDefinedVarForPoints() {
 		add("z_1 = 3 + 2i");
 		add("i = 7");
-		shouldBeUpdatedAs("2i", "2 " + IMAGINARY_UNIT);
+		shouldBeUpdatedAs("2i", "2 i");
 		assertEquals("2i",
 				lookup("z_1").toValueString(StringTemplate.latexTemplate));
 	}
@@ -46,7 +46,7 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 	public void userDefinedVarShouldOverrideImaginaryUnitForNumbers() {
 		add("i = 7");
 		add("z_1 = 3 + 2i");
-		shouldBeUpdatedAs("2i", "2 " + IMAGINARY_UNIT);
+		shouldBeUpdatedAs("2i", "2 i");
 		assertEquals("14",
 				lookup("z_1").toValueString(StringTemplate.latexTemplate));
 	}
@@ -54,7 +54,7 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 	@Test
 	public void rootOfMinusOneShouldBeUsedInExpression() {
 		add("z_1 = 1 + 6i");
-		shouldBeUpdatedAs("2 + 3sqrt(-1)", "2+3 " + IMAGINARY_UNIT);
+		shouldBeUpdatedAs("2 + 3sqrt(-1)", "2+3 i");
 	}
 
 	@Test
@@ -173,5 +173,23 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 		GeoNumeric a = add("a = g(1)");
 		inputBox.updateLinkedGeo("3i/2");
 		assertEquals(1.5, a.getValue(), 0);
+	}
+
+	@Test
+	@Issue("APPS-7630")
+	public void rootOfNegativeNumberShouldBeImaginary() {
+		add("z_1 = 3 + 2i");
+		shouldBeUpdatedAs("sqrt(-25)", "sqrt(-25)");
+		assertEquals("5" + Unicode.IMAGINARY,
+				lookup("z_1").toValueString(StringTemplate.testTemplate));
+	}
+
+	@Test
+	@Issue("APPS-7630")
+	public void rootOfNegativeNumberShouldBeImaginaryInSum() {
+		add("z_1 = 3 + 2i");
+		shouldBeUpdatedAs("sqrt(-25)+i", "sqrt(-25)+i");
+		assertEquals("6" + Unicode.IMAGINARY,
+				lookup("z_1").toValueString(StringTemplate.testTemplate));
 	}
 }

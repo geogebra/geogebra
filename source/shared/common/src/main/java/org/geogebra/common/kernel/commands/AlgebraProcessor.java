@@ -3239,6 +3239,9 @@ public class AlgebraProcessor {
 
 		// ELSE: resolve variables and evaluate expressionnode
 		n.resolveVariables(info);
+		if (n.isForcedPoint() || n.any(Inspecting::isComplexNumber)) {
+			n.forceComplexArithmetic();
+		}
 
 		if (n.isLeaf() && n.getLeft().isExpressionNode()) {
 			// we changed f' to f'(x) -> clean double wrap

@@ -777,10 +777,10 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt instanceof NumberValue) {
-				return ((NumberValue) lt).getNumber().acos(false);
-			} else if (lt instanceof VectorValue) {
-				GeoVec2D vec = ((VectorValue) lt).getVector();
+			if (lt instanceof NumberValue leftNumber) {
+				return leftNumber.getNumber().acos(false);
+			} else if (lt instanceof VectorValue leftVector) {
+				GeoVec2D vec = leftVector.getVector();
 				GeoVec2D.complexAcos(vec, vec);
 				return vec;
 			}
@@ -798,6 +798,10 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().acos(true);
+			} else if (lt instanceof VectorValue leftVector) {
+				GeoVec2D vec = leftVector.getVector();
+				GeoVec2D.complexAcos(vec, vec);
+				return vec;
 			}
 			throw ev.illegalArgument(lt, "acosd(");
 
@@ -808,8 +812,8 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt instanceof NumberValue) {
-				return ((NumberValue) lt).getNumber().asin(false);
+			if (lt instanceof NumberValue leftNumber) {
+				return leftNumber.getNumber().asin(false);
 			} else if (lt instanceof VectorValue) {
 				GeoVec2D vec = ((VectorValue) lt).getVector();
 				GeoVec2D.complexAsin(vec, vec);
@@ -827,8 +831,12 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt instanceof NumberValue) {
-				return ((NumberValue) lt).getNumber().asin(true);
+			if (lt instanceof NumberValue leftNumber) {
+				return leftNumber.getNumber().asin(true);
+			} else if (lt instanceof VectorValue leftVector) {
+				GeoVec2D vec = leftVector.getVector();
+				GeoVec2D.complexAsin(vec, vec);
+				return vec;
 			}
 			throw ev.illegalArgument(lt, "asind(");
 
@@ -2284,6 +2292,19 @@ public enum Operation {
 		}
 
 		return false;
+	}
+
+	public boolean isRealToComplex() {
+		return switch (this) {
+			case SQRT,
+				 SQRT_SHORT,
+				 NROOT,
+				 ARCSIN,
+				 ARCSIND,
+				 ARCCOS,
+				 ARCCOSD -> true;
+			default -> false;
+		};
 	}
 
 	public boolean isIf() {

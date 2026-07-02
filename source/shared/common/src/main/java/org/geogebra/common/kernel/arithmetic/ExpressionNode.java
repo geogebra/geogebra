@@ -1246,13 +1246,29 @@ public class ExpressionNode extends ValidExpression
 		boolean ret = false;
 
 		if (left.isExpressionNode()) {
-			ret = ret || ((ExpressionNode) left).containsMyStringBuffer();
+			ret = ((ExpressionNode) left).containsMyStringBuffer();
 		}
 		if ((right != null) && right.isExpressionNode()) {
 			ret = ret || ((ExpressionNode) right).containsMyStringBuffer();
 		}
 
 		return ret;
+	}
+
+	/**
+	 * Make sure subexpressions use complex arithmetic
+	 * when the operation supports it.
+	 */
+	public void forceComplexArithmetic() {
+		if (operation.isRealToComplex()) {
+			setForcePoint();
+		}
+		if (left instanceof ExpressionNode leftExpr) {
+			leftExpr.forceComplexArithmetic();
+		}
+		if (right instanceof ExpressionNode rightExpr) {
+			rightExpr.forceComplexArithmetic();
+		}
 	}
 
 	/**
@@ -1267,7 +1283,7 @@ public class ExpressionNode extends ValidExpression
 	 *         CAS
 	 */
 	public String getCASstring(StringTemplate tpl, boolean symbolic) {
-		String ret = null;
+		String ret;
 
 		if (leaf) { // leaf is GeoElement or not
 			ret = getCasString(left, tpl, symbolic, false);
