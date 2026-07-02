@@ -952,18 +952,21 @@ public class MathFieldInternal
 	 * @return tab handling
 	 */
 	public boolean onTab(boolean shiftDown) {
-		SequenceNode currentField = editorState.getCurrentNode();
-		int jumpTo = editorState.getCurrentOffset();
-		int dir = shiftDown ? -1 : 1;
-		do {
-			jumpTo += dir;
-			if (currentField.getChild(jumpTo) instanceof PlaceholderNode) {
-				editorState.setCurrentOffset(jumpTo);
+		SequenceNode initialNode = editorState.getCurrentNode();
+		int initialOffset = editorState.getCurrentOffset();
+		while (shiftDown
+				? CursorController.prevCharacter(editorState)
+				: CursorController.nextCharacter(editorState, false)) {
+			if (editorState.getCurrentNode().getChild(editorState.getCurrentOffset())
+					instanceof PlaceholderNode) {
+				editorState.resetSelection();
 				update();
 				return true;
 			}
-		} while (jumpTo < currentField.size() && jumpTo >= 0);
-		return notifyListeners(l -> l.onTab(shiftDown));
+		}
+		editorState.setCurrentNode(initialNode);
+		editorState.setCurrentOffset(initialOffset);
+		return notifyListeners(listener -> listener.onTab(shiftDown));
 	}
 
 	private boolean notifyListeners(Predicate<MathFieldListener> eventDispatcher) {

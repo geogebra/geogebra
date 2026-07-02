@@ -24,6 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -43,9 +44,15 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.editor.share.catalog.Tag;
 import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.controller.EditorState;
 import org.geogebra.editor.share.event.KeyEvent;
+import org.geogebra.editor.share.input.KeyboardInputAdapter;
 import org.geogebra.editor.share.serializer.TeXSerializer;
+import org.geogebra.editor.share.tree.CharPlaceholderNode;
+import org.geogebra.editor.share.tree.FunctionNode;
+import org.geogebra.editor.share.tree.Node;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.test.annotation.Issue;
@@ -858,5 +865,78 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		eq1.setViewFlags(viewFlags);
 		updateInput("2^x");
 		assertEquals(viewFlags, lookup("eq1").getViewSet());
+	}
+
+	@Issue("APPS-7703")
+	@Test
+	public void shouldSelectPlaceholderInUndefinedPointCoordinate() {
+		setupInput("A", "(?, ?)");
+		final MathFieldCommon mf = new MathFieldCommon(new TemplateCatalog(), null);
+		SymbolicEditorCommon editor = new SymbolicEditorCommon(mf, getApp());
+
+		editor.attach(inputBox, new Rectangle(), LatexRendererSettings.create());
+		editor.selectEntryAt(0, 0);
+
+		EditorState editorState = mf.getInternal().getEditorState();
+		assertNull(editorState.getSelectionStart());
+		assertNull(editorState.getSelectionEnd());
+		assertTrue(editorState.getCurrentNode().getChild(editorState.getCurrentOffset())
+				instanceof CharPlaceholderNode);
+	}
+
+	@Issue("APPS-7703")
+	@Test
+	public void shouldSelectWholeFractionInPointCoordinate() {
+		setupInput("A", "(1/2, 3)");
+		final MathFieldCommon mf = new MathFieldCommon(new TemplateCatalog(), null);
+		SymbolicEditorCommon editor = new SymbolicEditorCommon(mf, getApp());
+
+		editor.attach(inputBox, new Rectangle(), LatexRendererSettings.create());
+		editor.selectEntryAt(0, 0);
+
+		Node selectionStart = mf.getInternal().getEditorState().getSelectionStart();
+		Node selectionEnd = mf.getInternal().getEditorState().getSelectionEnd();
+
+		assertTrue(selectionStart instanceof FunctionNode);
+		assertEquals(Tag.FRAC, ((FunctionNode) selectionStart).getName());
+		assertEquals(selectionStart, selectionEnd);
+	}
+
+	@Issue("APPS-7703")
+	@Test
+	public void tabShouldSelectNextPlaceholder() {
+		setupInput("A", "(4, ?)");
+		final MathFieldCommon mf = new MathFieldCommon(new TemplateCatalog(), null);
+		SymbolicEditorCommon editor = new SymbolicEditorCommon(mf, getApp());
+
+		editor.attach(inputBox, new Rectangle(), LatexRendererSettings.create());
+		editor.selectEntryAt(0, 0);
+
+		EditorState editorState = mf.getInternal().getEditorState();
+		mf.getInternal().onTab(false);
+		assertNull(editorState.getSelectionStart());
+		assertNull(editorState.getSelectionEnd());
+		assertTrue(editorState.getCurrentNode().getChild(editorState.getCurrentOffset())
+				instanceof CharPlaceholderNode);
+	}
+
+	@Issue("APPS-7703")
+	@Test
+	public void tabShouldSelectNextPlaceholderAfterFractionInCoordinate() {
+		setupInput("A", "(?,?)");
+		final MathFieldCommon mf = new MathFieldCommon(new TemplateCatalog(), null);
+		SymbolicEditorCommon editor = new SymbolicEditorCommon(mf, getApp());
+
+		editor.attach(inputBox, new Rectangle(), LatexRendererSettings.create());
+		editor.selectEntryAt(0, 0);
+
+		KeyboardInputAdapter.type(mf.getInternal(), "1/2");
+		mf.getInternal().onTab(false);
+
+		EditorState editorState = mf.getInternal().getEditorState();
+		assertNull(editorState.getSelectionStart());
+		assertNull(editorState.getSelectionEnd());
+		assertTrue(editorState.getCurrentNode().getChild(editorState.getCurrentOffset())
+				instanceof CharPlaceholderNode);
 	}
 }

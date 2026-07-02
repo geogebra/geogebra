@@ -88,7 +88,10 @@ public class SelectAllHandler {
 			int right = firstSeparatorOnRight(content);
 			editorState.selectSubsequence(content, left, right);
 
-			if (isCharPlaceholder(editorState.getSelectionStart()) || right < left) {
+			if (right < left) {
+				editorState.resetSelection();
+			} else if (isCharPlaceholder(editorState.getSelectionStart())) {
+				editorState.cursorToSelectionStart();
 				editorState.resetSelection();
 			}
 		}
@@ -105,14 +108,15 @@ public class SelectAllHandler {
 	}
 
 	private void selectAllCompositeElement(SequenceNode sequence) {
-		SequenceNode field = getCurrentField();
-		SequenceNode parent = field.getParentSequence();
-		while (parent != sequence && parent != null) {
-			field = parent;
-			parent = parent.getParentSequence();
-
+		Node field = getCurrentField();
+		while (field.getParent() != null && field.getParent() != sequence) {
+			field = field.getParent();
 		}
-		editorState.selectSubsequence(field, 0, field.size());
+
+		if (field.getParent() == sequence) {
+			int index = field.getParentIndex();
+			editorState.selectSubsequence(sequence, index, index + 1);
+		}
 	}
 
 	private int firstSeparatorOnRight(SequenceNode sequence) {
