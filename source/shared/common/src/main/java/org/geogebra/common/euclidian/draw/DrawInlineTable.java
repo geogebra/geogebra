@@ -140,6 +140,11 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 	}
 
 	@Override
+	public boolean hasContent() {
+		return true;
+	}
+
+	@Override
 	public void saveContent() {
 		if (tableController != null) {
 			tableController.saveContent();
@@ -152,9 +157,9 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 	}
 
 	@Override
-	public void toBackground() {
+	public void toBackground(DrawInline.SuspensionTrigger trigger) {
 		if (tableController != null) {
-			tableController.toBackground();
+			tableController.toBackground(trigger);
 		}
 	}
 

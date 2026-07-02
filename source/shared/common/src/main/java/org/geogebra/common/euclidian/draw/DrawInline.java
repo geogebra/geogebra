@@ -25,10 +25,20 @@ import org.geogebra.common.euclidian.RemoveNeeded;
  * Drawable representation of inline-editable construction element.
  */
 public interface DrawInline extends RemoveNeeded, HasTransformation {
+
+	enum SuspensionTrigger {
+		RESIZE, BLUR
+	}
+
 	/**
 	 * Update editor from geo
 	 */
 	void updateContent();
+
+	/**
+	 * @return whether the inline element contains something that can be drawn.
+	 */
+	boolean hasContent();
 
 	/**
 	 * Send this to foreground
@@ -38,9 +48,9 @@ public interface DrawInline extends RemoveNeeded, HasTransformation {
 	void toForeground(int x, int y);
 
 	/**
-	 * Send this to background
+	 * Send this to background, store changes.
 	 */
-	void toBackground();
+	void toBackground(SuspensionTrigger trigger);
 
 	@MissingDoc
 	BoundingBox<? extends GShape> getBoundingBox();

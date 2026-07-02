@@ -17,6 +17,7 @@
 package org.geogebra.web.full.gui;
 
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
@@ -73,7 +74,7 @@ public class InlineTextControllerMock implements InlineTextController {
 	}
 
 	@Override
-	public void toBackground() {
+	public void toBackground(DrawInline.SuspensionTrigger trigger) {
 
 	}
 
@@ -170,6 +171,11 @@ public class InlineTextControllerMock implements InlineTextController {
 	@Override
 	public boolean isEditing() {
 		return false;
+	}
+
+	@Override
+	public boolean hasContent() {
+		return true;
 	}
 
 	public VerticalAlignment getVerticalAlignment() {

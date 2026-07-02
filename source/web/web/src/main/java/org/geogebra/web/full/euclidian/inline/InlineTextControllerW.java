@@ -17,12 +17,14 @@
 package org.geogebra.web.full.euclidian.inline;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -30,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.HasVerticalAlignment;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
+import org.geogebra.common.main.undo.UndoableDeletionExecutor;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
@@ -52,7 +55,10 @@ import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.Widget;
 
+import elemental2.core.Global;
+import elemental2.core.JsArray;
 import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * Web implementation of the inline text controller.
@@ -68,6 +74,8 @@ public class InlineTextControllerW implements InlineTextController {
 
 	private int contentDefaultSize;
 	private Element textareaWrapper;
+	private String lastNonemptyContent;
+	private final EuclidianView view;
 
 	/**
 	 * @param geo
@@ -78,6 +86,7 @@ public class InlineTextControllerW implements InlineTextController {
 	public InlineTextControllerW(GeoInline geo, EuclidianView view, Element parent) {
 		this.geo = geo;
 		this.parent = parent;
+		this.view = view;
 		CarotaUtil.ensureInitialized(view.getFontSize());
 		if (view.getApplication().isByCS()) {
 			CarotaUtil.setSelectionColor(GColor.MOW_SELECTION_COLOR.toString());
@@ -124,7 +133,7 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	private int getCurrentFontSize() {
-		return geo.getKernel().getApplication().getSettings().getFontSettings()
+		return view.getApplication().getSettings().getFontSettings()
 				.getAppFontSize();
 	}
 
@@ -167,7 +176,7 @@ public class InlineTextControllerW implements InlineTextController {
 
 	private void onFontLoaded() {
 		editor.reload();
-		geo.getKernel().notifyRepaint();
+		view.getKernel().notifyRepaint();
 	}
 
 	@Override
@@ -216,7 +225,7 @@ public class InlineTextControllerW implements InlineTextController {
 
 			@Override
 			public void onEscape() {
-				toBackground();
+				toBackground(DrawInline.SuspensionTrigger.BLUR);
 			}
 		});
 	}
@@ -227,7 +236,10 @@ public class InlineTextControllerW implements InlineTextController {
 		double oldContentHeight = geo.getContentHeight();
 		if (!content.equals(oldContent)) {
 			geo.setContent(content);
-			storeUndoAction(geo, oldHeight, oldContentHeight, oldContent);
+			if (isNonemptyDocument(content)) {
+				lastNonemptyContent = content;
+				storeUndoAction(geo, oldHeight, oldContentHeight, oldContent);
+			}
 			geo.notifyUpdate();
 		}
 	}
@@ -271,8 +283,12 @@ public class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public void updateContent() {
-		if (geo.getContent() != null && !geo.getContent().isEmpty()) {
-			editor.setContent(geo.getContent());
+		String content = geo.getContent();
+		if (content != null && !content.isEmpty()) {
+			if (isNonemptyDocument(content)) {
+				lastNonemptyContent = content;
+			}
+			editor.setContent(content);
 		}
 	}
 
@@ -295,15 +311,43 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	@Override
-	public void toBackground() {
+	public void toBackground(DrawInline.SuspensionTrigger trigger) {
 		editor.deselect();
 		if (!editor.getWidget().getElement().hasClassName(INVISIBLE)) {
-			onEditorChange(editor.getContent());
+			String content = editor.getContent();
 			editor.getWidget().addStyleName(INVISIBLE);
 			textareaWrapper.removeFromParent(); // make sure no editable element on Android
-			geo.updateRepaint();
-			geo.unlockForMultiuser();
+			if (isNonemptyDocument(content)) {
+				onEditorChange(content);
+				geo.updateRepaint();
+				geo.unlockForMultiuser();
+			} else if (lastNonemptyContent != null
+					&& trigger == DrawInline.SuspensionTrigger.BLUR) {
+				geo.setContent(lastNonemptyContent);
+				UndoableDeletionExecutor undoableDeletionExecutor =
+						new UndoableDeletionExecutor();
+				undoableDeletionExecutor.delete(geo);
+				undoableDeletionExecutor.storeUndoAction(view.getKernel());
+			} else if (trigger == DrawInline.SuspensionTrigger.BLUR) {
+				// this was added to construction but not to undo stack => just remove
+				geo.remove();
+			}
 		}
+	}
+
+	private boolean isNonemptyDocument(String content) {
+		JsArray<?> parts = Js.uncheckedCast(Global.JSON.parse(content));
+		if (parts == null) {
+			return false;
+		}
+		for (int i = 0; i < parts.length; i++) {
+			JsPropertyMap<Object> part = Objects.requireNonNull(Js.asPropertyMap(parts.at(i)));
+			String text = Js.uncheckedCast(part.get("text"));
+			if (!StringUtil.emptyTrim(text)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -447,6 +491,11 @@ public class InlineTextControllerW implements InlineTextController {
 	@Override
 	public boolean isEditing() {
 		return !editor.getWidget().getElement().hasClassName(INVISIBLE);
+	}
+
+	@Override
+	public boolean hasContent() {
+		return isNonemptyDocument(editor.getContent());
 	}
 
 }

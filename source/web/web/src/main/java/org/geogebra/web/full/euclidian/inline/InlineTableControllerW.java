@@ -21,6 +21,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoInline;
@@ -191,7 +192,7 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	@Override
-	public void toBackground() {
+	public void toBackground(DrawInline.SuspensionTrigger trigger) {
 		if (style != null) {
 			if (isInEditMode()) {
 				table.unlockForMultiuser();
@@ -486,7 +487,7 @@ public class InlineTableControllerW implements InlineTableController {
 
 			@Override
 			public void onEscape() {
-				toBackground();
+				toBackground(DrawInline.SuspensionTrigger.BLUR);
 			}
 		});
 		tableImpl.sizeChanged(() -> changeContent(getContent()));

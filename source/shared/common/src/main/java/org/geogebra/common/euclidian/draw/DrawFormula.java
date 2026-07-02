@@ -176,6 +176,12 @@ public class DrawFormula extends Drawable implements DrawInline {
 	}
 
 	@Override
+	public boolean hasContent() {
+		// no controller == loaded from file, assume not empty
+		return formulaController == null || !formulaController.getText().isEmpty();
+	}
+
+	@Override
 	public void toForeground(int x, int y) {
 		if (formulaController != null) {
 			GPoint2D p = rectangle.getInversePoint(x - PADDING, y - PADDING);
@@ -184,9 +190,9 @@ public class DrawFormula extends Drawable implements DrawInline {
 	}
 
 	@Override
-	public void toBackground() {
+	public void toBackground(DrawInline.SuspensionTrigger trigger) {
 		if (formulaController != null) {
-			formulaController.toBackground();
+			formulaController.toBackground(trigger);
 		}
 	}
 

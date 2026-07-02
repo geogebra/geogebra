@@ -18,6 +18,7 @@ package org.geogebra.common.euclidian.inline;
 
 import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 
 /**
@@ -70,7 +71,7 @@ public interface InlineTextController extends HasTextFormat {
 	/**
 	 * Put the editor behind the canvas
 	 */
-	void toBackground();
+	void toBackground(DrawInline.SuspensionTrigger trigger);
 
 	/**
 	 * Set content from geo
@@ -93,7 +94,9 @@ public interface InlineTextController extends HasTextFormat {
 	@MissingDoc
 	void updateContentIfChanged();
 
-	@MissingDoc
+	/**
+	 * Store current content in the construction element.
+	 */
 	void saveContent();
 
 	/**
@@ -104,6 +107,13 @@ public interface InlineTextController extends HasTextFormat {
 	 */
 	void setTransform(double angle, double sx, double sy);
 
-	@MissingDoc
+	/**
+	 * @return whether the editor is active
+	 */
 	boolean isEditing();
+
+	/**
+	 * @return whether there is some renderable content
+	 */
+	boolean hasContent();
 }

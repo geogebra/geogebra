@@ -106,6 +106,12 @@ public class DrawInlineText extends Drawable implements DrawInline {
 	}
 
 	@Override
+	public boolean hasContent() {
+		// no controller == loaded from file, assume not empty
+		return textController == null || textController.hasContent();
+	}
+
+	@Override
 	public void saveContent() {
 		if (textController != null) {
 			textController.saveContent();
@@ -118,9 +124,9 @@ public class DrawInlineText extends Drawable implements DrawInline {
 	}
 
 	@Override
-	public void toBackground() {
+	public void toBackground(DrawInline.SuspensionTrigger trigger) {
 		if (textController != null) {
-			textController.toBackground();
+			textController.toBackground(trigger);
 		}
 	}
 

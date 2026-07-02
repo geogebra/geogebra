@@ -18,6 +18,7 @@ package org.geogebra.common.euclidian.inline;
 
 import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.euclidian.draw.DrawInline;
 
 /**
  * Inline formula controller.
@@ -59,7 +60,7 @@ public interface InlineFormulaController {
 	void toForeground(int x, int y);
 
 	@MissingDoc
-	void toBackground();
+	void toBackground(DrawInline.SuspensionTrigger trigger);
 
 	/**
 	 * @param content formula content

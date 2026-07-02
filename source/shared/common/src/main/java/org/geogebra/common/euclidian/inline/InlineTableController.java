@@ -20,6 +20,7 @@ import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.geos.properties.BorderType;
 
@@ -74,7 +75,7 @@ public interface InlineTableController extends HasTextFormat {
 	void toForeground(int x, int y);
 
 	@MissingDoc
-	void toBackground();
+	void toBackground(DrawInline.SuspensionTrigger trigger);
 
 	@MissingDoc
 	void updateContent();

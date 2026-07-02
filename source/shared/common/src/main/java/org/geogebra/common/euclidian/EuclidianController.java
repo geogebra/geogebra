@@ -279,6 +279,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected GeoElement movedLabelGeoElement;
 	protected GeoElement movedGeoElement;
 	protected Drawable resizedShape = null;
+	protected DrawInline resizedInline;
 	private MyDouble tempNum;
 	protected double rotationLastAngle;
 	protected ArrayList<GeoElement> translatableGeos;
@@ -5028,7 +5029,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected boolean switchModeForProcessMode(Hits hits, boolean isControlDown,
 			boolean shiftDown, final AsyncOperation<Boolean> callback, boolean selectionPreview) {
-		Boolean changedKernel = false;
+		boolean changedKernel = false;
 		GeoElementND[] ret = null;
 
 		switch (mode) {
@@ -5243,7 +5244,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_MEDIA_TEXT:
 			setViewCursor(TEXT, shiftDown);
 			createInlineObject(selectionPreview, GeoInlineText::new);
-			changedKernel = false;
 			break;
 
 		case EuclidianConstants.MODE_TABLE:
@@ -5277,8 +5277,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		case EuclidianConstants.MODE_EQUATION:
 			view.setCursor(TEXT);
-			changedKernel = createInlineObject(selectionPreview,
-					GeoFormula::new);
+			// consider kernel *not* changed, undo point should only come when equation is nonempty
+			createInlineObject(selectionPreview, GeoFormula::new);
 			break;
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
 		case EuclidianConstants.MODE_SHAPE_CIRCLE:
@@ -8011,9 +8011,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * Sends the widgets to background.
+	 * Sends the widgets to the background.
 	 */
 	public void widgetsToBackground() {
+		widgetsToBackground(null);
+	}
+
+	/**
+	 * Sends the widgets to the background.
+	 * @param evt event that triggered this action
+	 */
+	public void widgetsToBackground(@CheckForNull AbstractEvent evt) {
 		if (app.getVideoManager() != null) {
 			app.getVideoManager().backgroundAll();
 		}
@@ -8025,9 +8033,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (app.getMaskWidgets() != null) {
 			app.getMaskWidgets().clearMasks();
 		}
+		Drawable handlerHit = evt == null ? null
+				: getView().getBoundingBoxHandlerHit(evt.getPoint(), evt.getType());
+		resizedInline = null;
 		for (Drawable dr : view.getAllDrawableList()) {
-			if (dr instanceof DrawInline) {
-				((DrawInline) dr).toBackground();
+			if (dr instanceof DrawInline drawInline) {
+				if (drawInline != handlerHit) {
+					drawInline.toBackground(DrawInline.SuspensionTrigger.BLUR);
+				} else {
+					resizedInline = drawInline;
+					drawInline.toBackground(DrawInline.SuspensionTrigger.RESIZE);
+				}
 			}
 		}
 	}
@@ -9246,7 +9262,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		view.setLabelHitNeedsRefresh();
 		pressedInputBox = null;
 
-		widgetsToBackground();
+		widgetsToBackground(event);
 		view.hideSymbolicEditor();
 		storeUndo.clear();
 
@@ -10083,7 +10099,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				return;
 			}
 		}
-
+		if (resizedInline != null) {
+			resizedInline.toForeground(event.getX(), event.getY());
+		}
 		if (handleResizeFinished()) {
 			decreaseTargets();
 			view.repaintView();
@@ -10198,7 +10216,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (!isDraggingOccurredBeyondThreshold()) {
 				showDynamicStylebar();
 			} else {
-				storeUndo();
+				if (resizedInline == null || resizedInline.hasContent()) {
+					storeUndo();
+				}
 				setResizedShape(null);
 				return true;
 			}
