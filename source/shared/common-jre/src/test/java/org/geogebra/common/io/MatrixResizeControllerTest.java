@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.AppCommonFactory;
@@ -113,13 +114,16 @@ public class MatrixResizeControllerTest {
 		assertFalse(state.popupState().controlState().isAddColumnEnabled());
 		assertFalse(state.popupState().controlState().isRemoveColumnEnabled());
 		assertTrue(state.popupState().controlState().isAddRowEnabled());
-		assertTrue(state.popupState().controlState().isRemoveRowEnabled());
+		assertFalse(state.popupState().controlState().isRemoveRowEnabled());
 
+		matrixResizeController.addRow();
+		assertEditorContents("$vector(1,2,)");
+		state = matrixResizeController.getState();
+		assertFalse(state.popupState().controlState().isAddRowEnabled());
+		assertTrue(state.popupState().controlState().isRemoveRowEnabled());
 		matrixResizeController.removeRow();
-		assertEditorContents("$vector(1)");
-		matrixResizeController.addRow();
-		matrixResizeController.addRow();
-		assertEditorContents("$vector(1,,)");
+		assertThrows(IllegalStateException.class, () -> matrixResizeController.removeRow());
+		assertEditorContents("$vector(1,2)");
 	}
 
 	private void assertEditorContents(String ascii) {

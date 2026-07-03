@@ -359,6 +359,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/add.svg")
 	SVGResource add_black();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/minus.svg")
+	SVGResource minus_black();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/ic_format_quote_black_24px.svg")
 	SVGResource icon_quote_black();
 

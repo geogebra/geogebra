@@ -27,7 +27,7 @@ import org.geogebra.keyboard.web.KeyboardListener;
  */
 public class MathFieldProcessing implements KeyboardListener {
 
-	protected MathFieldW mf;
+	protected final MathFieldW mf;
 
 	/**
 	 * @param mf
@@ -60,21 +60,12 @@ public class MathFieldProcessing implements KeyboardListener {
 
 	@Override
 	public void onArrow(ArrowType type) {
-		int arrowType = JavaKeyCodes.VK_RIGHT;
-		switch (type) {
-		case right:
-			arrowType = JavaKeyCodes.VK_RIGHT;
-			break;
-		case left:
-			arrowType = JavaKeyCodes.VK_LEFT;
-			break;
-		case up:
-			arrowType = JavaKeyCodes.VK_UP;
-			break;
-		case down:
-			arrowType = JavaKeyCodes.VK_DOWN;
-			break;
-		}
+		int arrowType = switch (type) {
+			case right -> JavaKeyCodes.VK_RIGHT;
+			case left -> JavaKeyCodes.VK_LEFT;
+			case up -> JavaKeyCodes.VK_UP;
+			case down -> JavaKeyCodes.VK_DOWN;
+		};
 
 		KeyEvent keyEvent = new KeyEvent(arrowType, 0, KeyEvent.KeyboardType.INTERNAL);
 		mf.getKeyListener().onKeyPressed(keyEvent);

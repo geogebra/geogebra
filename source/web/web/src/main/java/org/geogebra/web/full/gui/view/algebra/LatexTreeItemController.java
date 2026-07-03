@@ -40,7 +40,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 		implements MathFieldListener, BlurHandler {
 
 	private AutoCompletePopup autocomplete;
-	private RetexKeyboardListener retexListener;
 	private final EvaluateInput evalInput;
 	private String lastInput = "";
 
@@ -214,21 +213,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 	}
 
 	/**
-	 * @return keyboard listener
-	 */
-	public RetexKeyboardListener getRetexListener() {
-		return retexListener;
-	}
-
-	/**
-	 * @param retexListener
-	 *            keyboard listener
-	 */
-	public void setRetexListener(RetexKeyboardListener retexListener) {
-		this.retexListener = retexListener;
-	}
-
-	/**
 	 * Connect keyboard listener to keyboard
 	 */
 	public void setOnScreenKeyboardTextField() {
@@ -244,8 +228,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 *            whether to show keyboard
 	 */
 	public void initAndShowKeyboard(boolean show) {
-		retexListener = new RetexKeyboardListener(item.canvas, getMathField());
-		retexListener.setAcceptsCommandInserts(true);
 		if (show) {
 			app.getAppletFrame().showKeyboard(true, item, false);
 		}

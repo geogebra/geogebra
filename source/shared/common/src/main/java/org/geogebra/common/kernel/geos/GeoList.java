@@ -2089,7 +2089,6 @@ public class GeoList extends GeoElement
 					|| geoClass.equals(GeoClass.FUNCTION)
 					|| (!geoClass.equals(GeoClass.LIST)
 							&& get(0).isLaTeXDrawableGeo());
-			Log.warn("ret:" + ret);
 			return ret;
 		}
 

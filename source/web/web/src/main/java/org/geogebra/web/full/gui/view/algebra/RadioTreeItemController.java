@@ -161,7 +161,7 @@ public class RadioTreeItemController implements ClickHandler,
 		return editing;
 	}
 
-	protected void setEditing(boolean value) {
+	public void setEditing(boolean value) {
 		editing = value;
 	}
 

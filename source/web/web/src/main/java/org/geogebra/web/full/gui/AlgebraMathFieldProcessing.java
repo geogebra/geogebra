@@ -51,6 +51,14 @@ public class AlgebraMathFieldProcessing extends MathFieldProcessing {
 	}
 
 	@Override
+	public void setFocus(boolean focus) {
+		if (focus) {
+			avInput.ensureFocusable();
+		}
+		mf.setFocus(focus);
+	}
+
+	@Override
 	public boolean requestsAns() {
 		return ansProvider != null && avInput != null;
 	}

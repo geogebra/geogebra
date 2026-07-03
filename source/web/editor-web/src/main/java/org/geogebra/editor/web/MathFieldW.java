@@ -93,7 +93,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private TemplateCatalog catalog;
 
 	private final MathFieldInternal mathFieldInternal;
-	private final Canvas html;
+	private final Canvas canvas;
 	private CanvasRenderingContext2D ctx;
 	private final Panel parent;
 	private boolean focused = false;
@@ -166,7 +166,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			EditorFeatures features) {
 		this.catalog = catalog;
 		FactoryProviderGWT.ensureLoaded();
-		html = canvas;
+		this.canvas = canvas;
 		this.parent = parent;
 		mathFieldInternal = new MathFieldInternal(this);
 		mathFieldInternal.getKeyListener().setMacKeysEnabled(NavigatorUtil.isMacOS());
@@ -350,7 +350,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	@Override
 	public void setClickListener(ClickListener clickListener) {
 		adapter = new ClickAdapterW(clickListener, this);
-		adapter.listenTo(html);
+		adapter.listenTo(canvas);
 	}
 
 	public void setPixelRatio(double ratio) {
@@ -781,7 +781,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	@Override
 	public Widget asWidget() {
-		return html;
+		return canvas;
 	}
 
 	/**
@@ -844,7 +844,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private void focusTextArea() {
-		Element parentElement = html.getElement().getParentElement();
+		Element parentElement = canvas.getElement().getParentElement();
 		if (parentElement != null) {
 			int scroll = parentElement.getScrollLeft();
 			inputTextArea.getElement().focus();
@@ -918,8 +918,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 				event.stopPropagation();
 			});
 
-			if (html != null) {
-				blurRegistration = html.addBlurHandler(this);
+			if (canvas != null) {
+				blurRegistration = canvas.addBlurHandler(this);
 			}
 			inputTextArea.addBlurHandler(this);
 			clip.setWidget(inputTextArea);

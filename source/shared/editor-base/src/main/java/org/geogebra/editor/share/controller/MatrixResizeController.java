@@ -41,9 +41,6 @@ import com.himamis.retex.renderer.share.platform.graphics.Insets;
 
 public final class MatrixResizeController {
 
-	private static final int MAX_DIMENSION = 99;
-	private static final int MIN_DIMENSION = 1;
-
 	private final MathFieldInternal mathFieldInternal;
 	private final Set<StateListener> listeners = new HashSet<>();
 
@@ -68,8 +65,12 @@ public final class MatrixResizeController {
 	 * The popup state.
 	 * @param controlState state for control
 	 * @param anchor absolute position of the matrix
+	 * @param indicatorOffset vertical offset for resize indicator
 	 */
-	public record PopupState(@Nonnull ControlState controlState, @Nonnull GRectangle2D anchor) { }
+	public record PopupState(
+			@Nonnull ControlState controlState,
+			@Nonnull GRectangle2D anchor,
+			double indicatorOffset) { }
 
 	/**
 	 * Describes the controls state.
@@ -224,7 +225,7 @@ public final class MatrixResizeController {
 				box.getWidth() * pointSize,
 				box.getHeight() * pointSize
 		);
-		PopupState popupState = new PopupState(controlState, anchor);
+		PopupState popupState = new PopupState(controlState, anchor, renderer.getIconHeight());
 
 		return State.focusedMatrix(popupState);
 	}
@@ -252,24 +253,19 @@ public final class MatrixResizeController {
 		
 		void removeColumn(EditorState editorState);
 		
-		default boolean isAddingRowsPossible() {
-			return getRows() < MAX_DIMENSION;
-		}
+		boolean isAddingRowsPossible();
 		
-		default boolean isRemovingRowsPossible() {
-			return getRows() > MIN_DIMENSION;
-		}
+		boolean isRemovingRowsPossible();
 		
-		default boolean isAddingColumnsPossible() {
-			return getColumns() < MAX_DIMENSION;
-		}
+		boolean isAddingColumnsPossible();
 		
-		default boolean isRemovingColumnsPossible() {
-			return getColumns() > MIN_DIMENSION;
-		}
+		boolean isRemovingColumnsPossible();
 	}
 
 	private record Matrix(ArrayNode arrayNode) implements DimensionsControllable {
+		private static final int MAX_DIMENSION = 99;
+		private static final int MIN_DIMENSION = 1;
+
 		@Override
 		public int getRows() {
 			return arrayNode.getRows();
@@ -318,6 +314,26 @@ public final class MatrixResizeController {
 			}
 			arrayNode.removeColumn();
 		}
+
+		@Override
+		public boolean isAddingRowsPossible() {
+			return getRows() < MAX_DIMENSION;
+		}
+
+		@Override
+		public boolean isRemovingRowsPossible() {
+			return getRows() > MIN_DIMENSION;
+		}
+
+		@Override
+		public boolean isAddingColumnsPossible() {
+			return getColumns() < MAX_DIMENSION;
+		}
+
+		@Override
+		public boolean isRemovingColumnsPossible() {
+			return getColumns() > MIN_DIMENSION;
+		}
 	}
 	
 	private record Vector(FunctionNode functionNode) implements DimensionsControllable {
@@ -329,6 +345,16 @@ public final class MatrixResizeController {
 		@Override
 		public boolean isRemovingColumnsPossible() {
 			return false;
+		}
+
+		@Override
+		public boolean isAddingRowsPossible() {
+			return getRows() < 3;
+		}
+
+		@Override
+		public boolean isRemovingRowsPossible() {
+			return getRows() > 2;
 		}
 
 		@Override

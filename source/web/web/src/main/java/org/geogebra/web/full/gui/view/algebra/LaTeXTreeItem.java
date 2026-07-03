@@ -34,6 +34,7 @@ import com.himamis.retex.renderer.web.FactoryProviderGWT;
 public class LaTeXTreeItem extends RadioTreeItem {
 
 	private MathFieldW mf;
+	private MatrixResizePopup resizePopup;
 
 	public LaTeXTreeItem(Kernel kernel, AlgebraViewW av) {
 		super(kernel, av);
@@ -93,11 +94,15 @@ public class LaTeXTreeItem extends RadioTreeItem {
 		DataTest.ALGEBRA_INPUT.apply(mf.getInputTextArea());
 		mf.setExpressionReader(ScreenReader.getExpressionReader(app));
 		updateEditorAriaLabel("");
+		resizePopup = new MatrixResizePopup(
+				mf.getInternal().getMatrixResizeController(), mf, app, this::onKeyTyped);
+		mf.getInternal().getMatrixResizeController().addListener(resizePopup);
 		mf.setFontSize(getFontSize());
 		mf.getInternal().registerMathFieldInternalListener(syntaxController);
 		mf.setPixelRatio(app.getPixelRatio());
 		mf.setOnBlur((blurEvent) -> {
 			toastController.hide();
+			resizePopup.hide();
 			controller.onBlur(blurEvent);
 		});
 		mf.setOnFocus(focusEvent -> setFocusedStyle(true, false));
@@ -164,6 +169,9 @@ public class LaTeXTreeItem extends RadioTreeItem {
 	protected void setEnabled(boolean enabled) {
 		if (mf != null) {
 			mf.setEnabled(false);
+		}
+		if (resizePopup != null) {
+			resizePopup.hide();
 		}
 	}
 

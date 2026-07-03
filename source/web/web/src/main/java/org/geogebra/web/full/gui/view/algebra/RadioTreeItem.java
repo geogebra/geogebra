@@ -73,6 +73,7 @@ import org.geogebra.web.full.gui.view.algebra.compositefocus.AVFocusContributorF
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.geogebra.web.html5.gui.accessibility.HasFocus;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.tooltip.ComponentSnackbar;
 import org.geogebra.web.html5.gui.tooltip.ToolTip;
@@ -137,7 +138,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	protected FlowPanel main;
 
 	/** Item content after marble */
-	protected final FlowPanel content;
+	final FocusableFlowPanel content;
 
 	/** Item controls like delete, play, etc */
 	protected ItemControls controls;
@@ -190,6 +191,14 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	private @CheckForNull FocusableCompositeW compositeFocus = null;
 	private @CheckForNull AVCompositeFocusAssembler compositeFocusAssembler;
 
+	class FocusableFlowPanel extends FlowPanel implements HasFocus  {
+
+		@Override
+		public void focus() {
+			requestFocus();
+		}
+	}
+
 	/**
 	 * Mark this for update on next repaint.
 	 */
@@ -209,7 +218,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		loc = app.getLocalization();
 		this.av = av;
 		main = new FlowPanel();
-		content = new FlowPanel();
+		content = new FocusableFlowPanel();
 		definitionValuePanel = new FlowPanel();
 		makeFocusable(definitionValuePanel.getElement());
 		inputControl = createInputControl();
@@ -1249,6 +1258,17 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		}
 	}
 
+	/**
+	 * Make sure this is ready to be focused (hidden textarea in DOM, editing flag set).
+	 */
+	public void ensureFocusable() {
+		if (!latexItem.isAttached()) {
+			prepareLaTeX();
+			getMathField().setEnabled(true);
+		}
+		getController().setEditing(true);
+	}
+
 	@Override
 	public void requestFocus() {
 		// TODO Auto-generated method stub
@@ -1617,6 +1637,13 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	 *            whether to show keyboard
 	 */
 	protected void renderLatex(String text0, boolean showKeyboard) {
+		prepareLaTeX();
+
+		setText(text0);
+		getLatexController().initAndShowKeyboard(showKeyboard);
+	}
+
+	private void prepareLaTeX() {
 		content.clear();
 
 		if (!(latexItem == null || isInputTreeItem() || isSliderItem())) {
@@ -1629,9 +1656,6 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		if (!content.isAttached()) {
 			main.add(content);
 		}
-
-		setText(text0);
-		getLatexController().initAndShowKeyboard(showKeyboard);
 	}
 
 	private void appendCanvas() {
