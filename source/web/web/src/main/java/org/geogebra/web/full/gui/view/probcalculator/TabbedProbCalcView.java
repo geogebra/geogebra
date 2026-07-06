@@ -16,6 +16,8 @@
 
 package org.geogebra.web.full.gui.view.probcalculator;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -35,7 +37,7 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 	protected final StatisticsCalculatorW statCalculator;
 	protected DistributionPanel distrPanel;
 	protected FlowPanel plotSplitPane;
-	protected FlowPanel mainSplitPane;
+	protected @CheckForNull FlowPanel mainSplitPane;
 	private Label lblMeanSigma;
 	private static final int CONTROL_PANEL_HEIGHT = 180;
 	private static final int TABLE_PADDING_AND_SCROLLBAR = 32;
@@ -121,11 +123,13 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 	@Override
 	public void tabResized() {
 		ProbabilityTableW table = (ProbabilityTableW) getTable();
+		if (mainSplitPane == null) {
+			return;
+		}
+		int totalWidth = mainSplitPane.getOffsetWidth();
 		int tableWidth = isDiscreteProbability() && table != null ? table.getStatTable()
 				.getTable().getOffsetWidth() + TABLE_PADDING_AND_SCROLLBAR : 0;
-		int width = mainSplitPane.getOffsetWidth()
-				- tableWidth
-				- 5;
+		int width = totalWidth - tableWidth - 5;
 		int height = probCalcPanel.getOffsetHeight() - 20;
 		if (width > 0) {
 			resizePlotPanel(width, height - CONTROL_PANEL_HEIGHT);
@@ -133,8 +137,7 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 		}
 
 		if (height > 0 && isDiscreteProbability() && table != null) {
-			table.getWrappedPanel()
-					.setPixelSize(tableWidth, height);
+			table.getWrappedPanel().setPixelSize(tableWidth, height);
 		}
 	}
 
@@ -170,30 +173,28 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 		plotSplitPane.add(plotPanelPlus);
 		plotSplitPane.add(distrPanel);
 		plotSplitPane.addStyleName("plotSplitPane");
-		mainSplitPane = new FlowPanel();
-		mainSplitPane.addStyleName("mainSplitPanel");
-		mainSplitPane.add(plotSplitPane);
+		FlowPanel mainPane = new FlowPanel();
+		mainPane.addStyleName("mainSplitPanel");
+		mainPane.add(plotSplitPane);
+		this.mainSplitPane = mainPane;
 
 		probCalcPanel = new FlowPanel();
 		probCalcPanel.addStyleName("ProbCalcPanel");
-		probCalcPanel.add(mainSplitPane);
+		probCalcPanel.add(mainPane);
 	}
 
 	@Override
 	protected void addRemoveTable(boolean showTable) {
-		if (mainSplitPane == null) {
-			return;
-		}
 		ProbabilityTableW table = (ProbabilityTableW) getTable();
-		if (table != null) {
+		if (table != null && mainSplitPane != null) {
 			FlowPanel tablePanel = table.getWrappedPanel();
 			if (showTable) {
 				mainSplitPane.add(tablePanel);
 			} else {
 				mainSplitPane.remove(tablePanel);
 			}
+			tabResized();
 		}
-		tabResized();
 	}
 
 	@Override
