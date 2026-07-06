@@ -24,7 +24,6 @@ import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.Button;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
-import org.gwtproject.user.client.ui.ListBox;
 import org.gwtproject.user.client.ui.SimplePanel;
 
 public class BaseWidgetFactory {
@@ -62,13 +61,6 @@ public class BaseWidgetFactory {
 	 */
 	public Label newLabel() {
 		return new Label();
-	}
-
-	/**
-	 * @return list box, to be mocked
-	 */
-	public ListBox newListBox() {
-		return new ListBox();
 	}
 
 	/**
