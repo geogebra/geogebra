@@ -79,6 +79,11 @@
 		margin: 3px 0px;
 	}
 
+	.panelRow > * {
+		display: inline-block;
+		vertical-align: middle;
+	}
+
 	.panelRow.rows > * {
 		width: 100%;
 		display: block;
