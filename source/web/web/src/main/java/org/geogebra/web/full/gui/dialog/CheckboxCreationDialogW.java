@@ -191,7 +191,7 @@ public class CheckboxCreationDialogW extends ComponentDialog implements
 
 		tfCaption = new ComponentInputField((AppW) app, null, "Button.Caption",
 				null, initString);
-		tfCaption.getTextField().getTextComponent().setAutoComplete(false);
+		tfCaption.getTextWidget().setAutoComplete(false);
 
 		FlowPanel listPanel = new FlowPanel();
 		listPanel.add(gbObjects);

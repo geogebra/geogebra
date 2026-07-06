@@ -141,8 +141,8 @@ public class ToolNameIconPanelW extends FlowPanel {
 
 	private void addHandlers(ComponentInputField tf) {
 		add(tf);
-		tf.getTextField().getTextComponent().addBlurHandler(e -> updateCmdName(tf));
-		tf.getTextField().getTextComponent().addKeyUpHandler(e -> onKeyUp(tf));
+		tf.getTextWidget().addBlurHandler(e -> updateCmdName(tf));
+		tf.addInputHandler(() -> onKeyUp(tf));
 	}
 
 	/**

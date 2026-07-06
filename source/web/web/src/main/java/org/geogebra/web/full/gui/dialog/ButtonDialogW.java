@@ -83,7 +83,7 @@ public class ButtonDialogW extends ComponentDialog
 
 		captionInput = new ComponentInputField((AppW) app, "",
 				"Button.Caption", "", initString, null);
-		captionInput.getTextField().getTextComponent().setAutoComplete(false);
+		captionInput.getTextWidget().setAutoComplete(false);
 
 		Label scriptLabel = new Label(loc.getMenu("Script"));
 		scriptLabel.addStyleName("coloredLabel");

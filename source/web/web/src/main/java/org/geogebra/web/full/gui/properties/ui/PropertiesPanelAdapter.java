@@ -191,8 +191,8 @@ public class PropertiesPanelAdapter {
 		if (propertyView instanceof HorizontalSplitView splitView) {
 			FlowPanel panel = new FlowPanel();
 			panel.addStyleName("horizontalSplitView");
-			panel.add(getWidget(splitView.getLeadingPropertyView()));
-			panel.add(getWidget(splitView.getTrailingPropertyView()));
+			panel.add(getHalfWidthWidget(splitView.getLeadingPropertyView()));
+			panel.add(getHalfWidthWidget(splitView.getTrailingPropertyView()));
 			return panel;
 		}
 		if (propertyView instanceof ButtonIconEditor buttonIconEditor) {
@@ -290,10 +290,7 @@ public class PropertiesPanelAdapter {
 		if (propertyView instanceof TextField textField) {
 			ComponentInputField inputField = new ComponentInputField(app, "", "",
 					textField);
-			inputField.getTextField().getTextComponent().addEnterPressHandler(() -> {
-				String text = inputField.getText();
-				textField.setValue(text);
-			});
+			inputField.addEnterHandler(textField::setValue);
 			inputField.setDisabled(!textField.isEnabled());
 			return inputField;
 		}
@@ -304,6 +301,16 @@ public class PropertiesPanelAdapter {
 			return new ProbabilityResultRow(app, probabilityResultRow, widgets);
 		}
 		return new Label(propertyView.toString());
+	}
+
+	/**
+	 * @param propertyView {@link PropertyView}
+	 * @return widget based on propertyView with defined half-width
+	 */
+	public Widget getHalfWidthWidget(PropertyView propertyView) {
+		Widget widget = getWidget(propertyView);
+		widget.addStyleName("halfWidth");
+		return widget;
 	}
 
 	private ComponentDropDown.Styler getItemStyler(Dropdown dropDownView) {

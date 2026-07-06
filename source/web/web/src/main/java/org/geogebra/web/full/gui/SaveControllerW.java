@@ -17,6 +17,7 @@
 package org.geogebra.web.full.gui;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MaterialVisibility;
@@ -30,7 +31,6 @@ import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.TextObject;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.FileSystemAPI;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
@@ -519,7 +519,7 @@ public class SaveControllerW implements SaveController {
 	}
 
 	@Override
-	public void updateSaveTitle(TextObject title, String fallback) {
+	public void updateSaveTitle(Consumer<String> title, String fallback) {
 		String consTitle = app.getKernel().getConstruction().getTitle();
 		if (!StringUtil.empty(consTitle)) {
 			if (consTitle.startsWith(MaterialsManager.FILE_PREFIX)) {
@@ -529,12 +529,12 @@ public class SaveControllerW implements SaveController {
 			if (activeMaterial != null && !app.getLoginOperation()
 					.owns(activeMaterial)) {
 				consTitle = MaterialRestAPI.getCopyTitle(loc, consTitle);
-				title.setText(consTitle);
+				title.accept(consTitle);
 				return;
 			}
-			title.setText(consTitle);
+			title.accept(consTitle);
 		} else {
-			title.setText(fallback);
+			title.accept(fallback);
 		}
 	}
 }

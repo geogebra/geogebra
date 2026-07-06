@@ -50,10 +50,10 @@ public class DimensionRatioPanel extends FlowPanel {
 		add(new Label(appW.getLocalization().getMenu(dimensionRatioEditor.getLabel())));
 		FlowPanel ratioPanel = new FlowPanel();
 		ratioPanel.addStyleName("ratioPanel");
-		ratioPanel.add(propertiesPanelAdapter.getWidget(
+		ratioPanel.add(propertiesPanelAdapter.getHalfWidthWidget(
 				dimensionRatioEditor.getLeadingTextField()));
 		ratioPanel.add(new Label(":"));
-		ratioPanel.add(propertiesPanelAdapter.getWidget(
+		ratioPanel.add(propertiesPanelAdapter.getHalfWidthWidget(
 				dimensionRatioEditor.getTrailingTextField()));
 		ratioPanel.add(lockRatio);
 

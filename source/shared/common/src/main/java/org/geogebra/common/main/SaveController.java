@@ -16,10 +16,11 @@
 
 package org.geogebra.common.main;
 
+import java.util.function.Consumer;
+
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.TextObject;
 
 /**
  * Handles materials save.
@@ -135,5 +136,5 @@ public interface SaveController {
 	 * @param fallback
 	 *            fallback if title is empty
 	 */
-	void updateSaveTitle(TextObject title, String fallback);
+	void updateSaveTitle(Consumer<String> title, String fallback);
 }

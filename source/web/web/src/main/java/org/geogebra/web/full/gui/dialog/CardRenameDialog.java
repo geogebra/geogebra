@@ -76,8 +76,7 @@ public abstract class CardRenameDialog extends ComponentDialog {
 
 	private void initInputFieldActions() {
 		inputField.addInputHandler(this::validate);
-		Scheduler.get().scheduleDeferred(() -> inputField.getTextField()
-				.getTextComponent().setFocus(true));
+		Scheduler.get().scheduleDeferred(inputField::focus);
 	}
 
 	/**
@@ -99,6 +98,6 @@ public abstract class CardRenameDialog extends ComponentDialog {
 	@Override
 	public void show() {
 		super.show();
-		Scheduler.get().scheduleDeferred(() -> inputField.getTextField().setFocusAndSelectAll());
+		Scheduler.get().scheduleDeferred(inputField::focusAndSelectAll);
 	}
 }

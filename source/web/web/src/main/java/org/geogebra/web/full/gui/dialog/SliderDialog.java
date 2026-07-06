@@ -148,7 +148,7 @@ public class SliderDialog extends ComponentDialog implements HasKeyboardPopup {
 		nameTextField = new ComponentInputField((AppW) app, "",
 				app.getLocalization().getMenu("Name"), "", number.getDefaultLabel(), "");
 		nameTextField.addStyleName("nameField");
-		nameTextField.getTextField().getTextComponent().addBlurHandler(event -> {
+		nameTextField.getTextWidget().addBlurHandler(event -> {
 			String value = nameTextField.getText();
 			GeoNumeric element = isNumeric() ? number : angle;
 			if (value.isEmpty()
@@ -164,7 +164,7 @@ public class SliderDialog extends ComponentDialog implements HasKeyboardPopup {
 			Map<SliderType, String> valuePerType) {
 		ComponentInputField textField = new ComponentInputField((AppW) app, "",
 				app.getLocalization().getMenu(labelKey), "", valuePerType.get(sliderType), "");
-		textField.getTextField().getTextComponent().addBlurHandler(event -> {
+		textField.getTextWidget().addBlurHandler(event -> {
 			if (!util.isNumber(textField.getText())) {
 				textField.setError(appW.getLocalization().getError("InvalidInput"));
 			} else {
@@ -288,8 +288,8 @@ public class SliderDialog extends ComponentDialog implements HasKeyboardPopup {
 			}
 		}
 
-		int caretPos = inputField.getTextField().getTextComponent().getCaretPosition();
+		int caretPos = inputField.getTextWidget().getCaretPosition();
 		inputField.setInputText(inputField.getText() + Unicode.DEGREE_STRING);
-		inputField.getTextField().getTextComponent().setCaretPosition(caretPos);
+		inputField.getTextWidget().setCaretPosition(caretPos);
 	}
 }

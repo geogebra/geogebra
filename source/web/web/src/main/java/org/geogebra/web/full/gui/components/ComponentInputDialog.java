@@ -22,7 +22,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.dialog.ProcessInput;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
@@ -95,7 +94,7 @@ public class ComponentInputDialog extends ComponentDialog
 	}
 
 	public String getInputText() {
-		return inputTextField.getTextField().getText();
+		return inputTextField.getText();
 	}
 
 	/**
@@ -104,7 +103,7 @@ public class ComponentInputDialog extends ComponentDialog
 	 * @return single line text input
 	 */
 	protected AutoCompleteTextFieldW getTextComponent() {
-		return inputTextField == null ? null : inputTextField.getTextField().getTextComponent();
+		return inputTextField == null ? null : inputTextField.getTextWidget();
 	}
 
 	@Override
@@ -172,7 +171,6 @@ public class ComponentInputDialog extends ComponentDialog
 	 * @param inputHandler input event handler
 	 */
 	public void addInputHandler(ProcessInput inputHandler) {
-		Dom.addEventListener(getTextComponent().getTextBox().getElement(),
-				"input", event -> inputHandler.onInput());
+		inputTextField.addInputHandler(inputHandler);
 	}
 }

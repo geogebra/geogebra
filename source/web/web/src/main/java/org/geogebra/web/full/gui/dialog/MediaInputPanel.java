@@ -66,7 +66,7 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 	 * @param placeholder localized placeholder string
 	 */
 	public void addPlaceholder(String placeholder) {
-		inputField.getTextField().getTextComponent().getTextBox().getElement()
+		inputField.getTextWidget().getTextBox().getElement()
 				.setAttribute("placeholder", placeholder);
 	}
 

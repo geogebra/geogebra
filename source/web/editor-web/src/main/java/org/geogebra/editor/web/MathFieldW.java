@@ -186,7 +186,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		initTimer();
 		instances.add(this);
 		if (canvas != null) {
-
 			canvas.addDomHandler(event -> {
 				if (!isEnabled()) {
 					return;

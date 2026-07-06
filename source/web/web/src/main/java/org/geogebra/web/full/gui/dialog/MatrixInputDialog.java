@@ -25,8 +25,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
-import elemental2.dom.EventListener;
-
 public class MatrixInputDialog extends ComponentDialog {
 
 	private final AppW appW;
@@ -62,7 +60,7 @@ public class MatrixInputDialog extends ComponentDialog {
 		ComponentInputField inputField = new ComponentInputField(
 				appW, null, label, "", "2", null, true);
 		addDialogContent(inputField);
-		inputField.getTextField().addTextComponentInputListener(onContentChanged(inputField));
+		inputField.addInputHandler(() -> onContentChanged(inputField));
 		return inputField;
 	}
 
@@ -95,17 +93,15 @@ public class MatrixInputDialog extends ComponentDialog {
 		Dom.toggleClass(inputField.asWidget().getParent(), "error", error);
 	}
 
-	private EventListener onContentChanged(ComponentInputField inputField) {
-		return ignore -> {
-			setPosBtnDisabled(inputField.getText().isBlank() || !isInputAllowed(inputField));
-			if (!isInputAllowed(inputField) && !inputField.getText().isBlank()) {
-				setErrorState(inputField, true);
-				inputField.setError(appW.getLocalization().getError(
-						NumberValidator.NUMBER_NEGATIVE_ERROR_MESSAGE_KEY));
-			} else {
-				setErrorState(inputField, false);
-				inputField.setError("");
-			}
-		};
+	private void onContentChanged(ComponentInputField inputField) {
+		setPosBtnDisabled(inputField.getText().isBlank() || !isInputAllowed(inputField));
+		if (!isInputAllowed(inputField) && !inputField.getText().isBlank()) {
+			setErrorState(inputField, true);
+			inputField.setError(appW.getLocalization().getError(
+					NumberValidator.NUMBER_NEGATIVE_ERROR_MESSAGE_KEY));
+		} else {
+			setErrorState(inputField, false);
+			inputField.setError("");
+		}
 	}
 }

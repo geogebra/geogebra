@@ -21,8 +21,6 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.gwtproject.event.dom.client.KeyUpHandler;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-import elemental2.dom.EventListener;
-
 /**
  * Creates an InputPanel for GeoGebraWeb
  */
@@ -92,14 +90,6 @@ public class InputPanelW extends FlowPanel {
 	}
 
 	/**
-	 * sets focus into textfield and selects the content
-	 */
-	public void setFocusAndSelectAll() {
-		getTextComponent().setFocus(true);
-		getTextComponent().selectAll();
-	}
-
-	/**
 	 * @return text
 	 */
 	public String getText() {
@@ -112,14 +102,6 @@ public class InputPanelW extends FlowPanel {
 	 */
 	public void addTextComponentKeyUpHandler(KeyUpHandler keyUpHandler) {
 		getTextComponent().addKeyUpHandler(keyUpHandler);
-	}
-
-	/**
-	 * Adds a ChangeHandler to the text component
-	 * @param listener EventListener
-	 */
-	public void addTextComponentInputListener(EventListener listener) {
-		getTextComponent().addInputListener(listener);
 	}
 
 	@Override

@@ -88,7 +88,7 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 				}
 			}
 		});
-		titleField.getTextField().getTextComponent().addKeyUpHandler(event -> {
+		titleField.getTextWidget().addKeyUpHandler(event -> {
 			NativeEvent nativeEvent = event.getNativeEvent();
 			// we started handling Ctrl+S in graphics view but then focus moved to this dialog
 			// make sure the keyup event doesn't clear selection
@@ -97,8 +97,8 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 				setTitle();
 			}
 		});
-		titleField.getTextField().addTextComponentInputListener(
-				ignore -> setPosBtnDisabled(isInvalidLength(getTitleText())));
+		titleField.addInputHandler(
+				() -> setPosBtnDisabled(isInvalidLength(getTitleText())));
 		GlobalHandlerRegistry globalHandlers = ((AppW) app).getGlobalHandlers();
 		globalHandlers.addEventListener(DomGlobal.window, "unload",
 				event -> app.getSaveController().cancel());
@@ -155,10 +155,10 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 	 * Sets initial title for the material to save.
 	 */
 	public void setTitle() {
-		app.getSaveController().updateSaveTitle(titleField.getTextField().getTextComponent(),
+		app.getSaveController().updateSaveTitle(titleField::setInputText,
 				getDefaultTitle());
 		titleField.setVisible(shouldInputPanelBeVisible());
-		Scheduler.get().scheduleDeferred(() -> titleField.getTextField().setFocusAndSelectAll());
+		Scheduler.get().scheduleDeferred(titleField::focusAndSelectAll);
 	}
 
 	private String getDefaultTitle() {

@@ -215,13 +215,13 @@ public class Export3dDialog extends ComponentDialog
 
 		void setController() {
 			// from hardware keyboard
-			inputField.getTextField().getTextComponent()
+			inputField.getTextWidget()
 					.addKeyUpHandler(e -> parseAndUpdateOthers());
 
 			// from soft keyboard
-			inputField.getTextField().getTextComponent()
+			inputField.getTextWidget()
 					.addInsertHandler(text -> parseAndUpdateOthers());
-			inputField.getTextField().getTextComponent()
+			inputField.getTextWidget()
 					.addOnBackSpaceHandler(this::parseAndUpdateOthers);
 		}
 

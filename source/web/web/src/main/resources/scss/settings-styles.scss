@@ -111,7 +111,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 					margin-left: 0px;
 				}
 			}
-			.dropDown, .comboBox, .inputTextField {
+			.dropDown, .comboBox, .inputTextField.textInput, .inputTextField.mathInput {
 				width: 100%;
 				margin: 8px 0 0 0;
 			}
@@ -234,6 +234,9 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		.horizontalSplitView {
 			display: flex;
 			gap: 16px;
+		}
+		.halfWidth {
+			width: 50%;
 		}
 		.contentSpacing16 {
 			display: grid;
