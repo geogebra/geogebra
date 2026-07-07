@@ -22,7 +22,6 @@ import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 
-import org.geogebra.common.geogebra3D.euclidian3D.draw.TraceSettings;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.io.XMLStringBuilder;
