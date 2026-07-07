@@ -741,7 +741,9 @@ public class GGraphics2DW implements GGraphics2DWI {
 	public void setPixelSize(int width, int height) {
 		this.canvasWidth = width;
 		this.canvasHeight = height;
-		canvas.setPixelSize(width, height);
+		if (canvas != null) {
+			canvas.setPixelSize(width, height);
+		}
 	}
 
 	@Override

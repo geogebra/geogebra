@@ -457,6 +457,7 @@ public class EuclidianViewW extends EuclidianView implements
 			CanvasRenderingContext2D ctx = Js.uncheckedCast(canvas2svg);
 			GGraphics2DW svgGraphics = new GGraphics2DW(ctx);
 			this.appW.setExporting(ExportType.SVG, 1);
+			svgGraphics.setPixelSize(getWidth(), getHeight());
 			exportPaintPre(svgGraphics, 1, transparency);
 			drawObjects(svgGraphics);
 			this.appW.setExporting(ExportType.NONE, 1);
