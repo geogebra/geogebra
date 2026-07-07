@@ -231,13 +231,6 @@ public abstract class Drawable extends DrawableND {
 	}
 
 	/**
-	 * Updates font size
-	 */
-	public void updateFontSize() {
-		// do nothing, overridden in drawables
-	}
-
-	/**
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 * 
 	 * @return null when this Drawable is infinite or undefined

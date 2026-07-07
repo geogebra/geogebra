@@ -28,21 +28,22 @@ import org.junit.Test;
 
 public class GeoInlineTextTest extends BaseUnitTest {
 
-	private static final String COMPATIBILITY_XML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-			+ "<geogebra format=\"5.0\" version=\"5.0.570.0\" app=\"notes\" >\n"
-			+ "<gui>\n"
-			+ "\t<font  size=\"16\"/>\n"
-			+ "</gui>\n"
-			+ "<construction>\n"
-			+ "<expression label=\"text1\" exp=\"&quot;GeoGebra Rocks&quot;\"/>\n"
-			+ "<element type=\"text\" label=\"text1\">\n"
-			+ "\t<objColor r=\"0\" g=\"0\" b=\"0\" alpha=\"0\"/>\n"
-			+ "\t<font serif=\"false\" sizeM=\"1\" size=\"0\" style=\"1\"/>\n"
-			+ "\t<startPoint  x=\"5\" y=\"6\" z=\"1\"/>\n"
-			+ "\t<boundingBox x=\"500\" y=\"600\" width=\"150\" height=\"50\"/>\n"
-			+ "</element>\n"
-			+ "</construction>\n"
-			+ "</geogebra>";
+	private static final String COMPATIBILITY_XML = """
+			<?xml version="1.0" encoding="utf-8"?>
+			<geogebra format="5.0" version="5.0.570.0" app="notes" >
+			<gui>
+				<font size="16"/>
+			</gui>
+			<construction>
+			<expression label="text1" exp="&quot;GeoGebra Rocks&quot;"/>
+			<element type="text" label="text1">
+				<objColor r="0" g="0" b="0" alpha="0"/>
+				<font serif="false" sizeM="1" size="0" style="1"/>
+				<startPoint  x="5" y="6" z="1"/>
+				<boundingBox x="500" y="600" width="150" height="50"/>
+			</element>
+			</construction>
+			</geogebra>""";
 
 	@Test
 	public void inlineTextCorrectlySavedAndLoaded() {

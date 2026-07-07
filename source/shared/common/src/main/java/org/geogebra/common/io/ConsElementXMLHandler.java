@@ -30,6 +30,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.Locateable;
@@ -61,6 +62,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInline;
+import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -104,6 +106,10 @@ import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.main.settings.FontSettings;
+import org.geogebra.common.move.ggtapi.models.json.JSONArray;
+import org.geogebra.common.move.ggtapi.models.json.JSONException;
+import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
@@ -286,12 +292,16 @@ public class ConsElementXMLHandler {
 					((RectangleTransformable) geo).setAngle(angleD);
 					EuclidianSettings settings = app.getActiveEuclidianView().getSettings();
 					double pixelWidth = unscaled ? widthD * settings.getXscale() : widthD;
+					double normedPixelWidth = unscaled
+							? widthD * EuclidianView.SCALE_STANDARD : widthD;
 					double pixelHeight = unscaled ? heightD * settings.getYscale() : heightD;
-					if (geo instanceof GeoInline) {
-						((GeoInline) geo).setSizeOnly(pixelWidth, pixelHeight);
-						if (((GeoInline) geo).isZoomingEnabled()) {
-							((GeoInline) geo).setContentWidth(widthD);
-							((GeoInline) geo).setContentHeight(heightD);
+					if (geo instanceof GeoInline inline) {
+						inline.setSizeOnly(pixelWidth, pixelHeight);
+						if (inline.isZoomingEnabled()) {
+							inline.setContentWidth(widthD);
+							inline.setContentHeight(heightD);
+						} else if (inline.getContentWidth() > 0) {
+							inline.setScale(normedPixelWidth / inline.getContentWidth());
 						}
 					} else {
 						((RectangleTransformable) geo).setSize(pixelWidth, pixelHeight);
@@ -365,8 +375,27 @@ public class ConsElementXMLHandler {
 			Log.error("wrong element type for <content>: " + geo.getClass());
 			return;
 		}
-
-		inlineText.setContent(attrs.get("val"));
+		String content = attrs.get("val");
+		int appFontSize = app.getSettings().getFontSettings().getAppFontSize();
+		if (appFontSize != FontSettings.DEFAULT_FONT_SIZE) {
+			try {
+				if (inlineText instanceof GeoInlineText || inlineText instanceof GeoMindMapNode) {
+					JSONArray words = new JSONArray(content);
+					CarotaJSONUtil.setExplicitSize(words, appFontSize);
+					content = words.toString();
+				}
+				if (inlineText instanceof GeoInlineTable) {
+					JSONObject parsed = new JSONObject(content);
+					CarotaJSONUtil.forEachCell(parsed, cellContent -> {
+						CarotaJSONUtil.setExplicitSize(cellContent, appFontSize);
+					});
+					content = parsed.toString();
+				}
+			} catch (JSONException ex) {
+				Log.debug(ex);
+			}
+		}
+		inlineText.setContent(content);
 	}
 
 	private boolean handleValue(Map<String, String> attrs,
@@ -1649,8 +1678,11 @@ public class ConsElementXMLHandler {
 				GeoInlineText ret = new GeoInlineText((GeoText) geo);
 				geo.getConstruction().replace(geo, ret);
 				geo = ret;
-				ret.setSize(Integer.parseInt(attrs.get("width")),
-						Integer.parseInt(attrs.get("height")));
+				double width = Double.parseDouble(attrs.get("width"));
+				double height = Double.parseDouble(attrs.get("height"));
+				ret.setContentWidth(width);
+				ret.setContentHeight(height);
+				ret.setSize(width, height);
 			} catch (Exception e) {
 				Log.debug(e);
 			}

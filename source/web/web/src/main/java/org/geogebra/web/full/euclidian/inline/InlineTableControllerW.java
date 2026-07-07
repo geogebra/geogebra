@@ -23,13 +23,14 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.inline.InlineTableController;
+import org.geogebra.common.io.CarotaJSONUtil;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.properties.BorderType;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
-import org.geogebra.common.move.ggtapi.models.json.JSONArray;
+import org.geogebra.common.main.settings.FontSettings;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.debug.Log;
@@ -73,7 +74,7 @@ public class InlineTableControllerW implements InlineTableController {
 	public InlineTableControllerW(GeoInlineTable table, EuclidianView view, Element parent) {
 		this.table = table;
 		this.view = view;
-		CarotaUtil.ensureInitialized(view.getFontSize());
+		CarotaUtil.ensureInitialized(FontSettings.DEFAULT_FONT_SIZE);
 		if (view.getApplication().isByCS()) {
 			CarotaUtil.setSelectionColor(GColor.MOW_SELECTION_COLOR.toString());
 		}
@@ -86,18 +87,9 @@ public class InlineTableControllerW implements InlineTableController {
 	private void checkFonts() {
 		try {
 			JSONObject tableData = new JSONObject(table.getContent());
-			JSONArray tableContent = tableData.getJSONArray("content");
-			for (int i = 0; i < tableContent.length(); i++) {
-				JSONArray row = tableContent.getJSONArray(i);
-				for (int j = 0; j < row.length(); j++) {
-					JSONObject cell = row.getJSONObject(j);
-					if (cell.has("content")) {
-						InlineTextControllerW
-								.checkFonts(cell.getJSONArray("content"),
-										getWebFontsUrl(), this::onFontLoaded);
-					}
-				}
-			}
+			CarotaJSONUtil.forEachCell(tableData, cellContent ->
+					InlineTextControllerW.checkFonts(
+							cellContent, getWebFontsUrl(), this::onFontLoaded));
 		} catch (JSONException | RuntimeException e) {
 			Log.debug("cannot parse fonts");
 		}

@@ -39,11 +39,6 @@ public class InlineTextControllerMock implements InlineTextController {
 	}
 
 	@Override
-	public boolean updateFontSize() {
-		return false;
-	}
-
-	@Override
 	public void create() {
 
 	}

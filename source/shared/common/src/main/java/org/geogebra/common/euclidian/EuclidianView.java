@@ -2541,9 +2541,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * Updates font size for all drawables
 	 */
 	protected void updateDrawableFontSize() {
-		for (Drawable d : allDrawableList) {
-			d.updateFontSize();
-		}
 		repaint();
 	}
 

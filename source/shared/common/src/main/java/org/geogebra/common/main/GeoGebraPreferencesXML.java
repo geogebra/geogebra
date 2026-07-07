@@ -21,6 +21,7 @@ import static org.geogebra.common.main.GeoGebraColorConstants.NEUTRAL_500;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.main.settings.FontSettings;
 
 /**
  * @author michael
@@ -32,7 +33,6 @@ public class GeoGebraPreferencesXML {
 	 * these can get changed by --screenDPI (and maybe by --screenResX,
 	 * --screenResY)
 	 */
-	private static int defaultFontSize = 16;
 	private static int defaultWindowX = 800;
 	private static int defaultWindowY = 600;
 
@@ -75,7 +75,7 @@ public class GeoGebraPreferencesXML {
 				+ "<font  size=\""
 
 				// dynamic bit!
-				+ defaultFontSize
+				+ FontSettings.DEFAULT_FONT_SIZE
 
 				+ "\"/>" + "<menuFont size=\"-1\"/>"
 				+ "<tooltipSettings language=\"\" timeout=\"0\"/>" + "</gui>"
@@ -174,15 +174,6 @@ public class GeoGebraPreferencesXML {
 			default:
 				return ANGLE_DEGREE_XML_NAME;
 		}
-	}
-
-	/**
-	 * @param fontSize
-	 *            font size
-	 */
-	public static void setDefaultFontSize(int fontSize) {
-		defaultFontSize = fontSize;
-
 	}
 
 	/**

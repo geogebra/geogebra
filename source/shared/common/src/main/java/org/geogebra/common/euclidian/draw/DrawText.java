@@ -285,8 +285,6 @@ public final class DrawText extends Drawable {
 		if (incompatibleCharacters()
 				|| fontSize != newFontSize || fontStyle != newFontStyle
 				|| newSerifFont != serifFont) {
-			super.updateFontSize();
-
 			fontSize = newFontSize;
 			fontStyle = newFontStyle;
 			serifFont = newSerifFont;

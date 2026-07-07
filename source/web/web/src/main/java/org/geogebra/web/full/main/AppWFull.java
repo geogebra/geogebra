@@ -94,7 +94,6 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
-import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.main.undo.UndoHistory;
 import org.geogebra.common.main.undo.UndoManager;
@@ -214,7 +213,6 @@ import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.Persistable;
-import org.geogebra.web.richtext.impl.CarotaUtil;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
@@ -2448,16 +2446,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public ScriptManager newScriptManager() {
 		return new ScriptManagerW(this, getActivity().getExportedApi());
-	}
-
-	@Override
-	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
-		getSettings().getFontSettings().addListener(settings -> {
-			if (isWhiteboardActive()) {
-				CarotaUtil.setDefaultFontSize(settings.getAppFontSize());
-			}
-		});
-		return super.newSettingsUpdaterBuilder();
 	}
 
 	@Override

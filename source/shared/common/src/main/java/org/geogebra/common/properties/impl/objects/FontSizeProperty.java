@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.FontSettings;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.FontSizeProperty.FontSize;
 import org.geogebra.common.properties.impl.objects.delegate.FontStyleDelegate;
@@ -39,6 +40,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
  */
 public class FontSizeProperty extends AbstractNamedEnumeratedProperty<FontSize>
 		implements GeoElementDependentProperty {
+
 	/**
 	 * Possible values for font sizes.
 	 */
@@ -122,7 +124,9 @@ public class FontSizeProperty extends AbstractNamedEnumeratedProperty<FontSize>
 				&& textProperties.getFontSizeMultiplier() != fontSize.multiplier) {
 			textProperties.setFontSizeMultiplier(fontSize.multiplier);
 		} else if (element instanceof HasTextFormatter hasTextFormatter) {
-			hasTextFormatter.format("size", fontSize.multiplier * getBaseFontSize());
+			// dependency on getApp will be removed when inline text size is switched to absolute
+			hasTextFormatter.format("size",
+					fontSize.multiplier * FontSettings.DEFAULT_FONT_SIZE);
 		}
 		element.updateVisualStyleRepaint(GProperty.FONT);
 	}
@@ -131,7 +135,9 @@ public class FontSizeProperty extends AbstractNamedEnumeratedProperty<FontSize>
 	public FontSize getValue() {
 		GeoElement element = delegate.getElement();
 		if (element instanceof HasTextFormatter hasTextFormatter) {
-			double multiplier = hasTextFormatter.getFormat("size", 0d) / getBaseFontSize();
+			// dependency on getApp will be removed when inline text size is switched to absolute
+			double multiplier = hasTextFormatter.getFormat("size", 0d)
+					/ FontSettings.DEFAULT_FONT_SIZE;
 			return FontSize.withFontSizeMultiplier(multiplier);
 		} else if (element instanceof TextProperties textStyle) {
 			return FontSize.withFontSizeMultiplier(textStyle.getFontSizeMultiplier());
@@ -144,8 +150,4 @@ public class FontSizeProperty extends AbstractNamedEnumeratedProperty<FontSize>
 		return delegate.getElement();
 	}
 
-	private double getBaseFontSize() {
-		// dependency on getApp will be removed when inline text size is switched to absolute
-		return delegate.getElement().getApp().getFontSize();
-	}
 }

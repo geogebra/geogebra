@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.HasVerticalAlignment;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
+import org.geogebra.common.main.settings.FontSettings;
 import org.geogebra.common.main.undo.UndoableDeletionExecutor;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
@@ -72,7 +73,6 @@ public class InlineTextControllerW implements InlineTextController {
 	private Editor editor;
 	private Style style;
 
-	private int contentDefaultSize;
 	private Element textareaWrapper;
 	private String lastNonemptyContent;
 	private final EuclidianView view;
@@ -87,11 +87,10 @@ public class InlineTextControllerW implements InlineTextController {
 		this.geo = geo;
 		this.parent = parent;
 		this.view = view;
-		CarotaUtil.ensureInitialized(view.getFontSize());
+		CarotaUtil.ensureInitialized(FontSettings.DEFAULT_FONT_SIZE);
 		if (view.getApplication().isByCS()) {
 			CarotaUtil.setSelectionColor(GColor.MOW_SELECTION_COLOR.toString());
 		}
-		this.contentDefaultSize = getCurrentFontSize();
 		checkFonts(getFormat(geo.getContent()), getWebFontsUrl(), this::onFontLoaded);
 	}
 
@@ -105,36 +104,6 @@ public class InlineTextControllerW implements InlineTextController {
 			return null;
 		}
 		return s;
-	}
-
-	@Override
-	public boolean updateFontSize() {
-		if (contentDefaultSize != getCurrentFontSize()) {
-			try {
-				JSONArray words = getFormat(geo.getContent());
-				for (int i = 0; i < words.length(); i++) {
-					JSONObject word = words.optJSONObject(i);
-					if (word.has("size")) {
-						double size = word.getDouble("size")
-								* getCurrentFontSize()
-								/ contentDefaultSize;
-						word.put("size", size);
-					}
-				}
-
-				geo.setContent(words.toString());
-				contentDefaultSize = getCurrentFontSize();
-				return true;
-			} catch (JSONException | RuntimeException e) {
-				Log.debug(getCurrentFontSize());
-			}
-		}
-		return false;
-	}
-
-	private int getCurrentFontSize() {
-		return view.getApplication().getSettings().getFontSettings()
-				.getAppFontSize();
 	}
 
 	/**
