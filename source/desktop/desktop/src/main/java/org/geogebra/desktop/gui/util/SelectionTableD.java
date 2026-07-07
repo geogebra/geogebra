@@ -192,7 +192,7 @@ public class SelectionTableD extends JTable {
 		return false;
 	}
 
-	/** Loads a one dimensional array of data into the table model */
+	/** Loads a one-dimensional array of data into the table model */
 	public void populateModel(Object[] data1) {
 
 		model = new DefaultTableModel(numRows, numColumns);
