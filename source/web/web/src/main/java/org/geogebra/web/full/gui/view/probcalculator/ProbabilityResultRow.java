@@ -25,19 +25,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.properties.PropertyView;
+import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
 
+import com.google.gwt.core.client.Scheduler;
+
 public class ProbabilityResultRow extends FlowPanel {
 	private final AppW appW;
 	private final PropertyView.ProbabilityResultRow resultRowProperty;
 	private final List<Label> labels = new ArrayList<>();
 	private final List<Widget> fields = new ArrayList<>();
+	private final List<MathFieldW> mathFields = new ArrayList<>();
 	private final List<Widget> widgets;
-	private boolean isEditing;
+	private MathFieldW activeMathField;
 
 	/**
 	 * Result row in probability view.
@@ -53,12 +57,15 @@ public class ProbabilityResultRow extends FlowPanel {
 		addStyleName("probabilityResultRow");
 		buildGUI();
 		AriaHelper.setRole(this, "group");
-		resultRowProperty.setConfigurationUpdateDelegate(this::updateContent);
+		resultRowProperty.setConfigurationUpdateDelegate(
+				() -> Scheduler.get().scheduleDeferred(this::updateContent));
 	}
 
 	private void buildGUI() {
 		widgets.removeAll(fields);
 		fields.clear();
+		labels.clear();
+		mathFields.clear();
 		for (PropertyView.ProbabilityResultRow.Item item : resultRowProperty.getItems()) {
 			if (item instanceof PropertyView.ProbabilityResultRow.Item.Text text) {
 				Label label = new Label(text.text());
@@ -75,19 +82,20 @@ public class ProbabilityResultRow extends FlowPanel {
 				FlowPanel holder = new FlowPanel();
 				MathTextFieldW mathTextFieldW = new MathTextFieldW(appW);
 				fields.add(mathTextFieldW.asWidget());
+				mathFields.add(mathTextFieldW.getMathField());
 				mathTextFieldW.setText(inputField.getValue());
 				AriaHelper.setLabel(mathTextFieldW.asWidget(),
 						appW.getLocalization().getMenu(inputField.getAriaLabel()));
 				mathTextFieldW.setPxWidth(80);
 				mathTextFieldW.getMathField().setOnFocus(event -> {
-					isEditing = true;
+					activeMathField = mathTextFieldW.getMathField();
 					holder.addStyleName("focusState");
 				});
 				mathTextFieldW.addInputHandler(() -> inputField
 						.setValue(mathTextFieldW.getText()));
 				mathTextFieldW.addBlurHandler(event -> {
 					inputField.setValue(mathTextFieldW.getText());
-					isEditing = false;
+					activeMathField = null;
 					holder.removeStyleName("focusState");
 				});
 
@@ -116,17 +124,23 @@ public class ProbabilityResultRow extends FlowPanel {
 	}
 
 	private void updateContent() {
-		if (!isEditing) {
+		if (activeMathField == null) {
 			clear();
-			labels.clear();
 			buildGUI();
-
 		} else {
 			int labelIndex = 0;
+			int inputIndex = 0;
 			for (PropertyView.ProbabilityResultRow.Item item: resultRowProperty.getItems()) {
 				if (item instanceof PropertyView.ProbabilityResultRow.Item.Text text
 						&& labelIndex < labels.size()) {
 					labels.get(labelIndex++).setText(text.text());
+				}
+				if (item instanceof PropertyView.ProbabilityResultRow.Item.InputField input
+						&& inputIndex < mathFields.size()) {
+					MathFieldW currentField = mathFields.get(inputIndex++);
+					if (currentField != activeMathField) {
+						currentField.parse(input.getValue());
+					}
 				}
 			}
 		}
