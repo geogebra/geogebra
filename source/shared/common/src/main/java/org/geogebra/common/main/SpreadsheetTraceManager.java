@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 
+import org.geogebra.common.geogebra3D.euclidian3D.draw.TraceSettings;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.io.XMLStringBuilder;
@@ -500,33 +501,37 @@ public class SpreadsheetTraceManager {
 
 				// restart from last deleted row
 				if (row2 >= t.tracingRow - 1 + t.headerOffset) {
-					t.tracingRow = row1 - t.headerOffset;
-					if (t.tracingRow <= 0) {
-						t.tracingRow = 0;
-					} else {
-						// check empty rows
-						boolean emptyCells = true;
-						int row = t.tracingRow + t.headerOffset;
-						do {
-							row--;
-							int col = t.traceColumn1;
-							do {
-								GeoElement cell = RelativeCopy.getValue(tableModel,
-										col, row);
-								if (cell != null) {
-									emptyCells = false;
-								}
-								col++;
-							} while (emptyCells && col <= t.traceColumn2);
-						} while (emptyCells && row >= t.headerOffset);
-						t.tracingRow = row + 1 - t.headerOffset;
-					}
+					resetFromLastDeletedRow(t, row1);
 				}
 
 			}
 		}
 
 		app.repaintSpreadsheet();
+	}
+
+	private void resetFromLastDeletedRow(SpreadsheetTraceSettings t, int row1) {
+		t.tracingRow = row1 - t.headerOffset;
+		if (t.tracingRow <= 0) {
+			t.tracingRow = 0;
+		} else {
+			// check empty rows
+			boolean emptyCells = true;
+			int row = t.tracingRow + t.headerOffset;
+			do {
+				row--;
+				int col = t.traceColumn1;
+				do {
+					GeoElement cell = RelativeCopy.getValue(tableModel,
+							col, row);
+					if (cell != null) {
+						emptyCells = false;
+					}
+					col++;
+				} while (emptyCells && col <= t.traceColumn2);
+			} while (emptyCells && row >= t.headerOffset);
+			t.tracingRow = row + 1 - t.headerOffset;
+		}
 	}
 
 	public SpreadsheetTraceSettings getDefaultTraceSettings() {

@@ -539,24 +539,20 @@ public abstract class GeoConicND extends GeoQuadricND
 			} else {
 				if (hb < ha) {
 					parameter.setT(Math.PI / 2);
+				} else if (abspy * hb < hc_2) {
+					parameter.setT(Math.asin(hb * abspy / hc_2));
 				} else {
-					if (abspy * hb < hc_2) {
-						parameter.setT(Math.asin(hb * abspy / hc_2));
-					} else {
-						parameter.setT(Math.PI / 2);
-					}
+					parameter.setT(Math.PI / 2);
 				}
 			}
 		} else if (abspy < Kernel.STANDARD_PRECISION) {
 			// pp.setT(Math.acos(Math.min(1,ha*abspx/hc_2)));
 			if (ha < hb) {
 				parameter.setT(0);
+			} else if (abspx * ha < hc_2) {
+				parameter.setT(Math.acos(ha * abspx / hc_2));
 			} else {
-				if (abspx * ha < hc_2) {
-					parameter.setT(Math.acos(ha * abspx / hc_2));
-				} else {
-					parameter.setT(0);
-				}
+				parameter.setT(0);
 			}
 		} else {
 			// To solve (1-u^2)*(b*py + (a^2-b^2)*u)^2-a^2*px^2*u^2 = 0,

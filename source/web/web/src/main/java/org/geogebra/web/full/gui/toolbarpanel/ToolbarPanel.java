@@ -732,7 +732,7 @@ public class ToolbarPanel extends FlowPanel
 				animCallback = new LandscapeAnimationCallback(navRail) {
 
 					@Override
-					public void onEnd() {
+					protected void onEnd() {
 						super.onEnd();
 						dockParent.addStyleName("hide-HDragger");
 						opposite.addStyleName("hiddenHDraggerRightPanel");

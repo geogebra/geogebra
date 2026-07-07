@@ -586,30 +586,7 @@ public class GeoGebraFrameFull
 		} else {
 			if (app != null && appNeedsKeyboard()
 					&& isKeyboardWantedFromStorage()) {
-				if (isKeyboardAutofocus() && !app.isStartedWithFile()
-						&& !app.getAppletParameters().preventFocus()) {
-					if (getKeyboardManager()
-							.isKeyboardClosedByUser()) {
-						ensureKeyboardEditing();
-						return;
-					}
-					setKeyboardShowing(true);
-					app.invokeLater(() -> {
-						// check keyboardShowing since this is async
-						if (getApp().isWhiteboardActive()
-								|| !isKeyboardShowing()
-								|| (app.getAppletParameters().preventFocus()
-								&& app.isUnbundled())) {
-							return;
-						}
-						getApp().persistWidthAndHeight();
-						addKeyboard(null, false);
-						ensureKeyboardDeferred();
-					});
-				} else {
-					refreshKeyboardButton(null);
-					getOnScreenKeyboard(null).showOnFocus();
-				}
+				ensureKeyboardShownOnFocus();
 			} else if (app != null && appNeedsKeyboard()) {
 				if (!isKeyboardWantedFromStorage()) {
 					refreshKeyboardButton(null);
@@ -617,6 +594,33 @@ public class GeoGebraFrameFull
 					showKeyboardButton(true);
 				}
 			}
+		}
+	}
+
+	private void ensureKeyboardShownOnFocus() {
+		if (isKeyboardAutofocus() && !app.isStartedWithFile()
+				&& !app.getAppletParameters().preventFocus()) {
+			if (getKeyboardManager()
+					.isKeyboardClosedByUser()) {
+				ensureKeyboardEditing();
+				return;
+			}
+			setKeyboardShowing(true);
+			app.invokeLater(() -> {
+				// check keyboardShowing since this is async
+				if (getApp().isWhiteboardActive()
+						|| !isKeyboardShowing()
+						|| (app.getAppletParameters().preventFocus()
+						&& app.isUnbundled())) {
+					return;
+				}
+				getApp().persistWidthAndHeight();
+				addKeyboard(null, false);
+				ensureKeyboardDeferred();
+			});
+		} else {
+			refreshKeyboardButton(null);
+			getOnScreenKeyboard(null).showOnFocus();
 		}
 	}
 

@@ -727,29 +727,13 @@ public class SelectionManager {
 		}
 
 		int nextIndex = -1;
-		boolean elementNotFound = true;
 		if (tempSelectedBoolean != null && selectedGeos.size() == 0) {
 			nextIndex = tabbingOrder.indexOf(tempSelectedBoolean) + 1;
 		} else {
 			if (selectionSize == 1 && !tabbingOrder.contains(selectedGeos.get(0))) {
-				Iterator<GeoElement> iterator = getTabbingSet().iterator();
-				boolean foundSelected = false;
-				while (iterator.hasNext()) {
-					if (foundSelected) {
-						GeoElement nextElement = iterator.next();
-						if (tabbingOrder.contains(nextElement)) {
-							elementNotFound = false;
-							nextIndex = tabbingOrder.indexOf(nextElement);
-							break;
-						}
-					} else {
-						if (iterator.next().equals(selectedGeos.get(0))) {
-							foundSelected = true;
-						}
-					}
-				}
+				nextIndex = findInTabbingOrder(tabbingOrder);
 			}
-			if (elementNotFound) {
+			if (nextIndex < 0) {
 				GeoElement lastSelected = getGroupLead(selectedGeos.get(selectionSize - 1));
 				nextIndex = tabbingOrder.indexOf(lastSelected) + 1;
 			}
@@ -763,6 +747,22 @@ public class SelectionManager {
 		}
 
 		return false;
+	}
+
+	private int findInTabbingOrder(List<GeoElement> tabbingOrder) {
+		Iterator<GeoElement> iterator = getTabbingSet().iterator();
+		boolean foundSelected = false;
+		while (iterator.hasNext()) {
+			if (foundSelected) {
+				GeoElement nextElement = iterator.next();
+				if (tabbingOrder.contains(nextElement)) {
+					return tabbingOrder.indexOf(nextElement);
+				}
+			} else if (iterator.next().equals(selectedGeos.get(0))) {
+				foundSelected = true;
+			}
+		}
+		return -1;
 	}
 
 	private GeoElement getGroupLead(GeoElement geo) {

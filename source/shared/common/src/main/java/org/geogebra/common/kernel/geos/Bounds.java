@@ -283,91 +283,91 @@ public class Bounds {
 			// StringType.MATHML
 			// <apply><lt/><ci>x</ci><cn>3</cn></apply>
 
-			if (upper == null && lower != null) {
+			return toMathML(symbolic, varString, tpl);
+		}
+		return ret.toString();
+	}
+
+	private String toMathML(boolean symbolic, String varString, StringTemplate tpl) {
+		StringBuilder ret = new StringBuilder();
+		if (upper == null && lower != null) {
+			ret.append("<apply>");
+			ret.append(lowerSharp ? "<gt/>" : "<geq/>");
+			ret.append("<ci>");
+			ret.append(varString);
+			ret.append("</ci><cn>");
+			ret.append(kernel.format(lower, tpl));
+			ret.append("</cn></apply>");
+		} else if (lower == null && upper != null) {
+			ret.append("<apply>");
+			ret.append(upperSharp ? "<lt/>" : "<leq/>");
+			ret.append("<ci>");
+			ret.append(varString);
+			ret.append("</ci><cn>");
+			ret.append(kernel.format(upper, tpl));
+			ret.append("</cn></apply>");
+		} else if (lower != null && upper != null) {
+			if (DoubleUtil.isEqual(lower, upper) && !lowerSharp
+					&& !upperSharp) {
 				ret.append("<apply>");
-				ret.append(lowerSharp ? "<gt/>" : "<geq/>");
+				ret.append("<eq/>");
 				ret.append("<ci>");
 				ret.append(varString);
 				ret.append("</ci><cn>");
 				ret.append(kernel.format(lower, tpl));
 				ret.append("</cn></apply>");
-			} else if (lower == null && upper != null) {
+			} else if (lowerSharp == upperSharp) {
 				ret.append("<apply>");
-				ret.append(upperSharp ? "<lt/>" : "<leq/>");
+				ret.append(lowerSharp ? "<lt/>" : "<leq/>");
+				ret.append("<cn>");
+				ret.append(kernel.format(lower, tpl));
+				ret.append("</cn>");
 				ret.append("<ci>");
 				ret.append(varString);
-				ret.append("</ci><cn>");
+				ret.append("</ci>");
+				ret.append("<cn>");
 				ret.append(kernel.format(upper, tpl));
-				ret.append("</cn></apply>");
-			} else if (lower != null && upper != null) {
-				if (DoubleUtil.isEqual(lower, upper) && !lowerSharp
-						&& !upperSharp) {
-					ret.append("<apply>");
-					ret.append("<eq/>");
-					ret.append("<ci>");
-					ret.append(varString);
-					ret.append("</ci><cn>");
-					ret.append(kernel.format(lower, tpl));
-					ret.append("</cn></apply>");
-				} else {
-
-					if (lowerSharp == upperSharp) {
-						ret.append("<apply>");
-						ret.append(lowerSharp ? "<lt/>" : "<leq/>");
-						ret.append("<cn>");
-						ret.append(kernel.format(lower, tpl));
-						ret.append("</cn>");
-						ret.append("<ci>");
-						ret.append(varString);
-						ret.append("</ci>");
-						ret.append("<cn>");
-						ret.append(kernel.format(upper, tpl));
-						ret.append("</cn>");
-						ret.append("</apply>");
-					} else {
-						// more complex for eg 3 < x <= 5
-
-						ret.append("<apply>"); // <apply>
-						ret.append("<and/>"); // <and/>
-						ret.append("<apply>"); // <apply>
-						ret.append(lowerSharp ? "<lt/>" : "<leq/>"); // <lt/>
-						ret.append("<cn>");
-						ret.append(kernel.format(lower, tpl));
-						ret.append("</cn>"); // <cn>3</cn>
-						ret.append("<ci>");
-						ret.append(varString);
-						ret.append("</ci>"); // <ci>x</ci>
-						ret.append("</apply>"); // </apply>
-						ret.append("<apply>"); // <apply>
-						ret.append(upperSharp ? "<lt/>" : "<leq/>"); // <leq/>
-						ret.append("<ci>");
-						ret.append(varString);
-						ret.append("</ci>"); // <ci>x</ci>
-						ret.append("<cn>");
-						ret.append(kernel.format(upper, tpl));
-						ret.append("</cn>"); // <cn>5</cn>
-						ret.append("</apply>"); // </apply>
-						ret.append("</apply>"); // </apply>
-					}
-
-				}
-			}
-			// upper and lower are null, just return condition
-			else if (condition != null) {
-				return condition.toLaTeXString(symbolic, tpl);
-			}
-			// we may still need to append condition
-			if (condition != null) {
-
-				// prepend
-				ret.insert(0, "<apply><and/>");
-				ret.append(condition.toLaTeXString(symbolic, tpl));
+				ret.append("</cn>");
 				ret.append("</apply>");
+			} else {
+				// more complex for eg 3 < x <= 5
 
+				ret.append("<apply>"); // <apply>
+				ret.append("<and/>"); // <and/>
+				ret.append("<apply>"); // <apply>
+				ret.append(lowerSharp ? "<lt/>" : "<leq/>"); // <lt/>
+				ret.append("<cn>");
+				ret.append(kernel.format(lower, tpl));
+				ret.append("</cn>"); // <cn>3</cn>
+				ret.append("<ci>");
+				ret.append(varString);
+				ret.append("</ci>"); // <ci>x</ci>
+				ret.append("</apply>"); // </apply>
+				ret.append("<apply>"); // <apply>
+				ret.append(upperSharp ? "<lt/>" : "<leq/>"); // <leq/>
+				ret.append("<ci>");
+				ret.append(varString);
+				ret.append("</ci>"); // <ci>x</ci>
+				ret.append("<cn>");
+				ret.append(kernel.format(upper, tpl));
+				ret.append("</cn>"); // <cn>5</cn>
+				ret.append("</apply>"); // </apply>
+				ret.append("</apply>"); // </apply>
 			}
+		}
+		// upper and lower are null, just return condition
+		else if (condition != null) {
+			return condition.toLaTeXString(symbolic, tpl);
+		}
+		// we may still need to append condition
+		if (condition != null) {
+
+			// prepend
+			ret.insert(0, "<apply><and/>");
+			ret.append(condition.toLaTeXString(symbolic, tpl));
+			ret.append("</apply>");
 
 		}
-
 		return ret.toString();
 	}
 
