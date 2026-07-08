@@ -563,7 +563,7 @@ public class EditorState {
 				try {
 					return er.localize(ExpRelation.BEFORE,
 							convertCharacters(sb.toString(), er));
-				} catch (Exception e) {
+				} catch (Exception expected) {
 					// no math alt text, fall back to reading as is
 				}
 			}

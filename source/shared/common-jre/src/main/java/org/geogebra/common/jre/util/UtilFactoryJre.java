@@ -52,7 +52,7 @@ public abstract class UtilFactoryJre extends UtilFactory  {
 		return urlComponent -> {
 			try {
 				return java.net.URLEncoder.encode(urlComponent, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
+			} catch (UnsupportedEncodingException ignored) {
 				// cannot happen, UTF-8 supported everywhere
 			}
 			return urlComponent;

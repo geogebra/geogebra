@@ -1011,7 +1011,7 @@ public class CASInputHandler {
 				if (parsed.equals(reference)) {
 					parentheses = false;
 				}
-			} catch (ParseException e) {
+			} catch (ParseException expected) {
 				// do nothing because the reference isn't a label
 			}
 		}

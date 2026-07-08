@@ -134,7 +134,7 @@ public class DrawDynamicCaption {
 				false, false);
 		try {
 			captionCopy.setShowObjectCondition(null);
-		} catch (CircularDefinitionException e) {
+		} catch (CircularDefinitionException ignored) {
 			// never happens
 		}
 		if (geo instanceof GeoInputBox) {

@@ -998,7 +998,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				try {
 					ggbResult = processor.processAlgebraCommandNoExceptionHandling(command, false,
 							ErrorHelper.silent(), info, null);
-				} catch (Exception e) {
+				} catch (Exception ignored) {
 					// ignore
 				}
 				if (ggbResult != null && ggbResult.length > 0

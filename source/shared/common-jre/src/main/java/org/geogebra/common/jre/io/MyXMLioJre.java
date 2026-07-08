@@ -549,7 +549,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 			if (img != null) {
 				writeImageToZip(zip, fileName, img);
 			}
-		} catch (Exception e) {
+		} catch (Exception expected) {
 			// catch error if size is zero
 		}
 

@@ -114,7 +114,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 		// canvas.getContext2d() doesn't work with canvas2svg.js
 		try {
 			context.imageSmoothingEnabled = interpolate;
-		} catch (Exception e) {
+		} catch (Exception expected) {
 			// do nothing
 		}
 	}

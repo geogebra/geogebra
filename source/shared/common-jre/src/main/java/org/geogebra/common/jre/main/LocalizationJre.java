@@ -186,7 +186,7 @@ public abstract class LocalizationJre extends Localization {
 
 		try {
 			ret = rbsymbol.getString("S." + key);
-		} catch (Exception e) {
+		} catch (Exception expected) {
 			// do nothing
 		}
 
@@ -216,7 +216,7 @@ public abstract class LocalizationJre extends Localization {
 
 		try {
 			ret = rbsymbol.getString("T." + key);
-		} catch (Exception e) {
+		} catch (Exception expected) {
 			// do nothing
 		}
 

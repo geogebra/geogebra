@@ -67,7 +67,7 @@ public class CmdFromBase extends CommandProcessor {
 			try {
 				argE[0].resolveVariables(info.withLabels(false));
 				arg[0] = resArg(argE[0], argInfo);
-			} catch (Throwable t) {
+			} catch (Throwable expected) {
 				// do nothing
 			}
 			if (!(arg[0] instanceof GeoText)) {
