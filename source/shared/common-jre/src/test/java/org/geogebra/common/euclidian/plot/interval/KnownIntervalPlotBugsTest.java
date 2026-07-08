@@ -18,14 +18,16 @@ package org.geogebra.common.euclidian.plot.interval;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class KnownIntervalPlotBugsTest extends BaseAppTestSetup {
 
@@ -39,14 +41,15 @@ class KnownIntervalPlotBugsTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	@Disabled("Known bug: ln(cosh(x)) still produces false +Infinity spikes near |x| ~= 700;"
-			+ " fix belongs to the later numeric-stability ticket.")
 	void lnCoshShouldNotProduceFalseInfinitySpikes() {
 		withBounds(-750, 750, -50, 750);
 		withScreenSize(200, 200);
 		withFunction("ln(cosh(x))");
 
-		assertEquals(0, gp.getLog().stream().filter(e -> Double.isInfinite(e.y())).count());
+		assertEquals(0, gp.getLog().stream()
+				.filter(e -> Double.isInfinite(e.y())).count());
+		assertTrue(hasFinitePoint(-690, 650, false), gp.getLog().toString());
+		assertTrue(hasFinitePoint(690, 650, true), gp.getLog().toString());
 	}
 
 	@Test
@@ -55,7 +58,33 @@ class KnownIntervalPlotBugsTest extends BaseAppTestSetup {
 		withScreenSize(1200, 900);
 		withFunction("ln(e^x)");
 
-		assertFalse(gp.getLog().stream().anyMatch(e -> e.y() < -1000), gp.getLog().toString());
+		assertFalse(gp.getLog().stream().anyMatch(e -> e.y() < -1000),
+				gp.getLog().toString());
+		assertTrue(hasFinitePoint(-700, -800, false), gp.getLog().toString());
+		assertTrue(hasFinitePoint(700, 600, true), gp.getLog().toString());
+	}
+
+	@ParameterizedTest
+	@CsvSource({
+			"ln(ln(exp(exp(x))))",
+			"ln(ln(e^(e^x)))"
+	})
+	void nestedLnExpShouldNotProduceFalseNegativeInfinityRay(String definition) {
+		withBounds(-1000, 1000, -1000, 1000);
+		withScreenSize(625, 443);
+		withFunction(definition);
+
+		assertFalse(gp.getLog().stream().anyMatch(e -> e.y() < -2000),
+				gp.getLog().toString());
+		assertTrue(hasFinitePoint(-900, -950, false), gp.getLog().toString());
+		assertTrue(hasFinitePoint(900, 850, true), gp.getLog().toString());
+	}
+
+	private boolean hasFinitePoint(double xThreshold, double yThreshold,
+			boolean positiveSide) {
+		return gp.getLog().stream().anyMatch(e -> Double.isFinite(e.y())
+				&& (positiveSide ? e.x() > xThreshold : e.x() < xThreshold)
+				&& e.y() > yThreshold);
 	}
 
 	private void withBounds(double xmin, double xmax, double ymin, double ymax) {

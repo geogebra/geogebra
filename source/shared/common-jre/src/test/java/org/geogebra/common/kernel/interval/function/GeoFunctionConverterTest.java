@@ -167,4 +167,15 @@ public class GeoFunctionConverterTest extends BaseUnitTest {
 		IntervalNodeFunction g = converter.convert(f);
 		assertEquals(one(), g.value(interval(7.484375, 7.5)));
 	}
+
+	@Test
+	public void testLnLnExpExp() {
+		GeoFunction f = add("ln(ln(exp(exp(x))))");
+		IntervalNodeFunction g = converter.convert(f);
+		Interval x = interval(800, 800);
+		assertEquals(x, g.value(x));
+		Interval interval = interval(700, 701);
+		assertEquals(interval, g.value(interval));
+	}
+
 }

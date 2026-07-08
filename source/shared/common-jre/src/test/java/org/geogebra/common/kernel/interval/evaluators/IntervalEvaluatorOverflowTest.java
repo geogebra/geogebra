@@ -104,7 +104,9 @@ public class IntervalEvaluatorOverflowTest {
 
 	@Test
 	@Issue("APPS-7561")
-	public void testLnExp() {
+	public void directLogSetExpSetMayOverflowAfterExpressionStructureIsLost() {
+		// Direct interval-set composition does not see the source expression tree;
+		// expression-level ln(exp(x)) recovery is covered by interval plot tests.
 		assertEquals(overflow(), lnExp(connected(746, 750)));
 		assertNotEquals(overflow(), lnExp(connected(700, 709)));
 		assertEquals(overflow(), lnExp(connected(-750, -746)));
@@ -122,4 +124,5 @@ public class IntervalEvaluatorOverflowTest {
 	private IntervalSet lnExp(IntervalSet x) {
 		return evaluator.logSet(evaluator.expSet(x));
 	}
+
 }

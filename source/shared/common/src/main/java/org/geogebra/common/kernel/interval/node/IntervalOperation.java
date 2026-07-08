@@ -163,6 +163,7 @@ public enum IntervalOperation {
 		@Override
 		public IntervalExpressionValue handle(IntervalNodeEvaluator evaluator, IntervalNode left,
 				IntervalNode right) {
+
 			return toValue(evaluator.exp(left.value()));
 		}
 

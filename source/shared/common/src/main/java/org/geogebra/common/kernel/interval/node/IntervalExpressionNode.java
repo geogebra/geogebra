@@ -114,6 +114,17 @@ public class IntervalExpressionNode implements IntervalNode {
 		if (right != null) {
 			right = right.simplify();
 		}
+		if (isOperation(IntervalOperation.LOG)
+				&& left instanceof IntervalExpressionNode) {
+			IntervalExpressionNode node = left.asExpressionNode();
+			if (node.isOperation(IntervalOperation.EXP)) {
+				return node.getLeft();
+			}
+			if (node.isOperation(IntervalOperation.POWER)
+					&& IntervalConstants.E.almostEqual(node.getLeft().value(), 0)) {
+				return node.getRight();
+			}
+		}
 		// fractions can't be simplified because x^(1/3) is not x^(0.33)
 		if (left instanceof IntervalFunctionValue
 				&& !isOperation(IntervalOperation.DIVIDE)

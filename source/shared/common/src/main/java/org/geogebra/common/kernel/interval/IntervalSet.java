@@ -20,6 +20,13 @@ import java.util.Objects;
 
 /**
  * Explicit semantic wrapper for interval topology.
+ *
+ * <p>{@link Kind#EMPTY} represents an empty or undefined real domain.
+ * Unbounded real results are represented by {@link Kind#CONNECTED},
+ * {@link Kind#INVERTED}, or {@link Kind#WHOLE} with infinite bounds where
+ * needed. {@link Kind#OVERFLOW} is reserved for numeric overflow that cannot be
+ * represented safely; recoverable expression-level compositions should avoid
+ * producing it before they reach this topology layer.
  */
 public final class IntervalSet {
 

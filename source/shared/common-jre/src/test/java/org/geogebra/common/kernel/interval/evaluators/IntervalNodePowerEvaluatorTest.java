@@ -22,11 +22,13 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.positiveInfinity;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
+import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.empty;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.interval.Interval;
@@ -37,6 +39,7 @@ import org.geogebra.common.kernel.interval.LegacyIntervalAdapter;
 import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
 import org.geogebra.common.kernel.interval.function.IntervalNodeFunction;
 import org.geogebra.common.kernel.interval.operators.IntervalNodeEvaluator;
+import org.geogebra.common.kernel.interval.operators.RMath;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
@@ -272,5 +275,13 @@ public class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
 
 		assertEquals(IntervalSet.overflow(),
 				evaluator.powSet(IntervalSet.connected(2, 2), exponent));
+	}
+
+	@Test
+	public void powOfE() {
+		IntervalSet e = connected(RMath.prev(Math.E), RMath.next(Math.E));
+		assertTrue(evaluator.powSet(e, connected(711, Double.POSITIVE_INFINITY)).isOverflow());
+		assertEquals(connected(0, 0), evaluator.powSet(e, connected(
+				Double.NEGATIVE_INFINITY, -800)));
 	}
 }

@@ -27,6 +27,7 @@ public final class IntervalConstants {
 	public static final double PI_TWICE_LOW = PI_LOW * 2.0;
 	public static final double PI_TWICE_HIGH = PI_HIGH * 2.0;
 	public static final double PRECISION = Kernel.MAX_PRECISION;
+	public static final Interval E = new Interval(Math.E);
 
 	/**
 	 *

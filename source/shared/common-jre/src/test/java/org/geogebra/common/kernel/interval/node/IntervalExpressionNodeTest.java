@@ -17,13 +17,16 @@
 package org.geogebra.common.kernel.interval.node;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
+import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.interval.IntervalConstants;
+import org.geogebra.common.kernel.interval.IntervalSet;
 import org.geogebra.common.kernel.interval.operators.IntervalNodeEvaluator;
+import org.geogebra.common.plugin.Operation;
 import org.junit.Test;
 
 public class IntervalExpressionNodeTest extends BaseUnitTest {
@@ -66,5 +69,37 @@ public class IntervalExpressionNodeTest extends BaseUnitTest {
 				IntervalOperation.SIN);
 		assertTrue(node.hasFunctionVariable());
 		assertFalse(node.getLeft().asExpressionNode().getRight().hasFunctionVariable());
+	}
+
+	@Test
+	public void testLnExpXShouldBeX() {
+		IntervalFunctionVariable functionVariable = new IntervalFunctionVariable();
+		functionVariable.set(1000);
+		IntervalExpressionNode exp =
+				new IntervalExpressionNode(evaluator, functionVariable, IntervalOperation.EXP);
+		IntervalExpressionNode log =
+				new IntervalExpressionNode(evaluator, exp, IntervalOperation.LOG);
+
+		IntervalNode actual = log.simplify();
+
+		assertEquals(interval(1000), actual.value());
+	}
+
+	@Test
+	public void testNestedLnExpShouldSimplifyPairwise() {
+		IntervalFunctionVariable functionVariable = new IntervalFunctionVariable();
+		functionVariable.set(1000);
+		IntervalExpressionNode innerExp =
+				new IntervalExpressionNode(evaluator, functionVariable, IntervalOperation.EXP);
+		IntervalExpressionNode outerExp =
+				new IntervalExpressionNode(evaluator, innerExp, IntervalOperation.EXP);
+		IntervalExpressionNode innerLog =
+				new IntervalExpressionNode(evaluator, outerExp, IntervalOperation.LOG);
+		IntervalExpressionNode outerLog =
+				new IntervalExpressionNode(evaluator, innerLog, IntervalOperation.LOG);
+
+		IntervalNode actual = outerLog.simplify();
+
+		assertEquals(interval(1000), actual.value());
 	}
 }
