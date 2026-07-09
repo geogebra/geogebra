@@ -18,6 +18,7 @@ package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.gui.FocusableComponent;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
@@ -30,6 +31,7 @@ import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
 import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.util.KeyCodes;
 import org.geogebra.editor.web.KeyCodeUtil;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.awt.GGraphics2DW;
@@ -75,6 +77,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize,
 	private final ScrollPanel scrollOverlay;
 	private final MathTextFieldW mathField;
 	private final elemental2.dom.Element spreadsheetElement;
+	private final FocusableComponent focusableComponent;
 	double moveTimeout;
 	int viewportChanges;
 	boolean isPointerDown = false;
@@ -165,14 +168,34 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize,
 			repaint();
 		});
 		setupTouchAndMouseEvents(registry, scrollContent);
-		scrollContent.getElement().setTabIndex(0);
+
+		scrollContent.getElement().setTabIndex(-1);
+		focusableComponent = new SpreadsheetFocusableAdapter(
+				this::isVisibleForTabbing,
+				this::hasSpreadsheetFocus,
+				this::focusSpreadsheetForKeyboard
+		);
+		app.getAccessibilityManager().register(focusableComponent);
+
 		scrollContent.addDomHandler(evt -> {
-			if (spreadsheet.handleKeyPressed(
-					KeyCodeUtil.translateGWTCode(evt.getNativeKeyCode()).getJavaKeyCode(),
-					getKey(evt.getNativeEvent()), getKeyboardModifiers(evt))) {
-				evt.stopPropagation(); // do not let global event handler interfere
+			KeyCodes keyCode = KeyCodeUtil.translateGWTCode(evt.getNativeKeyCode());
+			if (keyCode == KeyCodes.TAB && shouldTabLeaveSpreadsheet()) {
+				boolean handled = evt.isShiftKeyDown()
+						? app.getAccessibilityManager().focusPrevious()
+						: app.getAccessibilityManager().focusNext();
+
+				if (handled) {
+					evt.stopPropagation();
+					evt.preventDefault();
+					return;
+				}
 			}
-			evt.preventDefault(); // do not scroll the view
+
+			if (spreadsheet.handleKeyPressed(keyCode.getJavaKeyCode(),
+					getKey(evt.getNativeEvent()), getKeyboardModifiers(evt))) {
+				evt.stopPropagation(); // Do not let global event handler interfere
+			}
+			evt.preventDefault(); // Do not scroll the view
 			repaint();
 		}, KeyDownEvent.getType());
 		updateTotalSize();
@@ -190,6 +213,27 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize,
 		);
 		setScrollingEnabled(spreadsheetSettings.showHScrollBar(),
 				spreadsheetSettings.showVScrollBar());
+	}
+
+	private boolean isVisibleForTabbing() {
+		return isInAppletTabOrder() && spreadsheetIsVisible();
+	}
+
+	private boolean shouldTabLeaveSpreadsheet() {
+		return isInAppletTabOrder() && !spreadsheet.isEditorActive();
+	}
+
+	private boolean isInAppletTabOrder() {
+		return app.isApplet() && !app.showMenuBar();
+	}
+
+	private boolean hasSpreadsheetFocus() {
+		return spreadsheetElement.contains(DomGlobal.document.activeElement);
+	}
+
+	private void focusSpreadsheetForKeyboard() {
+		spreadsheet.getController().handleOnViewAppear();
+		requestFocus();
 	}
 
 	/*
