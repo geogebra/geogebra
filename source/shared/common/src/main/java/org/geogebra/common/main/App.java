@@ -3739,28 +3739,28 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 				// between selecting the geo and pressing <Space>, just do nothing
 				return false;
 			}
-			if (geo.isGeoBoolean()) {
+			if (geo instanceof GeoBoolean geoBool) {
 				if (!geo.isIndependent()) {
 					return true;
 				}
-
-				GeoBoolean geoBool = (GeoBoolean) selGeos.get(0);
 				geoBool.setValue(!geoBool.getBoolean());
 				geoBool.updateRepaint();
-			} else if (geo.isGeoInputBox()) {
-				getActiveEuclidianView()
-						.focusAndShowTextField((GeoInputBox) geo);
-			} else if (geo.isGeoList() && ((GeoList) geo).drawAsComboBox()) {
+			} else if (geo instanceof GeoInputBox inputBox) {
+				getActiveEuclidianView().focusAndShowTextField(inputBox);
+			} else if (geo instanceof GeoList list && list.drawAsComboBox()) {
 				Drawable d = (Drawable) getActiveEuclidianView()
 						.getDrawableFor(geo);
 				if (d != null) {
 					((DrawDropDownList) d).toggleOptions();
 				}
-			} else if (geo.isGeoNumeric()) {
-
-				// <Space> -> toggle slider animation off/on
-				GeoNumeric num = (GeoNumeric) geo;
-				if (num.isAnimatable() && isRightClickEnabled()) {
+			} else if (geo instanceof GeoNumeric num) {
+				if (!num.isAnimatable()) {
+					// non-slider (angle, bar chart, ...) -> run scripts
+					ScreenReader.readSpacePressed(geo);
+					geo.runClickScripts(null);
+					return true;
+				} else if (isRightClickEnabled()) {
+					// <Space> -> toggle slider animation off/on
 					num.setAnimating(!num.isAnimating());
 
 					storeUndoInfo();
@@ -3780,7 +3780,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 			// read *after* state changed!
 			ScreenReader.readSpacePressed(geo);
-
 			return true;
 		}
 

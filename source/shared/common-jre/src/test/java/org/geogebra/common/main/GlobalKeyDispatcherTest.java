@@ -23,6 +23,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -57,13 +58,13 @@ public class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 	private GlobalKeyDispatcherHeadless dispatcher;
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupClassicApp();
 		this.dispatcher = new GlobalKeyDispatcherHeadless(getApp());
 	}
 
 	@Test
-	public void moveWithArrowPoints() {
+	void moveWithArrowPoints() {
 		GeoElement pt = evaluateGeoElement("(1,1)");
 		GeoElement list = evaluateGeoElement("{(1,1)}");
 		selectGeo(pt);
@@ -78,7 +79,7 @@ public class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 
 	@Test
 	@Issue("APPS-7291")
-	public void moveArrowPointsPiDistance() {
+	void moveArrowPointsPiDistance() {
 		GeoPoint pt = evaluateGeoElement("(2pi, 0)");
 		pt.setAnimationStep(evaluateGeoElement("pi/12"));
 		EuclidianSettings euclidian = getApp().getSettings().getEuclidian(1);
@@ -101,7 +102,7 @@ public class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 	@ParameterizedTest
 	@CsvSource(value = {"num=Slider(0,5,1);5;5;5", "pt=Point(Segment((0,0),(0.5,0)));5;0;10"},
 			delimiter = ';')
-	public void moveWithArrowNumber(String definition, int rightSteps, int upSteps, int plusSteps) {
+	void moveWithArrowNumber(String definition, int rightSteps, int upSteps, int plusSteps) {
 		List<GeoElement> geos = List.of(evaluateGeoElement(definition));
 		EventAccumulator listener = new EventAccumulator();
 		getApp().getEventDispatcher().addEventListener(listener);
@@ -136,7 +137,7 @@ public class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void moveWithArrowRandom() {
+	void moveWithArrowRandom() {
 		getApp().setRandomSeed(42);
 		List<GeoElement> geos = Arrays.asList(evaluateGeoElement("num=random()"),
 				evaluateGeoElement("pt=(random(),random())"),
@@ -165,7 +166,8 @@ public class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void handleSpaceOnIndependentBoolean() {
+	@Issue("APPS-4912")
+	void handleSpaceOnIndependentBoolean() {
 		GeoBoolean geoBoolean = evaluateGeoElement("a = true");
 		geoBoolean.setEuclidianVisible(true);
 		assertThat(geoBoolean.getBoolean(), is(true));
@@ -175,7 +177,8 @@ public class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void handleSpaceOnSlider() {
+	@Issue("APPS-5086")
+	void handleSpaceOnSlider() {
 		GeoNumeric slider = evaluateGeoElement("a = Slider(-5,5,1)");
 		selectGeo(slider);
 		handleSpace();
@@ -185,14 +188,9 @@ public class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 		assertThat(slider.isAnimating(), is(true));
 	}
 
-	private void handleSpace() {
-		dispatcher.handleGeneralKeys(
-				KeyCodes.SPACE,
-				false, false, false, false, false);
-	}
-
 	@Test
-	public void handleSpaceOnDependentBoolean() {
+	@Issue("APPS-4912")
+	void handleSpaceOnDependentBoolean() {
 		evaluateGeoElement("a = 42");
 		GeoBoolean dependent = evaluateGeoElement("b = a > 100");
 		selectGeo(dependent);
@@ -201,7 +199,8 @@ public class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void handleSpaceOnHidingButton() {
+	@Issue("APPS-5151")
+	void handleSpaceOnHidingButton() {
 		GeoButton button = evaluateGeoElement("btn=Button()");
 		GeoNumeric counter = evaluateGeoElement("counter=1");
 		GgbScript script = new GgbScript(getApp(), "SetVisibleInView(btn,1,false)"
@@ -217,7 +216,24 @@ public class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void ctrlZShouldCheckFlag() {
+	@Issue("APPS-7711")
+	void handleSpaceOnAngle() {
+		GeoNumeric angle = evaluateGeoElement("Angle(xAxis,yAxis)");
+		angle.setClickScript(new GgbScript(getApp(), "f:x"));
+		selectGeo(angle);
+		handleSpace();
+		assertFalse(angle.isAnimating());
+		assertEquals("x", lookup("f").toValueString(StringTemplate.testTemplate));
+	}
+
+	private void handleSpace() {
+		dispatcher.handleGeneralKeys(
+				KeyCodes.SPACE,
+				false, false, false, false, false);
+	}
+
+	@Test
+	void ctrlZShouldCheckFlag() {
 		getApp().setUndoRedoMode(UndoRedoMode.EXTERNAL);
 		getKernel().setUndoActive(true);
 		getApp().storeUndoInfo();
@@ -234,7 +250,7 @@ public class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 
 	@Test
 	@Issue("APPS-6737")
-	public void noSpreadsheetInstantiation() {
+	void noSpreadsheetInstantiation() {
 		GuiManager guiManager = mock(GuiManager.class);
 		getApp().setGuiManager(guiManager);
 		GeoPoint point = evaluateGeoElement("(1,1)");
@@ -248,7 +264,7 @@ public class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 
 	@Test
 	@Issue("APPS-7045")
-	public void calculationShouldNotBeChangeableUsingArrowKeysOrPlusMinusKey() {
+	void calculationShouldNotBeChangeableUsingArrowKeysOrPlusMinusKey() {
 		GeoNumeric calculation = evaluateGeoElement("10 + 2");
 		handleKey(KeyCodes.RIGHT, List.of(calculation));
 		handleKey(KeyCodes.UP, List.of(calculation));
@@ -262,7 +278,7 @@ public class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 
 	@Test
 	@Issue("APPS-7045")
-	public void calculationShouldNotBeChangeableWithMultipleElementsSelected() {
+	void calculationShouldNotBeChangeableWithMultipleElementsSelected() {
 		GeoNumeric calculation = evaluateGeoElement("3 * 4");
 		GeoNumeric numeric = evaluateGeoElement("2");
 		GeoNumeric slider = evaluateGeoElement("Slider(-5,5,1)");
@@ -275,7 +291,7 @@ public class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void multipleSlidersShouldMoveWithArrows() {
+	void multipleSlidersShouldMoveWithArrows() {
 		List<GeoElement> sliders = List.of(evaluateGeoElement("Slider(-5,5,1)"),
 		evaluateGeoElement("Slider(-5,5,1)"));
 		handleKey(KeyCodes.RIGHT, sliders);
