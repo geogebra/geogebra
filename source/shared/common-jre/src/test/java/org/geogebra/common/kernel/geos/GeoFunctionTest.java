@@ -24,6 +24,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.geogebra.common.BaseUnitTest;
@@ -104,7 +105,8 @@ public class GeoFunctionTest extends BaseUnitTest {
 		GeoFunction f = add("f(x)=d+If(x>a,3,c)");
 		t("f(5)", "4");
 		t("f(-5)", "NaN");
-		assertEquals("d", f.getFunctionExpression().getUnconditionalVars(new HashSet<>())
+		ExpressionNode functionExpression = Objects.requireNonNull(f.getFunctionExpression());
+		assertEquals("d", functionExpression.getUnconditionalVars(new HashSet<>())
 				.stream().map(GeoElement::getLabelSimple).collect(Collectors.joining()));
 	}
 
@@ -210,5 +212,14 @@ public class GeoFunctionTest extends BaseUnitTest {
 	public void zeroCoefficientShouldNotBeOmittedIfNotEqualToZero() {
 		GeoFunction f = add("f(x)=1x+0.001x^7");
 		assertEquals("x + 0x⁷", f.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@Issue("APPS-7706")
+	public void shouldSkipZeroTermsInFormula() {
+		add("c:0");
+		GeoFunction f = add("f(x)=c xx + c x + c");
+		assertEquals("0",
+				f.getFormulaString(StringTemplate.latexTemplate, true));
 	}
 }

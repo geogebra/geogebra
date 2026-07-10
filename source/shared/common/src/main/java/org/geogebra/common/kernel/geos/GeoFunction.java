@@ -888,10 +888,14 @@ public class GeoFunction extends GeoElement implements Translateable,
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		if (isDefined() && fun != null) {
-			return fun.toValueString(simplifyCoefficients && tpl.allowsCoefficientSimplification()
-					? tpl.deriveWithSimplifiedCoefficients() : tpl);
+			return fun.toValueString(getTemplateWithSimplification(tpl));
 		}
 		return "?";
+	}
+
+	private StringTemplate getTemplateWithSimplification(StringTemplate tpl) {
+		return simplifyCoefficients && tpl.allowsCoefficientSimplification()
+				? tpl.deriveWithSimplifiedCoefficients() : tpl;
 	}
 
 	/*
@@ -2515,9 +2519,10 @@ public class GeoFunction extends GeoElement implements Translateable,
 	}
 
 	@Override
-	public String getFormulaString(StringTemplate tpl,
+	public String getFormulaString(StringTemplate baseTemplate,
 			boolean substituteNumbers) {
 		String ret = "";
+		StringTemplate tpl = getTemplateWithSimplification(baseTemplate);
 		if (getFunctionExpression() != null
 				&& !getFunctionExpression().isSecret()
 				&& getFunctionExpression().isConditional()) {
