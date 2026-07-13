@@ -75,7 +75,7 @@ public class HorizontalAlignmentProperty extends AbstractEnumeratedProperty<Hori
 		HasTextFormatter element = (HasTextFormatter) delegate.getElement();
 		HasTextFormat formatter = element.getFormatter();
 		if (getLocalization() != null && formatter != null
-				&& !value.equals(formatter.getHorizontalAlignment())) {
+				&& value != formatter.getHorizontalAlignment()) {
 			formatter.setHorizontalAlignment(value);
 		}
 		((GeoElement) element).updateVisualStyle(GProperty.COMBINED);

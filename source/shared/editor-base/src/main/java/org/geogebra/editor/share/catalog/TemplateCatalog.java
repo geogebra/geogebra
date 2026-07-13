@@ -235,7 +235,7 @@ public class TemplateCatalog {
 	 */
 	public <T extends Template> T getTemplate(Tag name, List<T> list)
 			throws ArrayIndexOutOfBoundsException {
-		T template = findFirst(list, t -> t.getTag().equals(name));
+		T template = findFirst(list, t -> t.getTag() == name);
 		if (template != null) {
 			return template;
 		}

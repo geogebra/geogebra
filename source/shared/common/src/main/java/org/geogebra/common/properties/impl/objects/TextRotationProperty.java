@@ -71,7 +71,7 @@ public class TextRotationProperty extends AbstractEnumeratedProperty<TextRotatio
 	protected void doSetValue(TextRotation value) {
 		InlineTableController formatter = (InlineTableController) geoElement.getFormatter();
 		if (getLocalization() != null && formatter != null
-				&& !value.equals(TextRotation.fromString(formatter.getRotation()))) {
+				&& value != TextRotation.fromString(formatter.getRotation())) {
 			formatter.setRotation(value.toString());
 		}
 		geoElement.updateVisualStyle(GProperty.COMBINED);

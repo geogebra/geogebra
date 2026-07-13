@@ -73,8 +73,8 @@ public class VerticalAlignmentProperty extends AbstractEnumeratedProperty<Vertic
 	protected void doSetValue(VerticalAlignment value) {
 		HasTextFormatter element = (HasTextFormatter) delegate.getElement();
 		HasTextFormat formatter = element.getFormatter();
-		if (getLocalization() != null && formatter != null && !value.equals(formatter
-				.getVerticalAlignment())) {
+		if (getLocalization() != null && formatter != null
+				&& value != formatter.getVerticalAlignment()) {
 			formatter.setVerticalAlignment(value);
 		}
 		((GeoElement) element).updateVisualStyle(GProperty.COMBINED);

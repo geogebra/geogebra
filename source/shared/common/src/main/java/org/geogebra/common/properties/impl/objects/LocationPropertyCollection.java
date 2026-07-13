@@ -179,7 +179,7 @@ public final class LocationPropertyCollection extends AbstractPropertyCollection
 	}
 
 	private static boolean isSingle3D(App app) {
-		return app.isSuite() && SuiteSubApp.G3D.equals(app.getConfig().getSubApp())
+		return app.isSuite() && SuiteSubApp.G3D == app.getConfig().getSubApp()
 				|| app.getConfig().hasSingleEuclidianViewWhichIs3D();
 	}
 

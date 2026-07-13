@@ -420,10 +420,10 @@ public class InputController {
 				&& editorState.getSelectionEnd() == null) {
 			if (currentField
 					.getChild(currentOffset - 1) instanceof FunctionNode function) {
-				if (Tag.SQRT.equals(function.getName())
-						|| Tag.CBRT.equals(function.getName())
-						|| Tag.NROOT.equals(function.getName())
-						|| Tag.FRAC.equals(function.getName())) {
+				if (Tag.SQRT == function.getName()
+						|| Tag.CBRT == function.getName()
+						|| Tag.NROOT == function.getName()
+						|| Tag.FRAC == function.getName()) {
 
 					currentField.deleteChild(currentOffset - 1);
 					// add braces
@@ -1571,7 +1571,7 @@ public class InputController {
 
 	private boolean handleEndFunctionNode(FunctionNode functionNode,
 			EditorState editorState, char ch) {
-		if (Tag.ABS.equals(functionNode.getName()) && isAbsDelimiter(ch)) {
+		if (Tag.ABS == functionNode.getName() && isAbsDelimiter(ch)) {
 			Node prevArg = getPreviousNode(editorState);
 			if (prevArg == null || !mathField.getCatalog()
 					.isOperator(prevArg + "")) {

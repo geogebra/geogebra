@@ -187,7 +187,7 @@ public class RemoveContainer {
 		if (currentField.getParent() instanceof FunctionNode parent) {
 
 			// fraction has operator like behavior
-			if (Tag.FRAC.equals(parent.getName())) {
+			if (Tag.FRAC == parent.getName()) {
 
 				// first operand is current, second operand is empty sequence
 				if (currentField.getParentIndex() == 0

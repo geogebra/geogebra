@@ -459,7 +459,7 @@ public abstract class CASgiac implements CASGenericInterface {
 			for (Entry<CustomFunctions, CustomFunctions> pair : CustomFunctionsDependencies) {
 				CustomFunctions key = pair.getKey();
 				CustomFunctions value = pair.getValue();
-				if (key.equals(cf)) {
+				if (key == cf) {
 					list.add(0, value);
 					list.addAll(0, prereqs(value));
 				}

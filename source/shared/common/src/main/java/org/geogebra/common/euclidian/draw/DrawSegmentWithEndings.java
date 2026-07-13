@@ -269,8 +269,8 @@ public class DrawSegmentWithEndings {
 		arrowPath.moveTo(x, y);
 
 		arrowPath.lineTo(arrowSideX, y + lineThickness);
-		boolean filled = style.equals(SegmentStyle.ARROW_FILLED);
-		boolean outlined = style.equals(SegmentStyle.ARROW_OUTLINE);
+		boolean filled = style == SegmentStyle.ARROW_FILLED;
+		boolean outlined = style == SegmentStyle.ARROW_OUTLINE;
 		if (filled || outlined) {
 			arrowPath.lineTo(arrowSideX, y - lineThickness);
 			arrowPath.closePath();

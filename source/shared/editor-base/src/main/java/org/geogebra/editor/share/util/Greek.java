@@ -133,12 +133,7 @@ public enum Greek {
 	 * @return the LaTeX name WITHOUT the leading \
 	 */
 	public String getLaTeX() {
-
-		if (this.equals(phi)) {
-			return "var" + name();
-		}
-
-		return name();
+		return this == phi ? "var" + name() : name();
 	}
 
 	public String getHTML() {

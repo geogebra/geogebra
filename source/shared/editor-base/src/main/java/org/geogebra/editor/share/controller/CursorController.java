@@ -315,7 +315,7 @@ public class CursorController {
 		}
 		if (node.getParent() instanceof FunctionNode) {
 			Tag name = ((FunctionNode) node.getParent()).getName();
-			if (name.equals(Tag.SUBSCRIPT)) {
+			if (name == Tag.SUBSCRIPT) {
 				return moveOutOfSuperSubScript(editorState);
 			}
 		}
@@ -348,15 +348,14 @@ public class CursorController {
 		if (isIntegralField(node)) {
 			return false;
 		}
-		if (node.getParent() instanceof FunctionNode) {
-			Tag name = ((FunctionNode) node.getParent()).getName();
-			if (name.equals(Tag.SUPERSCRIPT)) {
+		if (node.getParent() instanceof FunctionNode function) {
+			Tag name = function.getName();
+			if (name == Tag.SUPERSCRIPT) {
 				return moveOutOfSuperSubScript(editorState);
 			}
 		}
 		if (node instanceof SequenceNode) {
-			if (node.getParent() instanceof FunctionNode) {
-				FunctionNode function = (FunctionNode) node.getParent();
+			if (node.getParent() instanceof FunctionNode function) {
 				int downIndex = function
 						.getDownIndex(node.getParentIndex());
 				SequenceNode downArg = function.getChild(downIndex);

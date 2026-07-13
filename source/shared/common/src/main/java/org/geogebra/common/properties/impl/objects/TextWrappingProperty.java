@@ -70,7 +70,7 @@ public class TextWrappingProperty extends AbstractEnumeratedProperty<TextWrappin
 	protected void doSetValue(TextWrapping value) {
 		InlineTableController formatter = (InlineTableController) geoElement.getFormatter();
 		if (getLocalization() != null && formatter != null
-				&& !value.equals(TextWrapping.fromString(formatter.getWrapping()))) {
+				&& value != TextWrapping.fromString(formatter.getWrapping())) {
 			formatter.setWrapping(value.toString());
 		}
 		geoElement.updateVisualStyle(GProperty.COMBINED);

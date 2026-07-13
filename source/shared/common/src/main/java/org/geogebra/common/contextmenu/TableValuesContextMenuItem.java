@@ -77,8 +77,8 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 		 */
 		// TODO better name? Maybe matches/is/isItemOf/isTypeOf/isSameAs/isSameTypeAs/...
 		public boolean isSameItemAs(ContextMenuItem contextMenuItem) {
-			return contextMenuItem instanceof TableValuesContextMenuItem
-					&& ((TableValuesContextMenuItem) contextMenuItem).getItem().equals(this);
+			return contextMenuItem instanceof TableValuesContextMenuItem tableMenuItem
+					&& tableMenuItem.getItem() == this;
 		}
 	}
 

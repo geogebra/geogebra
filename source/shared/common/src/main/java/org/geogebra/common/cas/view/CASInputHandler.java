@@ -1062,7 +1062,7 @@ public class CASInputHandler {
 			}
 		}
 		if (ve != null
-				&& !cell.getAssignmentType().equals(AssignmentType.DELAYED)) {
+				&& cell.getAssignmentType() != AssignmentType.DELAYED) {
 			if (cell.showOutput() && !cell.isError()
 					&& (isPlottable || !ve.unwrap().any(
 							new UnplottableChecker(dim)))) {

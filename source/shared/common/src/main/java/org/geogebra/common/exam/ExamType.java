@@ -231,7 +231,7 @@ public enum ExamType {
 	 * @return available types
 	 */
 	public static List<ExamType> getAvailableValues(Localization loc, AppConfig config) {
-		Comparator<ExamType> genericFirst = Comparator.comparing(type -> !GENERIC.equals(type));
+		Comparator<ExamType> genericFirst = Comparator.comparing(type -> GENERIC != type);
 		return Arrays.stream(values()).filter(ExamType::isAvailable)
 				.sorted(genericFirst.thenComparing(type -> type.getDisplayName(loc, config)))
 				.collect(Collectors.toList());

@@ -36,7 +36,7 @@ public class ExamDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	 * @param version version of the app
 	 */
 	public ExamDrawerMenuFactory(GeoGebraConstants.Version version) {
-		this(version, version.equals(GeoGebraConstants.Version.SUITE));
+		this(version, version == GeoGebraConstants.Version.SUITE);
 	}
 
 	/**
