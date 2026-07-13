@@ -656,7 +656,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	@Override
 	public void setTreeMode(SortMode sortMode) {
-		if (getTreeMode().equals(sortMode)) {
+		if (getTreeMode() == sortMode) {
 			return;
 		}
 
@@ -1263,13 +1263,13 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private boolean shouldShow(GeoElement geo) {
 		return geo.isLabelSet() && geo.showInAlgebraView()
 				&& geo.isSetAlgebraVisible()
-				&& (getTreeMode().equals(SortMode.DEPENDENCY)
+				&& (getTreeMode() == SortMode.DEPENDENCY
 					|| showAuxiliaryObjects() || !geo.isAuxiliaryObject());
 	}
 
 	@Override
 	public void changeLayer(GeoElement geo, int oldLayer, int newLayer) {
-		if (this.treeMode.equals(SortMode.LAYER)) {
+		if (this.treeMode == SortMode.LAYER) {
 			TreeItem node = nodeTable.get(geo);
 
 			if (node != null) {

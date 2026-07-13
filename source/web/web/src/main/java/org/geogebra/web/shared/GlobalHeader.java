@@ -336,7 +336,7 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 
 	private @CheckForNull FocusableWidget getSettingsFocusableWidget() {
 		for (FocusableWidget focusableWidget : focusableWidgets) {
-			if (focusableWidget.getAccessibilityGroup().equals(SETTINGS)) {
+			if (focusableWidget.getAccessibilityGroup() == SETTINGS) {
 				return focusableWidget;
 			}
 		}

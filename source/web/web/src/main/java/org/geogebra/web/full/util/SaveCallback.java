@@ -101,8 +101,8 @@ public class SaveCallback {
 	 *            boolean
 	 */
 	public void onSaved(final Material mat, final boolean isLocal) {
-		if (mat.getType().equals(MaterialType.ggb)
-				|| mat.getType().equals(MaterialType.ggs)) {
+		if (mat.getType() == MaterialType.ggb
+				|| mat.getType() == MaterialType.ggs) {
 			app.setActiveMaterial(mat);
 			onSaved(app, state, false);
 			if (app.getGuiManager().isOpenFileViewLoaded()) {

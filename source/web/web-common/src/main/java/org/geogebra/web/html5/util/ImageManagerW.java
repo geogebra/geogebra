@@ -92,7 +92,7 @@ public class ImageManagerW extends ImageManager {
 	public @CheckForNull MyImage getExternalImage(@Nonnull String path) {
 		if (externalImageTable.containsKey(path)) {
 			MyImageW myImageW = new MyImageW(externalImageTable.get(path),
-					FileExtensions.SVG.equals(StringUtil.getFileExtension(path)));
+					FileExtensions.SVG == StringUtil.getFileExtension(path));
 			return myImageW;
 		}
 		return null;
@@ -494,7 +494,7 @@ public class ImageManagerW extends ImageManager {
 					if (url.string != null) {
 						HTMLImageElement elem = Dom.createImage();
 						elem.src = url.string;
-						img = new MyImageW(elem, FileExtensions.SVG.equals(ext));
+						img = new MyImageW(elem, FileExtensions.SVG == ext);
 					}
 					addImageToArchive("", fileName, url, ext, img, archive);
 				}

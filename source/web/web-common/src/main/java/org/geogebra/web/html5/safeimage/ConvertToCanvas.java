@@ -51,9 +51,9 @@ public class ConvertToCanvas implements ImagePreprocessor {
 	}
 
 	private boolean matchExtension(FileExtensions extension) {
-		return FileExtensions.PNG.equals(extension)
-				|| FileExtensions.JPG.equals(extension)
-				|| FileExtensions.JPEG.equals(extension);
+		return FileExtensions.PNG == extension
+				|| FileExtensions.JPG == extension
+				|| FileExtensions.JPEG == extension;
 	}
 
 	@Override

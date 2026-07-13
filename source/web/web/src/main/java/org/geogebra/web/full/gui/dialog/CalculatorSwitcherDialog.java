@@ -83,7 +83,7 @@ public class CalculatorSwitcherDialog extends ComponentDialog {
 				app.getLocalization().getMenu(appNameKey));
 		button.getElement().setTabIndex(0);
 		button.setStyleName("calcBtn");
-		if (subAppCode.equals(app.getConfig().getSubApp())) {
+		if (subAppCode == app.getConfig().getSubApp()) {
 			button.addStyleName("selected");
 			selectedSubAppButton = button;
 		}

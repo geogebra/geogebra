@@ -33,7 +33,7 @@ public class SVGUtil {
 	 * @return if it is an SVG or not
 	 */
 	public static boolean match(FileExtensions extension) {
-		return FileExtensions.SVG.equals(extension);
+		return FileExtensions.SVG == extension;
 	}
 
 	/**

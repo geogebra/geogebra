@@ -2217,7 +2217,7 @@ public class GuiManagerW extends GuiManager
 			return false;
 		} else if (getApp().isWhiteboardActive()) {
 			return true;
-		} else if (app.getConfig().getToolbarType().equals(AppType.CLASSIC)) {
+		} else if (app.getConfig().getToolbarType() == AppType.CLASSIC) {
 			Vector<ToolbarItem> toolbarItems =
 					ToolBar.parseToolbarString(app.getGuiManager().getToolbarDefinition());
 

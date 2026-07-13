@@ -213,11 +213,11 @@ public class CalcEmbedElement extends EmbedElement {
 		}
 
 		private void executeAction(ActionType action) {
-			if (ActionType.UNDO.equals(action)) {
+			if (ActionType.UNDO == action) {
 				undo();
-			} else if (ActionType.REDO.equals(action)) {
+			} else if (ActionType.REDO == action) {
 				redo();
-			} else if (ActionType.EMBEDDED_PRUNE_STATE_LIST.equals(action)) {
+			} else if (ActionType.EMBEDDED_PRUNE_STATE_LIST == action) {
 				pruneStateList();
 			}
 		}

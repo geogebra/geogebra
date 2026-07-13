@@ -65,7 +65,7 @@ public class AccessibleContentProvider {
 	 * @return a supplier providing localized, unescaped content text
 	 */
 	public Supplier<String> getContentSupplier() {
-		if (DEFINITION_AND_VALUE.equals(style) || LINEAR_NOTATION.equals(style)) {
+		if (DEFINITION_AND_VALUE == style || LINEAR_NOTATION == style) {
 			return this::getOutputWithLabel;
 		}
 		return this::getInput;

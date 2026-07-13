@@ -2304,7 +2304,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void updateAppCodeSuite(SuiteSubApp subApp, Perspective p) {
 		if (SUITE_APPCODE.equals(getAppletParameters().getDataParamAppName())) {
 			SuiteSubApp appCode = getConfig().getSubApp();
-			if (appCode != null && !appCode.equals(subApp)) {
+			if (appCode != null && appCode != subApp) {
 				this.activity = new SuiteActivity(subApp,
 						!getSettings().getCasSettings().isEnabled());
 				getKernel().removeFiltersFromConfig();
@@ -2687,7 +2687,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void updateSidebarAndMenu(SuiteSubApp subAppCode) {
 		getKernel().setSymbolicMode(
-				SuiteSubApp.CAS.equals(subAppCode)
+				SuiteSubApp.CAS == subAppCode
 						? SymbolicMode.SYMBOLIC_AV
 						: SymbolicMode.NONE);
 

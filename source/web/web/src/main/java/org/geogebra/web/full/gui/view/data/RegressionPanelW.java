@@ -238,7 +238,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 			}
 
 			// no regression
-			if (daModel.getRegressionMode().equals(Regression.NONE)
+			if (daModel.getRegressionMode() == Regression.NONE
 					|| statDialog.getRegressionModel() == null) {
 				eqn = "";
 			} else {
@@ -265,10 +265,8 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 	}
 
 	private void updateGUI() {
-		lbPolyOrder.setVisible(daModel.getRegressionMode().equals(
-				Regression.POLY));
-		predictionPanel.setVisible(!daModel.getRegressionMode()
-				.equals(Regression.NONE));
+		lbPolyOrder.setVisible(daModel.getRegressionMode() == Regression.POLY);
+		predictionPanel.setVisible(daModel.getRegressionMode() != Regression.NONE);
 	}
 
 	private void onRegressionChange() {

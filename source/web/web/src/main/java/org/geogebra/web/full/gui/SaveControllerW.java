@@ -352,7 +352,7 @@ public class SaveControllerW implements SaveController {
 
 	@Override
 	public boolean isWorksheet() {
-		return MaterialType.ggb.equals(saveType) || MaterialType.ggs.equals(saveType);
+		return MaterialType.ggb == saveType || MaterialType.ggs == saveType;
 	}
 
 	/**
@@ -377,7 +377,7 @@ public class SaveControllerW implements SaveController {
 
 	@Override
 	public boolean savedAsTemplate() {
-		return MaterialType.ggsTemplate.equals(getSaveType());
+		return MaterialType.ggsTemplate == getSaveType();
 	}
 
 	/**

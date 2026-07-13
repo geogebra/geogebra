@@ -121,8 +121,8 @@ public class SaveDialog extends SaveFileDialog {
 	public void show() {
 		super.show();
 		Material activeMaterial = app.getActiveMaterial();
-		templateCheckbox.setSelected(activeMaterial != null && Material.MaterialType.ggsTemplate
-				.equals(activeMaterial.getType()));
+		templateCheckbox.setSelected(activeMaterial != null
+				&& Material.MaterialType.ggsTemplate == activeMaterial.getType());
 		updateProviderUI();
 	}
 
@@ -134,7 +134,7 @@ public class SaveDialog extends SaveFileDialog {
 			int idxOfCurrentProvider = 0;
 			Material.Provider currentProvider = ((AppW) app).getFileManager().getFileProvider();
 			for (Material.Provider provider : availableProviders) {
-				if (provider.equals(currentProvider)) {
+				if (provider == currentProvider) {
 					break;
 				}
 				idxOfCurrentProvider++;

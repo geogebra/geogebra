@@ -53,7 +53,7 @@ public class ExamSEBDialog extends ComponentDialog {
 		FlowPanel downloadSEB = buildDownloadSEBButton(vendorSettings);
 		downloadSEB.addDomHandler(event -> {
 			Language lang = app.getLocalization().getLanguage();
-			String link = lang.equals(Language.German) ? downloadDE : downloadEN;
+			String link = "de".equals(lang.language) ? downloadDE : downloadEN;
 			Browser.openWindow(link);
 		}, ClickEvent.getType());
 		addDialogContent(downloadSEB);

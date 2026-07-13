@@ -74,7 +74,7 @@ public class UnbundledInitialViewState implements InitialViewState {
 		if (toolbarVisible) {
 			return true;
 		}
-		return id.equals(initialTabId);
+		return id == initialTabId;
 	}
 
 	@Override

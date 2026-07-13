@@ -78,7 +78,7 @@ public class SelectionTableW extends Grid implements ClickHandler {
 		addClickHandler(this);
 		addStyleName("SelectionTable");
 
-		if (this.mode.equals(SelectionTable.MODE_ICON)) {
+		if (this.mode == SelectionTable.MODE_ICON) {
 			setBorderStyleForCells();
 		}
 	}
