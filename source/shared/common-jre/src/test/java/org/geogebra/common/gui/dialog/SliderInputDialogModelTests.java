@@ -32,6 +32,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class SliderInputDialogModelTests extends BaseAppTestSetup {
 	private SliderInputDialogModel model;
@@ -93,20 +95,22 @@ public class SliderInputDialogModelTests extends BaseAppTestSetup {
 				() -> assertEquals(Math.PI, geo.getIntervalMax(), 1e-10));
 	}
 
-	@Test
-	public void validateFieldReturnsErrorForInvalidName() {
+	@ParameterizedTest
+	@ValueSource(strings = {"", "a b", "a/", "x"})
+	public void validateFieldReturnsErrorForInvalidName(String name) {
 		String previousName = model.getLastValidField(SliderType.NUMBER, Field.NAME);
-		String error = model.validateField(SliderType.NUMBER, Field.NAME, "");
+		String error = model.validateField(SliderType.NUMBER, Field.NAME, name);
 		assertAll(
 				() -> assertNotNull(error),
 				() -> assertEquals(previousName,
 						model.getLastValidField(SliderType.NUMBER, Field.NAME)));
 	}
 
-	@Test
-	public void validateFieldReturnsErrorForInvalidNumber() {
+	@ParameterizedTest
+	@ValueSource(strings = {"", "abc", "xx"})
+	public void validateFieldReturnsErrorForInvalidNumber(String value) {
 		assertNull(model.validateField(SliderType.NUMBER, Field.MIN, "-3"));
-		String error = model.validateField(SliderType.NUMBER, Field.MIN, "abc");
+		String error = model.validateField(SliderType.NUMBER, Field.MIN, value);
 		assertAll(
 				() -> assertNotNull(error),
 				() -> assertEquals("-3", model.getLastValidField(SliderType.NUMBER, Field.MIN)));

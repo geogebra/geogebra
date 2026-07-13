@@ -16,27 +16,15 @@
 
 package org.geogebra.web.full.gui.dialog;
 
-import static org.geogebra.editor.share.util.Unicode.DEGREE_CHAR;
-
-import java.util.EnumMap;
-import java.util.Map;
-
-import org.geogebra.common.euclidian.smallscreen.AdjustSlider;
-import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.geos.GeoAngle;
-import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.LabelManager;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.properties.impl.NumericPropertyUtil;
+import org.geogebra.common.gui.dialog.SliderInputDialogModel;
+import org.geogebra.common.gui.dialog.SliderInputDialogModel.Field;
+import org.geogebra.common.gui.dialog.SliderInputDialogModel.SliderType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
-import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -45,51 +33,15 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.user.client.ui.FlowPanel;
 
 public class SliderDialog extends ComponentDialog implements HasKeyboardPopup {
-	public enum SliderType {
-		NUMERIC("Numeric", MaterialDesignResources.INSTANCE.number()),
-		ANGLE("Angle", MaterialDesignResources.INSTANCE.angle_black());
-
-		private final String ariaLabel;
-		private final SVGResource svgResource;
-
-		SliderType(String ariaLabel, SVGResource svgResource) {
-			this.ariaLabel = ariaLabel;
-			this.svgResource = svgResource;
-		}
-
-		public String getAriaLabel() {
-			return ariaLabel;
-		}
-
-		public IconSpec getIcon() {
-			return new ImageIconSpec(svgResource);
-		}
-	}
-
 	private final AppW appW;
+	private final SliderInputDialogModel model;
 	private ComponentInputField nameTextField;
 	private IconButton numberButton;
 	private IconButton angleButton;
 	private ComponentInputField minTextField;
 	private ComponentInputField maxTextField;
 	private ComponentInputField stepTextField;
-	private SliderType sliderType = SliderType.NUMERIC;
-	private final EnumMap<SliderType, String> min = new EnumMap<>(Map.of(
-			SliderType.NUMERIC, "-5",
-			SliderType.ANGLE, "0" + DEGREE_CHAR
-	));
-	private final EnumMap<SliderType, String> max = new EnumMap<>(Map.of(
-			SliderType.NUMERIC, "5",
-			SliderType.ANGLE, "360" + DEGREE_CHAR
-	));
-	private final EnumMap<SliderType, String> step = new EnumMap<>(Map.of(
-			SliderType.NUMERIC, "0.1",
-			SliderType.ANGLE, "1" + DEGREE_CHAR
-	));
-	private GeoNumeric geoResult;
-	private GeoNumeric number;
-	private GeoAngle angle;
-	private final NumericPropertyUtil util;
+	private SliderType sliderType = SliderType.NUMBER;
 
 	/**
 	 * base dialog constructor
@@ -101,8 +53,8 @@ public class SliderDialog extends ComponentDialog implements HasKeyboardPopup {
 	public SliderDialog(final AppW appW, DialogData dialogData, int x, int y) {
 		super(appW, dialogData, false, true);
 		this.appW = appW;
-		this.util = new NumericPropertyUtil(appW.getKernel().getAlgebraProcessor());
-		initResultGeo(x, y);
+		this.model = new SliderInputDialogModel(appW, appW.getActiveEuclidianView(),
+				appW.getLocalization(), appW.getKernel(), x, y);
 		addStyleName("sliderDialog");
 		buildDialog();
 		appW.registerPopup(this);
@@ -116,7 +68,7 @@ public class SliderDialog extends ComponentDialog implements HasKeyboardPopup {
 	private void buildDialog() {
 		createNameTextField();
 
-		numberButton = createIconButton(SliderType.NUMERIC);
+		numberButton = createIconButton(SliderType.NUMBER);
 		numberButton.setActive(true);
 		angleButton = createIconButton(SliderType.ANGLE);
 
@@ -130,9 +82,9 @@ public class SliderDialog extends ComponentDialog implements HasKeyboardPopup {
 		firstRow.add(nameTextField);
 		firstRow.add(buttonsHolder);
 
-		minTextField = createTextField("min", min);
-		maxTextField = createTextField("max", max);
-		stepTextField = createTextField("Step", step);
+		minTextField = createTextField("min", Field.MIN);
+		maxTextField = createTextField("max", Field.MAX);
+		stepTextField = createTextField("Step", Field.STEP);
 
 		FlowPanel secondRow = new FlowPanel();
 		secondRow.addStyleName("secondRow");
@@ -145,33 +97,19 @@ public class SliderDialog extends ComponentDialog implements HasKeyboardPopup {
 	}
 
 	private void createNameTextField() {
-		nameTextField = new ComponentInputField((AppW) app, "",
-				app.getLocalization().getMenu("Name"), "", number.getDefaultLabel(), "");
+		nameTextField = new ComponentInputField(appW, "",
+				app.getLocalization().getMenu("Name"), "",
+				model.getLastValidField(sliderType, Field.NAME), "");
 		nameTextField.addStyleName("nameField");
-		nameTextField.getTextWidget().addBlurHandler(event -> {
-			String value = nameTextField.getText();
-			GeoNumeric element = isNumeric() ? number : angle;
-			if (value.isEmpty()
-					|| !LabelManager.isValidLabel(value, element.getKernel(), element)) {
-				nameTextField.setError(appW.getLocalization().getError("InvalidInput"));
-			} else {
-				nameTextField.setError(null);
-			}
-		});
+		nameTextField.getTextWidget().addBlurHandler(event ->
+				validateField(nameTextField, Field.NAME));
 	}
 
-	private ComponentInputField createTextField(String labelKey,
-			Map<SliderType, String> valuePerType) {
-		ComponentInputField textField = new ComponentInputField((AppW) app, "",
-				app.getLocalization().getMenu(labelKey), "", valuePerType.get(sliderType), "");
-		textField.getTextWidget().addBlurHandler(event -> {
-			if (!util.isNumber(textField.getText())) {
-				textField.setError(appW.getLocalization().getError("InvalidInput"));
-			} else {
-				textField.setError(null);
-				valuePerType.put(sliderType, textField.getText());
-			}
-		});
+	private ComponentInputField createTextField(String labelKey, Field field) {
+		ComponentInputField textField = new ComponentInputField(appW, "",
+				app.getLocalization().getMenu(labelKey), "",
+				model.getLastValidField(sliderType, field), "");
+		textField.getTextWidget().addBlurHandler(event -> validateField(textField, field));
 		textField.addInputHandler(() -> {
 			if (!isNumeric()) {
 				insertDegreeSymbolIfNeeded(textField);
@@ -181,9 +119,24 @@ public class SliderDialog extends ComponentDialog implements HasKeyboardPopup {
 		return textField;
 	}
 
+	private void validateField(ComponentInputField textField, Field field) {
+		textField.setError(model.validateField(sliderType, field,
+				textField.getText()));
+	}
+
 	private IconButton createIconButton(SliderType sliderType) {
 		return new IconButton(appW, () -> updateUI(sliderType),
-				sliderType.getIcon(), sliderType.getAriaLabel());
+				new ImageIconSpec(getIcon(sliderType)), getAriaLabel(sliderType));
+	}
+
+	private String getAriaLabel(SliderType type) {
+		return type == SliderType.ANGLE ? "Angle" : "Numeric";
+	}
+
+	private SVGResource getIcon(SliderType type) {
+		return type == SliderType.ANGLE
+				? MaterialDesignResources.INSTANCE.angle_black()
+				: MaterialDesignResources.INSTANCE.number();
 	}
 
 	private void updateUI(SliderType sliderType) {
@@ -199,84 +152,25 @@ public class SliderDialog extends ComponentDialog implements HasKeyboardPopup {
 	}
 
 	private boolean isNumeric() {
-		return SliderType.NUMERIC.equals(sliderType);
+		return SliderType.NUMBER == sliderType;
 	}
 
 	private void updateTextFields() {
-		nameTextField.setInputText(isNumeric()
-				? number.getDefaultLabel() : angle.getDefaultLabel());
-		minTextField.setInputText(min.get(sliderType));
-		maxTextField.setInputText(max.get(sliderType));
-		stepTextField.setInputText(step.get(sliderType));
-
-	}
-
-	private void initResultGeo(int x, int y) {
-		Construction cons = app.getKernel().getConstruction();
-
-		number = new GeoNumeric(cons);
-		angle = new GeoAngle(cons);
-
-		// allow outside range 0-360
-		angle.setAngleStyle(GeoAngle.AngleStyle.UNBOUNDED);
-
-		GeoNumeric.setSliderFromDefault(number, false);
-		GeoNumeric.setSliderFromDefault(angle, true);
-		number.setValue(1);
-		angle.setValue(45 * Math.PI / 180);
-
-		number.setSliderLocation(x, y, true);
-		number.setAVSliderOrCheckboxVisible(true);
-		angle.setSliderLocation(x, y, true);
-		angle.setAVSliderOrCheckboxVisible(true);
-		geoResult = null;
-	}
-
-	private boolean hasError() {
-		return nameTextField.hasError() || minTextField.hasError() || maxTextField.hasError()
-				|| stepTextField.hasError();
+		nameTextField.setInputText(model.getLastValidField(sliderType, Field.NAME));
+		minTextField.setInputText(model.getLastValidField(sliderType, Field.MIN));
+		maxTextField.setInputText(model.getLastValidField(sliderType, Field.MAX));
+		stepTextField.setInputText(model.getLastValidField(sliderType, Field.STEP));
 	}
 
 	private void createSlider() {
-		if (hasError()) {
-			setPreventHide(true);
-			return;
-		}
-		setPreventHide(false);
+		validateField(nameTextField, Field.NAME);
+		validateField(minTextField, Field.MIN);
+		validateField(maxTextField, Field.MAX);
+		validateField(stepTextField, Field.STEP);
 
-		geoResult = !isNumeric() ? angle : number;
-		String label = nameTextField.getText();
-		if (!label.isBlank()) {
-			geoResult.setLabel(label);
-		}
-		String minValue = minTextField.getText();
-		String maxValue = maxTextField.getText();
-		String stepValue = stepTextField.getText();
-		geoResult.setIntervalMin(getNumberFromInput(minValue));
-		geoResult.setIntervalMax(getNumberFromInput(maxValue));
-		geoResult.setAnimationStep(getNumberFromInput(stepValue));
-
-		geoResult.setLabelMode(GeoElementND.LABEL_NAME_VALUE);
-		geoResult.setLabelVisible(true);
-		geoResult.update();
-		AdjustSlider.ensureOnScreen(geoResult, app.getActiveEuclidianView());
-
-		app.getActiveEuclidianView().requestFocusInWindow();
-		app.storeUndoInfo();
-		app.getKernel().notifyRepaint();
-	}
-
-	private NumberValue getNumberFromInput(final String inputText) {
-		boolean emptyString = "".equals(inputText);
-		NumberValue value = new MyDouble(appW.getKernel(), Double.NaN);
-		if (!emptyString) {
-			NumberValue parsed = appW.getKernel().getAlgebraProcessor()
-					.evaluateToNumeric(inputText, false);
-			if (parsed != null) {
-				value = parsed;
-			}
-		}
-		return value;
+		boolean created = model.submit(sliderType, nameTextField.getText(),
+				minTextField.getText(), maxTextField.getText(), stepTextField.getText());
+		setPreventHide(!created);
 	}
 
 	private void insertDegreeSymbolIfNeeded(ComponentInputField inputField) {

@@ -16,8 +16,6 @@
 
 package org.geogebra.common.gui.dialog;
 
-import static org.geogebra.editor.share.input.Character.isLetter;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +30,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -163,7 +162,7 @@ public final class SliderInputDialogModel {
 	}
 
 	private String validateName(String name) {
-		if (name.isEmpty() || !isLetter(name.charAt(0))) {
+		if (!LabelManager.isValidLabel(name, kernel, null)) {
 			return localization.getError("IllegalArgument");
 		}
 		return null;
@@ -214,7 +213,7 @@ public final class SliderInputDialogModel {
 			}
 			value = kernel.getAlgebraProcessor().evaluateToNumeric(input, errorHandler);
 		}
-		if (value == null) {
+		if (value == null || error != null) {
 			if (error == null) {
 				error = localization.getError("NumberExpected");
 			}

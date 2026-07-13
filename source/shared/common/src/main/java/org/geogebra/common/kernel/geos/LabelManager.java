@@ -16,6 +16,8 @@
 
 package org.geogebra.common.kernel.geos;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -46,7 +48,7 @@ public class LabelManager {
 
 	/**
 	 * Checks whether name can be used as label Parser.parseLabel takes care of
-	 * checking unicode ranges and indices; this only checks for reserved names
+	 * checking Unicode ranges and indices; this only checks for reserved names
 	 * and CAS labels
 	 * 
 	 * @param geo
@@ -55,7 +57,7 @@ public class LabelManager {
 	 *            potential label
 	 * @return true for valid labels
 	 */
-	public static boolean checkName(GeoElementND geo, String nameToCheck) {
+	public static boolean checkName(@CheckForNull GeoElementND geo, String nameToCheck) {
 		String name = nameToCheck;
 		if (name == null) {
 			return true;
@@ -83,12 +85,12 @@ public class LabelManager {
 	 * @param kernel
 	 *            kernel
 	 * @param geo
-	 *            element
+	 *            element (special rules apply to functions and CAS cells)
 	 * @return whether label can be parsed, is not reserved name and does not
 	 *         start with $
 	 */
 	public static boolean isValidLabel(String label, Kernel kernel,
-			GeoElement geo) {
+			@CheckForNull GeoElement geo) {
 
 		if (!checkName(geo, label)) {
 			return false;

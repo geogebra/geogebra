@@ -1793,8 +1793,8 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * Parses given String str and tries to evaluate it to a NumberValue Returns
-	 * null if something went wrong.
+	 * Parses given String str and tries to evaluate it to a NumberValue. Returns
+	 * {@code null} if input can't be evaluated and undefined number if result is of a wrong type.
 	 *
 	 * @param str
 	 *            string to parse
@@ -1809,7 +1809,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * Parses given String str and tries to evaluate it to a NumberValue Returns
-	 * null if something went wrong.
+	 * {@code null} if input can't be evaluated and undefined number if result is of a wrong type.
 	 *
 	 * @param str
 	 *            string to parse
@@ -1828,8 +1828,8 @@ public class AlgebraProcessor {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
 			GeoElementND[] temp = processValidExpression(ve, info);
 
-			if (temp[0].unwrapSymbolic() instanceof GeoNumberValue) {
-				num = (GeoNumberValue) temp[0].unwrapSymbolic();
+			if (temp[0].unwrapSymbolic() instanceof GeoNumberValue numericResult) {
+				num = numericResult;
 			} else {
 				num = new GeoNumeric(cons, Double.NaN);
 				ErrorHelper.handleInvalidInput(str, loc, handler);
