@@ -25,6 +25,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.commands.Commands;
@@ -203,6 +204,23 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 		GeoElement a1 = lookup("A1");
 		assertEquals(GeoClass.NUMERIC, a1.getGeoClassType());
 		assertEquals(Commands.ParseToNumber, getCommand(a1));
+	}
+
+	@Test
+	@Issue("APPS-7720")
+	public void testInvalidInputWithBrackets() {
+		processor.process("=(", "A1");
+		GeoElement a1 = lookup("A1");
+		assertEquals(Commands.ParseToNumber, getCommand(a1));
+	}
+
+	@Test
+	@Issue("APPS-7720")
+	public void testInvalidInputTextMode() {
+		processor.process("(", "A1");
+		GeoElement a1 = lookup("A1");
+		assertEquals(GeoClass.TEXT, a1.getGeoClassType());
+		assertEquals("(", a1.toValueString(StringTemplate.testTemplate));
 	}
 
 	@Test

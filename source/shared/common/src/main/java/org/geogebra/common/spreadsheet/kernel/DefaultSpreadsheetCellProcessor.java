@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.TokenMgrException;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.error.ErrorLogger;
@@ -122,7 +123,7 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 					&& cellName.equals(((Variable) v).getName()))) {
 				return true;
 			}
-		} catch (ParseException | TokenMgrException e) {
+		} catch (ParseException | TokenMgrException | MyError e) {
 			// continue
 		}
 		return false;
