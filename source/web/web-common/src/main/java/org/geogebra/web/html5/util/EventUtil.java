@@ -114,7 +114,8 @@ public final class EventUtil {
 	 * @param element target element
 	 */
 	public static void stopPointerEvents(Element element, Predicate<Integer> check) {
-		for (String evtName : new String[]{"pointerup", "pointerdown"}) {
+		for (String evtName : new String[] {"pointerup", "pointerdown",
+				"pointermove", "pointerout"}) {
 			Dom.addEventListener(element, evtName, e -> {
 				PointerEvent ptrEvent = Js.uncheckedCast(e);
 				if (check.test(ptrEvent.button)) {

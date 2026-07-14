@@ -24,6 +24,7 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.util.CopyPasteW;
@@ -157,9 +158,11 @@ public class PointerEventHandler {
 	 * If type is "pen", move can only happen if the pen is touching the surface.
 	 * In case we lost all pointers and we're getting pen movement,
 	 * we assume that the last "pointerout" event was a glitch (happens on iPad).
+	 * On Windows we can have hovering pen events => do not start a stroke
 	 */
 	private boolean isPenStrokeInterrupted(elemental2.dom.PointerEvent event) {
 		return first == null && second == null && third == null
+				&& NavigatorUtil.isiOS()
 				&& lastOutId == event.pointerId && "pen".equals(event.pointerType);
 	}
 
@@ -269,7 +272,7 @@ public class PointerEventHandler {
 		globalHandlers.addEventListener(element, "pointerout",
 				evt -> onPointerOut(Js.uncheckedCast(evt)));
 
-		globalHandlers.addEventListener(element, "pointercanel",
+		globalHandlers.addEventListener(element, "pointercancel",
 				evt -> onPointerOut(Js.uncheckedCast(evt)));
 
 		// if pointer was released in the applet, process event coordinates like "pointerdown"
