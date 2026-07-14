@@ -1294,6 +1294,7 @@ var __giac = [
 { cat:"Line", cmd:"Line[(a,b),y=2x]", result:"y = -2 a + b + 2x" },
 { cat:"Circle", cmd:"Circle[(a,b),(c,d)]", result:"(-a + x)\u00B2 + (-b + y)\u00B2 = -2 a c - 2b d + a\u00B2 + b\u00B2 + c\u00B2 + d\u00B2|OR|(-a + x)\u00B2 + (-b + y)\u00B2 = a\u00B2 + b\u00B2 + c\u00B2 + d\u00B2 - 2a c - 2b d" },
 { cat:"Circle", cmd:"Circle[(a,b),r]", result:"(x - a)\u00B2 + (y - b)\u00B2 = r\u00B2|OR|(-a + x)\u00B2 + (-b + y)\u00B2 = r\u00B2" },
+{ cat:"Circle", cmd:"Circle[(sqrt(2)/2+1/2,sqrt(3)/2+1/2),(1,1)]", result:"(x - 1 / 2 (sqrt(2) + 1))² + (y - 1 / 2 (sqrt(3) + 1))² = -1 / 2 sqrt(2) - 1 / 2 sqrt(3) + 7 / 4" },
 { cat:"AngularBisector", cmd:"AngularBisector[(0,1),(0,0),(1,0)]", result:"y=x" },
 { cat:"AngularBisector", cmd:"AngularBisector[y=x,y=-x]", result:"{x = 0, y = 0}" },
 { cat:"AngularBisector", cmd:"AngularBisector[x+y=10,x-y=3]", result:"{y = 7 / 2, x = 13 / 2}" },
