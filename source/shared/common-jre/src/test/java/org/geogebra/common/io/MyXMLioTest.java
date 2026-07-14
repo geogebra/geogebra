@@ -54,7 +54,7 @@ public class MyXMLioTest extends BaseUnitTest {
 		return new AppCommon3D(new LocalizationCommonUTF(3), new AwtFactoryCommon(),
 				new AppConfigDefault()) {
 			@Override
-			public void showErrorDialog(String message) {
+			protected void showErrorDialog(String message) {
 				fail(message);
 			}
 		};

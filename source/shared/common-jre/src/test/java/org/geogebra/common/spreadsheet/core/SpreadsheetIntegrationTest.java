@@ -156,7 +156,7 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 
 	@Test
 	public void testUndoStyleChange() {
-		UndoManager undoManager = getApp().getUndoManager();
+		final UndoManager undoManager = getApp().getUndoManager();
 		Construction construction = getKernel().getConstruction();
 		SpreadsheetStyleBarModel styleBarModel = spreadsheet.getStyleBarModel();
 
@@ -196,7 +196,7 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 
 	@Test
 	public void testUndoColumnResize() {
-		UndoManager undoManager = getApp().getUndoManager();
+		final UndoManager undoManager = getApp().getUndoManager();
 		Construction construction = getKernel().getConstruction();
 		String initialXml = construction.getCurrentUndoXML(false).toString();
 

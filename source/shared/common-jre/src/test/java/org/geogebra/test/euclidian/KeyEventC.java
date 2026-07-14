@@ -22,7 +22,7 @@ import org.geogebra.editor.share.util.KeyCodes;
 final class KeyEventC extends KeyEvent {
 	private KeyCodes keyCode;
 
-	public KeyEventC(KeyCodes keyCode) {
+	KeyEventC(KeyCodes keyCode) {
 		this.keyCode = keyCode;
 	}
 

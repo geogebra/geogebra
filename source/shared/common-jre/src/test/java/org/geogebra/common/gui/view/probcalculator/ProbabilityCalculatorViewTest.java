@@ -243,7 +243,7 @@ public class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 				+ table.highlightRange());
 	}
 
-	private class HeadlessStatisticsCalculator extends StatisticsCalculator {
+	private final class HeadlessStatisticsCalculator extends StatisticsCalculator {
 
 		private HeadlessStatisticsCalculator() {
 			super(ProbabilityCalculatorViewTest.this.getApp());

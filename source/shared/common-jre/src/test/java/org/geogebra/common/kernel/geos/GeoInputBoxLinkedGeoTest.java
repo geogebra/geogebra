@@ -848,7 +848,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	@Test
 	public void shouldEscapeText() {
 		setupInput("txt", "\"--^\\\"");
-		assertEquals(inputBox.getText(), "\\text{-{}-{}\\^{} \\backslash{}}");
+		assertEquals("\\text{-{}-{}\\^{} \\backslash{}}", inputBox.getText());
 	}
 
 	@Issue("APPS-7006")

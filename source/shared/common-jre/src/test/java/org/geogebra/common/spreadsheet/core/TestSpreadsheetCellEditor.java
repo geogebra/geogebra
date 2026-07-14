@@ -76,7 +76,7 @@ final class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 	/**
 	 * @return whether this is visible; keeps track of {@link #show} and {@link #hide} calls.
 	 */
-	public boolean isShowing() {
+	boolean isShowing() {
 		return showing;
 	}
 }

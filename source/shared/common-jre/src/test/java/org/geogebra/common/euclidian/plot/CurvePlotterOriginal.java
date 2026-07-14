@@ -192,7 +192,6 @@ public class CurvePlotterOriginal {
 
 		// slope between (t1, t2)
 		double[] diff = view.getOnScreenDiff(eval0, eval1);
-		int countDiffZeros = 0;
 
 		// init previous slope using (t1, t1 + min_step)
 		curve.evaluateCurve(t1 + divisors[length - 1], eval);
@@ -204,7 +203,7 @@ public class CurvePlotterOriginal {
 		boolean nextLineToNeedsMoveToFirst = false;
 		double[] move = curve.newDoubleArray();
 		boolean needLabelPos = calcLabelPos;
-		int i = 1;
+		int i = 1, countDiffZeros = 0;
 		// Actual plotting algorithm:
 		// use bisection for interval until we reach
 		// a small pixel distance between two points and

@@ -610,7 +610,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		assertThat(lookup("a"), isDefined());
 		inputBox.updateLinkedGeo("?");
 		getApp().setXML(getApp().getXML(), true);
-		assertEquals(lookup("a").toString(StringTemplate.xmlTemplate), "a(y) = ?");
+		assertEquals("a(y) = ?", lookup("a").toString(StringTemplate.xmlTemplate));
 	}
 
 	@Test

@@ -37,7 +37,7 @@ class ScreenReaderTest extends BaseAppTestSetup {
 	ScreenReaderAdapter screenReader = Mockito.spy(ScreenReaderAdapter.class);
 
 	@BeforeEach
-	public void initialize() {
+	void initialize() {
 		setupClassicApp();
 	}
 
@@ -49,7 +49,7 @@ class ScreenReaderTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testLaTeXWithZero() {
+	void testLaTeXWithZero() {
 		String function = "sin((2x)/(3) (4-5)) + 0";
 		tsc(function,
 				"sin open parenthesis start of fraction 2 times x over 3 end of fraction "
@@ -58,7 +58,7 @@ class ScreenReaderTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testLaTeXWithNegative() {
+	void testLaTeXWithNegative() {
 		String funct = "sin((2x)/(3) (4-5)) + -2";
 		tsc(funct,
 				"sin open parenthesis start of fraction 2 times x over 3"
@@ -68,7 +68,7 @@ class ScreenReaderTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testLaTeXWithOneTimes() {
+	void testLaTeXWithOneTimes() {
 		String funct = "1 * (sin((2x)/(3) (4-5)) + -2)";
 		tsc(funct,
 				"1 times open parenthesis sin open parenthesis start of fraction 2 times x over"
@@ -77,7 +77,7 @@ class ScreenReaderTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testFunctions() {
+	void testFunctions() {
 		tsc("x^2+2x-1", "x squared plus 2 times x minus 1");
 		tsc("sqrt(x+1)", "start of square root x plus 1 end of square root");
 		tsc("(x+1)/(x-1)",
@@ -88,19 +88,19 @@ class ScreenReaderTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testFraction() {
+	void testFraction() {
 		tsc("1/2", "0.5");
 		tsc("1+1/2", "start of fraction 3 over 2 end of fraction");
 	}
 
 	@Test
-	public void testDegree() {
+	void testDegree() {
 		tsc("x + pi deg", "x plus pi degrees");
 		tsc("pi deg", "pi degrees");
 	}
 
 	@Test
-	public void testReadDropDownItemSelected() {
+	void testReadDropDownItemSelected() {
 		// only test the closed dropdown case here, the rest is done in AuralTextTest
 		GeoList list = evaluateGeoElement("{3,4}");
 		list.setDrawAsComboBox(true);
@@ -113,7 +113,7 @@ class ScreenReaderTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testGetAriaExpression() throws ParseException {
+	void testGetAriaExpression() throws ParseException {
 		Formula formula = new FormulaConverter().buildFormula("6*7");
 		String forReader = ScreenReader.getAriaExpression(getApp(), formula, "42");
 		assertEquals("6 times 7 = 42", forReader);

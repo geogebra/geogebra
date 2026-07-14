@@ -76,8 +76,8 @@ public class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void operationSequence() {
-		assertEquals(StringUtil.preprocessForParser("1..2", false),
-				"1" + Unicode.ELLIPSIS + "2");
+		assertEquals("1" + Unicode.ELLIPSIS + "2",
+				StringUtil.preprocessForParser("1..2", false));
 		t("3.2..7.999", "{3, 4, 5, 6, 7, 8}");
 		t("-3.2..3.2", "{-3, -2, -1, 0, 1, 2, 3}");
 		t("3.2..-2", "{3, 2, 1, 0, -1, -2}");
@@ -3222,7 +3222,7 @@ public class CommandsTest extends CommandTestSetup {
 		t("Rename[ cc, \"A_\" ]");
 		assertNull(lookup("cc"));
 		assertEquals(
-				lookup("A").toValueString(StringTemplate.defaultTemplate), "42");
+				"42", lookup("A").toValueString(StringTemplate.defaultTemplate));
 	}
 
 	@Test

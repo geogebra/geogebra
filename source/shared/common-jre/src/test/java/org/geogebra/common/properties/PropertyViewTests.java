@@ -358,7 +358,7 @@ public class PropertyViewTests extends BaseAppTestSetup {
 		getApp().storeUndoInfo();
 		opacityProperty.addValueObserver(new UndoSavingPropertyObserver(getApp().getUndoManager()));
 		PropertyView.Slider slider = (PropertyView.Slider) PropertyView.of(opacityProperty);
-		int originalValue = opacityProperty.getValue();
+		final int originalValue = opacityProperty.getValue();
 
 		slider.onDragStarted();
 		slider.setValue(20);
@@ -395,7 +395,7 @@ public class PropertyViewTests extends BaseAppTestSetup {
 		getApp().storeUndoInfo();
 		opacityProperty.addValueObserver(new UndoSavingPropertyObserver(getApp().getUndoManager()));
 		PropertyView.Slider slider = (PropertyView.Slider) PropertyView.of(opacityProperty);
-		int originalValue = opacityProperty.getValue();
+		final int originalValue = opacityProperty.getValue();
 
 		slider.onDragStarted();
 		slider.setValue(10);

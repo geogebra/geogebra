@@ -104,15 +104,15 @@ public class IntervalAlgebraTest {
 	@Test
 	public void testMultiplicativeInverseResultInfinityAbs() {
 		Interval actual = evaluator.inverse(interval(-6, 0));
-		assertEquals(actual.getLow(), Double.NEGATIVE_INFINITY, 0);
-		assertEquals(actual.getHigh(), -1.0 / 6.0, PRECISION);
+		assertEquals(Double.NEGATIVE_INFINITY, actual.getLow(), 0);
+		assertEquals(-1.0 / 6.0, actual.getHigh(), PRECISION);
 	}
 
 	@Test
 	public void testMultiplicativeInverseResultAbsInfinity() {
 		Interval actual = evaluator.inverse(interval(0, 2));
-		assertEquals(actual.getHigh(), Double.POSITIVE_INFINITY, 0);
-		assertEquals(actual.getLow(), 1.0 / 2.0, PRECISION);
+		assertEquals(Double.POSITIVE_INFINITY, actual.getHigh(), 0);
+		assertEquals(1.0 / 2.0, actual.getLow(), PRECISION);
 	}
 
 	@Test

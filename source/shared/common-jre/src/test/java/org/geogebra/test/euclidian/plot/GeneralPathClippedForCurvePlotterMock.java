@@ -27,7 +27,7 @@ class GeneralPathClippedForCurvePlotterMock
 
 	private final PathPlotterMock plotterMock;
 
-	public GeneralPathClippedForCurvePlotterMock(EuclidianView view,
+	GeneralPathClippedForCurvePlotterMock(EuclidianView view,
 			PathPlotterMock plotterMock) {
 		super(view);
 		this.plotterMock = plotterMock;
@@ -96,7 +96,7 @@ class GeneralPathClippedForCurvePlotterMock
 		return plotterMock.hashCode();
 	}
 
-	public void setDelimiter(String delimiter) {
+	void setDelimiter(String delimiter) {
 		plotterMock.setDelimiter(delimiter);
 	}
 }

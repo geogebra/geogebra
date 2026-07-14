@@ -42,7 +42,7 @@ class BaseScientificFormatTest {
 	}
 
 	private static class DummyFormat extends ScientificFormatAdapter {
-		public DummyFormat() {
+		private DummyFormat() {
 			super(false, 10);
 			setSigDigits(5);
 		}

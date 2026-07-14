@@ -83,7 +83,7 @@ public class GgbApiTest {
 			}
 
 			@Override
-			public JsObjectWrapper getWrapper(Object options) {
+			protected JsObjectWrapper getWrapper(Object options) {
 				return new JsObjectWrapperCommon(options);
 			}
 		};
@@ -526,8 +526,8 @@ public class GgbApiTest {
 		assertEquals(List.of("UPDATE_STYLE a"), acc.getEvents());
 	}
 
-	private class MockScriptManager extends ScriptManagerJre {
-		public MockScriptManager() {
+	private final class MockScriptManager extends ScriptManagerJre {
+		MockScriptManager() {
 			super(GgbApiTest.this.app);
 		}
 
