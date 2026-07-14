@@ -653,29 +653,7 @@ public abstract class Path2D implements Shape {
             // REMIND: Can we do both somehow?
             return new Path2D.Double(this);
         }
-
-
-
-
-        /**
-         * Reads the default serializable fields from the
-         * {@code ObjectInputStream} followed by an explicit
-         * serialization of the path segments stored in this
-         * path.
-         * <p>
-         * There are no default serializable fields as of 1.6.
-         * <p>
-         * The serial data for this object is described in the
-         * writeObject method.
-         *
-         * @since 1.6
-         */
-//        private void readObject(java.io.ObjectInputStream s)
-//            throws java.lang.ClassNotFoundException, java.io.IOException
-//        {
-//            super.readObject(s, true);
-//        }
-
+`
         static class CopyIterator extends Path2D.Iterator {
             double doubleCoords[];
 

@@ -771,8 +771,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		}
 		return new PPolynomial(result);
 	}
-	
-	
+
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof PPolynomial) {
@@ -827,8 +826,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	public static boolean areAssociates1(PPolynomial p1, PPolynomial p2) {
 		return p1.equals(p2) || p1.add(p2).isZero();
 	}
-	
-	
+
 	/**
 	 * Tests if the Polynomial is the constant one polynomial
 	 * @return true if the polynomial is zero false otherwise
@@ -928,8 +926,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		ret += "groebner(" + idealVariable + ")!=1;"; // the Groebner basis calculation command
 		return ret;
 	}
-	
-	
+
 	/**
 	 * Creates a Singular program for the elimination ideal given by
 	 * a set of generating polynomials. We get the result in factorized form.

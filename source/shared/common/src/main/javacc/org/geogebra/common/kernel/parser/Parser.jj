@@ -1470,7 +1470,6 @@ ExpressionValue enelement():
     LOOKAHEAD(2147483647)
     ev = tuple()
  |
-
   // text (between " ... ")
   c = <TEXT>
     {
