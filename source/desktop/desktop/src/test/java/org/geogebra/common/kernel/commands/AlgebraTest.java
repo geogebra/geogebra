@@ -63,17 +63,17 @@ public class AlgebraTest {
 	}
 
 	protected void t(String s, String... expected) {
-		CommandsTestCommon.testSyntax(s, AlgebraTestHelper.getMatchers(expected), app,
+		AlgebraTestHelper.checkSyntaxSingle(s, AlgebraTestHelper.getMatchers(expected),
 				ap, StringTemplate.xmlTemplate);
 	}
 
 	protected void tRound(String s, String... expected) {
-		CommandsTestCommon.testSyntax(s, AlgebraTestHelper.getMatchers(expected), app,
+		AlgebraTestHelper.checkSyntaxSingle(s, AlgebraTestHelper.getMatchers(expected),
 				ap, StringTemplate.editTemplate.deriveWithoutCoefficientSimplification());
 	}
 
 	protected void t(String s, Matcher<String> expected) {
-		CommandsTestCommon.testSyntax(s, Collections.singletonList(expected), app, ap,
+		AlgebraTestHelper.checkSyntaxSingle(s, Collections.singletonList(expected), ap,
 				StringTemplate.xmlTemplate);
 	}
 }

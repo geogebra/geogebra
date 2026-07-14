@@ -16,24 +16,26 @@
 
 package org.geogebra.common.exam;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
-import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.restrictions.PropertyRestriction;
-import org.junit.Test;
+import org.geogebra.test.BaseAppTestSetup;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class PropertyRestrictionTests extends BaseUnitTest {
+public class PropertyRestrictionTests extends BaseAppTestSetup {
     private TestEnumeratedProperty enumeratedProperty;
 
-    @Override
+    @BeforeEach
     public void setup() {
-        super.setup();
+        setupApp(SuiteSubApp.GRAPHING);
         enumeratedProperty = new TestEnumeratedProperty(getLocalization(),
                 "Test property",
                 List.of("value1", "value2", "value3"));

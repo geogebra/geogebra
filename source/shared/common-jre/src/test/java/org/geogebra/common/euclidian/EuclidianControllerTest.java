@@ -17,8 +17,8 @@
 package org.geogebra.common.euclidian;
 
 import static org.geogebra.test.TestStringUtil.unicode;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,13 +39,13 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.TestEvent;
 import org.geogebra.test.annotation.Issue;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("javadoc")
 public class EuclidianControllerTest extends BaseEuclidianControllerTest {
-	private static ArrayList<TestEvent> events = new ArrayList<>();
+	private static final ArrayList<TestEvent> events = new ArrayList<>();
 	private static String[] lastCheck;
 	private static boolean lastVisibility;
 
@@ -56,13 +56,9 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		add(s);
 	}
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		setUpController();
-	}
-
-	@Before
-	public void clearEvents() {
 		events.clear();
 		getApp().setAppletFlag(false);
 		getApp().getSettings().getEuclidian(1)
@@ -72,8 +68,8 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	/**
 	 * Repeat last test with dragging.
 	 */
-	@After
-	public void repeatWithDrag() {
+	@AfterEach
+	void repeatWithDrag() {
 		AppCommon app = getApp();
 		if (!events.isEmpty()) {
 			reset();
@@ -99,7 +95,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveTool() {
+	void moveTool() {
 		// Covers APPS-4296; more move tool related cases may require separate test class later
 		setMode(EuclidianConstants.MODE_MOVE);
 		String listDef = "l={(0, 0), (2, -2)}";
@@ -114,15 +110,15 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		getApp().getEventDispatcher().addEventListener(acc);
 		dragStart(0, 0);
 		dragEnd(40, 40); // small drag: no update
-		assertEquals("no update after small drag", Collections.emptyList(), updates);
+		assertEquals(Collections.emptyList(), updates, "no update after small drag");
 		dragStart(0, 0);
 		dragEnd(100, 100); // big drag: 1 event
 		checkContent("A = (2, -2)");
-		assertEquals("update after big drag", Collections.singletonList("A"), updates);
+		assertEquals(Collections.singletonList("A"), updates, "update after big drag");
 	}
 
 	@Test
-	public void pointTool() {
+	void pointTool() {
 		setMode(EuclidianConstants.MODE_POINT);
 		click(0, 0);
 		click(100, 100);
@@ -130,7 +126,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void joinTool() {
+	void joinTool() {
 		setMode(EuclidianConstants.MODE_JOIN);
 		click(0, 0);
 		click(100, 100);
@@ -138,7 +134,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void parallelTool() {
+	void parallelTool() {
 		setMode(EuclidianConstants.MODE_PARALLEL);
 		t("a:x=1");
 		click(100, 100);
@@ -147,7 +143,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void orthogonalTool() {
+	void orthogonalTool() {
 		setMode(EuclidianConstants.MODE_ORTHOGONAL);
 		t("a:x=1");
 		click(100, 100);
@@ -156,7 +152,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void intersectTool() {
+	void intersectTool() {
 		setMode(EuclidianConstants.MODE_INTERSECT);
 		t("a:x=1");
 		t("b:y=-1");
@@ -165,7 +161,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void intersectToolDoubleHit() {
+	void intersectToolDoubleHit() {
 		setMode(EuclidianConstants.MODE_INTERSECT);
 		t("a:x=1");
 		t("b:Ray((1,-1),(-1,-1))");
@@ -178,7 +174,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void intersectToolIncident() {
+	void intersectToolIncident() {
 		setMode(EuclidianConstants.MODE_INTERSECT);
 		t("a:x=1");
 		t("b:Segment((1,-2),(1,5))");
@@ -191,7 +187,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void intersectToolAbs() {
+	void intersectToolAbs() {
 		setMode(EuclidianConstants.MODE_INTERSECT);
 		// TODO AlgebraTest.enableCAS(app, false);
 		t("f:abs(x-2)-2");
@@ -202,7 +198,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void deleteTool() {
+	void deleteTool() {
 		setMode(EuclidianConstants.MODE_DELETE);
 		t("a:x=1");
 		t("b:y=-1");
@@ -214,7 +210,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void vectorTool() {
+	void vectorTool() {
 		setMode(EuclidianConstants.MODE_VECTOR);
 		click(0, 0);
 		click(100, 100);
@@ -222,7 +218,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void lineBisectorTool() {
+	void lineBisectorTool() {
 		setMode(EuclidianConstants.MODE_LINE_BISECTOR); // TODO: on the fly?
 		t("A = (0, 0)");
 		t("B = (2, -2)");
@@ -232,7 +228,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void angularBisectorTool() {
+	void angularBisectorTool() {
 		setMode(EuclidianConstants.MODE_ANGULAR_BISECTOR); // TODO: on the
 																// fly?
 		t("A = (0, 0)");
@@ -246,7 +242,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void circle2Tool() {
+	void circle2Tool() {
 		setMode(EuclidianConstants.MODE_CIRCLE_TWO_POINTS);
 		click(50, 50);
 		click(100, 100);
@@ -255,7 +251,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void circle3Tool() {
+	void circle3Tool() {
 		setMode(EuclidianConstants.MODE_CIRCLE_THREE_POINTS);
 		click(0, 0);
 		click(100, 100);
@@ -265,7 +261,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void conic5Tool() {
+	void conic5Tool() {
 		setMode(EuclidianConstants.MODE_CONIC_FIVE_POINTS);
 		click(50, 50);
 		click(100, 50);
@@ -277,7 +273,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void tangentTool() {
+	void tangentTool() {
 		setMode(EuclidianConstants.MODE_TANGENTS);
 		t("c: x^2+y^2=25");
 		t("A=(3,-4)");
@@ -289,12 +285,12 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void relationTool() {
+	void relationTool() {
 		setMode(EuclidianConstants.MODE_RELATION); // TODO 14
 	}
 
 	@Test
-	public void segmentTool() {
+	void segmentTool() {
 		setMode(EuclidianConstants.MODE_SEGMENT);
 		click(0, 0);
 		click(100, 100);
@@ -303,7 +299,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 
 	@Test
 	@Issue("APPS-5779")
-	public void segmentWithDrag3Points() {
+	void segmentWithDrag3Points() {
 		setMode(EuclidianConstants.MODE_SEGMENT);
 		click(0, 0);
 		dragStart(100, 100);
@@ -314,7 +310,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 
 	@Test
 	@Issue("APPS-5779")
-	public void segmentWithDrag3PointsFixed() {
+	void segmentWithDrag3PointsFixed() {
 		getApp().getSettings().getEuclidian(1).setPointCapturing(
 				EuclidianStyleConstants.POINT_CAPTURING_ON_GRID);
 		setMode(EuclidianConstants.MODE_SEGMENT);
@@ -327,7 +323,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 
 	@Test
 	@Issue("APPS-5779")
-	public void segmentWithDragPreExisting() {
+	void segmentWithDragPreExisting() {
 		add("B=(2,-2)");
 		setMode(EuclidianConstants.MODE_SEGMENT);
 		click(0, 0);
@@ -338,7 +334,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void segmentWithDrag() {
+	void segmentWithDrag() {
 		setMode(EuclidianConstants.MODE_SEGMENT);
 		dragStart(0, 0);
 		dragEnd(200, 150);
@@ -349,7 +345,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void polygonTool() {
+	void polygonTool() {
 		setMode(EuclidianConstants.MODE_POLYGON);
 		click(0, 0);
 		click(100, 0);
@@ -361,12 +357,12 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void textTool() {
+	void textTool() {
 		setMode(EuclidianConstants.MODE_TEXT); // TODO 17
 	}
 
 	@Test
-	public void rayTool() {
+	void rayTool() {
 		setMode(EuclidianConstants.MODE_RAY);
 		click(0, 0);
 		click(100, 100);
@@ -375,7 +371,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void midpointTool() {
+	void midpointTool() {
 		setMode(EuclidianConstants.MODE_MIDPOINT);
 		click(0, 0);
 		click(100, 100);
@@ -387,7 +383,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void circleArc3Tool() {
+	void circleArc3Tool() {
 		setMode(EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS);
 		click(100, 100);
 		click(100, 0);
@@ -397,7 +393,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void circleSector3Tool() {
+	void circleSector3Tool() {
 		setMode(EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS);
 		click(0, 0);
 		click(100, 100);
@@ -406,7 +402,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void circumcircleArc3Tool() {
+	void circumcircleArc3Tool() {
 		setMode(EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS);
 		click(0, 0);
 		click(50, 50);
@@ -416,7 +412,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void circumcircleSector3Tool() {
+	void circumcircleSector3Tool() {
 		setMode(EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
 		click(0, 0);
 		click(100, 100);
@@ -426,7 +422,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void semicircleTool() {
+	void semicircleTool() {
 		setMode(EuclidianConstants.MODE_SEMICIRCLE);
 		click(100, 100);
 		click(100, 0);
@@ -434,27 +430,27 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void sliderTool() {
+	void sliderTool() {
 		setMode(EuclidianConstants.MODE_SLIDER); // TODO 25
 	}
 
 	@Test
-	public void imageTool() {
+	void imageTool() {
 		setMode(EuclidianConstants.MODE_IMAGE); // TODO 26
 	}
 
 	@Test
-	public void showHideObjectTool() {
+	void showHideObjectTool() {
 		setMode(EuclidianConstants.MODE_SHOW_HIDE_OBJECT); // TODO 27
 	}
 
 	@Test
-	public void showHideLabelTool() {
+	void showHideLabelTool() {
 		setMode(EuclidianConstants.MODE_SHOW_HIDE_LABEL); // TODO 28
 	}
 
 	@Test
-	public void mirrorAtPointTool() {
+	void mirrorAtPointTool() {
 		setMode(EuclidianConstants.MODE_MIRROR_AT_POINT);
 		click(0, 0);  // A
 		click(100, 100); // reflection point B, reflected point A'
@@ -468,7 +464,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void mirrorAtLineTool() {
+	void mirrorAtLineTool() {
 		setMode(EuclidianConstants.MODE_MIRROR_AT_LINE);
 		String line = "f: x - y = 4";
 		t(line);
@@ -484,13 +480,13 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void translateByVectorTool() {
+	void translateByVectorTool() {
 		setMode(EuclidianConstants.MODE_TRANSLATE_BY_VECTOR); // TODO 31
 	}
 
 	@Test
 	@Issue("APPS-5351")
-	public void rotateByAngleToolMultiplePointsToExistingPoint() {
+	void rotateByAngleToolMultiplePointsToExistingPoint() {
 		setMode(EuclidianConstants.MODE_ROTATE_BY_ANGLE);
 		t("A = (1, -1)");
 		t("B = (2, -1)");
@@ -504,7 +500,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void rotateByAngleToolPointToExistingPoint() {
+	void rotateByAngleToolPointToExistingPoint() {
 		setMode(EuclidianConstants.MODE_ROTATE_BY_ANGLE);
 		t("A = (1, -1)");
 		t("B = (2, -2)");
@@ -517,7 +513,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 
 	@Test
 	@Issue("APPS-5351")
-	public void rotateByAngleToolMultiplePointsToNewPoint() {
+	void rotateByAngleToolMultiplePointsToNewPoint() {
 		setMode(EuclidianConstants.MODE_ROTATE_BY_ANGLE);
 		t("A = (1, -1)");
 		t("B = (3, -2)");
@@ -531,7 +527,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 
 	@Test
 	@Issue("APPS-5351")
-	public void rotateByAngleToolObjectToExistingPoint() {
+	void rotateByAngleToolObjectToExistingPoint() {
 		setMode(EuclidianConstants.MODE_ROTATE_BY_ANGLE);
 		t("t1 = Polygon((1,-1),(2,-2),(1,-2))");
 		t("A = (3, -3)");
@@ -544,7 +540,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 
 	@Test
 	@Issue("APPS-5351")
-	public void rotateByAngleToolMultipleObjectsToNewPoint() {
+	void rotateByAngleToolMultipleObjectsToNewPoint() {
 		setMode(EuclidianConstants.MODE_ROTATE_BY_ANGLE);
 		t("c = Circle((1, -1), 0.5)");
 		t("d = Circle((3, -1), 0.5)");
@@ -559,22 +555,22 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void dilateFromPointTool() {
+	void dilateFromPointTool() {
 		setMode(EuclidianConstants.MODE_DILATE_FROM_POINT); // TODO 33
 	}
 
 	@Test
-	public void circlePointRadiusTool() {
+	void circlePointRadiusTool() {
 		setMode(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS); // TODO 34
 	}
 
 	@Test
-	public void copyVisualStyleTool() {
+	void copyVisualStyleTool() {
 		setMode(EuclidianConstants.MODE_COPY_VISUAL_STYLE); // TODO 35
 	}
 
 	@Test
-	public void angleTool() {
+	void angleTool() {
 		setMode(EuclidianConstants.MODE_ANGLE);
 		click(100, 100);
 		click(0, 0);
@@ -584,12 +580,12 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void vectorFromPointTool() {
+	void vectorFromPointTool() {
 		setMode(EuclidianConstants.MODE_VECTOR_FROM_POINT); // TODO 37
 	}
 
 	@Test
-	public void distanceTool() {
+	void distanceTool() {
 		setMode(EuclidianConstants.MODE_DISTANCE); // TODO 38
 		t("A=(0,0)");
 		t("B=(0,-2)");
@@ -602,12 +598,12 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveRotateTool() {
+	void moveRotateTool() {
 		setMode(EuclidianConstants.MODE_MOVE_ROTATE); // TODO 39
 	}
 
 	@Test
-	public void translateViewTool() {
+	void translateViewTool() {
 		setMode(EuclidianConstants.MODE_TRANSLATE_VIEW); // TODO 40
 		t("C:Corner[4]");
 		checkHiddenContent("C = (-0.02, 0.02)");
@@ -618,7 +614,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void zoomInTool() {
+	void zoomInTool() {
 		setMode(EuclidianConstants.MODE_ZOOM_IN);
 		t("C:Corner[4]");
 		checkHiddenContent("C = (-0.02, 0.02)");
@@ -629,7 +625,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void zoomOutTool() {
+	void zoomOutTool() {
 		setMode(EuclidianConstants.MODE_ZOOM_OUT);
 		t("C:Corner[4]");
 		checkHiddenContent("C = (-0.02, 0.02)");
@@ -639,17 +635,17 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void selectionListenerTool() {
+	void selectionListenerTool() {
 		setMode(EuclidianConstants.MODE_SELECTION_LISTENER); // TODO 43
 	}
 
 	@Test
-	public void polarDiameterTool() {
+	void polarDiameterTool() {
 		setMode(EuclidianConstants.MODE_POLAR_DIAMETER); // TODO 44
 	}
 
 	@Test
-	public void segmentFixedTool() {
+	void segmentFixedTool() {
 		setMode(EuclidianConstants.MODE_SEGMENT_FIXED);
 		prepareInput("2");
 		click(100, 100);
@@ -657,7 +653,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void angleFixedTool() {
+	void angleFixedTool() {
 		setMode(EuclidianConstants.MODE_ANGLE_FIXED); // TODO 46
 		t("A=(0,0)");
 		t("B=(0,-2)");
@@ -669,12 +665,12 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void locusTool() {
+	void locusTool() {
 		setMode(EuclidianConstants.MODE_LOCUS); // TODO 47
 	}
 
 	@Test
-	public void areaTool() {
+	void areaTool() {
 		setMode(EuclidianConstants.MODE_AREA);
 		t("A=(0,0)");
 		t("B=(0,-2)");
@@ -687,7 +683,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void slopeTool() {
+	void slopeTool() {
 		setMode(EuclidianConstants.MODE_SLOPE);
 		t("f:y=-3x");
 		click(50, 150);
@@ -695,7 +691,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void regularPolygonTool() {
+	void regularPolygonTool() {
 		setMode(EuclidianConstants.MODE_REGULAR_POLYGON);
 		prepareInput("4");
 		click(100, 100);
@@ -711,12 +707,12 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void showCheckBoxTool() {
+	void showCheckBoxTool() {
 		setMode(EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX); // TODO 52
 	}
 
 	@Test
-	public void compassesTool() {
+	void compassesTool() {
 		t("A = (2, -2)");
 		t("B = (0, 0)");
 		setMode(EuclidianConstants.MODE_COMPASSES);
@@ -729,7 +725,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 
 	@Test
 	@Issue("APPS-6270")
-	public void compassesToolOnTheFlyPoints() {
+	void compassesToolOnTheFlyPoints() {
 		setMode(EuclidianConstants.MODE_COMPASSES);
 		click(100, 100);
 		click(0, 0);
@@ -739,7 +735,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void compassesToolSegment() {
+	void compassesToolSegment() {
 		t("A = (2, -2)");
 		t("B = (0, 0)");
 		t("Segment(A,B)");
@@ -751,7 +747,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void compassesToolCircle() {
+	void compassesToolCircle() {
 		t("A = (2, -2)");
 		t("B = (0, 0)");
 		t("Circle(A,B)");
@@ -763,7 +759,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void mirrorAtCircleTool() {
+	void mirrorAtCircleTool() {
 		t("c:x^2+y^2=8");
 		t("A=(1, -1)");
 		setMode(EuclidianConstants.MODE_MIRROR_AT_CIRCLE);
@@ -775,7 +771,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void ellipse3Tool() {
+	void ellipse3Tool() {
 		setMode(EuclidianConstants.MODE_ELLIPSE_THREE_POINTS);
 		click(0, 0);
 		click(100, 0);
@@ -785,7 +781,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void hyperbola3Tool() {
+	void hyperbola3Tool() {
 		setMode(EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS);
 		click(0, 0);
 		click(500, 0);
@@ -795,7 +791,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void parabolaTool() {
+	void parabolaTool() {
 		setMode(EuclidianConstants.MODE_PARABOLA);
 		t("y = -1");
 		t("A = (2, -2)");
@@ -806,7 +802,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void fitLineTool() {
+	void fitLineTool() {
 		setMode(EuclidianConstants.MODE_FITLINE);
 		t("A = (2, -2)");
 		t("B = (3, -5)");
@@ -819,17 +815,17 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void buttonActionTool() {
+	void buttonActionTool() {
 		setMode(EuclidianConstants.MODE_BUTTON_ACTION); // TODO 60
 	}
 
 	@Test
-	public void textFieldActionTool() {
+	void textFieldActionTool() {
 		setMode(EuclidianConstants.MODE_TEXTFIELD_ACTION); // TODO 61
 	}
 
 	@Test
-	public void penTool() {
+	void penTool() {
 		setMode(EuclidianConstants.MODE_PEN);
 		dragStart(0, 0);
 		dragEnd(50, 50);
@@ -838,7 +834,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void penToolNotes() {
+	void penToolNotes() {
 		getApp().setNotesConfig();
 		getApp().getSettings().resetSettings(getApp());
 		setMode(EuclidianConstants.MODE_PEN);
@@ -848,12 +844,12 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void rigidPolygonTool() {
+	void rigidPolygonTool() {
 		setMode(EuclidianConstants.MODE_RIGID_POLYGON); // TODO 64
 	}
 
 	@Test
-	public void polyLineTool() {
+	void polyLineTool() {
 		setMode(EuclidianConstants.MODE_POLYLINE);
 		click(50, 50);
 		click(100, 50);
@@ -864,18 +860,18 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void probabilityCalculatorTool() {
+	void probabilityCalculatorTool() {
 		setMode(EuclidianConstants.MODE_PROBABILITY_CALCULATOR); // TODO 66
 	}
 
 	@Test
-	public void attachDetachPointTool() {
+	void attachDetachPointTool() {
 		setMode(EuclidianConstants.MODE_ATTACH_DETACH); // TODO 67
 	}
 
 	@Test
 	@Issue("APPS-6630")
-	public void testAttachDetachPointToolCrash() {
+	void testAttachDetachPointToolCrash() {
 		add("A = (1, -1)");
 		setMode(EuclidianConstants.MODE_ATTACH_DETACH);
 		add("y=0");
@@ -886,39 +882,39 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void functionInspectorTool() {
+	void functionInspectorTool() {
 		setMode(EuclidianConstants.MODE_FUNCTION_INSPECTOR); // TODO 68
 	}
 
 	@Test
-	public void intersectionCurveTool() {
+	void intersectionCurveTool() {
 		setMode(EuclidianConstants.MODE_INTERSECTION_CURVE); // TODO 69
 	}
 
 	@Test
-	public void vectorPolygonTool() {
+	void vectorPolygonTool() {
 		setMode(EuclidianConstants.MODE_VECTOR_POLYGON); // TODO 70
 	}
 
 	@Test
-	public void createListTool() {
+	void createListTool() {
 		setMode(EuclidianConstants.MODE_CREATE_LIST); // TODO 71
 	}
 
 	@Test
-	public void complexNumberTool() {
+	void complexNumberTool() {
 		setMode(EuclidianConstants.MODE_COMPLEX_NUMBER);
 		click(100, 100);
 		checkContent("z_{1} = 2 - 2" + Unicode.IMAGINARY);
 	}
 
 	@Test
-	public void freehandShapeTool() {
+	void freehandShapeTool() {
 		setMode(EuclidianConstants.MODE_FREEHAND_SHAPE); // TODO 73
 	}
 
 	@Test
-	public void extremumTool() {
+	void extremumTool() {
 		setMode(EuclidianConstants.MODE_EXTREMUM);
 		t("x*(x-2)");
 		click(50, 50);
@@ -926,7 +922,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void rootsTool() {
+	void rootsTool() {
 		setMode(EuclidianConstants.MODE_ROOTS);
 		t("x*(x-2)");
 		click(50, 50);
@@ -934,22 +930,22 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void selectTool() {
+	void selectTool() {
 		setMode(EuclidianConstants.MODE_SELECT); // TODO 77
 	}
 
 	@Test
-	public void shapeTriangleTool() {
+	void shapeTriangleTool() {
 		setMode(EuclidianConstants.MODE_SHAPE_TRIANGLE); // TODO 102
 	}
 
 	@Test
-	public void shapeSquareTool() {
+	void shapeSquareTool() {
 		setMode(EuclidianConstants.MODE_SHAPE_SQUARE); // TODO 103
 	}
 
 	@Test
-	public void shapeRectangleTool() {
+	void shapeRectangleTool() {
 		setMode(EuclidianConstants.MODE_SHAPE_RECTANGLE);
 		dragStart(50, 50);
 		dragEnd(200, 150);
@@ -959,7 +955,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void shapeParallelogramTool() {
+	void shapeParallelogramTool() {
 		setMode(EuclidianConstants.MODE_SHAPE_PARALLELOGRAM);
 		dragStart(50, 50);
 		dragEnd(200, 150);
@@ -969,7 +965,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void shapeStadiumTool() {
+	void shapeStadiumTool() {
 		setMode(EuclidianConstants.MODE_SHAPE_STADIUM);
 		dragStart(50, 50);
 		dragEnd(200, 150);
@@ -977,62 +973,62 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void shapeCurveTool() {
+	void shapeCurveTool() {
 		setMode(EuclidianConstants.MODE_SHAPE_CURVE);
 		dragStart(50, 50);
 		dragEnd(200, 150);
 		checkContent(unicode("a:(1t^3 + 9(1 - t) t^2 + 6(1 - t)² t + 4(1 - t)^3,"
 				+ " -1t^3 - 3(1 - t) t^2 - 9(1 - t)^2 t - 3(1 - t)^3)"));
-		assertFalse("Curves should not be fillable", lookup("a").isFillable());
+		assertFalse(lookup("a").isFillable(), "Curves should not be fillable");
 	}
 
 	@Test
-	public void shapePolygonTool() {
+	void shapePolygonTool() {
 		setMode(EuclidianConstants.MODE_SHAPE_PENTAGON); // TODO 106
 	}
 
 	@Test
-	public void shapeFreeformTool() {
+	void shapeFreeformTool() {
 		setMode(EuclidianConstants.MODE_SHAPE_FREEFORM); // TODO 107
 	}
 
 	@Test
-	public void circleTool() {
+	void circleTool() {
 		setMode(EuclidianConstants.MODE_SHAPE_CIRCLE); // TODO 108
 	}
 
 	@Test
-	public void ellipseTool() {
+	void ellipseTool() {
 		setMode(EuclidianConstants.MODE_SHAPE_ELLIPSE); // TODO 109
 	}
 
 	@Test
-	public void highlighterTool() {
+	void highlighterTool() {
 		setMode(EuclidianConstants.MODE_HIGHLIGHTER); // TODO 111
 	}
 
 	@Test
-	public void videoTool() {
+	void videoTool() {
 		setMode(EuclidianConstants.MODE_VIDEO); // TODO 115
 	}
 
 	@Test
-	public void audioTool() {
+	void audioTool() {
 		setMode(EuclidianConstants.MODE_AUDIO); // TODO 116
 	}
 
 	@Test
-	public void geoGebraTool() {
+	void geoGebraTool() {
 		setMode(EuclidianConstants.MODE_CALCULATOR); // TODO 117
 	}
 
 	@Test
-	public void cameraTool() {
+	void cameraTool() {
 		setMode(EuclidianConstants.MODE_CAMERA); // TODO 118
 	}
 
 	@Test
-	public void inlineTextTool() {
+	void inlineTextTool() {
 		setMode(EuclidianConstants.MODE_MEDIA_TEXT);
 		click(30, 40);
 		setMode(EuclidianConstants.MODE_MEDIA_TEXT);
@@ -1060,7 +1056,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void testUndoSliderDrag() {
+	void testUndoSliderDrag() {
 		getApp().getKernel().setUndoActive(true);
 		getApp().getKernel().initUndoInfo();
 		GeoNumeric slider = add("Slider(-5,5,.1)");
@@ -1075,7 +1071,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void testMoveBoxPlot() {
+	void testMoveBoxPlot() {
 		setMode(EuclidianConstants.MODE_MOVE);
 		GeoNumeric numeric = add("BoxPlot(0, 1, {1, 2, 3, 4})");
 		numeric.setFixed(false);
@@ -1088,7 +1084,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void testFixedBoxPlotDoesNotMove() {
+	void testFixedBoxPlotDoesNotMove() {
 		setMode(EuclidianConstants.MODE_MOVE);
 		GeoNumeric numeric = add("BoxPlot(0, 1, {1, 2, 3, 4})");
 		numeric.setFixed(true);
@@ -1101,7 +1097,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void testMoveBoxPlotUndoRedo() {
+	void testMoveBoxPlotUndoRedo() {
 		getApp().setUndoRedoMode(UndoRedoMode.GUI);
 		getApp().setUndoActive(true);
 		setMode(EuclidianConstants.MODE_MOVE);
@@ -1123,7 +1119,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 
 	@Test
 	@Issue({"APPS-7317", "APPS-7429"})
-	public void testDependentListExpressionNotMoveable() {
+	void testDependentListExpressionNotMoveable() {
 		setMode(EuclidianConstants.MODE_MOVE);
 		add("y_1={0,1,2}");
 		add("y_2={0,2,3}");

@@ -19,7 +19,6 @@ package org.geogebra.common.kernel.commands;
 import static org.geogebra.common.kernel.commands.CommandsConstants.TABLE_CAS;
 import static org.geogebra.test.commands.AlgebraTestHelper.shouldFail;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.AppCommonFactory;

@@ -536,6 +536,7 @@ public class GgbApiTest {
 			return args.toArray(new Object[0]);
 		}
 
+		@Override
 		protected void callListener(String fn, Object[] args) {
 			evalJavaScript(fn + "(\"" + StringUtil.join("\",\"", args) + "\");");
 		}

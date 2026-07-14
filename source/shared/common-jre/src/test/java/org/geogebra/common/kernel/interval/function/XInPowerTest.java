@@ -16,7 +16,6 @@
  
 package org.geogebra.common.kernel.interval.function;
 
-import static org.geogebra.common.kernel.interval.IntervalHelper.around;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;

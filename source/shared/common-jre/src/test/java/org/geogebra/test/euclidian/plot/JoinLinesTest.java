@@ -17,7 +17,6 @@
 package org.geogebra.test.euclidian.plot;
 
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
-import static org.geogebra.common.kernel.interval.IntervalSetOps.invertedGap;
 import static org.geogebra.test.euclidian.plot.Tuples.inverted;
 import static org.junit.Assert.assertEquals;
 
@@ -25,8 +24,6 @@ import org.geogebra.common.euclidian.plot.TupleNeighbours;
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBoundsMock;
 import org.geogebra.common.euclidian.plot.interval.IntervalPathPlotterMock;
 import org.geogebra.common.euclidian.plot.interval.JoinLines;
-import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.interval.IntervalSet;
 import org.geogebra.common.kernel.interval.IntervalSetOps;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;

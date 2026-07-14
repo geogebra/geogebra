@@ -1023,6 +1023,11 @@ public class ProverBotanasMethod {
 					ValidExpression resultVE = cas.getCASparser()
 							.parseGeoGebraCASInputAndResolveDummyVars(
 									outputSubst, kernel, null);
+					if (resultVE == null) {
+						Log.debug("Invalid CAS output " + outputSubst);
+						result = ProofResult.UNKNOWN;
+						return;
+					}
 					PolynomialNode polyNode = new PolynomialNode();
 					ExpressionNode en = new ExpressionNode(kernel, resultVE);
 					AlgoDependentNumber algoDepNumber = new AlgoDependentNumber(

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -16,13 +16,11 @@
 
 package org.geogebra.common.euclidian;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 
-import org.geogebra.common.AppCommonFactory;
-import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
@@ -72,7 +70,7 @@ public class BaseEuclidianControllerTest extends BaseAppTestSetup {
 
 	/**
 	 * Start a drag
-	 * 
+	 *
 	 * @param x
 	 *            screen x-coordinate
 	 * @param y
@@ -90,7 +88,7 @@ public class BaseEuclidianControllerTest extends BaseAppTestSetup {
 
 	/**
 	 * Finish a drag
-	 * 
+	 *
 	 * @param x
 	 *            screen x-coordinate
 	 * @param y
@@ -174,17 +172,16 @@ public class BaseEuclidianControllerTest extends BaseAppTestSetup {
 		for (String label : getApp().getGgbApi().getAllObjectNames()) {
 			GeoElement geo = lookup(label);
 			if (geo.isEuclidianVisible() == visible) {
-				assertTrue(
+				assertTrue(i < desc.length,
 						"Extra element: "
-								+ geo.toString(StringTemplate.editTemplate),
-						i < desc.length);
+								+ geo.toString(StringTemplate.editTemplate));
 
 				assertEquals(desc[i],
 						geo.toString(StringTemplate.editTemplate));
 				i++;
 			}
 		}
-		assertEquals("length mismatch between object names and argument", desc.length, i);
+		assertEquals(desc.length, i, "length mismatch between object names and argument");
 	}
 
 	protected void checkContentLabels(String... labels) {

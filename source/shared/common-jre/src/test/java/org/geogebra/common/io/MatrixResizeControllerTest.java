@@ -122,7 +122,7 @@ public class MatrixResizeControllerTest {
 		assertFalse(state.popupState().controlState().isAddRowEnabled());
 		assertTrue(state.popupState().controlState().isRemoveRowEnabled());
 		matrixResizeController.removeRow();
-		assertThrows(IllegalStateException.class, () -> matrixResizeController.removeRow());
+		assertThrows(IllegalStateException.class, matrixResizeController::removeRow);
 		assertEditorContents("$vector(1,2)");
 	}
 

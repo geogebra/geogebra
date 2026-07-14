@@ -137,8 +137,8 @@ public class AlgoDependentPoint extends AlgoElement
 			botanaVars[0] = new PVariable(kernel);
 			botanaVars[1] = new PVariable(kernel);
 
-			GeoElement left = (GeoElement) P.getDefinition().getLeft();
-			GeoElement right = (GeoElement) P.getDefinition().getRight();
+			GeoElement left = P.getDefinition().getLeft() instanceof GeoElement g ? g : null;
+			GeoElement right = P.getDefinition().getRight() instanceof GeoElement g ? g : null;
 			Operation op = P.getDefinition().getOperation();
 			if (op == Operation.NO_OPERATION && left != null) {
 				PVariable[] leftBotanaVars = ((SymbolicParametersBotanaAlgo) left)

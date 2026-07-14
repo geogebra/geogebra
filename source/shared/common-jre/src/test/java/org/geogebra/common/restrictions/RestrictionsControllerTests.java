@@ -30,16 +30,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.exam.BaseExamTestSetup;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.gui.view.algebra.filter.DefaultAlgebraOutputFilter;
-import org.geogebra.common.gui.view.algebra.filter.ProtectiveAlgebraOutputFilter;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.junit.jupiter.api.Test;
 
 public class RestrictionsControllerTests extends BaseExamTestSetup {

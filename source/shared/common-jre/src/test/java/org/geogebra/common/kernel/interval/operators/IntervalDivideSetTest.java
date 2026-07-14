@@ -25,7 +25,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.interval.IntervalSet;
 import org.junit.Test;
 

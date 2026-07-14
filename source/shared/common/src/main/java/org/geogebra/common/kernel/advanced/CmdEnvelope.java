@@ -65,7 +65,7 @@ public class CmdEnvelope extends CommandProcessor {
 		}
 
 		return new GeoElement[] {
-				envelope(c.getLabel(), (Path) linear, movingPoint)
+				envelope(c.getLabel(), (Path) linear, movingPoint, c)
 						.toGeoElement() };
 	}
 
@@ -78,13 +78,14 @@ public class CmdEnvelope extends CommandProcessor {
 	 *            dependent path
 	 * @param movingPoint
 	 *            moving point
+	 * @param command envelope command
 	 * @return implicit curve
 	 */
 	final public GeoImplicit envelope(String label, Path linear,
-			GeoPoint movingPoint) {
+			GeoPoint movingPoint, Command command) {
 		// TODO: add check here if linear is a correct input
 		if (movingPoint.getPath() == null || !movingPoint.isParentOf(linear)) {
-			return null;
+			throw argErr(movingPoint, command);
 		}
 		AlgoEnvelope algo = new AlgoEnvelope(cons, linear, movingPoint);
 		GeoImplicit poly = algo.getPoly();

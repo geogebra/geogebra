@@ -21,9 +21,7 @@ import static org.geogebra.common.properties.impl.objects.PlacementProperty.Plac
 import static org.geogebra.common.properties.impl.objects.PlacementProperty.Placement.CORNERS;
 import static org.geogebra.common.properties.impl.objects.PlacementProperty.Placement.STARTING_POINT;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -38,7 +36,6 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.statistics.GeoPieChart;
-import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollection;
 import org.geogebra.common.properties.aliases.StringProperty;

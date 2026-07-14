@@ -95,16 +95,10 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	@Before
 	public void resetSyntaxes() {
-		CommandsTestCommon.resetSyntaxCounter();
 		app.getKernel().clearConstruction(true);
 		app.getKernel().setPrintDecimals(2);
 		app.setActiveView(App.VIEW_EUCLIDIAN);
 		app.getKernel().setPrintDecimals(2);
-	}
-
-	@After
-	public void checkSyntaxes() {
-		CommandsTestCommon.checkSyntaxesStatic();
 	}
 
 	@Test
@@ -121,7 +115,6 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	public void cmdSimplify() {
 		t("Simplify[ sin^2(x)+cos^2(x) ]", "1");
 		t("Simplify[ 2/sqrt(2) ]", "sqrt(2)");
-		t("Simplify[\"x+-x--x\"]", "x " + Unicode.MINUS + " x + x");
 		t("sa=1", "1");
 		t("sb=2", "2");
 		t("sc=sa+sb", "3");

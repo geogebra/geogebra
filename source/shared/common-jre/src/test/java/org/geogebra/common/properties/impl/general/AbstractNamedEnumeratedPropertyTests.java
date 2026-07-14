@@ -17,25 +17,26 @@
 package org.geogebra.common.properties.impl.general;
 
 import static java.util.Map.entry;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import java.util.Map;
 
-import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.ValueFilter;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
-import org.junit.Test;
+import org.geogebra.test.BaseAppTestSetup;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class AbstractNamedEnumeratedPropertyTests extends BaseUnitTest {
+public class AbstractNamedEnumeratedPropertyTests extends BaseAppTestSetup {
 	private AbstractNamedEnumeratedProperty<String> namedEnumeratedProperty;
 
-	@Override
+	@BeforeEach
 	public void setup() {
-		super.setup();
-
+		setupApp(SuiteSubApp.GRAPHING);
 		namedEnumeratedProperty = new TestNamedEnumeratedProperty(
 				getLocalization(),
 				"Test property",

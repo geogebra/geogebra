@@ -41,7 +41,6 @@ import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.test.LocalizationCommonUTF;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 public class LocalizationTest {

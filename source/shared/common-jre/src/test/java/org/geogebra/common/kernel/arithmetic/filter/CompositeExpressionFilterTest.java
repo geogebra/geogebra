@@ -16,8 +16,8 @@
  
 package org.geogebra.common.kernel.arithmetic.filter;
 
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -27,7 +27,7 @@ import java.util.List;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class CompositeExpressionFilterTest extends BaseUnitTest {
 

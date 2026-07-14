@@ -26,12 +26,9 @@ import org.geogebra.common.exam.BaseExamTestSetup;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.AngleConversionFilter;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 public class AngleConversionFilterTest extends BaseExamTestSetup {
 	AngleConversionFilter filter;

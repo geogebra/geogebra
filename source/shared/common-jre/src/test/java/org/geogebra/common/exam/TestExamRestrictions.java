@@ -26,46 +26,32 @@ import static org.geogebra.common.plugin.Operation.OR;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
-import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
-import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
-import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.DisabledAlgorithms;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.kernel.arithmetic.filter.RadianGradianFilter;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.localization.AutocompleteProvider;
-import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.PropertyKey;
-import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
-import org.geogebra.common.restrictions.AlgebraOutputFiltering;
 import org.geogebra.common.restrictions.FeatureRestriction;
 import org.geogebra.common.restrictions.PropertyRestriction;
 import org.geogebra.common.restrictions.Restrictions;
-import org.geogebra.common.restrictions.Restrictions.ContextDependencies;
 
 final class TestExamRestrictions extends Restrictions {
 

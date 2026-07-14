@@ -20,7 +20,6 @@ import static org.mockito.ArgumentMatchers.startsWith;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.factories.UtilFactoryCommon;
@@ -30,15 +29,17 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
-import org.junit.Before;
-import org.junit.Test;
+import org.geogebra.test.BaseAppTestSetup;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class AccessibilityManagerTest extends BaseUnitTest {
+public class AccessibilityManagerTest extends BaseAppTestSetup {
 
 	ScreenReaderAdapter screenReaderAdapter;
 
-	@Before
+	@BeforeEach
 	public void setupTimer() {
+		setupClassicApp();
 		UtilFactory.setPrototypeIfNull(new UtilFactoryCommon() {
 			@Override
 			public GTimer newTimer(GTimerListener listener, int delay) {
@@ -52,10 +53,10 @@ public class AccessibilityManagerTest extends BaseUnitTest {
 
 	@Test
 	public void shouldReadLatest() {
-		GeoNumeric slider = add("a=Slider(1,10,1)");
+		GeoNumeric slider = evaluateGeoElement("a=Slider(1,10,1)");
 		getApp().getSelectionManager().addSelectedGeo(slider);
-		add("SetValue(a,8)");
-		add("SetValue(a,7)");
+		evaluate("SetValue(a,8)");
+		evaluate("SetValue(a,7)");
 		FlushableTimer.flush();
 		verify(screenReaderAdapter).readText(startsWith("Slider a = 1 Press space"));
 		verify(screenReaderAdapter).readText("Slider a = 7 ");
@@ -63,13 +64,13 @@ public class AccessibilityManagerTest extends BaseUnitTest {
 
 	@Test
 	public void shouldReadDynamicCaption() {
-		GeoNumeric slider = add("a=Slider(1,10,1)");
-		GeoText caption = add("\"My value is \"+a");
+		GeoNumeric slider = evaluateGeoElement("a=Slider(1,10,1)");
+		GeoText caption = evaluateGeoElement("\"My value is \"+a");
 		slider.setDynamicCaption(caption);
 		getApp().getSelectionManager().addSelectedGeo(slider);
 		slider.setLabelMode(GeoElementND.LABEL_CAPTION);
-		add("SetValue(a,8)");
-		add("SetValue(a,7)");
+		evaluate("SetValue(a,8)");
+		evaluate("SetValue(a,7)");
 		FlushableTimer.flush();
 		verify(screenReaderAdapter).readText(startsWith("My value is 1 Press space"));
 		verify(screenReaderAdapter).readText("My value is 7 ");

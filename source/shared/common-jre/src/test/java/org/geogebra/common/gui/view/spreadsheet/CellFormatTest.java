@@ -19,25 +19,13 @@ package org.geogebra.common.gui.view.spreadsheet;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
 
-import org.geogebra.common.AppCommonFactory;
-import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.test.annotation.Issue;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CellFormatTest {
-	private static AppCommon app;
-
-	@BeforeClass
-	public static void setup() {
-		app = AppCommonFactory.create3D();
-	}
 
 	@Test
 	@Issue("APPS-5552")
@@ -55,10 +43,5 @@ public class CellFormatTest {
 		// in this case return value is not important, just check there is no runtime exception
 		assertThat(format.getCellFormat(fullRange, CellFormat.FORMAT_ALIGN),
 				equalTo(CellFormat.ALIGN_LEFT));
-	}
-
-	private void t(String string) {
-		app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
-				false);
 	}
 }

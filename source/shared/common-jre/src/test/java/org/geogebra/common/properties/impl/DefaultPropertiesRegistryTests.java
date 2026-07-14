@@ -86,5 +86,6 @@ public class DefaultPropertiesRegistryTests extends BaseUnitTest
 
 	@Override
 	public void propertyUnregistered(Property property) {
+		// registeredProperties keeps all properties ever registered
 	}
 }

@@ -17,10 +17,10 @@
 package org.geogebra.common.spreadsheet.kernel;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.cas.MockedCasGiac;
@@ -30,16 +30,16 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.spreadsheet.core.CellDragPasteHandler;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 
 	private CellDragPasteHandler cellDragPasteHandler;
 	private KernelTabularDataAdapter tabularData;
 
-	@Override
+	@BeforeEach
 	public void setup() {
-		super.setup();
 		tabularData = new KernelTabularDataAdapter(getApp());
 		cellDragPasteHandler = new KernelCellDragPasteHandler(tabularData, getKernel());
 	}
@@ -278,7 +278,7 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 
 	private void setRangeToCopy(int fromRow, int toRow, int fromColumn, int toColumn) {
 		cellDragPasteHandler.setRangeToCopy(
-				TabularRange.range(fromRow, toRow, fromColumn, toColumn));
+				new TabularRange(fromRow, fromColumn, toRow, toColumn));
 	}
 
 	private boolean pasteToDestination(int destinationRow, int destinationColumn) {
@@ -288,15 +288,17 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 
 	private void assertCellContentIsEqual(int originRow, int originColumn,
 		int destinationRow, int destinationColumn) {
-		assertEquals(String.format("The content of cell (%d, %d) should be equal to the content "
+		assertEquals(getValueStringForCell(originRow, originColumn),
+				getValueStringForCell(destinationRow, destinationColumn),
+				String.format("The content of cell (%d, %d) should be equal to the content "
 								+ "of cell (%d, %d)!", originRow, originColumn, destinationRow,
-						destinationColumn), getValueStringForCell(originRow, originColumn),
-				getValueStringForCell(destinationRow, destinationColumn));
+						destinationColumn));
 	}
 
 	private void assertCellContentEquals(String expected, int row, int column) {
-		assertEquals(String.format("The content of cell (%d, %d) is expected to be %s!",
-						row, column, expected), expected, getValueStringForCell(row, column));
+		assertEquals(expected, getValueStringForCell(row, column),
+				String.format("The content of cell (%d, %d) is expected to be %s!",
+						row, column, expected));
 	}
 
 	private String getValueStringForCell(int row, int column) {

@@ -25,7 +25,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.MinMaxType;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 

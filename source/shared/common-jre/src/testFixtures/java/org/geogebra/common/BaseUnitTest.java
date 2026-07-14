@@ -39,8 +39,6 @@ import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.After;
-import org.junit.Before;
 
 /**
  * Base class for unit tests.
@@ -60,20 +58,12 @@ public class BaseUnitTest {
     /**
      * Set up test class before every test.
      */
-    @Before
-	public void setup() {
+	public BaseUnitTest() {
 		app = createAppCommon();
         kernel = app.getKernel();
         construction = kernel.getConstruction();
         elementFactory = new GeoElementFactory(this);
     }
-
-	/**
-	 * Clean up after every test.
-	 */
-	@After
-	public void teardown() {
-	}
 
 	/**
 	 * @return app instance for 2D testing

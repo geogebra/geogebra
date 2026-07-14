@@ -19,7 +19,6 @@ package org.geogebra.common.kernel.interval.evaluators;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PRECISION;
 import static org.geogebra.common.kernel.interval.IntervalConstants.aroundZero;
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
-import static org.geogebra.common.kernel.interval.IntervalConstants.positiveInfinity;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;

@@ -29,11 +29,6 @@ public class UtilFactoryCommon extends UtilFactoryJre {
 	}
 
 	@Override
-	public Prover newProver() {
-		return null;
-	}
-
-	@Override
 	public GTimer newTimer(GTimerListener listener, int delay) {
 		return null;
 	}

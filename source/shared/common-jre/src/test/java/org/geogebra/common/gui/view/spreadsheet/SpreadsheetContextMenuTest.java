@@ -38,7 +38,7 @@ public class SpreadsheetContextMenuTest extends BaseAppTestSetup {
 	private MyTable table;
 	private TabularRange selection;
 
-	private static class TestMenu extends SpreadsheetContextMenu<List<Object>> {
+	private final static class TestMenu extends SpreadsheetContextMenu<List<Object>> {
 		private final List<Object> content = new ArrayList<>();
 
 		private TestMenu(MyTable table, SpreadsheetToolProcessor toolProcessor) {
@@ -76,7 +76,7 @@ public class SpreadsheetContextMenuTest extends BaseAppTestSetup {
 		}
 	}
 
-	private static class TestCopyPaste extends CopyPasteCut {
+	private final static class TestCopyPaste extends CopyPasteCut {
 
 		private String buffer;
 

@@ -63,7 +63,7 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 	/**
 	 * initialize EuclidianStyleBarSelection
 	 */
-	public void init() {
+	private void init() {
 		ec = getApp().getActiveEuclidianView().getEuclidianController();
 		selection = new EuclidianStyleBarSelection(getApp(), ec);
 	}
@@ -88,7 +88,7 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 	/**
 	 * drawMultipleStrokes
 	 */
-	public void drawMultipleStrokes(int y) {
+	private void drawMultipleStrokes(int y) {
 		setMode(EuclidianConstants.MODE_PEN);
 		dragStart(100, y);
 		dragEnd(400, y);
@@ -98,7 +98,7 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 	/**
 	 * selectPartOfStroke
 	 */
-	public void selectPartOfStroke() {
+	private void selectPartOfStroke() {
 		setMode(EuclidianConstants.MODE_SELECT_MOW);
 		dragStart(150, 150);
 		dragEnd(250, 50);

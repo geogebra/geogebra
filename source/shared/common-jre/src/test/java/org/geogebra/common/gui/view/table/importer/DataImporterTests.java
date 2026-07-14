@@ -16,11 +16,11 @@
 
 package org.geogebra.common.gui.view.table.importer;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -29,7 +29,7 @@ import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.gui.view.table.TableValuesPointsImpl;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
@@ -38,9 +38,13 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.junit.Test;
+import org.geogebra.common.main.UndoRedoMode;
+import org.geogebra.test.BaseAppTestSetup;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class DataImporterTests extends BaseUnitTest implements DataImporterDelegate {
+public class DataImporterTests extends BaseAppTestSetup implements DataImporterDelegate {
 
 	private TableValuesView tableValuesView;
 	private TableValuesPointsImpl tableValuesPoints;
@@ -53,9 +57,9 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 	private int cancelValidationAfterRow;
 	private int cancelImportAfterRow;
 
-	@Override
+	@BeforeEach
 	public void setup() {
-		super.setup();
+		setupApp(SuiteSubApp.GRAPHING);
 
 		Kernel kernel = getKernel();
 		tableValuesView = new TableValuesView(kernel);
@@ -63,7 +67,8 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		tableValuesPoints = TableValuesPointsImpl.create(kernel, kernel.getConstruction(),
 				tableValuesView);
 		kernel.notifyAddAll(tableValuesView);
-		activateUndo();
+		getApp().setUndoRedoMode(UndoRedoMode.GUI);
+		getApp().setUndoActive(true);
 
 		dataImporter = new DataImporter(tableValuesView, this);
 		currentRow = -1;
@@ -75,13 +80,11 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		cancelImportAfterRow = -1;
 	}
 
-	@Override
+	@AfterEach
 	public void teardown() {
 		Kernel kernel = getKernel();
 		kernel.detach(tableValuesView);
 		tableValuesView = null;
-
-		super.teardown();
 	}
 
 	@Test
@@ -449,7 +452,7 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		tableValuesView.plotRegression(1, specificationList.get(0));
 		GeoElement f = lookup("f");
 		assertEquals("2x", f.toValueString(StringTemplate.defaultTemplate));
-		reload();
+		getApp().setXML(getApp().getXML(), true);
 		f = lookup("f");
 		assertEquals("2x", f.toValueString(StringTemplate.defaultTemplate));
 	}
@@ -467,7 +470,7 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 				new RegressionSpecificationBuilder().getForListSize(10).get(0));
 		GeoElement f = lookup("f");
 		assertEquals("2x", f.toValueString(StringTemplate.defaultTemplate));
-		reload();
+		getApp().setXML(getApp().getXML(), true);
 		f = lookup("f");
 		assertEquals("2x", f.toValueString(StringTemplate.defaultTemplate));
 	}
@@ -508,7 +511,7 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		}
 
 		if (yValues != null) {
-			GeoList yColumn = new GeoList(getConstruction());
+			GeoList yColumn = new GeoList(getKernel().getConstruction());
 			tableValuesView.addAndShow(yColumn);
 			for (int index = 0; index < yValues.length; index++) {
 				tableValuesView.getProcessor().processInput(yValues[index], yColumn, index);

@@ -37,7 +37,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.PreviewFeature;
-import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.ImageProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;

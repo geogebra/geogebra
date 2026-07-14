@@ -16,7 +16,7 @@
 
 package org.geogebra.common.euclidian;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.test.BaseAppTestSetup;

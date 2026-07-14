@@ -17,12 +17,8 @@
 package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
-import static org.geogebra.common.kernel.interval.IntervalSetOps.leftRayFromInverted;
-import static org.geogebra.common.kernel.interval.IntervalSetOps.rightRayFromInverted;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;

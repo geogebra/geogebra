@@ -16,12 +16,12 @@
 
 package org.geogebra.common.gui.view.table.keyboard;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.gui.dialog.handler.DefineFunctionHandler;
 import org.geogebra.common.gui.view.table.ScientificDataTableController;
 import org.geogebra.common.gui.view.table.TableValuesListener;
@@ -31,9 +31,11 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
-import org.junit.Test;
+import org.geogebra.test.BaseAppTestSetup;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
+public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
 		implements TableValuesKeyboardNavigationControllerDelegate, TableValuesListener {
 
 	private TableValuesView tableValuesView;
@@ -44,10 +46,9 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	private boolean didReportModelChanged;
 	private boolean traceEvents = false;
 
-	@Override
+	@BeforeEach
 	public void setup() {
-		super.setup();
-
+		setupApp(SuiteSubApp.GRAPHING);
 		Kernel kernel = getKernel();
 		tableValuesView = new TableValuesView(kernel);
 		tableValuesView.getTableValuesModel().registerListener(this);

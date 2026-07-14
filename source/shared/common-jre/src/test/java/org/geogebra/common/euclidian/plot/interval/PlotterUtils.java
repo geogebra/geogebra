@@ -19,7 +19,6 @@ package org.geogebra.common.euclidian.plot.interval;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
 
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalSetOps;
 import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;

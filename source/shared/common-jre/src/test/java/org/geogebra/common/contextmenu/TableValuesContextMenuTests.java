@@ -26,7 +26,7 @@ import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Se
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.ShowPoints;
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Statistics1;
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Statistics2;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import java.util.Set;
@@ -42,18 +42,16 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.util.AttributedString;
 import org.geogebra.common.util.Range;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TableValuesContextMenuTests extends BaseUnitTest {
 
 	private TableValuesView tableValuesView;
 	private TableValuesModel tableValuesModel;
 
-	@Before
-	@Override
+	@BeforeEach
 	public void setup() {
-		super.setup();
 		tableValuesView = new TableValuesView(getKernel());
 		getKernel().attach(tableValuesView);
 		tableValuesModel = tableValuesView.getTableValuesModel();

@@ -16,13 +16,12 @@
 
 package org.geogebra.common.kernel.arithmetic.filter.graphing;
 
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertTrue;
-import static junit.framework.TestCase.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AbsExpressionFilterTest extends BaseUnitTest {
 
@@ -63,8 +62,7 @@ public class AbsExpressionFilterTest extends BaseUnitTest {
 		try {
 			return getKernel().getAlgebraProcessor().getValidExpressionNoExceptionHandling(input);
 		} catch (Exception e) {
-			fail("Exception thrown " + e);
+			throw new AssertionError("Exception thrown ", e);
 		}
-		return null;
 	}
 }

@@ -128,6 +128,7 @@ public class AnalyticsTest {
 
 		@Override
 		protected void setDefaultEventParametersInternal(@Nonnull Map<String, Object> params) {
+			// not keeping track of default parameters (yet)
 		}
 	}
 

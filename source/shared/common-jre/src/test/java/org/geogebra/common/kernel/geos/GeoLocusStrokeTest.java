@@ -33,12 +33,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.MoveMode;
 import org.geogebra.common.euclidian.UpdateActionStore;
 import org.geogebra.common.factories.FormatFactory;
-import org.geogebra.common.jre.util.NumberFormat;
-import org.geogebra.common.jre.util.ScientificFormat;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;

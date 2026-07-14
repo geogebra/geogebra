@@ -19,6 +19,8 @@ package org.geogebra.common.jre.util;
 import java.io.UnsupportedEncodingException;
 
 import org.geogebra.common.factories.UtilFactory;
+import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
+import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.Reflection;
 import org.geogebra.common.util.URLEncoder;
 import org.geogebra.regexp.server.JavaRegExpFactory;
@@ -35,6 +37,21 @@ public abstract class UtilFactoryJre extends UtilFactory  {
 	 */
 	public static void setupRegexFactory() {
 		RegExpFactory.setPrototypeIfNull(new JavaRegExpFactory());
+	}
+
+	@Override
+	public Prover newProver() {
+		return new Prover() {
+			@Override
+			protected ProofResult openGeoProver(ProverEngine pe) {
+				return null;
+			}
+
+			@Override
+			protected AbstractProverReciosMethod getNewReciosProver() {
+				return null;
+			}
+		};
 	}
 
 	@Override

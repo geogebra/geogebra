@@ -31,6 +31,9 @@ import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
 public class IntervalEvaluatorOverflowTest {
+
+	private final IntervalNodeEvaluator evaluator = new IntervalNodeEvaluator();
+
 	private interface UnaryIntervalSetOperator {
 		IntervalSet exec(IntervalSet set);
 
@@ -38,10 +41,7 @@ public class IntervalEvaluatorOverflowTest {
 
 	private interface BinaryIntervalSetOperator {
 		IntervalSet exec(IntervalSet set1, IntervalSet set2);
-
 	}
-
-	private final IntervalNodeEvaluator evaluator = new IntervalNodeEvaluator();
 
 	@Test
 	@Issue("APPS-7561")

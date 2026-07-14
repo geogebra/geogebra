@@ -19,7 +19,6 @@ package org.geogebra.common.kernel.interval.function;
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.pi;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
-import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.around;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
@@ -40,7 +39,7 @@ import org.geogebra.common.kernel.interval.node.IntervalOperation;
 import org.junit.Test;
 
 public class GeoFunctionConverterTest extends BaseUnitTest {
-	private GeoFunctionConverter converter = new GeoFunctionConverter();
+	private final GeoFunctionConverter converter = new GeoFunctionConverter();
 
 	@Test
 	public void testConvertSinX() {

@@ -16,7 +16,6 @@
 
 package org.geogebra.test;
 
-import static junit.framework.TestCase.fail;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -32,9 +31,9 @@ import org.geogebra.editor.share.io.latex.ParseException;
 import org.geogebra.editor.share.io.latex.Parser;
 import org.geogebra.editor.share.tree.Formula;
 import org.geogebra.editor.share.tree.SequenceNode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class SerializeLaTeX {
+public class SerializeLaTeXTest {
 
 	@Test
 	public void testJavaSerializationShouldKeepAllData() {
@@ -48,7 +47,7 @@ public class SerializeLaTeX {
 			Object back = inputStream.readObject();
 			assertThat(back, instanceOf(SequenceNode.class));
 		} catch (ParseException | IOException | ClassNotFoundException e) {
-			fail("Can't parse: " + e);
+			throw new AssertionError("Can't parse '()'", e);
 		}
 	}
 }

@@ -2,19 +2,21 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.kernel.commands;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,18 +24,21 @@ import java.util.List;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.factories.UtilFactoryCommon;
+import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoIntersectPolyLines;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.CommandSignatures;
 import org.hamcrest.Matcher;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
-public class BaseCommandTest {
+public class CommandTestSetup {
 
 	private static final int UNINITIALIZED = -1000;
 	AppCommon3D app;
@@ -44,12 +49,32 @@ public class BaseCommandTest {
 	/**
 	 * Create the app
 	 */
-	@Before
+	@BeforeEach
 	public void setupApp() {
 		UtilFactory.setPrototypeIfNull(new UtilFactoryCommon());
 		app = AppCommonFactory.create3D();
 		ap = app.getKernel().getAlgebraProcessor();
 		app.setRandomSeed(42);
+
+		resetSyntaxCounter();
+		app.setActiveView(App.VIEW_EUCLIDIAN);
+		GeoImplicitCurve.setFastDrawThreshold(10000);
+	}
+
+	@AfterEach
+	public void checkSyntaxes() {
+		checkSyntaxesStatic();
+		if (app.getKernel().getConstruction().getGeoSetLabelOrder().size() < 20) {
+			XmlTestUtil.checkCurrentXML(app);
+		}
+	}
+
+	/**
+	 * Assert that there are no unchecked syntaxes left
+	 */
+	public static void checkSyntaxesStatic() {
+		assertTrue(uncheckedSyntaxesCount <= 0,
+				"unchecked syntaxes: " + uncheckedSyntaxesCount + signature);
 	}
 
 	/**

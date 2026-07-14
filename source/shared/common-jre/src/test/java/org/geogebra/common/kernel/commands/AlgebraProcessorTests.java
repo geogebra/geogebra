@@ -134,6 +134,7 @@ public class AlgebraProcessorTests extends BaseUnitTest {
 
 			@Override
 			protected void setDefaultEventParametersInternal(@Nonnull Map<String, Object> params) {
+				// don't keep track of default parameters
 			}
 		};
 		Analytics.setInstance(mockAnalytics);

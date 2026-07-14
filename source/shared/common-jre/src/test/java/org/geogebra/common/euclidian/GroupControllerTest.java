@@ -17,7 +17,6 @@
 package org.geogebra.common.euclidian;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -56,7 +55,7 @@ public class GroupControllerTest extends BaseEuclidianControllerTest {
 	@Test
 	public void dragShouldNotSelectPartialGroup() {
 		setMode(EuclidianConstants.MODE_SELECT_MOW);
-		List<GeoElement> polygons = prepareGroupedGeos();
+		prepareGroupedGeos();
 		dragStart(0, 0);
 		dragEnd(250, 250);
 		assertEquals(0, getApp().getSelectionManager().getSelectedGeos().size());

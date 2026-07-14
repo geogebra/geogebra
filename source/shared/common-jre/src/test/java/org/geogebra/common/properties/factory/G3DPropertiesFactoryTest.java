@@ -21,10 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
-import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
