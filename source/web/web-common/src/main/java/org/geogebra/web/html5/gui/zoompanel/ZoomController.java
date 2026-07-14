@@ -253,15 +253,13 @@ public class ZoomController {
 				};
 				// delay scaling to make sure scrollbars disappear
 				t.schedule(50);
-			} else {
-				if (state.emulated) {
-					state.removeTransformOverride();
-					container.removeClassName("GeoGebraFullscreenContainer");
-					onExitFullscreen(elem, fullscreenBtnSelectCB);
-					if (state.getCssScale() != 0) {
-						Browser.scale(scaler, state.getCssScale(),
-								0, 0);
-					}
+			} else if (state.emulated) {
+				state.removeTransformOverride();
+				container.removeClassName("GeoGebraFullscreenContainer");
+				onExitFullscreen(elem, fullscreenBtnSelectCB);
+				if (state.getCssScale() != 0) {
+					Browser.scale(scaler, state.getCssScale(),
+							0, 0);
 				}
 			}
 		}

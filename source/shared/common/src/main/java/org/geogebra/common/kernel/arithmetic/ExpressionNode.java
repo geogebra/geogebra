@@ -979,15 +979,8 @@ public class ExpressionNode extends ValidExpression
 				rt = new Polynomial(kernel,
 						((FunctionVariable) right).getSetVarString());
 			} else {
-				if (right instanceof MyList) {
-					MyList list = (MyList) right;
-					for (int i = 0; i < list.size(); i++) {
-						ExpressionValue ev = list.get(i);
-						if (ev instanceof ExpressionNode) {
-							((ExpressionNode) ev).makePolynomialTree(equ,
-									keepFraction);
-						}
-					}
+				if (right instanceof MyList list) {
+					makePolynomialTreesForList(list, equ, keepFraction);
 				}
 				// both for f(x,x) and x+3 we don't need the second argument
 				// wrapped
@@ -995,6 +988,15 @@ public class ExpressionNode extends ValidExpression
 			}
 		}
 		return lt.apply(operation, rt, equ, keepFraction);
+	}
+
+	private void makePolynomialTreesForList(MyList list, Equation equ, boolean keepFraction) {
+		for (int i = 0; i < list.size(); i++) {
+			ExpressionValue ev = list.get(i);
+			if (ev instanceof ExpressionNode) {
+				((ExpressionNode) ev).makePolynomialTree(equ, keepFraction);
+			}
+		}
 	}
 
 	private Polynomial makePolynomialTreeFromFunctionNVar(FunctionNVar func,
@@ -1669,17 +1671,14 @@ public class ExpressionNode extends ValidExpression
 			}
 
 			// check if ev is a labeled GeoElement
-			if (symbolic) {
-				if (ev.isGeoElement()) {
-					// labeled GeoElement
-					GeoElement geo = (GeoElement) ev;
-					if (geo.isLabelSet() || geo.isLocalVariable()
-							|| !geo.isIndependent()) {
-						return false;
-					}
+			if (symbolic && ev.isGeoElement()) {
+				// labeled GeoElement
+				GeoElement geo = (GeoElement) ev;
+				if (geo.isLabelSet() || geo.isLocalVariable()
+						|| !geo.isIndependent()) {
+					return false;
 				}
 			}
-
 			return ev.evaluateDouble() == val;
 		}
 		return false;
@@ -2359,30 +2358,7 @@ public class ExpressionNode extends ValidExpression
 				}
 				if (hit) {
 					didReplacement = true;
-					if (rightLeaf.getLeft()
-							.toString(StringTemplate.defaultTemplate)
-							.equals("1")) {
-						if (operation != Operation.NROOT) {
-							unsetRight();
-						}
-					} else { // to parse x^(c/2) to sqrt(x^c)
-						double c = 1;
-						if (rightLeaf.getLeft().isConstant()) {
-							c = rightLeaf.getLeft().evaluateDouble();
-						}
-						if (c < 0) {
-
-							setRight(new ExpressionNode(kernel,
-									getLeft().wrap().power(-c), getOperation(),
-									getRight()));
-							setOperation(Operation.DIVIDE);
-							setLeft(new MyDouble(kernel, 1.0));
-
-						} else {
-							setLeft(new ExpressionNode(kernel, getLeft(),
-									Operation.POWER, rightLeaf.getLeft()));
-						}
-					}
+					replaceFractionalPower(rightLeaf);
 				}
 
 			}
@@ -2411,6 +2387,32 @@ public class ExpressionNode extends ValidExpression
 		}
 
 		return didReplacement;
+	}
+
+	private void replaceFractionalPower(ExpressionNode rightLeaf) {
+		if (rightLeaf.getLeft()
+				.toString(StringTemplate.defaultTemplate)
+				.equals("1")) {
+			if (operation != Operation.NROOT) {
+				unsetRight();
+			}
+		} else { // to parse x^(c/2) to sqrt(x^c)
+			double c = 1;
+			if (rightLeaf.getLeft().isConstant()) {
+				c = rightLeaf.getLeft().evaluateDouble();
+			}
+			if (c < 0) {
+				setRight(new ExpressionNode(kernel,
+						getLeft().wrap().power(-c), getOperation(),
+						getRight()));
+				setOperation(Operation.DIVIDE);
+				setLeft(new MyDouble(kernel, 1.0));
+
+			} else {
+				setLeft(new ExpressionNode(kernel, getLeft(),
+						Operation.POWER, rightLeaf.getLeft()));
+			}
+		}
 	}
 
 	private void unsetRight() {
@@ -2474,6 +2476,7 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	@Override
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public ExpressionNode integral(FunctionVariable fv, Kernel kernel0) {
 
 		// symbolic integrals disabled in exam mode
@@ -2503,12 +2506,10 @@ public class ExpressionNode extends ValidExpression
 				if (right == fv) {
 					double base = left.evaluateDouble();
 					if (!Double.isNaN(base) && !Double.isInfinite(base)) {
-
 						// 1^x
 						if (DoubleUtil.isEqual(base, 1)) {
 							return wrap(fv);
 						}
-
 						if (DoubleUtil.isGreater(base, 0)) {
 							return this.divide(wrap(left).ln());
 						}

@@ -151,6 +151,7 @@ public class AlgoIntersectPlaneQuadricLimited
 	}
 
 	@Override
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public void compute() {
 		super.compute();
 

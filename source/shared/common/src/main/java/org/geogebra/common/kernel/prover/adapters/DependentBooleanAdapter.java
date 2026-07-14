@@ -71,6 +71,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 	// substitution list of segments with variables
 	private ArrayList<Map.Entry<GeoElement, PVariable>> varSubstListOfSegs;
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public PPolynomial[][] getBotanaPolynomials(GeoBoolean bool,
 			Construction cons) throws NoSymbolicParametersException {
 		ExpressionNode root = bool.getDefinition();
@@ -530,6 +531,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 	 * @throws NoSymbolicParametersException
 	 *             - unhandled operations
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public void buildPolynomialTree(ExpressionNode expNode,
 			PolynomialNode polyNode) throws NoSymbolicParametersException {
 		if (expNode == null) {

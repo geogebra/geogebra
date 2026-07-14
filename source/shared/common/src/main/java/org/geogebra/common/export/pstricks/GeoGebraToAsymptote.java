@@ -2529,6 +2529,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 	// TODO low priority: improve modularity of this function, repeated code for
 	// xaxis/yaxis.
 	// note: may shift around relative positions of certain labels.
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	private void drawAxis() {
 		String[] label = euclidianView.getAxesLabels(false);
 		String lx = "", ly = ""; // axis labels
@@ -2570,121 +2571,10 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 			}
 			if (bx || by) { // implement unit labels
 				if (units[0] != null && !units[0].equals("")) {
-					codeBeginPic.append("string ");
-					if (compact) {
-						codeBeginPic.append("xlbl");
-					} else {
-						codeBeginPic.append("xaxislabel");
-					}
-					packSpace(codeBeginPic, "(real x)");
-					packSpaceAfter(codeBeginPic, "{");
-
-					// asymptote code for pi labels:
-					// string xlbl(real x){string s; int n=round(2*x/pi);
-					// if(abs(n-2*x/pi) > 1e-3) return string(x);
-					// if(abs(n)>2) s=string(round((n%2+1)*x/pi)); if(n%2==0)
-					// return "$"+s+"\pi$"; return "$"+s+"\pi/2$";}
-
-					// unit label is pi: format -1pi, -1pi/2, 0pi, 1pi/2, 1pi
-					if (units[0].equals(Unicode.PI_STRING)) {
-						// create labeling function for special labels if n =
-						// -1,0,1
-						packSpaceBetween(codeBeginPic, "string s; ", "int n",
-								"=", "round(2*x/pi); ");
-						if (!compact) {
-							codeBeginPic.append("\n");
-						}
-						packSpaceBetween(codeBeginPic, "if(abs(n-2*x/pi)", ">",
-								"1e-3) return string(x); ");
-						if (!compact) {
-							codeBeginPic.append("\n");
-						}
-						packSpaceBetween(codeBeginPic, "if(abs(n)", ">",
-								"2) s = string(round((n%2", "+", "1)*x/pi)); ");
-						if (!compact) {
-							codeBeginPic.append("\n");
-						}
-						packSpaceBetween(codeBeginPic, "if(n%2", "==",
-								"0) return \"$\"+s+\"\\pi$\"; ");
-						// codeBeginPic.append("int n=round(x/pi); ");
-						// codeBeginPic.append("if(n==-1) return \"$-\\pi$\";
-						// ");
-						// codeBeginPic.append("if(n==1) return \"$\\pi$\"; ");
-						// codeBeginPic.append("if(n==0) return \"$0$\"; ");
-					}
-					codeBeginPic.append("return \"$\"");
-					packSpace(codeBeginPic, "+");
-					// unit label is pi
-					if (units[0].equals(Unicode.PI_STRING)) {
-						packSpaceBetween(codeBeginPic, "s", "+", "\"\\pi/2");
-					} else if (units[0].equals(Unicode.DEGREE_STRING)) {
-						packSpaceBetween(codeBeginPic, "string(x)", "+",
-								"\"^\\circ");
-					} else {
-						codeBeginPic.append("string(x)");
-						packSpace(codeBeginPic, "+");
-						codeBeginPic.append("\"\\,\\mathrm{").append(units[0]).append("}");
-					}
-					codeBeginPic.append("$\";} ");
+					labelAxisX(units[0]);
 				}
 				if (units[1] != null && !units[1].equals("")) {
-					codeBeginPic.append("string ");
-					if (compact) {
-						codeBeginPic.append("ylbl");
-					} else {
-						codeBeginPic.append("yaxislabel");
-					}
-					packSpace(codeBeginPic, "(real x)");
-					packSpaceAfter(codeBeginPic, "{");
-
-					// asymptote code for pi labels:
-					// string ylbl(real x){string s; int n=round(2*x/pi);
-					// if(abs(n-2*x/pi) > 1e-3) return string(x);
-					// if(abs(n)>2) s=string(round((n%2+1)*x/pi)); if(n%2==0)
-					// return "$"+s+"\pi$"; return "$"+s+"\pi/2$";}
-
-					// unit label is pi: format -1pi, -1pi/2, 0pi, 1pi/2, 1pi
-					if (units[1].equals(Unicode.PI_STRING)) {
-						// create labeling function for special labels if n =
-						// -1,0,1
-						packSpaceBetween(codeBeginPic, "string s; ", "int n",
-								"=", "round(2*x/pi); ");
-						if (!compact) {
-							codeBeginPic.append("\n");
-						}
-						packSpaceBetween(codeBeginPic, "if(abs(n-2*x/pi)", ">",
-								"1e-3) return string(x); ");
-						if (!compact) {
-							codeBeginPic.append("\n");
-						}
-						packSpaceBetween(codeBeginPic, "if(abs(n)", ">",
-								"2) s = string(round((n%2", "+", "1)*x/pi)); ");
-						if (!compact) {
-							codeBeginPic.append("\n");
-						}
-						packSpaceBetween(codeBeginPic, "if(n%2", "==",
-								"0) return \"$\"+s+\"\\pi$\"; ");
-						// codeBeginPic.append("int n=round(x/pi); ");
-						// codeBeginPic.append("if(n==-1) return \"$-\\pi$\";
-						// ");
-						// codeBeginPic.append("if(n==1) return \"$\\pi$\"; ");
-						// codeBeginPic.append("if(n==0) return \"$0$\"; ");
-					}
-					codeBeginPic.append("return \"$\"");
-					packSpace(codeBeginPic, "+");
-					// unit label is pi
-					if (units[1].equals(Unicode.PI_STRING)) {
-						packSpaceBetween(codeBeginPic, "s", "+", "\"\\pi/2");
-					} else if (units[1].equals(Unicode.DEGREE_STRING)) {
-						packSpaceBetween(codeBeginPic, "string(x)", "+",
-								"\"^\\circ");
-					} else {
-						codeBeginPic.append("string(x)");
-						packSpace(codeBeginPic, "+");
-						// put units in text form
-						codeBeginPic.append("\"\\,\\mathrm{").append(units[1]).append("}");
-					}
-					codeBeginPic.append("$\";} ");
+					labelAxisY(units[1]);
 				}
 			}
 			codeBeginPic.append("\n");
@@ -2817,6 +2707,125 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 			codeBeginPic.append("/* draws axes; NoZero hides '0' label */ ");
 		}
 		drawArrows(axisStyle, axisBold);
+	}
+
+	private void labelAxisY(String unit) {
+		codeBeginPic.append("string ");
+		if (compact) {
+			codeBeginPic.append("ylbl");
+		} else {
+			codeBeginPic.append("yaxislabel");
+		}
+		packSpace(codeBeginPic, "(real x)");
+		packSpaceAfter(codeBeginPic, "{");
+
+		// asymptote code for pi labels:
+		// string ylbl(real x){string s; int n=round(2*x/pi);
+		// if(abs(n-2*x/pi) > 1e-3) return string(x);
+		// if(abs(n)>2) s=string(round((n%2+1)*x/pi)); if(n%2==0)
+		// return "$"+s+"\pi$"; return "$"+s+"\pi/2$";}
+
+		// unit label is pi: format -1pi, -1pi/2, 0pi, 1pi/2, 1pi
+		if (unit.equals(Unicode.PI_STRING)) {
+			// create labeling function for special labels if n =
+			// -1,0,1
+			packSpaceBetween(codeBeginPic, "string s; ", "int n",
+					"=", "round(2*x/pi); ");
+			if (!compact) {
+				codeBeginPic.append("\n");
+			}
+			packSpaceBetween(codeBeginPic, "if(abs(n-2*x/pi)", ">",
+					"1e-3) return string(x); ");
+			if (!compact) {
+				codeBeginPic.append("\n");
+			}
+			packSpaceBetween(codeBeginPic, "if(abs(n)", ">",
+					"2) s = string(round((n%2", "+", "1)*x/pi)); ");
+			if (!compact) {
+				codeBeginPic.append("\n");
+			}
+			packSpaceBetween(codeBeginPic, "if(n%2", "==",
+					"0) return \"$\"+s+\"\\pi$\"; ");
+			// codeBeginPic.append("int n=round(x/pi); ");
+			// codeBeginPic.append("if(n==-1) return \"$-\\pi$\";
+			// ");
+			// codeBeginPic.append("if(n==1) return \"$\\pi$\"; ");
+			// codeBeginPic.append("if(n==0) return \"$0$\"; ");
+		}
+		codeBeginPic.append("return \"$\"");
+		packSpace(codeBeginPic, "+");
+		// unit label is pi
+		if (unit.equals(Unicode.PI_STRING)) {
+			packSpaceBetween(codeBeginPic, "s", "+", "\"\\pi/2");
+		} else if (unit.equals(Unicode.DEGREE_STRING)) {
+			packSpaceBetween(codeBeginPic, "string(x)", "+",
+					"\"^\\circ");
+		} else {
+			codeBeginPic.append("string(x)");
+			packSpace(codeBeginPic, "+");
+			// put units in text form
+			codeBeginPic.append("\"\\,\\mathrm{").append(unit).append("}");
+		}
+		codeBeginPic.append("$\";} ");
+	}
+
+	private void labelAxisX(String unit) {
+		codeBeginPic.append("string ");
+		if (compact) {
+			codeBeginPic.append("xlbl");
+		} else {
+			codeBeginPic.append("xaxislabel");
+		}
+		packSpace(codeBeginPic, "(real x)");
+		packSpaceAfter(codeBeginPic, "{");
+
+		// asymptote code for pi labels:
+		// string xlbl(real x){string s; int n=round(2*x/pi);
+		// if(abs(n-2*x/pi) > 1e-3) return string(x);
+		// if(abs(n)>2) s=string(round((n%2+1)*x/pi)); if(n%2==0)
+		// return "$"+s+"\pi$"; return "$"+s+"\pi/2$";}
+
+		// unit label is pi: format -1pi, -1pi/2, 0pi, 1pi/2, 1pi
+		if (unit.equals(Unicode.PI_STRING)) {
+			// create labeling function for special labels if n =
+			// -1,0,1
+			packSpaceBetween(codeBeginPic, "string s; ", "int n",
+					"=", "round(2*x/pi); ");
+			if (!compact) {
+				codeBeginPic.append("\n");
+			}
+			packSpaceBetween(codeBeginPic, "if(abs(n-2*x/pi)", ">",
+					"1e-3) return string(x); ");
+			if (!compact) {
+				codeBeginPic.append("\n");
+			}
+			packSpaceBetween(codeBeginPic, "if(abs(n)", ">",
+					"2) s = string(round((n%2", "+", "1)*x/pi)); ");
+			if (!compact) {
+				codeBeginPic.append("\n");
+			}
+			packSpaceBetween(codeBeginPic, "if(n%2", "==",
+					"0) return \"$\"+s+\"\\pi$\"; ");
+			// codeBeginPic.append("int n=round(x/pi); ");
+			// codeBeginPic.append("if(n==-1) return \"$-\\pi$\";
+			// ");
+			// codeBeginPic.append("if(n==1) return \"$\\pi$\"; ");
+			// codeBeginPic.append("if(n==0) return \"$0$\"; ");
+		}
+		codeBeginPic.append("return \"$\"");
+		packSpace(codeBeginPic, "+");
+		// unit label is pi
+		if (unit.equals(Unicode.PI_STRING)) {
+			packSpaceBetween(codeBeginPic, "s", "+", "\"\\pi/2");
+		} else if (unit.equals(Unicode.DEGREE_STRING)) {
+			packSpaceBetween(codeBeginPic, "string(x)", "+",
+					"\"^\\circ");
+		} else {
+			codeBeginPic.append("string(x)");
+			packSpace(codeBeginPic, "+");
+			codeBeginPic.append("\"\\,\\mathrm{").append(unit).append("}");
+		}
+		codeBeginPic.append("$\";} ");
 	}
 
 	private void drawArrows(int axisStyle, boolean axisBold) {
@@ -3039,27 +3048,24 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 				sb.append("blue");
 			} else if (c0.equals(GColor.YELLOW)) {
 				sb.append("yellow");
+			} else if (customColor.containsKey(c0)) {
+				sb.append(customColor.get(c0));
 			} else {
-				String colorname = "";
-				if (customColor.containsKey(c0)) {
-					colorname = customColor.get(c0);
+				String colorname = createCustomColor(red, green, blue);
+				if (!compact) {
+					codeColors.append("pen ");
 				} else {
-					colorname = createCustomColor(red, green, blue);
-					if (!compact) {
-						codeColors.append("pen ");
-					} else {
-						codeColors.append(", ");
-					}
-					codeColors.append(colorname);
-					packSpace(codeColors, "=");
-					codeColors.append("rgb(").append(format(red / 255d)).append(",")
-							.append(format(green / 255d)).append(",")
-							.append(format(blue / 255d)).append(")");
-					if (!compact) {
-						codeColors.append("; ");
-					}
-					customColor.put(c0, colorname);
+					codeColors.append(", ");
 				}
+				codeColors.append(colorname);
+				packSpace(codeColors, "=");
+				codeColors.append("rgb(").append(format(red / 255d)).append(",")
+						.append(format(green / 255d)).append(",")
+						.append(format(blue / 255d)).append(")");
+				if (!compact) {
+					codeColors.append("; ");
+				}
+				customColor.put(c0, colorname);
 				sb.append(colorname);
 			}
 		}
@@ -3132,27 +3138,24 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 				sb.append("blue");
 			} else if (tempc.equals(GColor.YELLOW)) {
 				sb.append("yellow");
+			} else if (customColor.containsKey(tempc)) {
+				sb.append(customColor.get(tempc));
 			} else {
-				String colorname = "";
-				if (customColor.containsKey(tempc)) {
-					colorname = customColor.get(tempc);
+				String colorname = createCustomColor(red, green, blue);
+				if (!compact) {
+					codeColors.append("pen ");
 				} else {
-					colorname = createCustomColor(red, green, blue);
-					if (!compact) {
-						codeColors.append("pen ");
-					} else {
-						codeColors.append(", ");
-					}
-					codeColors.append(colorname);
-					packSpace(codeColors, "=");
-					codeColors.append("rgb(").append(format(red / 255d)).append(",")
-							.append(format(green / 255d)).append(",")
-							.append(format(blue / 255d)).append(")");
-					if (!compact) {
-						codeColors.append("; ");
-					}
-					customColor.put(tempc, colorname);
+					codeColors.append(", ");
 				}
+				codeColors.append(colorname);
+				packSpace(codeColors, "=");
+				codeColors.append("rgb(").append(format(red / 255d)).append(",")
+						.append(format(green / 255d)).append(",")
+						.append(format(blue / 255d)).append(")");
+				if (!compact) {
+					codeColors.append("; ");
+				}
+				customColor.put(tempc, colorname);
 				sb.append(colorname);
 			}
 		}

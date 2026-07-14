@@ -163,19 +163,23 @@ public class EuclidianControllerW extends EuclidianController implements
 			getView().setHits(mouseLoc, type);
 			Hits hits = getView().getHits().getTopHits();
 			if (!hits.isEmpty()) {
-				GeoElement hit = hits.get(0);
-				if (hit != null && !hit.isGeoButton() && !hit.isGeoInputBox()
-						&& !hit.isGeoBoolean()) {
-					GeoElement geo = chooseGeo(hits, true);
-					if (geo != null) {
-						runScriptsIfNeeded(geo);
-					}
-				}
+				handleHitForComboBox(hits);
 			}
 
 			return true;
 		}
 		return super.isInputBoxClicked(x, y, type);
+	}
+
+	private void handleHitForComboBox(Hits hits) {
+		GeoElement hit = hits.get(0);
+		if (hit != null && !hit.isGeoButton() && !hit.isGeoInputBox()
+				&& !hit.isGeoBoolean()) {
+			GeoElement geo = chooseGeo(hits, true);
+			if (geo != null) {
+				runScriptsIfNeeded(geo);
+			}
+		}
 	}
 
 	@Override

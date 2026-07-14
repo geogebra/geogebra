@@ -940,9 +940,7 @@ public class MathMLParser {
 								parseBlock(nextTag, result, true);
 								skipFollowingTag();
 							}
-							if (!appendSpace) {
-								result.setLength(result.length() - 1);
-							}
+							removeSpaceIfNeeded(result, appendSpace);
 						} else {
 							// keyword is BLOCK + block number, parse inner
 							// blocks in given order
@@ -1000,6 +998,12 @@ public class MathMLParser {
 		}
 		// (<mprescripts/>)
 		pos = blockEnd;
+	}
+
+	private void removeSpaceIfNeeded(StringBuilder result, boolean appendSpace) {
+		if (!appendSpace) {
+			result.setLength(result.length() - 1);
+		}
 	}
 
 	/**

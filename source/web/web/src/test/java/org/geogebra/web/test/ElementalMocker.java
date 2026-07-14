@@ -16,20 +16,30 @@
 
 package org.geogebra.web.test;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 import org.geogebra.common.util.debug.Log;
+import org.mockito.Mockito;
 
 import elemental2.core.Global;
 import elemental2.core.JSONType;
+import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.Console;
+import elemental2.dom.DOMTokenList;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLBodyElement;
+import elemental2.dom.HTMLCanvasElement;
+import elemental2.dom.HTMLDivElement;
 import elemental2.dom.HTMLDocument;
+import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLHtmlElement;
+import elemental2.dom.HTMLImageElement;
 import elemental2.dom.Location;
 import elemental2.dom.Navigator;
 import elemental2.webstorage.WebStorageWindow;
@@ -47,7 +57,19 @@ public class ElementalMocker {
 			Location location = new Location();
 			location.search = "";
 			setFinalStatic(DomGlobal.class.getField("location"), location);
-			setFinalStatic(DomGlobal.class.getField("document"), new HTMLDocument());
+			HTMLDocument document = Mockito.spy(new HTMLDocument());
+			when(document.createElement(any())).thenAnswer(invocationOnMock -> {
+				String tagName = invocationOnMock.getArgumentAt(0, String.class);
+				HTMLElement ret = switch (tagName) {
+					case "img" -> new HTMLImageElement();
+					case "canvas" -> new HTMLCanvasElement();
+					default -> new HTMLDivElement();
+				};
+				ret.style = new CSSStyleDeclaration();
+				ret.classList = new DOMTokenList();
+				return ret;
+			});
+			setFinalStatic(DomGlobal.class.getField("document"), document);
 			Navigator newValue = new Navigator();
 			newValue.platform = "SunOS";
 			newValue.userAgent = "Chrome";

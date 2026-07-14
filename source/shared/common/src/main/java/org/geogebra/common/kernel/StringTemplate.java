@@ -1794,6 +1794,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 *            localization
 	 * @return left + right with appropriate brackets
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public String multiplyString(ExpressionValue left, ExpressionValue right,
 			String leftStr, String rightStr, boolean valueForm,
 			Localization loc) {

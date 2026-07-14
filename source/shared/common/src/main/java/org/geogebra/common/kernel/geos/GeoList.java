@@ -1283,14 +1283,11 @@ public class GeoList extends GeoElement
 
 				// set all the other elements in the list
 				// if appropriate
-				if (elements.size() > 1) {
-					for (int i = 1; i < elements.size(); i++) {
-						final GeoElement geo = elements.get(i);
-						if (!geo.isLabelSet()) {
-							geo.setAlphaValue(alpha);
-						}
+				for (int i = 1; i < elements.size(); i++) {
+					final GeoElement geo = elements.get(i);
+					if (!geo.isLabelSet()) {
+						geo.setAlphaValue(alpha);
 					}
-
 				}
 			} else {
 				return -1.0f;

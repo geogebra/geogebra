@@ -171,6 +171,7 @@ public class ClipLine {
 	 *            output array
 	 * @return <code>null</code> (does not clip) or array of two points
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	protected static GPoint2D[] getClipped(double x1, double y1, int mask1,
 			double x2, double y2, int mask2, double xmin, double xmax,
 			double ymin, double ymax, GPoint2D[] ret2) {

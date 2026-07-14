@@ -5011,13 +5011,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 						if (!Double.isInfinite(abscissa)
 								&& !Double.isNaN(abscissa)) {
 							ok = true;
-							if (abscissa > yMaxFunc) {
-								yMaxFunc = abscissa;
-							}
-							// no else: there **might** be just one value
-							if (abscissa < yMinFunc) {
-								yMinFunc = abscissa;
-							}
+							yMaxFunc = Math.max(abscissa, yMaxFunc);
+							// we may need to update both: there **might** be just one value
+							yMinFunc = Math.min(abscissa, yMinFunc);
 						}
 					}
 				}

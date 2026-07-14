@@ -358,46 +358,44 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	public double getParamOnLine(GeoPointND P) {
 		boolean done = false;
 		double t = 0;
-		if (P.isGeoElement3D()) {
-			if (((GeoPoint3D) P).hasWillingCoords()) {
-				if (((GeoPoint3D) P).hasWillingDirection()) {
-					// project willing location using willing direction
-					// GgbVector[] project =
-					// coordsys.getProjection(P.getWillingCoords(),
-					// P.getWillingDirection());
+		if (P.isGeoElement3D() && ((GeoPoint3D) P).hasWillingCoords()) {
+			if (((GeoPoint3D) P).hasWillingDirection()) {
+				// project willing location using willing direction
+				// GgbVector[] project =
+				// coordsys.getProjection(P.getWillingCoords(),
+				// P.getWillingDirection());
 
-					if (tmpCoords1 == null) {
-						tmpCoords1 = Coords.createInhomCoorsInD3();
-					}
-					t = ((GeoPoint3D) P).getWillingCoords()
-							.projectedParameterOnLineWithDirection(
-									coordsys.getOrigin(), coordsys.getVx(),
-									((GeoPoint3D) P).getWillingDirection(),
-									tmpCoords1);
-
-					done = true;
-				} else {
-					// project current point coordinates
-					Coords preDirection = ((GeoPoint3D) P).getWillingCoords()
-							.sub(coordsys.getOrigin())
-							.crossProduct(coordsys.getVx());
-					if (preDirection.equalsForKernel(0,
-							Kernel.STANDARD_PRECISION)) {
-						preDirection = coordsys.getVy();
-					}
-
-					if (tmpCoords1 == null) {
-						tmpCoords1 = Coords.createInhomCoorsInD3();
-					}
-					t = ((GeoPoint3D) P).getWillingCoords()
-							.projectedParameterOnLineWithDirection(
-									coordsys.getOrigin(),
-									coordsys.getVx(), preDirection
-											.crossProduct4(coordsys.getVx()),
-									tmpCoords1);
-
-					done = true;
+				if (tmpCoords1 == null) {
+					tmpCoords1 = Coords.createInhomCoorsInD3();
 				}
+				t = ((GeoPoint3D) P).getWillingCoords()
+						.projectedParameterOnLineWithDirection(
+								coordsys.getOrigin(), coordsys.getVx(),
+								((GeoPoint3D) P).getWillingDirection(),
+								tmpCoords1);
+
+				done = true;
+			} else {
+				// project current point coordinates
+				Coords preDirection = ((GeoPoint3D) P).getWillingCoords()
+						.sub(coordsys.getOrigin())
+						.crossProduct(coordsys.getVx());
+				if (preDirection.equalsForKernel(0,
+						Kernel.STANDARD_PRECISION)) {
+					preDirection = coordsys.getVy();
+				}
+
+				if (tmpCoords1 == null) {
+					tmpCoords1 = Coords.createInhomCoorsInD3();
+				}
+				t = ((GeoPoint3D) P).getWillingCoords()
+						.projectedParameterOnLineWithDirection(
+								coordsys.getOrigin(),
+								coordsys.getVx(), preDirection
+										.crossProduct4(coordsys.getVx()),
+								tmpCoords1);
+
+				done = true;
 			}
 		}
 

@@ -787,6 +787,7 @@ public class GeoFunctionNVar extends GeoElement
 	}
 
 	@Override
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public void pointChangedForRegion(GeoPointND P) {
 
 		if (isBooleanFunction()) {

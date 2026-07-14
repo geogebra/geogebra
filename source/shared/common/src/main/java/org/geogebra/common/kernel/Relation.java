@@ -230,18 +230,7 @@ public class Relation {
 					rel.setInfo(rel.getInfo() + relInfo + "<br><b>" + trueOnParts + "</b>");
 				} else {
 					// e.g. ProveDetails=={true,{"AreEqual(A,B)"}}
-					StringBuilder conds = new StringBuilder("<ul>");
-					for (int j = 1; j < ndgs; ++j) {
-						conds.append("<li ");
-						conds.append(liStyle);
-						conds.append(">");
-						conds.append(ndgResult[j]);
-						if (j < ndgs - 1) {
-							conds.append(" ");
-							conds.append(and);
-						}
-					}
-					conds.append("</ul>");
+					StringBuilder conds = formatConditions(ndgResult, liStyle, and);
 					rel.setInfo(rel.getInfo() + loc.getPlain("GenerallyTrueAcondB",
 							"<ul><li " + liStyle + ">" + relInfo + "</ul>", conds.toString()));
 				}
@@ -250,6 +239,23 @@ public class Relation {
 		rel.setInfo(rel.getInfo() + "</html>");
 		rel.setCallback(null);
 		return rel;
+	}
+
+	private StringBuilder formatConditions(String[] ndgResult, String liStyle, String and) {
+		int ndgs = ndgResult.length;
+		StringBuilder conds = new StringBuilder("<ul>");
+		for (int j = 1; j < ndgs; ++j) {
+			conds.append("<li ");
+			conds.append(liStyle);
+			conds.append(">");
+			conds.append(ndgResult[j]);
+			if (j < ndgs - 1) {
+				conds.append(" ");
+				conds.append(and);
+			}
+		}
+		conds.append("</ul>");
+		return conds;
 	}
 
 	/**

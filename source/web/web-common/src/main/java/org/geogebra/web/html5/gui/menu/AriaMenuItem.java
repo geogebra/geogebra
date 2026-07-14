@@ -175,19 +175,19 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 
 	private void setHTMLContent(Node textNode, ResourcePrototype icon) {
 		getElement().removeAllChildren();
-		try {
-			Element el = Js.uncheckedCast(getElement());
-			if (icon != null) {
-				img = Js.uncheckedCast(DomGlobal.document.createElement("img"));
-				img.setAttribute("src", NoDragImage.safeURI(icon));
-				img.setAttribute("draggable", "false");
-				img.classList.add("menuImg");
-				el.appendChild(img);
-			}
-			el.appendChild(textNode);
-		} catch (ClassCastException ex) {
-			// mockito
+		Element el = castElement(getElement());
+		if (icon != null) {
+			img = Js.uncheckedCast(DomGlobal.document.createElement("img"));
+			img.setAttribute("src", NoDragImage.safeURI(icon));
+			img.setAttribute("draggable", "false");
+			img.classList.add("menuImg");
+			el.appendChild(img);
 		}
+		el.appendChild(textNode);
+	}
+
+	private Element castElement(Object element) {
+		return Js.uncheckedCast(element);
 	}
 
 	/**
@@ -197,25 +197,20 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 	private void setContent(String text, IconSpec icon) {
 		getElement().removeAllChildren();
 		this.textNode = DomGlobal.document.createTextNode(text);
-		try {
-			Element el = Js.uncheckedCast(getElement());
-			if (icon != null) {
-				img = Js.uncheckedCast(DomGlobal.document.createElement("img"));
-				if (icon instanceof ImageIconSpec) {
-					img.setAttribute("src", NoDragImage.safeURI(((ImageIconSpec) icon).getImage()));
-					img.setAttribute("draggable", "false");
-					img.classList.add("menuImg");
-					el.appendChild(img);
-				} else {
-					Element iconElem = Js.uncheckedCast(icon.toElement());
-					el.insertAdjacentElement("afterbegin", iconElem);
-				}
-
+		Element el = castElement(getElement());
+		if (icon != null) {
+			img = Js.uncheckedCast(DomGlobal.document.createElement("img"));
+			if (icon instanceof ImageIconSpec) {
+				img.setAttribute("src", NoDragImage.safeURI(((ImageIconSpec) icon).getImage()));
+				img.setAttribute("draggable", "false");
+				img.classList.add("menuImg");
+				el.appendChild(img);
+			} else {
+				Element iconElem = castElement(icon.toElement());
+				el.insertAdjacentElement("afterbegin", iconElem);
 			}
-			el.appendChild(textNode);
-		} catch (ClassCastException ex) {
-			// mockito
 		}
+		el.appendChild(textNode);
 	}
 
 	/**

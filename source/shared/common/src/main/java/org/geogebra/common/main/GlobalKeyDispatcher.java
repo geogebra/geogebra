@@ -490,32 +490,7 @@ public abstract class GlobalKeyDispatcher {
 					ArrayList<GeoElement> selectedGeos = app
 							.getSelectionManager().getSelectedGeos();
 					if (selectedGeos != null && !selectedGeos.isEmpty()) {
-
-						GeoElement geo = selectedGeos.get(0);
-						DrawableND drawable = view.getDrawableFor(geo);
-						GRectangle2D bounds;
-						if (drawable != null) {
-
-							bounds = drawable.getBoundsForStylebarPosition();
-
-						} else {
-							// probably 3D, just open in corner
-							bounds = AwtFactory.getPrototype().newRectangle2D();
-						}
-						if (bounds != null) {
-							GPoint p = new GPoint((int) bounds.getMinX(),
-									(int) bounds.getMinY());
-
-							GuiManagerInterface guiManager = app.getGuiManager();
-							if (isFocusOnAlgebraView()) {
-								guiManager.openMenuInAVFor(geo);
-							} else {
-								guiManager.showPopupChooseGeo(
-										selectedGeos,
-										app.getSelectionManager().getSelectedGeoList(),
-										app.getActiveEuclidianView(), p);
-							}
-						}
+						showContextMenu(selectedGeos, view);
 					} else {
 						// open in corner
 						app.getGuiManager().showDrawingPadPopup(
@@ -537,6 +512,32 @@ public abstract class GlobalKeyDispatcher {
 		}
 
 		return consumed;
+	}
+
+	private void showContextMenu(ArrayList<GeoElement> selectedGeos, EuclidianView view) {
+		GeoElement geo = selectedGeos.get(0);
+		DrawableND drawable = view.getDrawableFor(geo);
+		GRectangle2D bounds;
+		if (drawable != null) {
+			bounds = drawable.getBoundsForStylebarPosition();
+		} else {
+			// probably 3D, just open in corner
+			bounds = AwtFactory.getPrototype().newRectangle2D();
+		}
+		if (bounds != null) {
+			GPoint p = new GPoint((int) bounds.getMinX(),
+					(int) bounds.getMinY());
+
+			GuiManagerInterface guiManager = app.getGuiManager();
+			if (isFocusOnAlgebraView()) {
+				guiManager.openMenuInAVFor(geo);
+			} else {
+				guiManager.showPopupChooseGeo(
+						selectedGeos,
+						app.getSelectionManager().getSelectedGeoList(),
+						app.getActiveEuclidianView(), p);
+			}
+		}
 	}
 
 	private boolean isFocusOnAlgebraView() {
@@ -1569,6 +1570,7 @@ public abstract class GlobalKeyDispatcher {
 		}
 	}
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	private boolean moveSliderPointOrRandomGeo(GeoElement geo,
 			double changeVal, boolean activeSlider) {
 		boolean changed = false;
@@ -1626,6 +1628,7 @@ public abstract class GlobalKeyDispatcher {
 		}
 	}
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	private boolean moveCoordSystem(KeyCodes key, double base, boolean isShiftDown) {
 		// Get the EuclidianView which has the focus
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();

@@ -120,61 +120,59 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 
 		circle.setDefined();
 
-		if (quadric1.getType() == GeoQuadricNDConstants.QUADRIC_SPHERE) {
-			if (quadric2.getType() == GeoQuadricNDConstants.QUADRIC_SPHERE) {
+		if (quadric1.getType() == GeoQuadricNDConstants.QUADRIC_SPHERE
+				&& quadric2.getType() == GeoQuadricNDConstants.QUADRIC_SPHERE) {
 				// intersect sphere / sphere
-				Coords o1 = quadric1.getMidpoint3D();
-				double r1 = quadric1.getHalfAxis(0);
-				Coords o2 = quadric2.getMidpoint3D();
-				double r2 = quadric2.getHalfAxis(0);
+			Coords o1 = quadric1.getMidpoint3D();
+			double r1 = quadric1.getHalfAxis(0);
+			Coords o2 = quadric2.getMidpoint3D();
+			double r2 = quadric2.getHalfAxis(0);
 
-				// same center
-				if (o1.equalsForKernel(o2)) {
-					if (DoubleUtil.isZero(r1) && DoubleUtil.isZero(r2)) {
-						// single point
-						GeoConic3D.setSinglePoint(circle, o1);
-						return;
-					}
-
-					if (DoubleUtil.isEqual(r1, r2)) {
-						// undefined
-						circle.setUndefined();
-						return;
-					}
-
-					// empty conic
-					circle.empty();
+			// same center
+			if (o1.equalsForKernel(o2)) {
+				if (DoubleUtil.isZero(r1) && DoubleUtil.isZero(r2)) {
+					// single point
+					GeoConic3D.setSinglePoint(circle, o1);
 					return;
 				}
 
-				// different centers
-				v.setSub3(o2, o1);
-				v.calcNorm();
-				double d = v.getNorm();
-
-				if (DoubleUtil.isGreater(d, r1 + r2)) {
-					// no intersection : empty
-					circle.empty();
+				if (DoubleUtil.isEqual(r1, r2)) {
+					// undefined
+					circle.setUndefined();
 					return;
 				}
 
-				v.mulInside3(1 / d);
-				double x = (d + (r1 * r1 - r2 * r2) / d) / 2;
-				o.setAdd3(o1, o.setMul(v, x));
-
-				v.completeOrthonormal3(vn1, vn2);
-				CoordSys coordSys = circle.getCoordSys();
-				coordSys.resetCoordSys();
-				coordSys.addPoint(o);
-				coordSys.addVector(vn1);
-				coordSys.addVector(vn2);
-				coordSys.makeOrthoMatrix(false, false);
-				circle.setSphereND(new Coords(0, 0),
-						Math.sqrt(r1 * r1 - x * x));
-
+				// empty conic
+				circle.empty();
 				return;
-
 			}
+
+			// different centers
+			v.setSub3(o2, o1);
+			v.calcNorm();
+			double d = v.getNorm();
+
+			if (DoubleUtil.isGreater(d, r1 + r2)) {
+				// no intersection : empty
+				circle.empty();
+				return;
+			}
+
+			v.mulInside3(1 / d);
+			double x = (d + (r1 * r1 - r2 * r2) / d) / 2;
+			o.setAdd3(o1, o.setMul(v, x));
+
+			v.completeOrthonormal3(vn1, vn2);
+			CoordSys coordSys = circle.getCoordSys();
+			coordSys.resetCoordSys();
+			coordSys.addPoint(o);
+			coordSys.addVector(vn1);
+			coordSys.addVector(vn2);
+			coordSys.makeOrthoMatrix(false, false);
+			circle.setSphereND(new Coords(0, 0),
+					Math.sqrt(r1 * r1 - x * x));
+
+			return;
 		}
 
 		// other cases

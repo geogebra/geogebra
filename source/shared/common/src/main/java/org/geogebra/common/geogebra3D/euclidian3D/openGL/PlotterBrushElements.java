@@ -176,7 +176,7 @@ public class PlotterBrushElements extends PlotterBrush {
 	}
 
 	@Override
-	protected void drawTick(Coords p1b, Coords p2b, float i,
+	protected void drawTick(Coords p1b, Coords p2b, double i,
 			float ticksThickness, float lineThickness) {
 		setTextureX(i);
 		moveTo(p1b);

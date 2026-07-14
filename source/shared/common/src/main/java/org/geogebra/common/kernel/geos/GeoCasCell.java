@@ -1577,13 +1577,10 @@ public class GeoCasCell extends GeoElement
 			if (outputVE != null) {
 				CommandReplacer cr = CommandReplacer.getReplacer(kernel, true);
 				outputVE.traverse(cr);
-				if (inputVE != null) {
-					if (inputVE.isTopLevelCommand("Vector")) {
-						ExpressionNode wrapped = outputVE.wrap();
-						wrapped.setForceVector();
-						outputVE = wrapped;
-					}
-
+				if (inputVE != null && inputVE.isTopLevelCommand("Vector")) {
+					ExpressionNode wrapped = outputVE.wrap();
+					wrapped.setForceVector();
+					outputVE = wrapped;
 				}
 			} else {
 				setError("CAS.GeneralErrorMessage");
@@ -1898,25 +1895,22 @@ public class GeoCasCell extends GeoElement
 					.get(this.row);
 			if (this.arbconst.getConstList().isEmpty() && myArbConst != null) {
 				ArrayList<GeoNumeric> constList = myArbConst.getConstList();
-				if (!constList.isEmpty()) {
-					for (GeoNumeric geoNum : constList) {
-						cons.addToConstructionList(geoNum, false);
-						cons.putLabel(geoNum);
-						this.arbconst.getConstList().add(geoNum);
-						GeoDummyReplacer replacer = GeoDummyReplacer
-								.getReplacer(
-								geoNum.getLabelSimple(), geoNum, false);
-						if (outputVE != null) {
-							outputVE.traverse(replacer);
-						}
-						if (twinGeo instanceof GeoFunction
-								&& ((GeoFunction) twinGeo).getFunction() != null
-								&& ((GeoFunction) twinGeo)
-										.getFunctionExpression() != null) {
-							((GeoFunction) twinGeo).getFunctionExpression()
-									.traverse(replacer);
-						}
-
+				for (GeoNumeric geoNum : constList) {
+					cons.addToConstructionList(geoNum, false);
+					cons.putLabel(geoNum);
+					this.arbconst.getConstList().add(geoNum);
+					GeoDummyReplacer replacer = GeoDummyReplacer
+							.getReplacer(
+							geoNum.getLabelSimple(), geoNum, false);
+					if (outputVE != null) {
+						outputVE.traverse(replacer);
+					}
+					if (twinGeo instanceof GeoFunction
+							&& ((GeoFunction) twinGeo).getFunction() != null
+							&& ((GeoFunction) twinGeo)
+									.getFunctionExpression() != null) {
+						((GeoFunction) twinGeo).getFunctionExpression()
+								.traverse(replacer);
 					}
 				}
 			}
@@ -1971,28 +1965,7 @@ public class GeoCasCell extends GeoElement
 					// twin geo undefined
 					twinGeo.setUndefined();
 				} else {
-					// different types:
-					// needed for TRAC-2635
-					// list wanted but we get line from giac
-					if (inputVE != null && inputVE.isTopLevelCommand("Tangent")
-							&& twinGeo instanceof GeoList
-							&& !(lastOutputEvaluationGeo instanceof GeoList)
-							&& (((Command) ((ExpressionNode) inputVE).getLeft())
-									.getArgumentNumber() == 2)) {
-						ExpressionNode[] args = ((Command) ((ExpressionNode) inputVE)
-								.getLeft()).getArguments();
-						// Tangent[Point, Conic]
-						if (args[0].getLeft() instanceof GeoPoint
-								&& args[1].getLeft() instanceof GeoConic) {
-							((GeoList) twinGeo).clear();
-							((GeoList) twinGeo).add(lastOutputEvaluationGeo);
-						}
-
-					} else {
-						twinGeo = lastOutputEvaluationGeo;
-						cons.replace(twinGeo, lastOutputEvaluationGeo);
-					}
-
+					setTwinFromCasOutput(lastOutputEvaluationGeo);
 				}
 				if (outputVE.unwrap() instanceof GeoElement
 						&& ((GeoElement) outputVE.unwrap())
@@ -2021,6 +1994,30 @@ public class GeoCasCell extends GeoElement
 			// AlgoDependentCasCell calls one more update; important to skip
 			// this because of spreadsheet trace
 			twinGeo.updateGeo(false);
+		}
+	}
+
+	private void setTwinFromCasOutput(GeoElement lastOutputEvaluationGeo)
+			throws CircularDefinitionException, XMLParseException {
+		// different types:
+		// needed for TRAC-2635
+		// list wanted, but we get a line from giac
+		if (inputVE != null && inputVE.isTopLevelCommand("Tangent")
+				&& twinGeo instanceof GeoList
+				&& !(lastOutputEvaluationGeo instanceof GeoList)
+				&& (((Command) inputVE.unwrap()).getArgumentNumber() == 2)) {
+			ExpressionNode[] args = ((Command) ((ExpressionNode) inputVE)
+					.getLeft()).getArguments();
+			// Tangent[Point, Conic]
+			if (args[0].getLeft() instanceof GeoPoint
+					&& args[1].getLeft() instanceof GeoConic) {
+				((GeoList) twinGeo).clear();
+				((GeoList) twinGeo).add(lastOutputEvaluationGeo);
+			}
+
+		} else {
+			twinGeo = lastOutputEvaluationGeo;
+			cons.replace(twinGeo, lastOutputEvaluationGeo);
 		}
 	}
 
@@ -2157,7 +2154,7 @@ public class GeoCasCell extends GeoElement
 	 * @param doTwinGeoUpdate
 	 *            whether twin geo should be updated or not
 	 */
-	@SuppressWarnings("PMD.ExceptionAsFlowControl")
+	@SuppressWarnings({"PMD.ExceptionAsFlowControl", "PMD.AvoidDeeplyNestedIfStmts"})
 	private void computeOutput(final boolean doTwinGeoUpdate,
 			final boolean allowFunction) {
 		// check for circular definition before we do anything
@@ -2302,24 +2299,7 @@ public class GeoCasCell extends GeoElement
 						}
 						// hack needed for web with file loading
 						if (cons.isFileLoading()) {
-							ArrayList<GeoNumeric> constList = arbconst
-									.getConstList();
-							// switch geoNumerics created by xml reading
-							// with geoNumerics created by cas evaluation
-							if (constList != null && !constList.isEmpty()) {
-								for (GeoNumeric geoNum : constList) {
-									GeoElement geo = cons.lookupLabel(
-											geoNum.getLabelSimple());
-									if (geo instanceof GeoNumeric) {
-										((GeoNumeric) geo)
-												.setIsDependentConst(true);
-										cons.removeLabel(geo);
-										cons.addToConstructionList(geoNum,
-												true);
-										cons.putLabel(geoNum);
-									}
-								}
-							}
+							handleConstantLoading();
 						}
 					}
 				}
@@ -2429,6 +2409,23 @@ public class GeoCasCell extends GeoElement
 		// set Output
 		finalizeComputation(success, result, ce, doTwinGeoUpdate,
 				allowFunction);
+	}
+
+	private void handleConstantLoading() {
+		ArrayList<GeoNumeric> constList = arbconst.getConstList();
+		// switch geoNumerics created by xml reading
+		// with geoNumerics created by cas evaluation
+		if (constList != null && !constList.isEmpty()) {
+			for (GeoNumeric geoNum : constList) {
+				GeoElement geo = cons.lookupLabel(geoNum.getLabelSimple());
+				if (geo instanceof GeoNumeric) {
+					((GeoNumeric) geo).setIsDependentConst(true);
+					cons.removeLabel(geo);
+					cons.addToConstructionList(geoNum, true);
+					cons.putLabel(geoNum);
+				}
+			}
+		}
 	}
 
 	// replace in Solutions[{h(s)=g(t)},{s,t}] vector nodes with equations
@@ -3314,31 +3311,35 @@ public class GeoCasCell extends GeoElement
 			tooltip = tooltip.replace("gGbInTeGrAl(", Unicode.INTEGRAL + "(");
 
 			if (tooltip.length() > TOOLTIP_SCREEN_WIDTH && tooltip.indexOf('{') > -1) {
-				int listStart = tooltip.indexOf('{');
-				StringBuilder sb = new StringBuilder(tooltip.length() + 20);
-				sb.append(tooltip.substring(0, listStart + 1));
-
-				int currLine = 0;
-				for (int i = listStart + 1; i < tooltip.length(); i++) {
-					if (tooltip.charAt(i) == ',') {
-						int nextComma = tooltip.indexOf(',', i + 1);
-						if (nextComma == -1) {
-							nextComma = tooltip.length() - 1;
-						}
-						if (currLine + nextComma - i > TOOLTIP_SCREEN_WIDTH) {
-							sb.append(",\n");
-							currLine = 0;
-							i++;
-						}
-					}
-					currLine++;
-					sb.append(tooltip.charAt(i));
-				}
-				tooltip = sb.toString();
+				buildMultilineTooltip();
 			}
 			tooltip = GeoElement.indicesToHTML(tooltip, true);
 		}
 		return tooltip;
+	}
+
+	private void buildMultilineTooltip() {
+		int listStart = tooltip.indexOf('{');
+		StringBuilder sb = new StringBuilder(tooltip.length() + 20);
+		sb.append(tooltip.substring(0, listStart + 1));
+
+		int currLine = 0;
+		for (int i = listStart + 1; i < tooltip.length(); i++) {
+			if (tooltip.charAt(i) == ',') {
+				int nextComma = tooltip.indexOf(',', i + 1);
+				if (nextComma == -1) {
+					nextComma = tooltip.length() - 1;
+				}
+				if (currLine + nextComma - i > TOOLTIP_SCREEN_WIDTH) {
+					sb.append(",\n");
+					currLine = 0;
+					i++;
+				}
+			}
+			currLine++;
+			sb.append(tooltip.charAt(i));
+		}
+		tooltip = sb.toString();
 	}
 
 	/**

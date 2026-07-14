@@ -252,6 +252,7 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 	}
 
 	@Override
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public boolean hasNext() {
 		if (myPointList.isEmpty()) {
 			return false;

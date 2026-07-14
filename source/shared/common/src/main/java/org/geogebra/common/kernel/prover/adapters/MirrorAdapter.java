@@ -31,6 +31,7 @@ import org.geogebra.common.util.debug.Log;
 
 public class MirrorAdapter extends ProverAdapter {
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public PPolynomial[] getBotanaPolynomials(GeoElementND geo, GeoElement inGeo,
 			GeoLineND mirrorLine, GeoPointND mirrorPoint,
 			GeoConicND mirrorCircle) throws NoSymbolicParametersException {

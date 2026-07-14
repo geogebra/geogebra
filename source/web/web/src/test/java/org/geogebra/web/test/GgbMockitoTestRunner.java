@@ -31,6 +31,7 @@ import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.factories.FormatFactoryW;
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FocusUtil;
@@ -79,11 +80,10 @@ import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.impl.StubGenerator;
 import com.himamis.retex.renderer.web.font.opentype.Opentype;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
-import com.himamis.retex.renderer.web.graphics.GraphicsFactoryGWT;
-import com.himamis.retex.renderer.web.graphics.ImageW;
 
 import elemental2.core.JsDate;
 import elemental2.core.Uint8Array;
+import elemental2.dom.CSSProperties;
 import elemental2.dom.Document;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.XMLHttpRequest;
@@ -121,8 +121,6 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
                 Void.class);
         StubGenerator.replaceMethodWithMock(Graphics2DW.class, "initFontParser",
                 Void.class);
-        StubGenerator.replaceMethodWithMock(GraphicsFactoryGWT.class, "createImage",
-                ImageW.class);
         StubGenerator.replaceMethodWithMock(RendererWithImplW.class, "getWebGLContext",
                 WebGLRenderingContext.class);
         StubGenerator.replaceMethodWithMock(RendererImplShadersW.class, "getShader",
@@ -154,9 +152,10 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
         StubGenerator.replaceMethodWithMock(SVGResourcePrototype.class, "withFill",
                 SafeUri.class);
         StubGenerator.replaceMethodWithMock(Dom.class, "querySelector", Void.class);
-        StubGenerator.replaceMethodWithMock(Dom.class, "createDiv", Void.class);
-        StubGenerator.replaceMethodWithMock(Dom.class, "createImage", Void.class);
         StubGenerator.replaceMethodWithMock(Dom.class, "querySelectorForElement", Void.class);
+        StubGenerator.replaceMethodWithMock(AriaMenuItem.class, "castElement", Void.class);
+        StubGenerator.replaceMethodWithMock(elemental2.dom.Element.class, "setAttribute",
+                Void.class);
         StubGenerator.replaceMethodWithMock(CSSEvents.class, "runOnAnimation", Void.class);
         StubGenerator.replaceMethodWithMock(SelectElement.class, "as", SelectElement.class);
         StubGenerator.replaceMethodWithMock(CopyPasteW.class, "writeToExternalClipboard",

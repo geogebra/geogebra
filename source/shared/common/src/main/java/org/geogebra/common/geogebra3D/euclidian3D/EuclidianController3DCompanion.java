@@ -83,79 +83,8 @@ public class EuclidianController3DCompanion
 
 	@Override
 	public void movePoint(AbstractEvent event, @Nonnull GeoPointND movedPoint) {
-		if (movedPoint instanceof GeoPoint3D) {
-			GeoPoint3D movedGeoPoint3D = (GeoPoint3D) movedPoint;
-
-			if (movedGeoPoint3D.isPointOnPath()) {
-
-				ec3D.setMouseInformation(movedGeoPoint3D);
-				movedGeoPoint3D.doPath();
-
-				Coords coords = movedGeoPoint3D.getInhomCoordsInD(3);
-				if (checkPointCapturingXYThenZ(coords)) {
-					movedGeoPoint3D.setWillingCoords(coords);
-					movedGeoPoint3D.setWillingDirectionUndefined();
-					movedGeoPoint3D.doPath();
-				}
-
-			} else if (movedGeoPoint3D.hasRegion()) {
-
-				ec3D.setMouseInformation(movedGeoPoint3D);
-				hitRegion(movedGeoPoint3D);
-				movedGeoPoint3D.doRegion();
-
-				boolean changed = false;
-
-				Coords coords = movedGeoPoint3D.getCoords();
-				if (movedGeoPoint3D.getRegion() == ec.getKernel()
-						.getXOYPlane()) {
-					changed = ec3D.checkXYMinMax(coords);
-				}
-				if (checkPointCapturingXYThenZ(coords) || changed) {
-					movedGeoPoint3D.setWillingCoords(coords);
-					movedGeoPoint3D.setWillingDirectionUndefined();
-					movedGeoPoint3D.doRegion();
-				}
-
-				ec3D.view3D.getCursor3D()
-						.setMoveNormalDirection(movedGeoPoint3D
-								.getRegionParameters().getNormal());
-
-			} else {
-
-				// if (isShiftDown && mouseLoc != null){ //moves the point along
-				// z-axis
-				if (movedPoint.getMoveMode() == GeoPointND.MOVE_MODE_Z
-						|| (movedPoint
-								.getMoveMode() == GeoPointND.MOVE_MODE_TOOL_DEFAULT
-								&& ec3D.getPointMoveMode() == GeoPointND.MOVE_MODE_Z)) { // moves
-					long maxDelay = EuclidianConstants.DRAGGING_DELAY_FOR_MOVING_POINT_ALONG_Z;
-					if (!ec.isTemporaryMode() || ec
-							.getElapsedTimeFromLastMousePressed() > maxDelay) {
-						moveAlongZAxis(movedGeoPoint3D);
-					}
-				} else {
-					ec3D.movePointOnCurrentPlane(movedGeoPoint3D);
-				}
-
-				// update point decorations
-				if (ec.getMoveMode() == MoveMode.POINT) {
-					ec3D.view3D.updatePointDecorations();
-				}
-
-			}
-
-			// update 3D cursor coordinates (false : no path or region update)
-			ec3D.view3D.getCursor3D()
-					.setCoords(movedGeoPoint3D.getCoords(), false);
-			ec3D.view3D.updateMatrixForCursor3D();
-
-			movedGeoPoint3D.updateCascade(); // repaint always called after this
-
-			// update previewable
-			if (ec.getView().getPreviewDrawable() != null) {
-				ec.getView().updatePreviewable();
-			}
+		if (movedPoint instanceof GeoPoint3D movedGeoPoint3D) {
+			movePoint3D(movedGeoPoint3D);
 
 		} else { // 2D point
 			ec3D.view3D.getHittingOrigin(ec.mouseLoc, tmpCoordsForOrigin);
@@ -177,6 +106,79 @@ public class EuclidianController3DCompanion
 			ec3D.view3D.getCursor3D()
 					.setCoords(movedPoint.getCoordsInD3(), false);
 
+		}
+	}
+
+	private void movePoint3D(GeoPoint3D movedGeoPoint3D) {
+		if (movedGeoPoint3D.isPointOnPath()) {
+
+			ec3D.setMouseInformation(movedGeoPoint3D);
+			movedGeoPoint3D.doPath();
+
+			Coords coords = movedGeoPoint3D.getInhomCoordsInD(3);
+			if (checkPointCapturingXYThenZ(coords)) {
+				movedGeoPoint3D.setWillingCoords(coords);
+				movedGeoPoint3D.setWillingDirectionUndefined();
+				movedGeoPoint3D.doPath();
+			}
+
+		} else if (movedGeoPoint3D.hasRegion()) {
+
+			ec3D.setMouseInformation(movedGeoPoint3D);
+			hitRegion(movedGeoPoint3D);
+			movedGeoPoint3D.doRegion();
+
+			boolean changed = false;
+
+			Coords coords = movedGeoPoint3D.getCoords();
+			if (movedGeoPoint3D.getRegion() == ec.getKernel()
+					.getXOYPlane()) {
+				changed = ec3D.checkXYMinMax(coords);
+			}
+			if (checkPointCapturingXYThenZ(coords) || changed) {
+				movedGeoPoint3D.setWillingCoords(coords);
+				movedGeoPoint3D.setWillingDirectionUndefined();
+				movedGeoPoint3D.doRegion();
+			}
+
+			ec3D.view3D.getCursor3D()
+					.setMoveNormalDirection(movedGeoPoint3D
+							.getRegionParameters().getNormal());
+
+		} else {
+
+			// if (isShiftDown && mouseLoc != null){ //moves the point along
+			// z-axis
+			if (movedGeoPoint3D.getMoveMode() == GeoPointND.MOVE_MODE_Z
+					|| (movedGeoPoint3D
+					.getMoveMode() == GeoPointND.MOVE_MODE_TOOL_DEFAULT
+					&& ec3D.getPointMoveMode() == GeoPointND.MOVE_MODE_Z)) { // moves
+				long maxDelay = EuclidianConstants.DRAGGING_DELAY_FOR_MOVING_POINT_ALONG_Z;
+				if (!ec.isTemporaryMode() || ec
+						.getElapsedTimeFromLastMousePressed() > maxDelay) {
+					moveAlongZAxis(movedGeoPoint3D);
+				}
+			} else {
+				ec3D.movePointOnCurrentPlane(movedGeoPoint3D);
+			}
+
+			// update point decorations
+			if (ec.getMoveMode() == MoveMode.POINT) {
+				ec3D.view3D.updatePointDecorations();
+			}
+
+		}
+
+		// update 3D cursor coordinates (false : no path or region update)
+		ec3D.view3D.getCursor3D()
+				.setCoords(movedGeoPoint3D.getCoords(), false);
+		ec3D.view3D.updateMatrixForCursor3D();
+
+		movedGeoPoint3D.updateCascade(); // repaint always called after this
+
+		// update previewable
+		if (ec.getView().getPreviewDrawable() != null) {
+			ec.getView().updatePreviewable();
 		}
 	}
 

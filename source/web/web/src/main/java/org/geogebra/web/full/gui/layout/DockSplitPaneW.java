@@ -352,14 +352,8 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 
 		// otherwise put the single component into the resizing pane
 		else if (leftComponent != null) {
-			if (orientation == SwingConstants.HORIZONTAL_SPLIT) {
-				add(leftComponent);
-			} else {
-				add(leftComponent);
-			}
-		}
-
-		else if (rightComponent != null) {
+			add(leftComponent);
+		} else if (rightComponent != null) {
 			add(rightComponent);
 		}
 

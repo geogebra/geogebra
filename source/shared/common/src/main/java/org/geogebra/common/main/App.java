@@ -3760,18 +3760,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 					geo.runClickScripts(null);
 					return true;
 				} else if (isRightClickEnabled()) {
-					// <Space> -> toggle slider animation off/on
-					num.setAnimating(!num.isAnimating());
-
-					storeUndoInfo();
-					// update play/pause icon at bottom left
-					getActiveEuclidianView().repaint();
-
-					if (num.isAnimating()) {
-						num.getKernel().getAnimationManager().startAnimation();
-					}
+					toggleSliderAnimation(num);
 				}
-
 			} else {
 				ScreenReader.readSpacePressed(geo);
 				geo.runClickScripts(null);
@@ -3784,6 +3774,18 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 
 		return false;
+	}
+
+	private void toggleSliderAnimation(GeoNumeric num) {
+		num.setAnimating(!num.isAnimating());
+
+		storeUndoInfo();
+		// update play/pause icon at bottom left
+		getActiveEuclidianView().repaint();
+
+		if (num.isAnimating()) {
+			num.getKernel().getAnimationManager().startAnimation();
+		}
 	}
 
 	/**

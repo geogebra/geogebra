@@ -242,6 +242,7 @@ public class DependentNumberAdapter extends ProverAdapter {
 	 * 
 	 *         TODO: Find a more elegant way to do that.
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public void buildPolynomialTree(ExpressionNode expNode, PolynomialNode polyNode)
 			throws NoSymbolicParametersException {
 		// Log.debug(expNode.toString());

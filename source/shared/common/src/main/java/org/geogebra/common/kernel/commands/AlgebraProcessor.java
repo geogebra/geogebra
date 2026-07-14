@@ -2154,7 +2154,7 @@ public class AlgebraProcessor {
 	 * @throws CircularDefinitionException
 	 *             when circular definition occurs
 	 */
-	@SuppressWarnings("PMD.ExceptionAsFlowControl")
+	@SuppressWarnings({"PMD.ExceptionAsFlowControl", "PMD.AvoidDeeplyNestedIfStmts"})
 	void processReplace(GeoElement replaceable, GeoElement[] ret,
 			ValidExpression ve, EvalInfo info)
 			throws CircularDefinitionException {

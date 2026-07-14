@@ -115,7 +115,7 @@ public class Graphics2DW implements Graphics2DInterface {
 	}
 
 	public Graphics2DW(HTMLCanvasElement canvas) {
-		this(Js.<CanvasRenderingContext2D>uncheckedCast(canvas.getContext("2d")));
+		this(JLMContextHelper.as(canvas.getContext("2d")));
 	}
 
 	private void initBasicStroke() {

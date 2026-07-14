@@ -1444,13 +1444,7 @@ public class InputController {
 				newOperator(editorState, '*');
 				handled = true;
 			} else if (ch == ',' || (!allowAbs && ch == '|')) {
-				if (preventDimensionChange(editorState)) {
-					if (shouldMoveCursor(editorState)) {
-						CursorController.nextCharacter(editorState);
-					}
-				} else {
-					comma(editorState);
-				}
+				handleComma(editorState);
 				handled = true;
 			} else if (catalog.isOperator("" + ch)) {
 				newOperator(editorState, ch);
@@ -1472,6 +1466,16 @@ public class InputController {
 			}
 		}
 		return handled;
+	}
+
+	private void handleComma(EditorState editorState) {
+		if (preventDimensionChange(editorState)) {
+			if (shouldMoveCursor(editorState)) {
+				CursorController.nextCharacter(editorState);
+			}
+		} else {
+			comma(editorState);
+		}
 	}
 
 	private String getCurrentWord(EditorState state) {

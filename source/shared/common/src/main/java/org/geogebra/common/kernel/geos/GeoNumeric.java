@@ -286,49 +286,40 @@ public class GeoNumeric extends GeoElement
 
 		// slider is only possible for independent
 		// number with given min and max
-		if (isIndependent()) {
-			if (visible) { // TODO: Remove cast from GeoNumeric
-				isDrawable = true;
-				GeoNumeric num = kernel.getAlgoDispatcher()
-						.getDefaultNumber(isAngle());
-				// make sure the slider value is not fixed
-				setFixed(false);
-				if (!isIntervalMinActive()
-						&& !(intervalMin instanceof GeoNumeric)) {
-					if (!isIntervalMaxActive()
-							&& !(intervalMax instanceof GeoNumeric)) {
-						// set both to default
-						setMinFrom(num);
-						setMaxFrom(num);
-					} else {
-						// max is available but no min
-						double min = Math.min(num.getIntervalMin(),
-								Math.floor(value));
-						setIntervalMin(new MyDouble(kernel, min));
-					}
-				} else { // min exists
-					if (!isIntervalMaxActive()
-							&& !(intervalMax instanceof GeoNumeric)) {
-						// min is available but no max
-						double max = Math.max(num.getIntervalMax(),
-								Math.ceil(value));
-						setIntervalMax(new MyDouble(kernel, max));
-					}
+		if (isIndependent() && visible) {
+			// TODO: Remove cast from GeoNumeric
+			isDrawable = true;
+			GeoNumeric num = kernel.getAlgoDispatcher()
+					.getDefaultNumber(isAngle());
+			// make sure the slider value is not fixed
+			setFixed(false);
+			if (!isIntervalMinActive()
+					&& !(intervalMin instanceof GeoNumeric)) {
+				if (!isIntervalMaxActive()
+						&& !(intervalMax instanceof GeoNumeric)) {
+					// set both to default
+					setMinFrom(num);
+					setMaxFrom(num);
+				} else {
+					// max is available but no min
+					double min = Math.min(num.getIntervalMin(),
+							Math.floor(value));
+					setIntervalMin(new MyDouble(kernel, min));
 				}
-
-				// init screen location
-				if (startPoint == null) {
-					initScreenLocation();
+			} else { // min exists
+				if (!isIntervalMaxActive()
+						&& !(intervalMax instanceof GeoNumeric)) {
+					// min is available but no max
+					double max = Math.max(num.getIntervalMax(),
+							Math.ceil(value));
+					setIntervalMax(new MyDouble(kernel, max));
 				}
-
-				// make sure
 			}
 
-			/*
-			 * we don't want to remove min, max values when slider is hidden
-			 * else { // !visible intervalMinActive = false; intervalMaxActive =
-			 * false; }
-			 */
+			// init screen location
+			if (startPoint == null) {
+				initScreenLocation();
+			}
 		}
 
 		super.setEuclidianVisible(visible);

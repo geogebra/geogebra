@@ -110,33 +110,9 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 			break;
 		case VIEW:
 			if (view3D.isZoomable()) {
-				boolean changed = false;
+				boolean changed;
 				if (view3D.getCursorOnXOYPlane().getRealMoveMode() == GeoPointND.MOVE_MODE_XY) {
-					if (view3D.isXREnabled()) {
-						if (canUseStartTouchOnXOYPlane) {
-							view3D.getHittingOrigin(null, hittingOrigin);
-							view3D.getHittingDirection(hittingDirection);
-							hittingOrigin.projectPlaneThruV(CoordMatrix4x4.IDENTITY,
-									hittingDirection,
-									moveTouchOnXOYPlane);
-							// maybe hittingDirection is parallel to xOy plane
-							if (!DoubleUtil.isZero(moveTouchOnXOYPlane.getW())) {
-								translation.setSub3(moveTouchOnXOYPlane, startTouchOnXOYPlane);
-								xZeroOld += translation.getX();
-								yZeroOld += translation.getY();
-								view3D.setXZero(xZeroOld);
-								view3D.setYZero(yZeroOld);
-								changed = true;
-							}
-						}
-					} else {
-						setTranslationFromMouseMove();
-						translation.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, view3D
-								.getViewDirection(), tmpCoords1);
-						view3D.setXZero(xZeroOld + tmpCoords1.getX());
-						view3D.setYZero(yZeroOld + tmpCoords1.getY());
-						changed = true;
-					}
+					changed = animateXY();
 				} else {
 					setTranslationFromMouseMove();
 					translation.projectPlaneInPlaneCoords(CoordMatrix4x4.IDENTITY, tmpCoords1);
@@ -157,6 +133,35 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 			break;
 		}
 		end();
+	}
+
+	private boolean animateXY() {
+		if (view3D.isXREnabled()) {
+			if (canUseStartTouchOnXOYPlane) {
+				view3D.getHittingOrigin(null, hittingOrigin);
+				view3D.getHittingDirection(hittingDirection);
+				hittingOrigin.projectPlaneThruV(CoordMatrix4x4.IDENTITY,
+						hittingDirection,
+						moveTouchOnXOYPlane);
+				// maybe hittingDirection is parallel to xOy plane
+				if (!DoubleUtil.isZero(moveTouchOnXOYPlane.getW())) {
+					translation.setSub3(moveTouchOnXOYPlane, startTouchOnXOYPlane);
+					xZeroOld += translation.getX();
+					yZeroOld += translation.getY();
+					view3D.setXZero(xZeroOld);
+					view3D.setYZero(yZeroOld);
+					return true;
+				}
+			}
+		} else {
+			setTranslationFromMouseMove();
+			translation.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, view3D
+					.getViewDirection(), tmpCoords1);
+			view3D.setXZero(xZeroOld + tmpCoords1.getX());
+			view3D.setYZero(yZeroOld + tmpCoords1.getY());
+			return true;
+		}
+		return false;
 	}
 
 	private void setTranslationFromMouseMove() {

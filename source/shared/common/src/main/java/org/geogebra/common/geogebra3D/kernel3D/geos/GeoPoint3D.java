@@ -1931,24 +1931,9 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 						NumberValue yNum = proc.getCoordNumber(ycoord);
 						NumberValue zNum = proc.getCoordNumber(zcoord);
 
-						if (xNum instanceof GeoNumeric
-								&& ((GeoNumeric) xNum).isPointerChangeable()) {
-							changeableCoordNumbers.add(xNum);
-						} else {
-							changeableCoordNumbers.add(null);
-						}
-						if (yNum instanceof GeoNumeric
-								&& ((GeoNumeric) yNum).isPointerChangeable()) {
-							changeableCoordNumbers.add(yNum);
-						} else {
-							changeableCoordNumbers.add(null);
-						}
-						if (zNum instanceof GeoNumeric
-								&& ((GeoNumeric) zNum).isPointerChangeable()) {
-							changeableCoordNumbers.add(zNum);
-						} else {
-							changeableCoordNumbers.add(null);
-						}
+						addChangeableCoordOrNull(xNum);
+						addChangeableCoordOrNull(yNum);
+						addChangeableCoordOrNull(zNum);
 					} catch (Throwable e) {
 						changeableCoordNumbers.clear();
 						Log.debug(e);
@@ -1958,6 +1943,15 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		}
 
 		return changeableCoordNumbers;
+	}
+
+	private void addChangeableCoordOrNull(NumberValue xNum) {
+		if (xNum instanceof GeoNumeric
+				&& ((GeoNumeric) xNum).isPointerChangeable()) {
+			changeableCoordNumbers.add(xNum);
+		} else {
+			changeableCoordNumbers.add(null);
+		}
 	}
 
 	/**

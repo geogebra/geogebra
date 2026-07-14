@@ -594,6 +594,7 @@ public class Function extends FunctionNVar
 	 *            for root finding factors may be simplified, e.g. sqrt(x) may
 	 *            be simplified to x
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	private boolean addPolynomialFactors(ExpressionValue ev,
 			List<PolyFunction> l, boolean symbolic,
 			boolean rootFindingSimplification, boolean assumeFalseIfCASNeeded) {

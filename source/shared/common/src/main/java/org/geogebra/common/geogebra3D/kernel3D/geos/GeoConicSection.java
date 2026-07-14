@@ -505,6 +505,7 @@ public class GeoConicSection extends GeoConic3D
 	}
 
 	@Override
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public void pointChanged(Coords pt, PathParameter pp, boolean checkSection) {
 		// calc point on conic and check it
 		super.pointChanged(pt, pp, checkSection);
@@ -610,44 +611,50 @@ public class GeoConicSection extends GeoConic3D
 		if (checkSection) {
 			for (int i = 0; i < 2; i++) {
 				if (edgeExists[i]) {
-					// get parameter in [-pi,pi]
-					double parameter = pp.t % Kernel.PI_2;
-					if (parameter > Math.PI) {
-						parameter -= Kernel.PI_2;
-					}
-
-					// check if in edge
-					boolean inEdge = false;
-					if (edgeStartParam[i] > Math.PI) {
-						parameter += Kernel.PI_2;
-						inEdge = parameter >= edgeStartParam[i]
-								&& parameter <= edgeEndParam[i];
-					} else if (edgeEndParam[i] > Math.PI) {
-						if (parameter >= edgeStartParam[i]) {
-							inEdge = true;
-						} else {
-							parameter += Kernel.PI_2;
-							inEdge = parameter <= edgeEndParam[i];
-						}
-					} else {
-						inEdge = parameter >= edgeStartParam[i]
-								&& parameter <= edgeEndParam[i];
-					}
-
-					if (inEdge) {
-						double a = (parameter - edgeStartParam[i])
-								/ (edgeEndParam[i] - edgeStartParam[i]);
-						P.setX(edgeStartX[i] * (1 - a) + edgeEndX[i] * a);
-						P.setY(edgeStartY[i] * (1 - a) + edgeEndY[i] * a);
-						P.setZ(1);
+					if (checkPathChangeEllipseEdge(P, pp, i)) {
 						return;
 					}
-
 				}
 			}
 		}
 
 		super.pathChangedWithoutCheckEllipse(P, pp, checkSection);
+	}
+
+	private boolean checkPathChangeEllipseEdge(Coords P, PathParameter pp, int i) {
+		// get parameter in [-pi,pi]
+		double parameter = pp.t % Kernel.PI_2;
+		if (parameter > Math.PI) {
+			parameter -= Kernel.PI_2;
+		}
+
+		// check if in edge
+		boolean inEdge = false;
+		if (edgeStartParam[i] > Math.PI) {
+			parameter += Kernel.PI_2;
+			inEdge = parameter >= edgeStartParam[i]
+					&& parameter <= edgeEndParam[i];
+		} else if (edgeEndParam[i] > Math.PI) {
+			if (parameter >= edgeStartParam[i]) {
+				inEdge = true;
+			} else {
+				parameter += Kernel.PI_2;
+				inEdge = parameter <= edgeEndParam[i];
+			}
+		} else {
+			inEdge = parameter >= edgeStartParam[i]
+					&& parameter <= edgeEndParam[i];
+		}
+
+		if (inEdge) {
+			double a = (parameter - edgeStartParam[i])
+					/ (edgeEndParam[i] - edgeStartParam[i]);
+			P.setX(edgeStartX[i] * (1 - a) + edgeEndX[i] * a);
+			P.setY(edgeStartY[i] * (1 - a) + edgeEndY[i] * a);
+			P.setZ(1);
+			return true;
+		}
+		return false;
 	}
 
 	@Override

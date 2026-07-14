@@ -2602,70 +2602,71 @@ public abstract class EuclidianView3D extends EuclidianView
 				} else {
 					drawTarget(renderer1);
 				}
-			} else {
-				// mouse cursor
-				if (moveCursorIsVisible()) {
-					drawTranslateViewCursor(renderer1);
-				} else if (!getEuclidianController().mouseIsOverLabel()
-						&& ((EuclidianController3D) getEuclidianController())
-								.cursor3DVisibleForCurrentMode(
-										getCursor3DType())) {
-					renderer1.setMatrix(cursorMatrix);
+			} else if (moveCursorIsVisible()) { // mouse cursor
+				drawTranslateViewCursor(renderer1);
+			} else if (!getEuclidianController().mouseIsOverLabel()
+					&& ((EuclidianController3D) getEuclidianController())
+							.cursor3DVisibleForCurrentMode(
+									getCursor3DType())) {
+				renderer1.setMatrix(cursorMatrix);
 
-					if (cursor == EuclidianCursor.DEFAULT) {
-						switch (getCursor3DType()) {
-						case PREVIEW_POINT_FREE:
-							drawFreeCursor(renderer1);
-							break;
-						case PREVIEW_POINT_ALREADY: // showing arrows directions
-							drawPointAlready(getCursor3D());
-							break;
-						case PREVIEW_POINT_NONE:
-						default:
-							// do nothing
-							break;
-						}
-					} else if (cursor == EuclidianCursor.HIT) {
-						switch (getCursor3DType()) {
-						case PREVIEW_POINT_FREE:
-							if (getCompanion().drawCrossForFreePoint()) {
-								renderer1
-										.drawCursor(PlotterCursor.Type.CROSS2D);
-							}
-							break;
-						case PREVIEW_POINT_REGION:
-							if (getEuclidianController()
-									.getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF) {
-								renderer1.drawViewInFrontOf();
-							} else {
-								renderer1
-										.drawCursor(PlotterCursor.Type.CROSS2D);
-							}
-							break;
-						case PREVIEW_POINT_PATH:
-						case PREVIEW_POINT_REGION_AS_PATH:
-							if (getEuclidianController()
-									.getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF) {
-								renderer1.drawViewInFrontOf();
-							} else {
-								renderer1.drawCursor(
-										PlotterCursor.Type.CYLINDER);
-							}
-							break;
-						case PREVIEW_POINT_DEPENDENT:
-							renderer1.drawCursor(PlotterCursor.Type.DIAMOND);
-							break;
-
-						case PREVIEW_POINT_ALREADY:
-							drawPointAlready(getCursor3D());
-							break;
-						default:
-							// do nothing
-							break;
-						}
+				if (cursor == EuclidianCursor.DEFAULT) {
+					switch (getCursor3DType()) {
+					case PREVIEW_POINT_FREE:
+						drawFreeCursor(renderer1);
+						break;
+					case PREVIEW_POINT_ALREADY: // showing arrows directions
+						drawPointAlready(getCursor3D());
+						break;
+					case PREVIEW_POINT_NONE:
+					default:
+						// do nothing
+						break;
 					}
+				} else if (cursor == EuclidianCursor.HIT) {
+					drawHitCursor(renderer1);
 				}
 			}
+		}
+	}
+
+	private void drawHitCursor(Renderer renderer1) {
+		switch (getCursor3DType()) {
+		case PREVIEW_POINT_FREE:
+			if (getCompanion().drawCrossForFreePoint()) {
+				renderer1
+						.drawCursor(PlotterCursor.Type.CROSS2D);
+			}
+			break;
+		case PREVIEW_POINT_REGION:
+			if (getEuclidianController()
+					.getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF) {
+				renderer1.drawViewInFrontOf();
+			} else {
+				renderer1
+						.drawCursor(PlotterCursor.Type.CROSS2D);
+			}
+			break;
+		case PREVIEW_POINT_PATH:
+		case PREVIEW_POINT_REGION_AS_PATH:
+			if (getEuclidianController()
+					.getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF) {
+				renderer1.drawViewInFrontOf();
+			} else {
+				renderer1.drawCursor(
+						PlotterCursor.Type.CYLINDER);
+			}
+			break;
+		case PREVIEW_POINT_DEPENDENT:
+			renderer1.drawCursor(PlotterCursor.Type.DIAMOND);
+			break;
+
+		case PREVIEW_POINT_ALREADY:
+			drawPointAlready(getCursor3D());
+			break;
+		default:
+			// do nothing
+			break;
 		}
 	}
 
@@ -3381,18 +3382,22 @@ public abstract class EuclidianView3D extends EuclidianView
 				clippingCubeDrawable.doUpdateMinMax();
 
 				if (!isZoomable()) {
-					if (!getSettings().isSetStandardCoordSystem()) {
-						getSettings().setSetStandardCoordSystem(true);
-					} else {
-						updateMatrix();
-					}
-					updateAllDrawables();
+					resetCoordSystem();
 				}
 
 				updateDecorations(minmax2);
 			}
 		}
 		updateBounds();
+	}
+
+	private void resetCoordSystem() {
+		if (!getSettings().isSetStandardCoordSystem()) {
+			getSettings().setSetStandardCoordSystem(true);
+		} else {
+			updateMatrix();
+		}
+		updateAllDrawables();
 	}
 
 	private void viewChangedOwnDrawables() {
@@ -4850,34 +4855,38 @@ public abstract class EuclidianView3D extends EuclidianView
 		if (mIsXRDrawing != isXRDrawing) {
 			mIsXRDrawing = isXRDrawing;
 			if (isXRDrawing) {
-				boolean boundsNeededUpdate = updateObjectsBounds(true,
-						false, true);
-				if (boundsNeededUpdate) {
-					clippingCubeDrawable.enlargeFor(boundsMin);
-					clippingCubeDrawable.enlargeFor(boundsMax);
-				}
-				if (boundsNeededUpdate) {
-					translationZzeroForAR = -boundsMin.getZ();
-					// ensure showing plane if visible and not too far
-					if (translationZzeroForAR < 0
-							&& (((getShowGrid() || getShowPlane()) && getZmin() < 0)
-								|| isAtLeastOneAxisVisible())) {
-						translationZzeroForAR = 0;
-					}
-				} else {
-					translationZzeroForAR = 0;
-				}
-				setARFloorZ(-translationZzeroForAR);
-				translationZzeroForAR -= getZZero();
-				getRenderer().setARScaleAtStart();
-				updateMatrix();
-				reset(false);
+				activateXRDrawing();
 			} else {
 				translationZzeroForAR = 0;
 				updateMatrix();
 				reset(true);
 			}
 		}
+	}
+
+	private void activateXRDrawing() {
+		boolean boundsNeededUpdate = updateObjectsBounds(true,
+				false, true);
+		if (boundsNeededUpdate) {
+			clippingCubeDrawable.enlargeFor(boundsMin);
+			clippingCubeDrawable.enlargeFor(boundsMax);
+		}
+		if (boundsNeededUpdate) {
+			translationZzeroForAR = -boundsMin.getZ();
+			// ensure showing plane if visible and not too far
+			if (translationZzeroForAR < 0
+					&& (((getShowGrid() || getShowPlane()) && getZmin() < 0)
+					|| isAtLeastOneAxisVisible())) {
+				translationZzeroForAR = 0;
+			}
+		} else {
+			translationZzeroForAR = 0;
+		}
+		setARFloorZ(-translationZzeroForAR);
+		translationZzeroForAR -= getZZero();
+		getRenderer().setARScaleAtStart();
+		updateMatrix();
+		reset(false);
 	}
 
 	private boolean isAtLeastOneAxisVisible() {

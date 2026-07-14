@@ -79,6 +79,7 @@ public class FunctionExpander implements Traversing {
 	}
 
 	@Override
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public ExpressionValue process(ExpressionValue ev) {
 		if (ev instanceof ExpressionNode en) {
 			boolean surfaceNoComplex = false;
@@ -148,19 +149,7 @@ public class FunctionExpander implements Traversing {
 					if (en2.getLeft() instanceof GeoSurfaceCartesianND) {
 						FunctionNVar[] fun = ((GeoSurfaceCartesianND) en2
 								.getLeft()).getFunctions();
-						MyVecNDNode vector;
-						if (fun.length > 2) {
-							vector = new MyVec3DNode(
-									en.getKernel(),
-									fun[0].getExpression(),
-									fun[1].getExpression(),
-									fun[2].getExpression());
-						} else {
-							vector = new MyVecNode(
-									en.getKernel(),
-									fun[0].getExpression(),
-									fun[1].getExpression());
-						}
+						MyVecNDNode vector = buildVector(fun, en.getKernel());
 						en2 = new ExpressionNode(en.getKernel(), vector);
 						if (en.getRight() instanceof MyList argList
 								&& argList.get(0).unwrap() instanceof MyList) {
@@ -188,19 +177,7 @@ public class FunctionExpander implements Traversing {
 					} else {
 						surfaceNoComplex = true;
 						FunctionNVar[] fun = geoSurface.getFunctions();
-						MyVecNDNode vect;
-						if (fun.length > 2) {
-							vect = new MyVec3DNode(
-									en.getKernel(),
-									fun[0].getExpression().deepCopy(kernel),
-									fun[1].getExpression().deepCopy(kernel),
-									fun[2].getExpression().deepCopy(kernel));
-						} else {
-							vect = new MyVecNode(
-									en.getKernel(),
-									fun[0].getExpression().deepCopy(kernel),
-									fun[1].getExpression().deepCopy(kernel));
-						}
+						MyVecNDNode vect = buildVector(fun, en.getKernel());
 						en2 = new ExpressionNode(en.getKernel(), vect);
 					}
 				}
@@ -265,6 +242,21 @@ public class FunctionExpander implements Traversing {
 		}
 
 		return ev;
+	}
+
+	private MyVecNDNode buildVector(FunctionNVar[] fun, Kernel kernel) {
+		if (fun.length > 2) {
+			return new MyVec3DNode(
+					kernel,
+					fun[0].getExpression(),
+					fun[1].getExpression(),
+					fun[2].getExpression());
+		} else {
+			return new MyVecNode(
+					kernel,
+					fun[0].getExpression(),
+					fun[1].getExpression());
+		}
 	}
 
 	private ExpressionNode getDerivative(ExpressionNode en, ExpressionValue deriv,

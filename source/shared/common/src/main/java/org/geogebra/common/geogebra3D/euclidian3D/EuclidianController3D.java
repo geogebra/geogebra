@@ -1686,58 +1686,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				if (movedPoint == null) {
 					return;
 				}
-				// switch the direction of move (xy or z) in case of left-click
-				if (!isDraggingOccurredBeyondThreshold() && !rightClick
-						&& movedPoint.isIndependent()) {
-					if (EuclidianConstants.isMoveOrSelectionMode(mode)
-							&& !movedPoint.isGeoElement3D()) {
-						// 2D point will be replaced by 3D point (only for move
-						// mode)
-
-						// create new 3D point
-						Construction cons = kernel.getConstruction();
-						GeoPoint3D newGeo = (GeoPoint3D) kernel.getManager3D()
-								.point3D(movedPoint.getInhomX(),
-										movedPoint.getInhomY(), 0, false);
-						try {
-							cons.replace(movedPoint.toGeoElement(), newGeo);
-						} catch (Exception e) {
-							Log.debug(e);
-						} finally {
-							// update geo selected
-							String newLabel = newGeo.isLabelSet()
-									? newGeo.getLabelSimple()
-									: movedPoint.getLabelSimple();
-							GeoElement geo = kernel.lookupLabel(newLabel);
-							setMovedGeoPoint((GeoPointND) geo);
-
-							// update hits
-							Hits3D hits = view3D.getHits3D();
-							hits.init();
-							hits.add(geo);
-
-							// update selection
-							app.getSelectionManager().clearSelectedGeos(false,
-									false);
-							app.getSelectionManager().addSelectedGeo(geo, true,
-									true);
-
-						}
-					}
-					if (mode == EuclidianConstants.MODE_MOVE
-							|| mode == EuclidianConstants.MODE_POINT) {
-						switchPointMoveMode();
-					} else {
-						Hits hits = view3D.getHits();
-						if (!hits.isEmpty() && hits.get(0) == movedPoint) {
-							switchPointMoveMode();
-						}
-					}
-					((EuclidianView3D) getView()).getCursor3D()
-							.setMoveMode(movedPoint.getMoveMode());
-					((EuclidianView3D) getView())
-							.setDefaultCursorWillBeHitCursor();
-				}
+				movePointForRelease(movedPoint, rightClick);
 			}
 		}
 
@@ -1749,6 +1698,61 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		super.processReleaseForMovedGeoPoint(rightClick);
 
+	}
+
+	private void movePointForRelease(GeoPointND movedPoint, boolean rightClick) {
+		// switch the direction of move (xy or z) in case of left-click
+		if (!isDraggingOccurredBeyondThreshold() && !rightClick
+				&& movedPoint.isIndependent()) {
+			if (EuclidianConstants.isMoveOrSelectionMode(mode)
+					&& !movedPoint.isGeoElement3D()) {
+				// 2D point will be replaced by 3D point (only for move
+				// mode)
+
+				// create new 3D point
+				Construction cons = kernel.getConstruction();
+				GeoPoint3D newGeo = (GeoPoint3D) kernel.getManager3D()
+						.point3D(movedPoint.getInhomX(),
+								movedPoint.getInhomY(), 0, false);
+				try {
+					cons.replace(movedPoint.toGeoElement(), newGeo);
+				} catch (Exception e) {
+					Log.debug(e);
+				} finally {
+					// update geo selected
+					String newLabel = newGeo.isLabelSet()
+							? newGeo.getLabelSimple()
+							: movedPoint.getLabelSimple();
+					GeoElement geo = kernel.lookupLabel(newLabel);
+					setMovedGeoPoint((GeoPointND) geo);
+
+					// update hits
+					Hits3D hits = view3D.getHits3D();
+					hits.init();
+					hits.add(geo);
+
+					// update selection
+					app.getSelectionManager().clearSelectedGeos(false,
+							false);
+					app.getSelectionManager().addSelectedGeo(geo, true,
+							true);
+
+				}
+			}
+			if (mode == EuclidianConstants.MODE_MOVE
+					|| mode == EuclidianConstants.MODE_POINT) {
+				switchPointMoveMode();
+			} else {
+				Hits hits = view3D.getHits();
+				if (!hits.isEmpty() && hits.get(0) == movedPoint) {
+					switchPointMoveMode();
+				}
+			}
+			((EuclidianView3D) getView()).getCursor3D()
+					.setMoveMode(movedPoint.getMoveMode());
+			((EuclidianView3D) getView())
+					.setDefaultCursorWillBeHitCursor();
+		}
 	}
 
 	@Override
@@ -3728,18 +3732,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			AlgoElement algo = movedGeoElement.getParentAlgorithm();
 			if (algo instanceof AlgoTranslate) {
 				GeoElementND in = algo.getInput(1);
-				if (in instanceof GeoVectorND && in.isIndependent()) {
-					movedGeoVector = (GeoVectorND) in;
-					moveMode = MoveMode.VECTOR_NO_GRID;
-					setTranslateStart(movedGeoElement, movedGeoVector);
-				} else {
-					GeoPointND pt = MoveGeos.getMovablePointForVector(in);
-					if (pt != null) {
-						moveMode = MoveMode.POINT_WITH_OFFSET;
-						setMovedGeoPoint(pt);
-						setTranslateFromPointStart(movedGeoElement, pt);
-					}
-				}
+				moveTranslationInput(in);
 				return;
 			}
 		}
@@ -3751,6 +3744,21 @@ public abstract class EuclidianController3D extends EuclidianController {
             movedGeoElement.getChangeableParent3D().record(view3D, startPoint3D);
         }
     }
+
+	private void moveTranslationInput(GeoElementND in) {
+		if (in instanceof GeoVectorND && in.isIndependent()) {
+			movedGeoVector = (GeoVectorND) in;
+			moveMode = MoveMode.VECTOR_NO_GRID;
+			setTranslateStart(movedGeoElement, movedGeoVector);
+		} else {
+			GeoPointND pt = MoveGeos.getMovablePointForVector(in);
+			if (pt != null) {
+				moveMode = MoveMode.POINT_WITH_OFFSET;
+				setMovedGeoPoint(pt);
+				setTranslateFromPointStart(movedGeoElement, pt);
+			}
+		}
+	}
 
 	@Override
 	protected void movePointWithOffset() {

@@ -959,59 +959,65 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 			int gLength = g.getPointsLength();
 			if (gLength == this.getPointsLength()) {
-				// search for a first common point
-				Coords firstPoint = this.getPoint3D(0);
-				boolean fPointFound = false;
-				int iFirstPoint = 0;
-				while (!fPointFound && (iFirstPoint < gLength)) {
-					if (firstPoint.equalsForKernel(g.getPoint3D(iFirstPoint))) {
-						fPointFound = true;
-					} else {
-						iFirstPoint++;
-					}
-				}
+				return areAllPointsEqual(g);
+			}
+		}
+		return ExtendedBoolean.FALSE;
+	}
 
-				// next point
-				if (fPointFound) {
-					boolean sPointFound = false;
-					int step = 1;
-					if (this.getPoint3D(1).equalsForKernel(
-							g.getPoint3D((iFirstPoint + step) % gLength))) {
-						sPointFound = true;
-					} else {
-						step = -1;
-						int j = iFirstPoint + step;
-						if (j < 0) {
-							j = gLength - 1;
-						}
-						if (this.getPoint3D(1)
-								.equalsForKernel(g.getPoint3D(j))) {
-							sPointFound = true;
-						}
-					}
+	private ExtendedBoolean areAllPointsEqual(GeoPolygon g) {
+		int gLength = g.getPointsLength();
+		// search for a first common point
+		Coords firstPoint = this.getPoint3D(0);
+		boolean fPointFound = false;
+		int iFirstPoint = 0;
+		while (!fPointFound && (iFirstPoint < gLength)) {
+			if (firstPoint.equalsForKernel(g.getPoint3D(iFirstPoint))) {
+				fPointFound = true;
+			} else {
+				iFirstPoint++;
+			}
+		}
 
-					// other points
-					if (sPointFound) {
-						int i = 2;
-						int j = iFirstPoint + step + step;
-						if (j < 0) {
-							j = j + gLength;
-						}
-						j = j % gLength;
-						boolean pointOK = true;
-						while (pointOK && (i < gLength)) {
-							pointOK = this.getPoint3D(i)
-									.equalsForKernel(g.getPoint3D(j));
-							j = j + step;
-							if (j < 0) {
-								j = gLength - 1;
-							}
-							j = j % gLength;
-							i++;
-						}
-						return ExtendedBoolean.newExtendedBoolean(pointOK);
-					}
+		// next point
+		if (fPointFound) {
+			boolean sPointFound = false;
+			int step = 1;
+			if (this.getPoint3D(1).equalsForKernel(
+					g.getPoint3D((iFirstPoint + step) % gLength))) {
+				sPointFound = true;
+			} else {
+				step = -1;
+				int j = iFirstPoint + step;
+				if (j < 0) {
+					j = gLength - 1;
 				}
+				if (this.getPoint3D(1)
+						.equalsForKernel(g.getPoint3D(j))) {
+					sPointFound = true;
+				}
+			}
+
+			// other points
+			if (sPointFound) {
+				int i = 2;
+				int j = iFirstPoint + step + step;
+				if (j < 0) {
+					j = j + gLength;
+				}
+				j = j % gLength;
+				boolean pointOK = true;
+				while (pointOK && (i < gLength)) {
+					pointOK = this.getPoint3D(i)
+							.equalsForKernel(g.getPoint3D(j));
+					j = j + step;
+					if (j < 0) {
+						j = gLength - 1;
+					}
+					j = j % gLength;
+					i++;
+				}
+				return ExtendedBoolean.newExtendedBoolean(pointOK);
 			}
 		}
 		return ExtendedBoolean.FALSE;

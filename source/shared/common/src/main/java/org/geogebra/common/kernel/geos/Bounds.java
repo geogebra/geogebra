@@ -381,33 +381,31 @@ public class Bounds {
 				GeoFunction f = (GeoFunction) condition.getLeft();
 				ExpressionNode exp = f.getFunctionExpression();
 				if (exp.getOperation() == Operation.AND_INTERVAL) {
-					ExpressionNode left = (ExpressionNode) exp.getLeft();
-					ExpressionNode right = (ExpressionNode) exp.getRight();
-
-					Operation opLeft = left.getOperation();
-					Operation opRight = right.getOperation();
-
-					if (opLeft.isInequalityLess()
-							&& opRight.isInequalityLess()) {
-
-						if (left.getRight() instanceof FunctionVariable) {
-							return left.getLeft().evaluateDouble();
-						} else if (right
-								.getRight() instanceof FunctionVariable) {
-							return right.getLeft().evaluateDouble();
-						}
-
-					}
-
+					return lowerIntervalBound(exp);
 				}
 			}
 		}
 
-		if (lower == null) {
-			return Double.NEGATIVE_INFINITY;
-		} else {
-			return lower;
+		return lower == null ? Double.NEGATIVE_INFINITY : lower;
+	}
+
+	private double lowerIntervalBound(ExpressionNode exp) {
+		ExpressionNode left = (ExpressionNode) exp.getLeft();
+		ExpressionNode right = (ExpressionNode) exp.getRight();
+
+		Operation opLeft = left.getOperation();
+		Operation opRight = right.getOperation();
+
+		if (opLeft.isInequalityLess()
+				&& opRight.isInequalityLess()) {
+			if (left.getRight() instanceof FunctionVariable) {
+				return left.getLeft().evaluateDouble();
+			} else if (right.getRight() instanceof FunctionVariable) {
+				return right.getLeft().evaluateDouble();
+			}
+
 		}
+		return Double.NEGATIVE_INFINITY;
 	}
 
 	/**
@@ -420,22 +418,7 @@ public class Bounds {
 				GeoFunction f = (GeoFunction) condition.getLeft();
 				ExpressionNode exp = f.getFunctionExpression();
 				if (exp.getOperation() == Operation.AND_INTERVAL) {
-					ExpressionNode left = (ExpressionNode) exp.getLeft();
-					ExpressionNode right = (ExpressionNode) exp.getRight();
-
-					Operation opLeft = left.getOperation();
-					Operation opRight = right.getOperation();
-
-					if (opLeft.isInequalityLess()
-							&& opRight.isInequalityLess()) {
-
-						if (left.getLeft() instanceof FunctionVariable) {
-							return left.getRight().evaluateDouble();
-						} else if (right
-								.getLeft() instanceof FunctionVariable) {
-							return right.getRight().evaluateDouble();
-						}
-					}
+					return upperIntervalBound(exp);
 				}
 			}
 		}
@@ -444,6 +427,24 @@ public class Bounds {
 		} else {
 			return upper;
 		}
+	}
+
+	private Double upperIntervalBound(ExpressionNode exp) {
+		ExpressionNode left = (ExpressionNode) exp.getLeft();
+		ExpressionNode right = (ExpressionNode) exp.getRight();
+
+		Operation opLeft = left.getOperation();
+		Operation opRight = right.getOperation();
+
+		if (opLeft.isInequalityLess()
+				&& opRight.isInequalityLess()) {
+			if (left.getLeft() instanceof FunctionVariable) {
+				return left.getRight().evaluateDouble();
+			} else if (right.getLeft() instanceof FunctionVariable) {
+				return right.getRight().evaluateDouble();
+			}
+		}
+		return Double.POSITIVE_INFINITY;
 	}
 
 	@Override

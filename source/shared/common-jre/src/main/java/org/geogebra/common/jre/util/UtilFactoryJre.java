@@ -44,10 +44,11 @@ public abstract class UtilFactoryJre extends UtilFactory  {
 
 	@Override
 	public double getMillisecondTime() {
-		return System.nanoTime() / 1000000d;
+		return System.nanoTime() / 1000000.0;
 	}
 
 	@Override
+	@SuppressWarnings("PMD.UseStandardCharsets") // for Android
 	public URLEncoder newURLEncoder() {
 		return urlComponent -> {
 			try {

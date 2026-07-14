@@ -377,9 +377,9 @@ public class DrawAxis {
 								- arrowSize);
 			}
 		}
-
 	}
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	private void drawYticksLinear(GGraphics2D g2, double xCrossPix,
 			double fontsize, char minusSign, boolean drawTopArrow,
 			double yCrossPix, double yAxisEnd) {
@@ -468,60 +468,56 @@ public class DrawAxis {
 						// too close to the bottom of EV.
 						&& (pix < view.getHeight() - (view.xLabelHeights + 5)
 								|| yCrossPix < view.getHeight()
-										- (view.xLabelHeights + 5))) {
-
+										- (view.xLabelHeights + 5))
+						&& (labelno % unitsPerLabelY == 0)) {
 					boolean currency = isCurrencyUnit(1);
 					String strNum = currency ? tickUnit(view, labelno, 1)
 							: tickDescription(view, labelno, 1);
 
-					if ((labelno % unitsPerLabelY) == 0) {
+					StringBuilder sb = formatUnitLabel(strNum, 1, minusSign, currency);
 
-						StringBuilder sb = formatUnitLabel(strNum, 1, minusSign, currency);
+					GTextLayout layout = AwtFactory.getPrototype()
+							.newTextLayout(sb.toString(),
+									view.getFontAxes(),
+									g2.getFontRenderContext());
 
-						GTextLayout layout = AwtFactory.getPrototype()
-								.newTextLayout(sb.toString(),
-										view.getFontAxes(),
-										g2.getFontRenderContext());
+					double width = layout.getAdvance();
 
-						double width = layout.getAdvance();
+					int x = (int) (xCrossPix + xoffset - width);
 
-						int x = (int) (xCrossPix + xoffset - width);
+					// flag for handling label at axis cross point
+					boolean zero = strNum.equals(crossAtStr);
 
-						// flag for handling label at axis cross point
-						boolean zero = strNum.equals(crossAtStr);
+					int y;
 
-						int y;
+					boolean bothNull = zero && view.axisCross[0] == 0
+							&& view.axisCross[1] == 0;
 
-						boolean bothNull = zero && view.axisCross[0] == 0
-								&& view.axisCross[1] == 0;
+					// if the label is at the axis cross point then draw
+					// it 2 pixels above
+					if (zero && view.showAxes[0] && !view.positiveAxes[0]) {
+						y = (int) (yCrossPix - 2);
+					} else {
+						y = (int) (pix + yoffset);
+					}
 
-						// if the label is at the axis cross point then draw
-						// it 2 pixels above
-						if (zero && view.showAxes[0] && !view.positiveAxes[0]) {
-							y = (int) (yCrossPix - 2);
-						} else {
-							y = (int) (pix + yoffset);
+					if (!bothNull) {
+						numbers.add(new TickNumber(g2, sb.toString(), x, y,
+								xCrossPix, xoffset, width));
+
+						if (labelno == -unitsPerLabelY) {
+							beforeZeroY = y - fontsize;
 						}
+					}
 
-						if (!bothNull) {
-							numbers.add(new TickNumber(g2, sb.toString(), x, y,
-									xCrossPix, xoffset, width));
-
-							if (labelno == -unitsPerLabelY) {
-								beforeZeroY = y - fontsize;
-							}
-						}
-
-						// measure width, so grid line can avoid it
-						// use same (max) for all labels
-						if (sb.charAt(0) == minusSign
-								&& width > view.yLabelMaxWidthNeg) {
-							view.yLabelMaxWidthNeg = width;
-						} else if (sb.charAt(0) != minusSign
-								&& width > view.yLabelMaxWidthPos) {
-							view.yLabelMaxWidthPos = width;
-						}
-
+					// measure width, so grid line can avoid it
+					// use same (max) for all labels
+					if (sb.charAt(0) == minusSign
+							&& width > view.yLabelMaxWidthNeg) {
+						view.yLabelMaxWidthNeg = width;
+					} else if (sb.charAt(0) != minusSign
+							&& width > view.yLabelMaxWidthPos) {
+						view.yLabelMaxWidthPos = width;
 					}
 				}
 				if (drawMajorTicks[1] && (!view.showAxes[0]
@@ -711,6 +707,7 @@ public class DrawAxis {
 
 	}
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	private void drawYticksLog(GGraphics2D g2, double xCrossPix, double fontsize,
 			char minusSign, boolean drawTopArrow, double yCrossPix,
 			double yAxisEnd) {
@@ -870,6 +867,7 @@ public class DrawAxis {
 		view.drawStringWithOutline(g2, text, x, y, view.axesColor);
 	}
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	private void drawXTicksLinear(GGraphics2D g2, double yCrossPix,
 			char minusSign, boolean drawRightArrow, double fontsize,
 			double xAxisStart) {

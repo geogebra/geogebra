@@ -568,6 +568,7 @@ public class DockManagerW extends DockManager {
 	 * @param dndState
 	 *            state
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public void drop(DnDState dndState) {
 
 		DockPanelW source = dndState.getSource();

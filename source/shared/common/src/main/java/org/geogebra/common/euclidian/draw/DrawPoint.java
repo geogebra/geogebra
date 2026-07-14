@@ -378,14 +378,7 @@ public final class DrawPoint extends SetDrawable {
 
 			// option "show trimmed intersecting lines"
 			if (geo.getShowTrimmedIntersectionLines()) {
-				AlgoElement algo = geo.getParentAlgorithm();
-
-				if (algo instanceof AlgoIntersectAbstract) {
-					GeoElement[] geos = algo.getInput();
-					if (geos.length > 1) {
-						drawClippedSection(geos[0], geos[1], g2);
-					}
-				}
+				drawClippedSection(geo, g2);
 			}
 
 			int pointStyle = P.getPointStyle();
@@ -454,6 +447,17 @@ public final class DrawPoint extends SetDrawable {
 				g2.setFont(view.getFontPoint());
 				g2.setPaint(geo.getLabelColor());
 				drawLabel(g2);
+			}
+		}
+	}
+
+	private void drawClippedSection(GeoElement geo, GGraphics2D g2) {
+		AlgoElement algo = geo.getParentAlgorithm();
+
+		if (algo instanceof AlgoIntersectAbstract) {
+			GeoElement[] geos = algo.getInput();
+			if (geos.length > 1) {
+				drawClippedSection(geos[0], geos[1], g2);
 			}
 		}
 	}

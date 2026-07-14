@@ -1049,111 +1049,114 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 * Path interface
 	 */
 	private void pointChanged(Coords P, boolean closestPoly) {
-		if (P.getZ() == 1.0) {
-			// P.x = P.x;
-		} else {
+		if (P.getZ() != 1.0) {
 			P.setX(P.getX() / P.getZ());
 		}
-		if (!isBooleanFunction()) {
-			if (interval) {
-				// don't let P move out of interval
-				if (P.getX() < intervalMin) {
-					P.setX(intervalMin);
-				} else if (P.getX() > intervalMax) {
-					P.setX(intervalMax);
-				}
-			} else if (fun != null) {
-				ExpressionNode exp = fun.getExpression();
-
-				// make sure point can't be dragged to undefined region for eg
-				// If[3 <= x <= 5, x^2]
-				if (exp.getOperation().isIf()) {
-					ExpressionValue inequality = exp.getLeft().unwrap();
-					if (inequality.isExpressionNode()) {
-
-						double bound;
-						double epsilon = 0;
-						ExpressionNode inequalityEn = (ExpressionNode) inequality;
-						Operation op = inequalityEn.getOperation();
-
-						switch (op) {
-						case AND_INTERVAL:
-							if (bounds == null) {
-								bounds = new double[2];
-							}
-							GeoIntervalUtil.updateBoundaries(inequalityEn, bounds);
-
-							if (P.getX() < bounds[0]) {
-								P.setX(bounds[0]);
-							} else if (P.getX() > bounds[1]) {
-								P.setX(bounds[1]);
-							}
-
-							break;
-
-						case LESS:
-						case LESS_EQUAL:
-						case GREATER:
-						case GREATER_EQUAL:
-
-							// make sure 2<x and x>2 both work
-							if (inequalityEn
-									.getLeft() instanceof FunctionVariable) {
-								bound = inequalityEn.getRight()
-										.evaluateDouble();
-							} else if (inequalityEn
-									.getRight() instanceof FunctionVariable) {
-								bound = inequalityEn.getLeft().evaluateDouble();
-								op = op.reverseLeftToRight();
-							} else {
-								// shouldn't happen
-								bound = Double.NaN;
-							}
-
-							switch (op) {
-
-							case LESS:
-								epsilon = Kernel.MIN_PRECISION;
-								// fall through
-							case LESS_EQUAL:
-								if (P.getX() >= bound) {
-									P.setX(bound - epsilon);
-								}
-								break;
-							case GREATER:
-								epsilon = Kernel.MIN_PRECISION;
-								// fall through
-							case GREATER_EQUAL:
-								if (P.getX() < bound) {
-									P.setX(bound + epsilon);
-								}
-								break;
-							default:
-								break;
-							}
-						default:
-							break;
-						}
-					}
-				}
-			}
-
-			PolyFunction polyFunction = closestPoly && fun != null
-					? fun.expandToPolyFunction(fun.getExpression(), false, true)
-					: null;
-			if (polyFunction != null) {
-				double val = AlgoDistancePointObject.closestValPoly(
-						polyFunction, P.getX(), P.getY(), kernel);
-				P.setX(val);
-				P.setY(value(val));
-			} else {
-				P.setY(value(P.getX()));
-			}
-
-		} else {
+		if (isBooleanFunction()) {
 			pointChangedBoolean(true, P);
+		} else if (interval) {
+			// don't let P move out of interval
+			if (P.getX() < intervalMin) {
+				P.setX(intervalMin);
+			} else if (P.getX() > intervalMax) {
+				P.setX(intervalMax);
+			}
+			setPointYFromX(P, closestPoly);
+		} else if (fun != null) {
+			ExpressionNode exp = fun.getExpression();
+
+			// make sure point can't be dragged to undefined region for eg
+			// If[3 <= x <= 5, x^2]
+			if (exp.getOperation().isIf()) {
+				ExpressionValue inequality = exp.getLeft().unwrap();
+				if (inequality.isExpressionNode()) {
+					setPointXForInequality(P, (ExpressionNode) inequality);
+				}
+			}
+			setPointYFromX(P, closestPoly);
+		} else {
+			P.setY(Double.NaN);
 		}
 		P.setZ(1.0);
+	}
+
+	private void setPointXForInequality(Coords P, ExpressionNode inequalityEn) {
+		double bound;
+		double epsilon = 0;
+		Operation op = inequalityEn.getOperation();
+
+		switch (op) {
+		case AND_INTERVAL:
+			if (bounds == null) {
+				bounds = new double[2];
+			}
+			GeoIntervalUtil.updateBoundaries(inequalityEn, bounds);
+
+			if (P.getX() < bounds[0]) {
+				P.setX(bounds[0]);
+			} else if (P.getX() > bounds[1]) {
+				P.setX(bounds[1]);
+			}
+
+			break;
+
+		case LESS:
+		case LESS_EQUAL:
+		case GREATER:
+		case GREATER_EQUAL:
+
+			// make sure 2<x and x>2 both work
+			if (inequalityEn
+					.getLeft() instanceof FunctionVariable) {
+				bound = inequalityEn.getRight()
+						.evaluateDouble();
+			} else if (inequalityEn
+					.getRight() instanceof FunctionVariable) {
+				bound = inequalityEn.getLeft().evaluateDouble();
+				op = op.reverseLeftToRight();
+			} else {
+				// shouldn't happen
+				bound = Double.NaN;
+			}
+
+			switch (op) {
+
+			case LESS:
+				epsilon = Kernel.MIN_PRECISION;
+				// fall through
+			case LESS_EQUAL:
+				if (P.getX() >= bound) {
+					P.setX(bound - epsilon);
+				}
+				break;
+			case GREATER:
+				epsilon = Kernel.MIN_PRECISION;
+				// fall through
+			case GREATER_EQUAL:
+				if (P.getX() < bound) {
+					P.setX(bound + epsilon);
+				}
+				break;
+			default:
+				break;
+			}
+		default:
+			break;
+		}
+	}
+
+	private void setPointYFromX(Coords P, boolean closestPoly) {
+		PolyFunction polyFunction = closestPoly && fun != null
+				? fun.expandToPolyFunction(fun.getExpression(), false, true)
+				: null;
+		if (polyFunction != null) {
+			double val = AlgoDistancePointObject.closestValPoly(
+					polyFunction, P.getX(), P.getY(), kernel);
+			P.setX(val);
+			P.setY(value(val));
+		} else {
+			P.setY(value(P.getX()));
+		}
 	}
 
 	@Override
@@ -1991,17 +1994,20 @@ public class GeoFunction extends GeoElement implements Translateable,
 					sbCasCommand.append(" * x +");
 					sbCasCommand.append(interceptStrMinus);
 
-					if (!sb.toString().endsWith(sbCasCommand.toString())) { // not
-						// duplicated
-						if (sb.length() > 1) {
-							sb.append(',');
-						}
+					if (!sb.toString().endsWith(sbCasCommand.toString())) { // not duplicated
+						addCommaIfNeeded(sb);
 						sb.append(sbCasCommand);
 					}
 				}
 			}
 		} catch (Throwable e) {
 			Log.debug(e);
+		}
+	}
+
+	private void addCommaIfNeeded(StringBuilder sb) {
+		if (sb.length() > 1) {
+			sb.append(',');
 		}
 	}
 
@@ -2162,9 +2168,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 									sbCasCommand.toString(), null);
 							if (GeoFunction.isUndefinedOrInf(limit)
 									|| isNearInfinity(limit, asymptoteX.getKey())) {
-								if (verticalSB.length() > 1) {
-									verticalSB.append(',');
-								}
+								addCommaIfNeeded(verticalSB);
 								verticalSB.append("x=");
 								verticalSB.append(asymptoteX.getValue());
 							}

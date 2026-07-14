@@ -232,92 +232,92 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {
-		double xRW = mouseRWx;
-		double yRW = mouseRWy;
 		if (isVisible) {
-			int mx;
-			int my;
-
 			// round angle to nearest 15 degrees if alt pressed
 			if (view.getEuclidianController().isAltDown()) {
-
-				GeoPointND p = points.get(points.size() - 1);
-				double px = p.getInhomX();
-				double py = p.getInhomY();
-
-				if (points.size() > 1) {
-					Construction cons = view.getKernel().getConstruction();
-					GeoPoint intersection = new GeoPoint(cons);
-					GeoLine l = new GeoLine(cons);
-					GeoLine l2 = new GeoLine(cons);
-					GeoPointND p2 = points.get(0);
-					double px2 = p2.getInhomX();
-					double py2 = p2.getInhomY();
-					double nearestX = Double.MAX_VALUE;
-					double nearestY = Double.MAX_VALUE;
-					double dist = Double.MAX_VALUE;
-					for (int angle = 0; angle < 180; angle += 15) {
-
-						if (angle == 90) {
-							l.setCoords(1, 0, -px);
-						} else {
-							double gradient = Math.tan(angle * Math.PI / 180.0);
-							l.setCoords(gradient, -1.0, py - gradient * px);
-						}
-
-						for (int ang2 = 0; ang2 < 180; ang2 += 15) {
-							if (ang2 == angle) {
-								continue;
-							} else if (DoubleUtil.isEqual(ang2, 90)) {
-								l2.setCoords(1.0, 0, -px2);
-							} else {
-								double gradient2 = Math
-										.tan(ang2 * Math.PI / 180.0);
-								l2.setCoords(gradient2, -1.0,
-										py2 - gradient2 * px2);
-							}
-
-							// calculate intersection
-							GeoVec3D.cross(l, l2, intersection);
-
-							double x1 = intersection.x / intersection.z;
-							double y1 = intersection.y / intersection.z;
-
-							double d = MyMath.length(x1 - xRW, y1 - yRW);
-							if (d < dist) {
-								nearestX = x1;
-								nearestY = y1;
-								dist = d;
-							}
-						}
-					}
-
-					xRW = nearestX;
-					yRW = nearestY;
-				} else {
-					double angle = Math.atan2(yRW - py, xRW - px) * 180
-							/ Math.PI;
-					double radius = Math.sqrt(
-							(py - yRW) * (py - yRW) + (px - xRW) * (px - xRW));
-
-					// round angle to nearest 15 degrees
-					angle = Math.round(angle / 15) * 15;
-
-					xRW = px + radius * Math.cos(angle * Math.PI / 180);
-					yRW = py + radius * Math.sin(angle * Math.PI / 180);
-				}
-
-				mx = view.toScreenCoordX(xRW);
-				my = view.toScreenCoordY(yRW);
-
-				endPoint.setLocation(xRW, yRW);
-				view.getEuclidianController().setLineEndPoint(endPoint);
-				gp.lineTo(mx, my);
+				handleUpdateWithAlt(mouseRWx, mouseRWy);
 			} else {
 				view.getEuclidianController().setLineEndPoint(null);
+				gp.lineTo(view.toScreenCoordX(mouseRWx), view.toScreenCoordY(mouseRWy));
 			}
-			gp.lineTo(view.toScreenCoordX(xRW), view.toScreenCoordY(yRW));
 		}
+	}
+
+	private void handleUpdateWithAlt(double mouseRWx, double mouseRWy) {
+		double xRW = mouseRWx;
+		double yRW = mouseRWy;
+		GeoPointND p = points.get(points.size() - 1);
+		double px = p.getInhomX();
+		double py = p.getInhomY();
+
+		if (points.size() > 1) {
+			Construction cons = view.getKernel().getConstruction();
+			GeoPoint intersection = new GeoPoint(cons);
+			GeoLine l = new GeoLine(cons);
+			GeoLine l2 = new GeoLine(cons);
+			GeoPointND p2 = points.get(0);
+			double px2 = p2.getInhomX();
+			double py2 = p2.getInhomY();
+			double nearestX = Double.MAX_VALUE;
+			double nearestY = Double.MAX_VALUE;
+			double dist = Double.MAX_VALUE;
+			for (int angle = 0; angle < 180; angle += 15) {
+
+				if (angle == 90) {
+					l.setCoords(1, 0, -px);
+				} else {
+					double gradient = Math.tan(angle * Math.PI / 180.0);
+					l.setCoords(gradient, -1.0, py - gradient * px);
+				}
+
+				for (int ang2 = 0; ang2 < 180; ang2 += 15) {
+					if (ang2 == angle) {
+						continue;
+					} else if (DoubleUtil.isEqual(ang2, 90)) {
+						l2.setCoords(1.0, 0, -px2);
+					} else {
+						double gradient2 = Math
+								.tan(ang2 * Math.PI / 180.0);
+						l2.setCoords(gradient2, -1.0,
+								py2 - gradient2 * px2);
+					}
+
+					// calculate intersection
+					GeoVec3D.cross(l, l2, intersection);
+
+					double x1 = intersection.x / intersection.z;
+					double y1 = intersection.y / intersection.z;
+
+					double d = MyMath.length(x1 - xRW, y1 - yRW);
+					if (d < dist) {
+						nearestX = x1;
+						nearestY = y1;
+						dist = d;
+					}
+				}
+			}
+
+			xRW = nearestX;
+			yRW = nearestY;
+		} else {
+			double angle = Math.atan2(yRW - py, xRW - px) * 180
+					/ Math.PI;
+			double radius = Math.sqrt(
+					(py - yRW) * (py - yRW) + (px - xRW) * (px - xRW));
+
+			// round angle to nearest 15 degrees
+			angle = Math.round(angle / 15) * 15;
+
+			xRW = px + radius * Math.cos(angle * Math.PI / 180);
+			yRW = py + radius * Math.sin(angle * Math.PI / 180);
+		}
+
+		int mx = view.toScreenCoordX(xRW);
+		int my = view.toScreenCoordY(yRW);
+
+		endPoint.setLocation(xRW, yRW);
+		view.getEuclidianController().setLineEndPoint(endPoint);
+		gp.lineTo(mx, my);
 	}
 
 	@Override

@@ -341,18 +341,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			if (eigenval[0] * eigenval[1] > 0) {
 				double m = x * x / eigenval[0] + y * y / eigenval[1] - d;
 				if (DoubleUtil.isZero(z)) {
-					// cylinder
-					if (DoubleUtil.isZero(m)) {
-						// single line
-						singleLine(-x / eigenval[0], -y / eigenval[1]);
-					} else if (eigenval[0] * m < 0) {
-						// empty
-						defined = false;
-						empty();
-					} else {
-						// cylinder
-						cylinder(-x / eigenval[0], -y / eigenval[1], m);
-					}
+					classifyCylinder(x, y, m);
 				} else {
 					// z = xx+yy
 					paraboloid(-x / eigenval[0], -y / eigenval[1], z, m);
@@ -361,24 +350,41 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			} else { // x and y eigenvalue of different signs
 				double m = x * x / eigenval[0] + y * y / eigenval[1] - d;
 				if (DoubleUtil.isZero(z)) {
-					// cylinder
-					if (DoubleUtil.isZero(m)) {
-						// intersecting planes
-						intersectingPlanes(-x / eigenval[0], -y / eigenval[1]);
-					} else {
-						// xx - yy = c : hyperbolic cylinder
-						hyperbolicCylinder(-x / eigenval[0], -y / eigenval[1],
-								m);
-					}
+					classifyHyperbolicCylinder(x, y, m);
 				} else {
 					// z = xx - yy
 					hyperbolicParaboloid(-x / eigenval[0], -y / eigenval[1], z,
 							m);
 				}
 			}
-
 		}
+	}
 
+	private void classifyHyperbolicCylinder(double x, double y, double m) {
+		// cylinder
+		if (DoubleUtil.isZero(m)) {
+			// intersecting planes
+			intersectingPlanes(-x / eigenval[0], -y / eigenval[1]);
+		} else {
+			// xx - yy = c : hyperbolic cylinder
+			hyperbolicCylinder(-x / eigenval[0], -y / eigenval[1],
+					m);
+		}
+	}
+
+	private void classifyCylinder(double x, double y, double m) {
+		// cylinder
+		if (DoubleUtil.isZero(m)) {
+			// single line
+			singleLine(-x / eigenval[0], -y / eigenval[1]);
+		} else if (eigenval[0] * m < 0) {
+			// empty
+			defined = false;
+			empty();
+		} else {
+			// cylinder
+			cylinder(-x / eigenval[0], -y / eigenval[1], m);
+		}
 	}
 
 	private void paraboloid(double x, double y, double z, double m) {
@@ -787,82 +793,77 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		if (DoubleUtil.isZero(beta)) {
 			cone();
-		} else {
-			if (eigenval[0] > 0) {
-				if (eigenval[1] > 0) {
-					if (eigenval[2] > 0) { // xx+yy+zz=-beta
-						if (beta > 0) {
-							empty();
-						} else {
-							ellipsoid(beta);
-						}
-					} else { // xx+yy-zz=-beta
-						if (beta > 0) { // zz-xx-yy=1
-							hyperboloidTwoSheets(eigenval[2], eigenval[0],
-									eigenval[1], beta);
-						} else { // xx+yy-zz=1
-							hyperboloidOneSheet(eigenval[0], eigenval[1],
-									eigenval[2], beta);
-						}
-					}
-				} else { // eigenval[1] < 0
-					if (eigenval[2] > 0) { // xx-yy+zz=-beta
-						if (beta > 0) { // yy-zz-xx=1
-							hyperboloidTwoSheets(eigenval[1], eigenval[2],
-									eigenval[0], beta);
-						} else { // zz+xx-yy=1
-							hyperboloidOneSheet(eigenval[2], eigenval[0],
-									eigenval[1], beta);
-						}
-					} else { // xx-yy+zz=-beta
-						if (beta > 0) { // yy-zz-xx=1
-							hyperboloidTwoSheets(eigenval[1], eigenval[2],
-									eigenval[0], beta);
-						} else { // zz+xx-yy=1
-							hyperboloidOneSheet(eigenval[2], eigenval[0],
-									eigenval[1], beta);
-						}
-					}
+		} else if (eigenval[0] > 0) {
+			classifyMainEigenvaluePositive(beta);
+		} else { // eigenval[0] < 0
+			classifyMainEigenvalueNegative(beta);
+		}
+	}
+
+	private void classifyMainEigenvalueNegative(double beta) {
+		if (eigenval[1] > 0) {
+			if (eigenval[2] > 0) { // -xx+yy+zz=-beta
+				if (beta > 0) { // xx-yy-zz=1
+					hyperboloidTwoSheets(eigenval[0], eigenval[1],
+							eigenval[2], beta);
+				} else { // yy+zz-xx=1
+					hyperboloidOneSheet(eigenval[1], eigenval[2],
+							eigenval[0], beta);
 				}
-			} else { // eigenval[0] < 0
-				if (eigenval[1] > 0) {
-					if (eigenval[2] > 0) { // -xx+yy+zz=-beta
-						if (beta > 0) { // xx-yy-zz=1
-							hyperboloidTwoSheets(eigenval[0], eigenval[1],
-									eigenval[2], beta);
-						} else { // yy+zz-xx=1
-							hyperboloidOneSheet(eigenval[1], eigenval[2],
-									eigenval[0], beta);
-						}
-					} else { // -xx+yy-zz=-beta
-						if (beta > 0) { // zz+xx-yy=1
-							hyperboloidOneSheet(eigenval[2], eigenval[0],
-									eigenval[1], beta);
-						} else { // yy-zz-xx=1
-							hyperboloidTwoSheets(eigenval[1], eigenval[2],
-									eigenval[0], beta);
-						}
-					}
-				} else { // eigenval[1] < 0
-					if (eigenval[2] > 0) { // -xx-yy+zz=-beta
-						if (beta > 0) { // xx+yy-zz=1
-							hyperboloidOneSheet(eigenval[0], eigenval[1],
-									eigenval[2], beta);
-						} else { // zz-xx-yy=1
-							hyperboloidTwoSheets(eigenval[2], eigenval[0],
-									eigenval[1], beta);
-						}
-					} else { // -xx-yy-zz=-beta
-						if (beta > 0) {
-							ellipsoid(beta);
-						} else {
-							empty();
-						}
-					}
+			} else { // -xx+yy-zz=-beta
+				if (beta > 0) { // zz+xx-yy=1
+					hyperboloidOneSheet(eigenval[2], eigenval[0],
+							eigenval[1], beta);
+				} else { // yy-zz-xx=1
+					hyperboloidTwoSheets(eigenval[1], eigenval[2],
+							eigenval[0], beta);
+				}
+			}
+		} else { // eigenval[1] < 0
+			if (eigenval[2] > 0) { // -xx-yy+zz=-beta
+				if (beta > 0) { // xx+yy-zz=1
+					hyperboloidOneSheet(eigenval[0], eigenval[1],
+							eigenval[2], beta);
+				} else { // zz-xx-yy=1
+					hyperboloidTwoSheets(eigenval[2], eigenval[0],
+							eigenval[1], beta);
+				}
+			} else { // -xx-yy-zz=-beta
+				if (beta > 0) {
+					ellipsoid(beta);
+				} else {
+					empty();
 				}
 			}
 		}
+	}
 
+	private void classifyMainEigenvaluePositive(double beta) {
+		if (eigenval[1] > 0) {
+			if (eigenval[2] > 0) { // xx+yy+zz=-beta
+				if (beta > 0) {
+					empty();
+				} else {
+					ellipsoid(beta);
+				}
+			} else { // xx+yy-zz=-beta
+				if (beta > 0) { // zz-xx-yy=1
+					hyperboloidTwoSheets(eigenval[2], eigenval[0],
+							eigenval[1], beta);
+				} else { // xx+yy-zz=1
+					hyperboloidOneSheet(eigenval[0], eigenval[1],
+							eigenval[2], beta);
+				}
+			}
+		} else { // eigenval[1] < 0
+			if (beta > 0) { // yy-zz-xx=1
+				hyperboloidTwoSheets(eigenval[1], eigenval[2],
+						eigenval[0], beta);
+			} else { // zz+xx-yy=1
+				hyperboloidOneSheet(eigenval[2], eigenval[0],
+						eigenval[1], beta);
+			}
+		}
 	}
 
 	/**
@@ -1131,6 +1132,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		type = QUADRIC_CYLINDER;
 	}
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	private void ellipsoid(double beta) {
 		// sphere
 		if (DoubleUtil.isEqual(eigenval[0] / eigenval[1], 1.0)
@@ -2870,57 +2872,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 			if (type == QUADRIC_PARALLEL_PLANES
 					|| type == QUADRIC_INTERSECTING_PLANES) {
-
-				Coords coords, direction;
-
-				if (p1.hasWillingCoords()) { // use willing coords
-					coords = p1.getWillingCoords();
-				} else {
-					// use real coords
-					coords = p1.getCoords();
-				}
-
-				GeoPlane3D plane = planes[0];
-				CoordMatrix planeMatrix = plane.getCoordSys()
-						.getMatrixOrthonormal();
-				if (!p1.hasWillingDirection()) { // use normal direction for
-					// projection
-					direction = planeMatrix.getVz();
-				} else { // use willing direction for projection
-					direction = p1.getWillingDirection();
-				}
-
-				coords.projectPlaneInPlaneCoords(planeMatrix.getVx(),
-						planeMatrix.getVy(), direction, planeMatrix.getOrigin(),
-						tmpCoords);
-
-				double t1Shift = 0;
-
-				if (!DoubleUtil.isZero(tmpCoords.getZ())) {
-					plane = planes[1];
-					planeMatrix = plane.getCoordSys().getMatrixOrthonormal();
-					if (!p1.hasWillingDirection()) { // use normal direction for
-						// projection
-						direction = planeMatrix.getVz();
-					}
-
-					coords.projectPlaneInPlaneCoords(planeMatrix.getVx(),
-							planeMatrix.getVy(), direction,
-							planeMatrix.getOrigin(), tmpCoords);
-
-					t1Shift = 2;
-				}
-
-				p1.setCoords(plane.getPoint(tmpCoords.getX(), tmpCoords.getY(),
-						new Coords(4)), false);
-				rp.setT1(PathNormalizer.inverseInfFunction(tmpCoords.getX())
-						+ t1Shift);
-				rp.setT2(tmpCoords.getY());
-				rp.setNormal(plane.getDirectionInD3());
-
-				p1.setWillingCoordsUndefined();
-				p1.setWillingDirectionUndefined();
-
+				pointChangedForPlanarRegion(p1, rp);
 				return;
 			}
 
@@ -2950,6 +2902,57 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			p1.updateCoords();
 		}
 
+	}
+
+	private void pointChangedForPlanarRegion(GeoPoint3D p1, RegionParameters rp) {
+		Coords coords, direction;
+		if (p1.hasWillingCoords()) { // use willing coords
+			coords = p1.getWillingCoords();
+		} else {
+			// use real coords
+			coords = p1.getCoords();
+		}
+
+		GeoPlane3D plane = planes[0];
+		CoordMatrix planeMatrix = plane.getCoordSys()
+				.getMatrixOrthonormal();
+		if (!p1.hasWillingDirection()) { // use normal direction for
+			// projection
+			direction = planeMatrix.getVz();
+		} else { // use willing direction for projection
+			direction = p1.getWillingDirection();
+		}
+
+		coords.projectPlaneInPlaneCoords(planeMatrix.getVx(),
+				planeMatrix.getVy(), direction, planeMatrix.getOrigin(),
+				tmpCoords);
+
+		double t1Shift = 0;
+
+		if (!DoubleUtil.isZero(tmpCoords.getZ())) {
+			plane = planes[1];
+			planeMatrix = plane.getCoordSys().getMatrixOrthonormal();
+			if (!p1.hasWillingDirection()) { // use normal direction for
+				// projection
+				direction = planeMatrix.getVz();
+			}
+
+			coords.projectPlaneInPlaneCoords(planeMatrix.getVx(),
+					planeMatrix.getVy(), direction,
+					planeMatrix.getOrigin(), tmpCoords);
+
+			t1Shift = 2;
+		}
+
+		p1.setCoords(plane.getPoint(tmpCoords.getX(), tmpCoords.getY(),
+				new Coords(4)), false);
+		rp.setT1(PathNormalizer.inverseInfFunction(tmpCoords.getX())
+				+ t1Shift);
+		rp.setT2(tmpCoords.getY());
+		rp.setNormal(plane.getDirectionInD3());
+
+		p1.setWillingCoordsUndefined();
+		p1.setWillingDirectionUndefined();
 	}
 
 	@Override

@@ -415,11 +415,10 @@ public class AlgoAngularBisectorLines extends AlgoElement
 				if (GeoPoint.collinearND(g.startPoint, g.endPoint, h.startPoint)) {
 					vB[0] = varsLh[2];
 					vB[1] = varsLh[3];
-				} else { // and vice versa
-					if (GeoPoint.collinearND(h.startPoint, h.endPoint, g.startPoint)) {
-						vA[0] = varsLg[2];
-						vA[1] = varsLg[3];
-					}
+				} else if (GeoPoint.collinearND(h.startPoint, h.endPoint, g.startPoint)) {
+					// and vice versa
+					vA[0] = varsLg[2];
+					vA[1] = varsLg[3];
 				}
 			}
 

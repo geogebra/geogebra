@@ -2752,27 +2752,7 @@ public class MyXMLHandler implements DocHandler {
 				cons.addToConstructionList(geoCasCell, true);
 				cons.addToGeoSetWithCasCells(geoCasCell);
 				if (geoCasCell.isAssignmentVariableDefined()) {
-					// a non-native cell may have dependent twin geo even if
-					// inputs are constants
-					// update twin GeoElement
-
-					// cas is loaded
-					// we need to recalculate the output
-					if (kernel.getConstruction()
-							.isUpdateConstructionRunning()) {
-						geoCasCell.computeOutput();
-					} else {
-						geoCasCell.updateTwinGeo(false);
-					}
-					geoCasCell.setLabelOfTwinGeo();
-					if (geoCasCell.hasTwinGeo() && !geoCasCell.getTwinGeo()
-							.isInConstructionList()) {
-						if (!geoCasCell.getTwinGeo().getParentAlgorithm()
-								.isInConstructionList()) {
-							geoCasCell.getTwinGeo().getParentAlgorithm()
-									.addToConstructionList();
-						}
-					}
+					handleCasCellAssignment();
 				} else if (geoCasCell.isOutputEmpty()
 						&& kernel.isGeoGebraCASready()) { // output is computed
 															// if it is empty
@@ -2791,6 +2771,30 @@ public class MyXMLHandler implements DocHandler {
 			}
 		} catch (RuntimeException e) {
 			logError(e);
+		}
+	}
+
+	private void handleCasCellAssignment() {
+		// a non-native cell may have dependent twin geo even if
+		// inputs are constants
+		// update twin GeoElement
+
+		// cas is loaded
+		// we need to recalculate the output
+		if (kernel.getConstruction()
+				.isUpdateConstructionRunning()) {
+			geoCasCell.computeOutput();
+		} else {
+			geoCasCell.updateTwinGeo(false);
+		}
+		geoCasCell.setLabelOfTwinGeo();
+		if (geoCasCell.hasTwinGeo() && !geoCasCell.getTwinGeo()
+				.isInConstructionList()) {
+			if (!geoCasCell.getTwinGeo().getParentAlgorithm()
+					.isInConstructionList()) {
+				geoCasCell.getTwinGeo().getParentAlgorithm()
+						.addToConstructionList();
+			}
 		}
 	}
 

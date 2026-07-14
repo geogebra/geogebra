@@ -396,17 +396,12 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 			} else {
 				AlgoElement algo = f.getParentAlgorithm();
-				if (algo instanceof AlgoDependentFunction
-						|| f.getFunctionExpression().isConditional()) {
-
-					ExpressionNode exp = algo instanceof AlgoDependentFunction
-							? ((AlgoDependentFunction) algo).getExpression()
-							: f.getFunctionExpression();
-
-					if (exp.isConditional()) {
-						computeConditional(exp, lowerLimit, upperLimit);
-						return;
-					}
+				ExpressionNode exp = algo instanceof AlgoDependentFunction
+						? ((AlgoDependentFunction) algo).getExpression()
+						: f.getFunctionExpression();
+				if (exp != null && exp.isConditional()) {
+					computeConditional(exp, lowerLimit, upperLimit);
+					return;
 				}
 
 				standardIntegral(lowerLimit, upperLimit);

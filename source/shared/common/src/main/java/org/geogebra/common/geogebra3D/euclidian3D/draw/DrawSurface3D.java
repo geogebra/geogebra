@@ -1216,6 +1216,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 
 		}
 
+		@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 		void split(boolean draw) throws NotEnoughCornersException {
 
 			Corner left, above, subLeft, subAbove;

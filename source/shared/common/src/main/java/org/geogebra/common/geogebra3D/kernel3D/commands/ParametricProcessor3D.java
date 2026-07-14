@@ -151,9 +151,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 					line.setCoord(start, v);
 					line.setToParametricForm(fv[0].getSetVarString());
 					line.setDefinition(buildParamEq(exp, label));
-					if (info.isLabelOutput()) {
-						line.setLabel(label);
-					}
+					setLabelIfNeeded(line, label, info);
 				} else {
 					line = (GeoLine3D) kernel.getManager3D().line3D(label,
 							coefX, coefY, coefZ);
@@ -191,6 +189,12 @@ public class ParametricProcessor3D extends ParametricProcessor {
 					new ExpressionNode[] { cx, cy, cz }, null);
 		}
 		return super.processParametricFunction(exp, ev, fv, label, info);
+	}
+
+	private void setLabelIfNeeded(GeoElement path, String label, EvalInfo info) {
+		if (info.isLabelOutput()) {
+			path.setLabel(label);
+		}
 	}
 
 	@Override

@@ -500,22 +500,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 								|| angle > ((GeoNumeric) yvar)
 										.getIntervalMax())) {
 					// use angle value closest to closest border
-					double minDiff = Math.abs(
-							angle - ((GeoNumeric) yvar).getIntervalMin());
-					if (minDiff > Math.PI) {
-						minDiff = Kernel.PI_2 - minDiff;
-					}
-					double maxDiff = Math.abs(
-							angle - ((GeoNumeric) yvar).getIntervalMax());
-					if (maxDiff > Math.PI) {
-						maxDiff = Kernel.PI_2 - maxDiff;
-					}
-
-					if (minDiff < maxDiff) {
-						angle = angle - Kernel.PI_2;
-					} else {
-						angle = angle + Kernel.PI_2;
-					}
+					angle = closestAngleToBorder(angle, (GeoNumeric) yvar);
 				}
 				((GeoNumeric) yvar).setValue(angle);
 			}
@@ -547,6 +532,23 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 		}
 
 		return true;
+	}
+
+	private double closestAngleToBorder(double angle, GeoNumeric yvar) {
+		double minDiff = Math.abs(angle - yvar.getIntervalMin());
+		if (minDiff > Math.PI) {
+			minDiff = Kernel.PI_2 - minDiff;
+		}
+		double maxDiff = Math.abs(angle - yvar.getIntervalMax());
+		if (maxDiff > Math.PI) {
+			maxDiff = Kernel.PI_2 - maxDiff;
+		}
+
+		if (minDiff < maxDiff) {
+			return angle - Kernel.PI_2;
+		} else {
+			return angle + Kernel.PI_2;
+		}
 	}
 
 	/**
@@ -659,41 +661,37 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 			changeableCoordNumbers = new ArrayList<>(2);
 			ExpressionNode en = getDefinition();
 			// dependent point of form P = (a, b)
-			if (!isIndependent() && en != null) {
+			if (!isIndependent() && en != null && en.unwrap() instanceof MyVecNode vn) {
 				// (xExpression, yExpression)
-				if (en.unwrap() instanceof MyVecNode) {
-					// (xExpression, yExpression)
-					MyVecNode vn = (MyVecNode) en.getLeft();
-					hasPolarParentNumbers = vn.hasPolarCoords();
+				hasPolarParentNumbers = vn.hasPolarCoords();
 
-					try {
-						// try to get free number variables used in coords for
-						// this point
-						// don't allow expressions like "a + x(A)" for polar
-						// coords (r; phi)
-						ExpressionValue xcoord = vn.getX();
-						ExpressionValue ycoord = vn.getY();
-						ParametricProcessor proc = kernel.getAlgebraProcessor()
-								.getParamProcessor();
-						NumberValue xNum = proc.getCoordNumber(xcoord);
-						NumberValue yNum = proc.getCoordNumber(ycoord);
+				try {
+					// try to get free number variables used in coords for
+					// this point
+					// don't allow expressions like "a + x(A)" for polar
+					// coords (r; phi)
+					ExpressionValue xcoord = vn.getX();
+					ExpressionValue ycoord = vn.getY();
+					ParametricProcessor proc = kernel.getAlgebraProcessor()
+							.getParamProcessor();
+					NumberValue xNum = proc.getCoordNumber(xcoord);
+					NumberValue yNum = proc.getCoordNumber(ycoord);
 
-						if (xNum instanceof GeoNumeric
-								&& ((GeoNumeric) xNum).isPointerChangeable()) {
-							changeableCoordNumbers.add(xNum);
-						} else {
-							changeableCoordNumbers.add(null);
-						}
-						if (yNum instanceof GeoNumeric
-								&& ((GeoNumeric) yNum).isPointerChangeable()) {
-							changeableCoordNumbers.add(yNum);
-						} else {
-							changeableCoordNumbers.add(null);
-						}
-					} catch (Throwable e) {
-						changeableCoordNumbers.clear();
-						Log.debug(e);
+					if (xNum instanceof GeoNumeric
+							&& ((GeoNumeric) xNum).isPointerChangeable()) {
+						changeableCoordNumbers.add(xNum);
+					} else {
+						changeableCoordNumbers.add(null);
 					}
+					if (yNum instanceof GeoNumeric
+							&& ((GeoNumeric) yNum).isPointerChangeable()) {
+						changeableCoordNumbers.add(yNum);
+					} else {
+						changeableCoordNumbers.add(null);
+					}
+				} catch (Throwable e) {
+					changeableCoordNumbers.clear();
+					Log.debug(e);
 				}
 			}
 		}

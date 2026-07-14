@@ -89,7 +89,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		ExpressionValue right = expressionNode.getRight();
 		Operation operation = expressionNode.getOperation();
 
-		boolean holdsLaTeXtext = expressionNode.holdsLaTeXtext;
 		ExpressionValue lt = left.evaluate(tpl); // left tree
 		// TODO Evaluation of equations is expensive, but better soln needed
 		// #4816
@@ -109,7 +108,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		if (special != null) {
 			return special;
 		}
-
+		boolean holdsLaTeXtext = expressionNode.holdsLaTeXtext;
 		// NON-List operations (apart from EQUAL_BOOLEAN and list + text)
 		return handleOp(operation, lt, rt, left, right, tpl, holdsLaTeXtext);
 	}
@@ -218,49 +217,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		ExpressionValue lt = ltWrapped instanceof GeoElement
 				? ((GeoElement) ltWrapped).unwrapSymbolic() : ltWrapped;
 		if (lt instanceof ListValue) {
-			if ((operation == Operation.MULTIPLY)
-					&& rt instanceof VectorNDValue) {
-				MyList myList = ((ListValue) lt).getMyList();
-				if (myList.isMatrix()) {
-					ExpressionValue ret = multiply(myList, (VectorNDValue) rt);
-					if (ret != null) {
-						return ret;
-					}
-				}
-
-			} else if ((operation == Operation.VECTORPRODUCT)
-					&& rt instanceof ListValue) {
-
-				MyList listL = ((ListValue) lt.evaluate(tpl)).getMyList();
-				MyList listR = ((ListValue) rt.evaluate(tpl)).getMyList();
-				if (((listL.size() == 3) && (listR.size() == 3))
-						|| ((listL.size() == 2) && (listR.size() == 2))) {
-					listL.vectorProduct(listR);
-					return listL;
-				}
-
-			}
-			// we cannot use elseif here as we might need multiplication
-			if ((operation != Operation.IF_LIST)
-					&& (operation != Operation.DOT)
-					&& (operation != Operation.PLUSMINUS)
-					&& (operation != Operation.MATRIXTOVECTOR)
-					&& (operation != Operation.EQUAL_BOOLEAN)
-					&& (operation != Operation.NOT_EQUAL // ditto
-					) && (operation != Operation.IS_SUBSET_OF // ditto
-					) && (operation != Operation.IS_SUBSET_OF_STRICT // ditto
-					) && (operation != Operation.SET_DIFFERENCE // ditto
-					) && (operation != Operation.ELEMENT_OF // list1(1) to get
-															// first element
-					) && (operation != Operation.IS_ELEMENT_OF // list1(1) to
-																// get
-					// first element
-					) && !(rt instanceof VectorValue) // eg {1,2} + (1,2)
-					&& !(rt instanceof TextValue)) { // bugfix "" + {1,2}
-				// list lt operation rt
-				return listOperation((ListValue) lt, operation, rt, right,
-						true, tpl);
-			}
+			return handleListOperation(lt, rt, right, operation, tpl);
 		} else if (rt instanceof ListValue
 				// skip operations acting on lists as a whole
 				&& !operation.equals(Operation.EQUAL_BOOLEAN)
@@ -322,6 +279,51 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				&& lt instanceof NumberValue) {
 			return GeoFunction.applyNumberSymb(operation, (FunctionalNVar) rt,
 					left, false);
+		}
+		return null;
+	}
+
+	private ExpressionValue handleListOperation(ExpressionValue lt, ExpressionValue rt,
+			ExpressionValue right, Operation operation, StringTemplate tpl) {
+		if ((operation == Operation.MULTIPLY)
+				&& rt instanceof VectorNDValue) {
+			MyList myList = ((ListValue) lt).getMyList();
+			if (myList.isMatrix()) {
+				ExpressionValue ret = multiply(myList, (VectorNDValue) rt);
+				if (ret != null) {
+					return ret;
+				}
+			}
+
+		} else if ((operation == Operation.VECTORPRODUCT)
+				&& rt instanceof ListValue) {
+
+			MyList listL = ((ListValue) lt.evaluate(tpl)).getMyList();
+			MyList listR = ((ListValue) rt.evaluate(tpl)).getMyList();
+			if (((listL.size() == 3) && (listR.size() == 3))
+					|| ((listL.size() == 2) && (listR.size() == 2))) {
+				listL.vectorProduct(listR);
+				return listL;
+			}
+
+		}
+		// we cannot use elseif here as we might need multiplication
+		if ((operation != Operation.IF_LIST)
+				&& (operation != Operation.DOT)
+				&& (operation != Operation.PLUSMINUS)
+				&& (operation != Operation.MATRIXTOVECTOR)
+				&& (operation != Operation.EQUAL_BOOLEAN)
+				&& (operation != Operation.NOT_EQUAL)
+				&& (operation != Operation.IS_SUBSET_OF)
+				&& (operation != Operation.IS_SUBSET_OF_STRICT)
+				&& (operation != Operation.SET_DIFFERENCE)
+				&& (operation != Operation.ELEMENT_OF) // list1(1) to get first element
+				&& (operation != Operation.IS_ELEMENT_OF) // 1 in list1 to check element
+				&& !(rt instanceof VectorValue) // eg {1,2} + (1,2)
+				&& !(rt instanceof TextValue)) { // bugfix "" + {1,2}
+			// list lt operation rt
+			return listOperation((ListValue) lt, operation, rt, right,
+					true, tpl);
 		}
 		return null;
 	}
@@ -1340,6 +1342,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            0 to evaluate completely, &gt;0 to skip last skip arguments
 	 * @return list element
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public ExpressionValue handleElementOf(ExpressionValue lt,
 			ExpressionValue rt, int skip) {
 		// TODO not implemented #1115

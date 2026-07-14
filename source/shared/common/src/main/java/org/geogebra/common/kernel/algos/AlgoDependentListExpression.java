@@ -146,6 +146,7 @@ public class AlgoDependentListExpression extends AlgoElement
 		}
 	}
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	private static GeoElementND toGeo(ExpressionValue element,
 			GeoElement cachedGeo, Construction cons) {
 		GeoElementND geo = null;

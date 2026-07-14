@@ -269,6 +269,7 @@ public class CSVParser {
 	 * @throws CSVException
 	 *             if bad things happen during the read
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	private String[] parseLine(String nextLine, boolean multi)
 			throws CSVException {
 

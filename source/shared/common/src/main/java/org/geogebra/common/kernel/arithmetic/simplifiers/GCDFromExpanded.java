@@ -66,23 +66,21 @@ public final class GCDFromExpanded implements SimplifyNode {
 		for (ExpressionValue value : flatten) {
 			if (isIntegerValue(value)) {
 				sumOfInts += (int) value.evaluateDouble();
-			} else {
-				if (ExpressionValueUtils.isSqrtNode(value)) {
-					rest = addOrLet(rest, value.wrap());
-				} else if (value.isOperation(Operation.MULTIPLY)) {
-					ExpressionNode product = utils.reduceProduct(value.wrap()).wrap();
-					if (isIntegerValue(product.getLeft()) && ExpressionValueUtils.isSqrtNode(
-							product.getRightTree())) {
-						int radicand = (int) product.getRightTree().getLeft().evaluateDouble();
-						int amount = (int) product.getLeft().evaluateDouble();
-						if (Math.abs(amount) == 1 && !sqrtMap.containsKey(radicand)) {
-							rest = addOrLet(rest,
-									amount == 1
-											? utils.newSqrt(radicand)
-											: utils.newSqrt(radicand).multiplyR(-1));
-						} else {
-							addToSqrtMap(radicand, amount);
-						}
+			} else if (ExpressionValueUtils.isSqrtNode(value)) {
+				rest = addOrLet(rest, value.wrap());
+			} else if (value.isOperation(Operation.MULTIPLY)) {
+				ExpressionNode product = utils.reduceProduct(value.wrap()).wrap();
+				if (isIntegerValue(product.getLeft()) && ExpressionValueUtils.isSqrtNode(
+						product.getRightTree())) {
+					int radicand = (int) product.getRightTree().getLeft().evaluateDouble();
+					int amount = (int) product.getLeft().evaluateDouble();
+					if (Math.abs(amount) == 1 && !sqrtMap.containsKey(radicand)) {
+						rest = addOrLet(rest,
+								amount == 1
+										? utils.newSqrt(radicand)
+										: utils.newSqrt(radicand).multiplyR(-1));
+					} else {
+						addToSqrtMap(radicand, amount);
 					}
 				}
 			}

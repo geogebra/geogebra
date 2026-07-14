@@ -202,6 +202,7 @@ public class DrawQuadric3DLimited extends Drawable3D {
 	}
 
 	@Override
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public boolean hit(Hitting hitting) {
 
 		if (waitForReset) { // prevent NPE

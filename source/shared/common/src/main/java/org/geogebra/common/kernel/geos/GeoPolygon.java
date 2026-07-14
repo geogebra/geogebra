@@ -1006,60 +1006,56 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			// return false if the number of points is different
 			int gLength = g.getPointsLength();
 			if (gLength == this.getPointsLength()) {
+				return areAllPointsEqual(g);
+			}
+		}
+		return ExtendedBoolean.FALSE;
+	}
 
-				// search for a first common point
-				GeoPoint firstPoint = this.getPoint(0);
-				boolean fPointFound = false;
-				int iFirstPoint = 0;
-				while (!fPointFound && (iFirstPoint < gLength)) {
-					if (firstPoint.isEqual(g.getPoint(iFirstPoint))) {
-						fPointFound = true;
-					} else {
-						iFirstPoint++;
-					}
+	private ExtendedBoolean areAllPointsEqual(GeoPolygon g) {
+		// search for a first common point
+		int gLength = g.getPointsLength();
+		GeoPoint firstPoint = this.getPoint(0);
+		boolean fPointFound = false;
+		int iFirstPoint = 0;
+		while (!fPointFound && (iFirstPoint < gLength)) {
+			if (firstPoint.isEqual(g.getPoint(iFirstPoint))) {
+				fPointFound = true;
+			} else {
+				iFirstPoint++;
+			}
+		}
+
+		// next point
+		if (fPointFound) {
+			boolean sPointFound = false;
+			int step = 1;
+			if (this.getPoint(1).isEqual(
+					g.getPoint((iFirstPoint + step) % gLength))) {
+				sPointFound = true;
+			} else {
+				step = -1;
+				int j = (iFirstPoint + step + gLength) % gLength;
+				if (this.getPoint(1).isEqual(g.getPoint(j))) {
+					sPointFound = true;
 				}
+			}
 
-				// next point
-				if (fPointFound) {
-					boolean sPointFound = false;
-					int step = 1;
-					if (this.getPoint(1).isEqual(
-							g.getPoint((iFirstPoint + step) % gLength))) {
-						sPointFound = true;
-					} else {
-						step = -1;
-						int j = iFirstPoint + step;
-						if (j < 0) {
-							j = gLength - 1;
-						}
-						if (this.getPoint(1).isEqual(g.getPoint(j))) {
-							sPointFound = true;
-						}
-					}
-
-					// other points
-					if (sPointFound) {
-						int i = 2;
-						int j = iFirstPoint + step + step;
-						if (j < 0) {
-							j = j + gLength;
-						}
+			// other points
+			if (sPointFound) {
+				int i = 2;
+				int j = iFirstPoint + step + step + gLength;
+				j = j % gLength;
+				boolean pointOK = true;
+				while (pointOK && (i < gLength)) {
+					pointOK = this.getPoint(i).isEqual(g.getPoint(j));
+					if (pointOK) {
+						j = j + step + gLength;
 						j = j % gLength;
-						boolean pointOK = true;
-						while (pointOK && (i < gLength)) {
-							pointOK = this.getPoint(i).isEqual(g.getPoint(j));
-							if (pointOK) {
-								j = j + step;
-								if (j < 0) {
-									j = gLength - 1;
-								}
-								j = j % gLength;
-								i++;
-							}
-						}
-						return ExtendedBoolean.newExtendedBoolean(pointOK);
+						i++;
 					}
 				}
+				return ExtendedBoolean.newExtendedBoolean(pointOK);
 			}
 		}
 		return ExtendedBoolean.FALSE;

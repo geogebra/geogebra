@@ -485,28 +485,26 @@ public class ModeShape {
 	 *            - mouse event
 	 */
 	public void handleMouseMoveForShapeMode(AbstractEvent event) {
-		if (ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM) {
-			if (dragPointSet) {
-				if (moveEnded) {
-					polygon.lineTo(event.getX(), event.getY());
-					moveEnded = false;
-				} else {
-					if (pointListFreePoly.isEmpty()) {
-						return;
-					}
-					polygon.reset();
-					polygon.moveTo(pointListFreePoly.get(0).x,
-							pointListFreePoly.get(0).y);
-					for (int index = 1; index < pointListFreePoly
-							.size(); index++) {
-						polygon.lineTo(pointListFreePoly.get(index).x,
-								pointListFreePoly.get(index).y);
-					}
-					polygon.lineTo(event.getX(), event.getY());
+		if (ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM && dragPointSet) {
+			if (moveEnded) {
+				polygon.lineTo(event.getX(), event.getY());
+				moveEnded = false;
+			} else {
+				if (pointListFreePoly.isEmpty()) {
+					return;
 				}
-				view.setShapePath(polygon);
-				view.repaintView();
+				polygon.reset();
+				polygon.moveTo(pointListFreePoly.get(0).x,
+						pointListFreePoly.get(0).y);
+				for (int index = 1; index < pointListFreePoly
+						.size(); index++) {
+					polygon.lineTo(pointListFreePoly.get(index).x,
+							pointListFreePoly.get(index).y);
+				}
+				polygon.lineTo(event.getX(), event.getY());
 			}
+			view.setShapePath(polygon);
+			view.repaintView();
 		}
 	}
 

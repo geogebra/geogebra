@@ -111,29 +111,27 @@ public class AlgoContinuedFraction extends AlgoElement {
 			if (steps == 1) { // integer
 				text.setTextString(
 						kernel.format(Math.round(num.getDouble()), tpl));
+			} else if (shorthand == null || !shorthand.getBoolean()) {
+				appendLongLatex(steps, tpl);
 			} else {
-				if (shorthand == null || !shorthand.getBoolean()) {
-					appendLongLatex(steps, tpl);
-				} else {
-					sb.setLength(0);
-					if (num.getDouble() < 0) {
-						sb.append('-');
-					}
-					sb.append('[');
-					sb.append(kernel.format(denominators[0], tpl));
-					sb.append(';');
-					for (int i = 1; i < steps - 1; i++) {
-
-						sb.append(kernel.format(denominators[i], tpl));
-						sb.append(",");
-					}
-					sb.append(kernel.format(denominators[steps - 1], tpl));
-					if (dotsNeeded) {
-						sb.append(",\\ldots");
-					}
-					sb.append(']');
-					text.setTextString(sb.toString());
+				sb.setLength(0);
+				if (num.getDouble() < 0) {
+					sb.append('-');
 				}
+				sb.append('[');
+				sb.append(kernel.format(denominators[0], tpl));
+				sb.append(';');
+				for (int i = 1; i < steps - 1; i++) {
+
+					sb.append(kernel.format(denominators[i], tpl));
+					sb.append(",");
+				}
+				sb.append(kernel.format(denominators[steps - 1], tpl));
+				if (dotsNeeded) {
+					sb.append(",\\ldots");
+				}
+				sb.append(']');
+				text.setTextString(sb.toString());
 			}
 
 			text.setLaTeX(true, false);

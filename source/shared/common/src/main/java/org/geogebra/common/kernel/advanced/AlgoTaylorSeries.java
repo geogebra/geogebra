@@ -208,17 +208,15 @@ public class AlgoTaylorSeries extends AlgoElement {
 				// add part to series
 				if (series == null) {
 					series = new ExpressionNode(kernel, partExp);
-				} else {
-					if (negativeCoeff) {
-						if (coeffMyDouble != null) {
-							coeffMyDouble.set(-coeff); // change sign
-						}
-						series = new ExpressionNode(kernel, series,
-								Operation.MINUS, partExp);
-					} else {
-						series = new ExpressionNode(kernel, series,
-								Operation.PLUS, partExp);
+				} else if (negativeCoeff) {
+					if (coeffMyDouble != null) {
+						coeffMyDouble.set(-coeff); // change sign
 					}
+					series = new ExpressionNode(kernel, series,
+							Operation.MINUS, partExp);
+				} else {
+					series = new ExpressionNode(kernel, series,
+							Operation.PLUS, partExp);
 				}
 			}
 		}

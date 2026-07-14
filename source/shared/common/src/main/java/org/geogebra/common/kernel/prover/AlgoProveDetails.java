@@ -118,6 +118,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 	/**
 	 * Heavy computation of the proof.
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public final void initialCompute() {
 
 		// Create and initialize the prover

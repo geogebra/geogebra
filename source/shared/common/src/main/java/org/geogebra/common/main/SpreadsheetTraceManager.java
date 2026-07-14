@@ -729,19 +729,14 @@ public class SpreadsheetTraceManager {
 					// copy the value from the source cell into the target cell
 					// below
 					// (don't do this if there is only one row)
-					if (t.numRows > 1) {
-						if (sourceCell != null) {
-
-							if (t.doTraceGeoCopy) {
-								setTraceCellAsGeoCopy(sourceCell, c,
-										r - 1);
-
-							} else {
-
-								setTraceCell(cons, c, r - 1,
-										((GeoNumeric) sourceCell).getValue(),
-										GeoClass.NUMERIC);
-							}
+					if (t.numRows > 1 && sourceCell != null) {
+						if (t.doTraceGeoCopy) {
+							setTraceCellAsGeoCopy(sourceCell, c,
+									r - 1);
+						} else {
+							setTraceCell(cons, c, r - 1,
+									((GeoNumeric) sourceCell).getValue(),
+									GeoClass.NUMERIC);
 						}
 					}
 

@@ -86,6 +86,7 @@ public class NDGDetector {
 	 *            input polynomial
 	 * @return the NDG condition
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public NDGCondition detect(PPolynomial p) {
 
 		GeoElement statement = prover.getStatement();

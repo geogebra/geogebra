@@ -772,18 +772,14 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		if (min < 0) {
 			if (max > 0) {
 				if (-min > max) { // more bottom than top
-					latitudeMaxTop = (int) (latitude * (1 - max / (-min)));
-					if (latitudeMaxTop == 1) {
-						latitudeMaxTop = 2; // ensure at least a strip is drawn
-					}
+					int steps =  (int) (latitude * (1 - max / (-min)));
+					// ensure at least a strip is drawn
+					latitudeMaxTop = steps == 1 ? 2 : steps;
 					latitudeMaxBottom = 0;
 				} else { // more top than bottom
+					int steps = (int) (latitude * (1 - (-min) / max));
 					latitudeMaxTop = 0;
-					latitudeMaxBottom = (int) (latitude * (1 - (-min) / max));
-					if (latitudeMaxBottom == 1) {
-						latitudeMaxBottom = 2; // ensure at least a strip is
-												// drawn
-					}
+					latitudeMaxBottom = steps == 1 ? 2 : steps;
 				}
 				latitudeMax = latitude;
 				latitudeMin = 0;
@@ -961,38 +957,30 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		lastLength = currentLength;
 
-		if (dse.drawPoles()) {
+		if (dse.drawPoles() && latitudeMax == latitude) {
 			// north pole
-			if (latitudeMax == latitude) {
+			if (drawTop) {
+				dse.drawNCr(dse.getNorthPole());
 
-				if (drawTop) {
-
-					dse.drawNCr(dse.getNorthPole());
-
-					if (longitudeLength == longitude) {
-						arrayIndex += 3 * lastLength;
-					} else {
-						arrayIndex += 3 * (lastLength - 1);
-					}
-
+				if (longitudeLength == longitude) {
+					arrayIndex += 3 * lastLength;
+				} else {
+					arrayIndex += 3 * (lastLength - 1);
 				}
+			}
 
-				// south pole
-				if (drawBottom) {
+			// south pole
+			if (drawBottom) {
+				dse.drawNCrm(dse.getNorthPole());
 
-					dse.drawNCrm(dse.getNorthPole());
-
-					if (longitudeLength == longitude) {
-						arrayIndex += 3 * lastLength;
-					} else {
-						arrayIndex += 3 * (lastLength - 1);
-					}
+				if (longitudeLength == longitude) {
+					arrayIndex += 3 * lastLength;
+				} else {
+					arrayIndex += 3 * (lastLength - 1);
 				}
 			}
 		}
-
 		debug("==== arrayIndex (1) = " + arrayIndex);
-
 	}
 
 	private void setIndices(int longitude, int longitudeLength, DrawEllipticSurface dse) {
@@ -1299,62 +1287,58 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		lastStartIndex = currentStartIndex;
 		currentStartIndex += currentLength * lastBoth;
 
-		if (dse.drawPoles()) {
+		if (dse.drawPoles() && latitudeMax == latitude) {
 			// north pole
-			if (latitudeMax == latitude) {
+			if (drawTop) {
 
-				if (drawTop) {
-
-					short lastIndex;
-					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
-							- lastBoth; lastIndex += lastBoth) {
-						arrayI.put(lastIndex);
-						arrayIndex++;
-						arrayI.put((short) (lastIndex + lastBoth));
-						arrayIndex++;
-						arrayI.put(currentStartIndex);
-						arrayIndex++;
-					}
-
-					if (longitudeLength == longitude) {
-						// close the parallel
-						arrayI.put(lastIndex);
-						arrayIndex++;
-						arrayI.put(lastStartIndex);
-						arrayIndex++;
-						arrayI.put(currentStartIndex);
-						arrayIndex++;
-					}
-
-					// shift for maybe south pole
-					lastStartIndex += 1;
-					currentStartIndex += 1;
+				short lastIndex;
+				for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
+						- lastBoth; lastIndex += lastBoth) {
+					arrayI.put(lastIndex);
+					arrayIndex++;
+					arrayI.put((short) (lastIndex + lastBoth));
+					arrayIndex++;
+					arrayI.put(currentStartIndex);
+					arrayIndex++;
 				}
 
-				// south pole
-				if (drawBottom) {
+				if (longitudeLength == longitude) {
+					// close the parallel
+					arrayI.put(lastIndex);
+					arrayIndex++;
+					arrayI.put(lastStartIndex);
+					arrayIndex++;
+					arrayI.put(currentStartIndex);
+					arrayIndex++;
+				}
 
-					short lastIndex;
-					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
-							- lastBoth; lastIndex += lastBoth) {
-						arrayI.put(lastIndex);
-						arrayIndex++;
-						arrayI.put(currentStartIndex);
-						arrayIndex++;
-						arrayI.put((short) (lastIndex + lastBoth));
-						arrayIndex++;
-					}
+				// shift for maybe south pole
+				lastStartIndex += 1;
+				currentStartIndex += 1;
+			}
 
-					if (longitudeLength == longitude) {
-						// close the parallel
-						arrayI.put(lastIndex);
-						arrayIndex++;
-						arrayI.put(currentStartIndex);
-						arrayIndex++;
-						arrayI.put(lastStartIndex);
-						arrayIndex++;
-					}
+			// south pole
+			if (drawBottom) {
 
+				short lastIndex;
+				for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
+						- lastBoth; lastIndex += lastBoth) {
+					arrayI.put(lastIndex);
+					arrayIndex++;
+					arrayI.put(currentStartIndex);
+					arrayIndex++;
+					arrayI.put((short) (lastIndex + lastBoth));
+					arrayIndex++;
+				}
+
+				if (longitudeLength == longitude) {
+					// close the parallel
+					arrayI.put(lastIndex);
+					arrayIndex++;
+					arrayI.put(currentStartIndex);
+					arrayIndex++;
+					arrayI.put(lastStartIndex);
+					arrayIndex++;
 				}
 			}
 		}

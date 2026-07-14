@@ -300,6 +300,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	@Override
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	final synchronized public String getCASCommand(final String name,
 			final ArrayList<ExpressionNode> args, boolean symbolic,
 			StringTemplate tpl, SymbolicMode symbolicMode) {
@@ -1060,9 +1061,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						.getLeft() instanceof Equation) {
 					Equation equation = (Equation) ((ExpressionNode) listOfEquations
 							.getItem(0)).getLeft();
-					if (equation.getLHS().evaluatesTo3DVector()) {
-						return true;
-					}
+					return equation.getLHS().evaluatesTo3DVector();
 				}
 			}
 		}

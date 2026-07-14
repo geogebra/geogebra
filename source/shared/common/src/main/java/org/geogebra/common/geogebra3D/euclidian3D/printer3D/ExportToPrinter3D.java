@@ -350,11 +350,9 @@ public class ExportToPrinter3D {
 				if (exportSurface) {
 					exportSurface(geo, d.getSurfaceIndex(),
 							format.needsClosedObjectsForSurfaces(), false);
-				} else if (format.exportsPointsAndLines()) {
-					if (geo.getLineThickness() > 0) {
-						exportCurve(d.getGeometryIndex(), Export3DType.CURVE,
-								geo.getLabelSimple(), geo);
-					}
+				} else if (format.exportsPointsAndLines() && geo.getLineThickness() > 0) {
+					exportCurve(d.getGeometryIndex(), Export3DType.CURVE,
+							geo.getLabelSimple(), geo);
 				}
 			}
 		}
@@ -571,6 +569,7 @@ public class ExportToPrinter3D {
 	 * @param alpha
 	 *            opacity
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public void export(GeoPolygon polygon, Coords[] vertices, GColor color,
 			double alpha) {
 

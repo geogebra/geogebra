@@ -16,6 +16,8 @@
 
 package org.geogebra.common.kernel.implicit;
 
+import static org.geogebra.common.util.DoubleUtil.isZero;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -405,7 +407,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 					defined = false;
 				}
 				isConstant = isConstant
-						&& (DoubleUtil.isZero(coeff[i][j]) || (i == 0 && j == 0));
+						&& (isZero(coeff[i][j]) || (i == 0 && j == 0));
 			}
 		}
 	}
@@ -989,7 +991,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 		if (PI.isGeoElement3D()) {
 			Coords coords = PI.getInhomCoordsInD3();
-			if (!DoubleUtil.isZero(coords.getZ())) {
+			if (!isZero(coords.getZ())) {
 				return false;
 			}
 			px = coords.getX();
@@ -1378,61 +1380,55 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		setCoeff(coeff, true);
 		if (algoUpdateSet != null) {
 			double a = 0, ax = 0, ay = 0, b = 0, bx = 0, by = 0;
-			if (qX == null && qY == null && degXpX <= 1 && degYpX <= 1
-					&& degXpY <= 1 && degYpY <= 1) {
-				if ((degXpX != 1 || degYpX != 1 || pX[1].length == 1
-						|| DoubleUtil.isZero(pX[1][1]))
-						&& (degXpY != 1 || degYpY != 1 || pY[1].length == 1
-								|| DoubleUtil.isZero(pY[1][1]))) {
-					if (pX.length > 0) {
-						if (pX[0].length > 0) {
-							a = pX[0][0];
-						}
-						if (pX[0].length > 1) {
-							ay = pX[0][1];
-						}
-					}
-					if (pX.length > 1) {
-						ax = pX[1][0];
-					}
-					if (pY.length > 0) {
-						if (pY[0].length > 0) {
-							b = pY[0][0];
-						}
-						if (pY[0].length > 1) {
-							by = pY[0][1];
-						}
-					}
-					if (pY.length > 1) {
-						bx = pY[1][0];
-					}
-					double det = ax * by - bx * ay;
-					if (!DoubleUtil.isZero(det)) {
-						double[][] iX = new double[][] {
-								{ (b * ay - a * by) / det, -ay / det },
-								{ by / det } };
-						double[][] iY = new double[][] {
-								{ -(b * ax - a * bx) / det, ax / det },
-								{ -bx / det } };
+			if (qX == null && qY == null
+					&& degXpX <= 1 && degYpX <= 1
+					&& degXpY <= 1 && degYpY <= 1
+					&& (degXpX != 1 || degYpX != 1 || pX[1].length == 1 || isZero(pX[1][1]))
+					&& (degXpY != 1 || degYpY != 1 || pY[1].length == 1 || isZero(pY[1][1]))) {
+				if (pX.length > 0) {
+					a = pX[0].length > 0 ? pX[0][0] : 0;
+					ay = pX[0].length > 1 ? pX[0][1] : 0;
+				}
+				if (pX.length > 1) {
+					ax = pX[1][0];
+				}
+				if (pY.length > 0) {
+					b = pY[0].length > 0 ? pY[0][0] : 0;
+					by = pY[0].length > 1 ? pY[0][1] : 0;
+				}
+				if (pY.length > 1) {
+					bx = pY[1][0];
+				}
+				double det = ax * by - bx * ay;
+				if (!isZero(det)) {
+					double[][] iX = new double[][] {
+							{ (b * ay - a * by) / det, -ay / det },
+							{ by / det } };
+					double[][] iY = new double[][] {
+							{ -(b * ax - a * bx) / det, ax / det },
+							{ -bx / det } };
 
-						Iterator<AlgoElement> it = algoUpdateSet.getIterator();
-						while (it != null && it.hasNext()) {
-							AlgoElement elem = it.next();
-							if (elem instanceof AlgoPointOnPath
-									&& isIndependent()) {
-								GeoPoint point = (GeoPoint) ((AlgoPointOnPath) elem)
-										.getP();
-								if (!DoubleUtil.isZero(point.getZ())) {
-									double x = point.getX() / point.getZ();
-									double y = point.getY() / point.getZ();
-									double px = evalPolyCoeffAt(x, y, iX);
-									double py = evalPolyCoeffAt(x, y, iY);
-									point.setCoords(px, py, 1);
-									point.updateCoords();
-								}
-							}
-						}
-					}
+					updatePointsOnPath(iX, iY);
+				}
+			}
+		}
+	}
+
+	private void updatePointsOnPath(double[][] iX, double[][] iY) {
+		Iterator<AlgoElement> it = algoUpdateSet.getIterator();
+		while (it != null && it.hasNext()) {
+			AlgoElement elem = it.next();
+			if (elem instanceof AlgoPointOnPath
+					&& isIndependent()) {
+				GeoPoint point = (GeoPoint) ((AlgoPointOnPath) elem)
+						.getP();
+				if (!isZero(point.getZ())) {
+					double x = point.getX() / point.getZ();
+					double y = point.getY() / point.getZ();
+					double px = evalPolyCoeffAt(x, y, iX);
+					double py = evalPolyCoeffAt(x, y, iY);
+					point.setCoords(px, py, 1);
+					point.updateCoords();
 				}
 			}
 		}
@@ -1844,7 +1840,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			if (i == solutionColumn - 1) {
 				solution[i] = 1;
 			} else {
-				solution[i] = DoubleUtil.isZero(partialSolution[j]) ? 0
+				solution[i] = isZero(partialSolution[j]) ? 0
 						: partialSolution[j];
 				j++;
 			}
@@ -1979,6 +1975,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 *            string template
 	 * @return string representation of polynomial with given coefficients
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	protected String toRawValueString(StringTemplate tpl0) {
 		if (coeff == null) {
 			return "";

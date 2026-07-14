@@ -382,18 +382,18 @@ public class LayerManager {
 		int index = indexOf(geo);
 
 		switch (movement) {
-		case BACK: if (index + 1 >= lastIndex && index - 1 <= firstIndex) {
-			geo.setOrdering(orderingDepthMidpoint(index));
-		} else {
-			if (index == firstIndex) {
-				if (index != 0) { //first one in group but not in ordering list
-					geo.setOrdering(orderingDepthMidpoint(index));
-				} //else, first in group & order thing
-				else {
-					geo.setOrdering(drawingOrder.get(index + 1).getOrdering() - 1);
-				}
+		case BACK:
+			if (index + 1 >= lastIndex && index - 1 <= firstIndex) {
+				geo.setOrdering(orderingDepthMidpoint(index));
 			} else {
-				if (index == lastIndex) {
+				if (index == firstIndex) {
+					if (index != 0) { //first one in group but not in ordering list
+						geo.setOrdering(orderingDepthMidpoint(index));
+					} //else, first in group & order thing
+					else {
+						geo.setOrdering(drawingOrder.get(index + 1).getOrdering() - 1);
+					}
+				} else if (index == lastIndex) {
 					if (index != drawingOrder.size() - 1) { //last one in group but not in ordering
 						geo.setOrdering(orderingDepthMidpoint(index));
 					} //else, first in group & order thing
@@ -402,7 +402,6 @@ public class LayerManager {
 					}
 				}
 			}
-		}
 			break;
 		case FRONT:
 			if (index + 1 <= lastIndex && index - 1 >= firstIndex) {
@@ -415,16 +414,14 @@ public class LayerManager {
 					else {
 						geo.setOrdering(drawingOrder.get(index - 1).getOrdering() + 1);
 					}
-				}  else {
-					if (index == firstIndex) {
-						if (index != 0) { //first one in group but not in ordering
-							geo.setOrdering(orderingDepthMidpoint(index));
-						} //else, first in group & order thing
-						else {
-							geo.setOrdering(drawingOrder.get(index - 1).getOrdering() - 1);
-						}
+				} else if (index == firstIndex) {
+					if (index != 0) { //first one in group but not in ordering
+						geo.setOrdering(orderingDepthMidpoint(index));
+					} //else, first in group & order thing
+					else {
+						geo.setOrdering(drawingOrder.get(index - 1).getOrdering() - 1);
 					}
-				} //else depth stays the same (double check this)
+				}
 			}
 			break;
 		default:

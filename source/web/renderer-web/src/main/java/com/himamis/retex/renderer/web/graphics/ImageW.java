@@ -57,8 +57,8 @@ public class ImageW implements Image {
 
 	public ImageW(HTMLCanvasElement canvas, int width, int height, int type) {
 		this.canvas = canvas;
-		canvas.style.width = CSSProperties.WidthUnionType.of(width + "px");
-		canvas.style.height = CSSProperties.HeightUnionType.of(height + "px");
+		canvas.style.setProperty("width", width + "px");
+		canvas.style.setProperty("height", height + "px");
 		canvas.height = height;
 		canvas.width = width;
 		this.width = width;

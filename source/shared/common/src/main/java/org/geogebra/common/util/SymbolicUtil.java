@@ -206,15 +206,9 @@ public class SymbolicUtil {
 			HasSymbolicMode hasSymbolicGeo = (HasSymbolicMode) geo;
 			hasSymbolicGeo.setSymbolicMode(!hasSymbolicGeo.isSymbolicMode(), true);
 
-			if (geo instanceof GeoSymbolic) {
-				GeoSymbolic symbolic = (GeoSymbolic) geo;
+			if (geo instanceof GeoSymbolic symbolic) {
 				if (isSolve(symbolic) || isNumericOfSolve(symbolic)) {
-					if (symbolic.shouldWrapInNumeric()) {
-						toggleNumericWrap(symbolic);
-					} else {
-						toggleNumericSolve(symbolic);
-					}
-					symbolic.setDescriptionNeedsUpdateInAV(true);
+					toggleSymbolicForSolve(symbolic);
 				}
 			}
 
@@ -223,6 +217,15 @@ public class SymbolicUtil {
 
 		}
 		return false;
+	}
+
+	private static void toggleSymbolicForSolve(GeoSymbolic symbolic) {
+		if (symbolic.shouldWrapInNumeric()) {
+			toggleNumericWrap(symbolic);
+		} else {
+			toggleNumericSolve(symbolic);
+		}
+		symbolic.setDescriptionNeedsUpdateInAV(true);
 	}
 
 	/**

@@ -74,13 +74,12 @@ public class EuclidianView3DAnimationRotation extends EuclidianView3DAnimation {
 		}
 
 		if (checkSameValues) {
-			if (DoubleUtil.isEqual(aOld, aNew, Kernel.STANDARD_PRECISION)) {
-				if (DoubleUtil.isEqual(bOld, bNew, Kernel.STANDARD_PRECISION)) {
-					if (!DoubleUtil.isEqual(Math.abs(bNew), 90, Kernel.STANDARD_PRECISION)) {
-						aNew += 180;
-					}
-					bNew *= -1;
+			if (DoubleUtil.isEqual(aOld, aNew, Kernel.STANDARD_PRECISION)
+					&& DoubleUtil.isEqual(bOld, bNew, Kernel.STANDARD_PRECISION)) {
+				if (!DoubleUtil.isEqual(Math.abs(bNew), 90, Kernel.STANDARD_PRECISION)) {
+					aNew += 180;
 				}
+				bNew *= -1;
 			}
 		}
 

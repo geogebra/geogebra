@@ -112,6 +112,7 @@ public class FormatPolygonsHandler {
 			}
 		}
 
+		@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 		private void setPosition(int sourceId, int sourceTriangle, Coords start,
 				Coords n, Coords tmp1, Coords tmp2, Coords tmpO,
 				Coords inPlaneCoords,

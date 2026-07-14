@@ -178,13 +178,13 @@ public abstract class Localization extends LocalizationI {
 
 	/**
 	 * Text fixer for the Hungarian language
-	 * 
+	 *
 	 * @param inputText
 	 *            the translation text to fix
 	 * @return the fixed text
 	 * @author Zoltan Kovacs
 	 */
-
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	private static String translationFixHu(String inputText) {
 		String text = inputText;
 		// Fixing affixes.
@@ -396,23 +396,7 @@ public abstract class Localization extends LocalizationI {
 
 			// Handling some special cases:
 			if (prevChars.length() == 1) {
-				// f-fel, l-lel etc.
-				String sameChars = "flmnrs";
-				// y-nal, 3-mal etc.
-				String valVelFrom = sameChars + "y356789";
-				String valVelTo = sameChars + "nmtttcc";
-				int index = valVelFrom.indexOf(prevChars);
-				if (index > -1) {
-					replace = valVelTo.charAt(index) + replace.substring(1);
-				} else {
-					// x-szel, 1-gyel etc.
-					String valVelFrom2 = "x14";
-					String[] valVelTo2 = { "sz", "gy", "gy" };
-					index = valVelFrom2.indexOf(prevChars);
-					if (index > -1) {
-						replace = valVelTo2[index] + replace.substring(1);
-					}
-				}
+				replace = replaceHuSingleChar(replace, prevChars);
 			} else if ((prevChars.length() == 2)
 					&& prevChars.substring(1).equals("0")) {
 				// (Currently the second part of the conditional is
@@ -426,11 +410,8 @@ public abstract class Localization extends LocalizationI {
 				int index = valVelFrom.indexOf(prevChars.charAt(0));
 				if (index > -1) {
 					replace = valVelTo.charAt(index) + replace.substring(1);
-				} else {
-					// 20-szal
-					if (prevChars.charAt(0) == '2') {
-						replace = "sz" + replace.substring(1);
-					}
+				} else if (prevChars.charAt(0) == '2') { // 20-szal
+					replace = "sz" + replace.substring(1);
 				}
 			}
 		}
@@ -444,6 +425,28 @@ public abstract class Localization extends LocalizationI {
 		text = text.substring(0, match) + "-" + replace
 				+ text.substring(match + affixesLength);
 		return text;
+	}
+
+	private static String replaceHuSingleChar(String replace0, String prevChars) {
+		String replace = replace0;
+		// f-fel, l-lel etc.
+		String sameChars = "flmnrs";
+		// y-nal, 3-mal etc.
+		String valVelFrom = sameChars + "y356789";
+		String valVelTo = sameChars + "nmtttcc";
+		int index = valVelFrom.indexOf(prevChars);
+		if (index > -1) {
+			replace = valVelTo.charAt(index) + replace.substring(1);
+		} else {
+			// x-szel, 1-gyel etc.
+			String valVelFrom2 = "x14";
+			String[] valVelTo2 = { "sz", "gy", "gy" };
+			index = valVelFrom2.indexOf(prevChars);
+			if (index > -1) {
+				replace = valVelTo2[index] + replace.substring(1);
+			}
+		}
+		return replace;
 	}
 
 	/**

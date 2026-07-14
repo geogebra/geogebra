@@ -552,33 +552,30 @@ public class AlgoDependentFunction extends AlgoElement
 			ExpressionNode enLL = (ExpressionNode) expr.getLeft();
 			if (enLL.getOperation().equals(Operation.DERIVATIVE)) {
 				if (enLL.getLeft().isGeoElement()) {
-
 					GeoElement geo = (GeoElement) enLL.getLeft();
-
-					if (geo.isLabelSet()) {
-
-						ExpressionValue evR = enLL.getRight();
-
-						if (evR instanceof NumberValue) {
-							NumberValue num = (NumberValue) evR;
-							double val = num.getDouble();
-
-							if (val > 0d && DoubleUtil.isInteger(val)) {
-
-								// eg f''' if val == 3
-								return geo.getLabelSimple()
-										+ StringUtil.string("'", (int) val); // eg
-																				// f''''
-
-							}
-						}
-
-					}
+					return getDerivativeLabel(geo, enLL.getRight());
 				}
 			}
 		}
 		return null;
+	}
 
+	private static String getDerivativeLabel(GeoElement geo, ExpressionValue evR) {
+		if (geo.isLabelSet()) {
+			if (evR instanceof NumberValue) {
+				NumberValue num = (NumberValue) evR;
+				double val = num.getDouble();
+
+				if (val > 0d && DoubleUtil.isInteger(val)) {
+
+					// eg f''' if val == 3
+					return geo.getLabelSimple()
+							+ StringUtil.string("'", (int) val); // eg
+					// f''''
+				}
+			}
+		}
+		return null;
 	}
 
 	@Override

@@ -129,6 +129,7 @@ public class Path extends ArrayList<DoublePoint> {
 	/**
 	 * modified to be compatible with double
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public int isPointInPolygon(DoublePoint pt) {
 		// returns 0 if false, +1 if true, -1 if pt ON polygon boundary
 		// See "The Point in Polygon Problem for Arbitrary Polygons" by Hormann

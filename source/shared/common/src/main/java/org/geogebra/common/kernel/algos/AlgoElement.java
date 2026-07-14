@@ -1111,16 +1111,20 @@ public abstract class AlgoElement extends ConstructionElement
 					}
 				}
 				if (!allIndependent && freeInputPoints.size() > 1) {
-					for (int i = freeInputPoints.size() - 1; i >= 0; i--) {
-						if (!freeInputPoints.get(i).isIndependent()) {
-							freeInputPoints.remove(i);
-						}
-					}
+					removeDependentMovableInputs();
 				}
 			}
 		}
 
 		return freeInputPoints;
+	}
+
+	private void removeDependentMovableInputs() {
+		for (int i = freeInputPoints.size() - 1; i >= 0; i--) {
+			if (!freeInputPoints.get(i).isIndependent()) {
+				freeInputPoints.remove(i);
+			}
+		}
 	}
 
 	protected void resetFreeInputPoints() {

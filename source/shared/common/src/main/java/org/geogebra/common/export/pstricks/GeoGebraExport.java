@@ -395,42 +395,7 @@ public abstract class GeoGebraExport {
 			}
 
 			else if (g.isGeoNumeric()) {
-				AlgoElement algo = g.getParentAlgorithm();
-				if (algo == null) {
-					// independent number may be shown as slider
-					drawSlider((GeoNumeric) g);
-				} else if (algo instanceof AlgoSlope) {
-					drawSlope((GeoNumeric) g);
-					drawLabel(g, null);
-				} else if (algo instanceof AlgoIntegralDefinite) {
-					drawIntegral((GeoNumeric) g);
-					drawLabel(g, null);
-				} else if (algo instanceof AlgoIntegralFunctions) {
-					drawIntegralFunctions((GeoNumeric) g);
-					drawLabel(g, null);
-				}
-				// BoxPlot
-				else if (algo instanceof AlgoBoxPlot) {
-					drawBoxPlot((GeoNumeric) g);
-				} else if (algo instanceof AlgoFunctionAreaSums) {
-					// Trapezoidal Sum
-					if (algo instanceof AlgoSumTrapezoidal) {
-						drawSumTrapezoidal((GeoNumeric) g);
-					} else if (algo instanceof AlgoHistogram) {
-						drawBarChartOrHistogram((GeoNumeric) g);
-					} else if (algo instanceof AlgoSumUpper
-							|| algo instanceof AlgoSumLower
-							|| algo instanceof AlgoSumLeft
-							|| algo instanceof AlgoSumRectangle) {
-						drawSumUpperLower((GeoNumeric) g);
-					}
-					drawLabel(g, null);
-				}
-				// Bar Chart
-				else if (algo instanceof AlgoBarChart) {
-					drawBarChartOrHistogram((GeoNumeric) g);
-					drawLabel(g, null);
-				}
+				drawNumeric(g);
 			} else if (g instanceof GeoVector) {
 				drawGeoVector((GeoVector) g);
 				drawLabel(g, null);
@@ -495,6 +460,45 @@ public abstract class GeoGebraExport {
 			}
 		}
 
+	}
+
+	private void drawNumeric(GeoElement g) {
+		AlgoElement algo = g.getParentAlgorithm();
+		if (algo == null) {
+			// independent number may be shown as slider
+			drawSlider((GeoNumeric) g);
+		} else if (algo instanceof AlgoSlope) {
+			drawSlope((GeoNumeric) g);
+			drawLabel(g, null);
+		} else if (algo instanceof AlgoIntegralDefinite) {
+			drawIntegral((GeoNumeric) g);
+			drawLabel(g, null);
+		} else if (algo instanceof AlgoIntegralFunctions) {
+			drawIntegralFunctions((GeoNumeric) g);
+			drawLabel(g, null);
+		}
+		// BoxPlot
+		else if (algo instanceof AlgoBoxPlot) {
+			drawBoxPlot((GeoNumeric) g);
+		} else if (algo instanceof AlgoFunctionAreaSums) {
+			// Trapezoidal Sum
+			if (algo instanceof AlgoSumTrapezoidal) {
+				drawSumTrapezoidal((GeoNumeric) g);
+			} else if (algo instanceof AlgoHistogram) {
+				drawBarChartOrHistogram((GeoNumeric) g);
+			} else if (algo instanceof AlgoSumUpper
+					|| algo instanceof AlgoSumLower
+					|| algo instanceof AlgoSumLeft
+					|| algo instanceof AlgoSumRectangle) {
+				drawSumUpperLower((GeoNumeric) g);
+			}
+			drawLabel(g, null);
+		}
+		// Bar Chart
+		else if (algo instanceof AlgoBarChart) {
+			drawBarChartOrHistogram((GeoNumeric) g);
+			drawLabel(g, null);
+		}
 	}
 
 	protected void drawBarChartOrHistogram(GeoNumeric g) {

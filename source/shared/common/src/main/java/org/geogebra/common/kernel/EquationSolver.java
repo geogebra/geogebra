@@ -259,33 +259,31 @@ public class EquationSolver implements EquationSolverInterface {
 			if (Math.abs(d) < Kernel.STANDARD_PRECISION) {
 				complex[roots] = 0;
 				real[roots++] = -b / (2.0 * a);
+			} else if (d < 0.0) {
+				// If d < 0.0, then there are 2 complex roots
+				d = Math.sqrt(-d);
+				complex[0] = d / (2.0 * a);
+				real[0] = -b / (2.0 * a);
+				complex[1] = -complex[0];
+				real[1] = real[0];
+				roots = 2;
 			} else {
-				if (d < 0.0) {
-					// If d < 0.0, then there are 2 complex roots
-					d = Math.sqrt(-d);
-					complex[0] = d / (2.0 * a);
-					real[0] = -b / (2.0 * a);
-					complex[1] = -complex[0];
-					real[1] = real[0];
-					roots = 2;
-				} else {
-					d = Math.sqrt(d);
-					// For accuracy, calculate one root using:
-					// (-b +/- d) / 2a
-					// and the other using:
-					// 2c / (-b +/- d)
-					// Choose the sign of the +/- so that b+d gets larger in
-					// magnitude
-					if (b < 0.0) {
-						d = -d;
-					}
-					double q = (b + d) / -2.0;
-					// We already tested a for being 0 above
-					complex[roots] = 0;
-					real[roots++] = q / a;
-					complex[roots] = 0;
-					real[roots++] = c / q;
+				d = Math.sqrt(d);
+				// For accuracy, calculate one root using:
+				// (-b +/- d) / 2a
+				// and the other using:
+				// 2c / (-b +/- d)
+				// Choose the sign of the +/- so that b+d gets larger in
+				// magnitude
+				if (b < 0.0) {
+					d = -d;
 				}
+				double q = (b + d) / -2.0;
+				// We already tested a for being 0 above
+				complex[roots] = 0;
+				real[roots++] = q / a;
+				complex[roots] = 0;
+				real[roots++] = c / q;
 			}
 		}
 		return roots;

@@ -319,6 +319,7 @@ public class CASInputHandler {
 		processRowThenEdit(selRow, focus, oldXML);
 	}
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	private String wrapPrevCell(int selRow, GeoCasCell cellValue) {
 		// get previous cell
 		GeoCasCell prevCell = consoleTable.getGeoCasCell(selRow - 1);
@@ -412,6 +413,7 @@ public class CASInputHandler {
 	}
 
 	// function to handle NSolve input for non-polynomial equations
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	private String handleNSolve(GeoCasCell cellValue, String evalText) {
 		boolean isEquList = false;
 		StringBuilder sb = new StringBuilder();
@@ -470,60 +472,58 @@ public class CASInputHandler {
 				ValidExpression ve = cellValue.getEvalVE();
 				Set<GeoElement> vars = ve
 						.getVariables(SymbolicMode.NONE);
-				if (!vars.isEmpty()) {
-					Iterator<GeoElement> it = vars.iterator();
-					while (it.hasNext()) {
-						GeoElement next = it.next();
-						if (next instanceof GeoDummyVariable) {
-							// for non-polynomial equation list
-							// we have to add all vars
-							if (isEquList) {
-								sb.append(",{");
-								Set<String> varsStrSet = getVariableStrSet(
-										vars);
-								if (!varsStrSet.isEmpty()) {
-									Iterator<String> itStrSet = varsStrSet
-											.iterator();
-									while (itStrSet.hasNext()) {
-										String nextStr = itStrSet.next();
-										sb.append(nextStr);
-										sb.append("=1");
-										sb.append(",");
-									}
-									sb.setLength(sb.length() - 1);
-									sb.append("}");
+				Iterator<GeoElement> it = vars.iterator();
+				while (it.hasNext()) {
+					GeoElement next = it.next();
+					if (next instanceof GeoDummyVariable) {
+						// for non-polynomial equation list
+						// we have to add all vars
+						if (isEquList) {
+							sb.append(",{");
+							Set<String> varsStrSet = getVariableStrSet(
+									vars);
+							if (!varsStrSet.isEmpty()) {
+								Iterator<String> itStrSet = varsStrSet
+										.iterator();
+								while (itStrSet.hasNext()) {
+									String nextStr = itStrSet.next();
+									sb.append(nextStr);
+									sb.append("=1");
+									sb.append(",");
 								}
-								varsStrSet.clear();
-							} else {
-								// add var=1
-								String var = next.toString(
-										StringTemplate.defaultTemplate);
-								sb.append(",");
-								sb.append(var);
-								sb.append("=1");
+								sb.setLength(sb.length() - 1);
+								sb.append("}");
 							}
-							break;
-						}
-						if (next instanceof GeoCasCell) {
-							String var = next
-									.toString(StringTemplate.defaultTemplate);
-							GeoElement geo = kernel.getConstruction()
-									.lookupLabel(var);
-							if (geo instanceof GeoFunction) {
-								FunctionVariable[] varsOfFunc = ((GeoFunction) geo)
-										.getFunction().getFunctionVariables();
-								if (varsOfFunc.length > 0) {
-									var = varsOfFunc[0].toString(
-											StringTemplate.defaultTemplate);
-								}
-							} else {
-								break;
-							}
+							varsStrSet.clear();
+						} else {
+							// add var=1
+							String var = next.toString(
+									StringTemplate.defaultTemplate);
 							sb.append(",");
 							sb.append(var);
 							sb.append("=1");
+						}
+						break;
+					}
+					if (next instanceof GeoCasCell) {
+						String var = next
+								.toString(StringTemplate.defaultTemplate);
+						GeoElement geo = kernel.getConstruction()
+								.lookupLabel(var);
+						if (geo instanceof GeoFunction) {
+							FunctionVariable[] varsOfFunc = ((GeoFunction) geo)
+									.getFunction().getFunctionVariables();
+							if (varsOfFunc.length > 0) {
+								var = varsOfFunc[0].toString(
+										StringTemplate.defaultTemplate);
+							}
+						} else {
 							break;
 						}
+						sb.append(",");
+						sb.append(var);
+						sb.append("=1");
+						break;
 					}
 				}
 				vars.clear();

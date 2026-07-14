@@ -286,25 +286,22 @@ public class Term implements Comparable<Term> {
 			} else if (aval == 1.0d) {
 				return b;
 			} else {
-				if (b instanceof ExpressionNode) {
-					ExpressionNode ben = (ExpressionNode) b;
-					if (ben.getLeft().isConstant()) {
-						switch (ben.getOperation()) {
-						// a * (b.left * b.right) = (a * b.left) * b.right
-						case MULTIPLY:
-							return multiply(
-									multiply(a, ben.getLeft(), kernel,
-											keepFraction),
-									ben.getRight(), kernel, keepFraction);
-						// a * (b.left / b.right) = (a * b.left) / b.right
-						case DIVIDE:
-							return divide(
-									multiply(a, ben.getLeft(), kernel,
-											keepFraction),
-									ben.getRight(), kernel, keepFraction);
-						default:
-							break;
-						}
+				if (b instanceof ExpressionNode ben && ben.getLeft().isConstant()) {
+					switch (ben.getOperation()) {
+					// a * (b.left * b.right) = (a * b.left) * b.right
+					case MULTIPLY:
+						return multiply(
+								multiply(a, ben.getLeft(), kernel,
+										keepFraction),
+								ben.getRight(), kernel, keepFraction);
+					// a * (b.left / b.right) = (a * b.left) / b.right
+					case DIVIDE:
+						return divide(
+								multiply(a, ben.getLeft(), kernel,
+										keepFraction),
+								ben.getRight(), kernel, keepFraction);
+					default:
+						break;
 					}
 				}
 				return new ExpressionNode(kernel, a, Operation.MULTIPLY, b);

@@ -65,9 +65,6 @@ public class CmdExportImage extends CmdScripting {
 		if (MyDouble.isOdd(n)) {
 			throw argNumErr(c);
 		}
-
-		String label = c.getLabel();
-
 		GeoElement[] arg = resArgs(c);
 		Map<String, GeoElement> argMap = new HashMap<>();
 		for (int i = 0; i < n; i += 2) {
@@ -166,6 +163,7 @@ public class CmdExportImage extends CmdScripting {
 
 		// callbacks need final variables
 		GgbAPI api = kernel.getApplication().getGgbApi();
+		String label = c.getLabel();
 		switch (type) {
 		case SVG:
 			api.exportSVG(filename, (svg) -> {

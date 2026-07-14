@@ -1334,6 +1334,7 @@ public class PolygonTriangulation {
 		setNonSelfIntersecting(pointSet);
 	}
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	private void setNonSelfIntersecting(TreeSet<Point> pointSet)
 			throws TriangulationException {
 
@@ -1733,6 +1734,7 @@ public class PolygonTriangulation {
 	 * @param polygonPoints
 	 *            points
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	private void triangulate(PolygonPoints polygonPoints) {
 
 		if (polygonPoints.size() < 3) {

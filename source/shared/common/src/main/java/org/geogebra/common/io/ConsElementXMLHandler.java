@@ -259,19 +259,12 @@ public class ConsElementXMLHandler {
 	private boolean handleDimensions(Map<String, String> attrs) {
 		String width = attrs.get("width");
 		String height = attrs.get("height");
-		String angle = attrs.get("angle");
-		boolean unscaled = attrs.get("unscaled") != null;
 		if (width != null && height != null) {
-
 			double widthD = -1;
 			double heightD = -1;
-			double angleD = 0;
 			try {
 				widthD = StringUtil.parseDouble(width);
 				heightD = StringUtil.parseDouble(height);
-				if (angle != null) {
-					angleD = StringUtil.parseDouble(angle);
-				}
 			} catch (Exception e) {
 				Log.warn(e.getMessage());
 			}
@@ -283,35 +276,43 @@ public class ConsElementXMLHandler {
 				}
 				button.setFixedSize(true);
 				return true;
-			} else if (geo instanceof RectangleTransformable) {
-				if (angle == null && geo instanceof GeoEmbed) {
-					// we have an old GeoEmbed
-					((GeoEmbed) geo).setContentWidth(widthD);
-					((GeoEmbed) geo).setContentHeight(heightD);
-				} else {
-					((RectangleTransformable) geo).setAngle(angleD);
-					EuclidianSettings settings = app.getActiveEuclidianView().getSettings();
-					double pixelWidth = unscaled ? widthD * settings.getXscale() : widthD;
-					double normedPixelWidth = unscaled
-							? widthD * EuclidianView.SCALE_STANDARD : widthD;
-					double pixelHeight = unscaled ? heightD * settings.getYscale() : heightD;
-					if (geo instanceof GeoInline inline) {
-						inline.setSizeOnly(pixelWidth, pixelHeight);
-						if (inline.isZoomingEnabled()) {
-							inline.setContentWidth(widthD);
-							inline.setContentHeight(heightD);
-						} else if (inline.getContentWidth() > 0) {
-							inline.setScale(normedPixelWidth / inline.getContentWidth());
-						}
-					} else {
-						((RectangleTransformable) geo).setSize(pixelWidth, pixelHeight);
-					}
-				}
+			} else if (geo instanceof RectangleTransformable transformable) {
+				setTransformableSize(transformable, widthD, heightD, attrs);
 			}
 
 			return true;
 		}
 		return false;
+	}
+
+	private void setTransformableSize(RectangleTransformable transformable,
+			double widthD, double heightD, Map<String, String> attrs) {
+		String angle = attrs.get("angle");
+		boolean unscaled = attrs.get("unscaled") != null;
+		if (angle == null && transformable instanceof GeoEmbed) {
+			// we have an old GeoEmbed
+			((GeoEmbed) transformable).setContentWidth(widthD);
+			((GeoEmbed) transformable).setContentHeight(heightD);
+		} else {
+			double angleD = StringUtil.parseDouble(angle);
+			transformable.setAngle(angleD);
+			EuclidianSettings settings = app.getActiveEuclidianView().getSettings();
+			double pixelWidth = unscaled ? widthD * settings.getXscale() : widthD;
+			double normedPixelWidth = unscaled
+					? widthD * EuclidianView.SCALE_STANDARD : widthD;
+			double pixelHeight = unscaled ? heightD * settings.getYscale() : heightD;
+			if (transformable instanceof GeoInline inline) {
+				inline.setSizeOnly(pixelWidth, pixelHeight);
+				if (inline.isZoomingEnabled()) {
+					inline.setContentWidth(widthD);
+					inline.setContentHeight(heightD);
+				} else if (inline.getContentWidth() > 0) {
+					inline.setScale(normedPixelWidth / inline.getContentWidth());
+				}
+			} else {
+				transformable.setSize(pixelWidth, pixelHeight);
+			}
+		}
 	}
 
 	private boolean handleScript(Map<String, String> attrs,

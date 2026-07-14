@@ -108,124 +108,8 @@ public class DrawImage extends Drawable {
 			screenX = geoImage.getAbsoluteScreenLocX();
 			screenY = geoImage.getAbsoluteScreenLocY() - height;
 			labelRectangle.setBounds(screenX, screenY, width, height);
-		}
-
-		// RELATIVE SCREEN POSITION
-		else {
-			boolean center = geoImage.isCentered();
-			int number = center ? 3 : 0;
-			GeoPoint A = geoImage.getStartPoint(number);
-			GeoPoint B = center ? null : geoImage.getStartPoint(1);
-			GeoPoint D = center ? null : geoImage.getStartPoint(2);
-			double ax = 0;
-			double ay = 0;
-			if (A != null) {
-				if (!A.isDefined() || A.isInfinite()) {
-					isVisible = false;
-					return;
-				}
-				ax = A.inhomX;
-				ay = A.inhomY;
-			}
-
-			// set transform according to corners
-			at.setTransform(view.getCoordTransform()); // last transform: real
-														// world
-														// -> screen
-
-			at.translate(ax, ay); // translate to first corner A
-
-			if (B == null) {
-				// we only have corner A
-				if (D == null) {
-					// use original pixel width and height of image
-					at.scale(view.getInvXscale(),
-							// make sure old files work
-							// https://dev.geogebra.org/trac/changeset/57611
-							geo.getKernel().getApplication().fileVersionBefore(
-									5, 0, 397, 0)
-											? -view.getInvXscale()
-											: -view.getInvYscale());
-				}
-				// we have corners A and D
-				else {
-					if (!D.isDefined() || D.isInfinite()) {
-						isVisible = false;
-						return;
-					}
-					// rotate to coord system (-normal(AD), AD)
-					double ADx = D.inhomX - ax;
-					double ADy = D.inhomY - ay;
-					tempAT.setTransform(ADy, -ADx, ADx, ADy, 0, 0);
-					at.concatenate(tempAT);
-
-					// scale height of image to 1
-					double yscale = 1.0 / height;
-					at.scale(yscale, -yscale);
-				}
-			} else {
-				if (!B.isDefined() || B.isInfinite()) {
-					isVisible = false;
-					return;
-				}
-
-				// we have corners A and B
-				if (D == null) {
-					// rotate to coord system (AB, ABn)
-					double ABx = B.inhomX - ax;
-					double ABy = B.inhomY - ay;
-					tempAT.setTransform(ABx, ABy, -ABy, ABx, 0, 0);
-					at.concatenate(tempAT);
-
-					// scale width of image to 1
-					double xscale = 1.0 / width;
-					at.scale(xscale, -xscale);
-				} else { // we have corners A, B and D
-					if (!D.isDefined() || D.isInfinite()) {
-						isVisible = false;
-						return;
-					}
-
-					// shear to coord system (AB, AD)
-					double ABx = B.inhomX - ax;
-					double ABy = B.inhomY - ay;
-					double ADx = D.inhomX - ax;
-					double ADy = D.inhomY - ay;
-					tempAT.setTransform(ABx, ABy, ADx, ADy, 0, 0);
-					at.concatenate(tempAT);
-
-					// scale width and height of image to 1
-					at.scale(1.0 / width, -1.0 / height);
-				}
-			}
-
-			if (geoImage.isCentered()) {
-				// move image to the center
-				at.translate(-width / 2.0, -height / 2.0);
-			} else {
-				// move image up so that A becomes lower left corner
-				at.translate(0, -height);
-			}
-			labelRectangle.setBounds(0, 0, width, height);
-
-			// calculate bounding box for isInside
-			classicBoundingBox.setBounds(0, 0, width, height);
-			GShape shape = at.createTransformedShape(classicBoundingBox);
-			classicBoundingBox = shape.getBounds();
-
-			try {
-				// for hit testing
-				atInverse = at.createInverse();
-			} catch (Exception e) {
-				isVisible = false;
-				return;
-			}
-
-			// improve rendering for sheared and scaled images (translations
-			// don't need this)
-			// turns false if the image doesn't want interpolation
-			needsInterpolationRenderingHint = geoImage.isInterpolate()
-					&& (!isTranslation(at) || view.getPixelRatio() != 1);
+		} else {
+			updateRelativeLocation(width, height);
 		}
 
 		if (isInBackground != geoImage.isInBackground()) {
@@ -241,6 +125,123 @@ public class DrawImage extends Drawable {
 		if (!view.isBackgroundUpdating() && isInBackground) {
 			view.updateBackgroundImage();
 		}
+	}
+
+	private void updateRelativeLocation(int width, int height) {
+		boolean center = geoImage.isCentered();
+		int number = center ? 3 : 0;
+		GeoPoint A = geoImage.getStartPoint(number);
+		GeoPoint B = center ? null : geoImage.getStartPoint(1);
+		GeoPoint D = center ? null : geoImage.getStartPoint(2);
+		double ax = 0;
+		double ay = 0;
+		if (A != null) {
+			if (!A.isDefined() || A.isInfinite()) {
+				isVisible = false;
+				return;
+			}
+			ax = A.inhomX;
+			ay = A.inhomY;
+		}
+
+		// set transform according to corners
+		at.setTransform(view.getCoordTransform()); // last transform: real
+		// world
+		// -> screen
+
+		at.translate(ax, ay); // translate to first corner A
+
+		if (B == null) {
+			// we only have corner A
+			if (D == null) {
+				// use original pixel width and height of image
+				at.scale(view.getInvXscale(),
+						// make sure old files work
+						// https://dev.geogebra.org/trac/changeset/57611
+						geo.getKernel().getApplication().fileVersionBefore(
+								5, 0, 397, 0)
+								? -view.getInvXscale()
+								: -view.getInvYscale());
+			}
+			// we have corners A and D
+			else {
+				if (!D.isDefined() || D.isInfinite()) {
+					isVisible = false;
+					return;
+				}
+				// rotate to coord system (-normal(AD), AD)
+				double ADx = D.inhomX - ax;
+				double ADy = D.inhomY - ay;
+				tempAT.setTransform(ADy, -ADx, ADx, ADy, 0, 0);
+				at.concatenate(tempAT);
+
+				// scale height of image to 1
+				double yscale = 1.0 / height;
+				at.scale(yscale, -yscale);
+			}
+		} else {
+			if (!B.isDefined() || B.isInfinite()) {
+				isVisible = false;
+				return;
+			}
+
+			// we have corners A and B
+			if (D == null) {
+				// rotate to coord system (AB, ABn)
+				double ABx = B.inhomX - ax;
+				double ABy = B.inhomY - ay;
+				tempAT.setTransform(ABx, ABy, -ABy, ABx, 0, 0);
+				at.concatenate(tempAT);
+
+				// scale width of image to 1
+				double xscale = 1.0 / width;
+				at.scale(xscale, -xscale);
+			} else { // we have corners A, B and D
+				if (!D.isDefined() || D.isInfinite()) {
+					isVisible = false;
+					return;
+				}
+
+				// shear to coord system (AB, AD)
+				double ABx = B.inhomX - ax;
+				double ABy = B.inhomY - ay;
+				double ADx = D.inhomX - ax;
+				double ADy = D.inhomY - ay;
+				tempAT.setTransform(ABx, ABy, ADx, ADy, 0, 0);
+				at.concatenate(tempAT);
+
+				// scale width and height of image to 1
+				at.scale(1.0 / width, -1.0 / height);
+			}
+		}
+
+		if (geoImage.isCentered()) {
+			// move image to the center
+			at.translate(-width / 2.0, -height / 2.0);
+		} else {
+			// move image up so that A becomes lower left corner
+			at.translate(0, -height);
+		}
+		labelRectangle.setBounds(0, 0, width, height);
+
+		// calculate bounding box for isInside
+		classicBoundingBox.setBounds(0, 0, width, height);
+		GShape shape = at.createTransformedShape(classicBoundingBox);
+		classicBoundingBox = shape.getBounds();
+
+		try {
+			// for hit testing
+			atInverse = at.createInverse();
+		} catch (Exception e) {
+			isVisible = false;
+			return;
+		}
+
+		// improve rendering for sheared and scaled images (translations
+		// don't need this)
+		// turns false if the image doesn't want interpolation
+		needsInterpolationRenderingHint = geoImage.isInterpolate()
+				&& (!isTranslation(at) || view.getPixelRatio() != 1);
 	}
 
 	private static boolean isTranslation(GAffineTransform at2) {

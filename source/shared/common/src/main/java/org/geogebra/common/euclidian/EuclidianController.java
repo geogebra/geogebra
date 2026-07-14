@@ -1386,11 +1386,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						pointOnPathCount++;
 						if (retPath == null) {
 							retPath = geo;
-						} else {
-							if (geo.getConstructionIndex() > retPath
-									.getConstructionIndex()) {
-								retPath = geo;
-							}
+						} else if (geo.getConstructionIndex() > retPath.getConstructionIndex()) {
+							retPath = geo;
 						}
 					}
 
@@ -1399,11 +1396,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						freePointCount++;
 						if (retFree == null) {
 							retFree = geo;
-						} else {
-							if (geo.getConstructionIndex() > retFree
-									.getConstructionIndex()) {
-								retFree = geo;
-							}
+						} else if (geo.getConstructionIndex() > retFree.getConstructionIndex()) {
+							retFree = geo;
 						}
 					}
 				}
@@ -3317,6 +3311,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return true;
 	}
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	protected final GeoElement[] mirrorAtPoint(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
@@ -3370,6 +3365,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return null;
 	}
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	protected final GeoElement[] mirrorAtLine(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
@@ -3433,6 +3429,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return null;
 	}
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	protected final GeoElement[] mirrorAtCircle(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
@@ -3628,6 +3625,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		view.setSelectionRectangle(null);
 	}
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	final protected boolean attachDetach(Hits hits, boolean selPreview) {
 		if (detachFrom != null || needsAttach) {
 			if (movedGeoPoint != null) {
@@ -3787,6 +3785,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return mouseLocRW;
 	}
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	protected final GeoElement[] translateByVector(Hits hits,
 			boolean selPreview) {
 		if (hits.isEmpty()) {
@@ -4774,6 +4773,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            whether to use complex coords
 	 * @return new / updated point
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public final GeoPointND updateNewPoint(boolean forPreviewable, Hits hits,
 			boolean onPathPossible, boolean inRegionPossible,
 			boolean intersectPossible, boolean chooseGeo, boolean complexPoint) {
@@ -4837,76 +4837,67 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				regionHits.removeHasFacesIfFacePresent();
 				hits.removeHasFacesIfFacePresent();
 			}
-			if (!regionHits.isEmpty()) {
-				if (inRegionPossible) {
-					if (chooseGeo) {
-						region = (Region) chooseGeo(regionHits, true);
-					} else {
-						region = (Region) regionHits.get(0);
+			if (!regionHits.isEmpty() && inRegionPossible) {
+				if (chooseGeo) {
+					region = (Region) chooseGeo(regionHits, true);
+				} else {
+					region = (Region) regionHits.get(0);
+				}
+
+				if (region != null) {
+					// check if region is opaque
+					if (!checkTransparencyForSortingDrawables() || region
+							.getAlphaValue() > MAX_TRANSPARENT_ALPHA_VALUE) {
+						hits.removeGeosAfter(region);
 					}
 
-					if (region != null) {
-						// check if region is opaque
-						if (!checkTransparencyForSortingDrawables() || region
-								.getAlphaValue() > MAX_TRANSPARENT_ALPHA_VALUE) {
-							hits.removeGeosAfter(region);
-						}
+					boolean sideInHits = false;
+					if (region instanceof HasSegments) {
+						GeoSegmentND[] sides = ((HasSegments) region)
+								.getSegments();
 
-						boolean sideInHits = false;
-						if (region instanceof HasSegments) {
-							GeoSegmentND[] sides = ((HasSegments) region)
-									.getSegments();
+						sideInHits = checkSideHits(sides, hits);
 
-							if (sides != null) {
-								for (GeoSegmentND side : sides) {
-									if (hits.contains(side)) {
-										sideInHits = true;
-										break;
-									}
-								}
-							}
-
-							if (sideInHits) {
-								if (mode == EuclidianConstants.MODE_POINT_ON_OBJECT) {
-									// if one wants a point on boundary of a
-									// polygon
-									createPoint = false;
-									createPointOnBoundary = true;
-								} else {
-									createPoint = false;
-									hits.remove(region); // (OPTIONAL) if side
-									// is in hits, still don't need the
-									// polygon as a path
-									region = null;
-								}
-							}
-						} else if (region.isGeoConic()) {
-							if (createNewPointInRegionPossible(
-									(GeoConicND) region)) {
-								hits.remove(region); // conic won't be treated
-								// as a path
-							}
-						} else if (region instanceof GeoFunction) {
-							// eg x<4, y<4 (check not needed here for x+y<4)
-							if (region.isInequality()) {
-								hits.remove(region); // inequality won't be
-								// treated as a path
-							}
-						}
-
-						// if no polygon side in hits, then remove all polygons
-						// for path (use it also when region is conic, etc.)
-						if (!sideInHits) {
-							hits.removeHasSegmentsIfSideNotPresent(); // if a
-							// polygon is a region, need only polygons
-							// that should be a path
+						if (sideInHits) {
 							if (mode == EuclidianConstants.MODE_POINT_ON_OBJECT) {
-								hits.removeSegmentsFromPolygons(); // remove
-								// polygon's segments to take the
-								// polygon for path
+								// if one wants a point on boundary of a
+								// polygon
+								createPoint = false;
+								createPointOnBoundary = true;
+							} else {
+								createPoint = false;
+								hits.remove(region); // (OPTIONAL) if side
+								// is in hits, still don't need the
+								// polygon as a path
+								region = null;
 							}
-
 						}
+					} else if (region.isGeoConic()) {
+						if (createNewPointInRegionPossible(
+								(GeoConicND) region)) {
+							hits.remove(region); // conic won't be treated
+							// as a path
+						}
+					} else if (region instanceof GeoFunction) {
+						// eg x<4, y<4 (check not needed here for x+y<4)
+						if (region.isInequality()) {
+							hits.remove(region); // inequality won't be
+							// treated as a path
+						}
+					}
+
+					// if no polygon side in hits, then remove all polygons
+					// for path (use it also when region is conic, etc.)
+					if (!sideInHits) {
+						hits.removeHasSegmentsIfSideNotPresent(); // if a
+						// polygon is a region, need only polygons
+						// that should be a path
+						if (mode == EuclidianConstants.MODE_POINT_ON_OBJECT) {
+							hits.removeSegmentsFromPolygons(); // remove
+							// polygon's segments to take the
+							// polygon for path
+						}
+
 					}
 				}
 			}
@@ -4954,6 +4945,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		return point;
+	}
+
+	private boolean checkSideHits(GeoSegmentND[] sides, Hits hits) {
+		if (sides != null) {
+			for (GeoSegmentND side : sides) {
+				if (hits.contains(side)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	protected boolean createNewPointInRegionPossible(GeoConicND conic) {
@@ -5856,24 +5858,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 				// <Alt>drag eg sin(3x-4) to change frequency
 
-				ExpressionNode en = movedGeoFunction.getFunction()
-						.getExpression();
-
-				if (Operation.isSimpleFunction(en.getOperation())) {
-					if (Double.isNaN(initxRW) || DoubleUtil.isZero(initxRW)) {
-						initxRW = xRW;
-						initFactor = 1;
-					} else {
-						if (!DoubleUtil.isZero(xRW)) {
-							movedGeoFunction.getFunction()
-									.dilateX(xRW / initxRW / initFactor);
-							initFactor = xRW / initxRW;
-							movedGeoFunction.updateRepaint();
-						}
-					}
-
-				}
-
+				dilateFUnctionHorizontally();
 				return;
 			}
 		}
@@ -5904,6 +5889,23 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// GGB-1249 fast dragging of CAS functions
 		movedGeoFunction.updateCascade(true);
+	}
+
+	private void dilateFUnctionHorizontally() {
+		ExpressionNode en = movedGeoFunction.getFunction()
+				.getExpression();
+
+		if (Operation.isSimpleFunction(en.getOperation())) {
+			if (Double.isNaN(initxRW) || DoubleUtil.isZero(initxRW)) {
+				initxRW = xRW;
+				initFactor = 1;
+			} else if (!DoubleUtil.isZero(xRW)) {
+				movedGeoFunction.getFunction()
+						.dilateX(xRW / initxRW / initFactor);
+				initFactor = xRW / initxRW;
+				movedGeoFunction.updateRepaint();
+			}
+		}
 	}
 
 	protected final void moveBoolean() {
@@ -6143,6 +6145,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	protected boolean switchModeForMouseReleased(int evMode, Hits hitsReleased,
 			boolean kernelChanged, boolean multipleSelect, PointerEventType type,
 			boolean runScripts) {
@@ -6387,13 +6390,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 
 			if (view.getBoundingBox() != null) {
-				view.getBoundingBoxHandlerHit(mouseLoc, event.getType());
-
-				if (view.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
-					setBoundingBoxCursor();
-					if (view.getHitHandler().isAddHandler()) {
-						view.repaint();
-					}
+				if (handleBoundingBoxHandlerHit(event)) {
 					return;
 				}
 			}
@@ -6482,6 +6479,18 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		} else if (repaintNeeded) {
 			view.repaintView();
 		}
+	}
+
+	private boolean handleBoundingBoxHandlerHit(AbstractEvent event) {
+		view.getBoundingBoxHandlerHit(mouseLoc, event.getType());
+		if (view.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
+			setBoundingBoxCursor();
+			if (view.getHitHandler().isAddHandler()) {
+				view.repaint();
+			}
+			return true;
+		}
+		return false;
 	}
 
 	protected void setCursorForProcessMouseMoveHit() {
@@ -6583,30 +6592,30 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			boolean uniqueSelect) {
 		if (geos == null) {
 			selection.clearSelectedGeos();
+		} else if (uniqueSelect) {
+			GeoElement geo = chooseGeo(geos, true);
+			if (geo != null) {
+				selection.toggleSelectedGeoWithGroup(geo);
+			}
 		} else {
-			if (uniqueSelect) {
-				GeoElement geo = chooseGeo(geos, true);
-				if (geo != null) {
-					selection.toggleSelectedGeoWithGroup(geo);
-				}
-			} else {
-				Hits hits = new Hits();
-				hits.addAll(geos);
-				if (!moveModeSelectionHandled) {
-					GeoElement geo = chooseGeo(geos, true);
-					if (geo != null && !geo.isGeoButton()) {
-						if (isSpecialPreviewPointFound(hits)) {
-							previewPointHits = getPreviewSpecialPointHits(hits);
-						} else if (!geo.isSelected() || selection.getSelectedGeos().size() != 1) {
-							selection.clearSelectedGeos(false);
-							selection.addSelectedGeoWithGroup(geo);
-						}
-					}
-				} else {
-					if (isSpecialPreviewPointFound(hits)) {
-						previewPointHits = getPreviewSpecialPointHits(hits);
-					}
-				}
+			Hits hits = new Hits();
+			hits.addAll(geos);
+			if (!moveModeSelectionHandled) {
+				handleSelectChooseGeo(geos, hits);
+			} else if (isSpecialPreviewPointFound(hits)) {
+				previewPointHits = getPreviewSpecialPointHits(hits);
+			}
+		}
+	}
+
+	private void handleSelectChooseGeo(ArrayList<GeoElement> geos, Hits hits) {
+		GeoElement geo = chooseGeo(geos, true);
+		if (geo != null && !geo.isGeoButton()) {
+			if (isSpecialPreviewPointFound(hits)) {
+				previewPointHits = getPreviewSpecialPointHits(hits);
+			} else if (!geo.isSelected() || selection.getSelectedGeos().size() != 1) {
+				selection.clearSelectedGeos(false);
+				selection.addSelectedGeoWithGroup(geo);
 			}
 		}
 	}
@@ -6963,31 +6972,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				startLoc = mouseLoc;
 
 			} else if (movedGeoText.hasStaticLocation()) {
-				// absolute location: change location
-				GeoPointND loc = movedGeoText.getStartPoint();
-				if (loc == null) {
-					loc = new GeoPoint(kernel.getConstruction());
-					loc.setCoords(0, 0, 1.0);
-					try {
-						movedGeoText.setStartPoint(loc);
-					} catch (Exception ex) {
-						Log.debug(ex);
-					}
-					setStartPointLocation();
-				} else {
-					setStartPointLocationWithOrigin(loc.getInhomX(), loc.getInhomY());
-
-					GeoPointND loc2 = loc.copy();
-					movedGeoText.setNeedsUpdatedBoundingBox(true);
-					movedGeoText.update();
-					if (movedGeoText.getBoundingBox() != null) {
-						loc2.setCoords(movedGeoText.getBoundingBox().getX(),
-								movedGeoText.getBoundingBox().getY(), 1.0);
-
-						transformCoordsOffset[0] = loc2.getInhomX() - xRW;
-						transformCoordsOffset[1] = loc2.getInhomY() - yRW;
-					}
-				}
+				moveTextWithStaticLocation();
 			} else {
 				// for relative locations label has to be moved
 				oldLoc.setLocation(movedGeoText.labelOffsetX,
@@ -7001,6 +6986,35 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return false;
 	}
 
+	private void moveTextWithStaticLocation() {
+		// absolute location: change location
+		GeoPointND loc = movedGeoText.getStartPoint();
+		if (loc == null) {
+			loc = new GeoPoint(kernel.getConstruction());
+			loc.setCoords(0, 0, 1.0);
+			try {
+				movedGeoText.setStartPoint(loc);
+			} catch (Exception ex) {
+				Log.debug(ex);
+			}
+			setStartPointLocation();
+		} else {
+			setStartPointLocationWithOrigin(loc.getInhomX(), loc.getInhomY());
+
+			GeoPointND loc2 = loc.copy();
+			movedGeoText.setNeedsUpdatedBoundingBox(true);
+			movedGeoText.update();
+			if (movedGeoText.getBoundingBox() != null) {
+				loc2.setCoords(movedGeoText.getBoundingBox().getX(),
+						movedGeoText.getBoundingBox().getY(), 1.0);
+
+				transformCoordsOffset[0] = loc2.getInhomX() - xRW;
+				transformCoordsOffset[1] = loc2.getInhomY() - yRW;
+			}
+		}
+	}
+
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	protected void handleMovedElementFree(PointerEventType type) {
 		if (handleMovedElementFreePoint()) {
 			return;
@@ -7482,6 +7496,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return distSqr > SELECTION_RECT_THRESHOLD_SQR;
 	}
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	protected void updateSelectionRectangle(boolean keepScreenRatio) {
 		if (!shouldUpdateSelectionRectangle()) {
 			return;
@@ -7595,33 +7610,31 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					return;
 				}
 			}
-		} else {
+		} else if (getResizedShape() != null) {
 			// resize, single selection
-			if (getResizedShape() != null) {
-				setBoundingBoxCursor();
-				// resize selected geo
-				if (getResizedShape().getGeoElement().isSelected()) {
-					dontClearSelection = true;
-					GPoint2D p = new GPoint2D(event.getX(), event.getY());
-					if (hitHandler instanceof EuclidianBoundingBoxHandler) {
-						getResizedShape().updateByBoundingBoxResize(p,
-								(EuclidianBoundingBoxHandler) hitHandler);
-					} else if (hitHandler instanceof ControlPointHandler) {
-						storeUndo.addIfNotPresent(getResizedShape().getGeoElement(), moveMode);
-						getResizedShape().updateByControlPointMovement(p,
-								(ControlPointHandler) hitHandler);
-					}
+			setBoundingBoxCursor();
+			// resize selected geo
+			if (getResizedShape().getGeoElement().isSelected()) {
+				dontClearSelection = true;
+				GPoint2D p = new GPoint2D(event.getX(), event.getY());
+				if (hitHandler instanceof EuclidianBoundingBoxHandler) {
+					getResizedShape().updateByBoundingBoxResize(p,
+							(EuclidianBoundingBoxHandler) hitHandler);
+				} else if (hitHandler instanceof ControlPointHandler) {
+					storeUndo.addIfNotPresent(getResizedShape().getGeoElement(), moveMode);
+					getResizedShape().updateByControlPointMovement(p,
+							(ControlPointHandler) hitHandler);
 				}
-				hideDynamicStylebar();
-				view.repaintView();
-				return;
 			}
+			hideDynamicStylebar();
+			view.repaintView();
+			return;
+		} else if (isMultiResize) {
 			// resize, multi-selection
-			else if (isMultiResize) {
-				handleResizeMultiple(event, (EuclidianBoundingBoxHandler) hitHandler);
-				return;
-			}
+			handleResizeMultiple(event, (EuclidianBoundingBoxHandler) hitHandler);
+			return;
 		}
+
 		if (freehandModePrepared()) {
 			// no repaint, so that the line drawn by the freehand mode will not
 			// disappear
@@ -8182,6 +8195,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	final protected void handleMousePressedForMoveMode(AbstractEvent e,
 			boolean drag) {
 		// ensure no wrong state due to something went wrong
@@ -8530,6 +8544,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @param startCapture
 	 *            whether to start event capture in HTML5
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public void wrapMouseDraggedND(AbstractEvent event, boolean startCapture) {
 		// kill view moving when animation button pressed
 		if (shouldCancelDrag() || this.animationButtonPressed) {
@@ -10188,10 +10203,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				ArrayList<GeoElement> geos = selection.getSelectedGeos();
 				if (geos.size() == 1 && geos.get(0).hasPreviewPopup()) {
 					showSpecialPointPopup(geos);
-				} else {
-					if (shouldShowDynamicStylebarAfterMouseRelease(newSelection, handler)) {
-						showDynamicStylebar();
-					}
+				} else if (shouldShowDynamicStylebarAfterMouseRelease(newSelection, handler)) {
+					showDynamicStylebar();
 				}
 			}
 		}
@@ -10740,6 +10753,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	private void processRightReleased(AbstractEvent event, PointerEventType type) {
 		if (!app.isRightClickEnabled()) {
 			return;
@@ -11460,6 +11474,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @param y2
 	 *            second touch y-coord
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	final public void twoTouchStartPhone(double x1, double y1, double x2,
 			double y2) {
 		scaleConic = null;

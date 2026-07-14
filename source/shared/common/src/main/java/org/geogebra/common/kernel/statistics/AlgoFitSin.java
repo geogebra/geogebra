@@ -250,16 +250,12 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 				// do state bookkeeping
 				if (state == 0) { // just started:
 					state = current; // set first state
-				} else { // we are on our way...
-					if (current != state) { // Update
-											// eventual
-											// change
-						if (nearmaxmin(a, b, state, current, max, min)) { // Kill
-																			// noise
-							changes++;
-							state = current;
-						} // if near
-					} // if change
+				} else {
+					// check that state changed and kill noise
+					if (current != state && nearmaxmin(a, b, state, current, max, min)) {
+						changes++;
+						state = current;
+					}
 				} // if steady up or down
 
 				// Two changes enough. (Must check before updating extremums.)

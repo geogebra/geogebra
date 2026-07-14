@@ -134,10 +134,6 @@ public class AlgoLaTeX extends AlgoElement {
 
 		// whether to use a formula renderer
 		boolean useLaTeX = true;
-
-		boolean substitute = substituteVars == null
-				|| substituteVars.getBoolean();
-
 		// undefined 0/0 should be ?, undefined If[x>0,"a"] should be ""
 		if (!geo.isDefined() && !geo.isGeoText()) {
 			text.setTextString("?");
@@ -147,67 +143,70 @@ public class AlgoLaTeX extends AlgoElement {
 			text.setTextString("");
 
 		} else {
-
-			boolean show = showName != null && showName.getBoolean();
-
-			if (!geo.isLabelSet()) {
-				// eg FormulaText[(1,1), true, true]
-				show = false;
-			}
-
-			StringTemplate tpl = text.getStringTemplate().deriveReal()
-					.deriveWithSimplification();
-
-			GeoElement geoToShow = geo;
-			if (geo.getCorrespondingCasCell() != null) {
-				// it's a twin geo, display the corresponding CAS cell
-				geoToShow = geo.getCorrespondingCasCell();
-			}
-			if (show) {
-				if (geoToShow.isGeoCasCell()) {
-					// input: overriding rounding is probably OK
-					text.setTextString(((GeoCasCell) geoToShow).getOutputOrInput(
-									StringTemplate.numericLatex, substitute));
-
-				} else {
-					text.setTextString(
-							geoToShow.getLaTeXAlgebraDescription(substitute,
-									tpl));
-				}
-				if (text.getTextString() == null) {
-					String desc = geoToShow
-							.getAlgebraDescription(text.getStringTemplate());
-					if (geoToShow.hasIndexLabel()) {
-						desc = GeoElement.indicesToHTML(desc, true);
-					}
-					text.setTextString(desc);
-					useLaTeX = false;
-				}
-			} else {
-				String textString = null;
-				if (geoToShow.isGeoText()) {
-					textString = ((GeoText) geo).getTextString();
-				} else {
-					if (geoToShow.isGeoCasCell()) {
-						GeoCasCell geoCasCell = (GeoCasCell) geoToShow;
-						ExpressionValue geoCasCellValue = geoCasCell.getValue();
-						if (geoCasCellValue != null) {
-							textString = geoCasCellValue.toString(geoCasCell.getLaTeXTemplate());
-						}
-					}
-					if (textString == null) {
-						ExpressionNode definition = geoToShow.getDefinition();
-						if (definition != null) {
-							definition.initRationalizedFraction();
-						}
-						textString = getGeoString(geoToShow, tpl, substitute);
-					}
-				}
-				text.setTextString(textString);
-			}
+			useLaTeX = computeValid();
 		}
 
 		text.setLaTeX(useLaTeX, false);
+	}
+
+	private boolean computeValid() {
+		boolean show = showName != null && showName.getBoolean();
+		boolean substitute = substituteVars == null
+				|| substituteVars.getBoolean();
+		if (!geo.isLabelSet()) {
+			// eg FormulaText[(1,1), true, true]
+			show = false;
+		}
+
+		StringTemplate tpl = text.getStringTemplate().deriveReal()
+				.deriveWithSimplification();
+
+		GeoElement geoToShow = geo;
+		if (geo.getCorrespondingCasCell() != null) {
+			// it's a twin geo, display the corresponding CAS cell
+			geoToShow = geo.getCorrespondingCasCell();
+		}
+		if (show) {
+			if (geoToShow.isGeoCasCell()) {
+				// input: overriding rounding is probably OK
+				text.setTextString(((GeoCasCell) geoToShow).getOutputOrInput(
+						StringTemplate.numericLatex, substitute));
+
+			} else {
+				text.setTextString(
+						geoToShow.getLaTeXAlgebraDescription(substitute,
+								tpl));
+			}
+			if (text.getTextString() == null) {
+				String desc = geoToShow
+						.getAlgebraDescription(text.getStringTemplate());
+				if (geoToShow.hasIndexLabel()) {
+					desc = GeoElement.indicesToHTML(desc, true);
+				}
+				text.setTextString(desc);
+				return false;
+			}
+		} else if (geoToShow.isGeoText()) {
+			text.setTextString(((GeoText) geo).getTextString());
+		} else {
+			String textString = null;
+			if (geoToShow.isGeoCasCell()) {
+				GeoCasCell geoCasCell = (GeoCasCell) geoToShow;
+				ExpressionValue geoCasCellValue = geoCasCell.getValue();
+				if (geoCasCellValue != null) {
+					textString = geoCasCellValue.toString(geoCasCell.getLaTeXTemplate());
+				}
+			}
+			if (textString == null) {
+				ExpressionNode definition = geoToShow.getDefinition();
+				if (definition != null) {
+					definition.initRationalizedFraction();
+				}
+				textString = getGeoString(geoToShow, tpl, substitute);
+			}
+			text.setTextString(textString);
+		}
+		return true;
 	}
 
 	@Override

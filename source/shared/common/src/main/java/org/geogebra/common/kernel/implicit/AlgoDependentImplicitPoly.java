@@ -312,6 +312,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		((GeoLine) geoElement).setCoords(dCoeff[0], dCoeff[1], dCoeff[2]);
 	}
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	private void setConic() {
 		ExpressionValue[] expr = new ExpressionValue[6];
 		for (int i = 0; i < 6; i++) {

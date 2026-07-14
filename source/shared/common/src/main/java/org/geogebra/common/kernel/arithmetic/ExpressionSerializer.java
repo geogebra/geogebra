@@ -1641,36 +1641,8 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			}
 
 			// GeoFunction and GeoFunctionConditional should not be expanded
-			if (left instanceof GeoFunction) {
-				GeoFunction geo = (GeoFunction) left;
-				if (geo.isLabelSet() || geo.isLocalVariable()) {
-					if (stringType.equals(StringType.LIBRE_OFFICE)) {
-						sb.append("func ");
-					}
-					sb.append(geo.getLabel(tpl));
-					tpl.appendWithBrackets(sb, rightStr, loc);
-				} else {
-					// inline function: replace function var by right side
-					Function fn = geo.getFunction();
-					if (fn != null) {
-						FunctionVariable var = geo.getFunction().getFunctionVariable();
-						String oldVarStr = var.toString(tpl);
-
-						// without eg "ggbtmpvar" added
-						String oldVarStrRaw = var.getSetVarString();
-
-						var.setVarString(rightStr);
-						if (stringType.equals(StringType.LIBRE_OFFICE)) {
-							sb.append("func ");
-						}
-						// do not recompute the expression string if we are
-						// plugging
-						// in the same variable; #3481
-						String rhString = oldVarStr.equals(rightStr) ? leftStr : geo.getLabel(tpl);
-						sb.append(rhString);
-						var.setVarString(oldVarStrRaw);
-					}
-				}
+			if (left instanceof GeoFunction geo) {
+				appendFunctionLabel(geo, sb, tpl, leftStr, rightStr, loc);
 			} else if (valueForm && left.isExpressionNode()) {
 				ExpressionNode en = (ExpressionNode) left;
 				// left could contain $ nodes to wrap a GeoElement
@@ -2108,6 +2080,38 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			sb.append(operation);
 		}
 		return sb.toString();
+	}
+
+	private static void appendFunctionLabel(GeoFunction geo, StringBuilder sb, StringTemplate tpl,
+			String leftStr, String rightStr, Localization loc) {
+		if (geo.isLabelSet() || geo.isLocalVariable()) {
+			if (tpl.hasType(StringType.LIBRE_OFFICE)) {
+				sb.append("func ");
+			}
+			sb.append(geo.getLabel(tpl));
+			tpl.appendWithBrackets(sb, rightStr, loc);
+		} else {
+			// inline function: replace function var by right side
+			Function fn = geo.getFunction();
+			if (fn != null) {
+				FunctionVariable var = fn.getFunctionVariable();
+				String oldVarStr = var.toString(tpl);
+
+				// without eg "ggbtmpvar" added
+				String oldVarStrRaw = var.getSetVarString();
+
+				var.setVarString(rightStr);
+				if (tpl.hasType(StringType.LIBRE_OFFICE)) {
+					sb.append("func ");
+				}
+				// do not recompute the expression string if we are
+				// plugging
+				// in the same variable; #3481
+				String rhString = oldVarStr.equals(rightStr) ? leftStr : geo.getLabel(tpl);
+				sb.append(rhString);
+				var.setVarString(oldVarStrRaw);
+			}
+		}
 	}
 
 	private static ExpressionValue safeEvaluate(ExpressionValue ev, StringTemplate tpl) {

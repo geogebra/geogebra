@@ -328,6 +328,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	 *            number of samples
 	 * @return roots
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public static double[] findRoots(Function f, double l, double r,
 			int samples) {
 		if (DoubleUtil.isEqual(l, r)) {
@@ -478,14 +479,9 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 				}
 
 				// at least one point with dependencies was found
-				if (temp.size() > 0) {
+				if (!temp.isEmpty()) {
 					// delete all other points
-					for (int i = 0; i < points.length; i++) {
-						if (!temp.contains(points[i])) {
-							points[i].setParentAlgorithm(null);
-							points[i].remove();
-						}
-					}
+					removePointsOtherThan(temp);
 					// do not reset points -> position of the not removed points
 					// is not changed
 					return;
@@ -502,6 +498,15 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 			}
 
 			super.setOutput(points);
+		}
+	}
+
+	private void removePointsOtherThan(ArrayList<GeoPoint> pointsToKeep) {
+		for (int i = 0; i < points.length; i++) {
+			if (!pointsToKeep.contains(points[i])) {
+				points[i].setParentAlgorithm(null);
+				points[i].remove();
+			}
 		}
 	}
 

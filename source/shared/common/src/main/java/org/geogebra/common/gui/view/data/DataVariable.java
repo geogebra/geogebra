@@ -659,11 +659,9 @@ public class DataVariable {
 				if (dataItem.getType() == SourceType.SPREADSHEET) {
 					try {
 						if (dataItem.getRangeList() != null) {
-							for (TabularRange cr : dataItem.getRangeList()) {
-								if (cr.contains(geo.getSpreadsheetCoords())) {
-									return true;
-								}
-							}
+							return dataItem.getRangeList().stream()
+									.anyMatch(cr -> cr.contains(geo.getSpreadsheetCoords()));
+
 						}
 					} catch (Exception e) {
 						Log.debug(e.getMessage());

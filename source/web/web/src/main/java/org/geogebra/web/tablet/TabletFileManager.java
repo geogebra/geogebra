@@ -38,7 +38,6 @@ public class TabletFileManager extends FileManagerT {
 	private int callbacksCount = NO_CALLBACK;
 
 	private abstract static class NativeBridgeCallback {
-		private int id;
 
 		protected NativeBridgeCallback() {
 			// protected
@@ -47,14 +46,6 @@ public class TabletFileManager extends FileManagerT {
 		abstract void onSuccess(Object result);
 
 		abstract void onFailure(Object exception);
-
-		public void setId(int id) {
-			this.id = id;
-		}
-
-		public int getId() {
-			return id;
-		}
 	}
 
 	/**
@@ -82,7 +73,6 @@ public class TabletFileManager extends FileManagerT {
 	protected int addNewCallback(NativeBridgeCallback callback) {
 		callbacksCount++;
 		callbacks.put(callbacksCount, callback);
-		callback.setId(callbacksCount);
 		return callbacksCount;
 	}
 

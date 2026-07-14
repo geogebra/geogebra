@@ -78,7 +78,7 @@ public class PlotterBrush implements PathPlotter {
 	private float texturePosZero;
 	private float textureValZero;
 	/** textures coords */
-	private final float[] textureX = new float[2];
+	private final double[] textureX = new double[2];
 	/** type of texture */
 	static final public int TEXTURE_CONSTANT_0 = 0;
 	static final private int TEXTURE_ID = 1;
@@ -344,7 +344,7 @@ public class PlotterBrush implements PathPlotter {
 		manager.normalToScale(drawNormal);
 
 		// set texture
-		float pos = textureX[texture];
+		double pos = textureX[texture];
 		switch (textureTypeX) {
 		case TEXTURE_ID:
 		default:
@@ -442,7 +442,9 @@ public class PlotterBrush implements PathPlotter {
 	}
 
 	private void drawTicks(Coords p1, Coords p2, float lengthInScene, float arrowPos) {
-		float thicknessOld, ticksDistanceNormed, i, ticksDelta, ticksThickness;
+		float thicknessOld, ticksDelta, ticksThickness;
+		double ticksDistanceNormed;
+		double i;
 		switch (ticks) {
 		case MAJOR_AND_MINOR:
 			tmpCoords4.setSub(p2, p1);
@@ -524,7 +526,7 @@ public class PlotterBrush implements PathPlotter {
 	 * draw a tick
 	 * 
 	 */
-	protected void drawTick(Coords p1b, Coords p2b, float i,
+	protected void drawTick(Coords p1b, Coords p2b, double i,
 			float ticksThickness, float thicknessOld) {
 		setTextureType(TEXTURE_AFFINE);
 		setTextureX(i);
@@ -1092,12 +1094,12 @@ public class PlotterBrush implements PathPlotter {
 		textureTypeX = type;
 	}
 
-	private void setTextureX(float x0, float x1) {
+	private void setTextureX(double x0, double x1) {
 		this.textureX[0] = x0;
 		this.textureX[1] = x1;
 	}
 
-	protected void setTextureX(float x) {
+	protected void setTextureX(double x) {
 		setTextureX(textureX[1], x);
 	}
 

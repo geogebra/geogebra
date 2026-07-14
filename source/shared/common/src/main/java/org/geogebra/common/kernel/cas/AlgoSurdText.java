@@ -538,6 +538,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	 * @param tpl
 	 *            output template
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	protected void pslqAppendQuartic(StringBuilder sBuilder, double num1,
 			StringTemplate tpl) {
 		double[] numPowers = new double[5];
@@ -770,34 +771,34 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				c = c / gcd;
 			}
 
-			ExpressionNode en;
-			if (DoubleUtil.isZero(b1)) {
-				// eg SurdText[0.33]
-				// eg SurdText[0.235]
-				en = new ExpressionNode(kernel, a);
-			} else {
-				en = new ExpressionNode(kernel, b2).sqrt().multiplyR(b1);
-
-				// eg SurdText((-7 * 3^(1 / 2)) / 2)
-				if (DoubleUtil.isZero(a)) {
-					if (!positive) {
-						// make sure minus sign is before fraction
-						if (DoubleUtil.isEqual(c, 1)) {
-							en = new ExpressionNode(kernel, b2).sqrt().multiplyR(-b1);
-						} else {
-							en = en.divide(c).multiplyR(-1);
-						}
-						sBuilder.append(en.toString(tpl));
-						return;
-					}
-				} else {
-					en = positive ? en.plusR(a) : en.subtractR(a);
-				}
-			}
-			en = en.divide(c);
+			ExpressionNode en = buildExpression(a, b1, b2, c, positive);
 
 			sBuilder.append(en.toString(tpl));
 		}
+	}
+
+	private ExpressionNode buildExpression(int a, int b1, int b2, int c, boolean positive) {
+		ExpressionNode en;
+		if (DoubleUtil.isZero(b1)) {
+			// eg SurdText[0.33]
+			// eg SurdText[0.235]
+			en = new ExpressionNode(kernel, a);
+		} else {
+			en = new ExpressionNode(kernel, b2).sqrt().multiplyR(b1);
+
+			// eg SurdText((-7 * 3^(1 / 2)) / 2)
+			if (DoubleUtil.isZero(a)) {
+				if (!positive) {
+					// make sure minus sign is before fraction
+					return DoubleUtil.isEqual(c, 1)
+						? new ExpressionNode(kernel, b2).sqrt().multiplyR(-b1)
+						: en.divide(c).multiplyR(-1);
+				}
+			} else {
+				en = positive ? en.plusR(a) : en.subtractR(a);
+			}
+		}
+		return en.divide(c);
 	}
 
 	private static int[] pslq(double[] x, double AccuracyFactor, int bound) {

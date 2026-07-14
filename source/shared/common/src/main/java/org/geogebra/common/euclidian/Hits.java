@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.function.Predicate;
 
 import org.geogebra.common.euclidian.event.AbstractEvent;
@@ -980,25 +981,25 @@ public class Hits extends ArrayList<GeoElement> {
 					|| geo instanceof GeoFunctionNVar
 					|| geo instanceof GeoImplicitSurfaceND) {
 				if (!ignoredGeos.contains(geo)) {
-					if (geo instanceof GeoQuadric3DPartInterface) { // temporary
-																	// fix (TODO
-																	// implement
-																	// intersection
-																	// GeoQuadric3DPart
-																	// / plane)
-						GeoElement meta = ((FromMeta) geo).getMetas()[0];
-						if (!ignoredGeos.contains(meta)) {
-							ret.add(meta);
-							return ret;
-						}
-					}
-					ret.add(geo);
+					addSurfaceHit(ret, geo, ignoredGeos);
 					return ret;
 				}
 			}
 		}
 
 		return ret;
+	}
+
+	private void addSurfaceHit(Hits ret, GeoElement geo, List<GeoElement> ignoredGeos) {
+		if (geo instanceof GeoQuadric3DPartInterface) {
+			// temporary fix (TODO implement intersection GeoQuadric3DPart plane)
+			GeoElement meta = ((FromMeta) geo).getMetas()[0];
+			if (!ignoredGeos.contains(meta)) {
+				ret.add(meta);
+				return;
+			}
+		}
+		ret.add(geo);
 	}
 
 	/**

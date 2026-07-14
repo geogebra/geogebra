@@ -158,6 +158,7 @@ public class AlgoFunctionInvert extends AlgoElement implements UsesCAS {
 	 * @param kernel kernel
 	 * @return inverted expression
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public static ExpressionNode invert(ExpressionValue root0,
 			FunctionVariable oldFV, FunctionVariable x, Kernel kernel) {
 		if (root0.isConstant()) {

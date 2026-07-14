@@ -212,30 +212,7 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 				}
 				if (skipNextPoint) {
 					skipNextPoint = false;
-					// collect start points
-					// one point
-					if (pts.length == 1
-					// last point
-							|| (i - 1 >= 0 && i + 1 == pts.length
-									&& !pts[i - 1].isDefined())
-							// between undef points
-							|| (i - 1 >= 0 && i + 1 < pts.length
-									&& !pts[i - 1].isDefined()
-									&& !pts[i + 1].isDefined())
-							// first point
-							|| (i == 0 && i + 1 < pts.length
-									&& !pts[i + 1].isDefined())) {
-						// do not collect points remained after erasing
-						if ((i - 2 >= 0 && pts[i - 2].isDefined())
-								|| (i + 2 < pts.length
-										&& pts[i + 2].isDefined())
-								|| i == 0 || i == pts.length - 1) {
-							if (!pointList.contains(convertPoint(pts[i]))) {
-								pointList.add(convertPoint(pts[i]));
-								startPointAdded = true;
-							}
-						}
-					}
+					addPointIfNeeded(pts, i);
 					gp.moveTo(coords[0], coords[1]);
 				} else {
 					gp.lineTo(coords[0], coords[1]);
@@ -259,6 +236,33 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 			xLabel = (int) (xsum / pts.length);
 			yLabel = (int) (ysum / pts.length);
 			addLabelOffset();
+		}
+	}
+
+	private void addPointIfNeeded(GeoPointND[] pts, int i) {
+		// collect start points
+		// one point
+		if (pts.length == 1
+				// last point
+				|| (i - 1 >= 0 && i + 1 == pts.length
+				&& !pts[i - 1].isDefined())
+				// between undef points
+				|| (i - 1 >= 0 && i + 1 < pts.length
+				&& !pts[i - 1].isDefined()
+				&& !pts[i + 1].isDefined())
+				// first point
+				|| (i == 0 && i + 1 < pts.length
+				&& !pts[i + 1].isDefined())) {
+			// do not collect points remained after erasing
+			if ((i - 2 >= 0 && pts[i - 2].isDefined())
+					|| (i + 2 < pts.length
+					&& pts[i + 2].isDefined())
+					|| i == 0 || i == pts.length - 1) {
+				if (!pointList.contains(convertPoint(pts[i]))) {
+					pointList.add(convertPoint(pts[i]));
+					startPointAdded = true;
+				}
+			}
 		}
 	}
 

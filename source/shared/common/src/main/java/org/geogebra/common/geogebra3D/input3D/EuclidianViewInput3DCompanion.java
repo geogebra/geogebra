@@ -428,21 +428,15 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		if (input3D.hasMouseDirection()) {
 			if (input3D.currentlyUseMouse2D()) {
 				stylusBeamIsVisible = false;
+			} else if (input3D.isLeftPressed()) {
+				// show stylus beam only if object is moved
+				stylusBeamIsVisible = getView().getEuclidianController()
+						.getMoveMode() != MoveMode.NONE && hasMouse();
+			} else if (input3D.isRightPressed()
+					|| input3D.isThirdButtonPressed()) {
+				stylusBeamIsVisible = false;
 			} else {
-				if (input3D.isLeftPressed()) {
-					// show stylus beam only if object is moved
-					if (getView().getEuclidianController()
-							.getMoveMode() == MoveMode.NONE) {
-						stylusBeamIsVisible = false;
-					} else {
-						stylusBeamIsVisible = hasMouse();
-					}
-				} else if (input3D.isRightPressed()
-						|| input3D.isThirdButtonPressed()) {
-					stylusBeamIsVisible = false;
-				} else {
-					stylusBeamIsVisible = hasMouse();
-				}
+				stylusBeamIsVisible = hasMouse();
 			}
 			stylusBeamDrawable.update();
 		}
@@ -554,6 +548,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	}
 
 	@Override
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	protected void drawTranslateViewCursor(Renderer renderer1,
 			EuclidianCursor cursor, GeoPoint3D cursorOnXOYPlane,
 			CoordMatrix4x4 cursorMatrix) {

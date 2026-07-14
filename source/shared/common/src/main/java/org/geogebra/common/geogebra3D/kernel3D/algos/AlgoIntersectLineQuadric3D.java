@@ -256,33 +256,31 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 				Q[0].setCoords(g.getPointInD(3, t1));
 				Q[1].setCoords(Q[0].getCoords());
 				intersectionType = INTERSECTION_TANGENT_LINE;
-			} else { // two solutions
-				if (dis > 0) {
-					dis = Math.sqrt(dis);
-					// For accuracy, if b > 0 then we choose
-					// t1 = -(b+dis) / u
-					// t2 = (-b + dis) / u = w / -(b+dis)
-					// if b < 0 then we choose
-					// t1 = (-b - dis) / u = w / (-b+dis) = w / -(b-dis)
-					// t2 = -(b-dis) / u
+			} else  if (dis > 0) {  // two solutions
+				dis = Math.sqrt(dis);
+				// For accuracy, if b > 0 then we choose
+				// t1 = -(b+dis) / u
+				// t2 = (-b + dis) / u = w / -(b+dis)
+				// if b < 0 then we choose
+				// t1 = (-b - dis) / u = w / (-b+dis) = w / -(b-dis)
+				// t2 = -(b-dis) / u
 
-					boolean swap = b < 0.0;
-					if (swap) {
-						dis = -dis;
-					}
-					double n = -(b + dis);
-					double t1 = swap ? w / n : n / u;
-					double t2 = swap ? n / u : w / n;
-
-					Q[0].setCoords(g.getPointInD(3, t1));
-					Q[1].setCoords(g.getPointInD(3, t2));
-
-					intersectionType = INTERSECTION_SECANT_LINE;
-				} else { // dis < 0, no solution
-					Q[0].setUndefined();
-					Q[1].setUndefined();
-					intersectionType = INTERSECTION_PASSING_LINE;
+				boolean swap = b < 0.0;
+				if (swap) {
+					dis = -dis;
 				}
+				double n = -(b + dis);
+				double t1 = swap ? w / n : n / u;
+				double t2 = swap ? n / u : w / n;
+
+				Q[0].setCoords(g.getPointInD(3, t1));
+				Q[1].setCoords(g.getPointInD(3, t2));
+
+				intersectionType = INTERSECTION_SECANT_LINE;
+			} else { // dis < 0, no solution
+				Q[0].setUndefined();
+				Q[1].setUndefined();
+				intersectionType = INTERSECTION_PASSING_LINE;
 			}
 		}
 

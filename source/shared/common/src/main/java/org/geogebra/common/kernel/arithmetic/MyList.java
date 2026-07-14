@@ -559,6 +559,7 @@ public class MyList extends ValidExpression
 	 * @return true if this list is a matrix
 	 */
 	@Override
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public boolean isMatrix() {
 		// check if already calculated
 		if (matrixRows > 0 && matrixCols > 0) {

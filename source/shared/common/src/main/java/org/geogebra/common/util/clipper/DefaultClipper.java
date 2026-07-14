@@ -156,6 +156,7 @@ public class DefaultClipper extends ClipperBase {
 	/**
 	 * modified to be compatible with double
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	private static int isPointInPolygon(DoublePoint pt, final OutPt startOp) {
 		// returns 0 if false, +1 if true, -1 if pt ON polygon boundary
 		// See "The Point in Polygon Problem for Arbitrary Polygons" by Hormann
@@ -1620,6 +1621,7 @@ public class DefaultClipper extends ClipperBase {
 	/**
 	 * modified to be compatible with double
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	private void intersectEdges(Edge e1, Edge e2, DoublePoint pt) {
 
 		// e1 will be to the left of e2 BELOW the intersection. Therefore e1 is
@@ -2144,6 +2146,7 @@ public class DefaultClipper extends ClipperBase {
 		}
 	}
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	private void processHorizontal(Edge horzEdge0, boolean isTopOfScanbeam) {
 
 		final Direction[] dir = new Direction[1];
@@ -2609,11 +2612,8 @@ public class DefaultClipper extends ClipperBase {
 				if (Math.abs(e.windCnt) > 1) {
 					// outside prev poly but still inside another.
 					// when reversing direction of prev poly use the same WC
-					if (e.windDelta * edge.windDelta < 0) {
-						edge.windCnt = e.windCnt;
-					} else {
-						edge.windCnt = e.windCnt + edge.windDelta;
-					}
+					edge.windCnt = e.windDelta * edge.windDelta < 0
+							? e.windCnt : e.windCnt + edge.windDelta;
 				} else {
 					// now outside all polys of same polytype so set own WC ...
 					edge.windCnt = edge.windDelta == 0 ? 1 : edge.windDelta;

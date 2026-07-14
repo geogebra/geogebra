@@ -125,6 +125,7 @@ public class AlgoLocusList extends AlgoElement {
 		locus.setLabel(label);
 	}
 
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	private void fillLocusArray(GeoPoint Q, GeoPoint P) {
 
 		if (arrLocus == null) {
@@ -161,14 +162,7 @@ public class AlgoLocusList extends AlgoElement {
 						}
 						if (oldel == actEl) {
 							if (shouldUpdateScreenBorders) {
-								if (arrLocus.get(i) instanceof AlgoLocus) {
-									((AlgoLocus) arrLocus.get(i))
-											.updateScreenBorders();
-								} else if (arrLocus
-										.get(i) instanceof AlgoLocusList) {
-									((AlgoLocusList) arrLocus.get(i))
-											.updateScreenBorders();
-								}
+								updateBorders(arrLocus.get(i));
 							}
 							arrLocus.get(i).compute();
 							continue;
@@ -210,6 +204,16 @@ public class AlgoLocusList extends AlgoElement {
 			}
 		} catch (Exception ex) {
 			Log.error(ex.getMessage());
+		}
+	}
+
+	private void updateBorders(AlgoElement algoElement) {
+		if (algoElement instanceof AlgoLocus) {
+			((AlgoLocus) algoElement)
+					.updateScreenBorders();
+		} else if (algoElement instanceof AlgoLocusList) {
+			((AlgoLocusList) algoElement)
+					.updateScreenBorders();
 		}
 	}
 

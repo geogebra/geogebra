@@ -318,33 +318,7 @@ public class EuclidianViewCompanion {
 		view.synchronizeMenuBarAndEuclidianStyleBar(settings);
 
 		if (!settings.hasDynamicBounds()) {
-			// the xmin, xmax, ... we read from Settings are nulls;
-			// use the double values instead
-			double x0 = settings.getXZero();
-			double y0 = settings.getYZero();
-			if (view.getKeepCenter() && view.isShowing()) {
-				// we may need to shift center if windows/settings sizes
-				// don't match
-				int visibleWidth = view.getVisibleWidth();
-				int visibleHeight = view.getVisibleHeight();
-				if (visibleWidth > EuclidianView.MIN_WIDTH
-						&& visibleHeight > EuclidianView.MIN_HEIGHT) {
-					int settingsVisibleWidth = view.calcVisibleWidthFromSettings();
-					int settingsVisibleHeight = view.calcVisibleHeightFromSettings();
-					if (settingsVisibleWidth == 0) {
-						// no dimension from file: center the view
-						settingsVisibleWidth = (int) Math.round(x0 * 2);
-						settingsVisibleHeight = (int) Math.round(y0 * 2);
-					}
-					x0 += (visibleWidth - settingsVisibleWidth) / 2.0;
-					y0 += (visibleHeight - settingsVisibleHeight) / 2.0;
-					settings.setSize(view.getWidth(), view.getHeight());
-					settings.setOriginNoUpdate(x0, y0);
-				}
-			}
-
-			view.setCoordSystem(x0, y0, settings.getXscale(), settings.getYscale(), true);
-			setMinMaxObjectsInSettings(settings);
+			centerIfNeeded(settings);
 		} else {
 			// xmin, ... are OK; just update bounds
 			view.updateBounds(true, true);
@@ -354,6 +328,35 @@ public class EuclidianViewCompanion {
 		// xmin
 		view.setLockedAxesRatio(settings.getLockedAxesRatio());
 		view.repaintView();
+	}
+
+	private void centerIfNeeded(EuclidianSettings settings) {
+		// the xmin, xmax, ... we read from Settings are nulls;
+		// use the double values instead
+		double x0 = settings.getXZero();
+		double y0 = settings.getYZero();
+		if (view.getKeepCenter() && view.isShowing()) {
+			// we may need to shift center if windows/settings sizes
+			// don't match
+			int visibleWidth = view.getVisibleWidth();
+			int visibleHeight = view.getVisibleHeight();
+			if (visibleWidth > EuclidianView.MIN_WIDTH
+					&& visibleHeight > EuclidianView.MIN_HEIGHT) {
+				int settingsVisibleWidth = view.calcVisibleWidthFromSettings();
+				int settingsVisibleHeight = view.calcVisibleHeightFromSettings();
+				if (settingsVisibleWidth == 0) {
+					// no dimension from file: center the view
+					settingsVisibleWidth = (int) Math.round(x0 * 2);
+					settingsVisibleHeight = (int) Math.round(y0 * 2);
+				}
+				x0 += (visibleWidth - settingsVisibleWidth) / 2.0;
+				y0 += (visibleHeight - settingsVisibleHeight) / 2.0;
+				settings.setSize(view.getWidth(), view.getHeight());
+				settings.setOriginNoUpdate(x0, y0);
+			}
+		}
+		view.setCoordSystem(x0, y0, settings.getXscale(), settings.getYscale(), true);
+		setMinMaxObjectsInSettings(settings);
 	}
 
 	private static boolean isNaN(GeoNumberValue axisNumberingDistance) {

@@ -96,7 +96,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 	private final class TextInputAdapter implements InputAdapter {
 		private final InputPanelW inputTextField;
 
-		public TextInputAdapter(InputPanelW inputTextField) {
+		TextInputAdapter(InputPanelW inputTextField) {
 			this.inputTextField = inputTextField;
 		}
 
@@ -182,7 +182,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 
 		private final MathTextFieldW inputMathField;
 
-		public MathInputAdapter(MathTextFieldW inputMathField) {
+		MathInputAdapter(MathTextFieldW inputMathField) {
 			this.inputMathField = inputMathField;
 		}
 

@@ -203,34 +203,8 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 					GeoElementND[] inputGeos = evalValidExpression(ve, info);
 					previewGeos = null;
 					if (inputGeos != null) {
-						// TODO use thisif we want text centering
-						// InputHelper.updateProperties(inputGeos, kernel
-						// .getApplication().getActiveEuclidianView(), -2);
-						int unlabeled = 0;
-						for (GeoElementND geo : inputGeos) {
-							if (geo instanceof GeoFunction) {
-								boolean b = ((GeoFunction) geo)
-										.validate(ve.getLabel() == null, false);
-								if (!b) {
-									geo.setUndefined();
-								}
-							}
-							if (!geo.isLabelSet()) {
-								geo.setSelectionAllowed(false);
-								unlabeled++;
-							}
-						}
-						previewGeos = new GeoElement[unlabeled];
-						int i = 0;
-						for (GeoElementND geo : inputGeos) {
-							if (!geo.isLabelSet()) {
-								GeoElement geoElement = geo.toGeoElement();
-								geoElementSetups.forEach(setup -> setup.applyTo(geoElement));
-								previewGeos[i++] = geoElement;
-							}
-						}
+						buildPreviewGeos(inputGeos, ve.getLabel());
 					}
-
 					this.kernel.notifyUpdatePreviewFromInputBar(previewGeos);
 				} else if (PreviewFeature.isAvailable(PreviewFeature.MOB_PREVIEW_WHEN_EDITING)
 						&& !existingGeo.hasChildren() && existingGeo.isIndependent()) {
@@ -260,6 +234,35 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		if (System.currentTimeMillis() > start + timeoutMs) {
 			maxLength = validInput == null ? 0 : validInput.length();
 			validInput = null;
+		}
+	}
+
+	private void buildPreviewGeos(GeoElementND[] inputGeos, String label) {
+		// TODO use this if we want text centering
+		// InputHelper.updateProperties(inputGeos, kernel
+		// .getApplication().getActiveEuclidianView(), -2);
+		int unlabeled = 0;
+		for (GeoElementND geo : inputGeos) {
+			if (geo instanceof GeoFunction) {
+				boolean validFunction = ((GeoFunction) geo)
+						.validate(label == null, false);
+				if (!validFunction) {
+					geo.setUndefined();
+				}
+			}
+			if (!geo.isLabelSet()) {
+				geo.setSelectionAllowed(false);
+				unlabeled++;
+			}
+		}
+		previewGeos = new GeoElement[unlabeled];
+		int i = 0;
+		for (GeoElementND geo : inputGeos) {
+			if (!geo.isLabelSet()) {
+				GeoElement geoElement = geo.toGeoElement();
+				geoElementSetups.forEach(setup -> setup.applyTo(geoElement));
+				previewGeos[i++] = geoElement;
+			}
 		}
 	}
 

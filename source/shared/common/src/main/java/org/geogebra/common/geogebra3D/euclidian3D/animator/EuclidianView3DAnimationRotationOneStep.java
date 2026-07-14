@@ -69,13 +69,12 @@ public class EuclidianView3DAnimationRotationOneStep extends EuclidianView3DAnim
 				aOld += 360;
 			}
 
-			if (DoubleUtil.isEqual(aOld, aNew, Kernel.STANDARD_PRECISION)) {
-				if (DoubleUtil.isEqual(bOld, bNew, Kernel.STANDARD_PRECISION)) {
-					if (!DoubleUtil.isEqual(Math.abs(bNew), 90, Kernel.STANDARD_PRECISION)) {
-						aNew += 180;
-					}
-					bNew *= -1;
+			if (DoubleUtil.isEqual(aOld, aNew, Kernel.STANDARD_PRECISION)
+					&& DoubleUtil.isEqual(bOld, bNew, Kernel.STANDARD_PRECISION)) {
+				if (!DoubleUtil.isEqual(Math.abs(bNew), 90, Kernel.STANDARD_PRECISION)) {
+					aNew += 180;
 				}
+				bNew *= -1;
 			}
 		}
 	}

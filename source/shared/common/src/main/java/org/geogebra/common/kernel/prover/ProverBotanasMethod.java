@@ -668,6 +668,7 @@ public class ProverBotanasMethod {
 			return keptElements;
 		}
 
+		@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 		private void setHypotheses(GeoElement movingPoint) {
 			polynomials = new HashSet<>();
 
@@ -1067,6 +1068,7 @@ public class ProverBotanasMethod {
 					StringTemplate.giacTemplateInternal, true);
 		}
 
+		@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 		private void setThesis() {
 			try {
 				interpretTrueAsUndefined = false;
@@ -1678,33 +1680,7 @@ public class ProverBotanasMethod {
 							 * is OK.
 							 */
 							if (xyRewrite) {
-								if (ndgc.getCondition()
-										.equals("xAreEqual")) {
-									HashSet<GeoPoint> points = new HashSet<>();
-									points.add(
-											(GeoPoint) ndgc.getGeos()[0]);
-									points.add(
-											(GeoPoint) ndgc.getGeos()[1]);
-									xEqualSet.add(points);
-								}
-								if (ndgc.getCondition()
-										.equals("yAreEqual")) {
-									HashSet<GeoPoint> points = new HashSet<>();
-									points.add(
-											(GeoPoint) ndgc.getGeos()[0]);
-									points.add(
-											(GeoPoint) ndgc.getGeos()[1]);
-									yEqualSet.add(points);
-								}
-								if (xEqualSet.size() == 1
-										&& xEqualSet.equals(yEqualSet)) {
-									/*
-									 * If yes, set the condition to
-									 * AreEqual(M,N) and readable enough:
-									 */
-									ndgc.setCondition("AreEqual");
-									ndgc.setReadability(0.5);
-								}
+								rewriteNDG(ndgc, xEqualSet, yEqualSet);
 							}
 
 							ndgcl.add(ndgc);
@@ -1758,6 +1734,39 @@ public class ProverBotanasMethod {
 		return ProofResult.TRUE;
 	}
 
+	private void rewriteNDG(
+			NDGCondition ndgc,
+			List<HashSet<GeoPoint>> xEqualSet,
+			List<HashSet<GeoPoint>> yEqualSet) {
+		if (ndgc.getCondition()
+				.equals("xAreEqual")) {
+			HashSet<GeoPoint> points = new HashSet<>();
+			points.add(
+					(GeoPoint) ndgc.getGeos()[0]);
+			points.add(
+					(GeoPoint) ndgc.getGeos()[1]);
+			xEqualSet.add(points);
+		}
+		if (ndgc.getCondition()
+				.equals("yAreEqual")) {
+			HashSet<GeoPoint> points = new HashSet<>();
+			points.add(
+					(GeoPoint) ndgc.getGeos()[0]);
+			points.add(
+					(GeoPoint) ndgc.getGeos()[1]);
+			yEqualSet.add(points);
+		}
+		if (xEqualSet.size() == 1
+				&& xEqualSet.equals(yEqualSet)) {
+			/*
+			 * If yes, set the condition to
+			 * AreEqual(M,N) and readable enough:
+			 */
+			ndgc.setCondition("AreEqual");
+			ndgc.setReadability(0.5);
+		}
+	}
+
 	/**
 	 * Create algebraic equations of the construction to prepare computing a
 	 * locus or envelope equation.
@@ -1768,6 +1777,7 @@ public class ProverBotanasMethod {
 	 * @param callerAlgo the caller Algo
 	 * @return the object which describes the construction algebraically
 	 */
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public static AlgebraicStatement translateConstructionAlgebraically(
 			GeoElement tracer, GeoElement mover, boolean implicit,
 			AlgoElement callerAlgo) {
@@ -1914,25 +1924,10 @@ public class ProverBotanasMethod {
 				moverDirectDependencies.add(gl.endPoint);
 			} else if (i0 instanceof GeoConic && ((GeoConic) i0).isCircle()) {
 				GeoConic gc = (GeoConic) i0;
-				if (gc.isCircle()) {
-					// Circumpoints of the circular path may be considered to avoid.
-					for (GeoElementND ge : gc.getPointsOnConic()) {
-						if (!ge.isEqual(mover)) {
-							// Consider only those points that play role in
-							// building a tangent to the circle.
-							// TODO: This reads all geos, we need only the related ones:
-							for (GeoElement ge2 : tracer.getConstruction().getGeoSetLabelOrder()) {
-								if (ge2 instanceof GeoLine) {
-									GeoElement[] input = ge2.getParentAlgorithm().input;
-									GeoElement sp = input[0];
-									GeoElement ep = input[1];
-									if ((sp.equals(ge) && ep.equals(mover)) ||
-											(ep.equals(ge) && sp.equals(mover))) {
-										moverDirectDependencies.add(ge);
-									}
-								}
-							}
-						}
+				// Circumpoints of the circular path may be considered to avoid.
+				for (GeoElementND ge : gc.getPointsOnConic()) {
+					if (!ge.isEqual(mover)) {
+						addMoverDependencies(moverDirectDependencies, mover, tracer, ge);
 					}
 				}
 			}
@@ -2150,4 +2145,21 @@ public class ProverBotanasMethod {
 		return as;
 	}
 
+	private static void addMoverDependencies(HashSet<GeoElementND> moverDirectDependencies,
+			GeoElement mover, GeoElement tracer, GeoElementND ge) {
+		// Consider only those points that play role in
+		// building a tangent to the circle.
+		// TODO: This reads all geos, we need only the related ones:
+		for (GeoElement ge2 : tracer.getConstruction().getGeoSetLabelOrder()) {
+			if (ge2 instanceof GeoLine && ge2.getParentAlgorithm() != null) {
+				GeoElement[] input = ge2.getParentAlgorithm().input;
+				GeoElement sp = input[0];
+				GeoElement ep = input[1];
+				if ((sp.equals(ge) && ep.equals(mover)) ||
+						(ep.equals(ge) && sp.equals(mover))) {
+					moverDirectDependencies.add(ge);
+				}
+			}
+		}
+	}
 }

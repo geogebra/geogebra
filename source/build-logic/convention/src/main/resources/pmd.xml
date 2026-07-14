@@ -41,6 +41,7 @@
         <exclude name="UnitTestShouldIncludeAssert"/>
         <exclude name="UseEnumCollections"/>
         <exclude name="ExhaustiveSwitchHasDefault"/>
+        <exclude name="EnumComparison"/>
     </rule>
     <rule ref="category/java/codestyle.xml">
         <exclude name="AtLeastOneConstructor"/>
@@ -149,6 +150,12 @@
         <exclude name="ReplaceJavaUtilDate"/>
         <exclude name="CollectionTypeMismatch"/>
     </rule>
+    <rule ref="category/java/errorprone.xml/AvoidCatchingGenericException">
+        <properties>
+            <property name="typesThatShouldNotBeCaught" value="java.lang.NullPointerException,java.lang.ClassCastException" />
+        </properties>
+    </rule>
+
     <rule ref="category/java/design.xml/FinalFieldCouldBeStatic">
         <properties>
             <property name="violationSuppressXPath" value=".[pmd-java:typeIs('org.geogebra.common.exam.ExamController')]"/>
