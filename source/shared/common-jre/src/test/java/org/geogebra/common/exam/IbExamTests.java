@@ -83,8 +83,8 @@ public class IbExamTests extends BaseExamTestSetup {
 				() -> assertNotNull(evaluate("f(x) = x^3")),
 				() -> assertNotNull(evaluate("l1 = {x}")),
 				() -> assertNull(evaluate("SetValue(l1, 1, f')")),
-				() -> assertEquals(getKernel().getConstruction().lookupLabel("l1")
-						.toString(StringTemplate.defaultTemplate), "l1 = {x}"));
+				() -> assertEquals("l1 = {x}", lookup("l1")
+						.toString(StringTemplate.defaultTemplate)));
 	}
 
 	@Test

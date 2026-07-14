@@ -170,7 +170,7 @@ public class PstricksTest {
 		private final Inequality inequality;
 		private final FunctionalNVar geo;
 
-		public ExportGraphicsCommon(FunctionalNVar geo, Inequality inequality,
+		ExportGraphicsCommon(FunctionalNVar geo, Inequality inequality,
 				GeoGebraExport export) {
 			this.export = export;
 			this.inequality = inequality;

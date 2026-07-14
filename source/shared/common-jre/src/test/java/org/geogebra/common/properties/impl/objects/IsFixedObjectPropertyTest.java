@@ -17,11 +17,13 @@
 package org.geogebra.common.properties.impl.objects;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 
 import java.util.Collections;
+import java.util.Objects;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -57,10 +59,9 @@ public class IsFixedObjectPropertyTest extends BaseUnitTest {
 		getKernel().initUndoInfo();
 		GeoElement point = addAvInput("pt=(1,2)");
 		getApp().storeUndoInfo();
-		ValuedProperty<Boolean> prop = new GeoElementPropertiesFactory()
+		ValuedProperty<Boolean> prop = Objects.requireNonNull(new GeoElementPropertiesFactory()
 				.createIsFixedObjectProperty(getApp().getLocalization(),
-						Collections.singletonList(point));
-		assert prop != null;
+						Collections.singletonList(point)));
 		prop.addValueObserver(new UndoSavingPropertyObserver(getConstruction().getUndoManager()));
 		prop.setValue(true);
 		assertThat(point.isLocked(), is(true));

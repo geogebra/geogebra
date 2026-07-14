@@ -25,13 +25,13 @@ class FlushableTimer implements GTimer {
 	private GTimerListener listener;
 	private static ArrayList<FlushableTimer> instances = new ArrayList<>();
 
-	public static void flush() {
+	static void flush() {
 		for (FlushableTimer timer : instances) {
 			timer.listener.onRun();
 		}
 	}
 
-	public FlushableTimer(GTimerListener listener) {
+	FlushableTimer(GTimerListener listener) {
 		this.listener = listener;
 		instances.add(this);
 	}

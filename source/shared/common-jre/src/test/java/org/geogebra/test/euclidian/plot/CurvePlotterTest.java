@@ -137,7 +137,7 @@ public class CurvePlotterTest extends BaseUnitTest {
 		private double lastY;
 		private final NumberFormat nf = new NumberFormat("#.####", 5);
 
-		public VerticalsCollectingClippedPath() {
+		VerticalsCollectingClippedPath() {
 			super(CurvePlotterTest.this.getApp().getActiveEuclidianView());
 		}
 
@@ -150,7 +150,7 @@ public class CurvePlotterTest extends BaseUnitTest {
 			lastY = y;
 		}
 
-		public String getVerticals() {
+		String getVerticals() {
 			return String.join(",", verticals);
 		}
 	}

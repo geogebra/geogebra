@@ -29,12 +29,12 @@ class MyVecNodeTest {
 	private Kernel kernel;
 	
 	@BeforeEach
-	public void before() {
+	void before() {
 		kernel = AppCommonFactory.create().getKernel();
 	}
 
 	@Test
-	public void testGiacSerialization() {
+	void testGiacSerialization() {
 		MyVecNode point = new MyVecNode(kernel, new MyDouble(kernel, 1),
 				new MyDouble(kernel, 2));
 		MyVecNode vect = new MyVecNode(kernel, new MyDouble(kernel, 1),
@@ -50,7 +50,7 @@ class MyVecNodeTest {
 	}
 
 	@Test
-	public void testPolarSerialization() {
+	void testPolarSerialization() {
 		MyVecNode point = new MyVecNode(kernel);
 		point.setPolarCoords(new MyDouble(kernel, 1),
 				new MyDouble(kernel, 2));

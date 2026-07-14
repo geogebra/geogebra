@@ -175,16 +175,15 @@ public class CurvePlotterOriginal {
 		// TODO
 		// INIT plotting algorithm
 		int length = MAX_DEFINED_BISECTIONS + 1;
-		int[] dyadicStack = new int[length];
-		int[] depthStack = new int[length];
-		double[][] posStack = new double[length][];
-		boolean[] onScreenStack = new boolean[length];
 		double[] divisors = new double[length];
 		divisors[0] = t2 - t1;
 		for (int i = 1; i < length; i++) {
 			divisors[i] = divisors[i - 1] / 2;
 		}
-		int i = 1;
+		int[] dyadicStack = new int[length];
+		int[] depthStack = new int[length];
+		double[][] posStack = new double[length][];
+		boolean[] onScreenStack = new boolean[length];
 		dyadicStack[0] = 1;
 		depthStack[0] = 0;
 
@@ -199,14 +198,13 @@ public class CurvePlotterOriginal {
 		curve.evaluateCurve(t1 + divisors[length - 1], eval);
 		double[] prevDiff = view.getOnScreenDiff(eval0, eval);
 
-		int top = 1;
-		int depth = 0;
-		double t = t1;
-		double left = t1;
+		int top = 1, depth = 0;
+		double t = t1, left = t1;
 		boolean distanceOK, angleOK, segOffScreen, minDistReached;
 		boolean nextLineToNeedsMoveToFirst = false;
 		double[] move = curve.newDoubleArray();
 		boolean needLabelPos = calcLabelPos;
+		int i = 1;
 		// Actual plotting algorithm:
 		// use bisection for interval until we reach
 		// a small pixel distance between two points and

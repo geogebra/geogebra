@@ -691,9 +691,9 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 		assertEquals(2, model.getColumnCount());
 		assertEquals(3, model.getRowCount());
-		assertEquals(model.getCellAt(0, 1).getInput(), "4");
-		assertEquals(model.getCellAt(1, 1).getInput(), "7");
-		assertEquals(model.getCellAt(2, 1).getInput(), "11");
+		assertEquals("4", model.getCellAt(0, 1).getInput());
+		assertEquals("7", model.getCellAt(1, 1).getInput());
+		assertEquals("11", model.getCellAt(2, 1).getInput());
 
 		GeoNumeric numeric = (GeoNumeric) getElementFactory().create("99");
 		list.setListElement(0, numeric);
@@ -709,9 +709,9 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 		assertEquals(2, model.getColumnCount());
 		assertEquals(3, model.getRowCount());
-		assertEquals(model.getCellAt(0, 1).getInput(), "4");
-		assertEquals(model.getCellAt(1, 1).getInput(), "7");
-		assertEquals(model.getCellAt(2, 1).getInput(), "11");
+		assertEquals("4", model.getCellAt(0, 1).getInput());
+		assertEquals("7", model.getCellAt(1, 1).getInput());
+		assertEquals("11", model.getCellAt(2, 1).getInput());
 
 		GeoNumeric numeric = (GeoNumeric) getElementFactory().create("99");
 		list.setListElement(0, numeric);

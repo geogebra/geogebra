@@ -24,7 +24,7 @@ class ProbabilityTableMock extends ProbabilityTable {
 	private int low;
 	private int high;
 
-	public ProbabilityTableMock(App app,
+	ProbabilityTableMock(App app,
 			ProbabilityCalculatorView probCalc) {
 		super(app, probCalc);
 		probCalc.setTable(this);
@@ -54,15 +54,15 @@ class ProbabilityTableMock extends ProbabilityTable {
 		// no UI
 	}
 
-	public boolean isRangeHighlighted(int low, int high) {
+	boolean isRangeHighlighted(int low, int high) {
 		return isHighlightedFrom(low) && this.high == high;
 	}
 
-	public String highlightRange() {
+	String highlightRange() {
 		return "(" + low + ", " + high + ")";
 	}
 
-	public boolean isHighlightedFrom(int from) {
+	boolean isHighlightedFrom(int from) {
 		return this.low == from;
 	}
 }

@@ -245,7 +245,7 @@ public class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 
 	private class HeadlessStatisticsCalculator extends StatisticsCalculator {
 
-		public HeadlessStatisticsCalculator() {
+		private HeadlessStatisticsCalculator() {
 			super(ProbabilityCalculatorViewTest.this.getApp());
 		}
 

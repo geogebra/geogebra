@@ -27,11 +27,11 @@ class HeadlessProbabilityCalculatorView extends ProbabilityCalculatorView {
 
 	private final StatisticsCalculator calculator;
 
-	public HeadlessProbabilityCalculatorView(App app) {
+	HeadlessProbabilityCalculatorView(App app) {
 		this(app, null);
 	}
 
-	public HeadlessProbabilityCalculatorView(App app, StatisticsCalculator calc) {
+	HeadlessProbabilityCalculatorView(App app, StatisticsCalculator calc) {
 		super(app);
 		this.app = app;
 		this.calculator = calc;

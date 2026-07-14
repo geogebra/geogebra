@@ -67,7 +67,7 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 		axisLabelsShouldBe("xAxis", "yAxis");
 		gridShouldBe(EuclidianView.GRID_ISOMETRIC);
 		GeoPoint point = new GeoPoint(getKernel().getConstruction());
-		assertEquals(point.getPointStyle(), EuclidianStyleConstants.POINT_STYLE_DOT);
+		assertEquals(EuclidianStyleConstants.POINT_STYLE_DOT, point.getPointStyle());
 	}
 
 	private void createDefaultSetting() {
@@ -84,7 +84,7 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 		axisLabelsShouldBe("x", "y");
 		gridShouldBe(EuclidianView.GRID_CARTESIAN);
 		GeoPoint point = new GeoPoint(getKernel().getConstruction());
-		assertEquals(point.getPointStyle(), EuclidianStyleConstants.POINT_STYLE_CROSS);
+		assertEquals(EuclidianStyleConstants.POINT_STYLE_CROSS, point.getPointStyle());
 		assertFalse(createFixedEqnModel().isValidAt(0));
 	}
 

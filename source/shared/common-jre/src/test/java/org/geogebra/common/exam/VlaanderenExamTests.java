@@ -27,7 +27,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 final class VlaanderenExamTests extends BaseExamTestSetup {
     @BeforeEach
-    public void setupVlaanderenExam() {
+    void setupVlaanderenExam() {
         setupApp(SuiteSubApp.GRAPHING);
         examController.startExam(ExamType.VLAANDEREN, null);
     }
@@ -49,7 +49,7 @@ final class VlaanderenExamTests extends BaseExamTestSetup {
             "NSolve(x^2 = 0)",
             "NSolutions(x^2 = 0)",
     })
-    public void testRestrictedCommands(String command) {
+    void testRestrictedCommands(String command) {
         assertNull(evaluate(command));
     }
 }

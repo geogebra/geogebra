@@ -70,7 +70,6 @@ public class StringUtilTest {
 			}
 		}
 		assertEquals(StringUtil.toHexString(falseNeg),
-				falseNeg,
 				"\u07C0\u07C1\u07C2\u07C3\u07C4\u07C5\u07C6\u07C7\u07C8\u07C9"
 						+ "\u1090\u1091\u1092\u1093\u1094\u1095\u1096\u1097\u1098\u1099"
 						+ "\u1946\u1947\u1948\u1949\u194A\u194B\u194C\u194D\u194E\u194F"
@@ -82,10 +81,11 @@ public class StringUtilTest {
 						+ "\uA9D0\uA9D1\uA9D2\uA9D3\uA9D4\uA9D5\uA9D6\uA9D7\uA9D8\uA9D9"
 						+ "\uAA50\uAA51\uAA52\uAA53\uAA54\uAA55\uAA56\uAA57\uAA58\uAA59"
 						+ "\uABF0\uABF1\uABF2\uABF3\uABF4\uABF5\uABF6\uABF7\uABF8\uABF9"
-						+ "\uFF10\uFF11\uFF12\uFF13\uFF14\uFF15\uFF16\uFF17\uFF18\uFF19");
+						+ "\uFF10\uFF11\uFF12\uFF13\uFF14\uFF15\uFF16\uFF17\uFF18\uFF19",
+				falseNeg);
 
-		assertEquals(StringUtil.toHexString(falsePos), falsePos,
-				"");
+		assertEquals(StringUtil.toHexString(falsePos), "",
+				falsePos);
 	}
 
 	@Test

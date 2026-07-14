@@ -653,7 +653,7 @@ public abstract class Path2D implements Shape {
             // REMIND: Can we do both somehow?
             return new Path2D.Double(this);
         }
-`
+
         static class CopyIterator extends Path2D.Iterator {
             double doubleCoords[];
 

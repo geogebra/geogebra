@@ -196,7 +196,7 @@ public class TableValuesViewUndoRedoTests extends BaseUnitTest {
 		GeoElement plot = view.plotRegression(1,
 				new RegressionSpecificationBuilder().getForListSize(3).get(0));
 		getApp().storeUndoInfo();
-		assertEquals(plot.toString(StringTemplate.defaultTemplate), "f(x) = x + 3");
+		assertEquals("f(x) = x + 3", plot.toString(StringTemplate.defaultTemplate));
 		assertTrue("plot in construction initially", isInGraphics(plot));
 		view.hideColumn(listY);
 		assertFalse("plot removed when column hidden", isInGraphics(plot));
