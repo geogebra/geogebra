@@ -17,6 +17,7 @@
 package org.geogebra.web.html5.euclidian;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -59,11 +60,13 @@ public class PointerEventHandler {
 		private double x;
 		private double y;
 		private final double id;
+		private final String type;
 
 		private PointerState(elemental2.dom.PointerEvent e) {
 			id = e.pointerId;
 			x = e.offsetX / off.getZoomLevel();
 			y = e.offsetY / off.getZoomLevel();
+			type = e.pointerType;
 		}
 	}
 
@@ -80,11 +83,15 @@ public class PointerEventHandler {
 
 	private void twoPointersDown(PointerState pointer1, PointerState pointer2) {
 		tc.getLongTouchManager().cancelTimer();
-		tc.twoTouchStart(pointer1.x, pointer1.y, pointer2.x, pointer2.y);
+		if (Objects.equals(pointer1.type, pointer2.type)) {
+			tc.twoTouchStart(pointer1.x, pointer1.y, pointer2.x, pointer2.y);
+		}
 	}
 
 	private void twoPointersMove(PointerState pointer1, PointerState pointer2) {
-		this.tc.twoTouchMove(pointer1.x, pointer1.y, pointer2.x, pointer2.y);
+		if (Objects.equals(pointer1.type, pointer2.type)) {
+			this.tc.twoTouchMove(pointer1.x, pointer1.y, pointer2.x, pointer2.y);
+		}
 	}
 
 	private void singleDown(PointerEvent e) {

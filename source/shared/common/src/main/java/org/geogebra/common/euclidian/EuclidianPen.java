@@ -206,8 +206,11 @@ public class EuclidianPen implements GTimerListener {
 	/**
 	 * Make sure we start using a new polyline
 	 */
-	public void resetPenOffsets() {
+	public void resetPenState() {
 		lastAlgo = null;
+		resetInitialPoint();
+		penPoints.clear();
+		previewPoints.clear();
 	}
 
 	// ===========================================

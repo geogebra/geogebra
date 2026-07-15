@@ -722,7 +722,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			getModeChangeListener().onModeChange(newMode);
 		}
 		if (pen != null) {
-			pen.resetPenOffsets();
+			pen.resetPenState();
 		}
 		if (ms == ModeSetter.TOOLBAR) {
 			autoPenMode = -1;
@@ -862,7 +862,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_PEN:
 		case EuclidianConstants.MODE_FREEHAND_SHAPE:
 		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
-			getPen().resetPenOffsets();
+			getPen().resetPenState();
 
 			view.setSelectionRectangle(null);
 			break;
@@ -11281,7 +11281,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void resetPen() {
 		if (pen != null) {
-			pen.resetPenOffsets();
+			pen.resetPenState();
 			pen.updateMode();
 		}
 	}
