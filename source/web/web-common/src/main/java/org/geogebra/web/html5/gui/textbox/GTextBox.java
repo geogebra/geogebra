@@ -44,15 +44,14 @@ public class GTextBox extends TextBox
 	protected boolean isAltKeyDown;
 	protected boolean isShiftKeyDown;
 	protected boolean isMetaKeyDown;
-	private  boolean isFocused = false;
+	private boolean isFocused = false;
 
 	public GTextBox() {
 		this(false, null);
 	}
 
 	/**
-	 * @param autocomplete
-	 *            allow browser autocomplete ?
+	 * @param autocomplete allow browser autocomplete ?
 	 */
 	public GTextBox(boolean autocomplete, GlobalHandlerRegistry globalHandlers) {
 		HandlerRegistration handler = Event.addNativePreviewHandler(this);
@@ -118,4 +117,8 @@ public class GTextBox extends TextBox
 		this.setReadOnly(!editable);
 	}
 
+	@Override
+	public void updateLabel(String labelTextKey) {
+		// not needed
+	}
 }

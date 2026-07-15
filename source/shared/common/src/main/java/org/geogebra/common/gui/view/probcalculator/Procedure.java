@@ -18,31 +18,28 @@ package org.geogebra.common.gui.view.probcalculator;
 
 /***/
 public enum Procedure {
-	ZMEAN_TEST,
+	ZMEAN_TEST("ZMeanTest"),
+	ZMEAN2_TEST("ZTestDifferenceOfMeans"),
+	TMEAN_TEST("TMeanTest"),
+	TMEAN2_TEST("TTestDifferenceOfMeans"),
+	ZPROP_TEST("ZProportionTest"),
+	ZPROP2_TEST("ZTestDifferenceOfProportions"),
+	ZMEAN_CI("ZMeanInterval"),
+	ZMEAN2_CI("ZEstimateDifferenceOfMeans"),
+	TMEAN_CI("TMeanInterval"),
+	TMEAN2_CI("TEstimateDifferenceOfMeans"),
+	ZPROP_CI("ZProportionInterval"),
+	ZPROP2_CI("ZEstimateDifferenceOfProportions"),
+	GOF_TEST("GoodnessOfFitTest"),
+	CHISQ_TEST("ChiSquaredTest");
 
-	ZMEAN2_TEST,
+	private final String name;
 
-	TMEAN_TEST,
+	Procedure(String name) {
+		this.name = name;
+	}
 
-	TMEAN2_TEST,
-
-	ZPROP_TEST,
-
-	ZPROP2_TEST,
-
-	ZMEAN_CI,
-
-	ZMEAN2_CI,
-
-	TMEAN_CI,
-
-	TMEAN2_CI,
-
-	ZPROP_CI,
-
-	ZPROP2_CI,
-
-	GOF_TEST,
-
-	CHISQ_TEST
+	public String getName() {
+		return name;
+	}
 }

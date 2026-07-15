@@ -201,6 +201,11 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 		// for test, not needed
 	}
 
+	@Override
+	public void updateLabel(String labelTextKey) {
+		// not needed
+	}
+
 	/**
 	 * @return last value from setAlignment
 	 */

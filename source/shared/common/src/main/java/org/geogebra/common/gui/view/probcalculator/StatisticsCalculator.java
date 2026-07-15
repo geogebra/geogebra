@@ -16,9 +16,6 @@
 
 package org.geogebra.common.gui.view.probcalculator;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
-
 import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Kernel;
@@ -50,8 +47,6 @@ public abstract class StatisticsCalculator {
 	protected StatisticsCalculatorHTML statHTML;
 	/** kernel */
 	protected Kernel kernel;
-	/** width of input fields */
-	final static protected int fieldWidth = 6;
 	/** SD field */
 	protected TextObject fldSigma;
 	/** null hypothesis */
@@ -60,13 +55,6 @@ public abstract class StatisticsCalculator {
 	protected TextObject fldConfLevel;
 	protected TextObject[] fldSampleStat1;
 	protected TextObject[] fldSampleStat2;
-
-	// =========================================
-	// Procedures
-	// =========================================
-
-	protected HashMap<String, Procedure> mapNameToProcedure;
-	protected HashMap<Procedure, String> mapProcedureToName;
 
 	// =========================================
 	// Misc
@@ -132,10 +120,6 @@ public abstract class StatisticsCalculator {
 		String result = kernel.format(x, highPrecision);
 
 		return result;
-	}
-
-	public HashMap<Procedure, String> getMapProcedureToName() {
-		return mapProcedureToName;
 	}
 
 	public StatisticsCalculatorProcessor getStatProcessor() {
@@ -221,35 +205,32 @@ public abstract class StatisticsCalculator {
 		case ZMEAN_CI:
 		case TMEAN_TEST:
 		case TMEAN_CI:
-			fldSampleStat1[0].setText(format(sc.mean));
-			fldSampleStat1[1].setText(format(sc.sd));
-			fldSampleStat1[2].setText(format(sc.n));
+			setFieldText(fldSampleStat1[0], format(sc.mean));
+			setFieldText(fldSampleStat1[1], format(sc.sd));
+			setFieldText(fldSampleStat1[2], format(sc.n));
 			break;
-
 		case ZMEAN2_TEST:
 		case ZMEAN2_CI:
 		case TMEAN2_TEST:
 		case TMEAN2_CI:
-			fldSampleStat1[0].setText(format(sc.mean));
-			fldSampleStat1[1].setText(format(sc.sd));
-			fldSampleStat1[2].setText(format(sc.n));
-			fldSampleStat2[0].setText(format(sc.mean2));
-			fldSampleStat2[1].setText(format(sc.sd2));
-			fldSampleStat2[2].setText(format(sc.n2));
+			setFieldText(fldSampleStat1[0], format(sc.mean));
+			setFieldText(fldSampleStat1[1], format(sc.sd));
+			setFieldText(fldSampleStat1[2], format(sc.n));
+			setFieldText(fldSampleStat2[0], format(sc.mean2));
+			setFieldText(fldSampleStat2[1], format(sc.sd2));
+			setFieldText(fldSampleStat2[2], format(sc.n2));
 			break;
-
 		case ZPROP_TEST:
 		case ZPROP_CI:
-			fldSampleStat1[0].setText(format(sc.count));
-			fldSampleStat1[1].setText(format(sc.n));
+			setFieldText(fldSampleStat1[0], format(sc.count));
+			setFieldText(fldSampleStat1[1], format(sc.n));
 			break;
-
 		case ZPROP2_TEST:
 		case ZPROP2_CI:
-			fldSampleStat1[0].setText(format(sc.count));
-			fldSampleStat1[1].setText(format(sc.n));
-			fldSampleStat2[0].setText(format(sc.count2));
-			fldSampleStat2[1].setText(format(sc.n2));
+			setFieldText(fldSampleStat1[0], format(sc.count));
+			setFieldText(fldSampleStat1[1], format(sc.n));
+			setFieldText(fldSampleStat2[0], format(sc.count2));
+			setFieldText(fldSampleStat2[1], format(sc.n2));
 			break;
 		}
 
@@ -259,8 +240,14 @@ public abstract class StatisticsCalculator {
 		}
 
 		fldConfLevel.setText(format(sc.level));
-		fldNullHyp.setText(format(sc.nullHyp));
+		setFieldText(fldNullHyp, format(sc.nullHyp));
 		updateTailCheckboxes(sc.getTail());
+	}
+
+	private void setFieldText(TextObject field, String text) {
+		if (!text.equals("?")) {
+			field.setText(text);
+		}
 	}
 
 	protected abstract void updateTailCheckboxes(String tail);
@@ -303,53 +290,6 @@ public abstract class StatisticsCalculator {
 	 *            result text
 	 */
 	protected abstract void updateResultText(String string);
-
-	/**
-	 * Initialize string - procedure mappings
-	 */
-	protected void combolabelsPreprocess() {
-		if (mapNameToProcedure == null) {
-			mapNameToProcedure = new HashMap<>();
-		}
-		if (mapProcedureToName == null) {
-			mapProcedureToName = new HashMap<>();
-		}
-
-		mapNameToProcedure.clear();
-		mapProcedureToName.clear();
-
-		mapNameToProcedure.put(loc.getMenu("ZMeanTest"), Procedure.ZMEAN_TEST);
-		mapNameToProcedure.put(loc.getMenu("ZMeanTest"), Procedure.ZMEAN_TEST);
-		mapNameToProcedure.put(loc.getMenu("TMeanTest"), Procedure.TMEAN_TEST);
-		mapNameToProcedure.put(loc.getMenu("ZMeanInterval"),
-				Procedure.ZMEAN_CI);
-		mapNameToProcedure.put(loc.getMenu("TMeanInterval"),
-				Procedure.TMEAN_CI);
-		mapNameToProcedure.put(loc.getMenu("ZTestDifferenceOfMeans"),
-				Procedure.ZMEAN2_TEST);
-		mapNameToProcedure.put(loc.getMenu("TTestDifferenceOfMeans"),
-				Procedure.TMEAN2_TEST);
-		mapNameToProcedure.put(loc.getMenu("ZEstimateDifferenceOfMeans"),
-				Procedure.ZMEAN2_CI);
-		mapNameToProcedure.put(loc.getMenu("TEstimateDifferenceOfMeans"),
-				Procedure.TMEAN2_CI);
-		mapNameToProcedure.put(loc.getMenu("ZProportionTest"),
-				Procedure.ZPROP_TEST);
-		mapNameToProcedure.put(loc.getMenu("ZProportionInterval"),
-				Procedure.ZPROP_CI);
-		mapNameToProcedure.put(loc.getMenu("ZTestDifferenceOfProportions"),
-				Procedure.ZPROP2_TEST);
-		mapNameToProcedure.put(loc.getMenu("ZEstimateDifferenceOfProportions"),
-				Procedure.ZPROP2_CI);
-		mapNameToProcedure.put(loc.getMenu("GoodnessOfFitTest"),
-				Procedure.GOF_TEST);
-		mapNameToProcedure.put(loc.getMenu("ChiSquaredTest"),
-				Procedure.CHISQ_TEST);
-
-		for (Entry<String, Procedure> entry : mapNameToProcedure.entrySet()) {
-			this.mapProcedureToName.put(entry.getValue(), entry.getKey());
-		}
-	}
 
 	protected void setLabelStrings() {
 		strMean = loc.getMenu("Mean");

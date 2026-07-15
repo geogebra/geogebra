@@ -1661,13 +1661,18 @@
 
 	/* --------- STATISTICS CALCULATOR --------------- */
 
+	.StatisticsCalculatorW {
+		overflow-y: scroll;
+	}
+
 	.StatisticsCalculatorW .panelControl {
-		margin: 5px 0 5px 0;
+		margin: 20px 0 16px 16px;
 	}
 
 	.StatisticsCalculatorW .scroller {
 		overflow: auto;
 		padding-bottom: 8px;
+		margin-left: 16px;
 	}
 
 	.StatisticsCalculatorW .lineBreak {
@@ -1692,9 +1697,7 @@
 		margin: 3px 5px;
 	}
 
-	.StatisticsCalculatorW .AutoCompleteTextFieldW, .daRegressionPanel .AutoCompleteTextFieldW{
-		border-bottom: 1px solid colors.$black-36;
-
+	.StatisticsCalculatorW .AutoCompleteTextFieldW, .daRegressionPanel .AutoCompleteTextFieldW {
 		input[type=text].gwt-SuggestBox {
 			border: none;
 			box-shadow: none;
@@ -1705,6 +1708,15 @@
 		&.kbdInput {
 			border-color: colors.$teal-default;
 		}
+	}
+
+	.StatisticsCalculatorW .ChiSquarePanelW .AutoCompleteTextFieldW {
+		border-bottom: 1px solid colors.$black-36;
+	}
+
+	.StatisticsCalculatorW .inputTextField {
+		width: initial;
+		margin: 8px 0;
 	}
 
 	.StatisticsCalculatorW .radioButtonPanel {
@@ -1731,8 +1743,16 @@
 		display: block;
 	}
 
-	.StatisticsCalculatorW .pnlControl .gwt-Label {
-		min-width: 80px;
+	.StatisticsCalculatorW .pnlControl {
+		.rowColumnHolder {
+			display: flex;
+			gap: 16px;
+			margin-top: 16px;
+		}
+
+		.checkboxPanel {
+			margin: 16px 0 16px 16px;
+		}
 	}
 
 	.StatisticsCalculatorW .pnlCount {

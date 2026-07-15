@@ -16,6 +16,10 @@
 
 package org.geogebra.common.gui.view.probcalculator;
 
+import static org.geogebra.common.gui.view.probcalculator.Procedure.ZMEAN_TEST;
+
+import java.util.List;
+
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 
@@ -27,6 +31,11 @@ public class StatisticsCollection {
 	public static final String tail_left = "<";
 	public static final String tail_right = ">";
 	public static final String tail_two = ExpressionNodeConstants.strNOT_EQUAL;
+	public static final List<Procedure> statisticalTests = List.of(Procedure.ZMEAN_TEST,
+			Procedure.TMEAN_TEST, Procedure.ZMEAN2_TEST, Procedure.TMEAN2_TEST,
+			Procedure.ZPROP_TEST, Procedure.ZPROP2_TEST, Procedure.ZMEAN_CI, Procedure.TMEAN_CI,
+			Procedure.ZMEAN2_CI, Procedure.TMEAN2_CI, Procedure.ZPROP_CI, Procedure.ZPROP2_CI,
+			Procedure.GOF_TEST, Procedure.CHISQ_TEST);
 
 	public double mean;
 	public double mean2;
@@ -60,7 +69,7 @@ public class StatisticsCollection {
 	public double[][] diff;
 	public double[] columnSum;
 	public double[] rowSum;
-	private Procedure selectedProcedure;
+	private Procedure selectedProcedure = ZMEAN_TEST;
 	private boolean active;
 	public boolean showExpected;
 	public boolean showDiff;
@@ -71,7 +80,6 @@ public class StatisticsCollection {
 	 * Construct StatisticsCollection
 	 */
 	public StatisticsCollection() {
-
 		mean = Double.NaN;
 		mean2 = Double.NaN;
 		sd = Double.NaN;
@@ -90,7 +98,7 @@ public class StatisticsCollection {
 		count2 = Double.NaN;
 
 		level = .95;
-		setSelectedProcedure(Procedure.ZMEAN_TEST);
+		setSelectedProcedure(ZMEAN_TEST);
 	}
 
 	public void setActive(boolean active) {

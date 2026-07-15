@@ -962,6 +962,7 @@ $keyboard_button_transition: opacity .3s ease;
 			display: block;
 			margin: auto 16px;
 			width: 100%;
+			min-width: 160px;
 		}
 
 		.textField {

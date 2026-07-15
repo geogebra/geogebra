@@ -46,4 +46,8 @@ public class ConstantTextObject implements TextObject {
 		// stub
 	}
 
+	@Override
+	public void updateLabel(String labelTextKey) {
+		// not needed
+	}
 }

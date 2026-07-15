@@ -490,6 +490,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	@Override
+	public void updateLabel(String labelTextKey) {
+		//not needed
+	}
+
+	@Override
 	public void setPrefSize(int width, int height) {
 		main.setWidth(width + "px");
 		main.setHeight(height + "px");

@@ -28,6 +28,7 @@ import org.geogebra.common.gui.inputfield.Input;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextFormat;
+import org.geogebra.common.util.TextObject;
 import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.web.full.gui.dialog.ProcessInput;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
@@ -50,7 +51,7 @@ import org.gwtproject.user.client.ui.Widget;
  * Input field material design component, supports plain text field and math text field.
  */
 public class ComponentInputField extends FlowPanel implements SetLabels, Input,
-		ConfigurationUpdateDelegate, VisibilityUpdateDelegate, HasFocus {
+		ConfigurationUpdateDelegate, VisibilityUpdateDelegate, HasFocus, TextObject {
 	private final Localization loc;
 	private String errorTextKey;
 	private String labelTextKey;
@@ -485,6 +486,24 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 	@Override
 	public String getText() {
 		return adapter.getText();
+	}
+
+	@Override
+	public void setText(String text) {
+		setInputText(text);
+	}
+
+	@Override
+	public void setEditable(boolean editable) {
+		setDisabled(!editable);
+	}
+
+	@Override
+	public void updateLabel(String labelTextKey) {
+		this.labelTextKey = labelTextKey;
+		if (labelText != null) {
+			labelText.setText(loc.getMenu(labelTextKey));
+		}
 	}
 
 	@Override

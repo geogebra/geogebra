@@ -42,4 +42,10 @@ public interface TextObject {
 	 *            whether this can be edited
 	 */
 	void setEditable(boolean editable);
+
+	/**
+	 * Update label of a text object
+	 * @param labelTextKey label
+	 */
+	void updateLabel(String labelTextKey);
 }

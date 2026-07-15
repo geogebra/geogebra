@@ -559,4 +559,8 @@ public class MyTextFieldD extends JTextField
 		}
 	}
 
+	@Override
+	public void updateLabel(String labelTextKey) {
+		// not needed
+	}
 }

@@ -45,11 +45,11 @@ public class ToolNameIconPanelW extends FlowPanel {
 	/** Height of tool icon in pixels **/
 	public static final int ICON_HEIGHT = 32;
 
-	private ComponentInputField tfCmdName;
-	private ComponentInputField tfToolHelp;
-	private ComponentInputField tfToolName;
-	private ComponentCheckbox showTool;
-	private Image icon;
+	private final ComponentInputField tfCmdName;
+	private final ComponentInputField tfToolHelp;
+	private final ComponentInputField tfToolName;
+	private final ComponentCheckbox showTool;
+	private final Image icon;
 	private String iconFileName;
 
 	private AppW app;

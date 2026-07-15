@@ -109,8 +109,7 @@ public class StatisticsCalculatorHTML {
 	 * 
 	 */
 	public void getStatString(StringBuilder sb) {
-		sb.append(statCalc.getMapProcedureToName()
-				.get(sc.getSelectedProcedure()));
+		sb.append(loc.getMenu(statCalc.getSelectedProcedure().getName()));
 		sb.append(newline);
 		sb.append(newline);
 

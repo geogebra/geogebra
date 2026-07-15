@@ -26,6 +26,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.Optional;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -319,7 +320,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		ckPooled.addActionListener(this);
 
 		cbProcedure = new JComboBox<>();
-		cbProcedure.setSelectedItem(sc.getSelectedProcedure().toString());
+		cbProcedure.setSelectedItem(sc.getSelectedProcedure().getName());
 		cbProcedure.setRenderer(new ListSeparatorRenderer());
 		cbProcedure.addActionListener(this);
 
@@ -373,7 +374,6 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 	private TextObject newTextField() {
 		MyTextFieldD ret = new MyTextFieldD((AppD) app);
-		ret.setColumns(fieldWidth);
 		addActionListener(ret);
 		ret.addFocusListener(this);
 		return ret;
@@ -381,7 +381,6 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 	@Override
 	public void setLabels() {
-
 		lblResult.setText(loc.getMenu("Result"));
 		lblNull.setText(loc.getMenu("NullHypothesis"));
 		lblTailType.setText(loc.getMenu("AlternativeHypothesis"));
@@ -451,37 +450,28 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	}
 
 	private void setProcedureComboLabels() {
-
-		combolabelsPreprocess();
 		cbProcedure.removeActionListener(this);
 		cbProcedure.removeAllItems();
-		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZMEAN_TEST));
-		cbProcedure.addItem(mapProcedureToName.get(Procedure.TMEAN_TEST));
-		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZMEAN2_TEST));
-		cbProcedure.addItem(mapProcedureToName.get(Procedure.TMEAN2_TEST));
-		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZPROP_TEST));
-		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZPROP2_TEST));
 
+		cbProcedure.addItem(Procedure.ZMEAN_TEST.getName());
+		cbProcedure.addItem(Procedure.TMEAN_TEST.getName());
+		cbProcedure.addItem(Procedure.ZMEAN2_TEST.getName());
+		cbProcedure.addItem(Procedure.TMEAN2_TEST.getName());
+		cbProcedure.addItem(Procedure.ZPROP_TEST.getName());
+		cbProcedure.addItem(Procedure.ZPROP2_TEST.getName());
 		cbProcedure.addItem(ListSeparatorRenderer.SEPARATOR);
-		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZMEAN_CI));
-		cbProcedure.addItem(mapProcedureToName.get(Procedure.TMEAN_CI));
-		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZMEAN2_CI));
-		cbProcedure.addItem(mapProcedureToName.get(Procedure.TMEAN2_CI));
-		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZPROP_CI));
-		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZPROP2_CI));
-
+		cbProcedure.addItem(Procedure.ZMEAN_CI.getName());
+		cbProcedure.addItem(Procedure.TMEAN_CI.getName());
+		cbProcedure.addItem(Procedure.ZMEAN2_CI.getName());
+		cbProcedure.addItem(Procedure.TMEAN2_CI.getName());
+		cbProcedure.addItem(Procedure.ZPROP_CI.getName());
+		cbProcedure.addItem(Procedure.ZPROP2_CI.getName());
 		cbProcedure.addItem(ListSeparatorRenderer.SEPARATOR);
-		cbProcedure.addItem(mapProcedureToName.get(Procedure.GOF_TEST));
-		cbProcedure.addItem(mapProcedureToName.get(Procedure.CHISQ_TEST));
-
+		cbProcedure.addItem(Procedure.GOF_TEST.getName());
+		cbProcedure.addItem(Procedure.CHISQ_TEST.getName());
 		cbProcedure.setMaximumRowCount(cbProcedure.getItemCount());
-		cbProcedure.setSelectedItem(
-				mapProcedureToName.get(sc.getSelectedProcedure()));
+		cbProcedure.setSelectedItem(sc.getSelectedProcedure().getName());
 		cbProcedure.addActionListener(this);
-		// TODO for testing only, remove later
-		// cbProcedure.setSelectedItem(mapProcedureToName
-		// .get(Procedure.CHISQ_TEST));
-
 	}
 
 	private void setSampleFieldLabels() {
@@ -603,10 +593,12 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		if (source instanceof JTextField) {
 			doTextFieldActionPerformed((JTextField) source);
 		}
-
 		if (source == cbProcedure && cbProcedure.getSelectedIndex() >= 0) {
-			sc.setSelectedProcedure(mapNameToProcedure
-					.get(cbProcedure.getSelectedItem()));
+			Optional<Procedure> selectedProcedure = StatisticsCollection.statisticalTests.stream()
+					.filter(procedure -> procedure.getName().equals(cbProcedure
+							.getItemAt(cbProcedure.getSelectedIndex()))).findFirst();
+			selectedProcedure.ifPresent(sc::setSelectedProcedure);
+
 			this.panelChiSquare.updateCollection();
 			updateGUI();
 			updateResult();
