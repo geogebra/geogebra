@@ -236,7 +236,7 @@ public class QuickStyleBarModel {
 	}
 
 	private void setButtons(List<Button> buttons) {
-		if (this.buttons == buttons) {
+		if (Objects.equals(this.buttons, buttons)) {
 			return;
 		}
 		this.buttons = buttons;
