@@ -828,7 +828,7 @@ public class MmsExamTests extends BaseExamTestSetup {
 				"Sample Standard Deviation",
 				"Cardinality"
 		), tableValuesView.getStatistics1Var(1).stream()
-				.map(StatisticGroup::getHeading).collect(Collectors.toList()));
+				.map(StatisticGroup::heading).collect(Collectors.toList()));
 	}
 
 	@ParameterizedTest
@@ -868,7 +868,7 @@ public class MmsExamTests extends BaseExamTestSetup {
 				"Sum of products",
 				"Cardinality"
 		), tableValuesView.getStatistics2Var(1).stream()
-				.map(StatisticGroup::getHeading).collect(Collectors.toList()));
+				.map(StatisticGroup::heading).collect(Collectors.toList()));
 	}
 
 	@ParameterizedTest

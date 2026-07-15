@@ -52,12 +52,13 @@ import com.google.j2objc.annotations.Weak;
  * A container for tabular data, with support for selecting and editing the data.
  *
  * @apiNote This type is not designed to be thread-safe.
+ * @param <T> Spreadsheet content data type (in the apps, this is {@code GeoElement}).
  */
-public final class SpreadsheetController {
+public final class SpreadsheetController<T> {
 
 	final SpreadsheetSelectionController selectionController
 			= new SpreadsheetSelectionController();
-	private final @Nonnull TabularData<?> tabularData;
+	private final @Nonnull TabularData<T> tabularData;
 	private final @CheckForNull SpreadsheetStyling spreadsheetStyling;
 
 	@Weak
@@ -68,6 +69,13 @@ public final class SpreadsheetController {
 	private @CheckForNull SpreadsheetConstructionDelegate constructionDelegate;
 	private final @Nonnull TableLayout layout;
 	private final @Nonnull ContextMenuBuilder contextMenuBuilder;
+
+	// statistics
+	private @CheckForNull SpreadsheetStatisticsDelegate statisticsDelegate;
+	private @CheckForNull SpreadsheetStatistics spreadsheetStatistics;
+	private @CheckForNull SpreadsheetStatisticsView.OneVar oneVarStatisticsView;
+	private @CheckForNull SpreadsheetStatisticsView.TwoVar twoVarStatisticsView;
+	private @CheckForNull SpreadsheetStatisticsView.Regression regressionView;
 
 	private Editor editor;
 	private SpreadsheetReferences currentReferences;
@@ -91,7 +99,7 @@ public final class SpreadsheetController {
 	 * @param tabularData underlying data for the spreadsheet
 	 * @param spreadsheetStyling styling information provider
 	 */
-	public SpreadsheetController(@Nonnull TabularData<?> tabularData,
+	public SpreadsheetController(@Nonnull TabularData<T> tabularData,
 			@CheckForNull SpreadsheetStyling spreadsheetStyling) {
 		this.tabularData = tabularData;
 		this.spreadsheetStyling = spreadsheetStyling;
@@ -105,7 +113,7 @@ public final class SpreadsheetController {
 
 	// Delegates
 
-	public void setDelegate(@CheckForNull SpreadsheetControllerDelegate delegate) {
+	void setDelegate(@CheckForNull SpreadsheetControllerDelegate delegate) {
 		this.delegate = delegate;
 	}
 
@@ -130,11 +138,19 @@ public final class SpreadsheetController {
 	/**
 	 * @param viewportAdjusterDelegate The viewport adjuster delegate.
 	 */
-	public void setViewportAdjustmentHandler(
+	void setViewportAdjustmentHandler(
 			@CheckForNull ViewportAdjusterDelegate viewportAdjusterDelegate) {
 		this.viewportAdjuster = viewportAdjusterDelegate != null
 				? new ViewportAdjuster(getLayout(), viewportAdjusterDelegate)
 				: null;
+	}
+
+	void setStatisticsDelegate(
+			@CheckForNull SpreadsheetStatisticsDelegate spreadsheetStatisticsDelegate,
+			@CheckForNull SpreadsheetStatistics spreadsheetStatistics) {
+		this.statisticsDelegate = spreadsheetStatisticsDelegate;
+		this.spreadsheetStatistics = spreadsheetStatistics;
+		this.contextMenuBuilder.setSpreadsheetStatisticsDelegate(statisticsDelegate);
 	}
 
 	/**
@@ -312,8 +328,9 @@ public final class SpreadsheetController {
 		int fromRow = selectionController.getUppermostSelectedRowIndex();
 		int fromCol = selectionController.getLeftmostSelectedColumnIndex();
 		getSelections().forEach(s -> {
-			TabularRange validRange = s.getRange().restrictTo(tabularData.numberOfRows(),
-					tabularData.numberOfColumns());
+			TabularRange validRange = s.getRange()
+					.restrictInfiniteRangeTo(tabularData.numberOfRows(),
+							tabularData.numberOfColumns());
 			validRange.forEach(tabularData::removeContentAt);
 		});
 		updateLayout(fromCol, fromRow);
@@ -497,7 +514,7 @@ public final class SpreadsheetController {
 	}
 
 	private @Nonnull TabularRange intersectWithDataRange(@Nonnull Selection selection) {
-		return selection.getRange().restrictTo(tabularData.numberOfRows(),
+		return selection.getRange().restrictInfiniteRangeTo(tabularData.numberOfRows(),
 				tabularData.numberOfColumns());
 	}
 
@@ -1517,6 +1534,98 @@ public final class SpreadsheetController {
 		return sb.toString();
 	}
 
+	// Statistics
+
+	/**
+	 * Creates a one-variable statistics view and hands it to the statistics delegate.
+	 *
+	 * @apiNote Only one instance of each statistics view is expected to exist per
+	 * {@code SpreadsheetController} instance at any time. Calling {@code showOneVarStatistics()}
+	 * multiple times on the same controller will tear down any previous instance of that type
+	 * before handing out a new instance. However, clients are still expected to call
+	 * {@link SpreadsheetStatisticsView#tearDown()} when the statistics UI is closed.
+	 */
+	public void showOneVarStatistics() {
+		if (oneVarStatisticsView != null) {
+			oneVarStatisticsView.tearDown();
+		}
+		oneVarStatisticsView = calculateOneVarStatistics();
+		if (oneVarStatisticsView == null || statisticsDelegate == null) {
+			return;
+		}
+		statisticsDelegate.showOneVarStatistics(oneVarStatisticsView);
+	}
+
+	/**
+	 * Creates a two-variable statistics view and hands it to the statistics delegate.
+	 *
+	 * @apiNote Only one instance of each statistics view is expected to exist per
+	 * {@code SpreadsheetController} instance at any time. Calling {@code showTwoVarStatistics()}
+	 * multiple times on the same controller will tear down any previous instance of that type
+	 * before handing out a new instance. However, clients are still expected to call
+	 * {@link SpreadsheetStatisticsView#tearDown()} when the statistics UI is closed.
+	 */
+	public void showTwoVarStatistics() {
+		if (twoVarStatisticsView != null) {
+			twoVarStatisticsView.tearDown();
+		}
+		twoVarStatisticsView = calculateTwoVarStatistics();
+		if (twoVarStatisticsView == null || statisticsDelegate == null) {
+			return;
+		}
+		statisticsDelegate.showTwoVarStatistics(twoVarStatisticsView);
+	}
+
+	/**
+	 * Creates a regression metrics view and hands it to the statistics delegate.
+	 *
+	 * @apiNote Only one instance of each statistics view is expected to exist per
+	 * {@code SpreadsheetController} instance at any time. Calling {@code showRegression()}
+	 * multiple times on the same controller will tear down any previous instance of that type
+	 * before handing out a new instance. However, clients are still expected to call
+	 * {@link SpreadsheetStatisticsView#tearDown()} when the statistics UI is closed.
+	 */
+	public void showRegression() {
+		if (regressionView != null) {
+			regressionView.tearDown();
+		}
+		regressionView = calculateRegression();
+		if (regressionView == null || statisticsDelegate == null) {
+			return;
+		}
+		statisticsDelegate.showRegression(regressionView);
+	}
+
+	@CheckForNull SpreadsheetStatisticsView.OneVar calculateOneVarStatistics() {
+		TabularRange range = getStatisticsSelectionRange();
+		if (range == null || spreadsheetStatistics == null) {
+			return null;
+		}
+		return spreadsheetStatistics.getOneVarStatistics(range);
+	}
+
+	@CheckForNull SpreadsheetStatisticsView.TwoVar calculateTwoVarStatistics() {
+		TabularRange range = getStatisticsSelectionRange();
+		if (range == null || spreadsheetStatistics == null) {
+			return null;
+		}
+		return spreadsheetStatistics.getTwoVarStatistics(range);
+	}
+
+	@CheckForNull SpreadsheetStatisticsView.Regression calculateRegression() {
+		TabularRange range = getStatisticsSelectionRange();
+		if (range == null || spreadsheetStatistics == null) {
+			return null;
+		}
+		return spreadsheetStatistics.getRegression(range);
+	}
+
+	private TabularRange getStatisticsSelectionRange() {
+		Selection last = getLastSelection();
+		TabularRange range = last == null ? null : last.getRange();
+		return range == null || spreadsheetStatistics == null ? null : range;
+	}
+
 	// Charts
 
 	void createChart(ContextMenuItem.Identifier chartType) {
@@ -1684,8 +1793,10 @@ public final class SpreadsheetController {
 			return contextMenuBuilder.getChartItems();
 		case CALCULATE:
 			return contextMenuBuilder.getCalculateItems();
+		case STATISTICS:
+			return contextMenuBuilder.getStatisticsItems();
 		default:
-			return List.of();
+			return Collections.emptyList();
 		}
 	}
 
@@ -1697,7 +1808,7 @@ public final class SpreadsheetController {
 		@CheckForNull Rectangle bounds;
 		int row;
 		int column;
-		@CheckForNull Object previousCellContent;
+		@CheckForNull T previousCellContent;
 
 		Editor(@Nonnull SpreadsheetCellEditor cellEditor) {
 			this.cellEditor = cellEditor;

@@ -111,7 +111,7 @@ final class KernelCellDragPasteHandler implements CellDragPasteHandler {
 	}
 
 	private boolean isEmptyCells() {
-		TabularRange tr = rangeToCopy.restrictTo(tabularData.numberOfRows(),
+		TabularRange tr = rangeToCopy.restrictInfiniteRangeTo(tabularData.numberOfRows(),
 				tabularData.numberOfColumns());
 		for (int row = tr.getMinRow(); row <= tr.getMaxRow() ; row++) {
 			for (int column = tr.getMinColumn(); column <= tr.getMaxColumn(); column++) {

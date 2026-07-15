@@ -131,7 +131,8 @@ public class AlgoCellRangeManager {
 		String key = getKey(start, end);
 		AlgoCellRange algo = algos.get(key);
 		if (algo == null) {
-			algo = new AlgoCellRange(cons, label, start, end);
+			algo = new AlgoCellRange(cons, start, end);
+			algo.getList().setLabel(label);
 			algos.put(key, algo);
 		} else {
 			if (label != null && label.length() > 0) {

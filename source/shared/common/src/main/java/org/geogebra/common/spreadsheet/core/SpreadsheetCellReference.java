@@ -23,12 +23,12 @@ import javax.annotation.CheckForNull;
 /**
  * A reference for a single spreadsheet cell (e.g., A1, $A$1, AAA$10)
  */
-final class SpreadsheetCellReference {
+public final class SpreadsheetCellReference {
 
-	final int rowIndex;
-	final boolean rowIsAbsolute;
-	final int columnIndex;
-	final boolean columnIsAbsolute;
+	public final int rowIndex;
+	public final boolean rowIsAbsolute;
+	public final int columnIndex;
+	public final boolean columnIsAbsolute;
 
 	SpreadsheetCellReference(int rowIndex, int columnIndex) {
 		this(rowIndex, false, columnIndex, false);
@@ -36,6 +36,8 @@ final class SpreadsheetCellReference {
 
 	SpreadsheetCellReference(int rowIndex, boolean rowIsAbsolute, int columnIndex,
 			boolean columnIsAbsolute) {
+		assert columnIndex >= 0;
+		assert rowIndex >= 0;
 		this.rowIndex = rowIndex;
 		this.rowIsAbsolute = rowIsAbsolute;
 		this.columnIndex = columnIndex;

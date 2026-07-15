@@ -40,9 +40,14 @@ import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.Q1
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.Q3;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.SAMPLE_SD;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.SD;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.STATISTICS;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.STATISTICS_ONE_VARIABLE;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.STATISTICS_REGRESSION;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.STATISTICS_TWO_VARIABLES;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.SUM;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -68,6 +73,8 @@ public final class ContextMenuBuilder {
     private SpreadsheetController spreadsheetController;
     @Weak
     private SpreadsheetConstructionDelegate constructionDelegate;
+    @Weak
+    private @CheckForNull SpreadsheetStatisticsDelegate statisticsDelegate;
 
     /**
      * @param spreadsheetController {@link SpreadsheetController}
@@ -83,6 +90,15 @@ public final class ContextMenuBuilder {
     public void setSpreadsheetConstructionDelegate(
             @CheckForNull SpreadsheetConstructionDelegate constructionDelegate) {
         this.constructionDelegate = constructionDelegate;
+    }
+
+    /**
+     * @param statisticsDelegate the delegate responsible for showing the statistics UI,
+     * or {@code null} to disable the Statistics menu item.
+     */
+    public void setSpreadsheetStatisticsDelegate(
+            @CheckForNull SpreadsheetStatisticsDelegate statisticsDelegate) {
+        this.statisticsDelegate = statisticsDelegate;
     }
 
     /**
@@ -142,6 +158,7 @@ public final class ContextMenuBuilder {
                 new ActionableItem(PASTE, () -> spreadsheetController.pasteCells(fromRow, fromCol)),
                 new Divider(),
                 getCalculateItem(),
+                getStatisticsItem(),
                 getChartMenuItem(),
                 new Divider(),
                 getInsertRowItem(fromRow, false),
@@ -171,6 +188,28 @@ public final class ContextMenuBuilder {
     private @CheckForNull ContextMenuItem getCalculateItem() {
         List<ContextMenuItem> items = getCalculateItems();
         return items.isEmpty() ? null : new SubMenuItem(CALCULATE, items);
+    }
+
+    private @CheckForNull ContextMenuItem getStatisticsItem() {
+        List<ContextMenuItem> items = getStatisticsItems();
+        if (items.isEmpty()) {
+            return null;
+        }
+        return new SubMenuItem(STATISTICS, items);
+    }
+
+    List<ContextMenuItem> getStatisticsItems() {
+        // Require explicit statistics support
+        if (statisticsDelegate == null) {
+            return Collections.emptyList();
+        }
+        return List.of(
+                new ActionableItem(STATISTICS_ONE_VARIABLE,
+                        spreadsheetController::showOneVarStatistics),
+                new ActionableItem(STATISTICS_TWO_VARIABLES,
+                        spreadsheetController::showTwoVarStatistics),
+                new ActionableItem(STATISTICS_REGRESSION,
+                        spreadsheetController::showRegression));
     }
 
     private @CheckForNull ContextMenuItem getChartMenuItem() {

@@ -3959,7 +3959,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * a spreadsheet view at all (via {@link AppConfig}), or if the spreadsheet is temporarily
 	 * disabled during an exam (via {@link FeatureRestriction#SPREADSHEET}).
 	 */
-	public @CheckForNull Spreadsheet getSpreadsheet() {
+	public @CheckForNull Spreadsheet<GeoElement> getSpreadsheet() {
 		if (!isSpreadsheetEnabled()) {
 			return null;
 		}
@@ -3970,7 +3970,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			kernel.attach(tabularData);
 			GeoElementCellRendererFactory factory = getGeoElementCellRendererFactory(
 					this::getFontSizeDouble);
-			spreadsheet = new Spreadsheet(tabularData,
+			spreadsheet = new Spreadsheet<>(tabularData,
 					factory,
 					new DefaultSpreadsheetConstructionDelegate(kernel.getAlgebraProcessor()),
 					getUndoManager());
@@ -3981,7 +3981,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 						getSettings().getSpreadsheet().preferredColumnWidth(),
 						getSettings().getSpreadsheet().preferredRowHeight());
 			}
-			spreadsheetSettingsAdapter = new SpreadsheetSettingsAdapter(spreadsheet, this);
+			spreadsheetSettingsAdapter = new SpreadsheetSettingsAdapter<>(spreadsheet, this);
 			spreadsheetSettingsAdapter.registerListeners();
 		}
 		return spreadsheet;

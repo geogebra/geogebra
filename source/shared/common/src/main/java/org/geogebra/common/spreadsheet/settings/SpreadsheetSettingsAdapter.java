@@ -29,18 +29,19 @@ import org.geogebra.common.spreadsheet.core.Spreadsheet;
 /**
  * Synchronizes cell size and styling info between the {@code Spreadsheet} / {@code TableLayout}
  * and the {@code SpreadsheetSettings}.
+ * @param <T> Spreadsheet content data type (actually not of interest here, but Java requires it).
  */
-public final class SpreadsheetSettingsAdapter {
+public final class SpreadsheetSettingsAdapter<T> {
 
 	private final App app;
-	private final Spreadsheet spreadsheet;
+	private final Spreadsheet<T> spreadsheet;
 	private String previousCellFormatXml;
 
 	/**
 	 * @param spreadsheet the spreadsheet
 	 * @param app the app
 	 */
-	public SpreadsheetSettingsAdapter(@Nonnull Spreadsheet spreadsheet, @Nonnull App app) {
+	public SpreadsheetSettingsAdapter(@Nonnull Spreadsheet<T> spreadsheet, @Nonnull App app) {
 		this.spreadsheet = spreadsheet;
 		this.app = app;
 	}

@@ -71,7 +71,8 @@ final public class CellRangeUtil {
 	 * @return intersection of potential selection with table model
 	 */
 	public static TabularRange getActual(TabularRange general, SpreadsheetTableModel tableModel) {
-		return general.restrictTo(tableModel.getRowCount(), tableModel.getColumnCount());
+		return general.restrictInfiniteRangeTo(tableModel.getRowCount(),
+				tableModel.getColumnCount());
 	}
 
 	/**

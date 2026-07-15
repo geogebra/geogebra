@@ -36,8 +36,9 @@ import org.geogebra.editor.share.controller.ExpressionReader;
  * and event handling, using {@link SpreadsheetRenderer} and {@link SpreadsheetController}.
  *
  * @apiNote This type is not designed to be thread-safe.
+ * @param <T> Spreadsheet content data type (in the apps, this is {@code GeoElement}).
  */
-public final class Spreadsheet implements SpreadsheetControllerDelegate,
+public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 		TabularDataChangeListener {
 
 	public final MulticastEvent<String> cellFormatXmlChanged = new MulticastEvent<>();
@@ -46,7 +47,7 @@ public final class Spreadsheet implements SpreadsheetControllerDelegate,
 	public static final int MAX_COLUMNS = 9999;
 	public static final int MAX_ROWS = 9999;
 	public static final double DEFAULT_FONT_SIZE = 16.0;
-	private final SpreadsheetController controller;
+	private final SpreadsheetController<T> controller;
 	private final SpreadsheetStyling styling;
 	private final SpreadsheetStyleBarModel styleBarModel;
 	private final SpreadsheetRenderer renderer;
@@ -75,7 +76,7 @@ public final class Spreadsheet implements SpreadsheetControllerDelegate,
 	 * @param constructionDelegate delegate for creating construction elements
 	 * @param undoProvider undo provider, may be null
 	 */
-	public Spreadsheet(@Nonnull TabularData<?> tabularData,
+	public Spreadsheet(@Nonnull TabularData<T> tabularData,
 			@Nonnull CellRenderableFactory rendererFactory,
 			@CheckForNull SpreadsheetConstructionDelegate constructionDelegate,
 			@CheckForNull UndoProvider undoProvider) {
@@ -84,7 +85,7 @@ public final class Spreadsheet implements SpreadsheetControllerDelegate,
 		styling.stylingChanged.addListener(this::stylingChanged);
 		styling.stylingXmlChanged.addListener(cellFormatXmlChanged::notifyListeners);
 
-		controller = new SpreadsheetController(tabularData, styling);
+		controller = new SpreadsheetController<>(tabularData, styling);
 		controller.setDelegate(this);
 		controller.setUndoProvider(undoProvider);
 		controller.setSpreadsheetConstructionDelegate(constructionDelegate);
@@ -119,6 +120,35 @@ public final class Spreadsheet implements SpreadsheetControllerDelegate,
 	}
 
 	/**
+	 * @param spreadsheetDelegate delegate for repaint notifications
+	 */
+	public void setSpreadsheetDelegate(@CheckForNull SpreadsheetDelegate spreadsheetDelegate) {
+		this.spreadsheetDelegate = spreadsheetDelegate;
+	}
+
+	/**
+	 * @param viewportAdjusterDelegate delegate for scrollable container hosting the spreadsheet
+	 */
+	public void setViewportAdjustmentHandler(
+			@CheckForNull ViewportAdjusterDelegate viewportAdjusterDelegate) {
+		controller.setViewportAdjustmentHandler(viewportAdjusterDelegate);
+	}
+
+	// Statistics
+
+	/**
+	 * @param statisticsDelegate The delegate responsible for showing the statistics UI.
+	 * @param spreadsheetStatistics An abstraction for statistics calculations.
+	 */
+	public void setStatisticsDelegate(
+			@CheckForNull SpreadsheetStatisticsDelegate statisticsDelegate,
+			@CheckForNull SpreadsheetStatistics spreadsheetStatistics) {
+		controller.setStatisticsDelegate(statisticsDelegate, spreadsheetStatistics);
+	}
+
+	// Accessibility
+
+	/**
 	 * @param accessibilityDelegate Delegate for accessibility announcements
 	 */
 	public void setAccessibilityDelegate(
@@ -139,21 +169,6 @@ public final class Spreadsheet implements SpreadsheetControllerDelegate,
 	 */
 	public void setExpressionReader(@CheckForNull ExpressionReader expressionReader) {
 		controller.setExpressionReader(expressionReader);
-	}
-
-	/**
-	 * @param spreadsheetDelegate delegate for repaint notifications
-	 */
-	public void setSpreadsheetDelegate(@CheckForNull SpreadsheetDelegate spreadsheetDelegate) {
-		this.spreadsheetDelegate = spreadsheetDelegate;
-	}
-
-	/**
-	 * @param viewportAdjusterDelegate delegate for scrollable container hosting the spreadsheet
-	 */
-	public void setViewportAdjustmentHandler(
-			@CheckForNull ViewportAdjusterDelegate viewportAdjusterDelegate) {
-		controller.setViewportAdjustmentHandler(viewportAdjusterDelegate);
 	}
 
 	// Layout

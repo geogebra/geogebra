@@ -72,9 +72,9 @@ public class StatisticGroupsBuilderTest extends BaseUnitTest {
 				() -> assertEquals(1, groups.size()),
 				() -> assertEquals(
 						getLocalization().getMenu(Statistic.MEAN.getMenuLocalizationKey()),
-						groups.get(0).getHeading()),
-				() -> assertEquals(1, groups.get(0).getValues().length),
-				() -> assertThat(groups.get(0).getValues()[0], containsString("= 3"))
+						groups.get(0).heading()),
+				() -> assertEquals(1, groups.get(0).values().size()),
+				() -> assertThat(groups.get(0).values().get(0), containsString("= 3"))
 		);
 	}
 }

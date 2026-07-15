@@ -74,13 +74,14 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		SpreadsheetConstructionDelegate {
 
-	private static AppCommon app;
-	private SpreadsheetController controller;
+	private AppCommon app;
+	private SpreadsheetController<String> controller;
 	private TabularData<String> tabularData;
 	private TestSpreadsheetCellEditor cellEditor;
 	private SpreadsheetStyling spreadsheetStyling;
 	private TableLayout layout;
 	private ClipboardInterface clipboard;
+	private ViewportAdjusterDelegate viewportAdjusterDelegate;
 	private Rectangle viewport;
 	private boolean autoCompleteShown = false;
 	private String autoCompleteSearchPrefix = "";
@@ -91,7 +92,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
 	@BeforeAll
 	public static void setupOnce() {
-		app = AppCommonFactory.create();
+		UtilFactoryJre.setupRegexFactory();
 		// required by MathField
 		FactoryProvider.setInstance(new FactoryProviderCommon());
 		AwtFactory.setPrototypeIfNull(new AwtFactoryCommon());
@@ -101,22 +102,24 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
 	@BeforeEach
 	public void setup() {
-		tabularData = new TestTabularData();
+		app = AppCommonFactory.create();
 		spreadsheetStyling = new SpreadsheetStyling();
 		clipboard = new TestClipboard();
-		cellEditor = new TestSpreadsheetCellEditor(tabularData);
 
+		tabularData = new TestTabularData();
+		cellEditor = new TestSpreadsheetCellEditor(tabularData);
+		cellEditor.getMathField().getInputController().setSyntaxAdapter(
+				new SyntaxAdapterImpl(app.getKernel()));
 		controller = new SpreadsheetController(tabularData, spreadsheetStyling);
 		controller.setControlsDelegate(this);
 		controller.setSpreadsheetConstructionDelegate(this);
-		cellEditor.getMathField().getInputController().setSyntaxAdapter(
-				new SyntaxAdapterImpl(app.getKernel()));
+
 		layout = controller.getLayout();
 		setViewport(new Rectangle(0,
 				layout.getRowHeaderWidth() + layout.defaultColumnWidth * 2.5,
 				0,
 				layout.getColumnHeaderHeight() + layout.defaultRowHeight * 2.5));
-		controller.setViewportAdjustmentHandler(new ViewportAdjusterDelegate() {
+		viewportAdjusterDelegate = new ViewportAdjusterDelegate() {
 			@Override
 			public void setScrollPosition(double x, double y) {
 				viewport = viewport.translatedBy(x, y);
@@ -131,8 +134,8 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 			public void updateScrollableContentSize(Size size) {
 				// not needed
 			}
-		});
-		UtilFactoryJre.setupRegexFactory();
+		};
+		controller.setViewportAdjustmentHandler(viewportAdjusterDelegate);
 	}
 
 	@Test
@@ -1385,7 +1388,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		controller.handleKeyPressed(JavaKeyCodes.VK_ENTER, "", Modifiers.NONE);
 		assertEquals(List.of("Empty cell"), accessibilityAnnouncements);
 	}
-
+	
 	// Helpers
 
 	private void setViewport(Rectangle viewport) {
@@ -1476,7 +1479,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		controller.setAccessibilityDelegate(accessibilityAnnouncements::add);
 	}
 
-	// SpreadsheetControlsDelegate
+	// -- SpreadsheetControlsDelegate --
 
 	@Override
 	public @Nonnull SpreadsheetCellEditor getCellEditor() {
@@ -1532,6 +1535,8 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 	public void showSnackbar(@Nonnull String messageKey) {
 		this.chartError = messageKey;
 	}
+
+	// -- SpreadsheetConstructionDelegate --
 
 	@Override
 	public void createPieChart(@Nonnull TabularData<?> data, @Nonnull TabularRange range) {

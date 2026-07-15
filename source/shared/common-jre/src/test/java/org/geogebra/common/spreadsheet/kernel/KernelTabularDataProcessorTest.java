@@ -31,11 +31,11 @@ public class KernelTabularDataProcessorTest extends BaseUnitTest {
 
 	private KernelTabularDataProcessor processor;
 	private KernelTabularDataAdapter adapter;
-	private GeoElementND geo1;
-	private GeoElementND geo2;
-	private GeoElementND geo3;
-	private GeoElementND geo4;
-	private GeoElementND bottomRight;
+	private GeoElement geo1;
+	private GeoElement geo2;
+	private GeoElement geo3;
+	private GeoElement geo4;
+	private GeoElement bottomRight;
 
 	@Before
 	public void setUp() throws Exception {

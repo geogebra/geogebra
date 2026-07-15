@@ -19,17 +19,183 @@ package org.geogebra.common.spreadsheet.core;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import javax.annotation.CheckForNull;
 
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 public class TabularRangeTest {
 
 	private final TabularRange cellA3 = new TabularRange(2, 0, 2, 0);
 	private final TabularRange cellB3 = new TabularRange(2, 1, 2, 1);
 	private final TabularRange cellA4 = new TabularRange(3, 0, 3, 0);
+
+	@Test
+	public void testFinite() {
+		assertAll(
+				// empty range
+				() -> assertFalse(new TabularRange(-1, -1, -1, -1, -1, -1).isFinite()),
+				// all cells
+				() -> assertFalse(new TabularRange(-1, -1, -1, -1).isFinite()),
+				// one full column
+				() -> assertFalse(new TabularRange(-1, 2, -1, 2).isFinite()),
+				// multiple full columns
+				() -> assertFalse(new TabularRange(-1, 2, -1, 4).isFinite()),
+				// one partial column
+				() -> assertTrue(new TabularRange(1, 2, 3, 2).isFinite()),
+				// one full row
+				() -> assertFalse(new TabularRange(2, -1, 2, -1).isFinite()),
+				// multiple full rows
+				() -> assertFalse(new TabularRange(2, -1, 4, -1).isFinite()),
+				// one partial row
+				() -> assertTrue(new TabularRange(2, 1, 2, 3).isFinite()),
+				// one cell
+				() -> assertTrue(new TabularRange(2, 1).isFinite()),
+				// rectangular block
+				() -> assertTrue(new TabularRange(2, 1, 4, 3).isFinite())
+		);
+	}
+
+	@Test
+	public void testSingleCellShape() {
+		TabularRange range = new TabularRange(2, 1);
+		assertAll(
+				() -> assertTrue(range.isSingleCell()),
+				() -> assertFalse(range.isEntireColumn()),
+				() -> assertFalse(range.isContiguousColumns()),
+				() -> assertFalse(range.isSingleColumn()),
+				() -> assertFalse(range.isPartialColumn()),
+				() -> assertFalse(range.isEntireRow()),
+				() -> assertFalse(range.isContiguousRows()),
+				() -> assertFalse(range.isSingleRow()),
+				() -> assertFalse(range.isPartialRow()),
+				() -> assertFalse(range.areAllCellsSelected())
+		);
+	}
+
+	@Test
+	public void testPartialRowShape() {
+		TabularRange range = new TabularRange(2, 1, 2, 3);
+		assertAll(
+				() -> assertFalse(range.isSingleCell()),
+				() -> assertFalse(range.isEntireColumn()),
+				() -> assertFalse(range.isContiguousColumns()),
+				() -> assertFalse(range.isSingleColumn()),
+				() -> assertFalse(range.isPartialColumn()),
+				() -> assertFalse(range.isEntireRow()),
+				() -> assertFalse(range.isContiguousRows()),
+				() -> assertFalse(range.isSingleRow()),
+				() -> assertTrue(range.isPartialRow()),
+				() -> assertFalse(range.areAllCellsSelected())
+		);
+	}
+
+	@Test
+	public void testPartialColumnShape() {
+		TabularRange range = new TabularRange(2, 1, 4, 1);
+		assertAll(
+				() -> assertFalse(range.isSingleCell()),
+				() -> assertFalse(range.isEntireColumn()),
+				() -> assertFalse(range.isContiguousColumns()),
+				() -> assertFalse(range.isSingleColumn()),
+				() -> assertTrue(range.isPartialColumn()),
+				() -> assertFalse(range.isEntireRow()),
+				() -> assertFalse(range.isContiguousRows()),
+				() -> assertFalse(range.isSingleRow()),
+				() -> assertFalse(range.isPartialRow()),
+				() -> assertFalse(range.areAllCellsSelected())
+		);
+	}
+
+	@Test
+	public void testSingleRowShape() {
+		TabularRange range = new TabularRange(2, -1, 2, -1);
+		assertAll(
+				() -> assertFalse(range.isSingleCell()),
+				() -> assertFalse(range.isEntireColumn()),
+				() -> assertFalse(range.isContiguousColumns()),
+				() -> assertFalse(range.isSingleColumn()),
+				() -> assertFalse(range.isPartialColumn()),
+				() -> assertTrue(range.isEntireRow()),
+				() -> assertTrue(range.isContiguousRows()),
+				() -> assertTrue(range.isSingleRow()),
+				() -> assertFalse(range.isPartialRow()),
+				() -> assertFalse(range.areAllCellsSelected())
+		);
+	}
+
+	@Test
+	public void testMultipleRowsShape() {
+		TabularRange range = new TabularRange(2, -1, 4, -1);
+		assertAll(
+				() -> assertFalse(range.isSingleCell()),
+				() -> assertFalse(range.isEntireColumn()),
+				() -> assertFalse(range.isContiguousColumns()),
+				() -> assertFalse(range.isSingleColumn()),
+				() -> assertFalse(range.isPartialColumn()),
+				() -> assertTrue(range.isEntireRow()),
+				() -> assertTrue(range.isContiguousRows()),
+				() -> assertFalse(range.isSingleRow()),
+				() -> assertFalse(range.isPartialRow()),
+				() -> assertFalse(range.areAllCellsSelected())
+		);
+	}
+
+	@Test
+	public void testSingleColumnShape() {
+		TabularRange range = new TabularRange(-1, 2, -1, 2);
+		assertAll(
+				() -> assertFalse(range.isSingleCell()),
+				() -> assertTrue(range.isEntireColumn()),
+				() -> assertTrue(range.isContiguousColumns()),
+				() -> assertTrue(range.isSingleColumn()),
+				() -> assertFalse(range.isPartialColumn()),
+				() -> assertFalse(range.isEntireRow()),
+				() -> assertFalse(range.isContiguousRows()),
+				() -> assertFalse(range.isSingleRow()),
+				() -> assertFalse(range.isPartialRow()),
+				() -> assertFalse(range.areAllCellsSelected())
+		);
+	}
+
+	@Test
+	public void testMultipleColumnsShape() {
+		TabularRange range = new TabularRange(-1, 2, -1, 4);
+		assertAll(
+				() -> assertFalse(range.isSingleCell()),
+				() -> assertTrue(range.isEntireColumn()),
+				() -> assertTrue(range.isContiguousColumns()),
+				() -> assertFalse(range.isSingleColumn()),
+				() -> assertFalse(range.isPartialColumn()),
+				() -> assertFalse(range.isEntireRow()),
+				() -> assertFalse(range.isContiguousRows()),
+				() -> assertFalse(range.isSingleRow()),
+				() -> assertFalse(range.isPartialRow()),
+				() -> assertFalse(range.areAllCellsSelected())
+		);
+	}
+
+	@Test
+	public void testAllCellsShape() {
+		TabularRange range = new TabularRange(-1, -1, -1, -1);
+		assertAll(
+				() -> assertFalse(range.isSingleCell()),
+				() -> assertTrue(range.isEntireColumn()),
+				() -> assertFalse(range.isContiguousColumns()),
+				() -> assertFalse(range.isSingleColumn()),
+				() -> assertFalse(range.isPartialColumn()),
+				() -> assertTrue(range.isEntireRow()),
+				() -> assertFalse(range.isContiguousRows()),
+				() -> assertFalse(range.isSingleRow()),
+				() -> assertFalse(range.isPartialRow()),
+				() -> assertTrue(range.areAllCellsSelected())
+		);
+	}
 
 	@Test
 	public void testGetRectangularUnionIdentical() {

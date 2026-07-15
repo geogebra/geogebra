@@ -187,7 +187,7 @@ public class RegressionSpecificationTest extends BaseExamTestSetup {
 
 	private String getRegressionValues(int spec) {
 		return view.getRegression(column, getSpec(spec)).stream()
-				.flatMap(g -> Arrays.stream(g.getValues()))
+				.flatMap(g -> g.values().stream())
 				.collect(Collectors.joining(", "));
 	}
 

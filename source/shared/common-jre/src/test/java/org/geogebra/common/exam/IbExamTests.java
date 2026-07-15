@@ -145,7 +145,7 @@ public class IbExamTests extends BaseExamTestSetup {
 				"Upper quartile",
 				"Maximum"
 		), tableValuesView.getStatistics1Var(1).stream()
-				.map(StatisticGroup::getHeading).collect(Collectors.toList()));
+				.map(StatisticGroup::heading).collect(Collectors.toList()));
 	}
 
 	@ParameterizedTest
@@ -187,7 +187,7 @@ public class IbExamTests extends BaseExamTestSetup {
 				"Minimum",
 				"Maximum"
 		), tableValuesView.getStatistics2Var(1).stream()
-				.map(StatisticGroup::getHeading).collect(Collectors.toList()));
+				.map(StatisticGroup::heading).collect(Collectors.toList()));
 	}
 
 	@ParameterizedTest

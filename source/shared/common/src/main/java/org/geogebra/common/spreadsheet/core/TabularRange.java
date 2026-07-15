@@ -119,6 +119,10 @@ public final class TabularRange {
 		return maxColumn;
 	}
 
+	public boolean isFinite() {
+		return minRow != -1 && maxRow != -1 && minColumn != -1 && maxColumn != -1;
+	}
+
 	/**
 	 * @return whether this range is a contiguous column selection (single or multiple columns),
 	 * where rows are unbounded
@@ -196,14 +200,18 @@ public final class TabularRange {
 	 * @return true if cell range is part of a row, but bigger than one cell
 	 */
 	public boolean isPartialRow() {
-		return !isSingleCell() && !isContiguousRows() && (maxRow - minRow == 0);
+		// entire-column selections use -1 for both row bounds, so require a bounded row first
+		return minRow != -1 && maxRow != -1
+				&& !isSingleCell() && !isContiguousRows() && (maxRow - minRow == 0);
 	}
 
 	/**
 	 * @return true if cell range is part of a column, but bigger than one cell
 	 */
 	public boolean isPartialColumn() {
-		return !isSingleCell() && !isContiguousColumns() && (maxColumn - minColumn == 0);
+		// entire-row selections use -1 for both column bounds, so require a bounded column first
+		return minColumn != -1 && maxColumn != -1
+				&& !isSingleCell() && !isContiguousColumns() && (maxColumn - minColumn == 0);
 	}
 
 	/**
@@ -442,19 +450,43 @@ public final class TabularRange {
 	 * @param columnCount maximum column
 	 * @return restricted range
 	 */
-	public TabularRange restrictTo(int rowCount, int columnCount) {
+	public TabularRange restrictInfiniteRangeTo(int rowCount, int columnCount) {
 		TabularRange ret = this;
-
 		if (ret.getMinRow() == -1) {
 			ret = new TabularRange(0, ret.getMinColumn(),
 					rowCount - 1, ret.getMaxColumn());
 		}
-
 		if (ret.getMinColumn() == -1) {
 			ret = new TabularRange(ret.getMinRow(), 0,
 					ret.getMaxRow(), columnCount - 1);
 		}
 		return ret;
+	}
+
+	/**
+	 * For finite ranges, returns a sub-range restricted to the first column (if present).
+	 * For empty or unbounded ranges, returns {@code null}.
+	 * @return A new range restricted to the first column.
+	 */
+	public @CheckForNull TabularRange firstColumn() {
+		if (!isFinite() || getWidth() < 1) {
+			return null;
+		}
+		return new TabularRange(getMinRow(), getMinColumn(),
+				getMaxRow(), getMinColumn());
+	}
+
+	/**
+	 * For finite ranges, returns a sub-range restricted to the second column (if present).
+	 * For empty or unbounded ranges, returns {@code null}.
+	 * @return A new range restricted to the second column.
+	 */
+	public @CheckForNull TabularRange secondColumn() {
+		if (!isFinite() || getWidth() < 2) {
+			return null;
+		}
+		return new TabularRange(getMinRow(), getMinColumn() + 1,
+				getMaxRow(), getMinColumn() + 1);
 	}
 
 	@Override

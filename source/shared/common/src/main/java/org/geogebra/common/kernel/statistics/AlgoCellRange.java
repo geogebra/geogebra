@@ -67,13 +67,11 @@ public class AlgoCellRange extends AlgoElement {
 	 * @param endCell
 	 *            e.g. B2
 	 */
-	public AlgoCellRange(Construction cons, String label, String startCell,
-			String endCell) {
+	public AlgoCellRange(Construction cons, String startCell, String endCell) {
 		super(cons);
 		this.startCell = startCell;
 		this.endCell = endCell;
 		setInputOutput();
-		geoList.setLabel(label);
 	}
 
 	@Override

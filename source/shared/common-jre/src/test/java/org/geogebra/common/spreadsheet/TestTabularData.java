@@ -104,8 +104,8 @@ public class TestTabularData implements TabularData<String> {
 	}
 
 	@Override
-	public void setContent(int row, int column, Object content) {
-		data.get(row).set(column, (String) content);
+	public void setContent(int row, int column, String content) {
+		data.get(row).set(column, content);
 	}
 
 	@Override

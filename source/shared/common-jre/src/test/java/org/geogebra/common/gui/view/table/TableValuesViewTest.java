@@ -849,7 +849,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		}
 		processor.processInput("", view.getValues(), 0);
 
-		assertThat(view.getStatistics1Var(0).get(0).getValues()[0], containsString("2.5"));
+		assertThat(view.getStatistics1Var(0).get(0).values().get(0), containsString("2.5"));
 	}
 
 	@Test

@@ -69,17 +69,18 @@ public class RegressionBuilder {
 			double[] coeffs = Objects.requireNonNull(fitAlgo).getCoeffs();
 			String formula = regression.getFormula();
 			if (formula != null) {
-				stats.add(new StatisticGroup(true,
-						kernel.getLocalization().getMenu("Stats.Formula"), formula));
+				stats.add(new StatisticGroup(
+						kernel.getLocalization().getMenu("Stats.Formula"), true,
+						List.of(formula)));
 			}
-			String[] parameters = new String[coeffs.length];
+			List<String> parameters = new ArrayList<>(coeffs.length);
 			for (int i = 0; i < coeffs.length; i++) {
 				char coeffName = regression.getCoeffName(i);
 				int index = regression.getCoeffOrdering().indexOf(coeffName);
-				parameters[i] = coeffName + " = "
-						+ kernel.format(coeffs[index], StringTemplate.defaultTemplate);
+				parameters.add(coeffName + " = "
+						+ kernel.format(coeffs[index], StringTemplate.defaultTemplate));
 			}
-			stats.add(new StatisticGroup(loc.getMenu("Parameters"), parameters));
+			stats.add(new StatisticGroup(loc.getMenu("Parameters"), false, parameters));
 			if (regression.hasCoefficientOfDetermination()) {
 				addResidual(loc.getMenu("CoefficientOfDetermination"), x -> x,
 						Statistic.RSQUARE, geo, points, stats);
@@ -106,8 +107,8 @@ public class RegressionBuilder {
 		String lhs = lhsStat.getLHS(kernel.getLocalization(), "");
 		String rSquareRow = kernel.format(transform.applyAsDouble(residual.evaluateDouble()),
 				StringTemplate.defaultTemplate);
-		stats.add(new StatisticGroup(coefficient,
-				lhs + " = " + rSquareRow));
+		stats.add(new StatisticGroup(coefficient, false,
+				List.of(lhs + " = " + rSquareRow)));
 	}
 
 	private Command buildCommand(Statistic statistic, ExpressionValue... args) {
@@ -129,7 +130,7 @@ public class RegressionBuilder {
 					"Stats." + Statistic.PMCC.getCommandName());
 			String lhs = Statistic.PMCC.getLHS(kernel.getLocalization(), varName);
 			String formula = lhs + " = " + r.toValueString(StringTemplate.defaultTemplate);
-			stats.add(new StatisticGroup(heading, formula));
+			stats.add(new StatisticGroup(heading, false, List.of(formula)));
 		} catch (RuntimeException | CircularDefinitionException e) {
 			Log.debug(e);
 		}

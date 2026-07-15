@@ -131,7 +131,7 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	 * @param column Column index of cell.
 	 * @param content The content for (row, column). If {@code null}, clears the cell.
 	 */
-	void setContent(int row, int column, @CheckForNull Object content);
+	void setContent(int row, int column, @CheckForNull T content);
 
 	/**
 	 * Replace the content of cell (row, column) with {@code null}.

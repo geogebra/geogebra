@@ -26,10 +26,19 @@ import javax.annotation.Nonnull;
  *
  * @apiNote Row and column indexes are 0-based.
  */
-final class SpreadsheetReference {
+public final class SpreadsheetReference {
 
-	final @Nonnull SpreadsheetCellReference fromCell;
-	final @CheckForNull SpreadsheetCellReference toCell;
+	public final @Nonnull SpreadsheetCellReference fromCell;
+	public final @CheckForNull SpreadsheetCellReference toCell;
+
+	/**
+	 * Null-safe factory.
+	 * @param range A range, possibly {@code null}.
+	 * @return A spreadsheet reference, or {@code null} if {@code range} is null.
+	 */
+	public static @CheckForNull SpreadsheetReference fromRange(@CheckForNull TabularRange range) {
+		return range != null ? new SpreadsheetReference(range) : null;
+	}
 
 	SpreadsheetReference(@Nonnull SpreadsheetCellReference fromCell,
 			@CheckForNull SpreadsheetCellReference toCell) {
@@ -37,7 +46,16 @@ final class SpreadsheetReference {
 		this.toCell = toCell;
 	}
 
-	boolean isSingleCell() {
+	SpreadsheetReference(@Nonnull TabularRange range) {
+		this.fromCell = new SpreadsheetCellReference(range.getMinRow(), range.getMinColumn());
+		this.toCell = range.isSingleCell() ? null
+				: new SpreadsheetCellReference(range.getMaxRow(), range.getMaxColumn());
+	}
+
+	/**
+	 * @return {@code true} if references a single cell only
+	 */
+	public boolean isSingleCell() {
 		return !isRange();
 	}
 

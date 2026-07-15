@@ -51,8 +51,10 @@ import org.mockito.Mockito;
 
 public class SpreadsheetTest extends BaseUnitTest {
 
-	private Spreadsheet spreadsheet;
-	private TabularData<?> tabularData;
+	private Spreadsheet<String> spreadsheet;
+	private TabularData<String> tabularData;
+	private Spreadsheet<GeoElement> kernelBackedSpreadsheet;
+	private KernelTabularDataAdapter kernelTabularData;
 	private TableLayout layout;
 	private UndoProvider undoProvider;
 	private SpreadsheetDelegate delegate;
@@ -72,6 +74,20 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.setViewportAdjustmentHandler(new DummyViewportAdjuster());
 		delegate = mockSpreadsheetDelegate();
 		spreadsheet.setSpreadsheetDelegate(delegate);
+	}
+
+	private void setupKernelBackedSpreadsheet() {
+		tabularData = null;
+		spreadsheet = null;
+
+		kernelTabularData = new KernelTabularDataAdapter(getApp());
+		getKernel().attach(kernelTabularData);
+
+		kernelBackedSpreadsheet = new Spreadsheet<>(kernelTabularData,
+				new TestCellRenderableFactory(),
+				null,
+				undoProvider);
+		kernelBackedSpreadsheet.setSpreadsheetDelegate(delegate);
 	}
 
 	private void resetViewport() {
@@ -204,12 +220,10 @@ public class SpreadsheetTest extends BaseUnitTest {
 
 	@Test
 	public void spreadsheetShouldRepaintAfterUpdatingSlider() {
-		tabularData = new KernelTabularDataAdapter(getApp());
-		tabularData.addChangeListener(spreadsheet);
-		getKernel().attach((KernelTabularDataAdapter) tabularData);
+		setupKernelBackedSpreadsheet();
 
 		GeoNumeric slider = add("a = 3");
-		tabularData.setContent(0, 0, slider);
+		kernelTabularData.setContent(0, 0, slider);
 		Mockito.verify(delegate, Mockito.times(2)).notifyRepaintNeeded();
 		slider.update();
 		Mockito.verify(delegate, Mockito.times(3)).notifyRepaintNeeded();

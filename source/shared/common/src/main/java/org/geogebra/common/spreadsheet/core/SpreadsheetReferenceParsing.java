@@ -29,9 +29,9 @@ import org.geogebra.regexp.shared.RegExp;
  *
  * @apiNote All indices are 0-based.
  * @implNote This duplicates some code from GeoElementSpreadsheet, which we don't want to reuse
- * here (or refactor at this point).
+ * here (or refactor at this point) because it sits outside the {@code spreadsheet.core} package.
  */
-final class SpreadsheetReferenceParsing {
+public final class SpreadsheetReferenceParsing {
 
 	/** match A1, ABG1, $A$123 but not A0, A000, A0001 etc */
 	private static final RegExp CELL_REFERENCE_REGEX = RegExp
@@ -52,7 +52,7 @@ final class SpreadsheetReferenceParsing {
 	 * @return A {@code TabularRange} representing the cell (e.g., "A1") or range (e.g., "A1:A10")
 	 * reference input string, or {@code null} if candidate is not a valid cell or range reference.
 	 */
-	static @CheckForNull SpreadsheetReference parseReference(@Nonnull String candidate) {
+	public static @CheckForNull SpreadsheetReference parseReference(@Nonnull String candidate) {
 		if (candidate.isBlank()) { // this includes empty strings
 			return null;
 		}

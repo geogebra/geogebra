@@ -36,6 +36,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
@@ -126,12 +127,28 @@ public class StatisticGroupsBuilder {
 	}
 
 	/**
-	 * Filter both lists, keep only items where both lists have a number at given index.
+	 * Strip undefined or non-numeric elements from a list.
+	 * @param variable A list of elements
+	 * @return A new list where all undefined or non-numeric elements have been dropped.
+	 */
+	public @Nonnull GeoList getCleanListOneVariable(GeoEvaluatable variable) {
+		// `getCleanListsTwoVariable` wraps variables in a MyVecNode, so if the variable contains
+		// non-numeric values, they become undefined. To replace this call, we need to implement
+		// removing non-numeric values from a list as an Algo.
+		// See https://git.geogebra.org/ggb/geogebra/-/merge_requests/10570#note_100105
+		return getCleanListsTwoVariable(variable, variable)[0];
+	}
+
+	/**
+	 * Strip undefined or non-numeric element pairs from a pair of variables, keeping only items
+	 * where both variables have a number at a given index.
 	 * @param variable1 first variable
 	 * @param variable2 second variable
-	 * @return filtered lists
+	 * @return A new pair of lists where all pairs of undefined or non-numeric elements have been
+	 * dropped.
 	 */
-	public GeoList[] getCleanListsTwoVariable(GeoEvaluatable variable1, GeoEvaluatable variable2) {
+	public @Nonnull GeoList[] getCleanListsTwoVariable(GeoEvaluatable variable1,
+			GeoEvaluatable variable2) {
 		Kernel kernel = variable1.getKernel();
 		Command cleanData = new Command(kernel, Commands.RemoveUndefined.getCommand(), false);
 		MyVecNode points = new MyVecNode(kernel, variable1, variable2);
@@ -176,7 +193,7 @@ public class StatisticGroupsBuilder {
 				String lhs = statistic.getLHS(kernel.getLocalization(), variableName);
 				String formula =
 						lhs + " = " + result.toValueString(StringTemplate.defaultTemplate);
-				statisticGroups.add(new StatisticGroup(true, heading, formula));
+				statisticGroups.add(new StatisticGroup(heading, true, List.of(formula)));
 			} catch (CommandNotLoadedError err) {
 				throw err;
 			} catch (CommandNotFoundError err) {

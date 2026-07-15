@@ -68,8 +68,8 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
  */
 public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 
-	private Spreadsheet spreadsheet;
-	private TabularData<?> tabularData;
+	private Spreadsheet<GeoElement> spreadsheet;
+	private KernelTabularDataAdapter tabularData;
 
 	@BeforeAll
 	public static void setupOnce() {
@@ -89,7 +89,7 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 		UndoProvider undoProvider = getApp().getUndoManager();
 
 		tabularData = new KernelTabularDataAdapter(getApp());
-		getKernel().attach((KernelTabularDataAdapter) tabularData);
+		getKernel().attach(tabularData);
 		spreadsheet = new Spreadsheet(tabularData,
 				new GeoElementCellRendererFactory(graphics -> null,
 						getApp()::getFontSizeDouble),

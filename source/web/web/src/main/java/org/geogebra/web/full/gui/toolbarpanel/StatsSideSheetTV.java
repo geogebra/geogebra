@@ -83,10 +83,10 @@ public class StatsSideSheetTV extends FlowPanel {
 			group.addStyleName("group");
 
 			Label heading = BaseWidgetFactory.INSTANCE.newSecondaryText(
-					row.getHeading(), "heading");
+					row.heading(), "heading");
 			group.add(heading);
 
-			for (String value: row.getValues()) {
+			for (String value: row.values()) {
 				if (row.isLaTeX()) {
 					Canvas canvas = Canvas.createIfSupported();
 					((DrawEquationW) app.getDrawEquation()).paintOnCleanCanvas(
