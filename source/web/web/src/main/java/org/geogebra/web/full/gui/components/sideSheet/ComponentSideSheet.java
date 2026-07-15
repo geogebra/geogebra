@@ -130,11 +130,14 @@ public class ComponentSideSheet extends FlowPanel implements SetLabels {
 		FlowPanel buttonPanel = new FlowPanel();
 		buttonPanel.addStyleName("buttonPanel");
 
-		initPositiveButton();
-		initNegativeButton();
-
-		buttonPanel.add(positiveButton);
-		buttonPanel.add(negativeButton);
+		if (data.hasPositiveBtn()) {
+			initPositiveButton();
+			buttonPanel.add(positiveButton);
+		}
+		if (data.hasNegativeBtn()) {
+			initNegativeButton();
+			buttonPanel.add(negativeButton);
+		}
 		add(buttonPanel);
 	}
 
@@ -164,7 +167,7 @@ public class ComponentSideSheet extends FlowPanel implements SetLabels {
 	}
 
 	private boolean hasButtonPanel() {
-		return data.hasPositiveBtn() && data.hasNegativeBtn();
+		return data.hasPositiveBtn() || data.hasNegativeBtn();
 	}
 
 	/**

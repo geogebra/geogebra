@@ -1343,29 +1343,32 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	.dialogComponent.statistics {
-		.dialogTitle {
-			height: 24px;
-			font-size: 125%;
-			line-height: 1.2;
-		}
+	.statistics.error .sideSheet {
+		.contentPanel {
+			border: none;
 
-		&.error {
-			max-width: 468px;
-			.dialogContent {
-				border: none;
+			.infoErrorPanel {
+				position: relative;
+				top: calc(50% - 106px);
 			}
 		}
+	}
 
-		.dialogContent {
-			max-height: 426px;
+	.statistics .sideSheet {
+		.contentPanel {
+			overflow: auto;
+			height: calc(100% - 64px);
+			padding: 0 16px;
 			box-sizing: border-box;
 			border-top: 1px solid colors.$black-12;
-			border-bottom: 1px solid colors.$black-12;
 
 			select:focus:not([readonly]) {
 				border: none;
 				border-bottom: 1px colors.$teal-default solid;
+			}
+
+			&.withButtonPanel {
+				height: calc(100% - 132px);
 			}
 
 			.group {
@@ -1380,8 +1383,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			}
 
 			.dropDown {
-				margin-top: 20px;
+				margin: 20px 0;
 				width: 100%;
+			}
+
+			.subTitle {
+				height: 32px;
+				line-height: 32px;
 			}
 		}
 	}

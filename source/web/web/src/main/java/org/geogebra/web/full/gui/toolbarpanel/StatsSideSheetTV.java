@@ -26,27 +26,43 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.contextmenu.TableValuesContextMenuActionHandler.PlotActionHandler;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
+import org.geogebra.web.full.gui.components.sideSheet.ComponentSideSheet;
+import org.geogebra.web.full.gui.components.sideSheet.SideSheetData;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
-import org.geogebra.web.shared.components.dialog.ComponentDialog;
-import org.geogebra.web.shared.components.dialog.DialogData;
+import org.geogebra.web.html5.util.CSSEvents;
+import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
+import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class StatsDialogTV extends ComponentDialog {
-
+public class StatsSideSheetTV extends FlowPanel {
+	private final AppW app;
+	private ComponentSideSheet sideSheet;
 	private FlowPanel statPanel;
 
 	/**
 	 * @param app application
-	 * @param data dialog data
+	 * @param data side sheet data
+	 * @param subTitle sub-title
 	 */
-	public StatsDialogTV(AppW app, DialogData data) {
-		super(app, data, true, true);
+	public StatsSideSheetTV(AppW app, SideSheetData data, String subTitle) {
+		super();
+		this.app = app;
+		buildSideSheet(data, subTitle);
 		addStyleName("statistics");
+	}
+
+	private void buildSideSheet(SideSheetData data, String subTitle) {
+		sideSheet = new ComponentSideSheet(app, data, this::close);
+		Label subTitleLabel = BaseWidgetFactory.INSTANCE.newPrimaryText("", "subTitle");
+		subTitleLabel.getElement().setInnerHTML(subTitle);
+		sideSheet.addToContent(subTitleLabel);
+		add(sideSheet);
 	}
 
 	/**
@@ -84,7 +100,22 @@ public class StatsDialogTV extends ComponentDialog {
 			}
 			statPanel.add(group);
 		}
-		addDialogContent(statPanel);
+		sideSheet.addToContent(statPanel);
+	}
+
+	private void show() {
+		app.getAppletFrame().add(this);
+		addStyleName("floatingSettings animateIn");
+	}
+
+	/**
+	 * Close and remove side sheet after closing animation done.
+	 */
+	public void close() {
+		removeStyleName("animateIn");
+		addStyleName("animateOut");
+		CSSEvents.runOnAnimation(() -> app.getAppletFrame().remove(this),
+				getElement(), "animateOut");
 	}
 
 	/**
@@ -99,7 +130,7 @@ public class StatsDialogTV extends ComponentDialog {
 		List<String> items = new ArrayList<>();
 		available.forEach(spec -> items.add(app.getLocalization().getMenu(spec.getLabel())));
 
-		ComponentDropDown regressionChooser = new ComponentDropDown((AppW) app,
+		ComponentDropDown regressionChooser = new ComponentDropDown(app,
 				app.getLocalization().getMenu("RegressionModel"), items, 0);
 		regressionChooser.setFullWidth(true);
 		regressionChooser.addChangeHandler(() -> {
@@ -108,12 +139,27 @@ public class StatsDialogTV extends ComponentDialog {
 			setRows(regressionGroups.get(regression));
 		});
 
-		addDialogContent(regressionChooser);
+		sideSheet.addToContent(regressionChooser);
 
 		if (plotActionHandler != null) {
-			setOnPositiveAction(() -> plotActionHandler.onPlotButtonPressed(
+			sideSheet.addPositiveButtonRunnable(() -> plotActionHandler.onPlotButtonPressed(
 					available.get(regressionChooser.getSelectedIndex())));
 		}
 		setRowsAndShow(regressionGroups.get(available.get(0)));
+	}
+
+	/**
+	 * Add error panel and show.
+	 * @param errorMessage error message to show
+	 */
+	public void showError(String errorMessage) {
+		addStyleName("error");
+		InfoErrorData errorData = new InfoErrorData(
+				app.getLocalization().getMenu("StatsDialog.NoData"),
+				errorMessage, null, MaterialDesignResources.INSTANCE.bar_chart_black());
+		ComponentInfoErrorPanel infoPanel = new ComponentInfoErrorPanel(app.getLocalization(),
+				errorData, null);
+		sideSheet.addToContent(infoPanel);
+		show();
 	}
 }

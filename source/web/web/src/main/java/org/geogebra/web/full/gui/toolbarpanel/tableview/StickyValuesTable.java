@@ -35,6 +35,7 @@ import org.geogebra.common.util.AttributedString;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbarpanel.ContextMenuTV;
 import org.geogebra.web.full.gui.toolbarpanel.DefineFunctionsDialogTV;
+import org.geogebra.web.full.gui.toolbarpanel.StatsSideSheetTV;
 import org.geogebra.web.full.gui.toolbarpanel.TVRowData;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.util.StickyTable;
@@ -72,6 +73,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	private final HeaderCell headerCell = new HeaderCell();
 	private boolean transitioning;
 	private ContextMenuTV contextMenu;
+	private StatsSideSheetTV sideSheet;
 	private final TableEditor editor;
 
 	private int rowsChange = 0;
@@ -226,7 +228,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	private void onHeaderClick(Element source, int column) {
-		contextMenu = new ContextMenuTV(app, view, column);
+		contextMenu = new ContextMenuTV(app, view, this, column);
 		contextMenu.show(source, 0, source.getClientHeight() + CONTEXT_MENU_OFFSET);
 	}
 
@@ -602,4 +604,16 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		controller.select(0, 0);
 	}
 
+	public void setSideSheet(StatsSideSheetTV sideSheet) {
+		this.sideSheet = sideSheet;
+	}
+
+	/**
+	 * Removes the last side sheet.
+	 */
+	public void removeSideSheet() {
+		if (sideSheet != null) {
+			sideSheet.close();
+		}
+	}
 }

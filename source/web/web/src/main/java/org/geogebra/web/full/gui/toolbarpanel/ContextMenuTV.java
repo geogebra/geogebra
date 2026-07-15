@@ -39,17 +39,14 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.ownership.SuiteScope;
 import org.geogebra.common.util.AttributedString;
-import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.components.sideSheet.SideSheetData;
+import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyValuesTable;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
-import org.geogebra.web.shared.components.dialog.ComponentDialog;
-import org.geogebra.web.shared.components.dialog.DialogData;
-import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
-import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.Command;
 
@@ -58,6 +55,7 @@ import org.gwtproject.user.client.Command;
  */
 public class ContextMenuTV implements TableValuesContextMenuActionHandler.Delegate {
 	private final TableValuesView view;
+	private final StickyValuesTable table;
 	/**
 	 * popup for the context menu
 	 */
@@ -69,14 +67,15 @@ public class ContextMenuTV implements TableValuesContextMenuActionHandler.Delega
 	private final int columnIdx;
 
 	/**
-	 * @param app
-	 *            see {@link AppW}
-	 * @param column
-	 *            index of column
+	 * @param app see {@link AppW}
+	 * @param view {@link TableValuesView}
+	 * @param table {@link StickyValuesTable}
+	 * @param column index of column
 	 */
-	public ContextMenuTV(AppWFull app, TableValuesView view, int column) {
+	public ContextMenuTV(AppWFull app, TableValuesView view, StickyValuesTable table, int column) {
 		this.app = app;
 		this.view = view;
+		this.table = table;
 		this.columnIdx = column;
 		buildGui();
 	}
@@ -200,33 +199,35 @@ public class ContextMenuTV implements TableValuesContextMenuActionHandler.Delega
 	@Override
 	public void showStatisticsDialog(@Nonnull String title, @Nonnull AttributedString header,
 			@Nonnull List<StatisticGroup> statisticGroups) {
-		DialogData data = new DialogData(title, TableUtil.toHtml(header), "Close", null);
-		StatsDialogTV dialog = new StatsDialogTV(app, data);
-		dialog.setRowsAndShow(statisticGroups);
+		table.removeSideSheet();
+		SideSheetData sideSheetData = new SideSheetData(title, null, null);
+		StatsSideSheetTV sideSheet = new StatsSideSheetTV(app, sideSheetData,
+				TableUtil.toHtml(header));
+		sideSheet.setRowsAndShow(statisticGroups);
+		table.setSideSheet(sideSheet);
 	}
 
 	@Override
 	public void showRegressionDialog(@Nonnull String title, @Nonnull AttributedString header,
 			@Nonnull Map<RegressionSpecification, List<StatisticGroup>> regressionGroups,
 			@CheckForNull PlotActionHandler plotActionHandler) {
-		DialogData data = new DialogData(title, TableUtil.toHtml(header), "Close",
+		table.removeSideSheet();
+		SideSheetData sideSheetData = new SideSheetData(title, null,
 				plotActionHandler != null ? "Plot" : null);
-		StatsDialogTV dialog = new StatsDialogTV(app, data);
-		dialog.addRegressionChooser(regressionGroups, plotActionHandler);
+		StatsSideSheetTV sideSheet = new StatsSideSheetTV(app, sideSheetData,
+				TableUtil.toHtml(header));
+		sideSheet.addRegressionChooser(regressionGroups, plotActionHandler);
+		table.setSideSheet(sideSheet);
 	}
 
 	@Override
 	public void showErrorDialog(@Nonnull String title, @Nonnull AttributedString header,
 			@Nonnull String errorMessage) {
-		DialogData errorDialogData = new DialogData(title, TableUtil.toHtml(header), "Close", null);
-		ComponentDialog dialog = new ComponentDialog(app, errorDialogData, true, true);
-		dialog.addStyleName("statistics error");
-		InfoErrorData errorData = new InfoErrorData(
-				app.getLocalization().getMenu("StatsDialog.NoData"),
-				errorMessage, null, MaterialDesignResources.INSTANCE.bar_chart_black());
-		ComponentInfoErrorPanel infoPanel = new ComponentInfoErrorPanel(app.getLocalization(),
-				errorData, null);
-		dialog.addDialogContent(infoPanel);
-		dialog.show();
+		table.removeSideSheet();
+		SideSheetData sideSheetData = new SideSheetData(title, null, null);
+		StatsSideSheetTV sideSheet = new StatsSideSheetTV(app, sideSheetData,
+				TableUtil.toHtml(header));
+		sideSheet.showError(errorMessage);
+		table.setSideSheet(sideSheet);
 	}
 }
