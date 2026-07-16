@@ -92,11 +92,6 @@ public class SuiteActivity extends BaseActivity {
 	}
 
 	@Override
-	public boolean useValidInput() {
-		return !isSubAppScientific();
-	}
-
-	@Override
 	public void start(AppW app) {
 		super.start(app);
 		getSubapp().initTableOfValues(app);

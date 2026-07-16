@@ -256,7 +256,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 			getMathFieldInternal().getFormula().getRootNode().setKeepCommas();
 		} else if (getGeoInputBox().getLinkedGeo().hasSpecialEditor()) {
 			getMathFieldInternal().getFormula().getRootNode().setProtected();
-			getMathFieldInternal().setLockedCaretPath();
+			getMathFieldInternal().moveCursorToFirstEditablePart();
 		}
 	}
 

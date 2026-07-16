@@ -79,6 +79,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 			if (preventBlur || isSuggesting()) {
 				return;
 			}
+			getMathField().getInternal().moveCursorToFirstEditablePart();
 
 			onEnter(false);
 			if (item.isEmpty() && item.isInputTreeItem()) {

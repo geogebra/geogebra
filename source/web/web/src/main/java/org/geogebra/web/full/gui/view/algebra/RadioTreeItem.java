@@ -71,7 +71,6 @@ import org.geogebra.web.full.gui.util.Resizer;
 import org.geogebra.web.full.gui.view.algebra.compositefocus.AVCompositeFocusAssembler;
 import org.geogebra.web.full.gui.view.algebra.compositefocus.AVFocusContributorFactory;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.accessibility.HasFocus;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
@@ -860,10 +859,6 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		return true;
 	}
 
-	private boolean useValidInput() {
-		return app.getCurrentActivity().useValidInput();
-	}
-
 	protected String getTextForEditing(boolean substituteNumbers,
 			StringTemplate tpl) {
 		if (AlgebraItem.needsPacking(geo)) {
@@ -935,10 +930,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		}
 
 		if (!StringUtil.empty(rawInput)) {
-			String v = app.getKernel().getInputPreviewHelper()
-					.getInput(rawInput);
-			String value = useValidInput() ? v : rawInput;
-			String newValue = isTextItem() ? "\"" + value + "\"" : value;
+			String newValue = isTextItem() ? "\"" + rawInput + "\"" : rawInput;
 			final boolean wasLaTeX = geo instanceof GeoText
 					&& ((GeoText) geo).isLaTeX();
 			if (geo != null) {
@@ -1606,6 +1598,9 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		this.commandError = command;
 		if (marblePanel != null) {
 			marblePanel.updateIcons(true);
+			if (outputPanel != null) {
+				outputPanel.reset();
+			}
 		}
 	}
 
@@ -1849,8 +1844,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	 * Cancel editing
 	 */
 	public void cancelEditing() {
-		GeoGebraActivity activity = app.getActivity();
-		stopEditing(activity.useValidInput() ? null : getText(), null);
+		stopEditing(getText(), null);
 		updateIcons(this.errorMessage != null);
 		app.getActiveEuclidianView().requestFocus();
 	}
@@ -1929,7 +1923,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 			text = geo.getDefinitionForEditor();
 		}
 
-		if (geo != null && (!geo.isDefined() || !useValidInput()) && lastInput != null) {
+		if (geo != null && lastInput != null) {
 			text = lastInput;
 		}
 		if (text == null) {

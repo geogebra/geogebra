@@ -111,11 +111,6 @@ public class ScientificActivity extends BaseActivity {
 	}
 
 	@Override
-	public boolean useValidInput() {
-		return false;
-	}
-
-	@Override
 	public HeaderResizer getHeaderResizer(GeoGebraFrameW frame) {
 		if (headerResizer == null) {
 			headerResizer = new ScientificHeaderResizer(frame);

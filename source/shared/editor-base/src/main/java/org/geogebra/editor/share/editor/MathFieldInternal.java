@@ -220,13 +220,6 @@ public class MathFieldInternal
 	}
 
 	/**
-	 * Move caret into the first element of the protected component.
-	 */
-	public void setLockedCaretPath() {
-		setCaretPath(LOCKED_CARET_PATH);
-	}
-
-	/**
 	 * @param formula
 	 *            formula
 	 * @param path
@@ -248,6 +241,13 @@ public class MathFieldInternal
 	public void setCaretPath(ArrayList<Integer> path) {
 		CursorController.setPath(path, getEditorState());
 		mathFieldController.updateWithCursor(formula, editorState);
+	}
+
+	/**
+	 * Moves the caret to the first position that is editable.
+	 */
+	public void moveCursorToFirstEditablePart() {
+		setCaretPath(LOCKED_CARET_PATH);
 	}
 
 	/**

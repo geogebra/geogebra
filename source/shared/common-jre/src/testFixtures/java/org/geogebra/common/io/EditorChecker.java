@@ -269,7 +269,7 @@ class EditorChecker {
 				mathField.getInternal().getFormula().getRootNode().setProtected();
 			}
 
-			mathField.getInternal().setLockedCaretPath();
+			mathField.getInternal().moveCursorToFirstEditablePart();
 		} catch (org.geogebra.editor.share.io.latex.ParseException e) {
 			throw new RuntimeException(e);
 		}
@@ -287,7 +287,7 @@ class EditorChecker {
 			formula = parser.parse(input);
 			mathField.getInternal().setFormula(formula);
 			mathField.getInternal().getFormula().getRootNode().setProtected();
-			mathField.getInternal().setLockedCaretPath();
+			mathField.getInternal().moveCursorToFirstEditablePart();
 		} catch (Exception e) {
 			throw new AssertionError("Problem parsing: " + input, e);
 		}

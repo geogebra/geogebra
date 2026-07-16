@@ -98,7 +98,7 @@ public class BaseActivity implements GeoGebraActivity {
 
 	@Override
 	public boolean useValidInput() {
-		return true;
+		return false;
 	}
 
 	@Override

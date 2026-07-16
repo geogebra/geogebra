@@ -39,11 +39,6 @@ public class CASActivity extends BaseActivity {
 	}
 
 	@Override
-	public boolean useValidInput() {
-		return false;
-	}
-
-	@Override
 	public void start(AppW app) {
 		app.getAsyncManager().prefetch(null,
 				"giac", "cas", "advanced", "scripting", "stats");
