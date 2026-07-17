@@ -441,11 +441,14 @@ public class GeoLocusStroke extends GeoLocus
 			);
 
 			splits = this.split(realRectangle);
-
+			double delta = cons.getLayerManager().getDeltaToNext(this);
+			int i = 0;
 			for (GeoElement split : splits) {
 				split.setVisualStyle(this);
 				split.setEuclidianVisible(true);
+				split.setOrdering(getOrdering() + delta * i / splits.size());
 				split.setLabel(null);
+				i++;
 			}
 
 			if (removeOriginal) {

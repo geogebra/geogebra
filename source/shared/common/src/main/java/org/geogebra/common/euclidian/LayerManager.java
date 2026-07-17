@@ -48,8 +48,7 @@ public class LayerManager {
 		if (renaming) {
 			return;
 		}
-		if (geo instanceof GeoLocusStroke) {
-			GeoLocusStroke stroke = (GeoLocusStroke) geo;
+		if (geo instanceof GeoLocusStroke stroke) {
 			if (stroke.getSplitParentLabel() != null) {
 				drawingOrder.add(getInsertionIndex(stroke), geo);
 				return;
@@ -591,7 +590,7 @@ public class LayerManager {
 	public String getOrder() {
 		StringBuilder sb = new StringBuilder();
 		for (GeoElement geo: drawingOrder) {
-			if (sb.length() != 0) {
+			if (!sb.isEmpty()) {
 				sb.append(",");
 			}
 			sb.append(geo.getLabelSimple());
@@ -624,5 +623,17 @@ public class LayerManager {
 	public void updateDrawingListAndUI(GeoElement updatedGeo, double ordering) {
 		drawingOrder.get(drawingOrder.indexOf(updatedGeo)).setOrdering(ordering);
 		updatedGeo.updateVisualStyle(GProperty.LAYER);
+	}
+
+	/**
+	 * @param anchor anchor element
+	 * @return difference in ordering between this and next element, fall back to 1.0
+	 */
+	public double getDeltaToNext(GeoElement anchor) {
+		int index = drawingOrder.indexOf(anchor);
+		if (index >= 0 && index + 1 < drawingOrder.size()) {
+			return drawingOrder.get(index + 1).getOrdering() - anchor.getOrdering();
+		}
+		return 1.0;
 	}
 }

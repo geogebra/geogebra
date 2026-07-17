@@ -43,6 +43,7 @@ import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.facade.ColorPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.EnumeratedPropertyListFacade;
 import org.geogebra.common.util.Smoothing;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -111,6 +112,21 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 		dragStart(250, 100);
 		dragEnd(400, 200);
 		assertSelected(lookup("stroke2"));
+	}
+
+	@Test
+	@Issue("MOW-1814")
+	public void checkOrdering() {
+		init();
+		drawAndSelectStroke();
+		add("c:xx+yy=1");
+		assertEquals(0.0, lookup("stroke1").getOrdering(), 0.0);
+		assertEquals(1.0, lookup("c").getOrdering(), 0.0);
+		dragStart(250, 100);
+		dragEnd(400, 200);
+		assertEquals(0.0, lookup("stroke2").getOrdering(), 0.0);
+		assertEquals(0.5, lookup("stroke3").getOrdering(), 0.0);
+		assertEquals(1.0, lookup("c").getOrdering(), 0.0);
 	}
 
 	@Test
