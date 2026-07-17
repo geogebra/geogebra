@@ -102,8 +102,8 @@ public class MaskWidgetListW implements MaskWidgetList {
 				controller.widgetsToBackground();
 				view.getApplication().getSelectionManager().clearSelectedGeos();
 				
-				if (view instanceof EuclidianViewW) {
-					PointerEventHandler.startCapture((EuclidianViewW) view);
+				if (view instanceof EuclidianViewW viewW) {
+					PointerEventHandler.startCapture(viewW);
 					MouseTouchGestureControllerW mtg = ((EuclidianControllerW) controller)
 							.getMouseTouchGestureController();
 					AbstractEvent event = new PointerEvent(x + xOffset,

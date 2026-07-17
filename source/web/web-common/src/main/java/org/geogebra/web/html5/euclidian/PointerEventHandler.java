@@ -296,7 +296,7 @@ public class PointerEventHandler {
 	 * @param view graphics view
 	 */
 	public static void startCapture(EuclidianViewW view) {
-		setCapture(view.getAbsolutePanel().getElement());
+		setCapture(view.getPointerTarget());
 	}
 
 	private static void setCapture(Element element) {

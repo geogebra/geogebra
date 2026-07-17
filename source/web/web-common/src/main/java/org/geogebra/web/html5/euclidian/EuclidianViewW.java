@@ -756,12 +756,19 @@ public class EuclidianViewW extends EuclidianView implements
 
 		pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
 				euclidiancontroller.getOffsets());
-		// absolute panel has no parent in WebSimple
-		Element pointerTarget = absPanelElement.getParentElement() == null
-				? absPanelElement : absPanelElement.getParentElement();
-		pointerHandler.attachTo(pointerTarget, ((AppW) app).getGlobalHandlers());
+		pointerHandler.attachTo(getPointerTarget(), ((AppW) app).getGlobalHandlers());
 		CancelEventTimer.killTouch(absPanel);
 		absPanel.addBitlessDomHandler(DomEvent::stopPropagation, MouseDownEvent.getType());
+	}
+
+	/**
+	 * @return element used for handling pointer events
+	 */
+	public Element getPointerTarget() {
+		Element absPanelElement = getAbsolutePanel().getElement();
+		// absolute panel has no parent in WebSimple
+		return absPanelElement.getParentElement() == null
+				? absPanelElement : absPanelElement.getParentElement();
 	}
 
 	private static void registerDragDropHandlers(
