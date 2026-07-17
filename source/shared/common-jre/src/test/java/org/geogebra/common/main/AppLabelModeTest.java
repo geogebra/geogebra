@@ -16,16 +16,16 @@
 
 package org.geogebra.common.main;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.main.settings.LabelVisibility;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AppLabelModeTest extends BaseUnitTest {
+class AppLabelModeTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
@@ -33,7 +33,7 @@ public class AppLabelModeTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void polyhedronShouldOnlyLabelPointsInAutoMode() {
+	void polyhedronShouldOnlyLabelPointsInAutoMode() {
 		add("A=(1,0,0)");
 		add("B=(1,0,1)");
 		getApp().getSettings().getLabelSettings().setLabelVisibility(LabelVisibility.UseDefaults);
@@ -44,7 +44,7 @@ public class AppLabelModeTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void polyhedronShouldNotLabelAnythingInAlwaysOffMode() {
+	void polyhedronShouldNotLabelAnythingInAlwaysOffMode() {
 		add("A=(1,0,0)");
 		add("B=(1,0,1)");
 		getApp().getSettings().getLabelSettings().setLabelVisibility(LabelVisibility.AlwaysOff);

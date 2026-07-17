@@ -16,7 +16,7 @@
 
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 
 import org.geogebra.common.AppCommonFactory;
@@ -26,10 +26,10 @@ import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.geogebra3D.euclidianFor3D.DrawAngleFor3D;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.editor.share.util.Unicode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class AlgoAngleLines3DTest extends BaseUnitTest {
+class AlgoAngleLines3DTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
@@ -37,7 +37,7 @@ public class AlgoAngleLines3DTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void angleShouldWorkInIf() {
+	void angleShouldWorkInIf() {
 		t("a=If(true,Angle(xAxis,zAxis))", "90*" + Unicode.DEGREE_STRING);
 		t("SetVisibleInView(a,1,true)");
 		DrawableND drawable = getDrawable(lookup("a"));

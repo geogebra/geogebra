@@ -33,7 +33,7 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class SpreadsheetContextMenuTest extends BaseAppTestSetup {
+class SpreadsheetContextMenuTest extends BaseAppTestSetup {
 
 	private MyTable table;
 	private TabularRange selection;
@@ -114,7 +114,7 @@ public class SpreadsheetContextMenuTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testCreateGUIEmpty() {
+	void testCreateGUIEmpty() {
 		TestMenu menu = new TestMenu(table, new SpreadsheetToolProcessor(getApp(), null));
 		menu.createGUI();
 		List<Object> expected = List.of(MenuCommand.Copy, MenuCommand.Paste, MenuCommand.Cut,
@@ -123,7 +123,7 @@ public class SpreadsheetContextMenuTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testCreateGUISingleCell() {
+	void testCreateGUISingleCell() {
 		selection = new TabularRange(0, 0, 0, 0);
 		getApp().getSelectionManager().addSelectedGeo(lookup("A1"));
 		TestMenu menu = new TestMenu(table, new SpreadsheetToolProcessor(getApp(), null));
@@ -137,7 +137,7 @@ public class SpreadsheetContextMenuTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testCopyPaste() {
+	void testCopyPaste() {
 		selection = new TabularRange(0, 0, 0, 0);
 		getApp().getSelectionManager().addSelectedGeo(lookup("A1"));
 		TestMenu menu = new TestMenu(table, new SpreadsheetToolProcessor(getApp(), null));

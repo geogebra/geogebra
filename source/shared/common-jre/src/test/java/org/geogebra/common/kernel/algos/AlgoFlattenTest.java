@@ -21,12 +21,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AlgoFlattenTest extends BaseUnitTest {
+class AlgoFlattenTest extends BaseUnitTest {
 
 	@Test
-	public void shouldNotCreateExtraObjects() {
+	void shouldNotCreateExtraObjects() {
 		add("square={Polygon((0,0),(0,1),(1,1),(1,0))}");
 		add("k=7");
 		GeoList grid = add("grid=Flatten[Sequence[Translate["

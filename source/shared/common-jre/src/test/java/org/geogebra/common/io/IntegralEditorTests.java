@@ -54,8 +54,9 @@ import org.junit.jupiter.params.provider.CsvSource;
 import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-@SuppressWarnings("checkstyle:MixedTabs") // Tabs in CsvSources
-public class IntegralEditorTests {
+// Tabs in CsvSources
+@SuppressWarnings("checkstyle:MixedTabs")
+class IntegralEditorTests {
 	// Integral caret paths
 	private static final Integer[] BEFORE_INTEGRAL = {0};
 	private static final Integer[] AFTER_INTEGRAL = {1};
@@ -73,14 +74,14 @@ public class IntegralEditorTests {
 	private EditorChecker localizedChecker;
 
 	@BeforeAll
-	public static void prepare() {
+	static void prepare() {
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderCommon());
 		}
 	}
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		AppCommon app = AppCommonFactory.create();
 		checker = new EditorChecker(app);
 		checker.getMathField().getInternal().getInputController()
@@ -120,7 +121,7 @@ public class IntegralEditorTests {
 			"INTEGRAL_SYMBOLIC;	t^2;	t;	0;	1;	false;	false;	IntegralSymbolic(t^(2),t)",
 			"INTEGRAL_SYMBOLIC;	t^2;	t;	0;	1;	false;	true;	IntegralSymbolic(t^(2),t)",
 	})
-	public void testIntegralSerialization(Tag tag, String integrand, String variable,
+	void testIntegralSerialization(Tag tag, String integrand, String variable,
 			String lowerLimit, String upperLimit, boolean autoDefaultVariable,
 			boolean limitsVisible, String expected) throws ParseException {
 		TemplateCatalog catalog = new TemplateCatalog();
@@ -149,8 +150,8 @@ public class IntegralEditorTests {
 			"IntegralSymbolic(<Function>);							INTEGRAL_SYMBOLIC;	x;	true;	false",
 			"IntegralSymbolic(<Function>, <Variable>);				INTEGRAL_SYMBOLIC;	'';	true;	false",
 	})
-	public void testInitialInsertedIntegralStructureFromSyntax(String syntax, Tag tag,
-			String variable, boolean autoDefaultVariable, boolean limitsVisible) {
+	void testInitialInsertedIntegralStructureFromSyntax(String syntax, Tag tag,
+														String variable, boolean autoDefaultVariable, boolean limitsVisible) {
 		KeyboardInputAdapter.onKeyboardInput(checker.getMathField().getInternal(), syntax);
 		FunctionNode integral = getInsertedFunction(checker);
 		assertEquals(tag, integral.getName());
@@ -173,8 +174,8 @@ public class IntegralEditorTests {
 			"IntegralSymbolic(<Function>);							INTEGRAL_SYMBOLIC;	x;	true;	false",
 			"IntegralSymbolic(<Function>, <Variable>);				INTEGRAL_SYMBOLIC;	'';	true;	false",
 	})
-	public void testInitialInsertedCasIntegralStructureFromSyntax(String syntax, Tag tag,
-			String variable, boolean autoDefaultVariable, boolean limitsVisible) {
+	void testInitialInsertedCasIntegralStructureFromSyntax(String syntax, Tag tag,
+														   String variable, boolean autoDefaultVariable, boolean limitsVisible) {
 		KeyboardInputAdapter.onKeyboardInput(casChecker.getMathField().getInternal(), syntax);
 		FunctionNode integral = getInsertedFunction(casChecker);
 		assertEquals(tag, integral.getName());
@@ -186,21 +187,21 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testKeyboardIntegralCommandCreatesInlineIntegral() {
+	void testKeyboardIntegralCommandCreatesInlineIntegral() {
 		KeyboardInputAdapter.onCommandInput(checker.getMathField().getInternal(), "Integral");
 		checker.checkRaw("SequenceNode[FnINTEGRAL["
 				+ "SequenceNode[], SequenceNode[], SequenceNode[], SequenceNode[x]]]");
 	}
 
 	@Test
-	public void testIntegralWithEvaluateFromSuggestionStaysGenericCommand() {
+	void testIntegralWithEvaluateFromSuggestionStaysGenericCommand() {
 		KeyboardInputAdapter.onKeyboardInput(checker.getMathField().getInternal(),
 				"Integral( <Function>, <Start x-Value>, <End x-Value>, <Boolean Evaluate> )");
 		assertEquals(Tag.APPLY, getInsertedFunction(checker).getName());
 	}
 
 	@Test
-	public void testExcludedIntegralSyntaxDoesNotStartWithEmptyArgument() {
+	void testExcludedIntegralSyntaxDoesNotStartWithEmptyArgument() {
 		checker.convertFormulaForAV("a=Integral(x,1,2,true)")
 				.checkRaw("SequenceNode[a, =, FnAPPLY[SequenceNode[I, n, t, e, g, r, a, l], "
 						+ "SequenceNode[x], SequenceNode[1], SequenceNode[2], "
@@ -208,28 +209,28 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testNIntegralCurveFromSuggestionStaysGenericCommand() {
+	void testNIntegralCurveFromSuggestionStaysGenericCommand() {
 		KeyboardInputAdapter.onKeyboardInput(checker.getMathField().getInternal(),
 				"NIntegral( <Function>, <Start x-Value>, <Start y-Value>, <End x-Value> )");
 		assertEquals(Tag.APPLY, getInsertedFunction(checker).getName());
 	}
 
 	@Test
-	public void testCasIntegralFromSuggestionCreatesInlineIntegral() {
+	void testCasIntegralFromSuggestionCreatesInlineIntegral() {
 		KeyboardInputAdapter.onKeyboardInput(casChecker.getMathField().getInternal(),
 				"Integral( <Function>, <Variable>, <Start Value>, <End Value> )");
 		assertEquals(Tag.INTEGRAL, getInsertedFunction(casChecker).getName());
 	}
 
 	@Test
-	public void testCasNIntegralFromSuggestionCreatesInlineIntegral() {
+	void testCasNIntegralFromSuggestionCreatesInlineIntegral() {
 		KeyboardInputAdapter.onKeyboardInput(casChecker.getMathField().getInternal(),
 				"NIntegral( <Function>, <Variable>, <Start Value>, <End Value> )");
 		assertEquals(Tag.N_INTEGRAL, getInsertedFunction(casChecker).getName());
 	}
 
 	@Test
-	public void testIntegralWithEmptyVariableFromSuggestionEvaluatesWithDefaultVariable() {
+	void testIntegralWithEmptyVariableFromSuggestionEvaluatesWithDefaultVariable() {
 		KeyboardInputAdapter.onKeyboardInput(checker.getMathField().getInternal(),
 				"Integral( <Function>, <Variable> )");
 		checker.type("x");
@@ -238,7 +239,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testVisitedEmptyVariableFromSuggestionEvaluatesWithDefaultVariable() {
+	void testVisitedEmptyVariableFromSuggestionEvaluatesWithDefaultVariable() {
 		KeyboardInputAdapter.onKeyboardInput(checker.getMathField().getInternal(),
 				"Integral( <Function>, <Variable> )");
 		checker.right(1).checkCaret(VARIABLE_START)
@@ -249,21 +250,21 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testLocalizedIntegralWithIntegrandAndVariableFromSuggestionCreatesInlineIntegral() {
+	void testLocalizedIntegralWithIntegrandAndVariableFromSuggestionCreatesInlineIntegral() {
 		KeyboardInputAdapter.onKeyboardInput(localizedChecker.getMathField().getInternal(),
 				"Integrale( <Funzione>, <Variabile> )");
 		assertEquals(Tag.INTEGRAL, getInsertedFunction(localizedChecker).getName());
 	}
 
 	@Test
-	public void testLocalizedIntegralWithEvaluateFromSuggestionStaysGenericCommand() {
+	void testLocalizedIntegralWithEvaluateFromSuggestionStaysGenericCommand() {
 		KeyboardInputAdapter.onKeyboardInput(localizedChecker.getMathField().getInternal(),
 				"Integrale( <Funzione>, <x iniziale>, <x finale>, <Booleano Calcola> )");
 		assertEquals(Tag.APPLY, getInsertedFunction(localizedChecker).getName());
 	}
 
 	@Test
-	public void testLocalizedKeyboardIntegralCommandCreatesInlineIntegral() {
+	void testLocalizedKeyboardIntegralCommandCreatesInlineIntegral() {
 		KeyboardInputAdapter.onCommandInput(
 				localizedChecker.getMathField().getInternal(), "Integrale");
 		localizedChecker.checkRaw("SequenceNode[FnINTEGRAL["
@@ -271,7 +272,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testEnglishKeyboardIntegralCommandWorksWithLocalizedCommands() {
+	void testEnglishKeyboardIntegralCommandWorksWithLocalizedCommands() {
 		KeyboardInputAdapter.onCommandInput(
 				localizedChecker.getMathField().getInternal(), "Integral");
 		localizedChecker.checkRaw("SequenceNode[FnINTEGRAL["
@@ -279,7 +280,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testTypingLocalizedIntegralCommandCreatesInlineIntegral() {
+	void testTypingLocalizedIntegralCommandCreatesInlineIntegral() {
 		localizedChecker.type("Integrale(");
 		localizedChecker.checkRaw("SequenceNode[FnINTEGRAL["
 				+ "SequenceNode[], SequenceNode[], SequenceNode[], SequenceNode[x]]]");
@@ -293,13 +294,13 @@ public class IntegralEditorTests {
 			"IntegraleSimbolico(t^2,t)	-> IntegralSymbolic(t^(2),t)",
 			"Integrale(f,0,1,true)		-> Integral(f,0,1,true)",
 	})
-	public void testInsertingLocalizedIntegralCommand(String input, String expected) {
+	void testInsertingLocalizedIntegralCommand(String input, String expected) {
 		localizedChecker.getMathField().getInternal().insertString(input);
 		localizedChecker.checkAsciiMath(expected);
 	}
 
 	@Test
-	public void testReplacingVariableBySelectingAndTyping() {
+	void testReplacingVariableBySelectingAndTyping() {
 		KeyboardInputAdapter.onCommandInput(checker.getMathField().getInternal(), "Integral");
 		checker.type("sin(t)")
 				.right(1).checkCaret(VARIABLE_START)
@@ -309,14 +310,14 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testKeyboardNIntegralCommandCreatesInlineIntegral() {
+	void testKeyboardNIntegralCommandCreatesInlineIntegral() {
 		KeyboardInputAdapter.onCommandInput(checker.getMathField().getInternal(), "NIntegral");
 		checker.checkRaw("SequenceNode[FnN_INTEGRAL["
 				+ "SequenceNode[], SequenceNode[], SequenceNode[], SequenceNode[x]]]");
 	}
 
 	@Test
-	public void testSelectedTextIsMovedToIntegrand() {
+	void testSelectedTextIsMovedToIntegrand() {
 		checker.type("x^2").select(0, 1);
 		KeyboardInputAdapter.onCommandInput(checker.getMathField().getInternal(), "Integral");
 		checker.checkRaw("SequenceNode[FnINTEGRAL[SequenceNode[], SequenceNode[], SequenceNode[x], "
@@ -339,14 +340,14 @@ public class IntegralEditorTests {
 			"NIntegral(f,0,1,2)			-> NIntegral(f,0,1,2)",
 			"IntegralSymbolic(f,t,0)	-> IntegralSymbolic(f,t,0)",
 	})
-	public void testParserPreservesSupportedAndUnsupportedIntegralCommands(
+	void testParserPreservesSupportedAndUnsupportedIntegralCommands(
 			String input, String expected) throws ParseException {
 		assertEquals(expected, new GeoGebraSerializer(null)
 				.serialize(new Parser(new TemplateCatalog()).parse(input)));
 	}
 
 	@Test
-	public void testFourArgumentIntegralWithBooleanFlagRemainsGenericCommand()
+	void testFourArgumentIntegralWithBooleanFlagRemainsGenericCommand()
 			throws ParseException {
 		FunctionNode command = (FunctionNode) new Parser(new TemplateCatalog())
 				.parse("Integral(f,a,b,true)").getRootNode().getChild(0);
@@ -354,26 +355,26 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testTeXSerializerHidesIndefiniteIntegralLimits() throws ParseException {
+	void testTeXSerializerHidesIndefiniteIntegralLimits() throws ParseException {
 		assertEquals("\\int{}f\\,\\mathrm{d}x", new TeXSerializer()
 				.serialize(new Parser(new TemplateCatalog()).parse("Integral(f)")));
 	}
 
 	@Test
-	public void testTeXSerializerShowsDefiniteIntegralLimits() throws ParseException {
+	void testTeXSerializerShowsDefiniteIntegralLimits() throws ParseException {
 		assertEquals("\\int\\limits_{0}^{1}f\\,\\mathrm{d}x", new TeXSerializer()
 				.serialize(new Parser(new TemplateCatalog()).parse("Integral(f,0,1)")));
 	}
 
 	@Test
-	public void testTeXSerializerUsesFunctionVariableForDefiniteIntegral() throws ParseException {
+	void testTeXSerializerUsesFunctionVariableForDefiniteIntegral() throws ParseException {
 		assertEquals("\\int\\limits_{1}^{2}{{{\\mathrm{cos}}\\left(t\\right)}}\\,\\mathrm{d}t",
 				new TeXSerializer().serialize(new Parser(new TemplateCatalog())
 						.parse("Integral(cos(t),1,2)")));
 	}
 
 	@Test
-	public void testTeXSerializerNeverShowsSymbolicIntegralLimits() throws ParseException {
+	void testTeXSerializerNeverShowsSymbolicIntegralLimits() throws ParseException {
 		TemplateCatalog catalog = new TemplateCatalog();
 		Parser parser = new Parser(catalog);
 		Formula formula = new Formula(catalog, new SequenceNode());
@@ -388,7 +389,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testFocusingEmptyLimitRevealsLimitsWithInvisiblePlaceholder()
+	void testFocusingEmptyLimitRevealsLimitsWithInvisiblePlaceholder()
 			throws ParseException {
 		TemplateCatalog catalog = new TemplateCatalog();
 		Parser parser = new Parser(catalog);
@@ -407,7 +408,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testRightArrowNavigatesIntegralPrimaryFields() {
+	void testRightArrowNavigatesIntegralPrimaryFields() {
 		checker.parse("Integral(f)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.right(1).checkCaret(UPPER_LIMIT_START)
@@ -419,7 +420,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testLeftArrowNavigatesIntegralPrimaryFieldsInReverse() {
+	void testLeftArrowNavigatesIntegralPrimaryFieldsInReverse() {
 		checker.parse("Integral(f)").checkCaret(AFTER_INTEGRAL)
 				.left(1).checkCaret(VARIABLE_END)
 				.left(1).checkCaret(VARIABLE_START)
@@ -430,7 +431,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testLeftArrowFromIntegrandStartMovesAfterUpperLimit() {
+	void testLeftArrowFromIntegrandStartMovesAfterUpperLimit() {
 		checker.parse("Integral(f,t,0,1)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.right(3).checkCaret(INTEGRAND_START)
@@ -438,7 +439,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testLowerLimitLeftArrowExitsIntegral() {
+	void testLowerLimitLeftArrowExitsIntegral() {
 		checker.parse("Integral(f)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.typeKey(VK_DOWN).checkCaret(LOWER_LIMIT_START)
@@ -446,7 +447,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testLowerLimitRightArrowMovesToIntegrand() {
+	void testLowerLimitRightArrowMovesToIntegrand() {
 		checker.parse("Integral(f)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.typeKey(VK_DOWN).checkCaret(LOWER_LIMIT_START)
@@ -454,7 +455,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testVerticalNavigationMovesBetweenIntegralLimits() {
+	void testVerticalNavigationMovesBetweenIntegralLimits() {
 		checker.parse("Integral(f,t,0,1)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.typeKey(VK_UP).checkCaret(UPPER_LIMIT_START)
@@ -463,7 +464,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testUpArrowFromIntegrandStartMovesToUpperLimit() {
+	void testUpArrowFromIntegrandStartMovesToUpperLimit() {
 		checker.parse("Integral(f,t,0,1)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.right(3).checkCaret(INTEGRAND_START)
@@ -471,7 +472,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testDownArrowFromIntegrandStartMovesToLowerLimit() {
+	void testDownArrowFromIntegrandStartMovesToLowerLimit() {
 		checker.parse("Integral(f,t,0,1)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.right(3).checkCaret(INTEGRAND_START)
@@ -479,7 +480,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testDownArrowFromBeforeIntegralMovesBeforeLowerLimit() {
+	void testDownArrowFromBeforeIntegralMovesBeforeLowerLimit() {
 		checker.parse("Integral(f,t,0,1)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.typeKey(VK_DOWN).checkCaret(LOWER_LIMIT_START)
@@ -487,7 +488,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testDownArrowFromIntegrandEndDoesNotMoveToLowerLimit() {
+	void testDownArrowFromIntegrandEndDoesNotMoveToLowerLimit() {
 		checker.parse("Integral(f,t,0,1)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.right(4).checkCaret(INTEGRAND_END)
@@ -495,14 +496,14 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testDownArrowFromVariableEndDoesNotMoveToLowerLimit() {
+	void testDownArrowFromVariableEndDoesNotMoveToLowerLimit() {
 		checker.parse("Integral(f,t,0,1)").checkCaret(AFTER_INTEGRAL)
 				.left(1).checkCaret(VARIABLE_END)
 				.typeKey(VK_DOWN).checkCaret(VARIABLE_END);
 	}
 
 	@Test
-	public void testNavigatingToHiddenLimitRevealsLimits() {
+	void testNavigatingToHiddenLimitRevealsLimits() {
 		checker.parse("Integral(f)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.typeKey(VK_UP).checkCaret(UPPER_LIMIT_START)
@@ -512,7 +513,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testSymbolicIntegralNavigationSkipsLimits() {
+	void testSymbolicIntegralNavigationSkipsLimits() {
 		checker.parse("IntegralSymbolic(f)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.right(1).checkCaret(INTEGRAND_START)
@@ -525,26 +526,26 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testBackspaceNavigatesTemplateWithDefaultVariable() {
+	void testBackspaceNavigatesTemplateWithDefaultVariable() {
 		KeyboardInputAdapter.onCommandInput(checker.getMathField().getInternal(), "Integral");
 		checker.typeKey(VK_BACK_SPACE).checkCaret(UPPER_LIMIT_START);
 	}
 
 	@Test
-	public void testBackspaceNavigatesTemplateWithDefaultVariableAfterCaret() {
+	void testBackspaceNavigatesTemplateWithDefaultVariableAfterCaret() {
 		KeyboardInputAdapter.onCommandInput(checker.getMathField().getInternal(), "Integral");
 		checker.right(3).checkCaret(AFTER_INTEGRAL)
 				.typeKey(VK_BACK_SPACE).checkCaret(VARIABLE_END);
 	}
 
 	@Test
-	public void testDeleteNavigatesTemplateWithDefaultVariable() {
+	void testDeleteNavigatesTemplateWithDefaultVariable() {
 		KeyboardInputAdapter.onCommandInput(checker.getMathField().getInternal(), "NIntegral");
 		checker.typeKey(VK_DELETE).checkCaret(VARIABLE_START);
 	}
 
 	@Test
-	public void testBackspaceDeletesActuallyEmptyIntegralTemplate() {
+	void testBackspaceDeletesActuallyEmptyIntegralTemplate() {
 		KeyboardInputAdapter.onCommandInput(checker.getMathField().getInternal(), "Integral");
 		checker.typeKey(VK_DELETE).checkCaret(VARIABLE_START)
 				.typeKey(VK_DELETE).checkCaret(VARIABLE_START)
@@ -553,7 +554,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testBackspaceDeletesActuallyEmptyIntegralTemplateAfterCaret() {
+	void testBackspaceDeletesActuallyEmptyIntegralTemplateAfterCaret() {
 		KeyboardInputAdapter.onCommandInput(checker.getMathField().getInternal(), "Integral");
 		checker.typeKey(VK_DELETE).checkCaret(VARIABLE_START)
 				.typeKey(VK_DELETE).checkCaret(VARIABLE_START)
@@ -563,7 +564,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testDeleteRemovesLowerLimitCharacter() {
+	void testDeleteRemovesLowerLimitCharacter() {
 		checker.parse("Integral(f,0,1)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.typeKey(VK_DOWN).checkCaret(LOWER_LIMIT_START)
@@ -573,7 +574,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testDeleteRemovesUpperLimitCharacter() {
+	void testDeleteRemovesUpperLimitCharacter() {
 		checker.parse("Integral(f,0,1)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.typeKey(VK_UP).checkCaret(UPPER_LIMIT_START)
@@ -583,7 +584,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testDeleteRemovesIntegrandCharacter() {
+	void testDeleteRemovesIntegrandCharacter() {
 		checker.parse("Integral(f,0,1)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.right(3).checkCaret(INTEGRAND_START)
@@ -593,7 +594,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testDeleteRemovesVariableCharacter() {
+	void testDeleteRemovesVariableCharacter() {
 		checker.parse("Integral(f,t)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.right(4).checkCaret(VARIABLE_START)
@@ -603,7 +604,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testDeleteAtVariableEndMovesCaretInsideVariable() {
+	void testDeleteAtVariableEndMovesCaretInsideVariable() {
 		checker.parse("Integral(f,t,0,1)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.right(4).checkCaret(INTEGRAND_END)
@@ -611,7 +612,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testBackspaceAtVariableEndMovesCaretInsideIntegrand() {
+	void testBackspaceAtVariableEndMovesCaretInsideIntegrand() {
 		checker.parse("Integral(f,t)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.right(4).checkCaret(VARIABLE_START)
@@ -619,7 +620,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testBackspaceAtIntegrandEndMovesCaretInsideUpperLimit() {
+	void testBackspaceAtIntegrandEndMovesCaretInsideUpperLimit() {
 		checker.parse("Integral(f,t,0,1)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.right(3).checkCaret(INTEGRAND_START)
@@ -627,7 +628,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testBackspaceAtUpperLimitStartMovesCaretBeforeIntegral() {
+	void testBackspaceAtUpperLimitStartMovesCaretBeforeIntegral() {
 		checker.parse("Integral(f,t,0,1)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.typeKey(VK_UP).checkCaret(UPPER_LIMIT_START)
@@ -635,7 +636,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testDeleteAtLowerLimitEndMovesCaretToIntegrand() {
+	void testDeleteAtLowerLimitEndMovesCaretToIntegrand() {
 		checker.parse("Integral(f,t,0,1)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.typeKey(VK_DOWN).checkCaret(LOWER_LIMIT_START)
@@ -644,21 +645,21 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testDeleteBeforeIntegralNavigatesToUpperLimitWhenSupported() {
+	void testDeleteBeforeIntegralNavigatesToUpperLimitWhenSupported() {
 		checker.parse("Integral(x)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.typeKey(VK_DELETE).checkCaret(UPPER_LIMIT_START);
 	}
 
 	@Test
-	public void testDeleteBeforeIntegralNavigatesToIntegrandWhenLimitsAreUnsupported() {
+	void testDeleteBeforeIntegralNavigatesToIntegrandWhenLimitsAreUnsupported() {
 		checker.parse("IntegralSymbolic(x)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.typeKey(VK_DELETE).checkCaret(INTEGRAND_START);
 	}
 
 	@Test
-	public void testRemovingLimitContentKeepsVisibleEmptyPlaceholders() {
+	void testRemovingLimitContentKeepsVisibleEmptyPlaceholders() {
 		checker.parse("Integral(f,0,1)")
 				.typeKey(VK_HOME).checkCaret(BEFORE_INTEGRAL)
 				.typeKey(VK_DOWN).checkCaret(LOWER_LIMIT_START)
@@ -668,7 +669,7 @@ public class IntegralEditorTests {
 	}
 
 	@Test
-	public void testVisibleLowerLimitCanBeSelectedByClick() {
+	void testVisibleLowerLimitCanBeSelectedByClick() {
 		checker.parse("Integral(f,0,1)");
 		clickAtPath(LOWER_LIMIT_END);
 		checker.checkCaret(LOWER_LIMIT_END);

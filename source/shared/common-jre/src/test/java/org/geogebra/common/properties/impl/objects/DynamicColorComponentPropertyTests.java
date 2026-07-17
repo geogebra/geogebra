@@ -28,9 +28,9 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
+class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
 	@Test
-	public void testStaticColorComponentValueChanging() {
+	void testStaticColorComponentValueChanging() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement("(1, 2)");
 		DynamicColorModeProperty.activateDynamicColorMode(geoElement);
@@ -50,7 +50,7 @@ public class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testDynamicColorComponentValueChanging() {
+	void testDynamicColorComponentValueChanging() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoNumeric slider = evaluateGeoElement("a = Slider(0, 1, 0.1)");
 		GeoElement geoElement = evaluateGeoElement("(1, 2)");
@@ -76,7 +76,7 @@ public class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testDynamicColorComponentValueInvalid() {
+	void testDynamicColorComponentValueInvalid() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement("(1, 2)");
 		DynamicColorModeProperty.activateDynamicColorMode(geoElement);
@@ -87,8 +87,8 @@ public class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
 		assertEquals("Number expected", error);
 	}
 
-		@Test
-	public void testSettingHSLColorComponentValueWithActiveRGBColorSpace() {
+	@Test
+	void testSettingHSLColorComponentValueWithActiveRGBColorSpace() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement("(1, 2)");
 		DynamicColorModeProperty.activateDynamicColorMode(geoElement);
@@ -109,7 +109,7 @@ public class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testSettingHSLColorComponentValueWithInactiveDynamicColorMode() {
+	void testSettingHSLColorComponentValueWithInactiveDynamicColorMode() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement("(1, 2)");
 		DynamicColorComponentProperty lightnessColorComponentProperty =
@@ -127,7 +127,7 @@ public class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testDynamicColorComponentPropertyAvailabilityInRGBMode() {
+	void testDynamicColorComponentPropertyAvailabilityInRGBMode() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement("(1, 2)");
 		DynamicColorModeProperty.activateDynamicColorMode(geoElement);
@@ -156,7 +156,7 @@ public class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testDynamicColorComponentPropertyAvailabilityInHSLMode() {
+	void testDynamicColorComponentPropertyAvailabilityInHSLMode() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement("(1, 2)");
 		DynamicColorModeProperty.activateDynamicColorMode(geoElement);
@@ -185,7 +185,7 @@ public class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testDynamicColorComponentPropertyAvailabilityInHSBMode() {
+	void testDynamicColorComponentPropertyAvailabilityInHSBMode() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement("(1, 2)");
 		DynamicColorModeProperty.activateDynamicColorMode(geoElement);
@@ -214,7 +214,7 @@ public class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testOpacityColorComponentAvailabilityForFillableObjects() {
+	void testOpacityColorComponentAvailabilityForFillableObjects() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement("Circle((0, 0), 5)");
 		DynamicColorModeProperty.activateDynamicColorMode(geoElement);
@@ -232,7 +232,7 @@ public class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testActivationShouldMaintainDynamicReferences() {
+	void testActivationShouldMaintainDynamicReferences() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement("A=(1,1)");
 		DynamicColorModeProperty.activateDynamicColorMode(geoElement);

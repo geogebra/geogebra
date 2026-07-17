@@ -18,23 +18,21 @@ package org.geogebra.common.kernel.interval.node;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.interval.IntervalConstants;
-import org.geogebra.common.kernel.interval.IntervalSet;
 import org.geogebra.common.kernel.interval.operators.IntervalNodeEvaluator;
-import org.geogebra.common.plugin.Operation;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class IntervalExpressionNodeTest extends BaseUnitTest {
+class IntervalExpressionNodeTest extends BaseUnitTest {
 
 	private final IntervalNodeEvaluator evaluator = new IntervalNodeEvaluator();
 
 	@Test
-	public void testCreation() {
+	void testCreation() {
 		IntervalFunctionVariable functionVariable = new IntervalFunctionVariable();
 		IntervalExpressionNode node = new IntervalExpressionNode(evaluator, functionVariable,
 				IntervalOperation.SIN);
@@ -45,21 +43,21 @@ public class IntervalExpressionNodeTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testConstant() {
+	void testConstant() {
 		IntervalFunctionValue constant = new IntervalFunctionValue(one());
 		IntervalExpressionNode node = new IntervalExpressionNode(evaluator, constant);
 		assertEquals(one(), node.value());
 	}
 
 	@Test
-	public void testNoFunctionVariable() {
+	void testNoFunctionVariable() {
 		IntervalFunctionValue constant = new IntervalFunctionValue(one());
 		IntervalExpressionNode node = new IntervalExpressionNode(evaluator, constant);
 		assertFalse(node.hasFunctionVariable());
 	}
 
 	@Test
-	public void testHasFunctionVariable() {
+	void testHasFunctionVariable() {
 		IntervalFunctionVariable functionVariable = new IntervalFunctionVariable();
 		IntervalFunctionValue constant = new IntervalFunctionValue(one());
 		IntervalExpressionNode inner =
@@ -72,7 +70,7 @@ public class IntervalExpressionNodeTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testLnExpXShouldBeX() {
+	void testLnExpXShouldBeX() {
 		IntervalFunctionVariable functionVariable = new IntervalFunctionVariable();
 		functionVariable.set(1000);
 		IntervalExpressionNode exp =
@@ -86,7 +84,7 @@ public class IntervalExpressionNodeTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testNestedLnExpShouldSimplifyPairwise() {
+	void testNestedLnExpShouldSimplifyPairwise() {
 		IntervalFunctionVariable functionVariable = new IntervalFunctionVariable();
 		functionVariable.set(1000);
 		IntervalExpressionNode innerExp =

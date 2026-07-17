@@ -16,19 +16,19 @@
 
 package org.geogebra.common.spreadsheet.core;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.Set;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class SpreadsheetStyleBarModelTests {
+class SpreadsheetStyleBarModelTests {
 
 	@Test
-	public void testStateEqualitySame() {
+	void testStateEqualitySame() {
 		SpreadsheetStyleBarModel.State state1 = new SpreadsheetStyleBarModel.State(
 				true,
 				Set.of(SpreadsheetStyling.FontTrait.BOLD),
@@ -45,7 +45,7 @@ public class SpreadsheetStyleBarModelTests {
 	}
 
 	@Test
-	public void testStateEqualityDifferentFontTraits() {
+	void testStateEqualityDifferentFontTraits() {
 		SpreadsheetStyleBarModel.State state1 = new SpreadsheetStyleBarModel.State(
 				true,
 				Set.of(SpreadsheetStyling.FontTrait.BOLD),
@@ -62,7 +62,7 @@ public class SpreadsheetStyleBarModelTests {
 	}
 
 	@Test
-	public void testStateEqualityDifferentBackgroundColors() {
+	void testStateEqualityDifferentBackgroundColors() {
 		SpreadsheetStyleBarModel.State state1 = new SpreadsheetStyleBarModel.State(
 				true,
 				null,

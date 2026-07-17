@@ -19,7 +19,7 @@ package org.geogebra.common.gui.view.table;
 import static org.mockito.Mockito.when;
 
 import org.geogebra.common.BaseUnitTest;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 
 public class MockedTableValuesUnitTest extends BaseUnitTest {
@@ -27,8 +27,8 @@ public class MockedTableValuesUnitTest extends BaseUnitTest {
 	protected TableValues view;
 	protected TableValuesModel model;
 
-	@Before
-	public void createMockedObjects() {
+	@BeforeEach
+	void createMockedObjects() {
 		view = Mockito.mock(TableValues.class);
 		model = Mockito.mock(TableValuesModel.class);
 	}

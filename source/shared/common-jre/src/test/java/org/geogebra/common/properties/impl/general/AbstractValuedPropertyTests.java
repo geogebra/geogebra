@@ -16,7 +16,7 @@
 
 package org.geogebra.common.properties.impl.general;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,12 +25,12 @@ import java.util.List;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AbstractValuedPropertyTests extends BaseUnitTest {
+class AbstractValuedPropertyTests extends BaseUnitTest {
 
 	@Test
-	public void testValueChangeNotification() {
+	void testValueChangeNotification() {
 		DummyAbstractValuedProperty property =
 				new DummyAbstractValuedProperty(getLocalization(), "Dummy");
 		List<Object> observedValues = new ArrayList<>();
@@ -45,7 +45,7 @@ public class AbstractValuedPropertyTests extends BaseUnitTest {
 
 		private Object value;
 
-		public DummyAbstractValuedProperty(Localization localization, String name) {
+		DummyAbstractValuedProperty(Localization localization, String name) {
 			super(localization, name);
 		}
 

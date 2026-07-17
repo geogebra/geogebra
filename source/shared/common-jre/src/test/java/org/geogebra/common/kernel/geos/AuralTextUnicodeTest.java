@@ -18,7 +18,7 @@ package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.LatexRendererSettings;
@@ -34,12 +34,12 @@ import org.geogebra.editor.share.serializer.ScreenReaderSerializer;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.test.LocalizationCommonUTF;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.serialize.SerializationAdapter;
 
-public class AuralTextUnicodeTest extends BaseUnitTest {
+class AuralTextUnicodeTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon3D createAppCommon() {
@@ -53,14 +53,14 @@ public class AuralTextUnicodeTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void functionTest() {
+	void functionTest() {
 		add("a=7");
 		auralDefinition("a+sqrt(x)", "a + sqrt(x)");
 		auralValue("a+sqrt(x)", "g(x) = 7 + sqrt(x)");
 	}
 
 	@Test
-	public void testAuralDegreeUnicode() {
+	void testAuralDegreeUnicode() {
 		auralText("LaTeX(\"\\text{a 7\\degree}\")", "a 7°");
 		auralText("LaTeX(\"\\text{a 1\\degree}\")", "a 1°");
 	}
@@ -73,7 +73,7 @@ public class AuralTextUnicodeTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testLaTeX() {
+	void testLaTeX() {
 		auralText("LaTeX(x-y)", "x" + Unicode.MINUS + "y");
 		auralText("LaTeX(\"x-y\")", "x" + Unicode.MINUS + "y");
 		auralText("LaTeX(\"\\text{x-y}\")", "x\u2010y");
@@ -84,7 +84,7 @@ public class AuralTextUnicodeTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testNumbers() {
+	void testNumbers() {
 		auralValue("-1", "a = " + Unicode.MINUS + "1");
 		auralDefinition("-1", Unicode.MINUS + "1");
 		auralDefinition("a-1-a", "a " + Unicode.MINUS + " 1 " + Unicode.MINUS + " a");
@@ -92,7 +92,7 @@ public class AuralTextUnicodeTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void shouldHaveSpaceForScreenReader() {
+	void shouldHaveSpaceForScreenReader() {
 		FactoryProvider.setInstance(new FactoryProviderCommon());
 		add("A=(1,1)");
 		GeoInputBox input = add("ib=InputBox(A)");

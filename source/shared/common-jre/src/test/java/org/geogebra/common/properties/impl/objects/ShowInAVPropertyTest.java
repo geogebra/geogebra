@@ -21,12 +21,12 @@ import static org.hamcrest.core.Is.is;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ShowInAVPropertyTest extends BaseUnitTest {
+class ShowInAVPropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testIsEnabledWhenHiddenInGraphics() {
+	void testIsEnabledWhenHiddenInGraphics() {
 		GeoElement element = getElementFactory().createGeoLine();
 		element.setEuclidianVisible(false);
 

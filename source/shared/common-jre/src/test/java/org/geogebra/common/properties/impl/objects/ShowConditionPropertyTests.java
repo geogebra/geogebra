@@ -26,9 +26,9 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class ShowConditionPropertyTests extends BaseAppTestSetup {
+class ShowConditionPropertyTests extends BaseAppTestSetup {
 	@Test
-	public void testSettingCondition() {
+	void testSettingCondition() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPoint point = evaluateGeoElement("A = (0, 0)");
 		ShowConditionProperty showConditionProperty =
@@ -47,7 +47,7 @@ public class ShowConditionPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testDynamicCondition() {
+	void testDynamicCondition() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPoint point = evaluateGeoElement("A = (0, 0)");
 		GeoNumeric slider = evaluateGeoElement("a = Slider(-5, 5, 0.1)");

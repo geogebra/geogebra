@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class TextStylePropertyTests extends BaseAppTestSetup {
+class TextStylePropertyTests extends BaseAppTestSetup {
 	private final GeoElementPropertiesFactory propertiesFactory = new GeoElementPropertiesFactory();
 
 	@ParameterizedTest
@@ -43,7 +43,7 @@ public class TextStylePropertyTests extends BaseAppTestSetup {
 			"\"abc\"",
 			"Button(\"Press\")",
 	})
-	public void testApplicableGeoElements(String expression) {
+	void testApplicableGeoElements(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertDoesNotThrow(() -> new TextStyleProperty(
 				propertiesFactory, getLocalization(), List.of(evaluateGeoElement(expression))));
@@ -54,7 +54,7 @@ public class TextStylePropertyTests extends BaseAppTestSetup {
 			"(1, 2)",
 			"a = Slider(-5, 5, 1)",
 	})
-	public void testNonApplicableGeoElements(String expression) {
+	void testNonApplicableGeoElements(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertThrows(NotApplicablePropertyException.class, () -> new TextStyleProperty(
 				propertiesFactory, getLocalization(), List.of(evaluateGeoElement(expression))));
@@ -64,7 +64,7 @@ public class TextStylePropertyTests extends BaseAppTestSetup {
 	@ValueSource(strings = {
 			"a = InputBox()",
 	})
-	public void testInputBoxHasOnlySerifTextStyle(String expression)
+	void testInputBoxHasOnlySerifTextStyle(String expression)
 			throws NotApplicablePropertyException {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertDoesNotThrow(() -> new TextStyleProperty(
@@ -77,7 +77,7 @@ public class TextStylePropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testInlineHasUnderlineTextStyle() throws NotApplicablePropertyException {
+	void testInlineHasUnderlineTextStyle() throws NotApplicablePropertyException {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoInlineTable table = new GeoInlineTable(getKernel().getConstruction(), new GPoint2D());
 		TextStyleProperty textStyleProperty = new TextStyleProperty(
@@ -87,7 +87,7 @@ public class TextStylePropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testTogglingValues() {
+	void testTogglingValues() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoText geoText = evaluateGeoElement("\"abc\"");
 		TextStyleProperty textStyleProperty = assertDoesNotThrow(() -> new TextStyleProperty(

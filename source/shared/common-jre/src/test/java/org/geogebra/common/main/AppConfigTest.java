@@ -27,12 +27,12 @@ import java.io.ObjectOutputStream;
 
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.equationforms.DefaultEquationBehaviour;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AppConfigTest {
+class AppConfigTest {
 
 	@Test
-	public void serializeGraphing() throws IOException, ClassNotFoundException {
+	void serializeGraphing() throws IOException, ClassNotFoundException {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		ObjectOutputStream os = new ObjectOutputStream(bos);
 		AppConfigGraphing obj = new AppConfigGraphing();

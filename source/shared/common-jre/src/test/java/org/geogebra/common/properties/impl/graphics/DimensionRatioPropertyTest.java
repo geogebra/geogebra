@@ -25,15 +25,15 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class DimensionRatioPropertyTest extends BaseAppTestSetup {
+class DimensionRatioPropertyTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test
-	public void testGetRatio() {
+	void testGetRatio() {
 		EuclidianView view = getApp().getEuclidianView1();
 		DimensionRatioProperty property = new DimensionRatioProperty(getLocalization(), view);
 		StringProperty xRatio = (StringProperty) property.getProperties()[0];
@@ -55,7 +55,7 @@ public class DimensionRatioPropertyTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testSetRatio() {
+	void testSetRatio() {
 		EuclidianView view = getApp().getEuclidianView1();
 		DimensionRatioProperty property = new DimensionRatioProperty(getLocalization(), view);
 		StringProperty yRatio = (StringProperty) property.getProperties()[1];

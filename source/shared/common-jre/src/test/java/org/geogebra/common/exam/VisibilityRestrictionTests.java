@@ -42,9 +42,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class VisibilityRestrictionTests extends BaseAppTestSetup {
+class VisibilityRestrictionTests extends BaseAppTestSetup {
 	@BeforeEach
-	public void setupApp() {
+	void setupApp() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
@@ -56,12 +56,12 @@ public class VisibilityRestrictionTests extends BaseAppTestSetup {
 			"x^2 + y^2 = 5",
 			"(1, 2)",
 	})
-	public void testEmptySetOfVisibilityRestrictions(String expression) {
+	void testEmptySetOfVisibilityRestrictions(String expression) {
 		assertFalse(isVisibilityRestricted(evaluateGeoElement(expression), Set.of()));
 	}
 
 	@Test
-	public void testIgnoredRestrictionEffects() {
+	void testIgnoredRestrictionEffects() {
 		Set<VisibilityRestriction> visibilityRestrictions = Set.of(
 				geoElement -> geoElement.isInequality() ? HIDE : IGNORE,
 				geoElement -> geoElement.isAngle() ? HIDE : IGNORE);
@@ -69,7 +69,7 @@ public class VisibilityRestrictionTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testIgnoredAndHiddenRestrictionEffects() {
+	void testIgnoredAndHiddenRestrictionEffects() {
 		Set<VisibilityRestriction> visibilityRestrictions = Set.of(
 				geoElement -> geoElement.isInequality() ? HIDE : IGNORE,
 				geoElement -> geoElement.isAngle() ? HIDE : IGNORE);
@@ -77,7 +77,7 @@ public class VisibilityRestrictionTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testOverlappingConflictingRestrictionsWithHiddenAndAllowedEffects() {
+	void testOverlappingConflictingRestrictionsWithHiddenAndAllowedEffects() {
 		GeoElement linearEquation = evaluateGeoElement("x = 2");
 		GeoElement quadraticEquation = evaluateGeoElement("x^2 = 2");
 		assertAll(() -> assertTrue(isEquation(linearEquation)),
@@ -100,7 +100,7 @@ public class VisibilityRestrictionTests extends BaseAppTestSetup {
 			"a = (1, 2)",
 			"b = (1, 2) + 0"
 	})
-	public void testVectorRestrictions(String expression) {
+	void testVectorRestrictions(String expression) {
 		assertTrue(isVisibilityRestricted(evaluateGeoElement(expression),
 				Set.of(new HiddenVectorVisibilityRestriction())));
 	}
@@ -115,7 +115,7 @@ public class VisibilityRestrictionTests extends BaseAppTestSetup {
 			"f: x > 0",
 			"f(x) = x > 2",
 	})
-	public void testInequalityRestrictions(String expression) {
+	void testInequalityRestrictions(String expression) {
 		assertTrue(isVisibilityRestricted(evaluateGeoElement(expression),
 				Set.of(new HiddenInequalityVisibilityRestriction())));
 	}

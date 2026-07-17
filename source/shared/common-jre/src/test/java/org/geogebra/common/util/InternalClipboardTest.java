@@ -33,15 +33,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class InternalClipboardTest extends BaseAppTestSetup {
+class InternalClipboardTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GEOMETRY);
 	}
 
 	@Test
-	public void clipboardItemsShouldBeSorted() {
+	void clipboardItemsShouldBeSorted() {
 		getApp().setRounding("2");
 		evaluate("A=(0,0)");
 		evaluate("B=(1,1)");
@@ -64,7 +64,7 @@ public class InternalClipboardTest extends BaseAppTestSetup {
 			"Stadium((1,1),(3,1),2);Stadium((-1, 0), (1, 0), 2)",
 			"BezierCurve((1,1),(3,1),(2,3),(5,3));BezierCurve((-2, -1), (0, -1), (-1, 1), (2, 1))"
 	}, delimiter = ';')
-	public void pastedElementsShouldBeCentered(String input, String centered) {
+	void pastedElementsShouldBeCentered(String input, String centered) {
 		getApp().setNotesConfig();
 		evaluate("ZoomIn(-10,-10,10,10)");
 		GeoElement s = evaluateGeoElement("s=" + input);
@@ -80,7 +80,7 @@ public class InternalClipboardTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void pastingShouldNotCreateDuplicatedOrdering() {
+	void pastingShouldNotCreateDuplicatedOrdering() {
 		setupNotesApp();
 		GeoElement polygon = evaluateGeoElement(
 				"poly = Polygon((-4, 2), (-1, 2), (-1, 0), (4, 0))");

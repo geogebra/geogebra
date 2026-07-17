@@ -16,25 +16,25 @@
 
 package org.geogebra.common.kernel.geos;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class GeoInputBoxForComplexTest extends BaseUnitTest {
+class GeoInputBoxForComplexTest extends BaseUnitTest {
 
 	@Test
 	@Issue("WLY-28")
-	public void rootOfMinusOneShouldBeImaginaryWithComplexNumber() {
+	void rootOfMinusOneShouldBeImaginaryWithComplexNumber() {
 		add("z_1 = 3 + 2i");
 		shouldBeUpdatedAs("sqrt(-1)", "i");
 	}
 
 	@Test
-	public void imaginaryUnitShouldOverrideUserDefinedVarForPoints() {
+	void imaginaryUnitShouldOverrideUserDefinedVarForPoints() {
 		add("z_1 = 3 + 2i");
 		add("i = 7");
 		shouldBeUpdatedAs("2i", "2 i");
@@ -43,7 +43,7 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void userDefinedVarShouldOverrideImaginaryUnitForNumbers() {
+	void userDefinedVarShouldOverrideImaginaryUnitForNumbers() {
 		add("i = 7");
 		add("z_1 = 3 + 2i");
 		shouldBeUpdatedAs("2i", "2 i");
@@ -52,13 +52,13 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void rootOfMinusOneShouldBeUsedInExpression() {
+	void rootOfMinusOneShouldBeUsedInExpression() {
 		add("z_1 = 1 + 6i");
 		shouldBeUpdatedAs("2 + 3sqrt(-1)", "2+3 i");
 	}
 
 	@Test
-	public void sinShouldBeTyped() {
+	void sinShouldBeTyped() {
 		add("z_1 = 3+2i");
 		shouldBeUpdatedAs("sin45", "sin(45" + Unicode.DEGREE_CHAR + ")");
 	}
@@ -70,14 +70,14 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testImaginaryShouldRenderedAsRegularI() {
+	void testImaginaryShouldRenderedAsRegularI() {
 		GeoInputBox inputBox = withComplexLinkedGeo();
 		assertEquals("3 + 2 \\; i", inputBox.getText());
 		assertEquals("3+2 i", inputBox.getTextForEditor());
 	}
 
 	@Test
-	public void testImaginaryShouldRenderedAsRegularIForFunctions() {
+	void testImaginaryShouldRenderedAsRegularIForFunctions() {
 		GeoInputBox inputBox = withLinkedGeo("f", "x + i");
 		assertEquals("x + i", inputBox.getText());
 		assertEquals("x+i", inputBox.getTextForEditor());
@@ -99,13 +99,13 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testImaginaryShouldEditedAsRegularI() {
+	void testImaginaryShouldEditedAsRegularI() {
 		GeoInputBox inputBox = withComplexLinkedGeo();
 		assertEquals("3+2 i", inputBox.getTextForEditor());
 	}
 
 	@Test
-	public void testOnUpdateImaginaryShouldBeUsed() {
+	void testOnUpdateImaginaryShouldBeUsed() {
 		GeoInputBox inputBox = withComplexLinkedGeo();
 		inputBox.updateLinkedGeo("4 + 5" + Unicode.IMAGINARY);
 		assertEquals("4 + 5 \\; i", inputBox.getText());
@@ -113,46 +113,46 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void capitalIShouldBeSmallIWhenComplex() {
+	void capitalIShouldBeSmallIWhenComplex() {
 		GeoInputBox inputBox = withComplexLinkedGeo();
 		inputBox.updateLinkedGeo("4+5I");
 		assertEquals("4 + 5 \\; i", inputBox.getText());
 	}
 
 	@Test
-	public void formulaTextShouldUseRegularIWhenComplex() {
+	void formulaTextShouldUseRegularIWhenComplex() {
 		withComplexLinkedGeo();
 		GeoText text = add("FormulaText[InputBox1]");
 		assertEquals("3 + 2 \\; i", text.getTextString());
 	}
 
 	@Test
-	public void inputBoxPlusStringShouldUseImaginaryWhenComplex() {
+	void inputBoxPlusStringShouldUseImaginaryWhenComplex() {
 		withComplexLinkedGeo();
 		GeoText text = add("InputBox1 + \"\"");
 		assertEquals("3 + 2" + Unicode.IMAGINARY, text.getTextString());
 	}
 
 	@Test
-	public void formulaTextOnePlusIShouldUseRegularI() {
+	void formulaTextOnePlusIShouldUseRegularI() {
 		GeoText text = add("FormulaText(1+" + Unicode.IMAGINARY + ")");
 		assertEquals("1 + i", text.getTextString());
 	}
 
 	@Test
-	public void addOnePlusIShouldUseImaginary() {
+	void addOnePlusIShouldUseImaginary() {
 		GeoText text = add("(1 + " + Unicode.IMAGINARY + ") + \"\"");
 		assertEquals("(1 + " + Unicode.IMAGINARY + ")", text.getTextString());
 	}
 
 	@Test
-	public void textOnePlusIShouldUseImaginary() {
+	void textOnePlusIShouldUseImaginary() {
 		GeoText text = add("Text(1+" + Unicode.IMAGINARY + ")");
 		assertEquals("1 + " + Unicode.IMAGINARY, text.getTextString());
 	}
 
 	@Test
-	public void functionVariableEShouldStayAsVariable() {
+	void functionVariableEShouldStayAsVariable() {
 		GeoInputBox inputBox = withLinkedGeo("g(e)", "g", "?");
 		GeoNumeric a = add("a = g(1)");
 		inputBox.updateLinkedGeo("e");
@@ -160,7 +160,7 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void functionMultiVarIAndEShouldStayVariables() {
+	void functionMultiVarIAndEShouldStayVariables() {
 		GeoInputBox inputBox = withLinkedGeo("g(e, i, v)", "g", "?");
 		GeoNumeric a = add("a = g(1, 2, 3)");
 		inputBox.updateLinkedGeo("2e + 3i - 4v");
@@ -168,7 +168,7 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void functionVariableIShouldStayAsVariable() {
+	void functionVariableIShouldStayAsVariable() {
 		GeoInputBox inputBox = withLinkedGeo("g(i)", "g", "?");
 		GeoNumeric a = add("a = g(1)");
 		inputBox.updateLinkedGeo("3i/2");
@@ -177,7 +177,7 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-7630")
-	public void rootOfNegativeNumberShouldBeImaginary() {
+	void rootOfNegativeNumberShouldBeImaginary() {
 		add("z_1 = 3 + 2i");
 		shouldBeUpdatedAs("sqrt(-25)", "sqrt(-25)");
 		assertEquals("5" + Unicode.IMAGINARY,
@@ -186,7 +186,7 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-7630")
-	public void rootOfNegativeNumberShouldBeImaginaryInSum() {
+	void rootOfNegativeNumberShouldBeImaginaryInSum() {
 		add("z_1 = 3 + 2i");
 		shouldBeUpdatedAs("sqrt(-25)+i", "sqrt(-25)+i");
 		assertEquals("6" + Unicode.IMAGINARY,

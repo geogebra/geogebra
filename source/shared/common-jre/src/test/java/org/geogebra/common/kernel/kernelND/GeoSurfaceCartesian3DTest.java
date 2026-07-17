@@ -21,13 +21,13 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class GeoSurfaceCartesian3DTest extends BaseUnitTest {
+class GeoSurfaceCartesian3DTest extends BaseUnitTest {
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		getApp().set3dConfig();
 	}
 
@@ -37,7 +37,7 @@ public class GeoSurfaceCartesian3DTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testGeoSurfaceCartesianNDHasTwoFunctions() {
+	void testGeoSurfaceCartesianNDHasTwoFunctions() {
 		getApp().set3dConfig();
 		addAvInput("f(a,b)=(a+b,a-b)");
 		GeoSurfaceCartesian3D g = addAvInput("g(u,v)=f(u,v)+(0,0,1)");
@@ -46,7 +46,7 @@ public class GeoSurfaceCartesian3DTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5899")
-	public void testCopyOfUndefinedSurface() {
+	void testCopyOfUndefinedSurface() {
 		add("f:Element({x},2)");
 		t("Sequence(Surface(f(u),v+s,u+v,u,0,1,v,0,1),s,1,3)", "{?, ?, ?}");
 	}

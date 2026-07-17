@@ -23,13 +23,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CellFormatTest {
+class CellFormatTest {
 
 	@Test
 	@Issue("APPS-5552")
-	public void testGetCellFormatRange() {
+	void testGetCellFormatRange() {
 		TabularRange fullRange = new TabularRange(-1, -1, -1, -1);
 		CellFormat format = new CellFormat(null);
 		TabularRange rectRange = new TabularRange(1, 2, 3, 4);

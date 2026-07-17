@@ -30,7 +30,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.junit.jupiter.api.Test;
 
-public class SuggestionIntersectExtremumTest {
+class SuggestionIntersectExtremumTest {
 
 	private AppCommon app = AppCommonFactory.create3D();
 
@@ -57,7 +57,7 @@ public class SuggestionIntersectExtremumTest {
 	}
 
 	@Test
-	public void rootSuggestionShouldVanish() {
+	void rootSuggestionShouldVanish() {
 		add("f:x");
 		GeoElement line = lookup("f");
 		assertNotNull(SuggestionIntersectExtremum.get(line));
@@ -68,7 +68,7 @@ public class SuggestionIntersectExtremumTest {
 	}
 
 	@Test
-	public void rootSuggestionForParabolaShouldVanish() {
+	void rootSuggestionForParabolaShouldVanish() {
 		add("f:y=x^2-6x+8");
 		GeoElement parabola = lookup("f");
 		assertNotNull(SuggestionIntersectExtremum.get(parabola));
@@ -79,7 +79,7 @@ public class SuggestionIntersectExtremumTest {
 	}
 
 	@Test
-	public void rootSuggestionForParabolaShouldCreatePoints() {
+	void rootSuggestionForParabolaShouldCreatePoints() {
 		add("f:y=x^2-6x+8");
 		GeoElement parabola = lookup("f");
 		assertNotNull(SuggestionIntersectExtremum.get(parabola));
@@ -89,14 +89,14 @@ public class SuggestionIntersectExtremumTest {
 	}
 
 	@Test
-	public void rootSuggestionForHyperbola() {
+	void rootSuggestionForHyperbola() {
 		add("f:xx-yy=1");
 		GeoElement hyperbola = lookup("f");
 		assertNull(SuggestionIntersectExtremum.get(hyperbola));
 	}
 
 	@Test
-	public void suggestionShouldNotCreateTwice() {
+	void suggestionShouldNotCreateTwice() {
 		add("f:x");
 		GeoElement line = lookup("f");
 		SuggestionIntersectExtremum.get(line).execute(line);
@@ -108,7 +108,7 @@ public class SuggestionIntersectExtremumTest {
 	}
 
 	@Test
-	public void suggestionShouldNotCreateTwiceNonPolynomial() {
+	void suggestionShouldNotCreateTwiceNonPolynomial() {
 		add("f:1/x");
 		GeoElement line = lookup("f");
 		SuggestionIntersectExtremum.get(line).execute(line);

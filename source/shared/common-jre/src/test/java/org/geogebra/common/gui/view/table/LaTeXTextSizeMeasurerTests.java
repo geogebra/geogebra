@@ -16,35 +16,35 @@
 
 package org.geogebra.common.gui.view.table;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.gui.view.table.dimensions.LaTeXTextSizeMeasurer;
 import org.geogebra.common.io.FactoryProviderCommon;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class LaTeXTextSizeMeasurerTests {
+class LaTeXTextSizeMeasurerTests {
 
 	private LaTeXTextSizeMeasurer measurer;
 
-	@Before
-	public void setup() {
+	@BeforeEach
+	void setup() {
 		FactoryProvider.setInstance(new FactoryProviderCommon());
 		measurer = new LaTeXTextSizeMeasurer(10);
 	}
 
 	@Test
-	public void testValidFormula() {
+	void testValidFormula() {
 		int width = measurer.getWidth("10");
 		assertTrue(width > 0);
 	}
 
 	/** APPS-4584 */
 	@Test
-	public void testInvalidFormula() {
+	void testInvalidFormula() {
 		int width = measurer.getWidth("&"); // this should not throw
 		assertEquals(0, width);
 	}

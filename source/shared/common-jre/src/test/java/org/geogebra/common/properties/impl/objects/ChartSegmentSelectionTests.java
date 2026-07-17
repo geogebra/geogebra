@@ -26,9 +26,9 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
-public class ChartSegmentSelectionTests {
+class ChartSegmentSelectionTests {
 	@Test
-	public void testApplyingWithSingleSegmentSelection() {
+	void testApplyingWithSingleSegmentSelection() {
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
 		List<Integer> setterCalledForIndexes = new ArrayList<>();
 
@@ -38,7 +38,7 @@ public class ChartSegmentSelectionTests {
 	}
 
 	@Test
-	public void testApplyingWithAllSegmentsSelected() {
+	void testApplyingWithAllSegmentsSelected() {
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
 		List<Integer> setterCalledForIndexes = new ArrayList<>();
 
@@ -48,7 +48,7 @@ public class ChartSegmentSelectionTests {
 	}
 
 	@Test
-	public void testGettingUniformValueOrNullWithSingleSegmentSelected() {
+	void testGettingUniformValueOrNullWithSingleSegmentSelected() {
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
 		Function<Integer, Integer> getter = index -> switch (index) {
 			case 1 -> 111;
@@ -68,7 +68,7 @@ public class ChartSegmentSelectionTests {
 	}
 
 	@Test
-	public void testGettingUniformValueOrNullWithAllSegmentsSelectedWithDifferentValues() {
+	void testGettingUniformValueOrNullWithAllSegmentsSelectedWithDifferentValues() {
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
 		Function<Integer, Integer> getter = index -> switch (index) {
 			case 1 -> 111;
@@ -81,7 +81,7 @@ public class ChartSegmentSelectionTests {
 	}
 
 	@Test
-	public void testGettingUniformValueOrNullWithAllSegmentsSelectedWithUniformValues() {
+	void testGettingUniformValueOrNullWithAllSegmentsSelectedWithUniformValues() {
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
 		Function<Integer, Integer> getter = index -> switch (index) {
 			case 1, 2, 3 -> 123;
@@ -92,7 +92,7 @@ public class ChartSegmentSelectionTests {
 	}
 
 	@Test
-	public void testGettingFirstValueWithSingleSegmentSelected() {
+	void testGettingFirstValueWithSingleSegmentSelected() {
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
 		Function<Integer, Integer> getter = index -> switch (index) {
 			case 1 -> 111;
@@ -105,7 +105,7 @@ public class ChartSegmentSelectionTests {
 	}
 
 	@Test
-	public void testGettingFirstValueWithAllSegmentsSelected() {
+	void testGettingFirstValueWithAllSegmentsSelected() {
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
 		Function<Integer, Integer> getter = index -> switch (index) {
 			case 1 -> 111;
@@ -118,7 +118,7 @@ public class ChartSegmentSelectionTests {
 	}
 
 	@Test
-	public void testMappingWithAllSegmentSelected() {
+	void testMappingWithAllSegmentSelected() {
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
 		Function<Integer, Integer> mapper = index -> switch (index) {
 			case 1 -> 11;
@@ -132,7 +132,7 @@ public class ChartSegmentSelectionTests {
 	}
 
 	@Test
-	public void testMappingWithSingleSegmentSelection() {
+	void testMappingWithSingleSegmentSelection() {
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
 		Function<Integer, Integer> mapper = index -> switch (index) {
 			case 1 -> 11;
@@ -146,7 +146,7 @@ public class ChartSegmentSelectionTests {
 	}
 
 	@Test
-	public void testHandlingIndexOutOfBoundsExceptionForGettingUniformValueOrNull() {
+	void testHandlingIndexOutOfBoundsExceptionForGettingUniformValueOrNull() {
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
 		Function<Integer, Integer> getter = index -> {
 			throw new IndexOutOfBoundsException();
@@ -156,7 +156,7 @@ public class ChartSegmentSelectionTests {
 	}
 
 	@Test
-	public void testHandlingGettingFirstValueWithoutAnySegment() {
+	void testHandlingGettingFirstValueWithoutAnySegment() {
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
 		Function<Integer, Integer> getter = index -> {
 			throw new IndexOutOfBoundsException();

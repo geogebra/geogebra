@@ -16,8 +16,8 @@
 
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
@@ -25,9 +25,9 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AlgoAnglePlanesTest extends BaseUnitTest {
+class AlgoAnglePlanesTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
@@ -36,7 +36,7 @@ public class AlgoAnglePlanesTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-7420")
-	public void sequenceOfPlaneAnglesShouldProvideDrawCoords() {
+	void sequenceOfPlaneAnglesShouldProvideDrawCoords() {
 		add("p: Plane((0,0,0),(1,0,0),(0,0,1))");
 		GeoList list = add("Sequence(Angle(xOyPlane, p), i, 1, 1)");
 

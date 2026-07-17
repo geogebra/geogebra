@@ -16,9 +16,9 @@
 
 package org.geogebra.common.gui.view.table;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
@@ -28,10 +28,10 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.properties.impl.general.RoundingIndexProperty;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class TableValuesPointsImplTest extends BaseUnitTest {
+class TableValuesPointsImplTest extends BaseUnitTest {
 
 	private TableValuesView view;
 	private TableValuesProcessor processor;
@@ -39,8 +39,8 @@ public class TableValuesPointsImplTest extends BaseUnitTest {
 	private GeoList listColumn;
 	private GeoFunction functionColumn;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		view = new TableValuesView(getKernel());
 		getKernel().attach(view);
 		view.clearView();
@@ -63,7 +63,7 @@ public class TableValuesPointsImplTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testInitialPoints() {
+	void testInitialPoints() {
 		assertPointCoordinates(1.0, 2.0, 0, 1);
 		assertPointCoordinates(2.0, 3.0, 1, 1);
 		assertPointCoordinates(3.0, 4.0, 2, 1);
@@ -74,7 +74,7 @@ public class TableValuesPointsImplTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testNotifyCellChanged() {
+	void testNotifyCellChanged() {
 		processor.processInput("10.0", view.getValues(), 1);
 		processor.processInput("20.0", listColumn, 1);
 
@@ -94,7 +94,7 @@ public class TableValuesPointsImplTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testRemoveRow() {
+	void testRemoveRow() {
 		processor.processInput("", view.getValues(), 0);
 		processor.processInput("", listColumn, 0);
 
@@ -103,14 +103,14 @@ public class TableValuesPointsImplTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testRemoveColumn() {
+	void testRemoveColumn() {
 		listColumn.remove();
 		functionColumn.remove();
 		assertNull(points.getPointListForColumn(1));
 	}
 
 	@Test
-	public void testUpdateFunction() {
+	void testUpdateFunction() {
 		add("f(x)=x^3");
 		assertPointCoordinates(1.0, 1.0, 0, 2);
 		assertPointCoordinates(2.0, 8.0, 1, 2);
@@ -119,7 +119,7 @@ public class TableValuesPointsImplTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-6700")
-	public void testUpdatingDependentObjectDoesNotCrash() {
+	void testUpdatingDependentObjectDoesNotCrash() {
 		processor.processInput("0", view.getValues(), 0);
 		processor.processInput("1/3", view.getValues(), 1);
 		processor.processInput("2/3", null, 0);
@@ -136,7 +136,7 @@ public class TableValuesPointsImplTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void pointOnListShouldNotBeFree() {
+	void pointOnListShouldNotBeFree() {
 		processor.processInput("0", view.getValues(), 0);
 		processor.processInput("1/3", view.getValues(), 1);
 		processor.processInput("2/3", null, 0);

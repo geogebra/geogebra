@@ -23,12 +23,12 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AlgoTextTest extends BaseUnitTest {
+class AlgoTextTest extends BaseUnitTest {
 
 	@Test
-	public void testZipCommandWithText() {
+	void testZipCommandWithText() {
 		addAvInput("t1=\"text1\"");
 		addAvInput("t2=\"text2\"");
 		addAvInput("t3=\"text3\"");

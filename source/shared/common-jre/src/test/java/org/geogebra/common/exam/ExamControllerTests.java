@@ -60,13 +60,13 @@ import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public final class ExamControllerTests extends BaseExamTestSetup implements ExamControllerDelegate {
+final class ExamControllerTests extends BaseExamTestSetup implements ExamControllerDelegate {
 
 	private final List<ExamState> examStates = new ArrayList<>();
 	private CommandDispatcher previousCommandDispatcher;
 
 	@BeforeEach
-	public void examControllerTestSetup() {
+	void examControllerTestSetup() {
 		examController.delegate = this;
 		examController.addListener(examStates::add);
 	}
@@ -74,7 +74,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	// State & duration
 
 	@Test
-	public void testPrepareExam() {
+	void testPrepareExam() {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertEquals(ExamState.IDLE, examController.getState());
 		examController.prepareExam();
@@ -90,7 +90,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	}
 
 	@Test
-	public void testStartExam() {
+	void testStartExam() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.startExam(ExamType.VLAANDEREN, null);
@@ -107,7 +107,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	}
 
 	@Test
-	public void testStartExamWithoutActiveContext() {
+	void testStartExamWithoutActiveContext() {
 		examController.prepareExam();
 		assertThrows(IllegalStateException.class,
 				() -> examController.startExam(ExamType.GENERIC, null),
@@ -116,14 +116,14 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 
 	// start exam without calling prepare() first (e.g., in crash recovery)
 	@Test
-	public void testStartExamWithoutPrepare() {
+	void testStartExamWithoutPrepare() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.startExam(ExamType.VLAANDEREN, null);
 		assertEquals(ExamState.ACTIVE, examController.getState());
 	}
 
 	@Test
-	public void testFinishExam() {
+	void testFinishExam() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.startExam(ExamType.VLAANDEREN, null);
@@ -142,7 +142,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	}
 
 	@Test
-	public void testExitExam() {
+	void testExitExam() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.startExam(ExamType.VLAANDEREN, null);
@@ -167,7 +167,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	// Restrictions
 
 	@Test
-	public void testRestrictedSubApp() {
+	void testRestrictedSubApp() {
 		setupApp(SuiteSubApp.CAS);
 		examController.prepareExam();
 		examController.startExam(ExamType.VLAANDEREN, null); // doesn't allow CAS
@@ -177,7 +177,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	}
 
 	@Test
-	public void testNonRestrictedSubApp() {
+	void testNonRestrictedSubApp() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.startExam(ExamType.VLAANDEREN, null);
@@ -187,7 +187,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	}
 
 	@Test
-	public void testRestrictions() {
+	void testRestrictions() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.setExamRestrictionsFactory(TestExamRestrictions::new);
@@ -218,7 +218,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	}
 
 	@Test
-	public void testSwitchToRestrictedSubApp() {
+	void testSwitchToRestrictedSubApp() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 
@@ -229,7 +229,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	}
 
 	@Test
-	public void testRestrictionsWhenSwitchingApps() {
+	void testRestrictionsWhenSwitchingApps() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.startExam(ExamType.VLAANDEREN, null);
@@ -248,7 +248,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	}
 
 	@Test
-	public void testFeatureRestrictionsWhenSwitchingApps() {
+	void testFeatureRestrictionsWhenSwitchingApps() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.startExam(ExamType.CVTE, null);
@@ -265,7 +265,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	}
 
 	@Test
-	public void testAlgebraOutputFilterAppliedDuringExamAndResetAfterExit() {
+	void testAlgebraOutputFilterAppliedDuringExamAndResetAfterExit() {
 		setupApp(SuiteSubApp.GRAPHING);
 		AlgebraOutputFilter baseAlgebraOutputFilter = getApp().getAlgebraOutputFilter();
 		assertNotNull(evaluate("{{1,2},{3,4}}"));
@@ -284,7 +284,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	}
 
 	@Test
-	public void testAlgebraOutputFilterRemainsAppliedWhenSwitchingApps() {
+	void testAlgebraOutputFilterRemainsAppliedWhenSwitchingApps() {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertNotNull(evaluate("{{1,2},{3,4}}"));
 
@@ -297,7 +297,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	}
 
 	@Test
-	public void testAlgebraOutputFilterResetsToNewAppBaseAfterSwitchAndExit() {
+	void testAlgebraOutputFilterResetsToNewAppBaseAfterSwitchAndExit() {
 		setupApp(SuiteSubApp.GRAPHING);
 		AlgebraOutputFilter baseAlgebraOutputFilter = getApp().getAlgebraOutputFilter();
 
@@ -314,7 +314,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	}
 
 	@Test
-	public void testLanguagePropertyDisabledDuringExam() {
+	void testLanguagePropertyDisabledDuringExam() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.startExam(ExamType.GENERIC, null);
@@ -324,7 +324,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	}
 
 	@Test
-	public void testToolsExcludedDuringExam() {
+	void testToolsExcludedDuringExam() {
 		setupApp(SuiteSubApp.GEOMETRY);
 		examController.prepareExam();
 		examController.setExamRestrictionsFactory(TestExamRestrictions::new);
@@ -334,7 +334,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	}
 
 	@Test
-	public void testCommandArgumentFilter() {
+	void testCommandArgumentFilter() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.setExamRestrictionsFactory(TestExamRestrictions::new);
@@ -347,7 +347,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	}
 
 	@Test
-	public void testSyntaxFilter() {
+	void testSyntaxFilter() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.setExamRestrictionsFactory(TestExamRestrictions::new);
@@ -364,7 +364,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 
 	@Test
 	@Issue("APPS-5912")
-	public void testCommandRestrictionsWhenStartingDifferentExams() {
+	void testCommandRestrictionsWhenStartingDifferentExams() {
 		setupApp(SuiteSubApp.GRAPHING);
 
 		examController.prepareExam();
@@ -386,7 +386,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	}
 
 	@Test
-	public void testAlgoDispatcherDisabledAlgorithms() {
+	void testAlgoDispatcherDisabledAlgorithms() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.setExamRestrictionsFactory(TestExamRestrictions::new);
@@ -404,7 +404,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	}
 
 	@Test
-	public void testVisibilityRestrictions() {
+	void testVisibilityRestrictions() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.setExamRestrictionsFactory(TestExamRestrictions::new);
@@ -433,7 +433,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	}
 
 	@Test
-	public void testRestrictedVisibilityInEuclidianViewAfterEditingUnrestrictedInput() {
+	void testRestrictedVisibilityInEuclidianViewAfterEditingUnrestrictedInput() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.setExamRestrictionsFactory(TestExamRestrictions::new);
@@ -463,7 +463,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	}
 
 	@Test
-	public void testAutoCompleteProviderIsUnrestrictedAfterExam() {
+	void testAutoCompleteProviderIsUnrestrictedAfterExam() {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertFalse(autocompleteProvider.getCompletions("NDerivative").findAny().isEmpty());
 		examController.prepareExam();
@@ -478,7 +478,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 
 	@Issue("APPS-6698")
 	@Test
-	public void testRestrictionsOnlyAppliedOnce() {
+	void testRestrictionsOnlyAppliedOnce() {
 		setupApp(SuiteSubApp.CAS); // note: disabled subapp, will cause app switch on exam start
 		TestExamRestrictions restrictions = new TestExamRestrictions(ExamType.GENERIC);
 		examController.setExamRestrictionsFactory(examType -> restrictions);

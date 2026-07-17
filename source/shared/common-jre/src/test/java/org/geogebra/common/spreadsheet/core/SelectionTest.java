@@ -17,57 +17,57 @@
 package org.geogebra.common.spreadsheet.core;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class SelectionTest {
+class SelectionTest {
 
 	Selection cells;
 	Selection columns;
 	Selection rows;
 
-	@Before
-	public void setup() {
+	@BeforeEach
+	void setup() {
 		cells = new Selection(new TabularRange(3, 5, 4, 6));
 		rows = new Selection(new TabularRange(3, -1, 4, -1));
 		columns = new Selection(new TabularRange(-1, 5, -1, 6));
 	}
 
 	@Test
-	public void testGetSelectionForMoveLeft() {
+	void testGetSelectionForMoveLeft() {
 		assertThat(cells.getNextCellForMoveLeft(), equalToCell(3, 4));
 		assertThat(rows.getNextCellForMoveLeft(), equalToCell(3, 0));
 		assertThat(columns.getNextCellForMoveLeft(), equalToCell(0, 4));
 	}
 
 	@Test
-	public void testGetSelectionForMoveRight() {
+	void testGetSelectionForMoveRight() {
 		assertThat(cells.getNextCellForMoveRight(100), equalToCell(3, 6));
 		assertThat(rows.getNextCellForMoveRight(100), equalToCell(3, 1));
 		assertThat(columns.getNextCellForMoveRight(100), equalToCell(0, 6));
 	}
 
 	@Test
-	public void testGetSelectionForMoveUp() {
+	void testGetSelectionForMoveUp() {
 		assertThat(cells.getNextCellForMoveUp(), equalToCell(2, 5));
 		assertThat(rows.getNextCellForMoveUp(), equalToCell(2, 0));
 		assertThat(columns.getNextCellForMoveUp(), equalToCell(0, 5));
 	}
 
 	@Test
-	public void testGetSelectionForMoveDown() {
+	void testGetSelectionForMoveDown() {
 		assertThat(cells.getNextCellForMoveDown(100), equalToCell(4, 5));
 		assertThat(rows.getNextCellForMoveDown(100), equalToCell(4, 0));
 		assertThat(columns.getNextCellForMoveDown(100), equalToCell(1, 5));
 	}
 
 	@Test
-	public void testName() {
+	void testName() {
 		TabularData<String> data = new TestTabularData();
 		assertEquals("F4:G5", cells.getName(data));
 		Selection singleCell = new Selection(new TabularRange(2, 1));

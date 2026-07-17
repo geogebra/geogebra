@@ -26,13 +26,13 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class PenStrokeAbsolutePositionPropertyTests extends BaseAppTestSetup {
+class PenStrokeAbsolutePositionPropertyTests extends BaseAppTestSetup {
 
 	@ParameterizedTest
 	@ValueSource(strings = {
 			"PenStroke((1, 2), (4, 3), (5, 6))"
 	})
-	public void testApplicable(String expression) {
+	void testApplicable(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement element = evaluateGeoElement(expression);
 		assertDoesNotThrow(() ->
@@ -48,7 +48,7 @@ public class PenStrokeAbsolutePositionPropertyTests extends BaseAppTestSetup {
 			"Button()",
 			"true"
 	})
-	public void testNotApplicable(String expression) {
+	void testNotApplicable(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement element = evaluateGeoElement(expression);
 		assertThrows(NotApplicablePropertyException.class, () ->

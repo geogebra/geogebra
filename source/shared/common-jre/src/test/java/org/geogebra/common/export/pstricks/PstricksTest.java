@@ -34,14 +34,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PstricksTest {
+class PstricksTest {
 	private static AppCommon3D app;
 	private static ArrayList<String> inputs;
 	private final ExportGraphicsFactory exportGraphicsFactory
 			= ExportGraphicsCommon::new;
 
 	@BeforeEach
-	public void clear() {
+	void clear() {
 		app.getKernel().clearConstruction(true);
 		t("ShowAxes(false)");
 		t("ShowGrid(false)");
@@ -49,7 +49,7 @@ public class PstricksTest {
 
 	/** Set up the app */
 	@BeforeAll
-	public static void setUp() {
+	static void setUp() {
 		app = AppCommonFactory.create3D();
 		inputs = new ArrayList<>();
 		createObjects();
@@ -64,20 +64,20 @@ public class PstricksTest {
 	}
 
 	@Test
-	public void exportPstricks() {
+	void exportPstricks() {
 		GeoGebraExport ps = new GeoGebraToPstricks(app, exportGraphicsFactory);
 		testInputs(ps, "\\end{document}");
 	}
 
 	@Test
-	public void exportPgf() {
+	void exportPgf() {
 		GeoGebraExport ps = new GeoGebraToPgf(app, exportGraphicsFactory);
 		testInputs(ps, "\\end{document}");
 
 	}
 
 	@Test
-	public void exportAsymptote() {
+	void exportAsymptote() {
 		GeoGebraExport ps = new GeoGebraToAsymptote(app, exportGraphicsFactory);
 		testInputs(ps, "/* end of picture */");
 	}

@@ -32,9 +32,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class SurdAdditionTest extends BaseAppTestSetup {
+class SurdAdditionTest extends BaseAppTestSetup {
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
@@ -81,7 +81,7 @@ public class SurdAdditionTest extends BaseAppTestSetup {
 			"-3, -3 + sqrt(2), 9 - 3sqrt(2)",
 			"-3, -3 - sqrt(2), 9 + 3sqrt(2)",
 	})
-	public void testMultiply(int multiplier, String definition, String expected) {
+	void testMultiply(int multiplier, String definition, String expected) {
 		SurdAddition tag = newTag(definition);
 		assertEquals(expected, tag.multiply(multiplier).toString(StringTemplate.defaultTemplate));
 	}
@@ -92,8 +92,8 @@ public class SurdAdditionTest extends BaseAppTestSetup {
 			"sqrt(3), sqrt(2) + 3, sqrt(6) + 3sqrt(3)",
 			"2sqrt(3), sqrt(2) + 3, 2sqrt(6) + 6sqrt(3)",
 	})
-	public void testMultiplyWithExpression(String multiplierDef, String definition,
-			String expected) {
+	void testMultiplyWithExpression(String multiplierDef, String definition,
+									String expected) {
 		SurdAddition tag = newTag(definition);
 		GeoElementND multiplier = evaluateGeoElement(multiplierDef);
 		ExpressionNode expectedResult = evaluateGeoElement(definition).getDefinition()

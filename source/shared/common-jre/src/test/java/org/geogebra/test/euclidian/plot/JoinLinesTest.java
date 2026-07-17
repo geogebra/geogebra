@@ -18,7 +18,7 @@ package org.geogebra.test.euclidian.plot;
 
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
 import static org.geogebra.test.euclidian.plot.Tuples.inverted;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.euclidian.plot.TupleNeighbours;
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBoundsMock;
@@ -27,15 +27,15 @@ import org.geogebra.common.euclidian.plot.interval.JoinLines;
 import org.geogebra.common.kernel.interval.IntervalSet;
 import org.geogebra.common.kernel.interval.IntervalSetOps;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class JoinLinesTest {
+class JoinLinesTest {
 	private static final IntervalPathPlotterMock gpExpected = new IntervalPathPlotterMock();
 	private static final IntervalPathPlotterMock gp = new IntervalPathPlotterMock();
 	private static EuclidianViewBoundsMock bounds;
 
 	@Test
-	public void topToRight() {
+	void topToRight() {
 		JoinLines join = createJoinLines(-0.5, 3.8);
 
 		// ln(ln(csc(x))) data around x 0.
@@ -51,7 +51,7 @@ public class JoinLinesTest {
 	}
 
 	@Test
-	public void topToLeft() {
+	void topToLeft() {
 		// ln(ln(csc(x))) sample around x 3.1.
 		JoinLines join = createJoinLines(-0.5, 3.8);
 		TupleNeighbours neighbours = new TupleNeighbours(
@@ -68,7 +68,7 @@ public class JoinLinesTest {
 	}
 
 	@Test
-	public void toTopStraight() {
+	void toTopStraight() {
 		// -2/(9+tan(x)) around 4.85
 		JoinLines join = createJoinLines(1.7, 4.85);
 		TupleNeighbours neighbours = new TupleNeighbours(
@@ -86,7 +86,7 @@ public class JoinLinesTest {
 	}
 
 	@Test
-	public void toBottomStraight() {
+	void toBottomStraight() {
 		// -2/(9+tan(x)) around 1.65
 		JoinLines join = createJoinLines(1.6, 3);
 		TupleNeighbours neighbours = new TupleNeighbours(
@@ -103,7 +103,7 @@ public class JoinLinesTest {
 	}
 
 	@Test
-	public void toBottomLeft() {
+	void toBottomLeft() {
 		// -ln(ln(csc(x))) sample around x 0.
 		JoinLines join = createJoinLines(-0.5, 3.8);
 		TupleNeighbours neighbours = new TupleNeighbours(
@@ -119,7 +119,7 @@ public class JoinLinesTest {
 	}
 
 	@Test
-	public void toBottomRight() {
+	void toBottomRight() {
 		// -ln(ln(csc(x))) sample around x 3.1.
 		JoinLines join = createJoinLines(-0.5, 3.8);
 		TupleNeighbours neighbours = new TupleNeighbours(
@@ -149,7 +149,7 @@ public class JoinLinesTest {
 	}
 
 	@Test
-	public void noTopLineToSingletonInfinity() {
+	void noTopLineToSingletonInfinity() {
 		// -csc(-4/ln(x)) sample around x 0.
 		JoinLines join = createJoinLines(-0.1, 0.24);
 		TupleNeighbours neighbours = new TupleNeighbours(
@@ -165,7 +165,7 @@ public class JoinLinesTest {
 	}
 
 	@Test
-	public void wholeLeftNeighbourKeepsTopSuppressed() {
+	void wholeLeftNeighbourKeepsTopSuppressed() {
 		JoinLines join = createJoinLines(-1, 1);
 		TupleNeighbours neighbours = new TupleNeighbours();
 		IntervalSet currentY = IntervalSetOps.inverted(-2, 3);
@@ -182,7 +182,7 @@ public class JoinLinesTest {
 	}
 
 	@Test
-	public void connectedSemiInfiniteRightNeighbourKeepsBottomBoundaryBehavior() {
+	void connectedSemiInfiniteRightNeighbourKeepsBottomBoundaryBehavior() {
 		JoinLines join = createJoinLines(-1, 2);
 		TupleNeighbours neighbours = new TupleNeighbours();
 		IntervalSet currentY = IntervalSetOps.inverted(-2, 3);

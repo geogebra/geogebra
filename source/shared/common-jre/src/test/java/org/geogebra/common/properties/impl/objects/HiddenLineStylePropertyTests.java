@@ -30,16 +30,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
-public class HiddenLineStylePropertyTests extends BaseAppTestSetup {
+class HiddenLineStylePropertyTests extends BaseAppTestSetup {
 	@Test
-	public void testAvailableIn3D() {
+	void testAvailableIn3D() {
 		setupApp(SuiteSubApp.G3D);
 		assertDoesNotThrow(() -> new HiddenLineStyleProperty(
 				getLocalization(), evaluateGeoElement("Line((0, 0), (1, 1))")));
 	}
 
 	@Test
-	public void testAvailableInClassic() {
+	void testAvailableInClassic() {
 		setupClassicApp();
 		getApp().getEuclidianView3D();
 		assertDoesNotThrow(() -> new HiddenLineStyleProperty(
@@ -48,7 +48,7 @@ public class HiddenLineStylePropertyTests extends BaseAppTestSetup {
 
 	@ParameterizedTest
 	@EnumSource(value = SuiteSubApp.class, names = {"GRAPHING", "GEOMETRY", "CAS"})
-	public void testUnavailableInOtherApps(SuiteSubApp suiteSubApp) {
+	void testUnavailableInOtherApps(SuiteSubApp suiteSubApp) {
 		setupApp(suiteSubApp);
 		mockedCasGiac.memorize("Line((0, 0), (1, 1))", "y=x");
 		assertThrows(NotApplicablePropertyException.class, () -> new HiddenLineStyleProperty(
@@ -56,7 +56,7 @@ public class HiddenLineStylePropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testSettingHiddenLineStyle() {
+	void testSettingHiddenLineStyle() {
 		setupApp(SuiteSubApp.G3D);
 		GeoElement geoElement = evaluateGeoElement("Line((0, 0), (1, 1))");
 		HiddenLineStyleProperty hiddenLineStyleProperty = assertDoesNotThrow(() ->

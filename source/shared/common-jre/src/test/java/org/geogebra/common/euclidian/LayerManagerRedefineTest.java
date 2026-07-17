@@ -16,7 +16,7 @@
 
 package org.geogebra.common.euclidian;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Collections;
 
@@ -28,9 +28,9 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class LayerManagerRedefineTest extends BaseUnitTest {
+class LayerManagerRedefineTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
@@ -40,7 +40,7 @@ public class LayerManagerRedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void redefineShouldNotChangeOrder() {
+	void redefineShouldNotChangeOrder() {
 		createPoly("q1");
 		createPoly("q2");
 		assertEquals("q1,q2", getLayerManager().getOrder());

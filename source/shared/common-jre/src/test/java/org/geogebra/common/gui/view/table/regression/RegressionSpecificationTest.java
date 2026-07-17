@@ -37,13 +37,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class RegressionSpecificationTest extends BaseExamTestSetup {
+class RegressionSpecificationTest extends BaseExamTestSetup {
 	private TableValuesView view;
 	private GeoList listY;
 	private int column = 1;
 
 	@BeforeEach
-	public void setupTable() {
+	void setupTable() {
 		setupApp(SuiteSubApp.GRAPHING);
 		getApp().setRounding("2d");
 		GeoList list = evaluateGeoElement("{1,2,3,4}");
@@ -60,12 +60,12 @@ public class RegressionSpecificationTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testRegressionCount() {
+	void testRegressionCount() {
 		assertEquals(9, new RegressionSpecificationBuilder().getForListSize(listY.size()).size());
 	}
 
 	@Test
-	public void testLinearRegression() {
+	void testLinearRegression() {
 		assertEquals("y = a\\ x+b, a = 20.8, b = -27, R\u00b2 = 0.91, r = 0.95",
 				getRegressionValues(0));
 		assertEquals("20.8x - 27", getRegressionFormula(0));
@@ -73,7 +73,7 @@ public class RegressionSpecificationTest extends BaseExamTestSetup {
 
 	@Test
 	@Issue("APPS-7328")
-	public void testLinearRegressionNegative() {
+	void testLinearRegressionNegative() {
 		GeoList listY3 = evaluateGeoElement("{-1,-8,-27,-64}");
 		view.add(listY3);
 		view.showColumn(listY3);
@@ -84,35 +84,35 @@ public class RegressionSpecificationTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testLogRegression() {
+	void testLogRegression() {
 		assertEquals("y = a + b\\cdot \\ln(x), a = -7.59, b = 41.02, R\u00b2 = 0.76",
 				getRegressionValues(1));
 		assertEquals("-7.59 + 41.02ln(x)", getRegressionFormula(1));
 	}
 
 	@Test
-	public void testPowerRegression() {
+	void testPowerRegression() {
 		assertEquals("y = a \\cdot x^b, a = 1, b = 3, R\u00b2 = 1",
 				getRegressionValues(2));
 		assertEquals("1x³", getRegressionFormula(2));
 	}
 
 	@Test
-	public void testQuadraticRegression() {
+	void testQuadraticRegression() {
 		assertEquals("y = a\\ x^{2}+b\\ x+c, a = 7.5, b = -16.7, c = 10.5, R\u00b2 = 1",
 				getRegressionValues(3));
 		assertEquals("7.5x\u00b2 - 16.7x + 10.5", getRegressionFormula(3));
 	}
 
 	@Test
-	public void testCubicRegression() {
+	void testCubicRegression() {
 		assertEquals("y = a\\ x^{3}+b\\ x^{2}+c\\ x+d, a = 1, b = 0, c = 0, d = 0, R\u00b2 = 1",
 				getRegressionValues(4));
 		assertEquals("x\u00b3 + 0x\u00b2 - 0x + 0", getRegressionFormula(4));
 	}
 
 	@Test
-	public void testExponentialRegression() {
+	void testExponentialRegression() {
 		assertEquals("y = a \\cdot e^{b\\ x}, a = 0.35, b = 1.37, R\u00b2 = 0.81",
 				getRegressionValues(5));
 		assertEquals("0.35" + Unicode.EULER_STRING + "^(1.37x)",
@@ -120,14 +120,14 @@ public class RegressionSpecificationTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testGrowthRegression() {
+	void testGrowthRegression() {
 		assertEquals("y = a \\cdot b^x, a = 0.35, b = 3.93, R\u00b2 = 0.81",
 				getRegressionValues(6));
 		assertEquals("0.35 * 3.93^x", getRegressionFormula(6));
 	}
 
 	@Test
-	public void testSinRegression() {
+	void testSinRegression() {
 		assertEquals("y = a \\cdot \\sin(b\\ x + c) + d,"
 				+ " a = ?, b = ?, c = ?, d = ?, R\u00b2 = ?",
 				getRegressionValues(7));
@@ -141,7 +141,7 @@ public class RegressionSpecificationTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testLogisticRegression() {
+	void testLogisticRegression() {
 		assertEquals("y = \\frac{a}{1 + b\\cdot e^{-c\\ x}},"
 				+ " a = 105.06, b = 258.98, c = 1.5, R\u00b2 = 1", getRegressionValues(8));
 		assertEquals("105.06 / (1 + 258.98" + Unicode.EULER_STRING + "^(-1.5x))",
@@ -162,7 +162,7 @@ public class RegressionSpecificationTest extends BaseExamTestSetup {
 			"10:-44.73x⁻² + 40.92 * 1:a = -44.73, b = 40.92, r = 0.69",
 			"11:9.27x⁻²:a = 9.27, r = ?",
 			"12:18.71x^0.5:a = 18.71, r = 0.65"}, delimiter = ':')
-	public void testCustomRegressions(int index, String expected, String expectedVals) {
+	void testCustomRegressions(int index, String expected, String expectedVals) {
 		startExam(ExamType.MMS);
 		getApp().getRegressionSpecBuilder().applyRestrictions(
 				Set.of(FeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS));
@@ -171,7 +171,7 @@ public class RegressionSpecificationTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testCustomRegressionCount() {
+	void testCustomRegressionCount() {
 		startExam(ExamType.MMS);
 		getApp().getRegressionSpecBuilder().applyRestrictions(
 				Set.of(FeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS));

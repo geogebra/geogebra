@@ -43,38 +43,38 @@ import org.geogebra.common.util.lang.Language;
 import org.geogebra.test.LocalizationCommonUTF;
 import org.junit.jupiter.api.Test;
 
-public class LocalizationTest {
+class LocalizationTest {
 
 	private static final List<String> PERCENT_KEYS = List.of(
 			"TotalPercent", "RowPercent", "ColumnPercent");
 	private final LocalizationCommon loc = new LocalizationCommonUTF(3);
 
 	@Test
-	public void shouldLoadGermanProperties() {
+	void shouldLoadGermanProperties() {
 		loc.setLocale(Locale.GERMAN);
 		assertEquals("Farbe", loc.getMenu("Color"));
 	}
 
 	@Test
-	public void shouldLoadBritishProperties() {
+	void shouldLoadBritishProperties() {
 		loc.setLocale(Locale.UK);
 		assertEquals("Colour", loc.getMenu("Color"));
 	}
 
 	@Test
-	public void shouldLoadNynorskProperties() {
+	void shouldLoadNynorskProperties() {
 		loc.setLocale(new Locale("nn"));
 		assertEquals("Farge", loc.getMenu("Color"));
 	}
 
 	@Test
-	public void shouldReadPropertiesAsUTF8() {
+	void shouldReadPropertiesAsUTF8() {
 		loc.setLocale(Locale.UK);
 		assertEquals("R\u00b2", loc.getMenu("RSquare.Short"));
 	}
 
 	@Test
-	public void getsClosestSupportedLocaleFromLanguageValues() {
+	void getsClosestSupportedLocaleFromLanguageValues() {
 		for (Language language : Language.values()) {
 			Locale locale = Locale.forLanguageTag(language.toLanguageTag());
 			Language closestSupported = loc.getClosestSupportedLanguage(locale);
@@ -83,7 +83,7 @@ public class LocalizationTest {
 	}
 
 	@Test
-	public void getsClosestSupportedLocaleFromLanguageTag() {
+	void getsClosestSupportedLocaleFromLanguageTag() {
 		assertLookupReturnsLanguageTag("en-CA", "en");
 		assertLookupReturnsLanguageTag("mn-Mong-MN", "mn-Mong");
 		assertLookupReturnsLanguageTag("nb-NO-Cyrl", "nb");
@@ -92,7 +92,7 @@ public class LocalizationTest {
 	}
 
 	@Test
-	public void testReverseCommand() {
+	void testReverseCommand() {
 		loc.setLocale(Locale.UK);
 		AppCommon app = new AppCommon(loc, new AwtFactoryCommon());
 		app.resetCommandDict();
@@ -101,7 +101,7 @@ public class LocalizationTest {
 	}
 
 	@Test
-	public void aliasesShouldBeRecognized() {
+	void aliasesShouldBeRecognized() {
 		checkAlias(Language.Hebrew, "he", "iw");
 		checkAlias(Language.Norwegian_Bokmal, "no", "nb", "nb_NO", "no-NO",
 				"no_NO");
@@ -128,7 +128,7 @@ public class LocalizationTest {
 	}
 
 	@Test
-	public void localizedFunctionsShouldBeInternalInXML() {
+	void localizedFunctionsShouldBeInternalInXML() {
 		AppCommon app = AppCommonFactory.create();
 		app.setLocale(Locale.GERMANY);
 		assertEquals("Midpoint(10,20)",
@@ -140,7 +140,7 @@ public class LocalizationTest {
 	}
 
 	@Test
-	public void testRoundingMenu() {
+	void testRoundingMenu() {
 		List<String> rounding = List.of(loc.getRoundingMenu()).subList(0, 3);
 		assertEquals(List.of("0 Decimal Places", "1 Decimal Place",
 				"2 Decimal Places"), rounding);
@@ -150,7 +150,7 @@ public class LocalizationTest {
 	}
 
 	@Test
-	public void testPlaceholders() {
+	void testPlaceholders() {
 		loc.setLocale(Locale.ENGLISH);
 		List<String> menuKeys = ((LocalizationJre) loc).getMenuKeys();
 		Map<String, Set<Character>> placeholderNumbers = new HashMap<>();
@@ -171,7 +171,7 @@ public class LocalizationTest {
 	}
 
 	@Test
-	public void testPercent() {
+	void testPercent() {
 		for (Language lang: loc.getSupportedLanguages(true)) {
 			loc.setLocale(Locale.forLanguageTag(lang.toLanguageTag()));
 			for (String key: PERCENT_KEYS) {
@@ -184,7 +184,7 @@ public class LocalizationTest {
 	}
 
 	@Test
-	public void jreTranslationFilesShouldMatchLanguages() throws IOException {
+	void jreTranslationFilesShouldMatchLanguages() throws IOException {
 		File dir = new File("src/main/resources/org/geogebra/common/jre/properties/");
 		TreeSet<String> available = new TreeSet<>();
 		for (File f : Objects.requireNonNull(dir.listFiles())) {

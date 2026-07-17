@@ -16,7 +16,7 @@
 
 package org.geogebra.common.kernel.geos;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GColor;
@@ -24,9 +24,9 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class GeoInlineTextTest extends BaseUnitTest {
+class GeoInlineTextTest extends BaseUnitTest {
 
 	private static final String COMPATIBILITY_XML = """
 			<?xml version="1.0" encoding="utf-8"?>
@@ -46,7 +46,7 @@ public class GeoInlineTextTest extends BaseUnitTest {
 			</geogebra>""";
 
 	@Test
-	public void inlineTextCorrectlySavedAndLoaded() {
+	void inlineTextCorrectlySavedAndLoaded() {
 		final double x = 1.2;
 		final double y = 2.5;
 		final int width = 1848;
@@ -83,7 +83,7 @@ public class GeoInlineTextTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void loadingOldXmlShouldProduceInlineTexts() {
+	void loadingOldXmlShouldProduceInlineTexts() {
 		getApp().setXML(COMPATIBILITY_XML, true);
 
 		GeoInlineText loadedInlineText = (GeoInlineText) lookup("text1");

@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
 
 @SuppressWarnings({"checkstyle:LineLengthCheck",
 		"checkstyle:variableDeclarationUsageDistanceCheck"})
-public class AlgebraViewItemTest extends BaseAppTestSetup {
+class AlgebraViewItemTest extends BaseAppTestSetup {
 
 	@Test
-	public void testPointInGraphing() {
+	void testPointInGraphing() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geo = evaluateGeoElement("(1,2)");
 		AlgebraViewItem item = new AlgebraViewItem(geo);
@@ -54,7 +54,7 @@ public class AlgebraViewItemTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testLineInGraphing() {
+	void testLineInGraphing() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geo = evaluateGeoElement("Line((0,0), (1,1))");
 		AlgebraViewItem item = new AlgebraViewItem(geo);
@@ -82,7 +82,7 @@ public class AlgebraViewItemTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testTangentInGraphing() {
+	void testTangentInGraphing() {
 		setupApp(SuiteSubApp.GRAPHING);
 		evaluateGeoElement("c: Circle((0, 0), 5)");
 		evaluateGeoElement("A = (6, 6)");
@@ -127,7 +127,7 @@ public class AlgebraViewItemTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testEquationInGraphing() {
+	void testEquationInGraphing() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geo = evaluateGeoElement("x^2/sqrt(2)=1");
 		AlgebraViewItem item = new AlgebraViewItem(geo);
@@ -149,7 +149,7 @@ public class AlgebraViewItemTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testTextInGraphing() {
+	void testTextInGraphing() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geo = evaluateGeoElement("\"text\"");
 		AlgebraViewItem item = new AlgebraViewItem(geo);
@@ -173,7 +173,7 @@ public class AlgebraViewItemTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testMinusOneInGraphing() {
+	void testMinusOneInGraphing() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geo = evaluateGeoElement("(-1)(9)");
 		AlgebraViewItem item = new AlgebraViewItem(geo);
@@ -199,7 +199,7 @@ public class AlgebraViewItemTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPercentageInGraphing() {
+	void testPercentageInGraphing() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geo = evaluateGeoElement("5%*5+5");
 		AlgebraViewItem item = new AlgebraViewItem(geo);

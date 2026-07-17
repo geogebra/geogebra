@@ -21,12 +21,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class SortByPropertyTest  extends BaseUnitTest {
+class SortByPropertyTest  extends BaseUnitTest {
 
 	@Test
-	public void shouldStayAfterReload() {
+	void shouldStayAfterReload() {
 		SortByProperty sortProp = new SortByProperty(getSettings().getAlgebra(), getLocalization());
 		sortProp.setValue(AlgebraView.SortMode.LAYER);
 		String xml = getApp().getXML();

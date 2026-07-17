@@ -31,20 +31,24 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
-@RunWith(MockitoJUnitRunner.class)
-public class BatchedUpdateWrapperTest extends BaseUnitTest {
+@MockitoSettings(strictness = Strictness.WARN)
+@ExtendWith(MockitoExtension.class)
+class BatchedUpdateWrapperTest extends BaseUnitTest {
 	private WrappedViewTest wrappedView;
 
 	@Mock
-	/* package */ GTimer timer;
+	/* package */
+	GTimer timer;
 
 	@Spy
 	private UtilFactoryJre utilFactory;
@@ -71,8 +75,8 @@ public class BatchedUpdateWrapperTest extends BaseUnitTest {
 
 	}
 
-	@Before
-	public void setupBatchedUpdateWrapperTest() {
+	@BeforeEach
+	void setupBatchedUpdateWrapperTest() {
 		when(utilFactory.newTimer(any(GTimerListener.class), anyInt())).then(
 				invocation -> timer);
 		wrappedView = Mockito.mock(WrappedViewTest.class,
@@ -81,7 +85,7 @@ public class BatchedUpdateWrapperTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testCallsTimerStart() {
+	void testCallsTimerStart() {
 		GeoElement line = getElementFactory().createGeoLine();
 
 		wrapper.add(line);
@@ -91,7 +95,7 @@ public class BatchedUpdateWrapperTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testCallsMethodsWhenTimerRuns() {
+	void testCallsMethodsWhenTimerRuns() {
 		GeoElement line = getElementFactory().createGeoLine();
 
 		wrapper.add(line);
@@ -117,7 +121,7 @@ public class BatchedUpdateWrapperTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testOptimizeUpdateCalls() {
+	void testOptimizeUpdateCalls() {
 		GeoElement line = getElementFactory().createGeoLine();
 		wrapper.update(line);
 		wrapper.update(line);
@@ -128,7 +132,7 @@ public class BatchedUpdateWrapperTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testOptimizeRemove() {
+	void testOptimizeRemove() {
 		GeoElement line = getElementFactory().createGeoLine();
 		wrapper.add(line);
 		wrapper.update(line);
@@ -143,7 +147,7 @@ public class BatchedUpdateWrapperTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testRecursiveAdd() {
+	void testRecursiveAdd() {
 		GeoElement line1 = getElementFactory().createGeoLine();
 
 		wrapper.add(line1);

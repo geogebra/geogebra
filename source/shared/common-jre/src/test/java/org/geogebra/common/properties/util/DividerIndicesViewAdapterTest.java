@@ -19,32 +19,32 @@ package org.geogebra.common.properties.util;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class DividerIndicesViewAdapterTest {
+class DividerIndicesViewAdapterTest {
 
 	private DividerIndicesViewAdapter adapter;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		adapter = new DividerIndicesViewAdapter(new int[]{1, 3}, 5);
 	}
 
 	@Test
-	public void testLength() {
+	void testLength() {
 		assertThat(adapter.getViewCount(), is(7));
 	}
 
 	@Test
-	public void testIsDivider() {
+	void testIsDivider() {
 		for (int i = 0; i < adapter.getViewCount(); i++) {
 			assertThat(adapter.isDivider(i), is(i == 1 || i == 4));
 		}
 	}
 
 	@Test
-	public void testConvertViewIndexToModel() {
+	void testConvertViewIndexToModel() {
 		assertThat(adapter.convertViewIndexToModel(0), is(0));
 		assertThat(adapter.convertViewIndexToModel(2), is(1));
 		assertThat(adapter.convertViewIndexToModel(3), is(2));
@@ -53,7 +53,7 @@ public class DividerIndicesViewAdapterTest {
 	}
 
 	@Test
-	public void testConvertModelIndexToView() {
+	void testConvertModelIndexToView() {
 		assertThat(adapter.convertModelIndexToView(0), is(0));
 		assertThat(adapter.convertModelIndexToView(1), is(2));
 		assertThat(adapter.convertModelIndexToView(2), is(3));

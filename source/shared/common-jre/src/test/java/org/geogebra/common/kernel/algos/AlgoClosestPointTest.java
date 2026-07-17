@@ -26,7 +26,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class AlgoClosestPointTest extends BaseAppTestSetup {
+class AlgoClosestPointTest extends BaseAppTestSetup {
 	@BeforeEach
 	void setup() {
 		setupClassicApp();
@@ -37,7 +37,7 @@ public class AlgoClosestPointTest extends BaseAppTestSetup {
 	@CsvSource(value = {"(0,2);(2.23607, 1)",
 			"(0,-2);(2.23607, -1)",
 			"(-1E-13,2);(-2.23607, 1)"}, delimiter = ';')
-	public void testHyperbola(String source, String expected) {
+	void testHyperbola(String source, String expected) {
 		GeoElement closest = evaluateGeoElement("ClosestPoint(" + source + ",xx-yy=4)");
 		assertEquals(expected,
 				closest.toValueString(StringTemplate.editTemplate));

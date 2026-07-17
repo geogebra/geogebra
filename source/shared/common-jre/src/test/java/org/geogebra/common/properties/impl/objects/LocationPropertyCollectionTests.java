@@ -29,11 +29,11 @@ import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class LocationPropertyCollectionTests extends BaseAppTestSetup {
+class LocationPropertyCollectionTests extends BaseAppTestSetup {
 	private final GeoElementPropertiesFactory propertiesFactory = new GeoElementPropertiesFactory();
 
 	@Test
-	public void testTogglingGraphicsViewVisibility() {
+	void testTogglingGraphicsViewVisibility() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPoint point = evaluateGeoElement("A = (0, 0)");
 		LocationPropertyCollection locationPropertyCollection = new LocationPropertyCollection(
@@ -51,7 +51,7 @@ public class LocationPropertyCollectionTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testTogglingGraphics3DViewVisibility() {
+	void testTogglingGraphics3DViewVisibility() {
 		setupApp(SuiteSubApp.G3D);
 		GeoPoint point = evaluateGeoElement("A = (0, 0)");
 		LocationPropertyCollection locationPropertyCollection = new LocationPropertyCollection(

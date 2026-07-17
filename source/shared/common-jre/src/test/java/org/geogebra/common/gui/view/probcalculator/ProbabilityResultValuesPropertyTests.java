@@ -32,13 +32,13 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ProbabilityResultValuesPropertyTests extends BaseAppTestSetup {
+class ProbabilityResultValuesPropertyTests extends BaseAppTestSetup {
 
 	private ProbabilityCalculatorView probabilityCalculatorView;
 	private ProbabilityResultValuesProperty property;
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		setupApp(SuiteSubApp.PROBABILITY);
 		getApp().setRounding("4");
 		probabilityCalculatorView = new HeadlessProbabilityCalculatorView(getApp());
@@ -51,7 +51,7 @@ public class ProbabilityResultValuesPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testModeMatchesCalculatorMode() {
+	void testModeMatchesCalculatorMode() {
 		probabilityCalculatorView.setProbabilityMode(PROB_INTERVAL);
 		assertEquals(PROB_INTERVAL, property.getMode());
 
@@ -60,7 +60,7 @@ public class ProbabilityResultValuesPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingIntervalBounds() {
+	void testChangingIntervalBounds() {
 		probabilityCalculatorView.setProbabilityMode(PROB_INTERVAL);
 
 		property.getLowerBoundProperty().setValue("-1.5");
@@ -75,7 +75,7 @@ public class ProbabilityResultValuesPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingProbabilityUpdatesHighInLeftTailMode() {
+	void testChangingProbabilityUpdatesHighInLeftTailMode() {
 		probabilityCalculatorView.setProbabilityMode(PROB_LEFT);
 		property.getProbabilityResultProperty().setValue("0.2");
 
@@ -86,7 +86,7 @@ public class ProbabilityResultValuesPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingProbabilityUpdatesLowInRightTailMode() {
+	void testChangingProbabilityUpdatesLowInRightTailMode() {
 		probabilityCalculatorView.setProbabilityMode(PROB_RIGHT);
 		property.getProbabilityResultProperty().setValue("0.2");
 
@@ -97,7 +97,7 @@ public class ProbabilityResultValuesPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingTwoTailBoundsUpdatesProbabilityResults() {
+	void testChangingTwoTailBoundsUpdatesProbabilityResults() {
 		probabilityCalculatorView.setProbabilityMode(PROB_TWO_TAILED);
 		property.getLowerBoundProperty().setValue("-1");
 		property.getUpperBoundProperty().setValue("2");

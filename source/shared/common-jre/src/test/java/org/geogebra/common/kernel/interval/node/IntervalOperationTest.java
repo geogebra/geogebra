@@ -16,18 +16,18 @@
 
 package org.geogebra.common.kernel.interval.node;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.plugin.Operation;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class IntervalOperationTest {
+class IntervalOperationTest {
 
 	private final IntervalOperationSupport support = new IntervalOperationSupport();
-	
+
 	@Test
-	public void testIsSupported() {
+	void testIsSupported() {
 		assertTrue(support.isSupported(Operation.ABS));
 		assertTrue(support.isSupported(Operation.ARCCOS));
 		assertTrue(support.isSupported(Operation.ARCTAN));
@@ -56,7 +56,7 @@ public class IntervalOperationTest {
 	}
 
 	@Test
-	public void testHasNotEquivalent() {
+	void testHasNotEquivalent() {
 		assertFalse(support.isSupported(Operation.ALT));
 		assertFalse(support.isSupported(Operation.DIRAC));
 		assertFalse(support.isSupported(Operation.GAMMA));

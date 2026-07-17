@@ -23,16 +23,16 @@ import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class TableLayoutTest {
+class TableLayoutTest {
 	private static final int ROW_HEIGHT = 20;
 	private static final int COLUMN_WIDTH = 40;
 
 	TableLayout layout = new TableLayout(5, 5, ROW_HEIGHT, COLUMN_WIDTH);
 
 	@Test
-	public void testFindColumn() {
+	void testFindColumn() {
 		assertThat(layout.findColumn(-5), equalTo(-1));
 		double rowHeaderWidth = layout.getRowHeaderWidth();
 		assertThat(layout.findColumn(rowHeaderWidth - 1), equalTo(-1));
@@ -44,7 +44,7 @@ public class TableLayoutTest {
 	}
 
 	@Test
-	public void testFindRow() {
+	void testFindRow() {
 		assertThat(layout.findRow(-5), equalTo(-1));
 		double columnHeaderHeight = layout.getColumnHeaderHeight();
 		assertThat(layout.findRow(columnHeaderHeight - 1), equalTo(-1));
@@ -56,7 +56,7 @@ public class TableLayoutTest {
 	}
 
 	@Test
-	public void testVisiblePortion() {
+	void testVisiblePortion() {
 		TableLayout.Portion pt = layout.getLayoutIntersecting(
 				new Rectangle(0, 100, 0, 100));
 		assertThat(pt.fromRow, equalTo(0));
@@ -76,7 +76,7 @@ public class TableLayoutTest {
 	}
 
 	@Test
-	public void testCursorInSelectAllCorner() {
+	void testCursorInSelectAllCorner() {
 		// note: mouse coordinates are window coordinates / are relative to the viewport
 		double columnHeaderHeight = layout.getColumnHeaderHeight();
 		double rowHeaderWidth = layout.getRowHeaderWidth();

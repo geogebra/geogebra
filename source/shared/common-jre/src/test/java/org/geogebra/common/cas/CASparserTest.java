@@ -16,60 +16,60 @@
 
 package org.geogebra.common.cas;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.editor.share.util.Unicode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CASparserTest {
+class CASparserTest {
 
 	@Test
-	public void replaceIndicesShouldPassThroughPlainAscii() {
+	void replaceIndicesShouldPassThroughPlainAscii() {
 		assertEquals("abc", CASparser.replaceIndices("abc", true));
 		assertEquals("abc", CASparser.replaceIndices("abc", false));
 	}
 
 	@Test
-	public void replaceIndicesShouldHandleEmptyString() {
+	void replaceIndicesShouldHandleEmptyString() {
 		assertEquals("", CASparser.replaceIndices("", true));
 		assertEquals("", CASparser.replaceIndices("", false));
 	}
 
 	@Test
-	public void replaceIndicesShouldPassSingleCharIndex() {
+	void replaceIndicesShouldPassSingleCharIndex() {
 		assertEquals("a_1", CASparser.replaceIndices("a_1", true));
 		assertEquals("a_1", CASparser.replaceIndices("a_1", false));
 	}
 
 	@Test
-	public void replaceIndicesShouldEncodeNonWordSingleCharIndex() {
+	void replaceIndicesShouldEncodeNonWordSingleCharIndex() {
 		assertEquals("a_unicode43u", CASparser.replaceIndices("a_+", true));
 	}
 
 	@Test
-	public void replaceIndicesShouldUnwrapNonWordCharacter() {
+	void replaceIndicesShouldUnwrapNonWordCharacter() {
 		assertEquals("a_unicode43u", CASparser.replaceIndices("a_{+}", true));
 	}
 
 	@Test
-	public void replaceIndicesShouldUnwrapIndex() {
+	void replaceIndicesShouldUnwrapIndex() {
 		assertEquals("a_1", CASparser.replaceIndices("a_{1}", true));
 		assertEquals("x_1,y_1", CASparser.replaceIndices("x_{1},y_{1}", true));
 	}
 
 	@Test
-	public void replaceIndicesShouldEncodeLeadingUnderscoreIndex() {
+	void replaceIndicesShouldEncodeLeadingUnderscoreIndex() {
 		assertEquals("_a", CASparser.replaceIndices("_a", true));
 	}
 
 	@Test
-	public void replaceIndicesShouldEncodeMultiCharBracedIndex() {
+	void replaceIndicesShouldEncodeMultiCharBracedIndex() {
 		assertEquals("a_unicode123u12unicode125u",
 				CASparser.replaceIndices("a_{12}", true));
 	}
 
 	@Test
-	public void replaceIndicesShouldEncodeUnicodeInsideBracedIndex() {
+	void replaceIndicesShouldEncodeUnicodeInsideBracedIndex() {
 		// α = α = 945, β = β = 946
 		assertEquals(
 				"a_unicode123uunicode945uunicode946uunicode125u",
@@ -80,50 +80,50 @@ public class CASparserTest {
 	}
 
 	@Test
-	public void replaceIndicesShouldEncodeChainedSingleCharIndices() {
+	void replaceIndicesShouldEncodeChainedSingleCharIndices() {
 		// '1' returns state to NORMAL, then '_b' starts a fresh single-char index
 		assertEquals("a_1_b",
 				CASparser.replaceIndices("a_1_b", true));
 	}
 
 	@Test
-	public void replaceIndicesShouldUnescapeBackslashUnderscore() {
+	void replaceIndicesShouldUnescapeBackslashUnderscore() {
 		assertEquals("_a", CASparser.replaceIndices("\\_a", true));
 	}
 
 	@Test
-	public void replaceIndicesShouldReplaceEulerCharWithE() {
+	void replaceIndicesShouldReplaceEulerCharWithE() {
 		String input = Unicode.EULER_STRING;
 		assertEquals("e", CASparser.replaceIndices(input, true));
 		assertEquals("e", CASparser.replaceIndices(input, false));
 	}
 
 	@Test
-	public void replaceIndicesShouldEncodeNonAsciiWhenRequested() {
+	void replaceIndicesShouldEncodeNonAsciiWhenRequested() {
 		// π = π = 960
 		assertEquals("unicode960u", CASparser.replaceIndices("π", true));
 	}
 
 	@Test
-	public void replaceIndicesShouldPreserveNonAsciiWhenNotRequested() {
+	void replaceIndicesShouldPreserveNonAsciiWhenNotRequested() {
 		assertEquals("π", CASparser.replaceIndices("π", false));
 	}
 
 	@Test
-	public void replaceIndicesShouldPreserveMeasuredAngle() {
+	void replaceIndicesShouldPreserveMeasuredAngle() {
 		String input = String.valueOf(Unicode.MEASURED_ANGLE);
 		assertEquals(input, CASparser.replaceIndices(input, true));
 		assertEquals(input, CASparser.replaceIndices(input, false));
 	}
 
 	@Test
-	public void replaceIndicesShouldPreserveOperators() {
+	void replaceIndicesShouldPreserveOperators() {
 		assertEquals("a+b*c-d/e",
 				CASparser.replaceIndices("a+b*c-d/e", true));
 	}
 
 	@Test
-	public void replaceIndicesShouldHandleConsecutiveBracedIndices() {
+	void replaceIndicesShouldHandleConsecutiveBracedIndices() {
 		// a_{12}+b_{34}
 		String expected = "a_unicode123u12unicode125u+b_unicode123u34unicode125u";
 		assertEquals(expected,
@@ -131,14 +131,14 @@ public class CASparserTest {
 	}
 
 	@Test
-	public void replaceIndicesShouldEncodeNonAsciiOutsideIndex() {
+	void replaceIndicesShouldEncodeNonAsciiOutsideIndex() {
 		// Mix of plain char, non-ASCII, plain char
 		assertEquals("aunicode945ub", CASparser.replaceIndices("aαb", true));
 		assertEquals("aαb", CASparser.replaceIndices("aαb", false));
 	}
 
 	@Test
-	public void replaceIndicesShouldKeepEulerEvenAtIndexStart() {
+	void replaceIndicesShouldKeepEulerEvenAtIndexStart() {
 		// _ followed by Euler char: state transitions to UNDERSCORE for '_',
 		// then Euler char is processed via UNDERSCORE branch (else → NORMAL),
 		// which appendcodes the char as unicode<EULER_CODE>u, not 'e'.

@@ -18,31 +18,31 @@ package org.geogebra.common.properties.impl.general;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Locale;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.test.TestStringUtil;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class GeneralPropertiesTest extends BaseUnitTest {
+class GeneralPropertiesTest extends BaseUnitTest {
 
 	private void t(String s) {
 		getKernel().getAlgebraProcessor().processAlgebraCommand(s, true);
 	}
 
-	@Before
-	public void clean() {
+	@BeforeEach
+	void clean() {
 		getKernel().clearConstruction(true);
 		getApp().setRounding("2");
 		getKernel().setAngleUnit(Kernel.ANGLE_DEGREE);
 	}
 
 	@Test
-	public void roundingShouldUpdateAV() {
+	void roundingShouldUpdateAV() {
 		RoundingIndexProperty rp = new RoundingIndexProperty(getApp(), getLocalization());
 		t("a=1/3");
 		t("b=4*a");
@@ -54,7 +54,7 @@ public class GeneralPropertiesTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void roundingShouldBeLocalized() {
+	void roundingShouldBeLocalized() {
 		RoundingIndexProperty rp = new RoundingIndexProperty(getApp(), getLocalization());
 		assertThat(rp.getValueNames()[0], equalTo("0 Decimal Places"));
 		getApp().setLocale(new Locale("de"));
@@ -62,7 +62,7 @@ public class GeneralPropertiesTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void angleUnitShouldUpdateAV() {
+	void angleUnitShouldUpdateAV() {
 		AngleUnitProperty rp = new AngleUnitProperty(getKernel(), getLocalization());
 		t("a=90deg");
 		t("b=Angle(xAxis,yAxis)");

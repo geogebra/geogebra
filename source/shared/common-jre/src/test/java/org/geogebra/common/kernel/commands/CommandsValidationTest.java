@@ -26,9 +26,9 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.main.App;
 import org.geogebra.test.commands.CommandSignatures;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CommandsValidationTest extends BaseUnitTest {
+class CommandsValidationTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
@@ -36,7 +36,7 @@ public class CommandsValidationTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testArgumentTypeValidation() {
+	void testArgumentTypeValidation() {
 		for (Commands command: Commands.values()) {
 			List<Integer> signature = CommandSignatures.getSignature(command.name(), getApp());
 			if (signature != null && command.getTable() != TABLE_CAS
@@ -47,7 +47,7 @@ public class CommandsValidationTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testArgumentNumberValidation() {
+	void testArgumentNumberValidation() {
 		for (Commands command: Commands.values()) {
 			List<Integer> signature = CommandSignatures.getSignature(command.name(), getApp());
 			if (signature != null && command.getTable() != TABLE_CAS
@@ -60,7 +60,7 @@ public class CommandsValidationTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testCasTableValidation() {
+	void testCasTableValidation() {
 		for (Commands command: Commands.values()) {
 			if (command.getTable() == TABLE_CAS && command != Commands.SolveQuartic) {
 				shouldFail(command.name() + "()", "available only in the CAS", getApp());

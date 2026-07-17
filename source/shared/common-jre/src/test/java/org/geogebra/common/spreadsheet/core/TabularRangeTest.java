@@ -18,18 +18,18 @@ package org.geogebra.common.spreadsheet.core;
 
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.annotation.CheckForNull;
 
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-public class TabularRangeTest {
+class TabularRangeTest {
 
 	private final TabularRange cellA3 = new TabularRange(2, 0, 2, 0);
 	private final TabularRange cellB3 = new TabularRange(2, 1, 2, 1);
@@ -198,25 +198,25 @@ public class TabularRangeTest {
 	}
 
 	@Test
-	public void testGetRectangularUnionIdentical() {
+	void testGetRectangularUnionIdentical() {
 		assertRangeEquals(cellA3.getRectangularUnion(cellA3), 2, 0, 2, 0);
 		assertRangeEquals(cellB3.getRectangularUnion(cellB3), 2, 1, 2, 1);
 	}
 
 	@Test
-	public void testGetRectangularUnionAdjacentHorizontal() {
+	void testGetRectangularUnionAdjacentHorizontal() {
 		assertRangeEquals(cellA3.getRectangularUnion(cellB3), 2, 0, 2, 1);
 		assertRangeEquals(cellB3.getRectangularUnion(cellA3), 2, 0, 2, 1);
 	}
 
 	@Test
-	public void testGetRectangularUnionAdjacentVertical() {
+	void testGetRectangularUnionAdjacentVertical() {
 		assertRangeEquals(cellA3.getRectangularUnion(cellA4), 2, 0, 3, 0);
 		assertRangeEquals(cellA4.getRectangularUnion(cellA3), 2, 0, 3, 0);
 	}
 
 	@Test
-	public void testMergeIndependent() {
+	void testMergeIndependent() {
 		assertThat(cellA4.getRectangularUnion(cellB3), nullValue());
 		assertThat(cellB3.getRectangularUnion(cellA4), nullValue());
 	}

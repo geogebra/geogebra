@@ -20,28 +20,28 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.geogebra.common.kernel.interval.LegacyIntervalAdapter.legacyInverted;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.kernel.interval.Interval;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class SqrtOperandTest {
+class SqrtOperandTest {
 
 	private IntervalNodeEvaluator evaluator = new IntervalNodeEvaluator();
 
 	@Test
-	public void sqrtPositiveInfinityShouldBePositiveInfinity() {
+	void sqrtPositiveInfinityShouldBePositiveInfinity() {
 		assertEquals(interval(Double.POSITIVE_INFINITY),
 				evaluator.sqrt(interval(Double.POSITIVE_INFINITY)));
 	}
 
 	@Test
-	public void sqrtOfZeroShouldBeZero() {
+	void sqrtOfZeroShouldBeZero() {
 		assertEquals(zero(), evaluator.sqrt(interval(0)));
 	}
 
 	@Test
-	public void sqrtOfNegativeShouldBeEmpty() {
+	void sqrtOfNegativeShouldBeEmpty() {
 		assertEquals(undefined(), evaluator.sqrt(interval(-3, -2)));
 		assertEquals(undefined(), evaluator.sqrt(interval(-2)));
 		assertEquals(undefined(), evaluator.sqrt(interval(Double.NEGATIVE_INFINITY)));
@@ -49,33 +49,33 @@ public class SqrtOperandTest {
 	}
 
 	@Test
-	public void sqrtOfZeroInverseShouldBePositiveInfinity() {
+	void sqrtOfZeroInverseShouldBePositiveInfinity() {
 		assertEquals(undefined(), evaluator.sqrt(evaluator.inverse(zero())));
 	}
 
 	@Test
-	public void inverseOfNegativeSqrtNegativeXShouldConvergeToNegativeInfinity() {
+	void inverseOfNegativeSqrtNegativeXShouldConvergeToNegativeInfinity() {
 		Interval x = interval(-3.224503997145689E-14, 0.019999999999967755);
 		assertEquals(Double.POSITIVE_INFINITY,
 				evaluator.inverse(evaluator.sqrt(x.negative())).getLow(), 0);
 	}
 
 	@Test
-	public void intervalWithMinusZeroShouldBeUndefined() {
+	void intervalWithMinusZeroShouldBeUndefined() {
 		Interval x = interval(-0.0, 0.019999999999967755);
 		assertEquals(undefined(),
 				evaluator.inverse(evaluator.sqrt(x.negative()).negative()));
 	}
 
 	@Test
-	public void minusSqrtInverseShouldBeUndefinedAtZero() {
+	void minusSqrtInverseShouldBeUndefinedAtZero() {
 		assertEquals(undefined(),
 				evaluator.multiply(evaluator.inverse(evaluator.sqrt(zero())),
 						interval(-1)));
 	}
 
 	@Test
-	public void minusSqrtInverseShouldBeNegativeInfinityAroundZero() {
+	void minusSqrtInverseShouldBeNegativeInfinityAroundZero() {
 		Interval sqrt = evaluator.sqrt(interval(-1E-4, 1E-4));
 		Interval inverse = evaluator.inverse(sqrt);
 		assertEquals(Double.NEGATIVE_INFINITY,
@@ -84,7 +84,7 @@ public class SqrtOperandTest {
 	}
 
 	@Test
-	public void minusSqrtInverseOfMinusXShouldBeApproxZeroAroundZero() {
+	void minusSqrtInverseOfMinusXShouldBeApproxZeroAroundZero() {
 		Interval x = interval(-1E-4, 1E-4);
 		Interval sqrt = evaluator.sqrt(evaluator.inverse(x));
 		Interval inverse = evaluator.inverse(sqrt);
@@ -94,30 +94,30 @@ public class SqrtOperandTest {
 	}
 
 	@Test
-	public void sqrtTanX() {
+	void sqrtTanX() {
 		Interval tanPiHalf = evaluator.tan(interval(1.5609788497524344, 1.5707963267949026));
 		assertEquals(interval(10.092367961261552, Double.POSITIVE_INFINITY),
 				evaluator.sqrt(tanPiHalf));
 	}
 
 	@Test
-	public void sqrtOfPositiveInvertedInterval() {
+	void sqrtOfPositiveInvertedInterval() {
 		assertEquals(legacyInverted(2, 3), evaluator.sqrt(legacyInverted(4, 9)));
 	}
 
 	@Test
-	public void sqrtOfMixedInvertedInterval() {
+	void sqrtOfMixedInvertedInterval() {
 		assertEquals(interval(3, Double.POSITIVE_INFINITY),
 				evaluator.sqrt(legacyInverted(-4, 9)));
 	}
 
 	@Test
-	public void sqrtOfNegativeInvertedInterval() {
+	void sqrtOfNegativeInvertedInterval() {
 		assertEquals(undefined(), evaluator.sqrt(legacyInverted(-4, -9)));
 	}
 
 	@Test
-	public void sqrtOfSecCscX() {
+	void sqrtOfSecCscX() {
 		Interval interval = interval(-1E-4, 1E-4);
 		Interval csc = evaluator.csc(interval);
 		Interval sec = evaluator.sec(csc);

@@ -17,7 +17,7 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 
@@ -30,9 +30,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.test.annotation.Issue;
 import org.hamcrest.Matcher;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class GeoQuadric3DTest extends BaseUnitTest {
+class GeoQuadric3DTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
@@ -40,7 +40,7 @@ public class GeoQuadric3DTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void eigenvectorsShouldUpdate() {
+	void eigenvectorsShouldUpdate() {
 		add("d=.5");
 		GeoQuadric3D quad = add("quad:1=x^(2) + (y^(2) + z^(2)) / (1 - d^(2))");
 		assertThat(quad.getEigenvec3D(0), hasCoords(1, 0, 0, 0));
@@ -54,7 +54,7 @@ public class GeoQuadric3DTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testObjectTypes() {
+	void testObjectTypes() {
 		assertThat(add("(x-z)(x+z)=0"), hasType("Intersecting Planes"));
 		assertThat(add("(x-z)(x-z-1)=0"), hasType("Parallel Planes"));
 		assertThat(add("(x-z)(x+z)=1"), hasType("Hyperbolic Cylinder"));
@@ -69,7 +69,7 @@ public class GeoQuadric3DTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-6570")
-	public void shouldLoadAsImplicitFromFile() {
+	void shouldLoadAsImplicitFromFile() {
 		add("a=1");
 		getApp().getGgbApi().evalXML(
 				"<expression label=\"b\" exp=\"a*x^2=z^2\" type=\"quadric\" />"
@@ -83,7 +83,7 @@ public class GeoQuadric3DTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void assignmentInLaTeXShouldHaveOnlyOneSpace() {
+	void assignmentInLaTeXShouldHaveOnlyOneSpace() {
 		assertEquals("f\\mathpunct{:}\\,y\\, = \\,x^{2} + z",
 				add("y=x^2+z").toString(StringTemplate.latexTemplate));
 		assertEquals("g\\mathpunct{:}\\,y\\, = \\,x^{2} + z",

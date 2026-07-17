@@ -16,7 +16,7 @@
  
 package org.geogebra.common.plugin.evaluator;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Map;
 
@@ -26,21 +26,21 @@ import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.io.MathFieldCommon;
 import org.geogebra.editor.share.catalog.TemplateCatalog;
 import org.geogebra.editor.share.serializer.TeXSerializer;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
  * Tests for the EvaluatorAPI
  */
-public class EvaluatorAPITest extends BaseUnitTest {
+class EvaluatorAPITest extends BaseUnitTest {
 
 	private EditorTyper typer;
 	private EvaluatorAPI api;
 
-	@Before
-	public void setupTest() {
+	@BeforeEach
+	void setupTest() {
 		MathFieldCommon mathField = new MathFieldCommon(new TemplateCatalog(), null);
 		api = new EvaluatorAPI(getKernel(), mathField.getInternal());
 		typer = new EditorTyper(mathField);
@@ -50,7 +50,7 @@ public class EvaluatorAPITest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testGetEvaluatorValue() {
+	void testGetEvaluatorValue() {
 		typer.type("1/2");
 		Map<String, Object> value = api.getEvaluatorValue();
 
@@ -62,7 +62,7 @@ public class EvaluatorAPITest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testGetEvaluatorValueNonNumeric() {
+	void testGetEvaluatorValueNonNumeric() {
 		typer.type("GeoGebra");
 		Map<String, Object> value = api.getEvaluatorValue();
 
@@ -72,7 +72,7 @@ public class EvaluatorAPITest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testEmptyInput() {
+	void testEmptyInput() {
 		Map<String, Object> value = api.getEvaluatorValue();
 
 		assertEquals("\\nbsp{}", value.get("latex").toString());
@@ -81,7 +81,7 @@ public class EvaluatorAPITest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testInvalidInput() {
+	void testInvalidInput() {
 		typer.type("1/");
 		Map<String, Object> value = api.getEvaluatorValue();
 
@@ -92,7 +92,7 @@ public class EvaluatorAPITest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testSetEditorState() {
+	void testSetEditorState() {
 		api.setEditorState("{content:\"1+1/5\"}");
 		Map<String, Object> value = api.getEvaluatorValue();
 
@@ -102,14 +102,14 @@ public class EvaluatorAPITest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testSetEditorStateInvalidCaret() {
+	void testSetEditorStateInvalidCaret() {
 		api.setEditorState("{content:\"1+1/5\", caret: \"/\"}");
 		Map<String, Object> value = api.getEvaluatorValue();
 		assertEquals("1+((1)/(5))", value.get("content").toString());
 	}
 
 	@Test
-	public void testSetEditorStateInvalidContent() {
+	void testSetEditorStateInvalidContent() {
 		api.setEditorState("{caret: [1,2,3]}");
 		Map<String, Object> value = api.getEvaluatorValue();
 		assertEquals("", value.get("content").toString());

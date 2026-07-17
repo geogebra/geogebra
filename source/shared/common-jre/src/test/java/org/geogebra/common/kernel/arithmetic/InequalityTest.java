@@ -21,19 +21,19 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class InequalityTest extends BaseUnitTest {
+class InequalityTest extends BaseUnitTest {
 
 	@Test
-	public void shouldIncludeDoubleRootTwice() {
+	void shouldIncludeDoubleRootTwice() {
 		assertThat(getZeros("x^3-4x^2 < 0"), is(new Long[]{0L, 0L, 4L}));
 		assertThat(getZeros("x^7-4x^6 < 0"), is(new Long[]{0L, 0L, 4L}));
 		assertThat(getZeros("x^3-4x^2 >= 0"), is(new Long[]{0L, 0L, 4L}));
 	}
 
 	@Test
-	public void shouldSkipDoubleRoot() {
+	void shouldSkipDoubleRoot() {
 		assertThat(getZeros("x^3-4x^2 > 0"), is(new Long[]{4L}));
 		assertThat(getZeros("x^7-4x^6 > 0"), is(new Long[]{4L}));
 		assertThat(getZeros("x^3-4x^2 <= 0"), is(new Long[]{4L}));

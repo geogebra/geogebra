@@ -66,13 +66,13 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 /**
  * A Spreadsheet test with App, Kernel, and GuiManager (for full undo testing) integration.
  */
-public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
+final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 
 	private Spreadsheet<GeoElement> spreadsheet;
 	private KernelTabularDataAdapter tabularData;
 
 	@BeforeAll
-	public static void setupOnce() {
+	static void setupOnce() {
 		// required by MathField
 		FactoryProvider.setInstance(new FactoryProviderCommon());
 		// required by StringTemplate static initializer
@@ -80,7 +80,7 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 	}
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
 		getApp().setGuiManager(Mockito.mock(GuiManager.class));
 		getApp().enableUseFullGui();
@@ -105,7 +105,7 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 
 	@Test
 	@Issue("APPS-6566")
-	public void testInitialSize() {
+	void testInitialSize() {
 		SpreadsheetSettings spreadsheetSettings = getApp().getSettings().getSpreadsheet();
 		spreadsheetSettings.setColumnsNoFire(3);
 		spreadsheetSettings.getColumnWidths().put(1, 500.0);
@@ -119,7 +119,7 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 
 	@Test
 	@Issue("APPS-6566")
-	public void testInitialSettings() {
+	void testInitialSettings() {
 		SpreadsheetSettings spreadsheetSettings = getApp().getSettings().getSpreadsheet();
 		spreadsheetSettings.setColumnsNoFire(3);
 		spreadsheetSettings.setRowsNoFire(3);
@@ -142,7 +142,7 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testDefaultTextAlignment() {
+	void testDefaultTextAlignment() {
 		Construction construction = getKernel().getConstruction();
 		tabularData.setContent(0, 0, new GeoText(construction, "GeoText"));
 		tabularData.setContent(1, 0, new GeoNumeric(construction, 123));
@@ -155,7 +155,7 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testUndoStyleChange() {
+	void testUndoStyleChange() {
 		final UndoManager undoManager = getApp().getUndoManager();
 		Construction construction = getKernel().getConstruction();
 		SpreadsheetStyleBarModel styleBarModel = spreadsheet.getStyleBarModel();
@@ -195,7 +195,7 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testUndoColumnResize() {
+	void testUndoColumnResize() {
 		final UndoManager undoManager = getApp().getUndoManager();
 		Construction construction = getKernel().getConstruction();
 		String initialXml = construction.getCurrentUndoXML(false).toString();
@@ -228,7 +228,7 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 
 	@Issue("APPS-6783")
 	@Test
-	public void testUndoColumnDeletion() {
+	void testUndoColumnDeletion() {
 		// select first two columns (out of 26 total)
 		spreadsheet.selectColumn(0, false, false);
 		spreadsheet.selectColumn(1, true, false);
@@ -242,7 +242,7 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 
 	@Test
 	@Issue("APPS-6925")
-	public void testClearAllClearsStyles() {
+	void testClearAllClearsStyles() {
 		spreadsheet.getStyling().setBackgroundColor(GColor.BLUE,
 				Collections.singletonList(new TabularRange(0, 0)));
 		getApp().clearConstruction();
@@ -254,7 +254,7 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 
 	@Test
 	@Issue("APPS-6619")
-	public void spreadsheetShouldReflectColorChanges() {
+	void spreadsheetShouldReflectColorChanges() {
 		getKernel().attach((KernelTabularDataAdapter) tabularData);
 		spreadsheet.setViewport(new Rectangle(0, 300, 0, 300));
 		evaluate("A1 = 1");
@@ -267,7 +267,7 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 
 	@Test
 	@Issue("APPS-7335")
-	public void testDynamicColor() {
+	void testDynamicColor() {
 		GeoElement point = evaluateGeoElement("A1=(0,0)");
 		point.setColorFunction(evaluateGeoElement("{x(A1),0,0}"));
 		Set<GColor> colors = new HashSet<>();
@@ -285,7 +285,7 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 
 	@Test
 	@Issue("APPS-7336")
-	public void shouldIgnoreSliderLineColor() {
+	void shouldIgnoreSliderLineColor() {
 		getKernel().attach((KernelTabularDataAdapter) tabularData);
 		spreadsheet.setViewport(new Rectangle(0, 300, 0, 300));
 		evaluate("A1 = Slider(1,2)");
@@ -300,7 +300,7 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testEnsureDimensions() {
+	void testEnsureDimensions() {
 		getKernel().attach((KernelTabularDataAdapter) tabularData);
 		getApp().getSettings().getSpreadsheet().setPreferredColumnWidth(120);
 		assertEquals(3636.0, spreadsheet.getTotalHeight(), 0.0);
@@ -313,7 +313,7 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 
 	@Test
 	@Issue("APPS-7662")
-	public void testGrowingSpreadsheetSizeWithCommands() {
+	void testGrowingSpreadsheetSizeWithCommands() {
 		evaluate("l1 = Sequence(k, k, 1, 150)");
 		evaluate("FillColumn(1, l1)");
 

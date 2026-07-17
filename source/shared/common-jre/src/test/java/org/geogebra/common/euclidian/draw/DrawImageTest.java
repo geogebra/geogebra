@@ -16,23 +16,23 @@
 
 package org.geogebra.common.euclidian.draw;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class DrawImageTest extends BaseEuclidianControllerTest {
+class DrawImageTest extends BaseEuclidianControllerTest {
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		setUpController();
 	}
 
 	@Test
-	public void translateShouldNotFixateCorners() {
+	void translateShouldNotFixateCorners() {
 		add("ZoomIn(0,0,800,600)");
 		GeoImage img = createImage();
 		GeoPoint pt = add("(100,100)");
@@ -50,7 +50,7 @@ public class DrawImageTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void translateShouldChangeCenter() {
+	void translateShouldChangeCenter() {
 		add("ZoomIn(0,0,800,600)");
 		GeoImage img = createImage();
 		GeoPoint pt = add("(100,100)");
@@ -72,7 +72,7 @@ public class DrawImageTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void translateShouldTransformCorners() {
+	void translateShouldTransformCorners() {
 		add("ZoomIn(0,0,800,600)");
 		GeoImage img = createImage();
 		GeoPoint pt = add("(100,100)");

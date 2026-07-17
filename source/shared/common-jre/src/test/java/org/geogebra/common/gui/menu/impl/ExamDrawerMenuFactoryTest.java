@@ -16,7 +16,7 @@
 
 package org.geogebra.common.gui.menu.impl;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
@@ -24,12 +24,12 @@ import org.geogebra.common.gui.menu.DrawerMenu;
 import org.geogebra.common.gui.menu.DrawerMenuFactory;
 import org.geogebra.common.gui.menu.MenuItemGroup;
 import org.geogebra.test.BaseAppTestSetup;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ExamDrawerMenuFactoryTest extends BaseAppTestSetup {
+class ExamDrawerMenuFactoryTest extends BaseAppTestSetup {
 
 	@Test
-	public void testGraphingExam() {
+	void testGraphingExam() {
 		setupGraphingApp();
 		DrawerMenuFactory factory = new ExamDrawerMenuFactory(GeoGebraConstants.Version.GRAPHING);
 		DrawerMenu menu = factory.createDrawerMenu(getApp());
@@ -39,7 +39,7 @@ public class ExamDrawerMenuFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testSwitchCalculator() {
+	void testSwitchCalculator() {
 		setupApp(SuiteSubApp.GRAPHING);
 		DrawerMenuFactory factory =
 				new ExamDrawerMenuFactory(GeoGebraConstants.Version.SUITE, true);
@@ -50,7 +50,7 @@ public class ExamDrawerMenuFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testScientificSuiteExam() {
+	void testScientificSuiteExam() {
 		setupApp(SuiteSubApp.SCIENTIFIC);
 		DrawerMenuFactory factory = new ExamDrawerMenuFactory(GeoGebraConstants.Version.SCIENTIFIC,
 				true);

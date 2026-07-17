@@ -30,23 +30,23 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.OrderingComparison;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.MockedConstruction;
 import org.mockito.Mockito;
 import org.mockito.ScopedMock;
 
-public class GeoImplicitCurveTest extends BaseUnitTest {
+class GeoImplicitCurveTest extends BaseUnitTest {
 
 	@Test
-	public void toValueStringTest() {
+	void toValueStringTest() {
 		GeoElement implicit = add("sqrt(2)/sqrt(x)=4");
 		assertThat(implicit.toValueString(StringTemplate.algebraTemplate),
 				is("r(2) / r(x) = 4".replace('r', Unicode.SQUARE_ROOT)));
 	}
 
 	@Test
-	public void variableDegreeTest() {
+	void variableDegreeTest() {
 		add("U=1");
 		add("rho=1");
 		add("c:(x^rho+y^rho)^(1/rho)=U");
@@ -57,7 +57,7 @@ public class GeoImplicitCurveTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void polynomialShouldShowAsPlainTextInAlgebraView() {
+	void polynomialShouldShowAsPlainTextInAlgebraView() {
 		GeoImplicitCurve poly = add("0=x+y^4");
 		poly.setToImplicit();
 		assertThat(poly.isLaTeXDrawableGeo(), equalTo(false));
@@ -67,7 +67,7 @@ public class GeoImplicitCurveTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void variableDegreeShouldNotChangeLayer() {
+	void variableDegreeShouldNotChangeLayer() {
 		add("a=1");
 		add("c:x^a+y=1");
 		add("SetLayer(a,2)");
@@ -77,7 +77,7 @@ public class GeoImplicitCurveTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void shouldNotUseBigDecimal() {
+	void shouldNotUseBigDecimal() {
 		add("m=1");
 		AtomicInteger counter = new AtomicInteger(0);
 		MockedConstruction.MockInitializer<BigDecimal> init = (decimal, context) -> {

@@ -19,10 +19,10 @@ package org.geogebra.common.euclidian.measurement;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PROTRACTOR;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TRIANGLE_PROTRACTOR;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GPoint2D;
@@ -30,16 +30,16 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class MeasureControllerTest extends BaseUnitTest {
+class MeasureControllerTest extends BaseUnitTest {
 	private MeasurementController controller;
 	private MeasurementTool ruler;
 	private Construction cons;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		getApp().setConfig(new AppConfigNotes());
 		Kernel kernel = getKernel();
 		cons = kernel.getConstruction();
@@ -53,18 +53,18 @@ public class MeasureControllerTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testUnselect() {
+	void testUnselect() {
 		controller.unselect();
 		assertFalse(controller.hasSelectedTool());
 	}
 
 	@Test
-	public void testSelectRuler() {
+	void testSelectRuler() {
 		assertToolSelected(MODE_RULER, "Ruler.svg");
 	}
 
 	@Test
-	public void testRotationCenter() {
+	void testRotationCenter() {
 		controller.toggleActiveTool(MODE_RULER);
 		GPoint2D rotationCenter = controller.getActiveToolCenter(
 				controller.getActiveToolImage(), getApp().getActiveEuclidianView());
@@ -76,32 +76,32 @@ public class MeasureControllerTest extends BaseUnitTest {
 		controller.toggleActiveTool(mode);
 		GeoImage toolImage = controller.getActiveToolImage();
 		assertEquals(filename, toolImage.getImageFileName());
-		assertTrue(filename + " should be in construction",
-				cons.isInConstructionList(toolImage));
+		assertTrue(cons.isInConstructionList(toolImage),
+				filename + " should be in construction");
 	}
 
 	@Test
-	public void testSelectProtractor() {
+	void testSelectProtractor() {
 		assertToolSelected(MODE_PROTRACTOR, "Protractor.svg");
 	}
 
 	@Test
-	public void testSelectTriangleProtractor() {
+	void testSelectTriangleProtractor() {
 		assertToolSelected(MODE_TRIANGLE_PROTRACTOR, "TriangleProtractor.svg");
 	}
 
 	@Test
-	public void testToggleRulerOnOff() {
+	void testToggleRulerOnOff() {
 		controller.selectTool(MODE_RULER);
 		controller.toggleActiveTool(MODE_RULER);
 		assertNull(controller.getActiveToolImage());
 	}
 
 	@Test
-	public void testUnselectRuler() {
+	void testUnselectRuler() {
 		controller.toggleActiveTool(MODE_RULER);
 		controller.unselect();
-		assertFalse("Ruler is in construction", cons.isInConstructionList(ruler.getImage()));
+		assertFalse(cons.isInConstructionList(ruler.getImage()), "Ruler is in construction");
 	}
 
 }

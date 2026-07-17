@@ -39,10 +39,10 @@ import org.geogebra.common.gui.view.algebra.filter.DefaultAlgebraOutputFilter;
 import org.geogebra.common.kernel.commands.Commands;
 import org.junit.jupiter.api.Test;
 
-public class RestrictionsControllerTests extends BaseExamTestSetup {
+class RestrictionsControllerTests extends BaseExamTestSetup {
 
 	@Test
-	public void testRestrictedSubApp() {
+	void testRestrictedSubApp() {
 		setupApp(SuiteSubApp.GRAPHING);
 		Restrictions mmsRestrictions = ExamType.MMS.createRestrictions();
 		restrictionsController.applyRestrictions(mmsRestrictions);
@@ -52,7 +52,7 @@ public class RestrictionsControllerTests extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testRestrictions() {
+	void testRestrictions() {
 		setupApp(SuiteSubApp.GRAPHING);
 		restrictionsController.applyRestrictions(ExamType.CVTE.createRestrictions());
 
@@ -78,7 +78,7 @@ public class RestrictionsControllerTests extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testAppAlgebraOutputFilterUsesRestrictionsController() {
+	void testAppAlgebraOutputFilterUsesRestrictionsController() {
 		setupApp(SuiteSubApp.GRAPHING);
 		AlgebraOutputFilter base = getApp().getAlgebraOutputFilter();
 

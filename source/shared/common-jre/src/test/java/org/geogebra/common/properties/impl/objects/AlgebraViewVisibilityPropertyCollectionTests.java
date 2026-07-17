@@ -33,11 +33,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class AlgebraViewVisibilityPropertyCollectionTests extends BaseAppTestSetup {
+class AlgebraViewVisibilityPropertyCollectionTests extends BaseAppTestSetup {
 	private final GeoElementPropertiesFactory propertiesFactory = new GeoElementPropertiesFactory();
 
 	@Test
-	public void testSettingAlgebraViewSliderVisibility() {
+	void testSettingAlgebraViewSliderVisibility() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoNumeric slider = evaluateGeoElement("Slider(-5, 5, 1)");
 		AlgebraViewVisibilityPropertyCollection algebraViewVisibilityPropertyCollection =
@@ -52,7 +52,7 @@ public class AlgebraViewVisibilityPropertyCollectionTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testDisabledAlgebraViewSliderVisibility() {
+	void testDisabledAlgebraViewSliderVisibility() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoNumeric slider = evaluateGeoElement("Slider(-5, 5, 1)");
 		AlgebraViewVisibilityPropertyCollection algebraViewVisibilityPropertyCollection =
@@ -69,7 +69,7 @@ public class AlgebraViewVisibilityPropertyCollectionTests extends BaseAppTestSet
 	@ValueSource(strings = {
 			"Slider(-5,5,1)"
 	})
-	public void testApplicableObjects(String expression) {
+	void testApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement element = evaluateGeoElement(expression);
 		assertDoesNotThrow(() ->
@@ -82,7 +82,7 @@ public class AlgebraViewVisibilityPropertyCollectionTests extends BaseAppTestSet
 			"Angle(Line((-1,0),(1,2)),Line((-2,-1),(2,1)))",
 			"Slope(Line((0,0),(1,1)))"
 	})
-	public void testNotApplicableObjects(String expression) {
+	void testNotApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement element = evaluateGeoElement(expression);
 		assertThrows(NotApplicablePropertyException.class, () ->

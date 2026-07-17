@@ -16,22 +16,22 @@
 
 package org.geogebra.common.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import org.geogebra.common.media.GeoGebraURLParser;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("javadoc")
-public class StringUtilTest {
+class StringUtilTest {
 	private static final boolean IS_JAVA_8 = System.getProperty("java.version").startsWith("1.8.");
 
 	@Test
-	public void isLetterShouldComplyWithJava() {
+	void isLetterShouldComplyWithJava() {
 		assumeTrue(IS_JAVA_8);
 		String falseNeg = "";
 		String falsePos = "";
@@ -55,7 +55,7 @@ public class StringUtilTest {
 	}
 
 	@Test
-	public void isDigitShouldComplyWithJava() {
+	void isDigitShouldComplyWithJava() {
 		assumeTrue(IS_JAVA_8);
 		String falseNeg = "";
 		String falsePos = "";
@@ -69,7 +69,7 @@ public class StringUtilTest {
 				}
 			}
 		}
-		assertEquals(StringUtil.toHexString(falseNeg),
+		assertEquals(
 				"\u07C0\u07C1\u07C2\u07C3\u07C4\u07C5\u07C6\u07C7\u07C8\u07C9"
 						+ "\u1090\u1091\u1092\u1093\u1094\u1095\u1096\u1097\u1098\u1099"
 						+ "\u1946\u1947\u1948\u1949\u194A\u194B\u194C\u194D\u194E\u194F"
@@ -82,14 +82,13 @@ public class StringUtilTest {
 						+ "\uAA50\uAA51\uAA52\uAA53\uAA54\uAA55\uAA56\uAA57\uAA58\uAA59"
 						+ "\uABF0\uABF1\uABF2\uABF3\uABF4\uABF5\uABF6\uABF7\uABF8\uABF9"
 						+ "\uFF10\uFF11\uFF12\uFF13\uFF14\uFF15\uFF16\uFF17\uFF18\uFF19",
-				falseNeg);
+				falseNeg, StringUtil.toHexString(falseNeg));
 
-		assertEquals(StringUtil.toHexString(falsePos), "",
-				falsePos);
+		assertEquals("", falsePos, StringUtil.toHexString(falsePos));
 	}
 
 	@Test
-	public void checkURIparser() {
+	void checkURIparser() {
 		assertEquals("k89JtCqY", GeoGebraURLParser
 				.getIDfromURL("https://www.geogebra.org/m/k89JtCqY"));
 		assertEquals("k89JtCqY", GeoGebraURLParser
@@ -100,37 +99,37 @@ public class StringUtilTest {
 				GeoGebraURLParser.getIDfromURL("http://ggbm.at/k89JtCqY"));
 		assertEquals("k89JtCqY",
 				GeoGebraURLParser.getIDfromURL("http://ggbtu.be/mk89JtCqY"));
-		assertNull("homepage is not a material", GeoGebraURLParser
-				.getIDfromURL("https://www.geogebra.org"));
-		assertNull("homepage is not a material", GeoGebraURLParser
-				.getIDfromURL("https://www.geogebra.org/"));
-		assertNull("Math page is not a material", GeoGebraURLParser
-				.getIDfromURL("https://www.geogebra.org/math"));
+		assertNull(GeoGebraURLParser
+				.getIDfromURL("https://www.geogebra.org"), "homepage is not a material");
+		assertNull(GeoGebraURLParser
+				.getIDfromURL("https://www.geogebra.org/"), "homepage is not a material");
+		assertNull(GeoGebraURLParser
+				.getIDfromURL("https://www.geogebra.org/math"), "Math page is not a material");
 
 	}
 
 	@Test
-	public void checkUriParserWithM() {
+	void checkUriParserWithM() {
 		assertEquals("mAukGjbN", GeoGebraURLParser
 				.getIDfromURL("https://www.geogebra.org/m/mAukGjbN"));
 	}
 
 	@Test
-	public void testNewlines() {
+	void testNewlines() {
 		String in = "a\n\n\n\nb";
 		String out = "<div>a</div><div><br></div><div><br></div><div><br></div><div>b</div>";
 		compatibleNewlines(in, out);
 	}
 
 	@Test
-	public void testNewlinesTrailing() {
+	void testNewlinesTrailing() {
 		String in = "\n\na\nb";
 		String out = "<div><br></div><div><br></div><div>a</div><div>b</div>";
 		compatibleNewlines(in, out);
 	}
 
 	@Test
-	public void testNumberToIndex() {
+	void testNumberToIndex() {
 		assertEquals("" + Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_7,
 				StringUtil.numberToIndex(27));
 		assertEquals("" + Unicode.SUPERSCRIPT_MINUS
@@ -141,7 +140,7 @@ public class StringUtilTest {
 	}
 
 	@Test
-	public void testIndexToNumber() {
+	void testIndexToNumber() {
 		assertEquals(27, StringUtil.indexToNumber("" + Unicode.SUPERSCRIPT_2
 						+ Unicode.SUPERSCRIPT_7));
 		assertEquals(-27, StringUtil.indexToNumber("" + Unicode.SUPERSCRIPT_MINUS
@@ -150,14 +149,14 @@ public class StringUtilTest {
 	}
 
 	@Test
-	public void testRemoveFileExtension() {
+	void testRemoveFileExtension() {
 		assertEquals("foo", StringUtil.removeFileExtension("foo.bar"));
 		assertEquals("bar", StringUtil.removeFileExtension("bar"));
 		assertEquals("", StringUtil.removeFileExtension(""));
 	}
 
 	@Test
-	public void testRemoveFolder() {
+	void testRemoveFolder() {
 		assertEquals("foo.bar", StringUtil.removeFolderName("C:/my/foo.bar"));
 		assertEquals("foo.bar", StringUtil.removeFolderName("C:\\my\\foo.bar"));
 		assertEquals("foo.bar", StringUtil.removeFolderName("foo.bar"));
@@ -166,14 +165,14 @@ public class StringUtilTest {
 	}
 
 	@Test
-	public void testRemoveAccents() {
+	void testRemoveAccents() {
 		assertEquals("nuoascr",
 				StringUtil.removeAccents("\u00F1\u00FC\u00F6\u00E4\u0161\u010D\u0159"));
 	}
 
 	@Issue("APPS-5458")
 	@Test
-	public void testLabelVariants() {
+	void testLabelVariants() {
 		assertNotNull(StringUtil.labelVariants("slider(f_{")); // assertNotCrashing(), really
 	}
 

@@ -20,16 +20,16 @@ import static org.geogebra.common.kernel.interval.IntervalSet.connected;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.empty;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.inverted;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.kernel.interval.IntervalSet;
 import org.geogebra.common.kernel.interval.IntervalSetOps;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class TupleNeighboursTest {
+class TupleNeighboursTest {
 	private static final IntervalSet leftX = connected(1.0, 2.0);
 	private static final IntervalSet leftY = connected(1.5, 2.5);
 	private static final IntervalSet currentX = connected(3.0, 4.0);
@@ -43,74 +43,74 @@ public class TupleNeighboursTest {
 	);
 
 	@Test
-	public void testLeftXLow() {
+	void testLeftXLow() {
 		assertEquals(neighbours.leftXLow(), connectedInterval(leftX).getLow(), 0);
 	}
 
 	@Test
-	public void testLeftXHigh() {
+	void testLeftXHigh() {
 		assertEquals(neighbours.leftXHigh(), connectedInterval(leftX).getHigh(), 0);
 	}
 
 	@Test
-	public void testLeftYLow() {
+	void testLeftYLow() {
 		assertEquals(neighbours.leftYLow(), connectedInterval(leftY).getLow(), 0);
 	}
 
 	@Test
-	public void testLeftYHigh() {
+	void testLeftYHigh() {
 		assertEquals(neighbours.leftYHigh(), connectedInterval(leftY).getHigh(), 0);
 	}
 
 	@Test
-	public void testCurrentXLow() {
+	void testCurrentXLow() {
 		assertEquals(neighbours.currentXLow(), connectedInterval(currentX).getLow(), 0);
 	}
 
 	@Test
-	public void testCurrentXHigh() {
+	void testCurrentXHigh() {
 		assertEquals(neighbours.currentXHigh(), connectedInterval(currentX).getHigh(), 0);
 	}
 
 	@Test
-	public void testCurrentYLow() {
+	void testCurrentYLow() {
 		assertEquals(neighbours.currentYLow(), connectedInterval(currentY).getLow(), 0);
 	}
 
 	@Test
-	public void testCurrentYHigh() {
+	void testCurrentYHigh() {
 		assertEquals(neighbours.currentYHigh(), connectedInterval(currentY).getHigh(), 0);
 	}
 
 	@Test
-	public void testRightXLow() {
+	void testRightXLow() {
 		assertEquals(neighbours.rightXLow(), connectedInterval(rightX).getLow(), 0);
 	}
 
 	@Test
-	public void testRightXHigh() {
+	void testRightXHigh() {
 		assertEquals(neighbours.rightXHigh(), connectedInterval(rightX).getHigh(), 0);
 	}
 
 	@Test
-	public void testRightYLow() {
+	void testRightYLow() {
 		assertEquals(neighbours.rightYLow(), connectedInterval(rightY).getLow(), 0);
 	}
 
 	@Test
-	public void testRightYHigh() {
+	void testRightYHigh() {
 		assertEquals(neighbours.rightYHigh(), connectedInterval(rightY).getHigh(), 0);
 	}
 
 	@Test
-	public void testLegacyConstructorPopulatesConnectedTopology() {
+	void testLegacyConstructorPopulatesConnectedTopology() {
 		assertEquals(leftY, neighbours.leftTopology());
 		assertEquals(currentY, neighbours.currentTopology());
 		assertEquals(rightY, neighbours.rightTopology());
 	}
 
 	@Test
-	public void testHasLeftAndRightUseTopologyDefinedness() {
+	void testHasLeftAndRightUseTopologyDefinedness() {
 		TupleNeighbours topologyAware = new TupleNeighbours();
 		topologyAware.set(new IntervalTuple(leftX, leftY), new IntervalTuple(currentX, currentY),
 				new IntervalTuple(rightX, rightY));
@@ -120,7 +120,7 @@ public class TupleNeighboursTest {
 	}
 
 	@Test
-	public void testTopologyAccessorsDistinguishWholeAndInvertedNeighbours() {
+	void testTopologyAccessorsDistinguishWholeAndInvertedNeighbours() {
 		TupleNeighbours topologyAware = new TupleNeighbours(
 				new IntervalTuple(leftX, IntervalSetOps.whole()),
 				new IntervalTuple(currentX, currentY),
@@ -133,7 +133,7 @@ public class TupleNeighboursTest {
 	}
 
 	@Test
-	public void testEmptyTopologyReportedExplicitly() {
+	void testEmptyTopologyReportedExplicitly() {
 		TupleNeighbours topologyAware = new TupleNeighbours(
 				new IntervalTuple(leftX, empty()),
 				new IntervalTuple(currentX, currentY),

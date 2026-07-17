@@ -23,7 +23,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class GridColorPropertyTests extends BaseAppTestSetup {
+class GridColorPropertyTests extends BaseAppTestSetup {
 	@Test
 	void testSettingValue() {
 		setupApp(SuiteSubApp.GRAPHING);

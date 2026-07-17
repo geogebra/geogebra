@@ -21,13 +21,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AlgoOrthoLinePointLineTest extends BaseUnitTest {
+class AlgoOrthoLinePointLineTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5523")
-	public void repeatOrthogonalShouldNotUnderflow() {
+	void repeatOrthogonalShouldNotUnderflow() {
 		add("eq1: 0.1 x-0.1 y=0");
 		add("eq2: 2 y=x");
 		add("A=(1.31,1.31)");

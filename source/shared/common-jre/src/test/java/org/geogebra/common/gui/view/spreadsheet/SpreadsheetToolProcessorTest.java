@@ -41,19 +41,19 @@ import org.junit.jupiter.api.Test;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /** Tests for {@link SpreadsheetToolProcessor}. */
-public class SpreadsheetToolProcessorTest extends BaseAppTestSetup {
+class SpreadsheetToolProcessorTest extends BaseAppTestSetup {
 
 	private SpreadsheetToolProcessor processor;
 	private CellFormat cellFormat;
 
 	@BeforeAll
-	public static void setupOnce() {
+	static void setupOnce() {
 		FactoryProvider.setInstance(new FactoryProviderCommon());
 		FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
 	}
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
 		// prepare tabular data and attach to kernel
 		KernelTabularDataAdapter tabularData = new KernelTabularDataAdapter(getApp());
@@ -69,7 +69,7 @@ public class SpreadsheetToolProcessorTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testCreateMatrix_happyPath() {
+	void testCreateMatrix_happyPath() {
 		// put numeric values into a 2x2 block: A1..B2 corresponds to (0,0)-(1,1)
 
 		// create matrix by reference (not by value)
@@ -83,20 +83,20 @@ public class SpreadsheetToolProcessorTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testCreateMatrix_transpose() {
+	void testCreateMatrix_transpose() {
 		assertEquals("m1 = {{A1, A2}, {B1, B2}}",
 				processor.createMatrix(0, 1, 0, 1, false, true).getDefinitionForInputBar());
 	}
 
 	@Test
-	public void testCreateTableText() {
+	void testCreateTableText() {
 		GeoElementND table = processor.createTableText(0, 1, 0, 1, false, false);
 		assertEquals("TableText({{A1, B1}, {A2, B2}}, \"|_ll\")",
 				table.getDefinition(StringTemplate.defaultTemplate));
 	}
 
 	@Test
-	public void testCreateTableTextAligned() {
+	void testCreateTableTextAligned() {
 		cellFormat.setFormat(new TabularRange(0, 0),
 				CellFormat.FORMAT_ALIGN, CellFormat.ALIGN_CENTER);
 		cellFormat.setFormat(new TabularRange(0, 1),
@@ -107,7 +107,7 @@ public class SpreadsheetToolProcessorTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testCreatePolyline() {
+	void testCreatePolyline() {
 		ArrayList<TabularRange> ranges = new ArrayList<>();
 		ranges.add(new TabularRange(0, 0, 1, 1));
 		GeoElementND list = processor.createPolyLine(ranges, true, true);
@@ -115,7 +115,7 @@ public class SpreadsheetToolProcessorTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testCreatePointGeoList() {
+	void testCreatePointGeoList() {
 		ArrayList<TabularRange> ranges = new ArrayList<>();
 		ranges.add(new TabularRange(0, 0, 1, 1));
 		GeoList list = processor.createPointGeoList(ranges, true, true, false, false);
@@ -125,7 +125,7 @@ public class SpreadsheetToolProcessorTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testCreatePointGeoListWithNamedPoints() {
+	void testCreatePointGeoListWithNamedPoints() {
 		ArrayList<TabularRange> ranges = new ArrayList<>();
 		ranges.add(new TabularRange(0, 0, 1, 1));
 		GeoList list = processor.createPointGeoList(ranges, false, true, false, true);
@@ -135,14 +135,14 @@ public class SpreadsheetToolProcessorTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testCreateMatrix_nullWhenCellUndefined() {
+	void testCreateMatrix_nullWhenCellUndefined() {
 		// if there is no content, the range should be null
 		lookup("A1").remove();
 		assertNull(processor.createMatrix(0, 0, 0, 0, true));
 	}
 
 	@Test
-	public void testCreateOperationTable() {
+	void testCreateOperationTable() {
 		evaluate("A1(x,y)=x+y");
 		lookup("B2").remove();
 		processor.createOperationTable(new TabularRange(0, 0, 1, 1));

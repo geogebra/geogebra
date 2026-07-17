@@ -19,7 +19,7 @@ package org.geogebra.common.kernel;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 
@@ -33,15 +33,15 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class MacroTest extends BaseUnitTest {
+class MacroTest extends BaseUnitTest {
 	private AppCommon macroApp;
 	private Kernel macroKernel;
 
-	@Before
-	public void macroSetup() {
+	@BeforeEach
+	void macroSetup() {
 		macroApp = createAppCommon();
 		macroKernel = macroApp.getKernel();
 	}
@@ -52,7 +52,7 @@ public class MacroTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void lineMacro() {
+	void lineMacro() {
 		GeoElement a = add("A=(1,1)");
 		GeoElement b = add("B=(2,2)");
 		GeoElement f = add("f=Line(A,B)");
@@ -63,7 +63,7 @@ public class MacroTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-1496")
-	public void surfacesShouldWorkInMacros() {
+	void surfacesShouldWorkInMacros() {
 		GeoElement a = add("A=(0,1,0)");
 		add("f(u,v)=x(A)*u+y(A)*v");
 		GeoElement s = add("s=Surface(2*f(u,v),3*f(u,v),4*f(u,v),u,0,1,v,0,1)");
@@ -80,7 +80,7 @@ public class MacroTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-1496")
-	public void curvesShouldWorkInMacros() {
+	void curvesShouldWorkInMacros() {
 		GeoElement a = add("A=(0,1,0)");
 		add("f(u)=x(A)*u+y(A)");
 		GeoElement s = add("s=Curve(2*f(u),3*f(u),4*f(u),u,0,1)");
@@ -110,7 +110,7 @@ public class MacroTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testMacroEditing() {
+	void testMacroEditing() {
 		// test openEditMacro
 		GeoElement a = addMacroCommand("A=(1,2)");
 		GeoElement b = addMacroCommand("B=(3,4)");
@@ -160,7 +160,7 @@ public class MacroTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5988")
-	public void macroWithParametricCurves() {
+	void macroWithParametricCurves() {
 		GeoElement angle = add("angle=0");
 		GeoElement width = add("width=10");
 		GeoElement length = add("length=30");

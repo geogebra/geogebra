@@ -33,12 +33,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class RealschuleValueConverterTests extends BaseAppTestSetup {
+class RealschuleValueConverterTests extends BaseAppTestSetup {
 	private final ToStringConverter converter = new ProtectiveGeoElementValueConverter(
 			new RealschuleAlgebraOutputFilter());
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
@@ -58,13 +58,13 @@ public class RealschuleValueConverterTests extends BaseAppTestSetup {
 			"FitPoly({(-2, 1), (-1, 0), (0, 1), (1, 0)}, 3) -> -0.6666666666667x³ - x² + 0.6666666666667x + 1",
 			"xx+yy=1 										-> x² + y² = 1",
 	})
-	public void testValueRestrictions(String expression, String expectedOutput) {
+	void testValueRestrictions(String expression, String expectedOutput) {
 		GeoElement geoElement = evaluateGeoElement(expression);
 		assertEquals(expectedOutput, converter.convert(geoElement));
 	}
 
 	@Test
-	public void testLabelRestrictions() throws NotApplicablePropertyException {
+	void testLabelRestrictions() throws NotApplicablePropertyException {
 		Localization localization = getApp().getLocalization();
 		StringTemplate defaultTemplate = StringTemplate.defaultTemplate;
 

@@ -24,15 +24,15 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class AxisVisibilityPropertyTest extends BaseAppTestSetup {
+class AxisVisibilityPropertyTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GEOMETRY);
 	}
 
 	@Test
-	public void testBackgroundColor() {
+	void testBackgroundColor() {
 		AxisVisibilityProperty axisProperty = new AxisVisibilityProperty(getApp().getLocalization(),
 				getApp().getEuclidianView1().getSettings(), 0, "xAxis");
 		assertFalse(axisProperty.getValue());

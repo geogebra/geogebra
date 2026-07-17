@@ -16,7 +16,7 @@
 
 package org.geogebra.common.kernel;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.algos.AlgoJoinPoints;
@@ -32,7 +32,7 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.statistics.AlgoFitLineX;
 import org.geogebra.common.kernel.statistics.AlgoFitLineY;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @implNote This partially overlaps and supersedes
@@ -41,12 +41,12 @@ import org.junit.Test;
  * @See <a href="https://docs.google.com/spreadsheets/d/1nL071WJP2qu-n1LafYGLoKbcrz486PTYd8q7KgnvGhA/edit?gid=1442218852#gid=1442218852">Equation form matrix</a>
  * @See <a href="https://geogebra-jira.atlassian.net/wiki/spaces/A/pages/836141057/Standalone+Graphing">Standalone Graphing Wiki</a>
  */
-public class EquationBehaviourTest extends BaseUnitTest {
+class EquationBehaviourTest extends BaseUnitTest {
 
 	// Standalone Graphing
 
 	@Test
-	public void testStandaloneGraphingLineEquationBehaviour() {
+	void testStandaloneGraphingLineEquationBehaviour() {
 		getApp().setGraphingConfig();
 
 		// Line created from equation
@@ -74,7 +74,7 @@ public class EquationBehaviourTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testStandaloneGraphingRayEquationBehaviour() {
+	void testStandaloneGraphingRayEquationBehaviour() {
 		getApp().setGraphingConfig();
 
 		// Ray created with Ray command from two points
@@ -94,7 +94,7 @@ public class EquationBehaviourTest extends BaseUnitTest {
 	// no test for Segment command in standalone Graphing (disabled)
 
 	@Test
-	public void testStandaloneGraphingConicEquationBehaviour() {
+	void testStandaloneGraphingConicEquationBehaviour() {
 		getApp().setGraphingConfig();
 
 		// Parabola created from equation
@@ -106,7 +106,7 @@ public class EquationBehaviourTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testStandaloneGraphingLineEquationBehaviourWithCustomizedConstructionDefaults() {
+	void testStandaloneGraphingLineEquationBehaviourWithCustomizedConstructionDefaults() {
 		getApp().setGraphingConfig();
 
 		// change the equation form for lines in the construction defaults
@@ -129,7 +129,7 @@ public class EquationBehaviourTest extends BaseUnitTest {
 	// Unrestricted Graphing (Suite)
 
 	@Test
-	public void testUnrestrictedGraphingConicEquationBehaviour() {
+	void testUnrestrictedGraphingConicEquationBehaviour() {
 		getApp().setUnrestrictedGraphingConfig();
 
 		// Parabola created from equation
@@ -153,7 +153,7 @@ public class EquationBehaviourTest extends BaseUnitTest {
 	// Classic
 
 	@Test
-	public void testClassicLineEquationBehaviour() {
+	void testClassicLineEquationBehaviour() {
 		getApp().setDefaultConfig(); // default app config = Classic
 
 		GeoLine algebraLine = new GeoLine(getConstruction());
@@ -168,7 +168,7 @@ public class EquationBehaviourTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testClassicLineEquationBehaviourWithCustomizedConstructionDefaults() {
+	void testClassicLineEquationBehaviourWithCustomizedConstructionDefaults() {
 		getApp().setDefaultConfig();
 
 		// change the equation form for lines in the construction defaults

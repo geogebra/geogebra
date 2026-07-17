@@ -20,12 +20,12 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -58,10 +58,10 @@ import org.geogebra.test.commands.ErrorAccumulator;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class RedefineTest extends BaseUnitTest {
+class RedefineTest extends BaseUnitTest {
 
 	private AlgebraProcessor ap;
 	private App app;
@@ -69,8 +69,8 @@ public class RedefineTest extends BaseUnitTest {
 	/**
 	 * Initialize app & algebra processor.
 	 */
-	@Before
-	public void setAppAndAlgebraProcessor() {
+	@BeforeEach
+	void setAppAndAlgebraProcessor() {
 		ap = getApp().getKernel().getAlgebraProcessor();
 		app = getApp();
 		getKernel().setLoadingMode(false);
@@ -100,7 +100,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void breakingTypeChangeShouldRaiseException() {
+	void breakingTypeChangeShouldRaiseException() {
 		t("A=(1,1)", "(1, 1)");
 		t("B=(1,0)", "(1, 0)");
 		t("C=(0,0)", "(0, 0)");
@@ -119,7 +119,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testErrors() {
+	void testErrors() {
 		t("f(x)=x", "x");
 		checkError("f(x)=f(x)+x", "Circular definition");
 		checkError("f(x)=y", "Invalid function:\n" + "Please enter an explicit function in x");
@@ -138,13 +138,13 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testErrorUndefined() {
+	void testErrorUndefined() {
 		checkError("Rename(f,\"fff\")",
 				"Please check your input :\n" + "Undefined variable \n" + "f ");
 	}
 
 	@Test
-	public void curlyBracketsShouldNotAffectRedefine() {
+	void curlyBracketsShouldNotAffectRedefine() {
 		t("r=1", "1");
 		t("r_2=2*r", "2");
 		t("r_3=3*r_2", "6");
@@ -165,7 +165,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void undoShouldNotRandomize() {
+	void undoShouldNotRandomize() {
 		app.setRandomSeed(42);
 		activateUndo();
 		t("a=random()", "0.7275636800328681");
@@ -179,7 +179,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void randomizeUpdateConstruction() {
+	void randomizeUpdateConstruction() {
 		app.setRandomSeed(42);
 		activateUndo();
 		t("b=100", "100");
@@ -191,7 +191,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void setValueShouldChangeRandom() {
+	void setValueShouldChangeRandom() {
 		app.setRandomSeed(42);
 		t("a=random()", "0.7275636800328681");
 		t("SetValue(a,0.5)");
@@ -199,7 +199,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void setValueShouldChangeRandomSequence() {
+	void setValueShouldChangeRandomSequence() {
 		app.setRandomSeed(42);
 		add("a=Sequence(RandomBetween(1,k),k,1,5)");
 		t("SetValue(a,{3,-2,3,2,5})");
@@ -207,7 +207,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void setValueShouldChangeShuffle() {
+	void setValueShouldChangeShuffle() {
 		app.setRandomSeed(42);
 		t("L_1=Shuffle(1..10)", "{8, 7, 3, 2, 6, 10, 4, 1, 5, 9}");
 		t("SetValue(L_1, {1, 2, 3, 4, 5, 6, 7, 11, 9, 10})");
@@ -215,7 +215,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void undoShouldNotRandomizeShuffle() {
+	void undoShouldNotRandomizeShuffle() {
 		app.setRandomSeed(42);
 		activateUndo();
 		t("L_1=Shuffle(1..10)", "{8, 7, 3, 2, 6, 10, 4, 1, 5, 9}");
@@ -229,7 +229,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void setValueShouldChangeRandomElement() {
+	void setValueShouldChangeRandomElement() {
 		app.setRandomSeed(42);
 		t("P=RandomElement((1..10,1..10))", "(8, 8)");
 		t("SetValue(P, (7, 7))");
@@ -237,14 +237,14 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void cmdRename() {
+	void cmdRename() {
 		checkError("Rename[ 6*7, \"$7\" ]",
 				"Command Rename:\nIllegal argument: Text \"$7\"\n\n"
 						+ "Syntax:\nRename( <Object>, <Name> )");
 	}
 
 	@Test
-	public void functionLHSShouldRemainConic() {
+	void functionLHSShouldRemainConic() {
 		t("f(x,y)=xx+y", "x^(2) + y");
 		t("a:f(x,y)=0", "(x^(2) + y) = 0");
 		assertThat(lookup("a"), isConic());
@@ -257,7 +257,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void rigidPolygonShouldSurviveReload() {
+	void rigidPolygonShouldSurviveReload() {
 		add("A=(1,1)");
 		add("B=(1,2)");
 		add("C=(2,1)");
@@ -268,7 +268,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void copyOfConicShouldNotBeCellRange() {
+	void copyOfConicShouldNotBeCellRange() {
 		t("B20:x^2+y=0", "x^(2) + y = 0");
 		t("D20=B20", "x^(2) + y = 0");
 		assertThat(lookup("D20"), isConic());
@@ -277,7 +277,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void pointOnSplineShouldMove() {
+	void pointOnSplineShouldMove() {
 		t("A=(1, 1)", "(1, 1)");
 		tRound("b:Spline({(0, 1),A,(1, 0)})", TestStringUtil.unicode(
 				"(If(t < 0.5, -2t^3 + 2.5t, 2t^3 - 6t^2 + 5.5t - 0.5),"
@@ -289,7 +289,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void pointOnFnShouldNotStayUndefined() {
+	void pointOnFnShouldNotStayUndefined() {
 		t("a=1", "1");
 		t("f=axx", "(1 * x^(2))");
 		t("A=Point[f]", "(0, 0)");
@@ -299,7 +299,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void pointOnPartialFunctionShouldStayUndefined() {
+	void pointOnPartialFunctionShouldStayUndefined() {
 		t("ZoomIn[0,0,100,100]");
 		t("a=.9", "0.9");
 		// undefined for most onscreen points
@@ -311,7 +311,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void anonymousLineShouldStayLine() {
+	void anonymousLineShouldStayLine() {
 		app.getEuclidianView3D();
 		app.setActiveView(App.VIEW_EUCLIDIAN3D);
 		tRound("c=Circle((0,0,0),1,x=0)", "X = (0, 0, 0) + (0, - cos(t), sin(t))");
@@ -324,14 +324,14 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void updateImplicitCurve() {
+	void updateImplicitCurve() {
 		add("a=2");
 		t("c:y^2 = (x^2-a^2)/x^2", "y^(2) = (x^(2) - 2^(2)) / x^(2)");
-		assertFalse("Implicit curve with var should be dependent.",
-				lookup("c").isIndependent());
+		assertFalse(lookup("c").isIndependent(),
+				"Implicit curve with var should be dependent.");
 		t("c1:y^2 = (x^2-2^2)/x^2", "y^(2) = (x^(2) - 2^(2)) / x^(2)");
-		assertTrue("Implicit curve without vars should be independent.",
-				lookup("c1").isIndependent());
+		assertTrue(lookup("c1").isIndependent(),
+				"Implicit curve without vars should be independent.");
 		assertEquals(
 				TestStringUtil.unicode("c: y^2 = (x^2 - 2^2) / x^2"),
 				lookup("c").getAlgebraDescriptionTextOrHTMLDefault(
@@ -344,7 +344,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void derivativeShouldNotThrowCircularException() {
+	void derivativeShouldNotThrowCircularException() {
 		t("f(x)=x^2", "x^(2)");
 		t("f'(x)=f'", "(2 * x)");
 		ap.changeGeoElement(lookup("f'"), "f'(x)", true, true,
@@ -355,7 +355,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void redefinitionShouldNotMakeUnfixed() {
+	void redefinitionShouldNotMakeUnfixed() {
 		add("b:Circle(O,1)");
 		add("c:xx+yy=2");
 		add("d:xx+yy");
@@ -367,7 +367,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void cubeShouldNotVanish() {
+	void cubeShouldNotVanish() {
 		add("A=O");
 		add("a=1");
 		add("Segment(A,a)");
@@ -380,7 +380,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void setValueShouldKeepDefinition() {
+	void setValueShouldKeepDefinition() {
 		t("a=1", "1");
 		t("A=(1, 1/a)", "(1, 1)");
 		add("SetValue(a, 0)");
@@ -390,7 +390,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void functionShouldStayInequality() {
+	void functionShouldStayInequality() {
 		// old format: only NaN
 		app.getGgbApi().evalXML("<expression label=\"studans\" "
 				+ "exp=\"studans: NaN\" type=\"inequality\"/>\n"
@@ -408,14 +408,14 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void avRedefineShouldChangeInequalityToFunction() {
+	void avRedefineShouldChangeInequalityToFunction() {
 		add("f:x>3");
 		add("f(x)=x+3");
 		assertThat(lookup("f"), not(isForceInequality()));
 	}
 
 	@Test
-	public void minMaxShouldWorkForUndefinedFunctions() {
+	void minMaxShouldWorkForUndefinedFunctions() {
 		add("a:-3<x<6");
 		add("b:x<3");
 		t("min=Min(a)", "-3");
@@ -433,7 +433,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void redefineShouldUpdateOrder() {
+	void redefineShouldUpdateOrder() {
 		add("numA:Element(1..5, 5)");
 		add("numA0:2numA");
 		add("numA2:1");
@@ -446,7 +446,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void reloadShouldNotLabelIntersectionPaths() {
+	void reloadShouldNotLabelIntersectionPaths() {
 		add("a = Cube((-1, 1, 0), (1, 1, 0), Vector((0, 0, 1)))");
 		add("l1 = {3x + y + z = 1, x - 3y - z = -7}");
 		add("l2 = Zip(IntersectPath(P, a), P, l1)");
@@ -460,16 +460,16 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void maskShouldStayMask() {
+	void maskShouldStayMask() {
 		GeoPolygon mask = add("q1=Polygon((0,0),(0,1),(1,1),(1,0))");
 		mask.setIsMask(true);
 		GeoPolygon redefined = add("q1=Polygon((0,0),(0,2),(1,2),(1,0))");
-		assertTrue("rectangle should still be a mask", redefined.isMask());
+		assertTrue(redefined.isMask(), "rectangle should still be a mask");
 		assertEquals(1, redefined.getAlphaValue(), 1E-5);
 	}
 
 	@Test
-	public void curveShouldBeDefinedAfterInputUpdate() {
+	void curveShouldBeDefinedAfterInputUpdate() {
 		add("b=?");
 		add("f(x)=?");
 		GeoElement curve = add("Curve(f(t),f(t),t,-b,b)");
@@ -479,7 +479,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void matrixShouldBeDefinedAfterRedefine() {
+	void matrixShouldBeDefinedAfterRedefine() {
 		add("m1={?}");
 		add("m2=Transpose(m1)");
 		add("m1={{1,2},{3,4}}");
@@ -487,7 +487,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void simpleRedefinitionsShouldBeSoft() {
+	void simpleRedefinitionsShouldBeSoft() {
 		add("A=(1,1)");
 		GeoElement m = add("m=Line(A,(1,3))");
 		GeoElement redefinedM = add("m=Line(A,(1,3))");
@@ -499,7 +499,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void strokeRedefinitionsShouldBeSoft() {
+	void strokeRedefinitionsShouldBeSoft() {
 		GeoElement stroke = add("stroke1=PenStroke((1,1),(2,3))");
 		GeoLocusStroke redefined = add("stroke1=PenStroke((1,4),(2,5))");
 		assertEquals(stroke, redefined);
@@ -508,7 +508,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void softRedefineShouldUpdateSiblings() {
+	void softRedefineShouldUpdateSiblings() {
 		add("c=Cone((0,0,0),(0,0,1),2)");
 		EventAccumulator listener = new EventAccumulator();
 		getApp().getEventDispatcher().addEventListener(listener);
@@ -518,7 +518,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void pointsOnLocusShouldReload() {
+	void pointsOnLocusShouldReload() {
 		add("stroke1=PenStroke((0,0), (1,0), (2,0))");
 		add("pts=Sequence(Point(stroke1, i), i, 0, 1, 0.5)");
 		// only testing that it reloads OK, actual values seem a bit off
@@ -528,20 +528,20 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void selectionAllowedShouldStay() {
+	void selectionAllowedShouldStay() {
 		GeoPoint pt = add("A=(1,2)");
 		pt.setSelectionAllowed(false);
 		GeoElement redefined = add("A:x=y");
 		assertEquals("A", redefined.getLabelSimple());
-		assertFalse("Selection should stay disabled",
-				redefined.isSelectionAllowed(null));
+		assertFalse(redefined.isSelectionAllowed(null),
+				"Selection should stay disabled");
 		GeoElement transformed = add("Rotate(A,90deg)");
-		assertTrue("Selection should not be copied",
-				transformed.isSelectionAllowed(null));
+		assertTrue(transformed.isSelectionAllowed(null),
+				"Selection should not be copied");
 	}
 
 	@Test
-	public void eigenvectorsNotChangedOnReload() {
+	void eigenvectorsNotChangedOnReload() {
 		add("c:x^2+y^2=1");
 		add("c':Reflect(c, x+2y=5)");
 		GeoElement p = add("P=Point(c')");
@@ -552,7 +552,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void sumShouldWorkAfterReload() {
+	void sumShouldWorkAfterReload() {
 		add("n=1");
 		add("texts=First({\"foo\"}, n)");
 		GeoText sum = add("sum=Sum(texts)");
@@ -565,7 +565,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void speedAndStepShouldBeReplacedOnRedefine() {
+	void speedAndStepShouldBeReplacedOnRedefine() {
 		GeoNumeric slider = add("slider=Slider(0,1,1)");
 		GeoNumeric speed = add("speed=1");
 		slider.setAnimationStep(speed);
@@ -577,7 +577,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void sliderSizeShouldBePreserved() throws CircularDefinitionException {
+	void sliderSizeShouldBePreserved() throws CircularDefinitionException {
 		GeoNumeric slider = add("a=Slider(-1,1,0.1)");
 		add("v=50");
 		GeoPoint position = add("(v,v)");
@@ -591,7 +591,7 @@ public class RedefineTest extends BaseUnitTest {
 	/**
 	 * @return matcher for inequalities
 	 */
-	public static TypeSafeMatcher<GeoElementND> isForceInequality() {
+	static TypeSafeMatcher<GeoElementND> isForceInequality() {
 		return new TypeSafeMatcher<>() {
 			@Override
 			protected boolean matchesSafely(GeoElementND item) {
@@ -606,7 +606,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void redefineComplexToRealFunctionShouldWork() {
+	void redefineComplexToRealFunctionShouldWork() {
 		add("h(x) = x + i");
 		assertThat(lookup("h").getClass(), is(GeoSurfaceCartesian2D.class));
 		add("h(x) = 2*x/2");
@@ -614,7 +614,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void redefineComplexToRealFunctionFromAVShouldWork() {
+	void redefineComplexToRealFunctionFromAVShouldWork() {
 		EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForAV(getApp());
 		GeoElementND h = add("h(x) = x + i", evalInfo);
 		assertThat(lookup("h").getClass(), is(GeoSurfaceCartesian2D.class));
@@ -625,7 +625,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void internalAnglesShouldReloadWithRepetition() {
+	void internalAnglesShouldReloadWithRepetition() {
 		add("countQuestion=42");
 		add("SetValue(countQuestion,41)");
 		add("A=(1,1)");
@@ -644,7 +644,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void absPositionShouldSurviveRedefine() throws CircularDefinitionException {
+	void absPositionShouldSurviveRedefine() throws CircularDefinitionException {
 		GeoText text = add("text=\"foo\"");
 		add("a=3");
 		text.setAbsoluteScreenLocActive(true);
@@ -656,7 +656,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void absPositionStaticTextShouldSurviveRedefine() {
+	void absPositionStaticTextShouldSurviveRedefine() {
 		GeoText text = add("text=\"foo\"");
 		add("a=3");
 		text.setAbsoluteScreenLocActive(true);
@@ -669,7 +669,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void realWorldPositionShouldSurviveRedefine() throws CircularDefinitionException {
+	void realWorldPositionShouldSurviveRedefine() throws CircularDefinitionException {
 		GeoText text = add("text=\"foo\"");
 		add("a=3");
 		text.setAbsoluteScreenLocActive(false);
@@ -681,7 +681,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void conicShouldNotBeFixedAfterReload() {
+	void conicShouldNotBeFixedAfterReload() {
 		Matcher<GeoElement> isFixed = hasProperty("fixed", GeoElement::isLocked, true);
 		add("c:x^2+y^2=1");
 		assertThat(lookup("c"), isFixed);
@@ -692,7 +692,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void constructionOrderShouldNotChangeMuch() {
+	void constructionOrderShouldNotChangeMuch() {
 		add("f:x");
 		add("a=1");
 		add("b=2");
@@ -710,7 +710,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void constructionOrderShouldNotChangeMuchWithSiblings() {
+	void constructionOrderShouldNotChangeMuchWithSiblings() {
 		add("f:x");
 		add("a=1");
 		add("b=2");
@@ -728,7 +728,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void equalShouldNotChangeType() {
+	void equalShouldNotChangeType() {
 		add("l={1}");
 		add("b:l(1)==2");
 		add("l={x}");
@@ -737,7 +737,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void simpleCopyShouldKeepType() {
+	void simpleCopyShouldKeepType() {
 		add("A=(1,1)");
 		add("a:Line((0,0),A)");
 		GeoElement copy = add("b:a");
@@ -747,7 +747,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void variableOutputLengthOnLoad() {
+	void variableOutputLengthOnLoad() {
 		getKernel().setLoadingMode(true);
 		add("Roots(sqrt(x^2)-2)");
 		assertThat(lookup("B"), hasValue("(2, 0)"));
@@ -757,14 +757,14 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void reloadYConic() {
+	void reloadYConic() {
 		add("f: y=x^2");
 		t("f'", "(2 * x)");
 		reload();
 	}
 
 	@Test
-	public void redefineYConic() {
+	void redefineYConic() {
 		add("f:y=x^2");
 		t("f'", "(2 * x)");
 		add("f:y^2 + x = x^2");

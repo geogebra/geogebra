@@ -27,9 +27,9 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class ScriptLanguageSelectionPropertyTests extends BaseAppTestSetup {
+class ScriptLanguageSelectionPropertyTests extends BaseAppTestSetup {
 	@Test
-	public void testApplicableForOnClickScriptEvent() {
+	void testApplicableForOnClickScriptEvent() {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertDoesNotThrow(() -> new ScriptLanguageSelectionProperty(
 				getLocalization(), evaluateGeoElement("A = (1, 2)"), ScriptEvent.OnClick,
@@ -37,7 +37,7 @@ public class ScriptLanguageSelectionPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testNotApplicableForGlobalJavascript() {
+	void testNotApplicableForGlobalJavascript() {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertThrows(NotApplicablePropertyException.class,
 				() -> new ScriptLanguageSelectionProperty(getLocalization(),
@@ -46,7 +46,7 @@ public class ScriptLanguageSelectionPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testNotApplicableForDisabledJavaScript() {
+	void testNotApplicableForDisabledJavaScript() {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertThrows(NotApplicablePropertyException.class,
 				() -> new ScriptLanguageSelectionProperty(getLocalization(),
@@ -55,7 +55,7 @@ public class ScriptLanguageSelectionPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingSelection() {
+	void testChangingSelection() {
 		setupApp(SuiteSubApp.GRAPHING);
 		ScriptLanguageSelection scriptLanguageSelection =
 				new ScriptLanguageSelection(ScriptType.GGBSCRIPT);

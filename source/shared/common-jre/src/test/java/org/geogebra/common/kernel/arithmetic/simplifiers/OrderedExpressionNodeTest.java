@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class OrderedExpressionNodeTest extends BaseSimplifyTestSetup {
+class OrderedExpressionNodeTest extends BaseSimplifyTestSetup {
 
 	@ParameterizedTest
 	@CsvSource({

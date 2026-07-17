@@ -18,46 +18,46 @@ package org.geogebra.common.spreadsheet.kernel;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class KernelTabularDataAdapterTest extends BaseUnitTest {
+class KernelTabularDataAdapterTest extends BaseUnitTest {
 
 	private KernelTabularDataAdapter tabularData;
 
-	@Before
-	public void setupData() {
+	@BeforeEach
+	void setupData() {
 		tabularData = new KernelTabularDataAdapter(getApp());
 		getKernel().attach(tabularData);
 	}
 
 	@Test
-	public void numberOfRowsShouldAdjust() {
+	void numberOfRowsShouldAdjust() {
 		add("A987=1");
 		assertThat(tabularData.numberOfRows(), equalTo(987));
 	}
 
 	@Test
-	public void numberOfColumnsShouldAdjust() {
+	void numberOfColumnsShouldAdjust() {
 		add("ZZ1=1");
 		assertThat(tabularData.numberOfColumns(), equalTo(702));
 	}
 
 	@Test
-	public void testContentSerialization() {
+	void testContentSerialization() {
 		add("A1:x=y");
 		// this should be the default string template, not the one for editor
 		assertThat(tabularData.serializeContentAt(0, 0), equalTo("x = y"));
 	}
 
 	@Test
-	public void updateShouldNotChangeStyle() {
+	void updateShouldNotChangeStyle() {
 		GeoElementND a1 = add("A1:x=y");
 		assertTrue(a1.isEuclidianVisible());
 		tabularData.update(a1.toGeoElement());
@@ -65,7 +65,7 @@ public class KernelTabularDataAdapterTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void columnOperationsShouldUpdateRange() {
+	void columnOperationsShouldUpdateRange() {
 		add("A1=1");
 		add("A2=2");
 		add("A3=3");
@@ -77,7 +77,7 @@ public class KernelTabularDataAdapterTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void rowOperationsShouldUpdateRange() {
+	void rowOperationsShouldUpdateRange() {
 		add("A1=1");
 		add("A2=2");
 		add("A3=3");

@@ -20,9 +20,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 
@@ -36,19 +36,19 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class TableValuesInputProcessorTest extends BaseUnitTest {
+class TableValuesInputProcessorTest extends BaseUnitTest {
 
 	private TableValues view;
 	private TableValuesModel model;
 	private TableValuesInputProcessor processor;
 	private GeoList list;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		list = new GeoList(getConstruction());
 
 		getApp().getSettings().getTable().setValueList(list);
@@ -59,7 +59,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testValidInput() {
+	void testValidInput() {
 		processor.processInput("1", list, 0);
 		processor.processInput("2", list, 1);
 		processor.processInput("99.9", list, 2);
@@ -90,39 +90,39 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testInvalidInputWithComma() {
+	void testInvalidInputWithComma() {
 		processor.processInput("10,,", list, 0);
 		assertEmptyInput("10,,");
 	}
 
 	@Test
-	public void testInputWithComma() {
+	void testInputWithComma() {
 		processor.processInput("10,300", list, 0);
 		assertValue("10.3", 0);
 	}
 
 	private void assertEmptyInput(String input) {
 		GeoElement element = list.get(0);
-		assertNotNull(element + " should be dependent", element.getParentAlgorithm());
+		assertNotNull(element.getParentAlgorithm(), element + " should be dependent");
 		GeoElementND parent = element.getParentAlgorithm().getInput(0);
 		assertThat(parent, instanceOf(GeoText.class));
 		assertEquals(input, ((GeoText) parent).getTextString());
 	}
 
 	@Test
-	public void testInputWithOperators() {
+	void testInputWithOperators() {
 		processor.processInput("10 + 2", list, 0);
 		assertValue("12", 0);
 	}
 
 	@Test
-	public void testInvalidInputWithLetters() {
+	void testInvalidInputWithLetters() {
 		processor.processInput("a", list, 0);
 		assertEmptyInput("a");
 	}
 
 	@Test
-	public void testProcessorWithEmptyList() {
+	void testProcessorWithEmptyList() {
 		processor.processInput("1", null, 2);
 		assertEquals("1", model.getCellAt(2, 1).getInput());
 		assertEquals("", model.getCellAt(0, 1).getInput());
@@ -135,7 +135,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testEmptyInputAtTheEnd() {
+	void testEmptyInputAtTheEnd() {
 		processor.processInput("", view.getValues(), 0);
 		assertEquals(0, model.getRowCount());
 		processor.processInput("", null, 0);
@@ -143,7 +143,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testClearValuesFromColumn() {
+	void testClearValuesFromColumn() {
 		processor.processInput("0", null, 0);
 		GeoList column = (GeoList) view.getEvaluatable(1);
 		processor.processInput("1", column, 1);
@@ -168,7 +168,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testClearRowsAndColumns() {
+	void testClearRowsAndColumns() {
 		processor.processInput("1", null, 0);
 		processor.processInput("2", null, 1);
 		processor.processInput("3", null, 2);
@@ -189,7 +189,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testClearLastRow() {
+	void testClearLastRow() {
 		processor.processInput("1", null, 0);
 		GeoList c1 = (GeoList) view.getEvaluatable(1);
 		processor.processInput("1", c1, 1);
@@ -228,7 +228,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testEnterXValue() {
+	void testEnterXValue() {
 		processor.processInput("1", null, 0);
 		processor.processInput("2", null, 1);
 		processor.processInput("0", view.getValues(), 0);
@@ -237,7 +237,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testUndoRedoOnXColumn() {
+	void testUndoRedoOnXColumn() {
 		getApp().fileNew();
 		getApp().setUndoActive(true);
 		UndoManager undoManager = getApp().getUndoManager();
@@ -285,7 +285,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5545")
-	public void testInvalidInput() {
+	void testInvalidInput() {
 		processor.processInput("1", view.getValues(), 0);
 		processor.processInput("2", view.getValues(), 1);
 		processor.processInput("3", null, 1);
@@ -297,7 +297,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5553")
-	public void testExpressionInput() {
+	void testExpressionInput() {
 		processor.processInput("1", view.getValues(), 0);
 		processor.processInput("2", view.getValues(), 1);
 		processor.processInput("5/2", null, 0);
@@ -311,7 +311,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testUndoRedoOnYColumn() {
+	void testUndoRedoOnYColumn() {
 		getApp().fileNew();
 		getApp().setUndoActive(true);
 		UndoManager undoManager = getApp().getUndoManager();
@@ -357,7 +357,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void processedValuesUsableInCommands() {
+	void processedValuesUsableInCommands() {
 		processor.processInput("1", list, 0);
 		processor.processInput("2", list, 1);
 		processor.processInput("1", list, 2);

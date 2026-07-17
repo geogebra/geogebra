@@ -16,8 +16,8 @@
 
 package org.geogebra.common.euclidian.draw;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -27,13 +27,13 @@ import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.util.TextObject;
 import org.geogebra.test.euclidian.AutoCompleteTextFieldC;
 import org.geogebra.test.euclidian.TextFieldCommonJre;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class DrawInputBoxTest extends BaseUnitTest {
+class DrawInputBoxTest extends BaseUnitTest {
 
 	@Test
-	public void testConsistentHeight() {
+	void testConsistentHeight() {
 		add("f(x) = x");
 		add("a=1");
 		GeoInputBox inputBox = add("InputBox(f)");
@@ -54,7 +54,7 @@ public class DrawInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testDefaultHeightForFocusedInput() {
+	void testDefaultHeightForFocusedInput() {
 		add("a=1");
 		GeoInputBox inputBox = add("InputBox(a)");
 		inputBox.setSymbolicMode(true, false);
@@ -74,7 +74,7 @@ public class DrawInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testHeightWontChangeAfterFirstCharacter() {
+	void testHeightWontChangeAfterFirstCharacter() {
 		add("a=1");
 		GeoInputBox inputBox = add("InputBox(a)");
 		inputBox.setSymbolicMode(true, false);
@@ -96,7 +96,7 @@ public class DrawInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void inputBoxShouldNotStealContent() {
+	void inputBoxShouldNotStealContent() {
 		EuclidianView ev = getApp().getActiveEuclidianView();
 		ev.setViewTextField(new TextFieldCommonJre());
 		add("a=1");

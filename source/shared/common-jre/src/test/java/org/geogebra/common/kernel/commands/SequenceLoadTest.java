@@ -26,12 +26,12 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.test.UndoRedoTester;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class SequenceLoadTest extends BaseUnitTest {
+class SequenceLoadTest extends BaseUnitTest {
 
-	public static final String M2 =
+	private static final String M2 =
 			"{{2, 0, 0, 0}, {2, 1, 0, 0}, {2, 0, 0, 0}, {2, 1, 0, 0}, {8, 1, 0, 0}, {8, 4, 1, 0},"
 					+ " {8, 4, 0, 0}}";
 	private UndoRedoTester undoRedoTester;
@@ -41,8 +41,8 @@ public class SequenceLoadTest extends BaseUnitTest {
 		return AppCommonFactory.create3D();
 	}
 
-	@Before
-	public void setUp() throws IOException {
+	@BeforeEach
+	void setUp() throws IOException {
 		getApp().enableCAS(false);
 		getApp().getGgbApi().setXML(Files.readString(
 				Path.of("src/test/resources/sequence-undo.xml")));
@@ -51,19 +51,19 @@ public class SequenceLoadTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testMatrixIsLoaded() {
+	void testMatrixIsLoaded() {
 		assertThat(getKernel().lookupLabel("m2"), hasValue(M2));
 	}
 
 	@Test
-	public void testMatrixFromCommandAfterLoad() {
+	void testMatrixFromCommandAfterLoad() {
 		add("m4 = Sequence(Sequence(Element(m1, lig, col) - Element(m1, lig, col + 1), "
 				+ "col, 1, dimjeu2), lig, 1, Dimension(jeunonnul))");
 		assertThat(getKernel().lookupLabel("m4"), hasValue(M2));
 	}
 
 	@Test
-	public void testUndo() {
+	void testUndo() {
 		add("(1,1)");
 		getApp().storeUndoInfo();
 		undoRedoTester.undo();

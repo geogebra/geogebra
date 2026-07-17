@@ -26,19 +26,19 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ChartBuilderTest extends BaseAppTestSetup {
+class ChartBuilderTest extends BaseAppTestSetup {
 
 	private KernelTabularDataAdapter tabularData;
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
 		tabularData = new KernelTabularDataAdapter(getApp());
 		getKernel().attach(tabularData);
 	}
 
 	@Test
-	public void testBoxPlot() {
+	void testBoxPlot() {
 		assertEquals("BoxPlot(0, 1, A1:A3)",
 				ChartBuilder.getBoxPlotCommand(tabularData,
 						List.of(new TabularRange(0, 0, 2, 0))));

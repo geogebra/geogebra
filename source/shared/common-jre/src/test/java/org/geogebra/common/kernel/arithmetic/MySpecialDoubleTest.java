@@ -16,8 +16,8 @@
 
 package org.geogebra.common.kernel.arithmetic;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,33 +25,33 @@ import java.util.stream.Collectors;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class MySpecialDoubleTest extends BaseUnitTest {
+class MySpecialDoubleTest extends BaseUnitTest {
 
 	@Test
-	public void testUnaryMinus() {
+	void testUnaryMinus() {
 		MySpecialDouble value = new MySpecialDouble(getKernel(), 0, "1E0");
 		ExpressionValue negatedValue = value.unaryMinus(getKernel());
 		assertFalse(negatedValue instanceof ExpressionNode);
 	}
 
 	@Test
-	public void toFractionForNumbers() {
+	void toFractionForNumbers() {
 		assertEquals(Arrays.asList("12", "10"), create("1.2"));
 		assertEquals(Arrays.asList("5", "10"), create("0.5"));
 		assertEquals(Arrays.asList("-5", "100"), create("-0.05"));
 	}
 
 	@Test
-	public void toFractionForENotation() {
+	void toFractionForENotation() {
 		assertEquals(Arrays.asList("12", "100"), create("1.2E-1"));
 		assertEquals(Arrays.asList("12", "1000000"), create("1.2E-5"));
 		assertEquals(Arrays.asList("5000", "10"), create("0.5E3"));
 	}
 
 	@Test
-	public void toFractionForPercentages() {
+	void toFractionForPercentages() {
 		assertEquals(Arrays.asList("70", "1000"), percentage("7.0"));
 		assertEquals(Arrays.asList("7000", "1000"), percentage("700.0"));
 		assertEquals(Arrays.asList("7", "1000"), percentage("0.7"));

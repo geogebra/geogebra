@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class CenterImagePositionPropertyTests extends BaseAppTestSetup {
+class CenterImagePositionPropertyTests extends BaseAppTestSetup {
 	@ParameterizedTest
 	@ValueSource(strings = {
 			"(1, 2)",
@@ -38,21 +38,21 @@ public class CenterImagePositionPropertyTests extends BaseAppTestSetup {
 			"a = 1 + 2",
 			"\"abc\"",
 	})
-	public void testNotApplicableForAnythingOtherThanImages(String expression) {
+	void testNotApplicableForAnythingOtherThanImages(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertThrows(NotApplicablePropertyException.class, () -> new CenterImagePositionProperty(
 				getLocalization(), evaluateGeoElement(expression)));
 	}
 
 	@Test
-	public void testApplicableForImages() {
+	void testApplicableForImages() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
 		assertDoesNotThrow(() -> new CenterImagePositionProperty(getLocalization(), geoImage));
 	}
 
 	@Test
-	public void testSettingCustomCenterPoint() {
+	void testSettingCustomCenterPoint() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
 		geoImage.setCentered(true);
@@ -71,7 +71,7 @@ public class CenterImagePositionPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testCenterPointSuggestions() {
+	void testCenterPointSuggestions() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
 		geoImage.setCentered(true);
@@ -85,7 +85,7 @@ public class CenterImagePositionPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testSettingSuggestedCenterPoint() {
+	void testSettingSuggestedCenterPoint() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
 		geoImage.setCentered(true);

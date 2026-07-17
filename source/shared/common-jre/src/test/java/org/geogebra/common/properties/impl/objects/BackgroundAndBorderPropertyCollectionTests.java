@@ -38,11 +38,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class BackgroundAndBorderPropertyCollectionTests extends BaseAppTestSetup {
+class BackgroundAndBorderPropertyCollectionTests extends BaseAppTestSetup {
 	private final GeoElementPropertiesFactory propertiesFactory = new GeoElementPropertiesFactory();
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
@@ -52,7 +52,7 @@ public class BackgroundAndBorderPropertyCollectionTests extends BaseAppTestSetup
 			"f(x) = x^2",
 			"a = 1 + 2",
 	})
-	public void testNotApplicableObjects(String expression) {
+	void testNotApplicableObjects(String expression) {
 		GeoElement geoElement = evaluateGeoElement(expression);
 		assertThrows(NotApplicablePropertyException.class, () ->
 				new BackgroundAndBorderPropertyCollection(
@@ -60,7 +60,7 @@ public class BackgroundAndBorderPropertyCollectionTests extends BaseAppTestSetup
 	}
 
 	@Test
-	public void testInlineTextBackgroundAndBorderProperties() {
+	void testInlineTextBackgroundAndBorderProperties() {
 		GeoInlineText inlineText = new GeoInlineText(getKernel().getConstruction(),
 				new GPoint2D());
 		BackgroundAndBorderPropertyCollection backgroundAndBorderPropertyCollection =
@@ -75,7 +75,7 @@ public class BackgroundAndBorderPropertyCollectionTests extends BaseAppTestSetup
 	}
 
 	@Test
-	public void testInlineTableBackgroundAndBorderProperties() {
+	void testInlineTableBackgroundAndBorderProperties() {
 		GeoInlineTable inlineTable = new GeoInlineTable(getKernel().getConstruction(),
 				new GPoint2D());
 		BackgroundAndBorderPropertyCollection backgroundAndBorderPropertyCollection =
@@ -90,7 +90,7 @@ public class BackgroundAndBorderPropertyCollectionTests extends BaseAppTestSetup
 	}
 
 	@Test
-	public void testMindMapBackgroundAndBorderProperties() {
+	void testMindMapBackgroundAndBorderProperties() {
 		GeoMindMapNode mindMap = new GeoMindMapNode(getKernel().getConstruction(),
 				new GPoint2D());
 		BackgroundAndBorderPropertyCollection backgroundAndBorderPropertyCollection =

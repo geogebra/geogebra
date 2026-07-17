@@ -17,47 +17,47 @@
 package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalSetOps.toLegacy;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.kernel.interval.SamplerTest;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class PowerEquivalenceTest extends SamplerTest {
+class PowerEquivalenceTest extends SamplerTest {
 
 	@Test
-	public void sqrtAndPOWOneHalfShouldBeEqual() {
+	void sqrtAndPOWOneHalfShouldBeEqual() {
 		shouldBeEquivalent("sqrt(x)", "(x)^(1/2)");
 	}
 
 	@Test
-	public void root3OfXPOW5AndPOW5Under3ShouldBeEqual() {
+	void root3OfXPOW5AndPOW5Under3ShouldBeEqual() {
 		shouldBeEquivalent("nroot(x^5, 3)", "(x)^(5/3)");
 	}
 
 	@Test
-	public void nrootOfXInverseAndXOnPowMinus1ShouldBeEqual() {
+	void nrootOfXInverseAndXOnPowMinus1ShouldBeEqual() {
 		shouldBeEquivalent("nroot(1/x, 9)^2", "nroot(x^-1, 9)^2");
 	}
 
 	@Test
-	public void nrootAndPowFractionShouldBeEqual() {
+	void nrootAndPowFractionShouldBeEqual() {
 		shouldBeEquivalent("nroot(x, 9)", "x^(1/9)");
 	}
 
 	@Test
-	public void nrootOfXInverseAndPowFractionShouldBeEqual() {
+	void nrootOfXInverseAndPowFractionShouldBeEqual() {
 		shouldBeEquivalent("nroot(1/x, 9)", "(1/x)^(1/9)");
 	}
 
 	@Test
-	public void xInverseAndXPOWMinus1ShouldBeEqual() {
+	void xInverseAndXPOWMinus1ShouldBeEqual() {
 		shouldBeEquivalent("x^-1", "1/x");
 	}
 
 	@Test
-	public void xInverseAndXPOWDoubleApply() {
+	void xInverseAndXPOWDoubleApply() {
 		shouldBeEquivalent("(x^-1)^-1", "1/(1/x)");
 	}
 

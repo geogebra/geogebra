@@ -16,12 +16,12 @@
 
 package org.geogebra.common.io;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.geogebra.editor.share.util.Unicode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class MathMLTest {
+class MathMLTest {
 	private static final String[] testInputs = {
 			// quadratic formula
 			"<math xmlns=\"http://www.w3.org/1998/Math/MathML\"> <mstyle displaystyle=\"true\"> "
@@ -206,7 +206,7 @@ public class MathMLTest {
 	 * 
 	 */
 	@Test
-	public void testGeoGebra() {
+	void testGeoGebra() {
 
 		MathMLParser mathmlParser = new MathMLParser(true);
 
@@ -219,7 +219,7 @@ public class MathMLTest {
 	}
 
 	@Test
-	public void testLaTeX() {
+	void testLaTeX() {
 
 		MathMLParser mathmlParser = new MathMLParser(false);
 

@@ -29,10 +29,10 @@ import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class DrawEquationTest {
+class DrawEquationTest {
 
 	@Test
-	public void testCustomColor() {
+	void testCustomColor() {
 		FactoryProvider.setInstance(new FactoryProviderCommon());
 		String latex = "\\definecolor{octarineD}{RGB}{42,42,42}";
 		assertNotNull(new TeXFormula(latex).createTeXIcon(TeXConstants.STYLE_DISPLAY, 12));
@@ -48,7 +48,7 @@ public class DrawEquationTest {
 			"\\definecolor{octarineD}{rgb}{.42,.42};Expect 3 numbers",
 			"\\definecolor{octarineD}{rgba}{.42,.42};Expect 4 numbers"
 	}, delimiter = ';')
-	public void testCustomColorWrong(String input, String exception) {
+	void testCustomColorWrong(String input, String exception) {
 		FactoryProvider.setInstance(new FactoryProviderCommon());
 		Exception ex = assertThrows(Exception.class, () -> new TeXFormula(input));
 		Assertions.assertTrue(ex.getMessage().contains(exception), ex.getMessage());

@@ -29,16 +29,16 @@ import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class CopyPasteTest extends BaseAppTestSetup {
+class CopyPasteTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.G3D);
 	}
 
 	@Test
 	@Issue("APPS-5464")
-	public void shouldCopyPointOnAxis() {
+	void shouldCopyPointOnAxis() {
 		evaluateGeoElement("A=(1,1)");
 		evaluateGeoElement("B=(3,2)");
 		evaluateGeoElement("C=Point(xAxis)");
@@ -49,7 +49,7 @@ public class CopyPasteTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void shouldCopyPointOnLine() {
+	void shouldCopyPointOnLine() {
 		evaluateGeoElement("A=(1,1)");
 		evaluateGeoElement("B=(3,2)");
 		evaluateGeoElement("C=Point(x=0)");
@@ -60,7 +60,7 @@ public class CopyPasteTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void shouldCopyCone() {
+	void shouldCopyCone() {
 		evaluateGeoElement("A=(1,1,0)");
 		evaluateGeoElement("B=(3,2,0)");
 		evaluateGeoElement("c:Circle(A,B,xOyPlane)");

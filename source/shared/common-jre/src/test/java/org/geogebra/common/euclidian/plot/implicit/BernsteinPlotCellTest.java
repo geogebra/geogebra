@@ -16,22 +16,22 @@
 
 package org.geogebra.common.euclidian.plot.implicit;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.arithmetic.BoundsRectangle;
 import org.geogebra.common.kernel.arithmetic.bernstein.BernsteinPolynomial2D;
 import org.geogebra.common.kernel.arithmetic.bernstein.BernsteinPolynomialConverter;
 import org.geogebra.common.util.debug.Log;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class BernsteinPlotCellTest extends BaseUnitTest {
+class BernsteinPlotCellTest extends BaseUnitTest {
 	private BernsteinPlotCell cell;
 	private final BernsteinPolynomialConverter converter = new BernsteinPolynomialConverter();
 
 	//@Ignore
 	@Test
-	public void testSpitCells() {
+	void testSpitCells() {
 		BernsteinPolynomial2D bernstein =
 				converter.bernsteinPolynomial2DFrom(add("x^3 - y^3 - 0.6 = 0"), defaultLimits());
 		cell = new BernsteinPlotCell(getDefaultBoundingBox(),

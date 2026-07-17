@@ -29,17 +29,17 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class InteractionPropertyCollectionTest extends BaseAppTestSetup {
+class InteractionPropertyCollectionTest extends BaseAppTestSetup {
 
 	private final GeoElementPropertiesFactory propertiesFactory = new GeoElementPropertiesFactory();
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test
-	public void testIncrementFieldsEnabledDependentOnSelectionAllowed() {
+	void testIncrementFieldsEnabledDependentOnSelectionAllowed() {
 		GeoElement point = evaluateGeoElement("(1, 1)");
 		InteractionPropertyCollection interactionProperty = assertDoesNotThrow(() ->
 				new InteractionPropertyCollection(propertiesFactory, getAlgebraProcessor(),

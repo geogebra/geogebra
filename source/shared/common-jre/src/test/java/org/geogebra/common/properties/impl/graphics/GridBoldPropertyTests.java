@@ -23,7 +23,7 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class GridBoldPropertyTests extends BaseAppTestSetup {
+class GridBoldPropertyTests extends BaseAppTestSetup {
 	@Test
 	void testSettingValue() {
 		setupApp(SuiteSubApp.GRAPHING);

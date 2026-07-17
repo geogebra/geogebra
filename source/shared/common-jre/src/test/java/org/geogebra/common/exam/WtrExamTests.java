@@ -39,9 +39,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class WtrExamTests extends BaseExamTestSetup {
+class WtrExamTests extends BaseExamTestSetup {
 	@BeforeEach
-	public void setupWtrExam() {
+	void setupWtrExam() {
 		setupApp(SuiteSubApp.SCIENTIFIC);
 		examController.startExam(ExamType.WTR, null);
 	}
@@ -61,7 +61,7 @@ public class WtrExamTests extends BaseExamTestSetup {
 			"NSolve(x^2 = 0); 							Unknown command : NSolve",
 			"NSolutions(x^2 = 0); 						Unknown command : NSolutions",
 	})
-	public void testRestrictedCommands(String expression, String expectedError) {
+	void testRestrictedCommands(String expression, String expectedError) {
 		assertNull(evaluate(expression));
 		assertThat(errorAccumulator.getErrorsSinceReset(), containsString(expectedError));
 		errorAccumulator.resetError();
@@ -76,7 +76,7 @@ public class WtrExamTests extends BaseExamTestSetup {
 			"Normal(2, 0.5, 1)",
 			"Normal(2, 0.5, 1, 2)",
 	})
-	public void testUnrestrictedCommands(String expression) {
+	void testUnrestrictedCommands(String expression) {
 		assertNotNull(evaluate(expression));
 	}
 
@@ -86,7 +86,7 @@ public class WtrExamTests extends BaseExamTestSetup {
 			"atan2(sqrt(3), 1)",
 			"gamma(5)",
 	})
-	public void testRestrictedOperations(String expression) {
+	void testRestrictedOperations(String expression) {
 		assertNull(evaluate(expression));
 	}
 
@@ -100,7 +100,7 @@ public class WtrExamTests extends BaseExamTestSetup {
 			"{{0,1},{1,0}}",
 			"{{0},{1}}"
 	})
-	public void testRestrictedListsInInput(String expression) {
+	void testRestrictedListsInInput(String expression) {
 		assertNull(evaluate(expression));
 	}
 
@@ -108,7 +108,7 @@ public class WtrExamTests extends BaseExamTestSetup {
 	@ValueSource(strings = {
 			"Sequence(n, n, 1, 10)",
 	})
-	public void testRestrictedListsInOutput(String expression) {
+	void testRestrictedListsInOutput(String expression) {
 		assertNull(evaluate(expression));
 		assertThat(errorAccumulator.getErrorsSinceReset(), containsString("Unknown command"));
 		errorAccumulator.resetError();
@@ -120,19 +120,19 @@ public class WtrExamTests extends BaseExamTestSetup {
 			"1 / (1 - 2i)",
 			"i^2",
 	})
-	public void testRestrictedComplexExpressions(String expression) {
+	void testRestrictedComplexExpressions(String expression) {
 		assertNull(evaluate(expression));
 	}
 
 	@Test
-	public void testMixedNumbers() {
+	void testMixedNumbers() {
 		assertFalse(getApp().getEditorFeatures().areMixedNumbersEnabled(),
 				"mixed numbers should be disabled");
 	}
 
 	@Test
 	@Issue("APPS-6299")
-	public void testRadians() {
+	void testRadians() {
 		// we're not allowed to show the values, the easiest way to do that is just to disallow
 		// the computation as there is no legit reason to use `rad` in degree or DMS mode
 		assertNull(evaluate("1 rad")); // Example 1
@@ -142,7 +142,7 @@ public class WtrExamTests extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void showOnlyDefinition() {
+	void showOnlyDefinition() {
 		getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
 		evaluate("b=2");
 		ToStringConverter ansProvider = getApp().getGeoElementValueConverter();
@@ -154,7 +154,7 @@ public class WtrExamTests extends BaseExamTestSetup {
 
 	@Test
 	@Issue("APPS-6299")
-	public void asindShouldEvaluateToDegrees() {
+	void asindShouldEvaluateToDegrees() {
 		getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
 		GeoElementND angle = evaluate("asind(.5)")[0]; // Example 6
 		assertEquals("30" + Unicode.DEGREE_STRING,
@@ -162,7 +162,7 @@ public class WtrExamTests extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void checkSyntax() {
+	void checkSyntax() {
 		assertEquals("BinomialDist( <Number of Trials>, <Probability of Success>, "
 						+ "<List of Values> )\n"
 						+ "BinomialDist( <Number of Trials>, <Probability of Success>, "
@@ -176,7 +176,7 @@ public class WtrExamTests extends BaseExamTestSetup {
 			"7%",
 			"100%",
 	})
-	public void testRestrictedOutputForSimplePercentages(String expression) {
+	void testRestrictedOutputForSimplePercentages(String expression) {
 		GeoElement geoElement = evaluateGeoElement(expression);
 		assertFalse(AlgebraItem.shouldShowBothRows(geoElement, getAlgebraSettings()));
 	}
@@ -186,7 +186,7 @@ public class WtrExamTests extends BaseExamTestSetup {
 			"50% + 0.8",
 			"20% + 1 / 2",
 	})
-	public void testUnrestrictedOutputForPercentageExpressions(String expression) {
+	void testUnrestrictedOutputForPercentageExpressions(String expression) {
 		GeoElement geoElement = evaluateGeoElement(expression);
 		assertTrue(AlgebraItem.shouldShowBothRows(geoElement, getAlgebraSettings()));
 	}

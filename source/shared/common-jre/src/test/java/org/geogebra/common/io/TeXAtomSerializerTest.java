@@ -16,7 +16,7 @@
 
 package org.geogebra.common.io;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
@@ -29,16 +29,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
-public class TeXAtomSerializerTest {
+class TeXAtomSerializerTest {
 
 	@Test
-	public void allAtomsPrint() {
+	void allAtomsPrint() {
 		FactoryProvider.setInstance(new FactoryProviderCommon());
 		List<Class<? extends Atom>> cls = new ArrayList<>();
 		findClasses(Paths.get("../../shared/renderer-base/src"), cls);

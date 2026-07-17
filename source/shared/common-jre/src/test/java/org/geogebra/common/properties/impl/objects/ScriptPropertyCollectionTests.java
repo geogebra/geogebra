@@ -25,9 +25,9 @@ import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class ScriptPropertyCollectionTests extends BaseAppTestSetup {
+class ScriptPropertyCollectionTests extends BaseAppTestSetup {
 	@Test
-	public void testInitialScriptEventSelection() {
+	void testInitialScriptEventSelection() {
 		setupApp(SuiteSubApp.GRAPHING);
 		ScriptPropertyCollection propertyCollection = new ScriptPropertyCollection(
 				new GeoElementPropertiesFactory(), getLocalization(), List.of(

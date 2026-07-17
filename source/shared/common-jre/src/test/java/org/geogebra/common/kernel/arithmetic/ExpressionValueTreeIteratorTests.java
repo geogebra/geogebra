@@ -22,12 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.BaseUnitTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ExpressionValueTreeIteratorTests extends BaseUnitTest {
+class ExpressionValueTreeIteratorTests extends BaseUnitTest {
 
 	@Test
-	public void testIteratorDepthFirst() {
+	void testIteratorDepthFirst() {
 		ValidExpression expression = parseExpression("1 + {(1, 2), 3} + Command(\"string\")");
 		List<Class<? extends ExpressionValue>> expectedClasses = List.of(
 				ExpressionNode.class, // Full expression

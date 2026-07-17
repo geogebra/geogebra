@@ -16,100 +16,100 @@
  
 package org.geogebra.common.kernel.arithmetic.variable;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.editor.share.util.Unicode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class InputTokenizerTest extends TokenizerBaseTest {
+class InputTokenizerTest extends TokenizerBaseTest {
 
 	@Test
-	public void testAB() {
+	void testAB() {
 		withGeos("a", "b");
 		shouldBeSplitTo("ab", "a", "b");
 	}
 
 	@Test
-	public void testAIndexedB() {
+	void testAIndexedB() {
 		withGeos("a_{1}", "b");
 		shouldBeSplitTo("a_{1}b", "a_{1}", "b");
 	}
 
 	@Test
-	public void testRhoIndexedB() {
+	void testRhoIndexedB() {
 		String rhoW = Unicode.rho + "_{w}";
 		withGeos(Unicode.rho + "", rhoW, "h");
 		shouldBeSplitTo(rhoW + "h", rhoW, "h");
 	}
 
 	@Test
-	public void testAIndexedBIndexed() {
+	void testAIndexedBIndexed() {
 		withGeos("a_{1}", "b_{242}");
 		shouldBeSplitTo("a_{1}b_{242}", "a_{1}", "b_{242}");
 	}
 
 	@Test
-	public void testConstantAndVariable() {
+	void testConstantAndVariable() {
 		withGeos("a", "b");
 		shouldBeSplitTo("21ab", "21", "a", "b");
 	}
 
 	@Test
-	public void testMoreVariables() {
+	void testMoreVariables() {
 		shouldBeSplitTo("a_{1}bcd_{3}4fdx", "a_{1}", "b", "c", "d_{3}", "4", "f", "d", "x");
 	}
 
 	@Test
-	public void testPi() {
+	void testPi() {
 		shouldBeSplitTo("api", "a", "pi");
 	}
 
 	@Test
-	public void testFunctionVarPlus() {
+	void testFunctionVarPlus() {
 		withGeos("f(var)", "a", "b");
 		shouldBeSplitTo("var+ab", "var", "+", "a", "b");
 	}
 
 	@Test
-	public void testFunctionVar() {
+	void testFunctionVar() {
 		withGeos("f(var)");
 		shouldBeSplitTo("avarb", "a", "var", "b");
 	}
 
 	@Test
-	public void testAkakakaaa() {
+	void testAkakakaaa() {
 		withGeos("a", "k", "aa(x)");
 		shouldBeSplitTo("akakakaaa" , "a", "k", "a", "k", "a",
 				"k", "a", "a", "a");
 	}
 
 	@Test
-	public void testAakkaa() {
+	void testAakkaa() {
 		withGeos("aa(x)", "k", "a");
 		shouldBeSplitTo("aakkaaa", "a", "a", "k", "k", "a", "a", "a");
 	}
 
 	@Test
-	public void testImaginary() {
+	void testImaginary() {
 		shouldBeSplitTo("i1", String.valueOf(Unicode.IMAGINARY), "1");
 	}
 
 	@Test
-	public void textX4() {
+	void textX4() {
 		shouldBeSplitTo("x4", "x", "4");
 	}
 
 	@Test
-	public void textK4() {
+	void textK4() {
 		shouldBeSplitTo("k4", "k", "4");
 	}
 
 	@Test
-	public void testVariableConstant() {
+	void testVariableConstant() {
 		withGeos("a");
 		shouldBeSplitTo("aa21", "a", "a", "21");
 		shouldBeSplitTo("aa2", "a", "a", "2");
@@ -117,20 +117,20 @@ public class InputTokenizerTest extends TokenizerBaseTest {
 	}
 
 	@Test
-	public void testMultiFunctionVars() {
+	void testMultiFunctionVars() {
 		withGeos("t(mul, var)");
 		shouldBeSplitTo("amulvarb", "a", "mul", "var", "b");
 	}
 
 	@Test
-	public void testGreekFunctionVars() {
+	void testGreekFunctionVars() {
 		withGeos("f(" + Unicode.Delta + "y, y)");
 		shouldBeSplitTo(Unicode.Delta + "y(1 + y)", Unicode.Delta + "y",
 				"(", "1", " ", "+", " ", "y", ")");
 	}
 
 	@Test
-	public void spreadsheetCellsInInputBox() {
+	void spreadsheetCellsInInputBox() {
 		withGeos("A3", "B");
 		shouldBeSplitTo("A3", "A3");
 		shouldBeSplitTo("A333", "A", "333");
@@ -143,7 +143,7 @@ public class InputTokenizerTest extends TokenizerBaseTest {
 	}
 
 	@Test
-	public void spreadsheetCellsInAV() {
+	void spreadsheetCellsInAV() {
 		withGeos("A3", "B");
 		shouldBeSplitForAV("A3", "A3");
 		shouldBeSplitForAV("A333", "A333");
@@ -156,7 +156,7 @@ public class InputTokenizerTest extends TokenizerBaseTest {
 	}
 
 	@Test
-	public void testAmbiguousTokenization() {
+	void testAmbiguousTokenization() {
 		withGeos("a", "a1");
 		shouldBeSplitTo("a1b", "a", "1", "b");
 	}
@@ -174,10 +174,9 @@ public class InputTokenizerTest extends TokenizerBaseTest {
 	}
 
 	/**
-	 *
 	 * @return all the tokens input was split to.
 	 */
-	public List<String> getTokens(InputTokenizer tokenizer) {
+	private List<String> getTokens(InputTokenizer tokenizer) {
 		ArrayList<String> tokens = new ArrayList<>();
 		while (tokenizer.hasToken()) {
 			tokens.add(tokenizer.next());

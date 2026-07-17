@@ -47,14 +47,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
+class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 	@BeforeEach
-	public void setupExam() {
+	void setupExam() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test
-	public void testSettingsRestrictions() {
+	void testSettingsRestrictions() {
 		createDefaultSetting();
 		examController.startExam(ExamType.BAYERN_GR, null);
 		realSchuleRestrictionsShouldBeApplied();
@@ -89,7 +89,7 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testExpressionRestrictions() {
+	void testExpressionRestrictions() {
 		examController.startExam(ExamType.BAYERN_GR, null);
 		assertNull(evaluate("abs((1,2))"));
 		assertNull(evaluate("3+abs((1,2))"));
@@ -126,7 +126,7 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testSettingsRestrictionsAfterFileNew() {
+	void testSettingsRestrictionsAfterFileNew() {
 		examController.startExam(ExamType.BAYERN_GR, null);
 		realSchuleRestrictionsShouldBeApplied();
 
@@ -152,7 +152,7 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 			// Unrelated types
 			"(1, 2)",
 	})
-	public void testUnrestrictedVisibility(String expression) {
+	void testUnrestrictedVisibility(String expression) {
 		examController.startExam(ExamType.BAYERN_GR, null);
 		GeoElement geoElement = evaluateGeoElement(expression);
 		assertTrue(geoElement.isEuclidianToggleable());
@@ -168,7 +168,7 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 			"x^2 = 0",
 			"sin(x) = 0",
 	})
-	public void testRestrictedVisibility(String expression) {
+	void testRestrictedVisibility(String expression) {
 		examController.startExam(ExamType.BAYERN_GR, null);
 		GeoElement geoElement = evaluateGeoElement(expression);
 		assertFalse(geoElement.isEuclidianToggleable());
@@ -183,13 +183,13 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 			"NSolve(x^2 = 0)",
 			"NSolutions(x^2 = 0)",
 	})
-	public void testRestrictedCommands(String command) {
+	void testRestrictedCommands(String command) {
 		examController.startExam(ExamType.BAYERN_GR, null);
 		assertNull(evaluate(command));
 	}
 
 	@Test
-	public void testEnabledEngineeringNotation() {
+	void testEnabledEngineeringNotation() {
 		PreviewFeature.enablePreviewFeatures = true;
 		examController.startExam(ExamType.BAYERN_GR, null);
 		boolean enableEngineeringNotation = getAlgebraSettings().isEngineeringNotationEnabled();
@@ -202,7 +202,7 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 
 	@Issue("APPS-6634")
 	@Test
-	public void testDefaultFormatForMinusOne() {
+	void testDefaultFormatForMinusOne() {
 		GeoElement geoElement = evaluateGeoElement("-1");
 		assertEquals(
 				List.of(EXACT, ENGINEERING),
@@ -217,7 +217,7 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 			"Length((1, 1))",
 			"Line((0, 0), Line((-1, -1), (1, -1)))"
 	})
-	public void testRestrictedCommandArguments(String command) {
+	void testRestrictedCommandArguments(String command) {
 		examController.startExam(ExamType.BAYERN_GR, null);
 		assertNull(evaluate(command));
 	}
@@ -231,7 +231,7 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 			"Line((1, 1), 5 + i)",
 			"Line((0, 0), Vector((1, 1)))",
 	})
-	public void testUnrestrictedCommandArguments(String command) {
+	void testUnrestrictedCommandArguments(String command) {
 		examController.startExam(ExamType.BAYERN_GR, null);
 		assertNotNull(evaluate(command));
 	}

@@ -21,20 +21,20 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class ProtectiveAlgebraOutputFilterTest extends BaseUnitTest {
+class ProtectiveAlgebraOutputFilterTest extends BaseUnitTest {
 
 	private ProtectiveAlgebraOutputFilter filter = new ProtectiveAlgebraOutputFilter();
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		getApp().setGraphingConfig();
 	}
 
 	@Test
-	public void isAllowed() {
+	void isAllowed() {
 		GeoElement fitLine = addAvInput("FitLine((0,0),(1,1),(2,2))");
 		assertThat(filter.isAllowed(fitLine), is(true));
 

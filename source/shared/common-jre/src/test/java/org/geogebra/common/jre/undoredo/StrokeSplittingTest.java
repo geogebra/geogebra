@@ -21,9 +21,9 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,17 +44,17 @@ import org.geogebra.common.properties.impl.facade.ColorPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.EnumeratedPropertyListFacade;
 import org.geogebra.common.util.Smoothing;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class StrokeSplittingTest extends BaseEuclidianControllerTest {
+class StrokeSplittingTest extends BaseEuclidianControllerTest {
 
 	EuclidianStyleBarSelection selection;
 	PropertyWrapper propertyWrapper;
 	GeoElementPropertiesFactory propFactory = new GeoElementPropertiesFactory();
 
-	@Before
-	public void setupApp() {
+	@BeforeEach
+	void setupApp() {
 		setUpController();
 		getApp().setNotesConfig();
 		getApp().setUndoActive(true);
@@ -106,7 +106,7 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void splitStrokeByDragging() {
+	void splitStrokeByDragging() {
 		init();
 		drawAndSelectStroke();
 		dragStart(250, 100);
@@ -130,7 +130,7 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void splitMultipleStrokesByDragging() {
+	void splitMultipleStrokesByDragging() {
 		init();
 		drawMultipleStrokes(100);
 		drawMultipleStrokes(100);
@@ -164,7 +164,7 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void undoRedoStrokeSplitByDragging() {
+	void undoRedoStrokeSplitByDragging() {
 		init();
 		drawAndSelectStroke();
 		dragStart(250, 100);
@@ -184,7 +184,7 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void linePropertiesShouldSplitStroke() {
+	void linePropertiesShouldSplitStroke() {
 		init();
 		drawAndSelectStroke();
 		ArrayList<GeoElement> geos = selection.getGeos();
@@ -199,7 +199,7 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void undoRedoStrokeStylingWithSplitting() {
+	void undoRedoStrokeStylingWithSplitting() {
 		init();
 		drawAndSelectStroke();
 		ArrayList<GeoElement> geos = selection.getGeos();
@@ -219,9 +219,9 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 		assertEquals(LINE_TYPE_DASHED_DOTTED, lookup("stroke2").getLineType());
 		assertEquals(0, lookup("stroke3").getLineType());
 	}
-	
+
 	@Test
-	public void smoothingTest() {
+	void smoothingTest() {
 		List<? extends GPoint2D> pts = Smoothing.transform(List.of(
 			new MyPoint(3.78, -0.43),
 			new MyPoint(4.14, -0.47),

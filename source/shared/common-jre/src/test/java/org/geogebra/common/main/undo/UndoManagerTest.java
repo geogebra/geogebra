@@ -22,8 +22,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.List;
 import java.util.Objects;
@@ -53,18 +53,18 @@ import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class UndoManagerTest extends BaseEuclidianControllerTest {
+class UndoManagerTest extends BaseEuclidianControllerTest {
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		setUpController();
 	}
 
 	@Test
-	public void undoDeletionGraphing() {
+	void undoDeletionGraphing() {
 		getApp().setConfig(new AppConfigGraphing());
 		getApp().setUndoActive(true);
 		GeoPoint pt = add("A=(1,1)");
@@ -79,7 +79,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void undoDeletionNotes() {
+	void undoDeletionNotes() {
 		getApp().setConfig(new AppConfigNotes());
 		getApp().setUndoActive(true);
 		GeoPoint pt = add("A=(1,1)");
@@ -93,7 +93,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void testRemoveActions() {
+	void testRemoveActions() {
 		getApp().setUndoActive(true);
 		GeoElement pt = add("A=(1,1)");
 		getUndoManager().storeAddGeo(pt);
@@ -111,7 +111,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void testUndoChangesPolygon() {
+	void testUndoChangesPolygon() {
 		getApp().setUndoActive(true);
 		add("A = (1, -1)");
 		add("B = (3, -3)");
@@ -128,7 +128,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void testUndoChangesMultiplePolygons() {
+	void testUndoChangesMultiplePolygons() {
 		getApp().setUndoActive(true);
 		add("A = (1, -1)");
 		add("B = (3, -3)");
@@ -153,7 +153,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void testUndoChangesLine() {
+	void testUndoChangesLine() {
 		getApp().setUndoActive(true);
 		add("A = (2, -2)");
 		add("B = (3, -3)");
@@ -169,7 +169,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void testUndoChangesSegment() {
+	void testUndoChangesSegment() {
 		getApp().setUndoActive(true);
 		add("A = (2, -2)");
 		add("B = (5, -6)");
@@ -185,7 +185,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void testUndoChangesSegmentWithOneUnlabeledPoint() {
+	void testUndoChangesSegmentWithOneUnlabeledPoint() {
 		getApp().setUndoActive(true);
 		add("A = (1, -2)");
 		add("f = Segment(A, (3, -4))");
@@ -200,7 +200,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void testUndoChangesPoint() {
+	void testUndoChangesPoint() {
 		getApp().setUndoActive(true);
 		add("A = (3, -2)");
 		dragStart(150, 100);
@@ -211,7 +211,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void undoDraggingPointOnPath() {
+	void undoDraggingPointOnPath() {
 		activateUndo();
 		UpdateActionStore actionStore = new UpdateActionStore(getApp().getSelectionManager(),
 				getUndoManager());
@@ -233,7 +233,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 
 	@Test
 	@Issue("APPS-6589")
-	public void undoDraggingPointOnPath3D() {
+	void undoDraggingPointOnPath3D() {
 		activateUndo();
 		UpdateActionStore actionStore = new UpdateActionStore(getApp().getSelectionManager(),
 				getUndoManager());
@@ -254,7 +254,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void undoDraggingPointInRegion() {
+	void undoDraggingPointInRegion() {
 		activateUndo();
 		UpdateActionStore actionStore = new UpdateActionStore(getApp().getSelectionManager(),
 				getUndoManager());
@@ -278,7 +278,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 
 	@Test
 	@Issue("APPS-5774")
-	public void undoDraggingSliderValue() {
+	void undoDraggingSliderValue() {
 		activateUndo();
 		UpdateActionStore actionStore = new UpdateActionStore(getApp().getSelectionManager(),
 				getUndoManager());
@@ -294,7 +294,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void undoDraggingSliderPosition() {
+	void undoDraggingSliderPosition() {
 		activateUndo();
 		UpdateActionStore actionStore = new UpdateActionStore(getApp().getSelectionManager(),
 				getUndoManager());
@@ -313,13 +313,13 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 
 	@Test
 	@Issue("APPS-6416")
-	public void undoDraggingNet() {
+	void undoDraggingNet() {
 		undoDraggingNet("0");
 	}
 
 	@Test
 	@Issue("APPS-6589")
-	public void undoDraggingNetNamed() {
+	void undoDraggingNetNamed() {
 		add("slider=Slider(0,1,.1)");
 		undoDraggingNet("slider");
 	}
@@ -359,7 +359,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 
 	@Test
 	@Issue("APPS-7170")
-	public void undoUpdateStroke() {
+	void undoUpdateStroke() {
 		activateUndo();
 		GeoLocusStroke stroke = add("PenStroke(0,0,1,1)");
 		AlgoElement parentAlgo = stroke.getParentAlgorithm();
@@ -380,7 +380,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 
 	@Test
 	@Issue("APPS-6654")
-	public void zoomAfterUndo() {
+	void zoomAfterUndo() {
 		getApp().setXML(GeoGebraPreferencesXML.getXML(getApp()), false);
 		EuclidianView view = getApp().getActiveEuclidianView();
 		view.setKeepCenter(true);
@@ -402,7 +402,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void shouldSetUnsaved() {
+	void shouldSetUnsaved() {
 		getKernel().setUndoActive(true);
 		add("x");
 		getApp().storeUndoInfo();

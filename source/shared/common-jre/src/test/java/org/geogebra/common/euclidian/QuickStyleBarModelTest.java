@@ -41,13 +41,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class QuickStyleBarModelTest extends BaseAppTestSetup {
+class QuickStyleBarModelTest extends BaseAppTestSetup {
 
 	private QuickStyleBarModel model;
 	private QuickStyleBarModel.Delegate delegate;
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		setupApp(SuiteSubApp.GRAPHING);
 		model = new QuickStyleBarModel(getApp(), new GeoElementPropertiesFactory(),
 				getLocalization(), new StylebarPositioner(getApp()));
@@ -56,7 +56,7 @@ public class QuickStyleBarModelTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void showCreatesButtonsForPoint() {
+	void showCreatesButtonsForPoint() {
 		model.show(List.of(evaluateGeoElement("(1,2)")));
 		List<Button> expectedButtons = List.of(
 				new Button.Color(),
@@ -66,7 +66,7 @@ public class QuickStyleBarModelTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void showCreatesButtonsForFunction() {
+	void showCreatesButtonsForFunction() {
 		model.show(List.of(evaluateGeoElement("f(x)=x")));
 		List<Button> expectedButtons = List.of(
 				new Button.Color(),
@@ -77,14 +77,14 @@ public class QuickStyleBarModelTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void showCreatesOpacityButtonForImage() {
+	void showCreatesOpacityButtonForImage() {
 		model.show(List.of(new GeoImage(getKernel().getConstruction())));
 		List<Button> expectedButtons = List.of(new Button.Opacity());
 		assertButtonEqual(expectedButtons);
 	}
 
 	@Test
-	public void hideClearsStateAndClosesSubmenu() {
+	void hideClearsStateAndClosesSubmenu() {
 		model.show(List.of(evaluateGeoElement("(1,2)")));
 		model.onButtonPressed(new Button.Color());
 		model.hide();
@@ -93,7 +93,7 @@ public class QuickStyleBarModelTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void hideWhenAlreadyHiddenDoesNotNotify() {
+	void hideWhenAlreadyHiddenDoesNotNotify() {
 		model.hide();
 		verify(delegate, never()).onButtonsChanged(anyList());
 		verify(delegate, never()).onSubmenuItemsChanged(anyList());
@@ -101,7 +101,7 @@ public class QuickStyleBarModelTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void pressingColorButtonOpensSubmenuWithColorRow() {
+	void pressingColorButtonOpensSubmenuWithColorRow() {
 		model.show(List.of(evaluateGeoElement("(1,2)")));
 		model.onButtonPressed(new Button.Color());
 
@@ -113,9 +113,9 @@ public class QuickStyleBarModelTest extends BaseAppTestSetup {
 		assertEquals(1, propertyViews.size());
 		assertInstanceOf(PropertyView.ColorSelectorRow.class, propertyViews.get(0));
 	}
-	
+
 	@Test
-	public void pressingTheColorButtonTwiceClosesTheSubmenu() {
+	void pressingTheColorButtonTwiceClosesTheSubmenu() {
 		model.show(List.of(evaluateGeoElement("(1,2)")));
 		model.onButtonPressed(new Button.Color());
 		model.onButtonPressed(new Button.Color());
@@ -123,14 +123,14 @@ public class QuickStyleBarModelTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void pressingButtonWhenHiddenDoesNothing() {
+	void pressingButtonWhenHiddenDoesNothing() {
 		model.onButtonPressed(new Button.Color());
 		assertNull(model.getSubmenuItems());
 		verify(delegate, never()).onSubmenuItemsChanged(anyList());
 	}
 
 	@Test
-	public void settingNonRangeSubmenuPropertyClosesSubmenu() {
+	void settingNonRangeSubmenuPropertyClosesSubmenu() {
 		model.show(List.of(evaluateGeoElement("(1,2)")));
 		model.onButtonPressed(new Button.Color());
 		PropertyView.ColorSelectorRow colorSelectorRow =
@@ -140,7 +140,7 @@ public class QuickStyleBarModelTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void settingRangeSubmenuPropertyKeepsSubmenuOpen() {
+	void settingRangeSubmenuPropertyKeepsSubmenuOpen() {
 		model.show(List.of(evaluateGeoElement("f(x)=x")));
 		model.onButtonPressed(new Button.LineStyle(PropertyResource.ICON_LINE_TYPE_FULL));
 		PropertyView.Slider thicknessSlider = model.getSubmenuItems().stream()
@@ -152,7 +152,7 @@ public class QuickStyleBarModelTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void pressingFixingButtonTogglesLockedWithoutOpeningSubmenu() {
+	void pressingFixingButtonTogglesLockedWithoutOpeningSubmenu() {
 		GeoElement function = evaluateGeoElement("f(x)=x");
 		model.show(List.of(function));
 		boolean initiallyLocked = function.isLocked();
@@ -167,7 +167,7 @@ public class QuickStyleBarModelTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void morePressedEmitsOpenObjectSettingsAndClosesSubmenu() {
+	void morePressedEmitsOpenObjectSettingsAndClosesSubmenu() {
 		model.show(List.of(evaluateGeoElement("(1,2)")));
 		model.onButtonPressed(new Button.Color());
 		model.onMorePressed();
@@ -177,7 +177,7 @@ public class QuickStyleBarModelTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void deletePressedDeletesSelectedElementsAndHides() {
+	void deletePressedDeletesSelectedElementsAndHides() {
 		GeoElement point = evaluateGeoElement("(1,2)", GeoElement.class);
 		getApp().getSelectionManager().addSelectedGeo(point);
 		model.show(List.of(point));
@@ -188,7 +188,7 @@ public class QuickStyleBarModelTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void staleSubmenuPropertyObserverIsRemovedOnHide() {
+	void staleSubmenuPropertyObserverIsRemovedOnHide() {
 		model.show(List.of(evaluateGeoElement("(1,2)")));
 		model.onButtonPressed(new Button.Color());
 		PropertyView.ColorSelectorRow staleColorSelectorRow =

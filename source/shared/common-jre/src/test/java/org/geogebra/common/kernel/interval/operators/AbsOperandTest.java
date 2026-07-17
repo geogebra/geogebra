@@ -23,17 +23,17 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.geogebra.common.kernel.interval.LegacyIntervalAdapter.legacyInverted;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.kernel.interval.Interval;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AbsOperandTest {
+class AbsOperandTest {
 
 	private final IntervalNodeEvaluator evaluator = new IntervalNodeEvaluator();
 
 	@Test
-	public void testPositiveIntervals() {
+	void testPositiveIntervals() {
 		assertEquals(interval(0, 1E12), abs(interval(0, 1E12)));
 	}
 
@@ -42,37 +42,37 @@ public class AbsOperandTest {
 	}
 
 	@Test
-	public void testNegativeIntervals() {
+	void testNegativeIntervals() {
 		assertEquals(interval(1E-234, 1E234), abs(interval(-1E234, -1E-234)));
 	}
 
 	@Test
-	public void testZero() {
+	void testZero() {
 		assertEquals(zero(), abs(zero()));
 	}
 
 	@Test
-	public void testUndefined() {
+	void testUndefined() {
 		assertEquals(undefined(), abs(undefined()));
 	}
 
 	@Test
-	public void testWhole() {
+	void testWhole() {
 		assertEquals(interval(0, Double.POSITIVE_INFINITY), abs(whole()));
 	}
 
 	@Test
-	public void testNegativeInfinity() {
+	void testNegativeInfinity() {
 		assertEquals(positiveInfinity(), abs(negativeInfinity()));
 	}
 
 	@Test
-	public void testMixedInvertedIntervals() {
+	void testMixedInvertedIntervals() {
 		assertEquals(interval(100, Double.POSITIVE_INFINITY), abs(legacyInverted(-100, 100)));
 	}
 
 	@Test
-	public void testNegativeInvertedIntervals() {
+	void testNegativeInvertedIntervals() {
 		assertEquals(interval(0, Double.POSITIVE_INFINITY),
 				abs(legacyInverted(-200, -100)));
 	}

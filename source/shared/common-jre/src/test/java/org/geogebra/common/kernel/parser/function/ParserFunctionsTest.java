@@ -19,11 +19,11 @@ package org.geogebra.common.kernel.parser.function;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,24 +38,24 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.LocalizationCommonUTF;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mockito;
 
-public class ParserFunctionsTest {
+class ParserFunctionsTest {
 
 	private static final String GAMMA_PREFIX = "gam"; // NO-TYPO
 	private ParserFunctions parserFunctions;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		parserFunctions = ParserFunctionsFactory.createParserFunctionsFactory()
 				.createParserFunctions();
 	}
 
 	@Test
-	public void testGetString() {
+	void testGetString() {
 		assertNotNull(parserFunctions.get("sin", 1));
 		assertNotNull(parserFunctions.get("cos", 1));
 		assertNull(parserFunctions.get("", 1));
@@ -63,7 +63,7 @@ public class ParserFunctionsTest {
 	}
 
 	@Test
-	public void testGetSize() {
+	void testGetSize() {
 		assertNull(parserFunctions.get("sin", 100));
 		assertNull(parserFunctions.get("sin", 0));
 		assertNull(parserFunctions.get("sin", 2));
@@ -71,7 +71,7 @@ public class ParserFunctionsTest {
 	}
 
 	@Test
-	public void testReserved() {
+	void testReserved() {
 		assertTrue(parserFunctions.isReserved("sin"));
 		assertTrue(parserFunctions.isReserved("sin"));
 		assertTrue(parserFunctions.isReserved(Unicode.IMAGINARY + ""));
@@ -82,7 +82,7 @@ public class ParserFunctionsTest {
 	}
 
 	@Test
-	public void testGetCompletions() {
+	void testGetCompletions() {
 		List<String> completions = parserFunctions.getCompletions("si");
 		assertThat(completions, hasItem("sin( <x> )"));
 		assertThat(completions, hasItem("sinIntegral( <x> )"));
@@ -93,7 +93,7 @@ public class ParserFunctionsTest {
 	}
 
 	@Test
-	public void testGetInternal() {
+	void testGetInternal() {
 		Localization loc = Mockito.mock(Localization.class);
 		Mockito.when(loc.getFunction(Mockito.anyString()))
 				.then(AdditionalAnswers.returnsFirstArg());
@@ -104,7 +104,7 @@ public class ParserFunctionsTest {
 	}
 
 	@Test
-	public void testIsTranslatableFunction() {
+	void testIsTranslatableFunction() {
 		assertTrue(parserFunctions.isTranslatableFunction("sin"));
 		assertTrue(parserFunctions.isTranslatableFunction("cos"));
 		assertFalse(parserFunctions.isTranslatableFunction("e"));
@@ -113,7 +113,7 @@ public class ParserFunctionsTest {
 	}
 
 	@Test
-	public void testReverseTrig() {
+	void testReverseTrig() {
 		parserFunctions.setInverseTrig(true);
 		assertEquals(parserFunctions.get("arcsin", 1), Operation.ARCSIND);
 		assertEquals(parserFunctions.get("arccos", 1), Operation.ARCCOSD);
@@ -123,7 +123,7 @@ public class ParserFunctionsTest {
 	}
 
 	@Test
-	public void testUpdateLocale() {
+	void testUpdateLocale() {
 		Localization loc = Mockito.mock(Localization.class);
 		parserFunctions.updateLocale(loc);
 		Mockito.verify(loc).getFunction("sin", false);
@@ -132,13 +132,13 @@ public class ParserFunctionsTest {
 	}
 
 	@Test
-	public void testCompletions() {
+	void testCompletions() {
 		List<String> completions = parserFunctions.getCompletions(GAMMA_PREFIX);
 		assertEquals(3, completions.size());
 	}
 
 	@Test
-	public void testCompletionsWithFilteredOperations() {
+	void testCompletionsWithFilteredOperations() {
 		List<String> completions = parserFunctions.getCompletions(GAMMA_PREFIX,
 				operation -> !Set.of(Operation.GAMMA,
 						Operation.GAMMA_INCOMPLETE,
@@ -148,7 +148,7 @@ public class ParserFunctionsTest {
 
 	@Test
 	@Issue("APPS-5454")
-	public void testUnaryFlagConsistent() {
+	void testUnaryFlagConsistent() {
 		Localization loc = new LocalizationCommonUTF(3);
 		Set<Operation> fromHelp = Arrays.stream(TableSymbols
 						.getTranslatedFunctions(loc, parserFunctions))

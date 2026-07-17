@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class ObjectColorPropertyTests extends BaseAppTestSetup {
+class ObjectColorPropertyTests extends BaseAppTestSetup {
 	@ParameterizedTest
 	@ValueSource(strings = {
 			"(1, 2)",
@@ -39,7 +39,7 @@ public class ObjectColorPropertyTests extends BaseAppTestSetup {
 			"Circle((0, 0), 3)",
 			"Polygon({(0, 0), (1, 1), (1, 0)})",
 	})
-	public void testApplicableGeoElements(String expression) {
+	void testApplicableGeoElements(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertDoesNotThrow(() -> new ObjectColorProperty(
 				getLocalization(), evaluateGeoElement(expression)));
@@ -52,14 +52,14 @@ public class ObjectColorPropertyTests extends BaseAppTestSetup {
 			"BarChart({1,2,3},{4,5,6})",
 			"PieChart({1,2,3})"
 	})
-	public void testNotApplicableGeoElements(String expression) {
+	void testNotApplicableGeoElements(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertThrows(NotApplicablePropertyException.class, () -> new ObjectColorProperty(
 				getLocalization(), evaluateGeoElement(expression)));
 	}
 
 	@Test
-	public void testSettingObjectColor() {
+	void testSettingObjectColor() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement("(1, 2)");
 		ObjectColorProperty objectColorProperty = assertDoesNotThrow(() ->

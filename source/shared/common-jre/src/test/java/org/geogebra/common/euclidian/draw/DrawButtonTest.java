@@ -30,16 +30,16 @@ import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class DrawButtonTest extends BaseAppTestSetup {
+class DrawButtonTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GEOMETRY);
 	}
 
 	@Test
 	@Issue("APPS-7549")
-	public void testInitialPosition() {
+	void testInitialPosition() {
 		GeoElement button = evaluateGeoElement("Button(\"OK\")");
 		DrawButton btn = (DrawButton) getApp().getActiveEuclidianView().getDrawableFor(button);
 		GGraphicsCommon graphics = spy(new GGraphicsCommon());

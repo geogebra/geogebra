@@ -21,27 +21,27 @@ import static org.geogebra.common.kernel.interval.IntervalSetOps.empty;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.fromLegacy;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.inverted;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.whole;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalSet;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class IntervalDivideSetTest {
+class IntervalDivideSetTest {
 
 	private final IntervalNodeEvaluator evaluator = new IntervalNodeEvaluator();
 	private final IntervalDivide divide = new IntervalDivide(evaluator);
 
 	@Test
-	public void computeSetReturnsConnectedForFiniteNonZeroDivisor() {
+	void computeSetReturnsConnectedForFiniteNonZeroDivisor() {
 		IntervalSet result = divide.computeSet(connected(2, 4), connected(2, 4));
 
 		assertEquals(connected(0.5, 2), result);
 	}
 
 	@Test
-	public void computeSetMatchesLegacyDivideForConnectedDivisor() {
+	void computeSetMatchesLegacyDivideForConnectedDivisor() {
 		Interval numerator = new Interval(2, 4);
 		Interval divisor = new Interval(2, 4);
 
@@ -51,69 +51,69 @@ public class IntervalDivideSetTest {
 	}
 
 	@Test
-	public void computeSetReturnsEmptyForEmptyNumerator() {
+	void computeSetReturnsEmptyForEmptyNumerator() {
 		IntervalSet result = divide.computeSet(empty(), connected(1, 2));
 
 		assertEquals(empty(), result);
 	}
 
 	@Test
-	public void computeSetReturnsEmptyForEmptyDivisor() {
+	void computeSetReturnsEmptyForEmptyDivisor() {
 		IntervalSet result = divide.computeSet(connected(1, 2), empty());
 
 		assertEquals(empty(), result);
 	}
 
 	@Test
-	public void computeSetReturnsEmptyForWholeByUndefined() {
+	void computeSetReturnsEmptyForWholeByUndefined() {
 		IntervalSet result = divide.computeSet(whole(), empty());
 
 		assertEquals(empty(), result);
 	}
 
 	@Test
-	public void computeSetReturnsEmptyForWholeByEmpty() {
+	void computeSetReturnsEmptyForWholeByEmpty() {
 		IntervalSet result = divide.computeSet(whole(), empty());
 		assertEquals(empty(), result);
 	}
 
 	@Test
-	public void computeSetReturnsEmptyForEmptyByWhole() {
+	void computeSetReturnsEmptyForEmptyByWhole() {
 		IntervalSet result = divide.computeSet(empty(), whole());
 
 		assertEquals(empty(), result);
 	}
 
 	@Test
-	public void computeSetReturnsInvertedForDivisorContainingZero() {
+	void computeSetReturnsInvertedForDivisorContainingZero() {
 		IntervalSet result = divide.computeSet(connected(2, 4), connected(-1, 2));
 
 		assertTrue(result.isInverted());
 	}
 
 	@Test
-	public void computeSetReturnsWholeForZeroByZero() {
+	void computeSetReturnsWholeForZeroByZero() {
 		IntervalSet result = divide.computeSet(connected(0, 0), connected(0, 0));
 
 		assertEquals(whole(), result);
 	}
 
 	@Test
-	public void computeSetReturnsOverflowForPositiveByExactZero() {
+	void computeSetReturnsOverflowForPositiveByExactZero() {
 		IntervalSet result = divide.computeSet(connected(2, 2), connected(0, 0));
 
 		assertEquals(IntervalSet.overflow(), result);
 	}
 
 	@Test
-	public void computeSetReturnsOverflowForNegativeByExactZero() {
+	void computeSetReturnsOverflowForNegativeByExactZero() {
 		IntervalSet result = divide.computeSet(connected(-2, -2), connected(0, 0));
 
 		assertEquals(IntervalSet.overflow(), result);
 	}
 
 	@Test
-	public void computeSetHandlesInvertedNumeratorWithZeroContainingDivisor() {
+	void computeSetHandlesInvertedNumeratorWithZeroContainingDivisor() {
 		IntervalSet result = divide.computeSet(inverted(-1, 1), connected(-1, 1));
 
 		assertEquals(inverted(-1, 1), result);

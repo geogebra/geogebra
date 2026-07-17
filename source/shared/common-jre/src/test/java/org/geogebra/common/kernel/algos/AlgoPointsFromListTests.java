@@ -31,20 +31,20 @@ import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class AlgoPointsFromListTests extends BaseAppTestSetup {
+class AlgoPointsFromListTests extends BaseAppTestSetup {
 	@BeforeEach
-	public void setupApp() {
+	void setupApp() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test
-	public void testPointFromFlat2DList() {
+	void testPointFromFlat2DList() {
 		evaluate("Point({1, 2})");
 		assertEquals("A = (1, 2)", print("A"));
 	}
 
 	@Test
-	public void testPointFromFlat3DList() {
+	void testPointFromFlat3DList() {
 		evaluate("Point({1, 2, 3})");
 
 		assertEquals("A = (1, 2, 3)", print("A"));
@@ -52,13 +52,13 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void test2DPointFromShortList() {
+	void test2DPointFromShortList() {
 		evaluate("Point({1})");
 		assertEquals("A = (1, 0)", print("A"));
 	}
 
 	@Test
-	public void test3DListIgnoresExtraCoordinates() {
+	void test3DListIgnoresExtraCoordinates() {
 		evaluate("Point({1, 2, 3, 4})");
 
 		assertEquals("A = (1, 2, 3)", print("A"));
@@ -66,7 +66,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPointsFromNested2DList() {
+	void testPointsFromNested2DList() {
 		evaluate("Point({{1, 2}, {3, 4}})");
 
 		assertEquals("A = (1, 2)", print("A"));
@@ -74,7 +74,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPointsFromNested3DList() {
+	void testPointsFromNested3DList() {
 		evaluate("Point({{1, 2, 3}, {4, 5, 6}})");
 
 		assertEquals("A = (1, 2, 3)", print("A"));
@@ -84,7 +84,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPointsFromMixedNestedList() {
+	void testPointsFromMixedNestedList() {
 		evaluate("l1 = {{1, 2}, {1, 2, 3}, {10, 20}}");
 		evaluate("Point(l1)");
 
@@ -97,7 +97,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testMixedPointOutputsArePackedInAlgebraView() {
+	void testMixedPointOutputsArePackedInAlgebraView() {
 		evaluate("l1 = {{1, 2}, {3, 4, 5}, {6, 7}}");
 		evaluate("Point(l1)");
 
@@ -117,7 +117,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPointsFromNestedListWithListReferences() {
+	void testPointsFromNestedListWithListReferences() {
 		evaluate("l1 = {1, 2}");
 		evaluate("l2 = {3, 4, 5}");
 		evaluate("Point({{10, 20, 30}, l1, {40, 50}, l2})");
@@ -133,7 +133,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testNested3DListIgnoresExtraCoordinates() {
+	void testNested3DListIgnoresExtraCoordinates() {
 		evaluate("Point({{1, 2, 3}, {4, 5, 6, 7}})");
 
 		assertEquals("A = (1, 2, 3)", print("A"));
@@ -143,7 +143,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testNested2DListWithShortRowDoesNotCreateUndefinedPoint() {
+	void testNested2DListWithShortRowDoesNotCreateUndefinedPoint() {
 		evaluate("Point({{1, 2}, {3}})");
 
 		assertEquals("A = (1, 2)", print("A"));
@@ -151,7 +151,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testOutputsGrowWhenListGrows() {
+	void testOutputsGrowWhenListGrows() {
 		evaluate("l1 = {{1, 2}}");
 		evaluate("Point(l1)");
 		evaluate("SetValue(l1, {{1, 2}, {3, 4}, {5, 6}})");
@@ -166,7 +166,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testOutputsBecomeUndefinedWhenListShrinks() {
+	void testOutputsBecomeUndefinedWhenListShrinks() {
 		evaluate("l1 = {{1, 2}, {3, 4}, {5, 6}}");
 		evaluate("Point(l1)");
 		evaluate("SetValue(l1, {{7, 8}})");
@@ -181,7 +181,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testOutputsRecoverWhenListGrowsAfterShrink() {
+	void testOutputsRecoverWhenListGrowsAfterShrink() {
 		evaluate("l1 = {{1, 2}, {3, 4}, {5, 6}}");
 		evaluate("Point(l1)");
 		evaluate("SetValue(l1, {{7, 8}})");
@@ -197,7 +197,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testMixedOutputsKeepTheirInitialDimensionWhenSourceChanges() {
+	void testMixedOutputsKeepTheirInitialDimensionWhenSourceChanges() {
 		evaluate("l1 = {{1, 2}, {3, 4, 5}, {6, 7}}");
 		evaluate("Point(l1)");
 		evaluate("SetValue(l1, {{8, 9, 10}, {11, 12}, {13, 14, 15}})");
@@ -215,7 +215,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingThree2DPointsToOne2DPointThenTwo3DPointsMakesOutputsUndefined() {
+	void testChangingThree2DPointsToOne2DPointThenTwo3DPointsMakesOutputsUndefined() {
 		evaluate("l1 = {{1, 2}, {3, 4}, {5, 6}}");
 		evaluate("Point(l1)");
 		evaluate("SetValue(l1, {{7, 8}})");
@@ -234,7 +234,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingOne2DPointToOne3DPointMakesExistingPointUndefined() {
+	void testChangingOne2DPointToOne3DPointMakesExistingPointUndefined() {
 		evaluate("l1 = {1, 2}");
 		evaluate("Point(l1)");
 		evaluate("SetValue(l1, {3, 4, 5})");
@@ -246,7 +246,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingOne3DPointToOne2DPointUpdatesExistingPoint() {
+	void testChangingOne3DPointToOne2DPointUpdatesExistingPoint() {
 		evaluate("l1 = {1, 2, 3}");
 		evaluate("Point(l1)");
 		evaluate("SetValue(l1, {4, 5})");
@@ -258,7 +258,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingTwo2DPointsToTwo3DPointsMakesDependentOutputUndefined() {
+	void testChangingTwo2DPointsToTwo3DPointsMakesDependentOutputUndefined() {
 		evaluate("l1 = {{1, 2}, {3, 4}}");
 		evaluate("Point(l1)");
 		evaluate("Midpoint(A, B)");
@@ -276,7 +276,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testOutputsBecomeUndefinedWhenSourceListIsEmpty() {
+	void testOutputsBecomeUndefinedWhenSourceListIsEmpty() {
 		evaluate("l1 = {{1, 2}, {3, 4}}");
 		evaluate("Point(l1)");
 		evaluate("SetValue(l1, {})");
@@ -286,7 +286,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testSourceChangingToUnsupportedShapeUndefinesOutputs() {
+	void testSourceChangingToUnsupportedShapeUndefinesOutputs() {
 		evaluate("l1 = {{1, 2}, {3, 4}}");
 		evaluate("Point(l1)");
 		evaluate("SetValue(l1, {1, 2, 3, 4})");
@@ -296,7 +296,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingThree2DPointsToOne3DPointMakesExistingPointsUndefined() {
+	void testChangingThree2DPointsToOne3DPointMakesExistingPointsUndefined() {
 		evaluate("l1 = {{1, 2}, {3, 4}, {5, 6}}");
 		evaluate("Point(l1)");
 		evaluate("SetValue(l1, {{7, 8, 9}})");
@@ -313,7 +313,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingTwo2DPointsToTwo3DPointsMakesExistingPointsUndefined() {
+	void testChangingTwo2DPointsToTwo3DPointsMakesExistingPointsUndefined() {
 		evaluate("l1 = {{1, 2}, {3, 4}}");
 		evaluate("Point(l1)");
 		evaluate("SetValue(l1, {{1, 2, 3}, {4, 5, 6}})");
@@ -329,7 +329,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingTwo3DPointsToTwo2DPointsUpdatesExistingPoints() {
+	void testChangingTwo3DPointsToTwo2DPointsUpdatesExistingPoints() {
 		evaluate("l1 = {{1, 2, 3}, {4, 5, 6}}");
 		evaluate("Point(l1)");
 		evaluate("SetValue(l1, {{10, 20}, {30, 40}})");
@@ -345,7 +345,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingTwo2DPointsToTwo3DPointsThenToTwo2DPointsUpdatesExistingPoints() {
+	void testChangingTwo2DPointsToTwo3DPointsThenToTwo2DPointsUpdatesExistingPoints() {
 		evaluate("l1 = {{1, 2}, {3, 4}}");
 		evaluate("Point(l1)");
 		evaluate("SetValue(l1, {{1, 2, 3}, {4, 5, 6}})");
@@ -362,7 +362,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingTwo2DPointsToThree3DPointsMakesExistingPointsUndefinedAndAddsPoint() {
+	void testChangingTwo2DPointsToThree3DPointsMakesExistingPointsUndefinedAndAddsPoint() {
 		evaluate("l1 = {{1, 2}, {3, 4}}");
 		evaluate("Point(l1)");
 		evaluate("SetValue(l1, {{5, 6, 7}, {8, 9, 10}, {11, 12, 13}})");
@@ -380,7 +380,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingTwo3DPointsToThree2DPointsUpdatesExistingPointsAndAddsPoint() {
+	void testChangingTwo3DPointsToThree2DPointsUpdatesExistingPointsAndAddsPoint() {
 		evaluate("l1 = {{1, 2, 3}, {4, 5, 6}}");
 		evaluate("Point(l1)");
 		evaluate("SetValue(l1, {{7, 8}, {9, 10}, {11, 12}})");
@@ -398,7 +398,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingTwo3DPointsToThree2DPointsThenThree3DPointsUpdatesAndUndefinesAdded() {
+	void testChangingTwo3DPointsToThree2DPointsThenThree3DPointsUpdatesAndUndefinesAdded() {
 		evaluate("l1 = {{1, 2, 3}, {4, 5, 6}}");
 		evaluate("Point(l1)");
 		evaluate("SetValue(l1, {{7, 8}, {9, 10}, {11, 12}})");
@@ -417,7 +417,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testRemovingOutputPoint() {
+	void testRemovingOutputPoint() {
 		evaluate("Point({{1, 2, 3}, {4, 5}})");
 
 		assertDoesNotThrow(() -> lookup("A").remove());
@@ -426,7 +426,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testRemovingOutputPointWithDependentObjectUndefinesAndHidesPoint() {
+	void testRemovingOutputPointWithDependentObjectUndefinesAndHidesPoint() {
 		evaluate("Point({{1, 2}, {3, 4}})");
 		evaluate("Midpoint(A, B)");
 
@@ -438,7 +438,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 
 	@Test
 	@Issue("APPS-7441")
-	public void testRemovingPointAfterListChangesFrom2DTo3D() {
+	void testRemovingPointAfterListChangesFrom2DTo3D() {
 		evaluate("l1 = {{1, 2}, {3, 4}}");
 		evaluate("Point(l1)");
 		evaluate("SetValue(l1, {{1, 2, 3}, {4, 5, 6}})");
@@ -450,7 +450,7 @@ public class AlgoPointsFromListTests extends BaseAppTestSetup {
 
 	@Test
 	@Issue("APPS-7441")
-	public void testRemovingPointAfterListChangesFrom3DTo2D() {
+	void testRemovingPointAfterListChangesFrom3DTo2D() {
 		evaluate("l1 = {{1, 2, 3}, {4, 5, 6}}");
 		evaluate("Point(l1)");
 		evaluate("SetValue(l1, {{1, 2}, {3, 4}})");

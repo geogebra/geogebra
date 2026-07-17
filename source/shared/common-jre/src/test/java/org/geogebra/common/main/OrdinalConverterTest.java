@@ -16,15 +16,15 @@
 
 package org.geogebra.common.main;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.util.lang.Language;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class OrdinalConverterTest {
+class OrdinalConverterTest {
 
 	@Test
-	public void testOrdinalNumbersForBulgarian() {
+	void testOrdinalNumbersForBulgarian() {
 		Language language = Language.Bulgarian;
 		assertOrdinalEquals("0-\u0442\u0438", 0, language);
 		assertOrdinalEquals("1-\u0432\u0438", 1, language);
@@ -42,7 +42,7 @@ public class OrdinalConverterTest {
 	}
 
 	@Test
-	public void testOrdinalNumbersForCatalan() {
+	void testOrdinalNumbersForCatalan() {
 		assertOrdinalEquals("0", 0, Language.Catalan);
 		assertOrdinalEquals("1r", 1, Language.Valencian);
 		assertOrdinalEquals("2n", 2, Language.Catalan);
@@ -56,7 +56,7 @@ public class OrdinalConverterTest {
 	}
 
 	@Test
-	public void testOrdinalNumbersForEnglish() {
+	void testOrdinalNumbersForEnglish() {
 		assertOrdinalEquals("1st", 1, Language.English_Australia);
 		assertOrdinalEquals("2nd", 2, Language.English_US);
 		assertOrdinalEquals("3rd", 3, Language.English_UK);
@@ -70,7 +70,7 @@ public class OrdinalConverterTest {
 	}
 
 	@Test
-	public void testOrdinalNumbersForFrench() {
+	void testOrdinalNumbersForFrench() {
 		Language language = Language.French;
 		assertOrdinalEquals("1er", 1, language);
 		assertOrdinalEquals("2e", 2, language);
@@ -80,7 +80,7 @@ public class OrdinalConverterTest {
 	}
 
 	@Test
-	public void testOrdinalNumbersForHebrew() {
+	void testOrdinalNumbersForHebrew() {
 		Language language = Language.Hebrew;
 		assertOrdinalEquals("\u200f\u200e1\u200e\u200f", 1, language);
 		assertOrdinalEquals("\u200f\u200e2\u200e\u200f", 2, language);
@@ -90,7 +90,7 @@ public class OrdinalConverterTest {
 	}
 
 	@Test
-	public void testOrdinalNumbersForIndonesian() {
+	void testOrdinalNumbersForIndonesian() {
 		Language language = Language.Indonesian;
 		assertOrdinalEquals("ke-1", 1, language);
 		assertOrdinalEquals("ke-2", 2, language);
@@ -100,7 +100,7 @@ public class OrdinalConverterTest {
 	}
 
 	@Test
-	public void testOrdinalNumbersForSwedish() {
+	void testOrdinalNumbersForSwedish() {
 		Language language = Language.Swedish;
 		assertOrdinalEquals("1:a", 1, language);
 		assertOrdinalEquals("2:a", 2, language);
@@ -119,6 +119,6 @@ public class OrdinalConverterTest {
 	private void assertOrdinalEquals(String ordinal, int number, Language language) {
 		String message = String.format(
 				"The expected ordinal number for the input %d is %s!", number, ordinal);
-		assertEquals(message, ordinal, OrdinalConverter.getOrdinalNumber(language, number));
+		assertEquals(ordinal, OrdinalConverter.getOrdinalNumber(language, number), message);
 	}
 }

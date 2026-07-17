@@ -16,7 +16,6 @@
  
 package org.geogebra.common.kernel.geos;
 
-import static org.geogebra.common.kernel.commands.RedefineTest.isForceInequality;
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -24,10 +23,10 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Locale;
 
@@ -47,11 +46,11 @@ import org.geogebra.common.util.TextObject;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.UndoRedoTester;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class GeoInputBoxTest extends BaseUnitTest {
+class GeoInputBoxTest extends BaseUnitTest {
 
 	private static final String POINT_2D = "(1,2)";
 	private static final String POINT_3D = "(1,2,3)";
@@ -68,13 +67,13 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		return AppCommonFactory.create3D();
 	}
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		textObject = Mockito.mock(TextObject.class);
 	}
 
 	@Test
-	public void symbolicInputBoxUseDefinitionForFunctions() {
+	void symbolicInputBoxUseDefinitionForFunctions() {
 		add("f = x+1");
 		add("g = 2f(x+2)+1");
 		GeoInputBox inputBox1 = add("InputBox(f)");
@@ -85,7 +84,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void symbolicInputBoxUseDefinitionForFunctionsNVar() {
+	void symbolicInputBoxUseDefinitionForFunctionsNVar() {
 		add("f = x*y+1");
 		add("g = 2f(x+2, y)+1");
 		GeoInputBox inputBox1 = add("InputBox(f)");
@@ -97,8 +96,8 @@ public class GeoInputBoxTest extends BaseUnitTest {
 				inputBox2.getText());
 	}
 
-    @Test
-    public void symbolicInputBoxTextShouldBeInLaTeX() {
+	@Test
+	void symbolicInputBoxTextShouldBeInLaTeX() {
         add("f = x + 12");
         add("g = 2f(x + 1) + 2");
         GeoInputBox inputBox2 = add("InputBox(g)");
@@ -106,8 +105,8 @@ public class GeoInputBoxTest extends BaseUnitTest {
         assertEquals("2 \\; f\\left(x + 1 \\right) + 2", inputBox2.getText());
     }
 
-    @Test
-    public void testMatrixShouldBeInLaTeX() {
+	@Test
+	void testMatrixShouldBeInLaTeX() {
         add("m1 = {{1, 2, 3}, {4, 5, 6}}");
         GeoInputBox inputBox = add("InputBox(m1)");
         inputBox.setSymbolicMode(true, false);
@@ -115,8 +114,8 @@ public class GeoInputBoxTest extends BaseUnitTest {
 				inputBox.getText());
     }
 
-    @Test
-    public void inputBoxTextAlignmentIsInXMLTest() {
+	@Test
+	void inputBoxTextAlignmentIsInXMLTest() {
         App app = getApp();
         add("A = (1,1)");
         GeoInputBox inputBox = add("B = Inputbox(A)");
@@ -130,7 +129,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
     }
 
 	@Test
-	public void testTempUserInputNotInXml() {
+	void testTempUserInputNotInXml() {
 		add("A = (1,1)");
 		GeoInputBox inputBox = add("B = InputBox(A)");
 		inputBox.updateLinkedGeo("(1,2)");
@@ -144,7 +143,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testTempUserInputInXml() {
+	void testTempUserInputInXml() {
 		add("A = (1,1)");
 		GeoInputBox inputBox = add("B = Inputbox(A)");
 
@@ -160,19 +159,19 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void emptyMatrixEntriesOneColumn() {
+	void emptyMatrixEntriesOneColumn() {
 		GeoList m1 = add("m1 = {{1},{2}}");
 		GeoInputBox inputBox = add("B = Inputbox(m1)");
 
 		inputBox.updateLinkedGeo("{{},{}}", "\\begin{matrix}", "", "");
 
-		assertTrue("List should remain a matrix", m1.isMatrix());
+		assertTrue(m1.isMatrix(), "List should remain a matrix");
 		String texMatrix = "\\left(\\begin{array}{r}?\\\\?\\\\ \\end{array}\\right)";
 		assertThat(m1.toLaTeXString(false, StringTemplate.latexTemplate), is(texMatrix));
 	}
 
 	@Test
-	public void replaceQuestionMarkDoesNotEatBackslash() {
+	void replaceQuestionMarkDoesNotEatBackslash() {
 		add("a = 1 1/3");
 		GeoInputBox inputBox = add("B = Inputbox(a)");
 		String tempDisplayInput = "\\? \\frac{\\nbsp}{\\nbsp}";
@@ -184,14 +183,14 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void emptyMatrixEntriesTwoColumns() {
+	void emptyMatrixEntriesTwoColumns() {
 		GeoList m1 = add("m1 = {{1,5},{2,3}}");
 		GeoInputBox inputBox = add("B = Inputbox(m1)");
 
 		inputBox.updateLinkedGeo("{{,},{,}}", "\\begin{matrix}",
 				"", "", "", "");
 
-		assertTrue("List should remain a matrix", m1.isMatrix());
+		assertTrue(m1.isMatrix(), "List should remain a matrix");
 		String texMatrix = "\\left(\\begin{array}{rr}?&?\\\\"
 				+ "?&?\\\\ \\end{array}\\right)";
 		assertThat(m1.toLaTeXString(false, StringTemplate.latexTemplate), is(texMatrix));
@@ -201,7 +200,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void inputBoxCorrectlySavedAndLoaded() {
+	void inputBoxCorrectlySavedAndLoaded() {
 		GeoText text = add("FormulaText(\"\\sqrt{n}\")");
 		add("a = 1");
 		GeoInputBox savedInputBox = add("inputbox1=InputBox(a)");
@@ -225,7 +224,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testSymbolicUserInput() {
+	void testSymbolicUserInput() {
 		add("a = 5");
 		GeoInputBox inputBox =  add("Inputbox(a)");
 		String tempDisplayInput = "\\frac{5}{\\nbsp}";
@@ -236,7 +235,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testInputBoxGetTextWithError() {
+	void testInputBoxGetTextWithError() {
 		add("A = Point({1, 2})");
 		GeoInputBox box = add("InputBox(A)");
 		assertEquals("Point({1,2})", box.getTextForEditor());
@@ -247,7 +246,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testSymbolicInputBoxGetTextWithError() {
+	void testSymbolicInputBoxGetTextWithError() {
 		add("a = 1");
 		GeoInputBox box = add("InputBox(a)");
 		box.setSymbolicMode(true, true);
@@ -257,7 +256,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testForSimpleUndefinedGeo() {
+	void testForSimpleUndefinedGeo() {
 		add("a=?");
 		GeoInputBox inputBox = add("InputBox(a)");
 		inputBox.setSymbolicMode(true, false);
@@ -270,7 +269,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testForDependentUndefinedGeo() {
+	void testForDependentUndefinedGeo() {
 		add("a=1");
 		add("b=?a");
 
@@ -284,7 +283,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testForEmptyInput() {
+	void testForEmptyInput() {
 		add("a=1");
 
 		GeoInputBox inputBox = add("InputBox(a)");
@@ -302,7 +301,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testForUndefinedInputInput() {
+	void testForUndefinedInputInput() {
 		add("a=1");
 
 		GeoInputBox inputBox = add("InputBox(a)");
@@ -320,7 +319,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testInputForGeoText() {
+	void testInputForGeoText() {
 		add("text = \"?\" ");
 		GeoInputBox inputBox = add("InputBox(text)");
 
@@ -333,7 +332,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testErrorWorksWithString() {
+	void testErrorWorksWithString() {
 		add("a = 5");
 		GeoInputBox inputBox = add("ib = InputBox(a)");
 		GeoText text = add("ib + \"\"");
@@ -343,7 +342,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testCanRedefineSameClassDependent() {
+	void testCanRedefineSameClassDependent() {
 		add("a = 1");
 		add("b = 2");
 		add("c = a + b");
@@ -360,7 +359,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testGeoPointDoesNotChangeDisplayMode() {
+	void testGeoPointDoesNotChangeDisplayMode() {
 		testDoesNotChangeDisplayMode("(1, 2)", Kernel.COORD_CARTESIAN);
 		testDoesNotChangeDisplayMode("1 + 2" + Unicode.IMAGINARY, Kernel.COORD_COMPLEX);
 		testDoesNotChangeDisplayMode("(1; 2)", Kernel.COORD_POLAR);
@@ -380,7 +379,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void test2DVectorRedefinition() {
+	void test2DVectorRedefinition() {
 		testRedefinition("v", "=", POINT_2D,
 				GeoClass.VECTOR,
 				new String[] {FUNCTION, CONIC, LINE, PLANE, NUMBER, POINT_3D},
@@ -388,7 +387,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void test3DVectorRedefinition() {
+	void test3DVectorRedefinition() {
 		testRedefinition("v", "=", POINT_3D,
 				GeoClass.VECTOR3D,
 				new String[] {FUNCTION, CONIC, LINE, PLANE, NUMBER},
@@ -396,7 +395,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testPlaneRedefinition() {
+	void testPlaneRedefinition() {
 		testRedefinition("a", ":", PLANE,
 				GeoClass.PLANE3D,
 				new String[] {FUNCTION, CONIC, NUMBER, POINT_3D, POINT_2D},
@@ -404,7 +403,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void test2DPointRedefinition() {
+	void test2DPointRedefinition() {
 		testRedefinition("A", "=", POINT_2D,
 				GeoClass.POINT,
 				new String[] {FUNCTION, CONIC, LINE, PLANE, POINT_3D},
@@ -412,7 +411,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void test3DPointRedefinition() {
+	void test3DPointRedefinition() {
 		testRedefinition("A", "=", POINT_3D,
 				GeoClass.POINT3D,
 				new String[] {FUNCTION, CONIC, LINE, PLANE},
@@ -420,7 +419,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testConicRedefinition() {
+	void testConicRedefinition() {
 		testRedefinition("eq1", ":", CONIC,
 				GeoClass.CONIC,
 				new String[] {FUNCTION, PLANE, NUMBER, POINT_3D, POINT_2D},
@@ -428,7 +427,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testFunctionRedefinition() {
+	void testFunctionRedefinition() {
 		testRedefinition("f", "=", FUNCTION,
 				GeoClass.FUNCTION,
 				new String[] {CONIC, LINE, PLANE, POINT_3D, POINT_2D},
@@ -436,7 +435,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testLineRedefinition() {
+	void testLineRedefinition() {
 		testRedefinition("f", ":", LINE,
 				GeoClass.LINE,
 				new String[] {CONIC, FUNCTION, PLANE, POINT_3D, POINT_2D},
@@ -444,7 +443,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testNumberRedefinition() {
+	void testNumberRedefinition() {
 		testRedefinition("a", "=", NUMBER,
 				GeoClass.NUMERIC,
 				new String[] {CONIC, FUNCTION, PLANE, POINT_3D, POINT_2D, LINE},
@@ -452,7 +451,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void valueStringShouldBePlainText() {
+	void valueStringShouldBePlainText() {
 		add("num=1/2");
 		GeoInputBox box = add("b=InputBox(num)");
 		box.setSymbolicMode(true, true);
@@ -461,7 +460,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void valueStringShouldBePlainTextForNumericBox() {
+	void valueStringShouldBePlainTextForNumericBox() {
 		add("num=1/2");
 		add("b=InputBox(num)");
 		GeoText plain = add("b+\"\"");
@@ -469,7 +468,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void latexStringShouldBeLaTeX() {
+	void latexStringShouldBeLaTeX() {
 		add("num=1/2");
 		GeoInputBox box = add("b=InputBox(num)");
 		box.setSymbolicMode(true, true);
@@ -498,13 +497,13 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoElementND element = inputBox.getLinkedGeo();
 		String message = (assertDefined ? "should keep " : "should not keep ")
 				+ keepType + " " + redefinition;
-		assertEquals(message, assertDefined, element.isDefined());
+		assertEquals(assertDefined, element.isDefined(), message);
 		assertEquals(keepType, element.getGeoClassType());
 		element.remove();
 	}
 
 	@Test
-	public void testUserInputNullAfterUpdatingLinkedGeoToValidInput() {
+	void testUserInputNullAfterUpdatingLinkedGeoToValidInput() {
 		addAvInput("f(x) = x");
 		GeoInputBox inputBox = addAvInput("a = InputBox(f)");
 		inputBox.updateLinkedGeo("xx");
@@ -512,7 +511,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testUserInputAakkaa() {
+	void testUserInputAakkaa() {
 		add("aa(x) = ?");
 		addAvInput("a = 2");
 		addAvInput("g(k) = ?");
@@ -522,7 +521,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testUserInputSinx() {
+	void testUserInputSinx() {
 		addAvInput("a=7");
 		addAvInput("g(x) = ?");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(g)");
@@ -531,7 +530,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testUserInputNonNullAfterUpdatingLinkedGeoToInvalidInput() {
+	void testUserInputNonNullAfterUpdatingLinkedGeoToInvalidInput() {
 		addAvInput("f(x) = x");
 		GeoInputBox inputBox = addAvInput("a = InputBox(f)");
 		inputBox.updateLinkedGeo("x+()");
@@ -539,7 +538,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testUndoRedoWithInvalidInput() {
+	void testUndoRedoWithInvalidInput() {
 		App app = getApp();
 		UndoRedoTester undoRedo = new UndoRedoTester(app);
 		undoRedo.setupUndoRedo();
@@ -557,7 +556,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testUndoRedoWithNonSimpleNumeric() {
+	void testUndoRedoWithNonSimpleNumeric() {
 		App app = getApp();
 		UndoRedoTester undoRedo = new UndoRedoTester(app);
 		undoRedo.setupUndoRedo();
@@ -582,7 +581,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testDependentGeosUpdate() {
+	void testDependentGeosUpdate() {
 		add("g(x) = ?");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(g)");
 		add("correct = Text(ib) == \"x\"");
@@ -592,7 +591,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testSingleIneqRedefinedToDoubleIneq() {
+	void testSingleIneqRedefinedToDoubleIneq() {
 		add("a:x<6");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
 		inputBox.updateLinkedGeo("3<x<7");
@@ -603,7 +602,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testSingleIneqInY() {
+	void testSingleIneqInY() {
 		add("a:y<6");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
 		inputBox.updateLinkedGeo("3<y<7");
@@ -614,7 +613,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testInequalityCannotRedefineAsFunction() {
+	void testInequalityCannotRedefineAsFunction() {
 		add("a:x<6");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
 		inputBox.updateLinkedGeo("xx");
@@ -629,7 +628,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testInequalityCannotRedefineAsFunction2Var() {
+	void testInequalityCannotRedefineAsFunction2Var() {
 		add("a:x+y<6");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
 		inputBox.updateLinkedGeo("xx");
@@ -639,7 +638,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testFunctionCannotRedefineAsInequality() {
+	void testFunctionCannotRedefineAsInequality() {
 		add("f(x)=xx");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(f)");
 		inputBox.updateLinkedGeo("x<5");
@@ -654,7 +653,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testFunction2VarCannotRedefineAsInequality() {
+	void testFunction2VarCannotRedefineAsInequality() {
 		add("a:x+y");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
 		inputBox.updateLinkedGeo("x+y<6");
@@ -663,7 +662,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testInequalitySetUndefinedInputboxShouldBeEmpty() {
+	void testInequalitySetUndefinedInputboxShouldBeEmpty() {
 		add("a:x<6");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
 		add("SetValue(a,?)");
@@ -678,16 +677,16 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testSingleIneqRedefinedSetValue() {
+	void testSingleIneqRedefinedSetValue() {
 		add("a:x<6");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
 		inputBox.updateLinkedGeo("?");
 		add("SetValue(a,?)");
-		assertThat(lookup("a"), isForceInequality());
+		assertTrue(((GeoFunction) lookup("a")).isForceInequality());
 	}
 
 	@Test
-	public void testCommandLikeImplicitMultiplicationParsesCorrectly() {
+	void testCommandLikeImplicitMultiplicationParsesCorrectly() {
 		add("f(g, L) = ?");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(f)");
 		inputBox.updateLinkedGeo("gL(L+1)");
@@ -698,14 +697,14 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testDefaultInputBoxSerif() {
+	void testDefaultInputBoxSerif() {
 		add("f(x) = xsinx");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(f)");
 		assertTrue(inputBox.isSerifContent());
 	}
 
 	@Test
-	public void testConstantNumberDontGetSimplified() {
+	void testConstantNumberDontGetSimplified() {
 		add("f(θ) = 2 + 1*1*1");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(f)");
 		assertEquals("2+1*1*1", inputBox.getTextForEditor());
@@ -734,7 +733,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testConstantsDontGetSimplifiedInFunctions() {
+	void testConstantsDontGetSimplifiedInFunctions() {
 		add("f(t) = t+10^2");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(f)");
 		assertEquals("t+10²", inputBox.getTextForEditor());
@@ -751,7 +750,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testSanSerifInputBoxLoadsSanSerif() {
+	void testSanSerifInputBoxLoadsSanSerif() {
 		getApp().getGgbApi().evalXML("<element type=\"textfield\" label=\"InputBox1\">\n"
 				+ "\t<show object=\"true\" label=\"true\"/>\n"
 				+ "\t<objColor r=\"0\" g=\"0\" b=\"0\" alpha=\"0\"/>\n"
@@ -769,7 +768,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testOldInputBoxLoadsSerif() {
+	void testOldInputBoxLoadsSerif() {
 		getApp().getGgbApi().evalXML("<element type=\"textfield\" label=\"InputBox1\">\n"
 				+ "\t<show object=\"true\" label=\"true\"/>\n"
 				+ "\t<objColor r=\"0\" g=\"0\" b=\"0\" alpha=\"0\"/>\n"
@@ -786,7 +785,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void voidReplaceForLinesYWithFOfX() {
+	void voidReplaceForLinesYWithFOfX() {
 		add("g: y=x");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(g)");
 		inputBox.updateLinkedGeo("f(x)=x+5");
@@ -794,7 +793,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void commaParsingShouldWorkInEnglish() {
+	void commaParsingShouldWorkInEnglish() {
 		shouldReparseAs("3,141", "3141");
 		shouldReparseAs("(1,2) + 1,423", "(1, 2) + 1423");
 		// merely testing that we don't throw a *wrong* exception
@@ -802,7 +801,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void commaParsingWithLeftExpressions() {
+	void commaParsingWithLeftExpressions() {
 		add("n=0");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(n)");
 		add("t=1");
@@ -812,7 +811,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void commaParsingWithRightExpressions() {
+	void commaParsingWithRightExpressions() {
 		add("n=0");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(n)");
 		add("t=1");
@@ -821,14 +820,14 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void commaParsingShouldWorkInGerman() {
+	void commaParsingShouldWorkInGerman() {
 		getApp().getLocalization().setLocale(Locale.GERMAN);
 		shouldReparseAs("3,141", "3.141");
 		// more cases in ParserTest, no duplication here
 	}
 
 	@Test
-	public void typeShouldStayInequality() {
+	void typeShouldStayInequality() {
 		add("a:x<3");
 		assertEquals("inequality", getApi().getObjectType("a"));
 		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
@@ -838,7 +837,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void typeShouldStayForInequality2Var() {
+	void typeShouldStayForInequality2Var() {
 		add("a:x+y<3");
 		assertEquals("inequality", getApi().getObjectType("a"));
 		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
@@ -860,7 +859,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void commaParsingNoIf() {
+	void commaParsingNoIf() {
 		GeoElement linked = add("a:3>x");
 		GeoInputBox input = add("InputBox(a)");
 		input.updateLinkedGeo("3,500 > x");
@@ -869,7 +868,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void commaParsingPointShouldStayTheSame() {
+	void commaParsingPointShouldStayTheSame() {
 		GeoElement linked = add("A = (1, 2)");
 		GeoInputBox input = add("InputBox(A)");
 		String updated = "A = (3, 4)";
@@ -878,7 +877,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void commaParsingListShouldStayTheSame() {
+	void commaParsingListShouldStayTheSame() {
 		GeoElement linked = add("l1 = {1, 2}");
 		GeoInputBox input = add("InputBox(l1)");
 		String updated = "l1 = {3, 4}";
@@ -887,7 +886,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void linesShouldPreserveQuestionMarkOnBadInput() {
+	void linesShouldPreserveQuestionMarkOnBadInput() {
 		add("a(x, y) = ?x + ?y");
 		GeoInputBox input = add("InputBox(a)");
 		String updated = "?x + ?y +";
@@ -896,7 +895,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void shouldHaveLabelInAV() {
+	void shouldHaveLabelInAV() {
 		add("a=1");
 		GeoInputBox input = add("ib=InputBox(a)");
 		assertEquals("ib", input.toString(StringTemplate.defaultTemplate));
@@ -904,7 +903,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5390")
-	public void asindThrowsNoErrorForAngleInputbox() {
+	void asindThrowsNoErrorForAngleInputbox() {
 		add("a=22°");
 		GeoInputBox input = add("ib=InputBox(a)");
 		String updated = "asind(0.5)";
@@ -915,7 +914,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-4701")
-	public void shouldSTayTransparentAfterReload() {
+	void shouldSTayTransparentAfterReload() {
 		GeoInputBox input = add("InputBox()");
 		assertEquals(GColor.WHITE, input.getBackgroundColor());
 		input.setBackgroundColor(null);
@@ -925,7 +924,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-6107")
-	public void pointShouldStayPoint() {
+	void pointShouldStayPoint() {
 		add("A=(?,?)");
 		GeoInputBox input = add("ib=InputBox(A)");
 		input.updateLinkedGeo("3");
@@ -934,21 +933,21 @@ public class GeoInputBoxTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-6689")
-	public void shouldStaySymbolic() {
+	void shouldStaySymbolic() {
 		add("A=(?,?)");
 		GeoInputBox input = add("ib=InputBox(A)");
 		GeoList tabOrder = add("tabOrder={4,ib}");
 		tabOrder.setSymbolicMode(false, false);
 		input.setSymbolicMode(true);
-		assertTrue("input box initially symbolic", input.isSymbolicMode());
+		assertTrue(input.isSymbolicMode(), "input box initially symbolic");
 		reload();
-		assertTrue("input box symbolic after reload",
-				((GeoInputBox) lookup("ib")).isSymbolicMode());
+		assertTrue(((GeoInputBox) lookup("ib")).isSymbolicMode(),
+				"input box symbolic after reload");
 	}
 
 	@Test
 	@Issue("APPS-7069")
-	public void singleSpaceBetweenDigitsShouldNotCreateMultiplication() {
+	void singleSpaceBetweenDigitsShouldNotCreateMultiplication() {
 		GeoElement linked = add("a = 1");
 		GeoInputBox inputBox = add("ib = InputBox(a)");
 		inputBox.updateLinkedGeo("10 000");
@@ -958,7 +957,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-7069")
-	public void multipleSpacesBetweenDigitsShouldCreateMultiplication() {
+	void multipleSpacesBetweenDigitsShouldCreateMultiplication() {
 		GeoElement linked = add("a = 1");
 		GeoInputBox inputBox = add("ib = InputBox(a)");
 		inputBox.updateLinkedGeo("30  5");
@@ -968,7 +967,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-7069")
-	public void spacesWithinInputShouldNotAffectTexts() {
+	void spacesWithinInputShouldNotAffectTexts() {
 		GeoElement linked = add("text = \"Hello\"");
 		GeoInputBox inputBox = add("ib = InputBox(text)");
 		inputBox.updateLinkedGeo("30 5");

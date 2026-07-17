@@ -18,7 +18,7 @@ package org.geogebra.common.kernel.commands;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
@@ -26,11 +26,11 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CellRangeReloadTest extends BaseUnitTest {
+class CellRangeReloadTest extends BaseUnitTest {
 	@Test
-	public void cellRangeShouldKeepType() {
+	void cellRangeShouldKeepType() {
 		add("range=A1:A2");
 		add("A1=\"foo\"");
 		add("A2=\"bar\"");
@@ -41,7 +41,7 @@ public class CellRangeReloadTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void cellRangeReferenceShouldKeepType() {
+	void cellRangeReferenceShouldKeepType() {
 		add("range=A1:A2");
 		add("A1=\"foo\"");
 		add("A2=\"bar\"");
@@ -53,7 +53,7 @@ public class CellRangeReloadTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void cellRangeShouldBeFullCommandInXML() {
+	void cellRangeShouldBeFullCommandInXML() {
 		GeoElement range = add("A1:A3");
 		add("A1=(1,2)");
 		assertEquals("CellRange(A1,A3,\"point\")", range.getParentAlgorithm()
@@ -61,14 +61,14 @@ public class CellRangeReloadTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void cellRangeOfUnknownTypeShouldNotBeFullCommandInXML() {
+	void cellRangeOfUnknownTypeShouldNotBeFullCommandInXML() {
 		GeoElement range = add("A1:A3");
 		assertEquals("A1:A3", range.getParentAlgorithm()
 				.toString(StringTemplate.xmlTemplate));
 	}
 
 	@Test
-	public void cmdCellRangeWith3ArgsShouldProvideTypeHint() {
+	void cmdCellRangeWith3ArgsShouldProvideTypeHint() {
 		add("l1=CellRange(A1,A3, \"point\")");
 		GeoElement pt = add("Element(l1,1)");
 		assertThat(pt, instanceOf(GeoPoint.class));

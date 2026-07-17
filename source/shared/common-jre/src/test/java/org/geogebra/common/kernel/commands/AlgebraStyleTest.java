@@ -18,11 +18,11 @@ package org.geogebra.common.kernel.commands;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
@@ -53,10 +53,10 @@ import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.AlgebraTestHelper;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class AlgebraStyleTest extends BaseUnitTest {
+class AlgebraStyleTest extends BaseUnitTest {
 	static AppCommon app;
 	static AlgebraProcessor ap;
 
@@ -144,8 +144,8 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	/**
 	 * Clear construction and reset settings.
 	 */
-	@Before
-	public void resetSyntaxes() {
+	@BeforeEach
+	void resetSyntaxes() {
 		app = getApp();
 		ap = getKernel().getAlgebraProcessor();
 		app.getKernel().clearConstruction(true);
@@ -154,7 +154,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void twoRowsAlgebra() {
+	void twoRowsAlgebra() {
 		checkRows("a=1", DescriptionMode.VALUE);
 		checkRows("a+a", DescriptionMode.DEFINITION_VALUE);
 		checkRows("sqrt(x+a)", DescriptionMode.DEFINITION_VALUE);
@@ -175,7 +175,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void twoRowsAlgebraGraphing() {
+	void twoRowsAlgebraGraphing() {
 		AlgebraTestHelper.enableCAS(app, false);
 		getKernel().setEquationBehaviour(new EquationBehaviourStandaloneGraphing());
 		checkRows("Line((0,0),(0,1))", DescriptionMode.DEFINITION_VALUE);
@@ -184,7 +184,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void twoRowsAlgebraGraphingDerivative() {
+	void twoRowsAlgebraGraphingDerivative() {
 		AlgebraTestHelper.enableCAS(app, false);
 		getKernel().setEquationBehaviour(new EquationBehaviourStandaloneGraphing());
 		checkRows("f(x)=x^2", DescriptionMode.VALUE);
@@ -192,7 +192,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void twoRowsAlgebraGraphingDerivativeArg() {
+	void twoRowsAlgebraGraphingDerivativeArg() {
 		AlgebraTestHelper.enableCAS(app, false);
 		getKernel().setEquationBehaviour(new EquationBehaviourStandaloneGraphing());
 		checkRows("f(x)=x^2", DescriptionMode.VALUE);
@@ -200,7 +200,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void checkEquationExplicit() {
+	void checkEquationExplicit() {
 		checkEquation("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.EXPLICIT,
 				"x^2 + 4y^2 = 1");
 		checkEquation("x^2+4*y^2-y+x*y=x +x -1",
@@ -211,7 +211,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void checkEquationVertex() {
+	void checkEquationVertex() {
 		// ellipse: fallback to explicit
 		checkNonParabolaFallback(QuadraticEquationRepresentable.Form.VERTEX);
 		// three actual parabolas
@@ -224,7 +224,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void checkEquationSpecific() {
+	void checkEquationSpecific() {
 		// ellipse
 		checkEquation("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.SPECIFIC,
 				"x^2 / 1 + y^2 / 0.25 = 1");
@@ -244,7 +244,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void checkEquationConicform() {
+	void checkEquationConicform() {
 		checkNonParabolaFallback(QuadraticEquationRepresentable.Form.CONICFORM);
 		// parabolas
 		checkEquation("-x^2-x=x -1+y", QuadraticEquationRepresentable.Form.CONICFORM,
@@ -256,7 +256,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void checkEquationParametric() {
+	void checkEquationParametric() {
 		// ellipse
 		checkEquation("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.PARAMETRIC,
 				"X = (0, 0) + (cos(t), 0.5 sin(t))");
@@ -282,7 +282,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void checkEquationImplicit() {
+	void checkEquationImplicit() {
 		// ellipse
 		checkEquation("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.IMPLICIT,
 				"x^2 + 4y^2 = 1");
@@ -305,7 +305,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void checkEquationReload() {
+	void checkEquationReload() {
 		checkEquationReload("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.EXPLICIT,
 				"x^2 + 4y^2 = 1");
 		checkEquationReload("-x^2=x +x -1+y", QuadraticEquationRepresentable.Form.VERTEX,
@@ -330,7 +330,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void undefinedNumbersShouldBeQuestionMark() {
+	void undefinedNumbersShouldBeQuestionMark() {
 		t("b=1");
 		t("SetValue[b,?]");
 		assertEquals("b = ?",
@@ -346,7 +346,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void shortLHSshouldBeDisplayedInLaTeX() {
+	void shortLHSshouldBeDisplayedInLaTeX() {
 		t("a = 7");
 		t("f: y = x^3");
 		t("g: y = x^3 + a");
@@ -384,7 +384,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void oneLHSShouldBeDisplayedInLaTeX() {
+	void oneLHSShouldBeDisplayedInLaTeX() {
 		t("a = 7");
 		t("h(x) = a*x");
 		assertEquals("h\\left(x \\right)\\, = \\,a \\; x",
@@ -398,7 +398,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void operatorsShouldHaveOneSpace() {
+	void operatorsShouldHaveOneSpace() {
 		t("f(x)=If[3 < x <= 5,x^(2)]");
 		assertEquals(
 				TestStringUtil.unicode(
@@ -408,7 +408,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void listShouldKeepDefinition() {
+	void listShouldKeepDefinition() {
 		t("list1 = {x+x=y}");
 		assertEquals("list1 = {x + x = y}",
 				getGeo("list1").getDefinitionForInputBar());
@@ -421,7 +421,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void singleVarEquationShouldHaveSuggestion() {
+	void singleVarEquationShouldHaveSuggestion() {
 		t("p: z=0");
 		assertEquals("z", StringUtil.join(",",
 				((EquationValue) getGeo("p")).getEquationVariables()));
@@ -434,7 +434,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	 * GGB-2021, TRAC-1642
 	 */
 	@Test
-	public void substitutedFunctionsShouldBeExpanded() {
+	void substitutedFunctionsShouldBeExpanded() {
 		t("ff(x)=x");
 
 		t("gg(x)=2*ff(x)");
@@ -459,14 +459,14 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void tooltipsShouldHaveDefaultPrecision() {
+	void tooltipsShouldHaveDefaultPrecision() {
 		t("P=(0,1/3)");
 		assertEquals("Point P(0, 0.33)",
 				getGeo("P").getTooltipText(false, true));
 	}
 
 	@Test
-	public void definitionShouldContainCommand() {
+	void definitionShouldContainCommand() {
 		t("text1=TableText[{{1}}]");
 		assertEquals("text1 = TableText({{1}})",
 				getGeo("text1").getDefinitionForInputBar());
@@ -481,7 +481,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void pointDescriptionShouldNotHaveCoords() {
+	void pointDescriptionShouldNotHaveCoords() {
 
 		app.getSettings().getAlgebra().setStyle(AlgebraStyle.DESCRIPTION);
 		GeoPoint gp = new GeoPoint(app.getKernel().getConstruction());
@@ -504,7 +504,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void dependentPointsShouldHaveTextDescriptions() {
+	void dependentPointsShouldHaveTextDescriptions() {
 		app.getSettings().getAlgebra().setStyle(AlgebraStyle.DESCRIPTION);
 		IndexHTMLBuilder builder = new IndexHTMLBuilder(false);
 		t("P=(1,0)");
@@ -520,7 +520,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void numericPreviewFormulaTestValueStyle() {
+	void numericPreviewFormulaTestValueStyle() {
 		app.getSettings().getAlgebra().setStyle(AlgebraStyle.VALUE);
 		t("1+1");
 		GeoElement geo = getGeo("a");
@@ -529,7 +529,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void equationsShouldHaveSuggestion() {
+	void equationsShouldHaveSuggestion() {
 		t("A=(1,1)");
 		t("B=(0,1)");
 		t("C=(1,0)");
@@ -541,7 +541,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void systemsShouldHaveSuggestion() {
+	void systemsShouldHaveSuggestion() {
 		t("A=(1,1)");
 		t("B=(0,1)");
 		t("C=(1,0)");
@@ -553,7 +553,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void previewEquationsShouldHaveSuggestion() {
+	void previewEquationsShouldHaveSuggestion() {
 		t("A=(1,1)");
 		t("B=(0,1)");
 		t("C=(1,0)");
@@ -566,7 +566,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void previewSystemsShouldHaveSuggestion() {
+	void previewSystemsShouldHaveSuggestion() {
 		t("A=(1,1)");
 		t("B=(0,1)");
 		t("C=(1,0)");
@@ -578,7 +578,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void systemSuggestionShouldVanish() {
+	void systemSuggestionShouldVanish() {
 		t("p:x+y=2");
 		t("r:x=y");
 		GeoElement line = getGeo("r");
@@ -588,7 +588,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void packedGeosShouldHaveJustRHSInEditor() {
+	void packedGeosShouldHaveJustRHSInEditor() {
 		t("c=Cone[(0,0,0),(0,0,1),5]");
 		String rhs = getGeo("c").getLaTeXDescriptionRHS(false,
 				StringTemplate.editorTemplate);
@@ -596,14 +596,14 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void statisticsSuggestionForEmptyList() {
+	void statisticsSuggestionForEmptyList() {
 		t("l1={}");
 		GeoElement list = getGeo("l1");
 		assertNull(SuggestionStatistics.get(list));
 	}
 
 	@Test
-	public void statisticsSuggestionForOneElementList() {
+	void statisticsSuggestionForOneElementList() {
 		t("l1={1}");
 		GeoElement list = getGeo("l1");
 		assertNotNull(SuggestionStatistics.get(list));
@@ -613,7 +613,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void statisticsSuggestionForMoreElementList() {
+	void statisticsSuggestionForMoreElementList() {
 		t("l1={1,2,3}");
 		GeoElement list = getGeo("l1");
 		assertNotNull(SuggestionStatistics.get(list));
@@ -623,7 +623,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void statisticsSuggestionShouldCreateOneUndoPoint() {
+	void statisticsSuggestionShouldCreateOneUndoPoint() {
 		activateUndo();
 		app.getKernel().getConstruction().initUndoInfo();
 
@@ -643,7 +643,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void definitionLaTeXShouldHandleFunctionsOfLists() {
+	void definitionLaTeXShouldHandleFunctionsOfLists() {
 		add("g={1,2}");
 		add("f(x,y)=x+y");
 		GeoElement check = add("f(g)==3");
@@ -672,7 +672,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 
 	/** GGB-2183 */
 	@Test
-	public void sinCosTanZero() {
+	void sinCosTanZero() {
 		rad("sin(1E-1)", "0.09983341664683");
 		rad("sin(1E-2)", "0.009999833334167");
 		rad("sin(1E-3)", "0.0009999998333333");
@@ -710,7 +710,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 
 	/** GGB-2183 */
 	@Test
-	public void autoFixDegree() {
+	void autoFixDegree() {
 		deg("tan(45)", "1");
 		deg("named45d:=45deg", "45" + Unicode.DEGREE_CHAR);
 		deg("tan(named45d)", "1");
@@ -784,7 +784,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void multiplicationShouldNotHaveExtraBrackets() {
+	void multiplicationShouldNotHaveExtraBrackets() {
 		new ExpressionChecker("3x*5x").checkEdit("3x * 5x", "3 x * 5 x")
 				.checkVal("3x * 5x").checkGiac("(((3)*(x))*(5))*(x)");
 		new ExpressionChecker("pi*x").checkEditAndVal(Unicode.pi + " x")
@@ -808,7 +808,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void labelOrderingTest() {
+	void labelOrderingTest() {
 		String[] ordered = new String[] { "A", "A1", "A2", "A10", "A1X", "B",
 				"B1", "B2" };
 		for (int i = 0; i < ordered.length; i++) {
@@ -822,14 +822,14 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void polarVectorsShouldSerializeAsFlatInEditor() {
+	void polarVectorsShouldSerializeAsFlatInEditor() {
 		GeoVector vec = add("v=(1;3)");
-		assertTrue("should be polar", vec.isPolar());
+		assertTrue(vec.isPolar(), "should be polar");
 		assertThat(vec.getDefinitionForEditor(), is("v=(1; 3)"));
 	}
 
 	@Test
-	public void defaultEngineeringNotation() {
+	void defaultEngineeringNotation() {
 		getApp().getSettings().getAlgebra().setEngineeringNotationEnabled(true);
 		getKernel().setPrintDecimals(5);
 		GeoNumeric small = add("0.0000000001");
@@ -843,7 +843,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-7345")
-	public void largeNumberInDecimalModeFormatsAsScientific() {
+	void largeNumberInDecimalModeFormatsAsScientific() {
 		getKernel().setPrintDecimals(2);
 		assertEquals("1 " + Unicode.CENTER_DOT + " 10"
 						+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_6,
@@ -852,7 +852,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-7345")
-	public void largeNumberTrailingZerosTrimmed() {
+	void largeNumberTrailingZerosTrimmed() {
 		getKernel().setPrintDecimals(2);
 		assertEquals("1.5 " + Unicode.CENTER_DOT + " 10"
 						+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_6,
@@ -861,7 +861,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-7345")
-	public void largeNumberShowsFifteenSignificantDigits() {
+	void largeNumberShowsFifteenSignificantDigits() {
 		getKernel().setPrintDecimals(2);
 		assertEquals("9.00719925474099 " + Unicode.CENTER_DOT + " 10"
 						+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_5,
@@ -870,7 +870,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-7345")
-	public void negativeLargeNumberFormatsAsScientific() {
+	void negativeLargeNumberFormatsAsScientific() {
 		getKernel().setPrintDecimals(2);
 		assertEquals("-2 " + Unicode.CENTER_DOT + " 10"
 						+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_6,
@@ -879,7 +879,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-7345")
-	public void largeNumberInSignificantFiguresModePreservesTrailingZeros() {
+	void largeNumberInSignificantFiguresModePreservesTrailingZeros() {
 		getKernel().setPrintFigures(5);
 		assertEquals("1.5000 " + Unicode.CENTER_DOT + " 10"
 						+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_6,
@@ -888,7 +888,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-7345")
-	public void justBelowThresholdNotFormattedAsScientific() {
+	void justBelowThresholdNotFormattedAsScientific() {
 		getKernel().setPrintDecimals(2);
 		String result = getKernel().format(
 				MyMath.LARGEST_INTEGER - 1, StringTemplate.defaultTemplate);
@@ -897,7 +897,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-7345")
-	public void largeNumberInLatexTemplateFormatsCorrectly() {
+	void largeNumberInLatexTemplateFormatsCorrectly() {
 		getKernel().setPrintDecimals(2);
 		assertEquals("1.5 \\cdot 10^{16}",
 				getKernel().format(1.5E16, StringTemplate.latexTemplate));

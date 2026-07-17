@@ -49,7 +49,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 @SuppressWarnings("checkstyle:RegexpSinglelineCheck") // Tabs in MockedCasValues
 @ExtendWith(MockedCasValuesExtension.class)
-public class OperationFilterTests {
+class OperationFilterTests {
 	private AppCommon app;
 	private AlgebraProcessor algebraProcessor;
 	private final MockedCasGiac mockedCasGiac = new MockedCasGiac();
@@ -77,7 +77,7 @@ public class OperationFilterTests {
 			"cotan(pi / 4)",
 			"arccos(pi / 4)",
 	})
-	public void testAllowedExpressionsInGraphing(String expression) {
+	void testAllowedExpressionsInGraphing(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertNotNull(evaluate(expression));
 	}
@@ -92,7 +92,7 @@ public class OperationFilterTests {
 			"1 / cos(pi / 6)",
 			"{ cos(1) }"
 	})
-	public void testRestrictedExpressionsInGraphing(String expression) {
+	void testRestrictedExpressionsInGraphing(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertNull(evaluate(expression));
 	}
@@ -110,7 +110,7 @@ public class OperationFilterTests {
 			"Evaluate(sqrt(3)) 	-> √3",
 			"Round(sqrt(3), 2) 	-> 1.73",
 	})
-	public void testAllowedExpressionsInCas(String expression) {
+	void testAllowedExpressionsInCas(String expression) {
 		setupApp(SuiteSubApp.CAS);
 		assertNotNull(evaluate(expression));
 	}
@@ -128,7 +128,7 @@ public class OperationFilterTests {
 			"Round(1, 2) 					-> 1.0",
 			"Evaluate(cot(x)) 				-> cos(x)/sin(x)",
 	})
-	public void testRestrictedExpressionsInCas(String expression) {
+	void testRestrictedExpressionsInCas(String expression) {
 		setupApp(SuiteSubApp.CAS);
 		assertNull(evaluate(expression));
 	}

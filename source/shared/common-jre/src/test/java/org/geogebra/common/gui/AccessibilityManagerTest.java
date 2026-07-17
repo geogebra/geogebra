@@ -33,12 +33,12 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class AccessibilityManagerTest extends BaseAppTestSetup {
+class AccessibilityManagerTest extends BaseAppTestSetup {
 
 	ScreenReaderAdapter screenReaderAdapter;
 
 	@BeforeEach
-	public void setupTimer() {
+	void setupTimer() {
 		setupClassicApp();
 		UtilFactory.setPrototypeIfNull(new UtilFactoryCommon() {
 			@Override
@@ -52,7 +52,7 @@ public class AccessibilityManagerTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void shouldReadLatest() {
+	void shouldReadLatest() {
 		GeoNumeric slider = evaluateGeoElement("a=Slider(1,10,1)");
 		getApp().getSelectionManager().addSelectedGeo(slider);
 		evaluate("SetValue(a,8)");
@@ -63,7 +63,7 @@ public class AccessibilityManagerTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void shouldReadDynamicCaption() {
+	void shouldReadDynamicCaption() {
 		GeoNumeric slider = evaluateGeoElement("a=Slider(1,10,1)");
 		GeoText caption = evaluateGeoElement("\"My value is \"+a");
 		slider.setDynamicCaption(caption);

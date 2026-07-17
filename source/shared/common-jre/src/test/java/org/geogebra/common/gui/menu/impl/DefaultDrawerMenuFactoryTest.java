@@ -22,8 +22,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInRelativeOrder;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.in;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 
@@ -39,17 +39,17 @@ import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.test.BaseAppTestSetup;
 import org.hamcrest.CoreMatchers;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
 import org.mockito.Mockito;
 
-public class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
+class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 
 	private LogInOperation logInOperation;
 
-	@Before
-	public void setupDefaultDrawerMenuFactoryTest() {
+	@BeforeEach
+	void setupDefaultDrawerMenuFactoryTest() {
 		AuthenticationModel baseModel = Mockito.mock(
 				AuthenticationModel.class, Answers.RETURNS_MOCKS);
 		logInOperation = Mockito.mock(LogInOperation.class, Answers.CALLS_REAL_METHODS);
@@ -57,7 +57,7 @@ public class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testGraphingWebLoggedOut() {
+	void testGraphingWebLoggedOut() {
 		setupGraphingApp();
 		Mockito.when(logInOperation.isLoggedIn()).thenReturn(false);
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
@@ -67,7 +67,7 @@ public class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testGraphingWebLoggedIn() {
+	void testGraphingWebLoggedIn() {
 		setupGraphingApp();
 		Mockito.when(logInOperation.isLoggedIn()).thenReturn(true);
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
@@ -77,7 +77,7 @@ public class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testScientificIosExam() {
+	void testScientificIosExam() {
 		setupApp(SuiteSubApp.SCIENTIFIC);
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.IOS,
@@ -86,7 +86,7 @@ public class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testGraphingIosExam() {
+	void testGraphingIosExam() {
 		setupGraphingApp();
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.IOS,
@@ -95,7 +95,7 @@ public class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testGraphingAndroidLoggedOutExam() {
+	void testGraphingAndroidLoggedOutExam() {
 		setupGraphingApp();
 		Mockito.when(logInOperation.isLoggedIn()).thenReturn(false);
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
@@ -105,7 +105,7 @@ public class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testScientificWeb() {
+	void testScientificWeb() {
 		setupApp(SuiteSubApp.SCIENTIFIC);
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.WEB,
@@ -131,7 +131,7 @@ public class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testEnableFileFeatureDisabled() {
+	void testEnableFileFeatureDisabled() {
 		setupGraphingApp();
 		Action[] fileFeatureEnabledActions = { Action.SHOW_SEARCH_VIEW, Action.SAVE_FILE,
 				Action.SHARE_FILE, Action.SIGN_IN, Action.SIGN_OUT};
@@ -148,7 +148,7 @@ public class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testSwitchCalculator() {
+	void testSwitchCalculator() {
 		setupApp(SuiteSubApp.GRAPHING);
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.IOS,
@@ -164,7 +164,7 @@ public class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testCalculatorHasHelpAndFeedback() {
+	void testCalculatorHasHelpAndFeedback() {
 		setupApp(SuiteSubApp.GRAPHING);
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.WEB,
@@ -177,7 +177,7 @@ public class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPartnerHasNoHelpAndFeedback() {
+	void testPartnerHasNoHelpAndFeedback() {
 		setupApp(SuiteSubApp.GRAPHING);
 		Action[] helpAndFeedbackActions = { Action.SHOW_TUTORIALS,
 				Action.SHOW_FORUM, Action.REPORT_PROBLEM, Action.SHOW_LICENSE};

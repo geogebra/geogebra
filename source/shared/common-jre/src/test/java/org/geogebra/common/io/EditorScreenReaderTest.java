@@ -16,7 +16,7 @@
 
 package org.geogebra.common.io;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,12 +39,12 @@ import org.geogebra.editor.share.tree.Formula;
 import org.geogebra.editor.share.tree.Node;
 import org.geogebra.editor.share.tree.SequenceNode;
 import org.geogebra.editor.share.util.Unicode;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class EditorScreenReaderTest {
+class EditorScreenReaderTest {
 
 	private static Parser parser;
 	private static AppCommon app;
@@ -52,8 +52,8 @@ public class EditorScreenReaderTest {
 	/**
 	 * Initialize app and parser.
 	 */
-	@BeforeClass
-	public static void prepare() {
+	@BeforeAll
+	static void prepare() {
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderCommon());
 		}
@@ -63,7 +63,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testReaderQuadratic() {
+	void testReaderQuadratic() {
 		checkReader("1+x^2", "start of formula 1 plus x squared",
 				"after 1 before plus", "after plus before x",
 				"after x before superscript", "start of superscript before 2",
@@ -72,7 +72,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testReaderPower() {
+	void testReaderPower() {
 		checkReader("x^3+x^4+1",
 				"start of formula x cubed plus x to the power of 4 end power plus 1",
 				"after x before superscript", "start of superscript before 3",
@@ -85,7 +85,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testIncompletePower() {
+	void testIncompletePower() {
 		checkReader("x^3+", "start of formula x cubed plus",
 				"after x before superscript", "start of superscript before 3",
 				"end of superscript after 3", "after x cubed before plus",
@@ -93,7 +93,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testIncompleteFraction() {
+	void testIncompleteFraction() {
 		checkReader("x^3/()",
 				"start of formula start of fraction x cubed over end of fraction",
 				"start of numerator before x", "after x before superscript",
@@ -103,7 +103,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testIncompleteSqrt() {
+	void testIncompleteSqrt() {
 		checkReader("sqrt(x+)",
 				"start of formula start square root x plus end root",
 				"start of square root before x", "after x before plus",
@@ -112,7 +112,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testSin() {
+	void testSin() {
 		checkReader("sin(x+1)",
 				"start of formula sin open parenthesis x plus 1 close parenthesis",
 				"before sin", "after s before in", "after si before n",
@@ -123,7 +123,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testMinusSin() {
+	void testMinusSin() {
 		checkReader("3-sin(x)",
 				"start of formula 3 minus sin open parenthesis x close parenthesis",
 				"after 3 before minus", "after minus before function",
@@ -134,7 +134,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testPlusSin() {
+	void testPlusSin() {
 		checkReader("3+sin(x)",
 				"start of formula 3 plus sin open parenthesis x close parenthesis",
 				"after 3 before plus", "after plus before function",
@@ -145,7 +145,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testCbrt() {
+	void testCbrt() {
 		checkReader("cbrt(x+1)",
 				"start of formula start cube root x plus 1 end root",
 				"start of cube root before x", "after x before plus",
@@ -154,7 +154,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testNroot() {
+	void testNroot() {
 		checkReader("nroot(x,4)", "start of formula start 4th root x end root",
 				"start of index before 4", "end of index after 4",
 				"start of radicand before x", "end of radicand after x",
@@ -162,7 +162,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testNrootIncomplete() {
+	void testNrootIncomplete() {
 		checkReader("nroot(x+,4)",
 				"start of formula start 4th root x plus end root",
 				"start of index before 4", "end of index after 4",
@@ -172,7 +172,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testQuotes() {
+	void testQuotes() {
 		checkReader("\"a{b}c\"",
 				"start of formula \"a open brace b close brace c\"",
 				"start of quotes before a", "after a before open brace",
@@ -183,7 +183,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testAbs() {
+	void testAbs() {
 		checkReader("abs(x+1)",
 				"start of formula start of absolute value x plus 1 end of absolute value",
 				"start of absolute value before x", "after x before plus",
@@ -192,7 +192,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testReaderSqrt() {
+	void testReaderSqrt() {
 		checkReader("1+sqrt(x^2+2x+1/x+33)",
 				"start of formula 1 plus start square root x squared plus 2x"
 						+ " plus start of fraction 1 over x end of fraction plus 33 end root",
@@ -211,7 +211,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testReaderSqrt2() {
+	void testReaderSqrt2() {
 		checkReader("sqrt(x)",
 				"start of formula start square root x end root",
 				"start of square root before x", "end of square root after x",
@@ -219,7 +219,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testReaderSqrtPi() {
+	void testReaderSqrtPi() {
 		checkReader("sqrt(" + Unicode.pi + ")",
 				"start of formula start square root pi end root",
 				"start of square root before pi", "end of square root after pi",
@@ -227,7 +227,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testBrackets() {
+	void testBrackets() {
 		checkReader("2*(3+4)-2",
 				"start of formula 2 times open parenthesis 3 plus 4 close parenthesis minus 2",
 				"after 2 before times", "after times before open parenthesis",
@@ -238,7 +238,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testBracketsIncomplete() {
+	void testBracketsIncomplete() {
 		checkReader("3-()", "start of formula 3 minus empty parentheses",
 				"after 3 before minus", "after minus before open parenthesis",
 				"parentheses blank",
@@ -246,7 +246,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testGreek() {
+	void testGreek() {
 		checkReader("2*pi*x", "start of formula 2 times pi times x",
 				"after 2 before times", "after times before pi",
 				"after p before i", "after pi before times",
@@ -254,7 +254,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testFunction() {
+	void testFunction() {
 		checkReader("f(x)=x^2",
 				"start of formula f open parenthesis x close parenthesis =x squared",
 				"before f", "after f before open parenthesis", "start of parentheses before x",
@@ -262,7 +262,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testPoint() {
+	void testPoint() {
 		checkReader("B=$point(1,2)",
 				"start of formula B= open parenthesis 1 comma 2 close parenthesis",
 				"after B before =", "after = before open parenthesis",
@@ -270,7 +270,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testComma() {
+	void testComma() {
 		checkReader("f(1,2)",
 				"start of formula f open parenthesis 1 comma 2 close parenthesis",
 				"before f", "after f before open parenthesis", "start of parentheses before 1",
@@ -278,7 +278,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void testEmptyFunction() {
+	void testEmptyFunction() {
 		checkReader("f()",
 				"start of formula f empty parentheses",
 				"before f", "after f before open parenthesis", "parentheses blank",
@@ -286,7 +286,7 @@ public class EditorScreenReaderTest {
 	}
 
 	@Test
-	public void shouldNotRemoveCommasForPoints() throws ParseException {
+	void shouldNotRemoveCommasForPoints() throws ParseException {
 		Parser p = new Parser(new TemplateCatalog());
 		Formula mf = p.parse("(1,2)");
 		SequenceNode argument = ((ArrayNode) mf.getRootNode()

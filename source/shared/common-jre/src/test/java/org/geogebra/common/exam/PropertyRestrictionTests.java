@@ -30,19 +30,19 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PropertyRestrictionTests extends BaseAppTestSetup {
+class PropertyRestrictionTests extends BaseAppTestSetup {
     private TestEnumeratedProperty enumeratedProperty;
 
-    @BeforeEach
-    public void setup() {
+	@BeforeEach
+	void setup() {
         setupApp(SuiteSubApp.GRAPHING);
         enumeratedProperty = new TestEnumeratedProperty(getLocalization(),
                 "Test property",
                 List.of("value1", "value2", "value3"));
     }
 
-    @Test
-    public void testRestrictionWithPropertyFreeze() {
+	@Test
+	void testRestrictionWithPropertyFreeze() {
         PropertyRestriction propertyRestriction = new PropertyRestriction(true, null);
 
         propertyRestriction.applyTo(enumeratedProperty);
@@ -52,8 +52,8 @@ public class PropertyRestrictionTests extends BaseAppTestSetup {
         assertFalse(enumeratedProperty.isFrozen());
     }
 
-    @Test
-    public void testRestrictionWithValueFilter() {
+	@Test
+	void testRestrictionWithValueFilter() {
         PropertyRestriction propertyRestriction1 =
                 new PropertyRestriction(false, value -> value != "value1");
         PropertyRestriction propertyRestriction2 =
@@ -73,7 +73,7 @@ public class PropertyRestrictionTests extends BaseAppTestSetup {
     }
 
     private static final class TestEnumeratedProperty extends AbstractEnumeratedProperty<String> {
-        public TestEnumeratedProperty(Localization localization, String name, List<String> values) {
+        TestEnumeratedProperty(Localization localization, String name, List<String> values) {
             super(localization, name);
             setValues(values);
         }

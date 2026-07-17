@@ -17,23 +17,23 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import static org.geogebra.common.kernel.geos.GeoInputBox.isGeoLinkable;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ButtonDialogModelTest extends BaseUnitTest {
+class ButtonDialogModelTest extends BaseUnitTest {
 
 	@Test
-	public void testLinkableGeos() {
+	void testLinkableGeos() {
 		shouldBeLinkable("2");
 		shouldBeLinkable("2x+3/6+sin(x)");
 		shouldBeLinkable("(1,2)");
 	}
 
 	@Test
-	public void testNonLinkableGeos() {
+	void testNonLinkableGeos() {
 		shouldNotBeLinkable("Sequence[500]");
 		shouldNotBeLinkable("Point[{1,2}]");
 		shouldNotBeLinkable("Line[(1,2), (3,4)]");

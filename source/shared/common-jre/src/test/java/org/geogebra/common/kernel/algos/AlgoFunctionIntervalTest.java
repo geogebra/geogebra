@@ -23,12 +23,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AlgoFunctionIntervalTest extends BaseUnitTest {
+class AlgoFunctionIntervalTest extends BaseUnitTest {
 
 	@Test
-	public void legacyLimitedFunction() {
+	void legacyLimitedFunction() {
 		getConstruction().setFileLoading(true);
 		GeoFunction f = add("Function(x,1,2)");
 		assertThat(f.getParentAlgorithm(), instanceOf(AlgoFunctionInterval.class));

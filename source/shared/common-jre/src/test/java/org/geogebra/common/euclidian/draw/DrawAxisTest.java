@@ -16,18 +16,18 @@
 
 package org.geogebra.common.euclidian.draw;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.DrawAxis;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.editor.share.util.Unicode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class DrawAxisTest extends BaseUnitTest {
+class DrawAxisTest extends BaseUnitTest {
 	@Test
-	public void testDegreeLabelsWithPi() {
+	void testDegreeLabelsWithPi() {
 		EuclidianView view = getApp().getActiveEuclidianView();
 		GeoNumberValue distance = add(Unicode.PI_STRING);
 		view.getSettings().setAxisNumberingDistance(0, distance);
@@ -36,7 +36,7 @@ public class DrawAxisTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testDegreeLabelsContainNoPi() {
+	void testDegreeLabelsContainNoPi() {
 		EuclidianView view = getApp().getActiveEuclidianView();
 		GeoNumberValue distance = add("60deg");
 		view.getSettings().setAxisNumberingDistance(0, distance);
@@ -45,7 +45,7 @@ public class DrawAxisTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testDecimalDescription() {
+	void testDecimalDescription() {
 		EuclidianView view = getApp().getActiveEuclidianView();
 		GeoNumberValue distance = add("0.3");
 		view.getSettings().setAxisNumberingDistance(0, distance);
@@ -54,7 +54,7 @@ public class DrawAxisTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testFractionDescription() {
+	void testFractionDescription() {
 		EuclidianView view = getApp().getActiveEuclidianView();
 		GeoNumberValue distance = add("3/10");
 		view.getSettings().setAxisNumberingDistance(0, distance);

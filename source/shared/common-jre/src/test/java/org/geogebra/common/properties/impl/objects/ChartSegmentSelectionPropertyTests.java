@@ -29,20 +29,20 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class ChartSegmentSelectionPropertyTests extends BaseAppTestSetup {
+class ChartSegmentSelectionPropertyTests extends BaseAppTestSetup {
 	@ParameterizedTest
 	@ValueSource(strings = {
 			"BarChart({1, 2, 3, 4, 5}, {1, 1, 4, 3, 2})",
 			"PieChart({1, 2, 3, 4, 5})",
 	})
-	public void testApplicableGeoElements(String expression) {
+	void testApplicableGeoElements(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertDoesNotThrow(() -> new ChartSegmentSelectionProperty(getLocalization(),
 				evaluateGeoElement(expression), new ChartSegmentSelection()));
 	}
 
 	@Test
-	public void testSettingChartSelection() {
+	void testSettingChartSelection() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart geoPieChart = evaluateGeoElement("PieChart({1, 2, 3, 4, 5})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
@@ -64,7 +64,7 @@ public class ChartSegmentSelectionPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChartSelectionOwnerNotifications() {
+	void testChartSelectionOwnerNotifications() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement("PieChart({1, 2, 3, 4, 5})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();

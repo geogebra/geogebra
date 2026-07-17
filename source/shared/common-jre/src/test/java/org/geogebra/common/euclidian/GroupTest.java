@@ -16,9 +16,9 @@
 
 package org.geogebra.common.euclidian;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,22 +30,22 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class GroupTest {
+class GroupTest {
 	private Construction construction;
 	private AppCommon app;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		app = AppCommonFactory.create();
 		app.setConfig(new AppConfigNotes());
 		construction = app.getKernel().getConstruction();
 	}
 
 	@Test
-	public void testGeosNotGrupped() {
+	void testGeosNotGrupped() {
 		assertFalse(Group.isInSameGroup(withGivenNumberOfGeos(2)));
 	}
 
@@ -61,14 +61,14 @@ public class GroupTest {
 	}
 
 	@Test
-	public void testCreateGroup() {
+	void testCreateGroup() {
 		ArrayList<GeoElement> geos = withGivenNumberOfGeos(3);
 		construction.createGroup(geos);
 		assertTrue(Group.isInSameGroup(geos));
 	}
 
 	@Test
-	public void testCreateTwoDifferentGroups() {
+	void testCreateTwoDifferentGroups() {
 		ArrayList<GeoElement> geos1 = withGivenNumberOfGeos(3);
 		ArrayList<GeoElement> geos2 = withGivenNumberOfGeos(5);
 		construction.createGroup(geos1);
@@ -78,7 +78,7 @@ public class GroupTest {
 	}
 
 	@Test
-	public void testGroupedGeos() {
+	void testGroupedGeos() {
 		ArrayList<GeoElement> geos = withGivenNumberOfGeos(5);
 		Group group = new Group(geos);
 		List<GeoElement> result = group.getGroupedGeos();
@@ -86,7 +86,7 @@ public class GroupTest {
 	}
 
 	@Test
-	public void testGroupElementsOrdering() {
+	void testGroupElementsOrdering() {
 		ArrayList<GeoElement> geos = withGivenNumberOfGeos(10);
 		construction.createGroup(geos);
 		Group group = geos.get(0).getParentGroup();
@@ -95,7 +95,7 @@ public class GroupTest {
 	}
 
 	@Test
-	public void testRemoveGeoRemovesGroup() {
+	void testRemoveGeoRemovesGroup() {
 		ArrayList<GeoElement> geos1 = withGivenNumberOfGeos(2);
 		ArrayList<GeoElement> geos2 = withGivenNumberOfGeos(2);
 		construction.createGroup(geos1);

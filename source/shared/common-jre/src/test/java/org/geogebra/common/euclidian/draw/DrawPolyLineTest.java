@@ -16,7 +16,7 @@
 
 package org.geogebra.common.euclidian.draw;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,18 +27,18 @@ import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class DrawPolyLineTest extends BaseEuclidianControllerTest {
+class DrawPolyLineTest extends BaseEuclidianControllerTest {
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		setUpController();
 	}
 
 	@Test
-	public void splitByDrag() {
+	void splitByDrag() {
 		getApp().setNotesConfig();
 		GeoPolyLine poly = add("Polyline((1,-1),(5,-1))");
 		ec.selectAndShowSelectionUI(poly);
@@ -49,7 +49,7 @@ public class DrawPolyLineTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void splitByDoubleClick() {
+	void splitByDoubleClick() {
 		getApp().setNotesConfig();
 		GeoPolyLine poly = add("Polyline((1,-1),(5,-1))");
 		ec.selectAndShowSelectionUI(poly);
@@ -64,7 +64,7 @@ public class DrawPolyLineTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void shouldBeThickWhenKeyboardHighlighted() {
+	void shouldBeThickWhenKeyboardHighlighted() {
 		GeoPolyLine poly = add("Polyline((1,-1),(5,-1))");
 		getApp().getSelectionManager().setKeyboardSelection(poly);
 		List<Double> widths = new ArrayList<>();

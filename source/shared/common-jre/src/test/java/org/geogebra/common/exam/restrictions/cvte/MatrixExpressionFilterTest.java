@@ -16,19 +16,19 @@
 
 package org.geogebra.common.exam.restrictions.cvte;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class MatrixExpressionFilterTest extends BaseUnitTest {
+class MatrixExpressionFilterTest extends BaseUnitTest {
 
 	private final MatrixExpressionFilter filter = new MatrixExpressionFilter();
 
 	@Test
-	public void testDirectMatrixInputIsNotAllowed() {
+	void testDirectMatrixInputIsNotAllowed() {
 		assertFalse(isAllowed("{{1,2,3,4}}")); // row vector
 		assertFalse(isAllowed("{{1},{2},{3},{4}}")); // column vector
 		assertFalse(isAllowed("{{1,2},{3,4}}"));
@@ -36,7 +36,7 @@ public class MatrixExpressionFilterTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testIndirectMatrixInputIsNotAllowed() {
+	void testIndirectMatrixInputIsNotAllowed() {
 		assertFalse(isAllowed("{{1,2},{3,4}} * {{5,6},{7,8}}"));
 		assertFalse(isAllowed("{1,2,3} + {{4,5,6}}"));
 		assertFalse(isAllowed("{{1},{2},{3}} * {{4,5,6}}"));

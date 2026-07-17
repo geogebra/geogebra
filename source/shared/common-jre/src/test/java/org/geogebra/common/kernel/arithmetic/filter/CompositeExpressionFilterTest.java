@@ -29,14 +29,14 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.junit.jupiter.api.Test;
 
-public class CompositeExpressionFilterTest extends BaseUnitTest {
+class CompositeExpressionFilterTest extends BaseUnitTest {
 
 	private final ValidExpression testExpression = new MyDouble(getKernel());
 	private final ExpressionFilter allowsFilter = mockFilter(true);
 	private final ExpressionFilter preventFilter = mockFilter(false);
 
 	@Test
-	public void testCompositeFilterPrevents() {
+	void testCompositeFilterPrevents() {
 		CompositeExpressionFilter compositeExpressionFilter = new CompositeExpressionFilter(
 				List.of(allowsFilter, preventFilter, allowsFilter));
 		boolean result = compositeExpressionFilter.isAllowed(testExpression);
@@ -44,7 +44,7 @@ public class CompositeExpressionFilterTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testCompositeFilterAllows() {
+	void testCompositeFilterAllows() {
 		CompositeExpressionFilter compositeExpressionFilter = new CompositeExpressionFilter(
 				List.of(allowsFilter, allowsFilter));
 		boolean result = compositeExpressionFilter.isAllowed(testExpression);

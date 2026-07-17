@@ -37,27 +37,27 @@ import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class EditorTypingTest extends BaseExamTestSetup {
+class EditorTypingTest extends BaseExamTestSetup {
 	private EditorChecker checker;
 
 	/**
 	 * Reset LaTeX factory
 	 */
 	@BeforeAll
-	public static void prepare() {
+	static void prepare() {
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderCommon());
 		}
 	}
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		setupApp(SuiteSubApp.G3D);
 		checker = new EditorChecker(getApp());
 	}
 
 	@Test
-	public void testEditorUnicode() {
+	void testEditorUnicode() {
 		checker.checkEditorInsert(TestStringUtil.unicode("x/sqrt(x^2+4)"),
 				"((x)/(sqrt(x^(2)+4)))");
 		checker.checkEditorInsert(TestStringUtil.unicode("x^-1"),
@@ -69,7 +69,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testEditor() {
+	void testEditor() {
 		checker.checkEditorInsert("sqrt(x/2)", "sqrt(((x)/(2)))");
 
 		checker.checkEditorInsert("1+2+3-4", "1+2+3-4");
@@ -79,12 +79,12 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void insertNrootShouldMaintainArgumentsOrder() {
+	void insertNrootShouldMaintainArgumentsOrder() {
 		checker.checkEditorInsert("nroot(x,3)", "nroot(x,3)");
 	}
 
 	@Test
-	public void unicodeShouldMerge() {
+	void unicodeShouldMerge() {
 		checker.type("\uD835\uDC65"
 						+ "\uD83D\uDD96\uD83C\uDFFD"
 						+ "\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66")
@@ -92,7 +92,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void absShouldBePrefixedBySpace() {
+	void absShouldBePrefixedBySpace() {
 		// typing second | starts another abs() clause
 		checker.setFormatConverter(new SyntaxAdapterImpl(AppCommonFactory.create().getKernel()));
 		checker.type("3|x").checkAsciiMath("3 abs(x)");
@@ -108,62 +108,62 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void emptyAbsShouldBecomeOr() {
+	void emptyAbsShouldBecomeOr() {
 		checker.type("true||false").checkAsciiMath("true" + Unicode.OR + "false");
 	}
 
 	@Test
-	public void testLnAbs() {
+	void testLnAbs() {
 		checker.type("ln|x+6").checkGGBMath("ln(abs(x + 6))");
 	}
 
 	@Test
-	public void testTrig1() {
+	void testTrig1() {
 		checker.type("sin(x)").checkGGBMath("sin(x)");
 	}
 
 	@Test
-	public void testTrig2() {
+	void testTrig2() {
 		checker.type("sin(x)^2").checkGGBMath("sin" + Unicode.SUPERSCRIPT_2 + "(x)");
 	}
 
 	@Test
-	public void testTrig3() {
+	void testTrig3() {
 		checker.type("sin(x)^3").checkGGBMath("sin" + Unicode.SUPERSCRIPT_3 + "(x)");
 	}
 
 	@Test
-	public void testTrig4() {
+	void testTrig4() {
 		checker.type("sin(x)^123").checkGGBMath("sin" + Unicode.SUPERSCRIPT_1
 				+ Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_3 + "(x)");
 	}
 
 	@Test
-	public void testTrig5() {
+	void testTrig5() {
 		checker.type("sin^2").right(1).type("(x)")
 				.checkGGBMath("sin" + Unicode.SUPERSCRIPT_2 + "(x)");
 	}
 
 	@Test
-	public void testTrig6() {
+	void testTrig6() {
 		checker.type("sin^-1").right(1).type("(x)")
 				.checkGGBMath("sin" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
 	}
 
 	@Test
-	public void testFloor() {
+	void testFloor() {
 		checker.insert("2 floor(x)")
 				.checkRaw("SequenceNode[2,  , FnFLOOR[SequenceNode[x]]]");
 	}
 
 	@Test
-	public void testCeil() {
+	void testCeil() {
 		checker.insert("2 ceil(x)")
 				.checkRaw("SequenceNode[2,  , FnCEIL[SequenceNode[x]]]");
 	}
 
 	@Test
-	public void testKorean() {
+	void testKorean() {
 
 		// tests from https://github.com/clee704/hangul-js/blob/master/spec/hangul-dubeol.spec.js (MIT)
 		checker.checkEditorInsert(convertKoreanTyping("gksrmfdl dks Tjwudy!"),
@@ -437,7 +437,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testInverseTrigEditor() {
+	void testInverseTrigEditor() {
 		checker.type("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(1)/2").checkRaw(
 				"SequenceNode[FnFRAC[SequenceNode[FnAPPLY[SequenceNode[c, o, s, "
 						+ "FnSUPERSCRIPT[SequenceNode[-, 1]]], SequenceNode[1]]], "
@@ -445,13 +445,13 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testLogBase() {
+	void testLogBase() {
 		checker.type("log_2").right(1).type("(4)").checkRaw(
 				"SequenceNode[FnLOG[SequenceNode[2], SequenceNode[4]]]");
 	}
 
 	@Test
-	public void testLogPower() {
+	void testLogPower() {
 		checker.type("log_2").right(1)
 				.type("^3").right(1).type("(4").checkRaw(
 				"SequenceNode[FnLOG_POWER[SequenceNode[2], SequenceNode[3], SequenceNode[4]]]");
@@ -462,79 +462,79 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testSlash1() {
+	void testSlash1() {
 		checker.type("/1").right(1).type("2")
 				.checkAsciiMath("((1)/(2))");
 	}
 
 	@Test
-	public void testSlash2() {
+	void testSlash2() {
 		checker.type("1/2").checkAsciiMath("((1)/(2))");
 	}
 
 	@Test
-	public void testSlash3() {
+	void testSlash3() {
 		checker.type("12").left(1).type("/")
 				.checkAsciiMath("((1)/())2");
 	}
 
 	@Test
-	public void testDivision1() {
+	void testDivision1() {
 		checker.type(Unicode.DIVIDE + "1").right(1).type("2")
 				.checkAsciiMath("((1)/(2))");
 	}
 
 	@Test
-	public void testDivision2() {
+	void testDivision2() {
 		checker.type("1" + Unicode.DIVIDE + "2").checkAsciiMath("((1)/(2))");
 	}
 
 	@Test
-	public void testDivision3() {
+	void testDivision3() {
 		checker.type("12").left(1).type(Unicode.DIVIDE + "")
 				.checkAsciiMath("((1)/())2");
 	}
 
 	@Test
-	public void testBracketsAroundFunction() {
+	void testBracketsAroundFunction() {
 		checker.type("ln(x").left(4).type("(")
 				.checkAsciiMath("(ln(x))");
 	}
 
 	@Test
-	public void testBracketsAfterEquals() {
+	void testBracketsAfterEquals() {
 		checker.type("f(p").right(1)
 				.type("=ln(p*2.72").right(1)
 				.type("+3)").checkAsciiMath("f(p)=(ln(p*2.72)+3)");
 	}
 
 	@Test
-	public void testBackspace() {
+	void testBackspace() {
 		checker.type("8" + Unicode.DIVIDE).typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.type(Unicode.DIVIDE + "2")
 				.checkAsciiMath("((8)/(2))");
 	}
 
 	@Test
-	public void testBackspaceAfterBrackets() {
+	void testBackspaceAfterBrackets() {
 		checker.type("x(x+1)").typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.checkAsciiMath("x(x+)");
 	}
 
 	@Test
-	public void testBackspaceAfterFraction() {
+	void testBackspaceAfterFraction() {
 		checker.type("12/34").typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.checkAsciiMath("((12)/(3))");
 	}
 
 	@Test
-	public void spaceAfterFunctionShouldAddBrackets() {
+	void spaceAfterFunctionShouldAddBrackets() {
 		checker.setFormatConverter(new SyntaxAdapterImpl(AppCommonFactory.create().getKernel()));
 		checker.type("sin 9x").checkAsciiMath("sin(9x)");
 	}
 
 	@Test
-	public void characterAfterFunctionShouldAddBrackets() {
+	void characterAfterFunctionShouldAddBrackets() {
 		AppCommon app = AppCommonFactory.create();
 
 		TemplateCatalog catalog = new TemplateCatalog();
@@ -560,13 +560,13 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testBackspaceWithBrackets() {
+	void testBackspaceWithBrackets() {
 		checker.type("8/").typeKey(JavaKeyCodes.VK_BACK_SPACE).type("/2")
 				.checkAsciiMath("((8)/(2))");
 	}
 
 	@Test
-	public void typingPiShouldProduceUnicodeInInputBox() {
+	void typingPiShouldProduceUnicodeInInputBox() {
 		TemplateCatalog catalog = new TemplateCatalog();
 		catalog.enableSubstitutions();
 		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), catalog);
@@ -574,7 +574,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void typingEpsilonShouldProduceUnicodeInInputBox() {
+	void typingEpsilonShouldProduceUnicodeInInputBox() {
 		TemplateCatalog catalog = new TemplateCatalog();
 		catalog.enableSubstitutions();
 		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), catalog);
@@ -582,14 +582,14 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void typingEpsilonShouldNotProduceUnicodeByDefault() {
+	void typingEpsilonShouldNotProduceUnicodeByDefault() {
 		TemplateCatalog catalog = new TemplateCatalog();
 		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), catalog);
 		inputBoxChecker.type("1+epsilon").checkAsciiMath("1+epsilon");
 	}
 
 	@Test
-	public void typingOperatorsShouldProduceUnicode() {
+	void typingOperatorsShouldProduceUnicode() {
 		TemplateCatalog catalog = new TemplateCatalog();
 		catalog.enableSubstitutions();
 		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), catalog);
@@ -598,39 +598,39 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void shouldRecognizeAbsAsSuffix() {
+	void shouldRecognizeAbsAsSuffix() {
 		checker.type("xabs(x").checkGGBMath("x abs(x)");
 	}
 
 	@Test
-	public void shouldRecognizeSqrtAsSuffix() {
+	void shouldRecognizeSqrtAsSuffix() {
 		checker.type("xsqrt(x").checkGGBMath("x sqrt(x)");
 	}
 
 	@Test
-	public void shouldRecognizeSqrtAsSuffixWithConst() {
+	void shouldRecognizeSqrtAsSuffixWithConst() {
 		// for constant no multiplication space added => we have to check the raw string
 		checker.type("8sqrt(x").checkRaw("SequenceNode[8, FnSQRT[SequenceNode[x]]]");
 	}
 
 	@Test
-	public void shouldRecognizeDelta() {
+	void shouldRecognizeDelta() {
 		checker.type("Δy(1+y)").checkGGBMath("Δy(1 + y)");
 	}
 
 	@Test
-	public void shouldRecognizeDeltaAtEnd() {
+	void shouldRecognizeDeltaAtEnd() {
 		checker.type("yΔ(1+y)").checkGGBMath("yΔ(1 + y)");
 	}
 
 	@Test
-	public void gammaShouldBeRecognizedAsFunction() {
+	void gammaShouldBeRecognizedAsFunction() {
 		checker.add(Unicode.Gamma + "(x)=gamma(x)");
 		checker.type(Unicode.Gamma + "(1+y)").checkGGBMath(Unicode.Gamma + "(1 + y)");
 	}
 
 	@Test
-	public void testTypingPiWithComplex() {
+	void testTypingPiWithComplex() {
 		TemplateCatalog catalog = new TemplateCatalog();
 		catalog.enableSubstitutions();
 		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), catalog);
@@ -638,7 +638,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testTypingPiiWithComplex() {
+	void testTypingPiiWithComplex() {
 		TemplateCatalog catalog = new TemplateCatalog();
 		catalog.enableSubstitutions();
 		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), catalog);
@@ -646,7 +646,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testBracketsForSelection() {
+	void testBracketsForSelection() {
 		checker.type("x^2").right(1).type("+1")
 				.setModifiers(KeyEvent.SHIFT_MASK)
 				.left(5)
@@ -654,7 +654,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testBracketsForSelectionSin() {
+	void testBracketsForSelectionSin() {
 		checker.type("sinx^2").right(1).type("+1")
 				.setModifiers(KeyEvent.SHIFT_MASK)
 				.left(4)
@@ -662,7 +662,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testBracketsForSelectionSingleChar() {
+	void testBracketsForSelectionSingleChar() {
 		checker.type("x^2").right(1).type("+1")
 				.setModifiers(KeyEvent.SHIFT_MASK)
 				.left(1)
@@ -670,7 +670,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testBracketsForSelectionAfterScript() {
+	void testBracketsForSelectionAfterScript() {
 		checker.type("x^2").right(1).type("+1")
 				.setModifiers(KeyEvent.SHIFT_MASK)
 				.left(2)
@@ -678,7 +678,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testCommaInPointEditorWithSelection() {
+	void testCommaInPointEditorWithSelection() {
 		checker.insert("(123,456)").protect()
 				.left(42).setModifiers(KeyEvent.SHIFT_MASK).right(42) // select as far as possible
 				.type("7")
@@ -687,7 +687,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	@Issue("APPS-7553")
-	public void testBracketsSelectionAtomic() {
+	void testBracketsSelectionAtomic() {
 		checker.type("1+(2+3)+4")
 				.setModifiers(KeyEvent.SHIFT_MASK)
 				.left(3)
@@ -701,7 +701,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	@Issue("APPS-6129")
-	public void testCommaPastedIntoEditor() {
+	void testCommaPastedIntoEditor() {
 		checker.insert("(123,456)").protect()
 				.left(1).setModifiers(KeyEvent.SHIFT_MASK).left(3) // select 2nd coord
 				.insert("(7,8)")
@@ -712,7 +712,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testCommaInPointEditor() {
+	void testCommaInPointEditor() {
 		checker.insert("(2,1)").protect().left(42) // go to the left of protected editor
 				.type("3").right(1) // cursor in front of comma
 				.type(",4")
@@ -720,7 +720,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testPipeInPointEditor() {
+	void testPipeInPointEditor() {
 		checker.setAllowAbs(false);
 		checker.insert("(2,1)").protect().left(42) // go to the left of protected editor
 				.type("3").right(1) // cursor in front of comma
@@ -729,7 +729,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testPipeInPointEditorAustrian() {
+	void testPipeInPointEditorAustrian() {
 		checker.setAllowAbs(false);
 		checker.insert("(2" + Unicode.verticalLine + "1)").protect()
 				.left(42) // go to the left of protected editor
@@ -739,14 +739,14 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testCommaInMatrixEditor() {
+	void testCommaInMatrixEditor() {
 		checker.insert("{{1,2},{3,4}}").protect().left(42) // go to the left of protected editor
 				.type(",").type(",")
 				.checkAsciiMath("{{1,2},{3,4}}");
 	}
 
 	@Test
-	public void testSqrtInPointEditor() {
+	void testSqrtInPointEditor() {
 		checker.setFormatConverter(new SyntaxAdapterImpl(AppCommonFactory.create().getKernel()));
 		checker.setForceBracketsAfterFunction();
 		checker.insert("(2,1,0)").protect()
@@ -760,7 +760,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testBracketsInPointEditor() {
+	void testBracketsInPointEditor() {
 		checker.insert("(2,3,3+4)")
 				.left(8)
 				.type("(")
@@ -818,7 +818,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testEditorBackspace() {
+	void testEditorBackspace() {
 		checker.type("ab cd(")
 				.left(3)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
@@ -836,7 +836,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testBackspaceLeavesIndexUnchanged() {
+	void testBackspaceLeavesIndexUnchanged() {
 		checker.type("x^3/2")
 				.left(5)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
@@ -845,7 +845,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testBackspaceLeavesFraction() {
+	void testBackspaceLeavesFraction() {
 		checker.type("1-1/4")
 				.left(4)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
@@ -854,7 +854,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testBackspaceLeavesPower() {
+	void testBackspaceLeavesPower() {
 		checker.type("12^34")
 				.left(3)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
@@ -862,7 +862,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testBackspaceLeavesPowerOfLetters() {
+	void testBackspaceLeavesPowerOfLetters() {
 		checker.type("e^t")
 				.left(2)
 				.type("-")
@@ -876,7 +876,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testBackspaceLeavesUnderscoreWithLetters() {
+	void testBackspaceLeavesUnderscoreWithLetters() {
 		checker.type("e_t")
 				.left(2)
 				.type("-")
@@ -890,7 +890,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testBackspaceLeavesSqrt() {
+	void testBackspaceLeavesSqrt() {
 		checker.type("12-sqrt(45")
 				.left(3)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
@@ -899,7 +899,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void noCommasPastedInProtectedField() {
+	void noCommasPastedInProtectedField() {
 		checker.insert("(2,3,3+4)").protect()
 				.left(3)
 				.insert("5,6")
@@ -907,7 +907,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void noCurlyBracesPastedInProtectedField() {
+	void noCurlyBracesPastedInProtectedField() {
 		checker.insert("(2,3,3+4)").protect()
 				.left(3)
 				.insert("{}")
@@ -915,7 +915,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void closeBracketShouldMoveCharactersOut() {
+	void closeBracketShouldMoveCharactersOut() {
 		checker.insert("123456789")
 				.left(6)
 				.type("(")
@@ -925,7 +925,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void noMathFunctionFuseForFractions() {
+	void noMathFunctionFuseForFractions() {
 		checker.type("x+π/2")
 				.left(4)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
@@ -934,44 +934,44 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void cursorInNoScript() {
+	void cursorInNoScript() {
 		checker.type("x + 1/2").checkCursorNotInScript();
 	}
 
 	@Test
-	public void cursorInNoScriptXSquared() {
+	void cursorInNoScriptXSquared() {
 		checker.type("x^2").left(2).checkCursorNotInScript();
 	}
 
 	@Test
-	public void cursorInSuperscript() {
+	void cursorInSuperscript() {
 		checker.type("x^2^345").checkCursorInScript();
 	}
 
 	@Test
-	public void cursorInSubscript() {
+	void cursorInSubscript() {
 		checker.type("x_2").checkCursorInScript();
 	}
 
 	@Test
-	public void cursorInNoSubscript() {
+	void cursorInNoSubscript() {
 		checker.type("x_2").left(2).checkCursorNotInScript();
 	}
 
 	@Test
-	public void collapseSelectionOnArrowLeft() {
+	void collapseSelectionOnArrowLeft() {
 		checker.insert("1+2+3+4").select(3, 5).left(1).type("x")
 				.checkAsciiMath("1+2x+3+4");
 	}
 
 	@Test
-	public void collapseSelectionOnArrowRight() {
+	void collapseSelectionOnArrowRight() {
 		checker.insert("1+2+3+4").select(3, 6).right(1).type("x")
 				.checkAsciiMath("1+2+3+x4");
 	}
 
 	@Test
-	public void shouldNotSerializeEmptyIntPartOfMixedNumber() {
+	void shouldNotSerializeEmptyIntPartOfMixedNumber() {
 		checker.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
 				.right(1).type("2").right(1).type("3")
 				.checkAsciiMath("((2)/(3))");
@@ -982,7 +982,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void shouldNotSerializeMixedNumberIfDisabled() {
+	void shouldNotSerializeMixedNumberIfDisabled() {
 		startExam(ExamType.WTR);
 		checker.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
 				.type("1")
@@ -991,7 +991,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void shouldNotSerializeInvalidIntPartOfMixedNumber() {
+	void shouldNotSerializeInvalidIntPartOfMixedNumber() {
 		checker.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
 				.type("1+")
 				.right(1).type("2").right(1).type("3")
@@ -999,7 +999,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void shouldSerializeValidMixedNumber() {
+	void shouldSerializeValidMixedNumber() {
 		checker.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
 				.type("1")
 				.right(1).type("2").right(1).type("3")
@@ -1016,7 +1016,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void shouldNotSerializeMixedNumberMMSRestriction() {
+	void shouldNotSerializeMixedNumberMMSRestriction() {
 		startExam(ExamType.MMS); // has FeatureRestriction.DISABLE_MIXED_NUMBERS
 		checker.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
 				.type("5")
@@ -1025,7 +1025,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void shouldSerializeAssignment() {
+	void shouldSerializeAssignment() {
 		checker.type("a=")
 				.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
 				.type("1")
@@ -1034,37 +1034,37 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void operatorShouldBeFollowedByZeroSpace() {
+	void operatorShouldBeFollowedByZeroSpace() {
 		checker.type("1+").checkPlaceholders("1+\u200b");
 	}
 
 	@Test
-	public void pointFromKeyboard() {
+	void pointFromKeyboard() {
 		checker.pressSingleKey("$point:2").type("1").right(1).type("2")
 				.checkAsciiMath("$point(1,2)");
 	}
 
 	@Test
-	public void vectorFromKeyboard() {
+	void vectorFromKeyboard() {
 		checker.pressSingleKey("$vector:2").type("1").right(1).type("2")
 				.checkAsciiMath("$vector(1,2)");
 	}
 
 	@Test
-	public void vectorFromKeyboardLaTeX() {
+	void vectorFromKeyboardLaTeX() {
 		checker.pressSingleKey("$vector:2").type("1").right(1).type("2")
 				.checkLaTeX("\\begin{pmatrix}\\jlminput{1}\\\\\\jlminput{2}\\\\\\end{pmatrix}");
 	}
 
 	@Test
-	public void matrixFromKeyboard() {
+	void matrixFromKeyboard() {
 		checker.pressSingleKey("$matrix:2:3").type("1").right(1).type("2").right(1).type("3")
 				.right(1).type("4").right(1).type("5").right(1).type("6")
 				.checkAsciiMath("{{1,2,3},{4,5,6}}");
 	}
 
 	@Test
-	public void matrixFromKeyboardLaTeX() {
+	void matrixFromKeyboardLaTeX() {
 		checker.pressSingleKey("$matrix:2:3").type("5").right(1).type("-3").right(1).type("0")
 				.right(1).type("1").right(1).type("99").right(1).type("1")
 				.checkLaTeX("\\begin{pmatrix} \\jlminput{5} & \\jlminput{-3} & \\jlminput{0} "
@@ -1073,21 +1073,21 @@ public class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	@Issue("APPS-7000")
-	public void pointToClipboard() {
+	void pointToClipboard() {
 		checker.pressSingleKey("$point:2").type("1").right(1).type("2")
 				.checkCopy("(1,2)");
 	}
 
 	@Test
 	@Issue("APPS-7000")
-	public void vectorToClipboard() {
+	void vectorToClipboard() {
 		checker.pressSingleKey("$vector:2").type("1").right(1).type("3")
 				.checkCopy("(1,3)");
 	}
 
 	@Test
 	@Issue("APPS-6722")
-	public void minutesAndSecondsShouldBeTreatedAsDerivative() {
+	void minutesAndSecondsShouldBeTreatedAsDerivative() {
 		checker.add("f(x)=x^4");
 		checker.type("f\u2032").checkGGBMath("f'");
 		checker.type("f\u2033").checkGGBMath("f''");
@@ -1099,12 +1099,12 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void colonInLaTeXShouldNotAddSpace() {
+	void colonInLaTeXShouldNotAddSpace() {
 		checker.type(":").checkLaTeX("\\mathpunct{:}");
 	}
 
 	@Test
-	public void extendSelection() {
+	void extendSelection() {
 		checker.type("123456").left(3).setModifiers(KeyEvent.SHIFT_MASK)
 				.typeKey(JavaKeyCodes.VK_END)
 				.checkSelection("4", "6");
@@ -1131,7 +1131,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void extendSelectionAtEnd() {
+	void extendSelectionAtEnd() {
 		checker.type("123456").left(6).setModifiers(KeyEvent.SHIFT_MASK)
 				.typeKey(JavaKeyCodes.VK_HOME)
 				.checkSelectionEmpty();
@@ -1147,7 +1147,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void extendSelectionPower() {
+	void extendSelectionPower() {
 		checker.type("123^4").setModifiers(KeyEvent.SHIFT_MASK).left(3)
 				.checkSelection("3", "FnSUPERSCRIPT[SequenceNode[4]]");
 		checker.type("123^4").setModifiers(KeyEvent.SHIFT_MASK).left(4)
@@ -1155,7 +1155,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void selectAll() {
+	void selectAll() {
 		checker.type("123456").ctrlA().checkSelection("1",
 				"6");
 		checker.type("123456").ctrlA().shiftOn().left(2)
@@ -1164,7 +1164,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	@Issue("APPS-7070")
-	public void spaceToMultiplication() {
+	void spaceToMultiplication() {
 		checker.setFormatConverter(new SyntaxAdapterImpl(AppCommonFactory.create().getKernel()));
 		checker.type("1 2").checkAsciiMath("1*2");
 		checker.type("1+ 2").checkAsciiMath("1+ 2");
@@ -1172,7 +1172,7 @@ public class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void surdLaTeX() {
+	void surdLaTeX() {
 		checker.insert(String.valueOf(Unicode.SQUARE_ROOT))
 				.checkLaTeX("\\sqrt{{\\bgcolor{#e6e6eb}\\scalebox{1}[1.6]{\\phantom{g}}}}");
 		checker.insert(Unicode.SQUARE_ROOT + "15-1")

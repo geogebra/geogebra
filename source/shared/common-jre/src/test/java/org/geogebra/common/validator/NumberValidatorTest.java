@@ -16,26 +16,26 @@
 
 package org.geogebra.common.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.validator.NumberValidator;
 import org.geogebra.common.kernel.validator.exception.NumberValueOutOfBoundsException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class NumberValidatorTest extends BaseUnitTest {
+class NumberValidatorTest extends BaseUnitTest {
 
 	private NumberValidator numberValidator;
 
-	@Before
-	public void setupNumberValidatorTest() {
+	@BeforeEach
+	void setupNumberValidatorTest() {
 		numberValidator = new NumberValidator(getKernel().getAlgebraProcessor());
 	}
 
 	@Test
-	public void testExceptionThrowing() {
+	void testExceptionThrowing() {
 		assertThrows(NumberFormatException.class,
 				() -> numberValidator.getDouble("a", null));
 
@@ -44,7 +44,7 @@ public class NumberValidatorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testConversion() {
+	void testConversion() {
 		assertEquals(
 				-1.0, numberValidator.getDouble("-1", -2.0), DELTA);
 	}

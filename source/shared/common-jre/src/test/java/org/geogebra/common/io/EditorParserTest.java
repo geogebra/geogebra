@@ -16,8 +16,8 @@
 
 package org.geogebra.common.io;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
@@ -33,19 +33,19 @@ import org.geogebra.editor.share.serializer.GeoGebraSerializer;
 import org.geogebra.editor.share.serializer.TeXSerializer;
 import org.geogebra.editor.share.tree.Formula;
 import org.geogebra.editor.share.util.Unicode;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class EditorParserTest {
+class EditorParserTest {
 
 	/**
 	 * Reset LaTeX factory
 	 */
-	@BeforeClass
-	public static void prepare() {
+	@BeforeAll
+	static void prepare() {
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderCommon());
 		}
@@ -68,7 +68,7 @@ public class EditorParserTest {
 	}
 
 	@Test
-	public void trigonometricFunctionPowerTest() {
+	void trigonometricFunctionPowerTest() {
 		String cosOverExponential = "((cos(x))/(e^(3t)))";
 		assertParsesAs("cos(x)/e^(3t)", cosOverExponential);
 
@@ -90,12 +90,12 @@ public class EditorParserTest {
 	}
 
 	@Test
-	public void subscriptTest() {
+	void subscriptTest() {
 		assertParsesAs("a_{1,2}", "a_{1,2}");
 	}
 
 	@Test
-	public void absoluteValuesUsingVerticalBarsTest() {
+	void absoluteValuesUsingVerticalBarsTest() {
 		assertParsesAs("|x|", "abs(x)");
 		assertParsesAs("|1|+|2|", "abs(1)+abs(2)");
 		assertParsesAs("|x-|3||", "abs(x-abs(3))");
@@ -105,7 +105,7 @@ public class EditorParserTest {
 	}
 
 	@Test
-	public void unicodeSqrtParseTest() {
+	void unicodeSqrtParseTest() {
 		assertParsesAs("r(2) / r(x) = 4".replace('r', Unicode.SQUARE_ROOT),
 				"((sqrt(2))/(sqrt(x))) = 4");
 		assertParsesAs("r2 / rx = 4".replace('r', Unicode.SQUARE_ROOT),
@@ -113,7 +113,7 @@ public class EditorParserTest {
 	}
 
 	@Test
-	public void mixedNumber() {
+	void mixedNumber() {
 		assertParsesAs("3" + Unicode.INVISIBLE_PLUS + "(1)/(2)",
 				"(3" + Unicode.INVISIBLE_PLUS + "(1)/(2))");
 		assertParsesAs("3 1/2", "(3 " + Unicode.INVISIBLE_PLUS + "(1)/(2))");
@@ -124,7 +124,7 @@ public class EditorParserTest {
 	}
 
 	@Test
-	public void recurringDecimal() {
+	void recurringDecimal() {
 		assertParsesAs("1.23\u03054\u0305", "1.23\u03054\u0305");
 		assertParsesAs("4.34\u03055\u03056\u0305", "4.34\u03055\u03056\u0305");
 		assertParsesAs("7.9\u0305 / 2", "((7.9\u0305)/(2))");
@@ -134,13 +134,13 @@ public class EditorParserTest {
 	}
 
 	@Test
-	public void pointTemplate() {
+	void pointTemplate() {
 		assertParsesAs("$point(1,2)", "$point(1,2)");
 		assertParsesAs("$pointAt(1,3)", "$pointAt(1,3)");
 	}
 
 	@Test
-	public void symbolLaTeXShouldParse() {
+	void symbolLaTeXShouldParse() {
 		AppCommon appCommon = AppCommonFactory.create();
 		Kernel kernel = appCommon.getKernel();
 		FunctionVariable varX = new FunctionVariable(kernel, "x");

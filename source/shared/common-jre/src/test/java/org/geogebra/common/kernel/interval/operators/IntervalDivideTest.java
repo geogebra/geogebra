@@ -26,20 +26,20 @@ import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.LegacyIntervalAdapter.legacyInverted;
 import static org.geogebra.common.kernel.interval.operators.IntervalDivide.next;
 import static org.geogebra.common.kernel.interval.operators.IntervalDivide.prev;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.kernel.interval.Interval;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * For Cases, see <a href="https://www.math.kit.edu/ianm2/~kulisch/media/arjpkx.pdf">This paper</a>
  */
-public class IntervalDivideTest {
+class IntervalDivideTest {
 
 	private final IntervalNodeEvaluator evaluator = new IntervalNodeEvaluator();
 
 	@Test
-	public void hasZeroByHasZeroShouldBeWhole() {
+	void hasZeroByHasZeroShouldBeWhole() {
 		// Table 1 Case 1.
 		assertEquals(whole(), divide(interval(0), zero()));
 		assertEquals(whole(), divide(interval(0), interval(-1, 0)));
@@ -53,7 +53,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void divOfWholeByUndefinedShouldBeWhole() {
+	void divOfWholeByUndefinedShouldBeWhole() {
 		assertEquals(whole(), divide(whole(), undefined()));
 	}
 
@@ -62,14 +62,14 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void negativeByZeroShouldBeEmpty() {
+	void negativeByZeroShouldBeEmpty() {
 		// Table 1 Case 2.
 		assertEquals(undefined(), divide(interval(-2.3, -1), zero()));
 		assertEquals(undefined(), divide(interval(-25.73, -11), zero()));
 	}
 
 	@Test
-	public void negativeByNegativeIncludingZeroAsHigh() {
+	void negativeByNegativeIncludingZeroAsHigh() {
 		//  Table 1 Case 3.
 		assertEquals(interval(1, Double.POSITIVE_INFINITY),
 				div(-4, -2, -2, 0));
@@ -78,14 +78,14 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void negativeByMixed() {
+	void negativeByMixed() {
 		//  Table 1 Case 4.
 		assertEquals(legacyInverted(RMath.next(-2.0 / 2), RMath.next(-2.0 / -2)),
 				div(-3, -2, -2, 2));
 	}
 
 	@Test
-	public void negativeByNegativeIncludingZeroAsLow() {
+	void negativeByNegativeIncludingZeroAsLow() {
 		//  Table 1 Case 5.
 		assertEquals(interval(Double.NEGATIVE_INFINITY, -0.5),
 				div(-2, -2, 0, 4));
@@ -95,7 +95,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void positiveByNegativeIncludingZeroAsHigh() {
+	void positiveByNegativeIncludingZeroAsHigh() {
 		//  Table 1 Case 6
 		assertEquals(interval(Double.NEGATIVE_INFINITY, -1),
 				div(2, 4, -2, 0));
@@ -104,14 +104,14 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void positiveByMixed() {
+	void positiveByMixed() {
 		// Table 1 Case 7
 		assertEquals(legacyInverted(2.0 / -1.0, 1.0),
 				div(2, 4, -1, 2));
 	}
 
 	@Test
-	public void positiveByPositiveIncludingZeroAsLow() {
+	void positiveByPositiveIncludingZeroAsLow() {
 		// Table 1 Case 8
 		assertEquals(interval(0.5, Double.POSITIVE_INFINITY),
 				div(2, 4, 0, 4));
@@ -120,7 +120,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void negativeByNegative() {
+	void negativeByNegative() {
 		// Table 7, row 1 column 1
 		// [a1, a2] a2 <= 0, [b1, b2] b2 < 0
 		assertEquals(interval(1, 4),
@@ -129,7 +129,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void negativeByPositive() {
+	void negativeByPositive() {
 		// Table 7, row 1 column 2
 		divNegativeByPositive(-5, -3, 3, 4);
 		divNegativeByPositive(-1.5, -1E-17, 10, 11.4);
@@ -151,7 +151,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void negativeAndZeroByPositive() {
+	void negativeAndZeroByPositive() {
 		// Table 7, row1, col2 a2 = 0
 		divNegativeByPositive(-20.5, 0, 1, 10);
 		divNegativeByPositive(-100.5555, 0, 123, 456);
@@ -160,7 +160,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void negativeByNegativeOpenToNegativeInfinity() {
+	void negativeByNegativeOpenToNegativeInfinity() {
 		// Table 7, row 1 column 3
 		divNegativeByOpenToNegativeInfinity(-2, -1, -1.234);
 		divNegativeByOpenToNegativeInfinity(-1E17, -1E-12, -45.67);
@@ -173,7 +173,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void negativeByPositiveOpenToPositiveInfinity() {
+	void negativeByPositiveOpenToPositiveInfinity() {
 		// Table 7, row 1 column 4
 		divNegativeByOpenToPositiveInfinity(-2, -1, 1);
 		divNegativeByOpenToPositiveInfinity(-987.321, -123.456, 456.789);
@@ -187,7 +187,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void mixedByNegative() {
+	void mixedByNegative() {
 		// Table 7, row 2 column 1
 		divMixedByNegative(-56.34, 1.23, -89.45, -82.34);
 		divMixedByNegative(Double.NEGATIVE_INFINITY, 1.23, -33.45, -22.78);
@@ -202,7 +202,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void mixedByPositive() {
+	void mixedByPositive() {
 		// Table 7, row 2 column 2
 		divMixedByPositive(-56.34, 11.23, 1.234, 5.678);
 		divMixedByPositive(-87.98, 1.234, 1234, 1E56);
@@ -214,7 +214,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void mixedByOpenToNegativeInfinity() {
+	void mixedByOpenToNegativeInfinity() {
 		// Table 7, row 2 column 3
 		divMixedByOpenToNegativeInfinity(-12.34, 56.78, -12.34);
 		divMixedByOpenToNegativeInfinity(-78.67, 45.68, -1E-34);
@@ -226,7 +226,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void mixedByOpenToPositiveInfinity() {
+	void mixedByOpenToPositiveInfinity() {
 		// Table 7, row 2 column 4
 		divMixedByOpenToPositiveInfinity(-98.76, 54.32, 2);
 		divMixedByOpenToPositiveInfinity(-12.34, 23.32, Double.POSITIVE_INFINITY);
@@ -238,7 +238,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void positiveByNegative() {
+	void positiveByNegative() {
 		// Table7 row 3 column 1
 		divPositiveByNegative(1.234, 5.678, -98.76, -31.43);
 		divPositiveByNegative(0, 55.678, -55.76, -26.43);
@@ -252,7 +252,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void positiveByPositive() {
+	void positiveByPositive() {
 		// Table7 row 3 column 2
 		divPositiveByPositive(1.234, 5.678, 11.12, 33.44);
 		divPositiveByPositive(0, 5.678, 121.12, 333.44);
@@ -265,7 +265,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void positiveByOpenToNegativeInfinity() {
+	void positiveByOpenToNegativeInfinity() {
 		// Table 7 row 3 column 3
 		divPositiveByOpenToNegativeInfinity(1.234, 5.67, -22.33);
 		divPositiveByOpenToNegativeInfinity(1E-243, 1E243, -22.33);
@@ -280,7 +280,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void positiveByOpenToPositiveInfinity() {
+	void positiveByOpenToPositiveInfinity() {
 		divPositiveByOpenToPositiveInfinity(1.23, 4.56, 7.89);
 		divPositiveByOpenToPositiveInfinity(0, 4798.876, 577.64);
 		divPositiveByOpenToPositiveInfinity(1.56, Double.POSITIVE_INFINITY, 577.64);
@@ -294,7 +294,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void divOfZeroShouldBeZero() {
+	void divOfZeroShouldBeZero() {
 		assertEquals(zero(), divide(zero(), interval(-2, -1)));
 		assertEquals(zero(), divide(zero(), interval(Double.NEGATIVE_INFINITY, -1)));
 		assertEquals(zero(), divide(zero(), interval(1, 2)));
@@ -302,7 +302,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void openToNegativeInfinityByNegative() {
+	void openToNegativeInfinityByNegative() {
 		// Table 7 row 5 column 1
 		divOpenToNegativeInfinityByNegative(-1.23, -98.76, -54.32);
 		divOpenToNegativeInfinityByNegative(-1E12, -8.76, -4.32);
@@ -315,7 +315,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void openToNegativeInfinityByPositive() {
+	void openToNegativeInfinityByPositive() {
 		// Table 7 row 5 column 2
 		divOpenToNegativeInfinityByPositive(-1.23, 1.23, 54.32);
 		divOpenToNegativeInfinityByPositive(0, 1.23, 54.32);
@@ -328,7 +328,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void openToNegativeInfinityByOpenToNegativeInfinity() {
+	void openToNegativeInfinityByOpenToNegativeInfinity() {
 		// Table 7 row 5 column 3
 		divOpenToNegativeInfinityByOpenToNegativeInfinity(-2, -3);
 		divOpenToNegativeInfinityByOpenToNegativeInfinity(0, -3);
@@ -343,7 +343,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void openToNegativeInfinityByOpenToPositiveInfinity() {
+	void openToNegativeInfinityByOpenToPositiveInfinity() {
 		// Table 7 row 5 column 4
 		divOpenToNegativeInfinityByOpenToPositiveInfinity(-12.34, 34.56);
 		divOpenToNegativeInfinityByOpenToPositiveInfinity(-1E234, 1E234);
@@ -355,7 +355,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void openToNegativeInfinityMixedByNegative() {
+	void openToNegativeInfinityMixedByNegative() {
 		// Table 7 row 6 column 1
 		divOpenToNegativeInfinityMixedByNegative(1.23, -87.65, -43.21);
 		divOpenToNegativeInfinityMixedByNegative(0, -87.65, -43.21);
@@ -371,7 +371,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void openToNegativeInfinityMixedByPositive() {
+	void openToNegativeInfinityMixedByPositive() {
 		// Table 7 row 6 column 2
 		divOpenToNegativeInfinityMixedByPositive(1.23, 1.23, 4.56);
 		divOpenToNegativeInfinityMixedByPositive(0, 1.23, 4.56);
@@ -384,7 +384,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void openToNegativeInfinityMixedByOpenToNegativeInfinity() {
+	void openToNegativeInfinityMixedByOpenToNegativeInfinity() {
 		// Table 7 row 6 column 3
 		divOpenToNegativeInfinityMixedByOpenToNegativeInfinity(1.23, -4.56);
 		divOpenToNegativeInfinityMixedByOpenToNegativeInfinity(1E-234, -1E234);
@@ -396,7 +396,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void openToNegativeInfinityMixedByOpenToPositiveInfinity() {
+	void openToNegativeInfinityMixedByOpenToPositiveInfinity() {
 		// Table 7 row 6 column 4
 		divOpenToNegativeInfinityMixedByOpenToPositiveInfinity(12.34, 45.67);
 		divOpenToNegativeInfinityMixedByOpenToPositiveInfinity(0, 45.67);
@@ -412,7 +412,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void mixedOpenToPositiveInfinityByNegative() {
+	void mixedOpenToPositiveInfinityByNegative() {
 		// Table 7 row 7 column 1
 		divMixedOpenToPositiveInfinityByNegative(-1, -98.76, -54.32);
 		divMixedOpenToPositiveInfinityByNegative(0, -98.76, -54.32);
@@ -426,7 +426,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void mixedOpenToPositiveInfinityByPositive() {
+	void mixedOpenToPositiveInfinityByPositive() {
 		// Table 7 row 7 column 2
 		divMixedOpenToPositiveInfinityByPositive(-1.23, 22.33, 45.67);
 		divMixedOpenToPositiveInfinityByPositive(0, 22.33, 45.67);
@@ -440,7 +440,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void mixedOpenToPositiveInfinityByOpenToNegativeInfinity() {
+	void mixedOpenToPositiveInfinityByOpenToNegativeInfinity() {
 		// Table 7 row 7 column 3
 		divMixedOpenToPositiveInfinityByOpenToNegativeInfinity(-12.34, -12.34);
 		divMixedOpenToPositiveInfinityByOpenToNegativeInfinity(0, -12.34);
@@ -454,7 +454,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void openToPositiveInfinityByNegative() {
+	void openToPositiveInfinityByNegative() {
 		// Table 7 row 8 column 1
 		divOpenToPositiveInfinityMixedByNegative(2.34, -98.67, -23.45);
 		divOpenToPositiveInfinityMixedByNegative(0, -98.67, -23.45);
@@ -467,7 +467,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void openToPositiveInfinityByPositive() {
+	void openToPositiveInfinityByPositive() {
 		// Table 7 row 8 column 2
 		divOpenToPositiveInfinityByPositive(1.23, 2.34, 5.67);
 		divOpenToPositiveInfinityByPositive(0, 2.34, 5.67);
@@ -480,7 +480,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void openToPositiveInfinityByOpenToNegativeInfinity() {
+	void openToPositiveInfinityByOpenToNegativeInfinity() {
 		// Table 7 row 8 column 3
 		divOpenToPositiveInfinityByOpenToNegativeInfinity(1.234, -1.234);
 		divOpenToPositiveInfinityByOpenToNegativeInfinity(1E234, -1E234);
@@ -494,7 +494,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void openToPositiveInfinityByOpenToPositiveInfinity() {
+	void openToPositiveInfinityByOpenToPositiveInfinity() {
 		// Table 7 row 8 column 4
 		divOpenToPositiveInfinityByOpenToPositiveInfinity(12.34, 56.78);
 		divOpenToPositiveInfinityByOpenToPositiveInfinity(0, 56.78);
@@ -508,7 +508,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void divOfWholeShouldBeWhole() {
+	void divOfWholeShouldBeWhole() {
 		// Table 7, row 9
 		assertEquals(whole(), divWholeBy(-1.2, -3.4));
 		assertEquals(whole(), divWholeBy(1.2, 3.4));
@@ -521,7 +521,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void divSingletonInfinityBy() {
+	void divSingletonInfinityBy() {
 		assertEquals(positiveInfinity(), divide(positiveInfinity(),
 				interval(12.34, 56.78)));
 		assertEquals(negativeInfinity(), divide(positiveInfinity(),
@@ -532,21 +532,21 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void divBySingletonPositiveInfinity() {
+	void divBySingletonPositiveInfinity() {
 		assertEquals(zero(), divide(interval(-987.65, -12.34), positiveInfinity()));
 		assertEquals(zero(), divide(interval(-987.65, 12.34), positiveInfinity()));
 		assertEquals(zero(), divide(interval(12.34, 567.89), positiveInfinity()));
 	}
-	
+
 	@Test
-	public void divBySingletonNegativeInfinity() {
+	void divBySingletonNegativeInfinity() {
 		assertEquals(zero(), divide(interval(-987.65, -12.34), negativeInfinity()));
 		assertEquals(zero(), divide(interval(-987.65, 12.34), negativeInfinity()));
 		assertEquals(zero(), divide(interval(12.34, 567.89), negativeInfinity()));
 	}
 
 	@Test
-	public void divEmptyShouldBeEmpty() {
+	void divEmptyShouldBeEmpty() {
 		assertEquals(undefined(), divide(undefined(), interval(12.34, 34.467)));
 		assertEquals(undefined(), divide(undefined(), interval(-12.34, -34.467)));
 		assertEquals(undefined(), divide(undefined(), interval(-46412.34, 6543.653)));
@@ -556,7 +556,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void divByEmptyShouldBeEmpty() {
+	void divByEmptyShouldBeEmpty() {
 		assertEquals(undefined(), divide(interval(12.34, 34.467), undefined()));
 		assertEquals(undefined(), divide(interval(-12.34, -34.467), undefined()));
 		assertEquals(undefined(), divide(interval(-46412.34, 6543.653), undefined()));
@@ -566,19 +566,19 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void divNegativeByZeroShouldBeNegativeInfinity() {
+	void divNegativeByZeroShouldBeNegativeInfinity() {
 		assertEquals(undefined(), divide(interval(-1), zero()));
 	}
 
 	@Test
-	public void divPositiveWithInverted() {
+	void divPositiveWithInverted() {
 		divByInverted(4, 14, -2, 2);
 		divByInverted(4, 14, 0, 2);
 		divByInverted(2.4, 1E54, -1E2, 44.22);
 	}
 
 	@Test
-	public void divNegativeWithInverted() {
+	void divNegativeWithInverted() {
 		divByInverted(-14, 4, -2, 2);
 	}
 
@@ -592,7 +592,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void divByZeroSingletonShouldBeUndefined() {
+	void divByZeroSingletonShouldBeUndefined() {
 		assertEquals(undefined(), divByZeroSingleton(Double.NEGATIVE_INFINITY, -2));
 		assertEquals(undefined(), divByZeroSingleton(-2.1, -2));
 		assertEquals(whole(), divByZeroSingleton(-2.1, 0));
@@ -606,7 +606,7 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void testDivBelowMaxPrecision() {
+	void testDivBelowMaxPrecision() {
 		Interval numerator = interval(1E-13);
 		Interval divisor = interval(1E-13);
 		numerator.setPrecision(0);

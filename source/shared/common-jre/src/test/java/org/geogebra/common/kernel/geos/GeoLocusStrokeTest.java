@@ -25,7 +25,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,16 +47,16 @@ import org.geogebra.common.util.ScientificFormatAdapter;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
 import org.geogebra.test.UndoRedoTester;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class GeoLocusStrokeTest extends BaseUnitTest {
+class GeoLocusStrokeTest extends BaseUnitTest {
 
 	private static final double r2 = sqrt(2);
 	private static final double r5 = sqrt(5);
 	private static final double r8 = sqrt(8);
 
 	@Test
-	public void rotateLocusStrokeTest() {
+	void rotateLocusStrokeTest() {
 		GeoLocusStroke stroke = getInitialStroke();
 
 		stroke.rotate(new MyDouble(getKernel(), PI / 3));
@@ -78,7 +78,7 @@ public class GeoLocusStrokeTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void rotateLocusStrokeAroundPointTest() {
+	void rotateLocusStrokeAroundPointTest() {
 		GeoLocusStroke stroke = getInitialStroke();
 
 		stroke.rotate(new MyDouble(getKernel(), PI / 6),
@@ -102,7 +102,7 @@ public class GeoLocusStrokeTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void mirrorLocusStrokeOnPointTest() {
+	void mirrorLocusStrokeOnPointTest() {
 		GeoLocusStroke stroke = getInitialStroke();
 
 		stroke.mirror(new Coords(3, 2));
@@ -119,7 +119,7 @@ public class GeoLocusStrokeTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void mirrorLocusStrokeOnLineTest() {
+	void mirrorLocusStrokeOnLineTest() {
 		GeoLocusStroke stroke = getInitialStroke();
 
 		GeoLine line = new GeoLine(getConstruction());
@@ -142,7 +142,7 @@ public class GeoLocusStrokeTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void dilateLocusStrokeTest() {
+	void dilateLocusStrokeTest() {
 		GeoLocusStroke stroke = getInitialStroke();
 
 		stroke.dilate(new MyDouble(getKernel(), 2.0), new Coords(1, 0));
@@ -159,7 +159,7 @@ public class GeoLocusStrokeTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void undoRedoTest() {
+	void undoRedoTest() {
 		getApp().setGraphingConfig();
 		UndoRedoTester undoRedoTester = new UndoRedoTester(getApp());
 		undoRedoTester.setupUndoRedo();
@@ -172,7 +172,7 @@ public class GeoLocusStrokeTest extends BaseUnitTest {
 
 	@Issue("APPS-5775")
 	@Test
-	public void testUndoDrag() {
+	void testUndoDrag() {
 		GeoElement stroke = addAvInput("stroke = PenStroke((-3, 3), (4, 3), (2,5))");
 		activateUndo();
 		SelectionManager selectionManager = getApp().getSelectionManager();
@@ -194,7 +194,7 @@ public class GeoLocusStrokeTest extends BaseUnitTest {
 
 	@Test
 	@Issue("MOW-1826")
-	public void undoDragShouldPreserveBezierPoints() {
+	void undoDragShouldPreserveBezierPoints() {
 		GeoLocusStroke stroke = addAvInput("stroke = PenStroke()");
 		stroke.appendPointArray(List.of(new MyPoint(-3, 3), new MyPoint(4, 3),
 				new MyPoint(2, 5), new MyPoint(5, 2)), null);
@@ -217,7 +217,7 @@ public class GeoLocusStrokeTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void locusBasedOnStrokeShouldHaveEnoughPoints() {
+	void locusBasedOnStrokeShouldHaveEnoughPoints() {
 		addAvInput("stroke = PenStroke((1, 3), (4, 3), (2,5))");
 		add("A=Point(stroke)");
 		add("B=A-(1,1)");
@@ -227,7 +227,7 @@ public class GeoLocusStrokeTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testDeletePart() {
+	void testDeletePart() {
 		GeoLocusStroke stroke = add("stroke=PenStroke()");
 		stroke.getPoints().addAll(List.of(
 				new MyPoint(0, 0, SegmentType.MOVE_TO),
@@ -250,7 +250,7 @@ public class GeoLocusStrokeTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testDeletePartSvg() {
+	void testDeletePartSvg() {
 		String svgPath = "M-4.07 5.69C-4.216666666666667 5.5566666666666675,-4.333333333333334 "
 				+ "5.433333333333334,-4.42 5.32L-4.678279142647833 4.930000000000002M-2.05 "
 				+ "1.5600000000000094L-2.05 1.56C-1.7699999999999996 1.433333333333333,"
@@ -376,10 +376,10 @@ public class GeoLocusStrokeTest extends BaseUnitTest {
 
 	private void assertPointsEqual(MyPoint[] expected, ArrayList<MyPoint> actual) {
 		for (int i = 0; i < expected.length; i++) {
-			assertEquals("differ at element " + i + ".x", expected[i].x,
-					actual.get(i).x, Kernel.MAX_PRECISION);
-			assertEquals("differ at element " + i + ".x", expected[i].y,
-					actual.get(i).y, Kernel.MAX_PRECISION);
+			assertEquals(expected[i].x, actual.get(i).x,
+					Kernel.MAX_PRECISION, "differ at element " + i + ".x");
+			assertEquals(expected[i].y, actual.get(i).y,
+					Kernel.MAX_PRECISION, "differ at element " + i + ".x");
 		}
 	}
 }

@@ -24,12 +24,12 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.hamcrest.CoreMatchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class RecurringDecimalTest extends BaseUnitTest {
+class RecurringDecimalTest extends BaseUnitTest {
 
 	@Test
-	public void testToFraction() {
+	void testToFraction() {
 		shouldBeAsFraction("3.25", "4", "2929 / 900");
 		shouldBeAsFraction("0.", "3", "1 / 3");
 		shouldBeAsFraction("1.", "3", "4 / 3");
@@ -38,7 +38,7 @@ public class RecurringDecimalTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testToFractionWithLeadingZeros() {
+	void testToFractionWithLeadingZeros() {
 		shouldBeAsFraction("0.0", "3", "1 / 30");
 		shouldBeAsFraction("0.", "03", "1 / 33");
 	}
@@ -51,7 +51,7 @@ public class RecurringDecimalTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testToDouble() {
+	void testToDouble() {
 		shouldBeDouble("3.25", "4", 3.25444444444444443);
 		shouldBeDouble("0.", "3", 0.333333333333333333);
 		shouldBeDouble("1.", "3", 1.333333333333333333);
@@ -68,14 +68,14 @@ public class RecurringDecimalTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testSymbolicOutputOfRecurringNumber() {
+	void testSymbolicOutputOfRecurringNumber() {
 		GeoNumeric rd = add("1.2\u03053\u03054\u0305");
 		rd.setSymbolicMode(true, true);
 		assertThat(rd.toOutputValueString(StringTemplate.algebraTemplate), is("137 / 111"));
 	}
 
 	@Test
-	public void testToString() {
+	void testToString() {
 		assertThat(createRecurringDecimal(1, "2", "34")
 						.toString(StringTemplate.defaultTemplate),
 				is("1.23\u03054\u0305"));
@@ -88,7 +88,7 @@ public class RecurringDecimalTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testToStringWithLeadingZeros() {
+	void testToStringWithLeadingZeros() {
 		assertThat(parse("1.02", "03").toString(StringTemplate.defaultTemplate),
 				is("1.020\u03053\u0305"));
 		assertThat(parse("1.00002", "0003")
@@ -110,7 +110,7 @@ public class RecurringDecimalTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testFormulaTextNonSymbolic() {
+	void testFormulaTextNonSymbolic() {
 		String recurringString = "1.23\u03054\u0305";
 		GeoNumeric a = add("a = " + recurringString);
 		getKernel().setPrintDecimals(7);
@@ -124,7 +124,7 @@ public class RecurringDecimalTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testAsRecurringDecimal() {
+	void testAsRecurringDecimal() {
 		assertThat(this.<GeoNumeric>add("1.02\u03053\u0305").asRecurringDecimal().getModel(),
 				CoreMatchers.is(RecurringDecimal.parse(getKernel(), "1.0", "23").getModel()));
 	}

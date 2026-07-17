@@ -24,9 +24,9 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class AlgoRootsTest extends BaseAppTestSetup {
+class AlgoRootsTest extends BaseAppTestSetup {
 	@Test
-	public void intersectLine() {
+	void intersectLine() {
 		setupApp(SuiteSubApp.G3D);
 		GeoElementND element =
 				evaluateGeoElement("Intersect(-2 x^(3)+7 x^(2)-2 x-3,4.5 x+y=15.75,-3,0)");

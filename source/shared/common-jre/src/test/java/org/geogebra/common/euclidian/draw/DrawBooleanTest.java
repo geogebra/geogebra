@@ -16,7 +16,7 @@
 
 package org.geogebra.common.euclidian.draw;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -33,27 +33,23 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.test.EventAccumulator;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class DrawBooleanTest extends BaseEuclidianControllerTest {
+class DrawBooleanTest extends BaseEuclidianControllerTest {
 
 	private GeoBoolean check;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		setUpController();
-	}
-
-	@Before
-	public void setupCheckbox() {
 		check = add("a=true");
 		check.setEuclidianVisible(true);
 		check.setAbsoluteScreenLoc(100, 100);
 	}
 
 	@Test
-	public void hitBooleanWithDynamicCaptionShouldBeOneEvent() {
+	void hitBooleanWithDynamicCaptionShouldBeOneEvent() {
 		GeoText caption = add("caption=\"foo\"");
 		check.setDynamicCaption(caption);
 		check.updateRepaint();
@@ -66,7 +62,7 @@ public class DrawBooleanTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void hideDynamicCaption() {
+	void hideDynamicCaption() {
 		GeoText caption = add("caption=\"foo\"");
 		check.setDynamicCaption(caption);
 		check.setLabelVisible(false);

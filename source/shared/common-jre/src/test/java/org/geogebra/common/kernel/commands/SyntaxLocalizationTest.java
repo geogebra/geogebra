@@ -16,20 +16,20 @@
 
 package org.geogebra.common.kernel.commands;
 
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.List;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.test.commands.CommandSignatures;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class SyntaxLocalizationTest {
+class SyntaxLocalizationTest {
 
 	@Test
-	public void checkSyntaxTranslations() {
+	void checkSyntaxTranslations() {
 		AppCommon app = AppCommonFactory.create3D();
 
 		for (Commands cmd : Commands.values()) {
@@ -42,11 +42,11 @@ public class SyntaxLocalizationTest {
 				continue;
 			}
 			if (cmd.getTable() == CommandsConstants.TABLE_ENGLISH) {
-				assertNull(cmd.name() + " needs no syntax", signature);
+				assertNull(signature, cmd.name() + " needs no syntax");
 				continue;
 			}
 
-			assertNotEquals(cmd.name() + " has no syntax", 0, size);
+			assertNotEquals(0, size, cmd.name() + " has no syntax");
 		}
 	}
 }

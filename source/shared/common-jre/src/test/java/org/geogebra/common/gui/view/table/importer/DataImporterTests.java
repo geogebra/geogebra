@@ -44,7 +44,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class DataImporterTests extends BaseAppTestSetup implements DataImporterDelegate {
+class DataImporterTests extends BaseAppTestSetup implements DataImporterDelegate {
 
 	private TableValuesView tableValuesView;
 	private TableValuesPointsImpl tableValuesPoints;
@@ -58,7 +58,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	private int cancelImportAfterRow;
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
 
 		Kernel kernel = getKernel();
@@ -81,14 +81,14 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@AfterEach
-	public void teardown() {
+	void teardown() {
 		Kernel kernel = getKernel();
 		kernel.detach(tableValuesView);
 		tableValuesView = null;
 	}
 
 	@Test
-	public void testImportCSVDiscardingHeader() {
+	void testImportCSVDiscardingHeader() {
 		Reader reader = loadSample("integers-comma-header.csv");
 		boolean success = dataImporter.importCSV(reader, '.');
 		assertTrue(success);
@@ -106,7 +106,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void testImportCSVNotDiscardingHeader() {
+	void testImportCSVNotDiscardingHeader() {
 		Reader reader = loadSample("integers-comma-header.csv");
 		dataImporter.setsDiscardHeader(false);
 		boolean success = dataImporter.importCSV(reader, '.');
@@ -127,7 +127,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void testImportCSVNoHeader() {
+	void testImportCSVNoHeader() {
 		assertEquals("x", tableValuesView.getTableValuesModel().getHeaderAt(0));
 
 		Reader reader = loadSample("integers-comma-noheader.csv");
@@ -147,7 +147,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void testImportCSVSingleColumn() {
+	void testImportCSVSingleColumn() {
 		Reader reader = loadSample("integers-noheader.csv");
 		boolean success = dataImporter.importCSV(reader, '.');
 		assertTrue(success);
@@ -160,7 +160,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void testImportCSVWithInconsistentSeparator() {
+	void testImportCSVWithInconsistentSeparator() {
 		Reader reader = loadSample("inconsistent-separator.csv");
 		boolean success = dataImporter.importCSV(reader, '.');
 		assertFalse(success);
@@ -171,7 +171,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void testImportCSVEmptyValues() {
+	void testImportCSVEmptyValues() {
 		Reader reader = loadSample("integers-empty-comma-header.csv");
 		boolean success = dataImporter.importCSV(reader, '.');
 		assertTrue(success);
@@ -189,7 +189,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void testImportCSVWithCorrectDecimalSeparator1() {
+	void testImportCSVWithCorrectDecimalSeparator1() {
 		Reader reader = loadSample("dotdecimals-comma-header.csv");
 		boolean success = dataImporter.importCSV(reader, '.');
 		assertTrue(success);
@@ -204,7 +204,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void testImportCSVWithCorrectDecimalSeparator2() {
+	void testImportCSVWithCorrectDecimalSeparator2() {
 		Reader reader = loadSample("dotdecimals-semicolon-header.csv");
 		boolean success = dataImporter.importCSV(reader, '.');
 		assertTrue(success);
@@ -218,7 +218,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void testImportCSVWithWrongSeparator1() {
+	void testImportCSVWithWrongSeparator1() {
 		Reader reader = loadSample("dotdecimals-semicolon-header.csv"); // e.g. "1.1"
 		// using wrong decimal separator, but (default) dot separator should still
 		// give correct results
@@ -234,7 +234,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void testImportCSVWithWrongSeparator2() {
+	void testImportCSVWithWrongSeparator2() {
 		Reader reader = loadSample("commadecimals-semicolon-header.csv"); // e.g. "1,1"
 		// using wrong decimal separator, decimal parsing should fail
 		boolean success = dataImporter.importCSV(reader, '.');
@@ -250,7 +250,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void testImportCSVWithHeaderWithDataSizeLimits() {
+	void testImportCSVWithHeaderWithDataSizeLimits() {
 		Reader reader = loadSample("integers-strings-comma-noheader.csv");
 		dataImporter.setDataSizeLimits(3, 2);
 		dataImporter.setsDiscardHeader(false);
@@ -265,7 +265,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void testImportCSVWithDataSizeLimits() {
+	void testImportCSVWithDataSizeLimits() {
 		Reader reader = loadSample("integers-comma-noheader.csv");
 		dataImporter.setDataSizeLimits(2, 10);
 		boolean success = dataImporter.importCSV(reader, '.');
@@ -277,7 +277,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void testImportCSVWithStrings() {
+	void testImportCSVWithStrings() {
 		Reader reader = loadSample("strings-comma-noheader.csv");
 		boolean success = dataImporter.importCSV(reader, '.');
 		assertTrue(success);
@@ -297,7 +297,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void testImportCSVWithIntegersAndStrings() {
+	void testImportCSVWithIntegersAndStrings() {
 		Reader reader = loadSample("integers-strings-comma-noheader.csv");
 		boolean success = dataImporter.importCSV(reader, '.');
 		assertTrue(success);
@@ -320,7 +320,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void testCancelCSVValidation() {
+	void testCancelCSVValidation() {
 		Reader reader = loadSample("integers-comma-noheader.csv");
 		cancelValidationAfterRow = 2;
 		boolean success = dataImporter.importCSV(reader, '.');
@@ -332,7 +332,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void testCancelCSVImport() {
+	void testCancelCSVImport() {
 		Reader reader = loadSample("integers-comma-noheader.csv");
 		cancelImportAfterRow = 3;
 		boolean success = dataImporter.importCSV(reader, '.');
@@ -344,7 +344,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void testUndoRedoImportCSV() {
+	void testUndoRedoImportCSV() {
 		// the model will have an empty column at this point (no label yet, the header
 		// for the x column is overridden to "x" by default)
 		assertEquals(1, tableValuesView.getTableValuesModel().getColumnCount());
@@ -371,7 +371,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void testOverwriteExistingData() {
+	void testOverwriteExistingData() {
 		inputData(new String[]{"1", "2", "3"}, new String[]{"1", "2", "3"});
 		assertEquals(3, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
@@ -390,7 +390,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void testOverwriteExistingDataWithTheSameDimensions() {
+	void testOverwriteExistingDataWithTheSameDimensions() {
 		inputData(new String[]{"1", "3", "5", "7", "9"}, new String[]{"2", "4", "6", "8", "10"});
 		assertEquals(5, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
@@ -410,7 +410,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void testOverwriteImportedDataWhileShowingTableValuePoints() {
+	void testOverwriteImportedDataWhileShowingTableValuePoints() {
 		Reader reader = loadSample("strings-comma-noheader.csv");
 		boolean success = dataImporter.importCSV(reader, '.');
 		assertTrue(success);
@@ -442,7 +442,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void testReloadRegression() {
+	void testReloadRegression() {
 		inputData(new String[]{"1", "2", "3"}, new String[]{"2", "4", "6"});
 		assertEquals(3, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
@@ -458,7 +458,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void testReloadRegressionAfterImport() {
+	void testReloadRegressionAfterImport() {
 		Reader reader = loadSample("integers-comma-noheader.csv");
 		dataImporter.importCSV(reader, '.');
 		assertEquals(10, tableValuesView.getValues().size());
@@ -476,7 +476,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void importedListsShouldBeAuxiliary() {
+	void importedListsShouldBeAuxiliary() {
 		Reader reader = new StringReader("1,2");
 		dataImporter.setsDiscardHeader(false);
 		dataImporter.importCSV(reader, '.');
@@ -485,7 +485,7 @@ public class DataImporterTests extends BaseAppTestSetup implements DataImporterD
 	}
 
 	@Test
-	public void afterDataImportTVPointsShouldBeInitializedAndNotBeVisible() {
+	void afterDataImportTVPointsShouldBeInitializedAndNotBeVisible() {
 		Reader reader = loadSample("integers-empty-comma-header.csv");
 		dataImporter.importCSV(reader, '.');
 		assertFalse(tableValuesPoints.arePointsVisible(1));

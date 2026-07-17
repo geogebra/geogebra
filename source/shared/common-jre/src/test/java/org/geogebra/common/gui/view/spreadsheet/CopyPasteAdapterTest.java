@@ -24,15 +24,15 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class CopyPasteAdapterTest extends BaseAppTestSetup {
+class CopyPasteAdapterTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setupApp() {
+	void setupApp() {
 		super.setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test
-	public void testRedefine() {
+	void testRedefine() {
 		evaluate("A1=\"h\"");
 		String csv = """
 				"Index", "Eruption length (mins)","Eruption wait (mins)"

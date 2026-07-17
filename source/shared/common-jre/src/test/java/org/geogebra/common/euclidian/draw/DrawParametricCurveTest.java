@@ -18,8 +18,8 @@ package org.geogebra.common.euclidian.draw;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 
@@ -33,12 +33,12 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class DrawParametricCurveTest extends BaseUnitTest {
+class DrawParametricCurveTest extends BaseUnitTest {
 
 	@Test
-	public void conditionalShouldHaveLabel() {
+	void conditionalShouldHaveLabel() {
 		add("ZoomIn(-5,-5,5,5)");
 		GeoFunction f = add("If(x<1,1/0,x-1)");
 		f.setLabelVisible(true);
@@ -50,7 +50,7 @@ public class DrawParametricCurveTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void viewFromPlaneShouldNotPlotFunctions() {
+	void viewFromPlaneShouldNotPlotFunctions() {
 		EuclidianView view = new EuclidianViewNoGui(getApp().newEuclidianController(getKernel()),
 				0, new EuclidianSettingsForPlane(getApp()), new GGraphicsCommon());
 		assertTrue(testFunctions(false, view,
@@ -58,7 +58,7 @@ public class DrawParametricCurveTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void view3DShouldPlotFunctions() {
+	void view3DShouldPlotFunctions() {
 		EuclidianView view = new EuclidianViewNoGui(getApp().newEuclidianController(getKernel()),
 				0, new EuclidianSettings3D(getApp()), new GGraphicsCommon());
 		assertTrue(testFunctions(true, view,
@@ -66,7 +66,7 @@ public class DrawParametricCurveTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void viewShouldPlotFunctions() {
+	void viewShouldPlotFunctions() {
 		EuclidianView view = new EuclidianViewNoGui(getApp().newEuclidianController(getKernel()),
 				0, new EuclidianSettings(getApp()), new GGraphicsCommon());
 		assertTrue(testFunctions(true, view,

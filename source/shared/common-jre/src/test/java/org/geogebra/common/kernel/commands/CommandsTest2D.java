@@ -20,15 +20,15 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.App;
 import org.geogebra.test.commands.AlgebraTestHelper;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class CommandsTest2D {
+class CommandsTest2D {
 
 	private AlgebraProcessor ap;
 
-	@Before
-	public void setup() {
+	@BeforeEach
+	void setup() {
 		App app = AppCommonFactory.create();
 		app.setLanguage("en");
 		ap = app.getKernel().getAlgebraProcessor();
@@ -40,7 +40,7 @@ public class CommandsTest2D {
 	}
 
 	@Test
-	public void orthogonalLineTest() {
+	void orthogonalLineTest() {
 		t("OrthogonalLine((0,0),x=y)", "x + y = 0");
 		t("OrthogonalLine((0,0),x=y,space)", "x + y = 0");
 	}

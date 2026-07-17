@@ -30,20 +30,20 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
+class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 
 	private ProtectiveGeoElementValueConverter converter;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		converter = new ProtectiveGeoElementValueConverter(new FunctionAndEquationFilter());
 	}
 
 	@Test
-	public void testDoesNotFilterCaption() {
+	void testDoesNotFilterCaption() {
 		getApp().setConfig(new AppConfigGraphing());
 		getApp().getKernel().setPrintDecimals(2);
 		String functionString = "g(x) = x";
@@ -88,7 +88,7 @@ public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testFiltersCaption() {
+	void testFiltersCaption() {
 		GeoLine line = createRayWithCommand();
 
 		checkCaption(line, GeoElementND.LABEL_NAME, "f");
@@ -99,7 +99,7 @@ public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testFiltersCaptionDependentCopy() {
+	void testFiltersCaptionDependentCopy() {
 		createRayWithCommand();
 		String dependentCopyString = "g:f";
 		GeoLine lineCopy = addAvInput(dependentCopyString);
@@ -112,7 +112,7 @@ public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testFiltersCaptionDependentCopySecondLevel() {
+	void testFiltersCaptionDependentCopySecondLevel() {
 		createRayWithCommand();
 		addAvInput("g:f");
 		GeoLine lineSecondLevel = addAvInput("h:g");

@@ -21,47 +21,47 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.empty;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.kernel.interval.Interval;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-public class IntervalRootTest {
+class IntervalRootTest {
 
 	private final IntervalNodeEvaluator evaluator = new IntervalNodeEvaluator();
 
 	@Test
-	public void testSqrtPositive() {
+	void testSqrtPositive() {
 		assertEquals(interval(2, 3),
 				evaluator.sqrt(interval(4, 9)));
 	}
 
 	@Test
-	public void testSqrtMixed() {
+	void testSqrtMixed() {
 		assertEquals(interval(0, 3),
 				evaluator.sqrt(interval(-4, 9)));
 	}
 
 	@Test
-	public void testSqrtNegative() {
+	void testSqrtNegative() {
 		assertEquals(undefined(), evaluator.sqrt(interval(-9, -4)));
 		assertEquals(zero(), evaluator.sqrt(interval(0, 0)));
 		assertEquals(interval(0, 1), evaluator.sqrt(interval(0, 1)));
 	}
 
-	@Ignore
+	@Disabled
 	@Test
-	public void testNthRootInNegativeInterval() {
+	void testNthRootInNegativeInterval() {
 		assertEquals(interval(-2, 2), evaluator.nthRoot(interval(-8, 8), 3));
 		assertEquals(interval(0.5, Double.POSITIVE_INFINITY),
 				evaluator.nthRoot(interval(-8, 8), -3));
 	}
 
-	@Ignore
+	@Disabled
 	@Test
-	public void testNthRoot() {
+	void testNthRoot() {
 		assertEquals(undefined(), evaluator.nthRoot(interval(-27, -8), -3));
 		assertEquals(undefined(), evaluator.nthRoot(interval(-27, -8), 2));
 		assertEquals(interval(0, 3), evaluator.nthRoot(interval(-4, 9), 2));
@@ -72,7 +72,7 @@ public class IntervalRootTest {
 	}
 
 	@Test
-	public void testNthRootWithNegativeN() {
+	void testNthRootWithNegativeN() {
 		assertEquals(interval(-3),
 				evaluator.nthRoot(interval(-27), interval(3)));
 		assertEquals(interval(-3, -2),
@@ -80,25 +80,25 @@ public class IntervalRootTest {
 	}
 
 	@Test
-	public void testSqrtSinUndef() {
+	void testSqrtSinUndef() {
 		assertTrue(evaluator.sqrt(evaluator.sin(interval(4, 5))).isUndefined());
 	}
 
 	@Test
-	public void testPowerOnPositiveFraction() {
+	void testPowerOnPositiveFraction() {
 		assertEquals(evaluator.sqrt(interval(1, 2)),
 				evaluator.pow(interval(1, 2), 0.5));
 	}
 
 	@Test
-	public void testEvenNRootWithInvertedXAroundZero() {
+	void testEvenNRootWithInvertedXAroundZero() {
 		Interval x = interval(-2.0539125955565396E-15, 0.19999999999999796);
 		assertEquals(interval(2.236067977499801, Double.POSITIVE_INFINITY),
 				evaluator.nthRoot(evaluator.inverse(x), 2));
 	}
 
 	@Test
-	public void testNthRootSetReturnsEmptyForNonSingletonExponent() {
+	void testNthRootSetReturnsEmptyForNonSingletonExponent() {
 		assertEquals(empty(), evaluator.nthRootSet(connected(1, 4), connected(2, 3)));
 	}
 }

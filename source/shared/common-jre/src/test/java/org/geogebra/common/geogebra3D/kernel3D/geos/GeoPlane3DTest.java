@@ -30,16 +30,16 @@ import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class GeoPlane3DTest extends BaseAppTestSetup {
+class GeoPlane3DTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.G3D);
 	}
 
 	@Test
 	@Issue("APPS-6716")
-	public void equationVectorShouldNotChange() {
+	void equationVectorShouldNotChange() {
 		GeoPlane3D plane = evaluateGeoElement("Plane((0,0,0),(-1,0,5),(3,2,-1))");
 		String expectedCoords = new Coords(-10.0, 14.0, -2.0, -0.0).toString();
 		assertEquals(expectedCoords,
@@ -50,7 +50,7 @@ public class GeoPlane3DTest extends BaseAppTestSetup {
 
 	@Test
 	@Issue("APPS-7421")
-	public void pointChangedOnPlaneOnlyListLeavesPointUndefined() {
+	void pointChangedOnPlaneOnlyListLeavesPointUndefined() {
 		GeoList list = evaluateGeoElement("L = {z = 2}");
 		GeoPointND point = evaluateGeoElement("A = (1, 2, 3)");
 
@@ -62,7 +62,7 @@ public class GeoPlane3DTest extends BaseAppTestSetup {
 
 	@Test
 	@Issue("APPS-7421")
-	public void planeOnlyListIsNotConsideredPath() {
+	void planeOnlyListIsNotConsideredPath() {
 		GeoList list = evaluateGeoElement("L = {z = 2}");
 		GeoPointND point = evaluateGeoElement("A = (1, 2, 2)");
 

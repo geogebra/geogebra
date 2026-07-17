@@ -16,7 +16,7 @@
 
 package org.geogebra.common.euclidian;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
@@ -24,18 +24,18 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.test.euclidian.AutoCompleteTextFieldC;
 import org.geogebra.test.euclidian.TextFieldCommonJre;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class InputFieldTouchTest extends BaseUnitTest  {
+class InputFieldTouchTest extends BaseUnitTest  {
 
 	private GeoInputBox input1;
 	private GeoInputBox input2;
 	private ViewTextField viewTextField = new TextFieldCommonJre();
 	private AutoCompleteTextFieldC textField;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		getApp().getActiveEuclidianView().setViewTextField(viewTextField);
 
 		input1 = addInputBox("inputbox1");
@@ -44,7 +44,7 @@ public class InputFieldTouchTest extends BaseUnitTest  {
 	}
 
 	@Test
-	public void applyOnSwitchInputBoxesTest() {
+	void applyOnSwitchInputBoxesTest() {
 		DrawInputBox drawInputBox1 = (DrawInputBox) getDrawable(input1);
 		DrawInputBox drawInputBox2 = (DrawInputBox) getDrawable(input2);
 		viewTextField.focusTo(drawInputBox1);
@@ -57,7 +57,7 @@ public class InputFieldTouchTest extends BaseUnitTest  {
 	}
 
 	@Test
-	public void applyOnClickOutOfInputBoxTest() {
+	void applyOnClickOutOfInputBoxTest() {
 		DrawInputBox drawInputBox1 = (DrawInputBox) getDrawable(input1);
 		viewTextField.focusTo(drawInputBox1);
 		textField.setText("ABC");

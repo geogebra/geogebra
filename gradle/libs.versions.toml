@@ -1,7 +1,7 @@
 [versions]
 junit4 = "4.13.2"
 junit = "6.1.1"
-mockito = "5.21.0"
+mockito = "5.23.0"
 hamcrest = "3.0"
 jogl = "2.6.0"
 javagiac = "70501"
@@ -72,12 +72,13 @@ junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-vintage = { module = "org.junit.vintage:junit-vintage-engine" }
 junit-launcher = {module = 'org.junit.platform:junit-platform-launcher' }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+mockito-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito" }
 hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 
 gwt-plugin = {module = "org.docstr.gwt:org.docstr.gwt.gradle.plugin", version = "2.2.9" }
 spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version = "6.5.8" }
 javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "4.0.3"}
-openrewrite-plugin = {module = "org.openrewrite.rewrite:org.openrewrite.rewrite.gradle.plugin", version = "7.4.1"}
+openrewrite-plugin = {module = "org.openrewrite.rewrite:org.openrewrite.rewrite.gradle.plugin", version = "7.37.0"}
 idea-ext = { module = "org.jetbrains.gradle.plugin.idea-ext:org.jetbrains.gradle.plugin.idea-ext.gradle.plugin", version.ref = "ideaExt" }
 
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "androidPlugin" }

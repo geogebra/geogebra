@@ -28,17 +28,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(MockedCasValuesExtension.class)
-public class CommandsUsingMockedCasTest extends CommandTestSetup {
+class CommandsUsingMockedCasTest extends CommandTestSetup {
 
 	protected final MockedCasGiac mockedCasGiac = new MockedCasGiac();
 
 	@BeforeAll
-	public static void setupFactory() {
+	static void setupFactory() {
 		UtilFactory.setPrototypeIfNull(new UtilFactoryCommon());
 	}
 
 	@BeforeEach
-	public void installCas() {
+	void installCas() {
 		mockedCasGiac.applyTo(app);
 		//
 		mockedCasGiac.memorize("1+1", "2");
@@ -46,26 +46,26 @@ public class CommandsUsingMockedCasTest extends CommandTestSetup {
 
 	@Test
 	@MockedCasValues("Expand(x) -> x")
-	public void cmdExpand() {
+	void cmdExpand() {
 		t("Expand(x)", "x");
 	}
 
 	@Test
 	@MockedCasValues("Simplify(x) -> x")
-	public void cmdSimplify() {
+	void cmdSimplify() {
 		t("Simplify(x)", "x");
 		t("Simplify[\"x+-x--x\"]", "x " + Unicode.MINUS + " x + x");
 	}
 
 	@Test
 	@MockedCasValues("NextPrime(3) -> 5")
-	public void cmdNextPrime() {
+	void cmdNextPrime() {
 		t("NextPrime(3)", "5");
 	}
 
 	@Test
 	@MockedCasValues("PreviousPrime(5) -> 3")
-	public void cmdPreviousPrime() {
+	void cmdPreviousPrime() {
 		t("PreviousPrime(5)", "3");
 	}
 
@@ -74,12 +74,12 @@ public class CommandsUsingMockedCasTest extends CommandTestSetup {
 			"Solve(x = 0) -> {x = 0}",
 			"Numeric(Limit(x / x, x, 0), 50) -> 1"
 	})
-	public void cmdRemovableDiscontinuity() {
+	void cmdRemovableDiscontinuity() {
 		t("RemovableDiscontinuity(x/x)", "(0, 1)");
 	}
 
 	@Test
-	public void cmdDerivative() {
+	void cmdDerivative() {
 		t("Derivative(x^2)", "(2 * x)");
 		t("Derivative((t^3, t^2))", "((3 * t^(2)), (2 * t))");
 		t("Derivative(x^3, 2)", "(6 * x)");
@@ -89,7 +89,7 @@ public class CommandsUsingMockedCasTest extends CommandTestSetup {
 	}
 
 	@Test
-	public void cmdIntegral() {
+	void cmdIntegral() {
 		t("Integral(x)", "(1 / 2 * x^(2))");
 		t("Integral(x^2,x)", "(1 / 3 * x^(3))");
 		t("Integral(x,0,4)", "8");
@@ -98,25 +98,25 @@ public class CommandsUsingMockedCasTest extends CommandTestSetup {
 
 	@Test
 	@MockedCasValues("Numeric(Limit(x, x, 1), 50) -> 1")
-	public void cmdLimit() {
+	void cmdLimit() {
 		t("Limit(x,1)", "1");
 	}
 
 	@Test
 	@MockedCasValues("Numeric(LimitBelow(x, x, 1), 50) -> 1")
-	public void cmdLimitBelow() {
+	void cmdLimitBelow() {
 		t("LimitBelow(x,1)", "1");
 	}
 
 	@Test
 	@MockedCasValues({"Numeric(LimitAbove(x, x, 1), 50) -> 1"})
-	public void cmdLimitAbove() {
+	void cmdLimitAbove() {
 		t("LimitAbove(x,1)", "1");
 	}
 
 	@Test
 	@MockedCasValues("PartialFractions(2 / (x² - 1), x) -> 1/(x-1) - 1/(x+1)")
-	public void cmdPartialFractions() {
+	void cmdPartialFractions() {
 		t("PartialFractions(2/(x^2-1))", "1 / (x - 1) - 1 / (x + 1)");
 	}
 
@@ -129,55 +129,55 @@ public class CommandsUsingMockedCasTest extends CommandTestSetup {
 			"Solve(ExpSimplify(ℯ^Numerator(1 / x)) = 0, x) -> {}",
 			"Numeric(Limit(1 / x, x, 0)) -> ∞"
 	})
-	public void cmdAsymptote() {
+	void cmdAsymptote() {
 		t("Asymptote(1/x)", "{y = 0, x = 0}");
 	}
 
 	@Test
 	@MockedCasValues("ImplicitDerivative(x + y) -> 1")
-	public void cmdImplicitDerivative() {
+	void cmdImplicitDerivative() {
 		t("ImplicitDerivative(x+y)", "1");
 	}
 
 	@Test
 	@MockedCasValues("CSolutions(x⁴ - 1) -> {-1 + 0i, 1 + 0i, i, i}")
-	public void cmdCSolutions() {
+	void cmdCSolutions() {
 		t("CSolutions(x^4-1)", "{-1 + (0 * ί), 1 + (0 * ί), ί, ί}");
 	}
 
 	@Test
 	@MockedCasValues("CSolve(x⁴ - 1) -> {x = -1 + 0i, x = 1 + 0i, x = i, x = -i}")
-	public void cmdCSolve() {
+	void cmdCSolve() {
 		t("CSolve(x^4-1)", "{x = -1 + (0 * ί), x = 1 + (0 * ί), x = ί, x = (-ί)}");
 	}
 
 	@Test
 	@MockedCasValues("NSolve(x³ - x) -> {x = -1, x = 0, x = 1}")
-	public void cmdNSolve() {
+	void cmdNSolve() {
 		t("NSolve(x^3-x)", "{x = -1, x = 0, x = 1}");
 	}
 
 	@Test
 	@MockedCasValues("NSolutions(x³ - x) -> {-1, 0, 1}")
-	public void cmdNSolutions() {
+	void cmdNSolutions() {
 		t("NSolutions(x^3-x)", "{-1, 0, 1}");
 	}
 
 	@Test
 	@MockedCasValues("Solutions(x³ - x) -> {-1, 0, 1}")
-	public void cmdSolutions() {
+	void cmdSolutions() {
 		t("Solutions(x^3-x)", "{-1, 0, 1}");
 	}
 
 	@Test
 	@MockedCasValues("Solve(x³ - x) -> {x = -1, x = 0, x = 1}")
-	public void cmdSolve() {
+	void cmdSolve() {
 		t("Solve(x^3-x)", "{x = -1, x = 0, x = 1}");
 	}
 
 	@Test
 	@MockedCasValues("PlotSolve(x³ - x) -> {(-1,0), (0,0), (1,0)}")
-	public void cmdPlotSolve() {
+	void cmdPlotSolve() {
 		t("PlotSolve(x^3-x)", "{(-1, 0), (0, 0), (1, 0)}");
 	}
 
@@ -186,14 +186,14 @@ public class CommandsUsingMockedCasTest extends CommandTestSetup {
 			"TrigExpand(sin(2x)) -> 2 * sin(x) * cos(x)",
 			"TrigExpand(sin(2x), sin(x)) -> 2 * sin(x) * cos(x)"
 	})
-	public void cmdTrigExpand() {
+	void cmdTrigExpand() {
 		t("TrigExpand(sin(2x))", "((2 * sin(x)) * cos(x))");
 		t("TrigExpand(sin(2x),sin(x))", "((2 * sin(x)) * cos(x))");
 	}
 
 	@Test
 	@MockedCasValues("TrigSimplify(sin(2x)) -> sin(2x)")
-	public void cmdTrigSimplify() {
+	void cmdTrigSimplify() {
 		t("TrigSimplify(sin(2x))", "sin((2 * x))");
 	}
 
@@ -202,28 +202,28 @@ public class CommandsUsingMockedCasTest extends CommandTestSetup {
 			"TrigCombine(sin(2x)) -> sin(2x)",
 			"TrigCombine(sin(2x), sin(x)) -> sin(2x)"
 	})
-	public void cmdTrigCombine() {
+	void cmdTrigCombine() {
 		t("TrigCombine(sin(2x))", "sin((2 * x))");
 		t("TrigCombine(sin(2x),sin(x))", "sin((2 * x))");
 	}
 
 	@Test
-	public void cmdCASLoaded() {
+	void cmdCASLoaded() {
 		t("CASLoaded()", "true");
 	}
 
 	@Test
-	public void cmdProve() {
+	void cmdProve() {
 		t("Prove(true)", "false");
 	}
 
 	@Test
-	public void cmdProveDetails() {
+	void cmdProveDetails() {
 		t("ProveDetails(true)", "{}");
 	}
 
 	@Test
-	public void cmdLocusEquation() {
+	void cmdLocusEquation() {
 		t("A=Point(xAxis)", "(0, 0)");
 		t("LocusEquation(Locus(2*A,A))", "?");
 		t("LocusEquation(2*A,A)", "?");
@@ -231,7 +231,7 @@ public class CommandsUsingMockedCasTest extends CommandTestSetup {
 	}
 
 	@Test
-	public void cmdEnvelope() {
+	void cmdEnvelope() {
 		t("A=Point(xAxis)", "(0, 0)");
 		t("Envelope(Line(A,O), A)", "?");
 	}

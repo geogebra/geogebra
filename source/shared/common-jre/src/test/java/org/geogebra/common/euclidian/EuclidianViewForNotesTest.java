@@ -23,15 +23,15 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class EuclidianViewForNotesTest extends BaseAppTestSetup {
+class EuclidianViewForNotesTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupNotesApp();
 	}
 
 	@Test
-	public void showAllObjectsPortrait() {
+	void showAllObjectsPortrait() {
 		evaluate("Segment((0,0),(10,10))");
 		getApp().getEuclidianView1().setViewShowAllObjects(false, true);
 		assertEquals("(-2.64967, -0.31767)",
@@ -41,7 +41,7 @@ public class EuclidianViewForNotesTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void showAllObjectsLandscape() {
+	void showAllObjectsLandscape() {
 		evaluate("Segment((0,0),(20,10))");
 		getApp().getEuclidianView1().setViewShowAllObjects(false, true);
 		assertEquals("(-2.47228, -3.67011)",

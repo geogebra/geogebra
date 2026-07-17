@@ -18,18 +18,18 @@ package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class GeoTextTest extends BaseUnitTest {
+class GeoTextTest extends BaseUnitTest {
 
 	@Test
-	public void definitionForEditorShouldBeTheStringItself() {
+	void definitionForEditorShouldBeTheStringItself() {
 		String value = "GeoGebra rocks";
 		GeoText text = new GeoText(getConstruction(), value);
 		assertEquals(value, text.getDefinitionForEditor());
@@ -37,14 +37,14 @@ public class GeoTextTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-6352")
-	public void undefinedTextToLaTeX() {
+	void undefinedTextToLaTeX() {
 		GeoText text = new GeoText(getConstruction());
 		text.setUndefined();
 		assertEquals("", text.toLaTeXString(false, StringTemplate.latexTemplate));
 	}
 
 	@Test
-	public void copyAbsLocFlag() {
+	void copyAbsLocFlag() {
 		GeoText text = new GeoText(getConstruction(), "text");
 		text.setAbsoluteScreenLocActive(true);
 		GeoText textCopy = new GeoText(getConstruction(), "textCopy");
@@ -53,14 +53,14 @@ public class GeoTextTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void alignmentForUndefinedText() {
+	void alignmentForUndefinedText() {
 		GeoText text = add("Text(If(false,7),(1,1),false,false,0,0)");
 		assertThat(getDrawable(text), notNullValue());
 	}
 
 	@Test
 	@Issue("APPS-5450")
-	public void shouldBeFixable() {
+	void shouldBeFixable() {
 		GeoText text = add("Text(\"T\",(1,2))");
 		assertThat("All texts should be fixable", text.isFixable());
 	}

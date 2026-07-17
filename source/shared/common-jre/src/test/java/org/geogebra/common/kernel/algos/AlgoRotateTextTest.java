@@ -21,12 +21,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AlgoRotateTextTest extends BaseUnitTest {
+class AlgoRotateTextTest extends BaseUnitTest {
 
 	@Test
-	public void serifPropertyShouldBePersistent() {
+	void serifPropertyShouldBePersistent() {
 		GeoText in = addAvInput("txt=\"Rotate me\"");
 		in.setSerifFont(true);
 		GeoText rotated = addAvInput("RotateText(txt,1)");

@@ -19,14 +19,13 @@ dependencies {
     implementation(project(":editor-base"))
 
     testImplementation(project(":ggbjdk"))
-    testImplementation(libs.junit)
     testImplementation(libs.hamcrest)
     testImplementation(libs.mockito.core)
 
-    // Junit 5 support with backward compatibility
+    // JUnit Jupiter support
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.jupiter)
-    testImplementation(libs.junit.vintage)
+    testImplementation(libs.mockito.jupiter)
     // Add launcher explicitly to avoid legacy loading
     // https://docs.gradle.org/8.12/userguide/upgrading_version_8.html#manually_declaring_dependencies
     testRuntimeOnly(libs.junit.launcher)

@@ -30,9 +30,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class PointStylePropertyTests extends BaseAppTestSetup {
+class PointStylePropertyTests extends BaseAppTestSetup {
 	@Test
-	public void testApplicableGeoElement() {
+	void testApplicableGeoElement() {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertDoesNotThrow(() -> new PointStyleProperty(
 				getLocalization(), evaluateGeoElement("(1, 2)")));
@@ -45,14 +45,14 @@ public class PointStylePropertyTests extends BaseAppTestSetup {
 			"5",
 			"f: x",
 	})
-	public void testNotApplicableGeoElements(String expression) {
+	void testNotApplicableGeoElements(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertThrows(NotApplicablePropertyException.class, () -> new PointStyleProperty(
 				getLocalization(), evaluateGeoElement(expression)));
 	}
 
 	@Test
-	public void testSettingPointStyles() {
+	void testSettingPointStyles() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPoint geoPoint = evaluateGeoElement("(1, 2)");
 		PointStyleProperty pointStyleProperty = assertDoesNotThrow(() ->

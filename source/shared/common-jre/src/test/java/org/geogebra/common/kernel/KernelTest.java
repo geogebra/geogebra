@@ -28,19 +28,19 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class KernelTest extends BaseAppTestSetup {
+class KernelTest extends BaseAppTestSetup {
 
-	@Before
-	public void setup() {
+	@BeforeEach
+	void setup() {
 		setupApp(SuiteSubApp.G3D);
 	}
 
 	@Test
 	@Issue("APPS-7270")
-	public void testUpdateLocalAxesNamesFromEnglish() {
+	void testUpdateLocalAxesNamesFromEnglish() {
 		evaluate("esp=7");
 		getApp().setLocale(new Locale("pt", "BR"));
 		assertEquals(GeoNumeric.class, lookup("esp").getClass());
@@ -48,7 +48,7 @@ public class KernelTest extends BaseAppTestSetup {
 
 	@Test
 	@Issue("APPS-7270")
-	public void testUpdateLocalAxesNamesToEnglish2D() {
+	void testUpdateLocalAxesNamesToEnglish2D() {
 		getApp().setLocale(new Locale("de"));
 		GeoElementND[] evaluate = evaluate("xAchse=7");
 		assertNull(evaluate);
@@ -63,7 +63,7 @@ public class KernelTest extends BaseAppTestSetup {
 
 	@Test
 	@Issue("APPS-7270")
-	public void testUpdateLocalAxesNamesToEnglish3D() {
+	void testUpdateLocalAxesNamesToEnglish3D() {
 		getApp().setLocale(new Locale("pt", "BR"));
 		GeoElementND[] evaluate = evaluate("space=7");
 		assertNull(evaluate);

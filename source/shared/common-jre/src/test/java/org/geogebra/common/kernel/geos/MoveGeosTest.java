@@ -18,9 +18,9 @@ package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,12 +32,12 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class MoveGeosTest extends BaseUnitTest {
+class MoveGeosTest extends BaseUnitTest {
 
 	@Test
-	public void testAddWithSiblingsAndChildNodes() {
+	void testAddWithSiblingsAndChildNodes() {
 		GPoint2D loc = new GPoint2D();
 		GeoMindMapNode root = new GeoMindMapNode(getConstruction(), loc);
 		GeoMindMapNode child1 = new GeoMindMapNode(getConstruction(), loc);
@@ -58,14 +58,14 @@ public class MoveGeosTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testMovingFreeList() {
+	void testMovingFreeList() {
 		GeoList list = add("{(1, 1), (3, 4)}");
 		moveListDownRightByUnit(list);
 		assertThat(list, hasValue("{(2, 2), (4, 5)}"));
 	}
 
 	@Test
-	public void testMovingDependentList1() {
+	void testMovingDependentList1() {
 		add("A=(5, 6)");
 		GeoList list = add("{(1, 1), (3, 4), A}");
 		moveListDownRightByUnit(list);
@@ -73,7 +73,7 @@ public class MoveGeosTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testMovingDependentList2() {
+	void testMovingDependentList2() {
 		GeoPoint A = add("A = (1, 2)");
 		GeoPoint B = add("B = (4, 3)");
 		GeoList list = add("{Line(A, B)}");
@@ -85,7 +85,7 @@ public class MoveGeosTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-6035")
-	public void testMovingDependentList3() {
+	void testMovingDependentList3() {
 		GeoList list = add("Sequence(Text(k,(k,k)),k,1,5)");
 		GeoPointND startPoint = ((GeoText) list.get(0)).getStartPoint();
 		assertArrayEquals(new double[]{1, 1}, startPoint.getInhomCoords().get());
@@ -94,21 +94,21 @@ public class MoveGeosTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testMoveObjectsWithPointList() {
+	void testMoveObjectsWithPointList() {
 		GeoList list = add("{(1, 1), (3, 4), (5, 6)}");
 		moveListDownRightByUnit(list);
 		assertThat(list, hasValue("{(2, 2), (4, 5), (6, 7)}"));
 	}
 
 	@Test
-	public void testListElementsUpdatedAfterMove() {
+	void testListElementsUpdatedAfterMove() {
 		GeoList list = add("{(1, 1), (3, 4), (5, 6)}");
 		moveListDownRightByUnit(list);
 		assertTrue(MoveGeos.updateListHave(list, list.get(0), list.get(1), list.get(2)));
 	}
 
 	@Test
-	public void testSegmentEndPointsUpdatedAfterMove() {
+	void testSegmentEndPointsUpdatedAfterMove() {
 		GeoPoint A = add("A=(5, 6)");
 		GeoPoint B = add("B=(6, 6)");
 		GeoList list = add("{Segment(A, B)}");
@@ -124,12 +124,12 @@ public class MoveGeosTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testCircleInListWithoutPoint() {
+	void testCircleInListWithoutPoint() {
 		shouldValueBeEqualAfterMove("{Circle((2, 2), 1)}", "(x - 3)² + (y - 3)² = 1");
 	}
 
 	@Test
-	public void testMatrixElementFixed() {
+	void testMatrixElementFixed() {
 		// also relevant for Element(CSolve({x^2+1=0}),1)
 		shouldValueBeEqualAfterMove("Element({{(1,2)}},1)", "(1, 2)");
 	}
@@ -142,14 +142,14 @@ public class MoveGeosTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testEllipseInListWithoutPoint() {
+	void testEllipseInListWithoutPoint() {
 		shouldValueBeEqualAfterMove("{Ellipse((-1, 0), (0, 0), (0, 1))}",
 				"19.31x² + 23.31y² - 19.31x - 46.63y = 0");
 
 	}
 
 	@Test
-	public void testPolygonInListWithoutPoint() {
+	void testPolygonInListWithoutPoint() {
 		GeoList list = add("{Polygon((-1, 0), (1, 0), (0, 1))}");
 		moveListDownRightByUnit(list);
 		GeoElement element = list.get(0);

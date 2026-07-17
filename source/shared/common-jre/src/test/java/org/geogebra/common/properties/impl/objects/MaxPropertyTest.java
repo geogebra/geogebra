@@ -16,17 +16,17 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class MaxPropertyTest extends BaseUnitTest {
+class MaxPropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testConstructorSucceeds() {
+	void testConstructorSucceeds() {
 		GeoNumeric slider = addAvInput("1");
 		slider.setEuclidianVisible(true);
 		try {

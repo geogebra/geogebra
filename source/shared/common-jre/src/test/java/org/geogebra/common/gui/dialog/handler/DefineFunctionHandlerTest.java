@@ -16,9 +16,9 @@
 
 package org.geogebra.common.gui.dialog.handler;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
@@ -30,10 +30,10 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
 import org.geogebra.test.UndoRedoTester;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class DefineFunctionHandlerTest extends BaseUnitTest {
+class DefineFunctionHandlerTest extends BaseUnitTest {
 	private DefineFunctionHandler handler;
 	private Construction cons;
 
@@ -42,22 +42,22 @@ public class DefineFunctionHandlerTest extends BaseUnitTest {
 		return AppCommonFactory.create3D();
 	}
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		getApp().setScientificConfig();
 		handler = new DefineFunctionHandler(getApp().getKernel());
 		cons = getConstruction();
 	}
 
 	@Test
-	public void testChangeF() {
+	void testChangeF() {
 		GeoEvaluatable f = createFunction(cons, "f");
 		handler.handle("2x", f);
 		functionShouldBe("f(x) = 2x", f);
 	}
 
 	@Test
-	public void testChangeFWhenNoStructuresEnabled() {
+	void testChangeFWhenNoStructuresEnabled() {
 		AlgebraProcessor ap = cons.getKernel().getAlgebraProcessor();
 		ap.setEnableStructures(false);
 		GeoEvaluatable f = createFunction(cons, "f");
@@ -74,7 +74,7 @@ public class DefineFunctionHandlerTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testChangeFToUndefined() {
+	void testChangeFToUndefined() {
 		GeoEvaluatable f = createFunction(cons, "f");
 		handler.handle("2x", f);
 		functionShouldBe("f(x) = 2x", f);
@@ -83,14 +83,14 @@ public class DefineFunctionHandlerTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testUndefinedVariableShouldGiveError() {
+	void testUndefinedVariableShouldGiveError() {
 		GeoEvaluatable f = createFunction(cons, "f");
 		handler.handle("ln(z)", f);
 		assertTrue(handler.hasErrorOccurred());
 	}
 
 	@Test
-	public void testSimpleUndo() {
+	void testSimpleUndo() {
 		GeoEvaluatable f = createFunction(cons, "f");
 		App app = getApp();
 		UndoRedoTester undoRedo = new UndoRedoTester(app);

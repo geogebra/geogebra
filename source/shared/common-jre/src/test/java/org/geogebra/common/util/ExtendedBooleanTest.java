@@ -16,14 +16,14 @@
  
 package org.geogebra.common.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ExtendedBooleanTest {
+class ExtendedBooleanTest {
 
 	@Test
-	public void testAnd() {
+	void testAnd() {
 		assertEquals(ExtendedBoolean.UNKNOWN, ExtendedBoolean.TRUE.and(ExtendedBoolean.UNKNOWN));
 		assertEquals(ExtendedBoolean.FALSE, ExtendedBoolean.TRUE.and(ExtendedBoolean.FALSE));
 		assertEquals(ExtendedBoolean.UNKNOWN, ExtendedBoolean.UNKNOWN.and(ExtendedBoolean.UNKNOWN));
@@ -31,7 +31,7 @@ public class ExtendedBooleanTest {
 	}
 
 	@Test
-	public void testOr() {
+	void testOr() {
 		assertEquals(ExtendedBoolean.TRUE, ExtendedBoolean.TRUE.or(ExtendedBoolean.UNKNOWN));
 		assertEquals(ExtendedBoolean.TRUE, ExtendedBoolean.TRUE.or(ExtendedBoolean.FALSE));
 		assertEquals(ExtendedBoolean.UNKNOWN, ExtendedBoolean.UNKNOWN.or(ExtendedBoolean.UNKNOWN));

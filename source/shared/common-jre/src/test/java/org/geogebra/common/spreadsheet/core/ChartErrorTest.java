@@ -27,11 +27,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-@SuppressWarnings("checkstyle:RegexpSinglelineCheck") // Tabs in CsvSources
-public class ChartErrorTest {
+// Tabs in CsvSources
+@SuppressWarnings("checkstyle:RegexpSinglelineCheck")
+class ChartErrorTest {
 
 	@BeforeAll
-	public static void setupOnce() {
+	static void setupOnce() {
 		UtilFactoryJre.setupRegexFactory();
 	}
 
@@ -48,7 +49,7 @@ public class ChartErrorTest {
 			"A1:A10,B1:B11  -> InvalidData",	// different sizes
 			"A1:A3,B1:E1    -> InvalidData",	// different sizes
 	})
-	public void testValidateRangesForBoxPlot(String rangeSpec, String expectedResult) {
+	void testValidateRangesForBoxPlot(String rangeSpec, String expectedResult) {
 		List<TabularRange> ranges = makeRanges(rangeSpec);
 		assertEquals(expectedResult, ChartError.validateRangesForBoxPlot(ranges).name());
 	}

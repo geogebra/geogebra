@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class MoveMinusInOutTest extends BaseSimplifyTestSetup {
+class MoveMinusInOutTest extends BaseSimplifyTestSetup {
 	@ParameterizedTest
 	@CsvSource({
 			"-(sqrt(5) - 6), 6 - sqrt(5)",
@@ -33,7 +33,7 @@ public class MoveMinusInOutTest extends BaseSimplifyTestSetup {
 			"-((sqrt(5) - 6) / 5), (6 - sqrt(5)) / 5",
 			"-((sqrt(5) + 6) / 5), -((sqrt(5) + 6) / 5)",
 	})
-	public void testApply(String definition, String expected) {
+	void testApply(String definition, String expected) {
 		GeoElementND geo = evaluateGeoElement(definition);
 		ExpressionNode node = geo.getDefinition();
 		ExpressionNode applied = getSimplifier().apply(node);

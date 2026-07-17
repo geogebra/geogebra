@@ -22,21 +22,21 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.util.Iterator;
 
 import org.geogebra.common.BaseUnitTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class AlgorithmSetTest extends BaseUnitTest {
+class AlgorithmSetTest extends BaseUnitTest {
 
 	private AlgorithmSet algoSet;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		algoSet = new AlgorithmSet();
 	}
 
 	@Test
-	public void testAdd() {
+	void testAdd() {
 		AlgoElement element = createAlgoElement(0);
 		algoSet.add(element);
 		assertThat(algoSet.contains(element), is(true));
@@ -45,7 +45,7 @@ public class AlgorithmSetTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testAddAllSorted() {
+	void testAddAllSorted() {
 		AlgoElement first = createAlgoElement(1);
 		AlgoElement second = createAlgoElement(20);
 		AlgoElement third = createAlgoElement(30);

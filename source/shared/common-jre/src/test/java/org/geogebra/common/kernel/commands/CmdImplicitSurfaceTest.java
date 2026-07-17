@@ -21,26 +21,26 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class CmdImplicitSurfaceTest extends CommandTestSetup {
+class CmdImplicitSurfaceTest extends CommandTestSetup {
 
 	@BeforeAll
-	public static void enablePreviewFeatures() {
+	static void enablePreviewFeatures() {
 		PreviewFeature.setPreviewFeaturesEnabled(true);
 	}
 
 	@AfterAll
-	public static void disablePreviewFeatures() {
+	static void disablePreviewFeatures() {
 		PreviewFeature.setPreviewFeaturesEnabled(false);
 	}
 
 	@Test
-	public void testCommand() {
+	void testCommand() {
 		t("ImplicitSurface[sin(x)+sin(y)+sin(z)]",
 				"sin(x) + sin(y) + sin(z) = 0");
 	}
 
 	@Test
-	public void testIntersect() {
+	void testIntersect() {
 		intersect("x^4+y^4+z^4=2", "x=y", false, "(-1, -1, 0)",
 				"(1, 1, 0)");
 	}

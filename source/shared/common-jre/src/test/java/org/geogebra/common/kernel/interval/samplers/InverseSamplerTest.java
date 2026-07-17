@@ -17,20 +17,20 @@
 package org.geogebra.common.kernel.interval.samplers;
 
 import static org.geogebra.common.kernel.interval.IntervalSetOps.isZero;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.function.Predicate;
 
 import org.geogebra.common.kernel.interval.SamplerTest;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-public class InverseSamplerTest extends SamplerTest {
+class InverseSamplerTest extends SamplerTest {
 
 	@Test
-	public void zeroXInverseShouldBeInfiniteOnly() {
+	void zeroXInverseShouldBeInfiniteOnly() {
 		assertAll("1/(0x)", IntervalTuple::isEmpty);
 	}
 
@@ -40,13 +40,13 @@ public class InverseSamplerTest extends SamplerTest {
 	}
 
 	@Test
-	public void inverseOfzeroXInverse() {
+	void inverseOfzeroXInverse() {
 		assertAll("1/(1/(0x))", IntervalTuple::isEmpty);
 	}
 
-	@Ignore("whole or empty now. Test is on wrong layer")
+	@Disabled("whole or empty now. Test is on wrong layer")
 	@Test
-	public void zeroDividedByTanSecXShouldBeZero() {
+	void zeroDividedByTanSecXShouldBeZero() {
 		assertAll("0/(tan(sec(x)))", t -> isZero(t.ySet()));
 	}
 }

@@ -16,15 +16,15 @@
 
 package org.geogebra.common.kernel.algos;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AlgoPointInTest extends BaseUnitTest {
+class AlgoPointInTest extends BaseUnitTest {
 
 	@Test
-	public void reloadShouldNotCauseRoundingErrorsForPoly() {
+	void reloadShouldNotCauseRoundingErrorsForPoly() {
 		add("Apoly = (-11.630150708010094, 11.544376411902313)");
 		add("Bpoly = (-11.630150708010094, -11.546479927913134)");
 		add("Cpoly = (11.460705631805354, -11.546479927913134)");
@@ -37,7 +37,7 @@ public class AlgoPointInTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void reloadShouldNotCauseRoundingErrorsForCircle() {
+	void reloadShouldNotCauseRoundingErrorsForCircle() {
 		add("A = (0.71,0.43)");
 		add("B = (1.89,2.003)");
 		add("C = (60,100)");

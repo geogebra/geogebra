@@ -16,19 +16,19 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CaptionStylePropertyTest extends BaseUnitTest {
+class CaptionStylePropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testConstructorSucceeds() {
+	void testConstructorSucceeds() {
 		GeoElement f = addAvInput("f: x");
 		try {
 			new CaptionStyleProperty(getLocalization(), f);
@@ -38,7 +38,7 @@ public class CaptionStylePropertyTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testConstructorThrowsError() {
+	void testConstructorThrowsError() {
 		getApp().setGraphingConfig();
 		GeoText text = addAvInput("\"\"");
 		assertThrows(NotApplicablePropertyException.class,

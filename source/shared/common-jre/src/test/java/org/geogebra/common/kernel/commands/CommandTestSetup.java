@@ -50,7 +50,7 @@ public class CommandTestSetup {
 	 * Create the app
 	 */
 	@BeforeEach
-	public void setupApp() {
+	void setupApp() {
 		UtilFactory.setPrototypeIfNull(new UtilFactoryCommon());
 		app = AppCommonFactory.create3D();
 		ap = app.getKernel().getAlgebraProcessor();
@@ -62,7 +62,7 @@ public class CommandTestSetup {
 	}
 
 	@AfterEach
-	public void checkSyntaxes() {
+	void checkSyntaxes() {
 		checkSyntaxesStatic();
 		if (app.getKernel().getConstruction().getGeoSetLabelOrder().size() < 20) {
 			XmlTestUtil.checkCurrentXML(app);

@@ -44,15 +44,15 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
+class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setupApp() {
+	void setupApp() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test
-	public void testPoint() {
+	void testPoint() {
 		GeoPoint zeroPoint = evaluateGeoElement("(0,0)");
 		GeoPoint onePoint = evaluateGeoElement("(1,1)");
 		PropertiesArray propertiesArray = new GeoElementPropertiesFactory()
@@ -74,7 +74,7 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPointProperties() {
+	void testPointProperties() {
 		GeoPoint zeroPoint = evaluateGeoElement("(0,0)");
 		GeoPoint onePoint = evaluateGeoElement("(1,1)");
 		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
@@ -88,7 +88,7 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testAngleProperties() {
+	void testAngleProperties() {
 		GeoAngle angle = evaluateGeoElement("Angle[(0,1), (0,0), (1,0)]");
 		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
 				.createProperties(getKernel().getAlgebraProcessor(),
@@ -101,7 +101,7 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testNumberProperties() {
+	void testNumberProperties() {
 		GeoNumeric number = evaluateGeoElement("a=1.5");
 		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
 				.createProperties(getKernel().getAlgebraProcessor(),
@@ -114,7 +114,7 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testSliderIsFixed() {
+	void testSliderIsFixed() {
 		GeoNumeric numeric1 = evaluateGeoElement("a = 5");
 		GeoNumeric numeric2 = evaluateGeoElement("a = 10");
 		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
@@ -128,7 +128,7 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testEquationFormProperty() {
+	void testEquationFormProperty() {
 		GeoElementPropertiesFactory propertiesFactory = new GeoElementPropertiesFactory();
 
 		GeoLine line = evaluateGeoElement("Line((-1,-1),(1,2))");
@@ -145,7 +145,7 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testInlineTableTextProperties() {
+	void testInlineTableTextProperties() {
 		GeoInlineTable table = new GeoInlineTable(getKernel().getConstruction(), new GPoint2D());
 		try {
 			TextStylePropertyCollection textStylePropertyCollection
@@ -162,7 +162,7 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testInlineTextTextProperties() {
+	void testInlineTextTextProperties() {
 		GeoInlineText table = new GeoInlineText(getKernel().getConstruction(), new GPoint2D());
 		try {
 			TextStylePropertyCollection textStylePropertyCollection

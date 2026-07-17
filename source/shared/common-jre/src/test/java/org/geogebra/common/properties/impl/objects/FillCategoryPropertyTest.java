@@ -25,9 +25,9 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class FillCategoryPropertyTest extends BaseAppTestSetup {
+class FillCategoryPropertyTest extends BaseAppTestSetup {
 	@Test
-	public void testFillCategoryRemembersPreviousFillType() throws NotApplicablePropertyException {
+	void testFillCategoryRemembersPreviousFillType() throws NotApplicablePropertyException {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement element = evaluateGeoElement("Circle((0,0),10)");
 		FillCategoryProperty property = new FillCategoryProperty(getLocalization(), element);
@@ -43,7 +43,7 @@ public class FillCategoryPropertyTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testCategoryMatchesFillType() throws NotApplicablePropertyException {
+	void testCategoryMatchesFillType() throws NotApplicablePropertyException {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement element = evaluateGeoElement("Circle((0,0),10)");
 		FillCategoryProperty property = new FillCategoryProperty(getLocalization(), element);

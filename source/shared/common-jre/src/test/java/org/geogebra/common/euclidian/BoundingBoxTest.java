@@ -16,9 +16,9 @@
 
 package org.geogebra.common.euclidian;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.measurement.MeasurementController;
@@ -27,20 +27,20 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class BoundingBoxTest extends BaseEuclidianControllerTest {
+class BoundingBoxTest extends BaseEuclidianControllerTest {
 
-	@Before
-	public void setupNotes() {
+	@BeforeEach
+	void setupNotes() {
 		setUpController();
 		getApp().setConfig(new AppConfigNotes());
 	}
 
 	@Test
 	@Issue("MOW-1518")
-	public void hittingHandlerShouldHavePriority() {
+	void hittingHandlerShouldHavePriority() {
 		getApp().setMode(EuclidianConstants.MODE_SELECT_MOW);
 		GeoConic circle = add("Circle((1,-1),1)");
 		circle.setAlphaValue(1);
@@ -54,16 +54,16 @@ public class BoundingBoxTest extends BaseEuclidianControllerTest {
 		dragStart(114, 100);
 		assertEquals(EuclidianBoundingBoxHandler.BOTTOM_RIGHT,
 				getApp().getActiveEuclidianView().getHitHandler());
-		assertTrue("circle should be selected", circle.isSelected());
+		assertTrue(circle.isSelected(), "circle should be selected");
 		// hit too far
 		dragStart(115, 100);
 		assertEquals(EuclidianBoundingBoxHandler.UNDEFINED,
 				getApp().getActiveEuclidianView().getHitHandler());
-		assertFalse("circle should not be selected", circle.isSelected());
+		assertFalse(circle.isSelected(), "circle should not be selected");
 	}
 
 	@Test
-	public void rotateCurve() {
+	void rotateCurve() {
 		GeoCurveCartesian curve = add("BezierCurve((0,0),(2,0),(1,2),(3,2))");
 		EuclidianView view = getApp().getActiveEuclidianView();
 		view.getEuclidianController().selectAndShowSelectionUI(curve);

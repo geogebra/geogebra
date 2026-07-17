@@ -24,15 +24,15 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class AlgoCellRangeTest extends BaseAppTestSetup {
+class AlgoCellRangeTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test
-	public void testLaTeX() {
+	void testLaTeX() {
 		assertEquals("A1\\mathpunct{:}A2", evaluateGeoElement("A1:A2")
 				.toLaTeXString(true, StringTemplate.latexTemplate));
 	}

@@ -16,25 +16,25 @@
 
 package org.geogebra.common.euclidian;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class NotesSelectionTest extends BaseEuclidianControllerTest {
+class NotesSelectionTest extends BaseEuclidianControllerTest {
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		setUpController();
 	}
 
 	@Test
-	public void selectionRectangleShouldSelectPartOfStroke() {
+	void selectionRectangleShouldSelectPartOfStroke() {
 		setMode(EuclidianConstants.MODE_PEN);
 		dragStart(100, 100);
 		dragEnd(200, 100);
@@ -45,7 +45,7 @@ public class NotesSelectionTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void selectionRectangleShouldSelectPartOfMoreStrokes() {
+	void selectionRectangleShouldSelectPartOfMoreStrokes() {
 		setMode(EuclidianConstants.MODE_PEN);
 		dragStart(100, 100);
 		dragEnd(200, 100);
@@ -61,7 +61,7 @@ public class NotesSelectionTest extends BaseEuclidianControllerTest {
 
 	@Test
 	@Issue("MOW-1744")
-	public void tabToNextGeoShouldHideBoundingBox() {
+	void tabToNextGeoShouldHideBoundingBox() {
 		getApp().setConfig(new AppConfigNotes());
 		setMode(EuclidianConstants.MODE_SHAPE_RECTANGLE);
 		dragStart(50, 50);

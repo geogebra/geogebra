@@ -19,7 +19,7 @@ package org.geogebra.common.kernel.algos;
 import static org.geogebra.test.OrderingComparison.greaterThan;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.spy;
@@ -39,12 +39,12 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AlgoSequenceTest extends BaseUnitTest {
+class AlgoSequenceTest extends BaseUnitTest {
 
 	@Test
-	public void testAngleVisibility() {
+	void testAngleVisibility() {
 		addAvInput("A = (0, 0)");
 		addAvInput("B = (1, 1)");
 		addAvInput("C = (0, 1)");
@@ -54,7 +54,7 @@ public class AlgoSequenceTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void elementsShouldBeDeepCopied() {
+	void elementsShouldBeDeepCopied() {
 		addAvInput("l1 = {{(0,0), (1,0), (2,0), (3,0)},{(1,1), (2,1)}}");
 		GeoList seq = addAvInput("Sequence(LineGraph(x(Element(l1, k)), "
 				+ "y(Element(l1, k))), k, 1, Length(l1))");
@@ -63,7 +63,7 @@ public class AlgoSequenceTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void implicitCurveBoundsInSequence() {
+	void implicitCurveBoundsInSequence() {
 		GeoList list = add("Sequence(sin(x)+sin(y)=-k,k,1,5)");
 		for (int i = 0; i < list.size(); i++) {
 			double val = ((GeoImplicitCurve) list.get(i)).evaluateImplicitCurve(0, 0, 0);
@@ -72,7 +72,7 @@ public class AlgoSequenceTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void sequenceOfLociShouldChangeOnZoom() {
+	void sequenceOfLociShouldChangeOnZoom() {
 		add("ZoomIn(-5,-5,5,5)");
 		add("A=Point(0x+1)");
 		GeoList seq = add("Sequence(Locus(k*A,A),k,1,4)");
@@ -84,19 +84,19 @@ public class AlgoSequenceTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void closestPointToSequenceOfPolygons() {
+	void closestPointToSequenceOfPolygons() {
 		add("l1=Sequence(Polygon((p, 1), (p, 2), 4), p, 1, 5)");
 		assertThat(add("ClosestPoint(l1, (6, 1))"), hasValue("(5, 1)"));
 	}
 
 	@Test
-	public void testSequenceOfTexts() {
+	void testSequenceOfTexts() {
 		GeoList seq = add("Sequence(Text(i, (0, 2*i)), i, 1, 3)");
 		assertThat(seq, hasValue("{\"1\", \"2\", \"3\"}"));
 	}
 
 	@Test
-	public void pieChartSequenceTest() {
+	void pieChartSequenceTest() {
 		GGraphicsCommon graphics = createGraphicsWithDrawable(
 				"s1=Sequence(PieChart({1,2,3},(k,1),.5),k,1,3)");
 		verify(graphics, atLeast(5)).setColor(any());
@@ -104,7 +104,7 @@ public class AlgoSequenceTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void chartSequenceTest() {
+	void chartSequenceTest() {
 		GGraphicsCommon graphics = createGraphicsWithDrawable(
 				"s2=Sequence(BarChart({1,2,3},{4,5,6}/k),k,1,3)");
 		verify(graphics, atLeast(5)).fill(any());
@@ -112,7 +112,7 @@ public class AlgoSequenceTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-6096")
-	public void shouldNotKeepDefinitionsWithVariableReference() {
+	void shouldNotKeepDefinitionsWithVariableReference() {
 		add("l1={{{1,2},{3,4}},{{5,6},{7,8}},{{9,10},{11,12}}}");
 		GeoList seq = add("Sequence(Sequence(Element(l1,p)+m Identity(2),p,1,3),m,-1,1)");
 		assertThat(seq, hasValue("{{{{0, 2}, {3, 3}}, {{4, 6}, {7, 7}}, {{8, 10}, {11, 11}}},"
@@ -122,7 +122,7 @@ public class AlgoSequenceTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-6558")
-	public void shouldCleanEuclidianCEList() {
+	void shouldCleanEuclidianCEList() {
 		add("to=5");
 		add("Sequence(x^4+y^4=a,a,1,to)");
 		// the input curve + the 5 curves with substituted value of a

@@ -30,9 +30,9 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.Test;
 
-public class CaptionPropertyTests extends BaseAppTestSetup {
+class CaptionPropertyTests extends BaseAppTestSetup {
 	@Test
-	public void testSuggestions() {
+	void testSuggestions() {
 		setupApp(SuiteSubApp.GRAPHING);
 		evaluateGeoElement("text1 = \"abc\"");
 		evaluateGeoElement("text2 = \"def\"");
@@ -42,7 +42,7 @@ public class CaptionPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testDefaultUnsetCaption() {
+	void testDefaultUnsetCaption() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement("x");
 		CaptionProperty captionProperty = new CaptionProperty(getLocalization(), geoElement);
@@ -52,7 +52,7 @@ public class CaptionPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testSettingAndUpdatingSuggestedCaption() {
+	void testSettingAndUpdatingSuggestedCaption() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoText geoText = evaluateGeoElement("text1 = \"abc\"");
 		GeoElement geoElement = evaluateGeoElement("x");
@@ -70,7 +70,7 @@ public class CaptionPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testSwitchingBetweenStaticAndDynamicCaption() {
+	void testSwitchingBetweenStaticAndDynamicCaption() {
 		setupApp(SuiteSubApp.GRAPHING);
 		evaluateGeoElement("text1 = \"abc\"");
 		GeoElement geoElement = evaluateGeoElement("x");
@@ -89,7 +89,7 @@ public class CaptionPropertyTests extends BaseAppTestSetup {
 
 	@Issue("APPS-7157")
 	@Test
-	public void testSettingCaptionEnsuresVisibility() {
+	void testSettingCaptionEnsuresVisibility() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement element = evaluateGeoElement("(1,2)");
 		element.setLabelVisible(false);

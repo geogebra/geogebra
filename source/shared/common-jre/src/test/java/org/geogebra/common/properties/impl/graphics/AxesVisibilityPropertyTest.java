@@ -26,15 +26,15 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class AxesVisibilityPropertyTest extends BaseAppTestSetup {
+class AxesVisibilityPropertyTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test
-	public void propertyDependency() {
+	void propertyDependency() {
 		LocalizationJre localization = getApp().getLocalization();
 		EuclidianSettings evSettings = getApp().getSettings().getEuclidian(1);
 		AxisVisibilityProperty xAxis = new AxisVisibilityProperty(localization,

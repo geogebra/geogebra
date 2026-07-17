@@ -28,10 +28,10 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class PieChartRadiusPropertyTests extends BaseAppTestSetup {
+class PieChartRadiusPropertyTests extends BaseAppTestSetup {
 
 	@Test
-	public void testNotApplicable() {
+	void testNotApplicable() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart element = evaluateGeoElement("Element({PieChart({1, 2, 3})}, 1)");
 		assertThrows(NotApplicablePropertyException.class, () ->
@@ -39,7 +39,7 @@ public class PieChartRadiusPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingRadiusWithConstantValue() {
+	void testChangingRadiusWithConstantValue() {
 		setupApp(SuiteSubApp.GRAPHING);
 		PieChartRadiusProperty property = assertDoesNotThrow(
 				() -> new PieChartRadiusProperty(getAlgebraProcessor(), getLocalization(),
@@ -52,7 +52,7 @@ public class PieChartRadiusPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingRadiusWithDynamicValue() {
+	void testChangingRadiusWithDynamicValue() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoNumeric slider = evaluateGeoElement("a = Slider(1, 10, 1)");
 		slider.setValue(5);

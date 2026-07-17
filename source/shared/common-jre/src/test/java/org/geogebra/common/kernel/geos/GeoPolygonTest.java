@@ -17,16 +17,16 @@
 package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class GeoPolygonTest extends BaseUnitTest {
+class GeoPolygonTest extends BaseUnitTest {
 
 	@Test
-	public void testMaskProperties() {
+	void testMaskProperties() {
 		add("A=(-1,1)");
 		add("B=(-1,-1)");
 		add("C=(1,-1)");
@@ -44,7 +44,7 @@ public class GeoPolygonTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testPointOnPathWithoutSegments() {
+	void testPointOnPathWithoutSegments() {
 		add("A=(0, 5)");
 		add("B=(-5, 0)");
 		add("C=(5, 2.5)");

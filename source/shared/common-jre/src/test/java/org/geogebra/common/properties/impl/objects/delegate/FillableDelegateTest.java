@@ -24,14 +24,14 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class FillableDelegateTest extends BaseAppTestSetup {
+class FillableDelegateTest extends BaseAppTestSetup {
 
 	@ParameterizedTest
 	@ValueSource(strings = {
 			"Circle((0,0), 10)",
 			"Polygon({(0,0),(1,1),(2,0)})"
 	})
-	public void testApplicable(String expression) {
+	void testApplicable(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertDoesNotThrow(() -> new FillableDelegate(evaluateGeoElement(expression)));
 	}
@@ -43,7 +43,7 @@ public class FillableDelegateTest extends BaseAppTestSetup {
 			"a = 1 + 2",
 			"InputBox()"
 	})
-	public void testNotApplicable(String expression) {
+	void testNotApplicable(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertThrows(NotApplicablePropertyException.class,
 				() -> new FillableDelegate(evaluateGeoElement(expression)));

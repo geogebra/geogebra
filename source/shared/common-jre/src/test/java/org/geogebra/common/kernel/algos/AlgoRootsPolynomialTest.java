@@ -27,15 +27,15 @@ import org.junit.jupiter.api.Test;
 /**
  * Test for {@link AlgoRootsPolynomial}.
  */
-public class AlgoRootsPolynomialTest extends BaseAppTestSetup {
+class AlgoRootsPolynomialTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupClassicApp();
 	}
 
 	@Test
-	public void rationalFunctions() {
+	void rationalFunctions() {
 		getApp().setRounding("13");
 		GeoElementND[] pt = evaluate("Intersect(2.5-x, 1/x)");
 		assertEquals("(0.5, 2)", pt[0].toValueString(StringTemplate.defaultTemplate));
@@ -43,7 +43,7 @@ public class AlgoRootsPolynomialTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void rationalFunctionsDiscontinuity() {
+	void rationalFunctionsDiscontinuity() {
 		getApp().setRounding("13");
 		GeoElementND[] pt = evaluate("Intersect(x/x, x+1)");
 		assertEquals("(?, ?)", pt[0].toValueString(StringTemplate.defaultTemplate));
@@ -53,7 +53,7 @@ public class AlgoRootsPolynomialTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void rationalFunctionLine() {
+	void rationalFunctionLine() {
 		getApp().setRounding("13");
 		GeoElementND[] pt = evaluate("Intersect(x+y=2.5, 1/x)");
 		assertEquals("(0.5, 2)", pt[0].toValueString(StringTemplate.defaultTemplate));

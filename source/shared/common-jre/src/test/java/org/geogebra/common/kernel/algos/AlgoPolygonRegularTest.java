@@ -16,16 +16,16 @@
 
 package org.geogebra.common.kernel.algos;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AlgoPolygonRegularTest extends BaseUnitTest {
+class AlgoPolygonRegularTest extends BaseUnitTest {
 
 	@Test
-	public void polygonInListShouldNotLabelSegments() {
+	void polygonInListShouldNotLabelSegments() {
 		add("n=3");
 		add("A=(0,0)");
 		add("B=(1,0)");
@@ -38,7 +38,7 @@ public class AlgoPolygonRegularTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void polygonShouldLabelNewSegments() {
+	void polygonShouldLabelNewSegments() {
 		add("n=3");
 		add("A=(0,0)");
 		add("B=(1,0)");

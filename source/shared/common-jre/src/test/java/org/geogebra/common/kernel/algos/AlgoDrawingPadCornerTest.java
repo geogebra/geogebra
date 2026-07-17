@@ -22,12 +22,12 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AlgoDrawingPadCornerTest extends BaseUnitTest {
+class AlgoDrawingPadCornerTest extends BaseUnitTest {
 
 	@Test
-	public void corner5ShouldBeNonzeroOnLoad() {
+	void corner5ShouldBeNonzeroOnLoad() {
 		EuclidianView view = getApp().getActiveEuclidianView();
 		view.setPreferredSize(new Dimension(0, 0));
 		view.getSettings().setSizeFromFile(new Dimension(300, 200));

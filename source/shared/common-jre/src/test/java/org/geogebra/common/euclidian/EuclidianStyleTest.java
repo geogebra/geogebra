@@ -16,8 +16,8 @@
 
 package org.geogebra.common.euclidian;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.ArrayList;
 
@@ -30,23 +30,23 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.GeoClass;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class EuclidianStyleTest {
+class EuclidianStyleTest {
 	private AppCommon3D app;
 	private ConstructionDefaults cd;
 	private Construction construction;
 
-	@Before
-	public void setupApp() {
+	@BeforeEach
+	void setupApp() {
 		app = AppCommonFactory.create3D();
 		construction = app.getKernel().getConstruction();
 		cd = construction.getConstructionDefaults();
 	}
 
 	@Test
-	public void textShouldBeTransparentOnReload() {
+	void textShouldBeTransparentOnReload() {
 		GeoElementND transparentText = t("trans=\"aaa\"");
 		assertNull(transparentText.getBackgroundColor());
 		GeoElement defaultText = cd
@@ -60,7 +60,7 @@ public class EuclidianStyleTest {
 	}
 
 	@Test
-	public void linePropertiesShouldApplyToNewGeo() {
+	void linePropertiesShouldApplyToNewGeo() {
 		EuclidianController ec = app.getActiveEuclidianView().getEuclidianController();
 		EuclidianStyleBarSelection selection = new EuclidianStyleBarSelection(app, ec);
 		app.setMode(EuclidianConstants.MODE_JOIN);

@@ -16,18 +16,18 @@
 
 package org.geogebra.common.gui.view.table.importer;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.IOException;
 import java.io.StringReader;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class LineReaderTests {
+class LineReaderTests {
 
 	@Test
-	public void testCarriageReturn() throws IOException {
+	void testCarriageReturn() throws IOException {
 		LineReader reader = new LineReader(new StringReader("abc\rdef"));
 		String line1 = reader.readLine();
 		assertEquals("abc", line1);
@@ -38,7 +38,7 @@ public class LineReaderTests {
 	}
 
 	@Test
-	public void testCarriageReturnLineFeed() throws IOException {
+	void testCarriageReturnLineFeed() throws IOException {
 		LineReader reader = new LineReader(new StringReader("abc\r\ndef"));
 		String line1 = reader.readLine();
 		assertEquals("abc", line1);
@@ -49,7 +49,7 @@ public class LineReaderTests {
 	}
 
 	@Test
-	public void testTrailingNewlines() throws IOException {
+	void testTrailingNewlines() throws IOException {
 		LineReader reader = new LineReader(new StringReader("abc\r\ndef\r\n\r\n"));
 		String line1 = reader.readLine();
 		assertEquals("abc", line1);

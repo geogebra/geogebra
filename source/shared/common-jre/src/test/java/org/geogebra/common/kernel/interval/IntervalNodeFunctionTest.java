@@ -21,7 +21,7 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.pi;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.kernel.interval.function.IntervalNodeFunction;
 import org.geogebra.common.kernel.interval.node.IntervalExpressionNode;
@@ -29,14 +29,14 @@ import org.geogebra.common.kernel.interval.node.IntervalFunctionValue;
 import org.geogebra.common.kernel.interval.node.IntervalFunctionVariable;
 import org.geogebra.common.kernel.interval.node.IntervalOperation;
 import org.geogebra.common.kernel.interval.operators.IntervalNodeEvaluator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class IntervalNodeFunctionTest {
+class IntervalNodeFunctionTest {
 	private final IntervalFunctionVariable functionVariable = new IntervalFunctionVariable();
 	private IntervalNodeEvaluator evaluator = new IntervalNodeEvaluator();
 
 	@Test
-	public void testEvalSin() {
+	void testEvalSin() {
 		IntervalExpressionNode node = new IntervalExpressionNode(evaluator, functionVariable,
 				IntervalOperation.SIN);
 		IntervalNodeFunction function =
@@ -48,7 +48,7 @@ public class IntervalNodeFunctionTest {
 	}
 
 	@Test
-	public void testEvalConstant() {
+	void testEvalConstant() {
 		IntervalFunctionValue constant = newValue(one());
 		IntervalExpressionNode node = new IntervalExpressionNode(evaluator, constant);
 		IntervalNodeFunction function =
@@ -64,7 +64,7 @@ public class IntervalNodeFunctionTest {
 	}
 
 	@Test
-	public void testEvalXPlusOne() {
+	void testEvalXPlusOne() {
 		IntervalExpressionNode node = new IntervalExpressionNode(evaluator, functionVariable,
 				IntervalOperation.PLUS, newValue(one()));
 		IntervalNodeFunction function =
@@ -75,7 +75,7 @@ public class IntervalNodeFunctionTest {
 	}
 
 	@Test
-	public void testEvalXPlusOnePlusOne() {
+	void testEvalXPlusOnePlusOne() {
 		IntervalExpressionNode node1 = new IntervalExpressionNode(evaluator, functionVariable,
 				IntervalOperation.PLUS, newValue(one()));
 		IntervalExpressionNode node = new IntervalExpressionNode(evaluator, node1,

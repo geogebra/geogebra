@@ -16,7 +16,7 @@
 
 package org.geogebra.common.kernel.arithmetic.bernstein;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -25,19 +25,19 @@ import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.util.debug.Log;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-public class BernsteinPolynomial1DTest extends BaseUnitTest {
+class BernsteinPolynomial1DTest extends BaseUnitTest {
 
 	private BernsteinPolynomial1D bernstein1D;
 	private GeoImplicitCurve curve;
 	private EuclidianView view;
 	private BernsteinPolynomialConverter converter;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		add("ZoomIn(0,0,1,1)");
 		view = getApp().getEuclidianView1();
 		converter = new BernsteinPolynomialConverter();
@@ -52,7 +52,7 @@ public class BernsteinPolynomial1DTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testEvaluatingBernsteinForm() {
+	void testEvaluatingBernsteinForm() {
 		shouldEvaluateTheSame("3x^3 + 2x^2 + x - 1=0");
 		shouldEvaluateTheSame("3x^3 + 2x^2 + 6x + 11=0");
 		shouldEvaluateTheSame("2x^4 + 5x^3 + x^2 + x - 1=0");
@@ -69,7 +69,7 @@ public class BernsteinPolynomial1DTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testEvaluate() {
+	void testEvaluate() {
 		shouldEvaluate("3x^3 + 2x^2 + x - 1=0", 0.5);
 		shouldEvaluate("3x^4 + x^2 + x - 3=0", 0.75);
 	}
@@ -80,7 +80,7 @@ public class BernsteinPolynomial1DTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testOneVariableToBernsteinPolynomial() {
+	void testOneVariableToBernsteinPolynomial() {
 		Polynomial polynomial = new Polynomial(getKernel(), "y");
 		BernsteinPolynomial bernsteinPolynomial = converter.from1DPolynomial(polynomial,
 				0, 2, new BoundsRectangle(0, 1, 0, 1));
@@ -88,14 +88,14 @@ public class BernsteinPolynomial1DTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testToString() {
+	void testToString() {
 		newBernsteinPolynomialPolynomialFrom("3x^3 + 2x^2 + x - 1=0");
 		assertEquals("5x\u00B3 + x\u00B2 (1 - x) - 2x (1 - x)\u00B2 - (1 - x)\u00B3",
 				bernstein1D.toString());
 	}
 
 	@Test
-	public void testBernsteinFromCoefficients() {
+	void testBernsteinFromCoefficients() {
 		bernsteinShouldBe("2x\u00B2", 0, 0, 2);
 		bernsteinShouldBe("4x\u00B2 + 2x (1 - x)", 0, 2, 2);
 		bernsteinShouldBe("6x\u00B2 + 6x (1 - x) + 2(1 - x)\u00B2", 2, 2, 2);
@@ -119,9 +119,9 @@ public class BernsteinPolynomial1DTest extends BaseUnitTest {
 				);
 	}
 
-	@Ignore
+	@Disabled
 	@Test
-	public void testSpit() {
+	void testSpit() {
 		double[] bcoeffs = new double[]{2, 8, 12, 7};
 		bernstein1D = new BernsteinPolynomial1D(bcoeffs, 'x' , 0, 1);
 		Log.debug("Original: " + bernstein1D);
@@ -139,13 +139,13 @@ public class BernsteinPolynomial1DTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testHasNoSolution() {
+	void testHasNoSolution() {
 		shouldHaveNoSolution(2, 8, 12, 7);
 		shouldHaveNoSolution(-2, -3, -0.75, -7);
 	}
 
 	@Test
-	public void testMightHaveSolution() {
+	void testMightHaveSolution() {
 		mightHaveSolution(2, -8, 12, 7);
 		mightHaveSolution(-1, 8, 12, 7);
 		mightHaveSolution(-0.2, -8, -12, 7);
@@ -165,7 +165,7 @@ public class BernsteinPolynomial1DTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testSimplifiedEvaluation() {
+	void testSimplifiedEvaluation() {
 		newBernsteinPolynomialPolynomialFrom("3x^3 + 2x^2 + x - 1=0");
 		BernsteinPolynomial1D b1var = bernstein1D;
 		double expected = b1var.evaluate(1);

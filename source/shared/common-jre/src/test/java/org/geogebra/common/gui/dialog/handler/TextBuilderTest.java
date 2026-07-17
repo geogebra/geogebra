@@ -23,15 +23,15 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.test.TestErrorHandler;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-public class TextBuilderTest extends BaseUnitTest {
+class TextBuilderTest extends BaseUnitTest {
 
 	private int eventCounter = 0;
 
 	@Test
-	public void shouldOnlyFireOneEvent() {
+	void shouldOnlyFireOneEvent() {
 		TextBuilder textBuilder = new TextBuilder(getApp(), add("(1,1)"), false, true);
 		getApp().getEventDispatcher().addEventListener(evt -> {
 			assertThat(evt.type, equalTo(EventType.ADD));
@@ -40,7 +40,7 @@ public class TextBuilderTest extends BaseUnitTest {
 			eventCounter++;
 		});
 		textBuilder.createText("\"\\sqrt{2}\"", TestErrorHandler.INSTANCE,
-				Assert::assertTrue);
+				Assertions::assertTrue);
 		assertThat(eventCounter, equalTo(1));
 	}
 }

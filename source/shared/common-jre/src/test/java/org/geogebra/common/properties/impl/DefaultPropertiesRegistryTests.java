@@ -16,8 +16,8 @@
 
 package org.geogebra.common.properties.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,31 +28,31 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyKey;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.GlobalLanguageProperty;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class DefaultPropertiesRegistryTests extends BaseUnitTest
+class DefaultPropertiesRegistryTests extends BaseUnitTest
 		implements PropertiesRegistryListener {
 
 	private DefaultPropertiesRegistry propertiesRegistry;
 	private List<Property> registeredProperties;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		propertiesRegistry = new DefaultPropertiesRegistry();
 		propertiesRegistry.addListener(this);
 		registeredProperties = new ArrayList<>();
 	}
 
 	@Test
-	public void testRegister() {
+	void testRegister() {
 		Property angleUnitProperty = new AngleUnitProperty(getKernel(), getLocalization());
 		propertiesRegistry.register(angleUnitProperty);
 		assertEquals(angleUnitProperty, propertiesRegistry.lookup(angleUnitProperty.getKey()));
 	}
 
 	@Test
-	public void testUnregister() {
+	void testUnregister() {
 		Property angleUnitProperty = new AngleUnitProperty(getKernel(), getLocalization());
 		propertiesRegistry.register(angleUnitProperty);
 		propertiesRegistry.unregister(angleUnitProperty);
@@ -60,14 +60,14 @@ public class DefaultPropertiesRegistryTests extends BaseUnitTest
 	}
 
 	@Test
-	public void testPropertiesRegistryListener() {
+	void testPropertiesRegistryListener() {
 		GlobalLanguageProperty languageProperty = new GlobalLanguageProperty(getLocalization());
 		propertiesRegistry.register(languageProperty);
 		assertEquals(languageProperty, registeredProperties.get(0));
 	}
 
 	@Test
-	public void testRelease() {
+	void testRelease() {
 		Property angleUnitProperty = new AngleUnitProperty(getKernel(), getLocalization());
 
 		propertiesRegistry.register(angleUnitProperty);

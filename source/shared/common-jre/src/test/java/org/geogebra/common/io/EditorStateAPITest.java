@@ -16,7 +16,7 @@
 
 package org.geogebra.common.io;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,25 +28,25 @@ import org.geogebra.editor.share.catalog.TemplateCatalog;
 import org.geogebra.editor.share.controller.CursorController;
 import org.geogebra.editor.share.event.KeyEvent;
 import org.geogebra.editor.share.util.JavaKeyCodes;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class EditorStateAPITest {
+class EditorStateAPITest {
 
 	private static Integer[][] expectedPaths = new Integer[][] { { 5 },
 			{ 3, 0, 4 }, { 2, 0, 4 }, { 1, 0, 4 }, { 0, 0, 4 }, { 4 }, { 3 },
 			{ 2 }, { 1 }, { 0 } };
 
-	@BeforeClass
-	public static void setupFactoryProvider() {
+	@BeforeAll
+	static void setupFactoryProvider() {
 		FactoryProvider.setInstance(new FactoryProviderCommon());
 		AwtFactory.setPrototypeIfNull(new AwtFactoryCommon());
 	}
 
 	@Test
-	public void parseAndSerializeShouldKeepProperties() {
+	void parseAndSerializeShouldKeepProperties() {
 		ArrayList<Integer> oldCaretPath = new ArrayList<>();
 		oldCaretPath.add(2);
 		EditorStateDescription jsonHandler = new EditorStateDescription("x+1",
@@ -58,7 +58,7 @@ public class EditorStateAPITest {
 	}
 
 	@Test
-	public void getPathShouldFollowExpressionStructure() {
+	void getPathShouldFollowExpressionStructure() {
 		MathFieldCommon mathField = new MathFieldCommon(new TemplateCatalog(), null);
 		mathField.insertString("x+x*(x+1)");
 
@@ -76,7 +76,7 @@ public class EditorStateAPITest {
 	}
 
 	@Test
-	public void setPathGetPathShouldBeCompatible() {
+	void setPathGetPathShouldBeCompatible() {
 		MathFieldCommon mathField = new MathFieldCommon(new TemplateCatalog(), null);
 		mathField.insertString("x+x*(x+1)");
 
@@ -88,8 +88,8 @@ public class EditorStateAPITest {
 			ArrayList<Integer> oldCaretPath = mathField.getCaretPath();
 			String expected = StringUtil.join(",", expectedPaths[i]);
 			assertEquals(
-					i + "-th paths should be " + expected, expected,
-					StringUtil.join(",", oldCaretPath));
+					expected, StringUtil.join(",", oldCaretPath),
+					i + "-th paths should be " + expected);
 		}
 	}
 }

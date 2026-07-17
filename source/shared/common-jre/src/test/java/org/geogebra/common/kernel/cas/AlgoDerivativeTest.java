@@ -26,19 +26,19 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.AlgebraTestHelper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class   AlgoDerivativeTest extends BaseUnitTest {
+class AlgoDerivativeTest extends BaseUnitTest {
 
 	@Test
-	public void nDerivativeShouldNotMaskOtherExpressions() {
+	void nDerivativeShouldNotMaskOtherExpressions() {
 		t("fm(x,y,z)=x*y*z", "x * y * z");
 		t("NDerivative[fm,z]", unicode("NDerivative(fm, z)"));
 		t("fm", "x * y * z");
 	}
 
 	@Test
-	public void fastDerivativeDirac() {
+	void fastDerivativeDirac() {
 		t("f(x)=Dirac(x)", "Dirac(x)");
 		t("g(x)=Heaviside(x)", "Heaviside(x)");
 		AlgoDerivative der = getFastDerivative(lookup("f"));
@@ -55,7 +55,7 @@ public class   AlgoDerivativeTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5374")
-	public void fastDerivativeLogBase() {
+	void fastDerivativeLogBase() {
 		add("b=3");
 		AlgoDerivative logDerivative = getFastDerivative(add("log(b,x)"));
 		assertThat(logDerivative.getResult(), hasValue("1 / x / ln(3)"));

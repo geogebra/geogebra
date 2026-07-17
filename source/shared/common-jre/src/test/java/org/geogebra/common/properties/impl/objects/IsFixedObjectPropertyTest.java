@@ -18,8 +18,8 @@ package org.geogebra.common.properties.impl.objects;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -30,12 +30,12 @@ import org.geogebra.common.properties.ValuedProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.undo.UndoSavingPropertyObserver;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class IsFixedObjectPropertyTest extends BaseUnitTest {
+class IsFixedObjectPropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testConstructorSucceeds() {
+	void testConstructorSucceeds() {
 		GeoElement point = addAvInput("(1,2)");
 		try {
 			new IsFixedObjectProperty(getLocalization(), point);
@@ -45,7 +45,7 @@ public class IsFixedObjectPropertyTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testConstructorThrowsError() {
+	void testConstructorThrowsError() {
 		getApp().setGraphingConfig();
 		GeoElement f = addAvInput("f: x");
 		assertThrows(NotApplicablePropertyException.class,
@@ -53,7 +53,7 @@ public class IsFixedObjectPropertyTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void fixedPropShouldBeUndoable() {
+	void fixedPropShouldBeUndoable() {
 		getKernel().setUndoActive(true);
 		getKernel().initUndoInfo();
 		GeoElement point = addAvInput("pt=(1,2)");

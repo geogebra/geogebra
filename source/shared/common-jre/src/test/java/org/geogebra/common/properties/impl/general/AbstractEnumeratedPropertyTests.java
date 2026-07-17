@@ -28,11 +28,11 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public final class AbstractEnumeratedPropertyTests extends BaseAppTestSetup {
+final class AbstractEnumeratedPropertyTests extends BaseAppTestSetup {
 	private AbstractEnumeratedProperty<String> enumeratedProperty;
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
 		enumeratedProperty = new TestEnumeratedProperty(
 				getLocalization(),
@@ -41,14 +41,14 @@ public final class AbstractEnumeratedPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testInitialValues() {
+	void testInitialValues() {
 		assertEquals(List.of("value1", "value2", "value3"), enumeratedProperty.getValues());
 		assertEquals(0, enumeratedProperty.getIndex());
 		assertEquals("value1", enumeratedProperty.getValue());
 	}
 
 	@Test
-	public void testValueChanges() {
+	void testValueChanges() {
 		enumeratedProperty.setValue("value2");
 		assertEquals(1, enumeratedProperty.getIndex());
 		assertEquals("value2", enumeratedProperty.getValue());
@@ -63,7 +63,7 @@ public final class AbstractEnumeratedPropertyTests extends BaseAppTestSetup {
 	private static final class TestEnumeratedProperty extends AbstractEnumeratedProperty<String> {
 		private String value;
 
-		public TestEnumeratedProperty(Localization localization, String name, List<String> values) {
+		TestEnumeratedProperty(Localization localization, String name, List<String> values) {
 			super(localization, name);
 			value = values.get(0);
 			setValues(values);

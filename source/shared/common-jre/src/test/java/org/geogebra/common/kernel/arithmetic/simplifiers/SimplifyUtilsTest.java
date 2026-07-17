@@ -34,7 +34,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class SimplifyUtilsTest extends BaseSimplifyTestSetup {
+class SimplifyUtilsTest extends BaseSimplifyTestSetup {
 
 	@Override
 	protected Class<? extends SimplifyNode> getSimplifierClass() {
@@ -48,7 +48,7 @@ public class SimplifyUtilsTest extends BaseSimplifyTestSetup {
 			"2 (1 + sqrt(2)), 2 + 2sqrt(2)",
 			"(1 + sqrt(2)) 2, 2 + 2sqrt(2)"
 	})
-	public void testExpand(String from, String to) {
+	void testExpand(String from, String to) {
 		GeoNumeric original = newSymbolicNumeric(from);
 		GeoNumeric expected = newSymbolicNumeric(to);
 		ExpressionNode actual = utils.expand(original.getDefinition());
@@ -56,7 +56,7 @@ public class SimplifyUtilsTest extends BaseSimplifyTestSetup {
 	}
 
 	@Test
-	public void testMultiplyByMinusOne() {
+	void testMultiplyByMinusOne() {
 		mulShouldBe("-sqrt(2)", "sqrt(2)");
 
 	}
@@ -74,7 +74,7 @@ public class SimplifyUtilsTest extends BaseSimplifyTestSetup {
 			"sqrt(1 / 4)",
 			"sqrt(2.5)"
 	})
-	public void sqrtShouldNotBeValid(String def) {
+	void sqrtShouldNotBeValid(String def) {
 		GeoNumeric original = newSymbolicNumeric(def);
 		Assertions.assertFalse(
 				ExpressionValueUtils.isSqrtValid(original.getDefinition()),
@@ -86,7 +86,7 @@ public class SimplifyUtilsTest extends BaseSimplifyTestSetup {
 			"sqrt(1+2+3+4)",
 			"sqrt(4*0.25)"
 	})
-	public void sqrtShouldBeValid(String def) {
+	void sqrtShouldBeValid(String def) {
 		GeoNumeric original = newSymbolicNumeric(def);
 		Assertions.assertTrue(
 				ExpressionValueUtils.isSqrtValid(original.getDefinition()),
@@ -102,7 +102,7 @@ public class SimplifyUtilsTest extends BaseSimplifyTestSetup {
 			"sqrt(2) - 1",
 			"1 - sqrt(2)"
 	})
-	public void testNodeSupported(String definition) {
+	void testNodeSupported(String definition) {
 		GeoNumeric numeric = newSymbolicNumeric(definition);
 		Assertions.assertTrue(ExpressionValueUtils.isNodeSupported(numeric.getDefinition()),
 				definition + " is not supported");
@@ -116,20 +116,20 @@ public class SimplifyUtilsTest extends BaseSimplifyTestSetup {
 			"sqrt(-2) - 1",
 			"1 - sqrt(-2)"
 	})
-	public void testNodeNotSupportNode(String def) {
+	void testNodeNotSupportNode(String def) {
 		GeoNumeric numeric = newSymbolicNumeric(def);
 		Assertions.assertFalse(ExpressionValueUtils.isNodeSupported(numeric.getDefinition()),
 				def + " should not be supported");
 	}
 
 	@Test
-	public void testNegative() {
+	void testNegative() {
 		negativeShouldBe("-3 - sqrt(2)", "-(3 + sqrt(2))");
 		negativeShouldBe("-sqrt(2) - 3", "-(sqrt(2) + 3)");
 	}
 
 	@Test
-	public void fixMe() {
+	void fixMe() {
 		mulShouldBe("1 + sqrt(2)", "-1 - sqrt(2)");
 
 	}
@@ -144,7 +144,7 @@ public class SimplifyUtilsTest extends BaseSimplifyTestSetup {
 	}
 
 	@Test
-	public void testNumberForGCD() {
+	void testNumberForGCD() {
 		numberForGCDShouldBe("2", 2);
 		numberForGCDShouldBe("2sqrt(2)", 2);
 		numberForGCDShouldBe("-2sqrt(2)", -2);
@@ -158,7 +158,7 @@ public class SimplifyUtilsTest extends BaseSimplifyTestSetup {
 	}
 
 	@Test
-	public void minusConjugateTest() {
+	void minusConjugateTest() {
 		GeoElementND a = evaluateGeoElement("-2 + sqrt(5)");
 		assertEquals("2 + sqrt(5)", utils.getMinusConjugate(a.getDefinition(), Operation.PLUS)
 				.toString(StringTemplate.defaultTemplate));
@@ -176,7 +176,7 @@ public class SimplifyUtilsTest extends BaseSimplifyTestSetup {
 			"-2 * -sqrt(6), 2sqrt(6)",
 			"2sqrt(2) * -sqrt(6), -4sqrt(3)"
 	})
-	public void testReduceProduct(String definition, String simplified) {
+	void testReduceProduct(String definition, String simplified) {
 		GeoElementND product = evaluateGeoElement(definition);
 		assertEquals(simplified, utils.reduceProduct(product.getDefinition())
 				.toOutputValueString(StringTemplate.defaultTemplate));
@@ -195,7 +195,7 @@ public class SimplifyUtilsTest extends BaseSimplifyTestSetup {
 			"6sqrt(7) + 2sqrt(3)",
 			"-6 - 2sqrt(3)"
 	})
-	public void testIsAtomicAddSubNode(String definition) {
+	void testIsAtomicAddSubNode(String definition) {
 		assertTrue(ExpressionValueUtils.isAtomicSurdAdditionNode(
 				evaluateGeoElement(definition).getDefinition()));
 	}
@@ -205,7 +205,7 @@ public class SimplifyUtilsTest extends BaseSimplifyTestSetup {
 			"1 + sqrt(3) + sqrt(3)",
 			"1 + (2sqrt(3) + 1)"
 	})
-	public void testNotSimpleTag(String definition) {
+	void testNotSimpleTag(String definition) {
 		assertFalse(ExpressionValueUtils.isAtomicSurdAdditionNode(
 				evaluateGeoElement(definition).getDefinition()));
 	}
@@ -224,7 +224,7 @@ public class SimplifyUtilsTest extends BaseSimplifyTestSetup {
 			"(-2-sqrt(3))sqrt(5), (2 + sqrt(3)) sqrt(5)",
 			"-2sqrt(2) - sqrt(14), 2sqrt(2) + sqrt(14)"
 	})
-	public void testNegateTagByTag(String definition, String simplified) {
+	void testNegateTagByTag(String definition, String simplified) {
 		GeoElementND product = evaluateGeoElement(definition);
 		ExpressionNode node = product.getDefinition();
 		ExpressionNode negated = utils.negateTagByTag(node);

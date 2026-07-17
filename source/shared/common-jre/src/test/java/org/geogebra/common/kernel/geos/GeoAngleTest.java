@@ -29,15 +29,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class GeoAngleTest extends BaseAppTestSetup {
+class GeoAngleTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GEOMETRY);
 	}
 
 	@Test
-	public void testCopy() {
+	void testCopy() {
 		GeoAngle angle = evaluateGeoElement("90°");
 		angle.setDrawable(true, false);
 		GeoAngle copy = angle.copy();
@@ -45,7 +45,7 @@ public class GeoAngleTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testSetAllVisualPropertiesExceptEuclidianVisible() {
+	void testSetAllVisualPropertiesExceptEuclidianVisible() {
 		GeoAngle hidden = evaluateGeoElement("90°");
 		hidden.setDrawable(false, false);
 		GeoAngle visible = evaluateGeoElement("90°");
@@ -58,7 +58,7 @@ public class GeoAngleTest extends BaseAppTestSetup {
 	@ParameterizedTest
 	@Issue("APPS-6681")
 	@ValueSource(strings = {"Angle((1,0),(0,0),(0,-1))", "Angle((0,-1))"})
-	public void testValueString(String command) {
+	void testValueString(String command) {
 		getApp().setGeometryConfig();
 		getKernel().getConstruction().getConstructionDefaults()
 				.createDefaultGeoElements();

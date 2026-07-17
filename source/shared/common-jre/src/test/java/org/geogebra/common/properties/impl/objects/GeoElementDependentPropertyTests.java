@@ -30,10 +30,10 @@ import org.geogebra.common.util.Box;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class GeoElementDependentPropertyTests extends BaseAppTestSetup {
+class GeoElementDependentPropertyTests extends BaseAppTestSetup {
 
 	@Test
-	public void testElementRedefinition() {
+	void testElementRedefinition() {
 		setupApp(SuiteSubApp.GRAPHING);
 
 		GeoElement penStroke = evaluateGeoElement("PenStroke((1, 2), (4, 3), (5, 6))");

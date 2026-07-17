@@ -26,9 +26,9 @@ import org.geogebra.common.kernel.statistics.GeoPieChart;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class ChartSegmentFillCategoryPropertyTests extends BaseAppTestSetup {
+class ChartSegmentFillCategoryPropertyTests extends BaseAppTestSetup {
 	@Test
-	public void testSettingDifferentFillCategories() {
+	void testSettingDifferentFillCategories() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart pieChart = evaluateGeoElement("PieChart({1, 2, 3})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
@@ -57,7 +57,7 @@ public class ChartSegmentFillCategoryPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testSettingAllFillCategories() {
+	void testSettingAllFillCategories() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart pieChart = evaluateGeoElement("PieChart({1, 2, 3})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
@@ -87,7 +87,7 @@ public class ChartSegmentFillCategoryPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPreservingPreviousPatternFillTypes() {
+	void testPreservingPreviousPatternFillTypes() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart pieChart = evaluateGeoElement("PieChart({1, 2, 3})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();

@@ -20,21 +20,21 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.around;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
 import org.geogebra.common.kernel.interval.function.IntervalNodeFunction;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class SqrtEvaluationTest extends BaseUnitTest {
+class SqrtEvaluationTest extends BaseUnitTest {
 
 	private final GeoFunctionConverter converter = new GeoFunctionConverter();
 
 	@Test
-	public void testSqrtX() {
+	void testSqrtX() {
 		assertEquals(zero(), functionValue("sqrt(x)", zero()));
 	}
 
@@ -48,7 +48,7 @@ public class SqrtEvaluationTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testNoWholeInInverseOfMinusSqrtMinusX() {
+	void testNoWholeInInverseOfMinusSqrtMinusX() {
 		IntervalNodeFunction function = createFunction("1/-sqrt(-x)");
 		for (double t = -5; t < 1; t += 1E-4) {
 			assertFalse(function.value(around(t)).isWhole());
@@ -56,12 +56,12 @@ public class SqrtEvaluationTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testSqrtXInverseEmptyOnNegative() {
+	void testSqrtXInverseEmptyOnNegative() {
 		assertEquals(undefined(), functionValue("1/sqrt(x)", interval(-2, -1)));
 	}
 
 	@Test
-	public void testNegativeOfSqrtXInverse() {
+	void testNegativeOfSqrtXInverse() {
 		assertEquals(interval(Double.NEGATIVE_INFINITY, -100.0),
 				functionValue("-(1/sqrt(x))", interval(-1E-4, 1E-4)));
 	}

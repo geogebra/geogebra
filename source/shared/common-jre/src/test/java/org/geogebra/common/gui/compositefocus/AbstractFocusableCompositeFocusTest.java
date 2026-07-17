@@ -27,7 +27,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class AbstractFocusableCompositeFocusTest {
+class AbstractFocusableCompositeFocusTest {
 	private final EchoScreenReader echo = new EchoScreenReader();
 	private AbstractFocusableComposite<TestFocusablePart> compositeFocus;
 

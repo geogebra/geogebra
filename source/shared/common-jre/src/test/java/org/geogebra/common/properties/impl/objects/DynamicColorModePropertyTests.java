@@ -29,9 +29,9 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class DynamicColorModePropertyTests extends BaseAppTestSetup {
+class DynamicColorModePropertyTests extends BaseAppTestSetup {
 	@Test
-	public void testSwitchingDynamicColorMode() {
+	void testSwitchingDynamicColorMode() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement("(1, 2)");
 		DynamicColorModeProperty dynamicColorModeProperty =
@@ -47,7 +47,7 @@ public class DynamicColorModePropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testDefaultRGBColor() {
+	void testDefaultRGBColor() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement("(1, 2)");
 		GColor color = geoElement.getObjectColor();

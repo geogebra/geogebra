@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class AbsoluteScreenPositionPropertyCollectionTests extends BaseAppTestSetup {
+class AbsoluteScreenPositionPropertyCollectionTests extends BaseAppTestSetup {
 	private final GeoElementPropertiesFactory propertiesFactory = new GeoElementPropertiesFactory();
 
 	@ParameterizedTest
@@ -44,7 +44,7 @@ public class AbsoluteScreenPositionPropertyCollectionTests extends BaseAppTestSe
 			"a = 1 + 2",
 			"BarChart({1,2,3},{4,5,6})"
 	})
-	public void testNotApplicableObjects(String expression) {
+	void testNotApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement(expression);
 		assertThrows(NotApplicablePropertyException.class, () ->
@@ -59,14 +59,14 @@ public class AbsoluteScreenPositionPropertyCollectionTests extends BaseAppTestSe
 			"true",
 			"\"abc\"",
 	})
-	public void testApplicableObjects(String expression) {
+	void testApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertDoesNotThrow(() -> new AbsoluteScreenPositionPropertyCollection(
 				propertiesFactory, getLocalization(), List.of(evaluateGeoElement(expression))));
 	}
 
 	@Test
-	public void testSettingConstantValues() {
+	void testSettingConstantValues() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoText geoText = evaluateGeoElement("\"abc\"");
 		geoText.setAbsoluteScreenLocActive(true);
@@ -82,7 +82,7 @@ public class AbsoluteScreenPositionPropertyCollectionTests extends BaseAppTestSe
 	}
 
 	@Test
-	public void testSettingDynamicValuesWithSlider() {
+	void testSettingDynamicValuesWithSlider() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoNumeric slider = evaluateGeoElement("a = Slider(0, 500, 1)");
 		GeoText geoText = evaluateGeoElement("\"abc\"");
@@ -101,7 +101,7 @@ public class AbsoluteScreenPositionPropertyCollectionTests extends BaseAppTestSe
 	}
 
 	@Test
-	public void testSettingDynamicValuesWithAnyObjectThatEvaluatesToNumber() {
+	void testSettingDynamicValuesWithAnyObjectThatEvaluatesToNumber() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoNumeric slider = evaluateGeoElement("a = Slider(0, 500, 1)");
 		evaluate("A = (a, 200)");

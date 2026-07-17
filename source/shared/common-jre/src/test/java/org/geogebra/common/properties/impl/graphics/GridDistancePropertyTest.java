@@ -27,7 +27,7 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class GridDistancePropertyTest extends BaseAppTestSetup {
+class GridDistancePropertyTest extends BaseAppTestSetup {
 
 	GridStyleProperty gridStyleProperty;
 	GridDistanceProperty gridDistX;
@@ -36,7 +36,7 @@ public class GridDistancePropertyTest extends BaseAppTestSetup {
 	private EuclidianSettings evSettings;
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
 		LocalizationJre loc = getApp().getLocalization();
 		evSettings = getApp().getSettings().getEuclidian(1);

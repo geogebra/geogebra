@@ -29,12 +29,12 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ClippingTest extends BaseAppTestSetup {
+class ClippingTest extends BaseAppTestSetup {
 	private EuclidianView view;
 	private GRectangle clipRectangle;
 
 	@BeforeEach
-	public void setupApp() {
+	void setupApp() {
 		setupApp(SuiteSubApp.GRAPHING);
 		view = getApp().getActiveEuclidianView();
 		clipRectangle = AwtFactory.getPrototype()
@@ -42,7 +42,7 @@ public class ClippingTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testNoArtifact() {
+	void testNoArtifact() {
 		GeoFunction f = evaluateGeoElement("sec(cot(x))");
 		view.update(f);
 		view.setRealWorldCoordSystem(-10, 10, -0.5, 0.5);

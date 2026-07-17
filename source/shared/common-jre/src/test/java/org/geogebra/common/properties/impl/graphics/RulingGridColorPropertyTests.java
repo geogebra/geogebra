@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
-public class RulingGridColorPropertyTests extends BaseAppTestSetup {
+class RulingGridColorPropertyTests extends BaseAppTestSetup {
 	@Test
 	void testSettingValue() {
 		setupNotesApp();

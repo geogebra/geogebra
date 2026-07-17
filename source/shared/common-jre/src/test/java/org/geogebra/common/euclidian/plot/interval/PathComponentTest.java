@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class PathComponentTest extends BaseAppTestSetup {
+class PathComponentTest extends BaseAppTestSetup {
 
 	private final GeoFunctionConverter converter = new GeoFunctionConverter();
 	private IntervalPathPlotterMock gp;
@@ -39,7 +39,7 @@ public class PathComponentTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testSqtrTanCotx() {
+	void testSqtrTanCotx() {
 		withBounds(5.0, 8.0, 5, 5);
 		withScreenSize(50, 50);
 		withFunction("sqrt(tan(cot(x)))");
@@ -53,7 +53,7 @@ public class PathComponentTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void cotsecx() {
+	void cotsecx() {
 		withBounds(5.0, 8.0, 5, 5);
 		withScreenSize(50, 50);
 		withFunction("cot(sec(x))");
@@ -67,14 +67,14 @@ public class PathComponentTest extends BaseAppTestSetup {
 			"(x^2)^2",
 			"x^(2^2)"
 	})
-	public void functionsThrowNoExceptions(String definition) {
+	void functionsThrowNoExceptions(String definition) {
 		withBounds(5.0, 8.0, 5, 5);
 		withScreenSize(500, 500);
 		withFunction(definition);
 	}
 
 	@Test
-	public void testSqrtCotx() {
+	void testSqrtCotx() {
 		withBounds(-3.2, 3.0, -2, 2);
 		withScreenSize(1122, 802);
 		withFunction("sqrt(cot(x))");

@@ -34,28 +34,28 @@ import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class MatrixResizeControllerTest {
+class MatrixResizeControllerTest {
 	private EditorChecker checker;
 	private MathFieldCommon mathField;
 	private MatrixResizeController matrixResizeController;
 	private final AppCommon app = AppCommonFactory.create();
 
 	@BeforeAll
-	public static void prepare() {
+	static void prepare() {
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderCommon());
 		}
 	}
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		checker = new EditorChecker(app);
 		mathField = checker.getMathField();
 		matrixResizeController = mathField.getInternal().getMatrixResizeController();
 	}
 
 	@Test
-	public void testState() {
+	void testState() {
 		checker.insert("{{1,2,3}, {4,5,6}}").left(1);
 		MatrixResizeController.State state = matrixResizeController.getState();
 
@@ -74,7 +74,7 @@ public class MatrixResizeControllerTest {
 	}
 
 	@Test
-	public void testMatrixDimensionControls() {
+	void testMatrixDimensionControls() {
 		checker.insert("{{1,2,3}, {4,5,6}}").left(1);
 		assertDimensions(2, 3);
 
@@ -102,9 +102,9 @@ public class MatrixResizeControllerTest {
 		assertEditorContents("{{1,2}}");
 		assertDimensions(1, 2);
 	}
-	
+
 	@Test
-	public void testVectorDimensionControls() {
+	void testVectorDimensionControls() {
 		checker.insert("$vector(1,2)").left(1);
 		assertDimensions(2, 1);
 

@@ -16,7 +16,7 @@
 
 package org.geogebra.common.spreadsheet.kernel;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -24,46 +24,46 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellDataSerializer;
 import org.geogebra.editor.share.util.Unicode;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class DefaultSpreadsheetCellDataSerializerTest extends BaseUnitTest {
+class DefaultSpreadsheetCellDataSerializerTest extends BaseUnitTest {
 
 	SpreadsheetCellDataSerializer serializer;
 
-	@Before
-	public void setupSerializer() {
+	@BeforeEach
+	void setupSerializer() {
 		serializer = new DefaultSpreadsheetCellDataSerializer();
 	}
 
 	@Test
-	public void testNull() {
+	void testNull() {
 		String result = serializer.getStringForEditor(null);
 		assertEquals("", result);
 	}
 
 	@Test
-	public void testString() {
+	void testString() {
 		String result = serializer.getStringForEditor("hello");
 		assertEquals("hello", result);
 	}
 
 	@Test
-	public void testGeoText() {
+	void testGeoText() {
 		GeoElement text = new GeoText(getConstruction(), "hello");
 		String result = serializer.getStringForEditor(text);
 		assertEquals("hello", result);
 	}
 
 	@Test
-	public void testGeoNumber() {
+	void testGeoNumber() {
 		GeoElement number = new GeoNumeric(getConstruction(), 3);
 		String result = serializer.getStringForEditor(number);
 		assertEquals("=3", result);
 	}
 
 	@Test
-	public void testMixedNumber() {
+	void testMixedNumber() {
 		GeoNumeric number = add("1" + Unicode.INVISIBLE_PLUS + "2/3");
 		String result = serializer.getStringForEditor(number);
 		assertEquals("=1" + Unicode.INVISIBLE_PLUS + "(2)/(3)", result);

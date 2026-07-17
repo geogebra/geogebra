@@ -16,7 +16,7 @@
 
 package org.geogebra.common.kernel.arithmetic;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
@@ -24,12 +24,12 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoLine;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class RequiresBracketsTest extends BaseUnitTest {
+class RequiresBracketsTest extends BaseUnitTest {
 
 	@Test
-	public void testFunctionMinusFunction() {
+	void testFunctionMinusFunction() {
 		add("f(x) = 3x - 1");
 		add("g(x) = -2x + 4");
 
@@ -42,7 +42,7 @@ public class RequiresBracketsTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testFunctionsTimesFunction() {
+	void testFunctionsTimesFunction() {
 		add("f(x) = 3x - 1");
 		add("g(x) = x");
 
@@ -64,7 +64,7 @@ public class RequiresBracketsTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testMultiplyListElements() {
+	void testMultiplyListElements() {
 		add("a = {1, x + 2, 3, x + 4}");
 		add("b = {5, 10, x + 15, x + 20}");
 

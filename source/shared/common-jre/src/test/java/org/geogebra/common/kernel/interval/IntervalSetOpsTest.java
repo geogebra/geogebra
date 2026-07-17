@@ -26,10 +26,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-public class IntervalSetOpsTest {
+class IntervalSetOpsTest {
 
 	@Test
-	public void constructionHelpersMirrorIntervalSetKinds() {
+	void constructionHelpersMirrorIntervalSetKinds() {
 		assertAll(
 				() -> assertEquals(IntervalSet.Kind.EMPTY, IntervalSetOps.empty().kind()),
 				() -> assertEquals(IntervalSet.Kind.WHOLE, IntervalSetOps.whole().kind()),
@@ -42,7 +42,7 @@ public class IntervalSetOpsTest {
 	}
 
 	@Test
-	public void payloadBearingConstructorsRejectInvalidInput() {
+	void payloadBearingConstructorsRejectInvalidInput() {
 		assertAll(
 				() -> assertThrows(IllegalArgumentException.class,
 						() -> IntervalSetOps.connected((Interval) null)),
@@ -55,7 +55,7 @@ public class IntervalSetOpsTest {
 	}
 
 	@Test
-	public void legacyBridgeRejectsNull() {
+	void legacyBridgeRejectsNull() {
 		assertAll(
 				() -> assertThrows(IllegalArgumentException.class,
 						() -> IntervalSetOps.fromLegacy(null)),
@@ -64,7 +64,7 @@ public class IntervalSetOpsTest {
 	}
 
 	@Test
-	public void extractionReturnsConnectedAndInvertedPayloads() {
+	void extractionReturnsConnectedAndInvertedPayloads() {
 		Interval connected = IntervalSetOps.connectedInterval(IntervalSetOps.connected(1, 2));
 		Interval invertedGap = IntervalSetOps.invertedGap(IntervalSetOps.inverted(3, 4));
 
@@ -74,7 +74,7 @@ public class IntervalSetOpsTest {
 	}
 
 	@Test
-	public void extractionReturnsDefensiveCopies() {
+	void extractionReturnsDefensiveCopies() {
 		IntervalSet connectedSet = IntervalSetOps.connected(1, 2);
 		IntervalSet invertedSet = IntervalSetOps.inverted(3, 4);
 		Interval connected = IntervalSetOps.connectedInterval(connectedSet);
@@ -91,7 +91,7 @@ public class IntervalSetOpsTest {
 	}
 
 	@Test
-	public void extractionRejectsWrongKinds() {
+	void extractionRejectsWrongKinds() {
 		assertAll(
 				() -> assertThrows(IllegalArgumentException.class,
 						() -> IntervalSetOps.connectedInterval(IntervalSetOps.inverted(1, 2))),
@@ -108,7 +108,7 @@ public class IntervalSetOpsTest {
 	}
 
 	@Test
-	public void toLegacyMapsAllKinds() {
+	void toLegacyMapsAllKinds() {
 		Interval connected = IntervalSetOps.toLegacy(IntervalSetOps.connected(1, 2));
 		Interval inverted = IntervalSetOps.toLegacy(IntervalSetOps.inverted(3, 4));
 		Interval whole = IntervalSetOps.toLegacy(IntervalSetOps.whole());
@@ -127,7 +127,7 @@ public class IntervalSetOpsTest {
 	}
 
 	@Test
-	public void fromLegacyMirrorsAdapterSemantics() {
+	void fromLegacyMirrorsAdapterSemantics() {
 		Interval inverted = legacyInverted(1, 2);
 
 		assertAll(
@@ -142,7 +142,7 @@ public class IntervalSetOpsTest {
 	}
 
 	@Test
-	public void isZeroOnlyMatchesConnectedZeroSingleton() {
+	void isZeroOnlyMatchesConnectedZeroSingleton() {
 		assertAll(
 				() -> assertTrue(IntervalSetOps.isZero(IntervalSetOps.connected(0, 0))),
 				() -> assertFalse(IntervalSetOps.isZero(IntervalSetOps.connected(-1, 1))),
@@ -153,7 +153,7 @@ public class IntervalSetOpsTest {
 	}
 
 	@Test
-	public void hasZeroUsesSetSemantics() {
+	void hasZeroUsesSetSemantics() {
 		assertAll(
 				() -> assertTrue(IntervalSetOps.hasZero(IntervalSetOps.connected(0, 0))),
 				() -> assertTrue(IntervalSetOps.hasZero(IntervalSetOps.connected(-1, 2))),
@@ -166,7 +166,7 @@ public class IntervalSetOpsTest {
 	}
 
 	@Test
-	public void leftAndRightRayFromInvertedUseGapBounds() {
+	void leftAndRightRayFromInvertedUseGapBounds() {
 		IntervalSet inverted = IntervalSetOps.inverted(2, 5);
 
 		assertAll(
@@ -177,7 +177,7 @@ public class IntervalSetOpsTest {
 	}
 
 	@Test
-	public void leftAndRightRayFromInvertedRejectInvalidInput() {
+	void leftAndRightRayFromInvertedRejectInvalidInput() {
 		assertAll(
 				() -> assertThrows(IllegalArgumentException.class,
 						() -> IntervalSetOps.leftRayFromInverted(null)),
@@ -194,7 +194,7 @@ public class IntervalSetOpsTest {
 	}
 
 	@Test
-	public void signPredicatesOnlyMatchConnectedStrictlyPositiveOrNegativeSets() {
+	void signPredicatesOnlyMatchConnectedStrictlyPositiveOrNegativeSets() {
 		assertAll(
 				() -> assertTrue(IntervalSetOps.isPositive(IntervalSetOps.connected(1, 2))),
 				() -> assertFalse(IntervalSetOps.isPositive(IntervalSetOps.connected(0, 2))),

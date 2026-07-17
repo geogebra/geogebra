@@ -16,15 +16,15 @@
 
 package org.geogebra.common.main.settings;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class SettingsTest extends BaseUnitTest {
+class SettingsTest extends BaseUnitTest {
 
 	@Test
-	public void resetEuclidianSettings() {
+	void resetEuclidianSettings() {
 		EuclidianSettings euclidian = getApp().getSettings().getEuclidian(1);
 		assertTrue(euclidian.axisShown());
 		euclidian.setShowAxes(false);

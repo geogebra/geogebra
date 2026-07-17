@@ -19,12 +19,12 @@ package org.geogebra.common.kernel.commands;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -61,23 +61,23 @@ import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.annotation.Issue;
 import org.hamcrest.CoreMatchers;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class AlgebraProcessorTests extends BaseUnitTest {
+class AlgebraProcessorTests extends BaseUnitTest {
 
 	private AlgebraProcessor processor;
 	private ErrorHandler errorHandler;
 
-	@Before
-	public void setupTest() {
+	@BeforeEach
+	void setupTest() {
 		errorHandler = Mockito.mock(ErrorHandler.class);
 		processor = getAlgebraProcessor();
 	}
 
 	@Test
-	public void testCopyingPlainVariables() {
+	void testCopyingPlainVariables() {
 		EvalInfo info = new EvalInfo(true).withCopyingPlainVariables(true);
 		GeoElementND[] elements = evalCommand(
 				"a=1", info);
@@ -97,13 +97,13 @@ public class AlgebraProcessorTests extends BaseUnitTest {
 	}
 
 	@Test
-	public void testFunctionLikeMultiplication() {
+	void testFunctionLikeMultiplication() {
 		GeoElement element = add("x(x + 2)");
 		assertThat(element, CoreMatchers.<GeoElement>instanceOf(GeoFunction.class));
 	}
 
 	@Test
-	public void testExceptionThrowing() {
+	void testExceptionThrowing() {
 		shouldFail("x y");
 		shouldFail("xy");
 		shouldFail("a");
@@ -117,14 +117,14 @@ public class AlgebraProcessorTests extends BaseUnitTest {
 	}
 
 	@Test
-	public void testConversion() {
+	void testConversion() {
 		shouldParseAs("-1", -1);
 		shouldParseAs("-1,500", -1.5);
 		shouldParseAs("360deg", 2 * Math.PI);
 	}
 
 	@Test
-	public void onlyAlgebraInputShouldBeLogged() {
+	void onlyAlgebraInputShouldBeLogged() {
 		ArrayList<Object> loggedCommands = new ArrayList<>();
 		Analytics mockAnalytics = new Analytics() {
 			@Override
@@ -146,7 +146,7 @@ public class AlgebraProcessorTests extends BaseUnitTest {
 	}
 
 	@Test
-	public void testOutputFilteringFiltersExpressions() {
+	void testOutputFilteringFiltersExpressions() {
 		// Set up
 		setErrorHandler(errorHandler);
 		ExpressionFilter outputFilter = mock(ExpressionFilter.class);
@@ -170,7 +170,7 @@ public class AlgebraProcessorTests extends BaseUnitTest {
 	}
 
 	@Test
-	public void testGeoElementSetups() {
+	void testGeoElementSetups() {
 		GeoElementSetup paintEquationsRed = geoElement -> {
 			if (isEquation(geoElement)) {
 				geoElement.setObjColor(GColor.RED);
@@ -195,7 +195,7 @@ public class AlgebraProcessorTests extends BaseUnitTest {
 	}
 
 	@Test
-	public void redefineWithShortPoints() {
+	void redefineWithShortPoints() {
 		GeoElement pt = add("A=(1,2)");
 		getAlgebraProcessor().changeGeoElementNoExceptionHandling(pt, "A(1,3)",
 				new EvalInfo(true), false, null,
@@ -205,7 +205,7 @@ public class AlgebraProcessorTests extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-1289")
-	public void redefineWithFunctionOfZ() {
+	void redefineWithFunctionOfZ() {
 		GeoElement function = add("f(z)=z");
 		getAlgebraProcessor().changeGeoElementNoExceptionHandling(function, "f(z)=z+1",
 				new EvalInfo(true), false, null,
@@ -215,7 +215,7 @@ public class AlgebraProcessorTests extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-1289")
-	public void redefineWithFunctionOfX() {
+	void redefineWithFunctionOfX() {
 			GeoElement
 		function = add("g(x)=x");
 		getAlgebraProcessor().changeGeoElementNoExceptionHandling(function, "z+1",
@@ -230,7 +230,7 @@ public class AlgebraProcessorTests extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-6927")
-	public void testChangeUnlabeledElement() {
+	void testChangeUnlabeledElement() {
 		GeoElement geo = new GeoPoint(getConstruction());
 		// under normal circumstances label is set before replacing,
 		// but if a bug causes the object to be unlabeled we should handle it gracefully

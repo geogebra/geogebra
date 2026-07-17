@@ -33,12 +33,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(MockedCasValuesExtension.class)
-public class CellFreezeTest extends BaseAppTestSetup {
+class CellFreezeTest extends BaseAppTestSetup {
 
 	private DefaultSpreadsheetCellProcessor processor;
 
 	@BeforeEach
-	public void setAppConfig() {
+	void setAppConfig() {
 		setupApp(SuiteSubApp.CAS);
 		AlgebraProcessor algebraProcessor = getKernel().getAlgebraProcessor();
 		algebraProcessor.addGeoElementSetup(createRestrictedGeoElementVisibilitySetup(Set.of()));

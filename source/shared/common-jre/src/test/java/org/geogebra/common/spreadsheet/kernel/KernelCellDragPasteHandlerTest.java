@@ -33,19 +33,19 @@ import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
+class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 
 	private CellDragPasteHandler cellDragPasteHandler;
 	private KernelTabularDataAdapter tabularData;
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		tabularData = new KernelTabularDataAdapter(getApp());
 		cellDragPasteHandler = new KernelCellDragPasteHandler(tabularData, getKernel());
 	}
 
 	@Test
-	public void testPasteSingleCell1() {
+	void testPasteSingleCell1() {
 		tabularData.setContent(0, 0, add("=12"));
 		setRangeToCopy(0, 0, 0, 0);
 		assertTrue(pasteToDestination(0, 1));
@@ -53,7 +53,7 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testPasteSingleCell2() {
+	void testPasteSingleCell2() {
 		tabularData.setContent(1, 1, add("1 + 3"));
 		setRangeToCopy(1, 1, 1, 1);
 		pasteToDestination(2, 2);
@@ -61,7 +61,7 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testPasteSingleCell3() {
+	void testPasteSingleCell3() {
 		tabularData.setContent(1, 1, add("123"));
 		tabularData.setContent(1, 2, add("456"));
 		setRangeToCopy(1, 1, 1, 1);
@@ -70,7 +70,7 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testPasteSingleCell4() {
+	void testPasteSingleCell4() {
 		tabularData.setContent(0, 0, add("\"=12\""));
 		tabularData.setContent(0, 1, add("\"=A1\""));
 		setRangeToCopy(0, 0, 1, 1);
@@ -80,14 +80,14 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-6628")
-	public void testPasteSingleCellEmpty() {
+	void testPasteSingleCellEmpty() {
 		tabularData.setContent(0, 0, null);
 		setRangeToCopy(0, 0, 0, 0);
 		assertFalse(pasteToDestination(0, 1));
 	}
 
 	@Test
-	public void testPasteMultipleCells1() {
+	void testPasteMultipleCells1() {
 		tabularData.setContent(1, 1, add("123"));
 		tabularData.setContent(1, 2, add("456"));
 		setRangeToCopy(1, 1, 1, 2);
@@ -97,7 +97,7 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testPasteMultipleCells2() {
+	void testPasteMultipleCells2() {
 		tabularData.setContent(3, 3, add("\"Sample Text\""));
 		tabularData.setContent(4, 3, add("1 / 2"));
 		setRangeToCopy(3, 4, 3, 3);
@@ -107,7 +107,7 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testPasteMultiplceCells3() {
+	void testPasteMultiplceCells3() {
 		tabularData.setContent(0, 0, add("7 - 3"));
 		setRangeToCopy(0, 0, 0, 0);
 		pasteToDestination(2, 0);
@@ -116,7 +116,7 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testPasteColumn() {
+	void testPasteColumn() {
 		tabularData.setContent(2, 2, add("3 * 4"));
 		tabularData.setContent(4, 2, add("123"));
 		setRangeToCopy(-1, -1, 2, 2);
@@ -126,7 +126,7 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testPasteMultipleColumns() {
+	void testPasteMultipleColumns() {
 		tabularData.setContent(1, 2, add("12"));
 		tabularData.setContent(2, 3, add("14 + 2"));
 		setRangeToCopy(-1, -1, 2, 3);
@@ -136,7 +136,7 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testPasteRow() {
+	void testPasteRow() {
 		tabularData.setContent(1, 2, add("\"Test\""));
 		tabularData.setContent(1, 3, add("pi"));
 		setRangeToCopy(1, 1, -1, -1);
@@ -146,7 +146,7 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testPasteMultipleRows() {
+	void testPasteMultipleRows() {
 		tabularData.setContent(2, 3, add("13"));
 		tabularData.setContent(3, 3, add("1 + 2 + 3"));
 		setRangeToCopy(2, 3, -1, -1);
@@ -156,28 +156,28 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testInvalidDestination1() {
+	void testInvalidDestination1() {
 		setRangeToCopy(1, 1, 1, 1);
 		cellDragPasteHandler.setDestinationForPaste(1, 1);
 		assertNull(cellDragPasteHandler.getDragPasteDestinationRange());
 	}
 
 	@Test
-	public void testInvalidDestination2() {
+	void testInvalidDestination2() {
 		setRangeToCopy(-1, -1, 2, 2);
 		cellDragPasteHandler.setDestinationForPaste(15, 2);
 		assertNull(cellDragPasteHandler.getDragPasteDestinationRange());
 	}
 
 	@Test
-	public void testInvalidDestination3() {
+	void testInvalidDestination3() {
 		setRangeToCopy(2, 4, -1, -1);
 		cellDragPasteHandler.setDestinationForPaste(3, 0);
 		assertNull(cellDragPasteHandler.getDragPasteDestinationRange());
 	}
 
 	@Test
-	public void testLinearPattern1() {
+	void testLinearPattern1() {
 		tabularData.setContent(1, 1, add("=12"));
 		tabularData.setContent(2, 1, add("=15"));
 		setRangeToCopy(1, 2, 1, 1);
@@ -189,7 +189,7 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testLinearPattern2() {
+	void testLinearPattern2() {
 		tabularData.setContent(2, 5, add("=4"));
 		tabularData.setContent(2, 4, add("=1"));
 		setRangeToCopy(2, 2, 4, 5);
@@ -199,7 +199,7 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testLinearPattern3() {
+	void testLinearPattern3() {
 		tabularData.setContent(4, 1, add("=1"));
 		tabularData.setContent(5, 1, add("=7"));
 		tabularData.setContent(4, 2, add("=3"));
@@ -213,7 +213,7 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testLinearPatternCAS() {
+	void testLinearPatternCAS() {
 		getApp().setCasConfig();
 		getApp().getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
 		MockedCasGiac mockedCasGiac = new MockedCasGiac();
@@ -236,7 +236,7 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5987")
-	public void testDragPasteShouldResultInNonEmptySpreadsheetCells1() {
+	void testDragPasteShouldResultInNonEmptySpreadsheetCells1() {
 		DefaultSpreadsheetCellProcessor processor
 				= new DefaultSpreadsheetCellProcessor(getAlgebraProcessor());
 		getKernel().attach(tabularData);
@@ -256,7 +256,7 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5987")
-	public void testDragPasteShouldResultInNonEmptySpreadsheetCells2() {
+	void testDragPasteShouldResultInNonEmptySpreadsheetCells2() {
 		getApp().setCasConfig();
 		getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
 		DefaultSpreadsheetCellProcessor processor

@@ -18,18 +18,18 @@ package org.geogebra.common.properties.impl.objects;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class NamePropertyTest extends BaseUnitTest {
+class NamePropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testConstructorSucceeds() {
+	void testConstructorSucceeds() {
 		GeoElement slider = addAvInput("1");
 		try {
 			new NameProperty(getLocalization(), slider);
@@ -39,7 +39,7 @@ public class NamePropertyTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testGivingTheSameNameDoesNotCreateIndex() throws NotApplicablePropertyException {
+	void testGivingTheSameNameDoesNotCreateIndex() throws NotApplicablePropertyException {
 		GeoElement element = getElementFactory().createGeoLine();
 		element.setLabel("line");
 		NameProperty property = new NameProperty(getLocalization(), element);

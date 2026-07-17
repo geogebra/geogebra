@@ -16,18 +16,18 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class OpacityPropertyTest extends BaseUnitTest {
+class OpacityPropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testConstructorForPolygon() {
+	void testConstructorForPolygon() {
 		addAvInput("A = (0, 0)");
 		addAvInput("B = (1, 1)");
 		addAvInput("C = (0, 1)");
@@ -40,7 +40,7 @@ public class OpacityPropertyTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testConstructorForSlider() {
+	void testConstructorForSlider() {
 		GeoElement slider = addAvInput("1");
 		slider.setEuclidianVisible(true);
 		assertThrows(NotApplicablePropertyException.class,
@@ -48,7 +48,7 @@ public class OpacityPropertyTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testConstructorForPoint() {
+	void testConstructorForPoint() {
 		GeoElement point = addAvInput("(1,2)");
 		assertThrows(NotApplicablePropertyException.class,
 				() -> new OpacityProperty(getLocalization(), point));

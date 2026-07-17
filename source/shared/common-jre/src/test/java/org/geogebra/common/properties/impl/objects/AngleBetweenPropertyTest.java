@@ -23,10 +23,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class AngleBetweenPropertyTest extends BaseAppTestSetup {
+class AngleBetweenPropertyTest extends BaseAppTestSetup {
 
 	@Test
-	public void testSuccessfulConstructionForAngles() {
+	void testSuccessfulConstructionForAngles() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement("Angle((1,2), (3,4))");
 		assertDoesNotThrow(() -> new AngleBetweenProperty(getLocalization(), geoElement));

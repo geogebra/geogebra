@@ -16,21 +16,21 @@
 
 package org.geogebra.common.euclidian;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class HittingTest extends BaseEuclidianControllerTest {
+class HittingTest extends BaseEuclidianControllerTest {
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		setUpController();
 	}
 
 	@Test
-	public void polygonTool() {
+	void polygonTool() {
 		add("p1=Polygon((0, 0), (2, 0),(2, -2), (0, -2))");
 		add("p2=Polygon((2, 0), (4, 0),(4, -2), (2, -2))");
 		for (String segment: getApp().getGgbApi().getAllObjectNames("segment")) {

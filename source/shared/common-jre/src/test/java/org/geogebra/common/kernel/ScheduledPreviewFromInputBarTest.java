@@ -16,27 +16,27 @@
  
 package org.geogebra.common.kernel;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.test.commands.ErrorAccumulator;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class ScheduledPreviewFromInputBarTest extends BaseUnitTest {
+class ScheduledPreviewFromInputBarTest extends BaseUnitTest {
 
 	private ErrorAccumulator errorHandler;
 	private ScheduledPreviewFromInputBar preview;
 
-	@Before
-	public void setupPreview() {
+	@BeforeEach
+	void setupPreview() {
 		preview = new ScheduledPreviewFromInputBar(getKernel(),
 				Integer.MAX_VALUE);
 		errorHandler = new ErrorAccumulator();
 	}
 
 	@Test
-	public void shouldValidate() {
+	void shouldValidate() {
 		preview.updatePreviewFromInputBar("a=1", errorHandler);
 		assertEquals("", errorHandler.getErrors());
 		preview.updatePreviewFromInputBar("a=", errorHandler);
@@ -49,7 +49,7 @@ public class ScheduledPreviewFromInputBarTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void shouldValidateRedefinition() {
+	void shouldValidateRedefinition() {
 		add("a=2");
 		preview.updatePreviewFromInputBar("a=1", errorHandler);
 		assertEquals("", errorHandler.getErrors());

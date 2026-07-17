@@ -29,10 +29,10 @@ import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class DefaultPropertiesFactoryTest extends BaseAppTestSetup {
+class DefaultPropertiesFactoryTest extends BaseAppTestSetup {
 
 	@Test
-	public void testPropertiesGraphingWeb() {
+	void testPropertiesGraphingWeb() {
 		AppCommon graphingApp = AppCommonFactory.create(new AppConfigGraphing());
 		suiteScope.registerApp(graphingApp);
 

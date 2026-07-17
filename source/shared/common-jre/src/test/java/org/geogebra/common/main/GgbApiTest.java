@@ -20,10 +20,10 @@ import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 
 import java.util.ArrayList;
@@ -60,20 +60,20 @@ import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.EventAccumulator;
 import org.geogebra.test.TestEvent;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
-public class GgbApiTest {
+class GgbApiTest {
 	private AppCommon app;
 	private GgbAPI api;
 
 	/**
 	 * Initialize app.
 	 */
-	@Before
-	public void setupApp() {
+	@BeforeEach
+	void setupApp() {
 		app = AppCommonFactory.create3D();
 		api = new GgbAPIHeadless(app) {
 
@@ -90,7 +90,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void testCaption() {
+	void testCaption() {
 		api.evalCommand("b=1");
 		api.evalCommand("SetCaption[b,\"%n rocks\"]");
 		assertThat(api.getCaption("b", false), is("%n rocks"));
@@ -98,7 +98,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void evalCommandShouldFireAddEventOncePerCall() {
+	void evalCommandShouldFireAddEventOncePerCall() {
 		EventAccumulator eventAccumulator = new EventAccumulator();
 		app.getEventDispatcher().addEventListener(eventAccumulator);
 		api.evalCommand("a: r=cos(3" + Unicode.theta + ")");
@@ -108,20 +108,20 @@ public class GgbApiTest {
 
 	@Test
 	@Issue("APPS-7149")
-	public void evalCommandShouldAcceptRenamedCommand() {
+	void evalCommandShouldAcceptRenamedCommand() {
 		api.evalCommand("DelaunayTriangulation(e^(i*{1,2,3,4,5,6}))");
 		assertArrayEquals(new String[]{"graph1"}, api.getAllObjectNames());
 	}
 
 	@Test
 	@Issue("APPS-7195")
-	public void doubleFormattingTest() {
+	void doubleFormattingTest() {
 		api.evalCommand("a=1.0");
 		assertThat(api.getXML("a"), containsString("<value val=\"1\"/>"));
 	}
 
 	@Test
-	public void testEvalMathML() {
+	void testEvalMathML() {
 		api.evalMathML(
 				"<mrow><mi> x</mi><mo> +</mo><mrow><mi> 1</mi><mo>/</mo><mi> 2</mi></mrow></mrow>");
 		assertThat(api.getLaTeXString("f"), is("x + \\frac{1}{2}"));
@@ -129,26 +129,26 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void testEvalLaTeX() {
+	void testEvalLaTeX() {
 		api.evalLaTeX("latex(x)=\\sqrt{x}", 0);
 		assertThat(api.getLaTeXString("latex"), is("\\sqrt{x}"));
 		assertThat(api.getValueString("latex", true), is("latex(x) = sqrt(x)"));
 	}
 
 	@Test
-	public void testEvalLaTeXBinom() {
+	void testEvalLaTeXBinom() {
 		api.evalLaTeX("b=\\binom{10}{2}", 0);
 		assertThat(api.getLaTeXString("b"), is("45"));
 	}
 
 	@Test
-	public void testEvalLaTeXLog() {
+	void testEvalLaTeXLog() {
 		api.evalLaTeX("l=\\log_5(25)", 0);
 		assertThat(api.getLaTeXString("l"), is("2"));
 	}
 
 	@Test
-	public void testEvalLaTeXGreek() {
+	void testEvalLaTeXGreek() {
 		List<String> set = Arrays.asList("Alpha", "Beta", "Epsilon", "Zeta", "Eta",
 				"Iota", "Kappa", "Mu", "Nu", "Omicron", "Rho", "Tau", "Chi",
 				"phi", "epsilon");
@@ -169,12 +169,12 @@ public class GgbApiTest {
 	private void assertLaTeXGreekEval(String latex, String unicode) {
 		api.newConstruction();
 		api.evalLaTeX("x\\" + latex + "=42", 0);
-		assertEquals(latex + " not parsed as " + unicode, "42",
-				api.getLaTeXString("x" + unicode));
+		assertEquals("42", api.getLaTeXString("x" + unicode),
+				latex + " not parsed as " + unicode);
 	}
 
 	@Test
-	public void testOldPolylineSyntaxRedirectoToPenstroke() {
+	void testOldPolylineSyntaxRedirectoToPenstroke() {
 		app.setGraphingConfig();
 		// eval xml will mark the object as needing update
 		api.evalXML("<expression label=\"stroke1\" "
@@ -195,7 +195,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void testLabelStyle() {
+	void testLabelStyle() {
 		api.evalCommand("a=7");
 		api.setLabelStyle("a", 1);
 		assertEquals(1, api.getLabelStyle("a"));
@@ -206,7 +206,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void testRenameObject() {
+	void testRenameObject() {
 		api.evalCommand("a=1");
 
 		assertFalse(api.renameObject("a", "$"));
@@ -224,7 +224,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void testGrid() {
+	void testGrid() {
 		api.setGridVisible(false);
 		assertFalse(api.getGridVisible());
 		assertFalse(api.getGridVisible(1));
@@ -234,7 +234,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void testAxes() {
+	void testAxes() {
 		api.evalCommand("SetVisibleInView[xAxis,1,true]");
 		api.evalCommand("SetVisibleInView[yAxis,1,true]");
 		assertTrue(api.getVisible("xAxis", 1));
@@ -247,7 +247,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void perspectiveTest() {
+	void perspectiveTest() {
 		api.setPerspective("G");
 		assertFalse(app.showView(App.VIEW_ALGEBRA));
 		String geometryXML = api.getPerspectiveXML();
@@ -259,7 +259,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void viewChanged2DTest() {
+	void viewChanged2DTest() {
 		ScriptManager scriptManager = prepareScriptManager();
 
 		EuclidianView euclidianView = app.getActiveEuclidianView();
@@ -284,14 +284,14 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void setCoordsTest2D() {
+	void setCoordsTest2D() {
 		api.evalCommand("A=(1,2)");
 		api.setCoords("A", 3, 4);
 		assertEquals("A = (3, 4)", api.getValueString("A"));
 	}
 
 	@Test
-	public void setCoordsTest3D() {
+	void setCoordsTest3D() {
 		api.evalCommand("A=(1,2,3)");
 		api.setCoords("A", 3, 4, 5);
 		assertEquals("A = (3, 4, 5)", api.getValueString("A"));
@@ -305,7 +305,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void objectListenerShouldSurviveRedefine() {
+	void objectListenerShouldSurviveRedefine() {
 		MockScriptManager scriptManager = prepareScriptManager();
 
 		api.evalCommand("C=1");
@@ -325,7 +325,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void updateScriptShouldBeCalledOnce() {
+	void updateScriptShouldBeCalledOnce() {
 		api.evalCommand("C=1");
 		api.evalCommand("ans = ?");
 		api.evalCommand("input = InputBox(ans)");
@@ -349,7 +349,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void globalListenerShouldSurviveAttach() {
+	void globalListenerShouldSurviveAttach() {
 		MockScriptManager scriptManager = prepareScriptManager();
 
 		api.evalCommand("A=(0,0)");
@@ -376,7 +376,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void viewClicked2DTest() {
+	void viewClicked2DTest() {
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommand("Polygon((0, 0), (20, 0), (0, -20))", false);
 
@@ -407,7 +407,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void dragEnd2DTest() {
+	void dragEnd2DTest() {
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommand("Polygon((0, 0), (20, 0), (0, -20))", false);
 
@@ -439,7 +439,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void testGetValueString() {
+	void testGetValueString() {
 		app.getLocalization().setLocale(Locale.FRANCE);
 		api.evalCommand("f(x) = If(x > 3, x, 3)");
 		assertThat(api.getValueString("f", true), is("f(x) = Si(x > 3, x, 3)"));
@@ -447,7 +447,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void notLocalizedValueStringShouldHaveHighPrecision() {
+	void notLocalizedValueStringShouldHaveHighPrecision() {
 		api.evalCommand("A=(1/3,1/3)");
 		api.evalCommand("c=Circle(O,(2,2))");
 		assertThat(api.getValueString("A", false),
@@ -457,7 +457,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void testSetGraphicsOptions() throws JSONException {
+	void testSetGraphicsOptions() throws JSONException {
 		String json = "{gridColor:\"#FF0000\", bgColor: \"#0000ff\", "
 				+ " gridDistance: {\"x\": 1.5, \"y\":0.5, \"theta\":0.1234}"
 				+ "}";
@@ -469,7 +469,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void testDistanceOptions() throws JSONException {
+	void testDistanceOptions() throws JSONException {
 		String json = "{gridDistance: {\"x\": 1.5, \"y\":0.5}"
 				+ "}";
 
@@ -480,7 +480,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void testDistanceOptionsWithTheta() throws JSONException {
+	void testDistanceOptionsWithTheta() throws JSONException {
 		String json = "{gridDistance: {\"x\": 1.5, \"y\":0.5, \"theta\":0.1234}"
 				+ "}";
 
@@ -491,7 +491,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void testAutomaticDistanceOptions() throws JSONException {
+	void testAutomaticDistanceOptions() throws JSONException {
 		String json = "{gridDistance: {}}";
 		JSONObject jso = new JSONObject(new JSONTokener(json));
 		api.setGraphicsOptions(1, jso);
@@ -499,7 +499,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void testDistanceOptionsWithNegativeValues() throws JSONException {
+	void testDistanceOptionsWithNegativeValues() throws JSONException {
 		EuclidianSettings es = app.getSettings().getEuclidian(1);
 		double[] distances = {1.5, 0.5, 0};
 		es.setGridDistances(distances);
@@ -510,7 +510,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void testHasUnlabeledPredecessors() {
+	void testHasUnlabeledPredecessors() {
 		api.evalCommand("a=Segment((0,0),(1,0))");
 		api.evalCommand("b=2*a");
 		assertTrue(api.hasUnlabeledPredecessors("a"));
@@ -518,7 +518,7 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void setFixedShouldNotTriggerSelection() {
+	void setFixedShouldNotTriggerSelection() {
 		api.evalCommand("a=42");
 		EventAccumulator acc = new EventAccumulator();
 		app.getEventDispatcher().addEventListener(acc);

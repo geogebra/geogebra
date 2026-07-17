@@ -17,17 +17,17 @@
 package org.geogebra.common.kernel.commands;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class FormulaTextTest extends BaseUnitTest {
+class FormulaTextTest extends BaseUnitTest {
 
 	@Test
-	public void testUnitCoefficients() {
+	void testUnitCoefficients() {
 		StringTemplate algebraTemplate = StringTemplate.algebraTemplate
 				.deriveWithoutCoefficientSimplification();
 		// check that the AV preserves the input
@@ -55,7 +55,7 @@ public class FormulaTextTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5698")
-	public void formulaWithTextEquations() {
+	void formulaWithTextEquations() {
 		add("txt=\"3.14\"");
 		add("num=22");
 		add("eq:num/7=txt");

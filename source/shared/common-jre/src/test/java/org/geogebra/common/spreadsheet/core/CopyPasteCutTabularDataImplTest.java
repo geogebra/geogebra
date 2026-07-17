@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
+class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 
 	private KernelTabularDataAdapter tabularData;
 	private CopyPasteCutTabularDataImpl<?> copyPasteCut;
@@ -40,7 +40,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	private final TestClipboard clipboard = new TestClipboard();
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupClassicApp();
 		tabularData = new KernelTabularDataAdapter(getApp());
 		copyPasteCut = new CopyPasteCutTabularDataImpl<>(tabularData, clipboard,
@@ -48,7 +48,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPastingCells1() {
+	void testPastingCells1() {
 		tabularData.setContent(1, 1, evaluateGeoElement("12"));
 		copyPasteCut.copyDeep(new TabularRange(1, 1, 1, 1));
 		paste(new TabularRange(3, 3, 3, 3));
@@ -57,7 +57,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPastingCells2() {
+	void testPastingCells2() {
 		tabularData.setContent(2, 2, evaluateGeoElement("123"));
 		tabularData.setContent(3, 2, evaluateGeoElement("321"));
 		copyPasteCut.copyDeep(new TabularRange(2, 2, 3, 2));
@@ -69,7 +69,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPastingCells3() {
+	void testPastingCells3() {
 		tabularData.setContent(4, 4, evaluateGeoElement("1 + 3"));
 		copyPasteCut.copyDeep(new TabularRange(4, 4, 4, 4));
 		paste(new TabularRange(3, 1, 1, 1));
@@ -78,7 +78,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPastingCells4() {
+	void testPastingCells4() {
 		tabularData.setContent(1, 3, evaluateGeoElement("7 / 4"));
 		copyPasteCut.copyDeep(new TabularRange(1, 3, 1, 3));
 		paste(new TabularRange(2, 4, 2, 1));
@@ -87,54 +87,54 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testCopyingRowIncludesAllCellsInGivenRow() {
+	void testCopyingRowIncludesAllCellsInGivenRow() {
 		copyPasteCut.copyDeep(new TabularRange(-1, 1, -1, 1));
 		assertEquals(100, copyPasteCut.getInternalClipboard().getSourceRange().getHeight());
 	}
 
 	@Test
-	public void testCopyingColumnIncludesAllCellsInGivenColumn() {
+	void testCopyingColumnIncludesAllCellsInGivenColumn() {
 		copyPasteCut.copyDeep(new TabularRange(2, -1, 3, -1));
 		assertEquals(26, copyPasteCut.getInternalClipboard().getSourceRange().getWidth());
 	}
 
 	@Test
-	public void testCopyingEntireSpreadsheetIncludesAllCells() {
+	void testCopyingEntireSpreadsheetIncludesAllCells() {
 		copyPasteCut.copyDeep(new TabularRange(-1, -1, -1, -1));
 		assertEquals(100, copyPasteCut.getInternalClipboard().getSourceRange().getHeight());
 		assertEquals(26, copyPasteCut.getInternalClipboard().getSourceRange().getWidth());
 	}
 
 	@Test
-	public void testPastingSelectionAddsRows1() {
+	void testPastingSelectionAddsRows1() {
 		copyPasteCut.copyDeep(new TabularRange(0, 1, 1, 1));
 		paste(new TabularRange(99, 1, 99, 1));
 		assertEquals(101, tabularData.numberOfRows());
 	}
 
 	@Test
-	public void testPastingSelectionAddsRows2() {
+	void testPastingSelectionAddsRows2() {
 		copyPasteCut.copyDeep(new TabularRange(2, 1, 4, 2));
 		paste(new TabularRange(99, 2, 99, 3));
 		assertEquals(102, tabularData.numberOfRows());
 	}
 
 	@Test
-	public void testPastingSelectionAddsColumns1() {
+	void testPastingSelectionAddsColumns1() {
 		copyPasteCut.copyDeep(new TabularRange(3, 1, 3, 2));
 		paste(new TabularRange(5, 25, 5, 25));
 		assertEquals(27, tabularData.numberOfColumns());
 	}
 
 	@Test
-	public void testPastingSelectionAddsColumns2() {
+	void testPastingSelectionAddsColumns2() {
 		copyPasteCut.copyDeep(new TabularRange(5, 2, 6, 5));
 		paste(new TabularRange(7, 25, 7, 25));
 		assertEquals(29, tabularData.numberOfColumns());
 	}
 
 	@Test
-	public void testPastingRowClearsExistingCells() {
+	void testPastingRowClearsExistingCells() {
 		tabularData.setContent(1, 3, evaluateGeoElement("123"));
 		tabularData.setContent(3, 5, evaluateGeoElement("123"));
 		copyPasteCut.copyDeep(new TabularRange(1, -1, 1, -1));
@@ -143,7 +143,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPastingRows1() {
+	void testPastingRows1() {
 		tabularData.setContent(2, 3, evaluateGeoElement("1 + 2"));
 		copyPasteCut.copyDeep(new TabularRange(2, -1, 2, -1));
 		paste(new TabularRange(3, -1, 3, -1));
@@ -152,7 +152,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPastingRows2() {
+	void testPastingRows2() {
 		tabularData.setContent(2, 3, evaluateGeoElement("1 + 2"));
 		tabularData.setContent(3, 4, evaluateGeoElement("1 + 2"));
 		copyPasteCut.copyDeep(new TabularRange(2, -1, 3, -1));
@@ -164,7 +164,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPastingRows3() {
+	void testPastingRows3() {
 		tabularData.setContent(4, 4, evaluateGeoElement("8 / 3"));
 		copyPasteCut.cut(new TabularRange(4, -1, 4, -1));
 		paste(new TabularRange(6, 1, 6, 1));
@@ -172,7 +172,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPastingRowToLeftmostCell() {
+	void testPastingRowToLeftmostCell() {
 		tabularData.setContent(2, 4, evaluateGeoElement("1 + 2 * 3"));
 		copyPasteCut.copyDeep(new TabularRange(2, -1, 2, -1));
 		paste(new TabularRange(3, 0, 3, 0));
@@ -183,7 +183,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPastingColumns1() {
+	void testPastingColumns1() {
 		tabularData.setContent(1, 4, evaluateGeoElement("4 - 3"));
 		copyPasteCut.copyDeep(new TabularRange(-1, 4, -1, 4));
 		paste(new TabularRange(-1, 6, -1, 6));
@@ -192,7 +192,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPastingColumns2() {
+	void testPastingColumns2() {
 		tabularData.setContent(2, 3, evaluateGeoElement("4 / 7"));
 		tabularData.setContent(4, 4, evaluateGeoElement("4 * 2"));
 		copyPasteCut.copyDeep(new TabularRange(-1, 3, -1, 4));
@@ -204,7 +204,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPastingColumns3() {
+	void testPastingColumns3() {
 		tabularData.setContent(1, 4, evaluateGeoElement("123"));
 		copyPasteCut.cut(new TabularRange(-1, 4, -1, 4));
 		paste(new TabularRange(1, 5, 1, 5));
@@ -212,7 +212,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPastingColumnToTopmostCell() {
+	void testPastingColumnToTopmostCell() {
 		tabularData.setContent(1, 3, evaluateGeoElement("\"Sample Text\""));
 		copyPasteCut.copyDeep(new TabularRange(-1, 3, -1, 3));
 		paste(new TabularRange(-1, 5, -1, 5));
@@ -223,7 +223,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPastingShouldRegardDynamicReferences1() {
+	void testPastingShouldRegardDynamicReferences1() {
 		tabularData.setContent(0, 0, evaluateGeoElement("=12"));
 		tabularData.setContent(1, 0, evaluateGeoElement("=A1 + 3"));
 		copyPasteCut.copyDeep(new TabularRange(1, 0, 1, 0));
@@ -232,7 +232,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPastingShouldRegardDynamicReferences2() {
+	void testPastingShouldRegardDynamicReferences2() {
 		tabularData.setContent(0, 0, evaluateGeoElement("=3"));
 		tabularData.setContent(0, 1, evaluateGeoElement("=A1 + 4"));
 		copyPasteCut.copyDeep(new TabularRange(0, 1, 0, 1));
@@ -241,7 +241,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPastingShouldRegardDynamicReferences3() {
+	void testPastingShouldRegardDynamicReferences3() {
 		tabularData.setContent(1, 1, evaluateGeoElement("=2"));
 		tabularData.setContent(2, 1, evaluateGeoElement("=B2 * 2"));
 		copyPasteCut.copyDeep(new TabularRange(2, 1, 2, 1));
@@ -253,7 +253,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPastingShouldRegardDynamicReferences4() {
+	void testPastingShouldRegardDynamicReferences4() {
 		tabularData.setContent(5, 1, evaluateGeoElement("=32"));
 		tabularData.setContent(4, 1, evaluateGeoElement("=B6 / 2"));
 		copyPasteCut.copyDeep(new TabularRange(4, 1, 4, 1));
@@ -265,7 +265,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPastingShouldRegardDynamicReferences5() {
+	void testPastingShouldRegardDynamicReferences5() {
 		tabularData.setContent(3, 5, evaluateGeoElement("=30"));
 		tabularData.setContent(3, 4, evaluateGeoElement("=F4 + 3"));
 		copyPasteCut.copyDeep(new TabularRange(3, 4, 3, 4));
@@ -277,7 +277,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPastingShouldRegardDynamicReferences6() {
+	void testPastingShouldRegardDynamicReferences6() {
 		tabularData.setContent(1, 1, evaluateGeoElement("=12"));
 		tabularData.setContent(2, 1, evaluateGeoElement("=B2 + 3"));
 		copyPasteCut.copyDeep(new TabularRange(2, 1, 2, 1));
@@ -287,7 +287,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPasteExternal() {
+	void testPasteExternal() {
 		copyPasteCut.paste(new TabularRange(2, 3),
 				new String[][]{{"1"}, {"2"}});
 		assertEquals("1", getValueStringForCell(2, 3));
@@ -295,7 +295,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPasteExternalMultiple() {
+	void testPasteExternalMultiple() {
 		copyPasteCut.paste(new TabularRange(2, 3, 2, 4),
 				new String[][]{{"1"}, {"2"}});
 		assertEquals("1", getValueStringForCell(2, 3));
@@ -305,7 +305,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void internalClipboardShouldHavePriority() {
+	void internalClipboardShouldHavePriority() {
 		tabularData.setContent(1, 1, evaluateGeoElement("=1"));
 		tabularData.setContent(2, 1, evaluateGeoElement("=2"));
 		copyPasteCut.copy(new TabularRange(1, 1, 2, 1));
@@ -316,7 +316,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testCutRemovesElement() {
+	void testCutRemovesElement() {
 		tabularData.setContent(1, 1, evaluateGeoElement("=1"));
 		int constructionSteps = getKernel().getConstruction().steps();
 		copyPasteCut.cut(new TabularRange(1, 1, 1, 1));
@@ -324,7 +324,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testCutRemovesElements() {
+	void testCutRemovesElements() {
 		tabularData.setContent(1, 1, evaluateGeoElement("=1"));
 		tabularData.setContent(2, 1, evaluateGeoElement("3 + 2"));
 		int constructionSteps = getKernel().getConstruction().steps();

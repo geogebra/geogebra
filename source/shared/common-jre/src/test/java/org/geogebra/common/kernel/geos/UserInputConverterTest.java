@@ -16,34 +16,34 @@
 
 package org.geogebra.common.kernel.geos;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.kernel.geos.inputbox.UserInputConverter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class UserInputConverterTest {
+class UserInputConverterTest {
 	private UserInputConverter converter = new UserInputConverter();
 
 	@Test
-	public void defined2DMatrixShouldStay() {
+	void defined2DMatrixShouldStay() {
 		assertEquals("{{1},{2}}",
 				converter.matrixToUndefined("{{1},{2}}"));
 	}
 
 	@Test
-	public void empty4x4MatrixToUndefined() {
+	void empty4x4MatrixToUndefined() {
 		assertEquals("{{?,?,?,?},{?,?,?,?},{?,?,?,?},{?,?,?,?}}",
 				converter.matrixToUndefined("{{,,,},{,,,},{,,,},{,,,}}"));
 	}
 
 	@Test
-	public void emptyVectorToUndefined() {
+	void emptyVectorToUndefined() {
 		assertEquals("{{?},{?},{?}}",
 				converter.matrixToUndefined("{{},{},{}}"));
 	}
 
 	@Test
-	public void semiEmpty4x4MatrixToUndefined() {
+	void semiEmpty4x4MatrixToUndefined() {
 		converter = new UserInputConverter();
 		assertEquals("{{1,?,?,?},{?,2,?,?},{?,?,3,?},{?,4,5,6}}",
 				converter.matrixToUndefined("{{1,,,},{,2,,},{,,3,},{,4,5,6}}"));

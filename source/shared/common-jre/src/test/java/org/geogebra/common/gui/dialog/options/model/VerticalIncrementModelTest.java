@@ -21,12 +21,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class VerticalIncrementModelTest extends BaseUnitTest {
+class VerticalIncrementModelTest extends BaseUnitTest {
 
 	@Test
-	public void shouldChangeStep() {
+	void shouldChangeStep() {
 		VerticalIncrementModel model = new VerticalIncrementModel(getApp());
 		GeoPoint pt = add("A=(1,2)");
 		model.setGeos(new GeoElement[]{pt});

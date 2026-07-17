@@ -25,25 +25,25 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.GeoClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AlgoListElementTest extends BaseUnitTest {
+class AlgoListElementTest extends BaseUnitTest {
 
 	private GeoList list;
 	private GeoElement[] output;
 
 	@Test
-	public void testExistingValueInFlatList() {
+	void testExistingValueInFlatList() {
 		withList("{1,2,3,4}").at(1).shouldHaveValue("1");
 	}
 
 	@Test
-	public void testTypeInNonExistingIndexFlatList() {
+	void testTypeInNonExistingIndexFlatList() {
 		withList("{(1,1)}").at(2).shouldHaveType(GeoClass.POINT);
 	}
 
 	@Test
-	public void testEmptyFlatListShouldHaveElementTypeNumeric() {
+	void testEmptyFlatListShouldHaveElementTypeNumeric() {
 		withList("{}").at(2).shouldHaveType(GeoClass.NUMERIC);
 	}
 
@@ -81,7 +81,7 @@ public class AlgoListElementTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testExistingValueInMatrix() {
+	void testExistingValueInMatrix() {
 		withList("{{1,2},{3,4}}").at(1, 1).shouldHaveValue("1");
 		withList("{{1,2},{3,4}}").at(1, 2).shouldHaveValue("2");
 		withList("{{1,2},{3,4}}").at(2, 1).shouldHaveValue("3");
@@ -89,19 +89,19 @@ public class AlgoListElementTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testNonExistingIndexInMatrix() {
+	void testNonExistingIndexInMatrix() {
 		withList("{{1,2},{3,4}}").at(3, 1).shouldHaveType(GeoClass.NUMERIC);
 		withList("{{1,2},{3,4}}").at(1, 3).shouldHaveType(GeoClass.NUMERIC);
 	}
 
 	@Test
-	public void testNonExistingIndexInPointMatrix() {
+	void testNonExistingIndexInPointMatrix() {
 		withList("{{(1,1),(0,0)},{(0,0),(4,4)}}").at(2, 2)
 				.shouldHaveType(GeoClass.POINT);
 	}
 
 	@Test
-	public void testEmptyMatrixShouldHaveElementTypeNumeric() {
+	void testEmptyMatrixShouldHaveElementTypeNumeric() {
 		withList("{{},{}}").at(3, 1).shouldHaveType(GeoClass.NUMERIC);
 		withList("{{},{}}").at(3, 16).shouldHaveType(GeoClass.NUMERIC);
 	}

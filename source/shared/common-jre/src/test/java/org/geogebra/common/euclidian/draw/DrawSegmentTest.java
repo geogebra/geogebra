@@ -27,13 +27,13 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.SegmentStyle;
 import org.geogebra.test.OrderingComparison;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class DrawSegmentTest extends BaseUnitTest {
+class DrawSegmentTest extends BaseUnitTest {
 	private int counter;
 
 	@Test
-	public void allStylesShouldBePaintedToGraphics() {
+	void allStylesShouldBePaintedToGraphics() {
 		GeoSegment seg = add("Segment((0,0),(1,1))");
 		Drawable drawable = getDrawable(seg);
 		GGraphicsCommon g2d = new GGraphicsCommon() {

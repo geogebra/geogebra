@@ -25,10 +25,10 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class G3DPropertiesFactoryTest extends BaseAppTestSetup {
+class G3DPropertiesFactoryTest extends BaseAppTestSetup {
 
 	@Test
-	public void testPropertiesSuite3D() {
+	void testPropertiesSuite3D() {
 		setupApp(SuiteSubApp.G3D);
 		List<PropertiesArray> props = new G3DPropertiesFactory().createProperties(
 				getApp(), getLocalization(), null);

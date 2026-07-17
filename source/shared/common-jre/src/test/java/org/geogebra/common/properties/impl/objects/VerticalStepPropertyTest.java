@@ -28,29 +28,29 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class VerticalStepPropertyTest extends BaseAppTestSetup {
+class VerticalStepPropertyTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test
-	public void testApplicable() {
+	void testApplicable() {
 		GeoElement point = evaluateGeoElement("(1, 1)");
 		assertDoesNotThrow(() ->
 				new VerticalStepProperty(getAlgebraProcessor(), getLocalization(), point));
 	}
 
 	@Test
-	public void testNotApplicable() {
+	void testNotApplicable() {
 		GeoElement circle = evaluateGeoElement("Circle((0, 0), 1)");
 		assertThrows(NotApplicablePropertyException.class, () ->
 				new VerticalStepProperty(getAlgebraProcessor(), getLocalization(), circle));
 	}
 
 	@Test
-	public void testNotApplicableForIntersectionPoint() {
+	void testNotApplicableForIntersectionPoint() {
 		evaluateGeoElement("f = x - 3");
 		GeoElement intersectionPoint = evaluateGeoElement("Intersect(f, (0,-3))");
 		assertThrows(NotApplicablePropertyException.class, () ->
@@ -59,7 +59,7 @@ public class VerticalStepPropertyTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testDisabledForLockedObject() {
+	void testDisabledForLockedObject() {
 		GeoElement point = evaluateGeoElement("(1, 1)");
 		VerticalStepProperty VerticalStepProperty = assertDoesNotThrow(() ->
 				new VerticalStepProperty(getAlgebraProcessor(), getLocalization(), point));

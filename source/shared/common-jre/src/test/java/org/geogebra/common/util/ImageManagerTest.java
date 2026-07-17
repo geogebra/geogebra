@@ -16,26 +16,26 @@
 
 package org.geogebra.common.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ImageManagerTest {
+class ImageManagerTest {
 
 	@Test
-	public void fixSVGShouldPreserveSufficientInput() {
+	void fixSVGShouldPreserveSufficientInput() {
 		assertEquals("<svg width=42 height=42 viewBox=\"0 0 42 42\"></svg>",
 				ImageManagerCommon.fixSVG("<svg width=42 height=42 viewBox=\"0 0 42 42\"></svg>"));
 	}
 
 	@Test
-	public void fixSVGShouldAddMissingData() {
+	void fixSVGShouldAddMissingData() {
 		assertEquals("<svg viewBox=\"0 0 42 42\" height=\"42.0\" width=\"42.0\"></svg>",
 				ImageManagerCommon.fixSVG("<svg viewBox=\"0 0 42 42\"></svg>"));
 	}
 
 	@Test
-	public void testFixSVGRemoveAspectRatio() {
+	void testFixSVGRemoveAspectRatio() {
 		assertEquals("<svg preserveAspectRatio=\"none\" viewBox=\"0 0 42 42\""
 						+ " height=\"42\" width=\"42\"></svg>",
 				ImageManagerCommon.fixAndRemoveAspectRatio(

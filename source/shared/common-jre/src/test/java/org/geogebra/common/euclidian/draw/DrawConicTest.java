@@ -20,7 +20,7 @@ import static org.geogebra.common.awt.GPathIterator.SEG_CLOSE;
 import static org.geogebra.common.awt.GPathIterator.SEG_CUBICTO;
 import static org.geogebra.common.awt.GPathIterator.SEG_LINETO;
 import static org.geogebra.common.awt.GPathIterator.SEG_MOVETO;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 
 import java.util.ArrayList;
@@ -34,23 +34,23 @@ import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoConic;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class DrawConicTest extends BaseUnitTest {
+class DrawConicTest extends BaseUnitTest {
 
 	private GShape lastShape;
 
-	@Before
-	public void zoomIn() {
+	@BeforeEach
+	void zoomIn() {
 		add("ZoomIn(-5,-5,5,5)");
 		getConstruction().getConstructionDefaults()
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_CONIC).setAlphaValue(1);
 	}
 
 	@Test
-	public void testBigArcDrawingTriangleFill() {
+	void testBigArcDrawingTriangleFill() {
 		GeoConic circle = add("c=Circle((-50,-50),(-3,-3))");
 		assertEquals(Arrays.asList(SEG_MOVETO, SEG_CUBICTO, SEG_LINETO, SEG_CLOSE),
 				getSegmentTypes(circle));
@@ -69,7 +69,7 @@ public class DrawConicTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testBigArcDrawingVerticalRectangleFill() {
+	void testBigArcDrawingVerticalRectangleFill() {
 		GeoConic circle = add("c=Circle((-50,0),(0,0))");
 		assertEquals(Arrays.asList(SEG_MOVETO, SEG_CUBICTO, SEG_LINETO, SEG_LINETO, SEG_CLOSE),
 				getSegmentTypes(circle));
@@ -79,7 +79,7 @@ public class DrawConicTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testBigArcDrawingHorizontalRectangleFill() {
+	void testBigArcDrawingHorizontalRectangleFill() {
 		GeoConic circle = add("c=Circle((0,50),(0,0))");
 		assertEquals(Arrays.asList(SEG_MOVETO, SEG_CUBICTO, SEG_LINETO, SEG_LINETO, SEG_CLOSE),
 				getSegmentTypes(circle));
@@ -89,7 +89,7 @@ public class DrawConicTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testBigArcDrawingDiagonally() {
+	void testBigArcDrawingDiagonally() {
 		GeoConic ellipse = add("c=Ellipse((-50,-50),(50,50),(50.1,50.1))");
 		assertEquals(Arrays.asList(SEG_MOVETO, SEG_CUBICTO, SEG_LINETO, SEG_LINETO,
 						SEG_CUBICTO, SEG_LINETO, SEG_CLOSE),
@@ -97,8 +97,7 @@ public class DrawConicTest extends BaseUnitTest {
 	}
 
 	@Test
-
-	public void testHugeHyperbola() {
+	void testHugeHyperbola() {
 		// almost parabolic, but focus far offscreen
 		GeoConic hyperbola = add("Conic((-4.45,0),(4.45,0),"
 				+ "(-0.536383065322,2.1925887111664),(2.5665707545687,1.4848398178468),"
@@ -114,7 +113,7 @@ public class DrawConicTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void hugeZoomTest() {
+	void hugeZoomTest() {
 		double eps = 0.5e-8;
 		double xm = 1.9827119206636958;
 		double ym = 4.003436509728207;

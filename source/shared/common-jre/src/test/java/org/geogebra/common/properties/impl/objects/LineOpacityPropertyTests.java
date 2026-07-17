@@ -28,9 +28,9 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class LineOpacityPropertyTests extends BaseAppTestSetup {
+class LineOpacityPropertyTests extends BaseAppTestSetup {
 	@Test
-	public void testSettingOpacityForLine() {
+	void testSettingOpacityForLine() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoLine geoLine = evaluateGeoElement("x = 0");
 		LineOpacityProperty lineOpacityProperty = assertDoesNotThrow(() ->
@@ -50,7 +50,7 @@ public class LineOpacityPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testInitialOpacityForSliderTrack() {
+	void testInitialOpacityForSliderTrack() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoNumeric slider = evaluateGeoElement("a = Slider(0, 10)");
 		LineOpacityProperty property = assertDoesNotThrow(() ->
@@ -60,7 +60,7 @@ public class LineOpacityPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingOpacityForSliderTrack() {
+	void testChangingOpacityForSliderTrack() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoNumeric slider = evaluateGeoElement("a = Slider(0, 10)");
 		LineOpacityProperty property = assertDoesNotThrow(() ->
@@ -83,7 +83,7 @@ public class LineOpacityPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingOpacityDoesNotEnableTrackColor() {
+	void testChangingOpacityDoesNotEnableTrackColor() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoNumeric slider = evaluateGeoElement("a = Slider(0, 10)");
 		LineOpacityProperty opacityProperty = assertDoesNotThrow(() ->
@@ -104,7 +104,7 @@ public class LineOpacityPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingCustomColorPreservesOpacity() {
+	void testChangingCustomColorPreservesOpacity() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoNumeric slider = evaluateGeoElement("a = Slider(0, 10)");
 		LineOpacityProperty opacityProperty = assertDoesNotThrow(() ->

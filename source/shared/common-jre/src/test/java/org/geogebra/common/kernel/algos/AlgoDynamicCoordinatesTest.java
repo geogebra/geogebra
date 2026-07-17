@@ -24,12 +24,12 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AlgoDynamicCoordinatesTest extends BaseUnitTest  {
+class AlgoDynamicCoordinatesTest extends BaseUnitTest  {
 
 	@Test
-	public void testDynamicCoordsCompute() {
+	void testDynamicCoordsCompute() {
 		Construction cons = getConstruction();
 		GeoPoint I = new GeoPoint(cons, "I", 6, -9, 1);
 		GeoPoint J = new GeoPoint(cons, "J", 10, -6, 1);

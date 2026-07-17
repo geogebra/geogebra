@@ -40,14 +40,14 @@ import org.geogebra.editor.share.catalog.TemplateCatalog;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class GgbScriptTest extends BaseUnitTest {
+class GgbScriptTest extends BaseUnitTest {
 
 	@Test
-	public void onChangeScriptSubstitute() throws ScriptError {
+	void onChangeScriptSubstitute() throws ScriptError {
 		FactoryProvider.setInstance(new FactoryProviderCommon());
 		add("v=(?,?)");
 		GeoInputBox ib = add("ib=InputBox(v)");
@@ -64,7 +64,7 @@ public class GgbScriptTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void scriptShouldStoreUndoOnlyWhenObjectClicked() {
+	void scriptShouldStoreUndoOnlyWhenObjectClicked() {
 		activateUndo();
 		GeoElement pt = add("P=(1,1)");
 		GgbScript addPoint = makeScript("(2,2)");
@@ -79,7 +79,7 @@ public class GgbScriptTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5162")
-	public void scriptShouldNotTriggeredConcurrentModification()
+	void scriptShouldNotTriggeredConcurrentModification()
 			throws CircularDefinitionException {
 		GeoBoolean show = add("show=true");
 		GeoNumeric scriptable = add("scriptable=7");
@@ -96,7 +96,7 @@ public class GgbScriptTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void emptyScriptShouldNotStoreUndo() {
+	void emptyScriptShouldNotStoreUndo() {
 		activateUndo();
 		GeoElement pt = add("P=(1,1)");
 		GgbScript doNothing = makeScript("# do nothing");
@@ -108,7 +108,7 @@ public class GgbScriptTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5357")
-	public void scriptShouldTranslateInterToIntersection() throws ScriptError {
+	void scriptShouldTranslateInterToIntersection() throws ScriptError {
 		getApp().setLocale(Locale.UK);
 		add("l1 = {1, 2}");
 		add("l2 = {2, 4}");
@@ -119,7 +119,7 @@ public class GgbScriptTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void scriptShouldLookupLowercase() throws ScriptError {
+	void scriptShouldLookupLowercase() throws ScriptError {
 		getApp().setLocale(Locale.UK);
 		add("f:x=y");
 		GgbScript listIntersection = makeScript("setcolor(f,1,0,0)");
@@ -129,7 +129,7 @@ public class GgbScriptTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5701")
-	public void commandExecuteShouldNotStoreUndoPoint() {
+	void commandExecuteShouldNotStoreUndoPoint() {
 		activateUndo();
 		GeoElement pt = add("A = (1, 1)");
 		add("B = (2, 2)");

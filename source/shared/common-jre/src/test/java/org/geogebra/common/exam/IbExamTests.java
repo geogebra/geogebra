@@ -42,11 +42,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-@SuppressWarnings("checkstyle:RegexpSinglelineCheck") // Tabs in CsvSources
-public class IbExamTests extends BaseExamTestSetup {
+// Tabs in CsvSources
+@SuppressWarnings("checkstyle:RegexpSinglelineCheck")
+class IbExamTests extends BaseExamTestSetup {
 
 	@BeforeEach
-	public void setupIbExam() {
+	void setupIbExam() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.startExam(ExamType.IB, null);
 	}
@@ -56,7 +57,7 @@ public class IbExamTests extends BaseExamTestSetup {
 			"f'(1)",
 			"f'(p)"
 	})
-	public void testUnrestrictedDerivatives(String expression) {
+	void testUnrestrictedDerivatives(String expression) {
 		evaluate("f(x) = x^2");
 		evaluate("p = 2");
 
@@ -71,14 +72,14 @@ public class IbExamTests extends BaseExamTestSetup {
 			"g(x) = f'",
 			"g(x) = f'(x)"
 	})
-	public void testRestrictedDerivatives(String expression) {
+	void testRestrictedDerivatives(String expression) {
 		evaluate("f(x) = x^2");
 
 		assertNull(evaluate(expression));
 	}
 
 	@Test
-	public void testRestrictedOperationsAreFreeFromSideEffect() {
+	void testRestrictedOperationsAreFreeFromSideEffect() {
 		assertAll(
 				() -> assertNotNull(evaluate("f(x) = x^3")),
 				() -> assertNotNull(evaluate("l1 = {x}")),
@@ -88,7 +89,7 @@ public class IbExamTests extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testAutoCompleteProvider() {
+	void testAutoCompleteProvider() {
 		assertEquals(7, autocompleteProvider.getCompletions("Sol").count());
 	}
 
@@ -114,7 +115,7 @@ public class IbExamTests extends BaseExamTestSetup {
 			"Tangent((1,2), x^4+y^4=1); 						Illegal argument",
 			"Tangent(x^4+y^4=1, (1,2)); 						Illegal argument",
 	})
-	public void testCommandArgumentFilter(String command, String expectedError) {
+	void testCommandArgumentFilter(String command, String expectedError) {
 		if (expectedError == null) {
 			assertNotNull(evaluate(command));
 		} else {
@@ -125,14 +126,14 @@ public class IbExamTests extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void testNumberOfIntersectSpecialPoints() {
+	void testNumberOfIntersectSpecialPoints() {
 		GeoElement geoElement = evaluateGeoElement("sin(x)");
 		Objects.requireNonNull(SuggestionIntersectExtremum.get(geoElement)).execute(geoElement);
 		assertEquals(3, getKernel().getConstructionStep());
 	}
 
 	@Test
-	public void testOneVariableStatistics() throws InvalidValuesException {
+	void testOneVariableStatistics() throws InvalidValuesException {
 		TableValuesView tableValuesView = setupTableValues();
 		assertEquals(List.of(
 				"Mean",
@@ -160,12 +161,12 @@ public class IbExamTests extends BaseExamTestSetup {
 			"Quartile3({1, 2, 3})",
 			"Max({1, 2, 3})",
 	})
-	public void testUnrestrictedCommandsNeededForOneVariableStatistics(String command) {
+	void testUnrestrictedCommandsNeededForOneVariableStatistics(String command) {
 		assertNotNull(evaluate(command));
 	}
 
 	@Test
-	public void testTwoVariableStatistics() throws InvalidValuesException {
+	void testTwoVariableStatistics() throws InvalidValuesException {
 		TableValuesView tableValuesView = setupTableValues();
 		assertEquals(List.of(
 				// x
@@ -203,7 +204,7 @@ public class IbExamTests extends BaseExamTestSetup {
 			"Min({1, 2, 3})",
 			"Max({1, 2, 3})",
 	})
-	public void testUnrestrictedCommandsNeededForTwoVariableStatistics(String command) {
+	void testUnrestrictedCommandsNeededForTwoVariableStatistics(String command) {
 		assertNotNull(evaluate(command));
 	}
 

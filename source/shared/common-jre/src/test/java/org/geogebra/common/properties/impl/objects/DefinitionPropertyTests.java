@@ -26,7 +26,7 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class DefinitionPropertyTests extends BaseAppTestSetup {
+class DefinitionPropertyTests extends BaseAppTestSetup {
 
 	@ParameterizedTest
 	@ValueSource(strings = {
@@ -34,7 +34,7 @@ public class DefinitionPropertyTests extends BaseAppTestSetup {
 			"f(x) = x^2",
 			"a = 1 + 2"
 	})
-	public void testApplicableObjects(String expression) {
+	void testApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement element = evaluateGeoElement(expression);
 		assertDoesNotThrow(() ->
@@ -46,7 +46,7 @@ public class DefinitionPropertyTests extends BaseAppTestSetup {
 			"PenStroke((1, 2), (4, 3), (5, 6))",
 			"Button()"
 	})
-	public void testNotApplicableObjects(String expression) {
+	void testNotApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement element = evaluateGeoElement(expression);
 		assertThrows(NotApplicablePropertyException.class, () ->

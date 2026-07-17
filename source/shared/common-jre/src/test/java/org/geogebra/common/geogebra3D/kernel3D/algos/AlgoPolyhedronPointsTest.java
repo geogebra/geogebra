@@ -28,9 +28,9 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AlgoPolyhedronPointsTest extends BaseUnitTest {
+class AlgoPolyhedronPointsTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
@@ -39,7 +39,7 @@ public class AlgoPolyhedronPointsTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5577")
-	public void sequencePyramid() {
+	void sequencePyramid() {
 		for (int initialSides: Arrays.asList(3, 5)) {
 			getKernel().clearConstruction(false);
 			add("sidesNum=" + initialSides);
@@ -56,7 +56,7 @@ public class AlgoPolyhedronPointsTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-6128")
-	public void baseCopy() {
+	void baseCopy() {
 		add("n=3");
 		add("vert=Sequence(Rotate[(0,3), ((t * 2) * pi / n), (0,0)],t,1,n)");
 		add("polyBase=Polygon(vert)");

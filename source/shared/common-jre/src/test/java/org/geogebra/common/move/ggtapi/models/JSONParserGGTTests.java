@@ -16,11 +16,11 @@
 
 package org.geogebra.common.move.ggtapi.models;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -29,13 +29,13 @@ import java.nio.file.Paths;
 
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class JSONParserGGTTests {
+class JSONParserGGTTests {
 
 	// Sample response: POST https://www.geogebra.org/api/json.php (post body?)
 	@Test
-	public void testToMaterial_TubeAPI_ggb() throws Exception {
+	void testToMaterial_TubeAPI_ggb() throws Exception {
 		String json = getContentsOf("tube-3d.json");
 		assertNotNull(json);
 		JSONObject root = new JSONObject(json);
@@ -61,7 +61,7 @@ public class JSONParserGGTTests {
 
 	// Sample response: GET https://api.geogebra.org/v1.0/materials/PB9Npbe7
 	@Test
-	public void testToMaterial_GeoAPI_ws() throws Exception {
+	void testToMaterial_GeoAPI_ws() throws Exception {
 		String json = getContentsOf("geoapi-3d.json");
 		assertNotNull(json);
 		JSONObject root = new JSONObject(json);
@@ -76,7 +76,7 @@ public class JSONParserGGTTests {
 
 	// Sample response: https://api.geogebra.org/v1.0/materials/gfnbcfxx
 	@Test
-	public void testToMaterial_GeoAPI_ws_NoThumbUrl() throws Exception {
+	void testToMaterial_GeoAPI_ws_NoThumbUrl() throws Exception {
 		String json = getContentsOf("geoapi-nothumb.json");
 		assertNotNull(json);
 		JSONObject root = new JSONObject(json);
@@ -91,7 +91,7 @@ public class JSONParserGGTTests {
 	// Sample response: GET https://api.geogebra.org/v1.0/materials/PB9Npbe7
 	// extract an element where "type": "G"
 	@Test
-	public void testToMaterial_GeoAPI_G() throws Exception {
+	void testToMaterial_GeoAPI_G() throws Exception {
 		String json = getContentsOf("geoapi-3d.json");
 		assertNotNull(json);
 		JSONObject root = new JSONObject(json);
@@ -112,7 +112,7 @@ public class JSONParserGGTTests {
 	// Sample response: GET from mow-back
 	// For more info, see https://git.geogebra.org/doc/general/-/wikis/MOW
 	@Test
-	public void testToMaterial_MowAPI() throws Exception {
+	void testToMaterial_MowAPI() throws Exception {
 		String json = getContentsOf("mow.json");
 		assertNotNull(json);
 		JSONObject root = new JSONObject(json);

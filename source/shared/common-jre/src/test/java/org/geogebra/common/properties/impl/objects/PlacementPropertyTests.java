@@ -39,7 +39,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class PlacementPropertyTests extends BaseAppTestSetup {
+class PlacementPropertyTests extends BaseAppTestSetup {
 	@ParameterizedTest
 	@ValueSource(strings = {
 			"(1, 2)",
@@ -48,7 +48,7 @@ public class PlacementPropertyTests extends BaseAppTestSetup {
 			"IF(3 > 2, \"abc\", \"edf\")",
 			"BarChart({1,2,3},{4,5,6})"
 	})
-	public void testNotApplicableObjects(String expression) {
+	void testNotApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertThrows(NotApplicablePropertyException.class, () ->
 				new PlacementProperty(getLocalization(), evaluateGeoElement(expression)));
@@ -64,14 +64,14 @@ public class PlacementPropertyTests extends BaseAppTestSetup {
 			"Element({Text(\"abc\", (1, 2)), Text(\"edf\", (1, 2))}, 1): true",
 			"Element({\"abc\", \"edf\"}, 1): true"},
 			delimiterString = ":")
-	public void testIsDependentTextCommand(String expression, boolean expected) {
+	void testIsDependentTextCommand(String expression, boolean expected) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geo = evaluateGeoElement(expression);
 		assertEquals(expected, PlacementProperty.isDependentTextCommand(geo));
 	}
 
 	@Test
-	public void testBooleanPlacementOption() {
+	void testBooleanPlacementOption() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoBoolean geoBoolean = evaluateGeoElement("true");
 		PlacementProperty placementProperty = assertDoesNotThrow(() ->
@@ -80,7 +80,7 @@ public class PlacementPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testTextPlacementOptions() {
+	void testTextPlacementOptions() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoText geoText = evaluateGeoElement("\"abc\"");
 		PlacementProperty placementProperty = assertDoesNotThrow(() ->
@@ -95,7 +95,7 @@ public class PlacementPropertyTests extends BaseAppTestSetup {
 			"Slider(-5, 5, 1)", // number slider
 			"Slider(0, 10, 0.1, 0.1, 100, true, true, false, false)" // angle slider
 	})
-	public void testSliderPlacementOptions(String expression) {
+	void testSliderPlacementOptions(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoNumeric geoNumeric = evaluateGeoElement(expression);
 		PlacementProperty placementProperty = assertDoesNotThrow(() ->
@@ -106,7 +106,7 @@ public class PlacementPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testImagePlacementOptions() {
+	void testImagePlacementOptions() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
 		PlacementProperty placementProperty = assertDoesNotThrow(() ->
@@ -117,7 +117,7 @@ public class PlacementPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testSwitchingBetweenPlacementOptions() {
+	void testSwitchingBetweenPlacementOptions() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
 		PlacementProperty placementProperty = assertDoesNotThrow(() ->

@@ -24,9 +24,9 @@ import org.geogebra.common.kernel.statistics.GeoPieChart;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class ChartStyleGeoOpacityPropertyTests extends BaseAppTestSetup {
+class ChartStyleGeoOpacityPropertyTests extends BaseAppTestSetup {
 	@Test
-	public void testSettingPieChartSliceOpacity() {
+	void testSettingPieChartSliceOpacity() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart pieChart = evaluateGeoElement("PieChart({1, 2})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
@@ -54,7 +54,7 @@ public class ChartStyleGeoOpacityPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testReadingDefaultOpacity() {
+	void testReadingDefaultOpacity() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart pieChart = evaluateGeoElement("PieChart({1, 2})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
@@ -68,7 +68,7 @@ public class ChartStyleGeoOpacityPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testReadingOpacityValueWhenAllBarsMatch() {
+	void testReadingOpacityValueWhenAllBarsMatch() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart pieChart = evaluateGeoElement("PieChart({1, 2, 3})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
@@ -98,7 +98,7 @@ public class ChartStyleGeoOpacityPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testReadingOpacityValueWhenNotAllBarsMatch() {
+	void testReadingOpacityValueWhenNotAllBarsMatch() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart pieChart = evaluateGeoElement("PieChart({1, 2, 3})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();

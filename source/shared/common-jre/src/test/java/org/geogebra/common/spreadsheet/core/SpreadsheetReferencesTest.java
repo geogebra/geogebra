@@ -26,15 +26,15 @@ import org.geogebra.common.jre.util.UtilFactoryJre;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class SpreadsheetReferencesTest {
+class SpreadsheetReferencesTest {
 
 	@BeforeAll
-	public static void setup() {
+	static void setup() {
 		UtilFactoryJre.setupRegexFactory();
 	}
 
 	@Test
-	public void testDeduplicate() {
+	void testDeduplicate() {
 		SpreadsheetReference range1 =
 				SpreadsheetReferenceParsing.parseReference("A1:A3");
 		SpreadsheetReference range2 =
@@ -49,7 +49,7 @@ public class SpreadsheetReferencesTest {
 	}
 
 	@Test
-	public void testDontDeduplicate() {
+	void testDontDeduplicate() {
 		SpreadsheetReference range1 =
 				SpreadsheetReferenceParsing.parseReference("A1:A3");
 		SpreadsheetReference range2 =
@@ -61,7 +61,7 @@ public class SpreadsheetReferencesTest {
 	}
 
 	@Test
-	public void testEqualsIgnoringAbsolute() {
+	void testEqualsIgnoringAbsolute() {
 		SpreadsheetReference cell1 =
 				SpreadsheetReferenceParsing.parseReference("A1");
 		SpreadsheetReference range1 =

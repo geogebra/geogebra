@@ -36,13 +36,13 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ProbabilityResultRowPropertyViewTests extends BaseAppTestSetup {
+class ProbabilityResultRowPropertyViewTests extends BaseAppTestSetup {
 	private ProbabilityCalculatorView probabilityCalculatorView;
 	private ProbabilityResultValuesProperty property;
 	private PropertyView.ProbabilityResultRow propertyView;
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		setupApp(SuiteSubApp.PROBABILITY);
 		getApp().setRounding("4");
 		probabilityCalculatorView = new HeadlessProbabilityCalculatorView(getApp());
@@ -57,7 +57,7 @@ public class ProbabilityResultRowPropertyViewTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testIntervalPresentation() {
+	void testIntervalPresentation() {
 		probabilityCalculatorView.setProbabilityMode(PROB_INTERVAL);
 		property.getLowerBoundProperty().setValue("-1");
 		property.getUpperBoundProperty().setValue("1");
@@ -73,7 +73,7 @@ public class ProbabilityResultRowPropertyViewTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testLeftTailPresentation() {
+	void testLeftTailPresentation() {
 		probabilityCalculatorView.setProbabilityMode(PROB_LEFT);
 		property.getUpperBoundProperty().setValue("3");
 		List<PropertyView.ProbabilityResultRow.Item> items = propertyView.getItems();
@@ -86,7 +86,7 @@ public class ProbabilityResultRowPropertyViewTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testRightTailPresentation() {
+	void testRightTailPresentation() {
 		probabilityCalculatorView.setProbabilityMode(PROB_RIGHT);
 		property.getLowerBoundProperty().setValue("-2");
 		List<PropertyView.ProbabilityResultRow.Item> items = propertyView.getItems();
@@ -99,7 +99,7 @@ public class ProbabilityResultRowPropertyViewTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testTwoTailedPresentation() {
+	void testTwoTailedPresentation() {
 		probabilityCalculatorView.setProbabilityMode(PROB_TWO_TAILED);
 		property.getLowerBoundProperty().setValue("-1");
 		property.getUpperBoundProperty().setValue("2");

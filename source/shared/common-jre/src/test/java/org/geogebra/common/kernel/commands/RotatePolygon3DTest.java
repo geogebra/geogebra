@@ -22,9 +22,9 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.geos.GeoPolygon;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class RotatePolygon3DTest extends BaseUnitTest {
+class RotatePolygon3DTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
@@ -32,7 +32,7 @@ public class RotatePolygon3DTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void test() {
+	void test() {
 		add("A=(1,0,0)");
 		add("B=(1,0,1)");
 		add("Cube(A,B)");

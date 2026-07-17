@@ -50,10 +50,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @SuppressWarnings("checkstyle:RegexpSinglelineCheck") // Tabs in MockedCasValues
 @ExtendWith(MockedCasValuesExtension.class)
-public class AlgebraContextMenuTests extends BaseAppTestSetup {
+class AlgebraContextMenuTests extends BaseAppTestSetup {
 
 	@Test
-	public void testAlgebraContextMenuWithInvalidGeoElement() {
+	void testAlgebraContextMenuWithInvalidGeoElement() {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertEquals(
 				List.of(Delete),
@@ -65,7 +65,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 	// Geometry app
 
 	@Test
-	public void testForDefaultAlgebraInputInGeometryApp() {
+	void testForDefaultAlgebraInputInGeometryApp() {
 		setupApp(SuiteSubApp.GEOMETRY);
 		assertEquals(
 				List.of(SpecialPoints,
@@ -77,7 +77,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testForInputWithStatisticsInGeometryApp() {
+	void testForInputWithStatisticsInGeometryApp() {
 		setupApp(SuiteSubApp.GEOMETRY);
 		assertEquals(
 				List.of(Statistics,
@@ -89,7 +89,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testForInputWithOutputInGeometryApp() {
+	void testForInputWithOutputInGeometryApp() {
 		setupApp(SuiteSubApp.GEOMETRY);
 		assertEquals(
 				List.of(DuplicateInput,
@@ -103,7 +103,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 	// Scientific app
 
 	@Test
-	public void testForInputWithNoLabelInScientificApp() {
+	void testForInputWithNoLabelInScientificApp() {
 		setupApp(SuiteSubApp.SCIENTIFIC);
 		GeoElement geoElement = evaluateGeoElement("5");
 		geoElement.setAlgebraLabelVisible(false);
@@ -116,7 +116,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testForInputWithLabelInScientificApp() {
+	void testForInputWithLabelInScientificApp() {
 		setupApp(SuiteSubApp.SCIENTIFIC);
 		GeoElement geoElement = evaluateGeoElement("5");
 		geoElement.setAlgebraLabelVisible(true);
@@ -129,7 +129,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testForInputWithDuplicateOutputInScientificApp() {
+	void testForInputWithDuplicateOutputInScientificApp() {
 		setupApp(SuiteSubApp.SCIENTIFIC);
 		GeoElement geoElement = evaluateGeoElement("1 + 2");
 		assertEquals(
@@ -144,7 +144,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 	// Graphing app
 
 	@Test
-	public void testForInputWithSpecialPointsAndTableValuesInGraphingApp() {
+	void testForInputWithSpecialPointsAndTableValuesInGraphingApp() {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertEquals(
 				List.of(CreateTableValues,
@@ -157,7 +157,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testForInputWithSliderInGraphingApp() {
+	void testForInputWithSliderInGraphingApp() {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertEquals(
 				List.of(CreateSlider,
@@ -169,7 +169,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testForSliderCommandInGraphingApp() {
+	void testForSliderCommandInGraphingApp() {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertEquals(
 				List.of(RemoveSlider,
@@ -181,7 +181,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testForInputWithStatisticsInGraphingApp() {
+	void testForInputWithStatisticsInGraphingApp() {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertEquals(
 				List.of(CreateTableValues,
@@ -194,7 +194,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testForPotentialSliderGraphingApp() {
+	void testForPotentialSliderGraphingApp() {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertEquals(
 				List.of(CreateSlider,
@@ -206,7 +206,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testForSliderGraphingApp() {
+	void testForSliderGraphingApp() {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertEquals(
 				List.of(RemoveSlider,
@@ -218,7 +218,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testForInputWithOnlyEngineeringNotationOutputInGraphingApp() {
+	void testForInputWithOnlyEngineeringNotationOutputInGraphingApp() {
 		setupApp(SuiteSubApp.GRAPHING);
 		getAlgebraSettings().setEngineeringNotationEnabled(true);
 		assertEquals(
@@ -234,7 +234,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 	// Graphing 3D app
 
 	@Test
-	public void testForInputWithSolutionInGraphing3DApp() {
+	void testForInputWithSolutionInGraphing3DApp() {
 		setupApp(SuiteSubApp.G3D);
 		assertEquals(
 				List.of(Solve,
@@ -246,7 +246,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testForInputWithSpecialPointsInGraphing3DApp() {
+	void testForInputWithSpecialPointsInGraphing3DApp() {
 		setupApp(SuiteSubApp.G3D);
 		assertEquals(
 				List.of(SpecialPoints,
@@ -258,7 +258,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testForInputWithStatisticsInGraphing3DApp() {
+	void testForInputWithStatisticsInGraphing3DApp() {
 		setupApp(SuiteSubApp.G3D);
 		assertEquals(
 				List.of(Statistics,
@@ -276,7 +276,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 			"Evaluate(5) 	-> 5",
 			"Round(5, 13) 	-> 5.0",
 	})
-	public void testForSimpleInputInCasApp() {
+	void testForSimpleInputInCasApp() {
 		setupApp(SuiteSubApp.CAS);
 		assertEquals(
 				List.of(AddLabel,
@@ -293,7 +293,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 			"Evaluate(5) 	-> 5",
 			"Round(5, 13) 	-> 5.0",
 	})
-	public void testForSimpleInputWithSliderInCasApp() {
+	void testForSimpleInputWithSliderInCasApp() {
 		setupApp(SuiteSubApp.CAS);
 		GeoElement number = evaluateGeoElement("slider=5");
 		new CreateSlider(getAlgebraProcessor(), new LabelController()).execute(number);
@@ -311,7 +311,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 			"Evaluate(5) 	-> 5",
 			"Round(5, 13) 	-> 5.0",
 	})
-	public void testForSimpleInputWithLabelInCasApp() {
+	void testForSimpleInputWithLabelInCasApp() {
 		setupApp(SuiteSubApp.CAS);
 		GeoElement geoElement = evaluateGeoElement("5");
 		new LabelController().showLabel(geoElement);
@@ -328,7 +328,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 
 	@Test
 	@MockedCasValues({"Evaluate({1, 2, 3}) -> {1,2,3}"})
-	public void testForInputWithStatisticsInCasApp() {
+	void testForInputWithStatisticsInCasApp() {
 		setupApp(SuiteSubApp.CAS);
 		assertEquals(
 				List.of(CreateTableValues,
@@ -343,7 +343,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 
 	@Test
 	@MockedCasValues({"Evaluate(x) -> x"})
-	public void testForInputWithSpecialPointsInCasApp() {
+	void testForInputWithSpecialPointsInCasApp() {
 		setupApp(SuiteSubApp.CAS);
 		assertEquals(
 				List.of(CreateTableValues,

@@ -58,7 +58,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 // Keep this class to make sure tests from CommandsTestCommon are actually running.
-public class CommandsTest extends CommandTestSetup {
+class CommandsTest extends CommandTestSetup {
 
 	protected static String deg(String string) {
 		return string + "*" + DEGREE_STRING;

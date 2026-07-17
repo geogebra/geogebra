@@ -16,7 +16,7 @@
 
 package org.geogebra.common.euclidian.plot.implicit;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +29,13 @@ import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.implicit.LinkSegments;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-public class BernsteinImplicitAlgoTest extends BaseUnitTest {
-	@Ignore
+class BernsteinImplicitAlgoTest extends BaseUnitTest {
+	@Disabled
 	@Test
-	public void name() {
+	void name() {
 		EuclidianView view = getApp().getEuclidianView1();
 		view.setPreferredSize(AwtFactory.getPrototype().newDimension(1280, 1920));
 		view.setXmin(-0.048);

@@ -16,8 +16,8 @@
 
 package org.geogebra.common.euclidian.modes;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,18 +32,18 @@ import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class ModeDeleteTest extends BaseEuclidianControllerTest {
+class ModeDeleteTest extends BaseEuclidianControllerTest {
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		setUpController();
 	}
 
 	@Test
-	public void eraserTest() {
+	void eraserTest() {
 		setMode(EuclidianConstants.MODE_ERASER);
 		add("stroke = PenStroke((2,-4),(2,-2),(4,-2),(4,-4))");
 		click(140, 90);
@@ -83,7 +83,7 @@ public class ModeDeleteTest extends BaseEuclidianControllerTest {
 
 	@Test
 	@Issue("MOW-1791")
-	public void eraseWholeStrokeTest() {
+	void eraseWholeStrokeTest() {
 		getApp().setUndoActive(true);
 		setMode(EuclidianConstants.MODE_ERASER);
 		add("stroke = PenStroke((2,-4),(2,-2),(4,-2),(4,-4))");
@@ -111,7 +111,7 @@ public class ModeDeleteTest extends BaseEuclidianControllerTest {
 
 	@Test
 	@Issue("MOW-1791")
-	public void eraseStrokeGrouped() {
+	void eraseStrokeGrouped() {
 		getApp().setUndoActive(true);
 		getApp().setConfig(new AppConfigNotes());
 		setMode(EuclidianConstants.MODE_ERASER);
@@ -135,7 +135,7 @@ public class ModeDeleteTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void eraserTestStraight() {
+	void eraserTestStraight() {
 		getApp().setUndoActive(true);
 		getApp().setConfig(new AppConfigNotes());
 		getKernel().getConstruction().getUndoManager().setAllowCheckpoints(false);
@@ -165,12 +165,12 @@ public class ModeDeleteTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void eraserTestLongDragGraphing() {
+	void eraserTestLongDragGraphing() {
 		eraserTestLongDrag(new AppConfigGraphing());
 	}
 
 	@Test
-	public void eraserTestLongDragNotes() {
+	void eraserTestLongDragNotes() {
 		eraserTestLongDrag(new AppConfigNotes());
 	}
 
@@ -192,12 +192,12 @@ public class ModeDeleteTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void eraseMultipleTestGraphing() {
+	void eraseMultipleTestGraphing() {
 		eraseMultipleTest(new AppConfigGraphing());
 	}
 
 	@Test
-	public void eraseMultipleTestNotes() {
+	void eraseMultipleTestNotes() {
 		eraseMultipleTest(new AppConfigNotes());
 	}
 
@@ -234,7 +234,7 @@ public class ModeDeleteTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void shouldNotDeleteFixedObjects() {
+	void shouldNotDeleteFixedObjects() {
 		getApp().setAppletFlag(true);
 		setMode(EuclidianConstants.MODE_DELETE);
 		add("a:x=1");
@@ -248,7 +248,7 @@ public class ModeDeleteTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void shouldDeleteAngles() {
+	void shouldDeleteAngles() {
 		getApp().setAppletFlag(true);
 		add("Angle((1,-2),(1,-1),(2,-1))");
 		setMode(EuclidianConstants.MODE_DELETE);
@@ -257,7 +257,7 @@ public class ModeDeleteTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void shouldNotDeleteFixedSliders() {
+	void shouldNotDeleteFixedSliders() {
 		getApp().setAppletFlag(true);
 		setMode(EuclidianConstants.MODE_DELETE);
 		GeoElement slider = add("a=Slider(-1,1)");

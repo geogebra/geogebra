@@ -19,14 +19,15 @@ package org.geogebra.common.util.lang.subtags;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class LanguageSubtagRegistryParserTests {
+class LanguageSubtagRegistryParserTests {
 
 	private static final String HEADER = "File-Date: 2023-05-11\n%%\n";
 	private static final String SINGLE_ENTRY = "Type: language\n"
@@ -61,7 +62,7 @@ public class LanguageSubtagRegistryParserTests {
 			+ "Comments: published by error in Table 1 of ISO 639:1988";
 
 	@Test
-	public void testSingleEntry() throws Exception {
+	void testSingleEntry() throws Exception {
 		List<Record> records = parse(HEADER + SINGLE_ENTRY);
 		assertThat(records, hasSize(1));
 		List<Field> fields = records.get(0).fields;
@@ -72,7 +73,7 @@ public class LanguageSubtagRegistryParserTests {
 	}
 
 	@Test
-	public void testTwoEntries() {
+	void testTwoEntries() {
 		List<Record> records = null;
 		try {
 			records = parse(HEADER + TWO_ENTRIES);
@@ -85,7 +86,7 @@ public class LanguageSubtagRegistryParserTests {
 	}
 
 	@Test
-	public void testContinuation() throws Exception {
+	void testContinuation() throws Exception {
 		List<Record> records = parse(HEADER + LINE_CONTINUATION);
 		assertThat(records, hasSize(1));
 		List<Field> fields = records.get(0).fields;
@@ -100,15 +101,16 @@ public class LanguageSubtagRegistryParserTests {
 	}
 
 	@Test
-	public void testColonInFieldBody() throws Exception {
+	void testColonInFieldBody() throws Exception {
 		List<Record> records = parse(HEADER + COLON_IN_FIELD_BODY);
 		assertThat(records.get(0).fields.get(6).body,
 				is("published by error in Table 1 of ISO 639:1988"));
 	}
 
-	@Test(expected = Exception.class)
-	public void testInvalidFormatThrowsException() throws Exception {
-		parse("Invalid format");
+	@Test
+	void testInvalidFormatThrowsException() {
+		assertThrows(Exception.class, () ->
+			parse("Invalid format"));
 	}
 
 	private static List<Record> parse(String string) throws Exception {

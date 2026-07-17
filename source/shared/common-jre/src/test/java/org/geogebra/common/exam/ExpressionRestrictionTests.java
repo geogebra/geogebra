@@ -46,7 +46,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class ExpressionRestrictionTests {
+class ExpressionRestrictionTests {
     private App app;
     private AlgebraProcessor algebraProcessor;
     private final ExpressionFilter expressionFilter = ExpressionRestriction.toFilter(Set.of(
@@ -86,8 +86,8 @@ public class ExpressionRestrictionTests {
         }
     }
 
-    @BeforeEach
-    public void setup() {
+	@BeforeEach
+	void setup() {
         app = AppCommonFactory.create(new AppConfigGraphing());
         algebraProcessor = app.getKernel().getAlgebraProcessor();
         algebraProcessor.addInputExpressionFilter(expressionFilter);
@@ -95,28 +95,28 @@ public class ExpressionRestrictionTests {
         app.getSettingsUpdater().resetSettingsOnAppStart();
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "1 * 2",
-            "(1 * 2) / (5 ^(2 - 3))",
-            "1 * BinomialDist(5, 0.5, 2, true)",
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"1 * 2",
+			"(1 * 2) / (5 ^(2 - 3))",
+			"1 * BinomialDist(5, 0.5, 2, true)",
     })
-    public void testNewAllowedExpressions(String expression) {
+	void testNewAllowedExpressions(String expression) {
         assertNotNull(evaluate(expression));
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "true",
-            "false",
-            "true && false",
-            "5 > 2 ≟ 5 < 2",
-            "(1 * 2) / (5 ^(2 - true))",
-            "(1 * 2) / (5 ^(2 + 3))",
-            "1 * BinomialDist(5, 0.5, 2, true && true)",
-            "1 * BinomialDist(5, 0.5, true * 2, true)"
-    })
-    public void testNewRestrictedExpressions(String expression) {
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"true",
+			"false",
+			"true && false",
+			"5 > 2 ≟ 5 < 2",
+			"(1 * 2) / (5 ^(2 - true))",
+			"(1 * 2) / (5 ^(2 + 3))",
+			"1 * BinomialDist(5, 0.5, 2, true && true)",
+			"1 * BinomialDist(5, 0.5, true * 2, true)"
+	})
+	void testNewRestrictedExpressions(String expression) {
         assertNull(evaluate(expression));
     }
 

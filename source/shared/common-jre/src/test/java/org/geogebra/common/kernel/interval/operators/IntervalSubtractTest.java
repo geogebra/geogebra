@@ -19,15 +19,15 @@ package org.geogebra.common.kernel.interval.operators;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.LegacyIntervalAdapter.legacyInverted;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.kernel.interval.Interval;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class IntervalSubtractTest {
+class IntervalSubtractTest {
 
 	@Test
-	public void subtractFromOpenToNegativeInfinity() {
+	void subtractFromOpenToNegativeInfinity() {
 		// Table 5, row 1
 		assertEquals(whole(), interval(Double.NEGATIVE_INFINITY, -23.45)
 				.subtract(interval(Double.NEGATIVE_INFINITY, 3.45)));
@@ -41,7 +41,7 @@ public class IntervalSubtractTest {
 	}
 
 	@Test
-	public void subtractFromFiniteInterval() {
+	void subtractFromFiniteInterval() {
 		// Table 5, row 2
 		assertEquals(interval(-6.8, Double.POSITIVE_INFINITY), interval(-1.2, 3.4)
 				.subtract(interval(Double.NEGATIVE_INFINITY, 5.6)));
@@ -53,7 +53,7 @@ public class IntervalSubtractTest {
 	}
 
 	@Test
-	public void subtractFromIntervalOpenToPositiveInfinity() {
+	void subtractFromIntervalOpenToPositiveInfinity() {
 		// Table 5, row 3.
 		assertEquals(interval(-44.44, Double.POSITIVE_INFINITY),
 				interval(12.34, Double.POSITIVE_INFINITY)
@@ -68,7 +68,7 @@ public class IntervalSubtractTest {
 	}
 
 	@Test
-	public void subtractFromWhole() {
+	void subtractFromWhole() {
 		// Table 5, row 4.
 		assertEquals(whole(), whole().subtract(interval(Double.NEGATIVE_INFINITY, 12.34)));
 		assertEquals(whole(), whole().subtract(interval(12.34, 56.78)));
@@ -77,20 +77,20 @@ public class IntervalSubtractTest {
 	}
 
 	@Test
-	public void subtractFromInverted() {
+	void subtractFromInverted() {
 		Interval result = legacyInverted(-10, 10).subtract(interval(50, 60));
 		assertEquals(legacyInverted(-70, -40), result);
 	}
 
 	@Test
-	public void compatibilityTestWithAdd() {
+	void compatibilityTestWithAdd() {
 		assertEquals(legacyInverted(10, 20).subtract(interval(1, 2)),
 				legacyInverted(10, 20)
 						.add(interval(-2, -1)));
 	}
 
 	@Test
-	public void compatibilityTestWithMultiplyAndAdd() {
+	void compatibilityTestWithMultiplyAndAdd() {
 		IntervalNodeEvaluator evaluator = new IntervalNodeEvaluator();
 		assertEquals(legacyInverted(10, 20).subtract(interval(1, 2)),
 				legacyInverted(10, 20)

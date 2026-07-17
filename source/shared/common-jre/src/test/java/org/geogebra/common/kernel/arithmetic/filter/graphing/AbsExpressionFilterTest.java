@@ -23,33 +23,33 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.junit.jupiter.api.Test;
 
-public class AbsExpressionFilterTest extends BaseUnitTest {
+class AbsExpressionFilterTest extends BaseUnitTest {
 
 	final AbsExpressionFilter filter = new AbsExpressionFilter();
 
 	@Test
-	public void testPointsAreRestricted() {
+	void testPointsAreRestricted() {
 		assertFalse(isAllowed("abs((1,2))"));
 		assertFalse(isAllowed("abs((1,2) + (3,4))"));
 		assertFalse(isAllowed("abs(Point({1,2}))"));
 	}
 
 	@Test
-	public void testVectorsAreRestricted() {
+	void testVectorsAreRestricted() {
 		assertFalse(isAllowed("abs({{1},{2}})"));
 		assertFalse(isAllowed("abs({{1},{2}} + {{3},{4}})"));
 		assertFalse(isAllowed("abs(Vector((1,2)))"));
 	}
 
 	@Test
-	public void testNumbersAreAllowed() {
+	void testNumbersAreAllowed() {
 		assertTrue(isAllowed("abs(-4)"));
 		assertTrue(isAllowed("abs(1 + 2 * 8)"));
 		assertTrue(isAllowed("abs(Length({{1},{2}}))"));
 	}
 
 	@Test
-	public void testComplexNumbersAreRestricted() {
+	void testComplexNumbersAreRestricted() {
 		assertFalse(isAllowed("abs(1 + i)"));
 	}
 

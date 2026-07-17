@@ -33,10 +33,10 @@ import org.geogebra.editor.share.tree.Formula;
 import org.geogebra.editor.share.tree.SequenceNode;
 import org.junit.jupiter.api.Test;
 
-public class SerializeLaTeXTest {
+class SerializeLaTeXTest {
 
 	@Test
-	public void testJavaSerializationShouldKeepAllData() {
+	void testJavaSerializationShouldKeepAllData() {
 		try {
 			ByteArrayOutputStream targetStream = new ByteArrayOutputStream();
 			Formula mf = new Parser(new TemplateCatalog()).parse("()");

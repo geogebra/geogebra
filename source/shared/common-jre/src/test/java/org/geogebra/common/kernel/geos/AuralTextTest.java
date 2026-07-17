@@ -20,8 +20,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.text.Normalizer;
 
@@ -33,15 +33,15 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class AuralTextTest {
+class AuralTextTest {
 
 	static AppCommon3D app;
 
-	@Before
-	public void startApp() {
+	@BeforeEach
+	void startApp() {
 		app = AppCommonFactory.create3D();
 	}
 
@@ -71,19 +71,19 @@ public class AuralTextTest {
 	}
 
 	@Test
-	public void pointAural() {
+	void pointAural() {
 		aural("(1,1)", "Point", "1 comma 1", "arrow", "edit");
 		aural("Point(xAxis)", "Point", "0 comma 0", "plus and minus", "edit");
 	}
 
 	@Test
-	public void point3DAural() {
+	void point3DAural() {
 		aural("(1,1,1)", "Point", "arrow", "edit");
 		aural("Point(zAxis)", "Point", "plus and minus", "edit");
 	}
 
 	@Test
-	public void numberAural() {
+	void numberAural() {
 		aural("sl=Slider(-5,5)", "Slider", "start animation", "increase",
 				"decrease", "edit");
 		app.setRightClickEnabled(false);
@@ -99,7 +99,7 @@ public class AuralTextTest {
 	}
 
 	@Test
-	public void numberCaptionAural() {
+	void numberCaptionAural() {
 		add("vec=Slider(-5,5)");
 		add("SetCaption(vec,\"Vector v = %v\")");
 		aural("vec", "Vector v = 0", "start animation", "increase",
@@ -109,25 +109,25 @@ public class AuralTextTest {
 	}
 
 	@Test
-	public void checkboxAural() {
+	void checkboxAural() {
 		aural("checkbox()", "Check Box", "uncheck", "edit");
 		aural("false", "Check Box", " check", "edit");
 	}
 
 	@Test
-	public void functionAural() {
+	void functionAural() {
 		aural("f(x)=cbrt(x)", "Function f", "edit");
 	}
 
 	@Test
-	public void functionAuralWithNegativeCoefficient() {
+	void functionAuralWithNegativeCoefficient() {
 		add("c = -1");
 		GeoElementND[] f = add(" f(x)=x^2+x+c");
 		assertEquals("x² + x − 1", f[0].toValueString(StringTemplate.screenReaderUnicode));
 	}
 
 	@Test
-	public void dropdownAural() {
+	void dropdownAural() {
 		GeoElementND[] geos = add("mylist={x,-x}");
 		GeoList dropdown = (GeoList) geos[0];
 		dropdown.setDrawAsComboBox(true);
@@ -142,7 +142,7 @@ public class AuralTextTest {
 	}
 
 	@Test
-	public void plainListAural() {
+	void plainListAural() {
 		GeoElementND[] geos = add("plain={1,2,3}");
 		aural("plain", "List plain", "edit");
 		GeoList plainList = (GeoList) geos[0];
@@ -152,7 +152,7 @@ public class AuralTextTest {
 	}
 
 	@Test
-	public void textAuralStroke() {
+	void textAuralStroke() {
 		aural("LaTeX(\"\\dstrok\\Dstrok\\hstrok\\Hstrok\\l\\L\")",
 				"\u0111\u0110\u0127\u0126\u0142\u0141", "edit");
 		aural("LaTeX(\"\\tstroke\")", "\u0167", "edit");
@@ -160,7 +160,7 @@ public class AuralTextTest {
 	}
 
 	@Test
-	public void textAuralAccent() {
+	void textAuralAccent() {
 		aural("LaTeX(\"\\r{a}\\r{A}\\'{e}\")",
 				"\u00E5\u00C5\u00E9", "edit");
 		aural("LaTeX(\"\\ogonek{a}\")", "\u0105", "edit");
@@ -169,13 +169,13 @@ public class AuralTextTest {
 	}
 
 	@Test
-	public void textAuralSurd() {
+	void textAuralSurd() {
 		aural("LaTeX(\"\u221a\\surd\\surdsign\")",
 				"\u221a\u221a\u221a", "edit");
 	}
 
 	@Test
-	public void textAuralIntegral() {
+	void textAuralIntegral() {
 		aural("LaTeX(\"\\int_{x=1}^{2}x dx\")",
 				Unicode.INTEGRAL + " from x=1 to 2 xdx", "edit");
 		aural("LaTeX(\"\\sum_{x=1}^{2}x\")",
@@ -183,7 +183,7 @@ public class AuralTextTest {
 	}
 
 	@Test
-	public void textAural() {
+	void textAural() {
 		aural("LaTeX(\"a\\geq b\\leq c\")", "a" + Unicode.GREATER_EQUAL + "b"
 				+ Unicode.LESS_EQUAL + "c", "edit");
 		aural("LaTeX(\"a\\ge b\\le c\")", "a" + Unicode.GREATER_EQUAL + "b"
@@ -247,13 +247,13 @@ public class AuralTextTest {
 	}
 
 	@Test
-	public void testAuralDegree() {
+	void testAuralDegree() {
 		auralExact("LaTeX(\"a \\text{7\\degree}\")", "a7 degrees");
 		auralExact("LaTeX(\"a \\text{1\\degree}\")", "a1 degree");
 	}
 
 	@Test
-	public void readLaTeXCaption() {
+	void readLaTeXCaption() {
 		GeoElementND[] pointA = add("A = (1,2)");
 		pointA[0].setCaption("$ \\sqrt {x}$");
 		auralWhichContainsTheOutput("A", "start square root x end root");
@@ -267,14 +267,14 @@ public class AuralTextTest {
 	}
 
 	@Test
-	public void readComma() {
+	void readComma() {
 		GeoElementND[] pointA = add("A = (1,2)");
 		assertEquals("open parenthesis 1 comma 2 close parenthesis",
 				pointA[0].toValueString(StringTemplate.screenReaderAscii).trim());
 	}
 
 	@Test
-	public void inputBoxShouldReadCaptionOrLabel() {
+	void inputBoxShouldReadCaptionOrLabel() {
 		GeoInputBox box = (GeoInputBox) add("myBox=InputBox()")[0];
 		assertEquals("Input Box myBox", box.getAuralText().trim());
 		box.setCaption("$\\frac{1}{2}$");
@@ -285,7 +285,7 @@ public class AuralTextTest {
 	}
 
 	@Test
-	public void inputBoxShouldNotReadHiddenLabel() {
+	void inputBoxShouldNotReadHiddenLabel() {
 		GeoInputBox box = (GeoInputBox) add("myBox=InputBox()")[0];
 		box.setLabelVisible(false);
 		assertEquals("Input Box", box.getAuralText().trim());
@@ -296,7 +296,7 @@ public class AuralTextTest {
 
 	@Test
 	@Issue("APPS-6175")
-	public void testTextAsCaptionForGeoText() {
+	void testTextAsCaptionForGeoText() {
 		GeoText text = (GeoText) add("text = \"Do not read this!\"")[0];
 		GeoText hidden = (GeoText) add("hiddenText = \"Read this instead!\"")[0];
 		text.setDynamicCaption(hidden);
@@ -313,7 +313,7 @@ public class AuralTextTest {
 
 	@Test
 	@Issue("APPS-7350")
-	public void hiddenPrefixLabelShouldReadInputValueWithoutType() {
+	void hiddenPrefixLabelShouldReadInputValueWithoutType() {
 		GeoElementND geo = add("2 + 3")[0];
 		geo.setLabelSimple(LabelManager.HIDDEN_PREFIX + "_{1}");
 		String aural = geo.getAuralText(new ScreenReaderBuilderDot(app.getLocalization()));

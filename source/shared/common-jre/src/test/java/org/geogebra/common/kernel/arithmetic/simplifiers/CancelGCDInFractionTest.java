@@ -20,9 +20,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class CancelGCDInFractionTest extends BaseSimplifyTestSetup {
+class CancelGCDInFractionTest extends BaseSimplifyTestSetup {
 	@Test
-	public void testAccept() {
+	void testAccept() {
 		shouldAccept("(-8 - sqrt(10)) / 54");
 		shouldAccept("(9(-8 - sqrt(10))) / 54");
 		shouldAccept("9(-8 - sqrt(10)) / 54");
@@ -41,24 +41,24 @@ public class CancelGCDInFractionTest extends BaseSimplifyTestSetup {
 			"(3 (1 - sqrt(6))) / -5, (3 (1 - sqrt(6))) / -5",
 			"(4 (sqrt(5) + 1)) / 4, sqrt(5) + 1",
 			"((sqrt(5) + 1) * 4) / 4, sqrt(5) + 1"})
-	public void testCancelGCD(String definition, String expected) {
+	void testCancelGCD(String definition, String expected) {
 		shouldSimplify(definition, expected);
 	}
 
 	@Test
-	public void nestedMultiplication() {
+	void nestedMultiplication() {
 		shouldSimplify("((2 * (1 - sqrt(2)) (sqrt(2) - 5))) / 4", "((sqrt(2)-5)(1-sqrt(2)))/2");
 	}
 
 	@Test
-	public void shouldNotChange() {
+	void shouldNotChange() {
 		shouldSimplify("(3 (1 - sqrt(6))) / -5", "(3 (1 - sqrt(6))) / -5");
 		shouldSimplify("(-(sqrt(2) - 3)) / 7", "(-(sqrt(2) - 3)) / 7");
 		shouldSimplify("(-4 (5 - 2sqrt(2))) / 17", "(-4 (5 - 2sqrt(2))) / 17");
 	}
 
 	@Test
-	public void testSimplifyConstantFractions() {
+	void testSimplifyConstantFractions() {
 		shouldSimplify("12 / 8", " 3 / 2");
 		shouldSimplify("-1 / 3", " -1 / 3");
 		shouldSimplify("1 / -3", "1 / -3");
@@ -72,7 +72,7 @@ public class CancelGCDInFractionTest extends BaseSimplifyTestSetup {
 	}
 
 	@Test
-	public void wip() {
+	void wip() {
 		shouldSimplify("12 / 8", " 3 / 2");
 	}
 

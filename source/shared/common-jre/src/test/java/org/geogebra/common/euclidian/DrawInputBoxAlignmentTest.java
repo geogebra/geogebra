@@ -16,7 +16,7 @@
 
 package org.geogebra.common.euclidian;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.eq;
 
@@ -27,18 +27,18 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.test.euclidian.AutoCompleteTextFieldC;
 import org.geogebra.test.euclidian.TextFieldCommonJre;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class DrawInputBoxAlignmentTest extends BaseUnitTest {
+class DrawInputBoxAlignmentTest extends BaseUnitTest {
 	private static final double INPUT_LEFT = 38;
 	private static final double TEXT_WIDTH = 36;
 	private static final double INPUT_WIDTH = 194;
 	private GeoInputBox inputBox;
 
-	@Before
-	public void setupInput() {
+	@BeforeEach
+	void setupInput() {
 		EuclidianView ev = getApp().getActiveEuclidianView();
 		ev.setViewTextField(new TextFieldCommonJre());
 		getKernel().getAlgebraProcessor().processAlgebraCommand("ZoomIn(-1,-1, 1,1) ", false);
@@ -49,7 +49,7 @@ public class DrawInputBoxAlignmentTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void inputBoxTextAlignmentTest() {
+	void inputBoxTextAlignmentTest() {
 		inputBox.setAlignment(HorizontalAlignment.LEFT);
 		inputBox.update();
 		verifyDrawString("A", 30.0d);
@@ -58,7 +58,7 @@ public class DrawInputBoxAlignmentTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void inputBoxTextAlignmentTestCenter() {
+	void inputBoxTextAlignmentTestCenter() {
 		inputBox.setAlignment(HorizontalAlignment.CENTER);
 		inputBox.update();
 		verifyDrawString(
@@ -68,7 +68,7 @@ public class DrawInputBoxAlignmentTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void inputBoxTextAlignmentTestRight() {
+	void inputBoxTextAlignmentTestRight() {
 		inputBox.setAlignment(HorizontalAlignment.RIGHT);
 		inputBox.update();
 		verifyDrawString(

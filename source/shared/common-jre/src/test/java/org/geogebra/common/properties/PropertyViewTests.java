@@ -69,20 +69,20 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 @SuppressWarnings({"variableDeclarationUsageDistanceCheck", "RegexpSinglelineCheck"})
 @ExtendWith(MockedCasValuesExtension.class)
-public class PropertyViewTests extends BaseAppTestSetup {
+class PropertyViewTests extends BaseAppTestSetup {
 
 	@BeforeAll
-	public static void enablePreviewFeatures() {
+	static void enablePreviewFeatures() {
 		PreviewFeature.setPreviewFeaturesEnabled(true);
 	}
 
 	@AfterAll
-	public static void disabledPreviewFeatures() {
+	static void disabledPreviewFeatures() {
 		PreviewFeature.setPreviewFeaturesEnabled(false);
 	}
 
 	@Test
-	public void testGridTypeDependentLineStyleVisibility() {
+	void testGridTypeDependentLineStyleVisibility() {
 		setupApp(SuiteSubApp.GRAPHING);
 
 		App app = getApp();
@@ -109,7 +109,7 @@ public class PropertyViewTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testFixedDistanceDependentComboBoxEnabledState() {
+	void testFixedDistanceDependentComboBoxEnabledState() {
 		setupApp(SuiteSubApp.GRAPHING);
 
 		GridDistancePropertyCollection gridDistancePropertyCollection =
@@ -138,7 +138,7 @@ public class PropertyViewTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testAxisDistanceTextFieldInputValidation() {
+	void testAxisDistanceTextFieldInputValidation() {
 		setupApp(SuiteSubApp.GRAPHING);
 
 		AxisDistanceProperty axisDistanceProperty = new AxisDistanceProperty(getLocalization(),
@@ -159,7 +159,7 @@ public class PropertyViewTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testOrdinalPositionsOfExpandableListsInGraphicsSettings() {
+	void testOrdinalPositionsOfExpandableListsInGraphicsSettings() {
 		setupApp(SuiteSubApp.GRAPHING);
 
 		App app = getApp();
@@ -183,7 +183,7 @@ public class PropertyViewTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testCheckboxConfigurationUpdate() {
+	void testCheckboxConfigurationUpdate() {
 		setupApp(SuiteSubApp.GRAPHING);
 
 		GridVisibilityProperty gridVisibilityProperty = new GridVisibilityProperty(
@@ -204,7 +204,7 @@ public class PropertyViewTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testHorizontalSplitViewIgnoredVisibilityListenersForChildViews() {
+	void testHorizontalSplitViewIgnoredVisibilityListenersForChildViews() {
 		setupApp(SuiteSubApp.GRAPHING);
 
 		PropertyView.ComboBox leadingComboBox = new PropertyView.ComboBox(new GridDistanceProperty(
@@ -234,7 +234,7 @@ public class PropertyViewTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testSingleHorizontalSplitViewVisibilityListener() {
+	void testSingleHorizontalSplitViewVisibilityListener() {
 		setupApp(SuiteSubApp.GRAPHING);
 
 		PropertyView.HorizontalSplitView horizontalSplitView = new PropertyView.HorizontalSplitView(
@@ -253,7 +253,7 @@ public class PropertyViewTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testFrozenPropertiesAreHidden() {
+	void testFrozenPropertiesAreHidden() {
 		setupApp(SuiteSubApp.GRAPHING);
 
 		GeoElement line = evaluateGeoElement("Line((-1,-1),(1,1))");
@@ -280,7 +280,7 @@ public class PropertyViewTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testElementRedefinition() {
+	void testElementRedefinition() {
 		setupApp(SuiteSubApp.GRAPHING);
 
 		GeoElement penStroke = evaluateGeoElement("PenStroke((1, 2), (4, 3), (5, 6))");
@@ -304,7 +304,7 @@ public class PropertyViewTests extends BaseAppTestSetup {
 
 	@Test
 	@Issue({"APPS-7088", "APPS-7092"})
-	public void testSingleExpandableListIsConvertedToContents()
+	void testSingleExpandableListIsConvertedToContents()
 			throws NotApplicablePropertyException {
 		setupApp(SuiteSubApp.GRAPHING);
 
@@ -325,7 +325,7 @@ public class PropertyViewTests extends BaseAppTestSetup {
 
 	@Test
 	@Issue({"APPS-7286"})
-	public void testColorPickerReturnsFileName()
+	void testColorPickerReturnsFileName()
 			throws NotApplicablePropertyException {
 		setupApp(SuiteSubApp.GRAPHING);
 		
@@ -349,7 +349,7 @@ public class PropertyViewTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testSliderUndoPointsWithTappingChanges() throws Exception {
+	void testSliderUndoPointsWithTappingChanges() throws Exception {
 		setupApp(SuiteSubApp.GRAPHING);
 		getKernel().setUndoActive(true);
 		getKernel().initUndoInfo();
@@ -386,7 +386,7 @@ public class PropertyViewTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testSliderUndoPointsWithDraggingChanges() throws Exception {
+	void testSliderUndoPointsWithDraggingChanges() throws Exception {
 		setupApp(SuiteSubApp.GRAPHING);
 		getKernel().setUndoActive(true);
 		getKernel().initUndoInfo();
@@ -439,7 +439,7 @@ public class PropertyViewTests extends BaseAppTestSetup {
 			"Evaluate(x²) 			-> x^2",
 			"Evaluate(x² + y² = 5) 	-> x^2+y^2=5",
 	})
-	public void testTabbedPageSelectorTitleForCasElements(
+	void testTabbedPageSelectorTitleForCasElements(
 			String element, String expectedTitleTransKey) {
 		setupApp(SuiteSubApp.CAS);
 		getApp().getSelectionManager().setSelectedGeos(List.of(evaluateGeoElement(element)));

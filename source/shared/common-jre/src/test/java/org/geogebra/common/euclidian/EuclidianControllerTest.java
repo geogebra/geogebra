@@ -44,7 +44,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("javadoc")
-public class EuclidianControllerTest extends BaseEuclidianControllerTest {
+class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	private static final ArrayList<TestEvent> events = new ArrayList<>();
 	private static String[] lastCheck;
 	private static boolean lastVisibility;

@@ -27,9 +27,9 @@ import org.geogebra.common.kernel.statistics.GeoPieChart;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class ChartStyleGeoColorPropertyTests extends BaseAppTestSetup {
+class ChartStyleGeoColorPropertyTests extends BaseAppTestSetup {
 	@Test
-	public void testSettingPieChartSliceColor() {
+	void testSettingPieChartSliceColor() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart pieChart = evaluateGeoElement("PieChart({1, 2})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
@@ -60,7 +60,7 @@ public class ChartStyleGeoColorPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testReadingColorValueWhenAllBarsMatch() {
+	void testReadingColorValueWhenAllBarsMatch() {
 		setupApp(SuiteSubApp.GRAPHING);
 		BarChartGeoNumeric barChart = evaluateGeoElement("BarChart({1, 2, 3}, {1, 1, 2})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
@@ -90,7 +90,7 @@ public class ChartStyleGeoColorPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testReadingColorValueWhenNotAllBarsMatch() {
+	void testReadingColorValueWhenNotAllBarsMatch() {
 		setupApp(SuiteSubApp.GRAPHING);
 		BarChartGeoNumeric barChart = evaluateGeoElement("BarChart({1, 2, 3}, {1, 1, 2})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();

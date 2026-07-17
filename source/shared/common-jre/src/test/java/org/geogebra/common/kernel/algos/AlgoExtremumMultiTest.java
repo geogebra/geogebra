@@ -16,9 +16,9 @@
 
 package org.geogebra.common.kernel.algos;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.Kernel;
@@ -31,12 +31,12 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.AlgebraTestHelper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AlgoExtremumMultiTest extends BaseUnitTest {
+class AlgoExtremumMultiTest extends BaseUnitTest {
 
 	@Test
-	public void extremumShouldNotOverwriteVariables() {
+	void extremumShouldNotOverwriteVariables() {
 		GeoConic conic = add("f:y=4-x^2");
 		Function eval = conic.getFunction();
 		assertEquals(0, eval.value(2), Kernel.STANDARD_PRECISION);
@@ -46,17 +46,17 @@ public class AlgoExtremumMultiTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-6429")
-	public void noExtremaShouldBeFoundOnConstantFunction() {
+	void noExtremaShouldBeFoundOnConstantFunction() {
 		GeoElementND[] extremum = getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(
 				"Extremum(cos(x)+abs(cos(x)),1,5)", false,
 				TestErrorHandler.INSTANCE, false, null);
 		assertEquals(1, extremum.length);
-		assertFalse("Extremum should be undefined", extremum[0].isDefined());
+		assertFalse(extremum[0].isDefined(), "Extremum should be undefined");
 	}
 
 	@Test
 	@Issue("APPS-5159")
-	public void cmdExtremumHighDeg() {
+	void cmdExtremumHighDeg() {
 		long time = System.currentTimeMillis();
 		StringTemplate lowPrecision = StringTemplate.printDecimals(
 				ExpressionNodeConstants.StringType.GEOGEBRA, 2, false);

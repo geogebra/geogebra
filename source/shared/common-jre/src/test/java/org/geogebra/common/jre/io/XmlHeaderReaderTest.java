@@ -21,14 +21,14 @@ import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class XmlHeaderReaderTest {
+class XmlHeaderReaderTest {
 
     private  XmlHeaderReader xmlHeaderReader = new XmlHeaderReader();
 
-    @Test
-    public void testGetSubAppCode() {
+	@Test
+	void testGetSubAppCode() {
         String header = "<geogebra format=\"5.0\" version=\"5.0.604.0\" app=\"suite\""
                 + " subApp=\"cas\" platform=\"a\" id=\"5d4d7fa5-d91c-4019-8218-c02d5789c3aa\""
                 + "  xsi:noNamespaceSchemaLocation=\"http://www.geogebra.org/apps/xsd/ggb.xsd\""

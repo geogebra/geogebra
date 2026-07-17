@@ -21,10 +21,10 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Locale;
@@ -52,22 +52,22 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.ErrorAccumulator;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class ParserTest {
+class ParserTest {
 	private AppCommon app;
 	private Parser parser;
 
-	@Before
-	public void setup() {
+	@BeforeEach
+	void setup() {
 		app = AppCommonFactory.create3D();
 		parser = app.getKernel().getParser();
 		app.setLocale(Locale.US);
 	}
 
 	@Test
-	public void testBrackets() {
+	void testBrackets() {
 		try {
 
 			long l = System.currentTimeMillis();
@@ -82,7 +82,7 @@ public class ParserTest {
 							+ "]]]]]]]]]]]]]]]]]]]]]]]]");
 			l = System.currentTimeMillis() - l;
 			Log.debug("TIME" + l);
-			assertTrue("Too long:" + l, l < 400);
+			assertTrue(l < 400, "Too long:" + l);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			Log.debug(e);
@@ -90,7 +90,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void testExceptions() {
+	void testExceptions() {
 		assertThrows(MyError.class, () -> parseExpression("1.2.3"));
 		assertThrows(ParseException.class, () -> parseExpression("1+"));
 		assertThrows(ParseException.class, () -> parseExpression("-"));
@@ -99,7 +99,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void shouldKeepPriorityUnaryBinary() {
+	void shouldKeepPriorityUnaryBinary() {
 		checkSameStructure("x(x+1)^2", "x*(x+1)^2");
 		checkSameStructure(Unicode.SQUARE_ROOT + "x(x+1)", "sqrt(x)*(x+1)");
 		checkSameStructure("x(x+1)!", "x*(x+1)!");
@@ -108,7 +108,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void testSpecialVectors() throws ParseException {
+	void testSpecialVectors() throws ParseException {
 		checkSameStructure("A(1|2)", "(1,2)");
 		checkSameStructure("A$pointAt(1,2)", "(1,2)");
 		checkSameStructure("A(1|2|3)", "(1,2,3)");
@@ -118,7 +118,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void testUnicodeWhitespace() {
+	void testUnicodeWhitespace() {
 		List.of("\u0020",
 				"\u00A0",
 				"\u1680",
@@ -144,7 +144,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void testPiMultiplication() {
+	void testPiMultiplication() {
 		checkSameStructure(Unicode.PI_STRING + "(1.3)",
 				Unicode.PI_STRING + " 1.3");
 		checkSameStructure("pi(1.3)", Unicode.PI_STRING + " 1.3");
@@ -159,18 +159,18 @@ public class ParserTest {
 	}
 
 	@Test
-	public void testPiPower() {
+	void testPiPower() {
 		shouldReparseAs("pixxyyy", unicode("@pi x^2 y^3"));
 		shouldReparseAs(Unicode.PI_STRING + "3^2", unicode("@pi * 3^2"));
 	}
 
 	@Test
-	public void testPower() {
+	void testPower() {
 		shouldReparseAs("f(k,y,z)=kyz^6", unicode("k y z^6"));
 	}
 
 	@Test
-	public void testTrigPower() {
+	void testTrigPower() {
 		shouldReparseAs("sinxy^2",
 				unicode("sin(x y^2)"));
 		shouldReparseAs("sinxxx^2",
@@ -178,19 +178,19 @@ public class ParserTest {
 	}
 
 	@Test
-	public void testLogPower() {
+	void testLogPower() {
 		shouldReparseAs("xln(x)^2",
 				unicode("x (ln(x))^2"));
 	}
 
 	@Test
-	public void testRecurringDecimal() {
+	void testRecurringDecimal() {
 		shouldReparseAs("1.2\u03053.4", unicode("1.2\u0305 * 3.4"));
 		shouldReparseAs("1.2\u030534", unicode("1.2\u0305 * 34"));
 	}
 
 	@Test
-	public void testRecurringDecimalInvalid() {
+	void testRecurringDecimalInvalid() {
 		assertThrows(MyError.class, () -> parseExpression("1.2\u030534\u03055"));
 	}
 
@@ -229,7 +229,7 @@ public class ParserTest {
 	 *  
 	 */
 	@Test
-	public void testInvalid() {
+	void testInvalid() {
 		long l = System.currentTimeMillis();
 		try {
 
@@ -243,14 +243,14 @@ public class ParserTest {
 		}
 		l = System.currentTimeMillis() - l;
 		Log.debug("TIME" + l);
-		assertTrue("Too long:" + l, l < 4000);
+		assertTrue(l < 4000, "Too long:" + l);
 	}
 
 	/**
 	 * Test for || brackets
 	 */
 	@Test
-	public void testAbsValue() {
+	void testAbsValue() {
 
 		try {
 			parseExpression("|1|");
@@ -263,8 +263,7 @@ public class ParserTest {
 	}
 
 	@Test
-
-	public void testLogFunction() {
+	void testLogFunction() {
 		shouldReparseAs("log_{10}(x)", "log(10, x)");
 		// bug?
 		// shouldReparseAs("log_10(x)", "");
@@ -281,7 +280,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void testLogFunctionFromFile() {
+	void testLogFunctionFromFile() {
 		app.getKernel().getConstruction().setFileLoading(true);
 		shouldReparseAs("log(x)", "ln(x)");
 		shouldReparseAs("log(5,x)", "log(5, x)");
@@ -289,7 +288,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void multiplicationByTrigShouldChangeToApplication() {
+	void multiplicationByTrigShouldChangeToApplication() {
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand("a=1", false);
 		shouldReparseAs("cos x", "cos(x)");
 		// shouldReparseAs("cos 9x", "cos(9 x)"); TODO
@@ -312,12 +311,12 @@ public class ParserTest {
 	}
 
 	@Test
-	public void inverseTrigShouldUseDegrees() {
+	void inverseTrigShouldUseDegrees() {
 		shouldReparseAs("atanx", "atand(x)");
 	}
 
 	@Test
-	public void multiplicationByTrigPowerShouldChangeToApplication() {
+	void multiplicationByTrigPowerShouldChangeToApplication() {
 		String sinCubedX = "sin" + Unicode.SUPERSCRIPT_3 + "(x)";
 		shouldReparseAs("sin" + Unicode.SUPERSCRIPT_3 + "(x)", sinCubedX);
 		shouldReparseAs("sin^3(x)", sinCubedX);
@@ -328,14 +327,14 @@ public class ParserTest {
 	}
 
 	@Test
-	public void powerShouldHavePrecedence() {
+	void powerShouldHavePrecedence() {
 		shouldReparseAs("sin 2^2", unicode("sin(2^2)"));
 		shouldReparseAs("sin2^2", unicode("sin(2^2)"));
 		shouldReparseAs("sin3x^2", unicode("sin(3x^2)"));
 	}
 
 	@Test
-	public void multiplicationShouldResolvedToChainedTrig() {
+	void multiplicationShouldResolvedToChainedTrig() {
 		app.getKernel().getConstruction().registerFunctionVariable("t");
 		shouldReparseAs(app, "e^(-t)9sin" + Unicode.SUPERSCRIPT_8 + "tcost",
 				Unicode.EULER_STRING + "^(-t) * 9sin"
@@ -343,7 +342,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void shouldKeepPriorityTwoBinary() {
+	void shouldKeepPriorityTwoBinary() {
 		Kernel kernel = app.getKernel();
 		for (Operation top : Operation.values()) {
 			if (!binary(top) || top == Operation.INVISIBLE_PLUS) {
@@ -371,7 +370,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void commaParsingShouldWorkInGerman() {
+	void commaParsingShouldWorkInGerman() {
 		app.setLocale(new Locale("de"));
 		shouldReparseAs("3,141", "3.141");
 		shouldReparseAs("3,5", "3.5");
@@ -381,7 +380,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void shouldKeepMultiplicationFromLeft() {
+	void shouldKeepMultiplicationFromLeft() {
 		String f1 = reparse(app, "F(x,A,B)=BAxe^(-Bx)-Ae^(-Bx)",
 				StringTemplate.xmlTemplate, true);
 		assertEquals("(((B * A) * x) * " + Unicode.EULER_STRING
@@ -396,14 +395,14 @@ public class ParserTest {
 	}
 
 	@Test
-	public void multiplicationSigns() {
+	void multiplicationSigns() {
 		List.of("*" , Unicode.MULTIPLY , Unicode.CENTER_DOT , "\u2219").forEach(sign ->
 			shouldReparseAs("3" + sign + "4", "3 * 4")
 		);
 	}
 
 	@Test
-	public void checkValidLabels() {
+	void checkValidLabels() {
 		assertValidLabel("aa");
 		assertValidLabel("aa8");
 		assertValidLabel("aa_7");
@@ -412,14 +411,14 @@ public class ParserTest {
 	}
 
 	@Test
-	public void shouldHandleDecimalsInLabels() {
+	void shouldHandleDecimalsInLabels() {
 		shouldReparseAs("x1.3=7", "x * 1.3 = 7");
 		shouldReparseAs("x1.3=y", "x * 1.3 = y");
 		shouldReparseAs("x_{1.3}=7", "7");
 	}
 
 	@Test
-	public void testTrigPowerPriorities() {
+	void testTrigPowerPriorities() {
 		app.getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
 		shouldReparseAs("sin^(-1)(x)^2", unicode("(sin^-1(x))^2"));
 		shouldReparseAs("sin^(-1)((x)^2)", unicode("sin^-1(x^2)"));
@@ -428,7 +427,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void testTrigPowerPrioritiesDegrees() {
+	void testTrigPowerPrioritiesDegrees() {
 		shouldReparseAs("sin^(-1)(x)^2", unicode("(asind(x))^2"));
 		shouldReparseAs("sin^(-1)((x)^2)", unicode("asind(x^2)"));
 		shouldReparseAs("sin^(-1)x^2", unicode("asind(x^2)"));
@@ -436,12 +435,12 @@ public class ParserTest {
 	}
 
 	@Test
-	public void shouldParseNegativeLogPowerAsReciprocal() {
+	void shouldParseNegativeLogPowerAsReciprocal() {
 		shouldReparseAs("ln^(-1)(x)^2", unicode("((ln(x))^-1)^2"));
 	}
 
 	@Test
-	public void testPoints() throws ParseException {
+	void testPoints() throws ParseException {
 		checkPointParsedAs("A(1|2)", "A", "(1, 2)");
 		checkPointParsedAs("B(1|2|3)", "B", "(1, 2, 3)");
 		checkPointParsedAs("C(1;2)", "C", "(1; 2)");
@@ -455,7 +454,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void mixedNumbers() {
+	void mixedNumbers() {
 		shouldReparseAs("1" + Unicode.INVISIBLE_PLUS + "(2/3)",
 				"1" + Unicode.INVISIBLE_PLUS + "2 / 3");
 		shouldReparseAs("1" + Unicode.INVISIBLE_PLUS + "2/3",
@@ -542,7 +541,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void testDifferentDerivativeCharsAccepted() {
+	void testDifferentDerivativeCharsAccepted() {
 		shouldReparseAs("f(x) = x*x", "x x");
 		try {
 			parseExpression("f'");
@@ -554,7 +553,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void testAutomaticObjectCreationGraphing() {
+	void testAutomaticObjectCreationGraphing() {
 		app.setConfig(new AppConfigGraphing());
 		AlgebraProcessor processor = app.getKernel().getAlgebraProcessor();
 
@@ -586,7 +585,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void testAutomaticObjectCreationClassic() {
+	void testAutomaticObjectCreationClassic() {
 		app.setConfig(new AppConfigDefault());
 		assertEquals("(1, 2)",
 				add("D(1,2)")
@@ -603,7 +602,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void testAutomaticObjectCreationScientific() {
+	void testAutomaticObjectCreationScientific() {
 		app.setConfig(new AppConfigScientific());
 		add("b=4");
 		assertNull(add("O"));
@@ -628,7 +627,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void testVariableNameContainingOnlyDollarSigns() {
+	void testVariableNameContainingOnlyDollarSigns() {
 		String expression = "";
 		for (int i = 0; i < 10; i++) {
 			expression += "$";
@@ -638,7 +637,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void testVariableNameStartingWithNumber() {
+	void testVariableNameStartingWithNumber() {
 		AlgebraTestHelper.shouldFail("$1", "Undefined variable", app);
 		AlgebraTestHelper.shouldFail("$$1", "Undefined variable", app);
 
@@ -654,7 +653,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void testIsSimpleNumber() throws ParseException {
+	void testIsSimpleNumber() throws ParseException {
 		ExpressionNode minusOne = parseExpression("-1").wrap();
 		assertThat(minusOne, notNullValue());
 		assertThat(minusOne.isSimpleNumber(), is(true));
@@ -665,14 +664,14 @@ public class ParserTest {
 	}
 
 	@Test
-	public void testCalculationWithMinusOneIsNotSimpleNumber() throws ParseException {
+	void testCalculationWithMinusOneIsNotSimpleNumber() throws ParseException {
 		ExpressionNode minusOneCalc = parseExpression("(-1)(3)").wrap();
 		assertThat(minusOneCalc, notNullValue());
 		assertThat(minusOneCalc.isSimpleNumber(), is(false));
 	}
 
 	@Test
-	public void testYConicDerivative() {
+	void testYConicDerivative() {
 		add("f: y = x^2");
 		shouldReparseAs("f'(x) = f'(x)", "f'(x)");
 	}

@@ -17,12 +17,12 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.BaseUnitTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CmdCopyFreeObjectTest extends BaseUnitTest {
+class CmdCopyFreeObjectTest extends BaseUnitTest {
 
 	@Test
-	public void listFunction() {
+	void listFunction() {
 		add("a=1");
 		add("myFunc(x)=3a");
 		add("myList={myFunc}");
@@ -32,7 +32,7 @@ public class CmdCopyFreeObjectTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void listFunctionNVar() {
+	void listFunctionNVar() {
 		add("a=1");
 		add("myFunc2(x,y)=3a+x+y");
 		add("myList2={myFunc2}");

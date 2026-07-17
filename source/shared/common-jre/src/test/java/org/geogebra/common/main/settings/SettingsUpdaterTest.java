@@ -22,12 +22,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class SettingsUpdaterTest extends BaseUnitTest {
+class SettingsUpdaterTest extends BaseUnitTest {
 
 	@Test
-	public void shouldChangeAngleUnit() {
+	void shouldChangeAngleUnit() {
 		getApp().setGraphingConfig();
 		GeoElement el = addAvInput("sin(40)");
 		assertThat(el.getDefinitionForEditor(), equalTo(unicode("a=sin(40deg)")));

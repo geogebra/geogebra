@@ -28,18 +28,18 @@ import javax.annotation.Nonnull;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-public class AnalyticsTest {
+class AnalyticsTest {
 
 	private long time = 0;
-	
+
 	@AfterEach
-	public void tearDown() {
+	void tearDown() {
 		Analytics.setInstance(null);
 		Analytics.resetToolCreationTracking();
 	}
 
 	@Test
-	public void shouldTrackDurationAndUseCountAcrossStickyCreations() {
+	void shouldTrackDurationAndUseCountAcrossStickyCreations() {
 		TestAnalytics analytics = new TestAnalytics();
 		Analytics.setTimeSupplier(() -> time);
 		Analytics.setInstance(analytics);
@@ -72,7 +72,7 @@ public class AnalyticsTest {
 	}
 
 	@Test
-	public void shouldResetUseCountWhenToolChanges() {
+	void shouldResetUseCountWhenToolChanges() {
 		TestAnalytics analytics = new TestAnalytics();
 		Analytics.setTimeSupplier(() -> time);
 		Analytics.setInstance(analytics);
@@ -110,7 +110,7 @@ public class AnalyticsTest {
 	}
 
 	@Test
-	public void shouldIgnoreCreationWithoutSelectedTool() {
+	void shouldIgnoreCreationWithoutSelectedTool() {
 		TestAnalytics analytics = new TestAnalytics();
 		Analytics.setInstance(analytics);
 

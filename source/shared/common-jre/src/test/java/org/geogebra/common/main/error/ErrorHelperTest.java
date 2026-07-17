@@ -22,12 +22,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.test.commands.ErrorAccumulator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ErrorHelperTest extends BaseUnitTest {
+class ErrorHelperTest extends BaseUnitTest {
 
 	@Test
-	public void functionShouldTakePrecedence() {
+	void functionShouldTakePrecedence() {
 		ErrorAccumulator accumulator = new ErrorAccumulator();
 		accumulator.setCurrentCommand("nPr");
 		ErrorHelper.handleException(new IllegalStateException("generic"), getApp(), accumulator);
@@ -35,7 +35,7 @@ public class ErrorHelperTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void shouldIncludeCommand() {
+	void shouldIncludeCommand() {
 		ErrorAccumulator accumulator = new ErrorAccumulator();
 		accumulator.setCurrentCommand("Midpoint");
 		ErrorHelper.handleException(new IllegalStateException("generic"), getApp(), accumulator);

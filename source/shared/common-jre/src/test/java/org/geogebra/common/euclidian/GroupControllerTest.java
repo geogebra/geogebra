@@ -27,15 +27,15 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class GroupControllerTest extends BaseEuclidianControllerTest {
+class GroupControllerTest extends BaseEuclidianControllerTest {
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		setUpController();
 	}
 
 	@Test
-	public void clickShouldSelectAllGeosInGroup() {
+	void clickShouldSelectAllGeosInGroup() {
 		setMode(EuclidianConstants.MODE_SELECT_MOW);
 		List<GeoElement> polygons = prepareGroupedGeos();
 		click(100, 100);
@@ -44,7 +44,7 @@ public class GroupControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void secondClickShouldMakeFocusedSelection() {
+	void secondClickShouldMakeFocusedSelection() {
 		setMode(EuclidianConstants.MODE_SELECT_MOW);
 		List<GeoElement> polygons = prepareGroupedGeos();
 		click(100, 100);
@@ -53,7 +53,7 @@ public class GroupControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void dragShouldNotSelectPartialGroup() {
+	void dragShouldNotSelectPartialGroup() {
 		setMode(EuclidianConstants.MODE_SELECT_MOW);
 		prepareGroupedGeos();
 		dragStart(0, 0);

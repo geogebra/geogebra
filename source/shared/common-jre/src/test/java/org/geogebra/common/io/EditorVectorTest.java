@@ -16,15 +16,15 @@
  
 package org.geogebra.common.io;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class EditorVectorTest extends BaseUnitTest {
+class EditorVectorTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
@@ -32,7 +32,7 @@ public class EditorVectorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testSimpleVector3D() {
+	void testSimpleVector3D() {
 		add("u: (1, 2, 3)");
 		add("ib = InputBox(u)");
 		GeoInputBox inputBox = (GeoInputBox) lookup("ib");

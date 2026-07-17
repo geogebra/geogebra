@@ -18,19 +18,19 @@ package org.geogebra.common.kernel.arithmetic;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ExpressionNodeTest extends BaseUnitTest {
+class ExpressionNodeTest extends BaseUnitTest {
 
 	@Test
-	public void testCopyAttributesToForcesVectorPrintingMode() {
+	void testCopyAttributesToForcesVectorPrintingMode() {
 		MyVecNode vector = new MyVecNode(getKernel(),
 				new MyDouble(getKernel(), 1), new MyDouble(getKernel(), 2));
 		ExpressionNode originalNode = new ExpressionNode(getKernel(), vector);
@@ -43,7 +43,7 @@ public class ExpressionNodeTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5662")
-	public void testIntegralWithMixedNumbers() {
+	void testIntegralWithMixedNumbers() {
 		Kernel k = getKernel();
 		FunctionVariable x = new FunctionVariable(k, "x");
 		ExpressionNode fraction =
@@ -56,7 +56,7 @@ public class ExpressionNodeTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testValueTypeOfMatrixElement() {
+	void testValueTypeOfMatrixElement() {
 		MyList matrix = new MyList(getKernel());
 		MyList row = new MyList(getKernel());
 		matrix.addListElement(row);

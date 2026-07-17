@@ -16,7 +16,7 @@
 
 package org.geogebra.common.gui.dialog.options;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Collections;
 
@@ -24,16 +24,16 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.dialog.options.model.VectorHeadStyleModel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.test.EventAccumulator;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class VectorHeadStyleTest extends BaseUnitTest {
+class VectorHeadStyleTest extends BaseUnitTest {
 
 	private VectorHeadStyleModel model;
 	private GeoElement vector;
 
-	@Before
-	public void setupModel() {
+	@BeforeEach
+	void setupModel() {
 		model = new VectorHeadStyleModel(getApp());
 		vector = add("v=(1,1)");
 		GeoElement[] geos = new GeoElement[]{vector};
@@ -41,7 +41,7 @@ public class VectorHeadStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void shouldUpdateProperties() {
+	void shouldUpdateProperties() {
 		EventAccumulator listener = new EventAccumulator();
 		getApp().getEventDispatcher().addEventListener(listener);
 		model.apply(0, 1);

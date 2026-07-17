@@ -26,16 +26,16 @@ import org.geogebra.common.kernel.Kernel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class WtrOutputFilterTest extends BaseExamTestSetup {
+class WtrOutputFilterTest extends BaseExamTestSetup {
 
 	@BeforeEach
-	public void setupCvteExam() {
+	void setupCvteExam() {
 		setupApp(SuiteSubApp.SCIENTIFIC);
 		examController.startExam(ExamType.WTR, null);
 	}
 
 	@Test
-	public void hideAngleComputationsDegrees() {
+	void hideAngleComputationsDegrees() {
 		evaluate("a=1 deg");
 		evaluate("b=2");
 		evaluate("c=3");
@@ -51,7 +51,7 @@ public class WtrOutputFilterTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void hideAngleComputationsRadians() {
+	void hideAngleComputationsRadians() {
 		getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
 		evaluate("a=1 deg");
 		evaluate("b=2");

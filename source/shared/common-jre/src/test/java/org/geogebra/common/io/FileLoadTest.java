@@ -17,7 +17,7 @@
 package org.geogebra.common.io;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -30,9 +30,9 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class FileLoadTest extends BaseUnitTest {
+class FileLoadTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
@@ -40,7 +40,7 @@ public class FileLoadTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void quadricsShouldUpdateAfterFileLoad() throws IOException {
+	void quadricsShouldUpdateAfterFileLoad() throws IOException {
 		getApp().setRandomSeed(7);
 		String xml = load("quadric.xml");
 		getApp().setXML(xml, true);
@@ -50,7 +50,7 @@ public class FileLoadTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void edgesCreatedWhenLoadedFromOldFile() throws IOException, XMLParseException {
+	void edgesCreatedWhenLoadedFromOldFile() throws IOException, XMLParseException {
 		String xml = load("polygon-randomization.xml");
 		String macros = load("polygon-macros.xml");
 		getApp().setRandomSeed(7);

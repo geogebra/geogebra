@@ -16,16 +16,16 @@
 
 package org.geogebra.common.kernel.algos;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AlgoJoinTest extends BaseUnitTest {
+class AlgoJoinTest extends BaseUnitTest {
 
 	@Test
-	public void listTypeShouldFollowNonEmptyAlternative() {
+	void listTypeShouldFollowNonEmptyAlternative() {
 		GeoList list = add("Join({{},If(true,{},{\"text\"})})");
 		assertEquals("text", list.getTypeStringForXML());
 	}

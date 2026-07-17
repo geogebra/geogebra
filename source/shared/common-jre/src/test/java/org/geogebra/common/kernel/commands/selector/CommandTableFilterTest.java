@@ -16,17 +16,17 @@
  
 package org.geogebra.common.kernel.commands.selector;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CommandTableFilterTest {
+class CommandTableFilterTest {
 
 	@Test
-	public void testFilter3DTable() {
+	void testFilter3DTable() {
 		CommandFilter filter = new CommandTableFilter(CommandsConstants.TABLE_3D);
 		assertFalse(filter.isCommandAllowed(Commands.Cube));
 		assertFalse(filter.isCommandAllowed(Commands.Cone));
@@ -34,7 +34,7 @@ public class CommandTableFilterTest {
 	}
 
 	@Test
-	public void testFilterMultipleTables() {
+	void testFilterMultipleTables() {
 		CommandFilter filter = new CommandTableFilter(CommandsConstants.TABLE_ALGEBRA,
 				CommandsConstants.TABLE_GEOMETRY, CommandsConstants.TABLE_SCRIPTING);
 		assertFalse(filter.isCommandAllowed(Commands.NSolve));
@@ -44,7 +44,7 @@ public class CommandTableFilterTest {
 	}
 
 	@Test
-	public void testEnglishNamesAreConverted() {
+	void testEnglishNamesAreConverted() {
 		CommandFilter filter = new CommandTableFilter(CommandsConstants.TABLE_STATISTICS);
 		assertFalse(filter.isCommandAllowed(Commands.Quartile1));
 	}

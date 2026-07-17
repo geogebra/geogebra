@@ -40,9 +40,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class EngineeringNotationStringTest extends BaseAppTestSetup {
+class EngineeringNotationStringTest extends BaseAppTestSetup {
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
@@ -73,7 +73,7 @@ public class EngineeringNotationStringTest extends BaseAppTestSetup {
 			"1E-100, 		100 " + CENTER_DOT + " 10" + SUPERSCRIPT_MINUS + SUPERSCRIPT_1 + SUPERSCRIPT_0 + SUPERSCRIPT_2 + ", 	100 \\cdot 10^{-102}, 		5",
 			"-1E-100, 		-100 " + CENTER_DOT + " 10" + SUPERSCRIPT_MINUS + SUPERSCRIPT_1 + SUPERSCRIPT_0 + SUPERSCRIPT_2 + ", 	-100 \\cdot 10^{-102}, 		5",
 	})
-	public void testEngineeringNotations(double value, String expectedGeoGebraFormat, String expectedLatexFormat, int precision) {
+	void testEngineeringNotations(double value, String expectedGeoGebraFormat, String expectedLatexFormat, int precision) {
 		assertAll(
 				() -> assertEquals(expectedGeoGebraFormat,
 						format(value, GEOGEBRA, getBaseNumberFormatter(precision))),

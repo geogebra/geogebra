@@ -27,14 +27,14 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class GridAnglePropertyTest extends BaseAppTestSetup {
+class GridAnglePropertyTest extends BaseAppTestSetup {
 
 	GridStyleProperty gridStyleProperty;
 	GridAngleProperty gridAngle;
 	private EuclidianSettings evSettings;
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
 		LocalizationJre loc = getApp().getLocalization();
 		evSettings = getApp().getSettings().getEuclidian(1);

@@ -18,19 +18,19 @@ package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Invariant checks around symbolic definition ownership that do not need CAS-specific setup.
  */
-public class GeoSymbolicNoCasTests extends BaseUnitTest {
+class GeoSymbolicNoCasTests extends BaseUnitTest {
 
 	@Test
-	public void shouldRejectResetDefinition() {
+	void shouldRejectResetDefinition() {
 		GeoSymbolic symbolic = newSymbolic("x + 1");
 
 		IllegalStateException exception = assertThrows(IllegalStateException.class,
@@ -41,7 +41,7 @@ public class GeoSymbolicNoCasTests extends BaseUnitTest {
 	}
 
 	@Test
-	public void shouldRejectSetDefinitionNull() {
+	void shouldRejectSetDefinitionNull() {
 		GeoSymbolic symbolic = newSymbolic("x + 1");
 
 		IllegalStateException exception = assertThrows(IllegalStateException.class,
@@ -52,7 +52,7 @@ public class GeoSymbolicNoCasTests extends BaseUnitTest {
 	}
 
 	@Test
-	public void shouldRejectReuseDefinitionThatWouldDropSymbolicDefinition() {
+	void shouldRejectReuseDefinitionThatWouldDropSymbolicDefinition() {
 		GeoSymbolic symbolic = newSymbolic("x + 1");
 		GeoNumeric numeric = add("a = 1");
 		GeoNumeric dependent = add("b = 2 * a");

@@ -55,18 +55,18 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public final class CvteExamTests extends BaseExamTestSetup {
+final class CvteExamTests extends BaseExamTestSetup {
     private static final Set<VisibilityRestriction> visibilityRestrictions =
             CvteExamRestrictions.createVisibilityRestrictions();
 
-    @BeforeEach
-    public void setupCvteExam() {
+	@BeforeEach
+	void setupCvteExam() {
         setupApp(SuiteSubApp.GRAPHING);
         examController.startExam(ExamType.CVTE, null);
     }
 
-    @Test
-    public void testMatrixOutputRestrictions() {
+	@Test
+	void testMatrixOutputRestrictions() {
         evaluate("l1={1,2}");
         evaluate("l2={1,2}");
 
@@ -96,8 +96,8 @@ public final class CvteExamTests extends BaseExamTestSetup {
                 });
     }
 
-    @Test
-    public void testSyntaxRestrictions() {
+	@Test
+	void testSyntaxRestrictions() {
         evaluate("A=(1,1)");
         evaluate("B=(2,2)");
 
@@ -111,8 +111,8 @@ public final class CvteExamTests extends BaseExamTestSetup {
         assertEquals("", errorAccumulator.getErrorsSinceReset());
     }
 
-    @Test
-    public void testToolRestrictions() {
+	@Test
+	void testToolRestrictions() {
         assertAll(
                 () -> assertTrue(getApp().getAvailableTools().contains(MODE_MOVE)),
                 () -> assertFalse(getApp().getAvailableTools().contains(MODE_POINT)),
@@ -120,118 +120,118 @@ public final class CvteExamTests extends BaseExamTestSetup {
                 () -> assertTrue(getCommandDispatcher().isAllowedByCommandFilters(CurveCartesian)));
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            // Enabled conics
-            "Circle((0, 0), 2)",
-            // Enabled equations
-            "x = 0",
-            "y = 5",
-            "x + y = 0",
-            "x = y",
-            "2x - 3y = 4",
-            "2x = y",
-            "y = 2x",
-            "y = x^2",
-            "y = x^3",
-            "y = x^2 - 5x + 2",
-            "y = 2y + x",
-            // Other enabled inputs
-            "x",
-            "f(x) = x^2",
-            "x^2",
-            "A = (1, 2)",
-            "{(1,2)}",
-            "{x = y}",
+	@ParameterizedTest
+	@ValueSource(strings = {
+			// Enabled conics
+			"Circle((0, 0), 2)",
+			// Enabled equations
+			"x = 0",
+			"y = 5",
+			"x + y = 0",
+			"x = y",
+			"2x - 3y = 4",
+			"2x = y",
+			"y = 2x",
+			"y = x^2",
+			"y = x^3",
+			"y = x^2 - 5x + 2",
+			"y = 2y + x",
+			// Other enabled inputs
+			"x",
+			"f(x) = x^2",
+			"x^2",
+			"A = (1, 2)",
+			"{(1,2)}",
+			"{x = y}",
     })
-    public void testUnrestrictedVisibility(String expression) {
+	void testUnrestrictedVisibility(String expression) {
         assertFalse(VisibilityRestriction.isVisibilityRestricted(evaluateGeoElement(expression),
                 visibilityRestrictions));
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            // Restricted conics
-            "x^2 + y^2 = 4",
-            "x^2 / 9 + y^2 / 4 = 1",
-            "x^2 - y^2 = 4",
-            // Restricted equations
-            "x^2 = 0",
-            "x^2 = 1",
-            "2^x = 0",
-            "sin(x) = 0",
-            "ln(x) = 0",
-            "|x - 3| = 0",
-            "y - x^2 = 0",
-            "x^2 = y",
-            "x^3 = y",
-            "y^2 = x",
-            "x^3 + y^2 = 2",
-            "y^3 = x",
-            "y = 2y + x^2",
-            // Restricted inequalities
-            "x > 0",
-            "y <= 1",
-            "x < y",
-            "x - y > 2",
-            "x^2 + 2y^2 < 1",
-            "f: x > 0",
-            "f(x) = x > 2",
-            // Restricted vectors
-            "a = (1, 2)",
-            "b = (1, 2) + 0",
-            "{x^2 + y^2 = 1}"
-    })
-    public void testRestrictedVisibility(String expression) {
+	@ParameterizedTest
+	@ValueSource(strings = {
+			// Restricted conics
+			"x^2 + y^2 = 4",
+			"x^2 / 9 + y^2 / 4 = 1",
+			"x^2 - y^2 = 4",
+			// Restricted equations
+			"x^2 = 0",
+			"x^2 = 1",
+			"2^x = 0",
+			"sin(x) = 0",
+			"ln(x) = 0",
+			"|x - 3| = 0",
+			"y - x^2 = 0",
+			"x^2 = y",
+			"x^3 = y",
+			"y^2 = x",
+			"x^3 + y^2 = 2",
+			"y^3 = x",
+			"y = 2y + x^2",
+			// Restricted inequalities
+			"x > 0",
+			"y <= 1",
+			"x < y",
+			"x - y > 2",
+			"x^2 + 2y^2 < 1",
+			"f: x > 0",
+			"f(x) = x > 2",
+			// Restricted vectors
+			"a = (1, 2)",
+			"b = (1, 2) + 0",
+			"{x^2 + y^2 = 1}"
+	})
+	void testRestrictedVisibility(String expression) {
         assertTrue(VisibilityRestriction.isVisibilityRestricted(evaluateGeoElement(expression),
                 visibilityRestrictions));
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "Solve(x^2 = 0)",
-            "Solutions(x^2 = 0)",
-            "CSolve(x^2 = 0)",
-            "CSolutions(x^2 = 0)",
-            "NSolve(x^2 = 0)",
-            "NSolutions(x^2 = 0)",
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"Solve(x^2 = 0)",
+			"Solutions(x^2 = 0)",
+			"CSolve(x^2 = 0)",
+			"CSolutions(x^2 = 0)",
+			"NSolve(x^2 = 0)",
+			"NSolutions(x^2 = 0)",
     })
-    public void testRestrictedCommands(String command) {
+	void testRestrictedCommands(String command) {
         assertNull(evaluate(command));
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "a + 2",
-            "a - 5",
-            "a - b",
-            "a + b",
-            "a * 2"
-    })
-    public void testAllowedVectorOperations(String expression) {
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"a + 2",
+			"a - 5",
+			"a - b",
+			"a + b",
+			"a * 2"
+	})
+	void testAllowedVectorOperations(String expression) {
         assertNotNull(evaluate("a = (1, 2)"));
         assertNotNull(evaluate("b = (3, 4)"));
         assertNotNull(evaluate(expression));
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "a * b",
-            "a ⊗ b",
-            "a * (1, 2)",
-            "(1, 2) ⊗ a",
-            "(1, 2) * (1, 2)",
-            "(3, 4) ⊗ (5, 6)"
-    })
-    public void testRestrictedVectorOperations(String expression) {
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"a * b",
+			"a ⊗ b",
+			"a * (1, 2)",
+			"(1, 2) ⊗ a",
+			"(1, 2) * (1, 2)",
+			"(3, 4) ⊗ (5, 6)"
+	})
+	void testRestrictedVectorOperations(String expression) {
         assertNotNull(evaluate("a = (1, 2)"));
         assertNotNull(evaluate("b = (3, 4)"));
         assertNull(evaluate(expression));
     }
 
-    @Issue("APPS-5919")
-    @Test
-    public void testAbsRestrictions() {
+	@Issue("APPS-5919")
+	@Test
+	void testAbsRestrictions() {
         // points
         assertNotNull(evaluate("A = (1, 2)"));
         assertNotNull(evaluate("B = (3, 4)"));
@@ -251,8 +251,8 @@ public final class CvteExamTests extends BaseExamTestSetup {
         assertNotNull(evaluate("y=|x|"));
     }
 
-    @Test
-    public void testIntersectCommandWithRestrictedObjects() {
+	@Test
+	void testIntersectCommandWithRestrictedObjects() {
         // A line, a circle and 2 parabolas, all intersecting.
         // The visibility of 'h' and 'i' are restricted.
         assertFalse(VisibilityRestriction.isVisibilityRestricted(
@@ -288,35 +288,35 @@ public final class CvteExamTests extends BaseExamTestSetup {
         errorAccumulator.resetError();
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "Circle((0, 0), Segment((1, 1), (2, 2)))",
-            "Circle((0, 0), (1, 1))",
-            "Circle((0, 0), (1, 0), (0, 1))",
-            "Circle(Line((0, 0), (1, 1)), (0, 0))",
-            "Circle((0, 0), 3, Vector((1, 1)))",
-            "Circle((0, 0), (1, 0), Vector((0, 1)))",
-            "Extremum(x^2)",
-            "Root(x^3 - 3 * x^2 - 4 * x + 12)",
-            "Root(x^2, 0)",
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"Circle((0, 0), Segment((1, 1), (2, 2)))",
+			"Circle((0, 0), (1, 1))",
+			"Circle((0, 0), (1, 0), (0, 1))",
+			"Circle(Line((0, 0), (1, 1)), (0, 0))",
+			"Circle((0, 0), 3, Vector((1, 1)))",
+			"Circle((0, 0), (1, 0), Vector((0, 1)))",
+			"Extremum(x^2)",
+			"Root(x^3 - 3 * x^2 - 4 * x + 12)",
+			"Root(x^2, 0)",
     })
-    public void testRestrictedCommandArguments(String command) {
+	void testRestrictedCommandArguments(String command) {
         assertNull(evaluate(command));
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "Circle((0, 0), 5)",
-            "Circle(5 + i, 5)",
-            "Extremum(x^2, -5, 5)",
-            "Root(x^2, 0, 5)",
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"Circle((0, 0), 5)",
+			"Circle(5 + i, 5)",
+			"Extremum(x^2, -5, 5)",
+			"Root(x^2, 0, 5)",
     })
-    public void testUnrestrictedCommandArguments(String command) {
+	void testUnrestrictedCommandArguments(String command) {
         assertNotNull(evaluate(command));
     }
 
-    @Test
-    public void testEquationForm() {
+	@Test
+	void testEquationForm() {
         GeoElement line = evaluateGeoElement("y = 4");
         assertEquals(LinearEquationRepresentable.Form.USER,
                 ((LinearEquationRepresentable) line).getEquationForm());
@@ -331,8 +331,8 @@ public final class CvteExamTests extends BaseExamTestSetup {
                 ((GeoImplicitCurve) implicitCurve).getEquationForm());
     }
 
-    @Test
-    public void testEquationFormPropertyFrozen() {
+	@Test
+	void testEquationFormPropertyFrozen() {
         GeoElement line = evaluateGeoElement("y = 4");
         PropertiesArray properties = geoElementPropertiesFactory.createGeoElementProperties(
                 getAlgebraProcessor(), getApp().getLocalization(), List.of(line));
@@ -351,27 +351,27 @@ public final class CvteExamTests extends BaseExamTestSetup {
         assertTrue(equationFormProperty.isFrozen());
     }
 
-    @Test
-    public void testSurdsAreDisabled() {
+	@Test
+	void testSurdsAreDisabled() {
         GeoElement element = evaluateGeoElement("sqrt(8)");
         assertNull(AlgebraOutputFormat.getNextFormat(element, false, Set.of()));
     }
 
-    @Test
-    public void testRationalizationIsDisabled() {
+	@Test
+	void testRationalizationIsDisabled() {
         GeoElement element = evaluateGeoElement("1/sqrt(8)");
         assertNull(AlgebraOutputFormat.getNextFormat(element, false, Set.of()));
     }
 
-    @Test
-    public void testNumberOfIntersectSpecialPoints() {
+	@Test
+	void testNumberOfIntersectSpecialPoints() {
         GeoElement geoElement = evaluateGeoElement("sin(x)");
         Objects.requireNonNull(SuggestionIntersectExtremum.get(geoElement)).execute(geoElement);
         assertEquals(2, getKernel().getConstructionStep());
     }
 
-    @Test
-    public void testTangentOutputsInAlgebraView() {
+	@Test
+	void testTangentOutputsInAlgebraView() {
         evaluateGeoElement("A = (6, 6)");
         evaluateGeoElement("c: Circle((0, 0), 5)");
         evaluateGeoElement("Tangent(A, c)");

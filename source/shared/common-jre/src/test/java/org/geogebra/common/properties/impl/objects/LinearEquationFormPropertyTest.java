@@ -16,19 +16,19 @@
  
 package org.geogebra.common.properties.impl.objects;
 
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class LinearEquationFormPropertyTest extends BaseUnitTest {
+class LinearEquationFormPropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testConstructorForLineInGeometry() {
+	void testConstructorForLineInGeometry() {
 		getApp().setGeometryConfig();
 		GeoElement line = addAvInput("Line((1,1),(2,2))");
 		try {
@@ -39,7 +39,7 @@ public class LinearEquationFormPropertyTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testConstructorForUserFunctionInGeometry() {
+	void testConstructorForUserFunctionInGeometry() {
 		getApp().setGeometryConfig();
 		GeoElement f = addAvInput("f(x) = x");
 		assertThrows(NotApplicablePropertyException.class,
@@ -47,7 +47,7 @@ public class LinearEquationFormPropertyTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testConstructorForLineListInGeometry() {
+	void testConstructorForLineListInGeometry() {
 		getApp().setGeometryConfig();
 		addAvInput("f = Line((1,1),(2,2))");
 		addAvInput("g = Line((3,4),(4,3))");
@@ -60,7 +60,7 @@ public class LinearEquationFormPropertyTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testConstructorForLineAndUserFunctionListInGeometry() {
+	void testConstructorForLineAndUserFunctionListInGeometry() {
 		getApp().setGeometryConfig();
 		addAvInput("f = Line((1,1),(2,2))");
 		addAvInput("g(x) = x");
@@ -70,7 +70,7 @@ public class LinearEquationFormPropertyTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testConstructorForLineInGraphing() {
+	void testConstructorForLineInGraphing() {
 		getApp().setGraphingConfig();
 		GeoElement line = addAvInput("Line((1,1),(2,2))");
 		assertThrows(NotApplicablePropertyException.class,
@@ -78,7 +78,7 @@ public class LinearEquationFormPropertyTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testConstructorForLineListInGraphing() {
+	void testConstructorForLineListInGraphing() {
 		getApp().setGraphingConfig();
 		addAvInput("f = Line((1,1),(2,2))");
 		addAvInput("g = Line((3,4),(4,3))");

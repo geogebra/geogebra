@@ -26,16 +26,16 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class LabelPropertyTests extends BaseAppTestSetup {
+class LabelPropertyTests extends BaseAppTestSetup {
 	@Test
-	public void testSuccessfulConstruction() {
+	void testSuccessfulConstruction() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement("f(x) = x");
 		assertDoesNotThrow(() -> new LabelProperty(getLocalization(), geoElement));
 	}
 
 	@Test
-	public void testConstructingNotApplicableProperty() {
+	void testConstructingNotApplicableProperty() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoText geoText = evaluateGeoElement("\"\"");
 		assertThrows(NotApplicablePropertyException.class,

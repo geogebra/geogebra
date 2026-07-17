@@ -21,8 +21,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -44,10 +44,10 @@ import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.LocalizationCommonUTF;
 import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.ErrorAccumulator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class MyXMLioTest extends BaseUnitTest {
+class MyXMLioTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
@@ -61,7 +61,7 @@ public class MyXMLioTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testXmlContainsAppCode() {
+	void testXmlContainsAppCode() {
 		MyXMLio myXMLio = Mockito.mock(MyXMLio.class, Mockito
 				.withSettings()
 				.defaultAnswer(Mockito.CALLS_REAL_METHODS)
@@ -72,7 +72,7 @@ public class MyXMLioTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testXmlContainsParentName() {
+	void testXmlContainsParentName() {
 		MyXMLio myXMLio = Mockito.mock(MyXMLio.class, Mockito
 				.withSettings()
 				.defaultAnswer(Mockito.CALLS_REAL_METHODS)
@@ -83,7 +83,7 @@ public class MyXMLioTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void loadCompleteZip() throws IOException, XMLParseException {
+	void loadCompleteZip() throws IOException, XMLParseException {
 		MyXMLioJre xmlIO = new MyXMLioCommon(getKernel(), getConstruction());
 		xmlIO.readZipFromInputStream(Files.newInputStream(
 				Paths.get("src/test/resources/org/geogebra/common/io/ziptest.ggb")), false);
@@ -99,7 +99,7 @@ public class MyXMLioTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-6753")
-	public void testErrorHandler() throws IOException, XMLParseException {
+	void testErrorHandler() throws IOException, XMLParseException {
 		MyXMLioJre xmlIO = new MyXMLioCommon(getKernel(), getConstruction());
 		ErrorAccumulator errorHandler = new ErrorAccumulator();
 		xmlIO.setErrorHandler(errorHandler);

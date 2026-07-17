@@ -16,16 +16,16 @@
  
 package org.geogebra.common.kernel.interval.function;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.editor.share.util.Unicode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class IntervalFunctionSupportTest extends BaseUnitTest {
+class IntervalFunctionSupportTest extends BaseUnitTest {
 	@Test
-	public void testSupportedOperations() {
+	void testSupportedOperations() {
 		shouldBeSupported("x + 1");
 		shouldBeSupported("x - 1");
 		shouldBeSupported("x * 5");
@@ -59,12 +59,12 @@ public class IntervalFunctionSupportTest extends BaseUnitTest {
 	}
 
 	private void shouldBeSupported(String command) {
-		assertTrue(command + " is not supported, but it should be.",
-				IntervalFunctionSupport.isSupported(add(command)));
+		assertTrue(IntervalFunctionSupport.isSupported(add(command)),
+				command + " is not supported, but it should be.");
 	}
 
 	@Test
-	public void testSupportOneVariableOnly() {
+	void testSupportOneVariableOnly() {
 		shouldBeNotSupported("x + x");
 		shouldBeNotSupported("x^2 + x");
 		shouldBeNotSupported("abs(x)/x");
@@ -75,12 +75,12 @@ public class IntervalFunctionSupportTest extends BaseUnitTest {
 	}
 
 	private void shouldBeNotSupported(String command) {
-		assertFalse(command + " is supported, but it should not be.",
-				IntervalFunctionSupport.isSupported(add(command)));
+		assertFalse(IntervalFunctionSupport.isSupported(add(command)),
+				command + " is supported, but it should not be.");
 	}
 
 	@Test
-	public void powerShouldBeNumber() {
+	void powerShouldBeNumber() {
 		add("v = (1, 2)");
 		shouldBeNotSupported("x^v");
 		shouldBeNotSupported("abs(x^v)");
@@ -89,7 +89,7 @@ public class IntervalFunctionSupportTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testUnsupportedOperations() {
+	void testUnsupportedOperations() {
 		shouldBeNotSupported("x!");
 		shouldBeNotSupported("gamma(x)");
 		shouldBeNotSupported("x^2x");
@@ -100,7 +100,7 @@ public class IntervalFunctionSupportTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void ifsShouldBeNotSupported() {
+	void ifsShouldBeNotSupported() {
 		shouldBeNotSupported("If[x < 1, 0]");
 		shouldBeNotSupported("If[x < 1, 2x]");
 		shouldBeNotSupported("If[x < 1, x + 1]");

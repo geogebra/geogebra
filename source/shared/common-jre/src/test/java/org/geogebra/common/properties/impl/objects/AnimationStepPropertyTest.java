@@ -28,29 +28,29 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class AnimationStepPropertyTest extends BaseAppTestSetup {
+class AnimationStepPropertyTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test
-	public void testApplicable() {
+	void testApplicable() {
 		GeoElement point = evaluateGeoElement("(1, 1)");
 		assertDoesNotThrow(() ->
 				new AnimationStepProperty(getAlgebraProcessor(), getLocalization(), point, false));
 	}
 
 	@Test
-	public void testNotApplicable() {
+	void testNotApplicable() {
 		GeoElement circle = evaluateGeoElement("Circle((0, 0), 1)");
 		assertThrows(NotApplicablePropertyException.class, () ->
 				new AnimationStepProperty(getAlgebraProcessor(), getLocalization(), circle, false));
 	}
 
 	@Test
-	public void testDisabledForLockedObject() {
+	void testDisabledForLockedObject() {
 		GeoElement point = evaluateGeoElement("(1, 1)");
 		AnimationStepProperty animationStepProperty = assertDoesNotThrow(() ->
 				new AnimationStepProperty(getAlgebraProcessor(), getLocalization(), point, false));

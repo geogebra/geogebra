@@ -45,20 +45,20 @@ import org.geogebra.common.util.Range;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class TableValuesContextMenuTests extends BaseUnitTest {
+class TableValuesContextMenuTests extends BaseUnitTest {
 
 	private TableValuesView tableValuesView;
 	private TableValuesModel tableValuesModel;
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		tableValuesView = new TableValuesView(getKernel());
 		getKernel().attach(tableValuesView);
 		tableValuesModel = tableValuesView.getTableValuesModel();
 	}
 
 	@Test
-	public void testInScientificCalculator() {
+	void testInScientificCalculator() {
 		GeoEvaluatable geoEvaluatable = new GeoLine(getConstruction());
 
 		assertEquals(
@@ -70,7 +70,7 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 	}
 
 	@Test
-	public void testFirstColumn() {
+	void testFirstColumn() {
 		GeoEvaluatable geoEvaluatable = new GeoLine(getConstruction());
 
 		assertEquals(
@@ -85,7 +85,7 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 	}
 
 	@Test
-	public void testFirstColumnInExamMode() {
+	void testFirstColumnInExamMode() {
 		GeoEvaluatable geoEvaluatable = new GeoLine(getConstruction());
 
 		assertEquals(
@@ -99,7 +99,7 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 	}
 
 	@Test
-	public void testFirstColumnInExamModeWithRestrictedStatisticsItem() {
+	void testFirstColumnInExamModeWithRestrictedStatisticsItem() {
 		GeoEvaluatable geoEvaluatable = new GeoLine(getConstruction());
 
 		Set<ContextMenuItemFilter> filters = Set.of(contextMenuItem ->
@@ -115,7 +115,7 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 	}
 
 	@Test
-	public void testInExamModeWithRestrictedStatisticsAndRegressionItems()
+	void testInExamModeWithRestrictedStatisticsAndRegressionItems()
 			throws InvalidValuesException {
 		tableValuesView.setValues(0.0, 2.0, 1.0);
 		GeoList geoList = new GeoList(getConstruction());
@@ -139,7 +139,7 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 	}
 
 	@Test
-	public void testWithFunctionColumn() throws InvalidValuesException {
+	void testWithFunctionColumn() throws InvalidValuesException {
 		tableValuesView.setValues(-2.0, 2.0, 1.0);
 		GeoFunction geoFunction = new GeoFunction(getConstruction());
 		tableValuesView.addAndShow(geoFunction);
@@ -154,7 +154,7 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 	}
 
 	@Test
-	public void testWithVisibleGeoListPoints() throws InvalidValuesException {
+	void testWithVisibleGeoListPoints() throws InvalidValuesException {
 		tableValuesView.setValues(0.0, 2.0, 1.0);
 		GeoList geoList = new GeoList(getConstruction());
 		geoList.add(new GeoNumeric(getConstruction(), 1.0));
@@ -174,7 +174,7 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 	}
 
 	@Test
-	public void testWithHiddenGeoListPoints() throws InvalidValuesException {
+	void testWithHiddenGeoListPoints() throws InvalidValuesException {
 		tableValuesView.setValues(0.0, 2.0, 1.0);
 		GeoList geoList = new GeoList(getConstruction());
 		geoList.add(new GeoNumeric(getConstruction(), 1.0));
@@ -195,7 +195,7 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 	}
 
 	@Test
-	public void testStatisticsItemTitleSubscript() {
+	void testStatisticsItemTitleSubscript() {
 		TableValuesContextMenuItem item = Statistics1.toContextMenuItem(new String[]{ "y_{1}" });
 		AttributedString title = item.getLocalizedTitle(getLocalization());
 
@@ -207,7 +207,7 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 	}
 
 	@Test
-	public void testStatisticsItemTitleWithMultipleSubscripts() {
+	void testStatisticsItemTitleWithMultipleSubscripts() {
 		TableValuesContextMenuItem item = Statistics2.toContextMenuItem(
 				new String[] { "y_{1} value_{subscript}"});
 		AttributedString title = item.getLocalizedTitle(getLocalization());

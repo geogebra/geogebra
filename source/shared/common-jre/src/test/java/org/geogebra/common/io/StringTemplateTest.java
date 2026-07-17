@@ -20,9 +20,9 @@ import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.cas.giac.CASgiac;
@@ -41,19 +41,19 @@ import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.regexp.shared.RegExp;
 import org.geogebra.test.OrderingComparison;
 import org.geogebra.test.TestErrorHandler;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class StringTemplateTest {
+class StringTemplateTest {
 	private AppCommon3D app;
 
-	@Before
-	public void initialize() {
+	@BeforeEach
+	void initialize() {
 		app = AppCommonFactory.create3D();
 	}
 
 	@Test
-	public void testSerializationSpeed() {
+	void testSerializationSpeed() {
 		app.setLanguage("en_US");
 		long l = System.currentTimeMillis();
 		StringBuilder sb = new StringBuilder(1000);
@@ -78,7 +78,7 @@ public class StringTemplateTest {
 	}
 
 	@Test
-	public void testCanonicalNumber() {
+	void testCanonicalNumber() {
 		assertEquals("0", StringUtil.canonicalNumber("0.0"));
 		assertEquals("0", StringUtil.canonicalNumber(".0"));
 		assertEquals("1.0E2", StringUtil.canonicalNumber("1.0E2"));
@@ -86,7 +86,7 @@ public class StringTemplateTest {
 	}
 
 	@Test
-	public void testLaTeX() {
+	void testLaTeX() {
 		tex("Mean(1,2)", "mean\\left(1, 2 \\right)");
 		tex("Mean({1,2})", "mean\\left(\\left\\{1,\\;2\\right\\} \\right)");
 		tex("6*(4+3)", "6 \\; \\left(4 + 3 \\right)");
@@ -99,7 +99,7 @@ public class StringTemplateTest {
 	}
 
 	@Test
-	public void testDegrees() {
+	void testDegrees() {
 		plain("s:sin(8'3'')", "s = sin(8'3" + Unicode.SECONDS + ")");
 		plain("c:cos(1" + Unicode.DEGREE_STRING + "8'3'')", "c = cos(1"
 				+ Unicode.DEGREE_STRING + "8'3"
@@ -112,7 +112,7 @@ public class StringTemplateTest {
 	}
 
 	@Test
-	public void testConditionalLatex() {
+	void testConditionalLatex() {
 		String caseSimple = "x, \\;\\;\\;\\; \\left(x > 0 \\right)";
 		tcl("If[x>0,x]", caseSimple);
 		tcl("If[x>0,x,-x]", "\\left\\{\\begin{array}{ll} x& : x > 0\\\\"
@@ -158,7 +158,7 @@ public class StringTemplateTest {
 	}
 
 	@Test
-	public void editorTemplateShouldRetainPrecision() {
+	void editorTemplateShouldRetainPrecision() {
 		GeoElementND f = add("f:0.33333x");
 		assertEquals("f(x)=0.33333 x",
 				f.toString(StringTemplate.editorTemplate));
@@ -169,7 +169,7 @@ public class StringTemplateTest {
 	}
 
 	@Test
-	public void testInequality() {
+	void testInequality() {
 		String[] testI = new String[]{"(x>=3) && (7>=x) && (10>=x)"};
 		String[] test = new String[]{"aaa", "(a)+b", "3", "((a)+(b))+7"};
 		String[] testFalse = new String[]{"3(", "(((7)))"};
@@ -189,7 +189,7 @@ public class StringTemplateTest {
 	}
 
 	@Test
-	public void shouldUseTrigPowerForConstantExponent() {
+	void shouldUseTrigPowerForConstantExponent() {
 		FunctionVariable x = new FunctionVariable(app.getKernel());
 		ExpressionNode node = x.wrap().sin().power(2);
 		assertEquals("sin" + Unicode.SUPERSCRIPT_2 + "(x)",
@@ -199,7 +199,7 @@ public class StringTemplateTest {
 	}
 
 	@Test
-	public void shouldUseTrigPowerForVarExponent() {
+	void shouldUseTrigPowerForVarExponent() {
 		FunctionVariable x = new FunctionVariable(app.getKernel());
 		ExpressionNode node = x.wrap().sin().power(x.wrap().cos());
 		assertEquals("(sin(x))^cos(x)",
@@ -210,7 +210,7 @@ public class StringTemplateTest {
 	}
 
 	@Test
-	public void shouldUseBracketsForFunctionPowers() {
+	void shouldUseBracketsForFunctionPowers() {
 		ExpressionNode node = functionPower(Operation.LOG, 2);
 		assertEquals(unicode("(ln(x))^2"),
 				node.toString(StringTemplate.editTemplate));
@@ -225,7 +225,7 @@ public class StringTemplateTest {
 	}
 
 	@Test
-	public void testConvertScientificNotationGiac() {
+	void testConvertScientificNotationGiac() {
 		StringTemplate template = StringTemplate.giacTemplate;
 		assertThat(template.convertScientificNotationGiac("3E3"), is("3000"));
 		assertThat(template.convertScientificNotationGiac("3.33"), is("(333/100)"));
@@ -235,14 +235,14 @@ public class StringTemplateTest {
 	}
 
 	@Test
-	public void definitionShouldKeepSmallNumbers() {
+	void definitionShouldKeepSmallNumbers() {
 		GeoElementND num = add("a=1E-20");
 		assertEquals("1*10^(-20)",
 				num.getDefinition(StringTemplate.editTemplate));
 	}
 
 	@Test
-	public void definitionShouldKeepSmallNumbersScientific() {
+	void definitionShouldKeepSmallNumbersScientific() {
 		GeoElementND num = add("a=1E-20");
 		StringTemplate latexNoLocal = StringTemplate.defaultTemplate
 				.derivePrecisionPreservingLaTeXTemplate();
@@ -251,7 +251,7 @@ public class StringTemplateTest {
 	}
 
 	@Test
-	public void powerWithScientificNotationShouldHaveBrackets() {
+	void powerWithScientificNotationShouldHaveBrackets() {
 		GeoElementND fn = add("x^(3E-20)");
 		assertEquals("f(x) = x^(3*10^(-20))",
 				fn.toString(StringTemplate.editTemplate));
@@ -267,21 +267,21 @@ public class StringTemplateTest {
 	}
 
 	@Test
-	public void factorialWithScientificNotationShouldHaveBrackets() {
+	void factorialWithScientificNotationShouldHaveBrackets() {
 		GeoElementND num = add("3E-20!");
 		assertEquals("(3*10^(-20))!",
 				num.getDefinition(StringTemplate.editTemplate));
 	}
 
 	@Test
-	public void fractionWithScientificNotationShouldHaveBrackets() {
+	void fractionWithScientificNotationShouldHaveBrackets() {
 		GeoElementND num = add("1/3E-20");
 		assertEquals("1 / (3*10^(-20))",
 				num.getDefinition(StringTemplate.editTemplate));
 	}
 
 	@Test
-	public void vectorMultiplicationShouldUseBrackets() {
+	void vectorMultiplicationShouldUseBrackets() {
 		add("u = Vector((1,2), (2,3))");
 		add("v = Vector((3,1), (5,2))");
 		add("w = Vector((0,2), (2,4))");
@@ -291,7 +291,7 @@ public class StringTemplateTest {
 	}
 
 	@Test
-	public void matrixVectorMultiplicationShouldUseBrackets() {
+	void matrixVectorMultiplicationShouldUseBrackets() {
 		add("u = Vector((1,2), (2,3))");
 		add("v = Vector((3,1), (5,2))");
 		add("M = {{1,3},{2,4}}");
@@ -300,7 +300,7 @@ public class StringTemplateTest {
 	}
 
 	@Test
-	public void vectorMultiplicationShouldNotUseBrackets() {
+	void vectorMultiplicationShouldNotUseBrackets() {
 		add("u = Vector((1,2), (2,3))");
 		add("v = Vector((3,1), (5,2))");
 		plain("a = u * v", "a = u v");
@@ -308,7 +308,7 @@ public class StringTemplateTest {
 	}
 
 	@Test
-	public void matrixMultiplicationShouldNotUseBrackets() {
+	void matrixMultiplicationShouldNotUseBrackets() {
 		add("M = {{1,3},{2,4}}");
 		add("N = {{0,-1},{1,0}}");
 		plain("m1 = (N * M) * M", "m1 = N M M");

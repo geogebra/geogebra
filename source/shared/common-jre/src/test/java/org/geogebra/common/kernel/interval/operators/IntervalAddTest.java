@@ -26,16 +26,16 @@ import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.LegacyIntervalAdapter.legacyInverted;
 import static org.geogebra.common.kernel.interval.operators.IntervalDivide.next;
 import static org.geogebra.common.kernel.interval.operators.IntervalDivide.prev;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalSet;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class IntervalAddTest {
+class IntervalAddTest {
 
 	@Test
-	public void addNegativeInfinityWithFiniteToNegativeInfinityWithFinite() {
+	void addNegativeInfinityWithFiniteToNegativeInfinityWithFinite() {
 		assertEquals(negativeInf(4.68),
 				negativeInf(1.23).add(negativeInf(3.45)));
 		assertEquals(negativeInf(0),
@@ -47,7 +47,7 @@ public class IntervalAddTest {
 	}
 
 	@Test
-	public void addNegativeInfinityWithFiniteToFiniteInterval() {
+	void addNegativeInfinityWithFiniteToFiniteInterval() {
 		assertEquals(negativeInf(45.67 + 56.78),
 				negativeInf(45.67).add(interval(12.34, 56.78)));
 		assertEquals(negativeInf(91.34),
@@ -55,13 +55,13 @@ public class IntervalAddTest {
 	}
 
 	@Test
-	public void addNegativeInfinityWithFiniteToFiniteOpenToPositiveInfinity() {
+	void addNegativeInfinityWithFiniteToFiniteOpenToPositiveInfinity() {
 		assertEquals(whole(),
 				negativeInf(45.67).add(interval(12.34, Double.POSITIVE_INFINITY)));
 	}
 
 	@Test
-	public void addWholeToAnything() {
+	void addWholeToAnything() {
 		assertEquals(whole(), negativeInf(34.56).add(whole()));
 		assertEquals(whole(), interval(-12.34, 1E32).add(whole()));
 		assertEquals(whole(), interval(-12.34, Double.POSITIVE_INFINITY).add(whole()));
@@ -69,13 +69,13 @@ public class IntervalAddTest {
 	}
 
 	@Test
-	public void addFiniteToNegativeInfinityAndFinite() {
+	void addFiniteToNegativeInfinityAndFinite() {
 		assertEquals(negativeInf(1E-2 + 1234.567),
 				interval(0, 1E-2).add(negativeInf(1234.567)));
 	}
 
 	@Test
-	public void addFiniteToFinite() {
+	void addFiniteToFinite() {
 		addFiniteToFinite(12.34, 56.78, 78.97, 100.12);
 		addFiniteToFinite(4, -56.78, 78.97, 100.12);
 		addFiniteToFinite(4, -56.78, -1E-3, 1E-2);
@@ -87,7 +87,7 @@ public class IntervalAddTest {
 	}
 
 	@Test
-	public void addFiniteToFiniteOpenToPositiveInfinity() {
+	void addFiniteToFiniteOpenToPositiveInfinity() {
 		addFiniteToFiniteOpenToPositiveInfinity(12.34, 56.78, 2.1);
 		addFiniteToFiniteOpenToPositiveInfinity(-12.34, 56.78, 0);
 		addFiniteToFiniteOpenToPositiveInfinity(-56.34, -12.78, 1E234);
@@ -100,13 +100,13 @@ public class IntervalAddTest {
 	}
 
 	@Test
-	public void addToUndefinedShouldBeUndefined() {
+	void addToUndefinedShouldBeUndefined() {
 		assertEquals(undefined(),
 				undefined().add(interval(1E123, Double.POSITIVE_INFINITY)));
 	}
 
 	@Test
-	public void testAddToInvertedSet() {
+	void testAddToInvertedSet() {
 		IntervalSet set = inverted(legacyInverted(-3.45, 78.97)
 				.add(interval(12.34, 56.78)));
 		assertEquals(connected(Double.NEGATIVE_INFINITY, 8.89),
@@ -116,7 +116,7 @@ public class IntervalAddTest {
 	}
 
 	@Test
-	public void testAddInvertedSetTo() {
+	void testAddInvertedSetTo() {
 		IntervalSet set = inverted(interval(12.34, 56.78)
 				.add(legacyInverted(-3.45, 78.97)));
 		assertEquals(connected(Double.NEGATIVE_INFINITY, 8.89),

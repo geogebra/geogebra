@@ -19,30 +19,30 @@ package org.geogebra.common.io;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.editor.share.util.JavaKeyCodes;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class DeleteInMatrixTest {
+class DeleteInMatrixTest {
 	private static final String MATRIX_1_TO_9 = "{{1,2,3},{4,5,6},{7,8,9}}";
 	private static final String ROW_MATRIX = "{{1,2,3}}";
-	public static final String MATRIX_MULIFIGURE = "{{123,456},{321,654}}";
-	public static final String MATRIX_FRAC = "{{1/(2*sqrt(2)),456},{321,654}}";
+	private static final String MATRIX_MULIFIGURE = "{{123,456},{321,654}}";
+	private static final String MATRIX_FRAC = "{{1/(2*sqrt(2)),456},{321,654}}";
 	private static final AppCommon app = AppCommonFactory.create();
 
 	/**
 	 * Setup LaTeX
 	 */
-	@BeforeClass
-	public static void prepare() {
+	@BeforeAll
+	static void prepare() {
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderCommon());
 		}
 	}
 
 	@Test
-	public void testSelectionShouldDelete1OnlyFromLeft() {
+	void testSelectionShouldDelete1OnlyFromLeft() {
 		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
 		checker.shiftOn().right(2)
 				.shouldDeleteOnly(1);
@@ -54,7 +54,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testSelectionShouldDelete1OnlyFromRight() {
+	void testSelectionShouldDelete1OnlyFromRight() {
 		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
 		checker.right(1)
 				.shiftOn().left(2)
@@ -62,7 +62,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testSelectionShouldDelete2OnlyFromLeft() {
+	void testSelectionShouldDelete2OnlyFromLeft() {
 		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
 		checker.right(2)
 				.shiftOn().right(2)
@@ -70,7 +70,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testSelectionShouldDelete2OnlyFromRight() {
+	void testSelectionShouldDelete2OnlyFromRight() {
 		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
 		checker.right(3)
 				.shiftOn().left(2)
@@ -78,7 +78,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testSelectionShouldDelete3OnlyFromLeft() {
+	void testSelectionShouldDelete3OnlyFromLeft() {
 		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
 		checker.right(4)
 				.shiftOn().right(2)
@@ -86,7 +86,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testSelectionShouldDelete3OnlyFromRight() {
+	void testSelectionShouldDelete3OnlyFromRight() {
 		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
 		checker.right(5)
 				.shiftOn().left(2)
@@ -94,7 +94,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testSelectionShouldDelete4OnlyFromLeft() {
+	void testSelectionShouldDelete4OnlyFromLeft() {
 		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
 		checker.down(1)
 				.shiftOn().right(2)
@@ -102,7 +102,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testSelectionShouldDelete4OnlyFromRight() {
+	void testSelectionShouldDelete4OnlyFromRight() {
 		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
 		checker.down(1)
 				.right(1)
@@ -111,7 +111,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testSelectionShouldDelete5OnlyFromRight() {
+	void testSelectionShouldDelete5OnlyFromRight() {
 		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
 		checker.down(1)
 				.right(3)
@@ -120,7 +120,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testSelectionShouldDelete5OnlyFromLeft() {
+	void testSelectionShouldDelete5OnlyFromLeft() {
 		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
 		checker.down(1)
 				.right(4)
@@ -129,7 +129,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testSelectionShouldDelete6OnlyFromRight() {
+	void testSelectionShouldDelete6OnlyFromRight() {
 		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
 		checker.down(1)
 				.right(4)
@@ -138,7 +138,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testSelectionShouldDelete6OnlyFromLeft() {
+	void testSelectionShouldDelete6OnlyFromLeft() {
 		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
 		checker.down(1)
 				.right(5)
@@ -147,7 +147,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testSelectionShouldDelete7OnlyFromLeft() {
+	void testSelectionShouldDelete7OnlyFromLeft() {
 		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
 		checker.down(2)
 				.shiftOn().right(2)
@@ -155,7 +155,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testSelectionShouldDelete7OnlyFromRight() {
+	void testSelectionShouldDelete7OnlyFromRight() {
 		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
 		checker.down(2)
 				.right(1)
@@ -164,7 +164,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testSelectionShouldDelete8OnlyFromLeft() {
+	void testSelectionShouldDelete8OnlyFromLeft() {
 		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
 		checker.down(2)
 				.right(2)
@@ -173,7 +173,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testSelectionShouldDelete8OnlyFromRight() {
+	void testSelectionShouldDelete8OnlyFromRight() {
 		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
 		checker.down(2)
 				.right(3)
@@ -182,7 +182,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testSelectionShouldDelete9OnlyFromLeft() {
+	void testSelectionShouldDelete9OnlyFromLeft() {
 		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
 		checker.down(2)
 				.right(4)
@@ -191,7 +191,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testSelectionShouldDelete9OnlyFromRight() {
+	void testSelectionShouldDelete9OnlyFromRight() {
 		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
 		checker.down(2)
 				.right(5)
@@ -200,14 +200,14 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testShouldDelete123FromLeft() {
+	void testShouldDelete123FromLeft() {
 		EditorChecker checker = newMatrixChecker(MATRIX_MULIFIGURE);
 		checker.shiftOn().right(4)
 				.shouldDeleteOnly(123);
 	}
 
 	@Test
-	public void testShouldDelete123FromRight() {
+	void testShouldDelete123FromRight() {
 		EditorChecker checker = newMatrixChecker(MATRIX_MULIFIGURE);
 		checker.right(3)
 				.shiftOn().left(4)
@@ -215,7 +215,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testShouldDelete456FromLeft() {
+	void testShouldDelete456FromLeft() {
 		EditorChecker checker = newMatrixChecker(MATRIX_MULIFIGURE);
 		checker.right(4)
 				.shiftOn().right(3)
@@ -223,7 +223,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testShouldDelete123FromLeftWithSkip() {
+	void testShouldDelete123FromLeftWithSkip() {
 		EditorChecker checker = newMatrixChecker(MATRIX_MULIFIGURE);
 		checker.right(3)
 				.shiftOn().right(4)
@@ -231,7 +231,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testShouldDelete456FromRight() {
+	void testShouldDelete456FromRight() {
 		EditorChecker checker = newMatrixChecker(MATRIX_MULIFIGURE);
 		checker.right(6)
 				.shiftOn().left(4)
@@ -239,7 +239,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testShouldDelete321FromLeft() {
+	void testShouldDelete321FromLeft() {
 		EditorChecker checker = newMatrixChecker(MATRIX_MULIFIGURE);
 		checker.down(1)
 				.shiftOn()
@@ -248,7 +248,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testShouldDelete321FromRight() {
+	void testShouldDelete321FromRight() {
 		EditorChecker checker = newMatrixChecker(MATRIX_MULIFIGURE);
 		checker.down(1)
 				.right(3)
@@ -257,7 +257,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testShouldDelete654FromLeft() {
+	void testShouldDelete654FromLeft() {
 		EditorChecker checker = newMatrixChecker(MATRIX_MULIFIGURE);
 		checker.down(1)
 				.right(4)
@@ -267,7 +267,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testShouldDelete654FromRight() {
+	void testShouldDelete654FromRight() {
 		EditorChecker checker = newMatrixChecker(MATRIX_MULIFIGURE);
 		checker.down(1)
 				.right(6)
@@ -276,7 +276,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testRowSelectionShouldDelete1Only() {
+	void testRowSelectionShouldDelete1Only() {
 		EditorChecker checker = newMatrixChecker(ROW_MATRIX);
 		checker.shiftOn()
 				.right(1)
@@ -285,7 +285,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testRowSelectionShouldDelete2Only() {
+	void testRowSelectionShouldDelete2Only() {
 		EditorChecker checker = newMatrixChecker(ROW_MATRIX);
 		checker.right(2)
 				.shiftOn()
@@ -295,7 +295,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testRowSelectionShouldDelete2OnlyWith3Backspace() {
+	void testRowSelectionShouldDelete2OnlyWith3Backspace() {
 		EditorChecker checker = newMatrixChecker(ROW_MATRIX);
 		checker.right(2)
 				.shiftOn()
@@ -304,7 +304,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testRowSelectionShouldDelete3Only() {
+	void testRowSelectionShouldDelete3Only() {
 		EditorChecker checker = newMatrixChecker(ROW_MATRIX);
 		checker.right(4)
 				.shiftOn()
@@ -315,7 +315,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testRowShouldDelete3Only() {
+	void testRowShouldDelete3Only() {
 		EditorChecker checker = newMatrixChecker(ROW_MATRIX);
 		checker.right(3)
 				.backspace(2)
@@ -324,7 +324,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testCanTypeAndDeleteBrackets() {
+	void testCanTypeAndDeleteBrackets() {
 		EditorChecker checker = newMatrixChecker(ROW_MATRIX);
 		checker.right(3)
 				.type("(")
@@ -334,7 +334,7 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testSelectAndReplaceElement11() {
+	void testSelectAndReplaceElement11() {
 		selectAllAndDelete(MATRIX_MULIFIGURE, 1, "123");
 	}
 
@@ -347,12 +347,12 @@ public class DeleteInMatrixTest {
 	}
 
 	@Test
-	public void testSelectAndReplaceElement11FromMiddle() {
+	void testSelectAndReplaceElement11FromMiddle() {
 		selectAllAndDelete(MATRIX_MULIFIGURE, 3, "123");
 	}
 
 	@Test
-	public void testSelectAndReplaceLatexElement11FromMiddle() {
+	void testSelectAndReplaceLatexElement11FromMiddle() {
 		selectAllAndDelete(MATRIX_FRAC, 2, "1/(2*sqrt(2))");
 	}
 }

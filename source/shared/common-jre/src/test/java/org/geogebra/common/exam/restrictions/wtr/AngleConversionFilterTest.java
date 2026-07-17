@@ -30,11 +30,11 @@ import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class AngleConversionFilterTest extends BaseExamTestSetup {
+class AngleConversionFilterTest extends BaseExamTestSetup {
 	AngleConversionFilter filter;
 
 	@BeforeEach
-	public void setupWtrExam() {
+	void setupWtrExam() {
 		setupApp(SuiteSubApp.SCIENTIFIC);
 		examController.startExam(ExamType.WTR, null);
 		filter = new AngleConversionFilter();
@@ -42,7 +42,7 @@ public class AngleConversionFilterTest extends BaseExamTestSetup {
 
 	@Test
 	@Issue("APPS-6299")
-	public void example2() {
+	void example2() {
 		getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
 		assertFalse(filter.isAllowed(evaluate("a=1 deg")[0]));
 		// check that value of a does not leak through computations
@@ -52,14 +52,14 @@ public class AngleConversionFilterTest extends BaseExamTestSetup {
 
 	@Test
 	@Issue("APPS-6299")
-	public void example3() {
+	void example3() {
 		getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
 		assertFalse(filter.isAllowed(evaluate("1 deg")[0]));
 	}
 
 	@Test
 	@Issue("APPS-6299")
-	public void example5() {
+	void example5() {
 		evaluate("a=1 deg");
 		for (int unit: List.of(
 				Kernel.ANGLE_DEGREES_MINUTES_SECONDS,
@@ -73,7 +73,7 @@ public class AngleConversionFilterTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void hideAngleComputationsDegrees() {
+	void hideAngleComputationsDegrees() {
 		getKernel().setAngleUnit(Kernel.ANGLE_DEGREE);
 		evaluate("a=1 deg");
 		evaluate("b=2");
@@ -87,7 +87,7 @@ public class AngleConversionFilterTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void hideAngleComputationsRadians() {
+	void hideAngleComputationsRadians() {
 		getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
 		evaluate("a=1deg");
 		evaluate("b=2");
@@ -96,7 +96,7 @@ public class AngleConversionFilterTest extends BaseExamTestSetup {
 	}
 
 	@Test
-	public void noConversionFromDegreesMinutesSeconds() {
+	void noConversionFromDegreesMinutesSeconds() {
 		getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
 		assertFalse(filter.isAllowed(evaluateGeoElement("alpha=30°15'20''")));
 		// "alpha+0 rad/deg" is prevented by the RadianGradianFilter inputExpressionFilters

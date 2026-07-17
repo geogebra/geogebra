@@ -16,17 +16,17 @@
 
 package org.geogebra.common.main.settings;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class SpreadsheetSettingsTest {
+class SpreadsheetSettingsTest {
 	AppCommon app = AppCommonFactory.create3D();
 
 	@Test
-	public void testSpreadsheetSettingsShouldBeUpdatedOnFileLoad() {
+	void testSpreadsheetSettingsShouldBeUpdatedOnFileLoad() {
 		app.getSettings().getSpreadsheet().addWidth(2, 42);
 		String xml = app.getXML();
 		app.getSettings().getSpreadsheet().addWidthNoFire(2, 50);

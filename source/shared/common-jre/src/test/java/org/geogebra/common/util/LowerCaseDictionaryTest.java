@@ -19,20 +19,20 @@ package org.geogebra.common.util;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class LowerCaseDictionaryTest {
+class LowerCaseDictionaryTest {
 
 	private LowerCaseDictionary dict;
 
-	@Before
-	public void setup() {
+	@BeforeEach
+	void setup() {
 		dict = new LowerCaseDictionary();
 	}
 
 	@Test
-	public void testCompletions() {
+	void testCompletions() {
 		dict.addEntry("b\u00e4cd");
 		assertThat(completionOf("ac"), equalTo("b[\u00e4c]d"));
 		assertThat(completionOf("bac"), equalTo("[b\u00e4c]d"));

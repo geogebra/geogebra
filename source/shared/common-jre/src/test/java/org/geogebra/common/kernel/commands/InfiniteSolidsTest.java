@@ -25,9 +25,9 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class InfiniteSolidsTest extends BaseUnitTest {
+class InfiniteSolidsTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
@@ -35,7 +35,7 @@ public class InfiniteSolidsTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void shouldBeLocalized() {
+	void shouldBeLocalized() {
 		GeoElement cone = add("InfiniteCone[(1,1),(1,1,2),45deg]");
 		GeoElement cylinder = add("InfiniteCylinder[(1,1),(1,1,2),4]");
 		getApp().setLocale(new Locale("de"));

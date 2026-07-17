@@ -27,17 +27,17 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class DistributionParameterPropertyTests extends BaseAppTestSetup {
+class DistributionParameterPropertyTests extends BaseAppTestSetup {
 	private ProbabilityCalculatorView probabilityCalculatorView;
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		setupApp(SuiteSubApp.PROBABILITY);
 		probabilityCalculatorView = new HeadlessProbabilityCalculatorView(getApp());
 	}
 
 	@Test
-	public void testDistributionWithOneAvailableParameter() {
+	void testDistributionWithOneAvailableParameter() {
 		probabilityCalculatorView.setProbabilityCalculator(Dist.POISSON, null, false);
 		assertTrue(parameterPropertyWithIndex(0).isAvailable());
 		assertFalse(parameterPropertyWithIndex(1).isAvailable());
@@ -45,7 +45,7 @@ public class DistributionParameterPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testDistributionWithTwoAvailableParameter() {
+	void testDistributionWithTwoAvailableParameter() {
 		probabilityCalculatorView.setProbabilityCalculator(Dist.NORMAL, null, false);
 		assertTrue(parameterPropertyWithIndex(0).isAvailable());
 		assertTrue(parameterPropertyWithIndex(1).isAvailable());
@@ -53,7 +53,7 @@ public class DistributionParameterPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testDistributionWithThreeAvailableParameter() {
+	void testDistributionWithThreeAvailableParameter() {
 		probabilityCalculatorView.setProbabilityCalculator(Dist.HYPERGEOMETRIC, null, false);
 		assertTrue(parameterPropertyWithIndex(0).isAvailable());
 		assertTrue(parameterPropertyWithIndex(1).isAvailable());
@@ -62,7 +62,7 @@ public class DistributionParameterPropertyTests extends BaseAppTestSetup {
 
 	@Test
 	@SuppressWarnings("checkstyle:VariableDeclarationUsageDistance")
-	public void testChangingDistributionChangesParameterNames() {
+	void testChangingDistributionChangesParameterNames() {
 		DistributionParameterProperty parameterProperty1 = parameterPropertyWithIndex(0);
 		DistributionParameterProperty parameterProperty2 = parameterPropertyWithIndex(1);
 		DistributionParameterProperty parameterProperty3 = parameterPropertyWithIndex(2);

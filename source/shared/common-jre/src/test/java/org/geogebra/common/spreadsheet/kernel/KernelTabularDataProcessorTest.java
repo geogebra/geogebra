@@ -16,18 +16,18 @@
 
 package org.geogebra.common.spreadsheet.kernel;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.Objects;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class KernelTabularDataProcessorTest extends BaseUnitTest {
+class KernelTabularDataProcessorTest extends BaseUnitTest {
 
 	private KernelTabularDataProcessor processor;
 	private KernelTabularDataAdapter adapter;
@@ -37,8 +37,8 @@ public class KernelTabularDataProcessorTest extends BaseUnitTest {
 	private GeoElement geo4;
 	private GeoElement bottomRight;
 
-	@Before
-	public void setUp() throws Exception {
+	@BeforeEach
+	void setUp() throws Exception {
 		adapter = new KernelTabularDataAdapter(getApp());
 		getKernel().attach(adapter);
 		geo1 = add("1");
@@ -55,7 +55,7 @@ public class KernelTabularDataProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testInsertRowAtBeginning() {
+	void testInsertRowAtBeginning() {
 		processor.insertRowAt(0);
 		cellShouldBeEmpty(0, 0);
 		cellShouldBeEmpty(0, 1);
@@ -82,7 +82,7 @@ public class KernelTabularDataProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testInsertRowAtMiddle() {
+	void testInsertRowAtMiddle() {
 		processor.insertRowAt(1);
 		contentShouldBe(0, 0, geo1, "A1");
 		contentShouldBe(0, 1, geo2, "B1");
@@ -93,7 +93,7 @@ public class KernelTabularDataProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testInsertRowAtEnd() {
+	void testInsertRowAtEnd() {
 		processor.insertRowAt(2);
 		contentShouldBe(0, 0, geo1, "A1");
 		contentShouldBe(0, 1, geo2, "B1");
@@ -104,14 +104,14 @@ public class KernelTabularDataProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testDeleteFirstRow() {
+	void testDeleteFirstRow() {
 		adapter.deleteRowAt(0);
 		contentShouldBe(0, 0, geo3, "A1");
 		contentShouldBe(0, 1, geo4, "B1");
 	}
 
 	@Test
-	public void testDeleteSecondRow() {
+	void testDeleteSecondRow() {
 		adapter.deleteRowAt(1);
 		contentShouldBe(0, 0, geo1, "A1");
 		contentShouldBe(0, 1, geo2, "B1");
@@ -120,7 +120,7 @@ public class KernelTabularDataProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testInsertColumnAtBeginning() {
+	void testInsertColumnAtBeginning() {
 		processor.insertColumnAt(0);
 		cellShouldBeEmpty(0, 0);
 		cellShouldBeEmpty(1, 0);
@@ -132,7 +132,7 @@ public class KernelTabularDataProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testInsertColumnAtMiddle() {
+	void testInsertColumnAtMiddle() {
 		processor.insertColumnAt(1);
 		contentShouldBe(0, 0, geo1, "A1");
 		contentShouldBe(0, 2, geo2, "C1");
@@ -143,7 +143,7 @@ public class KernelTabularDataProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testInsertColumnAtEnd() {
+	void testInsertColumnAtEnd() {
 		processor.insertColumnAt(2);
 		contentShouldBe(0, 0, geo1, "A1");
 		contentShouldBe(0, 1, geo2, "B1");
@@ -154,14 +154,14 @@ public class KernelTabularDataProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testDeleteFirstColumn() {
+	void testDeleteFirstColumn() {
 		processor.deleteColumnAt(0);
 		contentShouldBe(0, 0, geo2, "A1");
 		contentShouldBe(1, 0, geo4, "A2");
 	}
 
 	@Test
-	public void testDeleteSecondColumn() {
+	void testDeleteSecondColumn() {
 		processor.deleteColumnAt(1);
 		contentShouldBe(0, 0, geo1, "A1");
 		contentShouldBe(1, 0, geo3, "A2");

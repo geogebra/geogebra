@@ -24,15 +24,15 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class SelectionAllowedPropertyTest extends BaseAppTestSetup {
+class SelectionAllowedPropertyTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test
-	public void testApplicable() {
+	void testApplicable() {
 		GeoElement point = evaluateGeoElement("(1, 1)");
 		assertDoesNotThrow(() ->
 				new SelectionAllowedProperty(getLocalization(), point));

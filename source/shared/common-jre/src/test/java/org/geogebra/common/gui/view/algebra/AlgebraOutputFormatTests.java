@@ -41,29 +41,29 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 @SuppressWarnings("checkstyle:RegexpSingleline") // Tabs in MockedCasValues
 @ExtendWith(MockedCasValuesExtension.class)
-public class AlgebraOutputFormatTests extends BaseAppTestSetup {
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "x^2",
-            "1",
-            "x = 0",
-            "sqrt(4)",
-            "2000",
-            "-10",
+class AlgebraOutputFormatTests extends BaseAppTestSetup {
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"x^2",
+			"1",
+			"x = 0",
+			"sqrt(4)",
+			"2000",
+			"-10",
     })
-    @MockedCasValues({
-            "Evaluate(x²) 		-> x^2",
-            "Evaluate(1) 		-> 1",
-            "Round(1, 13) 		-> 1.0",
-            "Evaluate(x = 0) 	-> x=0",
-            "Evaluate(sqrt(4)) 	-> 2",
-            "Round(2, 13) 		-> 2.0",
-            "Evaluate(2000) 	-> 2000",
-            "Round(2000, 13) 	-> 2000.0",
-            "Evaluate(-10) 		-> -10",
-            "Round(-10, 13) 	-> -10.0",
+	@MockedCasValues({
+			"Evaluate(x²) 		-> x^2",
+			"Evaluate(1) 		-> 1",
+			"Round(1, 13) 		-> 1.0",
+			"Evaluate(x = 0) 	-> x=0",
+			"Evaluate(sqrt(4)) 	-> 2",
+			"Round(2, 13) 		-> 2.0",
+			"Evaluate(2000) 	-> 2000",
+			"Round(2000, 13) 	-> 2000.0",
+			"Evaluate(-10) 		-> -10",
+			"Round(-10, 13) 	-> -10.0",
     })
-    public void testNoToggleButtonInCas(String expression) {
+	void testNoToggleButtonInCas(String expression) {
         setupApp(SuiteSubApp.CAS);
         assertEquals(
                 List.of(),
@@ -71,24 +71,24 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
                         evaluateGeoElement(expression), false, Set.of()));
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "x^2",
-            "1",
-            "x = 0",
-            "sqrt(4)",
-            "sin(30°)",
-            "1.23456789",
-            "sin(1 / 2)",
-            "e",
-            "π",
-            "sqrt(2)",
-            "2000",
-            "-10",
-            "text1 = \"my text\"",
-            "Take(\"hello\", 2, 3)",
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"x^2",
+			"1",
+			"x = 0",
+			"sqrt(4)",
+			"sin(30°)",
+			"1.23456789",
+			"sin(1 / 2)",
+			"e",
+			"π",
+			"sqrt(2)",
+			"2000",
+			"-10",
+			"text1 = \"my text\"",
+			"Take(\"hello\", 2, 3)",
     })
-    public void testNoToggleButtonInGraphing(String expression) {
+	void testNoToggleButtonInGraphing(String expression) {
         setupApp(SuiteSubApp.GRAPHING);
         assertEquals(
                 List.of(),
@@ -96,28 +96,28 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
                         evaluateGeoElement(expression), false, Set.of()));
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "1 / 2",
-            "(5(2)/(3))",
-            "2^(-1)",
-            "sin(30°)",
-            "1.234",
-            "1.23456789",
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"1 / 2",
+			"(5(2)/(3))",
+			"2^(-1)",
+			"sin(30°)",
+			"1.234",
+			"1.23456789",
     })
-    @MockedCasValues({
-            "Evaluate(1 / 2) 					-> 1/2",
-            "Round(1 / 2, 13) 					-> 0.5",
-            "Evaluate(5 * 2 / 3) 				-> 10/3",
-            "Round(10 / 3, 13) 					-> 3.333333333333",
-            "Evaluate(2⁻¹) 						-> 1/2",
-            "Evaluate(sin(30°)) 				-> 1/2",
-            "Evaluate(1.234) 					-> 617/500",
-            "Round(617 / 500, 13) 				-> 1.234",
-            "Evaluate(1.23456789) 				-> 123456789/100000000",
-            "Round(123456789 / 100000000, 13) 	-> 1.23456789",
+	@MockedCasValues({
+			"Evaluate(1 / 2) 					-> 1/2",
+			"Round(1 / 2, 13) 					-> 0.5",
+			"Evaluate(5 * 2 / 3) 				-> 10/3",
+			"Round(10 / 3, 13) 					-> 3.333333333333",
+			"Evaluate(2⁻¹) 						-> 1/2",
+			"Evaluate(sin(30°)) 				-> 1/2",
+			"Evaluate(1.234) 					-> 617/500",
+			"Round(617 / 500, 13) 				-> 1.234",
+			"Evaluate(1.23456789) 				-> 123456789/100000000",
+			"Round(123456789 / 100000000, 13) 	-> 1.23456789",
     })
-    public void testFractionalOutputsInCas(String expression) {
+	void testFractionalOutputsInCas(String expression) {
         setupApp(SuiteSubApp.CAS);
         assertEquals(
                 List.of(FRACTION, APPROXIMATION),
@@ -125,15 +125,15 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
                         evaluateGeoElement(expression), false, Set.of()));
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "(5(2)/(3))",
-            "2^(-1)",
-            "1.234",
-            "1 / 2",
-            "12 / 7",
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"(5(2)/(3))",
+			"2^(-1)",
+			"1.234",
+			"1 / 2",
+			"12 / 7",
     })
-    public void testFractionalOutputsInGraphing(String expression) {
+	void testFractionalOutputsInGraphing(String expression) {
         setupApp(SuiteSubApp.GRAPHING);
         assertEquals(
                 List.of(FRACTION, APPROXIMATION),
@@ -141,24 +141,24 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
                         evaluateGeoElement(expression), false, Set.of()));
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "sin(1 / 2)",
-            "sqrt(2)",
-            "e",
-            "π",
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"sin(1 / 2)",
+			"sqrt(2)",
+			"e",
+			"π",
     })
-    @MockedCasValues({
-            "Evaluate(sin(1 / 2)) 	-> sin(1/2)",
-            "Round(sin(1 / 2), 13) 	-> 0.4794255386042",
-            "Evaluate(sqrt(2)) 		-> √2",
-            "Round(sqrt(2), 13) 	-> 1.414213562373",
-            "Evaluate(ℯ) 			-> ℯ",
-            "Round(ℯ, 13) 			-> 2.718281828459",
-            "Evaluate(π) 			-> pi",
-            "Round(π, 13) 			-> 3.14159265359",
+	@MockedCasValues({
+			"Evaluate(sin(1 / 2)) 	-> sin(1/2)",
+			"Round(sin(1 / 2), 13) 	-> 0.4794255386042",
+			"Evaluate(sqrt(2)) 		-> √2",
+			"Round(sqrt(2), 13) 	-> 1.414213562373",
+			"Evaluate(ℯ) 			-> ℯ",
+			"Round(ℯ, 13) 			-> 2.718281828459",
+			"Evaluate(π) 			-> pi",
+			"Round(π, 13) 			-> 3.14159265359",
     })
-    public void testNonFractionalDecimalOutputsInCas(String expression) {
+	void testNonFractionalDecimalOutputsInCas(String expression) {
         setupApp(SuiteSubApp.CAS);
         assertEquals(
                 List.of(EXACT, APPROXIMATION),
@@ -166,13 +166,13 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
                         evaluateGeoElement(expression), false, Set.of()));
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "-40000",
-            "200",
-            "5",
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"-40000",
+			"200",
+			"5",
     })
-    public void testIntegersInGraphingWithEngineeringNotation(String expression) {
+	void testIntegersInGraphingWithEngineeringNotation(String expression) {
         setupApp(SuiteSubApp.GRAPHING);
         assertEquals(
                 List.of(EXACT, ENGINEERING),
@@ -180,13 +180,13 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
                         evaluateGeoElement(expression), true, Set.of()));
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "1.234",
-            "-1.234",
-            "0.005",
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"1.234",
+			"-1.234",
+			"0.005",
     })
-    public void testFractionalDecimalsInGraphingWithEngineeringNotation(String expression) {
+	void testFractionalDecimalsInGraphingWithEngineeringNotation(String expression) {
         setupApp(SuiteSubApp.GRAPHING);
         assertEquals(
                 List.of(FRACTION, APPROXIMATION, ENGINEERING),
@@ -194,13 +194,13 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
                         evaluateGeoElement(expression), true, Set.of()));
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "1.23456789",
-            "-1.23456789",
-            "0.000000005",
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"1.23456789",
+			"-1.23456789",
+			"0.000000005",
     })
-    public void testNonFractionalDecimalsInGraphingWithEngineeringNotation(String expression) {
+	void testNonFractionalDecimalsInGraphingWithEngineeringNotation(String expression) {
         setupApp(SuiteSubApp.GRAPHING);
         assertEquals(
                 List.of(EXACT, ENGINEERING),
@@ -208,18 +208,18 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
                         evaluateGeoElement(expression), true, Set.of()));
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "Solve(x^2 = 1 / 2, x)",
-            "Solve(x^2 = 2, x)",
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"Solve(x^2 = 1 / 2, x)",
+			"Solve(x^2 = 2, x)",
     })
-    @MockedCasValues({
-            "Solve(x² = 1 / 2, x)   -> {x=(-√2/2),x=(√2/2)}",
-            "NSolve(x² = 1 / 2, x)  -> {x=-0.7071067811865,x=0.7071067811865}",
-            "Solve(x² = 2, x)       -> {x=(-√2),x=(√2)}",
-            "NSolve(x² = 2, x)      -> {x=-1.414213562373,x=1.414213562373}"
-    })
-    public void testApproximationAndSymbolicOutputInSolveResult(String expression) {
+	@MockedCasValues({
+			"Solve(x² = 1 / 2, x)   -> {x=(-√2/2),x=(√2/2)}",
+			"NSolve(x² = 1 / 2, x)  -> {x=-0.7071067811865,x=0.7071067811865}",
+			"Solve(x² = 2, x)       -> {x=(-√2),x=(√2)}",
+			"NSolve(x² = 2, x)      -> {x=-1.414213562373,x=1.414213562373}"
+	})
+	void testApproximationAndSymbolicOutputInSolveResult(String expression) {
 		setupApp(SuiteSubApp.CAS);
 		assertEquals(
 				List.of(EXACT, APPROXIMATION),
@@ -227,12 +227,12 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
 						evaluateGeoElement(expression), false, Set.of()));
 	}
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "1 / sqrt(2)",
-            "sqrt(3) / sqrt(2)",
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"1 / sqrt(2)",
+			"sqrt(3) / sqrt(2)",
     })
-    public void testRationalizableFractions(String expression) {
+	void testRationalizableFractions(String expression) {
         setupApp(SuiteSubApp.GRAPHING);
         assertEquals(
                 List.of(EXACT, APPROXIMATION),
@@ -240,12 +240,12 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
 						evaluateGeoElement(expression), false, Set.of()));
     }
 
-    @Test
-    @MockedCasValues({
-            "Evaluate(sqrt(2)) 	-> √2",
-            "Round(sqrt(2), 13) -> 1.414213562373",
+	@Test
+	@MockedCasValues({
+			"Evaluate(sqrt(2)) 	-> √2",
+			"Round(sqrt(2), 13) -> 1.414213562373",
     })
-    public void testSwitchingBetweenApproximationAndEquals() {
+	void testSwitchingBetweenApproximationAndEquals() {
         setupApp(SuiteSubApp.CAS);
         GeoElement geoElement = evaluateGeoElement("sqrt(2)");
         assertEquals(
@@ -261,8 +261,8 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
         assertEquals(EXACT, AlgebraOutputFormat.getNextFormat(geoElement, false, Set.of()));
     }
 
-    @Test
-    public void testSwitchingBetweenFractionAndApproximationInGraphing() {
+	@Test
+	void testSwitchingBetweenFractionAndApproximationInGraphing() {
         setupApp(SuiteSubApp.GRAPHING);
         GeoElement geoElement = evaluateGeoElement("1 / 2");
         assertEquals(
@@ -278,12 +278,12 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
         assertEquals(APPROXIMATION, AlgebraOutputFormat.getNextFormat(geoElement, false, Set.of()));
     }
 
-    @Test
-    @MockedCasValues({
-            "Evaluate(1 / 2) 	-> 1/2",
-            "Round(1 / 2, 13) 	-> 0.5",
+	@Test
+	@MockedCasValues({
+			"Evaluate(1 / 2) 	-> 1/2",
+			"Round(1 / 2, 13) 	-> 0.5",
     })
-    public void testSwitchingBetweenFractionAndApproximationInCas() {
+	void testSwitchingBetweenFractionAndApproximationInCas() {
         setupApp(SuiteSubApp.CAS);
         GeoElement geoElement = evaluateGeoElement("1 / 2");
         assertEquals(
@@ -299,8 +299,8 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
         assertEquals(FRACTION, AlgebraOutputFormat.getNextFormat(geoElement, false, Set.of()));
     }
 
-    @Test
-    public void testSwitchingBetweenEqualsAndEngineering() {
+	@Test
+	void testSwitchingBetweenEqualsAndEngineering() {
         setupApp(SuiteSubApp.GRAPHING);
         GeoElement geoElement = evaluateGeoElement("1.2345678");
         assertEquals(
@@ -316,8 +316,8 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
         assertEquals(EXACT, AlgebraOutputFormat.getNextFormat(geoElement, true, Set.of()));
     }
 
-    @Test
-    public void testSwitchingBetweenFractionApproximationAndEngineering() {
+	@Test
+	void testSwitchingBetweenFractionApproximationAndEngineering() {
         setupApp(SuiteSubApp.GRAPHING);
         GeoElement geoElement = evaluateGeoElement("1.234");
         assertEquals(
@@ -337,30 +337,30 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
         assertEquals(FRACTION, AlgebraOutputFormat.getNextFormat(geoElement, true, Set.of()));
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "1 / 2",
-            "sqrt(3) + 1",
-            "sqrt(2)",
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"1 / 2",
+			"sqrt(3) + 1",
+			"sqrt(2)",
     })
-    public void testOutputsWithEqualSignOperator(String expression) {
+	void testOutputsWithEqualSignOperator(String expression) {
         setupApp(SuiteSubApp.GRAPHING);
         assertEquals(EQUALS, AlgebraOutputFormat.getOutputOperator(evaluateGeoElement(expression)));
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "1 / 3",
-            "5 / 6",
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"1 / 3",
+			"5 / 6",
     })
-    public void testOutputsWithApproximatelyEqualSignOperator(String expression) {
+	void testOutputsWithApproximatelyEqualSignOperator(String expression) {
         setupApp(SuiteSubApp.GRAPHING);
         assertEquals(APPROXIMATELY_EQUALS, AlgebraOutputFormat
                 .getOutputOperator(evaluateGeoElement(expression)));
     }
 
-    @Test
-    public void testPossibleFormatsWithFilter() {
+	@Test
+	void testPossibleFormatsWithFilter() {
         setupApp(SuiteSubApp.GRAPHING);
         GeoElement geoElement = evaluateGeoElement("1.234");
 
@@ -376,8 +376,8 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
                         geoElement, true, Set.of(approximationFormatFilter)));
     }
 
-    @Test
-    public void testPossibleFormatsWithMultipleFilters() {
+	@Test
+	void testPossibleFormatsWithMultipleFilters() {
         setupApp(SuiteSubApp.GRAPHING);
         GeoElement geoElement = evaluateGeoElement("1.234");
 
@@ -395,8 +395,8 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
                         geoElement, true, Set.of(approximationFormatFilter, fractionFormatFilter)));
     }
 
-    @Test
-    public void testSwitchFromDisabledFormatWhileInEnabledFormat() {
+	@Test
+	void testSwitchFromDisabledFormatWhileInEnabledFormat() {
         setupApp(SuiteSubApp.GRAPHING);
         GeoElement geoElement = evaluateGeoElement("1.234");
         AlgebraOutputFormatFilter approximationFormatFilter =
@@ -418,8 +418,8 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
                 geoElement, true, Set.of(approximationFormatFilter)));
     }
 
-    @Test
-    public void testSwitchFromDisabledFormatWhileInDisabledFormat1() {
+	@Test
+	void testSwitchFromDisabledFormatWhileInDisabledFormat1() {
         setupApp(SuiteSubApp.GRAPHING);
         GeoElement geoElement = evaluateGeoElement("1.234");
         AlgebraOutputFormat.switchToNextFormat(geoElement, true, Set.of());
@@ -440,8 +440,8 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
         assertEquals(FRACTION, AlgebraOutputFormat.getActiveFormat(geoElement));
     }
 
-    @Test
-    public void testSwitchFromDisabledFormatWhileInDisabledFormat2() {
+	@Test
+	void testSwitchFromDisabledFormatWhileInDisabledFormat2() {
         setupApp(SuiteSubApp.GRAPHING);
         GeoElement geoElement = evaluateGeoElement("1.234");
         assertEquals(
@@ -466,8 +466,8 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
                 geoElement, true, Set.of(fractionFormatFilter)));
     }
 
-    @Test
-    public void testSwitchFromDisabledFormatByDefault() {
+	@Test
+	void testSwitchFromDisabledFormatByDefault() {
         setupApp(SuiteSubApp.GRAPHING);
         getAlgebraSettings().setEngineeringNotationEnabled(true);
         GeoElement geoElement1 = evaluateGeoElement("1.234");
@@ -489,8 +489,8 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
         assertEquals(APPROXIMATION, AlgebraOutputFormat.getActiveFormat(geoElement2));
     }
 
-    @Test
-    public void testNextFormatWhileInOnlyPossibleFormat() {
+	@Test
+	void testNextFormatWhileInOnlyPossibleFormat() {
         setupApp(SuiteSubApp.GRAPHING);
         GeoElement geoElement = evaluateGeoElement("1.234");
         AlgebraOutputFormatFilter fractionFormatFilter = (element, format) -> format != FRACTION;
@@ -506,15 +506,15 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
                 geoElement, false, Set.of(fractionFormatFilter)));
     }
 
-    @ParameterizedTest
-    @MockedCasValues({
-            "Solve(x x = 2) -> {x=-sqrt(2), x = sqrt(2)}",
-            "NSolve(x x = 2) -> {x=-1.4, x = 1.4}",
-            "Solutions(x x = 2) -> {-sqrt(2), sqrt(2)}",
-            "NSolutions(x x = 2) -> {-1.4, 1.4}"
-    })
-    @ValueSource(strings = {"Solve(x x = 2)", "Solutions(x x = 2)"})
-    public void solveInGraphing(String input) {
+	@ParameterizedTest
+	@MockedCasValues({
+			"Solve(x x = 2) -> {x=-sqrt(2), x = sqrt(2)}",
+			"NSolve(x x = 2) -> {x=-1.4, x = 1.4}",
+			"Solutions(x x = 2) -> {-sqrt(2), sqrt(2)}",
+			"NSolutions(x x = 2) -> {-1.4, 1.4}"
+	})
+	@ValueSource(strings = {"Solve(x x = 2)", "Solutions(x x = 2)"})
+	void solveInGraphing(String input) {
         setupApp(SuiteSubApp.GRAPHING);
         mockedCasGiac.applyTo(getApp());
         GeoList list = evaluateGeoElement(input);

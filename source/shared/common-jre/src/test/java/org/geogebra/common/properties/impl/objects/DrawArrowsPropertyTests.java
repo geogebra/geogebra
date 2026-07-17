@@ -25,13 +25,13 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class DrawArrowsPropertyTests extends BaseAppTestSetup {
+class DrawArrowsPropertyTests extends BaseAppTestSetup {
 
 	@ParameterizedTest
 	@ValueSource(strings = {
 			"SlopeField(x + y)"
 	})
-	public void testApplicableObjects(String expression) {
+	void testApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertDoesNotThrow(() ->
 				new DrawArrowsProperty(getLocalization(), evaluateGeoElement(expression)));
@@ -42,7 +42,7 @@ public class DrawArrowsPropertyTests extends BaseAppTestSetup {
 			"PenStroke((1, 2), (4, 3), (5, 6))",
 			"Locus(x + y, (0, 0))"
 	})
-	public void testNotApplicableObjects(String expression) {
+	void testNotApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertThrows(NotApplicablePropertyException.class, () ->
 				new DrawArrowsProperty(getLocalization(), evaluateGeoElement(expression)));

@@ -19,7 +19,7 @@ package org.geogebra.common.kernel.scripting;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
@@ -31,9 +31,9 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CmdSetValueTest extends BaseUnitTest {
+class CmdSetValueTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
@@ -41,7 +41,7 @@ public class CmdSetValueTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void setValueShouldMakeImplicitCurvesUndefined() {
+	void setValueShouldMakeImplicitCurvesUndefined() {
 		GeoImplicitCurve curve = add("eq1:x^2=y^3");
 		add("SetValue(eq1,?)");
 		assertThat(curve, hasValue("?"));
@@ -51,7 +51,7 @@ public class CmdSetValueTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void setValueShouldKeepImplicitCurveFormInXML() {
+	void setValueShouldKeepImplicitCurveFormInXML() {
 		GeoImplicitCurve curve = add("eq1:x^2=y^3");
 		add("SetValue(eq1,?x^2=?y^3)");
 		String curveXMLForm = "(NaN * x^(2)) = (NaN * y^(3))";
@@ -62,7 +62,7 @@ public class CmdSetValueTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void matrixShouldKeepForm() {
+	void matrixShouldKeepForm() {
 		add("k=42");
 		GeoElement m1 = add("m1={{1,2},{3,4}}");
 		GeoElement m2 = add("m2={{1,2+k},{k,4}}");
@@ -79,7 +79,7 @@ public class CmdSetValueTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void listShouldStayUndefined() {
+	void listShouldStayUndefined() {
 		add("k=42");
 		GeoElement l1 = add("l1={1,2,3}");
 		GeoElement l2 = add("l2={1,2,k,k+2}");
@@ -95,7 +95,7 @@ public class CmdSetValueTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void numberShouldStayUndefined() {
+	void numberShouldStayUndefined() {
 		add("k=42");
 		GeoElement n = add("n=3k+1");
 		add("SetValue(n,?)");
@@ -106,7 +106,7 @@ public class CmdSetValueTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void functionShouldStayUndefined() {
+	void functionShouldStayUndefined() {
 		add("k=42");
 		GeoElement f = add("f(x)=3k+x");
 		GeoElement g = add("g(x)=3k+x");
@@ -122,7 +122,7 @@ public class CmdSetValueTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void pointShouldKeepType() {
+	void pointShouldKeepType() {
 		add("k=42");
 		GeoElement pt3d = add("P=(1,2,k)");
 		GeoElement pt2d = add("Q=(1,k)");
@@ -139,7 +139,7 @@ public class CmdSetValueTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5441")
-	public void setValueFromListToListShouldOnlyCopyValues() {
+	void setValueFromListToListShouldOnlyCopyValues() {
 		GeoList list = add("l1 = {1, 2, 3}");
 		add("l2 = {Polygon((0, 0), (2, 0), (1, 1))}");
 		add("SetValue(l1, l2)");
@@ -149,7 +149,7 @@ public class CmdSetValueTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5441")
-	public void setValueFromListToListShouldCopyCorrectXMLValuesForGeoBooleans() {
+	void setValueFromListToListShouldCopyCorrectXMLValuesForGeoBooleans() {
 		add("l1 = {true, false}");
 		add("l2 = {true, true}");
 		add("SetValue(l1, l2)");
@@ -159,7 +159,7 @@ public class CmdSetValueTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5576")
-	public void setValueShouldNotChangeDependent() {
+	void setValueShouldNotChangeDependent() {
 		add("m={{1,2},{3,4}}");
 		GeoList row = add("row=m(1)");
 		add("SetValue(row,{4,5})");
@@ -169,7 +169,7 @@ public class CmdSetValueTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void setValueShouldWorkForDescendantsOfSelf() {
+	void setValueShouldWorkForDescendantsOfSelf() {
 		getApp().setRandomSeed(42);
 		GeoList list = add("l={1,2,3,4}");
 		add("SetValue(l, Shuffle(l))");
@@ -178,7 +178,7 @@ public class CmdSetValueTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5629")
-	public void setValueShouldClearInputBox1() {
+	void setValueShouldClearInputBox1() {
 		add("f(n) = n + 1");
 		add("g(n) = f(n)");
 		GeoInputBox inputBox = add("InputBox(g)");
@@ -188,7 +188,7 @@ public class CmdSetValueTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5629")
-	public void setValueShouldClearInputBox2() {
+	void setValueShouldClearInputBox2() {
 		add("f(n) = n + 1");
 		add("g(n) = f(n) + f(n + 1) + 1");
 		GeoInputBox inputBox = add("InputBox(g)");
@@ -198,7 +198,7 @@ public class CmdSetValueTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5629")
-	public void setValueShouldKeepTypeForDependentGeoCopy() {
+	void setValueShouldKeepTypeForDependentGeoCopy() {
 		add("f(n) = n");
 		add("g(n) = f(n)");
 		add("SetValue(g, ?)");

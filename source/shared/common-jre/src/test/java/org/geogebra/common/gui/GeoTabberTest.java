@@ -22,12 +22,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class GeoTabberTest extends BaseUnitTest {
+class GeoTabberTest extends BaseUnitTest {
 
 	@Test
-	public void textHighlight() {
+	void textHighlight() {
 		GeoElement txt = add("\"content\"");
 		getApp().getSelectionManager().addSelectedGeo(txt);
 		getApp().setShowToolBar(false);

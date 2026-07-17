@@ -27,14 +27,14 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class QuadraticEquationFormPropertyTests extends BaseAppTestSetup {
+class QuadraticEquationFormPropertyTests extends BaseAppTestSetup {
 	@BeforeEach
-	public void setupApp() {
+	void setupApp() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test
-	public void testQuadraticEquationFormPropertyForSimpleEquation() {
+	void testQuadraticEquationFormPropertyForSimpleEquation() {
 		QuadraticEquationFormProperty quadraticEquationFormProperty = assertDoesNotThrow(() ->
 				new QuadraticEquationFormProperty(getApp().getLocalization(),
 						evaluateGeoElement("x^2 = 0")));
@@ -47,13 +47,13 @@ public class QuadraticEquationFormPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testQuadraticEquationFormPropertyForEmptyList() {
+	void testQuadraticEquationFormPropertyForEmptyList() {
 		assertDoesNotThrow(() -> new QuadraticEquationFormProperty(
 				getApp().getLocalization(), evaluateGeoElement("{}")));
 	}
 
 	@Test
-	public void testQuadraticEquationFormPropertyForListOfEquations() {
+	void testQuadraticEquationFormPropertyForListOfEquations() {
 		QuadraticEquationFormProperty quadraticEquationFormProperty = assertDoesNotThrow(
 				() -> new QuadraticEquationFormProperty(getApp().getLocalization(),
 						evaluateGeoElement("{x^2 = 0, x^2 + y^2 = 4}")));
@@ -66,7 +66,7 @@ public class QuadraticEquationFormPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingQuadraticEquationFormPropertyForSimpleEquation() {
+	void testChangingQuadraticEquationFormPropertyForSimpleEquation() {
 		QuadraticEquationFormProperty quadraticEquationFormProperty = assertDoesNotThrow(() ->
 				new QuadraticEquationFormProperty(getApp().getLocalization(),
 						evaluateGeoElement("x^2 = 0")));
@@ -79,7 +79,7 @@ public class QuadraticEquationFormPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingQuadraticEquationFormPropertyForListOfEquations() {
+	void testChangingQuadraticEquationFormPropertyForListOfEquations() {
 		QuadraticEquationFormProperty quadraticEquationFormProperty = assertDoesNotThrow(() ->
 				new QuadraticEquationFormProperty(getApp().getLocalization(),
 						evaluateGeoElement("{x^2 = 0, x^2 + y^2 = 5}")));

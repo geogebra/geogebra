@@ -24,15 +24,15 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class AlgoConicPartConicPointsTest extends BaseAppTestSetup {
+class AlgoConicPartConicPointsTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.G3D);
 	}
 
 	@Test
-	public void arcParamsForSemicircle() {
+	void arcParamsForSemicircle() {
 		evaluate("s=Semicircle((-5,0), (5, 0))");
 		evaluate("a=Arc(s, (-3,4), (4,3))");
 		assertEquals("(-3, 4)", evaluateGeoElement("Point(a,0)").toValueString(
@@ -42,7 +42,7 @@ public class AlgoConicPartConicPointsTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void arcParamsForSemicircle3D() {
+	void arcParamsForSemicircle3D() {
 		evaluate("s=Semicircle((0, -5,0), (0, 5, 0), x=0z)");
 		evaluate("a=Arc(s, (0, -3, 4), (0, 4, 3))");
 		assertEquals("(0, -3, 4)", evaluateGeoElement("Point(a,0)").toValueString(

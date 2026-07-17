@@ -18,10 +18,10 @@ package org.geogebra.common.kernel.statistics;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.GeoElementFactory;
@@ -36,12 +36,12 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class FitTests extends BaseUnitTest {
+class FitTests extends BaseUnitTest {
 
-    @Test
-    public void testFitListOfPointsAndListOfFunction() {
+	@Test
+	void testFitListOfPointsAndListOfFunction() {
         getApp().setGraphingConfig();
         GeoElement fit =
                 addAvInput("Fit({(-2, 3), (0, 1), (2, 1), (2, 3)}, {x^2, x})");
@@ -50,8 +50,8 @@ public class FitTests extends BaseUnitTest {
         assertEquals(DescriptionMode.DEFINITION_VALUE, fit.getDescriptionMode());
     }
 
-    @Test
-    public void testFitListOfPointsAndFunction() {
+	@Test
+	void testFitListOfPointsAndFunction() {
         getApp().setGraphingConfig();
         addAvInput("a = 0");
         GeoElement fit =
@@ -61,8 +61,8 @@ public class FitTests extends BaseUnitTest {
         assertEquals(DescriptionMode.DEFINITION_VALUE, fit.getDescriptionMode());
     }
 
-    @Test
-    public void testFitExp() {
+	@Test
+	void testFitExp() {
         getApp().setGraphingConfig();
         GeoElement fitExp =
                 addAvInput("FitExp({(0, 1), (2, 4)})");
@@ -71,8 +71,8 @@ public class FitTests extends BaseUnitTest {
         assertEquals(DescriptionMode.DEFINITION_VALUE, fitExp.getDescriptionMode());
     }
 
-    @Test
-    public void testFitGrowth() {
+	@Test
+	void testFitGrowth() {
         getApp().setGraphingConfig();
         GeoElement fitGrowth =
                 addAvInput("FitGrowth({(0, 1), (2, 3), (4, 3), (6, 4)})");
@@ -81,8 +81,8 @@ public class FitTests extends BaseUnitTest {
         assertEquals(DescriptionMode.DEFINITION_VALUE, fitGrowth.getDescriptionMode());
     }
 
-    @Test
-    public void testFitLine() {
+	@Test
+	void testFitLine() {
         getApp().setGraphingConfig();
         GeoLine fitLine =
 				addAvInput("FitLine({(-2, 1), (1, 2), (2, 4), (4, 3), (5, 4)})");
@@ -92,8 +92,8 @@ public class FitTests extends BaseUnitTest {
         assertEquals(LinearEquationRepresentable.Form.EXPLICIT, fitLine.getEquationForm());
     }
 
-    @Test
-    public void testFitLineY() {
+	@Test
+	void testFitLineY() {
         GeoLine fitLineY = addAvInput("FitLine((0,0),(1,1),(2,2))");
         String outputString = fitLineY.toOutputValueString(StringTemplate.editTemplate);
         assertThat(outputString, equalTo("y = x"));
@@ -101,8 +101,8 @@ public class FitTests extends BaseUnitTest {
         assertEquals(LinearEquationRepresentable.Form.EXPLICIT, fitLineY.getEquationForm());
     }
 
-    @Test
-    public void testFitLineYLoadFromXML() {
+	@Test
+	void testFitLineYLoadFromXML() {
         getApp().setGraphingConfig();
         addAvInput("f = FitLine((0,0),(1,1),(2,2))");
         reload();
@@ -115,8 +115,8 @@ public class FitTests extends BaseUnitTest {
                 loadedFitLine.getEquationForm());
     }
 
-    @Test
-    public void testFitLineX() {
+	@Test
+	void testFitLineX() {
         getApp().setGraphingConfig();
         GeoLine fitLineX =
 				addAvInput("FitLineX({(-2, 1), (1, 2), (2, 4), (4, 3), (5, 4)})");
@@ -126,8 +126,8 @@ public class FitTests extends BaseUnitTest {
         assertEquals(LinearEquationRepresentable.Form.EXPLICIT, fitLineX.getEquationForm());
     }
 
-    @Test
-    public void testFitLineXLoadFromXML() {
+	@Test
+	void testFitLineXLoadFromXML() {
         getApp().setGraphingConfig();
         addAvInput("f = FitLineX({(-2, 1), (1, 2), (2, 4), (4, 3), (5, 4)})");
 
@@ -141,8 +141,8 @@ public class FitTests extends BaseUnitTest {
                 loadedFitLine.getEquationForm());
     }
 
-    @Test
-    public void testFitLog() {
+	@Test
+	void testFitLog() {
         getApp().setGraphingConfig();
         GeoElement fitLog =
                 addAvInput("FitLog({(ℯ, 1), (ℯ^2, 4)})");
@@ -151,8 +151,8 @@ public class FitTests extends BaseUnitTest {
         assertEquals(DescriptionMode.DEFINITION_VALUE, fitLog.getDescriptionMode());
     }
 
-    @Test
-    public void testFitLogistic() {
+	@Test
+	void testFitLogistic() {
         getApp().setGraphingConfig();
         GeoElement fitLogistic =
                 addAvInput("FitLogistic({(-6, 2), (0, 2), (3, 4), (3.4, 8)})");
@@ -162,8 +162,8 @@ public class FitTests extends BaseUnitTest {
         assertEquals(DescriptionMode.DEFINITION_VALUE, fitLogistic.getDescriptionMode());
     }
 
-    @Test
-    public void testFitPoly() {
+	@Test
+	void testFitPoly() {
         getApp().setGraphingConfig();
         GeoElement fitPoly =
                 addAvInput("FitPoly({(-1, -1), (0, 1), (1, 1), (2, 5)}, 3)");
@@ -172,8 +172,8 @@ public class FitTests extends BaseUnitTest {
         assertEquals(DescriptionMode.DEFINITION_VALUE, fitPoly.getDescriptionMode());
     }
 
-    @Test
-    public void testFitPw() {
+	@Test
+	void testFitPw() {
         getApp().setGraphingConfig();
         GeoElement fitPow =
                 addAvInput("FitPow({(1, 1), (3, 2), (7, 4)})");
@@ -182,8 +182,8 @@ public class FitTests extends BaseUnitTest {
         assertEquals(DescriptionMode.DEFINITION_VALUE, fitPow.getDescriptionMode());
     }
 
-    @Test
-    public void testFitSin() {
+	@Test
+	void testFitSin() {
         getApp().setGraphingConfig();
         GeoElement fitSin =
                 addAvInput("FitSin({(1, 1), (2, 2), (3, 1), (4, 0), (5, 1), (6, 2)})");
@@ -192,8 +192,8 @@ public class FitTests extends BaseUnitTest {
         assertEquals(DescriptionMode.DEFINITION_VALUE, fitSin.getDescriptionMode());
     }
 
-    @Test
-    public void testEquationPropertyVisibilityGraphing() {
+	@Test
+	void testEquationPropertyVisibilityGraphing() {
         getApp().setGraphingConfig();
         getApp().getSettings().getCasSettings().setEnabled(getApp().getConfig().isCASEnabled());
 
@@ -205,8 +205,8 @@ public class FitTests extends BaseUnitTest {
         }
     }
 
-    @Test
-    public void testEquationPropertyVisibilityGeometry() {
+	@Test
+	void testEquationPropertyVisibilityGeometry() {
         getApp().setGeometryConfig();
         getApp().getSettings().getCasSettings().setEnabled(getApp().getConfig().isCASEnabled());
 
@@ -221,8 +221,8 @@ public class FitTests extends BaseUnitTest {
         }
     }
 
-    @Test
-    public void testFitLineRectangleSelectionForTwoPoints() {
+	@Test
+	void testFitLineRectangleSelectionForTwoPoints() {
         EuclidianView view =  getApp().getActiveEuclidianView();
         EuclidianController controller = view.getEuclidianController();
 

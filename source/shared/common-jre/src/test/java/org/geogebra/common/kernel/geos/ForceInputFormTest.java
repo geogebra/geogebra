@@ -16,10 +16,10 @@
 
 package org.geogebra.common.kernel.geos;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.GeoElementFactory;
@@ -31,12 +31,12 @@ import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ForceInputFormTest extends BaseUnitTest {
+class ForceInputFormTest extends BaseUnitTest {
 
 	@Test
-	public void testLinesConicsRaysToStringModeInGraphing() {
+	void testLinesConicsRaysToStringModeInGraphing() {
 		getApp().setConfig(new AppConfigGraphing());
 
 		GeoElementFactory factory = getElementFactory();
@@ -59,7 +59,7 @@ public class ForceInputFormTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testLinesLoadedFromXMLGraphing() {
+	void testLinesLoadedFromXMLGraphing() {
 		getApp().setConfig(new AppConfigGraphing());
 
 		GeoElementFactory factory = getElementFactory();
@@ -83,7 +83,7 @@ public class ForceInputFormTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testLinesConicsRaysToStringModeInGeometry() {
+	void testLinesConicsRaysToStringModeInGeometry() {
 		getApp().setConfig(new AppConfigGeometry());
 
 		GeoElementFactory factory = getElementFactory();
@@ -106,7 +106,7 @@ public class ForceInputFormTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testHideOutputRowGraphing() {
+	void testHideOutputRowGraphing() {
 		getApp().setGraphingConfig();
 		GeoRay ray = getElementFactory().createGeoRayWithCommand();
 
@@ -115,7 +115,7 @@ public class ForceInputFormTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testShowOutputRowGeometry() {
+	void testShowOutputRowGeometry() {
 		getApp().setConfig(new AppConfigGeometry());
 		GeoRay ray = getElementFactory().createGeoRayWithCommand();
 
@@ -124,7 +124,7 @@ public class ForceInputFormTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testEquationPropertyIsHiddenGraphing() {
+	void testEquationPropertyIsHiddenGraphing() {
 		getApp().setConfig(new AppConfigGraphing());
 		getApp().getSettings().getCasSettings().setEnabled(getApp().getConfig().isCASEnabled());
 
@@ -141,7 +141,7 @@ public class ForceInputFormTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testEquationPropertyIsHiddenGeometry() {
+	void testEquationPropertyIsHiddenGeometry() {
 		getApp().setConfig(new AppConfigGeometry());
 		getApp().getSettings().getCasSettings().setEnabled(getApp().getConfig().isCASEnabled());
 

@@ -28,11 +28,11 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class DimensionMinMaxPropertyTests extends BaseAppTestSetup {
+class DimensionMinMaxPropertyTests extends BaseAppTestSetup {
 	private static final double DELTA = 1e-8;
 
 	@Test
-	public void setValueShouldUpdate2DMinMaxObjects() {
+	void setValueShouldUpdate2DMinMaxObjects() {
 		setupApp(SuiteSubApp.GRAPHING);
 		setup2DBounds();
 		DimensionMinMaxProperty xMinProperty = new DimensionMinMaxProperty(getApp(),
@@ -64,7 +64,7 @@ public class DimensionMinMaxPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void getValueShouldReadCurrentBoundObjects() {
+	void getValueShouldReadCurrentBoundObjects() {
 		setupApp(SuiteSubApp.GRAPHING);
 		setup2DBounds();
 		DimensionMinMaxProperty xMinProperty = new DimensionMinMaxProperty(getApp(),
@@ -83,7 +83,7 @@ public class DimensionMinMaxPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void invalidValueShouldNotReplaceCurrentObject() {
+	void invalidValueShouldNotReplaceCurrentObject() {
 		setupApp(SuiteSubApp.GRAPHING);
 		setup2DBounds();
 		DimensionMinMaxProperty xMinProperty = new DimensionMinMaxProperty(getApp(),
@@ -100,7 +100,7 @@ public class DimensionMinMaxPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void setValueShouldUpdate3DZObjects() {
+	void setValueShouldUpdate3DZObjects() {
 		setupApp(SuiteSubApp.G3D);
 		setup3DBounds();
 		DimensionMinMaxProperty zMinProperty = new DimensionMinMaxProperty(getApp(),

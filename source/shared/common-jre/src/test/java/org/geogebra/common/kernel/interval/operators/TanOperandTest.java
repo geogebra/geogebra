@@ -22,19 +22,19 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.around;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.geogebra.common.kernel.interval.LegacyIntervalAdapter.legacyInverted;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class TanOperandTest {
+class TanOperandTest {
 
 	private final IntervalNodeEvaluator evaluator = new IntervalNodeEvaluator();
 
 	@Test
-	public void testTanAtKTimesPi() {
+	void testTanAtKTimesPi() {
 		assertEquals(zero(), evaluator.tan(zero()));
 		assertTrue(evaluator.tan(piTimes(1)).almostEqual(zero(), 1E-11));
 		assertTrue(evaluator.tan(piTimes(2)).almostEqual(zero(), 1E-11));
@@ -47,27 +47,27 @@ public class TanOperandTest {
 	}
 
 	@Test
-	public void testTanAtAroundPiHalf() {
+	void testTanAtAroundPiHalf() {
 		assertEquals(undefined(), evaluator.tan(
 				new Interval(IntervalConstants.PI_HALF_LOW, IntervalConstants.PI_HALF_HIGH)));
 	}
 
 	@Test
-	public void testTanAtAroundPiHalfCase2() {
+	void testTanAtAroundPiHalfCase2() {
 		assertEquals(legacyInverted(-15.894544843864, 15.894544843866603), evaluator.tan(pi2()));
 	}
 
 	@Test
-	public void inverseOsSqrtTanXShouldBePositive() {
+	void inverseOsSqrtTanXShouldBePositive() {
 		Interval x = pi2();
 		Interval tan = evaluator.tan(x);
 		Interval sqrt = evaluator.sqrt(tan);
 		Interval result = evaluator.inverse(sqrt);
-		assertTrue(result.toString(), result.isPositiveWithZero());
+		assertTrue(result.isPositiveWithZero(), result.toString());
 	}
 
 	@Test
-	public void sqrtOfMinusTanXShouldGoInfinite() {
+	void sqrtOfMinusTanXShouldGoInfinite() {
 		Interval x = pi2();
 		Interval tan = evaluator.tan(x);
 		Interval multiply = evaluator.multiply(interval(-1), tan);
@@ -80,7 +80,7 @@ public class TanOperandTest {
 	}
 
 	@Test
-	public void inverseOfTanInverseXShouldBeTanX() {
+	void inverseOfTanInverseXShouldBeTanX() {
 		Interval x = pi2();
 		Interval tan = evaluator.tan(x);
 		Interval inverse = evaluator.inverse(tan);
@@ -89,7 +89,7 @@ public class TanOperandTest {
 	}
 
 	@Test
-	public void tanDivOneShouldEqualTanTimesOne() {
+	void tanDivOneShouldEqualTanTimesOne() {
 		Interval multiplyOne = evaluator.multiply(evaluator.tan(around(Math.PI / 2)), one());
 		Interval divideOne = evaluator.divide(evaluator.tan(around(Math.PI / 2)), one());
 		assertEquals(divideOne, multiplyOne);

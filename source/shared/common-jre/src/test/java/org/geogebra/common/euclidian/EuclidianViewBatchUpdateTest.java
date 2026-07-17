@@ -33,7 +33,7 @@ import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class EuclidianViewBatchUpdateTest extends BaseAppTestSetup {
+class EuclidianViewBatchUpdateTest extends BaseAppTestSetup {
 
 	@BeforeEach
 	void setup() {
@@ -46,7 +46,7 @@ public class EuclidianViewBatchUpdateTest extends BaseAppTestSetup {
 	 */
 	@Test
 	@Issue("APPS-7293")
-	public void secondBatchUpdateDoesNotTriggerRedundantDrawablesUpdate() {
+	void secondBatchUpdateDoesNotTriggerRedundantDrawablesUpdate() {
 		EuclidianView view = getApp().getEuclidianView1();
 		GeoFunction geo = evaluateGeoElement("x+sin(x)", GeoFunction.class);
 		Function spyFunction = spy(Objects.requireNonNull(geo.getFunction()));

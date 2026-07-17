@@ -24,17 +24,17 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.main.Localization;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.stubbing.Answer;
 
-public class CommandErrorMessageBuilderTest extends BaseUnitTest {
+class CommandErrorMessageBuilderTest extends BaseUnitTest {
 
 	private CommandErrorMessageBuilder builder;
 
-	@Before
-	public void setupTest() {
+	@BeforeEach
+	void setupTest() {
 		Localization localization = Mockito.mock(Localization.class);
 		Answer<String> keyAnswer = invocation -> invocation.getArgument(0);
 		Mockito.when(localization.getCommand(Mockito.anyString())).then(keyAnswer);
@@ -47,7 +47,7 @@ public class CommandErrorMessageBuilderTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testBuildArgumentNumberError() {
+	void testBuildArgumentNumberError() {
 		builder.setShowingSyntax(true);
 		String message = builder.buildArgumentNumberError("Cmd", 1);
 		assertThat("It contains the command syntax", message, containsString("Cmd.Syntax"));
@@ -66,7 +66,7 @@ public class CommandErrorMessageBuilderTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testBuildArgumentError() {
+	void testBuildArgumentError() {
 		final String expressionValue = "expression";
 		ExpressionValue value = Mockito.mock(ExpressionValue.class);
 		Mockito.when(value.toString(Mockito.any(StringTemplate.class))).then(

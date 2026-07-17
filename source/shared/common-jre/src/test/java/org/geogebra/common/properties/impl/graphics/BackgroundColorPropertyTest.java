@@ -24,15 +24,15 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class BackgroundColorPropertyTest extends BaseAppTestSetup {
+class BackgroundColorPropertyTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GEOMETRY);
 	}
 
 	@Test
-	public void testBackgroundColor() {
+	void testBackgroundColor() {
 		BackgroundColorProperty bgProperty = new BackgroundColorProperty(getApp().getLocalization(),
 				getApp().getEuclidianView1().getSettings());
 		assertEquals(GColor.WHITE, bgProperty.getValue());

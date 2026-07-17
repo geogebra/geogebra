@@ -16,25 +16,25 @@
  
 package org.geogebra.common.kernel.geos;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.Kernel;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class PointFromSequenceTest extends BaseUnitTest {
+class PointFromSequenceTest extends BaseUnitTest {
 
 	private Kernel kernel;
 	private GeoPoint point;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		kernel = getApp().getKernel();
 	}
 
 	@Test
-	public void testPointSequence() {
+	void testPointSequence() {
 		point = add("Point(Sequence(Sequence((i, j), i, 1, 10, 0.1)"
 				+ ", j, 1, 10, 0.1))");
 		point.set(newPoint(2.9, 7.6));
@@ -50,7 +50,7 @@ public class PointFromSequenceTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testPointOnSimpleSequencePath() {
+	void testPointOnSimpleSequencePath() {
 		simplePathWithStep(0.1);
 		point.set(newPoint(1.51, 1.51));
 		kernel.updateConstruction();
@@ -69,7 +69,7 @@ public class PointFromSequenceTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testPointOnSimpleSequencePathStep9() {
+	void testPointOnSimpleSequencePathStep9() {
 		simplePathWithStep(0.9);
 		point.set(newPoint(1.7, 1.7));
 		kernel.updateConstruction();
@@ -77,7 +77,7 @@ public class PointFromSequenceTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testPointOnSimpleSequencePathStep3Floor() {
+	void testPointOnSimpleSequencePathStep3Floor() {
 		simplePathWithStep(0.3);
 		point.set(newPoint(3.2, 3.2));
 		kernel.updateConstruction();
@@ -85,7 +85,7 @@ public class PointFromSequenceTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testPointOnSimpleSequencePathStep3() {
+	void testPointOnSimpleSequencePathStep3() {
 		simplePathWithStep(0.3);
 		point.set(newPoint(3.25, 3.25));
 		kernel.updateConstruction();
@@ -93,7 +93,7 @@ public class PointFromSequenceTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testPointOnSimpleSequencePathStep3Precise() {
+	void testPointOnSimpleSequencePathStep3Precise() {
 		simplePathWithStep(0.3);
 		point.set(newPoint(3.4, 3.4));
 		kernel.updateConstruction();

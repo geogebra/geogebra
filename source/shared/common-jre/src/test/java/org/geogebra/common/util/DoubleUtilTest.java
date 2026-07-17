@@ -16,15 +16,15 @@
 
 package org.geogebra.common.util;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class DoubleUtilTest {
+class DoubleUtilTest {
 	private final static double PRECISION = 1E-18;
 
 	@Test
-	public void testRange() {
+	void testRange() {
 		assertArrayEquals(
 				new double[] {42},
 				DoubleUtil.range(42, 42, 0.002),
@@ -63,7 +63,7 @@ public class DoubleUtilTest {
 	}
 
 	@Test
-	public void testRangeInvalid() {
+	void testRangeInvalid() {
 		assertArrayEquals(
 				new double[] {0.3},
 				DoubleUtil.range(0.3, -0.5, 1),

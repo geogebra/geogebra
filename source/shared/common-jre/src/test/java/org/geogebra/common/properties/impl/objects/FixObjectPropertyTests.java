@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class FixObjectPropertyTests extends BaseAppTestSetup {
+class FixObjectPropertyTests extends BaseAppTestSetup {
 
 	@ParameterizedTest
 	@ValueSource(strings = {
@@ -43,7 +43,7 @@ public class FixObjectPropertyTests extends BaseAppTestSetup {
 			"Point(Circle((0,0), 2))", // Point on circle
 			"PointIn(Circle((0,0), 2))" // Point in circle
 	})
-	public void testSuccessfulConstruction(String input) {
+	void testSuccessfulConstruction(String input) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement(input);
 		assertDoesNotThrow(() -> new FixObjectProperty(getLocalization(), geoElement));
@@ -55,7 +55,7 @@ public class FixObjectPropertyTests extends BaseAppTestSetup {
 			"Intersect(y=x,y=-x)", // Intersect Point
 			"Point(Circle((0,0), 2), 4)" // Point on path with parameter
 	})
-	public void testConstructingNotApplicableProperty(String input) {
+	void testConstructingNotApplicableProperty(String input) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement(input);
 		assertThrows(NotApplicablePropertyException.class,
@@ -63,7 +63,7 @@ public class FixObjectPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testUndoRedo() {
+	void testUndoRedo() {
 		setupApp(SuiteSubApp.GRAPHING);
 		getKernel().setUndoActive(true);
 		getKernel().initUndoInfo();

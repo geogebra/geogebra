@@ -16,8 +16,8 @@
 
 package org.geogebra.common.kernel.parser.function;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,13 +27,13 @@ import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.test.LocalizationCommonUTF;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ParserFunctionsFactoryTest {
+class ParserFunctionsFactoryTest {
 	private final LocalizationCommon loc = new LocalizationCommonUTF(3);
 
 	@Test
-	public void testGraphingParserFunctions() {
+	void testGraphingParserFunctions() {
 		ParserFunctions functions = ParserFunctionsFactory
 				.createGraphingParserFunctionsFactory().createParserFunctions();
 		assertEquals(Operation.SIN, functions.get("sin", 1));
@@ -42,7 +42,7 @@ public class ParserFunctionsFactoryTest {
 	}
 
 	@Test
-	public void testDefaultParserFunctions() {
+	void testDefaultParserFunctions() {
 		ParserFunctions functions = ParserFunctionsFactory
 				.createParserFunctionsFactory().createParserFunctions();
 		assertEquals(Operation.SIN, functions.get("sin", 1));
@@ -51,7 +51,7 @@ public class ParserFunctionsFactoryTest {
 	}
 
 	@Test
-	public void suggestionsShouldBeUnique() {
+	void suggestionsShouldBeUnique() {
 		ParserFunctions functions = ParserFunctionsFactory
 				.createParserFunctionsFactory().createParserFunctions();
 		functions.updateLocale(new LocalizationCommonUTF(3));
@@ -63,7 +63,7 @@ public class ParserFunctionsFactoryTest {
 
 	@Test
 	@Issue("APPS-2635")
-	public void suggestionsShouldShowLocalAndDefault() {
+	void suggestionsShouldShowLocalAndDefault() {
 		ParserFunctions functions = ParserFunctionsFactory
 				.createParserFunctionsFactory().createParserFunctions();
 		setLanguage(functions, new Locale("es"));
@@ -82,7 +82,7 @@ public class ParserFunctionsFactoryTest {
 
 	@Test
 	@Issue("APPS-6979")
-	public void suggestionsShouldNotShowLocalAndDefault() {
+	void suggestionsShouldNotShowLocalAndDefault() {
 		ParserFunctions functions = ParserFunctionsFactory
 				.createParserFunctionsFactory().createParserFunctions();
 		setLanguage(functions, new Locale("de"));
@@ -91,7 +91,7 @@ public class ParserFunctionsFactoryTest {
 	}
 
 	@Test
-	public void testParserFunctionsForSpanish() {
+	void testParserFunctionsForSpanish() {
 		ParserFunctions functions = ParserFunctionsFactory
 				.createParserFunctionsFactory().createParserFunctions();
 		setLanguage(functions, new Locale("es"));

@@ -27,13 +27,13 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ModelEventCollectorTests extends BaseAppTestSetup {
+class ModelEventCollectorTests extends BaseAppTestSetup {
     private ModelEventCollector modelEventCollector;
     private SimpleTableValuesModel simpleTableValuesModel;
     private GeoEvaluatable geoEvaluatable;
 
-    @BeforeEach
-    public void setup() {
+	@BeforeEach
+	void setup() {
         modelEventCollector = new ModelEventCollector();
         simpleTableValuesModel = mock(SimpleTableValuesModel.class);
         geoEvaluatable = mock(GeoEvaluatable.class);
@@ -42,8 +42,8 @@ public class ModelEventCollectorTests extends BaseAppTestSetup {
         when(simpleTableValuesModel.getRowCount()).thenReturn(5);
     }
 
-    @Test
-    public void testCollectionWithDatasetChangeNotification() {
+	@Test
+	void testCollectionWithDatasetChangeNotification() {
         modelEventCollector.startCollection(simpleTableValuesModel);
         modelEventCollector.notifyDatasetChanged(simpleTableValuesModel);
         modelEventCollector.endCollection(simpleTableValuesModel);
@@ -51,8 +51,8 @@ public class ModelEventCollectorTests extends BaseAppTestSetup {
         verify(simpleTableValuesModel, times(1)).notifyDatasetChanged();
     }
 
-    @Test
-    public void testCollectionWithOneCellChangeNotification() {
+	@Test
+	void testCollectionWithOneCellChangeNotification() {
         modelEventCollector.startCollection(simpleTableValuesModel);
         modelEventCollector.notifyCellChanged(simpleTableValuesModel, geoEvaluatable, 0, 0);
         modelEventCollector.endCollection(simpleTableValuesModel);
@@ -61,8 +61,8 @@ public class ModelEventCollectorTests extends BaseAppTestSetup {
                 .notifyCellChanged(geoEvaluatable, 0, 0);
     }
 
-    @Test
-    public void testCollectionWithOneColumnChangeNotification() {
+	@Test
+	void testCollectionWithOneColumnChangeNotification() {
         modelEventCollector.startCollection(simpleTableValuesModel);
         modelEventCollector.notifyColumnChanged(simpleTableValuesModel, geoEvaluatable, 0);
         modelEventCollector.endCollection(simpleTableValuesModel);
@@ -71,8 +71,8 @@ public class ModelEventCollectorTests extends BaseAppTestSetup {
                 .notifyColumnChanged(geoEvaluatable, 0);
     }
 
-    @Test
-    public void testCollectionWithMultipleChangeNotifications() {
+	@Test
+	void testCollectionWithMultipleChangeNotifications() {
         modelEventCollector.startCollection(simpleTableValuesModel);
         modelEventCollector.notifyCellChanged(simpleTableValuesModel, geoEvaluatable, 1, 2);
         modelEventCollector.notifyColumnChanged(simpleTableValuesModel, geoEvaluatable, 3);
@@ -84,8 +84,8 @@ public class ModelEventCollectorTests extends BaseAppTestSetup {
                 .notifyColumnChanged(geoEvaluatable, 3);
     }
 
-    @Test
-    public void testCollectionWithIgnoredRowsRemovedNotification() {
+	@Test
+	void testCollectionWithIgnoredRowsRemovedNotification() {
         modelEventCollector.startCollection(simpleTableValuesModel);
         modelEventCollector.notifyRowsRemoved(simpleTableValuesModel, 0, 2);
         modelEventCollector.endCollection(simpleTableValuesModel);
@@ -93,8 +93,8 @@ public class ModelEventCollectorTests extends BaseAppTestSetup {
         verify(simpleTableValuesModel, never()).notifyRowsRemoved(0, 2);
     }
 
-    @Test
-    public void testCollectionWithIgnoredRowsAddedNotification() {
+	@Test
+	void testCollectionWithIgnoredRowsAddedNotification() {
         modelEventCollector.startCollection(simpleTableValuesModel);
         modelEventCollector.notifyRowsAdded(simpleTableValuesModel, 0, 2);
         modelEventCollector.endCollection(simpleTableValuesModel);

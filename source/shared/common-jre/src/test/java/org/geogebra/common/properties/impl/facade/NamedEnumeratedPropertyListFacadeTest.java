@@ -32,9 +32,9 @@ import org.geogebra.common.properties.impl.objects.ScriptEventSelectionProperty.
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class NamedEnumeratedPropertyListFacadeTest extends BaseAppTestSetup {
+class NamedEnumeratedPropertyListFacadeTest extends BaseAppTestSetup {
 	@Test
-	public void getValuesAndIndicesMatchForElementsWithSameValues() {
+	void getValuesAndIndicesMatchForElementsWithSameValues() {
 		setupApp(SuiteSubApp.GRAPHING);
 		ScriptEventSelectionProperty property1 = new ScriptEventSelectionProperty(
 				getLocalization(), evaluateGeoElement("A = (1, 2)"), true);
@@ -57,7 +57,7 @@ public class NamedEnumeratedPropertyListFacadeTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void getValuesAndIndicesMatchForElementsWithPartialOverlap() {
+	void getValuesAndIndicesMatchForElementsWithPartialOverlap() {
 		setupApp(SuiteSubApp.GRAPHING);
 		ScriptEventSelectionProperty pointProperty = new ScriptEventSelectionProperty(
 				getLocalization(), evaluateGeoElement("A = (1, 2)"), true);
@@ -86,7 +86,7 @@ public class NamedEnumeratedPropertyListFacadeTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void propertyIsUnavailableWhenValuesDoNotOverlap() {
+	void propertyIsUnavailableWhenValuesDoNotOverlap() {
 		setupApp(SuiteSubApp.GRAPHING);
 		NamedEnumeratedPropertyListFacade<TestNamedEnumeratedProperty, String> facade =
 				new NamedEnumeratedPropertyListFacade<>(List.of(

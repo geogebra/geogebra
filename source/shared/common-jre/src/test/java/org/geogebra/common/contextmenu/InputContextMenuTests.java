@@ -19,18 +19,18 @@ package org.geogebra.common.contextmenu;
 import static org.geogebra.common.contextmenu.InputContextMenuItem.Expression;
 import static org.geogebra.common.contextmenu.InputContextMenuItem.Help;
 import static org.geogebra.common.contextmenu.InputContextMenuItem.Text;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import java.util.Set;
 
 import org.geogebra.common.BaseUnitTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class InputContextMenuTests extends BaseUnitTest {
+class InputContextMenuTests extends BaseUnitTest {
 
 	@Test
-	public void testWithHelpDisabled() {
+	void testWithHelpDisabled() {
 		assertEquals(
 				List.of(Expression,
 						Text),
@@ -39,7 +39,7 @@ public class InputContextMenuTests extends BaseUnitTest {
 	}
 
 	@Test
-	public void testWithHelpEnabled() {
+	void testWithHelpEnabled() {
 		assertEquals(
 				List.of(Expression,
 						Text,

@@ -22,28 +22,28 @@ import static org.geogebra.common.kernel.interval.IntervalSetOps.fromLegacy;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.toLegacy;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.LegacyIntervalAdapter.legacyInverted;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.kernel.interval.Interval;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class IntervalInverseTopologyTest {
+class IntervalInverseTopologyTest {
 
 	private final IntervalNodeEvaluator evaluator = new IntervalNodeEvaluator();
 
 	@Test
-	public void inverseOfZeroIsUndefined() {
+	void inverseOfZeroIsUndefined() {
 		assertEquals(undefined(), evaluator.inverse(interval(0)));
 	}
 
 	@Test
-	public void inverseOfUndefinedIsUndefined() {
+	void inverseOfUndefinedIsUndefined() {
 		assertEquals(undefined(), evaluator.inverse(undefined()));
 	}
 
 	@Test
-	public void inverseOfNearZeroUsesPublicZeroWithDeltaGuard() {
+	void inverseOfNearZeroUsesPublicZeroWithDeltaGuard() {
 		Interval interval = interval(1E-7);
 
 		assertTrue(interval.isZeroWithDelta(1E-6));
@@ -51,7 +51,7 @@ public class IntervalInverseTopologyTest {
 	}
 
 	@Test
-	public void inverseOfInvertedIntervalMatchesUnionOfReciprocalRays() {
+	void inverseOfInvertedIntervalMatchesUnionOfReciprocalRays() {
 		Interval inverted = legacyInverted(1, 2);
 		Interval leftRay = interval(Double.NEGATIVE_INFINITY, 1);
 		Interval rightRay = interval(2, Double.POSITIVE_INFINITY);
@@ -64,18 +64,18 @@ public class IntervalInverseTopologyTest {
 	}
 
 	@Test
-	public void inverseOfConnectedIntervalExcludingZeroStaysConnected() {
+	void inverseOfConnectedIntervalExcludingZeroStaysConnected() {
 		assertTrue(evaluator.inverse(interval(2, 6)).isPositive());
 	}
 
 	@Test
-	public void inverseOfWholeCurrentlyStaysWhole() {
+	void inverseOfWholeCurrentlyStaysWhole() {
 		Interval actual = evaluator.inverse(whole());
 		assertEquals(legacyInverted(0, 0), actual);
 	}
 
 	@Test
-	public void inverseSetMatchesLegacyInverseForConnectedInput() {
+	void inverseSetMatchesLegacyInverseForConnectedInput() {
 		Interval input = interval(2, 6);
 
 		assertEquals(evaluator.inverse(input), toLegacy(evaluator.inverseSet(fromLegacy(input))));

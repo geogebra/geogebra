@@ -23,10 +23,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class InputBoxRoundingPropertyTest extends BaseAppTestSetup {
+class InputBoxRoundingPropertyTest extends BaseAppTestSetup {
 
 	@Test
-	public void testSuccessfulConstructionForInputBoxes() {
+	void testSuccessfulConstructionForInputBoxes() {
 		setupApp(SuiteSubApp.GRAPHING);
 		evaluateGeoElement("text1=\"text\"");
 		GeoElement geoElement = evaluateGeoElement("InputBox(text1)");

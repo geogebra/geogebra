@@ -18,8 +18,8 @@ package org.geogebra.common.euclidian;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.spy;
@@ -56,9 +56,9 @@ import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.test.LocalizationCommonUTF;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class DrawablesTest extends BaseUnitTest {
+class DrawablesTest extends BaseUnitTest {
 
 	private GGraphicsCommon graphics;
 
@@ -75,7 +75,7 @@ public class DrawablesTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void checkDrawables() {
+	void checkDrawables() {
 		final String[] def = new String[] { "(1,1)", "Angle[x^2=y^2]", "true",
 				"Button[]", "InputBox[]", "x^2+y^2/3=1",
 				"Semicircle[(0,0),(1,1)]", "xx", "1<x<2", "x=y", "{(1,1)}",
@@ -123,19 +123,19 @@ public class DrawablesTest extends BaseUnitTest {
 		for (String s : def) {
 			GeoElementND geo = add(s);
 			DrawableND draw = getApp().getEuclidianView1().newDrawable(geo);
-			assertEquals(geo.getDefinitionForInputBar(),
-					expectDrawableFor(geo), draw != null);
+			assertEquals(expectDrawableFor(geo),
+					draw != null, geo.getDefinitionForInputBar());
 			types.add(geo.getGeoClassType());
 		}
 		XmlTestUtil.checkCurrentXML(getApp());
 		for (GeoClass type : GeoClass.values()) {
-			assertTrue(type + "", types.contains(type)
+			assertTrue(types.contains(type)
 					|| GeoClass.IMPLICIT_SURFACE_3D == type
 					|| GeoClass.SURFACECARTESIAN == type
 					|| GeoClass.CAS_CELL == type || GeoClass.SPACE == type
 					|| GeoClass.DEFAULT == type
 					|| GeoClass.CLIPPINGCUBE3D == type
-					|| GeoClass.INLINE_TEXT == type
+					|| GeoClass.INLINE_TEXT == type, type + ""
 			);
 		}
 
@@ -149,7 +149,7 @@ public class DrawablesTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testHatching() {
+	void testHatching() {
 		GeoElementND poly = add("Polygon(O,O+1,4)");
 		poly.setFillType(FillType.HATCH);
 		poly.updateVisualStyleRepaint(GProperty.HATCHING);
@@ -157,7 +157,7 @@ public class DrawablesTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testLabelPosition() {
+	void testLabelPosition() {
 		GeoElementND f = add("f:y=100x");
 		GeoElementND g = add("g:x=100y");
 		f.setLabelVisible(true);
@@ -177,7 +177,7 @@ public class DrawablesTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testTracing() {
+	void testTracing() {
 		GeoElementND pt = add("A=(1,1)");
 		((Traceable) pt).setTrace(true);
 		pt.updateRepaint();

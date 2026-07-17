@@ -25,21 +25,21 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class SpreadsheetReferenceParsingTests {
+class SpreadsheetReferenceParsingTests {
 
 	@BeforeAll
-	public static void setup() {
+	static void setup() {
 		UtilFactoryJre.setupRegexFactory();
 	}
 
 	@Test
-	public void testParseEmptyCellReferences() {
+	void testParseEmptyCellReferences() {
 		assertNull(SpreadsheetReferenceParsing.parseReference(""));
 		assertNull(SpreadsheetReferenceParsing.parseReference("    "));
 	}
 
 	@Test
-	public void testParseCellReferences() {
+	void testParseCellReferences() {
 		assertEquals(new SpreadsheetReference(
 				new SpreadsheetCellReference(0, 0), null),
 				SpreadsheetReferenceParsing.parseReference("A1"));
@@ -72,7 +72,7 @@ public class SpreadsheetReferenceParsingTests {
 			"A-B", "A1B3", "ASDF$A1", "A111111111111111111111", "AAAAAACNMKRDJ1",
 			"", ":", ":A1", "::"
 	})
-	public void invalidReferenceParsingTest(String ref) {
+	void invalidReferenceParsingTest(String ref) {
 		assertNull(SpreadsheetReferenceParsing.parseReference(ref));
 	}
 }

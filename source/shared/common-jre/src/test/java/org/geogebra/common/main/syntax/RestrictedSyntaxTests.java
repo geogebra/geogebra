@@ -41,14 +41,14 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class RestrictedSyntaxTests extends BaseAppTestSetup {
+class RestrictedSyntaxTests extends BaseAppTestSetup {
 	@BeforeEach
-	public void appSetup() {
+	void appSetup() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test
-	public void testAllowedSyntax() throws ParseException {
+	void testAllowedSyntax() throws ParseException {
 		Command command = parseCommandExpression("Sum({1, 2, 3})");
 		Map<Commands, Set<Syntax>> allowedSyntaxesForRestrictedCommands = Map.of(
 				Sum, Set.of(
@@ -60,7 +60,7 @@ public class RestrictedSyntaxTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testWrongNumberOfArguments() throws ParseException {
+	void testWrongNumberOfArguments() throws ParseException {
 		Command command = parseCommandExpression("Sum({1, 2, 3})");
 		Map<Commands, Set<Syntax>> allowedSyntaxesForRestrictedCommands = Map.of(
 				Sum, Set.of(
@@ -73,7 +73,7 @@ public class RestrictedSyntaxTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testWrongArgument() throws ParseException {
+	void testWrongArgument() throws ParseException {
 		Command command = parseCommandExpression("Sum({1, 2, 3})");
 		Map<Commands, Set<Syntax>> allowedSyntaxesForRestrictedCommands = Map.of(
 				Sum, Set.of(
@@ -87,7 +87,7 @@ public class RestrictedSyntaxTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testWrongArgumentWithClosestOption() throws ParseException {
+	void testWrongArgumentWithClosestOption() throws ParseException {
 		Command command = parseCommandExpression("BinomialDist(10, 0.2, {1, 2, 3})");
 		Map<Commands, Set<Syntax>> allowedSyntaxesForRestrictedCommands = Map.of(
 				BinomialDist, Set.of(

@@ -31,15 +31,15 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class SpreadsheetSettingsTest extends BaseAppTestSetup {
+class SpreadsheetSettingsTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test
-	public void testSpreadsheetFontSize() {
+	void testSpreadsheetFontSize() {
 		Spreadsheet spreadsheet = getApp().getSpreadsheet();
 		assertEquals(12.0, getApp().getFontSizeDouble(), 0);
 		spreadsheet.setViewport(new Rectangle(0, 200, 0, 200));

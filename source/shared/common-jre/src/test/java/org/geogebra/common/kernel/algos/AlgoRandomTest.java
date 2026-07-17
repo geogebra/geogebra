@@ -25,15 +25,15 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class AlgoRandomTest extends BaseAppTestSetup {
+class AlgoRandomTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test
-	public void testOverflow() {
+	void testOverflow() {
 		GeoNumeric element = evaluateGeoElement("RandomBetween(0, 9999999999)");
 		assertTrue(element.getValue() > 0, "Random number should be positive");
 		element = evaluateGeoElement("RandomBetween(-9999999999, 9999999999)");

@@ -16,8 +16,8 @@
 
 package org.geogebra.common.io;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.factories.AwtFactoryCommon;
@@ -26,13 +26,13 @@ import org.geogebra.editor.share.input.KeyboardInputAdapter;
 import org.geogebra.editor.share.syntax.SyntaxController;
 import org.geogebra.editor.share.syntax.SyntaxHint;
 import org.geogebra.editor.share.util.JavaKeyCodes;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class SyntaxHintCheck {
+class SyntaxHintCheck {
 
 	private MathFieldCommon mathField;
 	private SyntaxController controller;
@@ -40,23 +40,23 @@ public class SyntaxHintCheck {
 	/**
 	 * Reset LaTeX factory
 	 */
-	@BeforeClass
-	public static void prepare() {
+	@BeforeAll
+	static void prepare() {
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderCommon());
 		}
 		AwtFactory.setPrototypeIfNull(new AwtFactoryCommon());
 	}
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		controller = new SyntaxController();
 		mathField = new MathFieldCommon(new TemplateCatalog(), null);
 		mathField.getInternal().registerMathFieldInternalListener(controller);
 	}
 
 	@Test
-	public void readPlaceholdersInitial() {
+	void readPlaceholdersInitial() {
 		KeyboardInputAdapter.onKeyboardInput(mathField.getInternal(),
 				"FitPoly(<Points>, <Degree>)");
 		SyntaxHint hint = controller.getSyntaxHint();
@@ -66,7 +66,7 @@ public class SyntaxHintCheck {
 	}
 
 	@Test
-	public void readPlaceholdersAfterComma() {
+	void readPlaceholdersAfterComma() {
 		KeyboardInputAdapter.onKeyboardInput(mathField.getInternal(),
 				"FitPoly(<Points>, <Degree>)");
 		EditorTyper typer = new EditorTyper(mathField);
@@ -78,7 +78,7 @@ public class SyntaxHintCheck {
 	}
 
 	@Test
-	public void nonCommandInput() {
+	void nonCommandInput() {
 		KeyboardInputAdapter.onKeyboardInput(mathField.getInternal(), "\"Hello, there!\"");
 		EditorTyper typer = new EditorTyper(mathField);
 		typer.type("{(1,1)},");
@@ -87,7 +87,7 @@ public class SyntaxHintCheck {
 	}
 
 	@Test
-	public void changeFunctionName() {
+	void changeFunctionName() {
 		String input = "FitPoly(<Points>, <Degree>)";
 		KeyboardInputAdapter.onKeyboardInput(mathField.getInternal(), input);
 		SyntaxHint hint = controller.getSyntaxHint();
@@ -101,7 +101,7 @@ public class SyntaxHintCheck {
 	}
 
 	@Test
-	public void changeFunctionNameAppending() {
+	void changeFunctionNameAppending() {
 		String input = "FitPoly(<Points>, <Degree>)";
 		KeyboardInputAdapter.onKeyboardInput(mathField.getInternal(), input);
 		SyntaxHint hint = controller.getSyntaxHint();
@@ -113,11 +113,11 @@ public class SyntaxHintCheck {
 		typer.type("XY");
 		typer.typeKey(JavaKeyCodes.VK_RIGHT);
 		SyntaxHint syntaxHint = controller.getSyntaxHint();
-		assertTrue(syntaxHint.toString(), syntaxHint.isEmpty());
+		assertTrue(syntaxHint.isEmpty(), syntaxHint.toString());
 	}
 
 	@Test
-	public void steppingOutAndIn() {
+	void steppingOutAndIn() {
 		String input = "FitPoly(<Points>, <Degree>)";
 		KeyboardInputAdapter.onKeyboardInput(mathField.getInternal(), input);
 		SyntaxHint hint = controller.getSyntaxHint();

@@ -24,9 +24,9 @@ import java.util.TreeSet;
 
 import org.junit.jupiter.api.Test;
 
-public class SelfTest {
+class SelfTest {
 	@Test
-	public void selfTest() {
+	void selfTest() {
 		Set<String> methodNames = new TreeSet<>();
 		Class<?>[] classes = new Class[]{CommandsTest.class, CommandsUsingMockedCasTest.class};
 		for (Class<?> c : classes) {

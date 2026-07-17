@@ -16,24 +16,24 @@
 
 package org.geogebra.common.euclidian;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.plugin.GeoClass;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class EuclidianPenFreehandTest extends BaseEuclidianControllerTest {
+class EuclidianPenFreehandTest extends BaseEuclidianControllerTest {
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		setUpController();
 	}
 
 	@Test
-	public void freehandPenShouldRecognizeSegment() {
+	void freehandPenShouldRecognizeSegment() {
 		EuclidianPenFreehand freehandPen
 				= new EuclidianPenFreehand(getApp(), getApp().getActiveEuclidianView());
 
@@ -46,7 +46,7 @@ public class EuclidianPenFreehandTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void restrictedFreehandPenShouldRecognizeFunction() {
+	void restrictedFreehandPenShouldRecognizeFunction() {
 		EuclidianPenFreehand freehandPen
 				= new EuclidianPenFreehand(getApp(), getApp().getActiveEuclidianView());
 
@@ -61,7 +61,7 @@ public class EuclidianPenFreehandTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void freehandPenShouldRecognizeConic() {
+	void freehandPenShouldRecognizeConic() {
 		EuclidianPenFreehand freehandPen
 				= new EuclidianPenFreehand(getApp(), getApp().getActiveEuclidianView());
 
@@ -79,7 +79,7 @@ public class EuclidianPenFreehandTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void restrictedFreehandPenShouldFailRecognizingConic() {
+	void restrictedFreehandPenShouldFailRecognizingConic() {
 		EuclidianPenFreehand freehandPen
 				= new EuclidianPenFreehand(getApp(), getApp().getActiveEuclidianView());
 

@@ -29,14 +29,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class AnimationModePropertyTest extends BaseAppTestSetup {
+class AnimationModePropertyTest extends BaseAppTestSetup {
 
 	@ParameterizedTest
 	@ValueSource(strings = {
 			"Slider(-5, 5, 0.1, 1, 1, false, false, false, false)", // Slider
 			"Point(Circle((0,0), 2))", // Point on circle
 	})
-	public void testSuccessfulConstruction(String input) {
+	void testSuccessfulConstruction(String input) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement(input);
 		assertDoesNotThrow(() -> new AnimationModeProperty(getLocalization(), geoElement));
@@ -48,7 +48,7 @@ public class AnimationModePropertyTest extends BaseAppTestSetup {
 			"x+y=0", // Line
 			"a=5", // Simple number
 	})
-	public void testConstructingNotApplicableProperty(String input) {
+	void testConstructingNotApplicableProperty(String input) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement(input);
 		Assertions.assertThrows(NotApplicablePropertyException.class,
@@ -56,7 +56,7 @@ public class AnimationModePropertyTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testHasRandomForNumeric() {
+	void testHasRandomForNumeric() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoNumeric numeric = evaluateGeoElement("a = 5");
 		numeric.setEuclidianVisible(true);

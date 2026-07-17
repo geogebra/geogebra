@@ -31,7 +31,7 @@ import org.geogebra.editor.share.util.Unicode;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class AlgoAreEqualTest {
+class AlgoAreEqualTest {
 
 	private static AppCommon app;
 	private static Construction cons;
@@ -40,13 +40,13 @@ public class AlgoAreEqualTest {
 	 * Set up the app
 	 */
 	@BeforeAll
-	public static void setUp() {
+	static void setUp() {
 		app = AppCommonFactory.create();
 		cons = app.getKernel().getConstruction();
 	}
 
 	@Test
-	public void simpleAlgebraicExpressions() {
+	void simpleAlgebraicExpressions() {
 		assertTrue(compare("0", "0"));
 		assertTrue(compare("2/4", "1/2"));
 		assertFalse(compare("0.3333333333333333", "1/3"));
@@ -69,14 +69,14 @@ public class AlgoAreEqualTest {
 	}
 
 	@Test
-	public void largeNumbers() {
+	void largeNumbers() {
 		assertTrue(compare("(73205*pi)/6", "73205*(pi/6)"));
 		assertTrue(compare("(73205*pi)/6", "(73205/6)*pi"));
 		assertTrue(compare("73205*(pi/6)", "(73205/6)*pi"));
 	}
 
 	@Test
-	public void expressionsContainingVariables() {
+	void expressionsContainingVariables() {
 		assertFalse(compare("1+a", "2"));
 		GeoNumeric n = new GeoNumeric(cons, 1);
 		n.setLabel("a");
@@ -84,7 +84,7 @@ public class AlgoAreEqualTest {
 	}
 
 	@Test
-	public void incorrectSyntax() {
+	void incorrectSyntax() {
 		assertFalse(compare("1+", "1"));
 	}
 

@@ -46,9 +46,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+// Tabs in CsvSources/MockedCasValues
 @ExtendWith(MockedCasValuesExtension.class)
-@SuppressWarnings("checkstyle:RegexpSinglelineCheck") // Tabs in CsvSources/MockedCasValues
-public class AlgoElementTest extends BaseAppTestSetup {
+@SuppressWarnings("checkstyle:RegexpSinglelineCheck")
+class AlgoElementTest extends BaseAppTestSetup {
 	@BeforeEach
 	void setupApp() {
 		setupApp(SuiteSubApp.G3D);
@@ -67,7 +68,7 @@ public class AlgoElementTest extends BaseAppTestSetup {
 					+ "Sequence\\left(\\int x^{k}\\,\\mathrm{d}x, k, 1, 2 \\right)",
 	})
 	@Issue("APPS-4732")
-	public void latexIntegral(String cmd, String latex) {
+	void latexIntegral(String cmd, String latex) {
 		evaluate("f(n)=n^2");
 		assertEquals(latex, evaluateGeoElement(cmd).getDefinition(StringTemplate.latexTemplate));
 	}
@@ -82,7 +83,7 @@ public class AlgoElementTest extends BaseAppTestSetup {
 			"IntegralSymbolic(x²)			-> x^3 / 3",
 			"IntegralSymbolic(cos(t), t)	-> sin(t)",
 	})
-	public void latexIntegralSymbolic(String cmd, String latex) {
+	void latexIntegralSymbolic(String cmd, String latex) {
 		setupApp(SuiteSubApp.CAS);
 		assertEquals(latex, evaluateGeoElement(cmd).getDefinition(StringTemplate.latexTemplate));
 	}
@@ -94,13 +95,13 @@ public class AlgoElementTest extends BaseAppTestSetup {
 			"Sum(n^k,n,1,3)		-> \\sum_{n=1}^{3}n^{k}",
 			"Sum(sin(n),n,1,3)	-> \\sum_{n=1}^{3}\\operatorname{sin} \\left( n \\right)",
 	})
-	public void latexSum(String cmd, String latex) {
+	void latexSum(String cmd, String latex) {
 		getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
 		assertEquals(latex, evaluateGeoElement(cmd).getDefinition(StringTemplate.latexTemplate));
 	}
 
 	@Test
-	public void testSequenceInequality() {
+	void testSequenceInequality() {
 		evaluate("a: y<=x^(2) && y>= 0 && x>=0 && x<=1");
 		GeoList list = evaluateGeoElement("{a(x+1,y), a(x+2,y)}");
 		GeoList seq = evaluateGeoElement("l1=Sequence(a(x+i,y),i,1,2)");
@@ -111,7 +112,7 @@ public class AlgoElementTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testSequenceIneqTree() {
+	void testSequenceIneqTree() {
 		evaluate("a: y<=x^(2) && y>= 0 && x>=0 && x<=1");
 		GeoList sequence = evaluateGeoElement("Sequence(a(x+i,y),i,1,2)");
 		IneqTree inequalities1 = ((GeoFunctionNVar) sequence.get(0)).getIneqs();
@@ -132,14 +133,14 @@ public class AlgoElementTest extends BaseAppTestSetup {
 			"Integral(t,a,b)	-> \\int\\limits_{a}^{b}t\\,\\mathrm{d}t",
 	})
 	@Issue("APPS-5345")
-	public void latexIntegralShouldHaveCorrectDerivativeVariable(String cmd, String latex) {
+	void latexIntegralShouldHaveCorrectDerivativeVariable(String cmd, String latex) {
 		getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
 		assertEquals(latex, evaluateGeoElement(cmd).getDefinition(StringTemplate.latexTemplate));
 	}
 
 	@Test
 	@Issue("APPS-5423")
-	public void testAlgoDependentPointShouldNotUpdateEndlessly() {
+	void testAlgoDependentPointShouldNotUpdateEndlessly() {
 		GeoPoint p = evaluateGeoElement("(1, 1)");
 		AlgoDependentPoint algo = new AlgoDependentPoint(p.getConstruction(),
 				p.getDefinition(), false);
@@ -156,7 +157,7 @@ public class AlgoElementTest extends BaseAppTestSetup {
 
 	@Test
 	@Issue("APPS-5423")
-	public void testUnlabeledRandomGeosCanBeUpdatedMultipleTimesWithinAlgoUpdate() {
+	void testUnlabeledRandomGeosCanBeUpdatedMultipleTimesWithinAlgoUpdate() {
 		GeoPoint pointA = evaluateGeoElement("A = (1, 1)");
 		evaluate("B = (2, 2)");
 		GeoElement poly = evaluateGeoElement("Polygon(A, B, 4)");

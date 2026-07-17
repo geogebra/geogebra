@@ -16,18 +16,18 @@
 
 package org.geogebra.common.kernel.geos;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class GeoFunctionNVarTest extends BaseUnitTest {
+class GeoFunctionNVarTest extends BaseUnitTest {
 
 	@Test
-	public void testNVarInequalityPreserved() {
+	void testNVarInequalityPreserved() {
 		addAvInput("a: x < y");
 		addAvInput("SetValue(a, ?)");
 		getApp().setXML(getApp().getXML(), true);
@@ -35,7 +35,7 @@ public class GeoFunctionNVarTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void shouldShowAsUndefinedOnReload() {
+	void shouldShowAsUndefinedOnReload() {
 		addAvInput("user(x,y)=x+y");
 		addAvInput("def=IsDefined(user)");
 		addAvInput("SetValue(user,?)");
@@ -45,7 +45,7 @@ public class GeoFunctionNVarTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5759")
-	public void malformedFunctionCallShouldNotCrash() {
+	void malformedFunctionCallShouldNotCrash() {
 		add("eq1:x+y");
 		GeoElement element = add("eq1(x=5 x^(2)-4 y^(2)=5)");
 		assertNotNull(element.toOutputValueString(StringTemplate.testTemplate));

@@ -16,7 +16,7 @@
  
 package org.geogebra.common.io;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.editor.share.catalog.TemplateCatalog;
 import org.geogebra.editor.share.io.latex.ParseException;
@@ -24,18 +24,18 @@ import org.geogebra.editor.share.io.latex.Parser;
 import org.geogebra.editor.share.serializer.SolverSerializer;
 import org.geogebra.editor.share.tree.Formula;
 import org.geogebra.editor.share.util.Unicode;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class SolverSerializationTest {
+class SolverSerializationTest {
 
 	/**
 	 * Reset LaTeX factory
 	 */
-	@BeforeClass
-	public static void prepare() {
+	@BeforeAll
+	static void prepare() {
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderCommon());
 		}
@@ -58,7 +58,7 @@ public class SolverSerializationTest {
 	}
 
 	@Test
-	public void solverInputs() {
+	void solverInputs() {
 		parsesToSolverInput("223^3", "[223^3]");
 		parsesToSolverInput("(4/8)", "[4/8]");
 		parsesToSolverInput("(4.5/8)", "[4.5/8]");
@@ -79,7 +79,7 @@ public class SolverSerializationTest {
 	}
 
 	@Test
-	public void testExpr() {
+	void testExpr() {
 		parsesToSolverInput("1 * 2", "1 * 2");
 		parsesToSolverInput("1 == 2", "1 == 2");
 		parsesToSolverInput("1 " + Unicode.PARALLEL + " 2",
@@ -90,7 +90,7 @@ public class SolverSerializationTest {
 	}
 
 	@Test
-	public void testSqrt() {
+	void testSqrt() {
 		parsesToSolverInput("sqrt(x/(2+x))1^3", "sqrt[[x/2+x]][1^3]");
 		parsesToSolverInput("sqrt(x/(2+x))  1^3", "sqrt[[x/2+x]]  [1^3]");
 		parsesToSolverInput("sqrt(x/(2+x))+1^3", "sqrt[[x/2+x]]+[1^3]");
@@ -100,12 +100,12 @@ public class SolverSerializationTest {
 	}
 
 	@Test
-	public void testBrackets() {
+	void testBrackets() {
 		parsesToSolverInput("{1+2}^2+(1+2)^2+[1+2]^2", "[{.1+2.}^2]+[(1+2)^2]+[[.1+2.]^2]");
 	}
 
 	@Test
-	public void testMixedNumbers() {
+	void testMixedNumbers() {
 		parsesToSolverInput("1/2 + 3" + Unicode.INVISIBLE_PLUS + "(1)/(2)", "[1/2] + [3 1/2]");
 		parsesToSolverInput("sqrt(x/(2+x))1" + Unicode.INVISIBLE_PLUS + "(2)/(3)",
 				"sqrt[[x/2+x]][1 2/3]");
@@ -119,14 +119,14 @@ public class SolverSerializationTest {
 	}
 
 	@Test
-	public void testRecurringDecimals() {
+	void testRecurringDecimals() {
 		parsesToSolverInput("1.23\u03054\u0305", "1.2[34]");
 		parsesToSolverInput("4.34\u03055\u03056\u0305", "4.3[456]");
 		parsesToSolverInput("7/2 + 1.23\u0305", "[7/2] + 1.2[3]");
 	}
 
 	@Test
-	public void testDiv() {
+	void testDiv() {
 		parsesToSolverInput("1/n^2", "[1/[n^2]]");
 		parsesToSolverInput("1/2", "[1/2]");
 		parsesToSolverInput("1/2+3", "[1/2]+3");
@@ -141,7 +141,7 @@ public class SolverSerializationTest {
 	}
 
 	@Test
-	public void testPower() {
+	void testPower() {
 		parsesToSolverInput("[x ^ 2] ^3", "[[.[x ^2].] ^3]");
 		parsesToSolverInput("x ^ 2", "[x ^2]");
 		parsesToSolverInput("x^2^3", "[x^[2^3]]");
@@ -157,21 +157,21 @@ public class SolverSerializationTest {
 	}
 
 	@Test
-	public void testMultiply() {
+	void testMultiply() {
 		parsesToSolverInput("t (1,2)", "t (1,2)");
 		parsesToSolverInput("t [1,2]", "t [.1,2.]");
 		parsesToSolverInput("x x x", "x x x");
 	}
 
 	@Test
-	public void testLog() {
+	void testLog() {
 		parsesToSolverInput("log(x)", "log_[10](x)");
 		parsesToSolverInput("log(10,x)", "log_[10](x)");
 		parsesToSolverInput("log(2,x)", "log_[2](x)");
 	}
 
 	@Test
-	public void testParse() {
+	void testParse() {
 		parsesToSolverInput("[x^2]/(m^2)+y^2/n^2", "[[.[x^2].]/[m^2]]+[[y^2]/[n^2]]");
 		parsesToSolverInput("4+x", "4+x");
 		parsesToSolverInput("4-x", "4-x");
@@ -184,7 +184,7 @@ public class SolverSerializationTest {
 	}
 
 	@Test
-	public void latexParserUnitTestsSumsAndProducts() {
+	void latexParserUnitTestsSumsAndProducts() {
 		parsesToSolverInput("1+2.3+3", "1+2.3+3");
 		parsesToSolverInput("1+2*3", "1+2*3");
 		parsesToSolverInput("1+2×3", "1+2*3"); // '1+2\\cdot3',
@@ -193,7 +193,7 @@ public class SolverSerializationTest {
 	}
 
 	@Test
-	public void latexParserUnitTestsVariablesAndNumbers() {
+	void latexParserUnitTestsVariablesAndNumbers() {
 		parsesToSolverInput("a+b×C", "a+b*C"); //a+b \\times C
 		parsesToSolverInput("aaa", "aaa"); //isn't serialized to a a a
 		parsesToSolverInput("2a2", "2a2"); //isn't serialized to 2 a 2
@@ -201,7 +201,7 @@ public class SolverSerializationTest {
 	}
 
 	@Test
-	public void latexParserUnitTestsBrackets() {
+	void latexParserUnitTestsBrackets() {
 		parsesToSolverInput("(a+b)×c", "(a+b)*c"); // '\\left(a+b\\right) \\times c',
 		parsesToSolverInput("((a+b))", "((a+b))"); //((a+b))
 		//\\left\\{\\left[\\left(x\\right)\\right]\\right\\}
@@ -210,7 +210,7 @@ public class SolverSerializationTest {
 	}
 
 	@Test
-	public void latexParserUnitTestsFractionsAndMixedNumbers() {
+	void latexParserUnitTestsFractionsAndMixedNumbers() {
 		parsesToSolverInput("222" + Unicode.INVISIBLE_PLUS + "(1)/(2)", "[222 1/2]");
 		parsesToSolverInput("2" + Unicode.INVISIBLE_PLUS + "(1)/(2)", "[2 1/2]");
 		parsesToSolverInput("(1)/(2)", "[1/2]"); //\\frac{1}{2}
@@ -220,7 +220,7 @@ public class SolverSerializationTest {
 	}
 
 	@Test
-	public void latexParserUnitTestsPowers() {
+	void latexParserUnitTestsPowers() {
 		parsesToSolverInput("-3^4", "-[3^4]"); //-3^4'
 		parsesToSolverInput("(-3)^-4", "[(-3)^-4]"); //(-3)^{-4}'
 		parsesToSolverInput("3^4^5", "[3^[4^5]]"); //3^4^5'
@@ -229,14 +229,14 @@ public class SolverSerializationTest {
 	}
 
 	@Test
-	public void latexParserUnitTestsRoots() {
+	void latexParserUnitTestsRoots() {
 		parsesToSolverInput("sqrt(4)", "sqrt[4]"); // \\sqrt 4
 		parsesToSolverInput("2nroot(4,3)", "2root[4,3]"); // 2 \\sqrt[3] 4
 		parsesToSolverInput("2^(nroot(1+2,3))", "[2^root[1+2,3]]"); // 2^\\sqrt[3]{1+2}
 	}
 
 	@Test
-	public void testImplicitMultiplication() {
+	void testImplicitMultiplication() {
 		parsesToSolverInput("x(8)", "x(8)");
 		parsesToSolverInput("x(x+1)", "x(x+1)");
 		parsesToSolverInput("xxx(x)", "xxx(x)");

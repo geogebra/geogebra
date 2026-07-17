@@ -27,14 +27,13 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-@SuppressWarnings({"checkstyle:variableDeclarationUsageDistanceCheck"})
-public class AlgebraViewUIAdapterTest extends BaseAppTestSetup {
+class AlgebraViewUIAdapterTest extends BaseAppTestSetup {
 
 	private AlgebraViewUIAdapter algebraView;
 	private Listener listener;
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
 		algebraView = new AlgebraViewUIAdapter(getApp());
 		algebraView.setVisible(true);
@@ -43,7 +42,7 @@ public class AlgebraViewUIAdapterTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testAddPoint() {
+	void testAddPoint() {
 		GeoElement geo = evaluateGeoElement("(1,2)");
 		assertTrue(listener.itemsChanged);
 		assertEquals(1, algebraView.getItems().getNumberOfItems());
@@ -55,13 +54,13 @@ public class AlgebraViewUIAdapterTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testAddTangent() {
+	void testAddTangent() {
 		GeoElement c = evaluateGeoElement("c: Circle((0, 0), 5)");
 		GeoElement a = evaluateGeoElement("A = (6, 6)");
 		// this will create two output rows, tangents f & g
 		GeoElementND[] geos = evaluate("Tangent(A, c)");
-		GeoElement f = (GeoElement) geos[0];
-		GeoElement g = (GeoElement) geos[1];
+		final GeoElement f = (GeoElement) geos[0];
+		final GeoElement g = (GeoElement) geos[1];
 
 		assertEquals(4, algebraView.getItems().getNumberOfItems());
 
@@ -87,14 +86,14 @@ public class AlgebraViewUIAdapterTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPolynomialRoots() {
+	void testPolynomialRoots() {
 		evaluateGeoElement("x^(3) - 2x^(2) - 5x+6");
 		assertEquals(1, algebraView.getItems().getNumberOfItems());
 		GeoElementND[] roots = evaluate("roots(f)");
 		assertEquals(4, algebraView.getItems().getNumberOfItems());
-		GeoElement rootA = (GeoElement) roots[0];
-		GeoElement rootB = (GeoElement) roots[1];
-		GeoElement rootC = (GeoElement) roots[2];
+		final GeoElement rootA = (GeoElement) roots[0];
+		final GeoElement rootB = (GeoElement) roots[1];
+		final GeoElement rootC = (GeoElement) roots[2];
 
 		AlgebraViewItem itemA = algebraView.getItems().getItem(1);
 		assertEquals(rootA, itemA.geo);

@@ -31,11 +31,11 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class AbstractNamedEnumeratedPropertyTests extends BaseAppTestSetup {
+class AbstractNamedEnumeratedPropertyTests extends BaseAppTestSetup {
 	private AbstractNamedEnumeratedProperty<String> namedEnumeratedProperty;
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
 		namedEnumeratedProperty = new TestNamedEnumeratedProperty(
 				getLocalization(),
@@ -46,7 +46,7 @@ public class AbstractNamedEnumeratedPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testInitialNamedValues() {
+	void testInitialNamedValues() {
 		assertEquals(List.of("value1", "value2", "value3"),
 				namedEnumeratedProperty.getValues());
 		assertArrayEquals(new String[]{ "_Value One", "_Value Two", "_Value Three" },
@@ -54,7 +54,7 @@ public class AbstractNamedEnumeratedPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testNamedValuesWithValueFilters() {
+	void testNamedValuesWithValueFilters() {
 		TestValueFilter valueFilter1 = new TestValueFilter(List.of("value2", "invalid value"));
 		TestValueFilter valueFilter2 = new TestValueFilter(List.of("value3"));
 		TestValueFilter valueFilter3 = new TestValueFilter(List.of("value2"));
@@ -89,7 +89,7 @@ public class AbstractNamedEnumeratedPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testValueChangesWithValueFilter() {
+	void testValueChangesWithValueFilter() {
 		TestValueFilter valueFilter1 = new TestValueFilter(List.of("value1"));
 
 		namedEnumeratedProperty.addValueFilter(valueFilter1);
@@ -113,7 +113,7 @@ public class AbstractNamedEnumeratedPropertyTests extends BaseAppTestSetup {
 			extends AbstractNamedEnumeratedProperty<String> {
 		private String value;
 
-		public TestNamedEnumeratedProperty(
+		TestNamedEnumeratedProperty(
 				Localization localization,
 				String name,
 				List<Map.Entry<String, String>> namedValues) {
@@ -136,7 +136,7 @@ public class AbstractNamedEnumeratedPropertyTests extends BaseAppTestSetup {
 	private static final class TestValueFilter implements ValueFilter {
 		private final List<String> filteredValues;
 
-		public TestValueFilter(List<String> filteredValues) {
+		TestValueFilter(List<String> filteredValues) {
 			this.filteredValues = filteredValues;
 		}
 

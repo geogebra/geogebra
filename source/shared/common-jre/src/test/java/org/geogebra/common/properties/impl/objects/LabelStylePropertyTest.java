@@ -16,9 +16,9 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -35,13 +35,13 @@ import org.geogebra.common.scientific.LabelController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class LabelStylePropertyTest {
+class LabelStylePropertyTest {
 	AppCommon app;
 	GeoElementND element;
 	LabelStyleProperty property;
 
 	@BeforeEach
-	public void setup() throws NotApplicablePropertyException {
+	void setup() throws NotApplicablePropertyException {
 		app = AppCommonFactory.create3D();
 		element = app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommand("(1,2)", false)[0];
@@ -50,7 +50,7 @@ public class LabelStylePropertyTest {
 	}
 
 	@Test
-	public void notApplicableForText() {
+	void notApplicableForText() {
 		GeoElement text = (GeoElement) app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommand("\"text\"", false)[0];
 		text.setEuclidianVisible(true);
@@ -60,7 +60,7 @@ public class LabelStylePropertyTest {
 	}
 
 	@Test
-	public void testGetValue() {
+	void testGetValue() {
 		assertEquals(List.of(true, false), property.getValue());
 		element.setLabelVisible(false);
 		element.setLabelMode(GeoElementND.LABEL_NAME_VALUE);
@@ -74,7 +74,7 @@ public class LabelStylePropertyTest {
 	}
 
 	@Test
-	public void testSetValue() {
+	void testSetValue() {
 		property.setValue(List.of(false, false));
 		assertFalse(element.isLabelVisible(), "Label should be hidden");
 		property.setValue(List.of(true, true));
@@ -85,7 +85,7 @@ public class LabelStylePropertyTest {
 	}
 
 	@Test
-	public void testSetValueWithCaption() {
+	void testSetValueWithCaption() {
 		element.setCaption("The Caption");
 		property.setValue(List.of(true, true));
 		assertTrue(element.isLabelVisible(), "Label should be shown");
@@ -97,7 +97,7 @@ public class LabelStylePropertyTest {
 	}
 
 	@Test
-	public void testSetValueWithHiddenAlgebraLabel() {
+	void testSetValueWithHiddenAlgebraLabel() {
 		new LabelController().hideLabel(element);
 		assertEquals(List.of(false, false), property.getValue());
 		property.setValue(List.of(true, true));
@@ -106,7 +106,7 @@ public class LabelStylePropertyTest {
 	}
 
 	@Test
-	public void testSetValueWithHiddenAlgebraLabelAndUndo() {
+	void testSetValueWithHiddenAlgebraLabelAndUndo() {
 		element.getApp().getKernel().setUndoActive(true);
 		element.getApp().getKernel().initUndoInfo();
 		new LabelController().hideLabel(element);

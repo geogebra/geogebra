@@ -19,62 +19,62 @@ package org.geogebra.common.io;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.editor.share.util.JavaKeyCodes;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class EditorMatrixTest {
+class EditorMatrixTest {
 	private static final String matrix3x3 = "{{1,2,3}, {4,5,6}, {7,8,9}}";
 	private static EditorChecker checker;
 	private static AppCommon app = AppCommonFactory.create();
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		checker = new EditorChecker(app);
 	}
 
 	@Test
-	public void testCaretInitialPosition() {
+	void testCaretInitialPosition() {
 		checker.matrixFromParser(matrix3x3).checkCaret(0, 0, 0);
 	}
 
 	@Test
-	public void testCaretShouldStayInsideOnHomeInitially() {
+	void testCaretShouldStayInsideOnHomeInitially() {
 		checker.matrixFromParser(matrix3x3).typeKey(JavaKeyCodes.VK_HOME).checkCaret(0, 0, 0);
 	}
 
 	@Test
-	public void testCaretShouldStayInsideOnHome() {
+	void testCaretShouldStayInsideOnHome() {
 		checker.matrixFromParser(matrix3x3)
 				.right(6)
 				.typeKey(JavaKeyCodes.VK_HOME).checkCaret(0, 0, 0);
 	}
 
 	@Test
-	public void testCaretShouldStayInsideOnEnd() {
+	void testCaretShouldStayInsideOnEnd() {
 		checker.matrixFromParser(matrix3x3).typeKey(JavaKeyCodes.VK_END).checkCaret(1, 8, 0);
 	}
 
 	@Test
-	public void testCaretShouldStayInsideOnLeftArrow() {
+	void testCaretShouldStayInsideOnLeftArrow() {
 		checker.matrixFromParser(matrix3x3)
 			.right(6)
 			.left(20).checkCaret(0, 0, 0);
 	}
 
 	@Test
-	public void testCaretShouldStayInsideOnRightArrow() {
+	void testCaretShouldStayInsideOnRightArrow() {
 		checker.matrixFromParser(matrix3x3).right(20).checkCaret(1, 8, 0);
 	}
 
 	@Test
-	public void testCaretShouldStayInsideOnUpArrow() {
+	void testCaretShouldStayInsideOnUpArrow() {
 		checker.matrixFromParser(matrix3x3)
 				.repeatKey(JavaKeyCodes.VK_DOWN, 2)
 				.repeatKey(JavaKeyCodes.VK_UP, 20).checkCaret(0, 0, 0);
 	}
 
 	@Test
-	public void testCaretShouldStayInsideOnDownArrow() {
+	void testCaretShouldStayInsideOnDownArrow() {
 		checker.matrixFromParser(matrix3x3).repeatKey(JavaKeyCodes.VK_DOWN, 20).checkCaret(0, 6, 0);
 	}
 }

@@ -18,7 +18,7 @@ package org.geogebra.common.main.localization;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -43,41 +43,41 @@ import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
 import org.geogebra.common.main.syntax.suggestionfilter.GraphingSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class AutocompleteProviderTest extends BaseUnitTest {
+class AutocompleteProviderTest extends BaseUnitTest {
 
 	private AutocompleteProvider provider;
 
-	@Before
-	public void setupProvider() {
+	@BeforeEach
+	void setupProvider() {
 		provider = new AutocompleteProvider(getApp(), false);
 	}
 
 	@Test
-	public void functionSuggestionTest() {
+	void functionSuggestionTest() {
 		List<AutocompleteProvider.Completion> completionList = getCompletions("sin");
 		assertEquals("sin", completionList.get(0).getCommand());
 		assertEquals(Collections.singletonList("sin( <x> )"), completionList.get(0).syntaxes);
 	}
 
 	@Test
-	public void functionSuggestionShouldBeCaseSensitive() {
+	void functionSuggestionShouldBeCaseSensitive() {
 		List<String> completionList = getStringCompletions("Sin");
 		assertThat(completionList, equalTo(Arrays.asList("FitSin", "IsInRegion", "IsInteger")));
 	}
 
 	@Test
-	public void initialMatchesShouldComeFirst() {
+	void initialMatchesShouldComeFirst() {
 		List<String> completionList = getStringCompletions("Row");
 		assertThat(completionList, equalTo(Arrays.asList("Row", "FillRow", "FitGrowth",
 				"ReducedRowEchelonForm")));
 	}
 
 	@Test
-	public void commandSuggestionTest() {
+	void commandSuggestionTest() {
 		List<AutocompleteProvider.Completion> completionList = getCompletions("int");
 		assertEquals("Integral", completionList.get(0).getCommand());
 		assertEquals(Arrays.asList("Integral( <Function> )", "Integral( <Function>, <Variable> )"),
@@ -85,7 +85,7 @@ public class AutocompleteProviderTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testCommandWithoutSyntaxIsNotReturned() {
+	void testCommandWithoutSyntaxIsNotReturned() {
 		AppConfig config = Mockito.spy(new AppConfigGraphing());
 		SyntaxFilter commandSyntax = Mockito.spy(new GraphingSyntaxFilter());
 		// Filter every syntax for InverseBinomial
@@ -98,7 +98,7 @@ public class AutocompleteProviderTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void shouldShowCasSpecific() {
+	void shouldShowCasSpecific() {
 		AutocompleteProvider casProvider = new AutocompleteProvider(getApp(), true);
 		assertEquals(3, casProvider.getCompletions("Groebner").count());
 		assertEquals(0, casProvider.getCompletions("ExpSimplify").count());
@@ -112,14 +112,14 @@ public class AutocompleteProviderTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void shouldUpdateOnAppSwitch() {
+	void shouldUpdateOnAppSwitch() {
 		getApp().getKernel().getAlgebraProcessor().addCommandFilter(
 				cmd -> !cmd.name().startsWith("Bezier"));
 		shouldUpdateOnAppSwitch("en", "Curve");
 	}
 
 	@Test
-	public void shouldUpdateOnAppSwitchDE() {
+	void shouldUpdateOnAppSwitchDE() {
 		shouldUpdateOnAppSwitch("de", "Kurve");
 	}
 
@@ -158,7 +158,7 @@ public class AutocompleteProviderTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void graphingSuiteShouldHaveCasCommands() {
+	void graphingSuiteShouldHaveCasCommands() {
 		AutocompleteProvider provider = new AutocompleteProvider(getApp(), false);
 		AppConfigUnrestrictedGraphing graphingSuiteConfig = new AppConfigUnrestrictedGraphing();
 

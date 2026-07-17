@@ -31,21 +31,21 @@ import static org.geogebra.common.kernel.interval.IntervalSetOps.inverted;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.toLegacy;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.LegacyIntervalAdapter.legacyInverted;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.interval.IntervalSet;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class IntervalMiscTest {
+class IntervalMiscTest {
 
 	private final IntervalNodeEvaluator evaluator = new IntervalNodeEvaluator();
-	
+
 	@Test
-	public void testExp() {
+	void testExp() {
 		assertEquals(interval(0.3678794411714423, 2.7182818284590455),
 				evaluator.exp(interval(-1, 1)));
 		assertEquals(interval(0.04978706836786394, 20.08553692318767),
@@ -62,26 +62,26 @@ public class IntervalMiscTest {
 	}
 
 	@Test
-	public void name() {
+	void name() {
 		assertTrue(evaluator.expSet(connected(-800, -746)).isOverflow());
 	}
 
 	@Test
-	public void expLowerBoundShouldStayPositiveForSubnormalResult() {
+	void expLowerBoundShouldStayPositiveForSubnormalResult() {
 		IntervalSet result = evaluator.expSet(connected(-745, -743.75));
 
 		assertTrue(connectedInterval(result).getLow() > 0);
 	}
 
 	@Test
-	public void lnExpShouldNotProduceNegativeInfinityFromSubnormalExp() {
+	void lnExpShouldNotProduceNegativeInfinityFromSubnormalExp() {
 		IntervalSet result = evaluator.logSet(evaluator.expSet(connected(-745, -743.75)));
 
 		assertFalse(Double.isInfinite(connectedInterval(result).getLow()));
 	}
 
 	@Test
-	public void expOfInvertedShouldNotOverflow() {
+	void expOfInvertedShouldNotOverflow() {
 		assertFalse(evaluator.expSet(inverted(-711, 711)).isOverflow());
 		assertFalse(evaluator.expSet(inverted(-1000, 1000)).isOverflow());
 		assertFalse(evaluator.expSet(inverted(-Double.MAX_VALUE / 2,
@@ -90,7 +90,7 @@ public class IntervalMiscTest {
 	}
 
 	@Test
-	public void expOfInvertedShouldKeepTrueUnboundedResultDistinctFromOverflow() {
+	void expOfInvertedShouldKeepTrueUnboundedResultDistinctFromOverflow() {
 		IntervalSet result = evaluator.expSet(inverted(-711, 711));
 		assertFalse(result.isOverflow());
 		assertTrue(result.isConnected());
@@ -100,13 +100,13 @@ public class IntervalMiscTest {
 	}
 
 	@Test
-	public void testExpWrapperMatchesExpSet() {
+	void testExpWrapperMatchesExpSet() {
 		Interval input = interval(-3, 3);
 		assertEquals(evaluator.exp(input), toLegacy(evaluator.expSet(fromLegacy(input))));
 	}
 
 	@Test
-	public void testLog() {
+	void testLog() {
 		assertEquals(interval(0, 0), evaluator.log(interval(1, 1)));
 		assertEquals(interval(0, 3), evaluator.log(interval(1, Math.exp(3))));
 		assertEquals(IntervalConstants.undefined(),
@@ -115,7 +115,7 @@ public class IntervalMiscTest {
 	}
 
 	@Test
-	public void testLog10() {
+	void testLog10() {
 		assertEquals(interval(0, 0), evaluator.log10(interval(1, 1)));
 		assertEquals(interval(0, 1), evaluator.log10(interval(1, 10)));
 		assertEquals(interval(0, 2), evaluator.log10(interval(1, 100)));
@@ -124,7 +124,7 @@ public class IntervalMiscTest {
 	}
 
 	@Test
-	public void testLog2() {
+	void testLog2() {
 		assertEquals(interval(0, 0), evaluator.log2(interval(1, 1)));
 		assertEquals(interval(0, 1), evaluator.log2(interval(1, 2)));
 		assertEquals(interval(0, 3), evaluator.log2(interval(1, 8)));
@@ -132,7 +132,7 @@ public class IntervalMiscTest {
 	}
 
 	@Test
-	public void testLogB() {
+	void testLogB() {
 		assertEquals(interval(0, 0), evaluator.logBase(interval(3, 3),
 				interval(1, 1)));
 		assertEquals(interval(2, 3), evaluator.logBase(interval(2, 2),
@@ -149,7 +149,7 @@ public class IntervalMiscTest {
 	}
 
 	@Test
-	public void testIntersection() {
+	void testIntersection() {
 		assertTrue(evaluator.intersect(interval(-1, 1), interval(5, 7)).isUndefined());
 		assertTrue(evaluator.intersect(interval(-1, 1), undefined()).isUndefined());
 		assertEquals(interval(0, 1),
@@ -167,7 +167,7 @@ public class IntervalMiscTest {
 	}
 
 	@Test
-	public void testUnion() {
+	void testUnion() {
 		assertEquals(interval(1, 4),
 				evaluator.union(interval(1, 3), interval(2, 4)));
 		assertEquals(whole(),
@@ -183,12 +183,12 @@ public class IntervalMiscTest {
 	}
 
 	@Test
-	public void testNonOverlappingUnionShouldBeEmpty() {
+	void testNonOverlappingUnionShouldBeEmpty() {
 		assertEquals(undefined(), evaluator.union(interval(1, 2), interval(3, 4)));
 	}
 
 	@Test
-	public void testAbs() {
+	void testAbs() {
 		assertEquals(interval(0, 1), evaluator.abs(interval(-1, 1)));
 		assertEquals(interval(2, 3), evaluator.abs(interval(-3, -2)));
 		assertEquals(interval(2, 3), evaluator.abs(interval(2, 3)));
@@ -196,27 +196,27 @@ public class IntervalMiscTest {
 	}
 
 	@Test
-	public void testAbs1() {
+	void testAbs1() {
 		assertEquals(interval(4, POSITIVE_INFINITY), evaluator.abs(legacyInverted(-4, 5)));
 		assertEquals(interval(5, POSITIVE_INFINITY), evaluator.abs(legacyInverted(-8, 5)));
 	}
 
 	@Test
-	public void testLogXInverseAzZero() {
+	void testLogXInverseAzZero() {
 		Interval x = aroundZero();
 		Interval xInverse = evaluator.multiplicativeInverse(x);
 		assertEquals(interval(9.210340371976182, POSITIVE_INFINITY), evaluator.log(xInverse));
 	}
 
 	@Test
-	public void testZeroDividedByLnAroundOne() {
+	void testZeroDividedByLnAroundOne() {
 		assertEquals(zero(), evaluator.divide(zero(), evaluator.log(around(0.985375))));
 		assertEquals(zero(), evaluator.divide(zero(), evaluator.log(around(1.015625))));
 	}
 
 	// APPS-4683
 	@Test
-	public void testZeroDivLnX() {
+	void testZeroDivLnX() {
 		Interval x1 = interval(0.9895833333333334, 1.0);
 		Interval x2 = interval(0.9999999999999999, 1.0104166666666665);
 		Interval log1 = evaluator.log(x1);
@@ -228,7 +228,7 @@ public class IntervalMiscTest {
 	}
 
 	@Test
-	public void lnInverseMultiplyZeroNegativeShouldBeUndefined() {
+	void lnInverseMultiplyZeroNegativeShouldBeUndefined() {
 		Interval x = interval(NEGATIVE_INFINITY, -IntervalConstants.PRECISION);
 		Interval log = evaluator.log(x);
 		Interval inverse = evaluator.inverse(log);
@@ -237,7 +237,7 @@ public class IntervalMiscTest {
 	}
 
 	@Test
-	public void lnInverseMultiplyZeroPositiveShouldBeZero() {
+	void lnInverseMultiplyZeroPositiveShouldBeZero() {
 		Interval x = interval(0, POSITIVE_INFINITY);
 		Interval log = evaluator.log(x);
 		Interval inverse = evaluator.inverse(log);
@@ -246,7 +246,7 @@ public class IntervalMiscTest {
 	}
 
 	@Test
-	public void lnInverseMultiplyZeroAroundOneShouldBeZero() {
+	void lnInverseMultiplyZeroAroundOneShouldBeZero() {
 		Interval x = interval(1.0, 1.015625);
 		Interval log = evaluator.log(x);
 		Interval inverse = evaluator.inverse(log);

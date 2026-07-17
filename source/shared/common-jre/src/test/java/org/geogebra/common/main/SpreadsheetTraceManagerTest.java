@@ -24,15 +24,15 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class SpreadsheetTraceManagerTest extends BaseAppTestSetup {
+class SpreadsheetTraceManagerTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupClassicApp();
 	}
 
 	@Test
-	public void testToggleTraceElement() {
+	void testToggleTraceElement() {
 		GeoElement pt = evaluateGeoElement("(1,2)");
 		getApp().getTraceManager().toggleTraceElement(pt);
 		assertTrue(pt.getSpreadsheetTrace());

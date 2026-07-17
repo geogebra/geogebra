@@ -18,8 +18,8 @@ package org.geogebra.common.gui.popup.autocompletion;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.io.EditorTyper;
@@ -30,34 +30,34 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.editor.share.catalog.TemplateCatalog;
 import org.geogebra.editor.share.controller.EditorState;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class InputSuggestionsTest extends BaseUnitTest {
+class InputSuggestionsTest extends BaseUnitTest {
 	private MathFieldCommon mathField;
 	private EditorState editorState;
 
 	/**
 	 * Reset LaTeX factory
 	 */
-	@BeforeClass
-	public static void prepare() {
+	@BeforeAll
+	static void prepare() {
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderCommon());
 		}
 	}
 
-	@Before
-	public void setupMathField() {
+	@BeforeEach
+	void setupMathField() {
 		mathField = new MathFieldCommon(new TemplateCatalog(), null);
 		editorState = mathField.getInternal().getEditorState();
 	}
 
 	@Test
-	public void testHasSuggestions() {
+	void testHasSuggestions() {
 		shouldHaveSuggestions("Int");
 		shouldHaveSuggestions("Poi");
 	}
@@ -85,7 +85,7 @@ public class InputSuggestionsTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testSuggestionsShouldBePrevented() {
+	void testSuggestionsShouldBePrevented() {
 		shouldPreventSuggestions("\"Int");
 		shouldPreventSuggestions("Text(\"Int");
 		shouldPreventSuggestions("v_Point");
@@ -93,7 +93,7 @@ public class InputSuggestionsTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testGetCommand() {
+	void testGetCommand() {
 		assertThat(getCommandFor("a+Seg"), equalTo("Seg"));
 		assertThat(getCommandFor("a_Seg"), equalTo(""));
 	}
@@ -105,14 +105,14 @@ public class InputSuggestionsTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testSuggestionsShouldBePreventedForTextObjects() {
+	void testSuggestionsShouldBePreventedForTextObjects() {
 		GeoText geo = add("Text(\"Change me\")");
 		shouldPreventSuggestions("Int", geo);
 		shouldPreventSuggestions("Lin", geo);
 	}
 
 	@Test
-	public void testHaveSuggestionsForNonTextObjects() {
+	void testHaveSuggestionsForNonTextObjects() {
 		GeoFunction geo = add("x");
 		shouldHaveSuggestions("Int", geo);
 		shouldHaveSuggestions("Lin", geo);

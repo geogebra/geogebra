@@ -16,14 +16,14 @@
 
 package org.geogebra.common.kernel.commands.selector;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CommandFilterFactoryTest {
+class CommandFilterFactoryTest {
 
 	private static final Commands[] FILTERED = {
 			Commands.PerpendicularVector, Commands.UnitPerpendicularVector, Commands.UnitVector,
@@ -54,7 +54,7 @@ public class CommandFilterFactoryTest {
 	private CommandFilter filter;
 
 	@Test
-	public void testGraphingCommandFilter() {
+	void testGraphingCommandFilter() {
 		filter = CommandFilterFactory.createGraphingCommandFilter();
 		for (Commands command : FILTERED) {
 			assertAllowed(false, command);
@@ -69,7 +69,7 @@ public class CommandFilterFactoryTest {
 	}
 
 	@Test
-	public void testCasCommandFilterForVectorCommands() {
+	void testCasCommandFilterForVectorCommands() {
 		Commands[] allowedVectorCommands = {Commands.PerpendicularVector,
 				Commands.UnitPerpendicularVector, Commands.UnitVector, Commands.ParseToNumber,
 				Commands.Poisson};
@@ -80,14 +80,14 @@ public class CommandFilterFactoryTest {
 	}
 
 	@Test
-	public void testCasCommandFilterForAsymptoteCommand() {
+	void testCasCommandFilterForAsymptoteCommand() {
 		filter = CommandFilterFactory.createCasCommandFilter();
 		assertAllowed(true, Commands.Asymptote);
 	}
 
 	@Issue("APPS-6314")
 	@Test
-	public void testCasCommandFilterAllowsChartCommands() {
+	void testCasCommandFilterAllowsChartCommands() {
 		filter = CommandFilterFactory.createCasCommandFilter();
 		assertAllowed(true, Commands.BarChart);
 		assertAllowed(true, Commands.StepGraph);
@@ -95,7 +95,7 @@ public class CommandFilterFactoryTest {
 	}
 
 	private void assertAllowed(boolean shouldAllow, Commands command) {
-		assertEquals(command + (shouldAllow ? " should" : " should not") + " be allowed",
-				shouldAllow, filter.isCommandAllowed(command));
+		assertEquals(shouldAllow, filter.isCommandAllowed(command),
+				command + (shouldAllow ? " should" : " should not") + " be allowed");
 	}
 }

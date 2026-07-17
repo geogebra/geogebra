@@ -27,9 +27,9 @@ import org.geogebra.common.properties.impl.objects.ScriptEventSelectionProperty.
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class ScriptPropertyTests extends BaseAppTestSetup {
+class ScriptPropertyTests extends BaseAppTestSetup {
 	@Test
-	public void testSettingScript() {
+	void testSettingScript() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPoint geoPoint = evaluateGeoElement("A = (1, 2)");
 		ScriptProperty property = new ScriptProperty(getLocalization(), geoPoint,
@@ -45,7 +45,7 @@ public class ScriptPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingScriptTypeUpdatesStoredScript() {
+	void testChangingScriptTypeUpdatesStoredScript() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPoint geoPoint = evaluateGeoElement("A = (1, 2)");
 		ScriptLanguageSelection scriptLanguageSelection =

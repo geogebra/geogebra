@@ -21,12 +21,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.main.settings.TableSettings;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class TableValuesViewInitializationTest extends BaseUnitTest {
+class TableValuesViewInitializationTest extends BaseUnitTest {
 
 	@Test
-	public void testInitializationWithSettings() {
+	void testInitializationWithSettings() {
 		TableSettings ts = getSettings().getTable();
 		ts.setValuesStep(1);
 		ts.setValuesMin(-2);

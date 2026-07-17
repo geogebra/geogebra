@@ -17,7 +17,7 @@
 package org.geogebra.common.kernel.interval.samplers;
 
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,12 +30,12 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class FunctionSamplerTest extends BaseUnitTest {
+class FunctionSamplerTest extends BaseUnitTest {
 
 	@Test
-	public void testExtend() {
+	void testExtend() {
 		GeoFunction function = add("sin(x)");
 		IntervalTuple range = PlotterUtils.newRange(-100, -99, 1, 1);
 		FunctionSampler sampler = PlotterUtils.newSampler(function, range,

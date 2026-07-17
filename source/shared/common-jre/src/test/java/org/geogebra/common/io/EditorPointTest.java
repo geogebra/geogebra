@@ -19,13 +19,13 @@ package org.geogebra.common.io;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.editor.share.util.JavaKeyCodes;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class EditorPointTest {
+class EditorPointTest {
 	private static final String point3D = "(1,2,3)";
 	private static final String emptyPoint3D = "(?,?,?)";
 	private static EditorChecker checker;
@@ -34,40 +34,40 @@ public class EditorPointTest {
 	/**
 	 * Reset LaTeX factory
 	 */
-	@BeforeClass
-	public static void prepare() {
+	@BeforeAll
+	static void prepare() {
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderCommon());
 		}
 	}
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		checker = new EditorChecker(app);
 	}
 
 	@Test
-	public void testInitialEmptyPoint() {
+	void testInitialEmptyPoint() {
 		checker.convertFormula(emptyPoint3D)
 				.checkPlaceholders("|,_,_");
 	}
 
 	@Test
-	public void testEmptyPointWithCursorInTheMiddle() {
+	void testEmptyPointWithCursorInTheMiddle() {
 		checker.convertFormula(emptyPoint3D)
 				.right(1)
 				.checkPlaceholders("_,|,_");
 	}
 
 	@Test
-	public void testEmptyPointWithCursorLast() {
+	void testEmptyPointWithCursorLast() {
 		checker.convertFormula(emptyPoint3D)
 				.right(2)
 				.checkPlaceholders("_,_,|");
 	}
 
 	@Test
-	public void testEmptyPointWithCursorLastMoreRightPress() {
+	void testEmptyPointWithCursorLastMoreRightPress() {
 		checker.convertFormula(emptyPoint3D)
 				.right(2)
 				.right(1)
@@ -75,7 +75,7 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testEmptyPointWithCursorBeginMoreLeftPress() {
+	void testEmptyPointWithCursorBeginMoreLeftPress() {
 		checker.convertFormula(emptyPoint3D)
 				.right(2)
 				.left(4)
@@ -83,14 +83,14 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testPointOnDelete() {
+	void testPointOnDelete() {
 		checker.convertFormula(point3D)
 				.typeKey(JavaKeyCodes.VK_DELETE)
 				.checkPlaceholders("|,2,3");
 	}
 
 	@Test
-	public void testPointOnDeleteAnRight() {
+	void testPointOnDeleteAnRight() {
 		checker.convertFormula(point3D)
 				.typeKey(JavaKeyCodes.VK_DELETE)
 				.right(1)
@@ -98,7 +98,7 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testPointOnDeleteAnRightDeleteAgain() {
+	void testPointOnDeleteAnRightDeleteAgain() {
 		checker.convertFormula(point3D)
 				.typeKey(JavaKeyCodes.VK_DELETE)
 				.right(1)
@@ -107,7 +107,7 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testPointClick() {
+	void testPointClick() {
 		checker.convertFormula(emptyPoint3D)
 				.click(3, 0)
 				.checkPlaceholders("|,_,_");
@@ -120,7 +120,7 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testPointOnDeleteAnRightDeleteAgainAndBack() {
+	void testPointOnDeleteAnRightDeleteAgainAndBack() {
 		checker.convertFormula(point3D)
 				.typeKey(JavaKeyCodes.VK_DELETE)
 				.right(1)
@@ -130,7 +130,7 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testDeleteFromMultiChars2D() {
+	void testDeleteFromMultiChars2D() {
 		checker.convertFormula("(123,789)")
 				.typeKey(JavaKeyCodes.VK_DELETE)
 				.typeKey(JavaKeyCodes.VK_DELETE)
@@ -141,7 +141,7 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testDeleteFromMultiCharsFromEnd2D() {
+	void testDeleteFromMultiCharsFromEnd2D() {
 		checker.convertFormula("(123,789)")
 				.right(4)
 				.typeKey(JavaKeyCodes.VK_DELETE)
@@ -152,7 +152,7 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testDeleteFromMultiCharsFromMiddle3D() {
+	void testDeleteFromMultiCharsFromMiddle3D() {
 		checker.convertFormula("(123,456,789)")
 				.right(4)
 				.typeKey(JavaKeyCodes.VK_DELETE)
@@ -163,7 +163,7 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testDeleteFromMultiChars() {
+	void testDeleteFromMultiChars() {
 		checker.convertFormula("(123,456,789)")
 				.right(2)
 				.typeKey(JavaKeyCodes.VK_DELETE)
@@ -172,7 +172,7 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testDeleteFromMultiCharsFromBeginWithBackspace() {
+	void testDeleteFromMultiCharsFromBeginWithBackspace() {
 		checker.convertFormula("(123,456,789)")
 				.right(3)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
@@ -183,7 +183,7 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testDeleteFromMultiCharsWithBackspace() {
+	void testDeleteFromMultiCharsWithBackspace() {
 		checker.convertFormula("(123,456,789)")
 				.right(11)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
@@ -194,7 +194,7 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testDeleteFromMultiCharsFromMiddleWithBackspace() {
+	void testDeleteFromMultiCharsFromMiddleWithBackspace() {
 		checker.convertFormula("(123,456,789)")
 				.right(7)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
@@ -205,7 +205,7 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testTypeToMiddleOfEmptyPoint() {
+	void testTypeToMiddleOfEmptyPoint() {
 		checker.convertFormula(emptyPoint3D)
 				.right(1)
 				.type("4")
@@ -214,7 +214,7 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testDeleteOneFromMultiCharsFromMiddleWithBackspace() {
+	void testDeleteOneFromMultiCharsFromMiddleWithBackspace() {
 		checker.convertFormula("(123,456,789)")
 				.right(6)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
@@ -222,7 +222,7 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testDeleteFromMultiCharsFromBeginning() {
+	void testDeleteFromMultiCharsFromBeginning() {
 		checker.convertFormula("(123,456,789)")
 				.typeKey(JavaKeyCodes.VK_DELETE)
 				.typeKey(JavaKeyCodes.VK_RIGHT)
@@ -231,7 +231,7 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testDeleteFromFractionAndUp() {
+	void testDeleteFromFractionAndUp() {
 		checker.type("1/2")
 			.typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.typeKey(JavaKeyCodes.VK_UP)
@@ -239,21 +239,21 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testDeleteEntireFraction() {
+	void testDeleteEntireFraction() {
 		checker.type("1/2")
 			.repeatKey(JavaKeyCodes.VK_BACK_SPACE, 4)
 			.checkRaw("SequenceNode[]");
 	}
 
 	@Test
-	public void testDeleteFromFractionBrackets() {
+	void testDeleteFromFractionBrackets() {
 		checker.type("1/(2)")
 			.repeatKey(JavaKeyCodes.VK_BACK_SPACE, 6)
 			.checkRaw("SequenceNode[]");
 	}
 
 	@Test
-	public void testRightArrowCanExitFraction() {
+	void testRightArrowCanExitFraction() {
 		checker.type("1/(2)")
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.right(2)
@@ -261,7 +261,7 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void checkBackspace() {
+	void checkBackspace() {
 		checker.type("a b(")
 				.left(3)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
@@ -270,7 +270,7 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testCursorCanExitFromEmptyPointInAV() {
+	void testCursorCanExitFromEmptyPointInAV() {
 		checker.convertFormulaForAV(emptyPoint3D)
 				.right(2)
 				.typeKey(JavaKeyCodes.VK_DELETE)
@@ -279,7 +279,7 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testCursorCanGoBackToEmptyPointInAV() {
+	void testCursorCanGoBackToEmptyPointInAV() {
 		checker.convertFormulaForAV(emptyPoint3D)
 				.right(3)
 				.left(1)

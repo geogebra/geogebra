@@ -19,9 +19,9 @@ package org.geogebra.common.euclidian;
 import static org.geogebra.common.BaseUnitTest.hasValue;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 
@@ -47,19 +47,19 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.test.EventAccumulator;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class MoveToolTest extends BaseEuclidianControllerTest {
+class MoveToolTest extends BaseEuclidianControllerTest {
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		setUpController();
 	}
 
 	@Test
-	public void moveWithMouseShouldChangeSegment1() {
+	void moveWithMouseShouldChangeSegment1() {
 		add("A = (0,0)");
 		add("f = Segment(A, (1,-1))");
 		dragStart(50, 50);
@@ -68,7 +68,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldChangeSegment1() {
+	void moveWithArrowKeyShouldChangeSegment1() {
 		add("A = (0,0)");
 		GeoElement segment = add("f = Segment(A, (1,-1))");
 		moveObjectWithArrowKey(segment, 1, -2);
@@ -76,7 +76,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithMouseShouldChangeVector1() {
+	void moveWithMouseShouldChangeVector1() {
 		add("v = Vector((1,-1))");
 		dragStart(50, 50);
 		dragEnd(100, 150);
@@ -84,14 +84,14 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldChangeVector1() {
+	void moveWithArrowKeyShouldChangeVector1() {
 		GeoElement geo = add("v = Vector((1,-1))");
 		moveObjectWithArrowKey(geo, 1, -2);
 		checkContent("v = (2, -3)");
 	}
 
 	@Test
-	public void moveWithMouseShouldChangeVector2() {
+	void moveWithMouseShouldChangeVector2() {
 		add("list = {Vector((1,-1))}");
 		dragStart(50, 50);
 		dragEnd(100, 150);
@@ -99,14 +99,14 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldChangeVector2() {
+	void moveWithArrowKeyShouldChangeVector2() {
 		GeoElement list = add("list = {Vector((1,-1))}");
 		moveObjectWithArrowKey(list, 1, -2);
 		checkContent("list = {(2, -3)}");
 	}
 
 	@Test
-	public void casListShouldNotBeMoveable() {
+	void casListShouldNotBeMoveable() {
 		MockedCasGiac mockGiac = setupGiac();
 		mockGiac.memorize("Intersect(x² + y² = 2, (x - 2)² + y² = 2)", "{(1,1),(1,-1)}");
 		GeoCasCell f = new GeoCasCell(getKernel().getConstruction());
@@ -121,7 +121,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void casFreeListShouldNotBeMoveable() {
+	void casFreeListShouldNotBeMoveable() {
 		MockedCasGiac mockGiac = setupGiac();
 		mockGiac.memorize("Evaluate({(1, -1), (1, 1)})", "{(1,-1),(1,1)}");
 		GeoCasCell f = new GeoCasCell(getKernel().getConstruction());
@@ -140,7 +140,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void freeListShouldBeDraggable() {
+	void freeListShouldBeDraggable() {
 		GeoList list  = add("{(1, -1), (1, 1)}");
 		list.setEuclidianVisible(true);
 		list.updateRepaint();
@@ -149,7 +149,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 		dragStart(50, 50);
 		dragEnd(100, 50);
 		assertThat(list, hasValue("{(2, -1), (2, 1)}"));
-		assertTrue("List should have been updated", accumulator.getEvents().contains("UPDATE l1"));
+		assertTrue(accumulator.getEvents().contains("UPDATE l1"), "List should have been updated");
 	}
 
 	private MockedCasGiac setupGiac() {
@@ -159,7 +159,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithMouseShouldChangePolygon1() {
+	void moveWithMouseShouldChangePolygon1() {
 		add("A = (0,0)");
 		add("q = Polygon(A, (0,-1), 4)");
 		add("SetVisibleInView(B,1,false)");
@@ -170,7 +170,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldChangePolygon1() {
+	void moveWithArrowKeyShouldChangePolygon1() {
 		add("A = (0,0)");
 		GeoElement geo = add("q = Polygon(A, (0,-1), 4)");
 		moveObjectWithArrowKey(geo, 1, -2);
@@ -179,7 +179,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithMouseShouldChangePolygon2() {
+	void moveWithMouseShouldChangePolygon2() {
 		GeoElement A = add("A = (0,0)");
 		GeoElement q = add("q = Polygon((x(A), y(A)), (2, 0), (2, -2), (0, -2))");
 		dragStart(50, 50);
@@ -189,7 +189,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldChangePolygon2() {
+	void moveWithArrowKeyShouldChangePolygon2() {
 		GeoElement A = add("A = (0,0)");
 		GeoElement q = add("q = Polygon((x(A), y(A)), (2, 0), (2, -2), (0, -2))");
 		moveObjectWithArrowKey(q, 1, -1);
@@ -198,7 +198,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithMouseShouldChangePolygon3() {
+	void moveWithMouseShouldChangePolygon3() {
 		GeoElement A = add("A = (0,0)");
 		GeoElement q = add("q = Polygon(A, A + (2, 0), A + (2, -2), A + (0, -2))");
 		dragStart(50, 50);
@@ -208,7 +208,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldChangePolygon3() {
+	void moveWithArrowKeyShouldChangePolygon3() {
 		GeoElement A = add("A = (0,0)");
 		GeoElement q = add("q = Polygon(A, A + (2, 0), A + (2, -2), A + (0, -2))");
 		moveObjectWithArrowKey(q, 1, -1);
@@ -217,7 +217,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithMouseShouldNotChangeFixedSegment() {
+	void moveWithMouseShouldNotChangeFixedSegment() {
 		add("A = (0,0)");
 		add("f = Segment(A, (1,-1))");
 		add("SetFixed(f,true)");
@@ -227,7 +227,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldNotChangeFixedSegment() {
+	void moveWithArrowKeyShouldNotChangeFixedSegment() {
 		add("A = (0,0)");
 		GeoElement geo = add("f = Segment(A, (1,-1))");
 		add("SetFixed(f,true)");
@@ -236,7 +236,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithMouseShouldNotChangeFixedPolygon() {
+	void moveWithMouseShouldNotChangeFixedPolygon() {
 		add("A = (0,0)");
 		add("q = Polygon(A, (0,-1), 4)");
 		add("SetFixed(q,true)");
@@ -247,7 +247,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldNotChangeFixedPolygon() {
+	void moveWithArrowKeyShouldNotChangeFixedPolygon() {
 		add("A = (0,0)");
 		GeoElement geo = add("q = Polygon(A, (0,-1), 4)");
 		add("SetFixed(q,true)");
@@ -257,7 +257,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithMouseShouldNotChangeValueOfInfiniteCircle() {
+	void moveWithMouseShouldNotChangeValueOfInfiniteCircle() {
 		add("A=(1,-1)");
 		add("B=(2,-2)");
 		add("C=(3,-3)");
@@ -269,7 +269,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldNotChangeValueOfInfiniteCircle() {
+	void moveWithArrowKeyShouldNotChangeValueOfInfiniteCircle() {
 		add("A=(1,-1)");
 		add("B=(2,-2)");
 		add("C=(3,-3)");
@@ -280,7 +280,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithMouseShouldChangeCircle1() {
+	void moveWithMouseShouldChangeCircle1() {
 		add("A=(1, -1)");
 		GeoElement circle = add("Circle(A, 2)");
 		dragStart(50, 150);
@@ -289,7 +289,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithMouseShouldChangeCircle2() {
+	void moveWithMouseShouldChangeCircle2() {
 		add("c = Circle((1, -1), 2)");
 		dragStart(50, 150);
 		dragEnd(100, 200);
@@ -297,7 +297,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldChangeCircle1() {
+	void moveWithArrowKeyShouldChangeCircle1() {
 		add("A=(1, -1)");
 		GeoElement circle = add("Circle(A, 2)");
 		moveObjectWithArrowKey(circle, 1, -1);
@@ -305,14 +305,14 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldChangeCircle2() {
+	void moveWithArrowKeyShouldChangeCircle2() {
 		GeoElement circle = add("c = Circle((1, -1), 2)");
 		moveObjectWithArrowKey(circle, 1, -1);
 		checkContent("c: (x - 2)² + (y + 2)² = 4");
 	}
 
 	@Test
-	public void moveWithMouseShouldChangeEllipse() {
+	void moveWithMouseShouldChangeEllipse() {
 		add("e = Ellipse((1, 1), (2, 2), (3, 3))");
 		checkContent("e: 17x² - 2x y + 17y² - 48x - 48y = 0");
 		dragStart(0, 0);
@@ -321,7 +321,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldChangeEllipse() {
+	void moveWithArrowKeyShouldChangeEllipse() {
 		GeoElement ellipse = add("e = Ellipse((1, 1), (2, 2), (3, 3))");
 		checkContent("e: 17x² - 2x y + 17y² - 48x - 48y = 0");
 		moveObjectWithArrowKey(ellipse, 1, -1);
@@ -329,7 +329,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithMouseShouldNotChangeEllipse() {
+	void moveWithMouseShouldNotChangeEllipse() {
 		add("e = Ellipse((2, 2), (1, 0.6), 2)");
 		checkContent("e: 60x² - 11.2x y + 56.16y² - 165.44x - 129.216y = 0.5696");
 		dragStart(0, 0);
@@ -338,7 +338,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldNotChangeEllipse() {
+	void moveWithArrowKeyShouldNotChangeEllipse() {
 		GeoElement ellipse = add("e = Ellipse((2, 2), (1, 0.6), 2)");
 		checkContent("e: 60x² - 11.2x y + 56.16y² - 165.44x - 129.216y = 0.5696");
 		moveObjectWithArrowKey(ellipse, 1, -1);
@@ -346,7 +346,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithMouseShouldChangeRay() {
+	void moveWithMouseShouldChangeRay() {
 		add("r = Ray((0, 0), (1, -1))");
 		dragStart(0, 0);
 		dragEnd(100, 50);
@@ -354,14 +354,14 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldChangeRay() {
+	void moveWithArrowKeyShouldChangeRay() {
 		GeoElement ray = add("r = Ray((0, 0), (1, -1))");
 		moveObjectWithArrowKey(ray, 2, -1);
 		checkContent("r: x + y = 1");
 	}
 
 	@Test
-	public void moveWithMouseShouldChangeDependentPoint() {
+	void moveWithMouseShouldChangeDependentPoint() {
 		add("a = 1");
 		add("b = -1");
 		add("A = (a, b)");
@@ -371,7 +371,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldChangeDependentPoint() {
+	void moveWithArrowKeyShouldChangeDependentPoint() {
 		add("a = 1");
 		add("b = -1");
 		GeoElement point = add("A = (a, b)");
@@ -380,7 +380,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldChange3DPolygon() {
+	void moveWithArrowKeyShouldChange3DPolygon() {
 		GeoElement pointA = add("A = (1, -1, 0)");
 		add("B = (2, -1, 0)");
 		add("C = (2, -2, 0)");
@@ -391,7 +391,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithMouseShouldChangeOutputOfTranslate1() {
+	void moveWithMouseShouldChangeOutputOfTranslate1() {
 		add("A = (2, 2)");
 		add("v = Vector((-1, -3))");
 		GeoElement point = add("Translate(A, v)");
@@ -401,7 +401,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldChangeOutputOfTranslate1() {
+	void moveWithArrowKeyShouldChangeOutputOfTranslate1() {
 		add("A = (2, 2)");
 		add("v = Vector((-1, -3))");
 		GeoElement point = add("Translate(A, v)");
@@ -410,7 +410,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithMouseShouldChangeOutputOfTranslate2() {
+	void moveWithMouseShouldChangeOutputOfTranslate2() {
 		add("A = (2, 2)");
 		add("v = Vector((-1, -3))");
 		GeoElement list = add("{Translate(A, v)}");
@@ -420,7 +420,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldChangeOutputOfTranslate2() {
+	void moveWithArrowKeyShouldChangeOutputOfTranslate2() {
 		add("A = (2, 2)");
 		add("v = Vector((-1, -3))");
 		GeoElement list = add("{Translate(A, v)}");
@@ -429,14 +429,14 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowsShouldNotChangeAnchoredText() {
+	void moveWithArrowsShouldNotChangeAnchoredText() {
 		GeoText text = add("t=Text(\"T\",(1, 2))");
 		moveObjectWithArrowKey(text, 1, -1);
 		assertThat(text.getStartPoint(), hasValue("(1, 2)"));
 	}
 
 	@Test
-	public void moveWithArrowsShouldChangeFreeText() {
+	void moveWithArrowsShouldChangeFreeText() {
 		GeoText text = add("t=Text(\"T\")");
 		add("SetCoords(t,3,5)");
 		assertThat(text.getStartPoint(), hasValue("(3, 5)"));
@@ -445,7 +445,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldNotChangeTextWithDependentAbsolutePosition() {
+	void moveWithArrowKeyShouldNotChangeTextWithDependentAbsolutePosition() {
 		add("posX = 100");
 		add("posY = 100");
 		GeoText text = add("Text(\"Try me\")");
@@ -465,7 +465,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void selectionReadByScreenReaderOnce() {
+	void selectionReadByScreenReaderOnce() {
 		ScreenReaderAdapter screenReader = Mockito.spy(ScreenReaderAdapter.class);
 		((EuclidianViewNoGui) getApp().getActiveEuclidianView()).setScreenReader(screenReader);
 		add("A = (1, -1)");
@@ -475,7 +475,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveChangeableCoords() {
+	void moveChangeableCoords() {
 		add("a=1");
 		add("b=-1");
 		add("A=(a,b)");
@@ -486,7 +486,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void drag3dPointWithDependencies() {
+	void drag3dPointWithDependencies() {
 		add("A=(1,-1,0)");
 		add("B=2A");
 		dragStart(50, 50);
@@ -495,19 +495,19 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveButton() {
+	void moveButton() {
 		GeoElement furniture = add("furniture=Button()");
 		assertFurnitureDragBehavior(furniture);
 	}
 
 	@Test
-	public void moveInputBox() {
+	void moveInputBox() {
 		GeoElement furniture = add("furniture=InputBox()");
 		assertFurnitureDragBehavior(furniture);
 	}
 
 	@Test
-	public void moveCheckBox() {
+	void moveCheckBox() {
 		GeoElement furniture = add("furniture=CheckBox()");
 		assertTrue(furniture.isLockedPosition());
 		assertCannotDrag(furniture);
@@ -517,7 +517,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveImage() {
+	void moveImage() {
 		GeoImage image = createImage();
 		image.setLabel("img");
 		image.setAbsoluteScreenLocActive(true);
@@ -529,7 +529,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 
 	@Test
 	@Issue("APPS-5592")
-	public void moveImageMovesChildren() {
+	void moveImageMovesChildren() {
 		GeoImage image = createImage();
 		image.setLabel("img");
 		add("Reflect(img,xAxis)");
@@ -539,7 +539,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveDropdown() {
+	void moveDropdown() {
 		GeoElement furniture = add("furniture={1,2,3}");
 		assertArrayEquals(new String[]{"furniture"}, getApp().getGgbApi().getAllObjectNames());
 		((GeoList) furniture).setDrawAsComboBox(true);
@@ -550,7 +550,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void undoMoving() {
+	void undoMoving() {
 		getApp().setUndoActive(true);
 		add("A = (1, -1)");
 		dragStart(50, 50);
@@ -561,7 +561,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveTranslateOutput() {
+	void moveTranslateOutput() {
 		Stream.of("(0,0)", "(1,0)", "(1,1)", "(0,1)").forEach(this::add);
 		add("quad=Polygon(A,B,C,D)");
 		add("trV=Translate(quad,(1,-2))");
@@ -581,7 +581,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void shouldNotMoveDependentTranslateOutput() {
+	void shouldNotMoveDependentTranslateOutput() {
 		add("a=-2");
 		Stream.of("(0,0)", "(1,0)", "(1,1)", "(0,1)").forEach(this::add);
 		add("quad=Polygon(A,B,C,D)");
@@ -594,7 +594,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void movePointShouldSnapOnDrag() {
+	void movePointShouldSnapOnDrag() {
 		GeoElement point = add("A = (0, 0)");
 		snapToGrid();
 		dragStart(0, 0);
@@ -609,7 +609,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveSegmentShouldSnapOnDrag() {
+	void moveSegmentShouldSnapOnDrag() {
 		GeoSegment segment = add("Segment((0, 0), (1, 0))");
 		snapToGrid();
 		dragStart(25, 0);
@@ -618,7 +618,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void moveSegmentShouldRunOnUpdateForEndPoints() {
+	void moveSegmentShouldRunOnUpdateForEndPoints() {
 		add("A = (0,0)");
 		GeoElement segment = add("f = Segment(A, (1,-1))");
 		moveObjectWithArrowKey(segment, 1, -2);

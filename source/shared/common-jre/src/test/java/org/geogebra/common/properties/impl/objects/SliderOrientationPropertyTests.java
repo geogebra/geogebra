@@ -27,9 +27,9 @@ import org.geogebra.common.properties.impl.objects.SliderOrientationProperty.Sli
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class SliderOrientationPropertyTests extends BaseAppTestSetup {
+class SliderOrientationPropertyTests extends BaseAppTestSetup {
 	@Test
-	public void testChangingOrientation() {
+	void testChangingOrientation() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoNumeric slider = evaluateGeoElement("Slider(-5, 5, 1)");
 		SliderOrientationProperty sliderOrientationProperty = assertDoesNotThrow(() ->

@@ -16,8 +16,8 @@
 
 package org.geogebra.test.euclidian.plot;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,17 +33,17 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawImplicitCurve;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-public class DrawImplicitCurveTest extends BaseUnitTest {
+class DrawImplicitCurveTest extends BaseUnitTest {
 
-	public static final String REFERENCE_FILE = "src/test/resources/implicitPath.txt";
+	private static final String REFERENCE_FILE = "src/test/resources/implicitPath.txt";
 	private static final boolean SAVE_REFERENCE = false;
 	private final GGraphics2D graphics2D = new GGraphicsCommon();
 
 	@Test
-	public void testImplicitCurvesPlotTheSame() {
+	void testImplicitCurvesPlotTheSame() {
 		GeoImplicit geo = add("sin(x+y)-cos(x y)+1=0");
 		final EuclidianView view = getApp().getActiveEuclidianView();
 		final PathPlotterMock plotterMock = new PathPlotterMock();
@@ -87,9 +87,9 @@ public class DrawImplicitCurveTest extends BaseUnitTest {
 		return Files.readString(filePath);
 	}
 
-	@Ignore
+	@Disabled
 	@Test
-	public void testDrawDiff() {
+	void testDrawDiff() {
 		GeoImplicit geo = add("(x^2 + y^2 -1) (x^2 +y^2 - 4) +1=0");
 		final EuclidianView view = getApp().getActiveEuclidianView();
 

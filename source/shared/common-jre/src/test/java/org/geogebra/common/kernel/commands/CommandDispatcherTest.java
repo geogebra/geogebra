@@ -31,10 +31,10 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class CommandDispatcherTest extends BaseAppTestSetup {
+class CommandDispatcherTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupClassicApp();
 	}
 

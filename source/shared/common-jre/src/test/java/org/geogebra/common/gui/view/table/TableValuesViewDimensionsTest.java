@@ -16,25 +16,25 @@
  
 package org.geogebra.common.gui.view.table;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import org.geogebra.common.gui.view.table.dimensions.TableValuesViewDimensions;
 import org.geogebra.common.gui.view.table.dimensions.TextSizeMeasurer;
 import org.geogebra.common.io.FactoryProviderCommon;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class TableValuesViewDimensionsTest extends MockedTableValuesUnitTest {
+class TableValuesViewDimensionsTest extends MockedTableValuesUnitTest {
 
 	private TableValuesViewDimensions dimensions;
 	private TextSizeMeasurer measurer;
 
-	@Before
-	public void setupTest() {
+	@BeforeEach
+	void setupTest() {
 		FactoryProvider.setInstance(new FactoryProviderCommon());
 		measurer = Mockito.mock(TextSizeMeasurer.class);
 		model = Mockito.mock(TableValuesModel.class);
@@ -49,7 +49,7 @@ public class TableValuesViewDimensionsTest extends MockedTableValuesUnitTest {
 	}
 
 	@Test
-	public void testMinWidth() {
+	void testMinWidth() {
 		mockModelWithSingleValue();
 		when(measurer.getWidth(Mockito.anyString()))
 				.thenReturn(TableValuesViewDimensions.MIN_COLUMN_WIDTH / 10);
@@ -58,7 +58,7 @@ public class TableValuesViewDimensionsTest extends MockedTableValuesUnitTest {
 	}
 
 	@Test
-	public void testMaxWidth() {
+	void testMaxWidth() {
 		mockModelWithSingleValue();
 		when(measurer.getWidth(Mockito.anyString()))
 				.thenReturn(TableValuesViewDimensions.MAX_COLUMN_WIDTH * 10);
@@ -67,7 +67,7 @@ public class TableValuesViewDimensionsTest extends MockedTableValuesUnitTest {
 	}
 
 	@Test
-	public void testWidthBetweenMinAndMax() {
+	void testWidthBetweenMinAndMax() {
 		mockModelWithSingleValue();
 		int contentWidth = TableValuesViewDimensions.MIN_COLUMN_WIDTH;
 		when(measurer.getWidth(Mockito.anyString()))
@@ -77,7 +77,7 @@ public class TableValuesViewDimensionsTest extends MockedTableValuesUnitTest {
 	}
 
 	@Test
-	public void testCacheRecalculatesWidthWhenRowRemoved() {
+	void testCacheRecalculatesWidthWhenRowRemoved() {
 		int longContentWidth = TableValuesViewDimensions.MIN_COLUMN_WIDTH + 20;
 		mockMeasureWidth("10", TableValuesViewDimensions.MIN_COLUMN_WIDTH);
 		mockMeasureWidth("11", longContentWidth);
@@ -99,7 +99,7 @@ public class TableValuesViewDimensionsTest extends MockedTableValuesUnitTest {
 	}
 
 	@Test
-	public void testCacheRecalculatesWidthWhenRowAdded() {
+	void testCacheRecalculatesWidthWhenRowAdded() {
 		int longContentWidth = TableValuesViewDimensions.MIN_COLUMN_WIDTH + 20;
 		mockMeasureWidth("10", TableValuesViewDimensions.MIN_COLUMN_WIDTH);
 		mockMeasureWidth("11", longContentWidth);

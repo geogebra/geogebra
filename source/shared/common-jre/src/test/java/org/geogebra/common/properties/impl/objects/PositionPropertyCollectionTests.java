@@ -48,11 +48,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class PositionPropertyCollectionTests extends BaseAppTestSetup {
+class PositionPropertyCollectionTests extends BaseAppTestSetup {
 	private final GeoElementPropertiesFactory propertiesFactory = new GeoElementPropertiesFactory();
 
 	@Test
-	public void testPropertyAvailabilityForImage() {
+	void testPropertyAvailabilityForImage() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
 		PositionPropertyCollection positionPropertyCollection = assertDoesNotThrow(() ->
@@ -66,7 +66,7 @@ public class PositionPropertyCollectionTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPropertyVisibilityForImage() {
+	void testPropertyVisibilityForImage() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
 		PositionPropertyCollection positionPropertyCollection = assertDoesNotThrow(() ->
@@ -100,7 +100,7 @@ public class PositionPropertyCollectionTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPropertyVisibilityForSlider() {
+	void testPropertyVisibilityForSlider() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoNumeric slider = evaluateGeoElement("a = Slider(-5, 5, 1)");
 		PositionPropertyCollection positionPropertyCollection = assertDoesNotThrow(() ->
@@ -124,7 +124,7 @@ public class PositionPropertyCollectionTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPropertyAvailabilityForBoolean() {
+	void testPropertyAvailabilityForBoolean() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoBoolean geoBoolean = evaluateGeoElement("true");
 		PositionPropertyCollection positionPropertyCollection = assertDoesNotThrow(() ->
@@ -142,7 +142,7 @@ public class PositionPropertyCollectionTests extends BaseAppTestSetup {
 			"\"abc\"",
 			"Text(\"abc\")"
 	})
-	public void testPropertyAvailabilityForText(String command) {
+	void testPropertyAvailabilityForText(String command) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoText geoText = evaluateGeoElement(command);
 		PositionPropertyCollection positionPropertyCollection = assertDoesNotThrow(() ->
@@ -156,13 +156,13 @@ public class PositionPropertyCollectionTests extends BaseAppTestSetup {
 	}
 
 	@ParameterizedTest
-	@CsvSource (value = {
+	@CsvSource(value = {
 			"IF(3>2,\"abc\",\"def\")",
 			"IF(3>2,Text(\"abc\"), Text(\"def\", (1, 2)))",
 			"IF(3>2,Text(\"abc\", (8, 9)), Text(\"def\", (1, 2)))",
 			"Element({\"a\", \"b\"}, 1)"
 	}, delimiter = '#')
-	public void testPropertyNotAvailableForDependentText(String command) {
+	void testPropertyNotAvailableForDependentText(String command) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoText = evaluateGeoElement(command);
 		assertThrows(NotApplicablePropertyException.class, () ->
@@ -171,7 +171,7 @@ public class PositionPropertyCollectionTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPropertyAvailabilityForPieChart() {
+	void testPropertyAvailabilityForPieChart() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart geoPieChart = evaluateGeoElement("PieChart({1, 2, 3})");
 		PositionPropertyCollection positionPropertyCollection = assertDoesNotThrow(() ->
@@ -191,14 +191,14 @@ public class PositionPropertyCollectionTests extends BaseAppTestSetup {
 			"1, 2",
 			"x^2",
 	})
-	public void testPointExpressionValidationFailures(String pointExpression) {
+	void testPointExpressionValidationFailures(String pointExpression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertNotNull(PositionPropertyCollection.validatePointExpression(
 				getKernel().getParser(), getLocalization(), pointExpression));
 	}
 
 	@Test
-	public void testSuccessfulPointExpressionValidation() {
+	void testSuccessfulPointExpressionValidation() {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertNull(PositionPropertyCollection.validatePointExpression(
 				getKernel().getParser(), getLocalization(), "(1, 2)"));

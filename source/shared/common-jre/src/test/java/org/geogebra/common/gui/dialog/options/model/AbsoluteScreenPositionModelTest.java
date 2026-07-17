@@ -31,12 +31,12 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AbsoluteScreenPositionModelTest extends BaseUnitTest {
+class AbsoluteScreenPositionModelTest extends BaseUnitTest {
 
 	@Test
-	public void testDynamicPosition() {
+	void testDynamicPosition() {
 		AbsoluteScreenPositionModel model = new AbsoluteScreenPositionModel.ForX(getApp());
 		GeoElement[] geos = prepareGeos();
 
@@ -71,7 +71,7 @@ public class AbsoluteScreenPositionModelTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void switchingToAbsShouldRemoveListeners() throws CircularDefinitionException {
+	void switchingToAbsShouldRemoveListeners() throws CircularDefinitionException {
 		add("ZoomIn(0,0,16,12)");
 		AbsoluteScreenPositionModel model = new AbsoluteScreenPositionModel.ForX(getApp());
 		GeoElement[] geos = Arrays.stream(prepareGeos())
@@ -99,7 +99,7 @@ public class AbsoluteScreenPositionModelTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void shouldSwitchFromDynamicToStatic() {
+	void shouldSwitchFromDynamicToStatic() {
 		GeoText txt = add("\"move me\"");
 		add("a=42");
 		txt.setAbsoluteScreenLocActive(true);

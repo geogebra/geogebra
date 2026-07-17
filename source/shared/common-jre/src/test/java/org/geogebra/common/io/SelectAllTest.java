@@ -20,26 +20,26 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.editor.share.event.KeyEvent;
 import org.geogebra.editor.share.util.JavaKeyCodes;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class SelectAllTest {
+class SelectAllTest {
 	private static final AppCommon app = AppCommonFactory.create();
 
 	/**
 	 * Setup LaTeX
 	 */
-	@BeforeClass
-	public static void prepare() {
+	@BeforeAll
+	static void prepare() {
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderCommon());
 		}
 	}
 
 	@Test
-	public void testPointSimpleCoordinateX() {
+	void testPointSimpleCoordinateX() {
 		EditorChecker checker = new EditorChecker(app);
 		checker.parse("(321.45,4)")
 				.setModifiers(KeyEvent.CTRL_MASK)
@@ -51,7 +51,7 @@ public class SelectAllTest {
 	}
 
 	@Test
-	public void testPointSimpleCoordinateXFromMiddle() {
+	void testPointSimpleCoordinateXFromMiddle() {
 		EditorChecker checker = new EditorChecker(app);
 		checker.parse("(321.45,4)")
 				.protect()
@@ -63,7 +63,7 @@ public class SelectAllTest {
 	}
 
 	@Test
-	public void testPoint3DCoordinateDeleteMiddle() {
+	void testPoint3DCoordinateDeleteMiddle() {
 		EditorChecker checker = new EditorChecker(app);
 		checker.parse("(1,2,3)")
 				.protect()
@@ -78,7 +78,7 @@ public class SelectAllTest {
 	}
 
 	@Test
-	public void testPointDeleteLast() {
+	void testPointDeleteLast() {
 		EditorChecker checker = new EditorChecker(app);
 		checker.parse("(,)")
 				.protect()
@@ -91,7 +91,7 @@ public class SelectAllTest {
 	}
 
 	@Test
-	public void testPointSelectFirst() {
+	void testPointSelectFirst() {
 		EditorChecker checker = new EditorChecker(app);
 		checker.parse("(,,)")
 				.protect()
@@ -105,7 +105,7 @@ public class SelectAllTest {
 	}
 
 	@Test
-	public void listShouldSelectAllElements() {
+	void listShouldSelectAllElements() {
 		EditorChecker checker = new EditorChecker(app);
 		checker.parse("{1,2,3}")
 				.left(1)

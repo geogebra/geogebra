@@ -32,29 +32,29 @@ import static org.geogebra.common.kernel.interval.IntervalSetOps.toLegacy;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.LegacyIntervalAdapter.legacyInverted;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.interval.IntervalSet;
 import org.geogebra.test.OrderingComparison;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class IntervalTrigonometricTest {
+class IntervalTrigonometricTest {
 	private final IntervalNodeEvaluator evaluator = new IntervalNodeEvaluator();
-	
+
 	@Test
-	public void testPiTwice() {
+	void testPiTwice() {
 		Interval interval = IntervalConstants.piTwice();
 		assertArrayEquals(new double[]{PI_TWICE_LOW, PI_TWICE_HIGH},
 				interval.toArray(), 0);
 	}
 
 	@Test
-	public void testCos() {
+	void testCos() {
 		assertEquals(IntervalConstants.one(), cos(interval(0, 0)));
 		assertEquals(interval(0, 1), cos(interval(0, PI / 2)));
 		assertEquals(interval(-1, 1), cos(interval(-PI, PI)));
@@ -81,9 +81,9 @@ public class IntervalTrigonometricTest {
 	private Interval cos(Interval value) {
 		return evaluator.cos(value);
 	}
-	
+
 	@Test
-	public void testCosWithInfinity() {
+	void testCosWithInfinity() {
 		assertEquals(interval(-1, 1),
 				cos(interval(NEGATIVE_INFINITY, POSITIVE_INFINITY)));
 		assertEquals(interval(-1, 1),
@@ -93,7 +93,7 @@ public class IntervalTrigonometricTest {
 	}
 
 	@Test
-	public void testSin() {
+	void testSin() {
 		assertEquals(interval(0, 0), evaluator.sin(interval(0, 0)));
 		assertEquals(interval(0, 1), evaluator.sin(interval(0, PI / 2)));
 		assertEquals(interval(-1, 1), evaluator.sin(interval(0, 3 * PI / 2)));
@@ -109,7 +109,7 @@ public class IntervalTrigonometricTest {
 	}
 
 	@Test
-	public void testSinWithInfinity() {
+	void testSinWithInfinity() {
 		assertEquals(interval(-1, 1),
 				evaluator.sin(interval(NEGATIVE_INFINITY, POSITIVE_INFINITY)));
 		assertTrue(evaluator.sin(interval(NEGATIVE_INFINITY, NEGATIVE_INFINITY)).isUndefined());
@@ -117,7 +117,7 @@ public class IntervalTrigonometricTest {
 	}
 
 	@Test
-	public void testTan() {
+	void testTan() {
 		assertEquals(interval(0, 0), evaluator.tan(interval(0, 0)));
 		assertEquals(interval(0, 0), evaluator.tan(interval(PI, PI)));
 		assertEquals(interval(0, 0), evaluator.tan(interval(-PI, -PI)));
@@ -129,7 +129,7 @@ public class IntervalTrigonometricTest {
 	}
 
 	@Test
-	public void testAsin() {
+	void testAsin() {
 		assertEquals(interval(0, 0), evaluator.asin(interval(0, 0)));
 		assertEquals(interval(-1.5707963267948966, 1.5707963267948966),
 				evaluator.asin(interval(-1, 1)));
@@ -139,7 +139,7 @@ public class IntervalTrigonometricTest {
 	}
 
 	@Test
-	public void testAsinWholeAndInverted() {
+	void testAsinWholeAndInverted() {
 		assertEquals(interval(-1.5707963267948966, 1.5707963267948966), evaluator.asin(whole()));
 		assertEquals(legacyInverted(-0.5235987755982989, 0.5235987755982989),
 				evaluator.asin(legacyInverted(-0.5, 0.5)));
@@ -150,7 +150,7 @@ public class IntervalTrigonometricTest {
 	}
 
 	@Test
-	public void testAcos() {
+	void testAcos() {
 		assertEquals(interval(0, 0), evaluator.acos(interval(1, 1)));
 		assertEquals(interval(0, PI / 2), evaluator.acos(interval(0, 1)));
 		assertEquals(interval(0, PI), evaluator.acos(interval(-1, 1)));
@@ -159,7 +159,7 @@ public class IntervalTrigonometricTest {
 	}
 
 	@Test
-	public void testAcosWholeAndInverted() {
+	void testAcosWholeAndInverted() {
 		assertEquals(interval(0, PI), evaluator.acos(whole()));
 		assertEquals(legacyInverted(1.0471975511965976, 2.0943951023931957),
 				evaluator.acos(legacyInverted(-0.5, 0.5)));
@@ -170,41 +170,41 @@ public class IntervalTrigonometricTest {
 	}
 
 	@Test
-	public void testAtan() {
+	void testAtan() {
 		assertEquals(interval(0, 0), evaluator.atan(interval(0, 0)));
 		assertEquals(interval(-0.7853981633974484, 0.7853981633974484),
 				evaluator.atan(interval(-1, 1)));
 	}
 
 	@Test
-	public void testAtanWholeAndInverted() {
+	void testAtanWholeAndInverted() {
 		assertEquals(interval(-1.5707963267948966, 1.5707963267948966), evaluator.atan(whole()));
 		assertEquals(legacyInverted(-0.4636476090008061, 0.4636476090008061),
 				evaluator.atan(legacyInverted(-0.5, 0.5)));
 	}
 
 	@Test
-	public void testAtanWrapperMatchesAtanSet() {
+	void testAtanWrapperMatchesAtanSet() {
 		Interval input = legacyInverted(-0.5, 0.5);
 		assertEquals(evaluator.atan(input), toLegacy(evaluator.atanSet(fromLegacy(input))));
 	}
 
 	@Test
-	public void testSinh() {
+	void testSinh() {
 		assertEquals(interval(0, 0), evaluator.sinh(interval(0, 0)));
 		assertEquals(interval(-3.6268604078470195, 3.6268604078470195),
 				evaluator.sinh(interval(-2, 2)));
 	}
 
 	@Test
-	public void testSinhWholeAndInverted() {
+	void testSinhWholeAndInverted() {
 		assertEquals(whole(), evaluator.sinh(whole()));
 		assertEquals(legacyInverted(-0.5210953054937474, 0.5210953054937474),
 				evaluator.sinh(legacyInverted(-0.5, 0.5)));
 	}
 
 	@Test
-	public void testCosh() {
+	void testCosh() {
 		assertEquals(interval(1, 1), evaluator.cosh(interval(0, 0)));
 		assertEquals(interval(1, 3.762195691083632), evaluator.cosh(interval(-2, 2)));
 		assertEquals(interval(3.762195691083632), evaluator.cosh(interval(-2, -2)));
@@ -213,14 +213,14 @@ public class IntervalTrigonometricTest {
 	}
 
 	@Test
-	public void testCoshWholeAndInverted() {
+	void testCoshWholeAndInverted() {
 		assertEquals(interval(1, POSITIVE_INFINITY), evaluator.cosh(whole()));
 		assertEquals(interval(1.1276259652063807, POSITIVE_INFINITY),
 				evaluator.cosh(legacyInverted(-0.5, 0.5)));
 	}
 
 	@Test
-	public void coshOfInvertedShouldNotOverflow() {
+	void coshOfInvertedShouldNotOverflow() {
 		assertFalse(evaluator.coshSet(inverted(-711, 711)).isOverflow());
 		assertFalse(evaluator.coshSet(inverted(-1000, 1000)).isOverflow());
 		assertFalse(evaluator.coshSet(inverted(-Double.MAX_VALUE / 2,
@@ -228,7 +228,7 @@ public class IntervalTrigonometricTest {
 	}
 
 	@Test
-	public void coshOfInvertedShouldKeepTrueUnboundedResultDistinctFromOverflow() {
+	void coshOfInvertedShouldKeepTrueUnboundedResultDistinctFromOverflow() {
 		IntervalSet result = evaluator.coshSet(inverted(-711, 711));
 		assertFalse(result.isOverflow());
 		assertTrue(result.isConnected());
@@ -237,7 +237,7 @@ public class IntervalTrigonometricTest {
 	}
 
 	@Test
-	public void testTanh() {
+	void testTanh() {
 		assertEquals(interval(0, 0), evaluator.tanh(interval(0, 0)));
 		assertEquals(interval(-0.9993292997390671, 0.9993292997390671),
 				evaluator.tanh(interval(-4, 4)));
@@ -246,35 +246,35 @@ public class IntervalTrigonometricTest {
 	}
 
 	@Test
-	public void testTanhWholeAndInverted() {
+	void testTanhWholeAndInverted() {
 		assertEquals(interval(-1, 1), evaluator.tanh(whole()));
 		assertEquals(legacyInverted(-0.46211715726000974, 0.46211715726000974),
 				evaluator.tanh(legacyInverted(-0.5, 0.5)));
 	}
 
 	@Test
-	public void testSinLnXNegative() {
+	void testSinLnXNegative() {
 		assertEquals(IntervalConstants.undefined(),
 				new Interval(evaluator.sin(evaluator.log(interval(-15, 0)))));
 	}
 
 	@Test
-	public void testInvertedSinShouldReturnInMinusOneOneRange() {
+	void testInvertedSinShouldReturnInMinusOneOneRange() {
 		assertEquals(interval(-1, 1), evaluator.sin(legacyInverted(2, 3)));
 	}
 
 	@Test
-	public void testInvertedCosShouldReturnInMinusOneOneRange() {
+	void testInvertedCosShouldReturnInMinusOneOneRange() {
 		assertEquals(interval(-1, 1), cos(legacyInverted(2, 3)));
 	}
 
 	@Test
-	public void testInvertedCosLnShouldBeUndefined() {
+	void testInvertedCosLnShouldBeUndefined() {
 		assertEquals(undefined(), cos(evaluator.log(evaluator.divide(interval(7), zero()))));
 	}
 
 	@Test
-	public void coshShouldDetectOverflow() {
+	void coshShouldDetectOverflow() {
 		assertTrue(evaluator.coshSet(connected(710, 711)).isOverflow());
 		assertTrue(evaluator.coshSet(connected(-711, -710)).isOverflow());
 		assertTrue(evaluator.coshSet(connected(-711, 1)).isOverflow());
@@ -282,7 +282,7 @@ public class IntervalTrigonometricTest {
 	}
 
 	@Test
-	public void sinhShouldDetectOverflow() {
+	void sinhShouldDetectOverflow() {
 		assertTrue(evaluator.sinhSet(connected(711, 711)).isOverflow());
 		assertTrue(evaluator.sinhSet(connected(711, 712)).isOverflow());
 		assertTrue(evaluator.sinhSet(connected(700, 711)).isOverflow());

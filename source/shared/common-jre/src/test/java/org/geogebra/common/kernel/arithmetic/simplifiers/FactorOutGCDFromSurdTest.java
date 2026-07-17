@@ -18,10 +18,10 @@ package org.geogebra.common.kernel.arithmetic.simplifiers;
 
 import org.junit.jupiter.api.Test;
 
-public class FactorOutGCDFromSurdTest extends BaseSimplifyTestSetup {
+class FactorOutGCDFromSurdTest extends BaseSimplifyTestSetup {
 
 	@Test
-	public void testFactorAdditionOfPositives() {
+	void testFactorAdditionOfPositives() {
 		shouldSimplify("2 + 2sqrt(2)", "2 (1 + sqrt(2))");
 		shouldSimplify("2sqrt(2) + 2", "2 (1 + sqrt(2))");
 
@@ -30,7 +30,7 @@ public class FactorOutGCDFromSurdTest extends BaseSimplifyTestSetup {
 	}
 
 	@Test
-	public void testFactorSubtractionOfPositives() {
+	void testFactorSubtractionOfPositives() {
 		shouldSimplify("2 - 2sqrt(2)", "2 (1 - sqrt(2))");
 
 		shouldSimplify("12 - 4sqrt(2)", "4 (3 - sqrt(2))");
@@ -39,13 +39,13 @@ public class FactorOutGCDFromSurdTest extends BaseSimplifyTestSetup {
 	}
 
 	@Test
-	public void testFactorSubtractionOfNegatives() {
+	void testFactorSubtractionOfNegatives() {
 		shouldSimplify("(-2 - 2sqrt(2))", "-2 (1 + sqrt(2))");
 		shouldSimplify("-10 - 2sqrt(2)", "-2 (5 + sqrt(2))");
 	}
 
 	@Test
-	public void testFactorOutNominator() {
+	void testFactorOutNominator() {
 		shouldSimplify("(2 + 2sqrt(2)) / -4", "-((2 + 2sqrt(2))/4)",
 				getSimplifier(), new PositiveDenominator(utils));
 		shouldSimplify("(-2 - 2sqrt(2)) / 4", "(-2 (1 + sqrt(2))) / 4");
@@ -53,14 +53,14 @@ public class FactorOutGCDFromSurdTest extends BaseSimplifyTestSetup {
 	}
 
 	@Test
-	public void testFactorOutMultipliedExpressions() {
+	void testFactorOutMultipliedExpressions() {
 		shouldSimplify("3 (2 + 2sqrt(2))", "6 (1 + sqrt(2))");
 		shouldSimplify("3 (2 - 10sqrt(2))", "6 (1 - 5sqrt(2))");
 		shouldSimplify("3 (-2 - 10sqrt(2))", "-6 (1 + 5sqrt(2))");
 	}
 
 	@Test
-	public void testMinusTimesMinusShouldFlipOperand() {
+	void testMinusTimesMinusShouldFlipOperand() {
 		shouldSimplify("-6 (-2 - 2sqrt(2))", "12 (1 + sqrt(2))");
 	}
 

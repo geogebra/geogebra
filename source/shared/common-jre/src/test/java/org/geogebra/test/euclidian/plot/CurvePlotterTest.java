@@ -17,7 +17,7 @@
 package org.geogebra.test.euclidian.plot;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 
@@ -34,64 +34,64 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.test.OrderingComparison;
 import org.hamcrest.CoreMatchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CurvePlotterTest extends BaseUnitTest {
+class CurvePlotterTest extends BaseUnitTest {
 
 	@Test
-	public void testPlotSinX() {
+	void testPlotSinX() {
 		CurveEvaluable curve = add("sin(x)");
 		resultShouldBeTheSame(curve, -1, 1);
 	}
 
 	@Test
-	public void testPlotSinX4() {
+	void testPlotSinX4() {
 		resultShouldBeTheSame(add("sin(x^4)"), -5, 0);
 	}
 
 	@Test
-	public void testPlotReciprocal() {
+	void testPlotReciprocal() {
 		resultShouldBeTheSame(add("1/x"), -5, 5);
 	}
 
 	@Test
-	public void testSingularity() {
+	void testSingularity() {
 		resultShouldBeTheSame(add("If(x==0, ?, sin(x))"), -5, 5);
 	}
 
 	@Test
-	public void testSinX() {
+	void testSinX() {
 		resultShouldBeTheSame(add("sin(x)"), -1, -0.243311111);
 	}
 
 	@Test
-	public void testSinXSquared() {
+	void testSinXSquared() {
 		resultShouldBeTheSame(add("sin(x^2)"), -50, 50);
 	}
 
 	@Test
-	public void testSinXPowerOf4() {
+	void testSinXPowerOf4() {
 		resultShouldBeTheSame(add("sin(x^4)"), -50, 50, 7000);
 	}
 
 	@Test
-	public void testCurve() {
+	void testCurve() {
 		resultShouldBeTheSame(add("Curve( t+abs(t), t+abs(t), t, -5, 0)"), -5, 5);
 	}
 
 	@Test
-	public void testSqrt() {
+	void testSqrt() {
 		resultShouldBeTheSame(add("sqrt(x)"), -10, 10);
 	}
 
 	@Test
-	public void testPiecewise() {
+	void testPiecewise() {
 		resultShouldBeTheSame(add("If(x < 1, x + 1,"
 				+ " If(x > 1, -x + 1, 1))"), -3.22724, 3.83963);
 	}
 
 	@Test
-	public void testRational() {
+	void testRational() {
 		VerticalsCollectingClippedPath gp = new VerticalsCollectingClippedPath();
 		GeoFunction f = add("(x^4+1)/x");
 		EuclidianView view = getApp().getActiveEuclidianView();
@@ -102,7 +102,7 @@ public class CurvePlotterTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testSteepLinearFunction() {
+	void testSteepLinearFunction() {
 		VerticalsCollectingClippedPath gp = new VerticalsCollectingClippedPath();
 		GeoFunction f = add("10000x");
 		EuclidianView view = getApp().getActiveEuclidianView();

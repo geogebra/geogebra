@@ -21,12 +21,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class GeoSurfaceCartesian2DTest extends BaseUnitTest {
+class GeoSurfaceCartesian2DTest extends BaseUnitTest {
 
 	@Test
-	public void testUndefined() {
+	void testUndefined() {
 		GeoSurfaceCartesian2D surfaceCartesian2D =
 				new GeoSurfaceCartesian2D(getConstruction(), null, null);
 		assertThat(

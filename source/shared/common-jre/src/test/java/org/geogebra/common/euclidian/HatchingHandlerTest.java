@@ -35,13 +35,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class HatchingHandlerTest {
+class HatchingHandlerTest {
 
 	private AppCommon app;
 	private HatchingHandler hatchingHandler;
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		app = Mockito.spy(AppCommonFactory.create());
 		when(app.isHTML5Applet()).thenReturn(true);
 		EuclidianView view = app.getActiveEuclidianView();
@@ -50,7 +50,7 @@ public class HatchingHandlerTest {
 
 	/** Test for APPS-4819 */
 	@Test
-	public void symbolDimensions() {
+	void symbolDimensions() {
 		for (Integer size: Arrays.asList(27, 28, 29)) {
 			AwtFactoryCommon.GTexturePaintCommon texture = getSymbolFill(app, size);
 			assertEquals(27, texture.subImage.getHeight());
@@ -59,7 +59,7 @@ public class HatchingHandlerTest {
 	}
 
 	@Test
-	public void testTextureTypes() {
+	void testTextureTypes() {
 		app.setExporting(App.ExportType.PNG, 2);
 		GBasicStroke defObjStroke = AwtFactoryCommon.getPrototype().newBasicStroke(1);
 		GPaint texture = hatchingHandler.getHatchingTexture(defObjStroke,

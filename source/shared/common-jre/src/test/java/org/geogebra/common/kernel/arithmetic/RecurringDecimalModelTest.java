@@ -18,7 +18,8 @@ package org.geogebra.common.kernel.arithmetic;
 
 import static org.geogebra.common.kernel.arithmetic.RecurringDecimalModel.parse;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Objects;
 
@@ -26,11 +27,11 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class RecurringDecimalModelTest extends BaseUnitTest {
+class RecurringDecimalModelTest extends BaseUnitTest {
 	@Test
-	public void testParse() {
+	void testParse() {
 		shouldParseAs("3.25", "4", 3, 25, 4);
 		shouldParseAs("1.2", "345", 1, 2, 345);
 		shouldParseAs("0.", "512", 0, 512);
@@ -38,29 +39,34 @@ public class RecurringDecimalModelTest extends BaseUnitTest {
 		shouldParseAs("24.", "3", 24, 3);
 	}
 
-	@Test(expected = NumberFormatException.class)
-	public void testInvalidFormat() {
-		parse("3.2̅", "412");
+	@Test
+	void testInvalidFormat() {
+		assertThrows(NumberFormatException.class, () ->
+			parse("3.2̅", "412"));
 	}
 
-	@Test(expected = NumberFormatException.class)
-	public void testIntegerInvalid() {
-		parse("x.25", "412");
+	@Test
+	void testIntegerInvalid() {
+		assertThrows(NumberFormatException.class, () ->
+			parse("x.25", "412"));
 	}
 
-	@Test(expected = NumberFormatException.class)
-	public void testDotMissing() {
-		parse("325", "412");
+	@Test
+	void testDotMissing() {
+		assertThrows(NumberFormatException.class, () ->
+			parse("325", "412"));
 	}
 
-	@Test(expected = NumberFormatException.class)
-	public void testNonRecurringInvalid() {
-		parse("0.wasd", "123");
+	@Test
+	void testNonRecurringInvalid() {
+		assertThrows(NumberFormatException.class, () ->
+			parse("0.wasd", "123"));
 	}
 
-	@Test(expected = NumberFormatException.class)
-	public void testRecurringPartInvalid() {
-		parse("1.2", "3.4");
+	@Test
+	void testRecurringPartInvalid() {
+		assertThrows(NumberFormatException.class, () ->
+			parse("1.2", "3.4"));
 	}
 
 	private static void shouldParseAs(String representation, String recurring, int integerPart,
@@ -83,7 +89,7 @@ public class RecurringDecimalModelTest extends BaseUnitTest {
 		private final Object nonrecurring;
 		private final int recurring;
 
-		public RecurringDecimalModelMatcher(int integerPart, Object nonrecurring,
+		RecurringDecimalModelMatcher(int integerPart, Object nonrecurring,
 				int recurringPart) {
 			this.integerPart = integerPart;
 			this.nonrecurring = nonrecurring;
@@ -104,7 +110,7 @@ public class RecurringDecimalModelTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testToString() {
+	void testToString() {
 		RecurringDecimalModel model = newModel(1, "2", "34");
 		assertEquals("1.23̅4̅", model.toString(StringTemplate.defaultTemplate));
 		assertEquals("1.2\\overline{34}", model.toString(StringTemplate.latexTemplate));

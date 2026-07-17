@@ -16,27 +16,27 @@
 
 package org.geogebra.common.kernel.batch;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.Iterator;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class EventOptimizedListTest extends BaseUnitTest {
+class EventOptimizedListTest extends BaseUnitTest {
 
 	private EventOptimizedList eventOptimizedList;
 
-	@Before
-	public void setupEventOptimizedListTest() {
+	@BeforeEach
+	void setupEventOptimizedListTest() {
 		eventOptimizedList = new EventOptimizedList();
 	}
 
 	@Test
-	public void testAddingSameUpdate() {
+	void testAddingSameUpdate() {
 		GeoElement element = getElementFactory().createGeoLine();
 
 		addUpdateEvent(element);
@@ -47,7 +47,7 @@ public class EventOptimizedListTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testAddingRemoveEvent() {
+	void testAddingRemoveEvent() {
 		GeoElement firstElement = getElementFactory().createGeoLine();
 		GeoElement secondElement = getElementFactory().createGeoLine();
 		GeoElement thirdElement = getElementFactory().createGeoLine();

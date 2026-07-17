@@ -22,19 +22,19 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.main.PreviewFeature;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-public class GeoImplicitSurfaceTest extends BaseUnitTest {
+class GeoImplicitSurfaceTest extends BaseUnitTest {
 
-	@BeforeClass
-	public static void enablePreviewFeatures() {
+	@BeforeAll
+	static void enablePreviewFeatures() {
 		PreviewFeature.setPreviewFeaturesEnabled(true);
 	}
 
-	@AfterClass
-	public static void disablePreviewFeatures() {
+	@AfterAll
+	static void disablePreviewFeatures() {
 		PreviewFeature.setPreviewFeaturesEnabled(false);
 	}
 
@@ -44,7 +44,7 @@ public class GeoImplicitSurfaceTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void implicitSurface() {
+	void implicitSurface() {
 		GeoImplicitSurface surface = add("x^3+y^3+z^3=1");
 		assertThat(surface, isDefined());
 	}

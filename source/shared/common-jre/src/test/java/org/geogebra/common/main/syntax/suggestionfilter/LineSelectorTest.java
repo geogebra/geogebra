@@ -16,14 +16,14 @@
 
 package org.geogebra.common.main.syntax.suggestionfilter;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class LineSelectorTest {
+class LineSelectorTest {
 
 	@Test
-	public void test() {
+	void test() {
 		assertEquals("a\nc", LineSelector.select("a\nb\nc", 0, 2));
 	}
 }

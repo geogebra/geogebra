@@ -16,16 +16,16 @@
 
 package org.geogebra.common.euclidian;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ClipAlgoSutherlandHodogmanTest {
+class ClipAlgoSutherlandHodogmanTest {
 	private final ClipAlgoSutherlandHodogman algo = new ClipAlgoSutherlandHodogman();
 	private final ArrayList< MyPoint > input = new ArrayList<>();
 	private ArrayList< MyPoint > output = new ArrayList<>();
@@ -37,7 +37,7 @@ public class ClipAlgoSutherlandHodogmanTest {
 	};
 
 	@Test
-	public void allInsideTest() {
+	void allInsideTest() {
 		addInput(10, 10);
 		addInput(80, 10);
 		addInput(80, 80);
@@ -55,7 +55,7 @@ public class ClipAlgoSutherlandHodogmanTest {
 	}
 
 	@Test
-	public void allOutsideTest() {
+	void allOutsideTest() {
 		addInput(-50, -50);
 		addInput(100, -50);
 		addInput(150, 150);
@@ -70,7 +70,7 @@ public class ClipAlgoSutherlandHodogmanTest {
 	}
 
 	@Test
-	public void rectTest() {
+	void rectTest() {
 		addInput(20, -50);
 		addInput(80, -50);
 		addInput(80, 150);
@@ -83,7 +83,7 @@ public class ClipAlgoSutherlandHodogmanTest {
 	}
 
 	@Test
-	public void clipRectTop() {
+	void clipRectTop() {
 		addInput(20, -50);
 		addInput(80, -70);
 		addInput(80, 50);
@@ -98,7 +98,7 @@ public class ClipAlgoSutherlandHodogmanTest {
 	}
 
 	@Test
-	public void clipRectRight() {
+	void clipRectRight() {
 		addInput(20, 20);
 		addInput(150, 20);
 		addInput(150, 80);

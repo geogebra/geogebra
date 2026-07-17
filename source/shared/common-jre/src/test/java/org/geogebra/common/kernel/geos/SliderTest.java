@@ -20,8 +20,8 @@ import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -37,22 +37,22 @@ import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
 import org.geogebra.test.UndoRedoTester;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class SliderTest extends BaseUnitTest {
+class SliderTest extends BaseUnitTest {
 
 	private EvalInfo info;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		info = EvalInfoFactory.getEvalInfoForAV(getApp(), true);
 		getApp().setConfig(new AppConfigUnrestrictedGraphing());
 		getConstruction().getConstructionDefaults().createDefaultGeoElements();
 	}
 
 	@Test
-	public void setShowExtendedAV() {
+	void setShowExtendedAV() {
 		GeoNumeric slider = add("a = 1", info);
 		slider.setAVSliderOrCheckboxVisible(true);
 		slider.initAlgebraSlider();
@@ -61,7 +61,7 @@ public class SliderTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testMarbleFunctionalityWithUndoRedo() {
+	void testMarbleFunctionalityWithUndoRedo() {
 		App app = getApp();
 		UndoRedoTester undoRedo = new UndoRedoTester(app);
 		undoRedo.setupUndoRedo();
@@ -98,7 +98,7 @@ public class SliderTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void removeSlider() {
+	void removeSlider() {
 		App app = getApp();
 		UndoRedoTester undoRedo = new UndoRedoTester(app);
 		undoRedo.setupUndoRedo();
@@ -122,7 +122,7 @@ public class SliderTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-7498")
-	public void removeSliderShouldHideAnimationButton() {
+	void removeSliderShouldHideAnimationButton() {
 		GeoNumeric slider = add("a = 1", info);
 		slider.createSlider();
 		slider.setAnimating(true);
@@ -137,7 +137,7 @@ public class SliderTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void autocreateSliderShouldHaveCorrectRangeGeometry() {
+	void autocreateSliderShouldHaveCorrectRangeGeometry() {
 		getApp().setConfig(new AppConfigGeometry());
 		getConstruction().getConstructionDefaults().createDefaultGeoElements();
 		GeoAngle slider = autocreateAngle();
@@ -146,14 +146,14 @@ public class SliderTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void autocreateSliderShouldHaveCorrectRangeGraphing() {
+	void autocreateSliderShouldHaveCorrectRangeGraphing() {
 		GeoAngle slider = autocreateAngle();
 		assertThat(slider.getAngleStyle(), is(GeoAngle.AngleStyle.ANTICLOCKWISE));
 		assertThat(slider.getIntervalMax(), is(Kernel.PI_2));
 	}
 
 	@Test
-	public void autocreateSliderShouldWorkForSingleLetterCommands() {
+	void autocreateSliderShouldWorkForSingleLetterCommands() {
 		GeoFunctionNVar f = add("f(x,y)=ax^2+bx+c(x+3)", info);
 		assertThat(((GeoNumeric) lookup("a")).isSlider(), equalTo(true));
 		assertThat(((GeoNumeric) lookup("b")).isSlider(), equalTo(true));
@@ -163,14 +163,14 @@ public class SliderTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-6015")
-	public void autocreateSliderShouldNotCreateAnythingOnError() {
+	void autocreateSliderShouldNotCreateAnythingOnError() {
 		assertThrows(AssertionError.class, () -> add("f(x)=f(x)+1", info));
 		assertThrows(AssertionError.class, () -> add("g(x)=g(x)+a", info));
 		assertEquals(0, getConstruction().getGeoSetConstructionOrder().size());
 	}
 
 	@Test
-	public void shouldResetDefinition() {
+	void shouldResetDefinition() {
 		GeoNumeric numeric = add("a = 1");
 		numeric.createSlider();
 		numeric.setSymbolicMode(true, true);

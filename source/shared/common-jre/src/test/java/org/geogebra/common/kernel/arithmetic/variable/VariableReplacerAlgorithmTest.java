@@ -16,7 +16,7 @@
  
 package org.geogebra.common.kernel.arithmetic.variable;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.Kernel;
@@ -25,21 +25,21 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class VariableReplacerAlgorithmTest extends BaseUnitTest {
+class VariableReplacerAlgorithmTest extends BaseUnitTest {
 
 	private static VariableReplacerAlgorithm variableReplacerAlgorithm;
 
-	@Before
-	public void setupTest() {
+	@BeforeEach
+	void setupTest() {
 		variableReplacerAlgorithm = new VariableReplacerAlgorithm(getKernel());
 		getKernel().setAngleUnit(Kernel.ANGLE_DEGREE);
 	}
 
 	@Test
-	public void testPower() {
+	void testPower() {
 		// transformation to x^2 y^3 done on higher level, see ParserTest
 		shouldReplaceAs("pixxyyy",
 				Unicode.PI_STRING + " * x * x * y * y * y");
@@ -47,7 +47,7 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 
 	@Test
 	@Issue({"WLY-122", "APPS-5781"})
-	public void testDecimal() {
+	void testDecimal() {
 		shouldReplaceAs("pi8.1",
 				Unicode.PI_STRING + " * 8.1");
 		add("C_{0}=3");
@@ -55,7 +55,7 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testIndexProduct() {
+	void testIndexProduct() {
 		allowMultipleUnassigned();
 		add("a_{1} = 4");
 		add("b = 2");
@@ -70,7 +70,7 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testIndexProductInputBar() {
+	void testIndexProductInputBar() {
 		add("b=3");
 		add("i_{1} = 7");
 		shouldReplaceAs("2i_{1}", "2 * i_{1}");
@@ -84,14 +84,14 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testIndexProductGreek() {
+	void testIndexProductGreek() {
 		allowMultipleUnassigned();
 		shouldReplaceAs("E_{m}" + Unicode.omega + "C",
 				"E_{m} * " + Unicode.omega + " * C");
 	}
 
 	@Test
-	public void testFunctionProductsMul() {
+	void testFunctionProductsMul() {
 		allowMultipleUnassigned();
 		shouldReplaceAs("xlnx", "x * ln(x)");
 		shouldReplaceAs("xln2x", "x * ln(2 * x)");
@@ -103,19 +103,19 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testConstantMultiplier() {
+	void testConstantMultiplier() {
 		shouldReplaceAs("18pisqrt5", "18 * " + Unicode.PI_STRING
 			+ " * sqrt(5)");
 	}
 
 	@Test
-	public void testEmbeddedTrigs() {
+	void testEmbeddedTrigs() {
 		allowMultipleUnassigned();
 		shouldReplaceAs("4coscoscosx", "4 * cos(cos(cos(x)))");
 	}
 
 	@Test
-	public void testTrig() {
+	void testTrig() {
 		shouldReplaceAs("sinx", "sin(x)");
 		shouldReplaceAs("sinxx", "sin(x * x)");
 		shouldReplaceAs("sin2", "sin(2" + Unicode.DEGREE_CHAR + ")");
@@ -127,13 +127,13 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testImaginary() {
+	void testImaginary() {
 		allowMultipleUnassigned();
 		shouldReplaceAs("isqrt3", Unicode.IMAGINARY + " * sqrt(3)");
 	}
 
 	@Test
-	public void testLog() {
+	void testLog() {
 		shouldReplaceAs("lnpi", "ln(" + Unicode.PI_STRING + ")");
 		shouldReplaceAs("ln" + Unicode.PI_STRING, "ln(" + Unicode.PI_STRING + ")");
 		shouldReplaceAs("log_{2}2", "log(2, 2)");
@@ -143,13 +143,13 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testParseReverse() {
+	void testParseReverse() {
 		shouldReplaceAs("ax", "a * x");
 	}
 
 	@Test
 	@Issue("APPS-5781")
-	public void shouldNotSimplify() {
+	void shouldNotSimplify() {
 		add("c=3");
 		shouldReplaceAs("c0deg", "(c * 0)" + Unicode.DEGREE_STRING);
 		shouldReplaceAs("c1deg", "(c * 1)" + Unicode.DEGREE_STRING);
@@ -164,7 +164,7 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testReuseInstance() {
+	void testReuseInstance() {
 		String expression = "x";
 		variableReplacerAlgorithm.replace(expression);
 		ExpressionValue secondRun = variableReplacerAlgorithm.replace(expression);

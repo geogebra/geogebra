@@ -25,16 +25,16 @@ import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class AlgoNameTest extends BaseAppTestSetup {
+class AlgoNameTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test
 	@Issue("APPS-6919")
-	public void testNameForElement() {
+	void testNameForElement() {
 		evaluate("a=1");
 		evaluate("P=Element(Sequence(5),1)");
 		evaluate("Q=Element({a},1)");

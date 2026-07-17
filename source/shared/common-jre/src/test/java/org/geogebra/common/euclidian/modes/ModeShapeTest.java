@@ -16,7 +16,7 @@
 
 package org.geogebra.common.euclidian.modes;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
@@ -24,18 +24,18 @@ import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class ModeShapeTest extends BaseEuclidianControllerTest {
+class ModeShapeTest extends BaseEuclidianControllerTest {
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		setUpController();
 	}
 
 	@Test
-	public void shapeMaskTool() {
+	void shapeMaskTool() {
 		setMode(EuclidianConstants.MODE_MASK);
 		dragStart(50, 50);
 		dragEnd(200, 150);
@@ -45,7 +45,7 @@ public class ModeShapeTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void maskShouldBeInFrontOfObjects() {
+	void maskShouldBeInFrontOfObjects() {
 		setMode(EuclidianConstants.MODE_MASK);
 		dragStart(50, 50);
 		dragEnd(200, 150);
@@ -65,7 +65,7 @@ public class ModeShapeTest extends BaseEuclidianControllerTest {
 	private void assertSelected(String message, String string) {
 		List<GeoElement> selection = getApp().getSelectionManager()
 				.getSelectedGeos();
-		assertEquals(message, string, selection.get(0).getLabelSimple());
+		assertEquals(string, selection.get(0).getLabelSimple(), message);
 	}
 
 }

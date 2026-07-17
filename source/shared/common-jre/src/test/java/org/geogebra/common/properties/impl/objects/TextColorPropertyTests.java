@@ -29,13 +29,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class TextColorPropertyTests extends BaseAppTestSetup {
+class TextColorPropertyTests extends BaseAppTestSetup {
 	@ParameterizedTest
 	@ValueSource(strings = {
 			"\"abc\"",
 			"Button(\"Press\")",
 	})
-	public void testApplicableGeoElements(String expression) {
+	void testApplicableGeoElements(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertDoesNotThrow(() ->
 				new TextColorProperty(getLocalization(), evaluateGeoElement(expression)));
@@ -46,14 +46,14 @@ public class TextColorPropertyTests extends BaseAppTestSetup {
 			"(1, 2)",
 			"a = Slider(-5, 5, 1)",
 	})
-	public void testNonApplicableGeoElements(String expression) {
+	void testNonApplicableGeoElements(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertThrows(NotApplicablePropertyException.class, () ->
 				new TextColorProperty(getLocalization(), evaluateGeoElement(expression)));
 	}
 
 	@Test
-	public void testChangingTextColor() {
+	void testChangingTextColor() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoText geoText = evaluateGeoElement("\"abc\"");
 		TextColorProperty textColorProperty = assertDoesNotThrow(() ->

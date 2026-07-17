@@ -16,38 +16,41 @@
 
 package org.geogebra.common.gui.toolcategorization.impl;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
 import org.geogebra.common.gui.toolcategorization.GraphingToolSet;
 import org.geogebra.common.gui.toolcategorization.ToolCategory;
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 /**
  * Test class for GraphingTools.
  */
-@RunWith(MockitoJUnitRunner.class)
-public class GraphingGraphingToolCollectionFactoryTest {
+@MockitoSettings(strictness = Strictness.WARN)
+@ExtendWith(MockitoExtension.class)
+class GraphingGraphingToolCollectionFactoryTest {
 
 	private ToolCollection toolCollection;
 
-	@Before
-	public void setupTest() {
+	@BeforeEach
+	void setupTest() {
 		toolCollection = new GraphingToolCollectionFactory(false)
 				.createToolCollection();
 	}
 
 	@Test
-	public void testGraphingTools() {
+	void testGraphingTools() {
 		List<ToolCategory> categories = toolCollection.getCategories();
 		for (int i = 0; i < categories.size(); i++) {
 			for (int tool : toolCollection.getTools(i)) {
-				assertTrue("Should be available: " + tool, GraphingToolSet.isAvailable(tool));
+				assertTrue(GraphingToolSet.isAvailable(tool), "Should be available: " + tool);
 			}
 		}
 	}

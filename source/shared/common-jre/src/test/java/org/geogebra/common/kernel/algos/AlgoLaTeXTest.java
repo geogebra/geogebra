@@ -23,12 +23,12 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AlgoLaTeXTest extends BaseUnitTest {
+class AlgoLaTeXTest extends BaseUnitTest {
 
 	@Test
-	public void testVectorString() {
+	void testVectorString() {
 		addAvInput("v=(1,1)");
 		addAvInput("u=2*v");
 		GeoElement formulaText = addAvInput("FormulaText(u,false,false)");
@@ -38,7 +38,7 @@ public class AlgoLaTeXTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testVectorFromPointString() {
+	void testVectorFromPointString() {
 		addAvInput("A=(1,1)");
 		addAvInput("u=Vector(A)");
 		GeoElement formulaText = addAvInput("FormulaText(u,false,false)");
@@ -49,7 +49,7 @@ public class AlgoLaTeXTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testSymbolicVector() {
+	void testSymbolicVector() {
 		getApp().setDefaultConfig();
 		addAvInput("a = -7");
 		addAvInput("b = 3");

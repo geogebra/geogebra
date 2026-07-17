@@ -21,23 +21,23 @@ import static java.lang.Double.POSITIVE_INFINITY;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class IntervalArithmeticTest {
+class IntervalArithmeticTest {
 	private final IntervalNodeEvaluator evaluator = new IntervalNodeEvaluator();
 
 	@Test
-	public void testMultiplicationEmpty() {
+	void testMultiplicationEmpty() {
 		assertTrue(evaluator.multiply(new Interval(), interval(1, 1)).isUndefined());
 	}
 
 	@Test
-	public void testMultiplicationPositiveWithPositive() {
+	void testMultiplicationPositiveWithPositive() {
 		assertEquals(interval(2, 6),
 				evaluator.multiply(interval(1, 2), interval(2, 3)));
 
@@ -50,7 +50,7 @@ public class IntervalArithmeticTest {
 	}
 
 	@Test
-	public void testMultiplicationPositiveWithNegative() {
+	void testMultiplicationPositiveWithNegative() {
 		assertEquals(interval(-6, -2),
 				evaluator.multiply(interval(1, 2), interval(-3, -2)));
 
@@ -59,7 +59,7 @@ public class IntervalArithmeticTest {
 	}
 
 	@Test
-	public void testMultiplicationPositiveWithMixed() {
+	void testMultiplicationPositiveWithMixed() {
 		assertEquals(interval(-4, 6),
 				evaluator.multiply(interval(1, 2), interval(-2, 3)));
 
@@ -68,7 +68,7 @@ public class IntervalArithmeticTest {
 	}
 
 	@Test
-	public void testMultiplicationPositiveWithZero() {
+	void testMultiplicationPositiveWithZero() {
 		assertEquals(interval(0, 0),
 				evaluator.multiply(interval(1, 2), interval(0, 0)));
 
@@ -77,7 +77,7 @@ public class IntervalArithmeticTest {
 	}
 
 	@Test
-	public void testMultiplicationNegativeWithPositive() {
+	void testMultiplicationNegativeWithPositive() {
 		assertEquals(interval(-6, -2),
 				evaluator.multiply(interval(-3, -2), interval(1, 2)));
 
@@ -86,7 +86,7 @@ public class IntervalArithmeticTest {
 	}
 
 	@Test
-	public void testMultiplicationNegativeWithNegative() {
+	void testMultiplicationNegativeWithNegative() {
 		assertEquals(interval(2, 6),
 				evaluator.multiply(interval(-2, -1), interval(-3, -2)));
 
@@ -99,7 +99,7 @@ public class IntervalArithmeticTest {
 	}
 
 	@Test
-	public void testMultiplicationNegativeWithMixed() {
+	void testMultiplicationNegativeWithMixed() {
 		assertEquals(interval(-6, 4),
 				evaluator.multiply(interval(-2, -1), interval(-2, 3)));
 
@@ -108,13 +108,13 @@ public class IntervalArithmeticTest {
 	}
 
 	@Test
-	public void testMultiplicationNegativeWithZero() {
+	void testMultiplicationNegativeWithZero() {
 		assertEquals(zero(), evaluator.multiply(interval(-2, -1), zero()));
 		assertEquals(zero(), evaluator.multiply(interval(NEGATIVE_INFINITY, -1), zero()));
 	}
 
 	@Test
-	public void testMultiplicationMixedWithPositive() {
+	void testMultiplicationMixedWithPositive() {
 		assertEquals(interval(-4, 6),
 				evaluator.multiply(interval(-2, 3), interval(1, 2)));
 
@@ -123,7 +123,7 @@ public class IntervalArithmeticTest {
 	}
 
 	@Test
-	public void testMultiplicationMixedWithNegative() {
+	void testMultiplicationMixedWithNegative() {
 		assertEquals(interval(-6, 4),
 				evaluator.multiply(interval(-2, 3), interval(-2, -1)));
 
@@ -132,7 +132,7 @@ public class IntervalArithmeticTest {
 	}
 
 	@Test
-	public void testMultiplicationMixedWithMixed() {
+	void testMultiplicationMixedWithMixed() {
 		assertEquals(interval(-8, 12),
 				evaluator.multiply(interval(-2, 3), interval(-1, 4)));
 
@@ -142,13 +142,13 @@ public class IntervalArithmeticTest {
 	}
 
 	@Test
-	public void testMultiplicationMixedWithZero() {
+	void testMultiplicationMixedWithZero() {
 		assertEquals(zero(), evaluator.multiply(interval(-2, 1), zero()));
 		assertEquals(zero(), evaluator.multiply(interval(NEGATIVE_INFINITY, 1), zero()));
 	}
 
 	@Test
-	public void testMultiplicationZeroWithAny() {
+	void testMultiplicationZeroWithAny() {
 		assertEquals(zero(), evaluator.multiply(zero(), interval(-2, 1)));
 		assertEquals(zero(), evaluator.multiply(zero(), interval(-2, -1)));
 		assertEquals(zero(), evaluator.multiply(zero(), interval(1, 2)));

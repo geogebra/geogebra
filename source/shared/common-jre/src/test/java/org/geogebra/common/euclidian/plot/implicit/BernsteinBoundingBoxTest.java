@@ -16,13 +16,13 @@
 
 package org.geogebra.common.euclidian.plot.implicit;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class BernsteinBoundingBoxTest {
+class BernsteinBoundingBoxTest {
 	@Test
-	public void testSpitBox() {
+	void testSpitBox() {
 		BernsteinBoundingBox box = newBox(-10, 10, -10, 10);
 		BernsteinBoundingBox[] boxes = box.split();
 		BernsteinBoundingBox[] expected = {

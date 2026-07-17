@@ -25,9 +25,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class DynamicColorSpacePropertyTests extends BaseAppTestSetup {
+class DynamicColorSpacePropertyTests extends BaseAppTestSetup {
 	@Test
-	public void testChangingColorSpace() {
+	void testChangingColorSpace() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement("(1, 2)");
 		DynamicColorModeProperty.activateDynamicColorMode(geoElement);
@@ -44,7 +44,7 @@ public class DynamicColorSpacePropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingColorSpaceWithInactiveDynamicColorMode() {
+	void testChangingColorSpaceWithInactiveDynamicColorMode() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement("(1, 2)");
 		DynamicColorSpaceProperty dynamicColorSpaceProperty =

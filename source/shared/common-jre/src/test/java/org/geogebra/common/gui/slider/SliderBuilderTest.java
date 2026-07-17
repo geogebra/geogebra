@@ -16,10 +16,10 @@
 
 package org.geogebra.common.gui.slider;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 import org.geogebra.common.BaseUnitTest;
@@ -30,20 +30,23 @@ import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.error.ErrorHandler;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
-@RunWith(MockitoJUnitRunner.class)
-public class SliderBuilderTest extends BaseUnitTest {
+@MockitoSettings(strictness = Strictness.WARN)
+@ExtendWith(MockitoExtension.class)
+class SliderBuilderTest extends BaseUnitTest {
 
 	private SliderBuilder sliderBuilder;
 	private Construction construction;
 
-	@Before
-	public void setupSliderBuilder() {
+	@BeforeEach
+	void setupSliderBuilder() {
 		Kernel kernel = getApp().getKernel();
 		construction = kernel.getConstruction();
 		AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
@@ -53,13 +56,13 @@ public class SliderBuilderTest extends BaseUnitTest {
 		sliderBuilder.withMin("-5").withMax("5").withStep("1").withLocation(0, 0);
 	}
 
-	@After
-	public void tearDown() {
+	@AfterEach
+	void tearDown() {
 		construction.clearConstruction();
 	}
 
 	@Test
-	public void createSimple() {
+	void createSimple() {
 		assertNotNull(sliderBuilder.create());
 		assertTrue(isSliderInConstructionList());
 	}
@@ -70,21 +73,21 @@ public class SliderBuilderTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void createWithEmptyInput() {
+	void createWithEmptyInput() {
 		sliderBuilder.withMin("");
 		assertNull(sliderBuilder.create());
 		assertFalse(isSliderInConstructionList());
 	}
 
 	@Test
-	public void testSuppressLabelFlagAfterCreated() {
+	void testSuppressLabelFlagAfterCreated() {
 		assertFalse(construction.isSuppressLabelsActive());
 		createSimple();
 		assertFalse(construction.isSuppressLabelsActive());
 	}
 
 	@Test
-	public void testSuppressLabelFlagAfterEmptyInput() {
+	void testSuppressLabelFlagAfterEmptyInput() {
 		assertFalse(construction.isSuppressLabelsActive());
 		createWithEmptyInput();
 		assertFalse(construction.isSuppressLabelsActive());

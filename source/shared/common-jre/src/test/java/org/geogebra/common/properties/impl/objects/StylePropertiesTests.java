@@ -32,16 +32,16 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class StylePropertiesTests extends BaseAppTestSetup {
+class StylePropertiesTests extends BaseAppTestSetup {
 	private final GeoElementPropertiesFactory propertiesFactory = new GeoElementPropertiesFactory();
 
 	@BeforeEach
-	public void setupApp() {
+	void setupApp() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test
-	public void testPointStyleProperties() {
+	void testPointStyleProperties() {
 		GeoPoint zeroPoint = evaluateGeoElement("(0,0)");
 		PropertiesArray propertiesArray = propertiesFactory.createStyleProperties(
 				getAlgebraProcessor(), getApp().getImageManager(), getLocalization(),
@@ -52,7 +52,7 @@ public class StylePropertiesTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testButtonStyleProperties() {
+	void testButtonStyleProperties() {
 		GeoButton button = evaluateGeoElement("Button[]");
 		PropertiesArray propertiesArray = propertiesFactory.createStyleProperties(
 				getAlgebraProcessor(), getApp().getImageManager(), getLocalization(),

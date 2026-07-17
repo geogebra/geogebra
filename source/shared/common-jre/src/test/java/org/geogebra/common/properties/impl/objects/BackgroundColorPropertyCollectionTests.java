@@ -31,15 +31,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class BackgroundColorPropertyCollectionTests extends BaseAppTestSetup {
+class BackgroundColorPropertyCollectionTests extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test
-	public void testApplicable() {
+	void testApplicable() {
 		GeoElement point = evaluateGeoElement("\"text\"");
 		assertDoesNotThrow(() ->
 				new BackgroundColorPropertyCollection(new GeoElementPropertiesFactory(),
@@ -52,7 +52,7 @@ public class BackgroundColorPropertyCollectionTests extends BaseAppTestSetup {
 			"f(x) = x^2",
 			"a = 1 + 2",
 	})
-	public void testNotApplicable(String expression) {
+	void testNotApplicable(String expression) {
 		GeoElement point = evaluateGeoElement(expression);
 		assertThrows(NotApplicablePropertyException.class, () ->
 				new BackgroundColorPropertyCollection(new GeoElementPropertiesFactory(),

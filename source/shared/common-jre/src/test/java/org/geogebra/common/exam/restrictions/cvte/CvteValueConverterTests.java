@@ -31,15 +31,15 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class CvteValueConverterTests extends BaseAppTestSetup {
+class CvteValueConverterTests extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test
-	public void testValueRestrictions() {
+	void testValueRestrictions() {
 		ToStringConverter converter = new ProtectiveGeoElementValueConverter(
 				new CvteAlgebraOutputFilter());
 
@@ -66,7 +66,7 @@ public class CvteValueConverterTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testLabelRestrictions() throws NotApplicablePropertyException {
+	void testLabelRestrictions() throws NotApplicablePropertyException {
 		ToStringConverter converter = new ProtectiveGeoElementValueConverter(
 				new CvteAlgebraOutputFilter());
 

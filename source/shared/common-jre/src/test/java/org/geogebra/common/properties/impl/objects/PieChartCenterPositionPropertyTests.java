@@ -26,10 +26,10 @@ import org.geogebra.common.kernel.statistics.GeoPieChart;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class PieChartCenterPositionPropertyTests extends BaseAppTestSetup {
+class PieChartCenterPositionPropertyTests extends BaseAppTestSetup {
 
 	@Test
-	public void testChangingCenterWithConstantValue() {
+	void testChangingCenterWithConstantValue() {
 		setupApp(SuiteSubApp.GRAPHING);
 		PieChartCenterPositionProperty pieChartCenterPositionProperty = assertDoesNotThrow(
 				() -> new PieChartCenterPositionProperty(getLocalization(),
@@ -45,7 +45,7 @@ public class PieChartCenterPositionPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingCenterWithDynamicPoint() {
+	void testChangingCenterWithDynamicPoint() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPoint geoPoint = evaluateGeoElement("A = (1, 2)");
 		PieChartCenterPositionProperty pieChartCenterPositionProperty = assertDoesNotThrow(

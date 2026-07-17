@@ -31,11 +31,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class SizePropertyCollectionTests extends BaseAppTestSetup {
+class SizePropertyCollectionTests extends BaseAppTestSetup {
 	private final GeoElementPropertiesFactory propertiesFactory = new GeoElementPropertiesFactory();
 
 	@BeforeEach
-	public void setUpTest() {
+	void setUpTest() {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
@@ -45,14 +45,14 @@ public class SizePropertyCollectionTests extends BaseAppTestSetup {
 			"f(x) = x^2",
 			"a = 1 + 2",
 	})
-	public void testNotApplicableObjects(String expression) {
+	void testNotApplicableObjects(String expression) {
 		assertThrows(NotApplicablePropertyException.class, () ->
 				new SizePropertyCollection(propertiesFactory, getAlgebraProcessor(),
 						getLocalization(), List.of(evaluateGeoElement(expression))));
 	}
 
 	@Test
-	public void testInputBox() {
+	void testInputBox() {
 		SizePropertyCollection collection = assertDoesNotThrow(
 				() -> new SizePropertyCollection(propertiesFactory, getAlgebraProcessor(),
 						getLocalization(), List.of(evaluateGeoElement("InputBox()"))));
@@ -60,15 +60,15 @@ public class SizePropertyCollectionTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testButton() {
+	void testButton() {
 		SizePropertyCollection collection = assertDoesNotThrow(
 				() -> new SizePropertyCollection(propertiesFactory, getAlgebraProcessor(),
 						getLocalization(), List.of(evaluateGeoElement("Button()"))));
 		assertEquals(3, collection.getProperties().length);
 	}
-	
+
 	@Test
-	public void testPieChart() {
+	void testPieChart() {
 		SizePropertyCollection collection = assertDoesNotThrow(
 				() -> new SizePropertyCollection(propertiesFactory, getAlgebraProcessor(),
 						getLocalization(), List.of(evaluateGeoElement("PieChart({1,2,3})"))));

@@ -49,19 +49,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
+class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 
 	private ProbabilityTableMock table;
 	private ProbabilityCalculatorView probCalc;
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
 		getApp().setRounding("2");
 	}
 
 	@Test
-	public void validBounds() {
+	void validBounds() {
 		probCalc = new HeadlessProbabilityCalculatorView(getApp());
 		probCalc.settingsChanged(new ProbabilityCalculatorSettings());
 		probCalc.setLow(-5);
@@ -71,7 +71,7 @@ public class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void invalidBounds() {
+	void invalidBounds() {
 		probCalc = new HeadlessProbabilityCalculatorView(getApp());
 		probCalc.settingsChanged(new ProbabilityCalculatorSettings());
 		probCalc.setLow(5);
@@ -81,7 +81,7 @@ public class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testExport() {
+	void testExport() {
 		probCalc = new HeadlessProbabilityCalculatorView(getApp());
 		probCalc.settingsChanged(new ProbabilityCalculatorSettings());
 		probCalc.setLow(1);
@@ -95,7 +95,7 @@ public class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testDiscreteDistributionWithDecimalInput() {
+	void testDiscreteDistributionWithDecimalInput() {
 		List<Double> lows = Arrays.asList(6.5, 6.65, 6.7, 6.9);
 		List<Double> highs = Arrays.asList(10.1, 10.23, 10.33, 10.45);
 
@@ -113,7 +113,7 @@ public class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 
 	@ParameterizedTest
 	@ValueSource(ints = {PROB_LEFT, PROB_RIGHT})
-	public void resultShouldBeFixedPoint(int probMode) {
+	void resultShouldBeFixedPoint(int probMode) {
 		probCalc = new HeadlessProbabilityCalculatorView(getApp());
 		probCalc.setProbabilityMode(probMode);
 		setParams(BINOMIAL, 20, .5);
@@ -182,7 +182,7 @@ public class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testXAxisIntervalForDiscreteDistShouldBeOne() {
+	void testXAxisIntervalForDiscreteDistShouldBeOne() {
 		probCalc = new HeadlessProbabilityCalculatorView(getApp());
 		probCalc.plotSettings.xAxesInterval = 0.5;
 		for (Dist dist: Dist.values()) {
@@ -193,7 +193,7 @@ public class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testProbabilityTableRowSelection() {
+	void testProbabilityTableRowSelection() {
 		withProbabilityTable(BINOMIAL, PROB_INTERVAL, 1.9, 10.1)
 				.shouldBeHighlightedBetween(2, 10);
 		withProbabilityTable(BINOMIAL, PROB_RIGHT, 1.9, Double.NaN)
@@ -209,13 +209,13 @@ public class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testStatisticsCalculatorXML() {
+	void testStatisticsCalculatorXML() {
 		probCalc = new HeadlessProbabilityCalculatorView(getApp(),
 				new HeadlessStatisticsCalculator());
 	}
 
 	@AfterEach
-	public void checkXML() {
+	void checkXML() {
 		if (probCalc != null) {
 			XMLStringBuilder xs = new XMLStringBuilder();
 			probCalc.getXML(xs);

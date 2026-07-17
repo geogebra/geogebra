@@ -20,17 +20,17 @@ import static org.geogebra.common.kernel.interval.IntervalSet.connected;
 import static org.geogebra.common.kernel.interval.IntervalSet.empty;
 import static org.geogebra.common.kernel.interval.IntervalSet.overflow;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalSet;
 import org.geogebra.common.kernel.interval.operators.IntervalNodeEvaluator;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class IntervalEvaluatorOverflowTest {
+class IntervalEvaluatorOverflowTest {
 
 	private final IntervalNodeEvaluator evaluator = new IntervalNodeEvaluator();
 
@@ -45,7 +45,7 @@ public class IntervalEvaluatorOverflowTest {
 
 	@Test
 	@Issue("APPS-7561")
-	public void testOverflowOfUnaryOperators() {
+	void testOverflowOfUnaryOperators() {
 		testOverflowUnary(evaluator::inverseSet);
 		testOverflowUnary(evaluator::sqrtSet);
 		testOverflowUnary(evaluator::expSet);
@@ -66,7 +66,7 @@ public class IntervalEvaluatorOverflowTest {
 	}
 
 	@Test
-	public void testOverflowOfBinaryOperations() {
+	void testOverflowOfBinaryOperations() {
 		testOverflowMatrix(evaluator::plusSet);
 		testOverflowMatrix(evaluator::minusSet);
 		testOverflowMatrix(evaluator::multiplySet);
@@ -104,7 +104,7 @@ public class IntervalEvaluatorOverflowTest {
 
 	@Test
 	@Issue("APPS-7561")
-	public void directLogSetExpSetMayOverflowAfterExpressionStructureIsLost() {
+	void directLogSetExpSetMayOverflowAfterExpressionStructureIsLost() {
 		// Direct interval-set composition does not see the source expression tree;
 		// expression-level ln(exp(x)) recovery is covered by interval plot tests.
 		assertEquals(overflow(), lnExp(connected(746, 750)));
@@ -114,7 +114,7 @@ public class IntervalEvaluatorOverflowTest {
 
 	@Test
 	@Issue("APPS-7561")
-	public void lnExpOfSubnormalExpShouldNotProduceNegativeInfinity() {
+	void lnExpOfSubnormalExpShouldNotProduceNegativeInfinity() {
 		Interval result = connectedInterval(lnExp(connected(-745, -745)));
 
 		assertFalse(Double.isInfinite(result.getLow()));

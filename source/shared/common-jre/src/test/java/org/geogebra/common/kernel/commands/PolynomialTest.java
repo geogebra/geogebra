@@ -18,24 +18,24 @@ package org.geogebra.common.kernel.commands;
 
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test inputs related to polynomials.
  */
-public class PolynomialTest extends BaseUnitTest {
+class PolynomialTest extends BaseUnitTest {
 
 	@Test
-	public void testPolynomialMaxDegree() {
+	void testPolynomialMaxDegree() {
 		getApp().enableCAS(false);
 		GeoFunction function = add("x^300");
 		assertTrue(function.isPolynomialFunction(false, false));
@@ -45,7 +45,7 @@ public class PolynomialTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5291")
-	public void testMultiVariablesXYPolynomials() {
+	void testMultiVariablesXYPolynomials() {
 		add("f(x,y)=x+y");
 		assertEquals("x + y", polynomial("f"));
 		add("g(x,y)=0");
@@ -54,14 +54,14 @@ public class PolynomialTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5291")
-	public void testMultiVariablesXYNonPolynomials() {
+	void testMultiVariablesXYNonPolynomials() {
 		assertEquals("?", polynomial("(x+y)^-2"));
 		assertEquals("?", polynomial("(x+y)^(3/2)"));
 	}
 
 	@Test
 	@Issue("APPS-5291")
-	public void testMultiVariablesVarDegreePolynomials() {
+	void testMultiVariablesVarDegreePolynomials() {
 		add("k=-4");
 		GeoFunctionNVar varDegree = add("Polynomial((x+y)^k)");
 		assertThat(varDegree, hasValue("?"));
@@ -76,7 +76,7 @@ public class PolynomialTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5291")
-	public void testMoreThanTwoVariablesShouldBeUndefined() {
+	void testMoreThanTwoVariablesShouldBeUndefined() {
 		add("f(x,y,z)=x+y+z");
 		GeoFunctionNVar poly = add("Polynomial(f)");
 		assertEquals("?", poly.toValueString(StringTemplate.defaultTemplate));
@@ -88,21 +88,21 @@ public class PolynomialTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-5291")
-	public void testMultiCharVariables() {
+	void testMultiCharVariables() {
 		add("f(abc,def)=(abc+def)^(2)");
 		assertEquals("abc\u00B2 + 2abc def + def\u00B2", polynomial("f"));
 	}
 
 	@Test
 	@Issue("APPS-5291")
-	public void testMultiVariablePolynomials() {
+	void testMultiVariablePolynomials() {
 		add("f(a,b)=a+b");
 		assertEquals("a + b", polynomial("f"));
 	}
 
 	@Test
 	@Issue("APPS-5291")
-	public void testExtraBrackets() {
+	void testExtraBrackets() {
 		assertEquals("-x y", polynomial("-x y"));
 		assertEquals("-x\u00b2 y", polynomial("-x^(2) y"));
 		assertEquals("-5x y", polynomial("-5x y"));

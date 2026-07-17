@@ -24,9 +24,9 @@ import org.geogebra.common.properties.impl.objects.ScriptEventSelectionProperty.
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class ScriptEventSelectionPropertyTests extends BaseAppTestSetup {
+class ScriptEventSelectionPropertyTests extends BaseAppTestSetup {
 	@Test
-	public void testPointScriptEvents() {
+	void testPointScriptEvents() {
 		setupApp(SuiteSubApp.GRAPHING);
 		ScriptEventSelectionProperty property = new ScriptEventSelectionProperty(getLocalization(),
 				evaluateGeoElement("A = (1, 2)"), true);
@@ -35,7 +35,7 @@ public class ScriptEventSelectionPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPointScriptEventsWithJavascriptDisabled() {
+	void testPointScriptEventsWithJavascriptDisabled() {
 		setupApp(SuiteSubApp.GRAPHING);
 		ScriptEventSelectionProperty property = new ScriptEventSelectionProperty(getLocalization(),
 				evaluateGeoElement("A = (1, 2)"), false);
@@ -44,7 +44,7 @@ public class ScriptEventSelectionPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testInputBoxScriptEvents() {
+	void testInputBoxScriptEvents() {
 		setupApp(SuiteSubApp.GRAPHING);
 		ScriptEventSelectionProperty property = new ScriptEventSelectionProperty(getLocalization(),
 				evaluateGeoElement("InputBox()"), true);
@@ -53,7 +53,7 @@ public class ScriptEventSelectionPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testCheckboxScriptEvents() {
+	void testCheckboxScriptEvents() {
 		setupApp(SuiteSubApp.GRAPHING);
 		ScriptEventSelectionProperty property = new ScriptEventSelectionProperty(getLocalization(),
 				evaluateGeoElement("b = true"), true);
@@ -62,7 +62,7 @@ public class ScriptEventSelectionPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testChangingSelection() {
+	void testChangingSelection() {
 		setupApp(SuiteSubApp.GRAPHING);
 		ScriptEventSelectionProperty property = new ScriptEventSelectionProperty(getLocalization(),
 				evaluateGeoElement("A = (1, 2)"), true);

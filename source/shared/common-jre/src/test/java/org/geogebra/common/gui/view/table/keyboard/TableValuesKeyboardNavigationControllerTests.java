@@ -35,7 +35,7 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
+class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
 		implements TableValuesKeyboardNavigationControllerDelegate, TableValuesListener {
 
 	private TableValuesView tableValuesView;
@@ -47,7 +47,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	private boolean traceEvents = false;
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
 		Kernel kernel = getKernel();
 		tableValuesView = new TableValuesView(kernel);
@@ -91,7 +91,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	// Not an actual test - this is just a testbed to run a certain sequence of modifications,
 	// and see which listener events are created from it.
 	@Test
-	public void testTableValuesListenerEvents() {
+	void testTableValuesListenerEvents() {
 		traceEvents = true;
 
 		// select (0, 0)
@@ -127,7 +127,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	// - editing allowed, adding columns allowed
 
 	@Test
-	public void testEmptyTable_EnterDataInValuesList() {
+	void testEmptyTable_EnterDataInValuesList() {
 		assertTrue(tableValuesView.isEmpty());
 
 		// select (0, 0) - editing placeholder row
@@ -168,7 +168,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testEmptyTable_SelectPlaceholderColumn() {
+	void testEmptyTable_SelectPlaceholderColumn() {
 		assertTrue(tableValuesView.isEmpty());
 
 		// select (0, 1) - editing placeholder column
@@ -179,7 +179,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testEmptyTable_EnterDataInPlaceholderColumn() {
+	void testEmptyTable_EnterDataInPlaceholderColumn() {
 		// select (0, 1) - editing placeholder column
 		keyboardController.select(0, 1);
 		assertEquals(new CellIndex(0, 1), focusedCell);
@@ -206,7 +206,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testEmptyTable_DeleteCellInPlaceholderColumn() {
+	void testEmptyTable_DeleteCellInPlaceholderColumn() {
 		// select (0, 0)
 		keyboardController.select(0, 0);
 
@@ -251,7 +251,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testEmptyTable_DeleteLastColumnArrowLeft() {
+	void testEmptyTable_DeleteLastColumnArrowLeft() {
 		// select (0, 0)
 		keyboardController.select(0, 0);
 
@@ -296,7 +296,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testEmptyTable_DeleteLastColumnArrowRight() {
+	void testEmptyTable_DeleteLastColumnArrowRight() {
 		// select (0, 0)
 		keyboardController.select(0, 0);
 
@@ -341,7 +341,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testEmptyTable_DeleteLastRow() {
+	void testEmptyTable_DeleteLastRow() {
 		// select (0, 0)
 		keyboardController.select(0, 0);
 
@@ -387,7 +387,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testEmptyTable_ArrowRightTapArrowRight() {
+	void testEmptyTable_ArrowRightTapArrowRight() {
 		// select (0, 0)
 		keyboardController.select(0, 0);
 
@@ -412,7 +412,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testEmptyTable_PlaceholderRowCreatedOnTapSelect() {
+	void testEmptyTable_PlaceholderRowCreatedOnTapSelect() {
 		// select (0, 0)
 		keyboardController.select(0, 0);
 
@@ -438,7 +438,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testEmptyTable_PlaceholderColumnCreatedOnTapSelect() {
+	void testEmptyTable_PlaceholderColumnCreatedOnTapSelect() {
 		// select (0, 0)
 		keyboardController.select(0, 0);
 
@@ -454,7 +454,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testEmptyTable_EnterInvalidDataInPlaceholderColumn() {
+	void testEmptyTable_EnterInvalidDataInPlaceholderColumn() {
 		// select (0, 1) - editing placeholder column
 		keyboardController.select(0, 1);
 		assertEquals(new CellIndex(0, 1), focusedCell);
@@ -472,7 +472,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testEmptyTable_Deselect() {
+	void testEmptyTable_Deselect() {
 		keyboardController.select(0, 0);
 		assertEquals(new CellIndex(0, 0), focusedCell);
 
@@ -485,14 +485,14 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	// - editing allowed, adding columns allowed
 
 	@Test
-	public void testValuesList() throws Exception {
+	void testValuesList() throws Exception {
 		tableValuesView.setValues(0, 1, 1);
 		assertEquals(3, keyboardController.getNavigableRowsCount());
 		assertEquals(2, keyboardController.getNavigableColumnsCount());
 	}
 
 	@Test
-	public void testValuesList_ArrowDownInEmptyPlaceholderRow() throws Exception {
+	void testValuesList_ArrowDownInEmptyPlaceholderRow() throws Exception {
 		tableValuesView.setValues(0, 1, 1);
 		didReportModelChanged = false;
 
@@ -525,7 +525,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testValuesList_ArrowDownInNonEmptyPlaceholderRow() throws Exception {
+	void testValuesList_ArrowDownInNonEmptyPlaceholderRow() throws Exception {
 		tableValuesView.setValues(0, 1, 1);
 
 		// select (0, 0)
@@ -557,7 +557,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testValuesList_ArrowUpInEmptyPlaceholderRow() throws Exception {
+	void testValuesList_ArrowUpInEmptyPlaceholderRow() throws Exception {
 		tableValuesView.setValues(0, 1, 1);
 
 		// select (0, 0)
@@ -590,7 +590,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testValuesList_ArrowUpInNonEmptyPlaceholderRow() throws Exception {
+	void testValuesList_ArrowUpInNonEmptyPlaceholderRow() throws Exception {
 		tableValuesView.setValues(0, 1, 1);
 
 		// select (0, 0)
@@ -623,7 +623,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testValuesList_ArrowRightInEmptyPlaceholderColumn() throws Exception {
+	void testValuesList_ArrowRightInEmptyPlaceholderColumn() throws Exception {
 		tableValuesView.setValues(0, 1, 1);
 
 		// select (0, 0)
@@ -648,7 +648,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testValuesList_ArrowRightInNonEmptyPlaceholderColumn() throws Exception {
+	void testValuesList_ArrowRightInNonEmptyPlaceholderColumn() throws Exception {
 		tableValuesView.setValues(0, 1, 1);
 
 		// select (0, 0)
@@ -673,7 +673,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testValuesList_ArrowLeftInFirstColumn() throws Exception {
+	void testValuesList_ArrowLeftInFirstColumn() throws Exception {
 		tableValuesView.setValues(0, 1, 1);
 
 		// select (0, 0)
@@ -689,7 +689,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testValuesList_ArrowLeftInEmptyPlaceholderColumn() throws Exception {
+	void testValuesList_ArrowLeftInEmptyPlaceholderColumn() throws Exception {
 		tableValuesView.setValues(0, 1, 1);
 
 		// select (0, 0)
@@ -715,7 +715,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testValuesList_ArrowLeftInNonEmptyPlaceholderColumn() throws Exception {
+	void testValuesList_ArrowLeftInNonEmptyPlaceholderColumn() throws Exception {
 		tableValuesView.setValues(0, 1, 1);
 
 		// select (0, 0)
@@ -746,7 +746,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	// - editing allowed, adding columns allowed
 
 	@Test
-	public void testFunctionColumn() throws Exception {
+	void testFunctionColumn() throws Exception {
 		tableValuesView.setValues(-2, 2, 1);
 		addFunction("f", "x");
 		assertEquals(6, keyboardController.getNavigableRowsCount());
@@ -754,7 +754,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testFunctionColumn_ArrowDownInEmptyPlaceholderColumn() throws Exception {
+	void testFunctionColumn_ArrowDownInEmptyPlaceholderColumn() throws Exception {
 		tableValuesView.setValues(-2, 2, 1);
 		addFunction("f", "x");
 
@@ -790,7 +790,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testFunctionColumn_ArrowDownInNonEmptyPlaceholderColumn() throws Exception {
+	void testFunctionColumn_ArrowDownInNonEmptyPlaceholderColumn() throws Exception {
 		tableValuesView.setValues(-2, 2, 1);
 		addFunction("f", "x");
 
@@ -822,7 +822,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	// - editing allowed, adding columns not allowed
 
 	@Test
-	public void testSciCalc() {
+	void testSciCalc() {
 		ScientificDataTableController scientificDataTableController =
 				new ScientificDataTableController(getKernel());
 		scientificDataTableController.setup(tableValuesView);
@@ -832,7 +832,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testSciCalc_ArrowRight() {
+	void testSciCalc_ArrowRight() {
 		ScientificDataTableController scientificDataTableController =
 				new ScientificDataTableController(getKernel());
 		scientificDataTableController.setup(tableValuesView);
@@ -850,7 +850,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	}
 
 	@Test
-	public void testSciCalc_ArrowDown() {
+	void testSciCalc_ArrowDown() {
 		ScientificDataTableController scientificDataTableController =
 				new ScientificDataTableController(getKernel());
 		scientificDataTableController.setup(tableValuesView);
@@ -892,7 +892,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 	// - editing not allowed
 
 	@Test
-	public void testNonEditableValuesList() throws Exception {
+	void testNonEditableValuesList() throws Exception {
 		keyboardController.setReadonly(true);
 		tableValuesView.setValues(0, 3, 1);
 
@@ -905,7 +905,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 
 	// see https://geogebra-jira.atlassian.net/browse/APPS-5585?focusedCommentId=211833
 	@Test
-	public void testMoveIntoFunctionColumn() throws Exception {
+	void testMoveIntoFunctionColumn() throws Exception {
 		traceEvents = true;
 		// select (0, 1), insert "1" into (placeholder) cell, press RETURN
 		keyboardController.select(0, 1);
@@ -933,7 +933,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSet
 
 	// https://geogebra-jira.atlassian.net/browse/APPS-5585?focusedCommentId=212824
 	@Test
-	public void testDeleteColumn() throws Exception {
+	void testDeleteColumn() throws Exception {
 		traceEvents = true;
 
 		// y1: select (0, 1), insert "2" into (placeholder) cell, press RETURN

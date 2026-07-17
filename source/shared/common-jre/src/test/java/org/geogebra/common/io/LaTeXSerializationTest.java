@@ -16,9 +16,9 @@
 
 package org.geogebra.common.io;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.text.Normalizer;
 
@@ -31,8 +31,8 @@ import org.geogebra.editor.share.serializer.TeXSerializer;
 import org.geogebra.editor.share.tree.Formula;
 import org.geogebra.editor.share.tree.Korean;
 import org.geogebra.editor.share.util.Unicode;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXParser;
@@ -40,14 +40,14 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.serialize.ListSerializationAdapter;
 import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
-public class LaTeXSerializationTest {
+class LaTeXSerializationTest {
 	private static Parser parser;
 
 	/**
 	 * Initialize parser and serializer.
 	 */
-	@BeforeClass
-	public static void prepare() {
+	@BeforeAll
+	static void prepare() {
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderCommon());
 		}
@@ -56,12 +56,12 @@ public class LaTeXSerializationTest {
 	}
 
 	@Test
-	public void testAtoms() {
+	void testAtoms() {
 		checkCanonical("a", "a");
 	}
 
 	@Test
-	public void testExpr() {
+	void testExpr() {
 		checkCanonical("1 * 2", "1 * 2");
 		checkCanonical("1 == 2", "1 == 2");
 		checkCanonical("1 " + Unicode.PARALLEL + " 2",
@@ -72,13 +72,13 @@ public class LaTeXSerializationTest {
 	}
 
 	@Test
-	public void testExpressionSymbolicInputBox() {
+	void testExpressionSymbolicInputBox() {
 		checkCanonicalInputBox("[1,2]", "(1,2)");
 		checkCanonicalInputBox("4-[1+[2+3]]", "4-(1+(2+3))");
 	}
 
 	@Test
-	public void testSqrt() {
+	void testSqrt() {
 		checkCanonical("sqrt(x + 1)", "sqrt(x + 1)");
 		checkCanonical("x sqrt(x + 1)", "x sqrt(x + 1)");
 		checkCanonical("f(x) = sqrt(x)", "f(x) = sqrt(x)");
@@ -87,12 +87,12 @@ public class LaTeXSerializationTest {
 	}
 
 	@Test
-	public void testPrime() {
+	void testPrime() {
 		checkCanonical("f'''(x)/2", "((f'''(x))/(2))");
 	}
 
 	@Test
-	public void testInverseTrig() {
+	void testInverseTrig() {
 		checkCanonical("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(1)/2",
 				"((cos^(-1)(1))/(2))");
 		checkCanonical("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + " (1)/2",
@@ -100,7 +100,7 @@ public class LaTeXSerializationTest {
 	}
 
 	@Test
-	public void testDiv() {
+	void testDiv() {
 		checkCanonical("1/n^2", "((1)/(n^(2)))");
 		checkCanonical("1/n_2", "((1)/(n_{2}))");
 		checkCanonical("1/2", "((1)/(2))");
@@ -118,7 +118,7 @@ public class LaTeXSerializationTest {
 	}
 
 	@Test
-	public void testExponent() {
+	void testExponent() {
 		checkCanonical("exp(-30)", "exp(-30)");
 		checkCanonical(Unicode.EULER_STRING + "^-30",
 				Unicode.EULER_STRING + "^(-30)");
@@ -131,7 +131,7 @@ public class LaTeXSerializationTest {
 	}
 
 	@Test
-	public void testFloorCeil() {
+	void testFloorCeil() {
 		checkCanonical("floor(x)", "floor(x)");
 		checkCanonical("ceil(x)", "ceil(x)");
 		checkCanonical(Unicode.LFLOOR + "x" + Unicode.RFLOOR, "floor(x)");
@@ -139,7 +139,7 @@ public class LaTeXSerializationTest {
 	}
 
 	@Test
-	public void testPower() {
+	void testPower() {
 		checkCanonical("x ^ 2", "x ^(2)");
 		checkCanonical("x ^ 2 ^3", "x ^(2) ^(3)");
 		checkCanonical("(x ^ 2) ^3", "(x ^(2)) ^(3)");
@@ -155,7 +155,7 @@ public class LaTeXSerializationTest {
 	}
 
 	@Test
-	public void testSubscript() {
+	void testSubscript() {
 		checkCanonical("x_2", "x_{2}");
 		checkCanonical("x_2 = 7", "x_{2} = 7");
 		checkCanonical("x_2 t", "x_{2} t");
@@ -165,7 +165,7 @@ public class LaTeXSerializationTest {
 	}
 
 	@Test
-	public void testPoint() {
+	void testPoint() {
 		checkCanonical("(1,2)", "(1,2)");
 		checkCanonical("(1;2)", "(1;2)");
 		checkCanonical("(1,2,3)", "(1,2,3)");
@@ -173,20 +173,20 @@ public class LaTeXSerializationTest {
 	}
 
 	@Test
-	public void testMultiply() {
+	void testMultiply() {
 		checkCanonical("t (1,2)", "t (1,2)");
 		checkCanonical("x x x", "x x x");
 	}
 
 	@Test
-	public void testCommand() {
+	void testCommand() {
 		checkCanonical("turtle1=Turtle[]", "turtle1=Turtle[]");
 		checkCanonical("Turtle[]", "Turtle[]");
 		checkCanonical("Turtle[1*3,7]", "Turtle[1*3,7]");
 	}
 
 	@Test
-	public void testMatrix() {
+	void testMatrix() {
 		checkCanonical("{{1,2},{3,4}}", "{{1,2},{3,4}}");
 		// normalize rows, but not cells
 		checkCanonical("{{1 , 2} , { 3 , 4}}", "{{1 , 2},{ 3 , 4}}");
@@ -196,13 +196,13 @@ public class LaTeXSerializationTest {
 	}
 
 	@Test
-	public void testList() {
+	void testList() {
 		checkCanonical("{x,1}", "{x,1}");
 		checkCanonical("{x , 1}", "{x , 1}");
 	}
 
 	@Test
-	public void testComma() {
+	void testComma() {
 		checkCanonical("If[x<1/x,x/2,sqrt(x/2)]",
 				"If[x<((1)/(x)),((x)/(2)),sqrt(((x)/(2)))]");
 		checkCanonical("(1;sqrt(2))", "(1;sqrt(2))");
@@ -210,13 +210,13 @@ public class LaTeXSerializationTest {
 	}
 
 	@Test
-	public void testLog() {
+	void testLog() {
 		checkCanonical("log(10,x)", "log(10,x)");
 		checkCanonical("log(x)", "log(x)");
 	}
 
 	@Test
-	public void testParseLaTeX() {
+	void testParseLaTeX() {
 		// Configuration.getFontMapping();
 		checkLaTeX("4+x", "4+x");
 		checkLaTeX("4-x", "4" + Unicode.MINUS + "x");
@@ -258,7 +258,7 @@ public class LaTeXSerializationTest {
 	}
 
 	@Test
-	public void testParseLaTeXAdapter() {
+	void testParseLaTeXAdapter() {
 		checkLaTeX("a=\\left[1,...,4\\right]", "a=(1...4)",
 				new ListSerializationAdapter());
 		checkLaTeX("a=\\left[0.8,1.2,...,4\\right]",
@@ -266,7 +266,7 @@ public class LaTeXSerializationTest {
 	}
 
 	@Test
-	public void testBinaryOp() {
+	void testBinaryOp() {
 		for (char op : new char[] { Unicode.LESS_EQUAL, Unicode.GREATER_EQUAL,
 				Unicode.IS_SUBSET_OF, Unicode.IS_ELEMENT_OF,
 				Unicode.IS_SUBSET_OF_STRICT }) {
@@ -277,7 +277,7 @@ public class LaTeXSerializationTest {
 	}
 
 	@Test
-	public void testKoreanNormalization() {
+	void testKoreanNormalization() {
 		testKorean("\uD4DB");
 
 		// Hangul syllables range
@@ -331,8 +331,8 @@ public class LaTeXSerializationTest {
 			GeoGebraSerializer geoGebraSerializer) {
 		Formula mf = checkLaTeXRender(parser, input);
 		assertNotNull(mf);
-		assertEquals(mf.getRootNode() + "", output,
-				geoGebraSerializer.serialize(mf));
+		assertEquals(output, geoGebraSerializer.serialize(mf),
+				mf.getRootNode() + "");
 		checkLaTeXRender(parser, input);
 	}
 

@@ -16,7 +16,7 @@
 
 package org.geogebra.common.kernel.commands;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,9 +30,9 @@ import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.main.App;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.CommandSignatures;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CommandFilterTest extends BaseUnitTest {
+class CommandFilterTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
@@ -40,7 +40,7 @@ public class CommandFilterTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void noCasFilterTest() {
+	void noCasFilterTest() {
 		CommandFilter cf = CommandFilterFactory
 				.createNoCasCommandFilter();
 		App app = getApp();
@@ -74,7 +74,7 @@ public class CommandFilterTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void noCasCommandsInSuiteAndClassic() {
+	void noCasCommandsInSuiteAndClassic() {
 		List<String> integralsClassic = getApp().getCommandDictionary().getCompletions("Integ")
 				.stream().map(c -> c.content).collect(Collectors.toList());
 		// should not contain IntegralSymbolic

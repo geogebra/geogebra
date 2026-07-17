@@ -20,18 +20,18 @@ import static org.geogebra.test.TestStringUtil.unicode;
 
 import org.geogebra.common.kernel.arithmetic.variable.TokenizerBaseTest;
 import org.geogebra.editor.share.util.Unicode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ProductParserTest extends TokenizerBaseTest {
+class ProductParserTest extends TokenizerBaseTest {
 
 	@Test
-	public void testPiRSquare() {
+	void testPiRSquare() {
 		add("r = 2");
 		shouldReparseAs("pir^(2)", Unicode.PI_STRING + " r" + Unicode.SUPERSCRIPT_2);
 	}
 
 	@Test
-	public void testABCD() {
+	void testABCD() {
 		add("a=1");
 		add("b=2");
 		add("c=2");
@@ -40,44 +40,44 @@ public class ProductParserTest extends TokenizerBaseTest {
 	}
 
 	@Test
-	public void testAvarb() {
+	void testAvarb() {
 		withGeos("a", "f(var)", "b");
 		shouldReparseAs("avarb", "a var b");
 	}
 
 	@Test
-	public void testFunctionalVarVar() {
+	void testFunctionalVarVar() {
 		withGeos("f(var)");
 		shouldReparseAs("varvar", unicode("var^2"));
 	}
 
 	@Test
-	public void testNFunctionalUV() {
+	void testNFunctionalUV() {
 		withGeos("f(u, v)");
 		shouldReparseAs("uv", "u v");
 		shouldReparseAs("vu", "v u");
 	}
 
 	@Test
-	public void testNFunctionalUbiV() {
+	void testNFunctionalUbiV() {
 		shouldReparseAs("f(ubi, v) = ubiv", "ubi v");
 		shouldReparseAs("f(ubi, v) = vubi", "v ubi");
 	}
 
 	@Test
-	public void testNFunctionalGreek() {
+	void testNFunctionalGreek() {
 		withGeos("f(" + Unicode.Delta + "y, y)");
 		shouldReparseAs(Unicode.Delta + "y(1 + y)", Unicode.Delta + "y (1 + y)");
 	}
 
 	@Test
-	public void testPir() {
+	void testPir() {
 		withGeos("r");
 		shouldReparseAs("pir^(2)", Unicode.PI_STRING + " r" + Unicode.SUPERSCRIPT_2);
 	}
 
 	@Test
-	public void testXPlusBs() {
+	void testXPlusBs() {
 		withGeos("b");
 		shouldReparseAs("x+bb", "x + b b");
 		shouldReparseAs("x+bbb", "x + b b b");
@@ -86,7 +86,7 @@ public class ProductParserTest extends TokenizerBaseTest {
 	}
 
 	@Test
-	public void testABX() {
+	void testABX() {
 		shouldReparseAs("xab", "x a b");
 		shouldReparseAs("x + ab", "x + a b");
 		shouldReparseAs("xxxxxxxxxx", "x" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0);
@@ -95,7 +95,7 @@ public class ProductParserTest extends TokenizerBaseTest {
 	}
 
 	@Test
-	public void testAkka() {
+	void testAkka() {
 		withGeos("a", "k", "aa(x, y)");
 		shouldReparseAs("kk", "k k");
 		shouldReparseAs("kkk", "k k k");
@@ -106,28 +106,28 @@ public class ProductParserTest extends TokenizerBaseTest {
 	}
 
 	@Test
-	public void testArctanIntegral() {
+	void testArctanIntegral() {
 		shouldReparseAs("21xarctanx", "21x atand(x)");
 	}
 
 	@Test
-	public void testCost7() {
+	void testCost7() {
 		shouldReparseAs("-tcos7t/7", "(-(t cos(7t))) / 7");
 	}
 
 	@Test
-	public void testNpi7() {
+	void testNpi7() {
 		shouldReparseAs("npi/7", "n " + Unicode.PI_STRING + " / 7");
 	}
 
 	@Test
-	public void testLnX() {
+	void testLnX() {
 		shouldReparseAs("xlnx", "x ln(x)");
 		shouldReparseAs("xln2x", "x ln(2x)");
 	}
 
 	@Test
-	public void testLnAbsX() {
+	void testLnAbsX() {
 		shouldReparseAs("xlnabsx", "x ln(abs(x))");
 		shouldReparseAs("x ln abs(x)", "x ln(abs(x))");
 		shouldReparseAs("xln abs(x)", "x ln(abs(x))");
@@ -135,58 +135,58 @@ public class ProductParserTest extends TokenizerBaseTest {
 	}
 
 	@Test
-	public void testC_2Index() {
+	void testC_2Index() {
 		shouldReparseAs("c_2e^(7x)", "c_2 " + Unicode.EULER_STRING + "^(7x)");
 	}
 
 	@Test
-	public void testx4() {
+	void testx4() {
 		shouldReparseAs("x4", "x * 4");
 	}
 
 	@Test
-	public void testk4() {
+	void testk4() {
 		shouldReparseAs("k4", "k * 4");
 	}
 
 	@Test
-	public void testAkakakaaa() {
+	void testAkakakaaa() {
 		withGeos("a", "k", "aa(x)");
 		shouldReparseAs("akakakaaa", "a k a k a k a a a");
 	}
 
 	@Test
-	public void testImaginaryProduct() {
+	void testImaginaryProduct() {
 		shouldReparseAs("i1", Unicode.IMAGINARY + " * 1");
 	}
 
 	@Test
-	public void testPiSqrt() {
+	void testPiSqrt() {
 		shouldReparseAs("18pisqrt5", "18" + Unicode.PI_STRING + " sqrt(5)");
 	}
 
 	@Test
-	public void testiSqrt() {
+	void testiSqrt() {
 		shouldReparseAs("isqrt5", Unicode.IMAGINARY + " sqrt(5)");
 	}
 
 	@Test
-	public void testIndex() {
+	void testIndex() {
 		shouldReparseAs("B_{0}e^(2)", "B_{0} " + Unicode.EULER_STRING + Unicode.SUPERSCRIPT_2);
 	}
 
 	@Test
-	public void testTangent() {
+	void testTangent() {
 		shouldReparseAs("2xtan8x", "2x tan(8x)");
 	}
 
 	@Test
-	public void testFcosThetaSum() {
+	void testFcosThetaSum() {
 		shouldReparseAs("Fcosθx+Fsinθy", "F cos(θ x) + F sin(θ y)");
 	}
 
 	@Test
-	public void testIndexProduct() {
+	void testIndexProduct() {
 		shouldReparseAs("F_{1}F_{2}", "F_{1} F_{2}");
 		shouldReparseAs("F_{1}F_{2}sin" + Unicode.theta_STRING,
 				unicode("F_{1} F_{2} sin(@theta)"));
@@ -195,7 +195,7 @@ public class ProductParserTest extends TokenizerBaseTest {
 	}
 
 	@Test
-	public void testIndexGreek() {
+	void testIndexGreek() {
 		shouldReparseAs("f(h,r_{w},r)=hr_{w}", "h r_{w}");
 		// prefer undefined over invalid
 		shouldReparseAs("f(r_{w}g, g_{w})=hr_{w}g_{w}", "h r_{w} g_{w}");

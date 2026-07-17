@@ -1,3 +1,4 @@
 [libraries]
-rewrite-java = { module = "org.openrewrite:rewrite-java", version = "8.81.0" }
+rewrite-java = { module = "org.openrewrite:rewrite-java", version = "8.87.0" }
 rewrite-static-analysis = { module = "org.openrewrite.recipe:rewrite-static-analysis", version = "2.34.0" }
+rewrite-testing-frameworks = { module = "org.openrewrite.recipe:rewrite-testing-frameworks", version = "3.42.0" }

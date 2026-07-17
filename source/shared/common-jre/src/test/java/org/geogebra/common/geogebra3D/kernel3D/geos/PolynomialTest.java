@@ -25,9 +25,9 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.editor.share.util.Unicode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class PolynomialTest extends BaseUnitTest {
+class PolynomialTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
@@ -35,7 +35,7 @@ public class PolynomialTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void polynomialHandle0Degree() {
+	void polynomialHandle0Degree() {
 		add("b = 3");
 		GeoLine f = add("f:y-3=x+" + EULER_CHAR + "^(b)");
 		assertThat(f, hasValue("y - 3 = x + " + EULER_CHAR + Unicode.SUPERSCRIPT_3));

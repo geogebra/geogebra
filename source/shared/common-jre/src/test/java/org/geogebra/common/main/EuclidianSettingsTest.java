@@ -16,25 +16,25 @@
 
 package org.geogebra.common.main;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class EuclidianSettingsTest extends BaseUnitTest {
+class EuclidianSettingsTest extends BaseUnitTest {
 	private static EuclidianSettings settings;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		settings = new EuclidianSettings(getApp());
 	}
 
 	@Test
-	public void isometricBackgroundShouldShowGrid() {
+	void isometricBackgroundShouldShowGrid() {
 		assertGridAt(BackgroundType.ISOMETRIC);
 	}
 
@@ -44,17 +44,17 @@ public class EuclidianSettingsTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void polarBackgroundShouldShowGrid() {
+	void polarBackgroundShouldShowGrid() {
 		assertGridAt(BackgroundType.POLAR);
 	}
 
 	@Test
-	public void changeBackgroundFromIsometricShouldHideGrid() {
+	void changeBackgroundFromIsometricShouldHideGrid() {
 		changeBackgroundShouldHideGridFrom(BackgroundType.ISOMETRIC);
 	}
 
 	@Test
-	public void changeBackgroundFromPolarShouldHideGrid() {
+	void changeBackgroundFromPolarShouldHideGrid() {
 		changeBackgroundShouldHideGridFrom(BackgroundType.POLAR);
 	}
 
@@ -81,7 +81,7 @@ public class EuclidianSettingsTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void noBackgroundShouldClearShowGrid() {
+	void noBackgroundShouldClearShowGrid() {
 		settings.setBackgroundType(BackgroundType.ISOMETRIC);
 		settings.setBackgroundType(BackgroundType.NONE);
 		assertFalse(settings.getShowGrid());

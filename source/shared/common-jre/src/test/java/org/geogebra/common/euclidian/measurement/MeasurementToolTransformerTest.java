@@ -17,7 +17,7 @@
 package org.geogebra.common.euclidian.measurement;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +30,10 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class MeasurementToolTransformerTest extends BaseUnitTest {
+class MeasurementToolTransformerTest extends BaseUnitTest {
 
 	private EuclidianView view;
 	private MeasurementController measurementController;
@@ -43,8 +43,8 @@ public class MeasurementToolTransformerTest extends BaseUnitTest {
 		return AppCommonFactory.create3D();
 	}
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		view = getApp().getActiveEuclidianView();
 		measurementController = new MeasurementController((mode, file) ->
 				createToolImage(mode, file, getConstruction(), getApp().getActiveEuclidianView())) ;
@@ -57,7 +57,7 @@ public class MeasurementToolTransformerTest extends BaseUnitTest {
 	 * @param view active view
 	 * @return ruler or protractor image
 	 */
-	public static GeoImage createToolImage(int mode, String fileName, Construction cons,
+	static GeoImage createToolImage(int mode, String fileName, Construction cons,
 			EuclidianView view) {
 		GeoImage image = new GeoImage(cons);
 		image.setImageFileName(fileName, 400, mode == MODE_RULER ? 40 : 300);
@@ -78,7 +78,7 @@ public class MeasurementToolTransformerTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testRuler() {
+	void testRuler() {
 		measurementController.toggleActiveTool(MODE_RULER);
 		List<GPoint2D> previewPoints = new ArrayList<>();
 		previewPoints.add(new GPoint2D(200, 309));

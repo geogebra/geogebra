@@ -17,17 +17,17 @@
 package org.geogebra.common.contextmenu;
 
 import static org.geogebra.common.contextmenu.MaterialContextMenuItem.Delete;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class MaterialContextMenuTests {
+class MaterialContextMenuTests {
 
 	@Test
-	public void testSingleContextMenuItem() {
+	void testSingleContextMenuItem() {
 		assertEquals(
 				List.of(Delete),
 				ContextMenuFactory.makeMaterialContextMenu(Set.of())

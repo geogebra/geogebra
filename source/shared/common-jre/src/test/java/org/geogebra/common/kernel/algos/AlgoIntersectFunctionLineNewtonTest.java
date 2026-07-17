@@ -28,16 +28,16 @@ import org.junit.jupiter.api.Test;
 /**
  * Test for {@link AlgoIntersectFunctionLineNewton}
  */
-public class AlgoIntersectFunctionLineNewtonTest extends BaseAppTestSetup {
+class AlgoIntersectFunctionLineNewtonTest extends BaseAppTestSetup {
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		setupClassicApp();
 	}
 
 	@Test
 	@Issue("APPS-5509")
-	public void highPrecisionRounding() {
+	void highPrecisionRounding() {
 		getApp().setRounding("13");
 		GeoPoint pt = evaluateGeoElement("Intersect(sin(x deg),y=1)");
 		assertEquals("(90, 1)", pt.toValueString(StringTemplate.defaultTemplate));

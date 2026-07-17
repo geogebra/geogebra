@@ -24,7 +24,7 @@ import org.geogebra.regexp.server.JavaRegExpFactory;
 import org.geogebra.regexp.shared.RegExpFactory;
 import org.junit.jupiter.api.Test;
 
-public class GeoElementSpreadsheetTest {
+class GeoElementSpreadsheetTest {
 
 	static {
 		RegExpFactory.setPrototypeIfNull(new JavaRegExpFactory());

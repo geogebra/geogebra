@@ -28,44 +28,44 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-public class LegacyIntervalAdapterTest {
+class LegacyIntervalAdapterTest {
 
 	@Test
-	public void toIntervalSetRejectsNull() {
+	void toIntervalSetRejectsNull() {
 		assertThrows(IllegalArgumentException.class,
 				() -> LegacyIntervalAdapter.toIntervalSet(null));
 	}
 
 	@Test
-	public void toLegacyIntervalRejectsNull() {
+	void toLegacyIntervalRejectsNull() {
 		assertThrows(IllegalArgumentException.class,
 				() -> LegacyIntervalAdapter.toLegacyInterval(null));
 	}
 
 	@Test
-	public void legacyUndefinedMapsToEmpty() {
+	void legacyUndefinedMapsToEmpty() {
 		assertEquals(IntervalSet.empty(), LegacyIntervalAdapter.toIntervalSet(undefined()));
 	}
 
 	@Test
-	public void legacyWholeMapsToWhole() {
+	void legacyWholeMapsToWhole() {
 		assertEquals(IntervalSet.whole(), LegacyIntervalAdapter.toIntervalSet(whole()));
 	}
 
 	@Test
-	public void finiteLegacyIntervalMapsToConnected() {
+	void finiteLegacyIntervalMapsToConnected() {
 		assertEquals(IntervalSet.connected(1, 2),
 				LegacyIntervalAdapter.toIntervalSet(new Interval(1, 2)));
 	}
 
 	@Test
-	public void singletonLegacyIntervalMapsToConnected() {
+	void singletonLegacyIntervalMapsToConnected() {
 		assertEquals(IntervalSet.connected(3, 3),
 				LegacyIntervalAdapter.toIntervalSet(new Interval(3, 3)));
 	}
 
 	@Test
-	public void semiInfiniteLegacyIntervalsMapToConnected() {
+	void semiInfiniteLegacyIntervalsMapToConnected() {
 		assertEquals(IntervalSet.connected(Double.NEGATIVE_INFINITY, 5),
 				LegacyIntervalAdapter.toIntervalSet(new Interval(Double.NEGATIVE_INFINITY, 5)));
 		assertEquals(IntervalSet.connected(7, Double.POSITIVE_INFINITY),
@@ -73,7 +73,7 @@ public class LegacyIntervalAdapterTest {
 	}
 
 	@Test
-	public void infinitySingletonsMapToConnected() {
+	void infinitySingletonsMapToConnected() {
 		assertEquals(IntervalSet.connected(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY),
 				LegacyIntervalAdapter.toIntervalSet(positiveInfinity()));
 		assertEquals(IntervalSet.connected(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY),
@@ -81,12 +81,12 @@ public class LegacyIntervalAdapterTest {
 	}
 
 	@Test
-	public void emptyMapsBackToLegacyUndefined() {
+	void emptyMapsBackToLegacyUndefined() {
 		assertTrue(LegacyIntervalAdapter.toLegacyInterval(IntervalSet.empty()).isUndefined());
 	}
 
 	@Test
-	public void wholeMapsBackToLegacyWhole() {
+	void wholeMapsBackToLegacyWhole() {
 		Interval legacy = LegacyIntervalAdapter.toLegacyInterval(IntervalSet.whole());
 		assertAll(
 				() -> assertTrue(legacy.isWhole()),
@@ -95,7 +95,7 @@ public class LegacyIntervalAdapterTest {
 	}
 
 	@Test
-	public void connectedMapsBackToNonInvertedLegacyInterval() {
+	void connectedMapsBackToNonInvertedLegacyInterval() {
 		Interval legacy = LegacyIntervalAdapter.toLegacyInterval(IntervalSet.connected(1, 2));
 		assertAll(
 				() -> assertEquals(new Interval(1, 2), legacy),
@@ -104,7 +104,7 @@ public class LegacyIntervalAdapterTest {
 	}
 
 	@Test
-	public void invertedMapsBackToLegacyInvertedInterval() {
+	void invertedMapsBackToLegacyInvertedInterval() {
 		Interval legacy = LegacyIntervalAdapter.toLegacyInterval(IntervalSet.inverted(1, 2));
 		assertAll(
 				() -> assertEquals(1, legacy.getLow()),
@@ -114,7 +114,7 @@ public class LegacyIntervalAdapterTest {
 	}
 
 	@Test
-	public void mutatingLegacySourceDoesNotAffectMappedIntervalSet() {
+	void mutatingLegacySourceDoesNotAffectMappedIntervalSet() {
 		Interval source = new Interval(1, 2);
 		IntervalSet set = LegacyIntervalAdapter.toIntervalSet(source);
 
@@ -124,7 +124,7 @@ public class LegacyIntervalAdapterTest {
 	}
 
 	@Test
-	public void mutatingLegacyResultDoesNotAffectSourceIntervalSet() {
+	void mutatingLegacyResultDoesNotAffectSourceIntervalSet() {
 		IntervalSet source = IntervalSet.connected(1, 2);
 		Interval legacy = LegacyIntervalAdapter.toLegacyInterval(source);
 
@@ -134,7 +134,7 @@ public class LegacyIntervalAdapterTest {
 	}
 
 	@Test
-	public void connectedWholeIntervalRoundTripsToWhole() {
+	void connectedWholeIntervalRoundTripsToWhole() {
 		Interval legacy = LegacyIntervalAdapter.toLegacyInterval(
 				IntervalSet.connected(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY));
 		assertAll(
@@ -145,7 +145,7 @@ public class LegacyIntervalAdapterTest {
 	}
 
 	@Test
-	public void legacyRoundTripPreservesPrecisionSensitiveZeroBehavior() {
+	void legacyRoundTripPreservesPrecisionSensitiveZeroBehavior() {
 		Interval legacy = new Interval(1E-13, 1E-13);
 		legacy.setPrecision(0);
 
