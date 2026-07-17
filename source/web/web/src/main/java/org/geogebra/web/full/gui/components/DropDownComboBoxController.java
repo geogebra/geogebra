@@ -132,7 +132,10 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 		setupDropDownMenu(dropDownElementsList);
 	}
 
-	void setSelectedOption(int idx) {
+	/**
+	 * @param idx selected option index, or -1 for no selection
+	 */
+	public void setSelectedOption(int idx) {
 		highlightSelectedElement(dropDown.getSelectedIndex(), false);
 		highlightSelectedElement(idx, true);
 		dropDown.setSelectedIndex(idx);

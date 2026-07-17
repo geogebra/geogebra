@@ -66,6 +66,13 @@ public class ComponentDropDownPopup {
 	}
 
 	/**
+	 * @param styleName additional style name
+	 */
+	public void addStyleName(String styleName) {
+		menu.getPopupPanel().addStyleName(styleName);
+	}
+
+	/**
 	 * @param item to add
 	 */
 	public void addItem(AriaMenuItem item) {

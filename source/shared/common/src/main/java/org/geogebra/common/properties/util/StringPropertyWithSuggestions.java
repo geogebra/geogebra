@@ -23,7 +23,14 @@ import org.geogebra.common.properties.aliases.StringProperty;
 public interface StringPropertyWithSuggestions extends StringProperty {
 
 	/**
-	 * @return list of suggested values
+	 * @return List of suggested values
 	 */
 	List<String> getSuggestions();
+
+	/**
+	 * @return Whether invalid input should be replaced with the previous valid value
+	 */
+	default boolean restoresPreviousValueOnInvalidInput() {
+		return false;
+	}
 }

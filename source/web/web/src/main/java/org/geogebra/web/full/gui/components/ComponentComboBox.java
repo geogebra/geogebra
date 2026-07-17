@@ -48,6 +48,7 @@ public class ComponentComboBox extends FlowPanel implements SetLabels,
 	private DropDownComboBoxController controller;
 	private final String controlsID;
 	private ComboBox comboBoxProperty;
+	private String previousValue = "";
 
 	public ComponentComboBox(AppW app, String label, List<String> items) {
 		this(app, label, () -> items);
@@ -85,9 +86,18 @@ public class ComponentComboBox extends FlowPanel implements SetLabels,
 		this.comboBoxProperty = property;
 		setValue(property.getValue());
 		addChangeHandler(() -> {
+			String previousValue = property.getValue();
 			String text = getSelectedText().trim();
 			property.setValue(text);
 			String message = property.getErrorMessage();
+			if (message == null) {
+				property.refreshValue();
+			} else if (property.restoresPreviousValueOnInvalidInput()) {
+				property.setValue(previousValue);
+				property.refreshValue();
+				message = null;
+			}
+			setValue(property.getValue());
 			AriaHelper.setErrorMessage(inputTextField.getTextBox(), message);
 			setStyleName("error", message != null);
 		});
@@ -181,6 +191,7 @@ public class ComponentComboBox extends FlowPanel implements SetLabels,
 		inputTextField.getTextBox().addFocusHandler(event -> {
 			addStyleName("focusState");
 			addStyleName("active");
+			previousValue = getSelectedText();
 		});
 		inputTextField.getTextBox().addBlurHandler(event -> {
 			removeStyleName("focusState");
@@ -208,6 +219,7 @@ public class ComponentComboBox extends FlowPanel implements SetLabels,
 				controller.onInputChange(inputTextField.getText());
 				inputTextField.setFocus(true);
 			} else if (event.getNativeKeyCode() == GWTKeycodes.KEY_ESCAPE) {
+				inputTextField.setText(previousValue);
 				setExpanded(false);
 				inputTextField.setFocus(true);
 			}

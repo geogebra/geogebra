@@ -36,11 +36,13 @@ import org.geogebra.common.main.undo.UndoActionObserver;
 import org.geogebra.common.main.undo.UndoActionType;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertySupplier;
+import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.PropertyWrapper;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.web.full.euclidian.quickstylebar.components.IconButtonWithProperty;
+import org.geogebra.web.full.euclidian.quickstylebar.components.QuickStyleBarFontSizeBox;
 import org.geogebra.web.full.euclidian.quickstylebar.icon.PropertiesIconResource;
 import org.geogebra.web.full.gui.ContextMenuGeoElementW;
 import org.geogebra.web.full.gui.GuiManagerW;
@@ -69,12 +71,14 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 	private final EuclidianView ev;
 	private final StylebarPositioner stylebarPositioner;
 	private final List<IconButton> quickButtons = new ArrayList<>();
+	private final List<QuickStyleBarFontSizeBox> fontSizeBoxes = new ArrayList<>();
 	public final static int POPUP_MENU_DISTANCE = 8;
 	public final static int QUICK_STYLE_BAR_HEIGHT = 48;
 	private final PropertyWrapper propertyWrapper;
 	private @CheckForNull ContextMenuGeoElementW contextMenu;
 	GeoElementPropertiesFactory geoElementPropertiesFactory;
 	private final PropertiesIconResource propertiesIconResource;
+	private boolean focusFontSizeBoxAfterUpdateRequested;
 
 	/**
 	 * @param ev - parent view
@@ -170,15 +174,25 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 
 		addDivider();
 
+		boolean isWhiteboardActive = getApp().isWhiteboardActive();
+
+		Property fontSizeProperty = geoElementPropertiesFactory.createTextFontSizeProperty(
+				localization, activeGeoList);
+
+		if (isWhiteboardActive) {
+			addFontSizeComboBox(activeGeoList, fontSizeProperty);
+			addDivider();
+		}
+
 		Property fontColorProperty = geoElementPropertiesFactory.createTextFontColorProperty(
 				localization, activeGeoList);
 		addColorPropertyButton(activeGeoList, UndoActionType.STYLE_OR_CONTENT,
 				fontColorProperty);
 
-		Property fontSizeProperty = geoElementPropertiesFactory.createFontSizeProperty(
-				localization, activeGeoList);
-		addPropertyPopupButton(activeGeoList, "gwt-PopupPanel contextSubMenu", true,
-				UndoActionType.STYLE_OR_CONTENT, fontSizeProperty);
+		if (!isWhiteboardActive) {
+			addPropertyPopupButton(activeGeoList, "gwt-PopupPanel contextSubMenu", true,
+					UndoActionType.STYLE_OR_CONTENT, fontSizeProperty);
+		}
 
 		PropertiesArray fontStyleProperty = geoElementPropertiesFactory.createFontStyleProperties(
 				localization, activeGeoList);
@@ -238,6 +252,23 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 				fontProperty.getName(), geos, true, fontProperty);
 		button.addStyleName("fontButton");
 		styleAndRegisterButton(button);
+	}
+
+	private void addFontSizeComboBox(List<GeoElement> geos, Property fontSizeProperty) {
+		if (fontSizeProperty == null) {
+			return;
+		}
+		PropertyView propertyView = PropertyView.of(fontSizeProperty);
+		if (!(propertyView instanceof PropertyView.ComboBox comboBox)) {
+			return;
+		}
+		propertyWrapper.addUndoActionObserver(new PropertySupplier[] { fontSizeProperty },
+				geos, UndoActionType.STYLE_OR_CONTENT);
+
+		QuickStyleBarFontSizeBox fontSizeBox = new QuickStyleBarFontSizeBox(getApp(), comboBox,
+				this::requestFontSizeBoxFocusAfterUpdate);
+		fontSizeBoxes.add(fontSizeBox);
+		add(fontSizeBox);
 	}
 
 	private void addColorPropertyButton(List<GeoElement> geos, UndoActionType undoFiler,
@@ -420,6 +451,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 	@Override
 	public void setLabels() {
 		quickButtons.forEach(SetLabels::setLabels);
+		fontSizeBoxes.forEach(SetLabels::setLabels);
 		if (contextMenu != null) {
 			contextMenu.update();
 		}
@@ -437,6 +469,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 		}
 
 		clear();
+		fontSizeBoxes.clear();
 		buildGUI();
 		// update from slider may trigger temporarily removing geos; use deferred here to
 		// avoid closing of the StyleBar
@@ -446,6 +479,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 			if (position != null) {
 				getElement().getStyle().setLeft(position.x, Unit.PX);
 				getElement().getStyle().setTop(position.y, Unit.PX);
+				focusFontSizeBoxAfterUpdateIfNeeded();
 			} else {
 				setVisible(false);
 				closeQuickStyleBarPopups();
@@ -503,6 +537,21 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 			if (button instanceof IconButtonWithProperty) {
 				((IconButtonWithProperty) button).closePopup();
 			}
+		}
+		fontSizeBoxes.forEach(QuickStyleBarFontSizeBox::closePopup);
+	}
+
+	private void requestFontSizeBoxFocusAfterUpdate() {
+		focusFontSizeBoxAfterUpdateRequested = true;
+	}
+
+	private void focusFontSizeBoxAfterUpdateIfNeeded() {
+		if (!focusFontSizeBoxAfterUpdateRequested) {
+			return;
+		}
+		focusFontSizeBoxAfterUpdateRequested = false;
+		if (!fontSizeBoxes.isEmpty()) {
+			fontSizeBoxes.get(0).focusWithoutPopup();
 		}
 	}
 }

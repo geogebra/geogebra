@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 
 import org.geogebra.common.properties.PropertyValueObserver;
@@ -30,9 +31,16 @@ abstract class AbstractValuedPropertyListFacade<T extends ValuedProperty<S>, S>
 		implements ValuedProperty<S> {
 
 	private final Set<PropertyValueObserver> observers = new HashSet<>();
+	private final BinaryOperator<S> reducer;
 
 	AbstractValuedPropertyListFacade(List<T> properties) {
 		super(properties);
+		reducer = null;
+	}
+
+	AbstractValuedPropertyListFacade(List<T> properties, BinaryOperator<S> reducer) {
+		super(properties);
+		this.reducer = reducer;
 	}
 
 	@Override
@@ -56,6 +64,9 @@ abstract class AbstractValuedPropertyListFacade<T extends ValuedProperty<S>, S>
 
 	@Override
 	public S getValue() {
+		if (reducer != null) {
+			return properties.stream().map(ValuedProperty::getValue).reduce(reducer).orElseThrow();
+		}
 		return getFirstProperty().getValue();
 	}
 

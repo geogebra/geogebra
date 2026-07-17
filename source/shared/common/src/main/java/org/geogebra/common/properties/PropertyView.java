@@ -477,7 +477,14 @@ public abstract class PropertyView {
 		}
 
 		/**
-		 * @return the format of the text
+		 * @return Whether invalid input should be replaced with the previous valid value
+		 */
+		public boolean restoresPreviousValueOnInvalidInput() {
+			return property.restoresPreviousValueOnInvalidInput();
+		}
+
+		/**
+		 * @return The format of the text
 		 */
 		public @Nonnull TextFormat getFormat() {
 			return property.isDisplayedInMathFormat() ? TextFormat.MATH : TextFormat.PLAIN;
@@ -567,6 +574,13 @@ public abstract class PropertyView {
 		private void refreshCachedValue() {
 			value = property.getValue() != null ? property.getValue() : "";
 			errorMessage = null;
+		}
+
+		/**
+		 * Refreshes the displayed value from the underlying property.
+		 */
+		public void refreshValue() {
+			refreshCachedValue();
 		}
 
 		/**

@@ -269,6 +269,35 @@ $keyboard_button_transition: opacity .3s ease;
 			background: neutral(300);
 		}
 
+		&.quickStyleBarFontSizePopup {
+			z-index: z-index.$z-dialog-over-keyboard;
+			width: 52px;
+			border-radius: 12px;
+			padding: 8px 0;
+			box-shadow: 0 1px 6px 0 rgba(133, 132, 138, 0.08), 0 2px 12px -1px rgba(133, 132, 138, 0.12);
+
+			.dropDownElement {
+				box-sizing: border-box;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				min-width: 52px;
+				height: 32px;
+				line-height: normal;
+				padding-left: 0;
+				padding-right: 0;
+				font-size: 16px;
+				color: neutral(900);
+				text-overflow: clip;
+			}
+
+			.dropDownElement:hover,
+			.selectedDropDownElement,
+			.selectedDropDownElement:hover {
+				background-color: neutral(200);
+			}
+		}
+
 		&.show {
 			opacity: 1;
 			transform: scale(1);

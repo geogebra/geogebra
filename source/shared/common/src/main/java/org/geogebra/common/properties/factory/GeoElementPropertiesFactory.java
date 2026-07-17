@@ -98,6 +98,7 @@ import org.geogebra.common.properties.impl.objects.MinProperty;
 import org.geogebra.common.properties.impl.objects.NameCaptionProperty;
 import org.geogebra.common.properties.impl.objects.NameProperty;
 import org.geogebra.common.properties.impl.objects.NotesColorWithOpacityProperty;
+import org.geogebra.common.properties.impl.objects.NotesFontSizeProperty;
 import org.geogebra.common.properties.impl.objects.NotesOpacityColorProperty;
 import org.geogebra.common.properties.impl.objects.NotesThicknessProperty;
 import org.geogebra.common.properties.impl.objects.ObjectColorProperty;
@@ -910,6 +911,36 @@ public final class GeoElementPropertiesFactory {
 		return createOptionalPropertyFacade(elements,
 				element -> new FontSizeProperty(localization, element),
 				NamedEnumeratedPropertyListFacade::new);
+	}
+
+	/**
+	 * Returns property controlling the text font size <b>within Notes</b>
+	 * or null if not applicable.
+	 * @param localization localization
+	 * @param elements elements
+	 * @return property or null
+	 */
+	public StringPropertyWithSuggestionsListFacade<?> createNotesFontSizeProperty(
+			Localization localization, List<GeoElement> elements) {
+		return createOptionalPropertyFacade(elements,
+				element -> new NotesFontSizeProperty(localization, element),
+				properties -> new StringPropertyWithSuggestionsListFacade<>(
+						properties, (first, second) -> Objects.equals(first, second) ? first : ""));
+	}
+
+	/**
+	 * Returns the property controlling the text font size, using the Notes-specific
+	 * numeric property while the whiteboard is active, or the named-size property otherwise.
+	 * @param localization localization
+	 * @param elements elements
+	 * @return property or null
+	 */
+	public @CheckForNull Property createTextFontSizeProperty(
+			Localization localization, List<GeoElement> elements) {
+		App app = elements.get(0).getApp();
+		return app.isWhiteboardActive()
+				? createNotesFontSizeProperty(localization, elements)
+				: createFontSizeProperty(localization, elements);
 	}
 
 	/**

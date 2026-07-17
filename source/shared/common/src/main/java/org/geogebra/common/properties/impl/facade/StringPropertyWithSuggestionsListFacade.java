@@ -17,6 +17,7 @@
 package org.geogebra.common.properties.impl.facade;
 
 import java.util.List;
+import java.util.function.BinaryOperator;
 
 import javax.annotation.CheckForNull;
 
@@ -27,6 +28,11 @@ public class StringPropertyWithSuggestionsListFacade<T extends StringPropertyWit
 		implements StringPropertyWithSuggestions {
 	public StringPropertyWithSuggestionsListFacade(List<T> properties) {
 		super(properties);
+	}
+
+	public StringPropertyWithSuggestionsListFacade(List<T> properties,
+			BinaryOperator<String> reducer) {
+		super(properties, reducer);
 	}
 
 	@Override
@@ -43,5 +49,10 @@ public class StringPropertyWithSuggestionsListFacade<T extends StringPropertyWit
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public boolean restoresPreviousValueOnInvalidInput() {
+		return getFirstProperty().restoresPreviousValueOnInvalidInput();
 	}
 }

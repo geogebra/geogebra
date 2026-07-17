@@ -29,7 +29,6 @@ import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
 import org.geogebra.common.properties.impl.facade.ColorPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.IconsEnumeratedPropertyListFacade;
-import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 /**
@@ -57,9 +56,7 @@ public final class TextStylePropertyCollection extends AbstractPropertyCollectio
 				propertiesFactory.createOptionalPropertyFacade(elements,
 						element -> new FontProperty(localization, element),
 						StyledNamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new FontSizeProperty(localization, element),
-						NamedEnumeratedPropertyListFacade::new),
+				propertiesFactory.createTextFontSizeProperty(localization, elements),
 				new TextStyleProperty(propertiesFactory, localization, elements),
 				propertiesFactory.createOptionalPropertyFacade(elements,
 						element -> new InputBoxAlignmentProperty(localization, element),

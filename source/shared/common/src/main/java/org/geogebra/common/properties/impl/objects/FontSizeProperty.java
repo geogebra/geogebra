@@ -25,10 +25,8 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.settings.FontSettings;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.FontSizeProperty.FontSize;
 import org.geogebra.common.properties.impl.objects.delegate.FontStyleDelegate;
@@ -123,10 +121,6 @@ public class FontSizeProperty extends AbstractNamedEnumeratedProperty<FontSize>
 		if (element instanceof TextProperties textProperties
 				&& textProperties.getFontSizeMultiplier() != fontSize.multiplier) {
 			textProperties.setFontSizeMultiplier(fontSize.multiplier);
-		} else if (element instanceof HasTextFormatter hasTextFormatter) {
-			// dependency on getApp will be removed when inline text size is switched to absolute
-			hasTextFormatter.format("size",
-					fontSize.multiplier * FontSettings.DEFAULT_FONT_SIZE);
 		}
 		element.updateVisualStyleRepaint(GProperty.FONT);
 	}
@@ -134,12 +128,7 @@ public class FontSizeProperty extends AbstractNamedEnumeratedProperty<FontSize>
 	@Override
 	public FontSize getValue() {
 		GeoElement element = delegate.getElement();
-		if (element instanceof HasTextFormatter hasTextFormatter) {
-			// dependency on getApp will be removed when inline text size is switched to absolute
-			double multiplier = hasTextFormatter.getFormat("size", 0d)
-					/ FontSettings.DEFAULT_FONT_SIZE;
-			return FontSize.withFontSizeMultiplier(multiplier);
-		} else if (element instanceof TextProperties textStyle) {
+		if (element instanceof TextProperties textStyle) {
 			return FontSize.withFontSizeMultiplier(textStyle.getFontSizeMultiplier());
 		}
 		return null;
