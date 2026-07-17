@@ -18,7 +18,6 @@ package org.geogebra.common.gui.view.table.regression;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 

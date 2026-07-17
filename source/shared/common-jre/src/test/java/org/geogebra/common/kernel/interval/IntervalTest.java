@@ -19,6 +19,7 @@ package org.geogebra.common.kernel.interval;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PRECISION;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
+import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -28,7 +29,7 @@ import java.util.Objects;
 import org.geogebra.common.kernel.interval.operators.RMath;
 import org.junit.jupiter.api.Test;
 
-public class IntervalTest {
+class IntervalTest {
 
 	@Test
 	void testValidInterval() {
@@ -47,24 +48,6 @@ public class IntervalTest {
 		assertEquals(interval(1, 9),
 				interval(-3, 2)
 						.add(interval(4, 7)));
-	}
-
-	/**
-	 * Makes an interval.
-	 * @param low limit.
-	 * @param high limit.
-	 * @return the new interval.
-	 */
-	public static Interval interval(double low, double high) {
-		return new Interval(low, high);
-	}
-
-	/**
-	 * @param singleton single value
-	 * @return interval containing the single value
-	 */
-	public static Interval interval(double singleton) {
-		return new Interval(singleton);
 	}
 
 	@Test

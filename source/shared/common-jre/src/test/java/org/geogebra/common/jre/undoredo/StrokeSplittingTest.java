@@ -116,7 +116,7 @@ class StrokeSplittingTest extends BaseEuclidianControllerTest {
 
 	@Test
 	@Issue("MOW-1814")
-	public void checkOrdering() {
+	void checkOrdering() {
 		init();
 		drawAndSelectStroke();
 		add("c:xx+yy=1");

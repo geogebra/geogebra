@@ -751,35 +751,37 @@ class GeoInputBoxTest extends BaseUnitTest {
 
 	@Test
 	void testSanSerifInputBoxLoadsSanSerif() {
-		getApp().getGgbApi().evalXML("<element type=\"textfield\" label=\"InputBox1\">\n"
-				+ "\t<show object=\"true\" label=\"true\"/>\n"
-				+ "\t<objColor r=\"0\" g=\"0\" b=\"0\" alpha=\"0\"/>\n"
-				+ "\t<layer val=\"0\"/>\n"
-				+ "\t<labelOffset x=\"65\" y=\"65\"/>\n"
-				+ "\t<labelMode val=\"3\"/>\n"
-				+ "\t<fixed val=\"true\"/>\n"
-				+ "\t<auxiliary val=\"true\"/>\n"
-				+ "\t<symbolic val=\"true\" />\n"
-				+ "\t<contentSerif val=\"false\" />\n"
-				+ "\t<caption val=\"Serif\"/>\n"
-				+ "</element>");
+		getApp().getGgbApi().evalXML("""
+				<element type="textfield" label="InputBox1">\
+				\t<show object="true" label="true"/>
+				\t<objColor r="0" g="0" b="0" alpha="0"/>
+				\t<layer val="0"/>
+				\t<labelOffset x="65" y="65"/>
+				\t<labelMode val="3"/>
+				\t<fixed val="true"/>
+				\t<auxiliary val="true"/>
+				\t<symbolic val="true" />
+				\t<contentSerif val="false" />
+				\t<caption val="Serif"/>
+				</element>""");
 		GeoInputBox inputBox = (GeoInputBox) getConstruction().lookupLabel("InputBox1");
 		assertFalse(inputBox.isSerifContent());
 	}
 
 	@Test
 	void testOldInputBoxLoadsSerif() {
-		getApp().getGgbApi().evalXML("<element type=\"textfield\" label=\"InputBox1\">\n"
-				+ "\t<show object=\"true\" label=\"true\"/>\n"
-				+ "\t<objColor r=\"0\" g=\"0\" b=\"0\" alpha=\"0\"/>\n"
-				+ "\t<layer val=\"0\"/>\n"
-				+ "\t<labelOffset x=\"65\" y=\"65\"/>\n"
-				+ "\t<labelMode val=\"3\"/>\n"
-				+ "\t<fixed val=\"true\"/>\n"
-				+ "\t<auxiliary val=\"true\"/>\n"
-				+ "\t<symbolic val=\"true\" />\n"
-				+ "\t<caption val=\"Serif\"/>\n"
-				+ "</element>");
+		getApp().getGgbApi().evalXML("""
+				<element type="textfield" label="InputBox1">
+				\t<show object="true" label="true"/>
+				\t<objColor r="0" g="0" b="0" alpha="0"/>
+				\t<layer val="0"/>
+				\t<labelOffset x="65" y="65"/>
+				\t<labelMode val="3"/>
+				\t<fixed val="true"/>
+				\t<auxiliary val="true"/>
+				\t<symbolic val="true" />
+				\t<caption val="Serif"/>
+				</element>""");
 		GeoInputBox inputBox = (GeoInputBox) getConstruction().lookupLabel("InputBox1");
 		assertTrue(inputBox.isSerifContent());
 	}

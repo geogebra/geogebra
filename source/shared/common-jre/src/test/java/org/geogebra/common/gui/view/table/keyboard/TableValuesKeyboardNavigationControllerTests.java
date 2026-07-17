@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -65,7 +66,7 @@ class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
 
 	private void trace(String msg) {
 		if (traceEvents) {
-			System.out.println(msg);
+			Log.debug(msg);
 		}
 	}
 

@@ -26,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.annotation.CheckForNull;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class TabularRangeTest {
@@ -36,7 +35,7 @@ class TabularRangeTest {
 	private final TabularRange cellA4 = new TabularRange(3, 0, 3, 0);
 
 	@Test
-	public void testFinite() {
+	void testFinite() {
 		assertAll(
 				// empty range
 				() -> assertFalse(new TabularRange(-1, -1, -1, -1, -1, -1).isFinite()),
@@ -62,7 +61,7 @@ class TabularRangeTest {
 	}
 
 	@Test
-	public void testSingleCellShape() {
+	void testSingleCellShape() {
 		TabularRange range = new TabularRange(2, 1);
 		assertAll(
 				() -> assertTrue(range.isSingleCell()),
@@ -79,7 +78,7 @@ class TabularRangeTest {
 	}
 
 	@Test
-	public void testPartialRowShape() {
+	void testPartialRowShape() {
 		TabularRange range = new TabularRange(2, 1, 2, 3);
 		assertAll(
 				() -> assertFalse(range.isSingleCell()),
@@ -96,7 +95,7 @@ class TabularRangeTest {
 	}
 
 	@Test
-	public void testPartialColumnShape() {
+	void testPartialColumnShape() {
 		TabularRange range = new TabularRange(2, 1, 4, 1);
 		assertAll(
 				() -> assertFalse(range.isSingleCell()),
@@ -113,7 +112,7 @@ class TabularRangeTest {
 	}
 
 	@Test
-	public void testSingleRowShape() {
+	void testSingleRowShape() {
 		TabularRange range = new TabularRange(2, -1, 2, -1);
 		assertAll(
 				() -> assertFalse(range.isSingleCell()),
@@ -130,7 +129,7 @@ class TabularRangeTest {
 	}
 
 	@Test
-	public void testMultipleRowsShape() {
+	void testMultipleRowsShape() {
 		TabularRange range = new TabularRange(2, -1, 4, -1);
 		assertAll(
 				() -> assertFalse(range.isSingleCell()),
@@ -147,7 +146,7 @@ class TabularRangeTest {
 	}
 
 	@Test
-	public void testSingleColumnShape() {
+	void testSingleColumnShape() {
 		TabularRange range = new TabularRange(-1, 2, -1, 2);
 		assertAll(
 				() -> assertFalse(range.isSingleCell()),
@@ -164,7 +163,7 @@ class TabularRangeTest {
 	}
 
 	@Test
-	public void testMultipleColumnsShape() {
+	void testMultipleColumnsShape() {
 		TabularRange range = new TabularRange(-1, 2, -1, 4);
 		assertAll(
 				() -> assertFalse(range.isSingleCell()),
@@ -181,7 +180,7 @@ class TabularRangeTest {
 	}
 
 	@Test
-	public void testAllCellsShape() {
+	void testAllCellsShape() {
 		TabularRange range = new TabularRange(-1, -1, -1, -1);
 		assertAll(
 				() -> assertFalse(range.isSingleCell()),

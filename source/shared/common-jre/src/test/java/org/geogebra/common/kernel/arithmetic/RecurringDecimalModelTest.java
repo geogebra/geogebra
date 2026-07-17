@@ -122,7 +122,7 @@ class RecurringDecimalModelTest extends BaseUnitTest {
 	 * @param recurring recurring decimal part
 	 * @return recurring decimal model
 	 */
-	public static RecurringDecimalModel newModel(int integerPart,
+	static RecurringDecimalModel newModel(int integerPart,
 			String nonrecurring, String recurring) {
 		return new RecurringDecimalModel(integerPart,
 				nonrecurring == null ? new DecimalPart() : new DecimalPart(nonrecurring),

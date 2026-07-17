@@ -44,7 +44,7 @@ import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
+class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 
 	private AppCommon app;
 	private SpreadsheetController<GeoElement> kernelBackedController;
@@ -54,7 +54,7 @@ public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate 
 	private SpreadsheetStatisticsView.Regression regressionView;
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		app = AppCommonFactory.create();
 
 		kernelTabularData = new KernelTabularDataAdapter(app);
@@ -88,7 +88,7 @@ public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate 
 	// 1-var Statistics
 
 	@Test
-	public void testOneVarStatistics() {
+	void testOneVarStatistics() {
 		TabularRange range = new TabularRange(0, 0, 2, 0);
 		setupTestData(range, Content.NUMBERS);
 		kernelBackedController.select(range, false, false);
@@ -103,13 +103,13 @@ public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate 
 	}
 
 	@Test
-	public void testOneVarStatisticsEmptyRange() {
+	void testOneVarStatisticsEmptyRange() {
 		kernelBackedController.showOneVarStatistics();
 		assertNull(oneVarStatisticsView);
 	}
 
 	@Test
-	public void testOneVarStatisticsEntireColumn() {
+	void testOneVarStatisticsEntireColumn() {
 		TabularRange range = new TabularRange(0, 0, 2, 0);
 		setupTestData(range, Content.NUMBERS);
 		range = new TabularRange(-1, 0, -1, 0);
@@ -126,7 +126,7 @@ public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate 
 	}
 
 	@Test
-	public void testOneVarStatisticsAllTextualData() {
+	void testOneVarStatisticsAllTextualData() {
 		TabularRange range = new TabularRange(0, 0, 2, 0);
 		setupTestData(range, Content.TEXT);
 		kernelBackedController.select(range, false, false);
@@ -137,7 +137,7 @@ public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate 
 	}
 
 	@Test
-	public void testOneVarStatisticsDifferentRangesGiveDifferentResults() {
+	void testOneVarStatisticsDifferentRangesGiveDifferentResults() {
 		TabularRange range = new TabularRange(0, 0, 2, 0);
 		setupTestData(range, Content.NUMBERS);
 		kernelBackedController.select(range, false, false);
@@ -160,7 +160,7 @@ public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate 
 	}
 
 	@Test
-	public void testOneVarStatisticsRecalculatesAfterInvalidState() {
+	void testOneVarStatisticsRecalculatesAfterInvalidState() {
 		TabularRange range = new TabularRange(0, 0, 1, 0);
 		setupTestData(range, Content.NUMBERS);
 
@@ -178,7 +178,7 @@ public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate 
 	}
 
 	@Test
-	public void testOneVarStatisticsInvalidRange() {
+	void testOneVarStatisticsInvalidRange() {
 		TabularRange range = new TabularRange(0, 0, 2, 0);
 		setupTestData(range, Content.NUMBERS);
 		kernelBackedController.select(new TabularRange(0, 0), false, false);
@@ -188,7 +188,7 @@ public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate 
 	}
 
 	@Test
-	public void testOneVarStatisticsInvalidRangeDrivesUserAttentionOnFirstTry() {
+	void testOneVarStatisticsInvalidRangeDrivesUserAttentionOnFirstTry() {
 		TabularRange range = new TabularRange(0, 0, 2, 0);
 		setupTestData(range, Content.NUMBERS);
 		kernelBackedController.select(new TabularRange(0, 0), false, false);
@@ -205,7 +205,7 @@ public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate 
 	// 2-var Statistics
 
 	@Test
-	public void testTwoVarStatistics() {
+	void testTwoVarStatistics() {
 		TabularRange range = new TabularRange(0, 0, 2, 1);
 		setupTestData(range, Content.NUMBERS);
 		kernelBackedController.select(range, false, false);
@@ -223,13 +223,13 @@ public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate 
 	}
 
 	@Test
-	public void testTwoVarStatisticsEmptyRange() {
+	void testTwoVarStatisticsEmptyRange() {
 		kernelBackedController.showTwoVarStatistics();
 		assertNull(twoVarStatisticsView);
 	}
 
 	@Test
-	public void testTwoVarStatisticsAllTextualData() {
+	void testTwoVarStatisticsAllTextualData() {
 		TabularRange range = new TabularRange(0, 0, 2, 1);
 		setupTestData(range, Content.TEXT);
 		kernelBackedController.select(range, false, false);
@@ -240,7 +240,7 @@ public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate 
 	}
 
 	@Test
-	public void testTwoVarStatisticsDifferentRangesGiveDifferentResults() {
+	void testTwoVarStatisticsDifferentRangesGiveDifferentResults() {
 		TabularRange range = new TabularRange(0, 0, 2, 1);
 		setupTestData(range, Content.NUMBERS);
 		kernelBackedController.select(range, false, false);
@@ -268,7 +268,7 @@ public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate 
 	}
 	
 	@Test
-	public void testTwoVarStatisticsSingleCellInvalidRange() {
+	void testTwoVarStatisticsSingleCellInvalidRange() {
 		TabularRange range = new TabularRange(0, 0, 2, 1);
 		setupTestData(range, Content.NUMBERS);
 		
@@ -280,7 +280,7 @@ public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate 
 	}
 	
 	@Test
-	public void testTwoVarStatisticsSingleColumnInvalidRange() {
+	void testTwoVarStatisticsSingleColumnInvalidRange() {
 		TabularRange range = new TabularRange(0, 0, 2, 1);
 		setupTestData(range, Content.NUMBERS);
 
@@ -292,7 +292,7 @@ public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate 
 	}
 
 	@Test
-	public void testTwoVarStatisticsInvalidRangeDrivesUserAttentionOnFirstTry() {
+	void testTwoVarStatisticsInvalidRangeDrivesUserAttentionOnFirstTry() {
 		TabularRange range = new TabularRange(0, 0, 2, 1);
 		setupTestData(range, Content.NUMBERS);
 		kernelBackedController.select(range.firstColumn(), false, false);
@@ -309,7 +309,7 @@ public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate 
 	// Regression
 
 	@Test
-	public void testRegression() {
+	void testRegression() {
 		TabularRange range = new TabularRange(0, 0, 2, 1);
 		setupTestData(range, Content.NUMBERS);
 		kernelBackedController.select(range, false, false);
@@ -327,13 +327,13 @@ public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate 
 	}
 
 	@Test
-	public void testRegressionEmptyRange() {
+	void testRegressionEmptyRange() {
 		kernelBackedController.showRegression();
 		assertNull(regressionView);
 	}
 
 	@Test
-	public void testRegressionAllTextualData() {
+	void testRegressionAllTextualData() {
 		TabularRange range = new TabularRange(0, 0, 2, 1);
 		setupTestData(range, Content.TEXT);
 		kernelBackedController.select(range, false, false);
@@ -344,7 +344,7 @@ public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate 
 	}
 
 	@Test
-	public void testRegressionDifferentRangesGiveDifferentResults() {
+	void testRegressionDifferentRangesGiveDifferentResults() {
 		TabularRange range = new TabularRange(0, 0, 2, 1);
 		setupTestData(range, Content.NUMBERS);
 		kernelBackedController.select(range, false, false);
@@ -373,7 +373,7 @@ public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate 
 	}
 
 	@Test
-	public void testRegressionDifferentSpecificationGiveDifferentResults() {
+	void testRegressionDifferentSpecificationGiveDifferentResults() {
 		TabularRange range = new TabularRange(0, 0, 2, 1);
 		setupTestData(range, Content.NUMBERS);
 		kernelBackedController.select(range, false, false);
@@ -398,7 +398,7 @@ public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate 
 	}
 
 	@Test
-	public void testRegressionSingleCellInvalidRange() {
+	void testRegressionSingleCellInvalidRange() {
 		TabularRange range = new TabularRange(0, 0, 2, 1);
 		setupTestData(range, Content.NUMBERS);
 
@@ -410,7 +410,7 @@ public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate 
 	}
 
 	@Test
-	public void testRegressionSingleColumnInvalidRange() {
+	void testRegressionSingleColumnInvalidRange() {
 		TabularRange range = new TabularRange(0, 0, 2, 1);
 		setupTestData(range, Content.NUMBERS);
 
@@ -422,7 +422,7 @@ public class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate 
 	}
 
 	@Test
-	public void testRegressionInvalidRangeDrivesUserAttentionOnFirstTry() {
+	void testRegressionInvalidRangeDrivesUserAttentionOnFirstTry() {
 		TabularRange range = new TabularRange(0, 0, 2, 1);
 		setupTestData(range, Content.NUMBERS);
 		kernelBackedController.select(range.firstColumn(), false, false);

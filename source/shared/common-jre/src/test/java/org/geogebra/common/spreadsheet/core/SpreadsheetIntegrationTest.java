@@ -90,13 +90,13 @@ final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 
 		tabularData = new KernelTabularDataAdapter(getApp());
 		getKernel().attach(tabularData);
-		spreadsheet = new Spreadsheet(tabularData,
+		spreadsheet = new Spreadsheet<>(tabularData,
 				new GeoElementCellRendererFactory(graphics -> null,
 						getApp()::getFontSizeDouble),
 				null,
 				undoProvider);
 		spreadsheet.setViewportAdjustmentHandler(new DummyViewportAdjuster());
-		new SpreadsheetSettingsAdapter(spreadsheet, getApp()).registerListeners();
+		new SpreadsheetSettingsAdapter<>(spreadsheet, getApp()).registerListeners();
 
 		spreadsheet.setHeightForRows(20, 0, 5);
 		spreadsheet.setWidthForColumns(40, 0, 5);
@@ -109,11 +109,11 @@ final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 		SpreadsheetSettings spreadsheetSettings = getApp().getSettings().getSpreadsheet();
 		spreadsheetSettings.setColumnsNoFire(3);
 		spreadsheetSettings.getColumnWidths().put(1, 500.0);
-		Spreadsheet spreadsheet = new Spreadsheet(tabularData,
+		Spreadsheet<?> spreadsheet = new Spreadsheet<>(tabularData,
 				new TestCellRenderableFactory(),
 				null,
 				null);
-		new SpreadsheetSettingsAdapter(spreadsheet, getApp()).registerListeners();
+		new SpreadsheetSettingsAdapter<>(spreadsheet, getApp()).registerListeners();
 		Assertions.assertEquals(500 + 2 * 120 + 52, spreadsheet.getTotalWidth());
 	}
 
@@ -126,11 +126,11 @@ final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 		spreadsheetSettings.setShowRowHeader(false);
 		spreadsheetSettings.setShowColumnHeader(false);
 		spreadsheetSettings.setShowGrid(false);
-		Spreadsheet spreadsheet = new Spreadsheet(tabularData,
+		Spreadsheet<?> spreadsheet = new Spreadsheet<>(tabularData,
 				new TestCellRenderableFactory(),
 				null,
 				null);
-		new SpreadsheetSettingsAdapter(spreadsheet, getApp()).registerListeners();
+		new SpreadsheetSettingsAdapter<>(spreadsheet, getApp()).registerListeners();
 		Assertions.assertEquals(3 * 120, spreadsheet.getTotalWidth());
 		Assertions.assertEquals(3 * 36, spreadsheet.getTotalHeight());
 		StringCapturingGraphics graphics = spy(new StringCapturingGraphics());
@@ -255,7 +255,7 @@ final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 	@Test
 	@Issue("APPS-6619")
 	void spreadsheetShouldReflectColorChanges() {
-		getKernel().attach((KernelTabularDataAdapter) tabularData);
+		getKernel().attach(tabularData);
 		spreadsheet.setViewport(new Rectangle(0, 300, 0, 300));
 		evaluate("A1 = 1");
 		spreadsheet.draw(new GGraphicsCommon());
@@ -286,7 +286,7 @@ final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 	@Test
 	@Issue("APPS-7336")
 	void shouldIgnoreSliderLineColor() {
-		getKernel().attach((KernelTabularDataAdapter) tabularData);
+		getKernel().attach(tabularData);
 		spreadsheet.setViewport(new Rectangle(0, 300, 0, 300));
 		evaluate("A1 = Slider(1,2)");
 		lookup("A1").setBackgroundColor(GColor.RED);
@@ -301,7 +301,7 @@ final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 
 	@Test
 	void testEnsureDimensions() {
-		getKernel().attach((KernelTabularDataAdapter) tabularData);
+		getKernel().attach(tabularData);
 		getApp().getSettings().getSpreadsheet().setPreferredColumnWidth(120);
 		assertEquals(3636.0, spreadsheet.getTotalHeight(), 0.0);
 		assertEquals(3172.0, spreadsheet.getTotalWidth(), 0.0);

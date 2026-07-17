@@ -91,7 +91,7 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 	private String chartError = "";
 
 	@BeforeAll
-	public static void setupOnce() {
+	static void setupOnce() {
 		UtilFactoryJre.setupRegexFactory();
 		// required by MathField
 		FactoryProvider.setInstance(new FactoryProviderCommon());
@@ -101,7 +101,7 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 	}
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		app = AppCommonFactory.create();
 		spreadsheetStyling = new SpreadsheetStyling();
 		clipboard = new TestClipboard();
@@ -110,7 +110,7 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		cellEditor = new TestSpreadsheetCellEditor(tabularData);
 		cellEditor.getMathField().getInputController().setSyntaxAdapter(
 				new SyntaxAdapterImpl(app.getKernel()));
-		controller = new SpreadsheetController(tabularData, spreadsheetStyling);
+		controller = new SpreadsheetController<>(tabularData, spreadsheetStyling);
 		controller.setControlsDelegate(this);
 		controller.setSpreadsheetConstructionDelegate(this);
 
@@ -266,7 +266,7 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
 	@Test
 	void testMoveDownAtMaxRowsDoesNotGrowSpreadsheet() {
-		SpreadsheetController cappedController = createControllerWithDimensions(
+		SpreadsheetController<?> cappedController = createControllerWithDimensions(
 				new TestTabularData(Spreadsheet.MAX_ROWS, 5));
 
 		cappedController.selectCell(Spreadsheet.MAX_ROWS - 1, 0, false, false);
@@ -279,7 +279,7 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
 	@Test
 	void testMoveRightAtMaxColumnsDoesNotGrowSpreadsheet() {
-		SpreadsheetController cappedController = createControllerWithDimensions(
+		SpreadsheetController<?> cappedController = createControllerWithDimensions(
 				new TestTabularData(5, Spreadsheet.MAX_COLUMNS));
 
 		cappedController.selectCell(0, Spreadsheet.MAX_COLUMNS - 1, false, false);
@@ -326,8 +326,9 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		assertEquals(initialSpreadsheetHeight, controller.getLayout().getTotalHeight(), 0.0);
 	}
 
-	private SpreadsheetController createControllerWithDimensions(TestTabularData tabularData) {
-		SpreadsheetController cappedController = new SpreadsheetController(
+	private SpreadsheetController<String> createControllerWithDimensions(
+			TestTabularData tabularData) {
+		SpreadsheetController<String> cappedController = new SpreadsheetController<>(
 				tabularData, new SpreadsheetStyling());
 		cappedController.setControlsDelegate(this);
 		cappedController.setSpreadsheetConstructionDelegate(this);

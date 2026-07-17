@@ -16,7 +16,7 @@
 
 package org.geogebra.common.kernel.interval.evaluators;
 
-import static org.geogebra.common.kernel.interval.IntervalTest.interval;
+import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;

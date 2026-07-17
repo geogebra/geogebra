@@ -34,8 +34,8 @@ import org.junit.jupiter.api.Test;
 
 class SpreadsheetSelectionControllerTest {
 
-	private final SpreadsheetController controller =
-			new SpreadsheetController(new TestTabularData(), null);
+	private final SpreadsheetController<String> controller =
+			new SpreadsheetController<>(new TestTabularData(), null);
 
 	private final SpreadsheetSelectionController selectionController =
 			new SpreadsheetSelectionController();

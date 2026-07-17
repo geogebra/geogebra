@@ -17,7 +17,7 @@
 package org.geogebra.common.kernel.interval.node;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
-import static org.geogebra.common.kernel.interval.IntervalTest.interval;
+import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;

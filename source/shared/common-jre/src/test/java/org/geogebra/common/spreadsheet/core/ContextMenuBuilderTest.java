@@ -49,7 +49,7 @@ import org.junit.jupiter.api.Test;
 
 final class ContextMenuBuilderTest {
 	private ContextMenuBuilder builder;
-	private SpreadsheetController controller;
+	private SpreadsheetController<String> controller;
 	private TabularData<String> data;
 	private TestClipboard clipboard;
 
@@ -62,7 +62,7 @@ final class ContextMenuBuilderTest {
 		data = new TestTabularData(rows, columns);
 		fillTestData();
 		clipboard = new TestClipboard();
-		controller = new SpreadsheetController(data, new SpreadsheetStyling());
+		controller = new SpreadsheetController<>(data, new SpreadsheetStyling());
 		builder = new ContextMenuBuilder(controller);
 		CopyPasteCutTabularDataImpl<?> copyPasteCut =
 				new CopyPasteCutTabularDataImpl<>(data, clipboard, controller.getLayout(),

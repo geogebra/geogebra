@@ -62,11 +62,11 @@ class SpreadsheetTest extends BaseUnitTest {
 	@BeforeEach
 	void setupSpreadsheet() {
 		tabularData = new TestTabularData();
-        undoProvider = mock();
-		spreadsheet = new Spreadsheet(tabularData,
+		undoProvider = mock();
+		spreadsheet = new Spreadsheet<>(tabularData,
 				new TestCellRenderableFactory(),
 				null,
-                undoProvider);
+				undoProvider);
 		spreadsheet.setHeightForRows(20, 0, 5);
 		spreadsheet.setWidthForColumns(40, 0, 5);
 		layout = spreadsheet.getController().getLayout();
@@ -219,7 +219,7 @@ class SpreadsheetTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void spreadsheetShouldRepaintAfterUpdatingSlider() {
+	void spreadsheetShouldRepaintAfterUpdatingSlider() {
 		setupKernelBackedSpreadsheet();
 
 		GeoNumeric slider = add("a = 3");
