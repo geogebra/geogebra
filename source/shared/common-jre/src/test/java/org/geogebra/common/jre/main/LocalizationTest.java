@@ -37,7 +37,6 @@ import java.util.TreeSet;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.test.LocalizationCommonUTF;
@@ -47,7 +46,7 @@ class LocalizationTest {
 
 	private static final List<String> PERCENT_KEYS = List.of(
 			"TotalPercent", "RowPercent", "ColumnPercent");
-	private final LocalizationCommon loc = new LocalizationCommonUTF(3);
+	private final LocalizationJre loc = new LocalizationCommonUTF(3);
 
 	@Test
 	void shouldLoadGermanProperties() {
@@ -152,7 +151,7 @@ class LocalizationTest {
 	@Test
 	void testPlaceholders() {
 		loc.setLocale(Locale.ENGLISH);
-		List<String> menuKeys = ((LocalizationJre) loc).getMenuKeys();
+		List<String> menuKeys = loc.getMenuKeys();
 		Map<String, Set<Character>> placeholderNumbers = new HashMap<>();
 		for (String key: menuKeys) {
 			if (!PERCENT_KEYS.contains(key)) {

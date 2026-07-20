@@ -72,6 +72,7 @@ import org.geogebra.common.kernel.arithmetic.simplifiers.Rationalization;
 import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.geos.AlgebraicExpression;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAxis;
@@ -4861,8 +4862,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		ArrayList<GeoElement> geosToUpdate = new ArrayList<>();
 		for (GeoElement geo : cons.getGeoSetWithCasCellsConstructionOrder()) {
 			AlgoElement parent = geo.getParentAlgorithm();
-			if (geo instanceof CasEvaluableFunction) {
-				((CasEvaluableFunction) geo).clearCasEvalMap();
+			if (geo instanceof AlgebraicExpression expression) {
+				expression.clearCasEvalMap();
 				if (parent instanceof AlgoDependentFunction
 					|| parent instanceof AlgoDependentFunctionNVar) {
 					geosToUpdate.add(geo);

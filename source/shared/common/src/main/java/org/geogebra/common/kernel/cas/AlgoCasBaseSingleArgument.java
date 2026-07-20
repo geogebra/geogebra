@@ -22,7 +22,8 @@ import org.geogebra.common.kernel.algos.AlgoCasBase;
 import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.geos.CasEvaluableFunction;
+import org.geogebra.common.kernel.geos.AlgebraicExpression;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 
 /**
  * Process a function using single argument command
@@ -30,7 +31,7 @@ import org.geogebra.common.kernel.geos.CasEvaluableFunction;
  * @author Markus Hohenwarter
  */
 public class AlgoCasBaseSingleArgument extends AlgoCasBase {
-	private ArbitraryConstantRegistry arbconst = new ArbitraryConstantRegistry(this);
+	private final ArbitraryConstantRegistry arbconst = new ArbitraryConstantRegistry(this);
 
 	/**
 	 * @param cons
@@ -44,9 +45,16 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase {
 	 * @param info
 	 *            evaluation flags
 	 */
-	public AlgoCasBaseSingleArgument(Construction cons, String label, CasEvaluableFunction f,
+	public AlgoCasBaseSingleArgument(Construction cons, String label, AlgebraicExpression f,
 			Commands cmd, EvalInfo info) {
-		super(cons, label, f, cmd, info);
+		super(cons, f, cmd, info);
+		setInputOutput(); // for AlgoElement
+		compute();
+		if ((cmd == Commands.Factor || cmd == Commands.IFactor)
+				&& g instanceof GeoImplicitCurve curve) {
+			curve.setToUser();
+		}
+		g.toGeoElement().setLabel(label);
 	}
 
 	@Override

@@ -2818,9 +2818,8 @@ public class GeoList extends GeoElement
 	 */
 	public void replaceChildrenByValues(GeoElement vars) {
 		for (GeoElement listElement : this.elements) {
-			if (listElement instanceof CasEvaluableFunction) {
-				CasEvaluableFunction f = (CasEvaluableFunction) listElement;
-				f.replaceChildrenByValues(vars);
+			if (listElement instanceof AlgebraicExpression expression) {
+				expression.replaceChildrenByValues(vars);
 			} else if (listElement.isGeoList()) {
 				((GeoList) listElement).replaceChildrenByValues(vars);
 			} else {

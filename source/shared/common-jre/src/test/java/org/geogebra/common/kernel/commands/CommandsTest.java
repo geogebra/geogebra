@@ -1479,6 +1479,7 @@ class CommandsTest extends CommandTestSetup {
 	@Test
 	void cmdFactor() {
 		t("Factor[ x^2 ]", "x^(2)");
+		t("Factor[ x^3-x=0 ]", "NaN = 0"); // test with CAS in desktop
 	}
 
 	@Test
@@ -1825,6 +1826,7 @@ class CommandsTest extends CommandTestSetup {
 	@Test
 	void cmdIFactor() {
 		t("IFactor[ x^4-2 ]", "x^(4) - 2");
+		t("IFactor[ x^3-x=0 ]", "NaN = 0"); // test with CAS in Desktop
 	}
 
 	@Test

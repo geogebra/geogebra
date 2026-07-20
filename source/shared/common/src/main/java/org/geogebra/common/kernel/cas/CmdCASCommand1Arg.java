@@ -21,7 +21,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.geos.CasEvaluableFunction;
+import org.geogebra.common.kernel.geos.AlgebraicExpression;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
@@ -30,7 +30,7 @@ import org.geogebra.common.main.MyError;
  * 
  */
 public class CmdCASCommand1Arg extends CommandProcessor implements UsesCAS {
-	private Commands cmd;
+	private final Commands cmd;
 
 	/**
 	 * Create new command processor
@@ -52,22 +52,15 @@ public class CmdCASCommand1Arg extends CommandProcessor implements UsesCAS {
 		GeoElement[] arg;
 		arg = resArgs(c, info);
 
-		switch (n) {
-		case 1:
-			if (arg[0] instanceof CasEvaluableFunction) {
-
+		if (n == 1) {
+			if (arg[0] instanceof AlgebraicExpression expression) {
 				AlgoCasBaseSingleArgument algo = new AlgoCasBaseSingleArgument(
-						cons, c.getLabel(), (CasEvaluableFunction) arg[0], cmd,
+						cons, c.getLabel(), expression, cmd,
 						info);
-
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+				return new GeoElement[]{algo.getResult()};
 			}
 			throw argErr(c, arg[0]);
-
-			// more than one argument
-		default:
-			throw argNumErr(c);
 		}
+		throw argNumErr(c);
 	}
 }

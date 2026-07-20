@@ -546,7 +546,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 *            the function that the CAS command is applied to
 	 */
 	@Override
-	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
+	public void setUsingCasCommand(String ggbCasCmd, AlgebraicExpression f,
 			boolean symbolic, ArbitraryConstantRegistry arbconst) {
 		GeoFunction ff = (GeoFunction) f;
 
@@ -671,8 +671,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 *            vertical shift
 	 */
 	public void translate(double vx, double vy) {
-		if (getParentAlgorithm() instanceof AlgoFunctionFreehand) {
-			AlgoFunctionFreehand algo = (AlgoFunctionFreehand) getParentAlgorithm();
+		if (getParentAlgorithm() instanceof AlgoFunctionFreehand algo) {
 			GeoList list = algo.getList();
 
 			// left/right boundaries

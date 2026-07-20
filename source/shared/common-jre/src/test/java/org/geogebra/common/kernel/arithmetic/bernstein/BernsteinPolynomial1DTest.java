@@ -21,8 +21,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.arithmetic.BoundsRectangle;
+import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
+import org.geogebra.common.kernel.arithmetic.Term;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.util.debug.Log;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,7 +52,7 @@ class BernsteinPolynomial1DTest extends BaseUnitTest {
 		if (geo.isGeoImplicitCurve()) {
 			curve = (GeoImplicitCurve) geo;
 		}
-		bernstein1D = converter.bernsteinPolynomial1DFrom(geo, new BoundsRectangle(0, 1, 0, 1));
+		bernstein1D = bernsteinPolynomial1DFrom(geo, new BoundsRectangle(0, 1, 0, 1));
 	}
 
 	@Test
@@ -82,8 +86,9 @@ class BernsteinPolynomial1DTest extends BaseUnitTest {
 	@Test
 	void testOneVariableToBernsteinPolynomial() {
 		Polynomial polynomial = new Polynomial(getKernel(), "y");
-		BernsteinPolynomial bernsteinPolynomial = converter.from1DPolynomial(polynomial,
-				0, 2, new BoundsRectangle(0, 1, 0, 1));
+		BernsteinPolynomial<?> bernsteinPolynomial = from1DPolynomial(polynomial, 0, 2,
+				new BoundsRectangle(0, 1, 0, 1),
+				new BernsteinBuilder1Var());
 		assertEquals("y\u00B2 + y (1 - y)", bernsteinPolynomial.toString());
 	}
 
@@ -151,6 +156,16 @@ class BernsteinPolynomial1DTest extends BaseUnitTest {
 		mightHaveSolution(-0.2, -8, -12, 7);
 	}
 
+	@Test
+	void testSimplifiedEvaluation() {
+		newBernsteinPolynomialPolynomialFrom("3x^3 + 2x^2 + x - 1=0");
+		BernsteinPolynomial1D b1var = bernstein1D;
+		double expected = b1var.evaluate(1);
+		double[] coeffs = b1var.dividedCoeffs;
+		assertEquals(expected, coeffs[3], 0);
+		assertEquals(bernstein1D.evaluate(0), coeffs[0], 0);
+	}
+
 	private void mightHaveSolution(double... bcoeffs) {
 		testSolution(false, bcoeffs);
 	}
@@ -164,13 +179,54 @@ class BernsteinPolynomial1DTest extends BaseUnitTest {
 		assertEquals(shouldHave, bernstein1D.hasNoSolution());
 	}
 
-	@Test
-	void testSimplifiedEvaluation() {
-		newBernsteinPolynomialPolynomialFrom("3x^3 + 2x^2 + x - 1=0");
-		BernsteinPolynomial1D b1var = bernstein1D;
-		double expected = b1var.evaluate(1);
-		double[] coeffs = b1var.dividedCoeffs;
-		assertEquals(expected, coeffs[3], 0);
-		assertEquals(bernstein1D.evaluate(0), coeffs[0], 0);
+	/**
+	 *
+	 * @param geo to convert
+	 * @param limits of the result polynomial.
+	 * @return the {@link BernsteinPolynomial1D} instance if possible, null otherwise.
+	 */
+	BernsteinPolynomial1D bernsteinPolynomial1DFrom(GeoElement geo,
+			BoundsRectangle limits) {
+		Polynomial polynomial = null;
+		if (geo instanceof GeoFunction) {
+			Function function = ((GeoFunction) geo).getFunction();
+			if (function != null) {
+				polynomial = function.getPolynomial();
+			}
+		} else if (geo instanceof GeoImplicitCurve) {
+			FunctionNVar function = ((GeoImplicitCurve) geo).getFunctionDefinition();
+			if (function != null) {
+				polynomial = function.getPolynomial();
+			}
+		}
+
+		if (polynomial != null) {
+			return from1DPolynomial(polynomial, polynomial.degree('x'),
+					polynomial.degree('y'), limits, new BernsteinBuilder1Var());
+		}
+		return null;
+	}
+
+	static BernsteinPolynomial1D from1DPolynomial(Polynomial polynomial, int degreeX, int degreeY,
+			BoundsRectangle limits, BernsteinBuilder1Var builder1D) {
+		if (degreeY == 0) {
+			return builder1D.build(coeffsFromPolynomial(polynomial, degreeX, 'x'),
+					degreeX, 'x', limits.getXmin(), limits.getXmax());
+		}
+
+		return builder1D.build(coeffsFromPolynomial(polynomial, degreeY, 'y'),
+				degreeY, 'y', limits.getYmin(), limits.getYmax());
+	}
+
+	static double[] coeffsFromPolynomial(Polynomial polynomial, int degree, char variableName) {
+		double[] coeffs = new double[degree + 1];
+		for (int i = 0; i <= degree; i++) {
+			Term term = i < polynomial.length() ? polynomial.getTerm(i) : null;
+			if (term != null) {
+				int power = term.degree(variableName);
+				coeffs[power] = term.getCoefficient().evaluateDouble();
+			}
+		}
+		return coeffs;
 	}
 }

@@ -21,7 +21,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.geos.CasEvaluableFunction;
+import org.geogebra.common.kernel.geos.AlgebraicExpression;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -31,34 +31,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public abstract class AlgoCasBase extends AlgoElement implements UsesCAS {
 	/** Input function */
-	protected CasEvaluableFunction f;
+	protected AlgebraicExpression f;
 	/** Output function */
-	protected CasEvaluableFunction g;
-	private Commands cmd;
-
-	/**
-	 * Creates CAS algo and sets input, output and label. Do not use if
-	 * compute() or setInputOutput() are overridden.
-	 * 
-	 * @param cons
-	 *            construction
-	 * @param label
-	 *            label for output
-	 * @param f
-	 *            input function
-	 * @param cmd
-	 *            command name
-	 * @param info
-	 *            evaluation flags
-	 */
-	protected AlgoCasBase(Construction cons, String label,
-			CasEvaluableFunction f, Commands cmd, EvalInfo info) {
-		this(cons, f, cmd, info);
-
-		setInputOutput(); // for AlgoElement
-		compute();
-		g.toGeoElement().setLabel(label);
-	}
+	protected AlgebraicExpression g;
+	private final Commands cmd;
 
 	/**
 	 * Creates CAS algo, doesn't set any input, output or label
@@ -72,13 +48,13 @@ public abstract class AlgoCasBase extends AlgoElement implements UsesCAS {
 	 * @param info
 	 *            evaluation flags
 	 */
-	protected AlgoCasBase(Construction cons, CasEvaluableFunction f,
+	protected AlgoCasBase(Construction cons, AlgebraicExpression f,
 			Commands cmd, EvalInfo info) {
 		super(cons);
 		f.updateCASEvalMap(info.getCASMap());
 		this.f = f;
 		this.cmd = cmd;
-		g = (CasEvaluableFunction) f.toGeoElement().copyInternal(cons);
+		g = (AlgebraicExpression) f.toGeoElement().copyInternal(cons);
 	}
 
 	@Override

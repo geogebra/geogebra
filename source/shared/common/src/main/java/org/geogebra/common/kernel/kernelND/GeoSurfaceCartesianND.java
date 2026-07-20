@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.geos.AlgebraicExpression;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.Dilateable;
@@ -877,7 +878,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	}
 
 	@Override
-	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
+	public void setUsingCasCommand(String ggbCasCmd, AlgebraicExpression f,
 			boolean symbolic, ArbitraryConstantRegistry arbconst) {
 		GeoSurfaceCartesianND c = (GeoSurfaceCartesianND) f;
 

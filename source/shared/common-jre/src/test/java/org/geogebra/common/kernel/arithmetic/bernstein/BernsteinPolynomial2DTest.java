@@ -67,8 +67,8 @@ class BernsteinPolynomial2DTest extends BaseUnitTest {
 	void testOneVariableToBernsteinPolynomial() {
 		Polynomial polynomial = new Polynomial(getKernel(), "y");
 		BernsteinPolynomial1D bernsteinPolynomial =
-				converter.from1DPolynomial(polynomial, 0, 2, new BoundsRectangle(
-						0, 1, 0, 1));
+				BernsteinPolynomial1DTest.from1DPolynomial(polynomial, 0, 2, new BoundsRectangle(
+						0, 1, 0, 1), new BernsteinBuilder1Var());
 		assertEquals("y\u00B2 + y (1 - y)", bernsteinPolynomial.toString());
 	}
 

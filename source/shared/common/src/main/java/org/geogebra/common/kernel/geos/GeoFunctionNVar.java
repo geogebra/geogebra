@@ -388,7 +388,7 @@ public class GeoFunctionNVar extends GeoElement
 	 *            the function that the CAS command is applied to
 	 */
 	@Override
-	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
+	public void setUsingCasCommand(String ggbCasCmd, AlgebraicExpression f,
 			boolean symbolic, ArbitraryConstantRegistry arbconst) {
 
 		// reset derivatives

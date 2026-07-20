@@ -69,9 +69,9 @@ public class DrawImplicitCurve extends DrawLocus {
 
 		if (this.bernsteinBasedPlotter) {
 			createBernsteinPlotter();
-		} else {
-			update();
 		}
+		// updating visibility flags, strokes and traces needed with both plotters
+		update();
 	}
 
 	private void createBernsteinPlotter() {

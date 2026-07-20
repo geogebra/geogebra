@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.TreeMap;
 
 import javax.annotation.CheckForNull;
 
@@ -39,6 +40,7 @@ import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -48,10 +50,11 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
-import org.geogebra.common.kernel.arithmetic.ReplaceChildrenByValues;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.traversing.ConstantSimplifier;
+import org.geogebra.common.kernel.geos.AlgebraicExpression;
 import org.geogebra.common.kernel.geos.ConicMirrorable;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.Dilateable;
@@ -85,7 +88,7 @@ import org.geogebra.editor.share.util.Unicode;
  */
 public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		Traceable, Translateable, Dilateable, Mirrorable, ConicMirrorable,
-		Transformable, Rotatable, GeoImplicit, ReplaceChildrenByValues {
+		Transformable, Rotatable, GeoImplicit, AlgebraicExpression {
 
 	/**
 	 * Border mask
@@ -162,16 +165,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		fromEquation(equation, null);
 	}
 
-	/**
-	 * Create a new {@link GeoImplicitCurve} for a given function
-	 * 
-	 * @param c
-	 *            {@link Construction}
-	 * @param func
-	 *            {@link FunctionNVar}
-	 */
-	public GeoImplicitCurve(Construction c, FunctionNVar func) {
-		this(c);
+	private void fromFunction(ValidExpression func) {
 		MyDouble rhs = new MyDouble(kernel, 0.0);
 		Equation eqn = new Equation(kernel, func, rhs);
 		fromEquation(eqn, null);
@@ -2202,7 +2196,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
-		if (equationForm == Form.USER) {
+		if (equationForm == Form.USER && isFreeOrExpression()) {
 			return DescriptionMode.VALUE;
 		}
 		return super.getDescriptionMode();
@@ -2258,5 +2252,51 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		if (other instanceof GeoImplicit) {
 			equationForm = ((GeoImplicit) other).getEquationForm();
 		}
+	}
+
+	@Override
+	public void updateCASEvalMap(TreeMap<String, String> casMap) {
+		expression.updateCASEvalMap(casMap);
+	}
+
+	@Override
+	public void clearCasEvalMap() {
+		expression.clearCasEvalMap();
+	}
+
+	@Override
+	public void setUsingCasCommand(String ggbCasCmd, AlgebraicExpression f, boolean symbolic,
+			ArbitraryConstantRegistry arbconst) {
+		GeoImplicitCurve ff = (GeoImplicitCurve) f;
+		if (ff.isDefined() && ff.expression != null) {
+			FunctionNVar func = ff.expression.evalCasCommand(ggbCasCmd, symbolic, arbconst);
+			if (func == null) {
+				setUndefined();
+			} else {
+				fromFunction(func.getExpression());
+			}
+		} else {
+			setUndefined();
+		}
+	}
+
+	@Override
+	public String toSymbolicString(StringTemplate tpl) {
+		return toValueString(tpl);
+	}
+
+	@Override
+	public void printCASEvalMapXML(XMLStringBuilder sb) {
+		expression.printCASevalMapXML(sb);
+	}
+
+	@Override
+	public String getVarString(StringTemplate tpl) {
+		return expression.getVarString(tpl);
+	}
+
+	@Override
+	public FunctionVariable[] getFunctionVariables() {
+		return expression.getFunctionVariables();
 	}
 }

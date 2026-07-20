@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.traversing.ConstantSimplifier;
+import org.geogebra.common.kernel.geos.AlgebraicExpression;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.ConicMirrorable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -356,7 +357,7 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	 * Set this curve by applying CAS command to f.
 	 */
 	@Override
-	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
+	public void setUsingCasCommand(String ggbCasCmd, AlgebraicExpression f,
 			boolean symbolic, ArbitraryConstantRegistry arbconst) {
 		GeoCurveCartesianND c = (GeoCurveCartesianND) f;
 

@@ -39,13 +39,13 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.annotation.Issue;
 import org.hamcrest.Matcher;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -610,5 +610,23 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		t("CSolutions(x^2 = -4)", "{(2 * ί), (-2 * ί)}");
 		t("CSolutions(x^2 = -18, x)", "{((3 * ί) * sqrt(2)), ((-3 * ί) * sqrt(2))}");
 		t("CSolutions({x^2 = -4}, {x})", "{{(-2 * ί)}, {(2 * ί)}}");
+	}
+
+	@Test
+	@Issue("APPS-2967")
+	public void cmdFactor() {
+		t("eq:Factor(x^6 - 4*y^3 + 3*x^4*y=0)",
+				anyOf(equalTo("((x^(2) - y) * (x^(2) + (2 * y))^(2)) = 0"),
+						equalTo("((x^(2) + (2 * y))^(2) * (x^(2) - y)) = 0")));
+		assertTrue(AlgebraItem.shouldShowBothRows(app.getKernel().lookupLabel("eq"),
+				new AlgebraSettings()));
+	}
+
+	@Test
+	@Issue("APPS-2967")
+	public void cmdIFactor() {
+		t("eq:IFactor(x^4 - 2x^2=0)",
+				anyOf(equalTo("((x^(2) * (x - sqrt(2))) * (x + sqrt(2))) = 0"),
+						equalTo("((x^(2) * (x + sqrt(2))) * (x - sqrt(2))) = 0")));
 	}
 }

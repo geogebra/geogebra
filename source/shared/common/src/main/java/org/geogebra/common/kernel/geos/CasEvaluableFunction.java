@@ -16,15 +16,6 @@
 
 package org.geogebra.common.kernel.geos;
 
-import java.util.TreeMap;
-
-import org.geogebra.common.io.XMLStringBuilder;
-import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.VarString;
-import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
-import org.geogebra.common.kernel.arithmetic.ReplaceChildrenByValues;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
-
 /**
  * Interface to unify object types that allow evaluation with CAS commands, like
  * getting the derivative of a GeoFunction or GeoCurveCartesian.
@@ -32,50 +23,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
  * @author Markus Hohenwarter
  */
 public interface CasEvaluableFunction
-		extends GeoElementND, ReplaceChildrenByValues, VarString {
+		extends AlgebraicExpression {
 
-	/**
-	 * Sets this function by applying a GeoGebraCAS command to a function.
-	 * 
-	 * @param ggbCasCmd
-	 *            the GeoGebraCAS command needs to include % in all places where
-	 *            the function f should be substituted, e.g. "Derivative(%,x)"
-	 * @param f
-	 *            the function that the CAS command is applied to
-	 * @param symbolic
-	 *            true to keep variable names
-	 * @param arbconst
-	 *            arbitrary constant manager
-	 * 
-	 */
-	void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
-			boolean symbolic, ArbitraryConstantRegistry arbconst);
-
-	/**
-	 * @param tpl
-	 *            string template
-	 * @return string representation; variables represented by names
-	 */
-	String toSymbolicString(StringTemplate tpl);
-
-	/**
-	 * clear cached CAS evaluations
-	 */
-	void clearCasEvalMap();
-
-	/**
-	 * Prins CAS cache to XML
-	 * 
-	 * @param sb
-	 *            XML builder
-	 */
-	void printCASEvalMapXML(XMLStringBuilder sb);
-
-	/**
-	 * Updates CAS cache from XML
-	 * 
-	 * @param casMap
-	 *            values from XML
-	 */
-	void updateCASEvalMap(TreeMap<String, String> casMap);
 }
