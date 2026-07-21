@@ -40,7 +40,7 @@ public class NumberFormatTest {
 	@Test
 	public void testRounding() throws IOException, JSONException {
 		String path = "../../shared/common/src/main/resources/testData/rounding.json";
-		String content = new String(Files.readAllBytes(Paths.get(path)));
+		String content = Files.readString(Paths.get(path));
 		JSONArray cases = new JSONArray(new JSONTokener(content));
 		AppCommon app = AppCommonFactory.create();
 		List<String> fails = new ArrayList<>();

@@ -21,7 +21,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.test.LocalizationCommonUTF;
 import org.junit.Test;

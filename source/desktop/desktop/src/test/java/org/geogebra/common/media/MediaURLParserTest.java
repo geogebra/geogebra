@@ -53,7 +53,7 @@ public class MediaURLParserTest {
 			}
 			if (fmt == MediaFormat.VIDEO_MEBIS) {
 				assertThat(obj.getUrl(),
-						new TypeSafeMatcher<String>() {
+						new TypeSafeMatcher<>() {
 
 							@Override
 							public void describeTo(
@@ -62,7 +62,7 @@ public class MediaURLParserTest {
 							}
 
 							@Override
-							public boolean matchesSafely(String item) {
+							protected boolean matchesSafely(String item) {
 								return item.matches(MEBIS_REGEX);
 							}
 						});

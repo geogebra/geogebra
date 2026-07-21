@@ -41,7 +41,7 @@ public class CustomFunctionsTest {
 		assertEquals("(-5/2+1/2*x^2)^2", raw);
 		raw = evaluateRaw("check_derivative({(-1/2*(a^2+2*√b)+1/2*x^2)^2,"
 				+ "(-1/2*(a^2-2*√b)+1/2*x^2)^2},point(a,b))");
-		assertEquals(raw, "(-1/2*(a^2+2*√b)+1/2*x^2)^2");
+		assertEquals("(-1/2*(a^2+2*√b)+1/2*x^2)^2", raw);
 
 	}
 

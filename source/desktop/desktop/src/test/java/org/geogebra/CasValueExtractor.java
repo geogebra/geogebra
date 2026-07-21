@@ -59,6 +59,11 @@ import org.junit.jupiter.params.provider.ValueSource;
 @Disabled
 public class CasValueExtractor {
 	private static final Format printFormat = Format.MOCKED_CAS_VALUES_ANNOTATION;
+	private final AppCommon app = AppCommonFactory.create(
+			new AppConfigCas(GeoGebraConstants.SUITE_APPCODE));
+	private final CasGiacMock casGiacMock = new CasGiacMock(app);
+	private final AlgebraProcessor algebraProcessor = app.getKernel().getAlgebraProcessor();
+	private final ErrorAccumulator errorAccumulator = new ErrorAccumulator();
 
 	@ParameterizedTest
 	@ValueSource(strings = {
@@ -162,12 +167,6 @@ public class CasValueExtractor {
 			}
 		}
 	}
-
-	private final AppCommon app = AppCommonFactory.create(
-			new AppConfigCas(GeoGebraConstants.SUITE_APPCODE));
-	private final CasGiacMock casGiacMock = new CasGiacMock(app);
-	private final AlgebraProcessor algebraProcessor = app.getKernel().getAlgebraProcessor();
-	private final ErrorAccumulator errorAccumulator = new ErrorAccumulator();
 
 	private static final class CasGiacMock extends CASgiacD {
 		private static final List<String> inputOrder = new ArrayList<>();

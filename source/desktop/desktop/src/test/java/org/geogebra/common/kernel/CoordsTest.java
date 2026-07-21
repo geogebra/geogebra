@@ -16,19 +16,18 @@
 
 package org.geogebra.common.kernel;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.Coords;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-@SuppressWarnings("javadoc")
-public class CoordsTest {
+class CoordsTest {
 
 	@Test
-	public void testProduct() {
+	void testProduct() {
 		Coords v1 = new Coords(2);
 		v1.val[0] = 3.0;
 		v1.val[1] = 4.0;
@@ -37,7 +36,7 @@ public class CoordsTest {
 	}
 
 	@Test
-	public void testToString() {
+	void testToString() {
 		FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
 		Coords v1 = new Coords(4);
 		v1.set(.5, .31, -.17);
@@ -45,7 +44,7 @@ public class CoordsTest {
 	}
 
 	@Test
-	public void testProjectPlaneToHorizontalShouldKeepZCoord() {
+	void testProjectPlaneToHorizontalShouldKeepZCoord() {
 		Coords origin = new Coords(1, 2, 3, 1);
 		Coords output = new Coords(4);
 		origin.projectPlaneThruV(CoordMatrix4x4.identity(),

@@ -36,18 +36,18 @@ public class AlgebraItemLaTeXPreviewTest extends BaseSymbolicTest {
 	@Test
 	public void testCommandLatexPreview() {
 		GeoElement integral = add("a(x) = Integral(x*x,1,2)");
-		assertEquals(AlgebraItem.getPreviewLatexForGeoElement(integral), "a\\left(x "
-				+ "\\right)\\, = \\,\\int\\limits_{1}^{2}x \\; x\\,\\mathrm{d}x");
+		assertEquals("a\\left(x \\right)\\, = \\,\\int\\limits_{1}^{2}x \\; x\\,\\mathrm{d}x",
+				AlgebraItem.getPreviewLatexForGeoElement(integral));
 
 		GeoElement solve = add("b(x) = Solve(x*x = 4)");
-		assertEquals(AlgebraItem.getPreviewLatexForGeoElement(solve), "b\\left(x \\"
-				+ "right)\\, = \\,Solve \\left(x \\; x\\, = \\,4 \\right)");
+		assertEquals("b\\left(x \\right)\\, = \\,Solve \\left(x \\; x\\, = \\,4 \\right)",
+				AlgebraItem.getPreviewLatexForGeoElement(solve));
 	}
 
 	@Test
 	public void testSimpleLatexPreview() {
 		GeoElement geo = add("a = c + c");
-		assertEquals(AlgebraItem.getPreviewLatexForGeoElement(geo), "a\\, = \\,c + c");
+		assertEquals("a\\, = \\,c + c", AlgebraItem.getPreviewLatexForGeoElement(geo));
 
 		GeoElement function = add("f(x) = x+1");
 		assertEquals("f\\left(x \\right)\\, = \\,x + 1",

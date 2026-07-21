@@ -24,7 +24,6 @@ import java.util.Set;
 
 import org.geogebra.common.contextmenu.AlgebraContextMenuItem;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
-import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.kernel.geos.BaseSymbolicTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;

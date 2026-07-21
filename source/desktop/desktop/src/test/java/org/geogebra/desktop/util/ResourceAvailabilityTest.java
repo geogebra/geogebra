@@ -17,7 +17,6 @@
 package org.geogebra.desktop.util;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
@@ -55,17 +54,6 @@ public class ResourceAvailabilityTest {
 			}
 			URL url = ResourceAvailabilityTest.class.getResource(fn);
 			assertNotNull("" + res, url);
-		}
-	}
-
-	private void assertNoDupesRecursive(String f1, String f2) {
-		for (String fn: new File(f1).list()) {
-			if (new File(f1 + "/" + fn).isDirectory()) {
-				assertNoDupesRecursive(f1 + "/" + fn, f2 + "/" + fn);
-			} else {
-				assertFalse("Duplicate found:" + f2 + "/" + fn,
-						new File(f2 + "/" + fn).exists());
-			}
 		}
 	}
 

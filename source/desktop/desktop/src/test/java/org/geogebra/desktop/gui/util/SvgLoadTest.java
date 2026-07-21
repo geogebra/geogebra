@@ -38,6 +38,7 @@ import org.junit.Test;
 
 public class SvgLoadTest extends BaseUnitTest {
 
+	public static final String RESOURCES = "src/test/resources/svg/";
 	static AppDNoGui app;
 	private static SVGImage image;
 	private int allSvgCount = 0;
@@ -61,8 +62,6 @@ public class SvgLoadTest extends BaseUnitTest {
 			}
 		};
 	}
-
-	public static final String RESOURCES = "src/test/resources/svg/";
 
 	@Test
 	public void testLoadSvgsGGB() {

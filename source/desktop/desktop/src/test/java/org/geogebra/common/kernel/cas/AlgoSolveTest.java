@@ -58,11 +58,11 @@ public class AlgoSolveTest extends BaseSuiteTest {
 	public void shouldSendEnoughBracketsToCas() {
 		GeoNumeric number = add("a=0.3");
 		number.setSymbolicMode(true, false);
-		assertEquals(add("NSolve(a^2=x)").toValueString(StringTemplate.defaultTemplate),
-				"{x = 0.09}");
+		assertEquals("{x = 0.09}",
+				add("NSolve(a^2=x)").toValueString(StringTemplate.defaultTemplate));
 		add("a=1-0.3");
-		assertEquals(add("NSolve(a^2=x)").toValueString(StringTemplate.defaultTemplate),
-				"{x = 0.49}");
+		assertEquals("{x = 0.49}",
+				add("NSolve(a^2=x)").toValueString(StringTemplate.defaultTemplate));
 	}
 
 	@Test

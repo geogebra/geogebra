@@ -48,7 +48,6 @@ import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
 import org.geogebra.common.gui.view.algebra.Suggestion;

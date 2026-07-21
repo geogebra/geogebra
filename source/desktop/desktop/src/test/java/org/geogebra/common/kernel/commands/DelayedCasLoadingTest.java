@@ -218,8 +218,8 @@ public class DelayedCasLoadingTest {
 		return app.getKernel().getAlgebraProcessor().processAlgebraCommand(s, false)[0];
 	}
 
-	private static class DelayedCasGiacD extends CASgiacD {
-		public DelayedCasGiacD(CASparser parser) {
+	private static final class DelayedCasGiacD extends CASgiacD {
+		private DelayedCasGiacD(CASparser parser) {
 			super(parser);
 		}
 

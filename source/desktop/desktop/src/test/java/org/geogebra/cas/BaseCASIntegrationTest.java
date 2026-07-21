@@ -36,6 +36,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.test.CASTestLogger;
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 
@@ -51,15 +52,17 @@ public class BaseCASIntegrationTest {
 	static CASTestLogger logger;
 
 	ArbitraryConstantRegistry arbconst;
+	private SuiteScope suiteScope;
 
 	/**
 	 * Create app and CAS.
 	 */
 	@Before
 	public void setupCas() {
-		SuiteScope suiteScope = GlobalScope.registerNewSuiteScope();
+		suiteScope = GlobalScope.registerNewSuiteScope();
 
 		app = new AppDNoGui(new LocalizationD(3), false);
+		suiteScope.registerApp(app);
 
 		if (silent) {
 			Log.setLogger(null);
@@ -78,6 +81,11 @@ public class BaseCASIntegrationTest {
 		// Setting the general timeout to 9 seconds. Feel free to change this.
 		kernel.getApplication().getSettings().getCasSettings()
 				.setTimeoutMilliseconds(9000);
+	}
+
+	@After
+	public void unregister() {
+		GlobalScope.unregisterSuiteScope(suiteScope);
 	}
 
 	/**
@@ -123,7 +131,6 @@ public class BaseCASIntegrationTest {
 	 */
 	protected void ta(GeoCasCell f, boolean keepInput, String input,
 			String expectedResult, String... validResults) {
-		String result;
 		f.setInput(input);
 		if (keepInput) {
 			f.setEvalCommand("Keepinput");
@@ -145,7 +152,7 @@ public class BaseCASIntegrationTest {
 			}
 		}
 
-		result = f.getValue() != null
+		String result = f.getValue() != null
 				? f.getValue()
 						.toString(includesNumericCommand
 								? StringTemplate.testNumeric
