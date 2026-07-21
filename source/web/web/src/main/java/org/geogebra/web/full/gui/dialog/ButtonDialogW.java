@@ -26,7 +26,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentInputField;
-import org.geogebra.web.full.gui.util.ScriptArea;
+import org.geogebra.web.full.gui.util.CodeMirrorEditorWidget;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
@@ -35,37 +36,29 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
 /**
- * Dialog for creating buttons and inputboxes
- *
+ * Dialog for creating buttons and input-boxes
  */
-public class ButtonDialogW extends ComponentDialog
-		implements HasKeyboardPopup {
+public class ButtonDialogW extends ComponentDialog implements HasKeyboardPopup {
 	private ComponentInputField captionInput;
 	private final ButtonDialogModel model;
-	private ScriptArea tfScript;
+	private CodeMirrorEditorWidget scriptArea;
 	private final Localization loc;
 
 	/**
-	 * @param app
-	 *            app
-	 * @param x
-	 *            position
-	 * @param y
-	 *            position
-	 * @param data
-	 *            dialog translation keys
-	 * @param inputBox
-	 *            whether this is for inputbox
+	 * @param app {@link AppW}
+	 * @param x position
+	 * @param y position
+	 * @param data dialog translation keys
+	 * @param inputBox whether this is for input-box
 	 */
-	public ButtonDialogW(final AppW app, int x, int y,
-			DialogData data, boolean inputBox) {
+	public ButtonDialogW(final AppW app, int x, int y, DialogData data, boolean inputBox) {
 		super(app, data, false, true);
 
 		this.loc = app.getLocalization();
 		model = new ButtonDialogModel(app, x, y, inputBox);
 		addStyleName(inputBox ? "inputboxDialog" : "buttonDialog");
 		buildContent();
-		setOnPositiveAction(() -> model.apply(captionInput.getText(), tfScript.getText()));
+		setOnPositiveAction(() -> model.apply(captionInput.getText(), scriptArea.getText()));
 		if (!app.isWhiteboardActive()) {
 			app.registerPopup(this);
 		}
@@ -78,21 +71,21 @@ public class ButtonDialogW extends ComponentDialog
 
 	private void buildContent() {
 		// create caption panel
-
 		String initString = model.getInitString();
 
 		captionInput = new ComponentInputField((AppW) app, "",
 				"Button.Caption", "", initString, null);
 		captionInput.getTextWidget().setAutoComplete(false);
 
-		Label scriptLabel = new Label(loc.getMenu("Script"));
-		scriptLabel.addStyleName("coloredLabel");
-		tfScript = new ScriptArea((AppW) app);
-		tfScript.enableGGBKeyboard();
+		Label scriptLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(loc.getMenu("Script"),
+				"scriptLabel");
+		scriptArea = new CodeMirrorEditorWidget();
+		scriptArea.setText("\n".repeat(2));
+		scriptArea.focusEditor();
 
 		FlowPanel scriptPanel = new FlowPanel();
 		scriptPanel.add(scriptLabel);
-		scriptPanel.add(tfScript);
+		scriptPanel.add(scriptArea);
 
 		FlowPanel contentPanel = new FlowPanel();
 		// create object list
@@ -116,13 +109,10 @@ public class ButtonDialogW extends ComponentDialog
 	}
 
 	/**
-	 * Update linked geo in model
-	 * 
-	 * @param cbAdd
-	 *            list of geos
+	 * Update linked geo in model.
+	 * @param cbAdd list of geos
 	 */
 	protected void updateModel(ComponentDropDown cbAdd, ArrayList<GeoElement> options) {
 		model.setLinkedGeo(options.get(cbAdd.getSelectedIndex()));
 	}
-
 }

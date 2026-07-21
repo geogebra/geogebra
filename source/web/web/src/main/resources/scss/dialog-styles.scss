@@ -140,9 +140,86 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	/* button tool dialog*/
 	.dialogComponent.buttonDialog {
 		max-width: 448px;
+
+		.inputTextField {
+			margin-bottom: 16px;
+		}
+
+		.scriptLabel {
+			font-size: 14px;
+			margin: 8px 0;
+		}
+
+		.codeMirrorEditorHost {
+			height: 120px;
+			border: 1px solid neutral(300);
+			border-radius: 8px;
+
+			.cm-editor {
+				height: 100%;
+				background-color: #fff;
+				color: #333;
+				font-family: Consolas, Monaco, monospace;
+				height: 100%;
+				.cm-scroller {
+					font-family: inherit;
+					line-height: normal;
+				}
+				.cm-content {
+					caret-color: #333,
+				}
+				.cm-line, .cm-line span {
+					font-family: inherit !important;
+					font-size: inherit !important;
+					font-weight: inherit !important;
+					line-height: inherit !important;
+				}
+				&.cm-focused {
+					outline: none;
+				}
+				&.cm-focused .cm-cursor {
+					border-left-color: #333;
+				}
+				.cm-activeLineGutter {
+					background-color: #f5f5f5;
+				}
+				.cm-gutters {
+					background-color: #fafafa;
+					border-right: 1px solid #ddd;
+					color: #767676;
+				}
+				.cm-tooltip-autocomplete .ggb-command-info {
+					max-width: 360px;
+					padding: 4px 2px;
+				}
+				.cm-tooltip-autocomplete .ggb-command-info-title {
+					color: #00695c;
+					font-weight: 500;
+					margin-bottom: 4px;
+				}
+				.cm-tooltip-autocomplete .ggb-command-info-syntax {
+					color: #333;
+					font-family: Consolas, Monaco, monospace;
+					white-space: nowrap;
+				}
+
+				.cm-gutters.cm-gutters-before {
+					border-radius: 8px 0 0 8px;
+
+					.cm-gutterElement {
+						font-size: 10px;
+						line-height: 20px;
+					}
+				}
+
+				.cm-content {
+					font-size: 14px;
+					padding: 8px;
+				}
+			}
+		}
 	}
 
 	.dialogComponent.inputboxDialog {
@@ -207,11 +284,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		box-shadow: 0 6px 32px -2px rgba(133, 132, 138, 0.16), 0 4px 12px -1px rgba(133, 132, 138, 0.06);
 
 		.SymbolToggleButton:hover, .SymbolToggleButton:focus {
-			color: colors.$teal-default;
-		}
-
-		.coloredLabel {
-			font-size: 80%;
 			color: colors.$teal-default;
 		}
 

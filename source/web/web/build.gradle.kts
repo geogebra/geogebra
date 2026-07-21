@@ -34,6 +34,7 @@ dependencies {
     implementation(libs.pdfJs)
     implementation(libs.multiplayer)
     implementation(files(file("build/generated/sources/annotationProcessor/java/main/")))
+    implementation(libs.codeMirror)
 
     testImplementation(libs.junit)
     testImplementation(libs.gwt.user)
