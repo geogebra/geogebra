@@ -23,6 +23,8 @@ import static org.junit.Assume.assumeFalse;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import org.geogebra.common.kernel.cas.CasTestJsonCommon;
@@ -79,7 +81,7 @@ public class CAStestJSON extends CasTestJsonCommon {
 	 */
 	@AfterClass
 	public static void checkAllCatsTested() {
-		assertNull("Missing tests for:" + missing, missing);
+		assertEquals("Missing tests for:" + missing, 0, missing.size());
 		StringBuilder sb = new StringBuilder();
 		for (String cat : testcases.keySet()) {
 			sb.append(cat);
