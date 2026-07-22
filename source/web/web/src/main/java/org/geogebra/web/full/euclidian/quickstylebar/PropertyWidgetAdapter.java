@@ -26,7 +26,6 @@ import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.PropertySupplier;
 import org.geogebra.common.properties.PropertyView;
-import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.facade.BooleanPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.FlagListPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.RangePropertyListFacade;
@@ -103,7 +102,8 @@ public class PropertyWidgetAdapter {
 	 * @param property - cell border thickness property
 	 * @return panel for line thickness ui
 	 */
-	public FlowPanel getBorderThicknessWidget(AbstractEnumeratedProperty<Integer> property) {
+	public FlowPanel getBorderThicknessWidget(
+			IconsEnumeratedProperty<Integer> property) {
 		return new BorderThicknessPanel(property, appW);
 	}
 

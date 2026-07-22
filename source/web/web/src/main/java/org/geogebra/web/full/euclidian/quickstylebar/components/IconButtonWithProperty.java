@@ -27,7 +27,6 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertySupplier;
 import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.RangeProperty;
-import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.facade.BooleanPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.ColorPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.FlagListPropertyListFacade;
@@ -122,14 +121,15 @@ public class IconButtonWithProperty extends IconButton {
 
 	private void processProperty(PropertySupplier propertySupplier, FlowPanel parent) {
 		Property property = propertySupplier.get();
-		if (property instanceof IconsEnumeratedPropertyListFacade<?, ?>
-				iconsEnumeratedPropertyListFacade) {
+		if (property instanceof IconsEnumeratedPropertyListFacade<?, ?> iconsListFacade) {
 			IconsEnumeratedProperty<?> firstProperty
-					= iconsEnumeratedPropertyListFacade.getFirstProperty();
+					= iconsListFacade.getFirstProperty();
 			if (firstProperty instanceof BorderWidthProperty
 					|| firstProperty instanceof CellBorderThicknessProperty) {
+				IconsEnumeratedProperty<Integer> intValued =
+						(IconsEnumeratedProperty<Integer>) iconsListFacade;
 				FlowPanel borderThickness = widgetAdapter.getBorderThicknessWidget(
-						(AbstractEnumeratedProperty<Integer>) firstProperty);
+						intValued);
 				parent.add(borderThickness);
 				return;
 			}
