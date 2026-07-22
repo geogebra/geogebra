@@ -69,6 +69,7 @@ import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteAdapter;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.io.layout.DockPanelData;
+import org.geogebra.common.io.layout.DockPanelData.TabIds;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
@@ -792,6 +793,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void resetUI() {
 		resetEVs();
+		ToolbarPanel unbundledToolbarBefore = getGuiManager() != null
+				? getGuiManager().getUnbundledToolbar() : null;
+		final TabIds previousTabId = unbundledToolbarBefore != null
+				? unbundledToolbarBefore.getSelectedTabId() : null;
+
 		// remove all Macros before loading preferences
 		kernel.removeAllMacros();
 		// reload the saved/(default) preferences
@@ -812,8 +818,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (isUnbundled()) {
 			if (isPortrait()) {
 				p.getSplitPaneData()[0].setDivider(PerspectiveDecoder.portraitRatio(
-						getHeight(),
-						isUnbundledGraphing() || isUnbundled3D()));
+						getHeight(), isUnbundledGraphing() || isUnbundled3D()));
 			} else {
 				p.getSplitPaneData()[0].setDivider(
 						PerspectiveDecoder.landscapeRatio(this, getWidth()));
@@ -825,10 +830,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		resetAllToolbars();
 
 		resetToolbarPanel();
-		if (isUnbundled() && getGuiManager()
-				.getUnbundledToolbar() != null) {
-			getGuiManager().getUnbundledToolbar()
-					.updateContent();
+		if (getGuiManager().getUnbundledToolbar() != null) {
+			getGuiManager().getUnbundledToolbar().updateContent();
+			if (previousTabId != null) {
+				getGuiManager().getUnbundledToolbar().openTab(previousTabId, false);
+			}
 		}
 	}
 

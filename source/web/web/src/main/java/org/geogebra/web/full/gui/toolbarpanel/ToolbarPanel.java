@@ -922,6 +922,33 @@ public class ToolbarPanel extends FlowPanel
 		dispatchEvent(EventType.ALGEBRA_PANEL_SELECTED);
 	}
 
+	/**
+	 * Opens the tab identified by {@code tabId} if the app config supports it.
+	 * @param tabId ID of the tab to open.
+	 * @param fade Whether the tab should fade in.
+	 */
+	public void openTab(TabIds tabId, boolean fade) {
+		switch (tabId) {
+			case ALGEBRA:
+				openAlgebra(fade);
+				break;
+			case TOOLS:
+				openTools(fade);
+				break;
+			case TABLE:
+				openTableView(fade);
+				break;
+			case DISTRIBUTION:
+				openDistributionView(fade);
+				break;
+			case SPREADSHEET:
+				openSpreadsheetView(fade);
+				break;
+			default:
+				break;
+		}
+	}
+
 	private void switchTab(TabIds tab, boolean fade) {
 		if (isOpen && getSelectedTabId() == tab && isTabActive(tab)) {
 			return;

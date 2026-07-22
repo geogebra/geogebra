@@ -1051,6 +1051,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		resetUniqueId();
 		setLocalID(-1);
 		setActiveMaterial(null);
+		setTmpPerspective(null);
 
 		if (getGoogleDriveOperation() != null) {
 			getGoogleDriveOperation().resetStorageInfo();

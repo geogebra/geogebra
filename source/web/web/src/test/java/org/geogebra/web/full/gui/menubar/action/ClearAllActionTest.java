@@ -22,7 +22,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.io.layout.DockPanelData;
+import org.geogebra.common.io.layout.DockPanelData.TabIds;
+import org.geogebra.common.io.layout.Perspective;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
@@ -61,6 +66,26 @@ public class ClearAllActionTest {
 		// MOW-1259, MOW-1249
 		assertEquals(GColor.WHITE, euclidianSettings.getBackground());
 		assertFalse("Should not show grid", euclidianSettings.getShowGrid());
+	}
+
+	@Test
+	public void clearAllShouldKeepCurrentlyActiveTab() {
+		AppWFull app = AppMocker.mockGraphing();
+		ToolbarPanel toolbarPanel = app.getGuiManager().getUnbundledToolbar();
+
+		Perspective savedPerspective = app.getGuiManager().getLayout().createPerspective();
+		for (DockPanelData dockPanelData : savedPerspective.getDockPanelData()) {
+			if (dockPanelData.getViewId() == App.VIEW_ALGEBRA) {
+				dockPanelData.setTabId(TabIds.TOOLS);
+			}
+		}
+		app.setTmpPerspective(savedPerspective);
+
+		toolbarPanel.openAlgebra(false);
+		assertEquals(TabIds.ALGEBRA, toolbarPanel.getSelectedTabId());
+
+		new ClearAllAction(false).execute(app);
+		assertEquals(TabIds.ALGEBRA, app.getGuiManager().getUnbundledToolbar().getSelectedTabId());
 	}
 
 	private static void addObject(String string) {

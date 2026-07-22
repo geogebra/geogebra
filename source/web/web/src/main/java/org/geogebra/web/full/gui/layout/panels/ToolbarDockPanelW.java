@@ -138,17 +138,7 @@ public class ToolbarDockPanelW extends DockPanelW
 	public void setTabId(DockPanelData.TabIds tabId) {
 		if (toolbar != null) {
 			// open with false: no fading here.
-			if (tabId == DockPanelData.TabIds.TOOLS) {
-				toolbar.openTools(false);
-			} else if (tabId == DockPanelData.TabIds.TABLE) {
-				toolbar.openTableView(false);
-			} else if (tabId == DockPanelData.TabIds.DISTRIBUTION) {
-				toolbar.openDistributionView(false);
-			} else if (tabId == DockPanelData.TabIds.SPREADSHEET) {
-				toolbar.openSpreadsheetView(false);
-			} else {
-				toolbar.openAlgebra(false);
-			}
+			toolbar.openTab(tabId, false);
 			toolbar.updateHeader();
 		}
 		doSetTabId(tabId);
