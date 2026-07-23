@@ -1623,7 +1623,9 @@ public final class SpreadsheetController<T> {
 	private TabularRange getStatisticsSelectionRange() {
 		Selection last = getLastSelection();
 		TabularRange range = last == null ? null : last.getRange();
-		return range == null || spreadsheetStatistics == null ? null : range;
+		return range == null || spreadsheetStatistics == null ? null
+				: range.restrictInfiniteRangeTo(tabularData.numberOfRows(),
+					getLayout().numberOfColumns());
 	}
 
 	// Charts

@@ -37,14 +37,12 @@ public class SpreadsheetStyleBar extends FlowPanel {
 	private final static int STYLE_BAR_HEIGHT = 36;
 	private final AppW appW;
 	private final SpreadsheetStyleBarModel styleBarModel;
-	private final Spreadsheet spreadsheet;
+	private final Spreadsheet<?> spreadsheet;
 	private IconButton backgroundColorButton;
 	private IconButton fontColorButton;
 	private IconButton boldButton;
 	private IconButton italicButton;
 	private IconButton horizontalAlignmentButton;
-	private IconButton chartButton;
-	private IconButton calculateButton;
 	private SpreadsheetStyleBarColorPopup backgroundColorPopup;
 	private SpreadsheetStyleBarColorPopup fontColorPopup;
 	private HorizontalAlignmentPopup horizontalAlignmentPopup;
@@ -105,12 +103,15 @@ public class SpreadsheetStyleBar extends FlowPanel {
 
 		add(BaseWidgetFactory.INSTANCE.newDivider(true));
 
-		calculateButton = buildIconButton(res.calculate(), "Calculate");
-		calculateButton.addFastClickHandler(source -> showMenu(calculateButton,
-				ContextMenuItem.Identifier.CALCULATE));
-		chartButton = buildIconButton(res.insert_chart(), "ContextMenu.CreateChart");
-		chartButton.addFastClickHandler(source -> showMenu(chartButton,
-				ContextMenuItem.Identifier.CREATE_CHART));
+		buildMenuButton(res.calculate(), ContextMenuItem.Identifier.CALCULATE);
+		buildMenuButton(res.statistics(), ContextMenuItem.Identifier.STATISTICS);
+		buildMenuButton(res.insert_chart(), ContextMenuItem.Identifier.CREATE_CHART);
+	}
+
+	private void buildMenuButton(SVGResource icon,
+			ContextMenuItem.Identifier identifier) {
+		IconButton btn = buildIconButton(icon, identifier.localizationKey);
+		btn.addFastClickHandler(source -> showMenu(btn, identifier));
 	}
 
 	private IconButton buildIconButton(SVGResource svgResource, String ariaLabel) {
@@ -212,7 +213,7 @@ public class SpreadsheetStyleBar extends FlowPanel {
 		GPopupMenuW popup = new GPopupMenuW(appW);
 		popup.getPopupPanel().addStyleName("compactMenu");
 		new SpreadsheetMenuBuilder(appW.getLocalization(), popup::hide).addItems(
-				popup, spreadsheet.getController().getMenuItems(identifier));
+				popup, spreadsheet.getMenuItems(identifier));
 		popup.show(anchor, 0, STYLE_BAR_HEIGHT);
 		popup.getPopupPanel().addCloseHandler(evt -> markActive(anchor, false));
 	}

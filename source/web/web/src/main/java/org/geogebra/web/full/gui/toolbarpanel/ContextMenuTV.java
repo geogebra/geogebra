@@ -40,7 +40,6 @@ import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.ownership.SuiteScope;
 import org.geogebra.common.util.AttributedString;
 import org.geogebra.web.full.gui.components.sideSheet.SideSheetData;
-import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyValuesTable;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -55,7 +54,6 @@ import org.gwtproject.user.client.Command;
  */
 public class ContextMenuTV implements TableValuesContextMenuActionHandler.Delegate {
 	private final TableValuesView view;
-	private final StickyValuesTable table;
 	/**
 	 * popup for the context menu
 	 */
@@ -69,13 +67,11 @@ public class ContextMenuTV implements TableValuesContextMenuActionHandler.Delega
 	/**
 	 * @param app see {@link AppW}
 	 * @param view {@link TableValuesView}
-	 * @param table {@link StickyValuesTable}
 	 * @param column index of column
 	 */
-	public ContextMenuTV(AppWFull app, TableValuesView view, StickyValuesTable table, int column) {
+	public ContextMenuTV(AppWFull app, TableValuesView view, int column) {
 		this.app = app;
 		this.view = view;
-		this.table = table;
 		this.columnIdx = column;
 		buildGui();
 	}
@@ -199,35 +195,29 @@ public class ContextMenuTV implements TableValuesContextMenuActionHandler.Delega
 	@Override
 	public void showStatisticsDialog(@Nonnull String title, @Nonnull AttributedString header,
 			@Nonnull List<StatisticGroup> statisticGroups) {
-		table.removeSideSheet();
 		SideSheetData sideSheetData = new SideSheetData(title, null, null);
 		StatsSideSheetTV sideSheet = new StatsSideSheetTV(app, sideSheetData,
 				TableUtil.toHtml(header));
 		sideSheet.setRowsAndShow(statisticGroups);
-		table.setSideSheet(sideSheet);
 	}
 
 	@Override
 	public void showRegressionDialog(@Nonnull String title, @Nonnull AttributedString header,
 			@Nonnull Map<RegressionSpecification, List<StatisticGroup>> regressionGroups,
 			@CheckForNull PlotActionHandler plotActionHandler) {
-		table.removeSideSheet();
 		SideSheetData sideSheetData = new SideSheetData(title, null,
 				plotActionHandler != null ? "Plot" : null);
 		StatsSideSheetTV sideSheet = new StatsSideSheetTV(app, sideSheetData,
 				TableUtil.toHtml(header));
 		sideSheet.addRegressionChooser(regressionGroups, plotActionHandler);
-		table.setSideSheet(sideSheet);
 	}
 
 	@Override
 	public void showErrorDialog(@Nonnull String title, @Nonnull AttributedString header,
 			@Nonnull String errorMessage) {
-		table.removeSideSheet();
 		SideSheetData sideSheetData = new SideSheetData(title, null, null);
 		StatsSideSheetTV sideSheet = new StatsSideSheetTV(app, sideSheetData,
 				TableUtil.toHtml(header));
 		sideSheet.showError(errorMessage);
-		table.setSideSheet(sideSheet);
 	}
 }

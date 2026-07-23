@@ -35,14 +35,13 @@ import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.web.full.gui.components.sideSheet.ComponentSideSheet;
+import org.geogebra.web.full.gui.components.sideSheet.SheetTitlePanel;
 import org.geogebra.web.full.gui.components.sideSheet.SideSheetData;
 import org.geogebra.web.full.gui.properties.ui.PropertiesPanelAdapter;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.FontLoader;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.CSSEvents;
-import org.geogebra.web.html5.util.PersistablePanel;
 import org.geogebra.web.shared.components.tab.ComponentTab;
 import org.geogebra.web.shared.components.tab.TabData;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -62,11 +61,11 @@ public class PropertiesViewW extends PropertiesView
 		implements ExamListener, RequiresResize, SetLabels {
 	private static final int DEFAULT_SETTINGS_WIDTH = 400;
 	private final FlowPanel wrappedPanel;
+	private final @CheckForNull ComponentSideSheet sideSheet;
 
 	private OptionType optionType;
 	private boolean floatingAttached = false;
 
-	private @CheckForNull ComponentSideSheet sideSheet;
 	private ComponentTab settingsTab;
 	private PropertiesPanelAdapter adapter;
 	private boolean objectPropertiesVisible;
@@ -80,27 +79,25 @@ public class PropertiesViewW extends PropertiesView
 	 */
 	public PropertiesViewW(AppW app, OptionType optionType) {
 		super(app);
-		this.wrappedPanel = app.isUnbundledOrWhiteboard()
-				? new PersistablePanel() : new FlowPanel();
-		app.setPropertiesView(this);
 		app.setWaitCursor();
-
 		this.optionType = optionType;
-		initGUI();
+		if (app.isUnbundledOrWhiteboard()) {
+			this.sideSheet = new ComponentSideSheet(app, new SideSheetData("Settings"));
+			this.wrappedPanel = sideSheet;
+		} else {
+			sideSheet = null;
+			wrappedPanel = new FlowPanel();
+		}
+		rebuildContent();
+		addEscapeHandler();
+		app.setPropertiesView(this);
+		wrappedPanel.addStyleName("PropertiesViewW");
 		app.setDefaultCursor();
-		if (app instanceof AppWFull) {
-			((AppWFull) app).getExamEventBus().add(this);
+		if (app instanceof AppWFull appWFull) {
+			appWFull.getExamEventBus().add(this);
 		}
 		// does not do anything if webfont path is empty
 		FontLoader.loadAllBundled(app.getAppletParameters().getParamWebfontsUrl());
-	}
-
-	private void initGUI() {
-		wrappedPanel.addStyleName("PropertiesViewW");
-		wrappedPanel.clear();
-		SideSheetData data = new SideSheetData("Settings");
-		sideSheet = new ComponentSideSheet((AppW) app, data, this::close);
-		rebuildSettingsSideSheet();
 	}
 
 	@Override
@@ -130,7 +127,7 @@ public class PropertiesViewW extends PropertiesView
 
 	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
-		updatePropertiesGUI();
+		rebuildContent();
 	}
 
 	@Override
@@ -178,7 +175,7 @@ public class PropertiesViewW extends PropertiesView
 				setOptionPanel(OptionType.EUCLIDIAN_FOR_PLANE);
 			}
 		}
-		updatePropertiesGUI();
+		rebuildContent();
 	}
 
 	@Override
@@ -206,7 +203,7 @@ public class PropertiesViewW extends PropertiesView
 	public void setOptionPanel(OptionType type, int subType) {
 		optionType = type;
 		onResize();
-		if (sideSheet != null && settingsTab != null) {
+		if (settingsTab != null) {
 			settingsTab.switchToTab(type.getName());
 		}
 	}
@@ -228,20 +225,12 @@ public class PropertiesViewW extends PropertiesView
 		if (!geos.isEmpty() && optionType != OptionType.OBJECTS) {
 			setOptionPanel(OptionType.OBJECTS);
 		}
-		updatePropertiesGUI();
-	}
-
-	private void updatePropertiesGUI() {
-		if (sideSheet == null) {
-			initGUI();
-		}
-
-		rebuildSettingsSideSheet();
+		rebuildContent();
 	}
 
 	@Override
 	protected void updateTitleBar() {
-		updatePropertiesGUI();
+		rebuildContent();
 	}
 
 	@Override
@@ -267,7 +256,7 @@ public class PropertiesViewW extends PropertiesView
 
 	@Override
 	public void updatePropertiesView() {
-		updatePropertiesGUI();
+		rebuildContent();
 	}
 
 	/**
@@ -282,7 +271,7 @@ public class PropertiesViewW extends PropertiesView
 	 * Rebuild GUI for the new font size
 	 */
 	public void updateFonts() {
-		updatePropertiesGUI();
+		rebuildContent();
 	}
 
 	@Override
@@ -299,18 +288,15 @@ public class PropertiesViewW extends PropertiesView
 
 	@Override
     public void setLabels() {
-		if (sideSheet != null) {
-			sideSheet.setLabels();
-		}
 		if (settingsTab != null) {
 			settingsTab.setLabels();
 		}
-		rebuildSettingsSideSheet();
+		rebuildContent();
     }
 
 	@Override
 	public void updateStyleBar() {
-		rebuildSettingsSideSheet();
+		rebuildContent();
 	}
 
 	/**
@@ -318,15 +304,11 @@ public class PropertiesViewW extends PropertiesView
 	 */
 	public void open() {
 		if (!isFloatingAttached()) {
-			wrappedPanel.setVisible(true);
-			wrappedPanel.addStyleName("floatingSettings");
-			((AppWFull) app).getAppletFrame().add(wrappedPanel);
 			setFloatingAttached(true);
 		}
 		((AppWFull) app).centerAndResizeViews();
-		wrappedPanel.removeStyleName("animateOut");
-		wrappedPanel.addStyleName("animateIn");
 		if (sideSheet != null) {
+			sideSheet.show();
 			sideSheet.focus();
 		}
 	}
@@ -335,23 +317,14 @@ public class PropertiesViewW extends PropertiesView
 	 * Closes floating settings.
 	 */
 	public void close() {
-		if (!app.isUnbundledOrWhiteboard()) {
+		if (sideSheet == null) {
 			app.getGuiManager().setShowView(false, App.VIEW_PROPERTIES);
 			return;
 		}
-		wrappedPanel.removeStyleName("animateIn");
-		wrappedPanel.addStyleName("animateOut");
-		CSSEvents.runOnAnimation(this::onFloatingSettingsClose,
-				wrappedPanel.getElement(), "animateOut");
-	}
-
-	/**
-	 * Callback for animation in floating mode
-	 */
-	protected void onFloatingSettingsClose() {
-		app.getGuiManager().setShowView(false, App.VIEW_PROPERTIES);
-		((AppWFull) app).getAppletFrame().remove(wrappedPanel);
-		setFloatingAttached(false);
+		sideSheet.close(() -> {
+			app.getGuiManager().setShowView(false, App.VIEW_PROPERTIES);
+			setFloatingAttached(false);
+		});
 	}
 
 	/**
@@ -390,15 +363,11 @@ public class PropertiesViewW extends PropertiesView
 		// not needed
 	}
 
-	private void rebuildSettingsSideSheet() {
+	private void rebuildContent() {
 		List<GeoElement> showableGeos = optionType == OptionType.OBJECTS
 				? getShowableElements() : List.of();
-		if (sideSheet == null) {
-			return;
-		}
-		wrappedPanel.clear();
-		sideSheet.clearContent();
 		List<PropertiesArray> propLists;
+		String titleKey;
 		boolean showObjectProperties = !showableGeos.isEmpty();
 		if (showObjectProperties) {
 			GeoElementPropertiesFactory propertiesFactory =
@@ -409,13 +378,43 @@ public class PropertiesViewW extends PropertiesView
 					app.getImageManager(),
 					app.getEventDispatcher().availableTypes().contains(ScriptType.JAVASCRIPT),
 					showableGeos);
-			sideSheet.setTitleTransKey(
-					showableGeos.size() == 1 ? showableGeos.get(0).getTypeString() : "Selection");
+			titleKey = showableGeos.size() == 1
+					? showableGeos.get(0).getTypeString() : "Selection";
 		} else {
-			sideSheet.setTitleTransKey("Settings");
+			titleKey = "Settings";
 			propLists = app.getConfig().createPropertiesFactory().createProperties(
 					app, app.getLocalization(), app.appScope.propertiesRegistry);
 		}
+		rebuildTabs(propLists, showObjectProperties);
+		if (sideSheet == null) {
+			wrappedPanel.clear();
+			FlowPanel fixedPanel = new FlowPanel();
+			fixedPanel.addStyleName("sideSheet");
+			SheetTitlePanel titlePanel = new SheetTitlePanel((AppWFull) app, titleKey,
+					this::close, null);
+			fixedPanel.add(titlePanel);
+			FlowPanel contentPanel = new FlowPanel();
+			contentPanel.addStyleName("contentPanel");
+			fixedPanel.add(contentPanel);
+			contentPanel.add(settingsTab);
+			wrappedPanel.add(fixedPanel);
+			return;
+		}
+		sideSheet.update(new SideSheetData(titleKey));
+		sideSheet.addToContent(settingsTab);
+		this.objectPropertiesVisible = showObjectProperties;
+	}
+
+	private void addEscapeHandler() {
+		Dom.addEventListener(wrappedPanel.getElement(), "keydown", event -> {
+			KeyboardEvent kbd = Js.uncheckedCast(event);
+			if ("Escape".equals(kbd.code)) {
+				close();
+			}
+		});
+	}
+
+	private void rebuildTabs(List<PropertiesArray> propLists, boolean showObjectProperties) {
 		adapter = new PropertiesPanelAdapter(app.getLocalization(),
 				(AppW) app);
 		ArrayList<TabData> tabs = new ArrayList<>();
@@ -430,16 +429,6 @@ public class PropertiesViewW extends PropertiesView
 		settingsTab = new ComponentTab((AppW) app, "Settings",
 				oldTab != -1 && oldTab < tabs.size() ? oldTab : 0,
 				optionType.getName(), tabs.toArray(new TabData[0]));
-		sideSheet.addToContent(settingsTab);
-		this.objectPropertiesVisible = showObjectProperties;
-		wrappedPanel.add(sideSheet);
-
-		Dom.addEventListener(wrappedPanel.getElement(), "keydown", event -> {
-			KeyboardEvent kbd = Js.uncheckedCast(event);
-			if ("Escape".equals(kbd.code)) {
-				sideSheet.onClose();
-			}
-		});
 	}
 
 	private List<GeoElement> getShowableElements() {

@@ -55,6 +55,8 @@ public class RegressionBuilder {
 	}
 
 	/**
+	 * Creates a list of availble stats groups.
+	 * If regression is not possible (not enough data) the list will be empty.
 	 * @param regression regression type + degree
 	 * @return regression parameters + coefficient of determination
 	 */
@@ -67,6 +69,9 @@ public class RegressionBuilder {
 			GeoElementND geo = algebraProcessor.processValidExpressionSilent(cmd)[0];
 			FitAlgo fitAlgo = (FitAlgo) geo.getParentAlgorithm();
 			double[] coeffs = Objects.requireNonNull(fitAlgo).getCoeffs();
+			if (coeffs == null) {
+				return stats;
+			}
 			String formula = regression.getFormula();
 			if (formula != null) {
 				stats.add(new StatisticGroup(

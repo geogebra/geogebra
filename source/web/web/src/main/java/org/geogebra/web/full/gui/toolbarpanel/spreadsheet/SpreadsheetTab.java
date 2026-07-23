@@ -49,7 +49,7 @@ public class SpreadsheetTab extends ToolbarTab {
 	}
 
 	private void createContent() {
-		Spreadsheet spreadsheet = toolbarPanel.getApp().getSpreadsheet();
+		Spreadsheet<?> spreadsheet = toolbarPanel.getApp().getSpreadsheet();
 		if (spreadsheet == null) {
 			return;
 		}
@@ -105,7 +105,7 @@ public class SpreadsheetTab extends ToolbarTab {
 			createContent();
 		}
 		if (spreadsheetPanel != null) {
-			spreadsheetPanel.getSpreadsheet().getController().handleOnViewAppear();
+			spreadsheetPanel.getSpreadsheet().handleOnViewAppear();
 			spreadsheetPanel.requestFocus();
 		}
 	}

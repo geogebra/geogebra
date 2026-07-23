@@ -1332,17 +1332,14 @@ public class ToolbarPanel extends FlowPanel
 	 * @return the tab identified by the parameter, or null if no related tab is found
 	 */
 	public @CheckForNull ShowableTab getTab(int tabIdentifier) {
-		switch (tabIdentifier) {
-		case App.VIEW_ALGEBRA:
-			return getTab(TabIds.ALGEBRA);
-		case App.VIEW_TOOLS:
-			return getTab(TabIds.TOOLS);
-		case App.VIEW_TABLE:
-			return getTab(TabIds.TABLE);
-		case App.VIEW_SIDE_PANEL:
-			return getTabContainer();
-		}
-		return null;
+		return switch (tabIdentifier) {
+			case App.VIEW_ALGEBRA -> getTab(TabIds.ALGEBRA);
+			case App.VIEW_TOOLS -> getTab(TabIds.TOOLS);
+			case App.VIEW_TABLE -> getTab(TabIds.TABLE);
+			case App.VIEW_SPREADSHEET -> getTab(TabIds.SPREADSHEET);
+			case App.VIEW_SIDE_PANEL -> getTabContainer();
+			default -> null;
+		};
 	}
 
 	/**

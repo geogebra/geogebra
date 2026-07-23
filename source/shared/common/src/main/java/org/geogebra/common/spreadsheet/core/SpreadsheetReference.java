@@ -78,21 +78,14 @@ public final class SpreadsheetReference {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(fromCell.toString());
-		if (toCell != null) {
-			sb.append(":");
-			sb.append(toCell.toString());
-		}
-		return sb.toString();
+		return toCell == null ? fromCell.toString() : fromCell + ":" + toCell;
 	}
 
 	@Override
 	public boolean equals(Object object) {
-		if (!(object instanceof SpreadsheetReference)) {
+		if (!(object instanceof SpreadsheetReference other)) {
 			return false;
 		}
-		SpreadsheetReference other = (SpreadsheetReference) object;
 		return Objects.equals(fromCell, other.fromCell)
 				&& Objects.equals(toCell, other.toCell);
 	}

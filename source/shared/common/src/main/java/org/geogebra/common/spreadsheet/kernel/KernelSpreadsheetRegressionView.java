@@ -27,6 +27,9 @@ import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
 import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
 import org.geogebra.common.gui.view.table.regression.RegressionSpecificationBuilder;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.MyVecNode;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.statistics.AlgoCellRange;
@@ -36,6 +39,7 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.Input.Regressi
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.Result;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatisticsView;
 import org.geogebra.common.spreadsheet.core.TabularRange;
+import org.geogebra.common.util.debug.Log;
 
 public final class KernelSpreadsheetRegressionView
 		extends KernelSpreadsheetStatisticsView<RegressionInput>
@@ -44,6 +48,7 @@ public final class KernelSpreadsheetRegressionView
 	private @CheckForNull AlgoCellRange algoCellRangeX;
 	private @CheckForNull AlgoCellRange algoCellRangeY;
 	private final @Nonnull List<RegressionSpecification> regressionSpecifications;
+	private RegressionSpecification regressionSpecification;
 
 	KernelSpreadsheetRegressionView(@Nonnull Kernel kernel,
 			@Nonnull StatisticGroupsBuilder statisticGroupsBuilder,
@@ -85,7 +90,7 @@ public final class KernelSpreadsheetRegressionView
 					SpreadsheetStatistics.Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED,
 					null);
 		}
-		RegressionSpecification regressionSpecification = input.regression();
+		regressionSpecification = input.regression();
 		if (regressionSpecification == null) {
 			regressionSpecification = regressionSpecifications.get(0);
 		}
@@ -124,6 +129,7 @@ public final class KernelSpreadsheetRegressionView
 			algoCellRangeY.remove();
 			algoCellRangeY = null;
 		}
+		regressionSpecification = null;
 	}
 
 	// -- View
@@ -139,6 +145,24 @@ public final class KernelSpreadsheetRegressionView
 		if (algoCellRangeY != null) {
 			algoCellRangeY.remove();
 			algoCellRangeY = null;
+		}
+		regressionSpecification = null;
+	}
+
+	@Override
+	public void plotResult() {
+		getResult(); // ensure result calculated
+		if (regressionSpecification != null && algoCellRangeX != null && algoCellRangeY != null) {
+			Command command = regressionSpecification.buildCommand(kernel,
+					new MyVecNode(kernel, algoCellRangeX.getList(), algoCellRangeY.getList()));
+			EvalInfo info = new EvalInfo(true, true)
+					.withSymbolicMode(kernel.getSymbolicMode());
+			try {
+				kernel.getAlgebraProcessor().processValidExpression(command, info);
+				kernel.getApplication().storeUndoInfo();
+			} catch (Exception e) {
+				Log.error(e);
+			}
 		}
 	}
 

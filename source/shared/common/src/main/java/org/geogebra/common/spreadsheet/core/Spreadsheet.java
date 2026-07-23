@@ -106,7 +106,7 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 	/**
 	 * @return the controller.
 	 */
-	public @Nonnull SpreadsheetController getController() {
+	public @Nonnull SpreadsheetController<T> getController() {
 		return controller;
 	}
 
@@ -608,5 +608,12 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 	@Deprecated
 	void selectCell(int row, int column, boolean extend, boolean add) {
 		controller.selectCell(row, column, extend, add);
+	}
+
+	/**
+	 * Called when the spreadsheet view becomes visible.
+	 */
+	public void handleOnViewAppear() {
+		controller.handleOnViewAppear();
 	}
 }

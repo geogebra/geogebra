@@ -28,9 +28,9 @@ public class InfoErrorData {
 
 	/**
 	 * info/error date constructor
-	 * @param title - title
-	 * @param subtext - error/warning message
-	 * @param actionButtonText - action button text
+	 * @param title - title as localization key
+	 * @param subtext - error/warning message as localization key
+	 * @param actionButtonText - action button text as localization key
 	 */
 	public InfoErrorData(String title, String subtext, String actionButtonText, SVGResource img) {
 		setTitle(title);

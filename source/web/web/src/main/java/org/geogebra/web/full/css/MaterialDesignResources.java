@@ -612,7 +612,7 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_file_download_black_24px.svg")
 	SVGResource downloadMenu();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/show_chart-black-24px.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/statistics.svg")
 	SVGResource statistics();
 
 	// EUCLIDIAN STYLEBAR (CLASSIC)

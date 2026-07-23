@@ -316,6 +316,7 @@ public final class ContextMenuBuilder {
                 new ActionableItem(PASTE, () -> spreadsheetController.pasteCells(-1, fromCol)),
                 new Divider(),
                 getCalculateItem(),
+                getStatisticsItem(),
                 getChartMenuItem(),
                 new Divider(),
                 getInsertColItem(fromCol, false),

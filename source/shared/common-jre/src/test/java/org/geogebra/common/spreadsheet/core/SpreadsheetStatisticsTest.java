@@ -23,13 +23,16 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.util.Objects;
 import java.util.Random;
 
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.gui.view.table.regression.RegressionSpecificationBuilder;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -119,10 +122,8 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 
 		assertEquals(new OneVarInput(
 						// an unbounded TabularRange will give a null cell range
-						(SpreadsheetReference) null),
+						parseReference("A1:A100")),
 				oneVarStatisticsView.getInput());
-		assertEquals(new Result.Invalid(Error.NUMERIC_DATA_RANGE_REQUIRED,
-				SpreadsheetStatistics.DataRange.X), oneVarStatisticsView.getResult());
 	}
 
 	@Test
@@ -306,6 +307,20 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 				null), twoVarStatisticsView.getResult());
 	}
 
+	@Test
+	void testTwoVarStatisticsEntireColumns() {
+		TabularRange range = new TabularRange(0, 0, 2, 1);
+		setupTestData(range, Content.NUMBERS);
+		TabularRange columns = new TabularRange(-1, 0, -1, 1);
+		kernelBackedController.select(columns, false, false);
+		kernelBackedController.showTwoVarStatistics();
+
+		assertEquals(new TwoVarInput(
+						parseReference("A1:A100"),
+						parseReference("B1:B100")),
+				twoVarStatisticsView.getInput());
+	}
+
 	// Regression
 
 	@Test
@@ -395,6 +410,41 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 		Result.Valid result2 = assertInstanceOf(Result.Valid.class, regressionView.getResult());
 
 		assertNotEquals(result1.statisticGroups(), result2.statisticGroups());
+	}
+
+	@Test
+	void testRegressionEntireColumns() {
+		TabularRange range = new TabularRange(0, 0, 2, 1);
+		setupTestData(range, Content.NUMBERS);
+		TabularRange columns = new TabularRange(-1, 0, -1, 1);
+		kernelBackedController.select(columns, false, false);
+		kernelBackedController.showRegression();
+
+		assertEquals(new RegressionInput(
+						parseReference("A1:A100"),
+						parseReference("B1:B100"),
+						null),
+				regressionView.getInput());
+	}
+
+	@Test
+	void testRegressionPlot() {
+		TabularRange range = new TabularRange(0, 0, 2, 1);
+		setupTestData(range, Content.NUMBERS);
+		kernelBackedController.select(range, false, false);
+		kernelBackedController.showRegression();
+		regressionView.plotResult();
+		GeoElement function = Objects.requireNonNull(app.getKernel().lookupLabel("f"));
+		assertEquals("-0.13547x + 0.9208",
+				function.toValueString(StringTemplate.editTemplate));
+		regressionView.setInput(new SpreadsheetStatistics.Input.RegressionInput(
+				parseReference("A1:A3"),
+				parseReference("B1:B3"),
+				new RegressionSpecificationBuilder().getForListSize(3).get(2)
+		));
+		regressionView.plotResult();
+		assertEquals("0.7787x^-0.09252",
+				app.getKernel().lookupLabel("g").toValueString(StringTemplate.editTemplate));
 	}
 
 	@Test

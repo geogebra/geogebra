@@ -33,17 +33,17 @@ import org.geogebra.web.full.gui.components.sideSheet.SideSheetData;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
-import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Panel;
 
-public class StatsSideSheetTV extends FlowPanel {
+public class StatsSideSheetTV {
 	private final AppW app;
-	private ComponentSideSheet sideSheet;
 	private FlowPanel statPanel;
+	private final ComponentSideSheet sideSheet;
 
 	/**
 	 * @param app application
@@ -51,18 +51,16 @@ public class StatsSideSheetTV extends FlowPanel {
 	 * @param subTitle sub-title
 	 */
 	public StatsSideSheetTV(AppW app, SideSheetData data, String subTitle) {
-		super();
+		sideSheet = new ComponentSideSheet(app, data);
 		this.app = app;
-		buildSideSheet(data, subTitle);
-		addStyleName("statistics");
+		buildSideSheet(subTitle);
+		sideSheet.addStyleName("statistics");
 	}
 
-	private void buildSideSheet(SideSheetData data, String subTitle) {
-		sideSheet = new ComponentSideSheet(app, data, this::close);
+	private void buildSideSheet(String subTitle) {
 		Label subTitleLabel = BaseWidgetFactory.INSTANCE.newPrimaryText("", "subTitle");
 		subTitleLabel.getElement().setInnerHTML(subTitle);
 		sideSheet.addToContent(subTitleLabel);
-		add(sideSheet);
 	}
 
 	/**
@@ -70,7 +68,7 @@ public class StatsSideSheetTV extends FlowPanel {
 	 */
 	public void setRowsAndShow(List<StatisticGroup> rowData) {
 		setRows(rowData);
-		show();
+		sideSheet.show();
 	}
 
 	private void setRows(List<StatisticGroup> statistics) {
@@ -78,6 +76,17 @@ public class StatsSideSheetTV extends FlowPanel {
 			statPanel.removeFromParent();
 		}
 		this.statPanel = new FlowPanel();
+		renderGroups(statistics, app, statPanel);
+		sideSheet.addToContent(statPanel);
+	}
+
+	/**
+	 * Convert statistics data into UI elements and add them to a panel.
+	 * @param statistics statistics result
+	 * @param app app
+	 * @param parent parent panel
+	 */
+	public static void renderGroups(List<StatisticGroup> statistics, AppW app, Panel parent) {
 		for (StatisticGroup row: statistics) {
 			FlowPanel group = new FlowPanel();
 			group.addStyleName("group");
@@ -98,24 +107,8 @@ public class StatsSideSheetTV extends FlowPanel {
 					group.add(valueLbl);
 				}
 			}
-			statPanel.add(group);
+			parent.add(group);
 		}
-		sideSheet.addToContent(statPanel);
-	}
-
-	private void show() {
-		app.getAppletFrame().add(this);
-		addStyleName("floatingSettings animateIn");
-	}
-
-	/**
-	 * Close and remove side sheet after closing animation done.
-	 */
-	public void close() {
-		removeStyleName("animateIn");
-		addStyleName("animateOut");
-		CSSEvents.runOnAnimation(() -> app.getAppletFrame().remove(this),
-				getElement(), "animateOut");
 	}
 
 	/**
@@ -153,13 +146,13 @@ public class StatsSideSheetTV extends FlowPanel {
 	 * @param errorMessage error message to show
 	 */
 	public void showError(String errorMessage) {
-		addStyleName("error");
+		sideSheet.addStyleName("error");
 		InfoErrorData errorData = new InfoErrorData(
 				app.getLocalization().getMenu("StatsDialog.NoData"),
 				errorMessage, null, MaterialDesignResources.INSTANCE.bar_chart_black());
 		ComponentInfoErrorPanel infoPanel = new ComponentInfoErrorPanel(app.getLocalization(),
 				errorData, null);
 		sideSheet.addToContent(infoPanel);
-		show();
+		sideSheet.show();
 	}
 }

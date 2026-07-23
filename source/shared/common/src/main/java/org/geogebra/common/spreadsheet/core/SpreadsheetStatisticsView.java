@@ -66,6 +66,11 @@ public interface SpreadsheetStatisticsView<I extends SpreadsheetStatistics.Input
 		 * @return The list of available regression specifications.
 		 */
 		List<RegressionSpecification> getRegressionSpecifications();
+
+		/**
+		 * Add regression graph to construction to plot it in graphics.
+		 */
+		void plotResult();
 	}
 
 	/**

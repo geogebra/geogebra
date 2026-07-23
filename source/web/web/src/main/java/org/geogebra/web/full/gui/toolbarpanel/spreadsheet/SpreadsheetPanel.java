@@ -27,6 +27,7 @@ import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetDelegate;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStyleBarModel;
 import org.geogebra.common.spreadsheet.core.ViewportAdjusterDelegate;
+import org.geogebra.common.spreadsheet.kernel.KernelSpreadsheetStatistics;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
@@ -67,7 +68,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize,
 		LongTouchTimer.LongTouchHandler {
 
 	public static final int AUTOSCROLL_OFFSET = 30;
-	private final Spreadsheet spreadsheet;
+	private final Spreadsheet<?> spreadsheet;
 	private final GGraphics2DW graphics;
 	private final AppW app;
 
@@ -88,7 +89,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize,
 	 * @param app application
 	 * @param spreadsheet spreadsheet
 	 */
-	public SpreadsheetPanel(AppW app, @Nonnull Spreadsheet spreadsheet) {
+	public SpreadsheetPanel(AppW app, @Nonnull Spreadsheet<?> spreadsheet) {
 		Canvas spreadsheetWidget = Canvas.createIfSupported();
 		spreadsheetWidget.addStyleName("spreadsheetWidget");
 		graphics = new GGraphics2DW(spreadsheetWidget);
@@ -98,6 +99,10 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize,
 		mathField = new MathTextFieldW(app, new TemplateCatalog());
 
 		this.spreadsheet = spreadsheet;
+		KernelSpreadsheetStatistics spreadsheetStatistics =
+				new KernelSpreadsheetStatistics(app.getKernel());
+		spreadsheet.setStatisticsDelegate(new SpreadsheetStatisticsDelegateW(app),
+				spreadsheetStatistics);
 		spreadsheet.setControlsDelegate(initControlsDelegate());
 		spreadsheet.setSpreadsheetDelegate(initSpreadsheetDelegate());
 		spreadsheet.setViewportAdjustmentHandler(createScrollable());
@@ -232,7 +237,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize,
 	}
 
 	private void focusSpreadsheetForKeyboard() {
-		spreadsheet.getController().handleOnViewAppear();
+		spreadsheet.handleOnViewAppear();
 		requestFocus();
 	}
 
