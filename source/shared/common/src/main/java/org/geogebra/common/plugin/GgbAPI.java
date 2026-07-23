@@ -1096,6 +1096,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		evalCommand(new TeXAtomSerializer(ad).serialize(tf.root));
 	}
 
+	@Override
+	public void evalLaTeX(String input) {
+		evalLaTeX(input, 0);
+	}
+
 	/**
 	 * eg ggbApplet.evalMathML(
 	 *   "&lt;mrow&gt;&lt;mi&gt; x&lt;/mi&gt;&lt;mo&gt; +&lt;/mo&gt;&lt;mrow&gt;&lt;mi&gt;

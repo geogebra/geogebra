@@ -41,11 +41,13 @@ public class TypescriptGenerator {
 		types.put("int", "number");
 		types.put("element", "Element");
 		types.put("jspropertymap<java.lang.object>", "{[key:string]: any}");
+		types.put("jspropertymap", "{[key:string]: any}");
 		types.put("jsrunnable", "()=>void");
 		types.put("stringconsumer", "(str:string)=>void");
 		types.put("jsarray<java.lang.string>", "string[]");
 		types.put("promise<java.lang.string>", "Promise<string>");
 		types.put("[ljava.lang.string;", "string[]");
+		types.put("[d", "number[]");
 	}
 
 	@Test
@@ -56,7 +58,8 @@ public class TypescriptGenerator {
 			if (mtd.getAnnotation(JsIgnore.class) == null
 					&& mtd.getDeclaringClass() == DefaultExportedApi.class) {
 				System.out.println(mtd.getName() + ": (" + mapTypes(mtd.getParameters()) + ") => "
-						+ getType(mtd.getGenericReturnType(), null) + ";");
+						+ getType(mtd.getGenericReturnType(),
+						mtd.getAnnotatedReturnType().getAnnotation(TS.class)) + ";");
 			}
 		}
 	}

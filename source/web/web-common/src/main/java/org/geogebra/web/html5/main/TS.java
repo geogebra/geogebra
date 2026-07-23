@@ -16,23 +16,28 @@
 
 package org.geogebra.web.html5.main;
 
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * Type annotation for generating TypeScript type definition.
  */
 @Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.PARAMETER, ElementType.TYPE_USE})
 public @interface TS {
 	String CLIENT_LISTENER = "(evt: ClientEvent) => void";
 	String OBJECT_LISTENER = "(label:string) => void";
+	String PAGE_CONTENT = "PageContent";
 	String VOID_FUNCTION = "() => void";
 	String OPTIONAL_BOOL = "?boolean";
+	String OPTIONAL_NUMBER = "?number";
 	String OPTIONAL_STRING = "?string";
 
 	/**
 	 * The returned type may start with ?, in that case arg:?type needs transforming to arg?:type
-	 * @return typescript type definition
+	 * @return TypeScript type definition
 	 */
 	String value();
 }

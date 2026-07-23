@@ -1200,6 +1200,12 @@ public interface JavaScriptAPI {
 	void evalLaTeX(String input, int mode);
 
 	/**
+	 * Evaluate an expression in LaTeX form.
+	 * @param input LaTeX input
+	 */
+	void evalLaTeX(String input);
+
+	/**
 	 * 
 	 * @return 3D model exported in collada format
 	 */

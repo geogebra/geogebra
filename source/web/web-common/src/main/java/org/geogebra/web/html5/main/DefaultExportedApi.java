@@ -827,8 +827,8 @@ public class DefaultExportedApi implements ExportedApi {
 		getGgbAPI().copyTextToClipboard(text + "");
 	}
 
-	public void evalLaTeX(String text, int mode) {
-		getGgbAPI().evalLaTeX(text + "", mode);
+	public void evalLaTeX(String text, @TS(TS.OPTIONAL_NUMBER) Object mode) {
+		getGgbAPI().evalLaTeX(text + "", Js.coerceToInt(mode));
 	}
 
 	public boolean evalMathML(String text) {
@@ -1039,11 +1039,11 @@ public class DefaultExportedApi implements ExportedApi {
 		return new JsArray<>(getGgbAPI().getPages());
 	}
 
-	public PageContent getPageContent(String pageId) {
+	public @TS(TS.PAGE_CONTENT) PageContent getPageContent(String pageId) {
 		return getGgbAPI().getPageContent(pageId);
 	}
 
-	public void setPageContent(String pageId, PageContent content) {
+	public void setPageContent(String pageId, @TS(TS.PAGE_CONTENT) PageContent content) {
 		getGgbAPI().setPageContent(pageId, content);
 	}
 
