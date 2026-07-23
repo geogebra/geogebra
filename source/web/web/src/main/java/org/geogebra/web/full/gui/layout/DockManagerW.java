@@ -1771,12 +1771,6 @@ public class DockManagerW extends DockManager {
 	}
 
 	private void setRootPane(@CheckForNull DockSplitPaneW rootPane) {
-		if (this.rootPane != null) {
-			this.rootPane.getElement().removeAttribute("role");
-		}
 		this.rootPane = rootPane;
-		if (this.rootPane != null) {
-			this.rootPane.getElement().setAttribute("role", "application");
-		}
 	}
 }

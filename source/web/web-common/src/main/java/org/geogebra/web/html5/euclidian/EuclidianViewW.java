@@ -180,14 +180,9 @@ public class EuclidianViewW extends EuclidianView implements
 		viewTextField = new ViewTextFieldW(this);
 		evPanel = euclidianViewPanel;
 
-		initBaseComponents(euclidianViewPanel, euclidiancontroller, evNo,
-				settings);
+		initBaseComponents(euclidianViewPanel, euclidiancontroller, evNo, settings);
+		initAriaDefaults();
 		attachFocusinHandler();
-	}
-
-	private void attachFocusinHandler() {
-		((AppW) app).getGlobalHandlers().addEventListener(DomGlobal.document.body, "focusin",
-				e -> setResetIconSelected(false));
 	}
 
 	/**
@@ -214,6 +209,18 @@ public class EuclidianViewW extends EuclidianView implements
 		// at mouse events which call setActiveToolbarId #plotpanelevno
 		// initBaseComponents(EVPanel, euclidiancontroller, -1);
 		initBaseComponents(evPanel, euclidiancontroller, viewNo, settings);
+		initAriaDefaults();
+	}
+
+	private void attachFocusinHandler() {
+		((AppW) app).getGlobalHandlers().addEventListener(DomGlobal.document.body, "focusin",
+				e -> setResetIconSelected(false));
+	}
+
+	private void initAriaDefaults() {
+		Element element = g2p.getElement();
+		element.setAttribute("role", "application");
+		element.setAttribute("aria-roledescription", "Graphics");
 	}
 
 	@Override
