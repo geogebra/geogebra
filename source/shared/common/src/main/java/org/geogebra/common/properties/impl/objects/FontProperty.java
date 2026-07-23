@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
@@ -36,18 +38,22 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 
 	public enum FontFamily {
 		ARIAL("Arial", "Arial, sans-serif"),
-		BY_DS_LERNEN_SCHWARZ("ByDS Lernen 1+2", "ByLineatur-schwarz, sans-serif"),
+		BY_DS_LERNEN_SCHWARZ("ByDS Lernen 1+2", "ByLineatur-schwarz, sans-serif",
+				DropdownGroup.BY_DS_LERNEN_1_2),
 		BY_DS_LERNEN_SCHWARZ_FARBBAND("ByDS Lernen 1+2",
-				"ByLineatur-schwarz-Farbband, sans-serif"),
-		BY_DS_LERNEN_TUERKIS("ByDS Lernen 1+2", "ByLineatur-tuerkis, sans-serif"),
+				"ByLineatur-schwarz-Farbband, sans-serif", DropdownGroup.BY_DS_LERNEN_1_2),
+		BY_DS_LERNEN_TUERKIS("ByDS Lernen 1+2", "ByLineatur-tuerkis, sans-serif",
+				DropdownGroup.BY_DS_LERNEN_1_2),
 		BY_DS_LERNEN_TUERKIS_FARBBAND("ByDS Lernen 1+2",
-				"ByLineatur-tuerkis-Farbband, sans-serif"),
+				"ByLineatur-tuerkis-Farbband, sans-serif", DropdownGroup.BY_DS_LERNEN_1_2),
 		BY_DS_LERNEN_ORANGE_FARBBAND("ByDS Lernen 1+2",
-				"ByLineatur-orange-Farbband, sans-serif"),
-		BY_DS_LERNEN_ORANGE("ByDS Lernen 1+2", "ByLineatur-orange, sans-serif"),
+				"ByLineatur-orange-Farbband, sans-serif", DropdownGroup.BY_DS_LERNEN_1_2),
+		BY_DS_LERNEN_ORANGE("ByDS Lernen 1+2", "ByLineatur-orange, sans-serif",
+				DropdownGroup.BY_DS_LERNEN_1_2),
 		BY_DS_LERNEN_GRUEN_FARBBAND("ByDS Lernen 1+2",
-				"ByLineatur-gruen-Farbband, sans-serif"),
-		BY_DS_LERNEN_GRUEN("ByDS Lernen 1+2", "ByLineatur-gruen, sans-serif"),
+				"ByLineatur-gruen-Farbband, sans-serif", DropdownGroup.BY_DS_LERNEN_1_2),
+		BY_DS_LERNEN_GRUEN("ByDS Lernen 1+2", "ByLineatur-gruen, sans-serif",
+				DropdownGroup.BY_DS_LERNEN_1_2),
 		BY_DS_LERNEN_OHNE_LINEATUR("ByDS Lernen 1+2 (ohne Lineatur)", "ByDruck, sans-serif"),
 		BY_DS_LERNEN_KONTUR("ByDS Lernen Kontur", "ByDS Lernen Kontur, sans-serif"),
 		BY_DS_LERNEN_WURM("ByDS Lernen Wurm", "ByDS Lernen Wurm, sans-serif"),
@@ -62,12 +68,26 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 		TREBUCHET("Trebuchet", "Trebuchet MS, sans-serif"),
 		VERDANA("Verdana", "Verdana, sans-serif");
 
+		/**
+		 * Groups internal font variants that should be represented by a single item
+		 * in the font dropdown.
+		 */
+		private enum DropdownGroup {
+			BY_DS_LERNEN_1_2
+		}
+
 		private final String displayName;
 		private final String cssName;
+		private final @CheckForNull DropdownGroup dropdownGroup;
 
 		FontFamily(String displayName, String cssName) {
+			this(displayName, cssName, null);
+		}
+
+		FontFamily(String displayName, String cssName, @CheckForNull DropdownGroup dropdownGroup) {
 			this.displayName = displayName;
 			this.cssName = cssName;
+			this.dropdownGroup = dropdownGroup;
 		}
 
 		/**
@@ -116,6 +136,13 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 					FontFamily.GEORGIA, FontFamily.TIMES,
 					FontFamily.TREBUCHET, FontFamily.VERDANA);
 		}
+
+		private FontFamily getFontFamilyForDropdown() {
+			if (dropdownGroup == DropdownGroup.BY_DS_LERNEN_1_2) {
+				return BY_DS_LERNEN_TUERKIS_FARBBAND;
+			}
+			return this;
+		}
 	}
 
 	private final HasTextFormatter geoElement;
@@ -152,7 +179,7 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 		HasTextFormat formatter = geoElement.getFormatter();
 		if (formatter != null) {
 			String font = formatter.getFormat("font", "");
-			return FontFamily.getByCssName(font, FontFamily.ARIAL);
+			return FontFamily.getByCssName(font, FontFamily.ARIAL).getFontFamilyForDropdown();
 		}
 		return FontFamily.ARIAL;
 	}
