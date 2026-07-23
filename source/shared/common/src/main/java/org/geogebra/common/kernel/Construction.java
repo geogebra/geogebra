@@ -1141,21 +1141,6 @@ public class Construction {
 	}
 
 	/**
-	 * Updates all random numbers of this construction.
-	 */
-	final public void updateAllRandomGeos() {
-		if (randomElements == null) {
-			return;
-		}
-
-		Iterator<GeoElement> it = randomElements.iterator();
-		while (it.hasNext()) {
-			GeoElement num = it.next();
-			num.updateRandomGeo();
-		}
-	}
-
-	/**
 	 * Updates all free random numbers of this construction.
 	 */
 	final public void updateAllFreeRandomGeosNoCascade() {
@@ -1163,13 +1148,11 @@ public class Construction {
 			return;
 		}
 
-		Iterator<GeoElement> it = randomElements.iterator();
-		while (it.hasNext()) {
-			GeoElement num = it.next();
-			if (num.isGeoNumeric() && num.getParentAlgorithm() == null) {
-				GeoNumeric number = (GeoNumeric) num;
-				number.updateRandomNoCascade();
-				number.update();
+		for (GeoElement num : randomElements) {
+			if ((num.isGeoNumeric() || num instanceof GeoSymbolic)
+					&& num.getParentAlgorithm() == null) {
+				num.updateRandomNoCascade();
+				num.update();
 			}
 		}
 	}
@@ -1188,13 +1171,13 @@ public class Construction {
 
 	/**
 	 * Removes a number from the set of random numbers of this construction.
-	 * @param num Element to be removed
+	 * @param element Element to be removed
 	 */
-	public void removeRandomGeo(GeoElement num) {
+	public void removeRandomGeo(GeoElement element) {
 		if (randomElements != null) {
-			randomElements.remove(num);
+			randomElements.remove(element);
 		}
-		num.setRandomGeo(false);
+		element.setRandomGeo(false);
 	}
 
 	/**

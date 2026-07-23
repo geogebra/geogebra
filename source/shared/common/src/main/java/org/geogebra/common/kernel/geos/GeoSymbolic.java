@@ -255,6 +255,17 @@ public class GeoSymbolic extends GeoElement
 		return this;
 	}
 
+	private boolean isRandomCommand(ExpressionValue expressionValue) {
+		return expressionValue instanceof Command cmd
+				&& isRandomCommandName(cmd.getName());
+	}
+
+	private boolean isRandomCommandName(String name) {
+		return Commands.Shuffle.name().equals(name)
+				|| Commands.Sample.name().equals(name)
+				|| name.startsWith("Random");
+	}
+
 	private boolean containsOnlyX(ExpressionNode rhs) {
 		return !rhs.any(v -> v instanceof FunctionVariable
 				&& !((FunctionVariable) v).getSetVarString().equals("x"));
@@ -318,6 +329,7 @@ public class GeoSymbolic extends GeoElement
 			throw invariantViolation("setDefinition", "missing definition");
 		}
 		super.setDefinition(root);
+		updateRandomStatus();
 	}
 
 	@Override
@@ -332,13 +344,21 @@ public class GeoSymbolic extends GeoElement
 			throw invariantViolation("reuseDefinition", "missing definition");
 		}
 		super.reuseDefinition(geo);
+		updateRandomStatus();
+	}
+
+	private void updateRandomStatus() {
+		if (definition.any(this::isRandomCommand)) {
+			cons.addRandomGeo(this);
+		} else {
+			cons.removeRandomGeo(this);
+		}
 	}
 
 	private ExpressionValue fixMatrixInput(ExpressionValue casInputArg) {
 		// neglect dummy variable lhs if rhs is matrix
 		ExpressionValue ret = casInputArg;
-		if (((ExpressionNode) casInputArg).getLeft() instanceof Equation) {
-			Equation eq = (Equation) ((ExpressionNode) casInputArg).getLeft();
+		if (((ExpressionNode) casInputArg).getLeft() instanceof Equation eq) {
 			boolean lIsDummy = eq.getLHS().getLeft() instanceof GeoDummyVariable;
 			boolean rIsMatrix = eq.getRHS().getLeft() instanceof MyList
 					&& ((MyList) eq.getRHS().getLeft()).isMatrix();
@@ -347,6 +367,11 @@ public class GeoSymbolic extends GeoElement
 			}
 		}
 		return ret;
+	}
+
+	@Override
+	public void updateRandomNoCascade() {
+		computeOutput();
 	}
 
 	@Override
@@ -867,7 +892,7 @@ public class GeoSymbolic extends GeoElement
 		case Point:
 		case Distance:
 			return true;
-		default: return false;
+		default: return isRandomCommandName(cmd.name());
 		}
 	}
 
@@ -1457,6 +1482,7 @@ public class GeoSymbolic extends GeoElement
 	public void doRemove() {
 		super.doRemove();
 		cons.unregisterEuclidianViewCE(this);
+		cons.removeRandomGeo(this);
 	}
 
 	@Override

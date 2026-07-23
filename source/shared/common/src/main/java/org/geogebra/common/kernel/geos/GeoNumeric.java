@@ -1373,9 +1373,9 @@ public class GeoNumeric extends GeoElement
 	}
 
 	/**
-	 * Updates random slider
+	 * Updates random slider.
 	 */
-	public void updateRandom() {
+	private void updateRandom() {
 		if (randomSlider && isIntervalMaxActive() && isIntervalMinActive()) {
 			// update all algorithms in the algorithm set of this GeoElement
 			value = getRandom();
@@ -1387,6 +1387,7 @@ public class GeoNumeric extends GeoElement
 	/**
 	 * Updates random slider - no updateCascade()
 	 */
+	@Override
 	public void updateRandomNoCascade() {
 		if (randomSlider && isIntervalMaxActive() && isIntervalMinActive()) {
 			value = getRandom();

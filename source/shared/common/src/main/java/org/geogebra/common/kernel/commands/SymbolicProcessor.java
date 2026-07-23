@@ -173,17 +173,15 @@ public class SymbolicProcessor {
 		Set<GeoElement> vars = replaced
 				.getVariables(SymbolicMode.SYMBOLIC_AV);
 		ArrayList<GeoElement> noDummyVars = new ArrayList<>();
-		if (vars != null) {
-			for (GeoElement var : vars) {
-				if (var instanceof GeoDummyVariable) {
-					cons.addProtectedLabel(((GeoDummyVariable) var).getVarName());
-				} else if (var != null) {
-					noDummyVars.add(var);
-				}
+		for (GeoElement var : vars) {
+			if (var instanceof GeoDummyVariable dummy) {
+				cons.addProtectedLabel(dummy.getVarName());
+			} else if (var != null) {
+				noDummyVars.add(var);
 			}
 		}
 		GeoSymbolic symbolic;
-		if (noDummyVars.size() > 0) {
+		if (!noDummyVars.isEmpty()) {
 			AlgoDependentSymbolic ads =
 					new AlgoDependentSymbolic(cons,
 							replaced, noDummyVars, info.getArbitraryConstant(),

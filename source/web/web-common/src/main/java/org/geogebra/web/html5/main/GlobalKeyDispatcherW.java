@@ -488,7 +488,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			}
 			return code == JavaKeyCodes.VK_S || code == JavaKeyCodes.VK_D;
 		} else {
-			return code == JavaKeyCodes.VK_F4;
+			return code == JavaKeyCodes.VK_F4 || code == JavaKeyCodes.VK_F9;
 		}
 	}
 

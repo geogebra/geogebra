@@ -1691,8 +1691,8 @@ public class ExpressionNode extends ValidExpression
 
 	@Override
 	public boolean isTopLevelCommand(String checkName) {
-		return isLeaf() && (left instanceof ValidExpression)
-				&& ((ValidExpression) left).isTopLevelCommand(checkName);
+		return isLeaf() && (left instanceof ValidExpression unwrapped)
+				&& unwrapped.isTopLevelCommand(checkName);
 	}
 
 	@Override

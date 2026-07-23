@@ -500,7 +500,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		if (isLeftAlt(event.getNativeEvent())) {
 			setLeftAltDown(false);
 		}
-		event.stopPropagation();
+		if (!isGlobalEvent.test(event.getNativeEvent())) {
+			event.stopPropagation();
+		}
 	}
 
 	private boolean checkPowerKeyInput(Element element) {

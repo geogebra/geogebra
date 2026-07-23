@@ -3202,7 +3202,7 @@ public class AlgebraProcessor {
 			EvalInfo info) throws MyError {
 		ExpressionNode n = node;
 		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV && !containsText(node)
-				&& !willResultInSlider(node)) {
+				&& !willResultInSlider(node) && willResultInElement(node)) {
 			return new GeoElement[] { evalSymbolic(node, info) };
 		}
 		// command is leaf: process command
@@ -3348,8 +3348,12 @@ public class AlgebraProcessor {
 	}
 
 	private boolean willResultInSlider(ExpressionNode node) {
-		return node.unwrap() instanceof Command
-				&& ((Command) node.unwrap()).getName().equals("Slider");
+		return node.isTopLevelCommand("Slider");
+	}
+
+	private boolean willResultInElement(ExpressionNode node) {
+		return node.none(part -> part instanceof Command
+				&& Commands.UpdateConstruction.name().equals(((Command) part).getName()));
 	}
 
 	/**

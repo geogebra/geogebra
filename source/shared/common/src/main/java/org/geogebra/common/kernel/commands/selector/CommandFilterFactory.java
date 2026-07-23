@@ -185,7 +185,7 @@ public final class CommandFilterFactory {
 				Commands.StartRecord,
 				Commands.Turtle, Commands.TurtleBack, Commands.TurtleDown,
 				Commands.TurtleForward, Commands.TurtleLeft, Commands.TurtleRight,
-				Commands.TurtleUp, Commands.UpdateConstruction,
+				Commands.TurtleUp,
 				// 3D Commands
 				Commands.Bottom, Commands.Cone, Commands.Cube,
 				Commands.Cylinder, Commands.Dodecahedron, Commands.Ends,

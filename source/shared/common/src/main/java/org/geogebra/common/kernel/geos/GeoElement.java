@@ -6194,6 +6194,13 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return algoParent != null && algoParent.getClassName() != Algos.Expression;
 	}
 
+	/**
+	 * Update random value of this element without triggering a cascade.
+	 */
+	public void updateRandomNoCascade() {
+		// only numbers and symbolics
+	}
+
 	/** Used by TraceDialog for "Trace as... value of/copy of */
 	public enum TraceModesEnum {
 		/** no value for this geo, only copy */
