@@ -53,7 +53,7 @@ public class AlgoIterationList extends AlgoElement {
 	private GeoElement expression; // input expression dependent on var
 	private GeoElement[] vars; // input: local variable
 	private int varCount;
-	private GeoList[] over;
+	private GeoList initialValues;
 
 	private boolean expIsFunctionOrCurve;
 	private boolean isEmpty;
@@ -142,17 +142,17 @@ public class AlgoIterationList extends AlgoElement {
 	 *            expression first argument of IterationList
 	 * @param vars
 	 *            variables
-	 * @param over
+	 * @param initialValues
 	 *            lists from which the variables should be taken
 	 * @param n
 	 *            number of iterations
 	 */
 	public AlgoIterationList(Construction cons, GeoElement expression,
-			GeoElement[] vars, GeoList[] over, GeoNumberValue n) {
+			GeoElement[] vars, GeoList initialValues, GeoNumberValue n) {
 		super(cons);
 		this.expression = expression;
 		this.vars = vars;
-		this.over = over;
+		this.initialValues = initialValues;
 		this.n = n;
 		this.nGeo = n.toGeoElement();
 		type = IterationType.DEFAULT;
@@ -191,7 +191,7 @@ public class AlgoIterationList extends AlgoElement {
 				input[i + 1] = vars[i];
 
 			}
-			input[1 + varCount] = over[0];
+			input[1 + varCount] = initialValues;
 			input[2 + varCount] = nGeo;
 
 			setOnlyOutput(list);
@@ -229,7 +229,7 @@ public class AlgoIterationList extends AlgoElement {
 		default:
 			GeoElement[] realInput = new GeoElement[3];
 			realInput[0] = expression;
-			realInput[1] = over[0];
+			realInput[1] = initialValues;
 			realInput[2] = nGeo;
 
 			return realInput;
@@ -264,25 +264,23 @@ public class AlgoIterationList extends AlgoElement {
 		}
 		updateRunning = true;
 
-		for (int i = 2; i < input.length - 1; i += 2) {
-			if (!input[i].isDefined()) {
-				list.setUndefined();
-				updateRunning = false;
-				iterationsOld = -1;
-				return;
-			}
+		if (!n.isDefined() || !initialValues.isDefined()) {
+			list.setUndefined();
+			updateRunning = false;
+			iterationsOld = -1;
+			return;
 		}
 		list.setDefined(true);
 
 		int iterations = (int) Math.round(n.getDouble());
-		if (iterations < 0 || varCount > over[0].size()) {
+		if (iterations < 0 || varCount > initialValues.size()) {
 			list.setUndefined();
 			updateRunning = false;
 			iterationsOld = -1;
 			return;
 		}
 
-		isEmpty = over[0].size() == 0;
+		isEmpty = initialValues.size() == 0;
 
 		boolean setValuesOnly = iterations == iterationsOld;
 		setValuesOnly = setValuesOnly && !expIsFunctionOrCurve;
@@ -305,16 +303,16 @@ public class AlgoIterationList extends AlgoElement {
 
 	private void createNewList() {
 		int iterations = (int) Math.round(n.getDouble());
-		int i = Math.min(over[0].size(), iterations);
+		int i = Math.min(initialValues.size(), iterations);
 		int oldListSize = list.size();
 		list.clear();
-		for (int j = 0; j < over[0].size() && j < iterations + 1; j++) {
-			list.add(over[0].get(j).copyInternal(cons));
+		for (int j = 0; j < initialValues.size() && j < iterations + 1; j++) {
+			list.add(initialValues.get(j).copyInternal(cons));
 			if (j + 1 < varCount) {
-				vars[j + 1].set(over[0].get(j));
+				vars[j + 1].set(initialValues.get(j));
 			}
 		}
-		if (iterations + 1 <= over[0].size()) {
+		if (iterations + 1 <= initialValues.size()) {
 			return;
 		}
 		if (!isEmpty) {
@@ -376,7 +374,7 @@ public class AlgoIterationList extends AlgoElement {
 		// return early if it's the first element - we will add the start
 		// position to this
 		if (i == 0) {
-			listElement.set(over[0].get(0));
+			listElement.set(initialValues.get(0));
 			listElement.update();
 			list.add(listElement);
 			return;
@@ -445,14 +443,14 @@ public class AlgoIterationList extends AlgoElement {
 
 		// int currentVal = 0;
 		int listSize = (int) Math.round(n.getDouble()) + 1;
-		int i = over[0].size();
-		for (int j = 0; j < over[0].size() && j < listSize; j++) {
-			list.get(j).set(over[0].get(j));
+		int i = initialValues.size();
+		for (int j = 0; j < initialValues.size() && j < listSize; j++) {
+			list.get(j).set(initialValues.get(j));
 			if (j + 1 < vars.length) {
-				vars[j + 1].set(over[0].get(j));
+				vars[j + 1].set(initialValues.get(j));
 			}
 		}
-		if (over[0].size() >= listSize) {
+		if (initialValues.size() >= listSize) {
 			return;
 		}
 

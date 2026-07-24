@@ -100,7 +100,7 @@ public class CmdIterationList extends CommandProcessor {
 			}
 
 			AlgoIterationList algo = new AlgoIterationList(cons, arg1, vars,
-					over, num[0]);
+					over[0], num[0]);
 			algo.getOutput(0).setLabel(c.getLabel());
 			return algo.getOutput();
 

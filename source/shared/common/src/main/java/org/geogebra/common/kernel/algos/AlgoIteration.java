@@ -47,7 +47,7 @@ public class AlgoIteration extends AlgoElement {
 	private GeoElement expression; // input expression dependent on var
 	private GeoElement[] vars; // input: local variable
 	private int varCount;
-	private GeoList[] over;
+	private GeoList initialValues;
 	private boolean isEmpty;
 	private AlgoElement expressionParentAlgo;
 	IterationType type;
@@ -116,17 +116,17 @@ public class AlgoIteration extends AlgoElement {
 	 *            expression
 	 * @param vars
 	 *            variables
-	 * @param over
+	 * @param initialValues
 	 *            initial values
 	 * @param n
 	 *            number of iterations
 	 */
 	public AlgoIteration(Construction cons, GeoElement expression,
-			GeoElement[] vars, GeoList[] over, GeoNumberValue n) {
+			GeoElement[] vars, GeoList initialValues, GeoNumberValue n) {
 		super(cons);
 		this.expression = expression;
 		this.vars = vars;
-		this.over = over;
+		this.initialValues = initialValues;
 		this.n = n;
 		this.nGeo = n.toGeoElement();
 		type = IterationType.DEFAULT;
@@ -169,7 +169,7 @@ public class AlgoIteration extends AlgoElement {
 				input[i + 1] = vars[i];
 
 			}
-			input[1 + varCount] = over[0];
+			input[1 + varCount] = initialValues;
 			input[2 + varCount] = nGeo;
 
 		} // done by AlgoElement
@@ -241,24 +241,20 @@ public class AlgoIteration extends AlgoElement {
 			return;
 		}
 		updateRunning = true;
-
-		for (int i = 2; i < input.length - 1; i += 2) {
-			if (!input[i].isDefined()) {
-				result.setUndefined();
-				updateRunning = false;
-				return;
-			}
+		if (!n.isDefined() || !initialValues.isDefined()) {
+			result.setUndefined();
+			updateRunning = false;
+			return;
 		}
-		// list.setDefined(true);
 
 		int iterations = (int) Math.round(n.getDouble());
-		if (iterations < 0 || varCount > over[0].size()) {
+		if (iterations < 0 || varCount > initialValues.size()) {
 			updateRunning = false;
 			result.setUndefined();
 			return;
 		}
 
-		isEmpty = over[0].size() == 0;
+		isEmpty = initialValues.size() == 0;
 
 		boolean oldSuppressLabels = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
@@ -278,7 +274,7 @@ public class AlgoIteration extends AlgoElement {
 		}
 		GeoElement[] realInput = new GeoElement[3];
 		realInput[0] = expression;
-		realInput[1] = over[0];
+		realInput[1] = initialValues;
 		realInput[2] = nGeo;
 
 		return realInput;
@@ -291,17 +287,17 @@ public class AlgoIteration extends AlgoElement {
 
 		int listSize = (int) Math.round(n.getDouble());
 
-		if (listSize < over[0].size()) {
-			result.set(over[0].get(listSize));
+		if (listSize < initialValues.size()) {
+			result.set(initialValues.get(listSize));
 			return;
 		}
 		for (int j = 1; j < varCount; j++) {
-			vars[j].set(over[0].get(over[0].size() - varCount + j - 1));
+			vars[j].set(initialValues.get(initialValues.size() - varCount + j - 1));
 		}
 
-		GeoElement listElement = over[0].get(over[0].size() - 1)
+		GeoElement listElement = initialValues.get(initialValues.size() - 1)
 				.copyInternal(cons);
-		int i = over[0].size();
+		int i = initialValues.size();
 		while (i <= listSize) {
 			// check we haven't run out of memory
 
