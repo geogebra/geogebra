@@ -35,7 +35,9 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_TRIANG
 import java.util.function.Consumer;
 
 import org.geogebra.web.full.gui.app.GGWToolBar;
+import org.geogebra.web.html5.euclidian.PointerEventHandler;
 import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
@@ -43,6 +45,8 @@ import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
 import org.geogebra.web.html5.main.toolbox.ToolboxIconResource;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.resources.SVGResourcePrototype;
+
+import elemental2.dom.PointerEvent;
 
 public class ToolIconButton extends IconButton {
 	private int mode = -1;
@@ -75,6 +79,7 @@ public class ToolIconButton extends IconButton {
 	public ToolIconButton(int mode, AppW appW, IconSpec icon, Runnable onHandler) {
 		super(appW, icon, appW.getToolAriaLabel(mode), appW.getToolAriaLabel(mode),
 				appW.getToolAriaLabel(mode), onHandler);
+		addPointerHandler();
 		this.appW = appW;
 		this.mode = mode;
 	}
@@ -82,12 +87,14 @@ public class ToolIconButton extends IconButton {
 	protected ToolIconButton(AppW appW, IconSpec icon, String ariaLabel, String ariaLabel1,
 			Runnable onHandler, Runnable offHandler) {
 		super(appW, icon, ariaLabel, ariaLabel1, onHandler, offHandler);
+		addPointerHandler();
 		this.appW = appW;
 	}
 
 	protected ToolIconButton(AppW appW, IconSpec imageResource, String ariaLabel, String ariaLabel1,
 			String s, Runnable offHandler) {
 		super(appW, imageResource, ariaLabel, ariaLabel1, s, offHandler);
+		addPointerHandler();
 		this.appW = appW;
 	}
 
@@ -148,5 +155,13 @@ public class ToolIconButton extends IconButton {
 		if (immediate != null) {
 			callback.accept(immediate);
 		}
+	}
+
+	private void addPointerHandler() {
+		Dom.addEventListener(getElement(), "pointerdown", evt -> {
+			PointerEvent pointerEvt = (PointerEvent) evt;
+			appW.getActiveEuclidianView().getEuclidianController().setDefaultEventTypeForNewMode(
+					PointerEventHandler.getType(pointerEvt));
+		});
 	}
 }

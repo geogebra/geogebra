@@ -25,6 +25,7 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.web.full.gui.ContextMenuGraphicsWindowW;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
@@ -250,6 +251,9 @@ public class TopBarController {
 		getPageControlPanel().open();
 		appW.getPageController().updatePreviewImage();
 		appW.setMode(MODE_SELECT_MOW);
+		// reset to the same state we had on app start
+		appW.getActiveEuclidianView().getEuclidianController()
+				.setDefaultEventTypeForNewMode(PointerEventType.MOUSE);
 	}
 
 	private PageListPanel getPageControlPanel() {

@@ -111,9 +111,9 @@ public class PointerEventHandler {
 		tc.onPointerEventEnd(e);
 	}
 
-	private void setPointerType(String type, boolean pointerDown) {
+	private void setPointerType(elemental2.dom.PointerEvent event, boolean pointerDown) {
 		tc.getOffsets().calculateEnvironment();
-		tc.setDefaultEventType(types(type), pointerDown);
+		tc.setDefaultEventType(getType(event), pointerDown);
 	}
 
 	private void startLongTouch(PointerState touchState) {
@@ -198,7 +198,7 @@ public class PointerEventHandler {
 		if (!"mouse".equals(e.pointerType)) {
 			e.preventDefault();
 		}
-		setPointerType(e.pointerType, true);
+		setPointerType(e, true);
 		if (first != null && second != null) {
 			twoPointersDown(first, second);
 		} else {
@@ -211,14 +211,14 @@ public class PointerEventHandler {
 
 	private PointerEvent convertEvent(elemental2.dom.PointerEvent e) {
 		PointerEvent ex = new PointerEvent(e.offsetX / off.getZoomLevel(),
-				e.offsetY / off.getZoomLevel(), types(e.pointerType), off);
+				e.offsetY / off.getZoomLevel(), getType(e), off);
 		adjust(ex, e);
 		return ex;
 	}
 
 	private PointerEvent convertWithCoords(elemental2.dom.PointerEvent e, GPoint2D coords) {
 		PointerEvent ex = new PointerEvent(coords.x / off.getZoomLevel(),
-				coords.y / off.getZoomLevel(), types(e.pointerType), off);
+				coords.y / off.getZoomLevel(), getType(e), off);
 		adjust(ex, e);
 		return ex;
 	}
@@ -240,7 +240,7 @@ public class PointerEventHandler {
 		} else if (lastOutCoords != null) {
 			singleUp(convertWithCoords(event, lastOutCoords));
 		}
-		setPointerType(event.pointerType, false);
+		setPointerType(event, false);
 		CopyPasteW.stopCollectingCopyCalls();
 	}
 
@@ -248,7 +248,7 @@ public class PointerEventHandler {
 		lastOutId = event.pointerId;
 		lastOutCoords = new GPoint2D(event.offsetX, event.offsetY);
 		resetPointer(event);
-		setPointerType(event.pointerType, false);
+		setPointerType(event, false);
 	}
 
 	private void resetPointer(elemental2.dom.PointerEvent event) {
@@ -303,9 +303,13 @@ public class PointerEventHandler {
 		pointerCapture = element;
 	}
 
-	private PointerEventType types(String s) {
+	/**
+	 * @param event pointer event
+	 * @return event type
+	 */
+	public static PointerEventType getType(elemental2.dom.PointerEvent event) {
 		try {
-			return PointerEventType.valueOf(s.toUpperCase(Locale.US));
+			return PointerEventType.valueOf(event.pointerType.toUpperCase(Locale.US));
 		} catch (Exception e) {
 			// no logging: too noisy
 		}

@@ -477,6 +477,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
+	 * Reset the event type and automatic pen mode.
+	 * @param eventType default event type
+	 */
+	public void setDefaultEventTypeForNewMode(PointerEventType eventType) {
+		setDefaultEventType(eventType, true);
+		autoPenMode = eventType == PointerEventType.PEN ? -1 : EuclidianConstants.MODE_PEN;
+	}
+
+	/**
 	 * state for selection tool over press/release
 	 */
 	private enum SelectionToolPressResult {
@@ -723,9 +732,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		if (pen != null) {
 			pen.resetPenState();
-		}
-		if (ms == ModeSetter.TOOLBAR) {
-			autoPenMode = -1;
 		}
 
 		if (view.getShapePath() != null) {
