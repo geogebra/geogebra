@@ -16,9 +16,6 @@
 
 package org.geogebra.web.full.euclidian.quickstylebar.components;
 
-import static org.geogebra.web.full.euclidian.quickstylebar.QuickStyleBar.POPUP_MENU_DISTANCE;
-import static org.geogebra.web.full.euclidian.quickstylebar.QuickStyleBar.QUICK_STYLE_BAR_HEIGHT;
-
 import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -55,10 +52,13 @@ import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.general.GeneralIcon;
+import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
 public class IconButtonWithProperty extends IconButton {
+	private static final int MARGIN_FROM_SCREEN = 32;
+	private static final int MENU_ITEM_HEIGHT = 32;
 	private final AppW appW;
 	private final List<GeoElement> geos;
 	private GPopupPanel propertyPopup;
@@ -235,19 +235,41 @@ public class IconButtonWithProperty extends IconButton {
 	}
 
 	private void positionPopup() {
-		int left = (int) (getAbsoluteLeft() - appW.getAbsLeft());
-		int top = (int) (getAbsoluteTop() + getOffsetHeight() - appW.getAbsTop())
-				+ 2 * POPUP_MENU_DISTANCE;
+		int anchorBottom = (int) (getElement().getAbsoluteBottom() - appW.getAbsTop());
+		int spaceBottom = (int) (appW.getHeight() - anchorBottom);
+		int spaceTop = (int) (getElement().getAbsoluteTop() - appW.getAbsTop()
+				- MARGIN_FROM_SCREEN);
+		int minSpaceBottom = 3 * MENU_ITEM_HEIGHT + MARGIN_FROM_SCREEN + 8;
+		int popupHeight = propertyPopup.getOffsetHeight();
 
-		if (top + propertyPopup.getOffsetHeight() > appW.getHeight()) {
-			top = top - propertyPopup.getOffsetHeight()
-					- 2 * POPUP_MENU_DISTANCE - QUICK_STYLE_BAR_HEIGHT;
+		if (spaceBottom < minSpaceBottom) {
+			showAtTopOfAnchor(popupHeight, spaceTop);
+		} else {
+			showAtBottomOfAnchor(popupHeight, anchorBottom);
 		}
-		if (left + propertyPopup.getOffsetWidth() > appW.getWidth()) {
-			left = (int) (appW.getWidth() - propertyPopup.getOffsetWidth());
-		}
+	}
 
-		propertyPopup.setPopupPosition(left, top);
+	private void showAtTopOfAnchor(int popupHeight, int spaceTop) {
+		int popupTop = popupHeight > spaceTop ? MARGIN_FROM_SCREEN
+				: (int) (getAbsoluteTop() - appW.getAbsTop() - popupHeight);
+		propertyPopup.setPopupPosition(getLeft(), popupTop);
+
+		if (popupHeight > spaceTop) {
+			propertyPopup.getElement().getStyle().setHeight(spaceTop, Unit.PX);
+		}
+	}
+
+	private void showAtBottomOfAnchor(int popupHeight, int bottomPos) {
+		propertyPopup.setPopupPosition(getLeft(), bottomPos);
+		int spaceBottom = (int) (appW.getHeight() - bottomPos);
+		if (popupHeight > spaceBottom) {
+			propertyPopup.getElement().getStyle().setHeight(spaceBottom
+					- (MARGIN_FROM_SCREEN + 8), Unit.PX);
+		}
+	}
+
+	private int getLeft() {
+		return (int) (getAbsoluteLeft() - appW.getAbsLeft());
 	}
 
 	/**
