@@ -1490,4 +1490,58 @@ $keyboard_button_transition: opacity .3s ease;
 			}
 		}
 	}
+
+	.componentChips {
+		padding: 4px 16px;
+		display: flex;
+		gap: 8px;
+		background-color: neutral(200);
+		border-radius: 16px;
+		border: 1px solid neutral(600);
+
+		.gwt-Label {
+			color: neutral(800);
+			font-size: 12px;
+			height: 20px;
+			line-height: 20px;
+		}
+
+		&:hover {
+			background-color: neutral(300);
+		}
+
+		&.disabled, &.primary.disabled, &.disabled:hover, &.primary.disabled:hover {
+			cursor: default;
+			background-color: neutral(300);
+			border-color: neutral(500);
+
+			.gwt-Label {
+				color: neutral(500);
+			}
+		}
+
+		&.ripple:after {
+			background-image: radial-gradient(circle, neutral(500) 10%, transparent 10.01%);
+		}
+
+		&.keyboardFocus:focus-visible {
+			outline-color: var(--ggb-primary-color);
+			outline-width: 2px;
+			outline-style: solid;
+			outline-offset: 2px;
+		}
+
+		&.primary {
+			background-color: var(--ggb-light-color);
+			border-color: var(--ggb-primary-color);
+
+			&:hover {
+				background-color: var(--ggb-selection-color);
+			}
+
+			&.ripple:after {
+				background-image: radial-gradient(circle, purple(500) 10%, transparent 10.01%);
+			}
+		}
+	}
 }

@@ -22,8 +22,10 @@ import java.util.stream.Collectors;
 
 import org.geogebra.common.gui.dialog.ButtonDialogModel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.gui.components.ComponentChip;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.util.CodeMirrorEditorWidget;
@@ -43,6 +45,8 @@ public class ButtonDialogW extends ComponentDialog implements HasKeyboardPopup {
 	private final ButtonDialogModel model;
 	private CodeMirrorEditorWidget scriptArea;
 	private final Localization loc;
+	private final List<Commands> chipsCommands = List.of(Commands.SetValue,
+			Commands.StartAnimation, Commands.SetColor, Commands.SetVisibleInView);
 
 	/**
 	 * @param app {@link AppW}
@@ -105,7 +109,28 @@ public class ButtonDialogW extends ComponentDialog implements HasKeyboardPopup {
 		} else {
 			contentPanel.add(scriptPanel);
 		}
+		createChips(contentPanel);
 		addDialogContent(contentPanel);
+	}
+
+	private void createChips(FlowPanel parentPanel) {
+		Label suggestionsLabel = BaseWidgetFactory.INSTANCE.newSecondaryText("Suggestions",
+				"suggestionLabel");
+
+		FlowPanel chipsPanel = new FlowPanel();
+		chipsPanel.addStyleName("chipsHolder");
+		for (Commands command : chipsCommands) {
+			ComponentChip chips = new ComponentChip(command.name(), null, true,
+					() -> {
+						if (scriptArea != null) {
+							scriptArea.insertCommand(command.getCommand() + "()");
+						}
+			});
+			chipsPanel.add(chips);
+		}
+
+		parentPanel.add(suggestionsLabel);
+		parentPanel.add(chipsPanel);
 	}
 
 	/**

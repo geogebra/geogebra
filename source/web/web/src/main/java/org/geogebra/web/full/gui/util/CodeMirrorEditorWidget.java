@@ -73,6 +73,18 @@ public class CodeMirrorEditorWidget extends FlowPanel {
 		return codeMirrorEditor == null ? text : codeMirrorEditor.getValue();
 	}
 
+	/** Inserts the given command with parenthesis at current cursor position.
+	 * @param command GeoGebra command string including parentheses (e.g. SetValue())
+	 */
+	public void insertCommand(String command) {
+		if (codeMirrorEditor != null) {
+			int curPos = codeMirrorEditor.getCursorPosition();
+			int newCursorPos = curPos + command.length() - 1;
+			codeMirrorEditor.replaceText(curPos, command);
+			codeMirrorEditor.setCursorPosition(newCursorPos);
+		}
+	}
+
 	/**
 	 * Refresh code mirror editor.
 	 */
@@ -219,5 +231,11 @@ public class CodeMirrorEditorWidget extends FlowPanel {
 		private native void setValue(String text);
 
 		private native void refresh();
+
+		private native int getCursorPosition();
+
+		private native void setCursorPosition(int position);
+
+		private native void replaceText(int from, String text);
 	}
 }

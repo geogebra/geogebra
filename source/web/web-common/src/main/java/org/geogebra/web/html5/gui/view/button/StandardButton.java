@@ -50,14 +50,10 @@ public class StandardButton extends Widget implements HasResource {
 	}
 
 	/**
-	 * @param icon
-	 *            - img of button
-	 * @param label
-	 *            - text of button
-	 * @param width
-	 *            - width of button
-	 * @param height
-	 *            icon height
+	 * @param icon img of button
+	 * @param label text of button
+	 * @param width width of button
+	 * @param height icon height
 	 */
 	public StandardButton(final ResourcePrototype icon, final String label,
 			int width, int height) {

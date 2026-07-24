@@ -141,7 +141,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.dialogComponent.buttonDialog {
-		max-width: 448px;
+		max-width: 560px;
 
 		.inputTextField {
 			margin-bottom: 16px;
@@ -217,6 +217,19 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					padding: 8px;
 				}
 			}
+		}
+
+		.suggestionLabel {
+			margin: 16px 0 4px 0;
+			font-size: 12px;
+			height: 16px;
+			line-height: 16px;
+		}
+
+		.chipsHolder {
+			display: flex;
+			gap: 8px;
+			padding: 8px 0;
 		}
 	}
 
