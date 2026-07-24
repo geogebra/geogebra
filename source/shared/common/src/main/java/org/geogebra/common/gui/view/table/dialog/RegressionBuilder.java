@@ -55,7 +55,7 @@ public class RegressionBuilder {
 	}
 
 	/**
-	 * Creates a list of availble stats groups.
+	 * Creates a list of available stats groups.
 	 * If regression is not possible (not enough data) the list will be empty.
 	 * @param regression regression type + degree
 	 * @return regression parameters + coefficient of determination
