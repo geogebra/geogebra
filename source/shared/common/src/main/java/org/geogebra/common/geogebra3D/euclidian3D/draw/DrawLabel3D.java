@@ -43,7 +43,9 @@ import org.geogebra.common.util.MyMath;
  *
  */
 public non-sealed class DrawLabel3D extends DrawableTexture3D {
-
+	// There's a GPU-dependent limit on this (GL_MAX_TEXTURE_SIZE),
+	// as of 2026 most devices should support 4096
+	private static final int MAX_TEXTURE_SIZE = 4096;
 	private Runnable callBack = null;
 
 	protected Drawable3D drawable;
@@ -162,8 +164,8 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 		int yMin = (int) rectangle.getMinY() - 1;
 		int yMax = (int) rectangle.getMaxY() + 1;
 
-		width = xMax - xMin;
-		height = yMax - yMin;
+		width = Math.min(xMax - xMin, MAX_TEXTURE_SIZE);
+		height = Math.min(yMax - yMin, MAX_TEXTURE_SIZE);
 		xOffset2 = xMin;
 		yOffset2 = -yMax;
 
