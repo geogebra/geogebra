@@ -470,6 +470,11 @@ public abstract class ProbabilityCalculatorView
 		return isCumulative;
 	}
 
+	public @Nonnull String getProbabilityExpression() {
+		return loc.getMenu("ProbabilityOf") + "X " + (isCumulative ? Unicode.LESS_EQUAL : "=")
+				+ " k" + loc.getMenu("EndProbabilityOf");
+	}
+
 	// =================================================
 	// Plotting
 	// =================================================
