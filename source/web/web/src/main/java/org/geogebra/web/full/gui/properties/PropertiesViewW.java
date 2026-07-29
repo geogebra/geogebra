@@ -31,9 +31,11 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
+import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.web.full.gui.components.sideSheet.ComponentSideSheet;
 import org.geogebra.web.full.gui.components.sideSheet.SheetTitlePanel;
 import org.geogebra.web.full.gui.components.sideSheet.SideSheetData;
@@ -96,6 +98,7 @@ public class PropertiesViewW extends PropertiesView
 		if (app instanceof AppWFull appWFull) {
 			appWFull.getExamEventBus().add(this);
 		}
+		storeLanguagePropertyOnChange();
 		// does not do anything if webfont path is empty
 		FontLoader.loadAllBundled(app.getAppletParameters().getParamWebfontsUrl());
 	}
@@ -435,5 +438,16 @@ public class PropertiesViewW extends PropertiesView
 		return app.getSelectionManager().getSelectedGeos().stream()
 				.filter(geo -> !geo.isMeasurementTool() && !geo.isSpotlight())
 				.collect(Collectors.toList());
+	}
+
+	private void storeLanguagePropertyOnChange() {
+		LanguageProperty languageProperty = app.appScope.getLanguageProperty();
+		languageProperty.addValueObserver(prop -> {
+			LogInOperation loginOperation = app.getLoginOperation();
+			if (loginOperation != null) {
+				loginOperation.setUserLanguage(languageProperty.getValue());
+			}
+			((AppW) app).getLAF().storeLanguage(languageProperty.getValue());
+		});
 	}
 }
