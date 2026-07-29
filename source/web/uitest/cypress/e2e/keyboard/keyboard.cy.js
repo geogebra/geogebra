@@ -23,9 +23,9 @@ describe('Keyboard ANS button test', () => {
         cy.get('div[aria-label="ans"]').should("be.visible");
     });
     it("inserts the result of the previous cell when the 'ans' button is pressed", () => {
-        cy.writeInAVInput("1+3 {enter}");
+        cy.writeInAVInput("1+3{enter}");
         cy.get('div[aria-label="ans"]').click();
-        cy.writeInAVInput("+ 2 {enter}");
+        cy.writeInAVInput("+2{enter}");
         cy.get(".avValue").should("contain", "6");
     });
     it("does not show the 'ans' button in the properties view", () => {
