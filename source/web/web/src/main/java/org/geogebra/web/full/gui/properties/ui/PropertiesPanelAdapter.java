@@ -66,7 +66,6 @@ import org.geogebra.web.full.gui.properties.ui.panel.MultiSelectionIconRowPanel;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.full.gui.view.probcalculator.ProbabilityResultRow;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
@@ -76,9 +75,6 @@ import org.geogebra.web.shared.components.tab.TabData;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
-
-import elemental2.dom.KeyboardEvent;
-import jsinterop.base.Js;
 
 /**
  * Maps properties to UI components for the properties view.
@@ -109,13 +105,6 @@ public class PropertiesPanelAdapter {
 			panel.add(widget);
 		}
 		panel.addStyleName("sideSheetTab");
-		Dom.addEventListener(panel.getElement(), "keydown", event -> {
-			KeyboardEvent kbd = Js.uncheckedCast(event);
-			if ("Space".equals(kbd.code)) {
-				event.preventDefault(); // prevent scroll of panel on SPACE
-			}
-		});
-
 		addAccessibility(AccessibilityGroup.SETTINGS_ITEM);
 		return panel;
 	}

@@ -112,6 +112,7 @@ public class ComponentExpandableList extends FlowPanel implements SetLabels {
 			if ("Enter".equals(e.code) || "Space".equals(e.code)) {
 				if (Dom.getActiveElement() == header.getElement()) {
 					toggleComponent();
+					e.preventDefault(); // prevent scroll of panel on SPACE
 				}
 			}
 		});
