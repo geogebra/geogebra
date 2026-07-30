@@ -42,6 +42,7 @@ import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyKey;
 import org.geogebra.common.properties.RangeProperty;
+import org.geogebra.common.properties.ValuedProperty;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.facade.BooleanPropertyListFacade;
@@ -133,6 +134,7 @@ import org.geogebra.common.properties.impl.objects.UnderlineProperty;
 import org.geogebra.common.properties.impl.objects.VerticalAlignmentProperty;
 import org.geogebra.common.properties.impl.objects.VisibilityPropertyCollection;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.geogebra.common.properties.remembered.RememberedProperties;
 import org.geogebra.common.restrictions.PropertyRestriction;
 import org.geogebra.common.util.ImageManager;
 
@@ -694,9 +696,22 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public StyledNamedEnumeratedPropertyListFacade createFontProperty(Localization localization,
 			List<GeoElement> elements) {
-		return createOptionalPropertyFacade(elements,
-				element -> new FontProperty(localization, element),
-				StyledNamedEnumeratedPropertyListFacade::new);
+		StyledNamedEnumeratedPropertyListFacade property =
+				createOptionalPropertyFacade(elements,
+						element -> new FontProperty(localization, element),
+						StyledNamedEnumeratedPropertyListFacade::new);
+		rememberIfNeeded(elements, property);
+		return property;
+	}
+
+	private static <T> void rememberIfNeeded(List<GeoElement> elements,
+			ValuedProperty<T> property) {
+		if (property != null && !elements.isEmpty()) {
+			GeoElement firstGeo = elements.get(0);
+			RememberedProperties rememberedProperties =
+					firstGeo.getApp().appScope.getRememberedProperties();
+			rememberedProperties.observe(elements, property);
+		}
 	}
 
 	/**
@@ -909,8 +924,8 @@ public final class GeoElementPropertiesFactory {
 	public NamedEnumeratedPropertyListFacade<?, ?> createFontSizeProperty(
 			Localization localization, List<GeoElement> elements) {
 		return createOptionalPropertyFacade(elements,
-				element -> new FontSizeProperty(localization, element),
-				NamedEnumeratedPropertyListFacade::new);
+		element -> new FontSizeProperty(localization, element),
+		NamedEnumeratedPropertyListFacade::new);
 	}
 
 	/**
@@ -922,10 +937,14 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public StringPropertyWithSuggestionsListFacade<?> createNotesFontSizeProperty(
 			Localization localization, List<GeoElement> elements) {
-		return createOptionalPropertyFacade(elements,
-				element -> new NotesFontSizeProperty(localization, element),
-				properties -> new StringPropertyWithSuggestionsListFacade<>(
-						properties, (first, second) -> Objects.equals(first, second) ? first : ""));
+		StringPropertyWithSuggestionsListFacade<NotesFontSizeProperty> property =
+				createOptionalPropertyFacade(elements,
+						element -> new NotesFontSizeProperty(localization, element),
+						properties -> new StringPropertyWithSuggestionsListFacade<>(
+								properties,
+								(first, second) -> Objects.equals(first, second) ? first : ""));
+		rememberIfNeeded(elements, property);
+		return property;
 	}
 
 	/**

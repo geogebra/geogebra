@@ -417,7 +417,4 @@ class UndoManagerTest extends BaseEuclidianControllerTest {
 		return getUndoManager().getCheckpoint(null).getAppState();
 	}
 
-	private Construction getConstruction() {
-		return getKernel().getConstruction();
-	}
 }

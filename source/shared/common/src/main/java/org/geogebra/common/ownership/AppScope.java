@@ -16,12 +16,14 @@
 
 package org.geogebra.common.ownership;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
+import org.geogebra.common.properties.remembered.RememberedProperties;
 
 import com.google.j2objc.annotations.Property;
 import com.google.j2objc.annotations.Weak;
@@ -46,6 +48,8 @@ public final class AppScope {
 	@Property("readonly")
 	public final @Nonnull PropertiesRegistry propertiesRegistry = new DefaultPropertiesRegistry();
 
+	private @CheckForNull RememberedProperties rememberedProperties;
+
 	/**
 	 * Constructor
 	 * @param app The app this {@code AppScope} is associated with.
@@ -66,5 +70,30 @@ public final class AppScope {
 			throw new IllegalStateException("suiteScope not set up");
 		}
 		return suiteScope.getLanguageProperty(app);
+	}
+
+	/**
+	 * Returns the coordinator for properties remembered during this application session.
+	 * The coordinator is created lazily because the application configuration may be set after
+	 * this scope is constructed. A missing coordinator is not cached for the same reason.
+	 *
+	 * @return the app-scoped coordinator, or {@code null} if the current configuration does not
+	 *         remember property values
+	 */
+	public @Nonnull RememberedProperties getRememberedProperties() {
+		if (rememberedProperties == null) {
+			// inlined resetRememberedProperties to make nullness analysis pass
+			rememberedProperties = new RememberedProperties(
+					app.getConfig().getRememberedPropertyHandlers());
+		}
+		return rememberedProperties;
+	}
+
+	/**
+	 * Reset remembered properties from config.
+	 */
+	public void resetRememberedProperties() {
+		rememberedProperties = new RememberedProperties(
+				app.getConfig().getRememberedPropertyHandlers());
 	}
 }

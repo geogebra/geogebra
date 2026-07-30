@@ -16,11 +16,18 @@
 
 package org.geogebra.common.main.settings.config;
 
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.properties.factory.NotesPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesFactory;
+import org.geogebra.common.properties.remembered.RememberedPropertyHandler;
+import org.geogebra.common.properties.remembered.handlers.RememberedFontFamilyHandler;
+import org.geogebra.common.properties.remembered.handlers.RememberedFontSizeHandler;
 
 /**
  * Config for ByCS Board and GGB Notes
@@ -95,5 +102,13 @@ public class AppConfigNotes extends AppConfigDefault {
 	@Override
 	public PropertiesFactory createPropertiesFactory() {
 		return new NotesPropertiesFactory();
+	}
+
+	@Override
+	public @Nonnull List<RememberedPropertyHandler<?>> getRememberedPropertyHandlers() {
+		return List.of(
+				new RememberedFontFamilyHandler(),
+				new RememberedFontSizeHandler()
+		);
 	}
 }

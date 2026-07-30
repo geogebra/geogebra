@@ -17,6 +17,7 @@
 package org.geogebra.common.main;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.CheckForNull;
@@ -39,6 +40,7 @@ import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.PropertiesFactory;
+import org.geogebra.common.properties.remembered.RememberedPropertyHandler;
 import org.geogebra.common.restrictions.Restrictable;
 
 /**
@@ -411,4 +413,12 @@ public interface AppConfig extends Restrictable, Serializable {
 	 * @return whether data import is available in this app
 	 */
 	boolean hasDataImport();
+
+	/**
+	 * Returns the property handlers that store values during the application session.
+	 *
+	 * @return handlers to store property values, or an empty list if property values should not be
+	 *         remembered
+	 */
+	@Nonnull List<RememberedPropertyHandler<?>> getRememberedPropertyHandlers();
 }

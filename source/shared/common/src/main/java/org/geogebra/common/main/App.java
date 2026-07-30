@@ -4553,6 +4553,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			getLocalization().getCommandSyntax().removeSyntaxFilter(primarySyntaxFilter);
 		}
 		this.appConfig = config;
+		appScope.resetRememberedProperties();
 
 		if (kernel != null) {
 			kernel.setEquationBehaviour(config.getEquationBehaviour());

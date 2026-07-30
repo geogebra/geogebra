@@ -193,6 +193,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.properties.remembered.RememberedProperties;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
@@ -6291,6 +6292,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		inlineObject.setLabel(null);
 		selectAndShowSelectionUI(inlineObject);
 		updateDrawableAndMoveToForeground(inlineObject);
+		// Table formatting needs an active cell selection.
+		applyRememberedProperties(inlineObject);
 
 		view.setCursor(HIT);
 		return true;
@@ -10112,6 +10115,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (d instanceof DrawMindMap) {
 				GeoMindMapNode child = ((DrawMindMap) d).addChildNode(
 						(EuclidianBoundingBoxHandler) view.getHitHandler());
+				applyRememberedProperties(child);
 				selectAndShowSelectionUI(child);
 				updateDrawableAndMoveToForeground(child);
 				lastMowHit = child;
@@ -12778,5 +12782,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		public PointerEventType getType() {
 			return PointerEventType.MOUSE;
 		}
+	}
+
+	/**
+	 * Applies property values remembered for the type of a newly created element.
+	 * Does nothing if the application does not remember property values.
+	 *
+	 * @param geo newly created element
+	 */
+	private void applyRememberedProperties(@Nonnull GeoElement geo) {
+		RememberedProperties rememberedProperties = app.appScope.getRememberedProperties();
+		rememberedProperties.apply(geo);
 	}
 }

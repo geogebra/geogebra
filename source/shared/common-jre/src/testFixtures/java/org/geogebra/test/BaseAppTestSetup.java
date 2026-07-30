@@ -29,6 +29,7 @@ import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -201,4 +202,13 @@ public class BaseAppTestSetup {
 		}
 		return tableValues;
 	}
+
+	/**
+	 *
+	 * @return the {@link Construction} object
+	 */
+	protected Construction getConstruction() {
+		return getKernel().getConstruction();
+	}
+
 }

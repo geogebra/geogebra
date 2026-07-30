@@ -16,6 +16,7 @@
 
 package org.geogebra.common.main.settings.config;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.CheckForNull;
@@ -30,6 +31,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.settings.config.equationforms.DefaultEquationBehaviour;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.properties.remembered.RememberedPropertyHandler;
 import org.geogebra.common.restrictions.FeatureRestriction;
 
 abstract class AbstractAppConfig implements AppConfig {
@@ -132,5 +134,10 @@ abstract class AbstractAppConfig implements AppConfig {
             expressionFilter = createExpressionFilter();
         }
         return expressionFilter;
+    }
+
+    @Override
+    public @Nonnull List<RememberedPropertyHandler<?>> getRememberedPropertyHandlers() {
+		return List.of();
     }
 }
