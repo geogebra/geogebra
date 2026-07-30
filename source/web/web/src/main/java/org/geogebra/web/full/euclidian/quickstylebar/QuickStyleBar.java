@@ -244,7 +244,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 		if (fontProperty == null) {
 			return;
 		}
-		propertyWrapper.addUndoActionObserver(new PropertySupplier[] { fontProperty },
+		propertyWrapper.addActionObservers(new PropertySupplier[] { fontProperty },
 				geos, UndoActionType.STYLE_OR_CONTENT);
 		IconButton button = new IconButtonWithProperty(getApp(),
 				"gwt-PopupPanel contextSubMenu fontPopup",
@@ -262,7 +262,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 		if (!(propertyView instanceof PropertyView.ComboBox comboBox)) {
 			return;
 		}
-		propertyWrapper.addUndoActionObserver(new PropertySupplier[] { fontSizeProperty },
+		propertyWrapper.addActionObservers(new PropertySupplier[] { fontSizeProperty },
 				geos, UndoActionType.STYLE_OR_CONTENT);
 
 		QuickStyleBarFontSizeBox fontSizeBox = new QuickStyleBarFontSizeBox(getApp(), comboBox,
@@ -282,7 +282,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 			return;
 		}
 		Property firstProperty = properties[0].get();
-		propertyWrapper.addUndoActionObserver(properties, geos, undoFiler);
+		propertyWrapper.addActionObservers(properties, geos, undoFiler);
 		IconButtonWithProperty colorButton = new IconButtonWithProperty(
 				getApp(), className.isEmpty() ? "colorStyle" : "colorStyle " + className,
 				propertiesIconResource.getImageResource(firstProperty), firstProperty.getName(),
@@ -334,7 +334,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 			return;
 		}
 		Property firstProperty = properties[0].get();
-		propertyWrapper.addUndoActionObserver(properties, geos, undoType);
+		propertyWrapper.addActionObservers(properties, geos, undoType);
 		IconButton button = new IconButtonWithProperty(getApp(), className,
 				propertiesIconResource.getImageResource(firstProperty), firstProperty.getName(),
 				geos, closePopupOnAction, properties);

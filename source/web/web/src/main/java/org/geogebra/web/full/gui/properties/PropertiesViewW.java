@@ -401,10 +401,10 @@ public class PropertiesViewW extends PropertiesView
 			fixedPanel.add(contentPanel);
 			contentPanel.add(settingsTab);
 			wrappedPanel.add(fixedPanel);
-			return;
+		} else {
+			sideSheet.update(new SideSheetData(titleKey));
+			sideSheet.addToContent(settingsTab);
 		}
-		sideSheet.update(new SideSheetData(titleKey));
-		sideSheet.addToContent(settingsTab);
 		this.objectPropertiesVisible = showObjectProperties;
 	}
 

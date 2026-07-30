@@ -24,6 +24,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -165,6 +166,9 @@ public abstract class StyleBarW2 extends StyleBarW {
 				app.getUndoManager());
 		boolean needUndo = action.apply(getTargetGeos()) && store.needUndo();
 		if (needUndo) {
+			if (app.getGuiManager().getPropertiesView() instanceof PropertiesView propView) {
+				propView.updateSelection();
+			}
 			store.storeUndo();
 		}
 	}
