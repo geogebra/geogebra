@@ -764,8 +764,6 @@ public class DrawAxis {
 			labelno++;
 		}
 
-		double smallTickPix = pix + tickStep;
-
 		// draw all of the remaining ticks and labels
 
 		// int maxY = height - view.SCREEN_BORDER;
@@ -842,7 +840,7 @@ public class DrawAxis {
 			}
 
 			// small tick
-			smallTickPix = pix + tickStep - smallTickOffset;
+			double smallTickPix = pix + tickStep - smallTickOffset;
 			if (drawMinorTicks[1]) {
 				g2.setStroke(view.tickStroke);
 				g2.drawStraightLine(xSmall1, smallTickPix, xSmall2,
@@ -1121,7 +1119,7 @@ public class DrawAxis {
 		}
 
 		StringBuilder sb = new StringBuilder();
-		String strNum = "";
+		String strNum;
 
 		if (num < 0) {
 			strNum = strNum0.substring(1);

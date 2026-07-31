@@ -560,8 +560,6 @@ public class DrawLine extends SetDrawable implements Previewable {
 						0.0, (GeoLine) g);
 				break;
 			case PERPENDICULAR:
-				linePreview = null;
-
 				if (functions.size() == 1) {
 					linePreview = functions.get(0);
 				} else if (lines.size() == 1) {

@@ -266,7 +266,7 @@ public class Manager3D implements Manager3DInterface {
 	public GeoPointND point3D(String label, Path path, GeoNumberValue param) {
 
 		// try (0,0,0)
-		AlgoPoint3DOnPath algo = null;
+		AlgoPoint3DOnPath algo;
 		if (param == null) {
 			algo = new AlgoPoint3DOnPath(cons, path, 0, 0, 0);
 		} else {

@@ -95,7 +95,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 			final int viewId = panel.getViewId();
 			if (panel.canCustomizeToolbar()) {
 				Log.debug("[customize] view id for button is " + viewId);
-				ResourcePrototype res = null;
+				ResourcePrototype res;
 				if (viewId == App.VIEW_DATA_ANALYSIS) {
 					res = pr.menu_icon_probability();
 				} else if (App.isView3D(viewId)) {

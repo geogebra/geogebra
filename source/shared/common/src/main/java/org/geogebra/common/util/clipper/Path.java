@@ -122,7 +122,6 @@ public class Path extends ArrayList<DoublePoint> {
 			result.add(op.pt);
 			op = op.next;
 		}
-		outPts = null;
 		return result;
 	}
 

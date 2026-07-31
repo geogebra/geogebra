@@ -833,6 +833,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 *            font
 	 * @return ratio of estimated string length and font size
 	 */
+	@SuppressWarnings("PMD.UnusedAssignment")
 	public double estimateLengthHTML(String label, GFont font) {
 		String str = label;
 		boolean bold = false;

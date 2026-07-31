@@ -222,9 +222,9 @@ public class OFFHandler {
 			if (in.length > offset && in[offset] != null
 					&& in[offset].indexOf('.') < 0) {
 				int r = Integer.parseInt(in[offset]);
-				int g = 0;
-				int b = 0;
-				int a = 0xff;
+				int g;
+				int b;
+				int a;
 				if (in.length > offset + 1) {
 					g = Integer.parseInt(in[offset + 1]);
 					b = in.length > offset + 2

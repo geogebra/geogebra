@@ -2794,7 +2794,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private String evaluateGeoGebraCAS(String exp, boolean useCaching,
 			ArbitraryConstantRegistry arbconst, StringTemplate tpl)
 			throws CASException {
-		String result = null;
+
+		String result;
 		if (useCaching && hasCasCache()) {
 			result = getCasCache().get(exp);
 			if (result != null) {
@@ -2821,7 +2822,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *             error
 	 */
 	public String evaluateRawGeoGebraCAS(String exp) throws Throwable {
-		String result = null;
+		String result;
 		if (hasCasCache()) {
 			result = getCasCache().get(exp);
 			if (result != null) {

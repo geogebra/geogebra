@@ -81,7 +81,7 @@ public class TransformMirror extends Transform {
 
 	@Override
 	protected AlgoTransformation getTransformAlgo(GeoElement geo) {
-		AlgoMirror algo = null;
+		AlgoMirror algo;
 		if (mirror.isGeoLine()) {
 			algo = new AlgoMirror(cons, geo, (GeoLine) mirror);
 		} else if (mirror.isGeoPoint()) {

@@ -129,7 +129,6 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 	 * @return root
 	 */
 	public final double calcRoot(Function fun, double startX) {
-		double root = Double.NaN;
 		if (rootFinderBrent == null) {
 			rootFinderBrent = new BrentSolver(Kernel.STANDARD_PRECISION);
 		}
@@ -140,26 +139,26 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 			// arbitrary (used to depend on screen width)
 			double step = 1;
 
-			root = rootFinderBrent.solve(MAX_ITERATIONS, fun, startX - step,
+			double root = rootFinderBrent.solve(MAX_ITERATIONS, fun, startX - step,
 					startX + step,
 					startX);
 			if (checkRoot(fun, root)) {
 				return root;
 			}
-		} catch (RuntimeException e) {
-			root = Double.NaN;
+		} catch (RuntimeException expected) {
+			// fall back to Brent on smaller domain
 		}
 
 		// try Brent method on valid interval around start
 		double[] borders = getDomain(fun, startX);
 		try {
-			root = rootFinderBrent.solve(MAX_ITERATIONS, fun, borders[0],
+			double root = rootFinderBrent.solve(MAX_ITERATIONS, fun, borders[0],
 					borders[1], startX);
 			if (checkRoot(fun, root)) {
 				return root;
 			}
-		} catch (RuntimeException e) {
-			root = Double.NaN;
+		} catch (RuntimeException expected) {
+			// fall back to Newton
 		}
 
 		// try Newton's method
@@ -178,12 +177,12 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 		}
 
 		try {
-			root = rootFinderNewton.solve(MAX_ITERATIONS, derivFun, borders[0],
+			double root = rootFinderNewton.solve(MAX_ITERATIONS, derivFun, borders[0],
 					borders[1], start1);
 			if (checkRoot(fun, root)) {
 				return root;
 			}
-		} catch (RuntimeException e) {
+		} catch (RuntimeException expected) {
 			//
 		}
 		FunctionVariable x = new FunctionVariable(kernel);
@@ -191,7 +190,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 				fun.getFunctionVariable(), x, kernel);
 		x.set(0);
 		if (inv != null) {
-			root = inv.evaluateDouble();
+			double root = inv.evaluateDouble();
 			if (checkRoot(fun, root)) {
 				return root;
 			}

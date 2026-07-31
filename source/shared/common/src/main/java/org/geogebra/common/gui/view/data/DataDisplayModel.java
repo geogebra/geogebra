@@ -615,7 +615,6 @@ public class DataDisplayModel {
 		for (GeoElementND geo : plotGeoList) {
 			if (geo != null) {
 				geo.remove();
-				geo = null;
 			}
 		}
 		plotGeoList.clear();

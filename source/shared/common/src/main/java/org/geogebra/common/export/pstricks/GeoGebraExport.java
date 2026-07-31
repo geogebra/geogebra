@@ -1471,23 +1471,21 @@ public abstract class GeoGebraExport {
 		StringBuilder lineBuilder = new StringBuilder();
 		double[] out = new double[2];
 		geo.evaluateCurve(xRangeMin, out);
-		double y = out[1];
-		double yprec = y;
-		if (Math.abs(y) < 0.001) {
-			y = yprec = 0;
+		double yprec = out[1];
+		if (Math.abs(yprec) < 0.001) {
+			yprec = 0;
 		}
-		double x = out[0];
-		double xprec = x;
-		if (Math.abs(x) < 0.001) {
-			x = xprec = 0;
+		double xprec = out[0];
+		if (Math.abs(xprec) < 0.001) {
+			xprec = 0;
 		}
 		double step = (xRangeMax - xRangeMin) / point;
 		double tprec = xRangeMin;
 		double t = tprec;
 		for (; t <= xRangeMax; t += step) {
 			geo.evaluateCurve(t, out);
-			y = out[1];
-			x = out[0];
+			double y = out[1];
+			double x = out[0];
 			if (Math.abs(y) < 0.001) {
 				y = 0;
 			}

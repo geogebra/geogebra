@@ -524,12 +524,8 @@ public class StatGeo {
 	 */
 	public GeoElement createBarChartNumeric(GeoList dataList,
 			StatPanelSettings settings) throws StatException {
-
-		GeoElement geo = null;
-		AlgoBarChart algoBarChart = null;
-
+		AlgoBarChart algoBarChart;
 		if (settings.groupType() == GroupType.RAWDATA) {
-
 			if (settings.isAutomaticBarWidth()) {
 				AlgoUnique algo = new AlgoUnique(cons, dataList);
 				cons.removeFromConstructionList(algo);
@@ -538,11 +534,7 @@ public class StatGeo {
 
 			algoBarChart = new AlgoBarChart(cons, dataList,
 					new GeoNumeric(cons, settings.getBarWidth()));
-			removeFromConstructionList(algoBarChart);
-			geo = algoBarChart.getOutput(0);
-
 		} else if (settings.groupType() == GroupType.FREQUENCY) {
-
 			if (settings.isAutomaticBarWidth()) {
 				settings.setBarWidth(
 						getPreferredBarWidth((GeoList) dataList.get(0)));
@@ -551,14 +543,14 @@ public class StatGeo {
 			algoBarChart = new AlgoBarChart(cons, (GeoList) dataList.get(0),
 					(GeoList) dataList.get(1),
 					new GeoNumeric(cons, settings.getBarWidth()));
-			removeFromConstructionList(algoBarChart);
-			geo = algoBarChart.getOutput(0);
 		} else {
 			throw new StatException(
 					"unexpected groupType: " + settings.groupType());
 
 		}
 
+		removeFromConstructionList(algoBarChart);
+		GeoElement geo = algoBarChart.getOutput(0);
 		geo.setObjColor(
 				listener.createColor(DataAnalysisModel.BARCHART_COLOR_IDX));
 		geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
@@ -661,29 +653,23 @@ public class StatGeo {
 	 */
 	public GeoElement createBoxPlot(GeoList dataList,
 			StatPanelSettings settings) throws StatException {
-
-		GeoElement geo = null;
-		AlgoBoxPlot algoBoxPlot = null;
-
+		AlgoBoxPlot algoBoxPlot;
 		if (settings.groupType() == GroupType.RAWDATA) {
 			algoBoxPlot = new AlgoBoxPlot(cons, new GeoNumeric(cons, 1d),
 					new GeoNumeric(cons, 0.5), dataList,
 					new GeoBoolean(cons, settings.isShowOutliers()));
-			removeFromConstructionList(algoBoxPlot);
-			geo = algoBoxPlot.getOutput(0);
-
 		} else if (settings.groupType() == GroupType.FREQUENCY) {
 			algoBoxPlot = new AlgoBoxPlot(cons, new GeoNumeric(cons, 1d),
 					new GeoNumeric(cons, 0.5), (GeoList) dataList.get(0),
 					(GeoList) dataList.get(1),
 					new GeoBoolean(cons, settings.isShowOutliers()));
-			removeFromConstructionList(algoBoxPlot);
-			geo = algoBoxPlot.getOutput(0);
 		} else {
 			throw new StatException(
 					"unexpected groupType: " + settings.groupType());
 		}
 
+		removeFromConstructionList(algoBoxPlot);
+		GeoElement geo = algoBoxPlot.getOutput(0);
 		geo.setObjColor(
 				listener.createColor(DataAnalysisModel.BOXPLOT_COLOR_IDX));
 		geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);

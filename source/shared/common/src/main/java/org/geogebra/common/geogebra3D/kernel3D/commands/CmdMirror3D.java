@@ -46,7 +46,7 @@ public class CmdMirror3D extends CmdMirror {
 	protected GeoElement[] process2(String label, GeoElement[] arg,
 			boolean[] ok) {
 
-		GeoElement[] ret = new GeoElement[1];
+		GeoElement[] ret;
 
 		if (arg[1] instanceof GeoCoordSys2D && !arg[1].isGeoConic()) { // no
 																		// override

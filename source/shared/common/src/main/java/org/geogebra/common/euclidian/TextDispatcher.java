@@ -217,7 +217,7 @@ public class TextDispatcher {
 
 		GeoText text = createDynamicText(type, default0, object, value);
 		if (text != null) {
-			GeoPointND P = null;
+			GeoPointND P;
 			if (object.isRegion()) {
 				P = getPointForDynamicText((Region) object, point);
 			} else if (object.isPath()) {
@@ -321,7 +321,7 @@ public class TextDispatcher {
 		StringTemplate tpl = StringTemplate.defaultTemplate;
 		// create text that shows length
 		try {
-			String strText = "";
+			String strText;
 			boolean useLabels = geoA.isLabelSet() && geoB.isLabelSet();
 			if (useLabels) {
 				length.setLabel(removeUnderscoresAndBraces(

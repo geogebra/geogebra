@@ -686,7 +686,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 	@Override
 	protected void drawAngle(GeoAngle geo) {
 		AlgoElement algo = geo.getParentAlgorithm();
-		GeoPointND vertex, point;
+		GeoPointND point;
 		GeoVectorND v;
 		GeoPoint tempPoint = new GeoPoint(construction);
 		tempPoint.setCoords(0.0, 0.0, 1.0);
@@ -695,7 +695,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 		// angle defines with three points
 		if (algo instanceof AlgoAnglePoints) {
 			AlgoAnglePoints pa = (AlgoAnglePoints) algo;
-			vertex = pa.getB();
+			GeoPointND vertex = pa.getB();
 			point = pa.getA();
 			vertex.getInhomCoords(m);
 			// first vec
@@ -708,7 +708,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 			AlgoAngleVectors va = (AlgoAngleVectors) algo;
 			v = va.getv();
 			// vertex
-			vertex = v.getStartPoint();
+			GeoPointND vertex = v.getStartPoint();
 			if (vertex == null) {
 				vertex = tempPoint;
 			}
@@ -719,7 +719,6 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 		// angle between two lines
 		else if (algo instanceof AlgoAngleLines) {
 			AlgoAngleLines la = (AlgoAngleLines) algo;
-			vertex = tempPoint;
 			la.updateDrawInfo(m, firstVec, null);
 		}
 		// angle of a single vector or a single point
@@ -729,13 +728,13 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 			if (vec instanceof GeoVector) {
 				v = (GeoVector) vec;
 				// vertex
-				vertex = v.getStartPoint();
+				GeoPointND vertex = v.getStartPoint();
 				if (vertex == null) {
 					vertex = tempPoint;
 				}
 				vertex.getInhomCoords(m);
 			} else if (vec instanceof GeoPoint) {
-				vertex = tempPoint;
+				GeoPointND vertex = tempPoint;
 				// vertex
 				vertex.getInhomCoords(m);
 			}
@@ -2910,7 +2909,6 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 			} else {
 				sb.append(",");
 			}
-			comma = true;
 			sb.append("invisible");
 		}
 	}
@@ -3759,21 +3757,13 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 		StringBuilder fill = new StringBuilder();
 		fill.append("\nfill(");
 
-		double p;
-		double y;
-		double x;
-
 		for (int i = 0; i < curves.length; i++) {
-			p = curves[i].getMinParameter();
-			y = curves[i].getFunY().value(curves[i].getMinParameter());
-			if (Math.abs(y) < 0.001) {
-				y = 0;
-			}
+			double p = curves[i].getMinParameter();
 			double step = (curves[i].getMaxParameter()
 					- curves[i].getMinParameter()) / 200;
 			for (; p <= curves[i].getMaxParameter(); p += step) {
-				y = curves[i].getFunY().value(p);
-				x = curves[i].getFunX().value(p);
+				double y = curves[i].getFunY().value(p);
+				double x = curves[i].getFunX().value(p);
 				if (Math.abs(y) < 0.001) {
 					y = 0;
 				}

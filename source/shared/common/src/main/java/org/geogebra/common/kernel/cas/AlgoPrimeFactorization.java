@@ -125,7 +125,7 @@ public class AlgoPrimeFactorization extends AlgoElement {
 			}
 		}
 		if (n > 1) {
-			setListElement(count++, n, 1);
+			setListElement(count, n, 1);
 		}
 	}
 

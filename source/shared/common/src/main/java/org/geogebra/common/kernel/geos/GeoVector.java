@@ -1059,13 +1059,9 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 	@Override
 	public boolean moveVector(final Coords rwTransVec,
 			final Coords endPosition) {
-
-		boolean movedGeo = false;
-
 		final GeoVector vector = this;
 		if (endPosition != null) {
 			vector.setCoords(endPosition.getX(), endPosition.getY(), 0);
-			movedGeo = true;
 		}
 
 		// translate point
@@ -1083,10 +1079,9 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 
 			// set translated point coords
 			vector.setCoords(x, y, 0);
-			movedGeo = true;
 		}
 
-		return movedGeo;
+		return true;
 	}
 
 	@Override

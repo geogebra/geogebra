@@ -326,9 +326,8 @@ public class AriaStackPanel extends ComplexPanel
 	 */
 	protected int findDividerIndex(Element target) {
 		Element elem = target;
-		String expando = null;
 		while (elem != null) {
-			expando = elem.getPropertyString("__index");
+			String expando = elem.getPropertyString("__index");
 			if (expando != null) {
 				int index = headers.indexOf(elem);
 				return index;

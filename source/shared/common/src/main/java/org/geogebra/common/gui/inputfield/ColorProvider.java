@@ -210,7 +210,7 @@ public class ColorProvider {
 
 	private void getIntervalsRecursively(String text1, int startIndex) {
 		LabelParamRegExp labelParam = new LabelParamRegExp(text1);
-		CommandOrFunctionMatchResult res = null;
+		CommandOrFunctionMatchResult res;
 		// While we get matches against text
 		while ((res = labelParam.exec()) != null) {
 			String label = res.getGroup(0);
@@ -318,7 +318,7 @@ public class ColorProvider {
 			List<String> groups = new ArrayList<>(2);
 			groups.add(label);
 			CommandOrFunctionMatchResult ret;
-			int step = 0;
+			int step;
 			String params = null;
 
 			if (openingBracket == null) {

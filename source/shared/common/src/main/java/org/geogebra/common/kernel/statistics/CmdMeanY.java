@@ -41,11 +41,9 @@ public class CmdMeanY extends CmdOneOrTwoListsFunction {
 	@Override
 	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
-		GeoElement[] arg;
-		arg = resArgs(c, info);
 		switch (n) {
 		case 1:
-			arg = resArgs(c, info);
+			GeoElement[] arg = resArgs(c, info);
 			if (arg[0].isGeoList()) {
 				GeoElement[] ret = {
 						doCommand(c.getLabel(), (GeoList) arg[0]) };

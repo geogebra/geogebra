@@ -197,7 +197,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	final public String evaluateGeoGebraCAS(String exp,
 			ArbitraryConstantRegistry arbconst, StringTemplate tpl, Kernel kernel)
 			throws CASException {
-		String ret = null;
+		String ret;
 		try {
 			ValidExpression inVE = casParser.parseGeoGebraCASInput(exp, null);
 			ret = evaluateGeoGebraCAS(inVE, arbconst, tpl, null, kernel);

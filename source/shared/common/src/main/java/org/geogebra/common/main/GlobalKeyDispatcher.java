@@ -1149,7 +1149,7 @@ public abstract class GlobalKeyDispatcher {
 		}
 
 		// apply styles to to selected or all geos
-		Iterator<GeoElement> it = null;
+		Iterator<GeoElement> it;
 		if (app.getSelectionManager().getSelectedGeos().size() == 0) {
 			// change all geos
 			it = app.getKernel().getConstruction().getGeoSetConstructionOrder()

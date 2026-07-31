@@ -62,17 +62,11 @@ abstract public class InternalNode extends Node implements Iterable<Node> {
 
 			char newChar = comp.toString().charAt(0);
 
-			if (!Korean.isSingleKoreanChar(newChar)) {
+			if (!Korean.isSingleKoreanChar(newChar) || s.length() != 1) {
 				return false;
 			}
 
-			char lastChar = 0;
-
-			if (s.length() == 1) {
-				lastChar = s.charAt(0);
-			} else {
-				return false;
-			}
+			char lastChar = s.charAt(0);
 
 			char[] ret = Korean.checkMerge(lastChar, newChar);
 

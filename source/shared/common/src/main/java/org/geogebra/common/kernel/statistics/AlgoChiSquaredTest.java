@@ -112,7 +112,7 @@ public class AlgoChiSquaredTest extends AlgoElement {
 
 		final int df;
 		int rows = geoList1.size();
-		int columns = 0;
+		int columns;
 
 		if (!geoList1.isDefined() || rows < 2) {
 			result.setUndefined();
@@ -126,8 +126,8 @@ public class AlgoChiSquaredTest extends AlgoElement {
 			}
 		}
 
-		double[][] observed = null;
-		double[][] expected = null;
+		double[][] observed;
+		double[][] expected;
 
 		// store observed and expected values in arrays
 

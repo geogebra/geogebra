@@ -629,7 +629,7 @@ public class GeoConicSection extends GeoConic3D
 		}
 
 		// check if in edge
-		boolean inEdge = false;
+		boolean inEdge;
 		if (edgeStartParam[i] > Math.PI) {
 			parameter += Kernel.PI_2;
 			inEdge = parameter >= edgeStartParam[i]

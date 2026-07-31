@@ -2636,6 +2636,7 @@ public class GeoList extends GeoElement
 	 *            clockwise, anticlockwise, (force) reflex or (force) not reflex
 	 */
 	@Override
+	@SuppressWarnings("PMD.UnusedAssignment") // TODO
 	public void setAngleStyle(AngleStyle angleStyle) {
 		AngleStyle newAngleStyle = angleStyle;
 		if (newAngleStyle == this.angleStyle) {

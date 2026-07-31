@@ -212,7 +212,7 @@ public class AlgoText extends AlgoElement {
 		if (horizontalAlign != null) {
 			input[i++] = horizontalAlign;
 			if (verticalAlign != null) {
-				input[i++] = verticalAlign;
+				input[i] = verticalAlign;
 			}
 		}
 

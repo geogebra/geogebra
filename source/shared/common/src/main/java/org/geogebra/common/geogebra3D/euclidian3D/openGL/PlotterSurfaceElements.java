@@ -819,6 +819,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	}
 
+	@SuppressWarnings("PMD.UnusedAssignment")
 	private void drawNV(DrawEllipticSurface dse, int longitude,
 			double longitudeStart, int longitudeLength) {
 
@@ -983,6 +984,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		debug("==== arrayIndex (1) = " + arrayIndex);
 	}
 
+	@SuppressWarnings("PMD.UnusedAssignment")
 	private void setIndices(int longitude, int longitudeLength, DrawEllipticSurface dse) {
 		// ///////////////
 		// set indices

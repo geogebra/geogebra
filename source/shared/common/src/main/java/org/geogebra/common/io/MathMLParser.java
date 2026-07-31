@@ -861,7 +861,6 @@ public class MathMLParser {
 		int blockEnd = getBlockEnd(startTag, endTag);
 
 		String substBuf;
-		String blockContent;
 		boolean inside = true;
 
 		int blockNumber = 0;
@@ -880,13 +879,12 @@ public class MathMLParser {
 				// if sure to be at the end of the block hierarchy (inside),
 				// append block content to result
 				if (inside) {
-					blockContent = strBuf.substring(pos, blockEnd + 1);
+					String blockContent = strBuf.substring(pos, blockEnd + 1);
 					result.append(parseBlockContent(blockContent));
 					if (appendSpace) {
 						result.append(' ');
 					}
 					pos = pos + blockContent.length();
-					blockContent = null;
 				} else {
 					// if all subblocks have been processed skip to the end
 					pos = blockEnd + 1;

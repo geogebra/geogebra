@@ -657,7 +657,7 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		 */
 		private void saveSplitPane(String parentLocation0,
 				DockSplitPaneW parent) {
-			double dividerLocation = 0.2;
+			double dividerLocation;
 
 			// get relative divider location depending on the current
 			// orientation
@@ -672,7 +672,7 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 			splitPaneInfo.add(new DockSplitPaneData(parentLocation0,
 					dividerLocation, parent.getOrientation()));
 			String parentLocation = parentLocation0;
-			if (parentLocation.length() > 0) {
+			if (!parentLocation.isEmpty()) {
 				parentLocation += ",";
 			}
 

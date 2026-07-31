@@ -142,7 +142,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	}
 
 	protected void setCellWidget(int row, int col, String style, DataCell cell) {
-		Widget w = null;
+		Widget w;
 		if (cell.isEditable()) {
 			cellEditor.setText(cell.toString());
 			w = cellEditor;

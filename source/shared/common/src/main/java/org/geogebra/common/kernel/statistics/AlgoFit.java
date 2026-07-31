@@ -166,12 +166,9 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 
 	// Get info from lists into matrixes and functionarray
 	private boolean makeMatrixes() {
-		GeoElement geo = null;
-		GeoPointND point = null;
-
 		// Make array of functions:
 		for (int i = 0; i < functionsize; i++) {
-			geo = functionlist.get(i);
+			GeoElement geo = functionlist.get(i);
 			if (!functionarray.set(i, geo)) {
 				return false;
 			}
@@ -180,20 +177,17 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 		matM = new Array2DRowRealMatrix(datasize, functionsize);
 		matY = new Array2DRowRealMatrix(datasize, 1);
 		for (int r = 0; r < datasize; r++) {
-			geo = pointlist.get(r);
+			GeoElement geo = pointlist.get(r);
 			if (!geo.isGeoPoint()) {
 				// throw (new Exception("Not points in function list..."));
 				return false;
 			} // if not point
-			point = (GeoPointND) geo;
+			GeoPointND point = (GeoPointND) geo;
 			matY.setEntry(r, 0, functionarray.extractValueCoord(point));
 			for (int c = 0; c < functionsize; c++) {
 				matM.setEntry(r, c, functionarray.evaluate(c, point));
 			}
-		} // for rows (=datapoints)
-			// mprint("M:",M);
-			// mprint(Y:",Y);
-
+		}
 		return true;
 	}
 

@@ -63,7 +63,7 @@ public class TransformRotate extends Transform {
 
 	@Override
 	protected AlgoTransformation getTransformAlgo(GeoElement geo) {
-		AlgoTransformation algo = null;
+		AlgoTransformation algo;
 		if (center == null) {
 			algo = new AlgoRotate(cons, geo, angle);
 		} else {

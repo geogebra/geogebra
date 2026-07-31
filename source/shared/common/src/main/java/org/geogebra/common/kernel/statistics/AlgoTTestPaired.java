@@ -135,7 +135,6 @@ public class AlgoTTestPaired extends AlgoElement {
 			if (tTestImpl == null) {
 				tTestImpl = new TTest();
 			}
-			testStat = tTestImpl.pairedT(val0, val1);
 			p = tTestImpl.pairedTTest(val0, val1);
 			testStat = tTestImpl.pairedT(val0, val1);
 			p = adjustedPValue(p, testStat);

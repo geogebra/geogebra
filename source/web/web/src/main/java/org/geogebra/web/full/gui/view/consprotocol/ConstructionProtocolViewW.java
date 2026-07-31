@@ -428,7 +428,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 * @return column of data
 	 */
 	public Column<RowData, ?> getColumn(String title) {
-		Column<RowData, ?> col = null;
+		Column<RowData, ?> col;
 
 		if ("No.".equals(title)) {
 			col = getColumnId();

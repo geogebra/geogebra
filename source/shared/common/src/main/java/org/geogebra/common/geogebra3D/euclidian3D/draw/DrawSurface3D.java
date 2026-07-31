@@ -1566,9 +1566,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 							} else {
 								// find defined between l and this
 								Corner s;
-								if (subLeft != null) {
-									s = subLeft;
-								} else {
+								if (subLeft == null) {
 									s = newCorner();
 									findU(left, this, BOUNDARY_SPLIT, s);
 									// new neighbors
@@ -1576,11 +1574,8 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 									s.l = left;
 								}
 								// find defined between a and this
-								Corner e;
-								if (subAbove != null) {
-									e = subAbove;
-								} else {
-									e = newCorner();
+								if (subAbove == null) {
+									Corner e = newCorner();
 									findV(above, this, BOUNDARY_SPLIT, e);
 									// new neighbors
 									this.a = e;
@@ -1640,11 +1635,9 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 								split(subLeft, left, subAbove, above);
 							} else {
 								// find defined between l and this
-								Corner s;
-								if (subLeft != null) {
-									s = subLeft;
-								} else {
-									s = newCorner();
+
+								if (subLeft == null) {
+									Corner s = newCorner();
 									findU(left, this, BOUNDARY_SPLIT, s);
 									// new neighbors
 									this.l = s;
@@ -1652,9 +1645,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 								}
 								// find defined between a and this
 								Corner e;
-								if (subAbove != null) {
-									e = subAbove;
-								} else {
+								if (subAbove == null) {
 									e = newCorner();
 									findV(above, this, BOUNDARY_SPLIT, e);
 									// new neighbors
@@ -1751,22 +1742,16 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 								split(subLeft, left, subAbove, above);
 							} else {
 								// find defined between l and this
-								Corner s;
-								if (subLeft != null) {
-									s = subLeft;
-								} else {
-									s = newCorner();
+								if (subLeft == null) {
+									Corner s = newCorner();
 									findU(this, left, BOUNDARY_SPLIT, s);
 									// new neighbors
 									this.l = s;
 									s.l = left;
 								}
 								// find defined between a and this
-								Corner e;
-								if (subAbove != null) {
-									e = subAbove;
-								} else {
-									e = newCorner();
+								if (subAbove == null) {
+									Corner e = newCorner();
 									findV(this, above, BOUNDARY_SPLIT, e);
 									// new neighbors
 									this.a = e;
@@ -1897,9 +1882,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 							} else {
 								// find defined between this and l
 								Corner s;
-								if (subLeft != null) {
-									s = subLeft;
-								} else {
+								if (subLeft == null) {
 									s = newCorner();
 									findU(this, left, BOUNDARY_SPLIT, s);
 									// new neighbors
@@ -2029,9 +2012,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 								findU(left.a, above, BOUNDARY_SPLIT, n);
 								// find defined between this and a
 								Corner e;
-								if (subAbove != null) {
-									e = subAbove;
-								} else {
+								if (subAbove == null) {
 									e = newCorner();
 									findV(this, above, BOUNDARY_SPLIT, e);
 									// new neighbors

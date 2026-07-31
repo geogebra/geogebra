@@ -108,7 +108,7 @@ public class AlgoZProportionEstimate extends AlgoElement {
 
 		NormalDistribution normalDist = new NormalDistribution(0, 1);
 
-		double critZ = 0;
+		double critZ;
 
 		try {
 			critZ = normalDist.inverseCumulativeProbability((1 - cLevel) / 2);

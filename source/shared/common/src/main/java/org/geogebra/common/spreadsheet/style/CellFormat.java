@@ -230,18 +230,14 @@ public class CellFormat implements CellFormatInterface {
 		if (formatMap == null || formatMap.isEmpty()) {
 			return;
 		}
-
-		SpreadsheetCoords key = null;
-		SpreadsheetCoords shiftKey = null;
-
 		// clear first row to be shifted into
 		clearRows(formatMap, rowStart - shiftAmount, rowStart - shiftAmount);
 
 		// shift row formats
 		for (int r = rowStart; r <= highestIndexRow; r++) {
-			key = newCoords(-1, r);
+			SpreadsheetCoords key = newCoords(-1, r);
 			if (formatMap.containsKey(key)) {
-				shiftKey = newCoords(-1, r - shiftAmount);
+				SpreadsheetCoords shiftKey = newCoords(-1, r - shiftAmount);
 				formatMap.put(shiftKey, formatMap.remove(key));
 			}
 		}
@@ -249,9 +245,9 @@ public class CellFormat implements CellFormatInterface {
 		// shift cell formats
 		for (int r = rowStart; r <= highestIndexRow; r++) {
 			for (int c = 0; c <= highestIndexColumn; c++) {
-				key = newCoords(c, r);
+				SpreadsheetCoords key = newCoords(c, r);
 				if (formatMap.containsKey(key)) {
-					shiftKey = newCoords(c, r - shiftAmount);
+					SpreadsheetCoords shiftKey = newCoords(c, r - shiftAmount);
 					formatMap.put(shiftKey, formatMap.remove(key));
 				}
 			}
@@ -268,15 +264,11 @@ public class CellFormat implements CellFormatInterface {
 		if (formatMap == null || formatMap.isEmpty()) {
 			return;
 		}
-
-		SpreadsheetCoords key = null;
-		SpreadsheetCoords shiftKey = null;
-
 		// shift row formats
 		for (int r = highestIndexRow; r >= rowStart; r--) {
-			key = newCoords(-1, r);
+			SpreadsheetCoords key = newCoords(-1, r);
 			if (formatMap.containsKey(key)) {
-				shiftKey = newCoords(-1, r + shiftAmount);
+				SpreadsheetCoords shiftKey = newCoords(-1, r + shiftAmount);
 				formatMap.put(shiftKey, formatMap.remove(key));
 			}
 		}
@@ -284,9 +276,9 @@ public class CellFormat implements CellFormatInterface {
 		// shift cell formats
 		for (int r = highestIndexRow; r >= rowStart; r--) {
 			for (int c = 0; c <= highestIndexColumn; c++) {
-				key = newCoords(c, r);
+				SpreadsheetCoords key = newCoords(c, r);
 				if (formatMap.containsKey(key)) {
-					shiftKey = newCoords(c, r + shiftAmount);
+					SpreadsheetCoords shiftKey = newCoords(c, r + shiftAmount);
 					formatMap.put(shiftKey, formatMap.remove(key));
 				}
 			}
@@ -362,14 +354,11 @@ public class CellFormat implements CellFormatInterface {
 			return;
 		}
 
-		SpreadsheetCoords key = null;
-		SpreadsheetCoords shiftKey = null;
-
 		// shift column formats
 		for (int c = highestIndexColumn; c >= columnStart; c--) {
-			key = newCoords(c, -1);
+			SpreadsheetCoords key = newCoords(c, -1);
 			if (formatMap.containsKey(key)) {
-				shiftKey = newCoords(c + shiftAmount, -1);
+				SpreadsheetCoords shiftKey = newCoords(c + shiftAmount, -1);
 				formatMap.put(shiftKey, formatMap.remove(key));
 			}
 		}
@@ -377,9 +366,9 @@ public class CellFormat implements CellFormatInterface {
 		// shift cell formats
 		for (int c = highestIndexColumn; c >= columnStart; c--) {
 			for (int r = 0; r <= highestIndexRow; r++) {
-				key = newCoords(c, r);
+				SpreadsheetCoords key = newCoords(c, r);
 				if (formatMap.containsKey(key)) {
-					shiftKey = newCoords(c + shiftAmount, r);
+					SpreadsheetCoords shiftKey = newCoords(c + shiftAmount, r);
 					formatMap.put(shiftKey, formatMap.remove(key));
 				}
 			}

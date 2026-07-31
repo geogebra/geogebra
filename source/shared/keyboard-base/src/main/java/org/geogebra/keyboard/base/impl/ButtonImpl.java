@@ -36,7 +36,7 @@ public class ButtonImpl implements Button {
 	private Background background;
 
 	private KeyModifier[] modifiers;
-	private String altText = null;
+	private final String altText;
 
 	/**
 	 * @param resourceName
@@ -154,7 +154,4 @@ public class ButtonImpl implements Button {
 		return altText == null ? getPrimaryActionName() : altText;
 	}
 
-	public void setAltText(String s) {
-		altText = s;
-	}
 }

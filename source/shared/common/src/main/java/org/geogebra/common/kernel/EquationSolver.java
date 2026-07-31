@@ -349,7 +349,7 @@ public class EquationSolver implements EquationSolverInterface {
 		if (R == 0 && Q == 0) {
 			res[roots++] = -a / 3;
 			res[roots++] = -a / 3;
-			res[roots++] = -a / 3;
+			res[roots] = -a / 3;
 			return 3;
 		}
 		// Michael Borcherds changed to check CR2 equal to CQ3 to first 8
@@ -379,11 +379,11 @@ public class EquationSolver implements EquationSolverInterface {
 			if (R > 0) {
 				res[roots++] = -2 * sqrtQ - a / 3;
 				res[roots++] = sqrtQ - a / 3;
-				res[roots++] = sqrtQ - a / 3;
+				res[roots] = sqrtQ - a / 3;
 			} else {
 				res[roots++] = -sqrtQ - a / 3;
 				res[roots++] = -sqrtQ - a / 3;
-				res[roots++] = 2 * sqrtQ - a / 3;
+				res[roots] = 2 * sqrtQ - a / 3;
 			}
 			return 3;
 		} else if (CR2 < CQ3) { // equivalent to R2 < Q3
@@ -393,7 +393,7 @@ public class EquationSolver implements EquationSolverInterface {
 			double norm = -2 * sqrtQ;
 			res[roots++] = norm * Math.cos(theta / 3) - a / 3;
 			res[roots++] = norm * Math.cos((theta + 2.0 * Math.PI) / 3) - a / 3;
-			res[roots++] = norm * Math.cos((theta - 2.0 * Math.PI) / 3) - a / 3;
+			res[roots] = norm * Math.cos((theta - 2.0 * Math.PI) / 3) - a / 3;
 
 			// GeoGebra addition
 			// TODO: find a better way to deal with this
@@ -408,7 +408,7 @@ public class EquationSolver implements EquationSolverInterface {
 			double A = -sgnR
 					* Math.pow(Math.abs(R) + Math.sqrt(R2 - Q3), 1.0 / 3.0);
 			double B = Q / A;
-			res[roots++] = A + B - a / 3;
+			res[roots] = A + B - a / 3;
 			return 1;
 		}
 	}
@@ -669,7 +669,7 @@ public class EquationSolver implements EquationSolverInterface {
 	 */
 	private int laguerreAllComplex(double[] real, double[] complex) {
 
-		Complex[] complexRoots = null;
+		Complex[] complexRoots;
 		if (laguerreSolver == null) {
 			laguerreSolver = new LaguerreSolver();
 		}
@@ -777,7 +777,7 @@ public class EquationSolver implements EquationSolverInterface {
 			res2[0] = b;
 			int n = solveQuadraticS(res2, res2, eps);
 			res[roots++] = res2[0];
-			res[roots++] = res2[1];
+			res[roots] = res2[1];
 			// if (gsl_poly_solve_quadratic(1.0,a,b,x2,x3)==0) {
 			if (n == 0) {
 				mt = 3;
@@ -965,13 +965,13 @@ public class EquationSolver implements EquationSolverInterface {
 					res[roots++] = zarr[0];
 					res[roots++] = zarr[1];
 					res[roots++] = zarr[2];
-					res[roots++] = zarr[3];
+					res[roots] = zarr[3];
 				} else {
 					return 0;
 				}
 			} else {
 				res[roots++] = zarr[0];
-				res[roots++] = zarr[1];
+				res[roots] = zarr[1];
 			}
 		}
 

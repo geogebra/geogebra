@@ -294,7 +294,6 @@ public final class RegressionMath {
 	public boolean doExp(GeoList gl) {
 		error = false;
 		geolist = gl;
-		double y = 0.0d;
 		size = geolist.size();
 		getPoints(); // getPoints from geolist
 		if (error) {
@@ -306,7 +305,7 @@ public final class RegressionMath {
 		double ySign = ylist[0] < 0 ? -1 : 1;
 		// Transform y->ln(y):
 		for (int i = 0; i < size; i++) {
-			y = ylist[i] * ySign;
+			double y = ylist[i] * ySign;
 			if (y < 0.0d) { // log(minus)!
 				return false;
 			}
@@ -339,7 +338,6 @@ public final class RegressionMath {
 	public boolean doLog(GeoList gl) {
 		error = false;
 		geolist = gl;
-		double x = 0.0d;
 		size = geolist.size();
 		getPoints(); // getPoints from geolist
 		if (error) {
@@ -347,7 +345,7 @@ public final class RegressionMath {
 		}
 		// Transform x->ln(x):
 		for (int i = 0; i < size; i++) {
-			x = xlist[i];
+			double x = xlist[i];
 			if (x < 0.0d) { // log(minus)!
 				return false;
 			}

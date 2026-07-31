@@ -108,7 +108,7 @@ public abstract class CASSubDialog {
 			row = new Vector<>(2);
 			GeoElement var = iter.next();
 			String nextVar = var.getLabel(StringTemplate.defaultTemplate);
-			int i = 0;
+			int i;
 			for (i = 0; i < data.size(); i++) {
 				if (data.get(i).firstElement().compareTo(nextVar) >= 0) {
 					break;

@@ -139,7 +139,6 @@ public class ZoomController {
 	 */
 	protected void scaleApplet(Element scaler, Element container,
 			@CheckForNull Element elem) {
-		double scale = 1;
 		if (app.isUnbundled()) {
 			app.getGgbApi().setSize(NavigatorUtil.getWindowWidth(),
 					NavigatorUtil.getWindowHeight());
@@ -147,7 +146,7 @@ public class ZoomController {
 		} else {
 			double xscale = NavigatorUtil.getWindowWidth() / app.getWidth();
 			double yscale = NavigatorUtil.getWindowHeight() / app.getHeight();
-			scale = LayoutUtilW.getDeviceScale(xscale, yscale, true);
+			double scale = LayoutUtilW.getDeviceScale(xscale, yscale, true);
 			Browser.scale(scaler, scale, 0, 0);
 			Browser.scale(elem, 1 / scale, 120, 100);
 			container.getStyle().setPosition(state.emulated

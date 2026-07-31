@@ -267,7 +267,7 @@ public class PointerEvent extends AbstractEvent {
 	 * @return wrapped event
 	 */
 	public static PointerEvent wrapEvent(TouchEvent<?> event, HasOffsets off) {
-		JsArray<Touch> touches = null;
+		JsArray<Touch> touches;
 		int index = 0;
 		if (event instanceof TouchStartEvent) {
 			touches = event.getTargetTouches();

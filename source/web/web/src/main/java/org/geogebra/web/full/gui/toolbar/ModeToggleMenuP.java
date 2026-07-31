@@ -182,11 +182,6 @@ public class ModeToggleMenuP extends ModeToggleMenuW
 
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
-		if (toolbar.isVisible()) {
-			startPosition = toolbar.getAbsoluteLeft();
-		} else {
-			startPosition = submenuPanel.getAbsoluteLeft();
-		}
 		if (event.getSource() == tbutton) {
 			tbutton.addStyleName("touched");
 		}
@@ -195,9 +190,6 @@ public class ModeToggleMenuP extends ModeToggleMenuW
 			startPosition = toolbar.getAbsoluteLeft();
 		} else {
 			startPosition = submenuPanel.getAbsoluteLeft();
-		}
-		if (event.getSource() == tbutton) {
-			tbutton.addStyleName("touched");
 		}
 	}
 

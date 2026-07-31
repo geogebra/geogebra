@@ -170,7 +170,7 @@ public class AlgoSlopeField extends AlgoElement {
 			input[i++] = maxX;
 		}
 		if (maxY != null) {
-			input[i++] = maxY;
+			input[i] = maxY;
 		}
 
 		setOnlyOutput(locus);

@@ -2262,7 +2262,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			while (oldp >= 2 && p < oldp && rCols < n - 1) {
 
 				oldp = p;
-				p = 0;
 				irf = new IntRelationFinder(oldp, x, fullScale, lessScale,
 						accuracyFactor, bound);
 				if (irf.result.size() == 0) {

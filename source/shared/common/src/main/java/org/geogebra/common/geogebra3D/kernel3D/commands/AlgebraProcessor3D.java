@@ -214,8 +214,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	 */
 	private GeoElement[] processPlane(Equation equ, ExpressionNode def,
 			EvalInfo info) {
-		double a = 0, b = 0, c = 0, d = 0;
-		GeoPlane3D plane = null;
+		GeoPlane3D plane;
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
 
@@ -223,10 +222,10 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 
 		if (isIndependent) {
 			// get coefficients
-			a = lhs.getCoeffValue("x");
-			b = lhs.getCoeffValue("y");
-			c = lhs.getCoeffValue("z");
-			d = lhs.getCoeffValue("");
+			double a = lhs.getCoeffValue("x");
+			double b = lhs.getCoeffValue("y");
+			double c = lhs.getCoeffValue("z");
+			double d = lhs.getCoeffValue("");
 			plane = (GeoPlane3D) kernel.getManager3D().plane3D(a, b, c, d);
 			plane.setDefinition(def);
 		} else {

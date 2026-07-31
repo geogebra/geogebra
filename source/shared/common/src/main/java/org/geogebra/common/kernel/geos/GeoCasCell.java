@@ -885,34 +885,30 @@ public class GeoCasCell extends GeoElement
 		// get all command names
 		HashSet<Command> commands = new HashSet<>();
 		ve.traverse(CommandCollector.getCollector(commands));
-		if (commands.isEmpty()) {
-			commands = null;
-		} else {
-			for (Command cmd : commands) {
-				String cmdName = cmd.getName();
-				// Numeric used
-				includesNumericCommand = includesNumericCommand
-						|| ("Numeric".equals(cmdName)
-								&& cmd.getArgumentNumber() > 1)
-						|| "ScientificText".equals(cmdName);
+		for (Command cmd : commands) {
+			String cmdName = cmd.getName();
+			// Numeric used
+			includesNumericCommand = includesNumericCommand
+					|| ("Numeric".equals(cmdName)
+							&& cmd.getArgumentNumber() > 1)
+					|| "ScientificText".equals(cmdName);
 
-				// if command not known to CAS
-				if (!kernel.getGeoGebraCAS().isCommandAvailable(cmd)) {
-					if (kernel.lookupCasCellLabel(cmdName) != null
-							|| kernel.lookupLabel(cmdName) != null) {
-						// treat command name as defined user function name
-						getInVars().add(cmdName);
-					} else if (kernel.getAlgebraProcessor()
-							.isCommandAvailable(cmdName)) {
-						// command is known to GeoGebra: use possible fallback
-						useGeoGebraFallback = true;
-					} else {
-						// treat command name as undefined user function name
-						getInVars().add(cmdName);
-					}
+			// if command not known to CAS
+			if (!kernel.getGeoGebraCAS().isCommandAvailable(cmd)) {
+				if (kernel.lookupCasCellLabel(cmdName) != null
+						|| kernel.lookupLabel(cmdName) != null) {
+					// treat command name as defined user function name
+					getInVars().add(cmdName);
+				} else if (kernel.getAlgebraProcessor()
+						.isCommandAvailable(cmdName)) {
+					// command is known to GeoGebra: use possible fallback
+					useGeoGebraFallback = true;
+				} else {
+					// treat command name as undefined user function name
+					getInVars().add(cmdName);
 				}
-
 			}
+
 		}
 
 		// TRAC-1523 GGB-2208
@@ -1657,6 +1653,7 @@ public class GeoCasCell extends GeoElement
 	/**
 	 * Creates a twinGeo using the current output
 	 */
+	@SuppressWarnings("PMD.UnusedAssignment")
 	private void createTwinGeo(boolean allowFunction) {
 		if (isError()) {
 			return;

@@ -50,7 +50,7 @@ public class CmdZip extends CommandProcessor {
 		}
 
 		// create local variable at position 1 and resolve arguments
-		GeoElement arg = null;
+		GeoElement arg;
 		GeoElement[] vars = new GeoElement[n / 2];
 		GeoList[] over = new GeoList[(n - 1) / 2];
 		boolean oldval = cons.isSuppressLabelsActive();

@@ -941,7 +941,7 @@ public class RelativeCopy {
 		text = text.trim();
 
 		// no equal sign in input
-		GeoElementND[] newValues = null;
+		GeoElementND[] newValues;
 		try {
 			// check if input is same as name: circular definition
 			if (text.equals(name)) {

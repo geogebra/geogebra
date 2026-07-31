@@ -174,7 +174,6 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 	private void calcIntersectPaths(GeoSegment segment, int segIndex) {
 		CalcDetails cd = new CalcDetails();
 		cd.segmentIndex = segIndex;
-		int intersectPathIndex = 0;
 
 		// calculate intersect point between input segment and input Conic curve
 		AlgoIntersectSegmentConicRegion.intersectSegmentConic(segment,
@@ -208,6 +207,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 		GeoPoint P;
 		GeoPoint Q;
 
+		int intersectPathIndex = 0;
 		switch (numberOfLineParts) {
 		case 1: {
 
@@ -219,7 +219,6 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 
 				cd.intersectPathCoords[intersectPathIndex] = P.getCoords();
 				cd.intersectPathCoords[++intersectPathIndex] = Q.getCoords();
-				intersectPathIndex++;
 
 				cd.intersectPathcount++;
 
@@ -255,7 +254,6 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 					cd.intersectPathCoords[intersectPathIndex] = P.getCoords();
 					cd.intersectPathCoords[++intersectPathIndex] = pnt
 							.getCoords();
-					intersectPathIndex++;
 
 					cd.intersectPathcount++;
 
@@ -271,7 +269,6 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 							.getCoords();
 					cd.intersectPathCoords[++intersectPathIndex] = Q
 							.getCoords();
-					intersectPathIndex++;
 
 					cd.intersectPathcount++;
 

@@ -1626,7 +1626,7 @@ public class ProverBotanasMethod {
 											as.getPolynomials()
 													.toArray(new PPolynomial[as
 															.getPolynomials().size()]),
-											substitutions, k, permutation++, true,
+											substitutions, k, permutation, true,
 											false, HilbertDimension.getAMaximalSet());
 									ndgSet = eliminationIdeal.iterator();
 									while (ndgSet.hasNext()) {

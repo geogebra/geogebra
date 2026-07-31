@@ -68,9 +68,6 @@ public class MoveMinusInOut implements SimplifyNode {
 				ExpressionNode negated = utils.negateTagByTag(node.getRight());
 				OrderedExpressionNode orderedNode = new OrderedExpressionNode(negated.wrap(),
 						utils);
-				if (orderedNode.isAllNegative()) {
-					negated = node;
-				}
 				return orderedNode;
 			}
 		}

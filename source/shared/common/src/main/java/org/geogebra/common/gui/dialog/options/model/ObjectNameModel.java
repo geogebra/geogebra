@@ -88,7 +88,7 @@ public class ObjectNameModel extends OptionsModel {
 		// DEFINITION
 		// boolean showDefinition = !(currentGeo.isGeoText() ||
 		// currentGeo.isGeoImage());
-		boolean showDefinition = true;
+		boolean showDefinition;
 		if (getCurrentGeo().isGeoText()) {
 			showDefinition = ((GeoText) getCurrentGeo()).isTextCommand();
 		} else {

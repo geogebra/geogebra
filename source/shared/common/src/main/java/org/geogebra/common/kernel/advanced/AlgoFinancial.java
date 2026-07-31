@@ -329,9 +329,6 @@ public class AlgoFinancial extends AlgoElement {
 
 		double min = 0;
 		double max = 0.001;
-
-		double newtonRoot = Double.NaN;
-
 		if (geoGuess != null) {
 			rate = geoGuess.getValue();
 
@@ -389,12 +386,9 @@ public class AlgoFinancial extends AlgoElement {
 		}
 
 		try {
-			// Log.debug("trying Newton with starting value " + rate);
-			newtonRoot = rootPolisher.solve(AlgoRootNewton.MAX_ITERATIONS, fun,
+			double newtonRoot = rootPolisher.solve(AlgoRootNewton.MAX_ITERATIONS, fun,
 					min, max, rate);
 			if (Math.abs(fun.value(newtonRoot)) < Math.abs(fun.value(rate))) {
-				// App.error("polished result from Newton is better: \n" + rate
-				// + "\n" + newtonRoot);
 				rate = newtonRoot;
 			}
 		} catch (Exception e) {

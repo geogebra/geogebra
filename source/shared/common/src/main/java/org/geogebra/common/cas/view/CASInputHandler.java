@@ -420,7 +420,7 @@ public class CASInputHandler {
 		// sb.append("NSolve[");
 		sb.append(cellValue.getLocalizedInput());
 
-		ExpressionValue expandValidExp = null;
+		ExpressionValue expandValidExp;
 		// case input is a cell
 		if (evalText.charAt(0) == GeoCasCell.ROW_REFERENCE_DYNAMIC) {
 			int row = Integer.parseInt(evalText.substring(1, 2));
@@ -438,7 +438,7 @@ public class CASInputHandler {
 
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 		try {
-			String casResult = "";
+			String casResult;
 			if (expandValidExp == null) {
 				return sb.toString();
 			}
@@ -599,6 +599,7 @@ public class CASInputHandler {
 	 * @param ggbcmd
 	 *            is the given command (just Solve is supported)
 	 */
+	@SuppressWarnings("PMD.UnusedAssignment")
 	private void processMultipleRows(String ggbcmd, String oldXML) {
 		// get current row and input text
 		consoleTable.stopEditing();

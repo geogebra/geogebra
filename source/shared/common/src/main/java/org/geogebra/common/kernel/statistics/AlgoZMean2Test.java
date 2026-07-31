@@ -187,7 +187,7 @@ public class AlgoZMean2Test extends AlgoElement {
 		double testStatistic = (mean1 - mean2) / se;
 
 		NormalDistribution normalDist = new NormalDistribution(0, 1);
-		double P = 0;
+		double P;
 		try {
 			P = normalDist.cumulativeProbability(testStatistic);
 		} catch (Exception e) {

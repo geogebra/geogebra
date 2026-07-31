@@ -628,7 +628,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	@Override
 	protected void drawAngle(GeoAngle geo) {
 		AlgoElement algo = geo.getParentAlgorithm();
-		GeoPointND vertex, point;
+		GeoPointND point;
 		GeoVectorND v;
 		GeoPoint tempPoint = new GeoPoint(construction);
 		tempPoint.setCoords(0.0, 0.0, 1.0);
@@ -637,7 +637,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		// angle defines with three points
 		if (algo instanceof AlgoAnglePoints) {
 			AlgoAnglePoints pa = (AlgoAnglePoints) algo;
-			vertex = pa.getB();
+			GeoPointND vertex = pa.getB();
 			point = pa.getA();
 			vertex.getInhomCoords(m);
 			// first vec
@@ -650,7 +650,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			AlgoAngleVectors va = (AlgoAngleVectors) algo;
 			v = va.getv();
 			// vertex
-			vertex = v.getStartPoint();
+			GeoPointND vertex = v.getStartPoint();
 			if (vertex == null) {
 				vertex = tempPoint;
 			}
@@ -661,7 +661,6 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		// angle between two lines
 		else if (algo instanceof AlgoAngleLines) {
 			AlgoAngleLines la = (AlgoAngleLines) algo;
-			vertex = tempPoint;
 			la.updateDrawInfo(m, firstVec, null);
 		}
 		// angle of a single vector or a single point
@@ -671,15 +670,14 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			if (vec instanceof GeoVector) {
 				v = (GeoVector) vec;
 				// vertex
-				vertex = v.getStartPoint();
+				GeoPointND vertex = v.getStartPoint();
 				if (vertex == null) {
 					vertex = tempPoint;
 				}
 				vertex.getInhomCoords(m);
 			} else if (vec instanceof GeoPoint) {
-				vertex = tempPoint;
 				// vertex
-				vertex.getInhomCoords(m);
+				tempPoint.getInhomCoords(m);
 			}
 			firstVec[0] = 1;
 			firstVec[1] = 0;

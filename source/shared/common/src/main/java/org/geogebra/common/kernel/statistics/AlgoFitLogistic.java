@@ -433,9 +433,9 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	// Sum of squared errors, using b(=k). a and c are calculated from first and
 	// last datapoint.
 	private double beta2(double k1) {
-		double beta = 0.0d, sum = 0.0d;
+		double  sum = 0.0d;
 		for (int i = 0; i < size; i++) {
-			beta = beta(xd[i], yd[i], k1);
+			double beta = beta(xd[i], yd[i], k1);
 			sum += beta * beta;
 		} // for all data
 		return sum;

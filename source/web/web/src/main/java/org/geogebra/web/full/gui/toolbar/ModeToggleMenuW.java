@@ -460,7 +460,7 @@ public class ModeToggleMenuW extends ListItem
 	 */
 	protected void showTooltipFor(HumanInputEvent<?> event) {
 		app.getToolTipManager().setBlockToolTip(false);
-		int mode = -1;
+		int mode;
 		if (event.getSource() == tbutton) {
 			mode = menu.get(0);
 		} else {

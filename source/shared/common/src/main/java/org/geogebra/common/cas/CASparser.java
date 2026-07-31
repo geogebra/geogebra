@@ -352,14 +352,12 @@ public class CASparser implements CASParserInterface {
 
 		// convert every single character and append it to sb
 		char prefixStart = ExpressionNodeConstants.UNICODE_PREFIX.charAt(0);
-		boolean prefixFound;
 		for (int i = 0; i < len; i++) {
 			char c = str.charAt(i);
-			prefixFound = false;
 
 			// first character of prefix found
 			if (c == prefixStart && i + prefixLen < str.length()) {
-				prefixFound = true;
+				boolean prefixFound = true;
 				// check prefix
 				int j = i;
 				for (int k = 0; k < prefixLen; k++, j++) {

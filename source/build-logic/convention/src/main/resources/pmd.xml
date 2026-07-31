@@ -32,7 +32,6 @@
         <exclude name="NonExhaustiveSwitch"/>
         <exclude name="OneDeclarationPerLine"/>
         <exclude name="ReplaceVectorWithList"/>
-        <exclude name="UnusedAssignment"/>
         <exclude name="AvoidReassigningLoopVariables"/>
         <exclude name="LiteralsFirstInComparisons"/>
         <exclude name="ForLoopVariableCount"/>
@@ -42,6 +41,11 @@
         <exclude name="UseEnumCollections"/>
         <exclude name="ExhaustiveSwitchHasDefault"/>
         <exclude name="EnumComparison"/>
+    </rule>
+    <rule ref="category/java/bestpractices.xml/UnusedAssignment">
+        <properties>
+            <property name="violationSuppressRegex" value="The( value assigned to)? (field|initializer).*"/>
+        </properties>
     </rule>
     <rule ref="category/java/codestyle.xml">
         <exclude name="AtLeastOneConstructor"/>
