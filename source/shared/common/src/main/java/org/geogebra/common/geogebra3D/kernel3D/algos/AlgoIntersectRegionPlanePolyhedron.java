@@ -751,7 +751,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 		// 2) try other polygons
 		TreeSet<GeoPolygon> polySet = getPolygons(startPoint);
 		Iterator<GeoPolygon> it = polySet.iterator();
-		GeoPolygon p2 = null;
+		GeoPolygon p2;
 		while (it.hasNext()) {
 			p2 = it.next();
 			// Log.debug("\np2:"+p2+"\np2==p:"+(p2==p)+"\nkey:"+newCoordsList.containsKey(p2));

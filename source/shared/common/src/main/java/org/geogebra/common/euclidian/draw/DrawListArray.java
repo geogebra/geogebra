@@ -62,7 +62,7 @@ public class DrawListArray extends ArrayList<DrawableND> {
 	 */
 	public boolean addToDrawableList(GeoElement listElement, int drawablePos,
 			int oldDrawableSize, DrawableND drawList) {
-		DrawableND d = null;
+		DrawableND d;
 		boolean inOldDrawableRange = drawablePos < oldDrawableSize;
 		if (inOldDrawableRange) {
 			// try to reuse old drawable

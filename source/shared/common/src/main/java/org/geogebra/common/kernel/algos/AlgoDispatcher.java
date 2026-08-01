@@ -304,7 +304,7 @@ public class AlgoDispatcher {
 	 */
 	final public GeoPoint point(String label, Path path, GeoNumberValue param) {
 		// try (0,0)
-		AlgoPointOnPath algo = null;
+		AlgoPointOnPath algo;
 		if (param == null) {
 			algo = new AlgoPointOnPath(cons, path, 0, 0);
 		} else {

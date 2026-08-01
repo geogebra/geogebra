@@ -241,7 +241,7 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 	public static PolynomialFunction lineIntersect(double[][] coeff,
 			PolynomialFunction tx, PolynomialFunction ty) {
 		PolynomialFunction sum = null;
-		PolynomialFunction zs = null;
+		PolynomialFunction zs;
 		for (int i = coeff.length - 1; i >= 0; i--) {
 			zs = new PolynomialFunction(
 					new double[] { coeff[i][coeff[i].length - 1] });
@@ -336,7 +336,7 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 	 */
 	public void setLabels(String[] labels) {
 		if (labels != null && labels.length == 1 && outputPoints.size() > 1
-				&& labels[0] != null && !labels[0].equals("")) {
+				&& labels[0] != null && !labels[0].isEmpty()) {
 			outputPoints.setIndexLabels(labels[0]);
 
 		} else {

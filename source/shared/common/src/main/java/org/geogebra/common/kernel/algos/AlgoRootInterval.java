@@ -100,7 +100,7 @@ public class AlgoRootInterval extends AlgoElement {
 			return Double.NaN;
 		}
 
-		double root = Double.NaN;
+		double root;
 		Function fun = f.getFunctionForRoot();
 
 		if (rootFinder == null) {
@@ -112,7 +112,7 @@ public class AlgoRootInterval extends AlgoElement {
 		double min = a.getDouble();
 		double max = b.getDouble();
 
-		double newtonRoot = Double.NaN;
+		double newtonRoot;
 
 		try {
 			// Brent's method (Apache)

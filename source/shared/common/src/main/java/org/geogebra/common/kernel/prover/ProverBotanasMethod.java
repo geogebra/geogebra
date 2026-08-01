@@ -986,7 +986,7 @@ public class ProverBotanasMethod {
 					String strForGiac = getFormulaString(numerical);
 					// kernel.setPrintDecimals(decimals);
 					GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
-					String giacOutput4 = "";
+					String giacOutput4;
 					try {
 						String giacOutput = cas.getCurrentCAS()
 								.evaluateRaw(strForGiac);

@@ -1557,22 +1557,22 @@ ExpressionValue numVecVariable():
     ( c = <SPREADSHEET_LABEL> | c = <LABEL> )
     {
         // should we read e for Euler constant and i for imaginary unit?
-        boolean lookforEulerImaginary = false;
+        boolean lookForEulerImaginary;
 
         if (geoGebraCASParsing) {
             // leave e and i untouched in GeoGebraCAS view
-            lookforEulerImaginary = false;
+            lookForEulerImaginary = false;
         }
         else if (externalCASParsing) {
             // Giac does not need it either, may need changing for other CASes
-            lookforEulerImaginary = false;
+            lookForEulerImaginary = false;
         } else { // GeoGebraCAS or GeoGebra parsing
             // only treat e or i specially when they are undefined in GeoGebra
-            lookforEulerImaginary = true;
+            lookForEulerImaginary = true;
         }
 
         // return defined variables immediately
-        if (lookforEulerImaginary) {
+        if (lookForEulerImaginary) {
             // TREAT e and i specially
             // e for Euler constant
             if (c.image.equals("e") && kernel.lookupLabel(c.image) == null

@@ -156,7 +156,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 				double[] divisor = new double[] { -roots[i], 1 };
 				double rk = Double.NaN;
 				for (int k = 0; k <= r; k++) {
-					double[] pk = null;
+					double[] pk;
 					if (homogenPolys.size() > k) {
 						pk = homogenPolys.get(k);
 					} else {
@@ -247,7 +247,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 					p.add(pk[deg - k]);
 					break;
 				}
-				int l = 0;
+				int l;
 				int d = PolynomialUtils.getDegree(pk);
 				if (d < deg - r) {
 					l = r - k;

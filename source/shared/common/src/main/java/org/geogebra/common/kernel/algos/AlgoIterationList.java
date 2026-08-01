@@ -351,7 +351,7 @@ public class AlgoIterationList extends AlgoElement {
 
 	private void addElement(int i) {
 		// only add new objects
-		GeoElement listElement = null;
+		GeoElement listElement;
 		int cacheListSize = list.getCacheSize();
 
 		if (i < cacheListSize) {

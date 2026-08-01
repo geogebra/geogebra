@@ -122,7 +122,7 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 
 	@Override
 	public final void compute() {
-		Coords minIntersectCoords = null, currentIntersectCoords = null;
+		Coords minIntersectCoords = null, currentIntersectCoords;
 
 		if (!(func.isDefined() && getPoly().isDefined()
 				&& startPoint.isDefined())) {
@@ -131,7 +131,7 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 			return;
 		}
 
-		double disCurrCoordsStart = -1.0;
+		double disCurrCoordsStart;
 		Function function = func.getFunction();
 		for (int index = 0; index < polySegCount; index++) {
 

@@ -81,7 +81,7 @@ public class CmdIterationList extends CommandProcessor {
 			}
 			throw argErr(c, getBadArg(ok, arg));
 		default:
-			GeoElement arg1 = null;
+			GeoElement arg1;
 			GeoElement[] vars = new GeoElement[n - 3];
 			GeoList[] over = new GeoList[1];
 			GeoNumeric[] num = new GeoNumeric[1];

@@ -167,7 +167,7 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 
 	// adapted from ExpressionNode.getCopy()
 	private ExpressionNode getSpecialCopy(ExpressionNode en) {
-		ExpressionNode newNode = null;
+		ExpressionNode newNode;
 		ExpressionValue lev = null, rev = null;
 
 		ExpressionValue left = en.getLeft();
@@ -200,7 +200,7 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 			return null;
 		}
 
-		ExpressionValue ret = null;
+		ExpressionValue ret;
 		if (ev.isNumberValue()) {
 			// ************
 			// replace first encountered NumberValue, eg x(A) with empty string

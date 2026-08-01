@@ -1036,10 +1036,9 @@ public class SpreadsheetTraceManager {
 
 	/** Create header cell(s) for each trace column of a geo. */
 	private void setHeader(GeoElement geo) {
-
 		SpreadsheetTraceSettings t = traceGeoCollection.get(geo);
 		int column, row;
-		GeoText headerText = null;
+		GeoText headerText;
 		GeoElement[] geos = geo.getGeoElements();
 
 		if (t.showLabel) {

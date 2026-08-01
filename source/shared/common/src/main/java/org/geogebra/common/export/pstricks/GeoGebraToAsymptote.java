@@ -1322,7 +1322,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 			a = Math.max(a, geo.getIntervalMin());
 			b = Math.min(b, geo.getIntervalMax());
 		}
-		double xrangemax = a, xrangemin = a;
+		double xrangemax = a, xrangemin;
 		while (xrangemax < b) {
 			xrangemin = firstDefinedValue(geo, a, b);
 			if (xrangemin == b) {
@@ -1331,8 +1331,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 			xrangemax = maxDefinedValue(geo, xrangemin, b);
 
 			int indexFunc = -1;
-			String tempFunctionCount = null;
-			String returnCode = null;
+			String tempFunctionCount;
+			String returnCode;
 			if (!isLatexFunction(
 					f.toValueString(StringTemplate.noLocalDefault))) {
 				StringBuilder sb = new StringBuilder();
@@ -2832,7 +2832,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 				& 4) == EuclidianStyleConstants.AXES_LEFT_ARROW;
 		boolean axisRightArrow = (axisStyle
 				& 1) == EuclidianStyleConstants.AXES_RIGHT_ARROW;
-		String arrow = null;
+		String arrow;
 		String pt = "6";
 		if (axisBold) {
 			pt = "9";
@@ -2995,7 +2995,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 	protected void colorCode(GColor c0, StringBuilder sb) {
 		int red = c0.getRed(), green = c0.getGreen(), blue = c0.getBlue();
 		if (grayscale) {
-			String colorname = "";
+			String colorname;
 			int grayscale1 = (red + green + blue) / 3;
 			GColor c = GColor.newColor(grayscale1, grayscale1, grayscale1);
 			if (customColor.containsKey(c)) {
@@ -3088,7 +3088,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 		green = (int) (255 * (1 - opacity) + green * opacity);
 		blue = (int) (255 * (1 - opacity) + blue * opacity);
 		if (grayscale) {
-			String colorname = "";
+			String colorname;
 			int grayscale1 = (red + green + blue) / 3;
 			tempc = GColor.newColor(grayscale1, grayscale1, grayscale1);
 			if (customColor.containsKey(tempc)) {

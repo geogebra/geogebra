@@ -802,8 +802,8 @@ public class Function extends FunctionNVar
 	private PolyFunction expandToPolyFunctionNoCas(ExpressionValue ev,
 			boolean symbolic, boolean keepFractions) {
 		FunctionVariable xVar = new FunctionVariable(kernel, "x");
-		ExpressionValue[][] coeff = null;
-		int terms = -1;
+		ExpressionValue[][] coeff;
+		int terms;
 		ExpressionValue evCopy = ev.deepCopy(kernel);
 		ExpressionNode replaced;
 		VariableReplacer varep = VariableReplacer.getReplacer(

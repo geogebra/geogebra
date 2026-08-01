@@ -115,7 +115,7 @@ public class AlgoIsTangent extends AlgoElement
 	public final void compute() {
 		GeoLine l = inputElement1;
 		GeoConic c = inputElement2;
-		Boolean value = null;
+		boolean value;
 		if (l.isDefinedTangent(c)) {
 			value = true;
 		} else {

@@ -60,7 +60,7 @@ public abstract class AbstractProverReciosMethod {
 	 */
 	public ProofResult prove(Prover prover) {
 
-		SymbolicParameters s = null;
+		SymbolicParameters s;
 		boolean B = false; // use Botana's method or not
 		if ("groebner".equals(ProverSettings.get().proverMethod)) {
 			B = true;

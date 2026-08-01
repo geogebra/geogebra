@@ -1271,7 +1271,7 @@ public class GeoFunctionNVar extends GeoElement
 	public String getFormulaString(StringTemplate tpl,
 			boolean substituteNumbers) {
 
-		String ret = "";
+		String ret;
 		if (isIndependent()) {
 			ret = toValueString(tpl);
 		} else {

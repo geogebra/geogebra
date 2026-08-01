@@ -349,7 +349,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		body.append("}");
 
 		// populate the body array
-		ArrayList<Integer> currentLine = new ArrayList<>();
+		ArrayList<Integer> currentLine;
 		int stem;
 		for (int r = 0; r < stemLines.size(); r++) {
 			currentLine = stemLines.get(r);

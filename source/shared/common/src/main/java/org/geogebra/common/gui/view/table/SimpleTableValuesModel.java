@@ -573,7 +573,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		}
 		for (int index = 0; index < importColumns.length; index++) {
 			GeoList column = importColumns[index];
-			GeoElement element = null;
+			GeoElement element;
 			if (index < values.length) {
 				if (values[index] != null) {
 					element = new GeoNumeric(kernel.getConstruction(), values[index], false);

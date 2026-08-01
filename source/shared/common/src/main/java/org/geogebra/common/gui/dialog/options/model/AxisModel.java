@@ -186,7 +186,7 @@ public class AxisModel {
 
 	public boolean applyAxisLabel(String text, boolean fireChange) {
 
-		boolean changed = false;
+		boolean changed;
 
 		EuclidianSettings settings = getSettings();
 		if (settings != null) {

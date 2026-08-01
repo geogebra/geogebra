@@ -90,7 +90,7 @@ public class CmdIteration extends CommandProcessor {
 					|| GeoGebraConstants.CAS_APPCODE.equals(app.getConfig().getSubAppCode())) {
 				throw argNumErr(c);
 			}
-			GeoElement arg1 = null;
+			GeoElement arg1;
 			GeoElement[] vars = new GeoElement[n - 3]; // exp, list and limit
 														// not included
 			GeoList[] over = new GeoList[1];

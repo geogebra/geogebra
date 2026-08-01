@@ -103,32 +103,32 @@ public class DefaultBasicStroke implements GBasicStroke {
 			double[] dash) {
 		if (width < 0) {
 			// awt.133=Negative width
-			throw new IllegalArgumentException(("Negative width awt.133")); //$NON-NLS-1$
+			throw new IllegalArgumentException("Negative width awt.133"); //$NON-NLS-1$
 		}
 		if (cap != CAP_BUTT && cap != CAP_ROUND && cap != CAP_SQUARE) {
 			// awt.134=Illegal cap
-			throw new IllegalArgumentException(("Illegal cap awt.134")); //$NON-NLS-1$
+			throw new IllegalArgumentException("Illegal cap awt.134"); //$NON-NLS-1$
 		}
 		if (join != JOIN_MITER && join != JOIN_ROUND && join != JOIN_BEVEL) {
 			// awt.135=Illegal join
-			throw new IllegalArgumentException(("Illegal join awt.135")); //$NON-NLS-1$
+			throw new IllegalArgumentException("Illegal join awt.135"); //$NON-NLS-1$
 		}
 		if (join == JOIN_MITER && miterLimit < 1.0) {
 			// awt.136=miterLimit less than 1.0
 			throw new IllegalArgumentException(
-					("miterLimit less than 1.0 awt.136")); //$NON-NLS-1$
+					"miterLimit less than 1.0 awt.136"); //$NON-NLS-1$
 		}
 		if (dash != null) {
 			if (dash.length == 0) {
 				// awt.138=Zero dash length
-				throw new IllegalArgumentException(("Zero dash length awt.138")); //$NON-NLS-1$
+				throw new IllegalArgumentException("Zero dash length awt.138"); //$NON-NLS-1$
 			}
 			ZERO: {
 				for (int i = 0; i < dash.length; i++) {
 					if (dash[i] < 0.0) {
 						// awt.139=Negative dash[{0}]
 						throw new IllegalArgumentException(
-								("Negative dash[{0}] awt.139")); //$NON-NLS-1$
+								"Negative dash[{0}] awt.139"); //$NON-NLS-1$
 					}
 					if (dash[i] > 0.0) {
 						break ZERO;
@@ -136,7 +136,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 				}
 				// awt.13A=All dash lengths zero
 				throw new IllegalArgumentException(
-						("All dash lengths zero awt.13A")); //$NON-NLS-1$
+						"All dash lengths zero awt.13A"); //$NON-NLS-1$
 			}
 		}
 		this.width = width;
@@ -248,7 +248,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 	 *            - the PathIterator of source shape
 	 */
 	void createSolidShape(GPathIterator pathIterator) {
-		double coords[] = new double[6];
+		double[] coords = new double[6];
 		mx = my = cx = cy = 0.0;
 		isMove = false;
 		isFirst = false;
@@ -317,7 +317,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 	 *            - the PathIterator of source shape
 	 */
 	void createDashedShape(GPathIterator pathIterator) {
-		double coords[] = new double[6];
+		double[] coords = new double[6];
 		mx = my = cx = cy = 0.0;
 		smx = smy = scx = scy = 0.0;
 		isMove = false;
@@ -898,8 +898,8 @@ public class DefaultBasicStroke implements GBasicStroke {
 				onLine = -x12 * y34 + y12 * x34 == 0.0;
 			} else {
 				onLine = -x12 * y34 + y12 * x34 == 0.0
-						&& -x12 * y23 + y12 * x23 == 0.0 && // sin2
-						-x23 * y34 + y23 * x34 == 0.0; // sin3
+						&& -x12 * y23 + y12 * x23 == 0.0 // sin2
+						&& -x23 * y34 + y23 * x34 == 0.0; // sin3
 			}
 		}
 
@@ -930,7 +930,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 				l34 = -l34;
 			}
 			double d = l23 * l23 - l12 * l34;
-			double roots[] = new double[3];
+			double[] roots = new double[3];
 			int rc = 0;
 			if (d == 0.0) {
 				double t = (l12 - l23) / (l12 + l34 - l23 - l23);
@@ -1133,8 +1133,6 @@ public class DefaultBasicStroke implements GBasicStroke {
 			return;
 		}
 
-		double px1, py1;
-		px1 = py1 = 0.0;
 		double w = w2 / l21;
 		double mx = -y21 * w;
 		double my = x21 * w;
@@ -1147,8 +1145,8 @@ public class DefaultBasicStroke implements GBasicStroke {
 			scy = y1 + t * y21;
 
 			if (dasher.isOpen()) {
-				px1 = scx;
-				py1 = scy;
+				double px1 = scx;
+				double py1 = scy;
 				double lx1 = px1 + mx;
 				double ly1 = py1 + my;
 				double rx1 = px1 - mx;
@@ -1238,8 +1236,8 @@ public class DefaultBasicStroke implements GBasicStroke {
 		double cx = x1;
 		double cy = y1;
 
-		double px1, py1, dx1, dy1;
-		px1 = py1 = dx1 = dy1 = 0.0;
+		double px1, py1;
+		px1 = py1 = 0.0;
 		double prev = 0.0;
 
 		dasher.init(new DashIterator.Quad(x1, y1, x2, y2, x3, y3));
@@ -1253,11 +1251,9 @@ public class DefaultBasicStroke implements GBasicStroke {
 			if (dasher.isOpen()) {
 				px1 = scx;
 				py1 = scy;
-				dx1 = dx;
-				dy1 = dy;
-				double w = w2 / Math.sqrt(dx1 * dx1 + dy1 * dy1);
-				double mx1 = -dy1 * w;
-				double my1 = dx1 * w;
+				double w = w2 / Math.sqrt(dx * dx + dy * dy);
+				double mx1 = -dy * w;
+				double my1 = dx * w;
 				double lx1 = px1 + mx1;
 				double ly1 = py1 + my1;
 				double rx1 = px1 - mx1;
@@ -1452,11 +1448,11 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 		double pos;
 		boolean close, visible, first;
-		double dash1[];
+		double[] dash1;
 		int index;
 		DashIterator iter;
 
-		Dasher(double dash[], double phase) {
+		Dasher(double[] dash, double phase) {
 			this.dash1 = dash;
 			index = 0;
 			pos = phase;
@@ -1707,7 +1703,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 		private static final int bufCapacity = 10;
 
-		static int pointShift[] = { 2, // MOVETO
+		static int[] pointShift = { 2, // MOVETO
 				2, // LINETO
 				4, // QUADTO
 				6, // CUBICTO
@@ -1738,7 +1734,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 				// increase buffer size exponentially
 				// AND-547
-				byte tmp[] = new byte[typeSize + Math.max(types.length, typeCount)];
+				byte[] tmp = new byte[typeSize + Math.max(types.length, typeCount)];
 				// byte tmp[] = new byte[typeSize + Math.max(bufCapacity,
 				// typeCount)];
 
@@ -1749,7 +1745,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 				// increase buffer size exponentially
 				// AND-547
-				double tmp[] = new double[pointSize + Math.max(points.length, pointCount)];
+				double[] tmp = new double[pointSize + Math.max(points.length, pointCount)];
 				// double tmp[] = new double[pointSize + Math.max(bufCapacity *
 				// 2, pointCount)];
 

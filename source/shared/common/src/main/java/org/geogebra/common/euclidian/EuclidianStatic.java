@@ -262,7 +262,7 @@ public class EuclidianStatic {
 		isLaTeX = elements.length == 1;
 
 		int xOffset = 0;
-		int yOffset = 0;
+		int yOffset;
 
 		// now draw all elements
 		for (int i = 0, currentLine = 0, currentElement = 0; i < elements.length; ++i) {

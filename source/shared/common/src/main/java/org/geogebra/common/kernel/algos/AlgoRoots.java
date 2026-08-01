@@ -61,7 +61,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	private GeoFunctionable f2;
 
 	// Vars
-	private int type = TYPE_ROOTS;
+	private final int type;
 	private Function diff;
 
 	/**
@@ -229,7 +229,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 			updateInterval();
 		}
 
-		boolean ok = false;
+		boolean ok;
 		switch (type) {
 		default:
 		case TYPE_ROOTS:
@@ -264,7 +264,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 		double l = left.getDouble();
 		double r = right.getDouble();
-		double[] roots = new double[0];
+		double[] roots;
 		int numberofroots = 0;
 
 		/*
@@ -303,6 +303,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 				Log.debug("We have probably lost some roots...");
 			}
 		} catch (Exception e) {
+			roots = new double[0];
 			Log.debug("Exception in compute() " + e.toString());
 		}
 
@@ -410,7 +411,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 			return Double.NaN;
 		}
 
-		double root = Double.NaN;
+		double root;
 		Function fun = f.getFunction();
 
 		try {

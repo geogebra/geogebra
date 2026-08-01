@@ -684,9 +684,9 @@ public class DelaunayTriangulation {
 		TriangleDt halfplane = triangle;
 		// third point of triangle adjacent to this half plane
 		// (the point not shared with the half plane)
-		PointDt third = null;
+		PointDt third;
 		// triangle adjacent to the half plane
-		TriangleDt neighbor = null;
+		TriangleDt neighbor;
 
 		// find the neighbor triangle
 		if (!halfplane.next_12().isHalfplane()) {

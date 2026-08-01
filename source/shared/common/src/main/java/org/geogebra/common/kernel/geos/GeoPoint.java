@@ -2453,7 +2453,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 
 	@Override
 	public boolean movePoint(Coords rwTransVec, Coords endPosition) {
-		boolean movedGeo = false;
+		boolean movedGeo;
 
 		final GeoPoint point = this;
 		if (endPosition != null) {

@@ -162,7 +162,7 @@ public abstract class DrawEquation implements DrawEquationI {
 					icon.getIconHeight());
 		}
 
-		Image im = null;
+		Image im;
 		try {
 			final int[] ret = new int[2];
 			checkFirstCall();

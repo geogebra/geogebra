@@ -181,7 +181,6 @@ class Face {
 			normal.y += d1z * d2x - d1x * d2z;
 			normal.z += d1x * d2y - d1y * d2x;
 
-			he1 = he2;
 			he2 = he2.next;
 			numVerts++;
 		}

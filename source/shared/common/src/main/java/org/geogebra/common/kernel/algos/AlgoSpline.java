@@ -140,7 +140,7 @@ public class AlgoSpline extends AlgoElement {
 
 	private void calculateParameterValues() {
 		int j = 0;
-		double parameterValue = 0;
+		double parameterValue;
 		double[] lx = getParameterIntervalLimits();
 		for (int p = 0; p <= 100; p++) {
 			parameterValue = calculate(p * 0.01, lx);

@@ -121,7 +121,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 				halfAxes = c.getHalfAxes();
 			}
 
-			AlgoRoots algo = null;
+			AlgoRoots algo;
 			if (midPoint != null && halfAxes != null) {
 				algo = new AlgoRoots(cons, paramEquation,
 						new GeoNumeric(cons,

@@ -545,7 +545,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 				break;
 
 			case PARALLEL:
-				Lineable2D linePreview = null;
+				Lineable2D linePreview;
 
 				if (functions.size() == 1) {
 					linePreview = functions.get(0);

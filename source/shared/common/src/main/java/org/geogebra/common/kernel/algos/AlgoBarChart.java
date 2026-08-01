@@ -954,7 +954,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		}
 
 		double ySum = 0;
-		double x = 0;
+		double x;
 		if (yList.size() < N) {
 			sum.setUndefined();
 			return;

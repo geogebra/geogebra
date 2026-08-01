@@ -148,7 +148,7 @@ public class ExpandAndFactorOutGCD implements SimplifyNode {
 		if (ExpressionValueUtils.isMinusOne(b)) {
 			return a.wrap().multiplyR(-1);
 		}
-		ExpressionValue product = null;
+		ExpressionValue product;
 
 		if (a.isOperation(Operation.SQRT) && b.isOperation(Operation.SQRT)) {
 			double v = a.wrap().getLeftTree().evaluateDouble()

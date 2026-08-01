@@ -756,7 +756,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements DrawIn
 	private void compute(boolean onlyZoom) {
 		GeoElement geo, geo2; // temporary variables
 
-		boolean isDefined = true;
+		boolean isDefined;
 
 		// problem with Sequence[LowerSum[x^2, i, i + 1, 1], i, 1, 5] on file
 		// load

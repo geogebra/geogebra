@@ -207,7 +207,7 @@ public class ColorObjectModel extends OptionsModel {
 	}
 
 	public static String getColorAsString(App app, GColor color) {
-		String result = "";
+		String result;
 		int blue = color.getBlue();
 		String rgbDec = color.getRed() + ", " + color.getGreen() + ", " + blue;
 		String name = GeoGebraColorConstants.getGeogebraColorName(app, color);

@@ -3645,8 +3645,8 @@ public abstract class GeoConicND extends GeoQuadricND
 	@Override
 	public void toGeoCurveCartesian(GeoCurveCartesianND curve) {
 		FunctionVariable fv = new FunctionVariable(kernel, "t");
-		ExpressionNode evX = null, evY = null;
-		double min = 0, max = 0;
+		ExpressionNode evX, evY;
+		double min, max;
 		if (type == CONIC_CIRCLE && curve.getDimension() == 2) {
 			evX = new ExpressionNode(kernel,
 					new ExpressionNode(kernel, fv, Operation.COS, null),

@@ -44,7 +44,7 @@
     </rule>
     <rule ref="category/java/bestpractices.xml/UnusedAssignment">
         <properties>
-            <property name="violationSuppressRegex" value="The( value assigned to)? (field|initializer).*"/>
+            <property name="violationSuppressRegex" value="The( value assigned to)? (field).*"/>
         </properties>
     </rule>
     <rule ref="category/java/codestyle.xml">

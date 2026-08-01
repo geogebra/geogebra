@@ -45,7 +45,7 @@ public class IntersectConicsAdapter {
 		// Special cases first.
 
 		if (a.isCircle() && b.isCircle()) {
-			PVariable[] botanaVarsThis = new PVariable[2];
+			PVariable[] botanaVarsThis;
 			if (botanaVars == null) {
 				botanaVars = new HashMap<>();
 			}
@@ -81,7 +81,7 @@ public class IntersectConicsAdapter {
 			 * See page 150 in Zoltan's diss, 1st paragraph. TODO: This is very
 			 * ugly.
 			 */
-			PVariable[] botanaVarsOther = new PVariable[2];
+			PVariable[] botanaVarsOther;
 			Iterator<Entry<GeoElementND, PVariable[]>> it = botanaVars.entrySet().iterator();
 			boolean found = false;
 			while (it.hasNext()) {
@@ -147,7 +147,7 @@ public class IntersectConicsAdapter {
 		}
 
 		/* General case */
-		PVariable[] botanaVarsThis = new PVariable[2];
+		PVariable[] botanaVarsThis;
 		if (botanaVars == null) {
 			botanaVars = new HashMap<>();
 		}

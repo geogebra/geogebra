@@ -291,23 +291,19 @@ public class CellFormat implements CellFormatInterface {
 			return;
 		}
 
-		SpreadsheetCoords key = null;
+		SpreadsheetCoords key;
 
 		// clear all row formats
 		for (int r = rowStart; r <= rowEnd; r++) {
 			key = newCoords(-1, r);
-			if (formatMap.containsKey(key)) {
-				formatMap.remove(key);
-			}
+			formatMap.remove(key);
 		}
 
 		// clear all cell formats
 		for (int r = rowStart; r <= rowEnd; r++) {
 			for (int c = 0; c <= highestIndexColumn; c++) {
 				key = newCoords(c, r);
-				if (formatMap.containsKey(key)) {
-					formatMap.remove(key);
-				}
+				formatMap.remove(key);
 			}
 		}
 	}
@@ -319,8 +315,8 @@ public class CellFormat implements CellFormatInterface {
 			return;
 		}
 
-		SpreadsheetCoords key = null;
-		SpreadsheetCoords shiftKey = null;
+		SpreadsheetCoords key;
+		SpreadsheetCoords shiftKey;
 
 		// clear first column to be shifted into
 		clearColumns(formatMap, columnStart - shiftAmount,
@@ -383,23 +379,19 @@ public class CellFormat implements CellFormatInterface {
 			return;
 		}
 
-		SpreadsheetCoords key = null;
+		SpreadsheetCoords key;
 
 		// clear all column formats
 		for (int c = columnStart; c <= columnEnd; c++) {
 			key = newCoords(c, -1);
-			if (formatMap.containsKey(key)) {
-				formatMap.remove(key);
-			}
+			formatMap.remove(key);
 		}
 
 		// clear all cell formats
 		for (int c = columnStart; c <= columnEnd; c++) {
 			for (int r = 0; r <= highestIndexRow; r++) {
 				key = newCoords(c, r);
-				if (formatMap.containsKey(key)) {
-					formatMap.remove(key);
-				}
+				formatMap.remove(key);
 			}
 		}
 	}

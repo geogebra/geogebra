@@ -513,7 +513,7 @@ public class StylebarPositioner {
 
 	private GPoint calculatePosition(GRectangle2D gRectangle2D, boolean isPoint,
 			boolean isFunction, int offsetWidth, int offsetHeight) {
-		double left, top = -1;
+		double left, top;
 		boolean functionOrLine = isFunction || gRectangle2D == null;
 		if (functionOrLine) {
 			GPoint mouseLoc = euclidianView.getEuclidianController().getMouseLoc();

@@ -2971,13 +2971,12 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 				xyzf[GeoFunctionNVar.DICHO_LAST]);
 		boolean isLessZ0 = false, isLessZ1;
 		isLessZ1 = GeoFunctionNVar.isLessZ(xyzf[GeoFunctionNVar.DICHO_LAST]);
-		double t = 0;
 
 		for (int i = 1; i <= HIT_SAMPLES; i++) {
 			double[] tmp = xyzf[GeoFunctionNVar.DICHO_FIRST];
 			xyzf[GeoFunctionNVar.DICHO_FIRST] = xyzf[GeoFunctionNVar.DICHO_LAST];
 			xyzf[GeoFunctionNVar.DICHO_LAST] = tmp;
-			t = i * DELTA_SAMPLES;
+			double t = i * DELTA_SAMPLES;
 			geoF.setXYZ(hitting.x0 * (1 - t) + hitting.x1 * t,
 					hitting.y0 * (1 - t) + hitting.y1 * t,
 					hitting.z0 * (1 - t) + hitting.z1 * t,

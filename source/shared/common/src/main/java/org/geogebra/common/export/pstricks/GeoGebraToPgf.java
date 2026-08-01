@@ -1344,7 +1344,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			a = Math.max(a, geo.getIntervalMin());
 			b = Math.min(b, geo.getIntervalMax());
 		}
-		double xrangemax = a, xrangemin = a;
+		double xrangemax = a, xrangemin;
 		while (xrangemax < b) {
 			xrangemin = firstDefinedValue(geo, a, b);
 			if (xrangemin == b) {
@@ -2776,7 +2776,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				sb.append("black");
 				return;
 			}
-			String colorname = "";
+			String colorname;
 			int red = c0.getRed();
 			int green = c0.getGreen();
 			int blue = c0.getBlue();
@@ -2828,7 +2828,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				sb.append("black");
 				return;
 			}
-			String colorname = "";
+			String colorname;
 			if (customColor.containsKey(c0)) {
 				colorname = customColor.get(c0);
 			} else {

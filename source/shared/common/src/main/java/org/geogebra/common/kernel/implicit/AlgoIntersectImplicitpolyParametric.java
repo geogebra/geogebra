@@ -156,7 +156,7 @@ public class AlgoIntersectImplicitpolyParametric
 			return;
 		}
 		PolynomialFunction sum = null;
-		PolynomialFunction zs = null;
+		PolynomialFunction zs;
 		// Insert x and y (univariat)polynomials via the Horner-scheme
 		double[][] coeff = p.getCoeff();
 		if (coeff != null) {

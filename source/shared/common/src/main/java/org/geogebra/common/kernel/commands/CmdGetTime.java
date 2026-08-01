@@ -139,7 +139,7 @@ public class CmdGetTime extends CommandProcessor {
 		int month = cal.getMonth();
 		int year = cal.getYear() + 1900;
 		int hours = cal.getHours();
-		int yearday = 0;
+		int yearday;
 		String dayStr = loc == null ? "" : loc.getMenu("Day." + d);
 		String monthStr = loc == null ? "" : loc.getMenu("Month." + m);
 

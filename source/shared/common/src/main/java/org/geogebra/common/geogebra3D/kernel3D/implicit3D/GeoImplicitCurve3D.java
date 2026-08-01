@@ -194,7 +194,7 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 	@Override
 	protected void locusPointChanged(GeoPointND PI) {
 
-		Coords willingCoords = null, willingDirection = null;
+		Coords willingCoords, willingDirection;
 		GeoPoint3D p3d = (GeoPoint3D) PI;
 		if (p3d.hasWillingCoords()) {
 			willingCoords = p3d.getWillingCoords();

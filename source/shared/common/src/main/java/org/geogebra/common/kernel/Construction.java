@@ -1371,7 +1371,7 @@ public class Construction {
 	 */
 	public GeoElement getFirstGeo() {
 
-		ConstructionElement ce = null;
+		ConstructionElement ce;
 		GeoElement geo = null;
 		int index = 0;
 
@@ -2061,7 +2061,7 @@ public class Construction {
 		}
 
 		// $5 for 5th row
-		int rowRef = -1;
+		int rowRef;
 		try {
 			rowRef = Integer.parseInt(label.substring(1));
 		} catch (NumberFormatException e) {

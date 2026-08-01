@@ -144,10 +144,9 @@ public final class ImplicitIntersectionFinder {
 	static void intersections(FunctionNVar[] f, double[] params,
 			List<Coords> guess, int outputs, List<double[]> vals) {
 		double f1, f2, jx1, jx2, jy1, jy2, det, x, y;
-		double delta1, delta2, lambda = 1.0, dx = 0.0, dy = 0.0;
+		double delta1, delta2;
 		double[] evals;
 		double moment;
-		boolean add = true;
 
 		// papers suggest that Newton's method converges in at most 2n
 		// steps for linear equation, n being number of variables
@@ -183,9 +182,9 @@ public final class ImplicitIntersectionFinder {
 				}
 
 				// find deviation
-				dx = (jy1 * f2 - jy2 * f1) / det;
-				dy = (jx2 * f1 - jx1 * f2) / det;
-				lambda = 1.0;
+				double dx = (jy1 * f2 - jy2 * f1) / det;
+				double dy = (jx2 * f1 - jx1 * f2) / det;
+				double lambda = 1.0;
 				moment = 1.0;
 				// Armijo line search with some simple tweaks
 				do {
@@ -214,7 +213,7 @@ public final class ImplicitIntersectionFinder {
 			}
 
 			// check whether root is within view bound
-			add = (evals[0] >= params[0]) && (evals[0] <= params[2])
+			boolean add = (evals[0] >= params[0]) && (evals[0] <= params[2])
 					&& (evals[1] >= params[1]) && (evals[1] <= params[3]);
 
 			// check if we have already calculated the same root

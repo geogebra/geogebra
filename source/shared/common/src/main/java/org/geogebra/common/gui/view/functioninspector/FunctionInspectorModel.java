@@ -1137,7 +1137,7 @@ public class FunctionInspectorModel {
 	 *            row count
 	 */
 	public void copyPointsToSpreadsheet(int colCount, int rowCount) {
-		GeoElement geo = null;
+		GeoElement geo;
 
 		int targetColumn = app.getSpreadsheetTableModel()
 				.getHighestUsedColumn();
@@ -1166,7 +1166,7 @@ public class FunctionInspectorModel {
 	 *            row count
 	 */
 	public void copyIntervalsToSpreadsheet(int colCount, int rowCount) {
-		GeoElement geo = null;
+		GeoElement geo;
 		int targetColumn = app.getSpreadsheetTableModel()
 				.getHighestUsedColumn();
 		for (int c = 0; c < colCount; c++) {

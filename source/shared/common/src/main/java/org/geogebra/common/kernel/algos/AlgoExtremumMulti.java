@@ -159,10 +159,6 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 		if (intervalDefinedByEV) {
 			updateInterval();
 		}
-
-		double[] extremums = new double[0];
-		int numberOfExtremums = 0;
-
 		double l = left.getDouble();
 		double r = right.getDouble();
 
@@ -182,6 +178,8 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 
 			int n = findNumberOfSamples(l, r);
 			int m = n;
+			double[] extremums;
+			int numberOfExtremums = 0;
 			try { // To catch eventual wrong indexes in arrays...
 				do { // debug("doing samples: "+m);
 					extremums = findExtremums(rrfunc, l, r, m,
@@ -196,7 +194,8 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 				if (m > MAX_SAMPLES) {
 					Log.debug("We have probably lost some extremums...");
 				}
-			} catch (Exception e) {
+			} catch (RuntimeException e) {
+				extremums = new double[0];
 				Log.debug("Exception in compute() " + e.toString());
 			} // try-catch
 			if (numberOfExtremums == 0) {
@@ -242,7 +241,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 			}
 
 			if (i > 1) {
-				double xval = 0.0;
+				double xval;
 				double curleft = l + (i - 2) * deltax;
 				double curright = curleft + 2 * deltax;
 				if (grad[i - 2] && !grad[i - 1]) { // max

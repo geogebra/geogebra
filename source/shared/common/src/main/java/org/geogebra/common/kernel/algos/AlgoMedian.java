@@ -199,7 +199,7 @@ public class AlgoMedian extends AlgoElement {
 				n += freqList.get(i).evaluateDouble();
 			}
 			int cf = 0;
-			int f = 0;
+			int f;
 			double lowBound, highBound;
 			for (int i = 0; i < freqList.size(); i++) {
 				lowBound = inputList.get(i).evaluateDouble();

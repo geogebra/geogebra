@@ -297,7 +297,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 						if (!segmentInfoList.get(iSeg).userCut) {
 							// select the child polygon (parent1 or 2 of the
 							// seg)
-							int iChildPoly = 0;
+							int iChildPoly;
 							if (segmentInfoList
 									.get(iSeg).segmentParent1 == iP) {
 								iChildPoly = segmentInfoList

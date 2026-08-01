@@ -410,7 +410,7 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 
 		double xsum = 0;
 		double ysum = 0;
-		double factor = 0;
+		double factor;
 		for (int i = 0; i < points2.length; i++) {
 			factor = pointsClosedX(i, points2) * pointsClosedY(i + 1, points2)
 					- pointsClosedX(i + 1, points2) * pointsClosedY(i, points2);

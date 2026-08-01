@@ -123,7 +123,7 @@ public class AlgoZProportion2Test extends AlgoElement {
 		double testStatistic = (phat1 - phat2) / se;
 
 		NormalDistribution normalDist = new NormalDistribution(0, 1);
-		double P = 0;
+		double P;
 		try {
 			P = normalDist.cumulativeProbability(testStatistic);
 		} catch (Exception e) {

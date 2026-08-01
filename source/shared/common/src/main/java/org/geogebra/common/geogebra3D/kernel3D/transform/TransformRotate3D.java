@@ -77,7 +77,7 @@ public class TransformRotate3D extends TransformRotate {
 
 	@Override
 	protected AlgoTransformation getTransformAlgo(GeoElement geo) {
-		AlgoTransformation algo = null;
+		AlgoTransformation algo;
 		if (line == null) {
 			algo = new AlgoRotate3DPointOrientation(cons, geo, angle, center,
 					orientation);

@@ -862,14 +862,14 @@ public abstract class GeoGebraExport {
 	 */
 
 	protected void drawGeoInequalities(GeoFunctionNVar geo, GeoElementND e) {
-		FunctionalNVar ef = null;
+		FunctionalNVar ef;
 		if (geo == null) {
 			ef = (FunctionalNVar) e;
 		} else {
 			ef = geo;
 		}
 		DrawInequality drawable = new DrawInequality(euclidianView, ef);
-		GGraphics2D g = null;
+		GGraphics2D g;
 		IneqTree tree = ef.getFunction().getIneqs();
 
 		if (tree.getLeft() != null) {

@@ -275,7 +275,7 @@ public class ExpressionNode extends ValidExpression
 	 * @return copy of this node
 	 */
 	public ExpressionNode getCopy(Kernel kernel1) {
-		ExpressionNode newNode = null;
+		ExpressionNode newNode;
 		ExpressionValue lev = null, rev = null;
 
 		if (left != null) {

@@ -191,8 +191,8 @@ public class AlgoIsOnPath extends AlgoElement
 
 			botanaPolynomials = new PPolynomial[1][3];
 
-			PPolynomial e_1 = new PPolynomial();
-			PPolynomial e_2 = new PPolynomial();
+			PPolynomial e_1;
+			PPolynomial e_2;
 			AlgoElement algoParent = inputPoint
 					.getParentAlgorithm();
 			// case input point is point on ellipse/hyperbola

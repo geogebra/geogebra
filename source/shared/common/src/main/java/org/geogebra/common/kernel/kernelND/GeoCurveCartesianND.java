@@ -303,7 +303,7 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	 */
 	@Override
 	public String toSymbolicString(StringTemplate tpl) {
-		StringBuilder sbTemp = null;
+		StringBuilder sbTemp;
 		if (isDefined) {
 			sbTemp = new StringBuilder(80);
 
@@ -784,7 +784,7 @@ public abstract class GeoCurveCartesianND extends GeoElement
 					pointToCoords(points[0]).get(i + 1));
 		}
 		FunctionVariable fv = new FunctionVariable(this.kernel, "t");
-		int nonzeroSegments = 0;
+		int nonzeroSegments;
 		if (points.length == 2) {
 			for (int i = 0; i < dim; i++) {
 				double coeff = pointToCoords(points[1]).get(i + 1)
@@ -809,7 +809,7 @@ public abstract class GeoCurveCartesianND extends GeoElement
 			FunctionVariable fv, boolean repeatLast) {
 		int dim = fun.length;
 		int nonzeroSegments = 0;
-		double coef = 0;
+		double coef;
 		double[] sum = new double[] { 0, 0, 0 };
 		double[] cumulative = new double[] { 0, 0, 0 };
 

@@ -1099,7 +1099,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			a = Math.max(a, geo.getIntervalMin());
 			b = Math.min(b, geo.getIntervalMax());
 		}
-		double xrangemax = a, xrangemin = a;
+		double xrangemax = a, xrangemin;
 		while (xrangemax < b) {
 			xrangemin = firstDefinedValue(geo, a, b);
 			if (xrangemin == b) {
@@ -2066,7 +2066,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	@Override
 	protected void colorCode(GColor c, StringBuilder sb) {
 		if (frame.isGrayscale()) {
-			String colorname = "";
+			String colorname;
 			int red = c.getRed();
 			int green = c.getGreen();
 			int blue = c.getBlue();
@@ -2121,7 +2121,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			} else if (c.equals(GColor.YELLOW)) {
 				sb.append("yellow");
 			} else {
-				String colorname = "";
+				String colorname;
 				if (customColor.containsKey(c)) {
 					colorname = customColor.get(c);
 				} else {

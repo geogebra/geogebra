@@ -678,7 +678,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		int noOfSteps = (int) Math.round((b1 - a1) / step - endGap - startGap)
 				+ 1;
 
-		double area = 0;
+		double area;
 		double sum = 0;
 		// trapezoidal rule
 		if (noOfSteps > 0) {

@@ -291,7 +291,7 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectCoordSysCurve
 
 			// Log.debug(sb.toString());
 
-			String result = "";
+			String result;
 			try {
 				result = kernel.evaluateGeoGebraCAS(sb.toString(), null);
 			} catch (Throwable e) {

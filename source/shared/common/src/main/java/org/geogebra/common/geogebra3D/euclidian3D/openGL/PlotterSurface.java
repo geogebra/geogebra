@@ -877,7 +877,7 @@ public class PlotterSurface {
 		// shift for longitude
 		int shift = 1;
 
-		boolean jumpNeeded = false;
+		boolean jumpNeeded;
 
 		for (int vi = latitudeMin + 1; vi < latitudeMax; vi++) {
 

@@ -41,7 +41,7 @@ public class CmdCell extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
-		boolean ok = false;
+		boolean ok;
 		GeoElement[] arg;
 		arg = resArgs(c, info);
 

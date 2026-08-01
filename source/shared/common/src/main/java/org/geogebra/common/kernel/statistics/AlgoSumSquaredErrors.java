@@ -110,8 +110,8 @@ public class AlgoSumSquaredErrors extends AlgoElement {
 
 		// Calculate sse:
 		double errorsum = 0.0d;
-		GeoElement geo = null;
-		GeoPoint point = null;
+		GeoElement geo;
+		GeoPoint point;
 		double x, y, v;
 		for (int i = 0; i < size; i++) {
 			geo = inputList.get(i);

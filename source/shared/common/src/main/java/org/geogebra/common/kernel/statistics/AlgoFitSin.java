@@ -239,7 +239,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		int xmax = xmax_abs, xmin = xmin_abs; // Keep absolute xmax/xmin in case
 												// changes=0 or 1 later
 		int state = 0; // undecided so far...
-		int current = 0;
+		int current;
 		int changes = 0; // undecided so far...
 
 		for (int i = 2; i < size; i++) {
@@ -307,7 +307,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		// If a,b and c are a bit off, d should be good!
 		d = -Math.PI;
 		double deltad = Math.PI * 2 * 0.01;
-		double err = 0.0d;
+		double err;
 		double bestd = 0.0d;
 		double old_err = beta(xd, yd, a, b, c, d);
 		for (int i = 0; i < 100; i++) {
@@ -596,7 +596,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		double min_error = Double.MAX_VALUE;
 		double error1;
 		double period, c1;
-		int n = 0, best = 0;
+		int n, best = 0;
 		for (int i = 1; i <= k; i++) { // for all actual frequencies
 			n = 2 * i - 1; // number of halfperiods
 			period = Math.abs(xd[xmax] - xd[xmin]) * 2.0 / n;

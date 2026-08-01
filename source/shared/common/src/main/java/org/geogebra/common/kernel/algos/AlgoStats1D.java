@@ -187,9 +187,9 @@ public abstract class AlgoStats1D extends AlgoElement {
 		double sumSquares = 0;
 		double product = 1;
 		double sumFreq = 0;
-		double frequency = 1;
+		double frequency;
 		boolean useMidpoint = false;
-		double n = 0;
+		double n;
 
 		// list of numbers only, no frequencies
 		if (geoList2 == null) {

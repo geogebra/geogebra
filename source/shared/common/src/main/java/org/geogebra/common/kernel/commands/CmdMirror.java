@@ -95,7 +95,7 @@ public class CmdMirror extends CommandProcessor {
 	protected GeoElement[] process2(String label, GeoElement[] arg,
 			boolean[] ok) {
 
-		GeoElement[] ret = new GeoElement[1];
+		GeoElement[] ret;
 
 		if (arg[1].isGeoConic()) { // mirror point in circle Michael
 			// Borcherds 2008-02-10

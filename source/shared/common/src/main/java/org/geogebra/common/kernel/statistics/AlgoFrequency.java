@@ -269,7 +269,7 @@ public class AlgoFrequency extends AlgoElement {
 			value.clear();
 		}
 
-		double numMax = 0, numMin = 0;
+		double numMax, numMin;
 		boolean doCumulative = isCumulative != null
 				&& isCumulative.getBoolean();
 

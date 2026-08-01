@@ -832,7 +832,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		if (c.isCircle()) {
 
 			if (g != null /* !g.isGeoSegment() && */) {
-				PVariable[] botanaVarsThis = new PVariable[2];
+				PVariable[] botanaVarsThis;
 				if (botanaVars == null) {
 					botanaVars = new HashMap<>();
 				}
@@ -873,7 +873,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 				 * differ: See page 150 in Zoltan's diss, 1st paragraph. TODO:
 				 * This is very ugly.
 				 */
-				PVariable[] botanaVarsOther = new PVariable[2];
+				PVariable[] botanaVarsOther;
 				Iterator<Entry<GeoElementND, PVariable[]>> it = botanaVars
 						.entrySet().iterator();
 				boolean found = false;
@@ -950,7 +950,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 
 				PVariable[] vg = g.getBotanaVars(g);
 
-				PVariable[] botanaVarsThis = new PVariable[2];
+				PVariable[] botanaVarsThis;
 				if (botanaVars == null) {
 					botanaVars = new HashMap<>();
 				}

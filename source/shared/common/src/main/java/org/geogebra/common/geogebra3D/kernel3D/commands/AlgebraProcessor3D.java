@@ -257,7 +257,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			if (kernel.getApplication().getActiveEuclidianView()
 					.isEuclidianView3D() || equ.isForcedSurface()
 					|| equ.isForcedPlane() || equ.isForcedQuadric()) {
-				GeoElement geo = null;
+				GeoElement geo;
 				if (isIndependent) {
 					geo = new GeoImplicitSurface(cons, equ);
 				} else {

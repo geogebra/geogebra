@@ -1587,7 +1587,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		numCS = 1;
 		// Log.debug(" p0 = " + p0.inhomX + "," + p0.inhomY);
 
-		int secondPoint = -1;
+		int secondPoint;
 		boolean secondPointFound = false;
 		for (secondPoint = 1; secondPoint < getPoints().length
 				&& !secondPointFound; secondPoint++) {
@@ -1602,7 +1602,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			}
 		}
 
-		int thirdPoint = -1;
+		int thirdPoint;
 		if (secondPointFound) {
 			numCS++;
 			secondPoint--;
