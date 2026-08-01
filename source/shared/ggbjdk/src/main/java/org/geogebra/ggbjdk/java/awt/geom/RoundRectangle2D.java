@@ -379,11 +379,11 @@ public abstract class RoundRectangle2D extends RectangularShape implements GRoun
         // must be true for each direction.
         // We now find a "nearest point" to test for being inside a rounded
         // corner.
-        x = (x1class == 1) ? (x = x + w - (rrx0 + aw)) : (x = x - (rrx1 - aw));
-        y = (y1class == 1) ? (y = y + h - (rry0 + ah)) : (y = y - (rry1 - ah));
+        x = (x1class == 1) ? (x + w - (rrx0 + aw)) : (x - (rrx1 - aw));
+        y = (y1class == 1) ? (y + h - (rry0 + ah)) : (y - (rry1 - ah));
         x = x / aw;
         y = y / ah;
-        return (x * x + y * y <= 1.0);
+        return x * x + y * y <= 1.0;
     }
 
     /**
