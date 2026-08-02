@@ -819,7 +819,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	}
 
-	@SuppressWarnings("PMD.UnusedAssignment")
 	private void drawNV(DrawEllipticSurface dse, int longitude,
 			double longitudeStart, int longitudeLength) {
 
@@ -834,7 +833,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		debug("longitude = " + longitude + " , longitudeLength = "
 				+ longitudeLength);
 
-		short lastLength, currentLength;
+		short currentLength;
 
 		// ///////////////
 		// draw vertices
@@ -850,7 +849,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		arrayIndex = 0;
 
-		lastLength = (short) longitudeLength;
 		currentLength = (short) longitudeLength;
 
 		// both = 1 if only drawing up or down, both = 2 if drawing both
@@ -861,7 +859,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		int nextJump = dse.initNextJump(latitude, longitude);
 		debug("latitude : " + latitude + " , latitude-nextJump : "
 				+ (latitude - nextJump));
-		int next = 0;
+		int next;
 		int shift = 1;
 
 		do {
@@ -894,22 +892,20 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 				debug("vi : " + vi);
 
-				lastLength = currentLength;
-
 				if (drawTop) { // top triangles
 					if (longitudeLength == longitude) {
-						arrayIndex += 6 * lastLength;
+						arrayIndex += 6 * currentLength;
 					} else {
-						arrayIndex += 6 * (lastLength - 1);
+						arrayIndex += 6 * (currentLength - 1);
 					}
 
 				}
 
 				if (drawBottom) { // bottom triangles
 					if (longitudeLength == longitude) {
-						arrayIndex += 6 * lastLength;
+						arrayIndex += 6 * currentLength;
 					} else {
-						arrayIndex += 6 * (lastLength - 1);
+						arrayIndex += 6 * (currentLength - 1);
 					}
 				}
 
@@ -931,7 +927,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 					}
 				}
 
-				lastLength = currentLength;
 				currentLength /= 2;
 
 				if (drawTop) { // top triangles
@@ -956,7 +951,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			}
 		} while (next < latitudeMax && nextJump != 0);
 
-		lastLength = currentLength;
+		short lastLength = currentLength;
 
 		if (dse.drawPoles() && latitudeMax == latitude) {
 			// north pole
@@ -984,7 +979,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		debug("==== arrayIndex (1) = " + arrayIndex);
 	}
 
-	@SuppressWarnings("PMD.UnusedAssignment")
 	private void setIndices(int longitude, int longitudeLength, DrawEllipticSurface dse) {
 		// ///////////////
 		// set indices
@@ -1136,9 +1130,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				}
 
 				// shift back
-				if (lastBoth == 2) {
-					lastStartIndex -= 1;
-				}
 				if (both == 2) {
 					currentStartIndex -= 1;
 				}
@@ -1273,7 +1264,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 				if (drawTop) {
 					// shift back
-					lastStartIndex -= 1;
 					currentStartIndex -= 1;
 				}
 
