@@ -3900,7 +3900,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			}
 		}
 
-		notifyRenameListenerAlgos();
+		if (geo.isLabelSet()) {
+			notifyRenameListenerAlgos();
+		}
 	}
 
 	/**
@@ -3965,7 +3967,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			}
 		}
 
-		notifyRenameListenerAlgos();
+		if (geo.isLabelSet()) {
+			notifyRenameListenerAlgos();
+		}
 	}
 
 	/**
