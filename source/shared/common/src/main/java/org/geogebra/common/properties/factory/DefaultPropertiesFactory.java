@@ -230,7 +230,8 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 	protected Property axisExpandableProperty2D(int axis, String label, App app,
 			Localization localization, EuclidianViewInterfaceCommon view) {
 		return axisExpandableProperty(axis, label, app, localization, view,
-				new AxisCrossPropertyCollection(localization, view.getSettings(), axis, view));
+				new AxisCrossPropertyCollection(app.getKernel().getAlgebraProcessor(),
+						localization, view.getSettings(), axis, view));
 	}
 
 	protected Property axisExpandableProperty3D(int axis, String label, App app,

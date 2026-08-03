@@ -19,6 +19,7 @@ package org.geogebra.common.properties.impl.graphics;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.Property;
@@ -31,19 +32,22 @@ public class AxisCrossPropertyCollection extends AbstractPropertyCollection<Prop
 
 	/**
 	 * Constructs an axis cross property collection.
+	 * @param algebraProcessor algebra processor
 	 * @param localization localization for the title
 	 * @param euclidianSettings EV settings
 	 * @param axis axis number
 	 * @param euclidianView euclidian view
 	 */
-	public AxisCrossPropertyCollection(Localization localization, EuclidianSettings
-			euclidianSettings, int axis, EuclidianViewInterfaceCommon euclidianView) {
+	public AxisCrossPropertyCollection(AlgebraProcessor algebraProcessor,
+			Localization localization, EuclidianSettings euclidianSettings, int axis,
+			EuclidianViewInterfaceCommon euclidianView) {
 		super(localization, "StickToEdge");
 
 		ArrayList<Property> properties = new ArrayList<>();
 		properties.add(new StickToEdgeProperty(localization, axis, euclidianSettings,
 				euclidianView));
-		properties.add(new CrossAtProperty(localization, euclidianSettings, euclidianView, axis));
+		properties.add(new CrossAtProperty(algebraProcessor, localization, euclidianSettings,
+				euclidianView, axis));
 		setProperties(properties.toArray(new Property[0]));
 	}
 }

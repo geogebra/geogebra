@@ -43,7 +43,8 @@ class StickToEdgePropertyTest extends BaseAppTestSetup {
 		StickToEdgeProperty stickToEdgeProperty = new StickToEdgeProperty(loc, 0, evSettings,
 				euclidianView);
 		assertFalse(stickToEdgeProperty.getValue());
-		CrossAtProperty crossAtProperty = new CrossAtProperty(loc, evSettings, euclidianView, 0);
+		CrossAtProperty crossAtProperty = new CrossAtProperty(getAlgebraProcessor(), loc,
+				evSettings, euclidianView, 0);
 		assertEquals(0, evSettings.getAxesCross()[0], 1E-8);
 		crossAtProperty.setValue("1");
 		assertEquals(1, evSettings.getAxesCross()[0], 1E-8);
