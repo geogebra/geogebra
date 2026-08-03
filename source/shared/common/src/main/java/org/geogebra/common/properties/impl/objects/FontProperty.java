@@ -36,25 +36,79 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.FontFamily>
 		implements StyledItemProperty {
 
+	/**
+	 * Groups internal font variants that should be represented by a single item
+	 * in the font dropdown.
+	 */
+	public enum DropdownGroup {
+		BY_DS_LERNEN_1_2("BY_DS_LERNEN_1_2_TUERKIS_FARBBAND"),
+		BY_DS_LERNEN_3("BY_DS_LERNEN_3_TUERKIS_FARBBAND"),
+		BY_DS_LERNEN_4("BY_DS_LERNEN_4_TUERKIS_FARBBAND");
+
+		private final String fontFamilyName;
+
+		DropdownGroup(String fontFamilyName) {
+			this.fontFamilyName = fontFamilyName;
+		}
+
+		private FontFamily fontFamily() {
+			return FontFamily.valueOf(fontFamilyName);
+		}
+	}
+
 	public enum FontFamily {
 		ARIAL("Arial", "Arial, sans-serif"),
-		BY_DS_LERNEN_SCHWARZ("ByDS Lernen 1+2", "ByLineatur-schwarz, sans-serif",
+		BY_DS_LERNEN_1_2_SCHWARZ("ByDS Lernen 1+2", "ByLineatur-schwarz, sans-serif",
 				DropdownGroup.BY_DS_LERNEN_1_2),
-		BY_DS_LERNEN_SCHWARZ_FARBBAND("ByDS Lernen 1+2",
+		BY_DS_LERNEN_1_2_SCHWARZ_FARBBAND("ByDS Lernen 1+2",
 				"ByLineatur-schwarz-Farbband, sans-serif", DropdownGroup.BY_DS_LERNEN_1_2),
-		BY_DS_LERNEN_TUERKIS("ByDS Lernen 1+2", "ByLineatur-tuerkis, sans-serif",
+		BY_DS_LERNEN_1_2_TUERKIS("ByDS Lernen 1+2", "ByLineatur-tuerkis, sans-serif",
 				DropdownGroup.BY_DS_LERNEN_1_2),
-		BY_DS_LERNEN_TUERKIS_FARBBAND("ByDS Lernen 1+2",
+		BY_DS_LERNEN_1_2_TUERKIS_FARBBAND("ByDS Lernen 1+2",
 				"ByLineatur-tuerkis-Farbband, sans-serif", DropdownGroup.BY_DS_LERNEN_1_2),
-		BY_DS_LERNEN_ORANGE_FARBBAND("ByDS Lernen 1+2",
+		BY_DS_LERNEN_1_2_ORANGE_FARBBAND("ByDS Lernen 1+2",
 				"ByLineatur-orange-Farbband, sans-serif", DropdownGroup.BY_DS_LERNEN_1_2),
-		BY_DS_LERNEN_ORANGE("ByDS Lernen 1+2", "ByLineatur-orange, sans-serif",
+		BY_DS_LERNEN_1_2_ORANGE("ByDS Lernen 1+2", "ByLineatur-orange, sans-serif",
 				DropdownGroup.BY_DS_LERNEN_1_2),
-		BY_DS_LERNEN_GRUEN_FARBBAND("ByDS Lernen 1+2",
+		BY_DS_LERNEN_1_2_GRUEN_FARBBAND("ByDS Lernen 1+2",
 				"ByLineatur-gruen-Farbband, sans-serif", DropdownGroup.BY_DS_LERNEN_1_2),
-		BY_DS_LERNEN_GRUEN("ByDS Lernen 1+2", "ByLineatur-gruen, sans-serif",
+		BY_DS_LERNEN_1_2_GRUEN("ByDS Lernen 1+2", "ByLineatur-gruen, sans-serif",
 				DropdownGroup.BY_DS_LERNEN_1_2),
-		BY_DS_LERNEN_OHNE_LINEATUR("ByDS Lernen 1+2 (ohne Lineatur)", "ByDruck, sans-serif"),
+		BY_DS_LERNEN_1_2_OHNE_LINEATUR("ByDS Lernen 1+2 (ohne Lineatur)", "ByDruck, sans-serif"),
+		BY_DS_LERNEN_3_SCHWARZ("ByDS Lernen 3", "ByLineatur3-schwarz, sans-serif",
+				DropdownGroup.BY_DS_LERNEN_3),
+		BY_DS_LERNEN_3_SCHWARZ_FARBBAND("ByDS Lernen 3",
+				"ByLineatur3-schwarz-Farbband, sans-serif", DropdownGroup.BY_DS_LERNEN_3),
+		BY_DS_LERNEN_3_TUERKIS("ByDS Lernen 3", "ByLineatur3-tuerkis, sans-serif",
+				DropdownGroup.BY_DS_LERNEN_3),
+		BY_DS_LERNEN_3_TUERKIS_FARBBAND("ByDS Lernen 3",
+				"ByLineatur3-tuerkis-Farbband, sans-serif", DropdownGroup.BY_DS_LERNEN_3),
+		BY_DS_LERNEN_3_ORANGE("ByDS Lernen 3", "ByLineatur3-orange, sans-serif",
+				DropdownGroup.BY_DS_LERNEN_3),
+		BY_DS_LERNEN_3_ORANGE_FARBBAND("ByDS Lernen 3",
+				"ByLineatur3-orange-Farbband, sans-serif", DropdownGroup.BY_DS_LERNEN_3),
+		BY_DS_LERNEN_3_GRUEN("ByDS Lernen 3", "ByLineatur3-gruen, sans-serif",
+				DropdownGroup.BY_DS_LERNEN_3),
+		BY_DS_LERNEN_3_GRUEN_FARBBAND("ByDS Lernen 3",
+				"ByLineatur3-gruen-Farbband, sans-serif", DropdownGroup.BY_DS_LERNEN_3),
+		BY_DS_LERNEN_3_4_OHNE_LINEATUR("ByDS Lernen 3+4 (ohne Lineatur)",
+				"ByDruck2, sans-serif"),
+		BY_DS_LERNEN_4_SCHWARZ("ByDS Lernen 4", "ByLineatur4-schwarz, sans-serif",
+				DropdownGroup.BY_DS_LERNEN_4),
+		BY_DS_LERNEN_4_SCHWARZ_FARBBAND("ByDS Lernen 4",
+				"ByLineatur4-schwarz-Farbband, sans-serif", DropdownGroup.BY_DS_LERNEN_4),
+		BY_DS_LERNEN_4_TUERKIS("ByDS Lernen 4", "ByLineatur4-tuerkis, sans-serif",
+				DropdownGroup.BY_DS_LERNEN_4),
+		BY_DS_LERNEN_4_TUERKIS_FARBBAND("ByDS Lernen 4",
+				"ByLineatur4-tuerkis-Farbband, sans-serif", DropdownGroup.BY_DS_LERNEN_4),
+		BY_DS_LERNEN_4_ORANGE("ByDS Lernen 4", "ByLineatur4-orange, sans-serif",
+				DropdownGroup.BY_DS_LERNEN_4),
+		BY_DS_LERNEN_4_ORANGE_FARBBAND("ByDS Lernen 4",
+				"ByLineatur4-orange-Farbband, sans-serif", DropdownGroup.BY_DS_LERNEN_4),
+		BY_DS_LERNEN_4_GRUEN("ByDS Lernen 4", "ByLineatur4-gruen, sans-serif",
+				DropdownGroup.BY_DS_LERNEN_4),
+		BY_DS_LERNEN_4_GRUEN_FARBBAND("ByDS Lernen 4",
+				"ByLineatur4-gruen-Farbband, sans-serif", DropdownGroup.BY_DS_LERNEN_4),
 		BY_DS_LERNEN_KONTUR("ByDS Lernen Kontur", "ByDS Lernen Kontur, sans-serif"),
 		BY_DS_LERNEN_WURM("ByDS Lernen Wurm", "ByDS Lernen Wurm, sans-serif"),
 		BY_DS_LESEN("ByDS Lesen", "ByLesen, sans-serif"),
@@ -62,19 +116,10 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 		COMIC_SANS("Comic Sans", "Comic Sans MS, sans-serif"),
 		COURIER("Courier", "Courier, monospace"),
 		GEORGIA("Georgia", "Georgia, serif"),
-		DYSLEXIC("Open Dyslexic mit Fibel-a", "OpenDyslexicAlta"
-				+ ", sans-serif"),
+		DYSLEXIC("Open Dyslexic mit Fibel-a", "OpenDyslexicAlta, sans-serif"),
 		TIMES("Times", "Times, serif"),
 		TREBUCHET("Trebuchet", "Trebuchet MS, sans-serif"),
 		VERDANA("Verdana", "Verdana, sans-serif");
-
-		/**
-		 * Groups internal font variants that should be represented by a single item
-		 * in the font dropdown.
-		 */
-		private enum DropdownGroup {
-			BY_DS_LERNEN_1_2
-		}
 
 		private final String displayName;
 		private final String cssName;
@@ -119,14 +164,25 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 			return cssName;
 		}
 
+		/**
+		 * @return DropdownGroup
+		 */
+		public DropdownGroup dropdownGroup() {
+			return dropdownGroup;
+		}
+
 		/** Provides available fonts (application dependent).
 		 * @param isBycs to distinguish between bycs and notes
 		 * @return list of available fonts
 		 */
 		public static List<FontFamily> getAvailableFonts(boolean isBycs) {
 			return isBycs ? Arrays.asList(FontFamily.ARIAL,
-					FontFamily.BY_DS_LERNEN_TUERKIS_FARBBAND,
-					FontFamily.BY_DS_LERNEN_OHNE_LINEATUR, FontFamily.BY_DS_LERNEN_KONTUR,
+					FontFamily.BY_DS_LERNEN_1_2_TUERKIS_FARBBAND,
+					FontFamily.BY_DS_LERNEN_1_2_OHNE_LINEATUR,
+					FontFamily.BY_DS_LERNEN_3_TUERKIS_FARBBAND,
+					FontFamily.BY_DS_LERNEN_3_4_OHNE_LINEATUR,
+					FontFamily.BY_DS_LERNEN_4_TUERKIS_FARBBAND,
+					FontFamily.BY_DS_LERNEN_KONTUR,
 					FontFamily.BY_DS_LERNEN_WURM, FontFamily.BY_DS_LESEN,
 					FontFamily.CALIBRI, FontFamily.COMIC_SANS, FontFamily.COURIER,
 					FontFamily.GEORGIA, FontFamily.DYSLEXIC, FontFamily.TIMES,
@@ -138,10 +194,10 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 		}
 
 		private FontFamily getFontFamilyForDropdown() {
-			if (dropdownGroup == DropdownGroup.BY_DS_LERNEN_1_2) {
-				return BY_DS_LERNEN_TUERKIS_FARBBAND;
+			if (dropdownGroup == null) {
+				return this;
 			}
-			return this;
+			return dropdownGroup.fontFamily();
 		}
 	}
 

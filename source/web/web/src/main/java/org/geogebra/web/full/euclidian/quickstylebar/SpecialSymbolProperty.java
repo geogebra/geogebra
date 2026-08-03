@@ -17,6 +17,7 @@
 package org.geogebra.web.full.euclidian.quickstylebar;
 
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.geogebra.common.euclidian.draw.HasTextFormat;
@@ -42,13 +43,13 @@ public final class SpecialSymbolProperty
 	private final  String groupName;
 	private final List<SpecialSymbol> values;
 
-	private SpecialSymbolProperty(Localization loc, String groupName, String prefix,
-			GeoElement geo) {
+	private SpecialSymbolProperty(Localization loc, String groupName,
+			Predicate<SpecialSymbol> filter, GeoElement geo) {
 		super(loc, "Sonderzeichen");
 		this.geo = geo;
 		this.groupName = groupName;
 		values = Stream.of(SpecialSymbol.values())
-				.filter(s -> s.name().startsWith(prefix)).toList();
+				.filter(filter).toList();
 	}
 
 	/**
@@ -61,7 +62,7 @@ public final class SpecialSymbolProperty
 			fontFamily = formatter.getFormat("font", "");
 		}
 		return FontProperty.FontFamily.getByCssName(fontFamily,
-				FontProperty.FontFamily.BY_DS_LERNEN_TUERKIS_FARBBAND);
+				FontProperty.FontFamily.BY_DS_LERNEN_1_2_TUERKIS_FARBBAND);
 	}
 
 	public String getGroupName() {
@@ -106,20 +107,45 @@ public final class SpecialSymbolProperty
 			return new PropertySupplier[0];
 		}
 		SpecialSymbolProperty diffs = new SpecialSymbolProperty(
-				loc, "Differenzierung", "DIFF", geo);
-		if (FontStyleUtil.isFontStyleApplicable(geo)) {
-			SpecialSymbolProperty basics = new SpecialSymbolProperty(
-					loc, "Basiszeichen", "BASIC", geo);
+				loc, "Differenzierung", byPrefix("DIFF"), geo);
+		boolean limitBasicSymbols = FontStyleUtil.isFontStyleApplicableWithLimitation(geo);
+		SpecialSymbolProperty basics = getBasicSpecialSymbolProperty(loc, geo, limitBasicSymbols);
+
+		if (limitBasicSymbols) {
+			return new PropertySupplier[] { basics, diffs };
+		} else if (FontStyleUtil.isFontStyleApplicable(geo)) {
 			SpecialSymbolProperty puzzles = new SpecialSymbolProperty(
-					loc, "Puzzle", "PUZZLE", geo);
+					loc, "Puzzle", byPrefix("PUZZLE"), geo);
 			return new PropertySupplier[] { basics, diffs, puzzles };
 		} else if (FontStyleUtil.isInlineWithWurm(geo)) {
 			SpecialSymbolProperty wurm = new SpecialSymbolProperty(
-					loc, "Wurm", "WURM", geo);
-			return new PropertySupplier[] { wurm, diffs};
+					loc, "Wurm", byPrefix("WURM"), geo);
+			return new PropertySupplier[] { wurm, diffs };
 		} else {
-			return new PropertySupplier[] { diffs};
+			return new PropertySupplier[] { diffs };
 		}
+	}
+
+	private static Predicate<SpecialSymbol> byPrefix(String prefix) {
+		return specialSymbol -> specialSymbol.name().startsWith(prefix);
+	}
+
+	/**
+	 * @param localization Localization
+	 * @param geo GeoElement
+	 * @param limitBasicSymbols Whether the basic symbols are limited to the ones listed below.
+	 * @return The property for the basic symbols used for the 'ByDS' fonts.
+	 * @implNote 'ByDS Lernen 3' and 'ByDS Lernen 4' must contain only the basic symbols
+	 * {@link SpecialSymbol#BASIC3}, {@link SpecialSymbol#BASIC4}, and {@link SpecialSymbol#BASIC5}
+	 */
+	private static SpecialSymbolProperty getBasicSpecialSymbolProperty(
+			Localization localization, GeoElement geo, boolean limitBasicSymbols) {
+		if (limitBasicSymbols) {
+			return new SpecialSymbolProperty(localization, "Basiszeichen",
+					List.of(SpecialSymbol.BASIC3, SpecialSymbol.BASIC4,
+							SpecialSymbol.BASIC5)::contains, geo);
+		}
+		return new SpecialSymbolProperty(localization, "Basiszeichen", byPrefix("BASIC"), geo);
 	}
 
 	/**

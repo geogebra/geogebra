@@ -18,8 +18,10 @@ package org.geogebra.common.properties.impl.objects.delegate;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
+import org.geogebra.common.properties.impl.objects.FontProperty;
 
 public class FontStyleUtil {
+
 	/**
 	 * {@link org.geogebra.common.properties.impl.objects.FontRulingColorProperty} and
 	 * {@link org.geogebra.common.properties.impl.objects.FontRulingProperty} is only applicable
@@ -28,8 +30,25 @@ public class FontStyleUtil {
 	 * @return whether font ruling style is applicable for current font family
 	 */
 	public static boolean isFontStyleApplicable(GeoElement element) {
-		return element instanceof HasTextFormatter hasTextFormatter
-				&& hasTextFormatter.getFormat("font", "").startsWith("ByLineatur");
+		FontProperty.DropdownGroup group = getFontGroup(element);
+		return group == FontProperty.DropdownGroup.BY_DS_LERNEN_1_2
+				|| group == FontProperty.DropdownGroup.BY_DS_LERNEN_3
+				|| group == FontProperty.DropdownGroup.BY_DS_LERNEN_4;
+	}
+
+	/**
+	 * Similar to {@link #isFontStyleApplicable(GeoElement)}.
+	 * Needed to restrict some of the basic symbols for certain fonts
+	 * ({@link FontProperty.DropdownGroup#BY_DS_LERNEN_3}
+	 * and {@link FontProperty.DropdownGroup#BY_DS_LERNEN_4}).
+	 * @param element GeoElement
+	 * @return Whether font ruling style is applicable in a restricted way for the
+	 * current font family.
+	 */
+	public static boolean isFontStyleApplicableWithLimitation(GeoElement element) {
+		FontProperty.DropdownGroup group = getFontGroup(element);
+		return group == FontProperty.DropdownGroup.BY_DS_LERNEN_3
+				|| group == FontProperty.DropdownGroup.BY_DS_LERNEN_4;
 	}
 
 	/**
@@ -41,8 +60,8 @@ public class FontStyleUtil {
 	 * @return whether current font family supports typographical emphasis
 	 */
 	public static boolean isInlineWithSupportedFont(GeoElement element) {
-		return element instanceof HasTextFormatter formattedElement
-				&& !formattedElement.getFormat("font", "").startsWith("By");
+		FontProperty.FontFamily fontFamily = getFontFamily(element);
+		return fontFamily != null && !isByDSFont(fontFamily);
 	}
 
 	/**
@@ -50,8 +69,7 @@ public class FontStyleUtil {
 	 * @return whether element is editable and supporting special symbols
 	 */
 	public static boolean isInlineWithSymbols(GeoElement element) {
-		return element instanceof HasTextFormatter formattedElement
-				&& formattedElement.getFormat("font", "").startsWith("By");
+		return isByDSFont(getFontFamily(element));
 	}
 
 	/**
@@ -59,7 +77,35 @@ public class FontStyleUtil {
 	 * @return whether element is editable and supporting wurm symbol
 	 */
 	public static boolean isInlineWithWurm(GeoElement element) {
-		return element instanceof HasTextFormatter formattedElement
-				&& formattedElement.getFormat("font", "").startsWith("ByDS Lernen Wurm");
+		return getFontFamily(element) == FontProperty.FontFamily.BY_DS_LERNEN_WURM;
+	}
+
+	/**
+	 * @param fontFamily FontFamily
+	 * @return Whether the given font is one of the 'ByDS' fonts.
+	 */
+	private static boolean isByDSFont(FontProperty.FontFamily fontFamily) {
+		return fontFamily != null && fontFamily.name().startsWith("BY_DS");
+	}
+
+	/**
+	 * @param element GeoElement
+	 * @return The FontFamily associated with the given font.
+	 */
+	private static FontProperty.FontFamily getFontFamily(GeoElement element) {
+		if (!(element instanceof HasTextFormatter hasTextFormatter)) {
+			return null;
+		}
+		String fontFamilyName = hasTextFormatter.getFormat("font", "");
+		return FontProperty.FontFamily.getByCssName(fontFamilyName, FontProperty.FontFamily.ARIAL);
+	}
+
+	/**
+	 * @param element GeoElement
+	 * @return The DropdownGroup associated with the given font.
+	 */
+	private static FontProperty.DropdownGroup getFontGroup(GeoElement element) {
+		FontProperty.FontFamily fontFamily = getFontFamily(element);
+		return fontFamily != null ? fontFamily.dropdownGroup() : null;
 	}
 }

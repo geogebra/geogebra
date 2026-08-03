@@ -227,7 +227,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 		addPropertyPopupButton(activeGeoList, null, true,
 				UndoActionType.STYLE_OR_TABLE_CONTENT, verticalAlignmentProperty);
 
-		if (!getApp().isWhiteboardActive()) {
+		if (!isWhiteboardActive) {
 			PropertiesArray labelProperties = geoElementPropertiesFactory
 					.createLabelProperties(localization, activeGeoList);
 			addPropertyPopupButton(activeGeoList, "labelStyle", true,
