@@ -34,15 +34,13 @@ public final class ProbabilityCalculatorTableValuesViewModel
 	}
 
 	/** Describes the state of the table values button. */
-	public sealed interface ButtonState {
-		/**
-		 * Available/visible table values button.
-		 * @param active whether the button is in its active state
-		 */
-		record Visible(boolean active) implements ButtonState {}
-
+	public enum ButtonState {
+		/** Visible and active table values button (table shown) */
+		ACTIVE,
+		/** Visible and inactive table values button (table not shown) */
+		INACTIVE,
 		/** Unavailable/invisible table values button. */
-		record Hidden() implements ButtonState {}
+		HIDDEN;
 	}
 
 	/**
@@ -75,8 +73,8 @@ public final class ProbabilityCalculatorTableValuesViewModel
 	 * @return current button state
 	 */
 	public @Nonnull ButtonState getButtonState() {
-		return buttonVisible ? new ButtonState.Visible(tableValues != null)
-				: new ButtonState.Hidden();
+		return buttonVisible ? tableValues != null ? ButtonState.ACTIVE : ButtonState.INACTIVE
+				: ButtonState.HIDDEN;
 	}
 
 	/** Handles tapping on the table values button. */

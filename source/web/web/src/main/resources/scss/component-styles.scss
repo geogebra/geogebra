@@ -1298,8 +1298,7 @@ $keyboard_button_transition: opacity .3s ease;
 		}
 
 		.contentPanel {
-			height: 100%;
-
+			height: calc(100% - 64px); //64px height of sideSheet titlePanel
 			&.withButtonPanel {
 				height: calc(100% - 132px);
 			}
@@ -1316,6 +1315,19 @@ $keyboard_button_transition: opacity .3s ease;
 			button {
 				margin: 0;
 			}
+		}
+	}
+
+	.probabilityTableSideSheet {
+		width: 400px;
+		.sideSheet .contentPanel {
+			height: calc(100% - 64px);
+			overflow: hidden;
+		}
+
+		.tvTable,
+		.tvTable > .scroller {
+			height: 100%;
 		}
 	}
 

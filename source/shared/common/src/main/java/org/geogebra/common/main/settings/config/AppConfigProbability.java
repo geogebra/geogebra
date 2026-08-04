@@ -77,7 +77,7 @@ public class AppConfigProbability extends AppConfigGraphing {
 
 	@Override
 	public boolean hasTableView() {
-		return true;
+		return false;
 	}
 
 	@Override

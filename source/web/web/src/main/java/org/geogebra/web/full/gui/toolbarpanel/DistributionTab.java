@@ -16,6 +16,7 @@
 
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorTableValuesViewModel;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyProbabilityTable;
 import org.geogebra.web.full.gui.view.probcalculator.DistributionPanel;
@@ -40,9 +41,11 @@ public class DistributionTab extends ToolbarTab {
 		ProbabilityCalculatorViewW view = (ProbabilityCalculatorViewW) toolbarPanel.getApp()
 				.getGuiManager().getProbabilityCalculator();
 		distrPanel = new DistributionPanel(view, toolbarPanel.getApp());
-		ProbabilityTableAdapter probTable = new ProbabilityTableAdapter(table,
-				toolbarPanel.getApp(), view);
-		view.setTable(probTable);
+		ProbabilityCalculatorTableValuesViewModel model = view.getModel();
+		if (model != null) {
+			table.setModel(model);
+		}
+		view.setSideSheetTable(table);
 		view.updateDiscreteTable();
 		view.updateLowHighResult();
 		add(distrPanel);

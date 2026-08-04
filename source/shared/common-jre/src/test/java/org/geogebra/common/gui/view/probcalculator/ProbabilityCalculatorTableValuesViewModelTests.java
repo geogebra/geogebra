@@ -43,14 +43,14 @@ public class ProbabilityCalculatorTableValuesViewModelTests extends BaseAppTestS
 
 	@Test
 	void testInitialUnavailableState() {
-		assertEquals(new ButtonState.Hidden(), tableValuesView.getButtonState());
+		assertEquals(ButtonState.HIDDEN, tableValuesView.getButtonState());
 		assertNull(tableValuesView.getContent());
 	}
 
 	@Test
 	void testInitialAvailableState() {
 		setDistribution(Dist.BINOMIAL);
-		assertEquals(new ButtonState.Visible(false), tableValuesView.getButtonState());
+		assertEquals(ButtonState.INACTIVE, tableValuesView.getButtonState());
 		assertNull(tableValuesView.getContent());
 	}
 
@@ -59,7 +59,7 @@ public class ProbabilityCalculatorTableValuesViewModelTests extends BaseAppTestS
 		setDistribution(Dist.BINOMIAL);
 		tableValuesView.onButtonTapped();
 
-		assertEquals(new ButtonState.Visible(true), tableValuesView.getButtonState());
+		assertEquals(ButtonState.ACTIVE, tableValuesView.getButtonState());
 		assertNotNull(tableValuesView.getContent());
 	}
 
@@ -69,7 +69,7 @@ public class ProbabilityCalculatorTableValuesViewModelTests extends BaseAppTestS
 		tableValuesView.onButtonTapped();
 		tableValuesView.onButtonTapped();
 
-		assertEquals(new ButtonState.Visible(false), tableValuesView.getButtonState());
+		assertEquals(ButtonState.INACTIVE, tableValuesView.getButtonState());
 		assertNull(tableValuesView.getContent());
 	}
 
@@ -79,7 +79,7 @@ public class ProbabilityCalculatorTableValuesViewModelTests extends BaseAppTestS
 		tableValuesView.onButtonTapped();
 		tableValuesView.onClosed();
 
-		assertEquals(new ButtonState.Visible(false), tableValuesView.getButtonState());
+		assertEquals(ButtonState.INACTIVE, tableValuesView.getButtonState());
 		assertNull(tableValuesView.getContent());
 	}
 
@@ -92,7 +92,7 @@ public class ProbabilityCalculatorTableValuesViewModelTests extends BaseAppTestS
 				new GeoNumeric(getKernel().getConstruction(), 1)
 		}, false);
 
-		assertEquals(new ButtonState.Hidden(), tableValuesView.getButtonState());
+		assertEquals(ButtonState.HIDDEN, tableValuesView.getButtonState());
 		assertNull(tableValuesView.getContent());
 	}
 

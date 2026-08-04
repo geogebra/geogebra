@@ -16,15 +16,16 @@
 
 package org.geogebra.web.full.gui.components.sideSheet;
 
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSEvents;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
 
-public class ComponentSideSheet extends FlowPanel {
+public class ComponentSideSheet extends FlowPanel implements SetLabels {
 
-	private SideSheetPanel sideSheet;
+	private final SideSheetPanel sideSheet;
 	private final AppW app;
 
 	/**
@@ -101,5 +102,10 @@ public class ComponentSideSheet extends FlowPanel {
 	 */
 	public void addPositiveButtonRunnable(Runnable positiveHandler) {
 		sideSheet.addPositiveButtonRunnable(positiveHandler);
+	}
+
+	@Override
+	public void setLabels() {
+		sideSheet.setLabels();
 	}
 }

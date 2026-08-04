@@ -23,18 +23,14 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarTab;
-import org.geogebra.web.full.gui.view.probcalculator.ProbabilityCalculatorViewW;
 import org.geogebra.web.full.util.CustomScrollbar;
 import org.geogebra.web.full.util.StickyTable;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
-import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
-import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.gwtproject.dom.style.shared.Position;
 
 /**
@@ -48,7 +44,6 @@ public class TableTab extends ToolbarTab {
 	private @CheckForNull StickyTable<?> table;
 	private final ToolbarPanel toolbarPanel;
 	private final AppW app;
-	private ComponentInfoErrorPanel emptyPanel;
 
 	/**
 	 * @param toolbarPanel
@@ -60,27 +55,13 @@ public class TableTab extends ToolbarTab {
 		this.tableSupplier = table;
 		this.app = toolbarPanel.getApp();
 		CustomScrollbar.apply(this);
-		buildEmptyTablePanel();
 		getContainerElement().getStyle().setPosition(Position.STATIC);
-	}
-
-	private void buildEmptyTablePanel() {
-		InfoErrorData data = new InfoErrorData("TableValuesEmptyTitle",
-				"TableDiscreteDistribution", null,
-				MaterialDesignResources.INSTANCE.toolbar_table_view_black());
-		emptyPanel = new ComponentInfoErrorPanel(app.getLocalization(),
-				data, null);
 	}
 
 	@Override
 	protected void onActive() {
-		if (app.getConfig().hasDistributionView()
-				&& isEmptyProbabilityTable()) {
-			setWidget(emptyPanel);
-		} else  {
-			ensureTableExists().setHeight(getTabHeight());
-			setWidget(table);
-		}
+		ensureTableExists().setHeight(getTabHeight());
+		setWidget(table);
 		if (table != null && !app.hasPopup()) {
 			table.selectFirstCell();
 		}
@@ -107,20 +88,9 @@ public class TableTab extends ToolbarTab {
 		return toolbarPanel.getDecorator().getTabHeight(toolbarPanel.getTabHeight());
 	}
 
-	private boolean isEmptyProbabilityTable() {
-		if (app.getConfig().hasDistributionView()) {
-			ProbabilityCalculatorViewW view = (ProbabilityCalculatorViewW) app
-					.getGuiManager().getProbabilityCalculator();
-			return !view.hasTableView();
-		}
-		return true;
-	}
-
 	@Override
 	public void setLabels() {
-		if (emptyPanel != null) {
-			buildEmptyTablePanel();
-		}
+		// nothing to do
 	}
 
 	@Override

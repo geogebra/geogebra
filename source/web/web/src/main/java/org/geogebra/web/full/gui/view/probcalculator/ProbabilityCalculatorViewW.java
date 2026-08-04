@@ -16,8 +16,12 @@
 
 package org.geogebra.web.full.gui.view.probcalculator;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.view.data.PlotSettings;
+import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorTableValuesViewModel;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityTable;
@@ -25,7 +29,11 @@ import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.main.App;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.css.GuiResources;
+import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.components.sideSheet.ComponentSideSheet;
+import org.geogebra.web.full.gui.components.sideSheet.SideSheetData;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
+import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyProbabilityTable;
 import org.geogebra.web.full.gui.view.data.PlotPanelEuclidianViewW;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
@@ -42,7 +50,6 @@ import org.gwtproject.user.client.ui.Widget;
  * Probability Calculator View for web
  */
 public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
-	public static final String SEPARATOR = "--------------------";
 	/** export action */
 	ScheduledCommand exportToEVAction;
 	/** plot panel */
@@ -50,11 +57,14 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 
 	protected FlowPanel probCalcPanel;
 	private IconButton overlayIconButton;
+	private @CheckForNull IconButton tableIconButton;
 	private IconButton btnLineGraph;
 	private IconButton btnStepGraph;
 	private IconButton btnBarGraph;
 
 	protected FlowPanel plotPanelOptions;
+	private ComponentSideSheet sideSheet;
+	private ProbabilityCalculatorTableValuesViewModel tableModel;
 
 	/**
 	 * @param app creates new probability calculator view
@@ -92,6 +102,13 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		btnStepGraph.setLabels();
 		btnBarGraph.setLabels();
 		overlayIconButton.setLabels();
+		if (tableIconButton != null) {
+			tableIconButton.setLabels();
+		}
+
+		if (sideSheet != null) {
+			sideSheet.setLabels();
+		}
 	}
 
 	/**
@@ -122,6 +139,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		plotPanelOptions = new FlowPanel();
 		plotPanelOptions.setStyleName("plotPanelOptions");
 
+		if (tableIconButton != null) {
+			plotPanelOptions.add(tableIconButton);
+			tableIconButton.setVisible(false);
+		}
 		plotPanelOptions.add(overlayIconButton);
 		if (!app.getConfig().hasDistributionView()) {
 			plotPanelOptions.add(btnBarGraph);
@@ -153,6 +174,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		overlayIconButton.addFastClickHandler(source -> onOverlayClicked());
 		new FocusableWidget(AccessibilityGroup.PROBABILITY_OVERLAY, null, overlayIconButton)
 				.attachTo((AppW) app);
+		if (app.getConfig().hasDistributionView()) {
+			createTableButtonAndSideSheet();
+		}
 
 		btnLineGraph = new IconButton((AppW) app, null,
 				new ImageIconSpec(GuiResources.INSTANCE.line_graph()), "LineGraph");
@@ -169,7 +193,52 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		btnBarGraph.addStyleName("probCalcStylbarBtn");
 		btnBarGraph.addFastClickHandler(event -> setGraphType(GRAPH_BAR));
 	}
-	
+
+	private void createTableButtonAndSideSheet() {
+		tableIconButton = new IconButton((AppW) app, null,
+				new ImageIconSpec(MaterialDesignResources.INSTANCE.toolbar_table_view_black()),
+				"Table");
+		tableIconButton.addStyleName(app.isUnbundled() ? "probCalcStylbarBtn singleButton"
+				: "probCalcStylbarBtn");
+		tableIconButton.setTooltipPositionRight();
+		tableIconButton.addFastClickHandler(source -> onTableClicked());
+		new FocusableWidget(AccessibilityGroup.PROBABILITY_TABLE, null, tableIconButton)
+				.attachTo((AppW) app);
+		tableModel = new ProbabilityCalculatorTableValuesViewModel(this);
+		sideSheet = new ComponentSideSheet((AppW) app, new SideSheetData("Table"));
+		sideSheet.addStyleName("probabilityTableSideSheet");
+		sideSheet.addAttachHandler(e -> {
+			tableIconButton.setActive(e.isAttached());
+			if (!e.isAttached()) {
+				tableModel.onClosed();
+			}
+		});
+	}
+
+	/**
+	 * Adds the probability table shared with the distribution view to the side sheet.
+	 * @param table probability table
+	 */
+	public void setSideSheetTable(@Nonnull StickyProbabilityTable table) {
+		table.setStyleName("tvTable", true);
+		if (sideSheet != null) {
+			sideSheet.addToContent(table);
+		}
+	}
+
+	private void onTableClicked() {
+		if (sideSheet == null) {
+			return;
+		}
+		if (sideSheet.isAttached()) {
+			tableModel.onClosed();
+			sideSheet.close();
+		} else {
+			tableModel.onButtonTapped();
+			sideSheet.show();
+		}
+	}
+
 	/**
 	 * Overlay button action
 	 */
@@ -197,7 +266,14 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	@Override
 	protected void onDistributionUpdate() {
 		overlayIconButton.setVisible(isOverlayDefined());
+		if (tableIconButton != null) {
+			tableIconButton.setVisible(tableModel.getButtonState()
+					!= ProbabilityCalculatorTableValuesViewModel.ButtonState.HIDDEN);
+		}
 		getPlotPanel().repaintView();
+		if (sideSheet != null && sideSheet.isAttached() && !isDiscreteProbability()) {
+			sideSheet.close();
+		}
 	}
 
 	@Override
@@ -338,11 +414,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		return app;
 	}
 
-	/** table only for discrete distribution
-	 * @return whether the selected distribution discrete is
-	 */
-	public boolean hasTableView() {
-		return isDiscreteProbability();
+	public @CheckForNull ProbabilityCalculatorTableValuesViewModel getModel() {
+		return tableModel;
 	}
-
 }
