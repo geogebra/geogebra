@@ -813,6 +813,25 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 	}
 
 	@Test
+	@Issue("APPS-7764")
+	void testNoAutoCompleteSuggestionsInsideQuotes() {
+		simulateCellMouseClick(0, 0, 2);
+		simulateKeyPressInCellEditor(JavaKeyCodes.VK_EQUALS);
+		simulateKeyPressInCellEditor(JavaKeyCodes.VK_S);
+		simulateKeyPressInCellEditor(JavaKeyCodes.VK_U);
+		simulateKeyPressInCellEditor(JavaKeyCodes.VK_M);
+		autoCompleteShown = false; // true at this point, reset
+		simulateKeyPressInCellEditor(JavaKeyCodes.VK_OPEN_BRACKET);
+		simulateKeyPressInCellEditor('"');
+		simulateKeyPressInCellEditor(JavaKeyCodes.VK_S);
+		simulateKeyPressInCellEditor(JavaKeyCodes.VK_I);
+		simulateKeyPressInCellEditor(JavaKeyCodes.VK_N);
+		assertFalse(autoCompleteShown);
+		simulateKeyPressInCellEditor(JavaKeyCodes.VK_OPEN_BRACKET);
+		assertFalse(autoCompleteShown);
+	}
+
+	@Test
 	void testInsertingCellReferenceByClick() {
 		tabularData.setContent(0, 0, "=2");
 		simulateCellMouseClick(1, 0, 2);
@@ -1424,8 +1443,8 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 	/**
 	 * Simulates a key press in the cell editor's underlying MathField.
 	 * Note: Depending on the key code, onKeyTyped needs to be invoked or not. Currently,
-	 * only the ranges "a".."z", "A".."Z", "0".."9", as well as the symbol "=" will trigger
-	 * onKeyTyped. You may need to extend these ranges and symbols.
+	 * only the ranges "a".."z", "A".."Z", "0".."9", as well as the symbols "=" and ","
+	 * will trigger onKeyTyped. You may need to extend these ranges and symbols.
 	 * @param keyCode See {@link JavaKeyCodes}
 	 */
 	private void simulateKeyPressInCellEditor(int keyCode) {
@@ -1439,6 +1458,15 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 				|| keyCode == JavaKeyCodes.VK_COMMA) {
 			mathField.onKeyTyped(keyEvent);
 		}
+		mathField.onKeyReleased(keyEvent);
+	}
+
+	private void simulateKeyPressInCellEditor(char keyChar) {
+		MathFieldInternal mathField = cellEditor.getMathField();
+		KeyEvent keyEvent = new KeyEvent(0, 0, keyChar,
+				KeyEvent.KeyboardType.EXTERNAL);
+		mathField.onKeyPressed(keyEvent);
+		mathField.onKeyTyped(keyEvent);
 		mathField.onKeyReleased(keyEvent);
 	}
 

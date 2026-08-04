@@ -204,15 +204,16 @@ public class AutocompleteProvider {
 	 * @return stream of suggestions
 	 */
 	public Stream<Completion> getCompletions(String curWord) {
-		List<String> functionResults = app.getParserFunctions().getCompletions(curWord,
-				operationFilter);
+		String prefix = curWord.indexOf('(') > 0 ? curWord.split("\\(")[0] : curWord;
+		List<String> functionResults = app.getParserFunctions()
+				.getCompletions(prefix, operationFilter);
 		Stream<Completion> completions = functionResults.stream()
-				.map(function -> new Completion(getMatch(function, curWord),
+				.map(function -> new Completion(getMatch(function, prefix),
 						Collections.singletonList(function),
 						ManualPage.OPERATORS, null));
 
 		List<MatchedString> commandResults = getCommandDictionary()
-				.getCompletions(curWord.toLowerCase(Locale.ROOT));
+				.getCompletions(prefix.toLowerCase(Locale.ROOT));
 		if (commandResults != null) {
 			Stream<Completion> commandCompletions = commandResults.stream()
 					.map(command -> new Completion(command,

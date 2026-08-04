@@ -1758,6 +1758,11 @@ public final class SpreadsheetController<T> {
 		if (editor == null || editorBounds == null || controlsDelegate == null) {
 			return;
 		}
+		MathFieldInternal mathField = editor.cellEditor.getMathField();
+		if (mathField.getEditorState().isInsideQuotes()
+				|| mathField.getInputController().getPlainTextMode()) {
+			return;
+		}
 		String searchPrefix = editor.cellEditor.getMathField().getCharactersLeftOfCursor();
 		if (tabularData.getCellProcessor().isTooShortForAutocomplete(searchPrefix)
 				|| !editor.cellEditor.getMathField().getText().startsWith("=")) {

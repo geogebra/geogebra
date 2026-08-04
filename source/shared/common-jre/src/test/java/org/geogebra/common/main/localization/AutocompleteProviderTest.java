@@ -18,7 +18,10 @@ package org.geogebra.common.main.localization;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -43,6 +46,8 @@ import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
 import org.geogebra.common.main.syntax.suggestionfilter.GraphingSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
+import org.geogebra.common.util.MatchedString;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -70,6 +75,22 @@ class AutocompleteProviderTest extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue("APPS-7764")
+	void functionSuggestionShouldHandleUnevenBrackets() {
+		List<AutocompleteProvider.Completion> completionList = getCompletions("sin(");
+		assertFalse(completionList.isEmpty());
+		MatchedString match = completionList.get(0).getMatch();
+		assertDoesNotThrow(match::getParts);
+	}
+
+	@Test
+	@Issue("APPS-7764")
+	void functionSuggestionShouldHandleSingleBracket() {
+		List<AutocompleteProvider.Completion> completionList = getCompletions("(");
+		assertTrue(completionList.isEmpty());
+	}
+
+	@Test
 	void initialMatchesShouldComeFirst() {
 		List<String> completionList = getStringCompletions("Row");
 		assertThat(completionList, equalTo(Arrays.asList("Row", "FillRow", "FitGrowth",
@@ -94,7 +115,7 @@ class AutocompleteProviderTest extends BaseUnitTest {
 		when(config.newCommandSyntaxFilter()).thenReturn(commandSyntax);
 
 		assertEquals(0, getExactSyntaxMatchOf(config, Commands.InverseBinomial.name())
-						.count());
+				.count());
 	}
 
 	@Test
