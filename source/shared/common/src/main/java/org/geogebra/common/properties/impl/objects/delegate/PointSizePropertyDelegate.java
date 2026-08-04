@@ -16,9 +16,9 @@
 
 package org.geogebra.common.properties.impl.objects.delegate;
 
-import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.PointProperties;
 
 public class PointSizePropertyDelegate extends AbstractGeoElementDelegate {
 
@@ -34,6 +34,7 @@ public class PointSizePropertyDelegate extends AbstractGeoElementDelegate {
 		if (element instanceof GeoList) {
 			return isApplicableToGeoList((GeoList) element);
 		}
-		return PointStyleModel.match(element);
+		return element instanceof PointProperties
+				&& ((PointProperties) element).showPointProperties();
 	}
 }

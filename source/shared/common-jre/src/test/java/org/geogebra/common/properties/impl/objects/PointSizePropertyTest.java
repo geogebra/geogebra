@@ -16,29 +16,40 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 
-import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.annotation.Issue;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class PointSizePropertyTest extends BaseUnitTest {
+class PointSizePropertyTest extends BaseAppTestSetup {
+
+	@BeforeEach
+	void setup() {
+		setupApp(SuiteSubApp.G3D);
+	}
 
 	@Test
 	void testConstructorSucceeds() {
-		GeoElement point = addAvInput("(1,2)");
-		try {
-			new PointSizeProperty(getLocalization(), point);
-		} catch (NotApplicablePropertyException e) {
-			fail(e.getMessage());
-		}
+		GeoElement point = evaluateGeoElement("(1,2)");
+		assertDoesNotThrow(() -> new PointSizeProperty(getLocalization(), point));
+	}
+
+	@Test
+	@Issue("APPS-7769")
+	void testConstructorSucceeds3D() {
+		GeoElement point = evaluateGeoElement("(1,2,3)");
+		assertDoesNotThrow(() -> new PointSizeProperty(getLocalization(), point));
 	}
 
 	@Test
 	void testConstructorThrowsError() {
-		GeoElement f = addAvInput("f: x");
+		GeoElement f = evaluateGeoElement("f: x");
 		assertThrows(NotApplicablePropertyException.class,
 				() -> new PointSizeProperty(getLocalization(), f));
 	}
