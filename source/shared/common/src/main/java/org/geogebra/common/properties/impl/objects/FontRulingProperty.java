@@ -48,7 +48,7 @@ public class FontRulingProperty extends AbstractValuedProperty<Boolean>
 		HasTextFormat formatter = geoElement.getFormatter();
 		if (formatter != null) {
 			String font = formatter.getFormat("font", "");
-			if (font.startsWith("ByLineatur")) {
+			if (FontStyleUtil.isFontStyleApplicable(geoElement.toGeoElement())) {
 				formatter.format("font", getNewFont(font, value));
 			}
 		}
@@ -65,7 +65,7 @@ public class FontRulingProperty extends AbstractValuedProperty<Boolean>
 	}
 
 	private String getNewFont(String oldFont, boolean hasRuling) {
-		return hasRuling ? oldFont.replace(",", "-Farbband,")
-				: oldFont.replace("-Farbband", "");
+		return hasRuling ? oldFont.replace(",", "Farbband,")
+				: oldFont.replace("Farbband", "");
 	}
 }

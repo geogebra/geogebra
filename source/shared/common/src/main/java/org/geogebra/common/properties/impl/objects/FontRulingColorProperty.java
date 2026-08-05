@@ -33,10 +33,10 @@ public class FontRulingColorProperty extends ElementColorProperty {
 	private final HasTextFormatter element;
 
 	public enum FontStyle {
-		BLACK("schwarz", GColor.newColorRGB(0x5C5C5C)),
-		BLUE("tuerkis", GColor.newColorRGB(0x3a6dac)),
-		GREEN("gruen", GColor.newColorRGB(0x377e22)),
-		ORANGE("orange", GColor.newColorRGB(0xbe2d2b));
+		GRAY("gray", GColor.newColorRGB(0x5C5C5C)),
+		BLUE("blue", GColor.newColorRGB(0x3a6dac)),
+		GREEN("green", GColor.newColorRGB(0x377e22)),
+		RED("red", GColor.newColorRGB(0xbe2d2b));
 
 		private final String fontName;
 		private final GColor fontColor;
@@ -76,9 +76,8 @@ public class FontRulingColorProperty extends ElementColorProperty {
 	public void doSetValue(GColor value) {
 		HasTextFormat formatter = element.getFormatter();
 		if (formatter != null) {
-			String oldFont = formatter.getFormat("font", "");
-			String newFont = getNewFont(getStringKeyFromColor(value));
-			if (oldFont.startsWith("ByLineatur") && newFont != null) {
+			if (FontStyleUtil.isFontStyleApplicable(element.toGeoElement())) {
+				String newFont = getNewFont(getStringKeyFromColor(value));
 				formatter.format("font", newFont);
 			}
 		}
@@ -89,7 +88,7 @@ public class FontRulingColorProperty extends ElementColorProperty {
 		HasTextFormat formatter = element.getFormatter();
 		if (formatter != null) {
 			String font = formatter.getFormat("font", "");
-			if (font.startsWith("ByLineatur")) {
+			if (FontStyleUtil.isFontStyleApplicable(element.toGeoElement())) {
 				for (FontStyle entry : fontStyles) {
 					String fontName = entry.getFontName();
 					if (fontName != null && font.contains(entry.getFontName())) {
@@ -104,8 +103,8 @@ public class FontRulingColorProperty extends ElementColorProperty {
 	private String getNewFont(String newColor) {
 		HasTextFormat formatter = element.getFormatter();
 		if (formatter != null) {
-			String font = formatter.getFormat("font", "");
-			if (font.startsWith("ByLineatur")) {
+			if (FontStyleUtil.isFontStyleApplicable(element.toGeoElement())) {
+				String font = formatter.getFormat("font", "");
 				for (FontStyle entry : fontStyles) {
 					if (font.contains(entry.getFontName())) {
 						return font.replace(entry.getFontName(), newColor);

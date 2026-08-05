@@ -27,38 +27,6 @@ import elemental2.dom.DomGlobal;
 
 public final class FontLoader {
 	private static final Map<String, FontState> injected = new HashMap<>();
-	private static final FontProperty.FontFamily[] bundled = new FontProperty.FontFamily[]{
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_1_2_SCHWARZ,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_1_2_SCHWARZ_FARBBAND,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_1_2_TUERKIS,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_1_2_TUERKIS_FARBBAND,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_1_2_ORANGE_FARBBAND,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_1_2_ORANGE,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_1_2_GRUEN_FARBBAND,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_1_2_GRUEN,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_1_2_OHNE_LINEATUR,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_3_SCHWARZ,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_3_SCHWARZ_FARBBAND,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_3_TUERKIS,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_3_TUERKIS_FARBBAND,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_3_ORANGE_FARBBAND,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_3_ORANGE,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_3_GRUEN_FARBBAND,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_3_GRUEN,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_4_SCHWARZ,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_4_SCHWARZ_FARBBAND,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_4_TUERKIS,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_4_TUERKIS_FARBBAND,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_4_ORANGE_FARBBAND,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_4_ORANGE,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_4_GRUEN_FARBBAND,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_4_GRUEN,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_3_4_OHNE_LINEATUR,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_4_TUERKIS_FARBBAND,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_KONTUR,
-			FontProperty.FontFamily.BY_DS_SCHREIBEN_WURM,
-			FontProperty.FontFamily.BY_DS_LESEN,
-			FontProperty.FontFamily.DYSLEXIC};
 
 	private enum FontState { LOADING, ACTIVE }
 
@@ -75,12 +43,16 @@ public final class FontLoader {
 		if (baseUrl.isEmpty()) {
 			return;
 		}
-		for (FontProperty.FontFamily family: bundled) {
-			if (family.cssName().equals(familyName)) {
+		for (FontProperty.FontFamily family: FontProperty.FontFamily.values()) {
+			if (isBundled(family) && family.cssName().equals(familyName)) {
 				loadFontFile(familyName.split(",")[0], baseUrl, callback);
 				return;
 			}
 		}
+	}
+
+	private static boolean isBundled(FontProperty.FontFamily family) {
+		return family == FontProperty.FontFamily.DYSLEXIC || family.name().startsWith("BY_DS");
 	}
 
 	/**
@@ -91,8 +63,10 @@ public final class FontLoader {
 		if (baseUrl.isEmpty()) {
 			return;
 		}
-		for (FontProperty.FontFamily family: bundled) {
-			loadFontFile(family.cssName().split(",")[0], baseUrl, () -> {});
+		for (FontProperty.FontFamily family: FontProperty.FontFamily.values()) {
+			if (isBundled(family)) {
+				loadFontFile(family.cssName().split(",")[0], baseUrl, () -> { });
+			}
 		}
 	}
 

@@ -62,7 +62,7 @@ public final class SpecialSymbolProperty
 			fontFamily = formatter.getFormat("font", "");
 		}
 		return FontProperty.FontFamily.getByCssName(fontFamily,
-				FontProperty.FontFamily.BY_DS_SCHREIBEN_1_2_TUERKIS_FARBBAND);
+				FontProperty.FontFamily.BY_DS_SCHREIBEN_1_2_BLUE_FARBBAND);
 	}
 
 	public String getGroupName() {
