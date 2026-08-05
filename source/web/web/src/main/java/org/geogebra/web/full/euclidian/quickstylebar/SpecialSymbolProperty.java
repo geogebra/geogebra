@@ -62,7 +62,7 @@ public final class SpecialSymbolProperty
 			fontFamily = formatter.getFormat("font", "");
 		}
 		return FontProperty.FontFamily.getByCssName(fontFamily,
-				FontProperty.FontFamily.BY_DS_LERNEN_1_2_TUERKIS_FARBBAND);
+				FontProperty.FontFamily.BY_DS_SCHREIBEN_1_2_TUERKIS_FARBBAND);
 	}
 
 	public String getGroupName() {
@@ -135,7 +135,7 @@ public final class SpecialSymbolProperty
 	 * @param geo GeoElement
 	 * @param limitBasicSymbols Whether the basic symbols are limited to the ones listed below.
 	 * @return The property for the basic symbols used for the 'ByDS' fonts.
-	 * @implNote 'ByDS Lernen 3' and 'ByDS Lernen 4' must contain only the basic symbols
+	 * @implNote 'ByDS Schreiben 3' and 'ByDS Schreiben 4' must contain only the basic symbols
 	 * {@link SpecialSymbol#BASIC3}, {@link SpecialSymbol#BASIC4}, and {@link SpecialSymbol#BASIC5}
 	 */
 	private static SpecialSymbolProperty getBasicSpecialSymbolProperty(

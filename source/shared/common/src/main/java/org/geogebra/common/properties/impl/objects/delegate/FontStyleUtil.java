@@ -31,24 +31,24 @@ public class FontStyleUtil {
 	 */
 	public static boolean isFontStyleApplicable(GeoElement element) {
 		FontProperty.DropdownGroup group = getFontGroup(element);
-		return group == FontProperty.DropdownGroup.BY_DS_LERNEN_1_2
-				|| group == FontProperty.DropdownGroup.BY_DS_LERNEN_3
-				|| group == FontProperty.DropdownGroup.BY_DS_LERNEN_4;
+		return group == FontProperty.DropdownGroup.BY_DS_SCHREIBEN_1_2
+				|| group == FontProperty.DropdownGroup.BY_DS_SCHREIBEN_3
+				|| group == FontProperty.DropdownGroup.BY_DS_SCHREIBEN_4;
 	}
 
 	/**
 	 * Similar to {@link #isFontStyleApplicable(GeoElement)}.
 	 * Needed to restrict some of the basic symbols for certain fonts
-	 * ({@link FontProperty.DropdownGroup#BY_DS_LERNEN_3}
-	 * and {@link FontProperty.DropdownGroup#BY_DS_LERNEN_4}).
+	 * ({@link FontProperty.DropdownGroup#BY_DS_SCHREIBEN_3}
+	 * and {@link FontProperty.DropdownGroup#BY_DS_SCHREIBEN_4}).
 	 * @param element GeoElement
 	 * @return Whether font ruling style is applicable in a restricted way for the
 	 * current font family.
 	 */
 	public static boolean isFontStyleApplicableWithLimitation(GeoElement element) {
 		FontProperty.DropdownGroup group = getFontGroup(element);
-		return group == FontProperty.DropdownGroup.BY_DS_LERNEN_3
-				|| group == FontProperty.DropdownGroup.BY_DS_LERNEN_4;
+		return group == FontProperty.DropdownGroup.BY_DS_SCHREIBEN_3
+				|| group == FontProperty.DropdownGroup.BY_DS_SCHREIBEN_4;
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class FontStyleUtil {
 	 * @return whether element is editable and supporting wurm symbol
 	 */
 	public static boolean isInlineWithWurm(GeoElement element) {
-		return getFontFamily(element) == FontProperty.FontFamily.BY_DS_LERNEN_WURM;
+		return getFontFamily(element) == FontProperty.FontFamily.BY_DS_SCHREIBEN_WURM;
 	}
 
 	/**
