@@ -21,7 +21,7 @@ dependencies {
     api(project(":canvas-base"))
     api(libs.apache.math)
     api(libs.spotbugs.annotations)
-    api(libs.findbugs.annotations)
+    api(libs.jspecify.annotations)
     implementation(libs.j2objc.annotations)
 }
 

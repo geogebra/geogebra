@@ -22,8 +22,6 @@ import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
@@ -46,6 +44,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
+import org.jspecify.annotations.Nullable;
 
 /**
  * 3D representation of a {@link GeoElement3D}
@@ -250,7 +249,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/** visibility as intersection curve */
 	protected boolean intersectionCurveVisibility;
-	private @CheckForNull Caption3D caption = null;
+	private @Nullable Caption3D caption = null;
 	private GGraphics2D updateLabelGraphics;
 	// /////////////////////////////////////////////////////////////////////////////
 	// constructors

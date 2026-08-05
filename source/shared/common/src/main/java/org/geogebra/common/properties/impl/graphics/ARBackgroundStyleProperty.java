@@ -20,12 +20,11 @@ import static java.util.Map.entry;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
+import org.jspecify.annotations.NonNull;
 
 /** {@code Property} responsible for changing the style of the background in AR mode. */
 public final class ARBackgroundStyleProperty
@@ -67,7 +66,7 @@ public final class ARBackgroundStyleProperty
 	}
 
 	@Override
-	public @Nonnull EuclidianView3DInterface getEuclidianView3D() {
+	public @NonNull EuclidianView3DInterface getEuclidianView3D() {
 		return euclidianView3D;
 	}
 }

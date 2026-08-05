@@ -19,8 +19,6 @@ package org.geogebra.common.kernel.algos;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -48,6 +46,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
 
 /**
  * This class is only needed to handle dependencies
@@ -425,7 +424,7 @@ public class AlgoDependentFunction extends AlgoElement
 	}
 
 	// needed for eg f(x,y) = a(A) a(x, y)
-	private static @Nonnull ExpressionValue get(MyList list, int i) {
+	private static @NonNull ExpressionValue get(MyList list, int i) {
 
 		Kernel kernel0 = list.getKernel();
 

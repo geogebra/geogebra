@@ -18,8 +18,6 @@ package org.geogebra.common.properties.impl.objects;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -32,6 +30,7 @@ import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.TextFormatterDelegate;
+import org.jspecify.annotations.Nullable;
 
 public class HorizontalAlignmentProperty extends AbstractEnumeratedProperty<HorizontalAlignment>
 		implements IconsEnumeratedProperty<HorizontalAlignment> {
@@ -66,7 +65,7 @@ public class HorizontalAlignmentProperty extends AbstractEnumeratedProperty<Hori
 	}
 
 	@Override
-	public @CheckForNull String[] getToolTipLabels() {
+	public @Nullable String[] getToolTipLabels() {
 		return rawLabels;
 	}
 

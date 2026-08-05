@@ -16,11 +16,10 @@
 
 package org.geogebra.editor.share.editor;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.editor.share.catalog.Tag;
 import org.geogebra.editor.share.util.IntegralHelper.IntegralForm;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /** Looks up internal command and syntax information for editor commands. */
 public interface CommandSyntaxLookup {
@@ -28,12 +27,12 @@ public interface CommandSyntaxLookup {
 	 * @param commandName localized or English command name
 	 * @return internal command name if available
 	 */
-	@CheckForNull String getInternalCommand(@Nonnull String commandName);
+	@Nullable String getInternalCommand(@NonNull String commandName);
 
 	/**
 	 * @param tag integral command tag
 	 * @param syntax localized syntax selected from autocomplete
 	 * @return integral form matching the syntax, or null if not available
 	 */
-	@CheckForNull IntegralForm getIntegralForm(@Nonnull Tag tag, @Nonnull String syntax);
+	@Nullable IntegralForm getIntegralForm(@NonNull Tag tag, @NonNull String syntax);
 }

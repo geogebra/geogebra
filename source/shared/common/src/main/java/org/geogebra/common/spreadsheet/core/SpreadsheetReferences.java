@@ -20,19 +20,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Container to group a list of cell references and a current reference into a single value.
  */
 final class SpreadsheetReferences {
 
-	final @Nonnull List<SpreadsheetReference> cellReferences;
-	final @CheckForNull SpreadsheetReference currentCellReference;
+	final @NonNull List<SpreadsheetReference> cellReferences;
+	final @Nullable SpreadsheetReference currentCellReference;
 
-	SpreadsheetReferences(@CheckForNull List<SpreadsheetReference> cellReferences,
-			@CheckForNull SpreadsheetReference currentCellReference) {
+	SpreadsheetReferences(@Nullable List<SpreadsheetReference> cellReferences,
+			@Nullable SpreadsheetReference currentCellReference) {
 		this.cellReferences = cellReferences != null ? cellReferences : List.of();
 		this.currentCellReference = currentCellReference;
 	}

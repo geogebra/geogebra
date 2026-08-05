@@ -16,17 +16,16 @@
 
 package org.geogebra.common.restrictions;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.SuiteSubApp;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public interface RestrictionsControllerDelegate {
 
 	/**
 	 * @return The current sub-app, or null in case the app switcher is currently shown.
 	 */
-	@CheckForNull SuiteSubApp getCurrentSubApp();
+	@Nullable SuiteSubApp getCurrentSubApp();
 
 	/**
 	 * Activate the given sub-app.
@@ -37,5 +36,5 @@ public interface RestrictionsControllerDelegate {
 	 * {@link RestrictionsController#setActiveContext(Restrictions.ContextDependencies)}
 	 * after switching to the new subapp.
 	 */
-	void switchSubApp(@Nonnull SuiteSubApp subApp);
+	void switchSubApp(@NonNull SuiteSubApp subApp);
 }

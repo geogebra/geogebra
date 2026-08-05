@@ -24,8 +24,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AltTextTimer;
 import org.geogebra.common.gui.FocusableComponent;
@@ -36,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.web.html5.main.AppW;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Web implementation of AccessibilityManager.
@@ -110,7 +109,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return focusFirstVisible(components.first());
 	}
 
-	private boolean focusFirstVisible(@Nonnull FocusableComponent entry) {
+	private boolean focusFirstVisible(@NonNull FocusableComponent entry) {
 		FocusableComponent nextEntry = entry;
 		do {
 			if (nextEntry.focusIfVisible(false)) {
@@ -122,7 +121,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return false;
 	}
 
-	private boolean focusLastVisible(@Nonnull FocusableComponent entry) {
+	private boolean focusLastVisible(@NonNull FocusableComponent entry) {
 		FocusableComponent nextEntry = entry;
 		do {
 			if (nextEntry.focusIfVisible(true)) {

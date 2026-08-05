@@ -23,9 +23,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -78,6 +75,8 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.SymbolicUtil;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Symbolic geo for CAS computations in AV
@@ -100,9 +99,9 @@ public class GeoSymbolic extends GeoElement
 	private ArbitraryConstantRegistry constant;
 	private boolean wrapInNumeric = false;
 
-	private @CheckForNull GeoElement twinGeo;
+	private @Nullable GeoElement twinGeo;
 
-	private @CheckForNull ExpressionValue numericValue;
+	private @Nullable ExpressionValue numericValue;
 	private int numericPrintFigures;
 	private int numericPrintDecimals;
 	private ConditionalSerializer conditionalSerializer;
@@ -113,7 +112,7 @@ public class GeoSymbolic extends GeoElement
 	 * @param c construction
 	 * @param definition definition
 	 */
-	public GeoSymbolic(Construction c, @Nonnull ExpressionNode definition) {
+	public GeoSymbolic(Construction c, @NonNull ExpressionNode definition) {
 		super(c);
 		setDefinition(definition);
 		symbolicMode = true;
@@ -230,7 +229,7 @@ public class GeoSymbolic extends GeoElement
 	 * to the approximated output format, it would be {@code 0.0227501319482}).
 	 * @return the output expression of {@code GeoSymbolic}
 	 */
-	public @Nonnull ExpressionValue getOutputExpression() {
+	public @NonNull ExpressionValue getOutputExpression() {
 		if (symbolicMode || !hasNumericValue()) {
 			if (value != null) {
 				return value;
@@ -782,7 +781,7 @@ public class GeoSymbolic extends GeoElement
 	/**
 	 * @return geo for drawing, null if the output contains variables
 	 */
-	public @CheckForNull GeoElementND getTwinGeo() {
+	public @Nullable GeoElementND getTwinGeo() {
 		// Twin creation depends on the symbolic definition and cached CAS output staying aligned.
 		ensureInvariant("getTwinGeo");
 		if (isTwinUpToDate) {
@@ -1412,7 +1411,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	@Override
-	public @CheckForNull GeoElementND unwrapSymbolic() {
+	public @Nullable GeoElementND unwrapSymbolic() {
 		return getTwinGeo();
 	}
 

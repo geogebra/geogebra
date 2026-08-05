@@ -19,8 +19,6 @@ package org.geogebra.web.full.gui.toolbarpanel.tableview;
 import java.util.List;
 import java.util.Objects;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.table.TableUtil;
 import org.geogebra.common.gui.view.table.TableValuesListener;
@@ -55,6 +53,7 @@ import org.gwtproject.user.cellview.client.SafeHtmlHeader;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.NodeList;
 import jsinterop.base.Js;
@@ -155,7 +154,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 					}
 
 					@Override
-					public @CheckForNull String getCellEditorContent(int row, int column) {
+					public @Nullable String getCellEditorContent(int row, int column) {
 						return editor.getText();
 					}
 

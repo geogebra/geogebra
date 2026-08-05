@@ -18,8 +18,6 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.TreeSet;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GTemplate;
@@ -28,6 +26,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
+import org.jspecify.annotations.NonNull;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -41,10 +40,10 @@ public abstract class ConstructionElement
 
 	/** parent construction of this element */
 	@Weak
-	public transient @Nonnull Construction cons;
+	public transient @NonNull Construction cons;
 	/** parent kernel of this element */
 	@Weak
-	public transient @Nonnull Kernel kernel;
+	public transient @NonNull Kernel kernel;
 
 	private int constIndex = -1; // index in construction list
 
@@ -57,7 +56,7 @@ public abstract class ConstructionElement
 	 * @param c
 	 *            construction
 	 */
-	public ConstructionElement(@Nonnull Construction c) {
+	public ConstructionElement(@NonNull Construction c) {
 		ceID = c.getApplication().getNextCeIDcounter();
 		cons = c;
 		kernel = c.getKernel();
@@ -67,7 +66,7 @@ public abstract class ConstructionElement
 	 * @param c
 	 *            new construction
 	 */
-	public final void setConstruction(@Nonnull Construction c) {
+	public final void setConstruction(@NonNull Construction c) {
 		cons = c;
 		kernel = c.getKernel();
 	}
@@ -75,14 +74,14 @@ public abstract class ConstructionElement
 	/**
 	 * @return construction this element belongs to
 	 */
-	public final @Nonnull Construction getConstruction() {
+	public final @NonNull Construction getConstruction() {
 		return cons;
 	}
 
 	/**
 	 * @return kernel
 	 */
-	public final @Nonnull Kernel getKernel() {
+	public final @NonNull Kernel getKernel() {
 		return kernel;
 	}
 

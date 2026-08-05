@@ -24,8 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import javax.annotation.CheckForNull;
-
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
 class TabularRangeTest {
@@ -220,7 +219,7 @@ class TabularRangeTest {
 		assertThat(cellB3.getRectangularUnion(cellA4), nullValue());
 	}
 
-	private void assertRangeEquals(@CheckForNull TabularRange range,
+	private void assertRangeEquals(@Nullable TabularRange range,
 			int anchorRow, int anchorColumn, int row2, int col2) {
 		assertNotNull(range);
 		assertEquals(range.getFromRow(), anchorRow);

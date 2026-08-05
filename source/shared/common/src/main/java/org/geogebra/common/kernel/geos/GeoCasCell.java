@@ -26,8 +26,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.cas.GeoGebraCAS;
@@ -86,6 +84,7 @@ import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Cell pair of input and output strings used in the CAS view. This needs to be
@@ -3489,7 +3488,7 @@ public class GeoCasCell extends GeoElement
 	/**
 	 * @return input in LaTeX form or null if only plain input present
 	 */
-	public @CheckForNull String getLaTeXInput() {
+	public @Nullable String getLaTeXInput() {
 		if (useAsText) {
 			return "\\text{" + this.commentText.getTextString() + "}";
 		}

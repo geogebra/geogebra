@@ -20,14 +20,13 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
+import org.jspecify.annotations.NonNull;
 
 /**
  *
@@ -344,7 +343,7 @@ public interface ExpressionValue extends Iterable<ExpressionValue> {
 	boolean isRecurringDecimal();
 
 	@Override
-	default @Nonnull Iterator<ExpressionValue> iterator() {
+	default @NonNull Iterator<ExpressionValue> iterator() {
 		return new ExpressionValueTreeIterator(this);
 	}
 

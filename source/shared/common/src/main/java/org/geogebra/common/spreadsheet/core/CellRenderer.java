@@ -16,11 +16,10 @@
 
 package org.geogebra.common.spreadsheet.core;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.util.shape.Rectangle;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Renders content of a single spreadsheet cell
@@ -35,15 +34,15 @@ public interface CellRenderer {
 	 * @param g2d graphics
 	 * @param cellBorder cell rectangle, coordinates relative to the graphics
 	 */
-	void draw(@Nonnull Object data, double fontSize,
-			int fontStyle, double offsetX, @Nonnull GGraphics2D g2d,
+	void draw(@NonNull Object data, double fontSize,
+			int fontStyle, double offsetX, @NonNull GGraphics2D g2d,
 			Rectangle cellBorder);
 
 	/**
 	 * @param renderable object to be potentially rendered
 	 * @return whether this can render given object
 	 */
-	boolean match(@Nonnull Object renderable);
+	boolean match(@NonNull Object renderable);
 
 	/**
 	 * Measure the width of a renderable.
@@ -52,5 +51,5 @@ public interface CellRenderer {
 	 * @param fontSize font size in points
 	 * @return The height of renderable.
 	 */
-	double measureWidth(@Nonnull Object renderable, int fontStyle, double fontSize);
+	double measureWidth(@NonNull Object renderable, int fontStyle, double fontSize);
 }

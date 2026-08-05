@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.util.AttributedString;
 import org.geogebra.common.util.Range;
 import org.geogebra.web.html5.gui.util.HasResource;
@@ -33,6 +31,7 @@ import org.gwtproject.dom.client.Document;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Element;
@@ -70,7 +69,7 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 	 * @param icon icon
 	 * @param cmd item action
 	 */
-	public AriaMenuItem(AttributedString text, @CheckForNull ResourcePrototype icon,
+	public AriaMenuItem(AttributedString text, @Nullable ResourcePrototype icon,
 			ScheduledCommand cmd) {
 		this();
 		Set<Range> attribute = text.getAttribute(AttributedString.Attribute.Subscript);
@@ -168,7 +167,7 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 	 * @param text content
 	 * @param icon icon
 	 */
-	private void setContent(String text, @CheckForNull ResourcePrototype icon) {
+	private void setContent(String text, @Nullable ResourcePrototype icon) {
 		this.textNode = DomGlobal.document.createTextNode(text == null ? "" : text);
 		setHTMLContent(textNode, icon);
 	}

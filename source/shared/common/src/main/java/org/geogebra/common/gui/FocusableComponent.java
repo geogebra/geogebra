@@ -16,7 +16,7 @@
 
 package org.geogebra.common.gui;
 
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Focusable component.
@@ -37,5 +37,5 @@ public interface FocusableComponent extends FocusTraversal {
 	/**
 	 * @return view control ID
 	 */
-	@CheckForNull AccessibilityGroup.ViewControlId getViewControlId();
+	AccessibilityGroup.@Nullable ViewControlId getViewControlId();
 }

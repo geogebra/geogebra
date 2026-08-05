@@ -18,7 +18,7 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.Objects;
 
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A reference for a single spreadsheet cell (e.g., A1, $A$1, AAA$10)
@@ -44,7 +44,7 @@ public final class SpreadsheetCellReference {
 		this.columnIsAbsolute = columnIsAbsolute;
 	}
 
-	boolean equalsIgnoringAbsolute(@CheckForNull SpreadsheetCellReference other) {
+	boolean equalsIgnoringAbsolute(@Nullable SpreadsheetCellReference other) {
 		if (other == null) {
 			return false;
 		}

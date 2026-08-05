@@ -19,8 +19,6 @@ package org.geogebra.common.gui.menu.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.menu.Action;
 import org.geogebra.common.gui.menu.DrawerMenuFactory;
@@ -29,6 +27,7 @@ import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.main.App;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.ownership.SuiteScope;
+import org.jspecify.annotations.Nullable;
 
 abstract class AbstractDrawerMenuFactory implements DrawerMenuFactory {
 
@@ -65,7 +64,7 @@ abstract class AbstractDrawerMenuFactory implements DrawerMenuFactory {
 		return new ActionableItemImpl(Icon.SAVE, "Save", Action.SAVE_FILE);
 	}
 
-	@CheckForNull MenuItem showSwitchCalculator(App app) {
+	@Nullable MenuItem showSwitchCalculator(App app) {
 		if (!isSuiteApp) {
 			return null;
 		}

@@ -16,8 +16,8 @@
 
 package org.geogebra.common.spreadsheet.core;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An abstraction for spreadsheet cell data conversion.
@@ -31,5 +31,5 @@ public interface SpreadsheetCellDataSerializer {
 	 * @param data Spreadsheet cell data.
 	 * @return A string representation of the data.
 	 */
-	@Nonnull String getStringForEditor(@CheckForNull Object data);
+	@NonNull String getStringForEditor(@Nullable Object data);
 }

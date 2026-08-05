@@ -19,8 +19,6 @@ package org.geogebra.common.euclidian.draw;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
@@ -36,6 +34,7 @@ import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineText;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Class that handles drawing inline text elements.
@@ -45,7 +44,7 @@ public class DrawInlineText extends Drawable implements DrawInline {
 	public static final int PADDING = 8;
 
 	protected final GeoInline text;
-	protected @CheckForNull InlineTextController textController;
+	protected @Nullable InlineTextController textController;
 
 	protected final TransformableRectangle rectangle;
 

@@ -16,13 +16,12 @@
 
 package org.geogebra.common.kernel.algos;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates textfield linked with geo
@@ -32,7 +31,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 
 public class AlgoInputBox extends AlgoElement {
 
-	private @CheckForNull GeoElement linkedGeo; // input
+	private @Nullable GeoElement linkedGeo; // input
 	private GeoInputBox inputBox; // output
 
 	/**

@@ -29,8 +29,6 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EmbedManager;
@@ -79,6 +77,7 @@ import org.gwtproject.event.dom.client.DragStartEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Frame;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.core.Global;
 import elemental2.promise.Promise;
@@ -731,7 +730,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	@Override
-	public @CheckForNull App getEmbedApp(GeoEmbed embed) {
+	public @Nullable App getEmbedApp(GeoEmbed embed) {
 		DrawableND drawChart = app.getActiveEuclidianView().getDrawableFor(embed);
 		if (drawChart == null) {
 			return null;

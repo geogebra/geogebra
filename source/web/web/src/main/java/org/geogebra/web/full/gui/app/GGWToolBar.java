@@ -19,8 +19,6 @@ package org.geogebra.web.full.gui.app;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamState;
@@ -66,6 +64,7 @@ import org.gwtproject.user.client.ui.Image;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.ScrollPanel;
+import org.jspecify.annotations.Nullable;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -98,8 +97,8 @@ public class GGWToolBar extends Composite
 	private boolean menuBarShowing = false;
 
 	private FlowPanel rightButtonPanel;
-	private @CheckForNull StandardButton openSearchButton;
-	private @CheckForNull StandardButton openMenuButton;
+	private @Nullable StandardButton openSearchButton;
+	private @Nullable StandardButton openMenuButton;
 	/** undo button */
 	StandardButton undoButton;
 	private StandardButton redoButton;
@@ -1128,7 +1127,7 @@ public class GGWToolBar extends Composite
 	/**
 	 * @return the Element object of the open menu button
 	 */
-	public @CheckForNull Element getOpenMenuButtonElement() {
+	public @Nullable Element getOpenMenuButtonElement() {
 		return openMenuButton == null ? null : openMenuButton.getElement();
 	}
 

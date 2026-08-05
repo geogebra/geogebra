@@ -19,14 +19,13 @@ package org.geogebra.common.gui.view.spreadsheet;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.spreadsheet.core.TabularRange;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Utility class for spreadsheet tabular ranges.
@@ -42,7 +41,7 @@ final public class CellRangeUtil {
 	 * @param model spreadsheet model
 	 * @return true if this cell range contains no geos
 	 */
-	public static boolean isEmpty(@CheckForNull TabularRange selection,
+	public static boolean isEmpty(@Nullable TabularRange selection,
 			SpreadsheetTableModel model) {
 		return selection != null && toGeoList(selection, model).isEmpty();
 	}

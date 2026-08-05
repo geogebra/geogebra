@@ -18,8 +18,6 @@ package org.geogebra.common.kernel.statistics;
 
 import java.util.ArrayList;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
@@ -31,6 +29,7 @@ import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
+import org.jspecify.annotations.NonNull;
 
 public class GeoPieChart extends GeoElement implements ChartStyleGeo {
 	private final ArrayList<Double> data = new ArrayList<>();
@@ -163,7 +162,7 @@ public class GeoPieChart extends GeoElement implements ChartStyleGeo {
 	}
 
 	@Override
-	public @Nonnull ChartStyle getStyle() {
+	public @NonNull ChartStyle getStyle() {
 		return chartStyle;
 	}
 

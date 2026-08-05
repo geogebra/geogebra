@@ -18,8 +18,6 @@ package org.geogebra.common.properties.impl.objects;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.PointProperties;
@@ -31,6 +29,7 @@ import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.AbstractGeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.PointStylePropertyDelegate;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Point style
@@ -80,7 +79,7 @@ public class PointStyleExtendedProperty extends AbstractEnumeratedProperty<Integ
 	}
 
 	@Override
-	public @CheckForNull String[] getToolTipLabels() {
+	public @Nullable String[] getToolTipLabels() {
 		return null;
 	}
 

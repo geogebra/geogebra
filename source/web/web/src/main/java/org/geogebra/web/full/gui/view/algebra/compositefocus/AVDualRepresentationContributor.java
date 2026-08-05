@@ -20,8 +20,6 @@ import static org.geogebra.web.full.gui.view.algebra.compositefocus.FocusPartAdd
 
 import java.util.function.Supplier;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -29,6 +27,7 @@ import org.geogebra.web.full.gui.view.algebra.FocusableCompositeW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItemFocusAccess;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Contributes both definition and value parts to composite focus for items
@@ -54,7 +53,7 @@ public final class AVDualRepresentationContributor implements FocusContributor {
 	 *
 	 * @param contentProvider provides accessible text and role description
 	 */
-	public AVDualRepresentationContributor(@Nonnull AccessibleContentProvider contentProvider) {
+	public AVDualRepresentationContributor(@NonNull AccessibleContentProvider contentProvider) {
 		this.accessibleLabel = contentProvider.getContentSupplier();
 		this.roleDescription = contentProvider.getRoleDescription();
 	}

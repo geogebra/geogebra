@@ -24,8 +24,6 @@ import static org.geogebra.common.gui.AccessibilityGroup.UNDO_SCI_CALC;
 
 import java.util.ArrayList;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamListener;
 import org.geogebra.common.exam.ExamState;
@@ -67,6 +65,7 @@ import org.gwtproject.user.client.ui.Image;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.core.Function;
 import elemental2.core.JsArray;
@@ -95,7 +94,7 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 	private ActionButton redoButton;
 	private ActionButton settingsButton;
 	private boolean assignButtonInitialized;
-	private @CheckForNull FlowPanel examTypeHolder;
+	private @Nullable FlowPanel examTypeHolder;
 	private String examHash;
 	private ExamController examController;
 
@@ -143,7 +142,7 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 		return RootPanel.get("signInTextID");
 	}
 
-	private @CheckForNull RootPanel getSignInIconButton() {
+	private @Nullable RootPanel getSignInIconButton() {
 		return RootPanel.get("signInIconID");
 	}
 
@@ -334,7 +333,7 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 		}
 	}
 
-	private @CheckForNull FocusableWidget getSettingsFocusableWidget() {
+	private @Nullable FocusableWidget getSettingsFocusableWidget() {
 		for (FocusableWidget focusableWidget : focusableWidgets) {
 			if (focusableWidget.getAccessibilityGroup() == SETTINGS) {
 				return focusableWidget;

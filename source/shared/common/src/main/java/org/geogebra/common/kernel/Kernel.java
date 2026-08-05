@@ -27,9 +27,6 @@ import java.util.Map;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -125,6 +122,8 @@ import org.geogebra.common.util.ScientificFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -325,7 +324,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/** Application */
 	@NonOwning
 	@Weak
-	protected final @Nonnull App app;
+	protected final @NonNull App app;
 
 	private EquationSolver eqnSolver;
 	private ExtremumFinderI extrFinder;
@@ -336,7 +335,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private Manager3DInterface manager3D;
 	private AlgoDispatcher algoDispatcher;
 	private final ArithmeticFactory arithmeticFactory;
-	private final @Nonnull GeoFactory geoFactory;
+	private final @NonNull GeoFactory geoFactory;
 
 	private GeoVec2D imaginaryUnit;
 
@@ -398,10 +397,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private final GeoFunctionConverter functionConverter = new GeoFunctionConverter();
 	private final StatisticGroupsBuilder statisticGroupsBuilder = new StatisticGroupsBuilder();
 
-	private @CheckForNull Surds surds = new Surds();
-	private @CheckForNull Rationalization rationalization = new Rationalization();
+	private @Nullable Surds surds = new Surds();
+	private @Nullable Rationalization rationalization = new Rationalization();
 
-	public final @Nonnull RandomNumberGenerator randomNumberGenerator;
+	public final @NonNull RandomNumberGenerator randomNumberGenerator;
 
 	/**
 	 * @param app
@@ -409,7 +408,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @param factory
 	 *            element factory
 	 */
-	public Kernel(@Nonnull App app, @Nonnull GeoFactory factory) {
+	public Kernel(@NonNull App app, @NonNull GeoFactory factory) {
 		this(factory, app);
 
 		newConstruction();
@@ -424,7 +423,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @param factory
 	 *            factory for new elements
 	 */
-	protected Kernel(@Nonnull GeoFactory factory, @Nonnull App app) {
+	protected Kernel(@NonNull GeoFactory factory, @NonNull App app) {
 		this.app = app;
 		randomNumberGenerator = app.randomNumberGenerator;
 		nf = FormatFactory.getPrototype().getNumberFormat(2);
@@ -563,7 +562,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * @return app
 	 */
-	final public @Nonnull App getApplication() {
+	final public @NonNull App getApplication() {
 		return app;
 	}
 
@@ -5417,14 +5416,14 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * @return The current equation behaviour (may change at runtime, e.g. during exams).
 	 */
-	public @CheckForNull EquationBehaviour getEquationBehaviour() {
+	public @Nullable EquationBehaviour getEquationBehaviour() {
 		return equationBehaviour;
 	}
 
 	/**
 	 * Set the current equation behaviour (may change at runtime, e.g. during exams).
 	 */
-	public void setEquationBehaviour(@CheckForNull EquationBehaviour equationBehaviour) {
+	public void setEquationBehaviour(@Nullable EquationBehaviour equationBehaviour) {
 		this.equationBehaviour = equationBehaviour;
 	}
 
@@ -5472,7 +5471,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Sets the surds operation.
 	 * @param surds surds. Null if surds is not available
 	 */
-	public void setSurds(@CheckForNull Surds surds) {
+	public void setSurds(@Nullable Surds surds) {
 		this.surds = surds;
 	}
 
@@ -5480,7 +5479,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Gets the surd operation
 	 * @return operation or null if unavailable
 	 */
-	public @CheckForNull Surds getSurds() {
+	public @Nullable Surds getSurds() {
 		return surds;
 	}
 
@@ -5488,7 +5487,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Sets the rationalization operation.
 	 * @param rationalization rationalization. Null if rationalization is not available
 	 */
-	public void setRationalization(@CheckForNull Rationalization rationalization) {
+	public void setRationalization(@Nullable Rationalization rationalization) {
 		this.rationalization = rationalization;
 	}
 
@@ -5496,7 +5495,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Gets the rationalization operation.
 	 * @return operation or null if unavailable
 	 */
-	public @CheckForNull Rationalization getRationalization() {
+	public @Nullable Rationalization getRationalization() {
 		return rationalization;
 	}
 
@@ -5508,7 +5507,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return an unmodifiable {@link List} of view IDs which the user may toggle
 	 * @see org.geogebra.common.main.ClassicInitialViewState
 	 */
-	public @Nonnull List<Integer> getToggleableViewIds() {
+	public @NonNull List<Integer> getToggleableViewIds() {
 		if (views == null) {
 			return List.of();
 		}

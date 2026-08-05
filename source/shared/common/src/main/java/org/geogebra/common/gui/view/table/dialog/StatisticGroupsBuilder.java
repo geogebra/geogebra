@@ -35,9 +35,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -55,6 +52,8 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.statistics.Statistic;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Builds {@link StatisticGroup}s to be displayed by client implementations.
@@ -72,13 +71,13 @@ public class StatisticGroupsBuilder {
 			SIGMAXY, PMCC, COVARIANCE
 	);
 
-	private @CheckForNull StatisticsFilter statisticsFilter = null;
+	private @Nullable StatisticsFilter statisticsFilter = null;
 
 	/**
 	 * Sets a filter to restrict certain statistics from being built.
 	 * @param statisticsFilter a statistics filter to be set
 	 */
-	public void setStatisticsFilter(@CheckForNull StatisticsFilter statisticsFilter) {
+	public void setStatisticsFilter(@Nullable StatisticsFilter statisticsFilter) {
 		this.statisticsFilter = statisticsFilter;
 	}
 
@@ -131,7 +130,7 @@ public class StatisticGroupsBuilder {
 	 * @param variable A list of elements
 	 * @return A new list where all undefined or non-numeric elements have been dropped.
 	 */
-	public @Nonnull GeoList getCleanListOneVariable(GeoEvaluatable variable) {
+	public @NonNull GeoList getCleanListOneVariable(GeoEvaluatable variable) {
 		// `getCleanListsTwoVariable` wraps variables in a MyVecNode, so if the variable contains
 		// non-numeric values, they become undefined. To replace this call, we need to implement
 		// removing non-numeric values from a list as an Algo.
@@ -147,7 +146,7 @@ public class StatisticGroupsBuilder {
 	 * @return A new pair of lists where all pairs of undefined or non-numeric elements have been
 	 * dropped.
 	 */
-	public @Nonnull GeoList[] getCleanListsTwoVariable(GeoEvaluatable variable1,
+	public @NonNull GeoList[] getCleanListsTwoVariable(GeoEvaluatable variable1,
 			GeoEvaluatable variable2) {
 		Kernel kernel = variable1.getKernel();
 		Command cleanData = new Command(kernel, Commands.RemoveUndefined.getCommand(), false);

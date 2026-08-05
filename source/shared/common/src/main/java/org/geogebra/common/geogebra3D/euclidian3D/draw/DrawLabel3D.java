@@ -16,9 +16,6 @@
 
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBufferedImage;
@@ -35,6 +32,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MyMath;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Class for drawing labels of 3D elements
@@ -52,7 +51,7 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 
 	protected boolean hasIndex = false;
 
-	protected @CheckForNull CaptionText caption;
+	protected @Nullable CaptionText caption;
 	private CaptionProperties properties;
 
 	/**
@@ -202,7 +201,7 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 	 * @param cpt caption
 	 * @return graphics2D
 	 */
-	protected GGraphics2D createGraphics2D(GBufferedImage bimg, @Nonnull CaptionText cpt) {
+	protected GGraphics2D createGraphics2D(GBufferedImage bimg, @NonNull CaptionText cpt) {
 		GGraphics2D g2d = bimg.createGraphics();
 
 		GAffineTransform gt = AwtFactory.getPrototype().newAffineTransform();
@@ -228,7 +227,7 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 		return view.getRenderer().createBufferedImage(this);
 	}
 
-	protected GRectangle getBounds(@Nonnull CaptionText cpt, GGraphics2D measuringGraphics) {
+	protected GRectangle getBounds(@NonNull CaptionText cpt, GGraphics2D measuringGraphics) {
 		GRectangle rectangle = EuclidianStatic.drawMultiLineText(
 				view.getApplication(), cpt.text(), 0, 0, measuringGraphics, false,
 				cpt.font(),
@@ -247,7 +246,7 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 	/**
 	 * @return buffered image with label drawn in it
 	 */
-	protected GBufferedImage draw(@Nonnull CaptionText cpt, GGraphics2D measuringGraphics) {
+	protected GBufferedImage draw(@NonNull CaptionText cpt, GGraphics2D measuringGraphics) {
 		GBufferedImage bimg;
 		GGraphics2D g2d;
 
@@ -285,7 +284,7 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 		return bimg;
 	}
 
-	private void drawPlainTextLabel(GGraphics2D g2d, @Nonnull CaptionText cpt) {
+	private void drawPlainTextLabel(GGraphics2D g2d, @NonNull CaptionText cpt) {
 		GFont font0 = view.getApplication().getFontCanDisplay(cpt.text(),
 				cpt.isSerifFont(), cpt.font().getStyle(), cpt.font().getSize());
 		g2d.setFont(font0);

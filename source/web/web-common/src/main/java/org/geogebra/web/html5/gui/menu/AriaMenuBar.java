@@ -18,8 +18,6 @@ package org.geogebra.web.html5.gui.menu;
 
 import java.util.ArrayList;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.gwtproject.core.client.Scheduler;
@@ -31,6 +29,7 @@ import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 /** Accessible alternative to MenuBar */
 public class AriaMenuBar extends FlowPanel {
@@ -98,7 +97,7 @@ public class AriaMenuBar extends FlowPanel {
 	/**
 	 * @return selected item
 	 */
-	public @CheckForNull AriaMenuItem getSelectedItem() {
+	public @Nullable AriaMenuItem getSelectedItem() {
 		return this.selectedItem;
 	}
 

@@ -18,11 +18,10 @@ package org.geogebra.common.kernel.parser.function;
 
 import java.util.ArrayList;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Handles function references for Parser.
@@ -81,7 +80,7 @@ public interface ParserFunctions {
 	 * @return all the built-in functions starting with this prefix (with
 	 *         brackets at the end)
 	 */
-	ArrayList<String> getCompletions(String prefix, @CheckForNull OperationFilter operationFilter);
+	ArrayList<String> getCompletions(String prefix, @Nullable OperationFilter operationFilter);
 
 	/**
 	 * @param localization

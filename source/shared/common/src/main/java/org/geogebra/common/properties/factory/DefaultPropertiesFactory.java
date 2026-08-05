@@ -21,8 +21,6 @@ import static org.geogebra.common.properties.factory.PropertiesRegistration.regi
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -75,6 +73,7 @@ import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection
 import org.geogebra.common.properties.impl.graphics.ProjectionPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.VerticalYAxis;
 import org.geogebra.common.util.NonNullList;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates properties for the GeoGebra application.
@@ -241,7 +240,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 
 	private Property axisExpandableProperty(int axis, String label, App app,
 			Localization localization, EuclidianViewInterfaceCommon view,
-			@CheckForNull Property crossProperty) {
+			@Nullable Property crossProperty) {
 		EuclidianSettings euclidianSettings = view.getSettings();
 		Property[] properties = NonNullList.of(
 				new AxisLabelProperty(localization, euclidianSettings, "Label", axis),

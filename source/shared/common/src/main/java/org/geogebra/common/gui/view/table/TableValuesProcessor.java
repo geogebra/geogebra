@@ -16,9 +16,8 @@
 
 package org.geogebra.common.gui.view.table;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.geos.GeoList;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Processes the input for GeoLists.
@@ -31,5 +30,5 @@ public interface TableValuesProcessor {
 	 * @param list the list that should contain the value
 	 * @param rowIndex the rowIndex of the value
 	 */
-	void processInput(@Nonnull String input, GeoList list, int rowIndex);
+	void processInput(@NonNull String input, GeoList list, int rowIndex);
 }

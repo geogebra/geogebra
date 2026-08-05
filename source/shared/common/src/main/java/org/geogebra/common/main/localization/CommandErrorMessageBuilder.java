@@ -19,8 +19,6 @@ package org.geogebra.common.main.localization;
 import java.util.Locale;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -28,6 +26,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.restrictions.FeatureRestriction;
 import org.geogebra.common.restrictions.Restrictable;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Creates user facing messages, when a command is invalid.
@@ -141,12 +140,12 @@ public class CommandErrorMessageBuilder implements Restrictable {
 	// -- Restrictable --
 
 	@Override
-	public void applyRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
+	public void applyRestrictions(@NonNull Set<FeatureRestriction> featureRestrictions) {
 		setShowingSyntax(false);
 	}
 
 	@Override
-	public void removeRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
+	public void removeRestrictions(@NonNull Set<FeatureRestriction> featureRestrictions) {
 		setShowingSyntax(true);
 	}
 }

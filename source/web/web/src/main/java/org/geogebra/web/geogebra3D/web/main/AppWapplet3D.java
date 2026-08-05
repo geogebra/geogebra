@@ -16,8 +16,6 @@
 
 package org.geogebra.web.geogebra3D.web.main;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
@@ -56,6 +54,7 @@ import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
+import org.jspecify.annotations.NonNull;
 
 /** 3D applet */
 public class AppWapplet3D extends AppWFull {
@@ -81,7 +80,7 @@ public class AppWapplet3D extends AppWFull {
 	}
 
 	@Override
-	protected Kernel newKernel(@Nonnull App thisApp) {
+	protected Kernel newKernel(@NonNull App thisApp) {
 		if (thisApp.is3DViewEnabled()) {
 			return new Kernel3D(thisApp, new GeoFactory3D());
 		}
@@ -186,7 +185,7 @@ public class AppWapplet3D extends AppWFull {
 	}
 
 	@Override
-	protected @Nonnull AppCompanion newAppCompanion() {
+	protected @NonNull AppCompanion newAppCompanion() {
 		return new App3DCompanionW(this);
 	}
 

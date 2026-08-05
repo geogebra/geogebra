@@ -22,10 +22,9 @@ import java.io.Reader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.jre.io.transformer.InputStreamTransformer;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Extracts attribute values from the header tag of the geogebra.xml
@@ -43,11 +42,11 @@ public class XmlHeaderReader {
         private String appCode;
         private String subAppCode;
 
-		public @CheckForNull String getAppCode() {
+		public @Nullable String getAppCode() {
             return appCode;
         }
 
-		public @CheckForNull String getSubAppCode() {
+		public @Nullable String getSubAppCode() {
             return subAppCode;
         }
 
@@ -70,7 +69,7 @@ public class XmlHeaderReader {
 	 * @param inputStream InputStream of the .ggb file
 	 * @return new HeaderAttributes instance containing the app code of the app and sub-app
 	 */
-	public @CheckForNull HeaderAttributes getHeaderAttributes(InputStream inputStream) {
+	public @Nullable HeaderAttributes getHeaderAttributes(InputStream inputStream) {
         Reader reader = transformer.getReader(inputStream);
         String xmlString = reader != null ? getString(reader) : null;
         String headerString = xmlString != null ? getHeader(xmlString) : null;

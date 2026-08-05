@@ -22,11 +22,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.EnumeratedProperty;
 import org.geogebra.common.properties.ValueFilter;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Base class for enumerated properties. When overriding this class, make sure to call
@@ -50,12 +49,12 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 		super(localization, name);
 	}
 
-	protected void setValues(@Nonnull List<V> values) {
+	protected void setValues(@NonNull List<V> values) {
 		this.values = values;
 	}
 
 	@Override
-	public @Nonnull List<V> getValues() {
+	public @NonNull List<V> getValues() {
 		return values.stream().filter(this::filterValues).collect(Collectors.toList());
 	}
 
@@ -64,14 +63,14 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 	}
 
 	@Override
-	public final void addValueFilter(@Nonnull ValueFilter valueFilter) {
+	public final void addValueFilter(@NonNull ValueFilter valueFilter) {
 		valueFilters.add(valueFilter);
 		onValueFiltersChanged();
 		valueFilterObservers.forEach(ValueFilter.Observer::onValueFiltersChanged);
 	}
 
 	@Override
-	public final void removeValueFilter(@Nonnull ValueFilter valueFilter) {
+	public final void removeValueFilter(@NonNull ValueFilter valueFilter) {
 		valueFilters.remove(valueFilter);
 		onValueFiltersChanged();
 		valueFilterObservers.forEach(ValueFilter.Observer::onValueFiltersChanged);
@@ -81,7 +80,7 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 	 * Adds an observer for value filter updates.
 	 * @param observer value filter observer
 	 */
-	public final void addValueFilterObserver(@Nonnull ValueFilter.Observer observer) {
+	public final void addValueFilterObserver(ValueFilter.@NonNull Observer observer) {
 		valueFilterObservers.add(observer);
 	}
 
@@ -89,7 +88,7 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 	 * Removes a previously added value filter observer.
 	 * @param observer value filter observer
 	 */
-	public final void removeValueFilterObserver(@Nonnull ValueFilter.Observer observer) {
+	public final void removeValueFilterObserver(ValueFilter.@NonNull Observer observer) {
 		valueFilterObservers.remove(observer);
 	}
 

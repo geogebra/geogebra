@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.editor.share.catalog.ArrayTemplate;
 import org.geogebra.editor.share.catalog.CharacterTemplate;
 import org.geogebra.editor.share.catalog.FunctionTemplate;
@@ -45,6 +43,7 @@ import org.geogebra.editor.share.util.IntegralHelper;
 import org.geogebra.editor.share.util.IntegralHelper.IntegralForm;
 import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -61,9 +60,9 @@ public class InputController {
 	private MathField mathField;
 
 	private boolean plainTextMode = false;
-	private @CheckForNull SyntaxAdapter syntaxAdapter;
-	private @CheckForNull CommandSyntaxLookup commandSyntaxLookup;
-	private @CheckForNull EditorFeatures editorFeatures;
+	private @Nullable SyntaxAdapter syntaxAdapter;
+	private @Nullable CommandSyntaxLookup commandSyntaxLookup;
+	private @Nullable EditorFeatures editorFeatures;
 	private boolean useSimpleScripts = true;
 	private boolean allowAbs = true;
 	private boolean allowSpaceReplacement = true;
@@ -91,14 +90,14 @@ public class InputController {
 		this.plainTextMode = plainTextMode;
 	}
 
-	public void setSyntaxAdapter(@CheckForNull SyntaxAdapter syntaxAdapter) {
+	public void setSyntaxAdapter(@Nullable SyntaxAdapter syntaxAdapter) {
 		this.syntaxAdapter = syntaxAdapter;
 	}
 
 	/**
 	 * @param commandSyntaxLookup lookup for resolving localized command names and syntaxes
 	 */
-	public void setCommandSyntaxLookup(@CheckForNull CommandSyntaxLookup commandSyntaxLookup) {
+	public void setCommandSyntaxLookup(@Nullable CommandSyntaxLookup commandSyntaxLookup) {
 		this.commandSyntaxLookup = commandSyntaxLookup;
 	}
 
@@ -1666,14 +1665,14 @@ public class InputController {
 	/**
 	 * @param editorFeatures set of available editor features
 	 */
-	public void setEditorFeatures(@CheckForNull EditorFeatures editorFeatures) {
+	public void setEditorFeatures(@Nullable EditorFeatures editorFeatures) {
 		this.editorFeatures = editorFeatures;
 	}
 
 	/**
 	 * @return Set of available editor features
 	 */
-	public @CheckForNull EditorFeatures getEditorFeatures() {
+	public @Nullable EditorFeatures getEditorFeatures() {
 		return editorFeatures;
 	}
 
@@ -1685,7 +1684,7 @@ public class InputController {
 		return syntaxAdapter == null ? exp : syntaxAdapter.convert(exp);
 	}
 
-	private @CheckForNull Tag getIntegralTag(String commandName) {
+	private @Nullable Tag getIntegralTag(String commandName) {
 		Tag tag = Tag.lookup(commandName);
 		if (tag == null && commandSyntaxLookup != null) {
 			String internalCommand = commandSyntaxLookup.getInternalCommand(commandName);

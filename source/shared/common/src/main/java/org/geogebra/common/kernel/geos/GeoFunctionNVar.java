@@ -18,8 +18,6 @@ package org.geogebra.common.kernel.geos;
 
 import java.util.TreeMap;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.AutoColor;
 import org.geogebra.common.kernel.Construction;
@@ -57,6 +55,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Explicit function in multiple variables, e.g. f(a, b, c) := a^2 + b - 3c.
@@ -84,7 +83,7 @@ public class GeoFunctionNVar extends GeoElement
 
 	private static FunctionExpander functionExpander;
 
-	private @CheckForNull FunctionNVar fun;
+	private @Nullable FunctionNVar fun;
 	/** derivative functions */
 	private FunctionNVar[] fun1;
 	// private List<Inequality> ineqs;
@@ -293,7 +292,7 @@ public class GeoFunctionNVar extends GeoElement
 	}
 
 	@Override
-	final public @CheckForNull FunctionNVar getFunction() {
+	final public @Nullable FunctionNVar getFunction() {
 		return fun;
 	}
 

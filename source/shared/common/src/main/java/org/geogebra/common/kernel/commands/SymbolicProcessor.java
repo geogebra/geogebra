@@ -21,8 +21,6 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -48,6 +46,7 @@ import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.SymbolicUtil;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -139,7 +138,7 @@ public class SymbolicProcessor {
 	 * @param replaced symbolic expression
 	 * @return evaluated expression
 	 */
-	protected GeoSymbolic doEvalSymbolicNoLabel(@Nonnull ExpressionNode replaced, EvalInfo info) {
+	protected GeoSymbolic doEvalSymbolicNoLabel(@NonNull ExpressionNode replaced, EvalInfo info) {
 		ExpressionValue expressionValue = replaced.unwrap();
 		Command cmd;
 		CommandDispatcher cmdDispatcher = kernel.getAlgebraProcessor().cmdDispatcher;

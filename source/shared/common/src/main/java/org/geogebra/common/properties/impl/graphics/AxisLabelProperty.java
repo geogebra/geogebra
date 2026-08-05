@@ -23,13 +23,12 @@ import static org.geogebra.common.gui.dialog.options.model.AxisModel.AXIS_Z;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This property controls the label on an axis.
@@ -91,7 +90,7 @@ public class AxisLabelProperty extends AbstractValuedProperty<String>
 	}
 
 	@Override
-	public @CheckForNull String validateValue(String value) {
+	public @Nullable String validateValue(String value) {
 		return null;
 	}
 }

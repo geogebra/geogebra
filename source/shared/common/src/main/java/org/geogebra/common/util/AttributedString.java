@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * String representation that can have attributes applied to specific ranges of characters.
@@ -42,7 +42,7 @@ public final class AttributedString {
     /**
      * @param rawValue The raw value of the string.
      */
-    public AttributedString(@Nonnull String rawValue) {
+    public AttributedString(@NonNull String rawValue) {
         this.rawValue = rawValue;
         this.attributes = new HashMap<>();
     }
@@ -53,7 +53,7 @@ public final class AttributedString {
      * @param range The range of characters to which the attribute should be applied.
      * The supplied range is not checked for validity.
      */
-    public void add(@Nonnull Attribute attribute, @Nonnull Range range) {
+    public void add(@NonNull Attribute attribute, @NonNull Range range) {
         attributes.computeIfAbsent(attribute, k -> new HashSet<>());
         attributes.get(attribute).add(range);
     }
@@ -65,12 +65,12 @@ public final class AttributedString {
 	 * @return A set of {@link Range} objects where the attribute is applied, it can be empty if
 	* the attribute is not present.
 	 */
-	public @Nonnull Set<Range> getAttribute(@Nonnull Attribute attribute) {
+	public @NonNull Set<Range> getAttribute(@NonNull Attribute attribute) {
         Set<Range> ranges = attributes.get(attribute);
 		return ranges == null ? Set.of() : Collections.unmodifiableSet(ranges);
     }
 
-	public @Nonnull String getRawValue() {
+	public @NonNull String getRawValue() {
         return rawValue;
     }
 

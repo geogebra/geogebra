@@ -20,11 +20,10 @@ import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_CAPTION_VAL
 import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_NAME_VALUE;
 import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_VALUE;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.LabelManager;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Provides methods for serializing GeoElement to String.
@@ -39,7 +38,7 @@ public interface ToStringConverter {
 	 * @param tpl string template
 	 * @return value string, local variables printed as labels
 	 */
-	@Nonnull String toOutputValueString(GeoElement object, StringTemplate tpl);
+	@NonNull String toOutputValueString(GeoElement object, StringTemplate tpl);
 
 	/**
 	 * Filters output of {@link GeoElement#toValueString(StringTemplate)}
@@ -47,7 +46,7 @@ public interface ToStringConverter {
 	 * @param tpl string template
 	 * @return value string, local variables printed as values
 	 */
-	@Nonnull String toValueString(GeoElement object, StringTemplate tpl);
+	@NonNull String toValueString(GeoElement object, StringTemplate tpl);
 
 	/**
 	 * Filters output of {@link GeoElement#getLabelDescription()}
@@ -55,13 +54,13 @@ public interface ToStringConverter {
 	 * @param tpl string template
 	 * @return string containing label, filtered value, or both, bases on element's label setting.
 	 */
-	@Nonnull String toLabelAndDescription(GeoElement object, StringTemplate tpl);
+	@NonNull String toLabelAndDescription(GeoElement object, StringTemplate tpl);
 
 	/**
 	 * @param object construction element
 	 * @return output value string, using default template
 	 */
-	default @Nonnull String convert(GeoElement object) {
+	default @NonNull String convert(GeoElement object) {
 		return toOutputValueString(object, StringTemplate.defaultTemplate);
 	}
 
@@ -69,7 +68,7 @@ public interface ToStringConverter {
 	 * @param object construction element
 	 * @return string containing label and description, using default template
 	 */
-	default @Nonnull String toLabelAndDescription(GeoElement object) {
+	default @NonNull String toLabelAndDescription(GeoElement object) {
 		return toLabelAndDescription(object, StringTemplate.defaultTemplate);
 	}
 

@@ -18,8 +18,6 @@ package org.geogebra.web.full.gui;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.menubar.MainMenu;
@@ -32,6 +30,7 @@ import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.resources.client.ResourcePrototype;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Factory to create popup menus.
@@ -79,7 +78,7 @@ public class ContextMenuItemFactory {
 	 * @return a new AriaMenuItem instance.
 	 */
 	public AriaMenuItem newAriaMenuItem(String text,
-			@CheckForNull ResourcePrototype icon, AriaMenuBar submenu) {
+			@Nullable ResourcePrototype icon, AriaMenuBar submenu) {
 		return new AriaMenuItem(text, icon, submenu);
 	}
 

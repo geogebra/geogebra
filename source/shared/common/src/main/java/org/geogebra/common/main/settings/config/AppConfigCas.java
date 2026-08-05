@@ -20,8 +20,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -39,6 +37,7 @@ import org.geogebra.common.main.syntax.suggestionfilter.CASSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.CasPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesFactory;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Config for CAS Calculator app
@@ -104,7 +103,7 @@ public class AppConfigCas extends AppConfigGraphing {
 	}
 
 	@Override
-	public @CheckForNull SyntaxFilter newCommandSyntaxFilter() {
+	public @Nullable SyntaxFilter newCommandSyntaxFilter() {
 		return new CASSyntaxFilter();
 	}
 

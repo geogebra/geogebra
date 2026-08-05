@@ -16,8 +16,6 @@
 
 package org.geogebra.common.euclidian.draw.dropdown;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
@@ -40,6 +38,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Draw a GeoList containing drawable objects
@@ -459,7 +458,7 @@ public final class DrawDropDownList extends CanvasDrawable
 	 * @return The DrawList for the geo element;
 	 * 
 	 */
-	public static @CheckForNull DrawDropDownList asDrawable(App app, GeoElement geo) {
+	public static @Nullable DrawDropDownList asDrawable(App app, GeoElement geo) {
 		DrawableND draw = app.getActiveEuclidianView().getDrawableFor(geo);
 		return draw instanceof DrawDropDownList ? (DrawDropDownList) draw : null;
 	}

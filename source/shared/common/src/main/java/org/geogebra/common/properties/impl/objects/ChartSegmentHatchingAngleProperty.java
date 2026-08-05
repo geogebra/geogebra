@@ -22,14 +22,13 @@ import static org.geogebra.common.properties.impl.objects.HatchingAngleProperty.
 
 import java.util.Objects;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.geos.ChartStyleGeo;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractRangeProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@code Property} responsible for setting the hatching angle
@@ -94,7 +93,7 @@ public final class ChartSegmentHatchingAngleProperty extends AbstractRangeProper
 	}
 
 	@Override
-	public @CheckForNull Integer getStep() {
+	public @Nullable Integer getStep() {
 		return chartSegmentSelection.mapSelectedSegments(chartStyleGeo.getIntervals(),
 				index -> getHatchingAngleStep(chartStyleGeo.getStyle().getBarFillType(index)))
 				.filter(Objects::nonNull)

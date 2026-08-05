@@ -27,13 +27,12 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.util.lang.Language;
+import org.jspecify.annotations.NonNull;
 
 /**
  * common jre localization
@@ -116,7 +115,7 @@ public abstract class LocalizationJre extends Localization {
 	}
 
 	@Override
-	final public @Nonnull String getMenuDefault(String key, String fallback) {
+	final public @NonNull String getMenuDefault(String key, String fallback) {
 		if (key == null) {
 			return "";
 		}

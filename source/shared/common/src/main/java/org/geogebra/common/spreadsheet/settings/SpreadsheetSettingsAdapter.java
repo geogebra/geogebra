@@ -18,13 +18,12 @@ package org.geogebra.common.spreadsheet.settings;
 
 import java.util.Objects;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.spreadsheet.core.CellSizes;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Synchronizes cell size and styling info between the {@code Spreadsheet} / {@code TableLayout}
@@ -41,7 +40,7 @@ public final class SpreadsheetSettingsAdapter<T> {
 	 * @param spreadsheet the spreadsheet
 	 * @param app the app
 	 */
-	public SpreadsheetSettingsAdapter(@Nonnull Spreadsheet<T> spreadsheet, @Nonnull App app) {
+	public SpreadsheetSettingsAdapter(@NonNull Spreadsheet<T> spreadsheet, @NonNull App app) {
 		this.spreadsheet = spreadsheet;
 		this.app = app;
 	}
@@ -78,7 +77,7 @@ public final class SpreadsheetSettingsAdapter<T> {
 	/**
 	 * @return the current cell format XML from the {@link SpreadsheetSettings}.
 	 */
-	private @CheckForNull String getCellFormatXml() {
+	private @Nullable String getCellFormatXml() {
 		SpreadsheetSettings spreadsheetSettings = app.getSettings().getSpreadsheet();
 		return spreadsheetSettings.getCellFormatXml();
 	}
@@ -99,7 +98,7 @@ public final class SpreadsheetSettingsAdapter<T> {
 	 * Sync Spreadsheet/TableLayout cell size changes -> SpreadsheetSettings
 	 * @param cellSizes cell size info
 	 */
-	private void spreadsheetCellSizesDidChange(@CheckForNull CellSizes cellSizes) {
+	private void spreadsheetCellSizesDidChange(@Nullable CellSizes cellSizes) {
 		if (cellSizes == null) {
 			return;
 		}
@@ -113,7 +112,7 @@ public final class SpreadsheetSettingsAdapter<T> {
 	 * @param cellFormatXml cell styling info in the XML format expected by the
 	 * {@link SpreadsheetSettings}.
 	 */
-	private void spreadsheetCellFormatDidChange(@CheckForNull String cellFormatXml) {
+	private void spreadsheetCellFormatDidChange(@Nullable String cellFormatXml) {
 		SpreadsheetSettings spreadsheetSettings = app.getSettings().getSpreadsheet();
 		spreadsheetSettings.setCellFormatXml(cellFormatXml);
 		previousCellFormatXml = cellFormatXml;

@@ -18,9 +18,8 @@ package org.geogebra.common.kernel.arithmetic.filter;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Combines a list of filters into a single ExpressionFilter.
@@ -33,12 +32,12 @@ final public class CompositeExpressionFilter implements ExpressionFilter {
 	 * Creates a new CompositeExpressionFilter
 	 * @param filters expression filters to combine
 	 */
-	public CompositeExpressionFilter(@Nonnull List<ExpressionFilter> filters) {
+	public CompositeExpressionFilter(@NonNull List<ExpressionFilter> filters) {
 		this.filters = filters;
 	}
 
 	@Override
-	public boolean isAllowed(@Nonnull ExpressionValue expression) {
+	public boolean isAllowed(@NonNull ExpressionValue expression) {
 		return filters.stream().allMatch(filter -> filter.isAllowed(expression));
 	}
 }

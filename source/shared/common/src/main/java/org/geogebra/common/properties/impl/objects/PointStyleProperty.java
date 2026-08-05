@@ -19,8 +19,6 @@ package org.geogebra.common.properties.impl.objects;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.PointProperties;
@@ -31,6 +29,7 @@ import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.PointStyleProperty.PointStyle;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@code Property} responsible for setting the style of points.
@@ -72,7 +71,7 @@ public class PointStyleProperty extends AbstractEnumeratedProperty<PointStyle>
 			this.iconResource = iconResource;
 		}
 
-		static @CheckForNull PointStyle withEuclidianStyleConstant(int euclidianStyleConstant) {
+		static @Nullable PointStyle withEuclidianStyleConstant(int euclidianStyleConstant) {
 			return Arrays.stream(values()).filter(pointStyle ->
 					pointStyle.euclidianStyleConstant == euclidianStyleConstant)
 					.findFirst().orElse(null);
@@ -106,7 +105,7 @@ public class PointStyleProperty extends AbstractEnumeratedProperty<PointStyle>
 	}
 
 	@Override
-	public @CheckForNull String[] getToolTipLabels() {
+	public @Nullable String[] getToolTipLabels() {
 		return null;
 	}
 

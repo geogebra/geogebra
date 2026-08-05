@@ -16,8 +16,6 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
@@ -26,6 +24,7 @@ import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.jspecify.annotations.Nullable;
 
 public class DefinitionProperty extends AbstractValuedProperty<String> implements StringProperty {
 	private final GeoElement element;
@@ -45,7 +44,7 @@ public class DefinitionProperty extends AbstractValuedProperty<String> implement
 	}
 
 	@Override
-	public @CheckForNull String validateValue(String value) {
+	public @Nullable String validateValue(String value) {
 		return null;
 	}
 

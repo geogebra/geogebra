@@ -16,14 +16,13 @@
 
 package org.geogebra.common.properties.impl.graphics;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.jspecify.annotations.NonNull;
 
 /** Property whose state may change when the backing 3D view changes. */
 public interface EuclidianView3DDependentProperty {
 	/**
 	 * @return the 3D view this property depends on
 	 */
-	@Nonnull EuclidianView3DInterface getEuclidianView3D();
+	@NonNull EuclidianView3DInterface getEuclidianView3D();
 }

@@ -19,20 +19,19 @@ package org.geogebra.common.spreadsheet;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.spreadsheet.core.CellDragPasteHandler;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellProcessor;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
 import org.geogebra.common.spreadsheet.core.TabularDataPasteInterface;
 import org.geogebra.common.spreadsheet.core.TabularDataPasteText;
+import org.jspecify.annotations.NonNull;
 
 public class TestTabularData implements TabularData<String> {
 
 	private final SpreadsheetCellProcessor cellProcessor = new SpreadsheetCellProcessor() {
 		@Override
-		public void process(@Nonnull String input, int row, int column) {
+		public void process(@NonNull String input, int row, int column) {
 			setContent(row, column, input.isEmpty() ? null : input);
 		}
 
@@ -124,7 +123,7 @@ public class TestTabularData implements TabularData<String> {
 	}
 
 	@Override
-	public @Nonnull String serializeContentAt(int row, int column) {
+	public @NonNull String serializeContentAt(int row, int column) {
 		return data.get(row).get(column);
 	}
 
@@ -135,12 +134,12 @@ public class TestTabularData implements TabularData<String> {
 	}
 
 	@Override
-	public void addChangeListener(@Nonnull TabularDataChangeListener listener) {
+	public void addChangeListener(@NonNull TabularDataChangeListener listener) {
 		// not needed in test
 	}
 
 	@Override
-	public @Nonnull TabularDataPasteInterface<String> getPaste() {
+	public @NonNull TabularDataPasteInterface<String> getPaste() {
 		return new TabularDataPasteText();
 	}
 
@@ -160,7 +159,7 @@ public class TestTabularData implements TabularData<String> {
 	}
 
 	@Override
-	public @Nonnull SpreadsheetCellProcessor getCellProcessor() {
+	public @NonNull SpreadsheetCellProcessor getCellProcessor() {
 		return cellProcessor;
 	}
 }

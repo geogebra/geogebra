@@ -18,25 +18,24 @@ package org.geogebra.common.gui.view.algebra;
 
 import java.util.Set;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.restrictions.FeatureRestriction;
 import org.geogebra.common.restrictions.Restrictable;
 import org.geogebra.common.util.AsyncOperation;
+import org.jspecify.annotations.NonNull;
 
 public class GeoSelectionCallback implements AsyncOperation<GeoElementND[]>, Restrictable {
 
 	private boolean restrictGraphSelectionForFunctions = false;
 
 	@Override
-	public void applyRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
+	public void applyRestrictions(@NonNull Set<FeatureRestriction> featureRestrictions) {
 		restrictGraphSelectionForFunctions = featureRestrictions
 				.contains(FeatureRestriction.AUTOMATIC_GRAPH_SELECTION_FOR_FUNCTIONS);
 	}
 
 	@Override
-	public void removeRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
+	public void removeRestrictions(@NonNull Set<FeatureRestriction> featureRestrictions) {
 		restrictGraphSelectionForFunctions = false;
 	}
 

@@ -19,17 +19,16 @@ package org.geogebra.common.kernel.arithmetic.vector;
 import java.util.EnumMap;
 import java.util.Map;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.printing.printer.Printer;
 import org.geogebra.common.kernel.printing.printer.vector.VectorPrinterMapBuilder;
 import org.geogebra.common.kernel.printing.printer.vector.VectorPrintingMode;
 import org.geogebra.common.main.settings.GeneralSettings;
+import org.jspecify.annotations.Nullable;
 
 public class VectorPrinterMapBuilder2D implements VectorPrinterMapBuilder {
 
     @Override
-    public Map<VectorPrintingMode, Printer> build(@CheckForNull GeneralSettings settings) {
+    public Map<VectorPrintingMode, Printer> build(@Nullable GeneralSettings settings) {
         Map<VectorPrintingMode, Printer> printerMap = new EnumMap<>(VectorPrintingMode.class);
         printerMap.put(VectorPrintingMode.Polar, new PolarPrinter());
         printerMap.put(VectorPrintingMode.Cartesian, new CartesianPrinter(settings));

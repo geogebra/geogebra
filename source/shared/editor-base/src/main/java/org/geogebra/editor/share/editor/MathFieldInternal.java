@@ -24,9 +24,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.editor.share.catalog.Tag;
 import org.geogebra.editor.share.controller.CursorController;
 import org.geogebra.editor.share.controller.CursorController.Traversal;
@@ -57,6 +54,8 @@ import org.geogebra.editor.share.tree.SequenceNode;
 import org.geogebra.editor.share.util.AltKeys;
 import org.geogebra.editor.share.util.FormulaConverter;
 import org.geogebra.editor.share.util.JavaKeyCodes;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.renderer.share.CursorBox;
@@ -659,7 +658,7 @@ public class MathFieldInternal
 	/**
 	 * @return sequence of letters left from the cursor (or selection end).
 	 */
-	public @Nonnull String getCharactersLeftOfCursor() {
+	public @NonNull String getCharactersLeftOfCursor() {
 		return getCharactersLeftOfCursorMatching(CharacterNode::isCharacter);
 	}
 
@@ -667,7 +666,7 @@ public class MathFieldInternal
 	 * @param predicate decides which characters to include
 	 * @return sequence of characters left of the cursor (or selection end) matching the predicate
 	 */
-	public @Nonnull String getCharactersLeftOfCursorMatching(Predicate<CharacterNode> predicate) {
+	public @NonNull String getCharactersLeftOfCursorMatching(Predicate<CharacterNode> predicate) {
 		StringBuilder str = new StringBuilder(" ");
 		SequenceNode currentField = editorState.getCurrentNode();
 		if (currentField != null) {
@@ -690,7 +689,7 @@ public class MathFieldInternal
 	 * predicate, up until (but not including) the first characters (looking left / right) for
 	 * which predicate returns false. Returns null if currentField is null.
 	 */
-	public @CheckForNull String getCharactersAroundCursorMatching(
+	public @Nullable String getCharactersAroundCursorMatching(
 			Predicate<CharacterNode> predicate) {
 		SequenceNode currentField = editorState.getCurrentNode();
 		if (currentField == null) {
@@ -748,7 +747,7 @@ public class MathFieldInternal
 		}
 	}
 
-	private @Nonnull String toString(List<CharacterNode> characters) {
+	private @NonNull String toString(List<CharacterNode> characters) {
 		StringBuilder sb = new StringBuilder();
 		for (CharacterNode character : characters) {
 			sb.append(character.toString());
@@ -1081,7 +1080,7 @@ public class MathFieldInternal
 	 * @param mathFieldInternalListener listener
 	 */
 	public void registerMathFieldInternalListener(
-			@Nonnull MathFieldInternalListener mathFieldInternalListener) {
+			@NonNull MathFieldInternalListener mathFieldInternalListener) {
 		mathFieldInternalListeners.add(mathFieldInternalListener);
 	}
 
@@ -1090,7 +1089,7 @@ public class MathFieldInternal
 	 * @param mathFieldInternalListener a previously registered listener
 	 */
 	public void unregisterMathFieldInternalListener(
-			@Nonnull MathFieldInternalListener mathFieldInternalListener) {
+			@NonNull MathFieldInternalListener mathFieldInternalListener) {
 		mathFieldInternalListeners.remove(mathFieldInternalListener);
 	}
 

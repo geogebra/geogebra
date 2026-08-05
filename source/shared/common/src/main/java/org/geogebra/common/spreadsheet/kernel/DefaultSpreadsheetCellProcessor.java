@@ -21,8 +21,6 @@ import static org.geogebra.editor.share.util.Unicode.ASSIGN_STRING;
 
 import java.util.Arrays;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -42,6 +40,7 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetCellProcessor;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Sends spreadsheet cell editor input towards the AlgebraProcessor.
@@ -57,7 +56,7 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	 * Constructor.
 	 * @param algebraProcessor {@link AlgebraProcessor}
 	 */
-	public DefaultSpreadsheetCellProcessor(@Nonnull AlgebraProcessor algebraProcessor) {
+	public DefaultSpreadsheetCellProcessor(@NonNull AlgebraProcessor algebraProcessor) {
 		this.algebraProcessor = algebraProcessor;
 	}
 

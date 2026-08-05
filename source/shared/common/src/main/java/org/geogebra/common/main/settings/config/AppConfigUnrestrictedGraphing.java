@@ -20,8 +20,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
@@ -32,6 +30,7 @@ import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.settings.config.equationforms.DefaultEquationBehaviour;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Config for the Suite app (currently graphing before tool removal)
@@ -92,7 +91,7 @@ public class AppConfigUnrestrictedGraphing extends AppConfigGraphing {
 	}
 
 	@Override
-	public @CheckForNull SyntaxFilter newCommandSyntaxFilter() {
+	public @Nullable SyntaxFilter newCommandSyntaxFilter() {
 		return null;
 	}
 

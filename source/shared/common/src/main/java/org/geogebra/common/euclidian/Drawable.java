@@ -20,9 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
@@ -49,6 +46,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -235,7 +234,7 @@ public abstract class Drawable extends DrawableND {
 	 * 
 	 * @return null when this Drawable is infinite or undefined
 	 */
-	public @CheckForNull GRectangle getBounds() {
+	public @Nullable GRectangle getBounds() {
 		return null;
 	}
 
@@ -571,7 +570,7 @@ public abstract class Drawable extends DrawableND {
 	 *            - threshold
 	 * @return bounding box handler
 	 */
-	public @Nonnull ShapeManipulationHandler hitBoundingBoxHandler(int x, int y, int hitThreshold) {
+	public @NonNull ShapeManipulationHandler hitBoundingBoxHandler(int x, int y, int hitThreshold) {
 		if (getBoundingBox() != null && getBoundingBox() == view.getBoundingBox()) {
 			return getBoundingBox().getHitHandler(x, y, hitThreshold);
 		}
@@ -854,7 +853,7 @@ public abstract class Drawable extends DrawableND {
 	 *            font
 	 * @return text layout
 	 */
-	public @CheckForNull GTextLayout getTextLayout(String text, GFont font) {
+	public @Nullable GTextLayout getTextLayout(String text, GFont font) {
 		if (text == null || text.isEmpty()) {
 			return null;
 		}
@@ -878,11 +877,11 @@ public abstract class Drawable extends DrawableND {
 	 * @return bounds of the drawn path
 	 */
 	@Override
-	public @CheckForNull GRectangle2D getBoundsForStylebarPosition() {
+	public @Nullable GRectangle2D getBoundsForStylebarPosition() {
 		return getBounds();
 	}
 
-	public @CheckForNull GRectangle2D getBoundsForCorner() {
+	public @Nullable GRectangle2D getBoundsForCorner() {
 		return getBounds();
 	}
 

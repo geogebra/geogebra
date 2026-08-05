@@ -18,15 +18,14 @@ package org.geogebra.common.properties.factory;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollection;
+import org.jspecify.annotations.Nullable;
 
 final class PropertiesRegistration {
 
-	static PropertiesArray registerProperties(@CheckForNull PropertiesRegistry registry,
+	static PropertiesArray registerProperties(@Nullable PropertiesRegistry registry,
 			PropertiesArray properties) {
 		if (registry != null) {
 			registerProperties(registry, properties.getProperties());
@@ -34,7 +33,7 @@ final class PropertiesRegistration {
 		return properties;
 	}
 
-	static Property registerProperty(@CheckForNull PropertiesRegistry registry, Property property) {
+	static Property registerProperty(@Nullable PropertiesRegistry registry, Property property) {
 		if (registry != null) {
 			if (property instanceof PropertyCollection<?>) {
 				PropertyCollection collection = (PropertyCollection) property;
@@ -45,7 +44,7 @@ final class PropertiesRegistration {
 		return property;
 	}
 
-	static Property[] registerProperties(@CheckForNull PropertiesRegistry registry, Property... properties) {
+	static Property[] registerProperties(@Nullable PropertiesRegistry registry, Property... properties) {
 		if (registry != null) {
 			for (Property property : properties) {
 				registerProperty(registry, property);
@@ -54,7 +53,7 @@ final class PropertiesRegistration {
 		return properties;
 	}
 
-	static List<Property> registerProperties(@CheckForNull PropertiesRegistry registry,
+	static List<Property> registerProperties(@Nullable PropertiesRegistry registry,
 			List<Property> properties) {
 		if (registry != null) {
 			for (Property property : properties) {

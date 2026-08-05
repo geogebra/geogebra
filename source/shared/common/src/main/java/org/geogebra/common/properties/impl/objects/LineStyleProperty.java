@@ -16,8 +16,6 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
@@ -28,6 +26,7 @@ import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.AbstractGeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.LineStylePropertyDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Line style
@@ -52,7 +51,7 @@ public class LineStyleProperty extends AbstractEnumeratedProperty<Integer>
 	}
 
 	@Override
-	public @CheckForNull String[] getToolTipLabels() {
+	public @Nullable String[] getToolTipLabels() {
 		return null;
 	}
 

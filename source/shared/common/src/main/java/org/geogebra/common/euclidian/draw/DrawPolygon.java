@@ -19,8 +19,6 @@ package org.geogebra.common.euclidian.draw;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GGraphics2D;
@@ -43,6 +41,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
+import org.jspecify.annotations.NonNull;
 
 /**
  *
@@ -54,7 +53,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private boolean isVisible;
 	private boolean labelVisible;
 
-	private final @Nonnull GeneralPathClipped gp;
+	private final @NonNull GeneralPathClipped gp;
 	private double[] coords = new double[2];
 	private ArrayList<GeoPointND> points;
 

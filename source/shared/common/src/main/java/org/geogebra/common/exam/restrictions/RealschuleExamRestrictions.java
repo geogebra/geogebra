@@ -201,8 +201,6 @@ import static org.geogebra.common.plugin.Operation.ARG;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -241,6 +239,7 @@ import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty
 import org.geogebra.common.restrictions.FeatureRestriction;
 import org.geogebra.common.restrictions.PropertyRestriction;
 import org.geogebra.common.restrictions.Restrictions;
+import org.jspecify.annotations.NonNull;
 
 public final class RealschuleExamRestrictions extends Restrictions {
 
@@ -451,7 +450,7 @@ public final class RealschuleExamRestrictions extends Restrictions {
 	private static final class HiddenSingleVariableEquationVisibilityRestriction
 			implements VisibilityRestriction {
 		@Override
-		public @Nonnull Effect getEffect(GeoElement geoElement) {
+		public @NonNull Effect getEffect(GeoElement geoElement) {
 			return (geoElement instanceof EquationValue
 					&& isOnlyX(((EquationValue) geoElement).getEquationVariables())
 			) ? HIDE : IGNORE;

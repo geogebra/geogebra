@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Chart segment selection logic, holding the index of the selected bar/slice, enabling passing
@@ -104,7 +104,7 @@ public final class ChartSegmentSelection {
 	 * If a single segment is selected, return the getter's value for that segment.
 	 * @param <T> value type
 	 */
-	public <T> @CheckForNull T getUniformValueOrNull(
+	public <T> @Nullable T getUniformValueOrNull(
 			int chartSegmentCount, Function<Integer, T> getter) {
 		List<T> values = selectedSegmentIndexStream(chartSegmentCount)
 				.mapToObj(getter::apply).distinct().limit(2).collect(Collectors.toList());
@@ -119,7 +119,7 @@ public final class ChartSegmentSelection {
 	 * segment when all are selected, or the selected segment when there is a single selection.
 	 * @param <T> value type
 	 */
-	public <T> @CheckForNull T getFirstValue(int chartSegmentCount, Function<Integer, T> getter) {
+	public <T> @Nullable T getFirstValue(int chartSegmentCount, Function<Integer, T> getter) {
 		if (chartSegmentCount == 0) {
 			return null;
 		}

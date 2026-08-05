@@ -16,8 +16,6 @@
 
 package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.FocusableComponent;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ScreenReader;
@@ -53,6 +51,7 @@ import org.gwtproject.event.dom.client.KeyEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.ScrollPanel;
+import org.jspecify.annotations.NonNull;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;
@@ -89,7 +88,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize,
 	 * @param app application
 	 * @param spreadsheet spreadsheet
 	 */
-	public SpreadsheetPanel(AppW app, @Nonnull Spreadsheet<?> spreadsheet) {
+	public SpreadsheetPanel(AppW app, @NonNull Spreadsheet<?> spreadsheet) {
 		Canvas spreadsheetWidget = Canvas.createIfSupported();
 		spreadsheetWidget.addStyleName("spreadsheetWidget");
 		graphics = new GGraphics2DW(spreadsheetWidget);

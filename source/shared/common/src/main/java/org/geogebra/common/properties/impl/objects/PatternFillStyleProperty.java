@@ -18,8 +18,6 @@ package org.geogebra.common.properties.impl.objects;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.properties.FillType;
@@ -29,6 +27,7 @@ import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.FillableDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Property for selecting a pattern-based fill style (e.g., hatched, dotted, honeycomb) of a
@@ -68,7 +67,7 @@ public class PatternFillStyleProperty extends AbstractEnumeratedProperty<FillTyp
 	}
 	
 	@Override
-	public @CheckForNull String[] getToolTipLabels() {
+	public @Nullable String[] getToolTipLabels() {
 		return rawLabels;
 	}
 

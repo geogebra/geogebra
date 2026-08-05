@@ -28,9 +28,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -137,6 +134,8 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 import org.geogebra.common.properties.remembered.RememberedProperties;
 import org.geogebra.common.restrictions.PropertyRestriction;
 import org.geogebra.common.util.ImageManager;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates the list of properties for a GeoElement or for a list of GeoElements.
@@ -320,7 +319,7 @@ public final class GeoElementPropertiesFactory {
 				propertiesArray.getProperties().length > 0).collect(Collectors.toList());
 	}
 
-	private @Nonnull PropertiesArray createBasicProperties(
+	private @NonNull PropertiesArray createBasicProperties(
 			Localization localization, List<GeoElement> elements) {
 		App app = elements.get(0).getApp();
 		return app.isWhiteboardActive()
@@ -366,7 +365,7 @@ public final class GeoElementPropertiesFactory {
 	 * @param elements list of geos
 	 * @return array of properties for Style tab
 	 */
-	public @Nonnull PropertiesArray createStyleProperties(
+	public @NonNull PropertiesArray createStyleProperties(
 			AlgebraProcessor processor, ImageManager imageManager,
 			Localization localization, List<GeoElement> elements) {
 		boolean isWhiteboard = processor.getKernel().getApplication().isWhiteboardActive();
@@ -400,7 +399,7 @@ public final class GeoElementPropertiesFactory {
 		));
 	}
 
-	private @Nonnull PropertiesArray createAdvancedProperties(AlgebraProcessor processor,
+	private @NonNull PropertiesArray createAdvancedProperties(AlgebraProcessor processor,
 			Localization localization, List<GeoElement> elements) {
 		boolean isWhiteboard = processor.getKernel().getApplication().isWhiteboardActive();
 		return createPropsArray("Advanced", localization, Stream.of(
@@ -424,7 +423,7 @@ public final class GeoElementPropertiesFactory {
 		));
 	}
 
-	private @Nonnull PropertiesArray createScriptProperties(
+	private @NonNull PropertiesArray createScriptProperties(
 			Localization localization, boolean jsEnabled, List<GeoElement> elements) {
 		return createPropsArray("Scripting", localization, Stream.of(
 				new ScriptPropertyCollection(this, localization, elements, jsEnabled)));
@@ -954,7 +953,7 @@ public final class GeoElementPropertiesFactory {
 	 * @param elements elements
 	 * @return property or null
 	 */
-	public @CheckForNull Property createTextFontSizeProperty(
+	public @Nullable Property createTextFontSizeProperty(
 			Localization localization, List<GeoElement> elements) {
 		App app = elements.get(0).getApp();
 		return app.isWhiteboardActive()
@@ -1198,7 +1197,7 @@ public final class GeoElementPropertiesFactory {
 	 * @param <P> the type of individual properties to be created
 	 * @param <C> the type of the property collection to be created
 	 */
-	public <P extends Property, C extends Property> @CheckForNull C createOptionalPropertyFacade(
+	public <P extends Property, C extends Property> @Nullable C createOptionalPropertyFacade(
 			List<GeoElement> geoElements,
 			GeoElementPropertyFactory<P> propertyFactory,
 			PropertyCollector<P, C> propertyCollector
@@ -1227,7 +1226,7 @@ public final class GeoElementPropertiesFactory {
 	 * @throws NotApplicablePropertyException if the property cannot be applied
 	 * @throws IllegalArgumentException if the property can't be created from
 	 * to the given {@link GeoElement} */
-	public <P extends Property, C extends Property> @Nonnull C createPropertyFacadeThrowing(
+	public <P extends Property, C extends Property> @NonNull C createPropertyFacadeThrowing(
 			List<GeoElement> geoElements,
 			GeoElementPropertyFactory<P> propertyFactory,
 			PropertyCollector<P, C> propertyCollector

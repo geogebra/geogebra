@@ -35,9 +35,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
@@ -200,6 +197,8 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -246,7 +245,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private final SpotlightController spotlightController;
 	public double xRW;
 	public double yRW;
-	protected @CheckForNull GeoPointND movedGeoPoint;
+	protected @Nullable GeoPointND movedGeoPoint;
 	protected GeoElement resultedGeo;
 	public boolean draggingBeyondThreshold = false;
 	@Weak
@@ -4978,7 +4977,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				intersectPossible, true, complexPoint);
 	}
 
-	protected @CheckForNull GeoPointND createNewPointND(Hits hits, boolean onPathPossible,
+	protected @Nullable GeoPointND createNewPointND(Hits hits, boolean onPathPossible,
 			boolean inRegionPossible, boolean intersectPossible,
 			boolean doSingleHighlighting, boolean complexPoint) {
 		pointCreated = null;
@@ -6340,7 +6339,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		view.setCursor(HIT);
 	}
 
-	protected void processMouseMoved(@Nonnull AbstractEvent event) {
+	protected void processMouseMoved(@NonNull AbstractEvent event) {
 		boolean repaintNeeded;
 
 		// reset icon
@@ -6576,7 +6575,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *
 	 * @param event mouse exit event
 	 */
-	public void wrapMouseExited(@CheckForNull AbstractEvent event) {
+	public void wrapMouseExited(@Nullable AbstractEvent event) {
 		if (isTextfieldHasFocus()) {
 			return;
 		}
@@ -8043,7 +8042,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * Sends the widgets to the background.
 	 * @param evt event that triggered this action
 	 */
-	public void widgetsToBackground(@CheckForNull AbstractEvent evt) {
+	public void widgetsToBackground(@Nullable AbstractEvent evt) {
 		if (app.getVideoManager() != null) {
 			app.getVideoManager().backgroundAll();
 		}
@@ -10296,7 +10295,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @param mayFocus
 	 *            whether focusing view is allowed
 	 */
-	public void wrapMouseReleasedND(final @Nonnull AbstractEvent event,
+	public void wrapMouseReleasedND(final @NonNull AbstractEvent event,
 			boolean mayFocus) {
 		boolean rightClick = event.isRightClick();
 		PointerEventType type = event.getType();
@@ -10687,7 +10686,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @param event
 	 *            pointer event
 	 */
-	public void endOfWrapMouseReleased(Hits hits, @Nonnull AbstractEvent event) {
+	public void endOfWrapMouseReleased(Hits hits, @NonNull AbstractEvent event) {
 		boolean control = event.isControlDown();
 		boolean alt = event.isAltDown();
 		PointerEventType type = event.getType();
@@ -12790,7 +12789,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *
 	 * @param geo newly created element
 	 */
-	private void applyRememberedProperties(@Nonnull GeoElement geo) {
+	private void applyRememberedProperties(@NonNull GeoElement geo) {
 		RememberedProperties rememberedProperties = app.appScope.getRememberedProperties();
 		rememberedProperties.apply(geo);
 	}

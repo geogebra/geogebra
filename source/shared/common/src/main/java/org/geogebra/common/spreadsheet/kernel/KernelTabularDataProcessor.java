@@ -16,11 +16,10 @@
 
 package org.geogebra.common.spreadsheet.kernel;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.ownership.NonOwning;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Class to handle insert/delete operations of TabularData that has geos.
@@ -41,7 +40,7 @@ final class KernelTabularDataProcessor {
 	@NonOwning
 	private final KernelTabularDataAdapter adapter;
 
-	KernelTabularDataProcessor(@Nonnull KernelTabularDataAdapter adapter) {
+	KernelTabularDataProcessor(@NonNull KernelTabularDataAdapter adapter) {
 		this.adapter = adapter;
 	}
 

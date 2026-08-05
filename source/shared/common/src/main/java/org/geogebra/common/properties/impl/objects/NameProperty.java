@@ -16,8 +16,6 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.main.App;
@@ -28,6 +26,7 @@ import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NamePropertyDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Name
@@ -72,7 +71,7 @@ public class NameProperty extends AbstractValuedProperty<String> implements Stri
 	}
 
 	@Override
-	public @CheckForNull String validateValue(String value) {
+	public @Nullable String validateValue(String value) {
 		GeoElement element = delegate.getElement();
 		if (value.isEmpty() || !LabelManager.isValidLabel(value, element.getKernel(), element)) {
 			return getLocalization().getError("InvalidInput");

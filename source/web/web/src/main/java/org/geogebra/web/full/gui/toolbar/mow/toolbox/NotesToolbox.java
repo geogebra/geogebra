@@ -28,8 +28,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.ModeChangeListener;
 import org.geogebra.common.exam.ExamListener;
@@ -52,13 +50,14 @@ import org.geogebra.web.html5.main.toolbox.ToolboxIconResource;
 import org.geogebra.web.shared.mow.header.NotesTopBar;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
+import org.jspecify.annotations.Nullable;
 
 public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeListener, ExamListener {
 	private final AppW appW;
 	private final ToolboxDecorator decorator;
 	private final ToolboxController controller;
 	private final List<String> allTools;
-	private @CheckForNull IconButton spotlightButton;
+	private @Nullable IconButton spotlightButton;
 	private final List<IconButton> buttons = new ArrayList<>();
 	private final ToolboxIconResource toolboxIconResource;
 	private IconButton lastSelectedButtonWithMenu;

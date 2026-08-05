@@ -23,8 +23,6 @@ import static org.geogebra.common.kernel.geos.GeoElement.COLORSPACE_RGB;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -33,6 +31,7 @@ import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@code Property} responsible for setting the component of an advanced color for an object.
@@ -164,7 +163,7 @@ public final class DynamicColorComponentProperty extends AbstractValuedProperty<
 	}
 
 	@Override
-	public @CheckForNull String validateValue(String value) {
+	public @Nullable String validateValue(String value) {
 		try {
 			ValidExpression validExpression = geoElement.getKernel().getParser()
 					.parseGeoGebraExpression(value);

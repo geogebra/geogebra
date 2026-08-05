@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle2D;
@@ -56,6 +54,7 @@ import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.Nullable;
 
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.serialize.SerializationAdapter;
@@ -313,7 +312,7 @@ public class GeoText extends GeoElement
 	 * @return the string wrapped in this text
 	 */
 	@Override
-	final public @CheckForNull String getTextString() {
+	final public @Nullable String getTextString() {
 		return str;
 	}
 

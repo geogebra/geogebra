@@ -18,8 +18,6 @@ package org.geogebra.common.properties.impl.objects;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -28,6 +26,7 @@ import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.ScriptEventSelectionProperty.ScriptEvent;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.jspecify.annotations.NonNull;
 
 /** {@code Property} responsible for selecting the script language (GgbScript or JavaScript). */
 public class ScriptLanguageSelectionProperty extends AbstractNamedEnumeratedProperty<ScriptType> {
@@ -60,7 +59,7 @@ public class ScriptLanguageSelectionProperty extends AbstractNamedEnumeratedProp
 	}
 
 	@Override
-	public @Nonnull List<ScriptType> getValues() {
+	public @NonNull List<ScriptType> getValues() {
 		return List.of(ScriptType.GGBSCRIPT, ScriptType.JAVASCRIPT);
 	}
 

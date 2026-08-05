@@ -16,8 +16,6 @@
 
 package org.geogebra.common.euclidian.draw;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GArea;
@@ -30,6 +28,7 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.kernel.geos.HasSegmentStyle;
 import org.geogebra.common.kernel.geos.SegmentStyle;
+import org.jspecify.annotations.Nullable;
 
 public class DrawSegmentWithEndings {
 	private final HasSegmentStyle segment;
@@ -40,8 +39,8 @@ public class DrawSegmentWithEndings {
 	private int posX;
 	private int posY;
 	private boolean isStartStyle;
-	private @CheckForNull GShape solidStart;
-	private @CheckForNull GShape solidEnd;
+	private @Nullable GShape solidStart;
+	private @Nullable GShape solidEnd;
 	private GShape subtractedLine;
 
 	/**

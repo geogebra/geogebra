@@ -22,8 +22,6 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.io.ObjectLabelHandler;
 import org.geogebra.common.main.App.ExportType;
@@ -76,6 +74,7 @@ import org.gwtproject.event.dom.client.TouchMoveEvent;
 import org.gwtproject.event.dom.client.TouchMoveHandler;
 import org.gwtproject.event.dom.client.TouchStartEvent;
 import org.gwtproject.event.dom.client.TouchStartHandler;
+import org.jspecify.annotations.NonNull;
 
 import com.google.gwt.core.client.Scheduler;
 
@@ -332,7 +331,7 @@ public class PageListController implements PageListControllerInterface,
 	 * @return the new, duplicated card.
 	 */
 	private PagePreviewCard pasteSlide(PagePreviewCard sourceCard,
-			@Nonnull String targetID, String json) {
+			@NonNull String targetID, String json) {
 		savePreviewCard(selectedCard);
 		PagePreviewCard dup = PagePreviewCard.pasteAfter(sourceCard, targetID, json);
 		int dupIdx = dup.getPageIndex();

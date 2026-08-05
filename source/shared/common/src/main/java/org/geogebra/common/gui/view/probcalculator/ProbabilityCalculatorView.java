@@ -21,9 +21,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -83,6 +80,8 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Common view for probability calculator
@@ -120,7 +119,7 @@ public abstract class ProbabilityCalculatorView
 
 	private EuclidianView plotPanel;
 
-	private @CheckForNull ProbabilityTable table;
+	private @Nullable ProbabilityTable table;
 	/** enable/disable integral ---- use for testing */
 	protected boolean hasIntegral = true;
 
@@ -241,7 +240,7 @@ public abstract class ProbabilityCalculatorView
 	 * Registers a listener for probability calculator view changes.
 	 * @param listener listener to add
 	 */
-	public void addListener(@Nonnull Listener listener) {
+	public void addListener(@NonNull Listener listener) {
 		listeners.add(listener);
 	}
 
@@ -249,7 +248,7 @@ public abstract class ProbabilityCalculatorView
 	 * Unregisters a probability calculator view change listener.
 	 * @param listener listener to remove
 	 */
-	public void removeListener(@Nonnull Listener listener) {
+	public void removeListener(@NonNull Listener listener) {
 		listeners.remove(listener);
 	}
 
@@ -470,7 +469,7 @@ public abstract class ProbabilityCalculatorView
 		return isCumulative;
 	}
 
-	public @Nonnull String getProbabilityExpression() {
+	public @NonNull String getProbabilityExpression() {
 		return loc.getMenu("ProbabilityOf") + "X " + (isCumulative ? Unicode.LESS_EQUAL : "=")
 				+ " k" + loc.getMenu("EndProbabilityOf");
 	}

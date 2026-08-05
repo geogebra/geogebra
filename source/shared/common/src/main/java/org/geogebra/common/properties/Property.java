@@ -16,7 +16,7 @@
 
 package org.geogebra.common.properties;
 
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * A settings property of the GeoGebra App.
@@ -34,13 +34,13 @@ public interface Property extends PropertySupplier {
     /**
      * @return The raw, unlocalized name of the property.
      */
-    @Nonnull String getRawName();
+    @NonNull String getRawName();
 
     /**
      * @return A unique identifier for the type of this property. This is used e.g. by
      * the {@link PropertiesRegistry} for property registration and lookup.
      */
-    @Nonnull PropertyKey getKey();
+    @NonNull PropertyKey getKey();
 
     /**
      * Returns whether the property is enabled. In some cases

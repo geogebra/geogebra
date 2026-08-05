@@ -18,8 +18,6 @@ package org.geogebra.web.html5.kernel;
 
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OpenFileListener;
@@ -33,6 +31,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.PageListControllerInterface;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Undo manager using session storage
@@ -119,7 +118,7 @@ public class UndoManagerW extends DefaultUndoManager {
 	}
 
 	@Override
-	public void replayActions(final String slideID, @Nonnull final UndoCommand until) {
+	public void replayActions(final String slideID, @NonNull final UndoCommand until) {
 		super.replayActions(slideID, until);
 		updatePreviewCard(slideID);
 	}

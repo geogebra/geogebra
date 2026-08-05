@@ -16,9 +16,6 @@
 
 package org.geogebra.web.full.gui.view.probcalculator;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorTableValuesViewModel;
@@ -45,6 +42,8 @@ import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Probability Calculator View for web
@@ -57,7 +56,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 
 	protected FlowPanel probCalcPanel;
 	private IconButton overlayIconButton;
-	private @CheckForNull IconButton tableIconButton;
+	private @Nullable IconButton tableIconButton;
 	private IconButton btnLineGraph;
 	private IconButton btnStepGraph;
 	private IconButton btnBarGraph;
@@ -219,7 +218,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	 * Adds the probability table shared with the distribution view to the side sheet.
 	 * @param table probability table
 	 */
-	public void setSideSheetTable(@Nonnull StickyProbabilityTable table) {
+	public void setSideSheetTable(@NonNull StickyProbabilityTable table) {
 		table.setStyleName("tvTable", true);
 		if (sideSheet != null) {
 			sideSheet.addToContent(table);
@@ -414,7 +413,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		return app;
 	}
 
-	public @CheckForNull ProbabilityCalculatorTableValuesViewModel getModel() {
+	public @Nullable ProbabilityCalculatorTableValuesViewModel getModel() {
 		return tableModel;
 	}
 }

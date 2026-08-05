@@ -16,8 +16,6 @@
 
 package org.geogebra.common.kernel.commands;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -29,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
+import org.jspecify.annotations.Nullable;
 
 /**
  * abstract class for Commands with one list argument eg Mean[ &lt;List&gt; ]
@@ -127,7 +126,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 		throw argErr(command, element);
 	}
 
-	protected GeoElement doCommand(String label, GeoList list, @CheckForNull EvalInfo info) {
+	protected GeoElement doCommand(String label, GeoList list, @Nullable EvalInfo info) {
 		return doCommand(label, list);
 	}
 

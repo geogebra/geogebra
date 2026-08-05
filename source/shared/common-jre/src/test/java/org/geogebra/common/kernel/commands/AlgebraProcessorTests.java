@@ -36,9 +36,6 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
@@ -61,6 +58,8 @@ import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.annotation.Issue;
 import org.hamcrest.CoreMatchers;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -128,12 +127,12 @@ class AlgebraProcessorTests extends BaseUnitTest {
 		ArrayList<Object> loggedCommands = new ArrayList<>();
 		Analytics mockAnalytics = new Analytics() {
 			@Override
-			protected void recordEvent(String name, @CheckForNull Map<String, Object> params) {
+			protected void recordEvent(String name, @Nullable Map<String, Object> params) {
 				loggedCommands.add(Objects.requireNonNull(params).get(Analytics.Param.COMMAND));
 			}
 
 			@Override
-			protected void setDefaultEventParametersInternal(@Nonnull Map<String, Object> params) {
+			protected void setDefaultEventParametersInternal(@NonNull Map<String, Object> params) {
 				// don't keep track of default parameters
 			}
 		};

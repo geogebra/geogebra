@@ -18,7 +18,7 @@ package org.geogebra.common.gui.menu;
 
 import java.io.Serializable;
 
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A model describing a single menu item.
@@ -31,7 +31,7 @@ public interface MenuItem extends Serializable {
 	 *
 	 * @return icon
 	 */
-	@CheckForNull Icon getIcon();
+	@Nullable Icon getIcon();
 
 	/**
 	 * Get the translation key of the label of them menu item.

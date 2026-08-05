@@ -18,11 +18,10 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Calculate statistics from spreadsheet contents.
@@ -52,9 +51,9 @@ public interface SpreadsheetStatistics {
 				"Statistics.Error.TwoNumericDataRangesRequired");
 
 		/** The translation key for this error. */
-		public final @Nonnull String localizationKey;
+		public final @NonNull String localizationKey;
 
-		Error(@Nonnull String localizationKey) {
+		Error(@NonNull String localizationKey) {
 			this.localizationKey = localizationKey;
 		}
 	}
@@ -76,14 +75,14 @@ public interface SpreadsheetStatistics {
 		 * One-variable statistics input.
 		 * @param cellRange A spreadsheet cell range.
 		 */
-		record OneVarInput(@CheckForNull SpreadsheetReference cellRange) implements Input {
+		record OneVarInput(@Nullable SpreadsheetReference cellRange) implements Input {
 			/**
 			 * Converting constructor, accepting a {@link TabularRange}.
 			 * @param range If finite (bounded in both directions), the result will be a
 			 * {@link SpreadsheetReference} truncated to {@code range}'s first column. An unbounded
 			 * {@code range} will give {@code null}.
 			 */
-			public OneVarInput(@Nonnull TabularRange range) {
+			public OneVarInput(@NonNull TabularRange range) {
 				this(SpreadsheetReference.fromRange(range.firstColumn()));
 			}
 		}
@@ -93,15 +92,15 @@ public interface SpreadsheetStatistics {
 		 * @param cellRangeX A spreadsheet cell range for variable X.
 		 * @param cellRangeY A spreadsheet cell range for variable Y.
 		 */
-		record TwoVarInput(@CheckForNull SpreadsheetReference cellRangeX,
-						   @CheckForNull SpreadsheetReference cellRangeY) implements Input {
+		record TwoVarInput(@Nullable SpreadsheetReference cellRangeX,
+						   @Nullable SpreadsheetReference cellRangeY) implements Input {
 			/**
 			 * Converting constructor, accepting a {@link TabularRange}.
 			 * @param range If finite (bounded in both directions), the result will be two
 			 * {@link SpreadsheetReference}s truncated to {@code range}'s first (X) and second (Y)
 			 * column, respectively.
 			 */
-			public TwoVarInput(@Nonnull TabularRange range) {
+			public TwoVarInput(@NonNull TabularRange range) {
 				this(SpreadsheetReference.fromRange(range.firstColumn()),
 						SpreadsheetReference.fromRange(range.secondColumn()));
 			}
@@ -114,16 +113,16 @@ public interface SpreadsheetStatistics {
 		 * @param regression The regression model. If {@code null}, the default (first) regression
 		 * model will be used for calculation.
 		 */
-		record RegressionInput(@CheckForNull SpreadsheetReference cellRangeX,
-							   @CheckForNull SpreadsheetReference cellRangeY,
-							   @CheckForNull RegressionSpecification regression) implements Input {
+		record RegressionInput(@Nullable SpreadsheetReference cellRangeX,
+							   @Nullable SpreadsheetReference cellRangeY,
+							   @Nullable RegressionSpecification regression) implements Input {
 			/**
 			 * Converting constructor, accepting a {@link TabularRange}.
 			 * @param range If finite (bounded in both directions), the result will be two
 			 * {@link SpreadsheetReference}s truncated to {@code range}'s first (X) and second (Y)
 			 * column, respectively.
 			 */
-			public RegressionInput(@Nonnull TabularRange range) {
+			public RegressionInput(@NonNull TabularRange range) {
 				this(SpreadsheetReference.fromRange(range.firstColumn()),
 						SpreadsheetReference.fromRange(range.secondColumn()),
 						null);
@@ -139,15 +138,15 @@ public interface SpreadsheetStatistics {
 		 * Valid input, calculation successful.
 		 * @param statisticGroups calculation result
 		 */
-		record Valid(@Nonnull List<StatisticGroup> statisticGroups) implements Result { }
+		record Valid(@NonNull List<StatisticGroup> statisticGroups) implements Result { }
 
 		/**
 		 * Invalid input, error.
 		 * @param error what went wrong
 		 * @param dataRange the range that requires user attention
 		 */
-		record Invalid(@Nonnull Error error,
-					   @CheckForNull DataRange dataRange) implements Result { }
+		record Invalid(@NonNull Error error,
+					   @Nullable DataRange dataRange) implements Result { }
 	}
 
 	/**
@@ -155,22 +154,22 @@ public interface SpreadsheetStatistics {
 	 * @param range The spreadsheet range used for the statistics calculation (will be validated).
 	 * @return a view providing auto-updating one-variable statistics
 	 */
-	@Nonnull SpreadsheetStatisticsView.OneVar getOneVarStatistics(
-			@Nonnull TabularRange range);
+	SpreadsheetStatisticsView.@NonNull OneVar getOneVarStatistics(
+			@NonNull TabularRange range);
 
 	/**
 	 * Create an auto-updating view for two-variable statistics.
 	 * @param range The spreadsheet range used for the statistics calculation (will be validated).
 	 * @return a view providing auto-updating two-variable statistics
 	 */
-	@Nonnull SpreadsheetStatisticsView.TwoVar getTwoVarStatistics(
-			@Nonnull TabularRange range);
+	SpreadsheetStatisticsView.@NonNull TwoVar getTwoVarStatistics(
+			@NonNull TabularRange range);
 
 	/**
 	 * Create an auto-updating view for regression metrics.
 	 * @param range The spreadsheet range used for the statistics calculation (will be validated).
 	 * @return a view providing auto-updating regression metrics
 	 */
-	@Nonnull SpreadsheetStatisticsView.Regression getRegression(
-			@Nonnull TabularRange range);
+	SpreadsheetStatisticsView.@NonNull Regression getRegression(
+			@NonNull TabularRange range);
 }

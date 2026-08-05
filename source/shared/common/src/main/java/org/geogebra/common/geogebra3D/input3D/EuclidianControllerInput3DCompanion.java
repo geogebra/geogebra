@@ -19,8 +19,6 @@ package org.geogebra.common.geogebra3D.input3D;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -43,6 +41,7 @@ import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Euclidian controller creator for 3D controller with 3D input
@@ -128,7 +127,7 @@ public class EuclidianControllerInput3DCompanion extends
 	}
 
 	@Override
-	public void movePoint(AbstractEvent event, @Nonnull GeoPointND movedPoint) {
+	public void movePoint(AbstractEvent event, @NonNull GeoPointND movedPoint) {
 		if (input3D.currentlyUseMouse2D() || (input3D
 						.hasMouseDirection() && !movedPoint
 						.isIndependent())) {

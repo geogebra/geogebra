@@ -18,8 +18,6 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Path;
@@ -53,6 +51,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.DialogManager.CreateGeoForRotate;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
+import org.jspecify.annotations.NonNull;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -554,7 +553,7 @@ public class EuclidianControllerCompanion {
 	 * @param event
 	 *            mouse move event
 	 */
-	public void movePoint(AbstractEvent event, @Nonnull GeoPointND movedPoint) {
+	public void movePoint(AbstractEvent event, @NonNull GeoPointND movedPoint) {
 		Coords oldCoords = movedPoint.getCoordsInD3();
 		if (movedPoint.isGeoElement3D()) {
 			oldCoords = oldCoords.copy();

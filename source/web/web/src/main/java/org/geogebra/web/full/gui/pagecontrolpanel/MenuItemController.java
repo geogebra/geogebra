@@ -19,8 +19,6 @@ package org.geogebra.web.full.gui.pagecontrolpanel;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.io.ObjectLabelHandler;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -34,6 +32,7 @@ import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.core.client.Scheduler;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
@@ -183,7 +182,7 @@ public class MenuItemController {
 	 * Update visibility of paste item based on available internal clipboard content.
 	 * @param pasteItem paste item
 	 */
-	public void updatePasteVisibility(@CheckForNull AriaMenuItem pasteItem) {
+	public void updatePasteVisibility(@Nullable AriaMenuItem pasteItem) {
 		if (pasteItem == null) {
 			return;
 		}

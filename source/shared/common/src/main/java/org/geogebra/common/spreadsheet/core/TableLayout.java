@@ -20,11 +20,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Stores sizes and coordinates of spreadsheet cells
@@ -138,7 +137,7 @@ final class TableLayout {
 		return columnWidths.length;
 	}
 
-	@Nonnull Rectangle getBounds(int row, int column) {
+	@NonNull Rectangle getBounds(int row, int column) {
 		return new Rectangle(cumulativeWidths[column],
 				cumulativeWidths[column] + columnWidths[column],
 				cumulativeHeights[row],
@@ -152,7 +151,7 @@ final class TableLayout {
 	 * @return Screen bounds of the selection if it's finite, or {@code null} if it's empty
 	 * or unbounded in either direction (e.g. whole column).
 	 */
-	@CheckForNull Rectangle getBounds(TabularRange selection, Rectangle viewport) {
+	@Nullable Rectangle getBounds(TabularRange selection, Rectangle viewport) {
 		if (selection.getMinColumn() < 0 || selection.getMaxColumn() >= numberOfColumns()
 				|| selection.getMinRow() < 0 || selection.getMaxRow() >= numberOfRows()) {
 			return null;
@@ -167,14 +166,14 @@ final class TableLayout {
 				minY + offsetY, maxY + offsetY);
 	}
 
-	@Nonnull Rectangle getRowHeaderBounds(int row) {
+	@NonNull Rectangle getRowHeaderBounds(int row) {
 		return new Rectangle(0,
 				rowHeaderWidth,
 				cumulativeHeights[row],
 				cumulativeHeights[row] + rowHeights[row]);
 	}
 
-	@Nonnull Rectangle getColumnHeaderBounds(int column) {
+	@NonNull Rectangle getColumnHeaderBounds(int column) {
 		return new Rectangle(cumulativeWidths[column],
 				cumulativeWidths[column] + columnWidths[column],
 				0,
@@ -196,7 +195,7 @@ final class TableLayout {
 	 * @return The {@link DragState} for the given point in the spreadsheet.
 	 */
 	// TODO find a better method name
-	@Nonnull DragState getResizeAction(double x, double y, Rectangle viewport) {
+	@NonNull DragState getResizeAction(double x, double y, Rectangle viewport) {
 		double xAbs = x + viewport.getMinX();
 		double yAbs = y + viewport.getMinY();
 		int row = findRow(yAbs);
@@ -438,7 +437,7 @@ final class TableLayout {
 	 * @return A {@code columnIndex => width} map for all columns that are not of
 	 * {@code defaultColumnWidth} width.
 	 */
-	@Nonnull Map<Integer, Double> getCustomColumnWidths() {
+	@NonNull Map<Integer, Double> getCustomColumnWidths() {
 		Map<Integer, Double> widths = new HashMap<>();
 		for (int i = 0; i < columnWidths.length; i++) {
 			if (columnWidths[i] != defaultColumnWidth) {
@@ -452,7 +451,7 @@ final class TableLayout {
 	 * @return A {@code rowIndex => height} map for all rows that are not of
 	 * {@code defaultRowHeight} height.
 	 */
-	@Nonnull Map<Integer, Double> getCustomRowHeights() {
+	@NonNull Map<Integer, Double> getCustomRowHeights() {
 		Map<Integer, Double> heights = new HashMap<>();
 		for (int i = 0; i < rowHeights.length; i++) {
 			if (rowHeights[i] != defaultRowHeight) {

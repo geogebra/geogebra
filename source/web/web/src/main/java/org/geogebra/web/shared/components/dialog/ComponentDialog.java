@@ -19,8 +19,6 @@ package org.geogebra.web.shared.components.dialog;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -41,6 +39,7 @@ import org.gwtproject.user.client.ui.IsWidget;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 import jsinterop.base.Js;
 
@@ -51,8 +50,8 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	private FlowPanel dialogContent;
 	private Runnable positiveAction;
 	private Runnable negativeAction;
-	private @CheckForNull StandardButton posButton;
-	private @CheckForNull StandardButton negButton;
+	private @Nullable StandardButton posButton;
+	private @Nullable StandardButton negButton;
 	private boolean preventHide = false;
 	private final DialogData dialogData;
 	private Label title;

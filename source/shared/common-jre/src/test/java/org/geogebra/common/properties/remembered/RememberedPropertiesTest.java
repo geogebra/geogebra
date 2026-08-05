@@ -26,8 +26,6 @@ import static org.mockito.Mockito.*;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
@@ -45,6 +43,7 @@ import org.geogebra.common.properties.impl.objects.NotesFontSizeProperty;
 import org.geogebra.common.properties.remembered.handlers.RememberedFontFamilyHandler;
 import org.geogebra.common.properties.remembered.handlers.RememberedFontSizeHandler;
 import org.geogebra.test.BaseAppTestSetup;
+import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -222,12 +221,12 @@ public class RememberedPropertiesTest extends BaseAppTestSetup {
 		return property;
 	}
 
-	private <T> void remember(@Nonnull GeoElement geo, @Nonnull ValuedProperty<T> property) {
+	private <T> void remember(@NonNull GeoElement geo, @NonNull ValuedProperty<T> property) {
 		remember(List.of(geo), property);
 	}
 
-	private <T> void remember(@Nonnull List<GeoElement> geos,
-			@Nonnull ValuedProperty<T> property) {
+	private <T> void remember(@NonNull List<GeoElement> geos,
+			@NonNull ValuedProperty<T> property) {
 		doAnswer(invocation -> {
 			PropertyValueObserver<T> observer = invocation.getArgument(0);
 			observer.onDidSetValue(property);

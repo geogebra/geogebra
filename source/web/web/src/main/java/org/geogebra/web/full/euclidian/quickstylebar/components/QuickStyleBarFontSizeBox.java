@@ -18,8 +18,6 @@ package org.geogebra.web.full.euclidian.quickstylebar.components;
 
 import static org.geogebra.common.properties.PropertyView.ComboBox;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.impl.objects.NotesFontSizeProperty;
 import org.geogebra.editor.share.util.GWTKeycodes;
@@ -31,6 +29,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Compact editable font size combo box for the quick style bar in Notes.
@@ -54,8 +53,8 @@ public class QuickStyleBarFontSizeBox extends FlowPanel implements SetLabels {
 	 * @param requestFocusAfterUpdate called before an Enter commit so the rebuilt toolbar can
 	 * focus the font size input
 	 */
-	public QuickStyleBarFontSizeBox(@Nonnull AppW app, @Nonnull ComboBox property,
-			@Nonnull Runnable requestFocusAfterUpdate) {
+	public QuickStyleBarFontSizeBox(@NonNull AppW app, @NonNull ComboBox property,
+			@NonNull Runnable requestFocusAfterUpdate) {
 		this.app = app;
 		this.property = property;
 		this.requestFocusAfterUpdate = requestFocusAfterUpdate;

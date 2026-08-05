@@ -20,10 +20,9 @@ import static org.geogebra.common.util.StreamUtils.flatMap;
 
 import java.util.Set;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Restriction for {@link ExpressionValue}s (used in exam restrictions).
@@ -38,7 +37,7 @@ public interface ExpressionRestriction {
 	 * @param expression the expression to check
 	 * @return set of restricted sub-expressions
 	 */
-	default @Nonnull Set<ExpressionValue> getRestrictedSubExpressions(@Nonnull ExpressionValue expression) {
+	default @NonNull Set<ExpressionValue> getRestrictedSubExpressions(@NonNull ExpressionValue expression) {
         return Set.of();
     }
 
@@ -53,7 +52,7 @@ public interface ExpressionRestriction {
 	 * @param expression the expression to check
 	 * @return set of allowed sub-expressions
 	 */
-	default @Nonnull Set<ExpressionValue> getAllowedSubExpressions(@Nonnull ExpressionValue expression) {
+	default @NonNull Set<ExpressionValue> getAllowedSubExpressions(@NonNull ExpressionValue expression) {
         return Set.of();
     }
 
@@ -65,8 +64,8 @@ public interface ExpressionRestriction {
      * @return {@code true} if the expression is restricted, {@code false} otherwise.
      */
     static boolean isExpressionRestricted(
-            @Nonnull ExpressionValue expression,
-            @Nonnull Set<ExpressionRestriction> restrictions
+            @NonNull ExpressionValue expression,
+            @NonNull Set<ExpressionRestriction> restrictions
     ) {
         Set<ExpressionValue> restrictedSubExpressions = flatMap(restrictions,
                 restriction -> restriction.getRestrictedSubExpressions(expression));
@@ -90,7 +89,7 @@ public interface ExpressionRestriction {
 	 * @param restrictions the set of expression restrictions
 	 * @return the expression filter with the combined effect of the expression restrictions
 	 */
-	static @Nonnull ExpressionFilter toFilter(@Nonnull Set<ExpressionRestriction> restrictions) {
+	static @NonNull ExpressionFilter toFilter(@NonNull Set<ExpressionRestriction> restrictions) {
         return expression -> !isExpressionRestricted(expression, restrictions);
     }
 
@@ -99,7 +98,7 @@ public interface ExpressionRestriction {
 	 * @param restrictions expression restrictions
 	 * @return the expression filter with the combined effect of the expression restrictions
 	 */
-	static @Nonnull ExpressionFilter toFilter(@Nonnull ExpressionRestriction... restrictions) {
+	static @NonNull ExpressionFilter toFilter(@NonNull ExpressionRestriction... restrictions) {
         return toFilter(Set.of(restrictions));
     }
 }

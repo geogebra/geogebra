@@ -16,11 +16,10 @@
 
 package org.geogebra.common.kernel.arithmetic.filter;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyList;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Operation argument filter for the scientific app.
@@ -30,7 +29,7 @@ public enum ScientificOperationArgumentFilter implements ExpressionFilter {
 	INSTANCE;
 
 	@Override
-	public boolean isAllowed(@Nonnull ExpressionValue expression) {
+	public boolean isAllowed(@NonNull ExpressionValue expression) {
 		return !expression.any(exp ->
 				exp.isExpressionNode() && !exp.isLeaf() && containsList((ExpressionNode) exp)
 						|| isMatrix(exp));

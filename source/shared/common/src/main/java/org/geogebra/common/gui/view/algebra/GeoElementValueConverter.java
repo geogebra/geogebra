@@ -21,13 +21,12 @@ import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_CAPTION_VAL
 import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_NAME_VALUE;
 import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_VALUE;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.util.ToStringConverter;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Converts GeoElement to String without any restrictions.
@@ -35,19 +34,19 @@ import org.geogebra.common.util.ToStringConverter;
 public class GeoElementValueConverter implements ToStringConverter {
 
 	@Override
-	public @Nonnull String toOutputValueString(GeoElement element, StringTemplate template) {
+	public @NonNull String toOutputValueString(GeoElement element, StringTemplate template) {
 		return element instanceof GeoText
 				? ((GeoText) element).getTextStringSafe()
 				: element.toOutputValueString(template);
 	}
 
 	@Override
-	public @Nonnull String toValueString(GeoElement object, StringTemplate tpl) {
+	public @NonNull String toValueString(GeoElement object, StringTemplate tpl) {
 		return object.toValueString(tpl);
 	}
 
 	@Override
-	public @Nonnull String toLabelAndDescription(GeoElement element, StringTemplate template) {
+	public @NonNull String toLabelAndDescription(GeoElement element, StringTemplate template) {
 		String labelDescription;
 		switch (element.getLabelMode()) {
 		case LABEL_CAPTION_VALUE:

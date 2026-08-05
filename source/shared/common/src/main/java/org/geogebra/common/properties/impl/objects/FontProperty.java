@@ -24,14 +24,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.jspecify.annotations.Nullable;
 
 public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.FontFamily>
 		implements StyledItemProperty {
@@ -123,13 +122,13 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 
 		private final String displayName;
 		private final String cssName;
-		private final @CheckForNull DropdownGroup dropdownGroup;
+		private final @Nullable DropdownGroup dropdownGroup;
 
 		FontFamily(String displayName, String cssName) {
 			this(displayName, cssName, null);
 		}
 
-		FontFamily(String displayName, String cssName, @CheckForNull DropdownGroup dropdownGroup) {
+		FontFamily(String displayName, String cssName, @Nullable DropdownGroup dropdownGroup) {
 			this.displayName = displayName;
 			this.cssName = cssName;
 			this.dropdownGroup = dropdownGroup;

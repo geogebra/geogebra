@@ -16,9 +16,6 @@
 
 package org.geogebra.common.util;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.main.App;
@@ -28,6 +25,8 @@ import org.geogebra.editor.share.editor.CommandSyntaxLookup;
 import org.geogebra.editor.share.util.CommandParser;
 import org.geogebra.editor.share.util.IntegralHelper;
 import org.geogebra.editor.share.util.IntegralHelper.IntegralForm;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /** App-backed command syntax lookup implementation. */
 public final class CommandSyntaxLookupImpl implements CommandSyntaxLookup {
@@ -49,13 +48,13 @@ public final class CommandSyntaxLookupImpl implements CommandSyntaxLookup {
 	}
 
 	@Override
-	public @CheckForNull String getInternalCommand(@Nonnull String commandName) {
+	public @Nullable String getInternalCommand(@NonNull String commandName) {
 		String internalCommand = app.getInternalCommand(commandName);
 		return internalCommand == null ? app.getReverseCommand(commandName) : internalCommand;
 	}
 
 	@Override
-	public @CheckForNull IntegralForm getIntegralForm(@Nonnull Tag tag, @Nonnull String syntax) {
+	public @Nullable IntegralForm getIntegralForm(@NonNull Tag tag, @NonNull String syntax) {
 		int syntaxIndex = getCommandSyntaxIndex(syntax);
 		if (syntaxIndex == -1) {
 			return null;
@@ -63,7 +62,7 @@ public final class CommandSyntaxLookupImpl implements CommandSyntaxLookup {
 		return IntegralHelper.getIntegralForm(tag, syntaxIndex, isCasSyntax);
 	}
 
-	private int getCommandSyntaxIndex(@Nonnull String syntax) {
+	private int getCommandSyntaxIndex(@NonNull String syntax) {
 		String commandName = CommandParser.parseCommand(syntax).get(0);
 		String internalCommand = getInternalCommand(commandName);
 		if (internalCommand == null) {

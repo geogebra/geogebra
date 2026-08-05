@@ -18,9 +18,6 @@ package org.geogebra.common.spreadsheet.kernel;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
 import org.geogebra.common.kernel.Kernel;
@@ -33,23 +30,25 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.Input.OneVarIn
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.Result;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatisticsView;
 import org.geogebra.common.spreadsheet.core.TabularRange;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public final class KernelOneVarSpreadsheetStatisticsView
 		extends KernelSpreadsheetStatisticsView<OneVarInput>
 		implements SpreadsheetStatisticsView.OneVar {
 
-	private @CheckForNull AlgoCellRange algoCellRange;
+	private @Nullable AlgoCellRange algoCellRange;
 
-	KernelOneVarSpreadsheetStatisticsView(@Nonnull Kernel kernel,
-			@Nonnull StatisticGroupsBuilder statisticGroupsBuilder,
-			@Nonnull TabularRange range) {
+	KernelOneVarSpreadsheetStatisticsView(@NonNull Kernel kernel,
+			@NonNull StatisticGroupsBuilder statisticGroupsBuilder,
+			@NonNull TabularRange range) {
 		super(kernel, statisticGroupsBuilder, new OneVarInput(range), "1VariableStatistics");
 	}
 
 	// -- KernelSpreadsheetStatisticsView --
 
 	@Override
-	protected @Nonnull Result calculate(@Nonnull OneVarInput input) {
+	protected @NonNull Result calculate(@NonNull OneVarInput input) {
 		SpreadsheetReference inputRange = input.cellRange();
 		if (inputRange == null || inputRange.isSingleCell()) {
 			return newInvalidResult(
@@ -75,7 +74,7 @@ public final class KernelOneVarSpreadsheetStatisticsView
 	}
 
 	@Override
-	protected boolean isWithinAlgoRange(@Nonnull GeoElement element) {
+	protected boolean isWithinAlgoRange(@NonNull GeoElement element) {
 		SpreadsheetReference cellRange = getInput().cellRange();
 		return cellRange != null && isElementInRange(element, cellRange);
 	}

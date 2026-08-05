@@ -19,10 +19,9 @@ package org.geogebra.common.main.syntax;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Class to get the syntax of the command with the
@@ -123,7 +122,7 @@ public class LocalizedCommandSyntax implements CommandSyntax {
 	 * Add a syntax filter.
 	 * @param syntaxFilter a syntax filter.
 	 */
-	public void addSyntaxFilter(@Nonnull SyntaxFilter syntaxFilter) {
+	public void addSyntaxFilter(@NonNull SyntaxFilter syntaxFilter) {
 		if (syntaxFilter != null) {
 			syntaxFilters.add(syntaxFilter);
 		}
@@ -133,7 +132,7 @@ public class LocalizedCommandSyntax implements CommandSyntax {
 	 * Remove a previously added syntax filter.
 	 * @param syntaxFilter a syntax filter.
 	 */
-	public void removeSyntaxFilter(@Nonnull SyntaxFilter syntaxFilter) {
+	public void removeSyntaxFilter(@NonNull SyntaxFilter syntaxFilter) {
 		if (syntaxFilter != null) {
 			syntaxFilters.remove(syntaxFilter);
 		}

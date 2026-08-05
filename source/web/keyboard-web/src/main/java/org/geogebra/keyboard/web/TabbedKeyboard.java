@@ -21,8 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
 import org.geogebra.common.main.AppKeyboardType;
@@ -48,6 +46,7 @@ import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.NonNull;
 
 /**
  * tabbed keyboard
@@ -160,7 +159,7 @@ public class TabbedKeyboard extends FlowPanel
 		}
 	}
 
-	private boolean hasKeyboardFactoryChanged(@Nonnull KeyboardFactory newFactory) {
+	private boolean hasKeyboardFactoryChanged(@NonNull KeyboardFactory newFactory) {
 		if (factory == null) {
 			return true;
 		}

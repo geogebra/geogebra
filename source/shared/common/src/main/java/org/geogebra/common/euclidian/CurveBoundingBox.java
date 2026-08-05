@@ -16,8 +16,6 @@
 
 package org.geogebra.common.euclidian;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
@@ -25,6 +23,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.jspecify.annotations.NonNull;
 
 public class CurveBoundingBox extends BoundingBox<GEllipse2DDouble> {
 
@@ -101,7 +100,7 @@ public class CurveBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	}
 
 	@Override
-	public @Nonnull ShapeManipulationHandler getHitHandler(int x, int y,
+	public @NonNull ShapeManipulationHandler getHitHandler(int x, int y,
 			int hitThreshold) {
 		int hit = hitHandlers(x, y, hitThreshold);
 		if (hit >= 0) {

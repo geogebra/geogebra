@@ -16,8 +16,6 @@
 
 package org.geogebra.common.properties.impl.graphics;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
@@ -26,6 +24,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@code Property} responsible for changing the line style of the ruling grid in Notes.
@@ -55,7 +54,7 @@ public class RulingGridLineStyleProperty extends AbstractEnumeratedProperty<Inte
 	}
 
 	@Override
-	public @CheckForNull String[] getToolTipLabels() {
+	public @Nullable String[] getToolTipLabels() {
 		return null;
 	}
 

@@ -49,9 +49,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.Suggestion;
@@ -71,6 +68,8 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.scientific.LabelController;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Factory for creating context menu items.
@@ -92,12 +91,12 @@ public final class ContextMenuFactory {
 	 * @param filters context menu item filters (can be empty)
 	 * @return List of context menu items.
 	 */
-	public static @Nonnull List<AlgebraContextMenuItem> makeAlgebraContextMenu(
-			@CheckForNull GeoElement geoElement,
-			@Nonnull AlgebraProcessor algebraProcessor,
-			@Nonnull String appCode,
-			@Nonnull AlgebraSettings algebraSettings,
-			@Nonnull Set<ContextMenuItemFilter> filters
+	public static @NonNull List<AlgebraContextMenuItem> makeAlgebraContextMenu(
+			@Nullable GeoElement geoElement,
+			@NonNull AlgebraProcessor algebraProcessor,
+			@NonNull String appCode,
+			@NonNull AlgebraSettings algebraSettings,
+			@NonNull Set<ContextMenuItemFilter> filters
 	) {
 		if (geoElement == null) {
 			return filter(makeDeleteAlgebraContextMenu(), filters);
@@ -196,13 +195,13 @@ public final class ContextMenuFactory {
 	 * @param filters context menu item filters (can be empty)
 	 * @return List of context menu items.
 	 */
-	public static @Nonnull List<TableValuesContextMenuItem> makeTableValuesContextMenu(
-			@Nonnull GeoEvaluatable geoEvaluatable,
+	public static @NonNull List<TableValuesContextMenuItem> makeTableValuesContextMenu(
+			@NonNull GeoEvaluatable geoEvaluatable,
 			int columnIndex,
-			@Nonnull TableValuesModel tableValuesModel,
+			@NonNull TableValuesModel tableValuesModel,
 			boolean isScientific,
 			boolean isExamActive,
-			@Nonnull Set<ContextMenuItemFilter> filters
+			@NonNull Set<ContextMenuItemFilter> filters
 	) {
 		if (isScientific) {
 			return filter(makeScientificTableValuesContextMenu(), filters);
@@ -229,9 +228,9 @@ public final class ContextMenuFactory {
 	 * @param filters context menu item filters (can be empty)
 	 * @return List of context menu items.
 	 */
-	public static @Nonnull List<InputContextMenuItem> makeInputContextMenu(
+	public static @NonNull List<InputContextMenuItem> makeInputContextMenu(
 			boolean includeHelpItem, boolean includeImageItem,
-			@Nonnull Set<ContextMenuItemFilter> filters
+			@NonNull Set<ContextMenuItemFilter> filters
 	) {
 		List<InputContextMenuItem> items = new ArrayList<>();
 		items.add(Expression);
@@ -251,9 +250,9 @@ public final class ContextMenuFactory {
 	 * @param filters context menu item filters (can be empty)
 	 * @return context menu items
 	 */
-	public static @Nonnull List<InputContextMenuItem> makeInputContextMenu(
+	public static @NonNull List<InputContextMenuItem> makeInputContextMenu(
 			boolean includeHelpItem,
-			@Nonnull Set<ContextMenuItemFilter> filters
+			@NonNull Set<ContextMenuItemFilter> filters
 	) {
 		return makeInputContextMenu(includeHelpItem, false, filters);
 	}
@@ -264,8 +263,8 @@ public final class ContextMenuFactory {
 	 * @param filters context menu item filters (can be empty)
 	 * @return List of context menu items.
 	 */
-	public static @Nonnull List<MaterialContextMenuItem> makeMaterialContextMenu(
-			@Nonnull Set<ContextMenuItemFilter> filters
+	public static @NonNull List<MaterialContextMenuItem> makeMaterialContextMenu(
+			@NonNull Set<ContextMenuItemFilter> filters
 	) {
 		return filter(List.of(MaterialContextMenuItem.Delete), filters);
 	}
@@ -475,8 +474,8 @@ public final class ContextMenuFactory {
 		return List.of(Delete);
 	}
 
-	private static <I extends ContextMenuItem> List<I> filter(@Nonnull List<I> items,
-			@Nonnull Set<ContextMenuItemFilter> filters) {
+	private static <I extends ContextMenuItem> List<I> filter(@NonNull List<I> items,
+			@NonNull Set<ContextMenuItemFilter> filters) {
 		if (filters.isEmpty()) {
 			return items;
 		}

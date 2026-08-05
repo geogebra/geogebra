@@ -21,9 +21,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
@@ -38,6 +35,8 @@ import org.geogebra.common.restrictions.Restrictions;
 import org.geogebra.common.restrictions.Restrictions.ContextDependencies;
 import org.geogebra.common.restrictions.RestrictionsController;
 import org.geogebra.common.util.TimeFormatAdapter;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Property;
 import com.google.j2objc.annotations.Weak;
@@ -79,7 +78,7 @@ public final class ExamController {
 	@Weak
 	@NonOwning
 	@Property
-	public @CheckForNull ExamControllerDelegate delegate;
+	public @Nullable ExamControllerDelegate delegate;
 
 	private @NonOwning RestrictionsController restrictionsController;
 	private Function<ExamType, Restrictions> examRestrictionsFactory =
@@ -103,7 +102,7 @@ public final class ExamController {
 	 * Creates a new ExamController.
 	 * @param restrictionsController The controller responsible for applying restrictions.
 	 */
-	public ExamController(@Nonnull RestrictionsController restrictionsController) {
+	public ExamController(@NonNull RestrictionsController restrictionsController) {
 		this.restrictionsController = restrictionsController;
 	}
 
@@ -117,7 +116,7 @@ public final class ExamController {
 	 * changes during an exam, so what we can remove the restrictions from the current dependencies,
 	 * and apply the restrictions on the new dependencies.
 	 */
-	public void setActiveContext(@Nonnull ContextDependencies contextDependencies) {
+	public void setActiveContext(@NonNull ContextDependencies contextDependencies) {
 		if (restrictionsController.getRestrictions() != null && activeDependencies != null) {
 			removeExtraRestrictionsFromDependencies();
 		}
@@ -134,7 +133,7 @@ public final class ExamController {
 	 * @param listener The listener to add.
 	 * @apiNote Trying to add a listener that is already registered will have no effect.
 	 */
-	public void addListener(@Nonnull ExamListener listener) {
+	public void addListener(@NonNull ExamListener listener) {
 		listeners.add(listener);
 	}
 
@@ -143,7 +142,7 @@ public final class ExamController {
 	 * @param listener The listener to remove.
 	 * @apiNote Trying to remove a listener that is not registered will have no effect.
 	 */
-	public void removeListener(@Nonnull ExamListener listener) {
+	public void removeListener(@NonNull ExamListener listener) {
 		listeners.remove(listener);
 	}
 
@@ -180,7 +179,7 @@ public final class ExamController {
 	/**
 	 * @return The ExamType if an exam is currently active, or null otherwise.
 	 */
-	public @CheckForNull ExamType getExamType() {
+	public @Nullable ExamType getExamType() {
 		return examType;
 	}
 
@@ -191,22 +190,22 @@ public final class ExamController {
 	 * @return The current exam's short display name (see
 	 * {@link ExamType#getShortDisplayName(Localization, AppConfig)}.
 	 */
-	public @CheckForNull String getExamName(@Nonnull AppConfig appConfig,
-			@Nonnull Localization localization) {
+	public @Nullable String getExamName(@NonNull AppConfig appConfig,
+			@NonNull Localization localization) {
 		return examType == null ? null : examType.getShortDisplayName(localization, appConfig);
 	}
 
 	/**
 	 * @return The exam start date, if an exam is currently active, or null otherwise.
 	 */
-	public @CheckForNull Date getStartDate() {
+	public @Nullable Date getStartDate() {
 		return startDate;
 	}
 
 	/**
 	 * @return The exam end date, if the exam has been stopped, or null otherwise.
 	 */
-	public @CheckForNull Date getFinishDate() {
+	public @Nullable Date getFinishDate() {
 		return finishDate;
 	}
 
@@ -215,7 +214,7 @@ public final class ExamController {
 	 * @return The formatted duration since the start of the exam, if an exam is currently
 	 * active, or zero (0:00) otherwise.
 	 */
-	public String getDurationFormatted(@Nonnull Localization localization) {
+	public String getDurationFormatted(@NonNull Localization localization) {
 		if (timeFormatter == null) {
 			timeFormatter = FormatFactory.getPrototype().getTimeFormat();
 		}
@@ -237,8 +236,8 @@ public final class ExamController {
 	 * @return A summary of the exam if the exam is in the {@link ExamState#ACTIVE} or
 	 * {@link ExamState#FINISHED} state, or null otherwise.
 	 */
-	public @CheckForNull ExamSummary getExamSummary(@Nonnull AppConfig appConfig,
-			@Nonnull Localization localization) {
+	public @Nullable ExamSummary getExamSummary(@NonNull AppConfig appConfig,
+			@NonNull Localization localization) {
 		if (state == ExamState.IDLE || state == ExamState.PREPARING) {
 			return null;
 		}
@@ -285,7 +284,7 @@ public final class ExamController {
 	 * {@link ExamState#IDLE} or {@link ExamState#PREPARING PREPARING} state.
 	 * @apiNote Make sure to call {@link #setActiveContext} before attempting to start an exam.
 	 */
-	public void startExam(@Nonnull ExamType examType, @CheckForNull ExamOptions options) {
+	public void startExam(@NonNull ExamType examType, @Nullable ExamOptions options) {
 		if (state != ExamState.IDLE && state != ExamState.PREPARING) {
 			throw new IllegalStateException("expected to be in IDLE or PREPARING state, "
 					+ "but is " + state);

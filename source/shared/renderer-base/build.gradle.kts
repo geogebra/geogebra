@@ -32,7 +32,7 @@ publishing {
 dependencies {
     implementation(libs.j2objc.annotations)
     api(project(":canvas-base"))
-    api(libs.findbugs.annotations)
+    api(libs.jspecify.annotations)
 }
 
 tasks.register<Jar>("jarSources") {

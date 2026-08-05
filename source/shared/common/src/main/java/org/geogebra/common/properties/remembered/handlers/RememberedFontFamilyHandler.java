@@ -16,8 +16,6 @@
 
 package org.geogebra.common.properties.remembered.handlers;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
@@ -27,6 +25,7 @@ import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.properties.PropertyKey;
 import org.geogebra.common.properties.impl.objects.FontProperty;
 import org.geogebra.common.properties.remembered.RememberedPropertyHandler;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Applies remembered font-family values to inline text, mind-map and inline table elements.
@@ -34,18 +33,18 @@ import org.geogebra.common.properties.remembered.RememberedPropertyHandler;
 public final class RememberedFontFamilyHandler
 		extends RememberedPropertyHandler<FontProperty.FontFamily> {
 	@Override
-	public @Nonnull PropertyKey propertyKey() {
+	public @NonNull PropertyKey propertyKey() {
 		return PropertyKey.of(FontProperty.class);
 	}
 
 	@Override
-	public boolean supports(@Nonnull GeoElement geo) {
+	public boolean supports(@NonNull GeoElement geo) {
 		return geo instanceof GeoInlineText || geo instanceof GeoMindMapNode
 				|| geo instanceof GeoInlineTable;
 	}
 
 	@Override
-	public boolean apply(@Nonnull GeoElement geo, @Nonnull FontProperty.FontFamily value) {
+	public boolean apply(@NonNull GeoElement geo, FontProperty.@NonNull FontFamily value) {
 		if (!supports(geo)) {
 			return false;
 		}

@@ -31,9 +31,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.function.Predicate;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.LayerManager;
@@ -85,6 +82,8 @@ import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.share.input.Character;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -131,7 +130,7 @@ public class Construction {
 
 	/** construction belongs to kernel */
 	@Weak
-	protected final @Nonnull Kernel kernel;
+	protected final @NonNull Kernel kernel;
 
 	// current construction step (-1 ... ceList.size() - 1)
 	// step == -1 shows empty construction
@@ -229,7 +228,7 @@ public class Construction {
 	 * Creates a new Construction.
 	 * @param k Kernel
 	 */
-	public Construction(@Nonnull Kernel k) {
+	public Construction(@NonNull Kernel k) {
 		this(k, null);
 	}
 
@@ -238,7 +237,7 @@ public class Construction {
 	 * @param k Kernel
 	 * @param parentConstruction parent construction (used for macro constructions)
 	 */
-	protected Construction(@Nonnull Kernel k, Construction parentConstruction) {
+	protected Construction(@NonNull Kernel k, Construction parentConstruction) {
 		kernel = k;
 
 		companion = kernel.createConstructionCompanion(this);
@@ -548,7 +547,7 @@ public class Construction {
 	 * Returns current kernel
 	 * @return current kernel
 	 */
-	public final @Nonnull Kernel getKernel() {
+	public final @NonNull Kernel getKernel() {
 		return kernel;
 	}
 
@@ -2270,7 +2269,7 @@ public class Construction {
 	 * (used by CAS dummy, or by merged construction)
 	 * @return true iff label is not occupied by any GeoElement.
 	 */
-	public boolean isFreeLabel(@CheckForNull String label, boolean includeCASVariables,
+	public boolean isFreeLabel(@Nullable String label, boolean includeCASVariables,
 			boolean checkProtectedLabels) {
 		if (label == null) {
 			return false;
@@ -3097,7 +3096,7 @@ public class Construction {
 	 * Updates all algos in the set. Guards against double updates if location is involved.
 	 * @param algoSet algo set
 	 */
-	public void updateAllAlgosInSet(@Nonnull AlgorithmSet algoSet) {
+	public void updateAllAlgosInSet(@NonNull AlgorithmSet algoSet) {
 		this.algoSetCurrentlyUpdated = algoSet;
 		algoSet.updateAll();
 		this.algoSetCurrentlyUpdated = null;

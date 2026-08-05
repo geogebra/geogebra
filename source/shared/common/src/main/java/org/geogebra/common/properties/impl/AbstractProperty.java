@@ -16,11 +16,10 @@
 
 package org.geogebra.common.properties.impl;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyKey;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Helper class for implementing the localized name of a property.
@@ -47,12 +46,12 @@ public abstract class AbstractProperty implements Property {
 	}
 
 	@Override
-	public @Nonnull String getRawName() {
+	public @NonNull String getRawName() {
 		return name;
 	}
 
 	@Override
-	public @Nonnull PropertyKey getKey() {
+	public @NonNull PropertyKey getKey() {
 		return PropertyKey.of(this);
 	}
 

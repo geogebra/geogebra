@@ -18,8 +18,6 @@ package org.geogebra.web.html5.euclidian.profiler.drawer;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
@@ -28,6 +26,7 @@ import org.geogebra.web.html5.euclidian.profiler.coords.Coordinate;
 import org.geogebra.web.html5.euclidian.profiler.coords.CoordinatesParser;
 import org.geogebra.web.html5.util.file.FileLoader;
 import org.gwtproject.timer.client.Timer;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Autonomously draws onto the canvas from a file. The name of the file is specified
@@ -90,7 +89,7 @@ public class DrawingEmulator {
 	}
 
 	private int getSleepInterval(
-			@CheckForNull Coordinate previousCoordinate, Coordinate actualCoordinate) {
+			@Nullable Coordinate previousCoordinate, Coordinate actualCoordinate) {
 		if (previousCoordinate == null) {
 			return 0;
 		} else {

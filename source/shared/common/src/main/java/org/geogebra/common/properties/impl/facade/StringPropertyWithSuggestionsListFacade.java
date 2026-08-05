@@ -19,9 +19,8 @@ package org.geogebra.common.properties.impl.facade;
 import java.util.List;
 import java.util.function.BinaryOperator;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
+import org.jspecify.annotations.Nullable;
 
 public class StringPropertyWithSuggestionsListFacade<T extends StringPropertyWithSuggestions>
 		extends AbstractValuedPropertyListFacade<T, String>
@@ -41,7 +40,7 @@ public class StringPropertyWithSuggestionsListFacade<T extends StringPropertyWit
 	}
 
 	@Override
-	public @CheckForNull String validateValue(String value) {
+	public @Nullable String validateValue(String value) {
 		for (T property : properties) {
 			String invalidMessage = property.validateValue(value);
 			if (invalidMessage != null) {

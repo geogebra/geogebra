@@ -18,8 +18,6 @@ package org.geogebra.common.geogebra3D.euclidianForPlane;
 
 import java.util.ArrayList;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3DCompanion;
@@ -33,6 +31,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.DialogManager.CreateGeoForRotate;
+import org.jspecify.annotations.NonNull;
 
 /**
  * controller creator for view from plane
@@ -75,7 +74,7 @@ public class EuclidianControllerForPlaneCompanion
 	}
 
 	@Override
-	public void movePoint(AbstractEvent event, @Nonnull GeoPointND movedPoint) {
+	public void movePoint(AbstractEvent event, @NonNull GeoPointND movedPoint) {
 		Coords coords = getCoordsFromView(ec.xRW, ec.yRW);
 		// cancel 3D controller stuff
 		if (movedPoint.isGeoElement3D()) {

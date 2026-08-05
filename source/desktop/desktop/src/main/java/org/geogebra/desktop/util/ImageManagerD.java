@@ -35,8 +35,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Hashtable;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
@@ -54,6 +52,8 @@ import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.main.ScaledIcon;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.himamis.retex.renderer.desktop.graphics.Base64;
 
@@ -211,7 +211,7 @@ public class ImageManagerD extends ImageManager {
 	}
 
 	@Override
-	public @CheckForNull MyImage getExternalImage(@Nonnull String path) {
+	public @Nullable MyImage getExternalImage(@NonNull String path) {
 		return getStaticExternalImage(path);
 	}
 

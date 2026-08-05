@@ -16,10 +16,9 @@
 
 package org.geogebra.common.properties;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.ownership.NonOwning;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * The PropertiesRegistry is a central lookup point for registered properties.
@@ -35,14 +34,14 @@ public interface PropertiesRegistry {
 	 *
 	 * @param listener A listener.
 	 */
-	void addListener(@Nonnull PropertiesRegistryListener listener);
+	void addListener(@NonNull PropertiesRegistryListener listener);
 
 	/**
 	 * Remove a listener.
 	 *
 	 * @param listener A listener.
 	 */
-	void removeListener(@Nonnull PropertiesRegistryListener listener);
+	void removeListener(@NonNull PropertiesRegistryListener listener);
 
 	/**
 	 * Register a property with this registry.
@@ -59,14 +58,14 @@ public interface PropertiesRegistry {
 	 *
 	 * @param property A property.
 	 */
-	void register(@Nonnull Property property);
+	void register(@NonNull Property property);
 
 	/**
 	 * Remove a property from the registry.
 	 *
 	 * @param property A property that has previously been registered.
 	 */
-	void unregister(@Nonnull Property property);
+	void unregister(@NonNull Property property);
 
 	/**
 	 * Look up a property by key.
@@ -74,7 +73,7 @@ public interface PropertiesRegistry {
 	 * @param key A {@link PropertyKey} that uniquely identifies a property type.
 	 * @return The property if found, or null if no such property has been registered.
 	 */
-	@CheckForNull Property lookup(@Nonnull PropertyKey key);
+	@Nullable Property lookup(@NonNull PropertyKey key);
 
 	/**
 	 * "Release" (i.e., clear out strong references to) all registered properties.

@@ -25,8 +25,6 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.exam.restrictions.expression.ExpressionRestriction;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
@@ -42,6 +40,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.test.commands.ErrorAccumulator;
+import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -56,23 +55,23 @@ class ExpressionRestrictionTests {
 
     private static final class RestrictPlusOperation implements ExpressionRestriction {
 		@Override
-		public @Nonnull Set<ExpressionValue> getRestrictedSubExpressions(
-                @Nonnull ExpressionValue expression) {
+		public @NonNull Set<ExpressionValue> getRestrictedSubExpressions(
+                @NonNull ExpressionValue expression) {
             return filter(expression, subExpression -> subExpression.isOperation(Operation.PLUS));
         }
     }
 
     private static final class RestrictBooleanExpressions implements ExpressionRestriction {
 		@Override
-		public @Nonnull Set<ExpressionValue> getRestrictedSubExpressions(
-                @Nonnull ExpressionValue expression) {
+		public @NonNull Set<ExpressionValue> getRestrictedSubExpressions(
+                @NonNull ExpressionValue expression) {
             return filter(expression, subExpression -> subExpression instanceof BooleanValue);
         }
     }
 
     private static final class AllowBooleanCommandArguments implements ExpressionRestriction {
 		@Override
-		public @Nonnull Set<ExpressionValue> getAllowedSubExpressions(@Nonnull ExpressionValue expression) {
+		public @NonNull Set<ExpressionValue> getAllowedSubExpressions(@NonNull ExpressionValue expression) {
             return streamOf(expression)
                     // For commands
                     .filter(subExpression -> subExpression instanceof Command)

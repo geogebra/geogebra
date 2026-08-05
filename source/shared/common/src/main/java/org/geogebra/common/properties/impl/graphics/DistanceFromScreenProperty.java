@@ -16,14 +16,13 @@
 
 package org.geogebra.common.properties.impl.graphics;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
+import org.jspecify.annotations.Nullable;
 
 public class DistanceFromScreenProperty extends AbstractValuedProperty<String>
 		implements StringProperty, SettingsDependentProperty {
@@ -54,7 +53,7 @@ public class DistanceFromScreenProperty extends AbstractValuedProperty<String>
 	}
 
 	@Override
-	public @CheckForNull String validateValue(String value) {
+	public @Nullable String validateValue(String value) {
 		try {
 			Integer.parseInt(value);
 			return null;

@@ -19,9 +19,6 @@ package org.geogebra.common.util;
 import java.io.StringReader;
 import java.util.ArrayList;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -37,6 +34,8 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 @HasNativeSubclass
 abstract public class ImageManager implements ExamListener {
@@ -283,7 +282,7 @@ abstract public class ImageManager implements ExamListener {
 	 * @param image image
 	 * @param path path
 	 */
-	public void addExternalImage(@Nonnull MyImage image, @Nonnull String path) {
+	public void addExternalImage(@NonNull MyImage image, @NonNull String path) {
 		//
 	}
 
@@ -292,7 +291,7 @@ abstract public class ImageManager implements ExamListener {
 	 * @param path path to image
 	 * @return image or {@code null}
 	 */
-	public @CheckForNull MyImage getExternalImage(@Nonnull String path) {
+	public @Nullable MyImage getExternalImage(@NonNull String path) {
 		return null;
 	}
 

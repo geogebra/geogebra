@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.ColorObjectModel;
@@ -42,6 +40,7 @@ import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
+import org.jspecify.annotations.NonNull;
 
 import elemental2.dom.HTMLImageElement;
 import jsinterop.base.Js;
@@ -517,7 +516,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		});
 	}
 
-	private void colorChanged(@Nonnull ColorTable source, GColor color) {
+	private void colorChanged(@NonNull ColorTable source, GColor color) {
 		selectedColor = color;
 		previewPanel.update();
 

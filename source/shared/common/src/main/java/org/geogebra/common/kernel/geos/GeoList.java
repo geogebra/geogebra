@@ -22,8 +22,6 @@ import java.util.TreeSet;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.DrawableND;
@@ -78,6 +76,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.Nullable;
 
 /**
  * List of GeoElements
@@ -1721,7 +1720,7 @@ public class GeoList extends GeoElement
 	 *
 	 * @return selected element
 	 */
-	public @CheckForNull GeoElement getSelectedElement() {
+	public @Nullable GeoElement getSelectedElement() {
 		if ((selectedIndex > -1) && (selectedIndex < size())) {
 			return get(selectedIndex);
 		}
@@ -3267,7 +3266,7 @@ public class GeoList extends GeoElement
 	 *            template
 	 * @return The displayed string of item.
 	 */
-	public String getItemDisplayString(@CheckForNull GeoElement geoItem,
+	public String getItemDisplayString(@Nullable GeoElement geoItem,
 			StringTemplate tpl) {
 		if (geoItem == null) {
 			return "";

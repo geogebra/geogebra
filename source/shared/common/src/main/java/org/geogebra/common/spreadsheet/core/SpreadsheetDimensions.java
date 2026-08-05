@@ -18,7 +18,7 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.Map;
 
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Provides the number of rows and columns in the spreadsheet, and the column/row sizes.
@@ -30,12 +30,12 @@ public interface SpreadsheetDimensions {
 	/**
 	 * @return column widths
 	 */
-	@Nonnull Map<Integer, Double> getColumnWidths();
+	@NonNull Map<Integer, Double> getColumnWidths();
 
 	/**
 	 * @return row heights
 	 */
-	@Nonnull Map<Integer, Double> getRowHeights();
+	@NonNull Map<Integer, Double> getRowHeights();
 
 	/**
 	 * @return number of rows

@@ -21,8 +21,6 @@ import static java.util.Map.entry;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
@@ -32,6 +30,7 @@ import org.geogebra.common.properties.impl.objects.FontSizeProperty.FontSize;
 import org.geogebra.common.properties.impl.objects.delegate.FontStyleDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.jspecify.annotations.NonNull;
 
 /**
  * {@code Property} responsible for setting the font size of texts.
@@ -64,7 +63,7 @@ public class FontSizeProperty extends AbstractNamedEnumeratedProperty<FontSize>
 		 * @param multiplier the font size multiplier to match
 		 * @return the matching {@code FontSize}
 		 */
-		public static @Nonnull FontSize withFontSizeMultiplier(double multiplier) {
+		public static @NonNull FontSize withFontSizeMultiplier(double multiplier) {
 			// If the multiplier is below the minimum value, use the smallest font size
 			if (multiplier <= EXTRA_SMALL.multiplier) {
 				return EXTRA_SMALL;
@@ -86,7 +85,7 @@ public class FontSizeProperty extends AbstractNamedEnumeratedProperty<FontSize>
 		/**
 		 * @return the translation key associated with this font size
 		 */
-		public @Nonnull String getTranslationKey() {
+		public @NonNull String getTranslationKey() {
 			return translationKey;
 		}
 

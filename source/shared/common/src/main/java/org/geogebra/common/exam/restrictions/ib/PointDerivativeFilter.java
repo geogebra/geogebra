@@ -16,8 +16,6 @@
 
 package org.geogebra.common.exam.restrictions.ib;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -27,6 +25,7 @@ import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.plugin.Operation;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Restricts derivative expressions over a variable e.g. f'(x), but allows
@@ -35,7 +34,7 @@ import org.geogebra.common.plugin.Operation;
 public final class PointDerivativeFilter implements ExpressionFilter, Inspecting {
 
 	@Override
-	public boolean isAllowed(@Nonnull ExpressionValue expression) {
+	public boolean isAllowed(@NonNull ExpressionValue expression) {
 		// Inspecting searches for derivatives over a variable
 		return !expression.any(this);
 	}

@@ -16,10 +16,9 @@
 
 package org.geogebra.common.gui.view.spreadsheet;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.main.App;
 import org.geogebra.common.spreadsheet.core.TabularRange;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Spreadsheet table component (Classic).
@@ -66,7 +65,7 @@ public interface MyTable extends MyTableInterface {
 	 */
 	public int getTableMode();
 
-	default @CheckForNull TabularRange getFirstSelection() {
+	default @Nullable TabularRange getFirstSelection() {
 		return getSelectedRanges().isEmpty() ? null : getSelectedRanges().get(0);
 	}
 

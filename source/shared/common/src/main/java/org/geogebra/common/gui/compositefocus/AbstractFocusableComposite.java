@@ -19,7 +19,7 @@ package org.geogebra.common.gui.compositefocus;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for managing focus traversal within a composite UI element.
@@ -123,7 +123,7 @@ public abstract class AbstractFocusableComposite<T extends FocusablePart>
 	/**
 	 * @return the currently selected part, or {@code null} if none is selected
 	 */
-	protected final @CheckForNull T getSelectedPart() {
+	protected final @Nullable T getSelectedPart() {
 		return hasSelectedPart() ? parts.get(selectedIndex) : null;
 	}
 
@@ -147,7 +147,7 @@ public abstract class AbstractFocusableComposite<T extends FocusablePart>
 	 * @return the focus key of the currently selected part, or {@code null}
 	 *         if no part is selected
 	 */
-	public final @CheckForNull String getSelectedKey() {
+	public final @Nullable String getSelectedKey() {
 		return selectedKey;
 	}
 
@@ -160,7 +160,7 @@ public abstract class AbstractFocusableComposite<T extends FocusablePart>
 	 *
 	 * @param key focus key identifying the part to select
 	 */
-	public void restoreSelection(@CheckForNull String key) {
+	public void restoreSelection(@Nullable String key) {
 		if (key == null) {
 			return;
 		}

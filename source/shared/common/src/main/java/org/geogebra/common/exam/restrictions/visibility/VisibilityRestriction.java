@@ -20,10 +20,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Restrictions on geo elements regarding the visibility in graphical output.
@@ -54,7 +53,7 @@ public interface VisibilityRestriction {
 	 * @param geoElement The geo element to evaluate.
 	 * @return The effect of the restriction for the given geo element.
 	 */
-	@Nonnull Effect getEffect(GeoElement geoElement);
+	@NonNull Effect getEffect(GeoElement geoElement);
 
 	/**
 	 * Determine whether a {@code GeoElement}'s visibility is restricted for a set of restrictions.

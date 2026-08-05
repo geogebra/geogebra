@@ -18,8 +18,6 @@ package org.geogebra.common.properties.impl.graphics;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.main.Localization;
@@ -28,6 +26,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.DefaultColorValues;
+import org.jspecify.annotations.NonNull;
 
 /**
  * {@code Property} responsible for changing the color of the ruling grid in the Euclidian view in Notes.
@@ -66,7 +65,7 @@ public class RulingGridColorProperty extends AbstractEnumeratedProperty<GColor>
 	}
 
 	@Override
-	public @Nonnull List<GColor> getValues() {
+	public @NonNull List<GColor> getValues() {
 		return DefaultColorValues.NEUTRAL;
 	}
 

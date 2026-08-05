@@ -16,13 +16,12 @@
 
 package org.geogebra.common.properties.impl.graphics;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.aliases.ActionableIconProperty;
 import org.geogebra.common.properties.impl.AbstractActionableProperty;
+import org.jspecify.annotations.NonNull;
 
 /** {@code Property} responsible for restarting AR mode. */
 public final class RestartARActionProperty extends AbstractActionableProperty
@@ -56,7 +55,7 @@ public final class RestartARActionProperty extends AbstractActionableProperty
 	}
 
 	@Override
-	public @Nonnull EuclidianView3DInterface getEuclidianView3D() {
+	public @NonNull EuclidianView3DInterface getEuclidianView3D() {
 		return euclidianView3D;
 	}
 

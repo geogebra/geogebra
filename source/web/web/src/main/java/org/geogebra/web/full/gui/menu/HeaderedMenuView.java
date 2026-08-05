@@ -16,17 +16,16 @@
 
 package org.geogebra.web.full.gui.menu;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.web.full.gui.HeaderView;
 import org.gwtproject.user.client.ui.FlowPanel;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 class HeaderedMenuView extends FlowPanel {
 
 	private HeaderView headerView;
 
-	HeaderedMenuView(@Nonnull MenuView menuView) {
+	HeaderedMenuView(@NonNull MenuView menuView) {
 		setStyleName("headeredMenuView");
 		add(menuView);
 	}
@@ -35,7 +34,7 @@ class HeaderedMenuView extends FlowPanel {
 		return headerView;
 	}
 
-	void setHeaderView(@CheckForNull HeaderView headerView) {
+	void setHeaderView(@Nullable HeaderView headerView) {
 		removeHeaderView();
 		this.headerView = headerView;
 		addHeaderView();

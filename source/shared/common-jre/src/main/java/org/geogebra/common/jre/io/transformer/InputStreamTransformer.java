@@ -21,11 +21,10 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.util.zip.ZipInputStream;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.jre.io.MyXMLioJre;
 import org.geogebra.common.jre.io.file.InputStreamZipFile;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Transforms the .ggb file's InputStream into a Reader
@@ -42,7 +41,7 @@ public class InputStreamTransformer {
 	 * @param inputStream input stream
 	 * @return reader reader
 	 */
-	public @CheckForNull Reader getReader(InputStream inputStream) {
+	public @Nullable Reader getReader(InputStream inputStream) {
         return getReader(new InputStreamZipFile(inputStream));
     }
 

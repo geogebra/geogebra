@@ -1,0 +1,34 @@
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.geogebra.java.jspecify.MigrateFromJavaxAnnotationApi
+displayName: Migrate from javax annotation API to JSpecify
+description: Migrate from javax annotation API to JSpecify.
+preconditions:
+  - org.openrewrite.Singleton
+recipeList:
+  - org.openrewrite.java.dependencies.AddDependency:
+      groupId: org.jspecify
+      artifactId: jspecify
+      version: 1.0.0
+      onlyIfUsing: javax.annotation.*ull*
+      acceptTransitive: true
+  - org.openrewrite.java.migrate.jspecify.MoveAnnotationToArrayType:
+      annotationType: javax.annotation.*ull*
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: javax.annotation.Nullable
+      newFullyQualifiedTypeName: org.jspecify.annotations.Nullable
+      ignoreDefinition: true
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: javax.annotation.CheckForNull
+      newFullyQualifiedTypeName: org.jspecify.annotations.Nullable
+      ignoreDefinition: true
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: javax.annotation.Nonnull
+      newFullyQualifiedTypeName: org.jspecify.annotations.NonNull
+      ignoreDefinition: true
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: javax.annotation.ParametersAreNonnullByDefault
+      newFullyQualifiedTypeName: org.jspecify.annotations.NullMarked
+      ignoreDefinition: true
+  - org.openrewrite.staticanalysis.java.MoveFieldAnnotationToType:
+      annotationType: org.jspecify.annotations.*

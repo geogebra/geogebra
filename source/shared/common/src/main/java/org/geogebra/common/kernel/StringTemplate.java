@@ -18,8 +18,6 @@ package org.geogebra.common.kernel;
 
 import java.util.function.Function;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.export.MathmlTemplate;
 import org.geogebra.common.factories.FormatFactory;
@@ -47,6 +45,7 @@ import org.geogebra.common.util.ScientificFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.Nullable;
 
 /**
  * StringTemplate provides a container for all settings we might need when
@@ -3892,7 +3891,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @param settings settings defining coordinate style
 	 * @return delimiter for cartesian coordinates
 	 */
-	public String getCartesianDelimiter(@CheckForNull GeneralSettings settings) {
+	public String getCartesianDelimiter(@Nullable GeneralSettings settings) {
 		if (isLatex()) {
 			String delimiter = isAustrianCoordStyle(settings)
 					? LATEX_THICK_SPACE + getPointCoordBar() : ",";

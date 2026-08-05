@@ -19,8 +19,8 @@ package org.geogebra.common.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A multicast (i.e., one-to-many) eventing / notification mechanism.
@@ -53,7 +53,7 @@ public final class MulticastEvent<T> {
 		/**
 		 * @param argument event argument
 		 */
-		void notify(@CheckForNull T argument);
+		void notify(@Nullable T argument);
 	}
 
 	private final List<MulticastEvent.Listener<T>> listeners = new ArrayList<>();
@@ -62,7 +62,7 @@ public final class MulticastEvent<T> {
 	 * Add a listener to the list of listeners (if not yet registered).
 	 * @param listener A listener.
 	 */
-	public void addListener(@Nonnull MulticastEvent.Listener<T> listener) {
+	public void addListener(MulticastEvent.@NonNull Listener<T> listener) {
 		if (listeners.contains(listener)) {
 			return;
 		}
@@ -73,7 +73,7 @@ public final class MulticastEvent<T> {
 	 * Remove a listener from the list of listeners (if registered).
 	 * @param listener A listener.
 	 */
-	public void removeListener(@Nonnull MulticastEvent.Listener<T> listener) {
+	public void removeListener(MulticastEvent.@NonNull Listener<T> listener) {
 		listeners.remove(listener);
 	}
 
@@ -81,7 +81,7 @@ public final class MulticastEvent<T> {
 	 * Notify all listeners, forwarding the {@code argument}.
 	 * @param argument event argument (payload)
 	 */
-	public void notifyListeners(@CheckForNull T argument) {
+	public void notifyListeners(@Nullable T argument) {
 		listeners.forEach(listener -> listener.notify(argument));
 	}
 }

@@ -18,8 +18,6 @@ package org.geogebra.common.properties.impl.graphics;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -27,6 +25,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This property controls the tick style of axis.
@@ -76,7 +75,7 @@ public class AxisTickProperty extends AbstractEnumeratedProperty<Integer>
 	}
 
 	@Override
-	public @CheckForNull String[] getToolTipLabels() {
+	public @Nullable String[] getToolTipLabels() {
 		return null;
 	}
 }

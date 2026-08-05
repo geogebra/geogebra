@@ -16,7 +16,7 @@
 
 package org.geogebra.gwtutil;
 
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
@@ -26,7 +26,7 @@ public class JsObject {
 	 * @param object DOM object
 	 * @return DOM object as a property map
 	 */
-	public static @Nonnull JsPropertyMap<Object> of(@Nonnull Object object) {
+	public static @NonNull JsPropertyMap<Object> of(@NonNull Object object) {
 		return Js.uncheckedCast(object);
 	}
 }

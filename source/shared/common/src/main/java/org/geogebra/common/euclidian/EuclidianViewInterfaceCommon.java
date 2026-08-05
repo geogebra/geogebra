@@ -18,8 +18,6 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
@@ -39,6 +37,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Interface for n-dimensional Euclidian view
@@ -1111,11 +1110,11 @@ public interface EuclidianViewInterfaceCommon
 	 * Registers a listener for Euclidian view dimension changes.
 	 * @param dimensionListener the listener to add
 	 */
-	void addDimensionListener(@Nonnull DimensionListener dimensionListener);
+	void addDimensionListener(@NonNull DimensionListener dimensionListener);
 
 	/**
 	 * Unregisters an Euclidian view dimension change listener.
 	 * @param dimensionListener the listener to remove
 	 */
-	void removeDimensionListener(@Nonnull DimensionListener dimensionListener);
+	void removeDimensionListener(@NonNull DimensionListener dimensionListener);
 }

@@ -18,8 +18,6 @@ package org.geogebra.common.spreadsheet.kernel;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
@@ -28,22 +26,23 @@ import org.geogebra.common.kernel.statistics.Statistic;
 import org.geogebra.common.spreadsheet.core.SpreadsheetConstructionDelegate;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularRange;
+import org.jspecify.annotations.NonNull;
 
 public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstructionDelegate {
 
-	private final @Nonnull AlgebraProcessor algebraProcessor;
-	private final @Nonnull CommandDispatcher commandDispatcher;
+	private final @NonNull AlgebraProcessor algebraProcessor;
+	private final @NonNull CommandDispatcher commandDispatcher;
 
 	/**
 	 * Constructor
 	 * @param algebraProcessor the algebra processor
 	 */
-	public DefaultSpreadsheetConstructionDelegate(@Nonnull AlgebraProcessor algebraProcessor) {
+	public DefaultSpreadsheetConstructionDelegate(@NonNull AlgebraProcessor algebraProcessor) {
 		this.algebraProcessor = algebraProcessor;
 		this.commandDispatcher = algebraProcessor.getCommandDispatcher();
 	}
 
-	private GeoElementND[] processCommand(@Nonnull String command) {
+	private GeoElementND[] processCommand(@NonNull String command) {
 		return algebraProcessor.processAlgebraCommand(command, true);
 	}
 
@@ -53,7 +52,7 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 	}
 
 	@Override
-	public void createPieChart(@Nonnull TabularData<?> data, @Nonnull TabularRange range) {
+	public void createPieChart(@NonNull TabularData<?> data, @NonNull TabularRange range) {
 		String command = ChartBuilder.getPieChartCommand(data, range);
 		if (command == null) {
 			return;
@@ -67,7 +66,7 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 	}
 
 	@Override
-	public void createBarChart(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges) {
+	public void createBarChart(@NonNull TabularData<?> data, @NonNull List<TabularRange> ranges) {
 		String command = ChartBuilder.getBarChartCommand(data, ranges);
 		if (command == null) {
 			return;
@@ -81,7 +80,7 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 	}
 
 	@Override
-	public void createHistogram(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges) {
+	public void createHistogram(@NonNull TabularData<?> data, @NonNull List<TabularRange> ranges) {
 		String command = ChartBuilder.getHistogramCommand(data, ranges);
 		if (command == null) {
 			return;
@@ -95,7 +94,7 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 	}
 
 	@Override
-	public void createLineGraph(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges) {
+	public void createLineGraph(@NonNull TabularData<?> data, @NonNull List<TabularRange> ranges) {
 		String command = ChartBuilder.getLineGraphCommand(data, ranges);
 		if (command == null) {
 			return;
@@ -104,7 +103,7 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 	}
 
 	@Override
-	public void createLineGraph(@Nonnull TabularData<?> data, TabularRange range) {
+	public void createLineGraph(@NonNull TabularData<?> data, TabularRange range) {
 		for (int toCol = range.getFromColumn() + 1; toCol <= range.getToColumn(); toCol++) {
 			String command = ChartBuilder.getLineGraphCommand(data, range, toCol);
 			processCommand(command);
@@ -117,7 +116,7 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 	}
 
 	@Override
-	public void createBoxPlot(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges) {
+	public void createBoxPlot(@NonNull TabularData<?> data, @NonNull List<TabularRange> ranges) {
 		String command = ChartBuilder.getBoxPlotCommand(data, ranges);
 		GeoElementND[] result = processCommand(command);
 		if (result != null && result.length > 0 && result[0] != null) {

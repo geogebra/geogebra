@@ -16,12 +16,11 @@
 
 package org.geogebra.common.restrictions;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.properties.EnumeratedProperty;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.ValueFilter;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A set of restrictions that can be applied to a {@link Property}.
@@ -36,7 +35,7 @@ public class PropertyRestriction {
      * @param shouldFreeze whether the property should be frozen
      * @param valueFilter an optional {@link ValueFilter} to be applied to an enumerated property
      */
-    public PropertyRestriction(boolean shouldFreeze, @CheckForNull ValueFilter valueFilter) {
+    public PropertyRestriction(boolean shouldFreeze, @Nullable ValueFilter valueFilter) {
         this.shouldFreeze = shouldFreeze;
         this.valueFilter = valueFilter;
     }
@@ -49,7 +48,7 @@ public class PropertyRestriction {
      *
      * @param property the {@link Property} to which the restriction will be applied
      */
-    public void applyTo(@Nonnull Property property) {
+    public void applyTo(@NonNull Property property) {
         if (shouldFreeze) {
             freeze(property);
         }
@@ -64,7 +63,7 @@ public class PropertyRestriction {
      *
      * @param property the {@link Property} from which the restriction will be removed
      */
-    public void removeFrom(@Nonnull Property property) {
+    public void removeFrom(@NonNull Property property) {
         if (shouldFreeze) {
             unfreeze(property);
         }
@@ -77,7 +76,7 @@ public class PropertyRestriction {
      * "Freeze" a property (i.e. prevent changing the value, or triggering the action).
      * @param property A property.
      */
-    protected void freeze(@Nonnull Property property) {
+    protected void freeze(@NonNull Property property) {
         property.setFrozen(true);
     }
 
@@ -85,7 +84,7 @@ public class PropertyRestriction {
      * "Unfreeze" a property.
      * @param property A property.
      */
-    protected void unfreeze(@Nonnull Property property) {
+    protected void unfreeze(@NonNull Property property) {
         property.setFrozen(false);
     }
 }

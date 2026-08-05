@@ -16,11 +16,10 @@
 
 package org.geogebra.common.gui.view.table.regression;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
+import org.jspecify.annotations.Nullable;
 
 public interface RegressionSpecification {
 
@@ -39,7 +38,7 @@ public interface RegressionSpecification {
 	/**
 	 * @return LaTeX formula of the model, may be null if we don't want to show it
 	 */
-	@CheckForNull String getFormula();
+	@Nullable String getFormula();
 
 	/**
 	 * @return ordered coefficient names (concatenated)

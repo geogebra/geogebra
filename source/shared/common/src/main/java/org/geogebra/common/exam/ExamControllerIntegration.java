@@ -19,9 +19,6 @@ package org.geogebra.common.exam;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.localization.AutocompleteProvider;
@@ -31,6 +28,8 @@ import org.geogebra.common.restrictions.Restrictable;
 import org.geogebra.common.restrictions.Restrictions.ContextDependencies;
 import org.geogebra.common.restrictions.RestrictionsController;
 import org.geogebra.common.restrictions.RestrictionsControllerDelegate;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A wrapper class to reduce code duplication amongst client platforms.
@@ -54,10 +53,10 @@ public final class ExamControllerIntegration {
 	 * @param restrictionsControllerDelegate The restrictions controller delegate
 	 */
 	public ExamControllerIntegration(
-			@Nonnull ExamController examController,
-			@Nonnull ExamControllerDelegate examControllerDelegate,
-			@Nonnull RestrictionsController restrictionsController,
-			@Nonnull RestrictionsControllerDelegate restrictionsControllerDelegate) {
+			@NonNull ExamController examController,
+			@NonNull ExamControllerDelegate examControllerDelegate,
+			@NonNull RestrictionsController restrictionsController,
+			@NonNull RestrictionsControllerDelegate restrictionsControllerDelegate) {
 		this.examController = examController;
 		examController.delegate = examControllerDelegate;
 		this.restrictionsController = restrictionsController;
@@ -74,11 +73,11 @@ public final class ExamControllerIntegration {
 	 * {@code Restrictable}s will be unregistered from the {@link RestrictionsController}, before
 	 * the new set of {@code Restrictable}s will be registered with the {@link RestrictionsController}.
 	 */
-	public void activate(@Nonnull App app,
-			@Nonnull Localization localization,
-			@CheckForNull AutocompleteProvider autocompleteProvider,
-			@Nonnull GeoElementPropertiesFactory geoElementPropertiesFactory,
-			@Nonnull Collection<Restrictable> newRestrictables) {
+	public void activate(@NonNull App app,
+			@NonNull Localization localization,
+			@Nullable AutocompleteProvider autocompleteProvider,
+			@NonNull GeoElementPropertiesFactory geoElementPropertiesFactory,
+			@NonNull Collection<Restrictable> newRestrictables) {
 		for (Restrictable restrictable : restrictables) {
 			restrictionsController.unregisterRestrictable(restrictable);
 		}

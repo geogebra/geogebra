@@ -25,14 +25,13 @@ import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueU
 import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isSqrtNode;
 import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.radicandOf;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.jspecify.annotations.NonNull;
 
 public final class RationalizeFractionAlgo {
 	private final SimplifyUtils utils;
@@ -44,9 +43,9 @@ public final class RationalizeFractionAlgo {
 	 * @param numerator of the fraction.
 	 * @param denominator of the fraction.
 	 */
-	public RationalizeFractionAlgo(@Nonnull SimplifyUtils utils,
-			@Nonnull ExpressionNode numerator,
-			@Nonnull ExpressionNode denominator) {
+	public RationalizeFractionAlgo(@NonNull SimplifyUtils utils,
+			@NonNull ExpressionNode numerator,
+			@NonNull ExpressionNode denominator) {
 		this.utils = utils;
 		this.numerator = utils.deepCopy(numerator);
 		this.denominator = utils.deepCopy(denominator);

@@ -16,11 +16,10 @@
 
 package org.geogebra.common.kernel.arithmetic.filter.graphing;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionNodeOperationFilter;
 import org.geogebra.common.plugin.Operation;
+import org.jspecify.annotations.NonNull;
 
 final public class InnerProductExpressionFilter extends ExpressionNodeOperationFilter {
 
@@ -29,7 +28,7 @@ final public class InnerProductExpressionFilter extends ExpressionNodeOperationF
 	}
 
 	@Override
-	protected boolean isExpressionNodeAllowedForOperation(@Nonnull ExpressionNode expression) {
+	protected boolean isExpressionNodeAllowedForOperation(@NonNull ExpressionNode expression) {
 		return !(expression.getLeft().evaluatesToNDVector() && expression.getRight()
 				.evaluatesToNDVector());
 	}

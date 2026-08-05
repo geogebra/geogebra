@@ -21,9 +21,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.exam.restrictions.BayernCasExamRestrictions;
 import org.geogebra.common.exam.restrictions.CvteExamRestrictions;
@@ -39,6 +36,8 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.restrictions.Restrictions;
 import org.geogebra.common.util.ToStringConverter;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Exam types.
@@ -163,7 +162,7 @@ public enum ExamType {
 	 * @param shortName exam name
 	 * @return exam type or null
 	 */
-	public static ExamType byName(@CheckForNull String shortName) {
+	public static ExamType byName(@Nullable String shortName) {
 		for (ExamType region: values()) {
 			if (region.name().equalsIgnoreCase(shortName)) {
 				return region;
@@ -220,7 +219,7 @@ public enum ExamType {
 	 * value converter.
 	 */
 	public ToStringConverter wrapValueConverter(
-			@Nonnull ToStringConverter wrappedConverter) {
+			@NonNull ToStringConverter wrappedConverter) {
 		return wrappedConverter;
 	}
 

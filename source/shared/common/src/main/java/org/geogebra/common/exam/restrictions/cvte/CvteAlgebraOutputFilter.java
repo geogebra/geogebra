@@ -16,11 +16,10 @@
 
 package org.geogebra.common.exam.restrictions.cvte;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Algebra output filter for APPS-5926 (don't try to adapt to other use cases!).
@@ -52,7 +51,7 @@ public final class CvteAlgebraOutputFilter implements AlgebraOutputFilter {
      * @param element a {@link GeoElementND}
      * @return true if element matches the condition above.
      */
-    private boolean isCalculatedEquationAllowed(@CheckForNull GeoElementND element) {
+    private boolean isCalculatedEquationAllowed(@Nullable GeoElementND element) {
         if (element == null) {
             return false;
         }

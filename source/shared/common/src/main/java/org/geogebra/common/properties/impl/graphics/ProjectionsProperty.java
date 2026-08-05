@@ -24,14 +24,13 @@ import static org.geogebra.common.euclidian3D.EuclidianView3DInterface.PROJECTIO
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This property controls the projection type for 3D view.
@@ -87,7 +86,7 @@ public class ProjectionsProperty extends AbstractNamedEnumeratedProperty<Integer
 	}
 
 	@Override
-	public @CheckForNull String[] getToolTipLabels() {
+	public @Nullable String[] getToolTipLabels() {
 		return null;
 	}
 

@@ -19,8 +19,6 @@ package org.geogebra.common.main;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -43,6 +41,7 @@ import org.geogebra.common.main.settings.LabelSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.ManualPage;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This interface is almost the same as GuiManager, just it is an interface and
@@ -630,7 +629,7 @@ public interface GuiManagerInterface extends SettingListener<LabelSettings> {
 	/**
 	 * @return input keyboard button for Web input boxes
 	 */
-	@CheckForNull InputKeyboardButton getInputKeyboardButton();
+	@Nullable InputKeyboardButton getInputKeyboardButton();
 
 	/**
 	 * @return whether spreadsheet has (keyboard) focus

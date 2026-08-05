@@ -16,8 +16,6 @@
 
 package org.geogebra.web.full.gui.view.probcalculator;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -31,13 +29,14 @@ import org.geogebra.web.shared.components.tab.TabData;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
+import org.jspecify.annotations.Nullable;
 
 public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 	private ComponentTab probabilityTab;
 	protected final StatisticsCalculatorW statCalculator;
 	protected DistributionPanel distrPanel;
 	protected FlowPanel plotSplitPane;
-	protected @CheckForNull FlowPanel mainSplitPane;
+	protected @Nullable FlowPanel mainSplitPane;
 	private Label lblMeanSigma;
 	private static final int CONTROL_PANEL_HEIGHT = 180;
 	private static final int TABLE_PADDING_AND_SCROLLBAR = 32;

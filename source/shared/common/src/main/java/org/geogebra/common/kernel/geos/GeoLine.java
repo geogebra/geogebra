@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -69,6 +67,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Geometrical representation of line
@@ -864,12 +863,12 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	public @CheckForNull Form getEquationForm() {
+	public @Nullable Form getEquationForm() {
 		return equationForm;
 	}
 
 	@Override // EquationLinear
-	public void setEquationForm(@CheckForNull Form equationForm) {
+	public void setEquationForm(@Nullable Form equationForm) {
 		if (equationForm != null) {
 			this.equationForm = equationForm;
 		}
@@ -1748,7 +1747,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 *            (wrapped) equation
 	 */
 	public static void addUsedVars(ArrayList<String> usedVars,
-			@CheckForNull ExpressionNode definition) {
+			@Nullable ExpressionNode definition) {
 		if (usedVars.isEmpty() && definition != null
 				&& definition.unwrap() instanceof Equation) {
 			if (((Equation) definition.unwrap())
@@ -1803,7 +1802,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @param definition definition
 	 * @return definition converted to function
 	 */
-	public static Function definitionAsFunction(@CheckForNull ExpressionNode definition) {
+	public static Function definitionAsFunction(@Nullable ExpressionNode definition) {
 		if (definition != null && definition.unwrap() instanceof Equation) {
 			return ((Equation) definition.unwrap()).asFunction();
 		}

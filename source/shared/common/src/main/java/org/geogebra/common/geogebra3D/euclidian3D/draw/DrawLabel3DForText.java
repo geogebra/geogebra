@@ -16,8 +16,6 @@
 
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
@@ -29,6 +27,7 @@ import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.jspecify.annotations.NonNull;
 
 /**
  * class for drawing texts
@@ -46,7 +45,7 @@ public class DrawLabel3DForText extends DrawLabel3D {
 	}
 
 	@Override
-	final protected GRectangle getBounds(@Nonnull CaptionText cpt, GGraphics2D measuringGraphics) {
+	final protected GRectangle getBounds(@NonNull CaptionText cpt, GGraphics2D measuringGraphics) {
 		if (geo.isLaTeX()) {
 			EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
 					measuringGraphics, geo, measuringGraphics, cpt.font(), GColor.BLACK,
@@ -62,7 +61,7 @@ public class DrawLabel3DForText extends DrawLabel3D {
 	}
 
 	@Override
-	final protected GBufferedImage draw(@Nonnull CaptionText cpt, GGraphics2D measuringGraphics) {
+	final protected GBufferedImage draw(@NonNull CaptionText cpt, GGraphics2D measuringGraphics) {
 		GBufferedImage bimg = createBufferedImage();
 		GGraphics2D g2d = createGraphics2D(bimg, cpt);
 

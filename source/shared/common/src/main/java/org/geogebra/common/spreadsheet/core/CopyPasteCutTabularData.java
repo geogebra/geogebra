@@ -18,8 +18,8 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.function.Consumer;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides copy, paste and cut capability for tabular data.
@@ -31,21 +31,21 @@ public interface CopyPasteCutTabularData {
 	/**
 	 * @param source range of cells to copy.
 	 */
-	void copy(@Nonnull TabularRange source);
+	void copy(@NonNull TabularRange source);
 
 	/**
 	 * Copy cells ensuring that the content is copied by value (deep copy).
 	 *
 	 * @param source range of cells to copy.
 	 */
-	void copyDeep(@Nonnull TabularRange source);
+	void copyDeep(@NonNull TabularRange source);
 
 	/**
 	 * Paste previously copied content to the destination range of cells
 	 * @param destination to paste content to.
 	 * @param externalContent external clipboard content
 	 */
-	void paste(@Nonnull TabularRange destination, @CheckForNull String[][] externalContent);
+	void paste(@NonNull TabularRange destination, String @Nullable[][] externalContent);
 
 	/**
 	 * Paste previously copied content to the given row, column
@@ -55,14 +55,14 @@ public interface CopyPasteCutTabularData {
 	 * @param startColumn to paste content to.
 	 * @param externalContent pasted content split into cells
 	 */
-	void paste(int startRow, int startColumn, @CheckForNull String[][] externalContent);
+	void paste(int startRow, int startColumn, String @Nullable[][] externalContent);
 
 	/**
 	 * Cuts range of cells.
 	 *
 	 * @param range of cells to cut.
 	 */
-	void cut(@Nonnull TabularRange range);
+	void cut(@NonNull TabularRange range);
 
 	/**
 	 * Selects one or multiple destination ranges to which content was pasted to
@@ -74,7 +74,7 @@ public interface CopyPasteCutTabularData {
 	 * @param reader gets clipboard content if present and distinct from internal clipboard,
 	 *    null otherwise
 	 */
-	void readExternalClipboard(@Nonnull Consumer<String> reader);
+	void readExternalClipboard(@NonNull Consumer<String> reader);
 
 	/**
 	 * Range for tiled pasting of tabular data. The size is a multiple of tileHeight vertically

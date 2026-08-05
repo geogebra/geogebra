@@ -16,8 +16,6 @@
 
 package org.geogebra.web.full.gui.view.algebra;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
@@ -61,6 +59,7 @@ import org.gwtproject.event.dom.client.TouchStartHandler;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Controller class of a AV item.
@@ -402,7 +401,7 @@ public class RadioTreeItemController implements ClickHandler,
 		app.dispatchEvent(new Event(eventType, item.getGeo(), null));
 	}
 
-	protected void onPointerUp(@Nonnull AbstractEvent event) {
+	protected void onPointerUp(@NonNull AbstractEvent event) {
 		selectionCtrl.setSelectHandled(false);
 
 		GeoElement geo = item.geo;

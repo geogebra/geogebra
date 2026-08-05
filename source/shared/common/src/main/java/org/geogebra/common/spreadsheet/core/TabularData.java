@@ -16,10 +16,9 @@
 
 package org.geogebra.common.spreadsheet.core;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.view.spreadsheet.HasTabularValues;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Interacting with the structure and contents of tabular data.
@@ -32,23 +31,23 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	/**
 	 * @return cell processor
 	 */
-	@Nonnull SpreadsheetCellProcessor getCellProcessor();
+	@NonNull SpreadsheetCellProcessor getCellProcessor();
 
 	/**
 	 * @return provider of paste operations
 	 */
-	@CheckForNull TabularDataPasteInterface<T> getPaste();
+	@Nullable TabularDataPasteInterface<T> getPaste();
 
 	/**
 	 * @return utility for pasting data by pointer drag
 	 */
-	@CheckForNull CellDragPasteHandler getCellDragPasteHandler();
+	@Nullable CellDragPasteHandler getCellDragPasteHandler();
 
 	/**
 	 * Add a listener for data update and data dimension changes.
 	 * @param listener change listener
 	 */
-	void addChangeListener(@Nonnull TabularDataChangeListener listener);
+	void addChangeListener(@NonNull TabularDataChangeListener listener);
 
 	// -- Structure --
 
@@ -98,7 +97,7 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	 * @param column column index
 	 * @return column name
 	 */
-	default @Nonnull String getColumnName(int column) {
+	default @NonNull String getColumnName(int column) {
 		return Spreadsheet.getColumnName(column);
 	}
 
@@ -107,7 +106,7 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	 * @param row row index
 	 * @return row name
 	 */
-	default @Nonnull String getRowName(int row) {
+	default @NonNull String getRowName(int row) {
 		return String.valueOf(row + 1);
 	}
 
@@ -117,7 +116,7 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	 * @param column column index
 	 * @return cell name
 	 */
-	default @Nonnull String getCellName(int row, int column) {
+	default @NonNull String getCellName(int row, int column) {
 		return getColumnName(column) + getRowName(row);
 	}
 
@@ -131,7 +130,7 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	 * @param column Column index of cell.
 	 * @param content The content for (row, column). If {@code null}, clears the cell.
 	 */
-	void setContent(int row, int column, @CheckForNull T content);
+	void setContent(int row, int column, @Nullable T content);
 
 	/**
 	 * Replace the content of cell (row, column) with {@code null}.
@@ -165,7 +164,7 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	 * @return Content of given cell formatted for external use (clipboard), or an empty string
 	 * if there is no content at (row, column).
 	 */
-	@Nonnull String serializeContentAt(int row, int column);
+	@NonNull String serializeContentAt(int row, int column);
 
 	/**
 	 * @param row Row index

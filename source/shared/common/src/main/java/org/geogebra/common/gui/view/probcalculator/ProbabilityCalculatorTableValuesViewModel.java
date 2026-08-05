@@ -16,16 +16,16 @@
 
 package org.geogebra.common.gui.view.probcalculator;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /** Coordinates the table values content and button state for the probability calculator view. */
 public final class ProbabilityCalculatorTableValuesViewModel
 		implements ProbabilityCalculatorView.Listener {
-	private final @Nonnull ProbabilityCalculatorView probabilityCalculatorView;
-	private @CheckForNull ProbabilityCalculatorTableValues tableValues;
+	private final @NonNull ProbabilityCalculatorView probabilityCalculatorView;
+	private @Nullable ProbabilityCalculatorTableValues tableValues;
 	private boolean buttonVisible;
-	private @CheckForNull Delegate delegate;
+	private @Nullable Delegate delegate;
 
 	/** Receives notifications when the content or button state changes. */
 	public interface Delegate {
@@ -48,7 +48,7 @@ public final class ProbabilityCalculatorTableValuesViewModel
 	 * @param probabilityCalculatorView internal probability calculator view
 	 */
 	public ProbabilityCalculatorTableValuesViewModel(
-			@Nonnull ProbabilityCalculatorView probabilityCalculatorView) {
+			@NonNull ProbabilityCalculatorView probabilityCalculatorView) {
 		this.probabilityCalculatorView = probabilityCalculatorView;
 		this.buttonVisible = probabilityCalculatorView.isDiscreteProbability();
 		probabilityCalculatorView.addListener(this);
@@ -58,21 +58,21 @@ public final class ProbabilityCalculatorTableValuesViewModel
 	 * Sets the delegate notified when this view's content or button state changes.
 	 * @param delegate delegate to notify, or {@code null} to stop notifications
 	 */
-	public void setDelegate(@CheckForNull Delegate delegate) {
+	public void setDelegate(@Nullable Delegate delegate) {
 		this.delegate = delegate;
 	}
 
 	/**
 	 * @return table values content, or {@code null} when closed
 	 */
-	public @CheckForNull ProbabilityCalculatorTableValues getContent() {
+	public @Nullable ProbabilityCalculatorTableValues getContent() {
 		return tableValues;
 	}
 
 	/**
 	 * @return current button state
 	 */
-	public @Nonnull ButtonState getButtonState() {
+	public @NonNull ButtonState getButtonState() {
 		return buttonVisible ? tableValues != null ? ButtonState.ACTIVE : ButtonState.INACTIVE
 				: ButtonState.HIDDEN;
 	}

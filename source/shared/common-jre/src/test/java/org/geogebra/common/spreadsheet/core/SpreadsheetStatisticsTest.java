@@ -26,8 +26,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import java.util.Objects;
 import java.util.Random;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.gui.view.table.regression.RegressionSpecificationBuilder;
 import org.geogebra.common.jre.headless.AppCommon;
@@ -44,6 +42,7 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.Result;
 import org.geogebra.common.spreadsheet.kernel.KernelSpreadsheetStatistics;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
+import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -72,7 +71,7 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 		NUMBERS, TEXT
 	}
 
-	private void setupTestData(@Nonnull TabularRange range, @Nonnull Content content) {
+	private void setupTestData(@NonNull TabularRange range, @NonNull Content content) {
 		Construction construction = app.getKernel().getConstruction();
 		Random rnd = new Random(1337); // deterministic prng
 		for (int row = range.getFromRow(); row <= range.getToRow(); row++) {
@@ -490,18 +489,18 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 
 	@Override
 	public void showOneVarStatistics(
-			@Nonnull SpreadsheetStatisticsView.OneVar statisticsView) {
+			SpreadsheetStatisticsView.@NonNull OneVar statisticsView) {
 		this.oneVarStatisticsView = statisticsView;
 	}
 
 	@Override
 	public void showTwoVarStatistics(
-			@Nonnull SpreadsheetStatisticsView.TwoVar statisticsView) {
+			SpreadsheetStatisticsView.@NonNull TwoVar statisticsView) {
 		this.twoVarStatisticsView = statisticsView;
 	}
 
 	@Override
-	public void showRegression(@Nonnull SpreadsheetStatisticsView.Regression statisticsView) {
+	public void showRegression(SpreadsheetStatisticsView.@NonNull Regression statisticsView) {
 		this.regressionView = statisticsView;
 	}
 }

@@ -16,9 +16,6 @@
 
 package org.geogebra.web.full.gui.components.sideSheet;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
@@ -30,6 +27,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Panel holding the title, close button and possible back button for a side sheet or
@@ -49,7 +48,7 @@ public class SheetTitlePanel extends FlowPanel implements SetLabels {
 	 * @param onBack back button callback (null = no back button)
 	 */
 	public SheetTitlePanel(AppW appW, String titleTransKey,
-			@Nonnull Runnable onClose, @CheckForNull Runnable onBack) {
+			@NonNull Runnable onClose, @Nullable Runnable onBack) {
 		this.appW = appW;
 		this.titleTransKey = titleTransKey;
 		if (onBack != null) {

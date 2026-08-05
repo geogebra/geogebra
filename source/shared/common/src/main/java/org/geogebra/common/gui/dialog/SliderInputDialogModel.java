@@ -19,9 +19,6 @@ package org.geogebra.common.gui.dialog;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.smallscreen.AdjustSlider;
 import org.geogebra.common.kernel.Construction;
@@ -35,6 +32,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Model for the slider creation dialog. Manages two pre-created geo elements
@@ -96,7 +95,7 @@ public final class SliderInputDialogModel {
 	 * @param field the field
 	 * @return last valid string value
 	 */
-	public @Nonnull String getLastValidField(SliderType type, Field field) {
+	public @NonNull String getLastValidField(SliderType type, Field field) {
 		return lastValidInputs.get(type).get(field);
 	}
 
@@ -107,7 +106,7 @@ public final class SliderInputDialogModel {
 	 * @param value current input value
 	 * @return localized error message or {@code null} when valid
 	 */
-	public @CheckForNull String validateField(SliderType type, Field field, String value) {
+	public @Nullable String validateField(SliderType type, Field field, String value) {
 		String error = field == Field.NAME ? validateName(value) : validateNumber(type, value);
 		if (error == null) {
 			lastValidInputs.get(type).put(field, value);
@@ -224,7 +223,7 @@ public final class SliderInputDialogModel {
 
 	private final ErrorHandler errorHandler = new ErrorHandler() {
 		@Override
-		public void showError(@CheckForNull String msg) {
+		public void showError(@Nullable String msg) {
 			error = msg;
 		}
 

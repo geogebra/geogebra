@@ -18,10 +18,9 @@ package org.geogebra.common.properties.impl.facade;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyKey;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Base class for properties that hold a list of properties of type <code>P</code>
@@ -45,12 +44,12 @@ public abstract class AbstractPropertyListFacade<P extends Property> implements 
 	}
 
 	@Override
-	public @Nonnull String getRawName() {
+	public @NonNull String getRawName() {
 		return getFirstProperty().getRawName();
 	}
 
 	@Override
-	public @Nonnull PropertyKey getKey() {
+	public @NonNull PropertyKey getKey() {
 		return getFirstProperty().getKey();
 	}
 

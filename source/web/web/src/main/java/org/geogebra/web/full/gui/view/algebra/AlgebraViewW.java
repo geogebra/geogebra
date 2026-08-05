@@ -21,9 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
@@ -94,6 +91,8 @@ import org.gwtproject.user.client.ui.InlineLabel;
 import org.gwtproject.user.client.ui.ProvidesResize;
 import org.gwtproject.user.client.ui.Tree;
 import org.gwtproject.user.client.ui.TreeItem;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;
@@ -118,7 +117,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	protected final Kernel kernel;
 	private final AnimationScheduler repaintScheduler = AnimationScheduler.get();
 	/** Input item */
-	private @CheckForNull RadioTreeItem inputPanelLatex;
+	private @Nullable RadioTreeItem inputPanelLatex;
 	private AlgebraStyleBarW styleBar;
 	private boolean editItem = false;
 	private GeoElement draggedGeo;
@@ -1489,7 +1488,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/**
 	 * @return the RadioButtonTreeItem containing the input-box
 	 */
-	public @CheckForNull RadioTreeItem getInputTreeItem() {
+	public @Nullable RadioTreeItem getInputTreeItem() {
 		return inputPanelLatex;
 	}
 
@@ -1529,7 +1528,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * Make sure input panel exists and is not part of DOM
 	 * @return input panel
 	 */
-	private @Nonnull RadioTreeItem prepareInputPanel() {
+	private @NonNull RadioTreeItem prepareInputPanel() {
 		if (inputPanelLatex == null) {
 			if (getApp().getAlgebraStyle() == AlgebraStyle.LINEAR_NOTATION) {
 				inputPanelLatex = new LinearNotationTreeItem(kernel, this).initInput();
@@ -1899,7 +1898,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	@Override
-	public @CheckForNull ScreenReaderAdapter getScreenReaderAdapter() {
+	public @Nullable ScreenReaderAdapter getScreenReaderAdapter() {
 		elemental2.dom.Element activeElement = DomGlobal.document.activeElement;
 		if (activeElement != null && CopyPasteW.incorrectTarget(activeElement)) {
 			return null;

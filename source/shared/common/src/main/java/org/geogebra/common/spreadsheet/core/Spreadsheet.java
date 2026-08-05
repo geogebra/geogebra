@@ -19,9 +19,6 @@ package org.geogebra.common.spreadsheet.core;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
@@ -30,6 +27,8 @@ import org.geogebra.common.util.MulticastEvent;
 import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.editor.share.controller.ExpressionReader;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A spreadsheet (of arbitrary size). This class provides public API  for both rendering
@@ -51,7 +50,7 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 	private final SpreadsheetStyling styling;
 	private final SpreadsheetStyleBarModel styleBarModel;
 	private final SpreadsheetRenderer renderer;
-	private @CheckForNull SpreadsheetDelegate spreadsheetDelegate;
+	private @Nullable SpreadsheetDelegate spreadsheetDelegate;
 
 	/**
 	 * Get the column name for a column index.
@@ -60,7 +59,7 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 	 * @implNote This duplicates a method from GeoElementSpreadsheet (which we don't want to reuse
 	 * here).
 	 */
-	public static @Nonnull String getColumnName(int columnIndex) {
+	public static @NonNull String getColumnName(int columnIndex) {
 		int i = columnIndex + 1;
 		String col = "";
 		while (i > 0) {
@@ -76,10 +75,10 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 	 * @param constructionDelegate delegate for creating construction elements
 	 * @param undoProvider undo provider, may be null
 	 */
-	public Spreadsheet(@Nonnull TabularData<T> tabularData,
-			@Nonnull CellRenderableFactory rendererFactory,
-			@CheckForNull SpreadsheetConstructionDelegate constructionDelegate,
-			@CheckForNull UndoProvider undoProvider) {
+	public Spreadsheet(@NonNull TabularData<T> tabularData,
+			@NonNull CellRenderableFactory rendererFactory,
+			@Nullable SpreadsheetConstructionDelegate constructionDelegate,
+			@Nullable UndoProvider undoProvider) {
 
 		styling = new SpreadsheetStyling();
 		styling.stylingChanged.addListener(this::stylingChanged);
@@ -106,7 +105,7 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 	/**
 	 * @return the controller.
 	 */
-	public @Nonnull SpreadsheetController<T> getController() {
+	public @NonNull SpreadsheetController<T> getController() {
 		return controller;
 	}
 
@@ -115,14 +114,14 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 	/**
 	 * @param controlsDelegate delegate for controls
 	 */
-	public void setControlsDelegate(@CheckForNull SpreadsheetControlsDelegate controlsDelegate) {
+	public void setControlsDelegate(@Nullable SpreadsheetControlsDelegate controlsDelegate) {
 		controller.setControlsDelegate(controlsDelegate);
 	}
 
 	/**
 	 * @param spreadsheetDelegate delegate for repaint notifications
 	 */
-	public void setSpreadsheetDelegate(@CheckForNull SpreadsheetDelegate spreadsheetDelegate) {
+	public void setSpreadsheetDelegate(@Nullable SpreadsheetDelegate spreadsheetDelegate) {
 		this.spreadsheetDelegate = spreadsheetDelegate;
 	}
 
@@ -130,7 +129,7 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 	 * @param viewportAdjusterDelegate delegate for scrollable container hosting the spreadsheet
 	 */
 	public void setViewportAdjustmentHandler(
-			@CheckForNull ViewportAdjusterDelegate viewportAdjusterDelegate) {
+			@Nullable ViewportAdjusterDelegate viewportAdjusterDelegate) {
 		controller.setViewportAdjustmentHandler(viewportAdjusterDelegate);
 	}
 
@@ -141,8 +140,8 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 	 * @param spreadsheetStatistics An abstraction for statistics calculations.
 	 */
 	public void setStatisticsDelegate(
-			@CheckForNull SpreadsheetStatisticsDelegate statisticsDelegate,
-			@CheckForNull SpreadsheetStatistics spreadsheetStatistics) {
+			@Nullable SpreadsheetStatisticsDelegate statisticsDelegate,
+			@Nullable SpreadsheetStatistics spreadsheetStatistics) {
 		controller.setStatisticsDelegate(statisticsDelegate, spreadsheetStatistics);
 	}
 
@@ -152,7 +151,7 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 	 * @param accessibilityDelegate Delegate for accessibility announcements
 	 */
 	public void setAccessibilityDelegate(
-			@CheckForNull SpreadsheetAccessibilityDelegate accessibilityDelegate) {
+			@Nullable SpreadsheetAccessibilityDelegate accessibilityDelegate) {
 		controller.setAccessibilityDelegate(accessibilityDelegate);
 	}
 
@@ -160,14 +159,14 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 	 * @param cellDescriptionBuilder {@link SpreadsheetCellDescriptionBuilder}
 	 */
 	public void setCellDescriptionBuilder(
-			@CheckForNull SpreadsheetCellDescriptionBuilder cellDescriptionBuilder) {
+			@Nullable SpreadsheetCellDescriptionBuilder cellDescriptionBuilder) {
 		controller.setCellDescriptionBuilder(cellDescriptionBuilder);
 	}
 
 	/**
 	 * @param expressionReader ExpressionReader used to serialize content of the cell editor
 	 */
-	public void setExpressionReader(@CheckForNull ExpressionReader expressionReader) {
+	public void setExpressionReader(@Nullable ExpressionReader expressionReader) {
 		controller.setExpressionReader(expressionReader);
 	}
 
@@ -203,11 +202,11 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 
 	// Styling
 
-	public @Nonnull SpreadsheetStyleBarModel getStyleBarModel() {
+	public @NonNull SpreadsheetStyleBarModel getStyleBarModel() {
 		return styleBarModel;
 	}
 
-	private void stylingChanged(@CheckForNull List<TabularRange> ranges) {
+	private void stylingChanged(@Nullable List<TabularRange> ranges) {
 		if (ranges == null) {
 			return;
 		}
@@ -338,7 +337,7 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 	}
 
 	private void drawReferences(GGraphics2D graphics, Rectangle viewport,
-			@Nonnull SpreadsheetReferences references) {
+			@NonNull SpreadsheetReferences references) {
 		SpreadsheetReferences deduplicatedReferences = references.removingDuplicates();
 		for (int index = 0; index < deduplicatedReferences.cellReferences.size(); index++) {
 			SpreadsheetReference reference = deduplicatedReferences.cellReferences.get(index);
@@ -363,14 +362,14 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 
 	// Viewport & scrolling
 
-	public @Nonnull Rectangle getViewport() {
+	public @NonNull Rectangle getViewport() {
 		return controller.getViewport();
 	}
 
 	/**
 	 * @param viewport The viewport (visible rectangle) relative to the table, in points.
 	 */
-	public void setViewport(@Nonnull Rectangle viewport) {
+	public void setViewport(@NonNull Rectangle viewport) {
 		this.controller.setViewport(viewport);
 	}
 
@@ -389,7 +388,7 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 	 * @param y screen coordinate of event
 	 * @param modifiers alt/ctrl/shift
 	 */
-	public void handlePointerUp(double x, double y, @Nonnull Modifiers modifiers) {
+	public void handlePointerUp(double x, double y, @NonNull Modifiers modifiers) {
 		controller.handlePointerUp(x, y, modifiers);
 	}
 
@@ -398,7 +397,7 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 	 * @param y screen coordinate of event
 	 * @param modifiers alt/ctrl/shift
 	 */
-	public void handlePointerDown(double x, double y, @Nonnull Modifiers modifiers) {
+	public void handlePointerDown(double x, double y, @NonNull Modifiers modifiers) {
 		controller.handlePointerDown(x, y, modifiers);
 	}
 
@@ -407,7 +406,7 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 	 * @param y screen coordinate of event
 	 * @param modifiers alt/ctrl/shift
 	 */
-	public void handlePointerMove(double x, double y, @Nonnull Modifiers modifiers) {
+	public void handlePointerMove(double x, double y, @NonNull Modifiers modifiers) {
 		controller.handlePointerMove(x, y, modifiers);
 	}
 
@@ -429,7 +428,7 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 	 * @return True if this input was handled by the {@link SpreadsheetController}, false iff
 	 * this is a global shortcut.
 	 */
-	public boolean handleKeyPressed(int keyCode, String key, @Nonnull Modifiers modifiers) {
+	public boolean handleKeyPressed(int keyCode, String key, @NonNull Modifiers modifiers) {
 		return controller.handleKeyPressed(keyCode, key, modifiers);
 	}
 

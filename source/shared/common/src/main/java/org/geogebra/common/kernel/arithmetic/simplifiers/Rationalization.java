@@ -16,11 +16,10 @@
 
 package org.geogebra.common.kernel.arithmetic.simplifiers;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public class Rationalization {
 
@@ -30,7 +29,7 @@ public class Rationalization {
 	 * @param node to rationalize
 	 * @return the rationalized fraction.
 	 */
-	public @CheckForNull ExpressionValue getResolution(@Nonnull ExpressionNode node) {
+	public @Nullable ExpressionValue getResolution(@NonNull ExpressionNode node) {
         RationalizableFraction fraction = new RationalizableFraction(node);
         return fraction.simplify();
     }

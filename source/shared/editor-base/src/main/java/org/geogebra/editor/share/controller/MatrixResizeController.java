@@ -21,9 +21,6 @@ import static org.geogebra.editor.share.tree.inspect.Inspecting.containsNode;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.editor.share.catalog.Tag;
@@ -33,6 +30,8 @@ import org.geogebra.editor.share.tree.ArrayNode;
 import org.geogebra.editor.share.tree.FunctionNode;
 import org.geogebra.editor.share.tree.Node;
 import org.geogebra.editor.share.tree.SequenceNode;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.himamis.retex.renderer.share.Box;
 import com.himamis.retex.renderer.share.BoxPosition;
@@ -44,15 +43,15 @@ public final class MatrixResizeController {
 	private final MathFieldInternal mathFieldInternal;
 	private final Set<StateListener> listeners = new HashSet<>();
 
-	private @Nonnull State state = State.NO_MATRIX;
-	private @Nonnull State nextState = State.NO_MATRIX;
-	private @CheckForNull DimensionsControllable targetNode;
+	private @NonNull State state = State.NO_MATRIX;
+	private @NonNull State nextState = State.NO_MATRIX;
+	private @Nullable DimensionsControllable targetNode;
 
 	/**
 	 * @param containsMatrix true if the formula contains matrix.
 	 * @param popupState non-null, if the matrix resize popup can be shown.
 	 */
-	public record State(boolean containsMatrix, @CheckForNull PopupState popupState) {
+	public record State(boolean containsMatrix, @Nullable PopupState popupState) {
 		static final State NO_MATRIX = new State(false, null);
 		static final State UNFOCUSED_MATRIX = new State(true, null);
 
@@ -68,8 +67,8 @@ public final class MatrixResizeController {
 	 * @param indicatorOffset vertical offset for resize indicator
 	 */
 	public record PopupState(
-			@Nonnull ControlState controlState,
-			@Nonnull GRectangle2D anchor,
+			@NonNull ControlState controlState,
+			@NonNull GRectangle2D anchor,
 			double indicatorOffset) { }
 
 	/**
@@ -90,7 +89,7 @@ public final class MatrixResizeController {
 		 * Callback when the state changes
 		 * @param newState new state
 		 */
-		void stateChanged(@Nonnull State newState);
+		void stateChanged(@NonNull State newState);
 	}
 
 	public MatrixResizeController(MathFieldInternal mathFieldInternal) {
@@ -100,14 +99,14 @@ public final class MatrixResizeController {
 	/**
 	 * @param listener state listener
 	 */
-	public void addListener(@Nonnull StateListener listener) {
+	public void addListener(@NonNull StateListener listener) {
 		listeners.add(listener);
 	}
 
 	/**
 	 * @param listener state listener
 	 */
-	public void removeListener(@Nonnull StateListener listener) {
+	public void removeListener(@NonNull StateListener listener) {
 		listeners.remove(listener);
 	}
 
@@ -115,7 +114,7 @@ public final class MatrixResizeController {
 	 * @return the current state of the matrix resize popup. A {@code null}
 	 * {@link State#popupState} means that the popup resize button is not visible.
 	 */
-	public @Nonnull State getState() {
+	public @NonNull State getState() {
 		return state;
 	}
 

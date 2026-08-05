@@ -24,12 +24,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.common.util.MulticastEvent;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Property;
 
@@ -58,15 +57,15 @@ public final class SpreadsheetStyleBarModel {
 		public final boolean isEnabled;
 		/** Font traits of the selected cell. An empty set means default font style. */
 		@Property("readonly")
-		public final @Nonnull Set<SpreadsheetStyling.FontTrait> fontTraits;
+		public final @NonNull Set<SpreadsheetStyling.FontTrait> fontTraits;
 		/** Text alignment of the selected cell. */
 		@Property("readonly")
-		public final @Nonnull SpreadsheetStyling.TextAlignment textAlignment;
+		public final SpreadsheetStyling.@NonNull TextAlignment textAlignment;
 		/** Background color of the selected cell. */
 		@Property("readonly")
-		public final @CheckForNull GColor backgroundColor;
+		public final @Nullable GColor backgroundColor;
 		@Property("readonly")
-		public final @CheckForNull GColor textColor;
+		public final @Nullable GColor textColor;
 
 		/**
 		 * Constructs a state class. Visible for testing only.
@@ -77,10 +76,10 @@ public final class SpreadsheetStyleBarModel {
 		 * @param textColor text color
 		 */
 		public State(boolean isEnabled,
-				@CheckForNull Set<SpreadsheetStyling.FontTrait> fontTraits,
-				@CheckForNull SpreadsheetStyling.TextAlignment textAlignment,
-				@CheckForNull GColor backgroundColor,
-				@CheckForNull GColor textColor) {
+				@Nullable Set<SpreadsheetStyling.FontTrait> fontTraits,
+				SpreadsheetStyling.@Nullable TextAlignment textAlignment,
+				@Nullable GColor backgroundColor,
+				@Nullable GColor textColor) {
 			this.isEnabled = isEnabled;
 			this.fontTraits = fontTraits != null
 					? fontTraits : Set.of();
@@ -141,9 +140,9 @@ public final class SpreadsheetStyleBarModel {
 	private State state;
 
 	SpreadsheetStyleBarModel(
-			@Nonnull SpreadsheetController spreadsheetController,
-			@Nonnull SpreadsheetSelectionController selectionController,
-			@Nonnull SpreadsheetStyling styling) {
+			@NonNull SpreadsheetController spreadsheetController,
+			@NonNull SpreadsheetSelectionController selectionController,
+			@NonNull SpreadsheetStyling styling) {
 		this.spreadsheetController = spreadsheetController;
 		this.styling = styling;
 		styling.stylingChanged.addListener(this::stylingChanged);
@@ -156,7 +155,7 @@ public final class SpreadsheetStyleBarModel {
 	/**
 	 * @return The current state.
 	 */
-	public @Nonnull State getState() {
+	public @NonNull State getState() {
 		return state;
 	}
 
@@ -188,7 +187,7 @@ public final class SpreadsheetStyleBarModel {
 	 * Set the text alignment for the selected range.
 	 * @param alignment Text alignment.
 	 */
-	public void setTextAlignment(@Nonnull SpreadsheetStyling.TextAlignment alignment) {
+	public void setTextAlignment(SpreadsheetStyling.@NonNull TextAlignment alignment) {
 		styling.setTextAlignment(alignment, getSelectedRanges());
 	}
 
@@ -207,7 +206,7 @@ public final class SpreadsheetStyleBarModel {
 	 * @param backgroundColor Cell background color. Pass {@code null} to clear any active
 	 * background color.
 	 */
-	public void setBackgroundColor(@CheckForNull GColor backgroundColor) {
+	public void setBackgroundColor(@Nullable GColor backgroundColor) {
 		styling.setBackgroundColor(backgroundColor, getSelectedRanges());
 	}
 

@@ -23,9 +23,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.stylebar.StylebarPositioner;
@@ -46,6 +43,8 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.DefaultColorValues;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -55,7 +54,7 @@ import com.google.j2objc.annotations.Weak;
  */
 public class QuickStyleBarModel {
 
-	private @Weak @CheckForNull Delegate delegate;
+	private @Weak @Nullable Delegate delegate;
 
 	private final App app;
 	private final Localization localization;
@@ -64,10 +63,10 @@ public class QuickStyleBarModel {
 
 	private List<GeoElement> elements;
 	private BooleanProperty isFixedProperty;
-	private @CheckForNull List<Button> buttons;
-	private @CheckForNull Integer selectedButtonIndex;
+	private @Nullable List<Button> buttons;
+	private @Nullable Integer selectedButtonIndex;
 	private PropertiesArray submenuProperties;
-	private @CheckForNull List<PropertyView> submenuItems;
+	private @Nullable List<PropertyView> submenuItems;
 
 	private final PropertyValueObserver<?> hideSubmenuOnValueChange = property -> hideSubmenu();
 
@@ -96,19 +95,19 @@ public class QuickStyleBarModel {
 		 * Called when the displayed buttons change.
 		 * @param buttons the displayed buttons, or {@code null} when the bar is hidden
 		 */
-		void onButtonsChanged(@CheckForNull List<Button> buttons);
+		void onButtonsChanged(@Nullable List<Button> buttons);
 
 		/** 
 		 * Called when the submenu items change. 
 		 * @param items the property view items, or {@code null} when the submenu is hidden
 		 */
-		void onSubmenuItemsChanged(@CheckForNull List<PropertyView> items);
+		void onSubmenuItemsChanged(@Nullable List<PropertyView> items);
 
 		/** 
 		 * Called when the selected button changes.
 		 * @param selectedButton selected button index, or {code null} when the submenu is hidden.
 		 */
-		void onSelectedButtonChanged(@CheckForNull Integer selectedButton);
+		void onSelectedButtonChanged(@Nullable Integer selectedButton);
 
 		/** Called to request opening the object settings. */
 		void openObjectSettings();
@@ -134,28 +133,28 @@ public class QuickStyleBarModel {
 	/**
 	 * @param delegate delegate notified about state changes, or {@code null} to detach
 	 */
-	public void setDelegate(@CheckForNull Delegate delegate) {
+	public void setDelegate(@Nullable Delegate delegate) {
 		this.delegate = delegate;
 	}
 
 	/**
 	 * @return the current state, or {@code null} if the quick style bar is hidden
 	 */
-	public @CheckForNull List<Button> getButtons() {
+	public @Nullable List<Button> getButtons() {
 		return buttons;
 	}
 
 	/**
 	 * @return the current submenu state, or {@code null} if the submenu is closed
 	 */
-	public @CheckForNull List<PropertyView> getSubmenuItems() {
+	public @Nullable List<PropertyView> getSubmenuItems() {
 		return submenuItems;
 	}
 
 	/**
 	 * @return index of the button whose submenu is open, or {@code null} if none is selected
 	 */
-	public @CheckForNull Integer getSelectedButtonIndex() {
+	public @Nullable Integer getSelectedButtonIndex() {
 		return selectedButtonIndex;
 	}
 
@@ -163,7 +162,7 @@ public class QuickStyleBarModel {
 	 * Shows the quick style bar for the given elements.
 	 * @param elements the selected elements, determining the available buttons
 	 */
-	public void show(@Nonnull List<GeoElement> elements) {
+	public void show(@NonNull List<GeoElement> elements) {
 		this.elements = elements;
 		setButtons(createButtons(elements));
 	}
@@ -231,7 +230,7 @@ public class QuickStyleBarModel {
 	 * @param popupSize size of the popup
 	 * @return position on canvas
 	 */
-	public @CheckForNull GPoint getPositionOnCanvas(GDimension popupSize) {
+	public @Nullable GPoint getPositionOnCanvas(GDimension popupSize) {
 		return positioner.getPositionOnCanvas(popupSize);
 	}
 
@@ -255,7 +254,7 @@ public class QuickStyleBarModel {
 		}
 	}
 
-	private void setSelectedButtonIndex(@CheckForNull Integer selectedButtonIndex) {
+	private void setSelectedButtonIndex(@Nullable Integer selectedButtonIndex) {
 		if (Objects.equals(this.selectedButtonIndex, selectedButtonIndex)) {
 			return;
 		}
@@ -265,7 +264,7 @@ public class QuickStyleBarModel {
 		}
 	}
 
-	private void showSubmenu(PropertiesArray array, @Nonnull Integer selectedButtonIndex) {
+	private void showSubmenu(PropertiesArray array, @NonNull Integer selectedButtonIndex) {
 		submenuProperties = array;
 		for (Property property : array.getProperties()) {
 			if (property instanceof ValuedProperty<?> valuedProperty

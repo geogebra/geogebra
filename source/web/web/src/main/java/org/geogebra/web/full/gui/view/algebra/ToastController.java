@@ -18,13 +18,12 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import java.util.function.Supplier;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.editor.share.syntax.SyntaxHint;
 import org.geogebra.editor.share.syntax.SyntaxTooltipUpdater;
 import org.geogebra.web.full.gui.components.ComponentToast;
 import org.geogebra.web.html5.main.AppW;
+import org.jspecify.annotations.NonNull;
 
 public class ToastController implements SyntaxTooltipUpdater {
 
@@ -42,7 +41,7 @@ public class ToastController implements SyntaxTooltipUpdater {
 	}
 
 	@Override
-	public void updateSyntaxTooltip(@Nonnull SyntaxHint sh) {
+	public void updateSyntaxTooltip(@NonNull SyntaxHint sh) {
 		if (!sh.isEmpty()) {
 			Rectangle bounds = boundsSupplier.get();
 

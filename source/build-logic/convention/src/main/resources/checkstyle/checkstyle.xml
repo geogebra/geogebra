@@ -183,18 +183,10 @@
             <message key="annotation.location" value="Annotations must be placed above the definition for everything except variables."/>
         </module>
         <module name="Regexp">
-            <property name="format" value="(@Nonnull|@CheckForNull)$"/>
+            <property name="format" value="(@NonNull|@Nullable)$"/>
             <property name="illegalPattern" value="true"/>
             <property name="ignoreComments" value="true"/>
             <property name="message" value="Type use annotation should not be on a separate line"/>
-        </module>
-
-        <!-- Only allow javax.annotation.CheckForNull and javax.annotation.Nonnull -->
-        <!-- Anything else nullability related should be blocked -->
-        <module name="IllegalImport">
-            <property name="illegalClasses" value="^(?!javax\.annotation\.(Nonnull|CheckForNull)$).+\.(Nullable|CheckForNull|Nonnull|NonNull|NotNull)$"/>
-            <property name="regexp" value="true"/>
-            <message key="illegal.import" value="Only javax.annotation.Nonnull and CheckForNull are allowed for nullability annotations."/>
         </module>
     </module>
     <module name="SuppressWarningsFilter" />

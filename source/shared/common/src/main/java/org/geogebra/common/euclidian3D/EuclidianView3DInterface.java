@@ -16,8 +16,6 @@
 
 package org.geogebra.common.euclidian3D;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
@@ -25,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Interface for 3D view.
@@ -55,13 +54,13 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * Registers a listener for 3D view state changes.
 	 * @param listener listener to add
 	 */
-	void addListener(@Nonnull Listener listener);
+	void addListener(@NonNull Listener listener);
 
 	/**
 	 * Unregisters a 3D view state listener.
 	 * @param listener listener to remove
 	 */
-	void removeListener(@Nonnull Listener listener);
+	void removeListener(@NonNull Listener listener);
 
 	/**
 	 * rotate to default

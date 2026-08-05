@@ -18,8 +18,6 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Construction;
@@ -30,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoStadium;
+import org.jspecify.annotations.NonNull;
 
 public final class AlgoStadium extends AlgoElement {
 	private final GeoPoint p;
@@ -132,7 +131,7 @@ public final class AlgoStadium extends AlgoElement {
 		this.height.set(height);
 	}
 
-	public @Nonnull ArrayList<MyPoint> getPoints() {
+	public @NonNull ArrayList<MyPoint> getPoints() {
 		return points;
 	}
 

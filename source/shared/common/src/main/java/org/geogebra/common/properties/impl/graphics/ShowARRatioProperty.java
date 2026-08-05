@@ -16,12 +16,11 @@
 
 package org.geogebra.common.properties.impl.graphics;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
+import org.jspecify.annotations.NonNull;
 
 /** {@code Property} responsible for showing/hiding the AR ratio. */
 public final class ShowARRatioProperty extends AbstractValuedProperty<Boolean>
@@ -54,7 +53,7 @@ public final class ShowARRatioProperty extends AbstractValuedProperty<Boolean>
 	}
 
 	@Override
-	public @Nonnull EuclidianView3DInterface getEuclidianView3D() {
+	public @NonNull EuclidianView3DInterface getEuclidianView3D() {
 		return euclidianView3D;
 	}
 }

@@ -18,8 +18,6 @@ package org.geogebra.common.geogebra3D.main;
 
 import java.util.ArrayList;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
@@ -50,6 +48,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.plugin.Geometry3DGetter;
+import org.jspecify.annotations.NonNull;
 
 /**
  * 
@@ -72,7 +71,7 @@ public abstract class App3DCompanion extends AppCompanion {
 	 * @param app
 	 *            application
 	 */
-	public App3DCompanion(@Nonnull App app) {
+	public App3DCompanion(@NonNull App app) {
 		super(app);
 	}
 

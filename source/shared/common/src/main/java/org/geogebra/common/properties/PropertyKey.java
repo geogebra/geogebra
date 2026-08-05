@@ -18,7 +18,7 @@ package org.geogebra.common.properties;
 
 import java.util.Objects;
 
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * A type-safe, unique identifier for property types.
@@ -32,7 +32,7 @@ public final class PropertyKey {
 	 * @param cls A class implementing the {@link Property} interface.
 	 * @return A key uniquely identifying the property type.
 	 */
-	public static @Nonnull PropertyKey of(@Nonnull Class<? extends Property> cls) {
+	public static @NonNull PropertyKey of(@NonNull Class<? extends Property> cls) {
 		return new PropertyKey(cls.getCanonicalName());
 	}
 
@@ -41,7 +41,7 @@ public final class PropertyKey {
 	 * @param property A property instance.
 	 * @return A key uniquely identifying the property's type.
 	 */
-	public static @Nonnull PropertyKey of(@Nonnull Property property) {
+	public static @NonNull PropertyKey of(@NonNull Property property) {
 		return PropertyKey.of(property.getClass());
 	}
 

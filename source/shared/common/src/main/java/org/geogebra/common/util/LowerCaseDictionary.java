@@ -24,10 +24,9 @@ import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.editor.share.tree.Korean;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A default implementation of the autocomplete dictionary. This implementation
@@ -58,7 +57,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 		putAll(dict);
 	}
 
-	private static @CheckForNull String greatestCommonPrefix(String possiblyNull,
+	private static @Nullable String greatestCommonPrefix(String possiblyNull,
 			String notNull) {
 		if (possiblyNull == null) {
 			return null;
@@ -102,7 +101,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	}
 
 	@Override
-	public @Nonnull Iterator<String> iterator() {
+	public @NonNull Iterator<String> iterator() {
 		return treeSet.iterator();
 	}
 
@@ -227,7 +226,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 		}
 	}
 
-	private @CheckForNull String getGreatestCommonPrefix(final String curr) {
+	private @Nullable String getGreatestCommonPrefix(final String curr) {
 
 		String prefixBefore = greatestCommonPrefix(treeSet.floor(curr), curr);
 		String prefixAfter = greatestCommonPrefix(treeSet.ceiling(curr), curr);

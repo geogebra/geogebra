@@ -18,8 +18,8 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A contiguous range of cells in a {@link Spreadsheet}.
@@ -28,10 +28,10 @@ import javax.annotation.Nonnull;
  */
 final class Selection {
 
-	private final @Nonnull TabularRange range;
-	private final @Nonnull SelectionType type;
+	private final @NonNull TabularRange range;
+	private final @NonNull SelectionType type;
 
-	Selection(@Nonnull TabularRange range) {
+	Selection(@NonNull TabularRange range) {
 		this.range = range;
 		if (range.getMinRow() == -1 && range.getMinColumn() == -1) {
 			this.type = SelectionType.ALL;
@@ -48,11 +48,11 @@ final class Selection {
 		this(TabularRange.range(rowIndex, rowIndex, columnIndex, columnIndex));
 	}
 
-	@Nonnull TabularRange getRange() {
+	@NonNull TabularRange getRange() {
 		return range;
 	}
 
-	@Nonnull SelectionType getType() {
+	@NonNull SelectionType getType() {
 		return type;
 	}
 
@@ -66,7 +66,7 @@ final class Selection {
 	 * @param other other selection
 	 * @return bigger selection if this could be merged, null otherwise
 	 */
-	@CheckForNull Selection getRectangularUnion(Selection other) {
+	@Nullable Selection getRectangularUnion(Selection other) {
 		if (type != other.type) {
 			return null;
 		}
@@ -82,7 +82,7 @@ final class Selection {
 	 * for row selection 2:3 yields A2
 	 * @return single cell to the left of this
 	 */
-	@Nonnull Selection getNextCellForMoveLeft() {
+	@NonNull Selection getNextCellForMoveLeft() {
 		if (type == SelectionType.ROWS) {
 			return new Selection(range.getFromRow(), 0);
 		} else {
@@ -99,7 +99,7 @@ final class Selection {
 	 * - for row selection 2:3 yields the selection unchanged
 	 * @return Selection extended to the left
 	 */
-	@Nonnull Selection getLeftExtension() {
+	@NonNull Selection getLeftExtension() {
 		if (type == SelectionType.ROWS) {
 			return this;
 		}
@@ -115,7 +115,7 @@ final class Selection {
 	 * @return single cell to the right of this
 	 * @see #getNextCellForMoveLeft()
 	 */
-	@Nonnull Selection getNextCellForMoveRight(int numberOfColumns) {
+	@NonNull Selection getNextCellForMoveRight(int numberOfColumns) {
 		if (type == SelectionType.ROWS) {
 			return new Selection(range.getFromRow(), 1);
 		} else {
@@ -130,7 +130,7 @@ final class Selection {
 	 * @return Selection extended to the left
 	 * @see #getLeftExtension()
 	 */
-	@Nonnull Selection getRightExtension(int numberOfColumns) {
+	@NonNull Selection getRightExtension(int numberOfColumns) {
 		if (type == SelectionType.ROWS) {
 			return this;
 		}
@@ -147,7 +147,7 @@ final class Selection {
 	 * for row selection 2:3 yields A1
 	 * @return single cell to the left of this
 	 */
-	@Nonnull Selection getNextCellForMoveUp() {
+	@NonNull Selection getNextCellForMoveUp() {
 		if (type == SelectionType.COLUMNS) {
 			return new Selection(0, range.getFromColumn());
 		} else {
@@ -164,7 +164,7 @@ final class Selection {
 	 * - for row selection 2:3 yields either 1:3 or 2:2, depending on anchor
 	 * @return Selection extended to the top
 	 */
-	@Nonnull Selection getTopExtension() {
+	@NonNull Selection getTopExtension() {
 		if (type == SelectionType.COLUMNS) {
 			return this;
 		}
@@ -180,7 +180,7 @@ final class Selection {
 	 * @return single cell below of this
 	 * @see #getNextCellForMoveUp()
 	 */
-	@Nonnull Selection getNextCellForMoveDown(int numberOfRows) {
+	@NonNull Selection getNextCellForMoveDown(int numberOfRows) {
 		if (type == SelectionType.COLUMNS) {
 			return new Selection(1, range.getFromColumn());
 		} else {
@@ -195,7 +195,7 @@ final class Selection {
 	 * @return Selection extended to the bottom
 	 * @see #getTopExtension()
 	 */
-	@Nonnull Selection getBottomExtension(int numberOfRows) {
+	@NonNull Selection getBottomExtension(int numberOfRows) {
 		if (type == SelectionType.COLUMNS) {
 			return this;
 		}
@@ -210,7 +210,7 @@ final class Selection {
 	 * @param other new Selection
 	 * @return Resulting selection
 	 */
-	@Nonnull Selection getExtendedSelection(Selection other) {
+	@NonNull Selection getExtendedSelection(Selection other) {
 		SelectionType selectionType = this.getSelectionTypeForExtendingWith(other);
 
 		if ((selectionType == SelectionType.CELLS && this.type != other.type)
@@ -237,7 +237,7 @@ final class Selection {
 	 * @param newSelection New Selection
 	 * @return Resulting SelectionType
 	 */
-	private @Nonnull SelectionType getSelectionTypeForExtendingWith(Selection newSelection) {
+	private @NonNull SelectionType getSelectionTypeForExtendingWith(Selection newSelection) {
 		List<SelectionType> selectionTypes = List.of(this.type, newSelection.type);
 		if (this.type == newSelection.type) {
 			return this.type;
@@ -251,7 +251,7 @@ final class Selection {
 	 * @param tabularData data layer
 	 * @return Name of this selection, depending on naming of columns in the data.
 	 */
-	@Nonnull String getName(TabularData<?> tabularData) {
+	@NonNull String getName(TabularData<?> tabularData) {
 		String startCell = tabularData.getCellName(range.getMinRow(), range.getMinColumn());
 		if (range.isSingleCell()) {
 			return startCell;

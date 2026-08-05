@@ -20,13 +20,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.LongSupplier;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.main.AppConfig;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -70,7 +69,7 @@ public abstract class Analytics {
 	 * @param name event name
 	 * @param params parameters
 	 */
-	public static void logEvent(String name, @CheckForNull Map<String, Object> params) {
+	public static void logEvent(String name, @Nullable Map<String, Object> params) {
 		if (INSTANCE == null) {
 			Log.trace("Analytics is not set, event with name '" + name + "' cannot be recorded");
             return;
@@ -110,7 +109,7 @@ public abstract class Analytics {
 	 * Updates the default analytics parameters from the given app configuration.
 	 * @param config app config
 	 */
-	public static void updateDefaultAnalyticsParameters(@Nonnull AppConfig config) {
+	public static void updateDefaultAnalyticsParameters(@NonNull AppConfig config) {
 		if (INSTANCE == null) {
 			Log.trace("Analytics is not set, default event parameters cannot be updated");
 			return;
@@ -131,14 +130,14 @@ public abstract class Analytics {
 	 * @param name event name
 	 * @param params event parameters
 	 */
-	protected abstract void recordEvent(@Nonnull String name,
-			@CheckForNull Map<String, Object> params);
+	protected abstract void recordEvent(@NonNull String name,
+			@Nullable Map<String, Object> params);
 
 	/**
 	 * Sets analytics parameters that should be attached to all future events.
 	 * @param params default parameters
 	 */
-	protected abstract void setDefaultEventParametersInternal(@Nonnull Map<String, Object> params);
+	protected abstract void setDefaultEventParametersInternal(@NonNull Map<String, Object> params);
 
 	/**
 	 * Analytics events.

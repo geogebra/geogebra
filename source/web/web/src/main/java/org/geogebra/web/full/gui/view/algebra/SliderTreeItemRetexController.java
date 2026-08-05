@@ -16,8 +16,6 @@
 
 package org.geogebra.web.full.gui.view.algebra;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -27,6 +25,7 @@ import org.gwtproject.event.dom.client.MouseEvent;
 import org.gwtproject.event.dom.client.MouseMoveEvent;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Controller for slider items in AV that use RETEX editor.
@@ -51,7 +50,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController {
 	}
 
 	@Override
-	protected void onPointerUp(@Nonnull AbstractEvent event) {
+	protected void onPointerUp(@NonNull AbstractEvent event) {
 		selectionCtrl.setSelectHandled(false);
 		if (slider.getMinMax().isVisible()) {
 			return;

@@ -16,14 +16,13 @@
 
 package org.geogebra.common.spreadsheet.core;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.editor.share.editor.MathFieldInternal;
 import org.geogebra.editor.share.editor.MathFieldInternalListener;
 import org.geogebra.editor.share.editor.UnhandledArrowListener;
 import org.geogebra.editor.share.event.KeyEvent;
 import org.geogebra.editor.share.event.MathFieldListener;
 import org.geogebra.editor.share.util.JavaKeyCodes;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Adapts between a MathFieldInternal, spreadsheet input processing, and the SpreadsheetController.
@@ -40,10 +39,10 @@ final class SpreadsheetMathFieldAdapter implements MathFieldListener, UnhandledA
 	 * @param mathField math input
 	 *
 	 */
-	SpreadsheetMathFieldAdapter(@Nonnull MathFieldInternal mathField,
+	SpreadsheetMathFieldAdapter(@NonNull MathFieldInternal mathField,
 			int row, int column,
-			@Nonnull SpreadsheetCellProcessor cellProcessor,
-			@Nonnull SpreadsheetController spreadsheetController) {
+			@NonNull SpreadsheetCellProcessor cellProcessor,
+			@NonNull SpreadsheetController spreadsheetController) {
 		this.mathField = mathField;
 		this.row = row;
 		this.column = column;

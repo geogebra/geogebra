@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -62,6 +60,7 @@ import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Vector (x, y) is represented by homogeneous coordinates (x, y, 0).
@@ -86,7 +85,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 	private final StringBuilder sbToString = new StringBuilder(50);
 	private final StringBuilder sbBuildValueString = new StringBuilder(50);
 	private StringBuilder sb;
-	private @CheckForNull VectorToMatrix converter;
+	private @Nullable VectorToMatrix converter;
 
 	/**
 	 * Creates new GeoVector

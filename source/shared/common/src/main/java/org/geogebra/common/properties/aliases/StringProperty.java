@@ -16,9 +16,8 @@
 
 package org.geogebra.common.properties.aliases;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.properties.ConstrainedProperty;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A property that is represented as a String.
@@ -47,7 +46,7 @@ public interface StringProperty extends ConstrainedProperty<String> {
 	 * It is defined only in specific cases, null otherwise.
 	 * @return translation key of an accessibility label.
 	 */
-	default @CheckForNull String getAriaLabel() {
+	default @Nullable String getAriaLabel() {
 		return null;
 	}
 }

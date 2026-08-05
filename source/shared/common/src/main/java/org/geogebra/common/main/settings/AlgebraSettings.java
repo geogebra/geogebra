@@ -22,13 +22,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormatFilter;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Settings for the algebra view.
@@ -132,7 +131,7 @@ public class AlgebraSettings extends AbstractSettings<AlgebraSettings> {
 	 * Retrieves the set of {@link AlgebraOutputFormatFilter}s.
 	 * @return the set of filters
 	 */
-	public @Nonnull Set<AlgebraOutputFormatFilter> getAlgebraOutputFormatFilters() {
+	public @NonNull Set<AlgebraOutputFormatFilter> getAlgebraOutputFormatFilters() {
 		return algebraOutputFormatFilters;
 	}
 
@@ -142,7 +141,7 @@ public class AlgebraSettings extends AbstractSettings<AlgebraSettings> {
 	 * @param algebraOutputFormatFilter the filter to be added
 	 */
 	public void addAlgebraOutputFormatFilter(
-			@Nonnull AlgebraOutputFormatFilter algebraOutputFormatFilter) {
+			@NonNull AlgebraOutputFormatFilter algebraOutputFormatFilter) {
 		algebraOutputFormatFilters.add(algebraOutputFormatFilter);
 	}
 
@@ -152,7 +151,7 @@ public class AlgebraSettings extends AbstractSettings<AlgebraSettings> {
 	 * @param algebraOutputFormatFilter the filter to be removed
 	 */
 	public void removeAlgebraOutputFormatFilter(
-			@Nonnull AlgebraOutputFormatFilter algebraOutputFormatFilter) {
+			@NonNull AlgebraOutputFormatFilter algebraOutputFormatFilter) {
 		algebraOutputFormatFilters.remove(algebraOutputFormatFilter);
 	}
 

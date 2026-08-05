@@ -20,9 +20,6 @@ import static org.geogebra.web.html5.gui.util.FocusUtil.makeFocusable;
 
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -99,6 +96,8 @@ import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.TreeItem;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 
@@ -187,8 +186,8 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	protected final SyntaxController syntaxController;
 	private int index;
 	private AlgebraOutputFormatButton symbolicButton;
-	private @CheckForNull FocusableCompositeW compositeFocus = null;
-	private @CheckForNull AVCompositeFocusAssembler compositeFocusAssembler;
+	private @Nullable FocusableCompositeW compositeFocus = null;
+	private @Nullable AVCompositeFocusAssembler compositeFocusAssembler;
 
 	class FocusableFlowPanel extends FlowPanel implements HasFocus  {
 
@@ -1836,7 +1835,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	public abstract void insertString(String text);
 
 	@Override
-	public void updateSyntaxTooltip(@Nonnull SyntaxHint sh) {
+	public void updateSyntaxTooltip(@NonNull SyntaxHint sh) {
 		toastController.updateSyntaxTooltip(sh);
 	}
 

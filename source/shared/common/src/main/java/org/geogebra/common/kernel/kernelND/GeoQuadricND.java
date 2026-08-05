@@ -18,8 +18,6 @@ package org.geogebra.common.kernel.kernelND;
 
 import java.util.Arrays;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.QuadraticEquationRepresentable;
@@ -34,6 +32,7 @@ import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Abstract class describing quadrics in n-dimension space. Extended by
@@ -700,12 +699,12 @@ public abstract class GeoQuadricND extends GeoElement
 	}
 
 	@Override
-	public @CheckForNull Form getEquationForm() {
+	public @Nullable Form getEquationForm() {
 		return equationForm;
 	}
 
 	@Override // EquationQuadric
-	public void setEquationForm(@CheckForNull Form equationForm) {
+	public void setEquationForm(@Nullable Form equationForm) {
 		if (equationForm != null) {
 			this.equationForm = equationForm;
 		}

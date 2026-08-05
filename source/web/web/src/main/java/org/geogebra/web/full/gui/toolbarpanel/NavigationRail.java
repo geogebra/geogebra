@@ -16,8 +16,6 @@
 
 package org.geogebra.web.full.gui.toolbarpanel;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.exam.ExamController;
@@ -40,6 +38,7 @@ import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.FlowPanel;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.HTMLImageElement;
@@ -50,11 +49,11 @@ import jsinterop.base.Js;
  */
 class NavigationRail extends FlowPanel implements ExamListener {
 	private MenuToggleButton btnMenu;
-	private @CheckForNull StandardButton btnAlgebra;
-	private @CheckForNull StandardButton btnTools;
-	private @CheckForNull StandardButton btnDistribution;
-	private @CheckForNull StandardButton btnTableView;
-	private @CheckForNull StandardButton btnSpreadsheet;
+	private @Nullable StandardButton btnAlgebra;
+	private @Nullable StandardButton btnTools;
+	private @Nullable StandardButton btnDistribution;
+	private @Nullable StandardButton btnTableView;
+	private @Nullable StandardButton btnSpreadsheet;
 	private final FlowPanel contents;
 	private FlowPanel center;
 	private boolean animating = false;

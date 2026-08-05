@@ -21,14 +21,13 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.geos.ChartStyleGeo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.statistics.GeoPieChart;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.jspecify.annotations.NonNull;
 
 /**
  * {@code Property} responsible for selecting a bar or a slice for a bar chart or pie chart
@@ -56,7 +55,7 @@ public class ChartSegmentSelectionProperty extends AbstractNamedEnumeratedProper
 	}
 
 	@Override
-	public @Nonnull List<Integer> getValues() {
+	public @NonNull List<Integer> getValues() {
 		int numberOfIntervals = ((ChartStyleGeo) geoElement).getIntervals();
 		return IntStream.range(0, numberOfIntervals + 1).boxed().collect(Collectors.toList());
 	}

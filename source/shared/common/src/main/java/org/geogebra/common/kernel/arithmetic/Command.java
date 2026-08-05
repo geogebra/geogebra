@@ -22,9 +22,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
@@ -47,6 +44,8 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.share.input.Character;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -376,7 +375,7 @@ public class Command extends ValidExpression
 		return var;
 	}
 
-	private String getFunctionVarName(ExpressionNode node, @Nonnull Set<GeoElement> vars) {
+	private String getFunctionVarName(ExpressionNode node, @NonNull Set<GeoElement> vars) {
 		if (node.containsFreeFunctionVariable(DEFAULT_FUNCTION_VAR_NAME)) {
 			return DEFAULT_FUNCTION_VAR_NAME;
 		}
@@ -491,10 +490,10 @@ public class Command extends ValidExpression
 	public static String getIntegralLaTeX(
 			StringTemplate template,
 			String defaultVariable,
-			@CheckForNull ExpressionValue function,
-			@CheckForNull ExpressionValue variable,
-			@CheckForNull ExpressionValue startValue,
-			@CheckForNull ExpressionValue endValue) {
+			@Nullable ExpressionValue function,
+			@Nullable ExpressionValue variable,
+			@Nullable ExpressionValue startValue,
+			@Nullable ExpressionValue endValue) {
 		String result = "\\int";
 		if (startValue != null && endValue != null) {
 			String start = getLabelOrDefinition(startValue, template);

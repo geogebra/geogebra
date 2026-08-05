@@ -20,8 +20,6 @@ import static org.geogebra.common.util.Classifier.isSlider;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
@@ -41,6 +39,7 @@ import org.geogebra.common.properties.impl.collections.AbstractPropertyCollectio
 import org.geogebra.common.properties.impl.facade.StringPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.PlacementProperty.Placement;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@code Property} responsible for changing the absolute position on the screen, one for both axes.
@@ -71,7 +70,7 @@ public class AbsoluteScreenPositionPropertyCollection
 
 		@SuppressWarnings("CheckResult")
 		@Override
-		public @CheckForNull String validateValue(String value) {
+		public @Nullable String validateValue(String value) {
 			if (value == null || value.isEmpty()) {
 				return "";
 			}

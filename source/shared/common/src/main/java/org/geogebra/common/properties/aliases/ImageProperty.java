@@ -16,17 +16,16 @@
 
 package org.geogebra.common.properties.aliases;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.properties.ValuedProperty;
+import org.jspecify.annotations.NonNull;
 
 /**
  * A property whose value is an image with an associated path.
  */
 public interface ImageProperty extends ValuedProperty<ImageProperty.Value> {
 
-	record Value(@Nonnull MyImage image, @Nonnull String path) {
+	record Value(@NonNull MyImage image, @NonNull String path) {
 	}
 
 	/**

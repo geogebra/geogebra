@@ -16,10 +16,9 @@
 
 package org.geogebra.common.contextmenu;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AttributedString;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Menu items for material context menu.
@@ -36,7 +35,7 @@ public enum MaterialContextMenuItem implements ContextMenuItem {
 	}
 
 	@Override
-	public @Nonnull AttributedString getLocalizedTitle(@Nonnull Localization localization) {
+	public @NonNull AttributedString getLocalizedTitle(@NonNull Localization localization) {
 		return new AttributedString(localization.getMenu(translationKey));
 	}
 

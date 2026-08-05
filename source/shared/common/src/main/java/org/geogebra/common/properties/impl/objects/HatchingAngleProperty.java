@@ -18,8 +18,6 @@ package org.geogebra.common.properties.impl.objects;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.properties.FillType;
@@ -27,6 +25,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractRangeProperty;
 import org.geogebra.common.properties.impl.objects.delegate.FillableDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Property for controlling the hatching angle of a {@link GeoElement}.
@@ -51,7 +50,7 @@ public class HatchingAngleProperty extends AbstractRangeProperty<Integer>
 		delegate = new FillableDelegate(element);
 	}
 
-	static @CheckForNull Integer getHatchingAngleStep(FillType fillType) {
+	static @Nullable Integer getHatchingAngleStep(FillType fillType) {
 		return switch (fillType) {
 			case HATCH -> 5;
 			case CROSSHATCHED, CHESSBOARD, BRICK, WEAVING -> 45;
@@ -59,7 +58,7 @@ public class HatchingAngleProperty extends AbstractRangeProperty<Integer>
 		};
 	}
 
-	static @CheckForNull Integer getMaxHatchingAngleValue(FillType fillType) {
+	static @Nullable Integer getMaxHatchingAngleValue(FillType fillType) {
 		return switch (fillType) {
 			case HATCH, BRICK -> 180;
 			case CROSSHATCHED, CHESSBOARD, WEAVING -> 45;

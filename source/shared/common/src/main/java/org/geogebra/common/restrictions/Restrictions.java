@@ -20,9 +20,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -59,35 +56,37 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyKey;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all restrictions.
  */
 public class Restrictions {
 
-	private final @Nonnull Set<SuiteSubApp> disabledSubApps;
-	private final @Nonnull SuiteSubApp defaultSubApp;
-	private final @Nonnull Set<FeatureRestriction> featureRestrictions;
-	private final @Nonnull Set<ExpressionFilter> inputExpressionFilters;
-	private final @Nonnull Set<ExpressionFilter> outputExpressionFilters;
-	private final @Nonnull Set<CommandFilter> commandFilters;
-	private final @Nonnull Set<CommandArgumentFilter> commandArgumentFilters;
-	private final @CheckForNull OperationFilter operationFilter;
-	private final @Nonnull Set<ContextMenuItemFilter> contextMenuItemFilters;
-	private final @CheckForNull SyntaxFilter syntaxFilter;
-	private final @Nonnull ToolCollectionFilter toolsFilter;
-	private final @Nonnull Map<PropertyKey, PropertyRestriction> propertyRestrictions;
-	private final @Nonnull GeoElementPropertyFilter restrictedGeoElementVisibilityPropertyFilter;
-	private final @Nonnull GeoElementSetup restrictedGeoElementVisibilitySetup;
-	private final @CheckForNull EquationBehaviour equationBehaviour;
-	private @CheckForNull EquationBehaviour originalEquationBehaviour;
-	private final @Nonnull Set<DisabledAlgorithms> disabledAlgorithms;
-	private final @CheckForNull StatisticsFilter statisticsFilter;
-	private final @Nonnull Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters;
-	private final @CheckForNull AlgebraOutputFilter algebraOutputFilter;
-	private @CheckForNull RestorableSettings savedSettings;
-	private @CheckForNull Settings restrictedSettings = null;
-	private @CheckForNull ConstructionDefaults restrictedDefaults;
+	private final @NonNull Set<SuiteSubApp> disabledSubApps;
+	private final @NonNull SuiteSubApp defaultSubApp;
+	private final @NonNull Set<FeatureRestriction> featureRestrictions;
+	private final @NonNull Set<ExpressionFilter> inputExpressionFilters;
+	private final @NonNull Set<ExpressionFilter> outputExpressionFilters;
+	private final @NonNull Set<CommandFilter> commandFilters;
+	private final @NonNull Set<CommandArgumentFilter> commandArgumentFilters;
+	private final @Nullable OperationFilter operationFilter;
+	private final @NonNull Set<ContextMenuItemFilter> contextMenuItemFilters;
+	private final @Nullable SyntaxFilter syntaxFilter;
+	private final @NonNull ToolCollectionFilter toolsFilter;
+	private final @NonNull Map<PropertyKey, PropertyRestriction> propertyRestrictions;
+	private final @NonNull GeoElementPropertyFilter restrictedGeoElementVisibilityPropertyFilter;
+	private final @NonNull GeoElementSetup restrictedGeoElementVisibilitySetup;
+	private final @Nullable EquationBehaviour equationBehaviour;
+	private @Nullable EquationBehaviour originalEquationBehaviour;
+	private final @NonNull Set<DisabledAlgorithms> disabledAlgorithms;
+	private final @Nullable StatisticsFilter statisticsFilter;
+	private final @NonNull Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters;
+	private final @Nullable AlgebraOutputFilter algebraOutputFilter;
+	private @Nullable RestorableSettings savedSettings;
+	private @Nullable Settings restrictedSettings = null;
+	private @Nullable ConstructionDefaults restrictedDefaults;
 
 	/**
 	 * Prevent instantiation, except by subclasses.
@@ -113,24 +112,24 @@ public class Restrictions {
 	 * @param statisticsFilter A statistic filter to be applied.
 	 */
 	protected Restrictions(
-			@CheckForNull Set<SuiteSubApp> disabledSubApps,
-			@CheckForNull SuiteSubApp defaultSubApp,
-			@CheckForNull Set<FeatureRestriction> featureRestrictions,
-			@CheckForNull Set<ExpressionFilter> inputExpressionFilters,
-			@CheckForNull Set<ExpressionFilter> outputExpressionFilters,
-			@CheckForNull Set<CommandFilter> commandFilters,
-			@CheckForNull Set<CommandArgumentFilter> commandArgumentFilters,
-			@CheckForNull OperationFilter operationFilter,
-			@CheckForNull Set<ContextMenuItemFilter> contextMenuItemFilters,
-			@CheckForNull SyntaxFilter syntaxFilter,
-			@CheckForNull ToolCollectionFilter toolsFilter,
-			@CheckForNull Map<PropertyKey, PropertyRestriction> propertyRestrictions,
-			@CheckForNull Set<VisibilityRestriction> visibilityRestrictions,
-			@CheckForNull EquationBehaviour equationBehaviour,
-			@CheckForNull Set<DisabledAlgorithms> disabledAlgorithms,
-			@CheckForNull StatisticsFilter statisticsFilter,
-			@CheckForNull Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters,
-			@CheckForNull AlgebraOutputFilter algebraOutputFilter) {
+			@Nullable Set<SuiteSubApp> disabledSubApps,
+			@Nullable SuiteSubApp defaultSubApp,
+			@Nullable Set<FeatureRestriction> featureRestrictions,
+			@Nullable Set<ExpressionFilter> inputExpressionFilters,
+			@Nullable Set<ExpressionFilter> outputExpressionFilters,
+			@Nullable Set<CommandFilter> commandFilters,
+			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
+			@Nullable OperationFilter operationFilter,
+			@Nullable Set<ContextMenuItemFilter> contextMenuItemFilters,
+			@Nullable SyntaxFilter syntaxFilter,
+			@Nullable ToolCollectionFilter toolsFilter,
+			@Nullable Map<PropertyKey, PropertyRestriction> propertyRestrictions,
+			@Nullable Set<VisibilityRestriction> visibilityRestrictions,
+			@Nullable EquationBehaviour equationBehaviour,
+			@Nullable Set<DisabledAlgorithms> disabledAlgorithms,
+			@Nullable StatisticsFilter statisticsFilter,
+			@Nullable Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters,
+			@Nullable AlgebraOutputFilter algebraOutputFilter) {
 		this.disabledSubApps = disabledSubApps != null ? disabledSubApps : Set.of();
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
 		this.featureRestrictions = featureRestrictions != null ? featureRestrictions : Set.of();
@@ -166,7 +165,7 @@ public class Restrictions {
 	 * @return The list of disabled (i.e., not allowed) subapps, or an empty set
 	 * if there is no restriction on the available subapps.
 	 */
-	public final @Nonnull Set<SuiteSubApp> getDisabledSubApps() {
+	public final @NonNull Set<SuiteSubApp> getDisabledSubApps() {
 		return disabledSubApps;
 	}
 
@@ -174,7 +173,7 @@ public class Restrictions {
 	 * @return The default subapp to switch to if a disabled subapp is active when
 	 * the exam starts.
 	 */
-	public final @Nonnull SuiteSubApp getDefaultSubApp() {
+	public final @NonNull SuiteSubApp getDefaultSubApp() {
 		return defaultSubApp;
 	}
 
@@ -182,28 +181,28 @@ public class Restrictions {
 	 * @return The set of disabled features, or an empty set if there's no
 	 * restrictions on available features in the apps.
 	 */
-	public final @Nonnull Set<FeatureRestriction> getFeatureRestrictions() {
+	public final @NonNull Set<FeatureRestriction> getFeatureRestrictions() {
 		return featureRestrictions;
 	}
 
 	/**
 	 * @return The set of property restrictions.
 	 */
-	public final @Nonnull Map<PropertyKey, PropertyRestriction> getPropertyRestrictions() {
+	public final @NonNull Map<PropertyKey, PropertyRestriction> getPropertyRestrictions() {
 		return propertyRestrictions;
 	}
 
 	/**
 	 * @return The context menu items filters (may be empty).
 	 */
-	public final @Nonnull Set<ContextMenuItemFilter> getContextMenuItemFilters() {
+	public final @NonNull Set<ContextMenuItemFilter> getContextMenuItemFilters() {
 		return contextMenuItemFilters;
 	}
 
 	/**
 	 * Apply the restrictions.
 	 */
-	public void applyTo(@Nonnull ContextDependencies cd) {
+	public void applyTo(@NonNull ContextDependencies cd) {
 		cd.algoDispatcher.addDisabledAlgorithms(disabledAlgorithms);
 		for (CommandFilter commandFilter : commandFilters) {
 			cd.commandDispatcher.addCommandFilter(commandFilter);
@@ -273,7 +272,7 @@ public class Restrictions {
 	/**
 	 * Remove the restrictions (i.e., undo the changes from {@link #applyTo}).
 	 */
-	public void removeFrom(@Nonnull ContextDependencies cd) {
+	public void removeFrom(@NonNull ContextDependencies cd) {
 		cd.algoDispatcher.removeDisabledAlgorithms(disabledAlgorithms);
 		for (CommandFilter commandFilter : commandFilters) {
 			cd.commandDispatcher.removeCommandFilter(commandFilter);
@@ -392,8 +391,8 @@ public class Restrictions {
 	// Helpers
 
 	private static Set<ExpressionFilter> createExpressionFilters(
-			@CheckForNull Set<ExpressionFilter> expressionFilters,
-			@CheckForNull OperationFilter operationFilter
+			@Nullable Set<ExpressionFilter> expressionFilters,
+			@Nullable OperationFilter operationFilter
 	) {
 		HashSet<ExpressionFilter> filters = new HashSet<>();
 		if (expressionFilters != null) {
@@ -428,7 +427,7 @@ public class Restrictions {
 		};
 	}
 
-	private @Nonnull AlgebraOutputFilter wrapAlgebraOutputFilter(@Nonnull AlgebraOutputFilter base) {
+	private @NonNull AlgebraOutputFilter wrapAlgebraOutputFilter(@NonNull AlgebraOutputFilter base) {
 		if (algebraOutputFilter == null) {
 			return base;
 		}
@@ -436,17 +435,17 @@ public class Restrictions {
 	}
 
 	public record ContextDependencies(
-		@Nonnull AlgoDispatcher algoDispatcher,
-		@Nonnull CommandDispatcher commandDispatcher,
-		@Nonnull AlgebraProcessor algebraProcessor,
-		@Nonnull PropertiesRegistry propertiesRegistry,
-		@Nonnull Localization localization,
-		@Nonnull Settings settings,
-		@CheckForNull StatisticGroupsBuilder statisticGroupsBuilder,
-		@CheckForNull AutocompleteProvider autoCompleteProvider,
-		@CheckForNull ToolsProvider toolsProvider,
-		@CheckForNull ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
-		@CheckForNull Construction construction,
-		@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory,
-		@CheckForNull AlgebraOutputFiltering algebraOutputFiltering) { }
+		@NonNull AlgoDispatcher algoDispatcher,
+		@NonNull CommandDispatcher commandDispatcher,
+		@NonNull AlgebraProcessor algebraProcessor,
+		@NonNull PropertiesRegistry propertiesRegistry,
+		@NonNull Localization localization,
+		@NonNull Settings settings,
+		@Nullable StatisticGroupsBuilder statisticGroupsBuilder,
+		@Nullable AutocompleteProvider autoCompleteProvider,
+		@Nullable ToolsProvider toolsProvider,
+		@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
+		@Nullable Construction construction,
+		@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
+		@Nullable AlgebraOutputFiltering algebraOutputFiltering) { }
 }

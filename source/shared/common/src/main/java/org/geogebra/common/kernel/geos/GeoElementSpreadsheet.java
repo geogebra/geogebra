@@ -16,9 +16,6 @@
 
 package org.geogebra.common.kernel.geos;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
@@ -31,6 +28,8 @@ import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.CellFormatInterface;
 import org.geogebra.regexp.shared.MatchResult;
 import org.geogebra.regexp.shared.RegExp;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Collection of methods for handling spreadsheet cell names
@@ -61,7 +60,7 @@ public class GeoElementSpreadsheet {
 	 *            column index
 	 * @return column name
 	 */
-	public static @Nonnull String getSpreadsheetColumnName(int columnIndex) {
+	public static @NonNull String getSpreadsheetColumnName(int columnIndex) {
 		int i = columnIndex + 1;
 		String col = "";
 		while (i > 0) {
@@ -223,7 +222,7 @@ public class GeoElementSpreadsheet {
 	 * @return spreadsheet coordinates as (column index,row index); null for
 	 *         non-spreadsheet names
 	 */
-	public static @CheckForNull SpreadsheetCoords getSpreadsheetCoordsForLabel(String inputLabel) {
+	public static @Nullable SpreadsheetCoords getSpreadsheetCoordsForLabel(String inputLabel) {
 		// we need to also support wrapped GeoElements like
 		// $A4 that are implemented as dependent geos (using ExpressionNode)
 		MatchResult matcher = spreadsheetPattern.exec(inputLabel);

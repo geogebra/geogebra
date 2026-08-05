@@ -16,9 +16,8 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Property that may change value when the underlying {@link GeoElement} changes.
@@ -28,8 +27,8 @@ public interface GeoElementDependentProperty {
 	/** Observer for {@code GeoElement} redefinition events */
 	interface RedefinitionObserver {
 		/** Called when a {@code GeoElement} got redefined to a new {@code GeoElement}). */
-		void onGeoElementRedefined(@Nonnull GeoElement originalElement,
-				@Nonnull GeoElement newElement);
+		void onGeoElementRedefined(@NonNull GeoElement originalElement,
+				@NonNull GeoElement newElement);
 	}
 
 	/**

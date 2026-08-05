@@ -20,12 +20,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.PropertyKey;
 import org.geogebra.common.properties.ValuedProperty;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Remembers property values by construction element type and applies them to new elements.
@@ -38,7 +37,7 @@ public final class RememberedProperties {
 	 * Creates a coordinator for the properties remembered during the current session.
 	 * @param handlers initial handlers to register.
 	 */
-	public RememberedProperties(@Nonnull List<RememberedPropertyHandler<?>> handlers) {
+	public RememberedProperties(@NonNull List<RememberedPropertyHandler<?>> handlers) {
 		handlers.forEach(this::register);
 	}
 
@@ -47,7 +46,7 @@ public final class RememberedProperties {
 	 * @param geo construction element to update
 	 * @return whether every remembered property was applied successfully
 	 */
-	public boolean apply(@Nonnull GeoElement geo) {
+	public boolean apply(@NonNull GeoElement geo) {
 		boolean allApplied = true;
 		for (RememberedPropertyHandler<?> handler: rememberedPropertyHandlers.values()) {
 			if (!handler.apply(geo)) {
@@ -57,7 +56,7 @@ public final class RememberedProperties {
 		return allApplied;
 	}
 
-	private void register(@Nonnull RememberedPropertyHandler<?> handler) {
+	private void register(@NonNull RememberedPropertyHandler<?> handler) {
 		PropertyKey key = handler.propertyKey();
 		if (rememberedPropertyHandlers.get(key) != null) {
 			throw new UnsupportedOperationException("Duplicated registration of handler " + key);
@@ -65,7 +64,7 @@ public final class RememberedProperties {
 		rememberedPropertyHandlers.put(key, handler);
 	}
 
-	@CheckForNull RememberedPropertyHandler<?> getHandler(@Nonnull PropertyKey key) {
+	@Nullable RememberedPropertyHandler<?> getHandler(@NonNull PropertyKey key) {
 		return rememberedPropertyHandlers.get(key);
 	}
 

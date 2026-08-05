@@ -19,10 +19,9 @@ package org.geogebra.common.contextmenu;
 import java.util.Arrays;
 import java.util.Objects;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AttributedString;
+import org.jspecify.annotations.NonNull;
 
 @SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public final class TableValuesContextMenuItem implements ContextMenuItem {
@@ -90,12 +89,12 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 		this.translationPlaceholderValues = translationPlaceholderValues;
 	}
 
-	public @Nonnull Item getItem() {
+	public @NonNull Item getItem() {
 		return item;
 	}
 
 	@Override
-	public @Nonnull AttributedString getLocalizedTitle(@Nonnull Localization localization) {
+	public @NonNull AttributedString getLocalizedTitle(@NonNull Localization localization) {
 		return MenuItemFormatting.parse(
 				localization.getPlainDefault(item.translationKey, "",
 						translationPlaceholderValues)

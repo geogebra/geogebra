@@ -19,9 +19,6 @@ package org.geogebra.common.main.settings.config;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.EquationBehaviour;
@@ -33,6 +30,8 @@ import org.geogebra.common.main.settings.config.equationforms.DefaultEquationBeh
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.properties.remembered.RememberedPropertyHandler;
 import org.geogebra.common.restrictions.FeatureRestriction;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 abstract class AbstractAppConfig implements AppConfig {
 
@@ -58,17 +57,17 @@ abstract class AbstractAppConfig implements AppConfig {
     }
 
 	@Override
-	public @CheckForNull String getSubAppCode() {
+	public @Nullable String getSubAppCode() {
         return subAppCode == null ? null : subAppCode.appCode;
     }
 
 	@Override
-	public @CheckForNull SuiteSubApp getSubApp() {
+	public @Nullable SuiteSubApp getSubApp() {
         return subAppCode;
     }
 
 	@Override
-	public final @Nonnull EquationBehaviour getEquationBehaviour() {
+	public final @NonNull EquationBehaviour getEquationBehaviour() {
         if (equationBehaviour == null) {
             initializeEquationBehaviour();
         }
@@ -117,14 +116,14 @@ abstract class AbstractAppConfig implements AppConfig {
     }
 
     @Override
-    public void applyRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
+    public void applyRestrictions(@NonNull Set<FeatureRestriction> featureRestrictions) {
         if (featureRestrictions.contains(FeatureRestriction.RESTRICT_CHANGING_EQUATION_FORM)) {
             equationBehaviour.allowChangingEquationFormsByUser(false);
         }
     }
 
     @Override
-    public void removeRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
+    public void removeRestrictions(@NonNull Set<FeatureRestriction> featureRestrictions) {
         initializeEquationBehaviour();
     }
 
@@ -137,7 +136,7 @@ abstract class AbstractAppConfig implements AppConfig {
     }
 
     @Override
-    public @Nonnull List<RememberedPropertyHandler<?>> getRememberedPropertyHandlers() {
+    public @NonNull List<RememberedPropertyHandler<?>> getRememberedPropertyHandlers() {
 		return List.of();
     }
 }

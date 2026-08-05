@@ -19,8 +19,6 @@ package org.geogebra.common.io;
 import java.io.IOException;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.annotations.HasNativeSubclass;
@@ -36,6 +34,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -252,7 +251,7 @@ public abstract class MyXMLio {
 			String uniqueId,
 			Platform platform,
 			String appCode,
-			@CheckForNull String subAppCode) {
+			@Nullable String subAppCode) {
 
 		// make sure File -> Share works in HTML5 App
 		// (GeoGebraTube doesn't display 5.0 applets)

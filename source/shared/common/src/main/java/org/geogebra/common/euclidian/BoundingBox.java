@@ -18,8 +18,6 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
@@ -33,6 +31,7 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Bounding box construction for selected elements
@@ -320,7 +319,7 @@ public abstract class BoundingBox<T extends GShape> {
 	 *            - threshold
 	 * @return bounding box handler
 	 */
-	public @Nonnull ShapeManipulationHandler getHitHandler(int x, int y,
+	public @NonNull ShapeManipulationHandler getHitHandler(int x, int y,
 			int hitThreshold) {
 		int hit = hitHandlers(x, y, hitThreshold);
 

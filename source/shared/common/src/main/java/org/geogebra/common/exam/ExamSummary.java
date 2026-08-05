@@ -18,15 +18,14 @@ package org.geogebra.common.exam;
 
 import java.util.Date;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.event.CheatingEvent;
 import org.geogebra.common.main.exam.event.CheatingEvents;
 import org.geogebra.common.util.TimeFormatAdapter;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides information for the exam details UI (during exams) or exam summary UI (after finishing).
@@ -85,13 +84,13 @@ public final class ExamSummary {
 	 * @param timeFormatter A {@link TimeFormatAdapter} for formatting durations.
 	 * @param localization A localization.
 	 */
-	public ExamSummary(@Nonnull ExamType examType,
-			@Nonnull Date startDate,
-			@CheckForNull Date finishDate,
-			@Nonnull CheatingEvents cheatingEvents,
-			@Nonnull AppConfig appConfig,
-			@Nonnull  TimeFormatAdapter timeFormatter,
-			@Nonnull  Localization localization) {
+	public ExamSummary(@NonNull ExamType examType,
+			@NonNull Date startDate,
+			@Nullable Date finishDate,
+			@NonNull CheatingEvents cheatingEvents,
+			@NonNull AppConfig appConfig,
+			@NonNull  TimeFormatAdapter timeFormatter,
+			@NonNull  Localization localization) {
 		isExamFinished = finishDate != null;
 		cheated = !cheatingEvents.isEmpty();
 		examName = examType.getDisplayName(localization, appConfig);

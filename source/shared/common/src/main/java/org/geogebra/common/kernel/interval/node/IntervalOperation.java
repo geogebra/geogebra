@@ -16,11 +16,10 @@
 
 package org.geogebra.common.kernel.interval.node;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.operators.IntervalNodeEvaluator;
 import org.geogebra.common.plugin.Operation;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Interval arithmetic operations.
@@ -367,14 +366,14 @@ public enum IntervalOperation {
 	 * @return the value of the operation.
 	 */
 	public abstract IntervalExpressionValue handle(IntervalNodeEvaluator evaluator,
-			@Nonnull IntervalNode left, IntervalNode right);
+			@NonNull IntervalNode left, IntervalNode right);
 
 	/**
 	 * @return corresponding operation for <code>ExpressionValue</code>s
 	 */
 	public abstract Operation mappedOperation();
 
-	static IntervalExpressionValue toValue(@Nonnull Interval interval) {
+	static IntervalExpressionValue toValue(@NonNull Interval interval) {
 		return new IntervalFunctionValue(interval);
 	}
 }

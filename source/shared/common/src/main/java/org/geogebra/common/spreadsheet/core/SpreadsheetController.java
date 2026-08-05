@@ -25,9 +25,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.kernel.statistics.Statistic;
 import org.geogebra.common.spreadsheet.style.CellFormat;
@@ -45,6 +42,8 @@ import org.geogebra.editor.share.input.KeyboardInputAdapter;
 import org.geogebra.editor.share.serializer.ScreenReaderSerializer;
 import org.geogebra.editor.share.tree.CharacterNode;
 import org.geogebra.editor.share.util.JavaKeyCodes;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -58,40 +57,40 @@ public final class SpreadsheetController<T> {
 
 	final SpreadsheetSelectionController selectionController
 			= new SpreadsheetSelectionController();
-	private final @Nonnull TabularData<T> tabularData;
-	private final @CheckForNull SpreadsheetStyling spreadsheetStyling;
+	private final @NonNull TabularData<T> tabularData;
+	private final @Nullable SpreadsheetStyling spreadsheetStyling;
 
 	@Weak
-	private @CheckForNull SpreadsheetControllerDelegate delegate;
-	private @CheckForNull SpreadsheetControlsDelegate controlsDelegate;
-	private @CheckForNull SpreadsheetAccessibilityDelegate accessibilityDelegate;
-	private @CheckForNull ExpressionReader expressionReader;
-	private @CheckForNull SpreadsheetConstructionDelegate constructionDelegate;
-	private final @Nonnull TableLayout layout;
-	private final @Nonnull ContextMenuBuilder contextMenuBuilder;
+	private @Nullable SpreadsheetControllerDelegate delegate;
+	private @Nullable SpreadsheetControlsDelegate controlsDelegate;
+	private @Nullable SpreadsheetAccessibilityDelegate accessibilityDelegate;
+	private @Nullable ExpressionReader expressionReader;
+	private @Nullable SpreadsheetConstructionDelegate constructionDelegate;
+	private final @NonNull TableLayout layout;
+	private final @NonNull ContextMenuBuilder contextMenuBuilder;
 
 	// statistics
-	private @CheckForNull SpreadsheetStatisticsDelegate statisticsDelegate;
-	private @CheckForNull SpreadsheetStatistics spreadsheetStatistics;
-	private @CheckForNull SpreadsheetStatisticsView.OneVar oneVarStatisticsView;
-	private @CheckForNull SpreadsheetStatisticsView.TwoVar twoVarStatisticsView;
-	private @CheckForNull SpreadsheetStatisticsView.Regression regressionView;
+	private @Nullable SpreadsheetStatisticsDelegate statisticsDelegate;
+	private @Nullable SpreadsheetStatistics spreadsheetStatistics;
+	private SpreadsheetStatisticsView.@Nullable OneVar oneVarStatisticsView;
+	private SpreadsheetStatisticsView.@Nullable TwoVar twoVarStatisticsView;
+	private SpreadsheetStatisticsView.@Nullable Regression regressionView;
 
 	private Editor editor;
 	private SpreadsheetReferences currentReferences;
 
-	private @Nonnull DragState dragState;
+	private @NonNull DragState dragState;
 	private Rectangle viewport;
-	private @CheckForNull ViewportAdjuster viewportAdjuster;
-	private @CheckForNull UndoProvider undoProvider;
-	private @CheckForNull SpreadsheetCellDescriptionBuilder cellDescriptionBuilder;
-	private final @CheckForNull CellDragPasteHandler cellDragPasteHandler;
+	private @Nullable ViewportAdjuster viewportAdjuster;
+	private @Nullable UndoProvider undoProvider;
+	private @Nullable SpreadsheetCellDescriptionBuilder cellDescriptionBuilder;
+	private final @Nullable CellDragPasteHandler cellDragPasteHandler;
 	private double lastPointerPositionX = -1;
 	private double lastPointerPositionY = -1;
-	private @CheckForNull CopyPasteCutTabularData copyPasteCut;
+	private @Nullable CopyPasteCutTabularData copyPasteCut;
 	private boolean autoscrollRow;
 	private boolean autoscrollColumn;
-	private @CheckForNull SpreadsheetCoords pendingEditorActivationCoords = null;
+	private @Nullable SpreadsheetCoords pendingEditorActivationCoords = null;
 
 	private static final int DOT_CATCH_RADIUS = 18;
 
@@ -99,8 +98,8 @@ public final class SpreadsheetController<T> {
 	 * @param tabularData underlying data for the spreadsheet
 	 * @param spreadsheetStyling styling information provider
 	 */
-	public SpreadsheetController(@Nonnull TabularData<T> tabularData,
-			@CheckForNull SpreadsheetStyling spreadsheetStyling) {
+	public SpreadsheetController(@NonNull TabularData<T> tabularData,
+			@Nullable SpreadsheetStyling spreadsheetStyling) {
 		this.tabularData = tabularData;
 		this.spreadsheetStyling = spreadsheetStyling;
 		this.viewport = new Rectangle(0, 0, 0, 0);
@@ -113,14 +112,14 @@ public final class SpreadsheetController<T> {
 
 	// Delegates
 
-	void setDelegate(@CheckForNull SpreadsheetControllerDelegate delegate) {
+	void setDelegate(@Nullable SpreadsheetControllerDelegate delegate) {
 		this.delegate = delegate;
 	}
 
 	/**
 	 * @param controlsDelegate The controls delegate.
 	 */
-	public void setControlsDelegate(@CheckForNull SpreadsheetControlsDelegate controlsDelegate) {
+	public void setControlsDelegate(@Nullable SpreadsheetControlsDelegate controlsDelegate) {
 		this.controlsDelegate = controlsDelegate;
 		editor = null;
 		initCopyPasteCut();
@@ -129,7 +128,7 @@ public final class SpreadsheetController<T> {
 	/**
 	 * @param constructionDelegate {@link SpreadsheetConstructionDelegate}
 	 */
-	void setSpreadsheetConstructionDelegate(@CheckForNull SpreadsheetConstructionDelegate
+	void setSpreadsheetConstructionDelegate(@Nullable SpreadsheetConstructionDelegate
 			constructionDelegate) {
 		this.constructionDelegate = constructionDelegate;
 		this.contextMenuBuilder.setSpreadsheetConstructionDelegate(constructionDelegate);
@@ -139,15 +138,15 @@ public final class SpreadsheetController<T> {
 	 * @param viewportAdjusterDelegate The viewport adjuster delegate.
 	 */
 	void setViewportAdjustmentHandler(
-			@CheckForNull ViewportAdjusterDelegate viewportAdjusterDelegate) {
+			@Nullable ViewportAdjusterDelegate viewportAdjusterDelegate) {
 		this.viewportAdjuster = viewportAdjusterDelegate != null
 				? new ViewportAdjuster(getLayout(), viewportAdjusterDelegate)
 				: null;
 	}
 
 	void setStatisticsDelegate(
-			@CheckForNull SpreadsheetStatisticsDelegate spreadsheetStatisticsDelegate,
-			@CheckForNull SpreadsheetStatistics spreadsheetStatistics) {
+			@Nullable SpreadsheetStatisticsDelegate spreadsheetStatisticsDelegate,
+			@Nullable SpreadsheetStatistics spreadsheetStatistics) {
 		this.statisticsDelegate = spreadsheetStatisticsDelegate;
 		this.spreadsheetStatistics = spreadsheetStatistics;
 		this.contextMenuBuilder.setSpreadsheetStatisticsDelegate(statisticsDelegate);
@@ -156,7 +155,7 @@ public final class SpreadsheetController<T> {
 	/**
 	 * @param undoProvider The undo provider.
 	 */
-	public void setUndoProvider(@CheckForNull UndoProvider undoProvider) {
+	public void setUndoProvider(@Nullable UndoProvider undoProvider) {
 		this.undoProvider = undoProvider;
 	}
 
@@ -164,7 +163,7 @@ public final class SpreadsheetController<T> {
 	 * @param accessibilityDelegate Delegate for accessibility announcements
 	 */
 	public void setAccessibilityDelegate(
-			@CheckForNull SpreadsheetAccessibilityDelegate accessibilityDelegate) {
+			@Nullable SpreadsheetAccessibilityDelegate accessibilityDelegate) {
 		this.accessibilityDelegate = accessibilityDelegate;
 	}
 
@@ -172,14 +171,14 @@ public final class SpreadsheetController<T> {
 	 * @param cellDescriptionBuilder {@link SpreadsheetCellDescriptionBuilder}
 	 */
 	public void setCellDescriptionBuilder(
-			@CheckForNull SpreadsheetCellDescriptionBuilder cellDescriptionBuilder) {
+			@Nullable SpreadsheetCellDescriptionBuilder cellDescriptionBuilder) {
 		this.cellDescriptionBuilder = cellDescriptionBuilder;
 	}
 
 	/**
 	 * @param expressionReader ExpressionReader for screen reader serialization of editor content
 	 */
-	public void setExpressionReader(@CheckForNull ExpressionReader expressionReader) {
+	public void setExpressionReader(@Nullable ExpressionReader expressionReader) {
 		this.expressionReader = expressionReader;
 	}
 
@@ -189,7 +188,7 @@ public final class SpreadsheetController<T> {
 		}
 	}
 
-	private void notifyCellSizesChanged(@Nonnull CellSizes cellSizes) {
+	private void notifyCellSizesChanged(@NonNull CellSizes cellSizes) {
 		if (delegate != null) {
 			delegate.cellSizesChanged(cellSizes);
 		}
@@ -387,7 +386,7 @@ public final class SpreadsheetController<T> {
 	 * @param column column index
 	 * @return column name
 	 */
-	public @Nonnull String getColumnName(int column) {
+	public @NonNull String getColumnName(int column) {
 		return tabularData.getColumnName(column);
 	}
 
@@ -396,17 +395,17 @@ public final class SpreadsheetController<T> {
 	 * @param row row index
 	 * @return row name
 	 */
-	public @Nonnull String getRowName(int row) {
+	public @NonNull String getRowName(int row) {
 		return tabularData.getRowName(row);
 	}
 
 	// Viewport
 
-	void setViewport(@Nonnull Rectangle viewport) {
+	void setViewport(@NonNull Rectangle viewport) {
 		this.viewport = viewport;
 	}
 
-	@Nonnull Rectangle getViewport() {
+	@NonNull Rectangle getViewport() {
 		return viewport;
 	}
 
@@ -443,7 +442,7 @@ public final class SpreadsheetController<T> {
 
 	// Layout
 
-	@Nonnull TableLayout getLayout() {
+	@NonNull TableLayout getLayout() {
 		return layout;
 	}
 
@@ -481,7 +480,7 @@ public final class SpreadsheetController<T> {
 	 * @param extend Whether we want to extend the current selection (SHIFT)
 	 * @param addSelection Whether we want to add the selection to the current selection (CTRL)
 	 */
-	public void select(@Nonnull TabularRange tabularRange, boolean extend, boolean addSelection) {
+	public void select(@NonNull TabularRange tabularRange, boolean extend, boolean addSelection) {
 		selectionController.select(new Selection(tabularRange), extend, addSelection);
 	}
 
@@ -497,23 +496,23 @@ public final class SpreadsheetController<T> {
 	}
 
 	// default visibility, same as Selection class
-	@Nonnull Stream<Selection> getSelections() {
+	@NonNull Stream<Selection> getSelections() {
 		return selectionController.getSelections();
 	}
 
-	@CheckForNull Selection getLastSelection() {
+	@Nullable Selection getLastSelection() {
 		return selectionController.getLastSelection();
 	}
 
 	/**
 	 * @return selections limited to data size
 	 */
-	@Nonnull List<TabularRange> getVisibleSelections() {
+	@NonNull List<TabularRange> getVisibleSelections() {
 		return getSelections().map(this::intersectWithDataRange)
 				.collect(Collectors.toList());
 	}
 
-	private @Nonnull TabularRange intersectWithDataRange(@Nonnull Selection selection) {
+	private @NonNull TabularRange intersectWithDataRange(@NonNull Selection selection) {
 		return selection.getRange().restrictInfiniteRangeTo(tabularData.numberOfRows(),
 				tabularData.numberOfColumns());
 	}
@@ -526,7 +525,7 @@ public final class SpreadsheetController<T> {
 	 * @return The "first" (upper left) cell in the last selection range, or null if there
 	 * is no selection.
 	 */
-	@CheckForNull SpreadsheetCoords getLastSelectionUpperLeftCell() {
+	@Nullable SpreadsheetCoords getLastSelectionUpperLeftCell() {
 		List<TabularRange> visibleSelections = getVisibleSelections();
 		if (visibleSelections.isEmpty()) {
 			return null;
@@ -592,7 +591,7 @@ public final class SpreadsheetController<T> {
 
 	// Cell Editor
 
-	private void showCellEditor(@CheckForNull SpreadsheetCoords coords,
+	private void showCellEditor(@Nullable SpreadsheetCoords coords,
 			boolean editExistingContent) {
 		if (coords == null) {
 			return;
@@ -658,7 +657,7 @@ public final class SpreadsheetController<T> {
 		}
 	}
 
-	@CheckForNull Rectangle getEditorBounds() {
+	@Nullable Rectangle getEditorBounds() {
 		return editor != null ? editor.bounds : null;
 	}
 
@@ -700,7 +699,7 @@ public final class SpreadsheetController<T> {
 	 * @return A (possibly empty) list of cell or cell range references in the editor, or
 	 * {@code null} if the editor is currently not active.
 	 */
-	@CheckForNull SpreadsheetReferences getCurrentReferences() {
+	@Nullable SpreadsheetReferences getCurrentReferences() {
 		return currentReferences;
 	}
 
@@ -709,7 +708,7 @@ public final class SpreadsheetController<T> {
 	 * {@code null} if the editor is currently not active.
 	 * @apiNote Non-private mostly for testability; use #getCurrentReferences() instead
 	 */
-	@CheckForNull List<SpreadsheetReference> getEditorCellReferences() {
+	@Nullable List<SpreadsheetReference> getEditorCellReferences() {
 		if (editor == null || !isEditorActive()) {
 			return null;
 		}
@@ -739,7 +738,7 @@ public final class SpreadsheetController<T> {
 	 * a cell reference (e.g., "A1") or range reference (e.g., "A1:A10").
 	 * @apiNote Non-private mostly for testability; prefer getCachedReferences()
 	 */
-	@CheckForNull SpreadsheetReference getCurrentEditorCellReference() {
+	@Nullable SpreadsheetReference getCurrentEditorCellReference() {
 		if (editor == null || !isEditorActive()) {
 			return null;
 		}
@@ -757,7 +756,7 @@ public final class SpreadsheetController<T> {
 	 * @param y y-coordinate relative to viewport
 	 * @param modifiers event modifiers
 	 */
-	public void handlePointerDown(double x, double y, @Nonnull Modifiers modifiers) {
+	public void handlePointerDown(double x, double y, @NonNull Modifiers modifiers) {
 		pendingEditorActivationCoords = null;
 		if (controlsDelegate != null) {
 			controlsDelegate.hideContextMenu();
@@ -928,7 +927,7 @@ public final class SpreadsheetController<T> {
 				lastRange.getMinRow(), lastRange.getMinColumn());
 	}
 
-	@Nonnull DragState getDragAction(double x, double y) {
+	@NonNull DragState getDragAction(double x, double y) {
 		Point draggingDot = getDraggingDotLocation();
 		if (draggingDot != null && draggingDot.distanceTo(x, y) < DOT_CATCH_RADIUS) {
 			return new DragState(MouseCursor.DRAG_DOT, layout.findRow(y + viewport.getMinY()),
@@ -941,7 +940,7 @@ public final class SpreadsheetController<T> {
 		dragState = new DragState(MouseCursor.DEFAULT, -1, -1);
 	}
 
-	@CheckForNull Point getDraggingDotLocation() {
+	@Nullable Point getDraggingDotLocation() {
 		if (isEditorActive()) {
 			return null;
 		}
@@ -1001,7 +1000,7 @@ public final class SpreadsheetController<T> {
 	/**
 	 * @return The {@link TabularRange} that indicates the destination for the drag paste
 	 */
-	@CheckForNull TabularRange getDragPasteSelection() {
+	@Nullable TabularRange getDragPasteSelection() {
 		if (cellDragPasteHandler == null) {
 			return null;
 		}
@@ -1124,7 +1123,7 @@ public final class SpreadsheetController<T> {
 	 * @param modifiers Modifiers
 	 * @return whether this was handled
 	 */
-	public boolean handleKeyPressed(int keyCode, @CheckForNull String key, @Nonnull Modifiers modifiers) {
+	public boolean handleKeyPressed(int keyCode, @Nullable String key, @NonNull Modifiers modifiers) {
 		boolean cellSelectionChanged = false;
 
 		if (selectionController.hasSelection()) {
@@ -1266,7 +1265,7 @@ public final class SpreadsheetController<T> {
 		}
 	}
 
-	private void startTyping(@CheckForNull String key, @Nonnull Modifiers modifiers) {
+	private void startTyping(@Nullable String key, @NonNull Modifiers modifiers) {
 		if (modifiers.ctrlOrCmd || modifiers.alt || StringUtil.empty(key)) {
 			return;
 		}
@@ -1357,7 +1356,7 @@ public final class SpreadsheetController<T> {
 		return tabularData.numberOfColumns() < Spreadsheet.MAX_COLUMNS;
 	}
 
-	private @CheckForNull SpreadsheetCoords cellCoords(double x, double y) {
+	private @Nullable SpreadsheetCoords cellCoords(double x, double y) {
 		int row = findRowOrHeader(y);
 		int column = findColumnOrHeader(x);
 		if (row < 0 || column < 0) {
@@ -1387,7 +1386,7 @@ public final class SpreadsheetController<T> {
 		}
 	}
 
-	void setCopyPasteCut(@CheckForNull CopyPasteCutTabularData copyPasteCut) {
+	void setCopyPasteCut(@Nullable CopyPasteCutTabularData copyPasteCut) {
 		this.copyPasteCut = copyPasteCut;
 	}
 
@@ -1445,7 +1444,7 @@ public final class SpreadsheetController<T> {
 		getSelections().forEach(selection -> copyPasteCut.copyDeep(selection.getRange()));
 	}
 
-	private void pasteToSelections(@Nonnull Stream<TabularRange> destinations) {
+	private void pasteToSelections(@NonNull Stream<TabularRange> destinations) {
 		if (copyPasteCut == null) {
 			return;
 		}
@@ -1596,7 +1595,7 @@ public final class SpreadsheetController<T> {
 		statisticsDelegate.showRegression(regressionView);
 	}
 
-	@CheckForNull SpreadsheetStatisticsView.OneVar calculateOneVarStatistics() {
+	SpreadsheetStatisticsView.@Nullable OneVar calculateOneVarStatistics() {
 		TabularRange range = getStatisticsSelectionRange();
 		if (range == null || spreadsheetStatistics == null) {
 			return null;
@@ -1604,7 +1603,7 @@ public final class SpreadsheetController<T> {
 		return spreadsheetStatistics.getOneVarStatistics(range);
 	}
 
-	@CheckForNull SpreadsheetStatisticsView.TwoVar calculateTwoVarStatistics() {
+	SpreadsheetStatisticsView.@Nullable TwoVar calculateTwoVarStatistics() {
 		TabularRange range = getStatisticsSelectionRange();
 		if (range == null || spreadsheetStatistics == null) {
 			return null;
@@ -1612,7 +1611,7 @@ public final class SpreadsheetController<T> {
 		return spreadsheetStatistics.getTwoVarStatistics(range);
 	}
 
-	@CheckForNull SpreadsheetStatisticsView.Regression calculateRegression() {
+	SpreadsheetStatisticsView.@Nullable Regression calculateRegression() {
 		TabularRange range = getStatisticsSelectionRange();
 		if (range == null || spreadsheetStatistics == null) {
 			return null;
@@ -1810,14 +1809,14 @@ public final class SpreadsheetController<T> {
 	// Editor
 
 	private final class Editor {
-		private final @Nonnull SpreadsheetCellEditor cellEditor;
-		private @CheckForNull SpreadsheetMathFieldAdapter mathFieldAdapter;
-		@CheckForNull Rectangle bounds;
+		private final @NonNull SpreadsheetCellEditor cellEditor;
+		private @Nullable SpreadsheetMathFieldAdapter mathFieldAdapter;
+		@Nullable Rectangle bounds;
 		int row;
 		int column;
-		@CheckForNull T previousCellContent;
+		@Nullable T previousCellContent;
 
-		Editor(@Nonnull SpreadsheetCellEditor cellEditor) {
+		Editor(@NonNull SpreadsheetCellEditor cellEditor) {
 			this.cellEditor = cellEditor;
 		}
 
@@ -1881,7 +1880,7 @@ public final class SpreadsheetController<T> {
 		 * content width.
 		 * Note: must only be called when the editor is active and bounds is not null.
 		 */
-		private @Nonnull Rectangle editorBoundsFittingContent() {
+		private @NonNull Rectangle editorBoundsFittingContent() {
 			assert bounds != null;
 			double availableWidth = Math.max(0, viewport.getWidth() - bounds.origin.x - 1);
 			double clampedFittingWidth = Math.min(
@@ -1900,7 +1899,7 @@ public final class SpreadsheetController<T> {
 			return bounds != null;
 		}
 
-		private void type(@CheckForNull String key) {
+		private void type(@Nullable String key) {
 			if (key == null) {
 				return;
 			}
@@ -1929,7 +1928,7 @@ public final class SpreadsheetController<T> {
 		 * @return The serialized, textual content of the cell editor.
 		 * If the {@code expressionReader} is undefined, simply returns the plain text content.
 		 */
-		private @Nonnull String getEditorContent(@CheckForNull ExpressionReader expressionReader) {
+		private @NonNull String getEditorContent(@Nullable ExpressionReader expressionReader) {
 			if (expressionReader != null) {
 				return ScreenReaderSerializer.fullDescription(
 						cellEditor.getMathField().getFormula().getRootNode(),
@@ -1961,7 +1960,7 @@ public final class SpreadsheetController<T> {
 			type(spaceNeeded ? " " + reference : reference);
 		}
 
-		private @CheckForNull String getCurrentCellRangeCandidate() {
+		private @Nullable String getCurrentCellRangeCandidate() {
 			Predicate<CharacterNode> predicate =
 					w -> (w.isCharacter() && !",".equals(w.getUnicodeString()))
 							|| ":".equals(w.getUnicodeString());

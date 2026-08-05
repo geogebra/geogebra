@@ -18,10 +18,9 @@ package org.geogebra.common.properties.impl.facade;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.properties.EnumeratedProperty;
 import org.geogebra.common.properties.ValueFilter;
+import org.jspecify.annotations.NonNull;
 
 abstract public class EnumeratedPropertyListFacade<T extends EnumeratedProperty<S>, S>
 		extends AbstractValuedPropertyListFacade<T, S> implements EnumeratedProperty<S> {
@@ -31,7 +30,7 @@ abstract public class EnumeratedPropertyListFacade<T extends EnumeratedProperty<
 	}
 
 	@Override
-	public @Nonnull List<S> getValues() {
+	public @NonNull List<S> getValues() {
 		return getFirstProperty().getValues();
 	}
 
@@ -46,12 +45,12 @@ abstract public class EnumeratedPropertyListFacade<T extends EnumeratedProperty<
 	}
 
 	@Override
-	public void addValueFilter(@Nonnull ValueFilter valueFilter) {
+	public void addValueFilter(@NonNull ValueFilter valueFilter) {
 		getFirstProperty().addValueFilter(valueFilter);
 	}
 
 	@Override
-	public void removeValueFilter(@Nonnull ValueFilter valueFilter) {
+	public void removeValueFilter(@NonNull ValueFilter valueFilter) {
 		getFirstProperty().removeValueFilter(valueFilter);
 	}
 

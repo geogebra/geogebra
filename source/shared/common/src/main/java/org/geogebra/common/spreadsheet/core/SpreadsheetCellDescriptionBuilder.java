@@ -16,28 +16,27 @@
 
 package org.geogebra.common.spreadsheet.core;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.main.Localization;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Builds spreadsheet cell descriptions for accessibility output.
  */
 public final class SpreadsheetCellDescriptionBuilder {
 
-	private final @Nonnull TabularData<?> tabularData;
-	private final @CheckForNull Localization localization;
+	private final @NonNull TabularData<?> tabularData;
+	private final @Nullable Localization localization;
 
 	/**
 	 * @param tabularData Spreadsheet data
 	 * @param localization Localization used for accessibility descriptions
 	 */
-	public SpreadsheetCellDescriptionBuilder(@Nonnull TabularData<?> tabularData,
-			@CheckForNull Localization localization) {
+	public SpreadsheetCellDescriptionBuilder(@NonNull TabularData<?> tabularData,
+			@Nullable Localization localization) {
 		this.tabularData = tabularData;
 		this.localization = localization;
 	}
@@ -47,7 +46,7 @@ public final class SpreadsheetCellDescriptionBuilder {
 	 * @param column Column index
 	 * @return Description of the cell for accessibility output.
 	 */
-	@Nonnull String getCellDescription(int row, int column) {
+	@NonNull String getCellDescription(int row, int column) {
 		ScreenReaderBuilder description = new ScreenReaderBuilder(localization);
 		appendCellValue(description, row, column);
 		if (tabularData.hasFormulaAt(row, column)) {
@@ -62,7 +61,7 @@ public final class SpreadsheetCellDescriptionBuilder {
 	 * @return Description of the cell editor content for accessibility output.<br>
 	 * Makes sure to communicate to the user if a cell is empty.
 	 */
-	@Nonnull String getEditorDescription(@Nonnull String content) {
+	@NonNull String getEditorDescription(@NonNull String content) {
 		ScreenReaderBuilder description = new ScreenReaderBuilder(localization);
 		if (!content.isEmpty()) {
 			append(description, content);
@@ -75,7 +74,7 @@ public final class SpreadsheetCellDescriptionBuilder {
 	/**
 	 * @return Description for attempts to move beyond the spreadsheet boundary.
 	 */
-	@Nonnull String getNoMoreCellsDescription() {
+	@NonNull String getNoMoreCellsDescription() {
 		ScreenReaderBuilder description = new ScreenReaderBuilder(localization);
 		appendMenuDefault(description, "Spreadsheet.NoMoreCells", "No more cells.");
 		return description.toString().trim();

@@ -18,9 +18,8 @@ package org.geogebra.desktop.euclidian.event;
 
 import java.awt.event.FocusEvent;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
+import org.jspecify.annotations.NonNull;
 
 /**
  * @author judit
@@ -29,7 +28,7 @@ import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 public class FocusListenerD implements java.awt.event.FocusListener {
 	private FocusListenerDelegate delegate;
 
-	public FocusListenerD(@Nonnull FocusListenerDelegate listener) {
+	public FocusListenerD(@NonNull FocusListenerDelegate listener) {
 		delegate = listener;
 	}
 

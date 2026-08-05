@@ -16,8 +16,6 @@
 
 package org.geogebra.common.properties.impl.graphics;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
@@ -29,6 +27,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
+import org.jspecify.annotations.Nullable;
 
 public class DimensionMinMaxProperty extends AbstractValuedProperty<String>
 		implements StringProperty, EuclidianViewDimensionDependentProperty {
@@ -103,7 +102,7 @@ public class DimensionMinMaxProperty extends AbstractValuedProperty<String>
 	}
 
 	@Override
-	public @CheckForNull String validateValue(String value) {
+	public @Nullable String validateValue(String value) {
 		NumberValue numberValue = app.getKernel().getAlgebraProcessor()
 					.evaluateToNumeric(value, true);
 		return numberValue == null ? getLocalization().getError("InputError.Enter_a_number") : null;

@@ -16,8 +16,6 @@
 
 package org.geogebra.web.html5.event;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.web.html5.gui.view.autocompletion.ScrollableSuggestBox;
@@ -25,6 +23,7 @@ import org.gwtproject.event.dom.client.BlurEvent;
 import org.gwtproject.event.dom.client.BlurHandler;
 import org.gwtproject.event.dom.client.FocusEvent;
 import org.gwtproject.event.dom.client.FocusHandler;
+import org.jspecify.annotations.NonNull;
 
 /**
  * @author judit
@@ -39,7 +38,7 @@ public class FocusListenerW implements FocusHandler, BlurHandler {
 	 * @param listener
 	 *            delegate
 	 */
-	public FocusListenerW(@Nonnull FocusListenerDelegate listener,
+	public FocusListenerW(@NonNull FocusListenerDelegate listener,
 			ScrollableSuggestBox textField) {
 		this.delegate = listener;
 		this.textField = textField;

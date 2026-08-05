@@ -19,9 +19,8 @@ package org.geogebra.common.exam.restrictions.visibility;
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.HIDE;
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.IGNORE;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Restricts the visibility of vectors.
@@ -33,7 +32,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public final class HiddenVectorVisibilityRestriction implements VisibilityRestriction {
 	@Override
-	public @Nonnull Effect getEffect(GeoElement geoElement) {
+	public @NonNull Effect getEffect(GeoElement geoElement) {
 		return geoElement.isGeoVector() ? HIDE : IGNORE;
 	}
 }

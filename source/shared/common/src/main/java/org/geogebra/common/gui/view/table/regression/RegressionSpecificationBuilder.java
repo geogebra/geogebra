@@ -21,12 +21,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.statistics.Regression;
 import org.geogebra.common.restrictions.FeatureRestriction;
 import org.geogebra.common.restrictions.Restrictable;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.NonNull;
 
 public class RegressionSpecificationBuilder implements Restrictable {
 
@@ -97,7 +96,7 @@ public class RegressionSpecificationBuilder implements Restrictable {
 	}
 
 	@Override
-	public void applyRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
+	public void applyRestrictions(@NonNull Set<FeatureRestriction> featureRestrictions) {
 		if (featureRestrictions.contains(
 				FeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS)) {
 			setModelGroup(RegressionModelGroup.MMS);
@@ -105,7 +104,7 @@ public class RegressionSpecificationBuilder implements Restrictable {
 	}
 
 	@Override
-	public void removeRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
+	public void removeRestrictions(@NonNull Set<FeatureRestriction> featureRestrictions) {
 		setModelGroup(RegressionModelGroup.STANDARD);
 	}
 }

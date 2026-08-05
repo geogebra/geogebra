@@ -19,9 +19,6 @@ package org.geogebra.web.html5.euclidian;
 import java.util.Locale;
 import java.util.Objects;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -31,6 +28,8 @@ import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.gwtproject.dom.client.Element;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.DomGlobal;
 import jsinterop.base.Js;
@@ -47,11 +46,11 @@ public class PointerEventHandler {
 	private static Element pointerCapture;
 	private HasOffsets off;
 
-	private @CheckForNull PointerState first;
-	private @CheckForNull PointerState second;
-	private @CheckForNull PointerState third;
+	private @Nullable PointerState first;
+	private @Nullable PointerState second;
+	private @Nullable PointerState third;
 	private double lastOutId;
-	private @CheckForNull GPoint2D lastOutCoords;
+	private @Nullable GPoint2D lastOutCoords;
 
 	/**
 	 * Mutable representation of pointer events
@@ -76,7 +75,7 @@ public class PointerEventHandler {
 	 * @param off
 	 *            offset provider
 	 */
-	public PointerEventHandler(IsEuclidianController tc, @Nonnull HasOffsets off) {
+	public PointerEventHandler(IsEuclidianController tc, @NonNull HasOffsets off) {
 		this.tc = tc;
 		this.off = off;
 	}

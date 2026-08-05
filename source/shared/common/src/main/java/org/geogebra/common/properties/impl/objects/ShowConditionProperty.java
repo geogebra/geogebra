@@ -16,8 +16,6 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -29,6 +27,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.util.StringUtil;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@code Property} responsible for setting and optional condition to decide about the visibility of its object.
@@ -46,7 +45,7 @@ public final class ShowConditionProperty extends AbstractValuedProperty<String>
 	}
 
 	@Override
-	public @CheckForNull String validateValue(String value) {
+	public @Nullable String validateValue(String value) {
 		if (StringUtil.emptyTrim(value)) {
 			return null;
 		}

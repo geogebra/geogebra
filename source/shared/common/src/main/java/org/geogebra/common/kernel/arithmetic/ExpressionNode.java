@@ -21,8 +21,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -50,6 +48,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -3258,7 +3257,7 @@ public class ExpressionNode extends ValidExpression
 	 *
 	 *
 	 */
-	public @CheckForNull Set<GeoElement> getUnconditionalVars(Set<GeoElement> variables) {
+	public @Nullable Set<GeoElement> getUnconditionalVars(Set<GeoElement> variables) {
 		if (leaf) {
 			left.getVariables(variables, SymbolicMode.NONE);
 			return variables;

@@ -18,10 +18,9 @@ package org.geogebra.common.kernel.arithmetic.filter;
 
 import java.util.Collection;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides a collection of allowed expressions based on the
@@ -37,5 +36,5 @@ public interface AllowedExpressionsProvider {
 	 * @param value expression value provide allowed values from
 	 * @return Optionally a collection of values that are allowed
 	 */
-	@CheckForNull Collection<ExpressionValue> provideAllowedExpressionValues(@Nonnull ExpressionValue value);
+	@Nullable Collection<ExpressionValue> provideAllowedExpressionValues(@NonNull ExpressionValue value);
 }

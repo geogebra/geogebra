@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.gui.view.spreadsheet.HasTableSelection;
@@ -32,6 +30,7 @@ import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.spreadsheet.core.Direction;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.TabularRange;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Helper class that handles cell formats for the spreadsheet table cell
@@ -956,7 +955,7 @@ public class CellFormat implements CellFormatInterface {
 	 * @return StringBuilder object containing all current formats encoded as
 	 *         strings
 	 */
-	public @CheckForNull String encodeFormats() {
+	public @Nullable String encodeFormats() {
 		StringBuilder sb = new StringBuilder();
 
 		// create a set containing all cells with formats

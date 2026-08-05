@@ -16,8 +16,6 @@
 
 package org.geogebra.web.geogebra3D.web.euclidian3D;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MoveMode;
@@ -36,6 +34,7 @@ import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.DOM;
+import org.jspecify.annotations.NonNull;
 
 import elemental2.dom.WheelEvent;
 
@@ -184,7 +183,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	}
 
 	@Override
-	protected void processMouseMoved(@Nonnull AbstractEvent e) {
+	protected void processMouseMoved(@NonNull AbstractEvent e) {
 		super.processMouseMoved(e);
 		processMouseMoved();
 	}

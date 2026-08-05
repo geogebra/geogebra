@@ -39,9 +39,6 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EmbedManager;
@@ -228,6 +225,8 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.gwt.core.client.Scheduler;
 
@@ -276,7 +275,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	// helper
 	// variable
 	private FlowPanel splitPanelWrapper = null;
-	private @CheckForNull MenuViewController menuViewController;
+	private @Nullable MenuViewController menuViewController;
 
 	private EmbedManagerW embedManager;
 	private VideoManagerW videoManager;
@@ -290,7 +289,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private KeyboardManager keyboardManager;
 	/** dialog manager */
 	protected DialogManagerW dialogManager = null;
-	private @CheckForNull String autosavedMaterial = null;
+	private @Nullable String autosavedMaterial = null;
 	private MaskWidgetList maskWidgets;
 	private SuiteHeaderAppPicker suiteAppPickerButton;
 	private final Map<SuiteSubApp, Material> constructionJson = new HashMap<>();
@@ -362,7 +361,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	protected @Nonnull GeoElementCellRendererFactory getGeoElementCellRendererFactory(
+	protected @NonNull GeoElementCellRendererFactory getGeoElementCellRendererFactory(
 			Supplier<Double> fontSizeProvider) {
 		return new GeoElementCellRendererFactory(new AwtReTexGraphicsBridgeW(),
 				this::getFontSizeDouble);
@@ -2154,7 +2153,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 	}
 
-	private @CheckForNull ToolbarPanel getToolbarPanel() {
+	private @Nullable ToolbarPanel getToolbarPanel() {
 		if (guiManager == null) {
 			return null;
 		}
@@ -2363,7 +2362,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public final @Nonnull VideoManagerW getVideoManager() {
+	public final @NonNull VideoManagerW getVideoManager() {
 		if (videoManager == null) {
 			videoManager = new VideoManagerW(this);
 		}
@@ -2433,7 +2432,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public @Nonnull KeyboardManager getKeyboardManager() {
+	public @NonNull KeyboardManager getKeyboardManager() {
 		if (keyboardManager == null) {
 			keyboardManager = new KeyboardManager(this);
 		}
@@ -2774,7 +2773,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	/**
 	 * @return listener forwarding exam change events to other listeners
 	 */
-	public @Nonnull ExamEventBus getExamEventBus() {
+	public @NonNull ExamEventBus getExamEventBus() {
 		if (this.examEventBus == null) {
 			examEventBus = new ExamEventBus();
 		}

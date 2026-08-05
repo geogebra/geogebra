@@ -192,30 +192,20 @@
         <exclude name="AvoidFileStream"/>
     </rule>
 
-    <rule name="AbstractClassWithManyAbstractMethods"
+    <rule name="UseJSpecify"
           language="java"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
           typeResolution="true"
-          message="Common project should define abstract methods in interfaces.">
-        <description>
-            Common project should define abstract methods in interfaces. Only filters classes with many violations, should be made incrementally stricter.
-        </description>
+          message="Only JSpecify annotations should be used.">
         <priority>1</priority>
         <properties>
             <property name="xpath">
                 <value>
                     <![CDATA[
-//ClassOrInterfaceDeclaration
-    [@Abstract = 'true']
-    [count(//MethodDeclaration[@Abstract = 'true']) > 200]
+//ImportDeclaration[matches(@ImportedSimpleName, "(Nonnull|NonNull|NotNull|CheckForNull)$") and @PackageName != "org.jspecify.annotations"]
 ]]>
                 </value>
             </property>
         </properties>
-        <example>
-            <![CDATA[
-Class with too many abstract methods will fail.
-]]>
-        </example>
     </rule>
 </ruleset>

@@ -26,9 +26,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GArea;
@@ -125,6 +122,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.debug.crashlytics.CrashlyticsLogger;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -199,7 +198,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * g2d of bgImage: used for axis, grid, background images and object traces
 	 */
-	protected @CheckForNull GGraphics2D bgGraphics;
+	protected @Nullable GGraphics2D bgGraphics;
 	// selection rectangle colors
 	private static final GColor selRectBorder = GColor.newColor(200, 200, 230);
 	private static final GColor selRectFill = GColor.newColor(200, 200, 230, 50);
@@ -1067,7 +1066,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * @return handler that was hit
 	 */
-	public @Nonnull ShapeManipulationHandler getHitHandler() {
+	public @NonNull ShapeManipulationHandler getHitHandler() {
 		return hitHandler;
 	}
 
@@ -2421,7 +2420,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return drawable for the given GeoElement.
 	 */
 	@Override
-	final public @CheckForNull DrawableND getDrawableFor(GeoElementND geo) {
+	final public @Nullable DrawableND getDrawableFor(GeoElementND geo) {
 		return drawableMap.get(geo);
 	}
 
@@ -6591,7 +6590,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	@Override
-	public @CheckForNull EvPositioner getEvPositioner() {
+	public @Nullable EvPositioner getEvPositioner() {
 		return null;
 	}
 
@@ -6671,13 +6670,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	@Override
-	public void applyRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
+	public void applyRestrictions(@NonNull Set<FeatureRestriction> featureRestrictions) {
 		restrictGraphSelectionForFunctions = featureRestrictions
 				.contains(FeatureRestriction.AUTOMATIC_GRAPH_SELECTION_FOR_FUNCTIONS);
 	}
 
 	@Override
-	public void removeRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
+	public void removeRestrictions(@NonNull Set<FeatureRestriction> featureRestrictions) {
 		restrictGraphSelectionForFunctions = false;
 	}
 
@@ -6690,12 +6689,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	@Override
-	public void addDimensionListener(@Nonnull DimensionListener dimensionListener) {
+	public void addDimensionListener(@NonNull DimensionListener dimensionListener) {
 		dimensionListeners.add(dimensionListener);
 	}
 
 	@Override
-	public void removeDimensionListener(@Nonnull DimensionListener dimensionListener) {
+	public void removeDimensionListener(@NonNull DimensionListener dimensionListener) {
 		dimensionListeners.remove(dimensionListener);
 	}
 }

@@ -19,11 +19,10 @@ package org.geogebra.common.contextmenu;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.util.AttributedString;
 import org.geogebra.common.util.Range;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 final class MenuItemFormatting {
 
@@ -35,7 +34,7 @@ final class MenuItemFormatting {
 	 * @param str The input string potentially containing subscript markup.
 	 * @return An {@code AttributedString} with subscript attributes applied as needed.
 	 */
-	static @Nonnull AttributedString parse(String str) {
+	static @NonNull AttributedString parse(String str) {
 		StringBuilder parsedString = new StringBuilder(str);
 		List<Range> subscriptRanges = new ArrayList<>();
 
@@ -55,7 +54,7 @@ final class MenuItemFormatting {
 		return attributedString;
 	}
 
-	private static @CheckForNull Range findRawSubscript(String rawText, int fromIndex) {
+	private static @Nullable Range findRawSubscript(String rawText, int fromIndex) {
 		int start = rawText.indexOf("_{", fromIndex);
 		if (start != -1) {
 			int end = rawText.indexOf("}", fromIndex + 2);

@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.exam.ExamListener;
 import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.gui.SetLabels;
@@ -49,6 +47,7 @@ import org.geogebra.web.shared.components.tab.TabData;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.KeyboardEvent;
 import jsinterop.base.Js;
@@ -63,7 +62,7 @@ public class PropertiesViewW extends PropertiesView
 		implements ExamListener, RequiresResize, SetLabels {
 	private static final int DEFAULT_SETTINGS_WIDTH = 400;
 	private final FlowPanel wrappedPanel;
-	private final @CheckForNull ComponentSideSheet sideSheet;
+	private final @Nullable ComponentSideSheet sideSheet;
 
 	private OptionType optionType;
 	private boolean floatingAttached = false;

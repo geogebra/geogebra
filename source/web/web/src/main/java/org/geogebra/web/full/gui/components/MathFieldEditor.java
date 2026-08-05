@@ -19,8 +19,6 @@ package org.geogebra.web.full.gui.components;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
@@ -48,6 +46,7 @@ import org.gwtproject.event.dom.client.BlurHandler;
 import org.gwtproject.user.client.ui.HasWidgets;
 import org.gwtproject.user.client.ui.IsWidget;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 /**
  * MathField capable editor widget for the web.
@@ -74,7 +73,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	 * empty list: input box with no variables
 	 * non-empty list: input box with variables
 	 */
-	private @CheckForNull List<String> inputBoxFunctionVars;
+	private @Nullable List<String> inputBoxFunctionVars;
 
 	/**
 	 * Constructor

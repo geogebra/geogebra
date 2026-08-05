@@ -16,8 +16,6 @@
 
 package org.geogebra.common.gui.view.table.keyboard;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.gui.view.table.TableValuesCell;
 import org.geogebra.common.gui.view.table.TableValuesModel;
@@ -25,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.util.StringUtil;
+import org.jspecify.annotations.NonNull;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -62,9 +61,9 @@ public final class TableValuesKeyboardNavigationController {
 	public TableValuesKeyboardNavigationControllerDelegate delegate;
 
 	@NonOwning
-	private final @Nonnull TableValues tableValuesView;
+	private final @NonNull TableValues tableValuesView;
 	@NonOwning
-	private final @Nonnull TableValuesModel tableValuesModel;
+	private final @NonNull TableValuesModel tableValuesModel;
 
 	private boolean isReadonly = false;
 	private int selectedRow = -1;
@@ -78,7 +77,7 @@ public final class TableValuesKeyboardNavigationController {
 	 * @param delegate The delegate (can be null here, but must be supplied through
 	 * the public writable field before use).
 	 */
-	public TableValuesKeyboardNavigationController(@Nonnull TableValues tableValuesView,
+	public TableValuesKeyboardNavigationController(@NonNull TableValues tableValuesView,
 			TableValuesKeyboardNavigationControllerDelegate delegate) {
 		this.tableValuesView = tableValuesView;
 		this.tableValuesModel = tableValuesView.getTableValuesModel();

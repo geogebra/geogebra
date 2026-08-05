@@ -16,10 +16,9 @@
 
 package org.geogebra.common.spreadsheet.core;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates renderers for custom data types stored in {@link TabularData}
@@ -39,8 +38,8 @@ public interface CellRenderableFactory {
 	 * @param column column index
 	 * @return renderable representation of the cell data
 	 */
-	@CheckForNull SelfRenderable getRenderable(@CheckForNull Object data,
-			@CheckForNull SpreadsheetStyling fontStyle, int row, int column);
+	@Nullable SelfRenderable getRenderable(@Nullable Object data,
+			@Nullable SpreadsheetStyling fontStyle, int row, int column);
 
 	default double getFontSize() {
 		return Spreadsheet.DEFAULT_FONT_SIZE;

@@ -18,8 +18,6 @@ package org.geogebra.common.euclidian;
 
 import java.util.function.Consumer;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
@@ -31,6 +29,7 @@ import org.geogebra.common.kernel.algos.AlgoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.jspecify.annotations.NonNull;
 
 public class PolyLineBoundingBox extends BoundingBox<GEllipse2DDouble> {
 
@@ -92,7 +91,7 @@ public class PolyLineBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	}
 
 	@Override
-	public @Nonnull ShapeManipulationHandler getHitHandler(int x, int y,
+	public @NonNull ShapeManipulationHandler getHitHandler(int x, int y,
 			int hitThreshold) {
 		int hit = hitHandlers(x, y, hitThreshold);
 		if (hit >= 0) {

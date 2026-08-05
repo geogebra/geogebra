@@ -16,9 +16,6 @@
 
 package org.geogebra.web.full.gui.exam;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.ExamControllerDelegate;
@@ -26,6 +23,8 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.restrictions.RestrictionsControllerDelegate;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public class ExamControllerDelegateW
 		implements ExamControllerDelegate, RestrictionsControllerDelegate {
@@ -55,19 +54,19 @@ public class ExamControllerDelegateW
 	}
 
 	@Override
-	public void examSetActiveMaterial(@CheckForNull Material material) {
+	public void examSetActiveMaterial(@Nullable Material material) {
 		app.setActiveMaterial(material);
 	}
 
 	@Override
-	public @CheckForNull Material examGetActiveMaterial() {
+	public @Nullable Material examGetActiveMaterial() {
 		return app.getActiveMaterial();
 	}
 
 	// -- RestrictionsControllerDelegate --
 
 	@Override
-	public @CheckForNull SuiteSubApp getCurrentSubApp() {
+	public @Nullable SuiteSubApp getCurrentSubApp() {
 		String subAppCode = app.getConfig().getSubAppCode();
 		if (!app.isSuite() || subAppCode == null) {
 			return null;
@@ -91,7 +90,7 @@ public class ExamControllerDelegateW
 	}
 
 	@Override
-	public void switchSubApp(@Nonnull SuiteSubApp subApp) {
+	public void switchSubApp(@NonNull SuiteSubApp subApp) {
 		if (!app.isSuite()) {
 			return;
 		}

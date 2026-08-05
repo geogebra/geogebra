@@ -24,4 +24,6 @@ description = "Common canvas library"
 
 dependencies {
     api(libs.spotbugs.annotations)
+
+    implementation("org.jspecify:jspecify:1.0.0")
 }

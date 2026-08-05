@@ -27,9 +27,6 @@ import java.util.Vector;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.SuiteSubApp;
@@ -172,6 +169,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.profiler.FpsProfiler;
 import org.geogebra.editor.share.editor.EditorFeatures;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Property;
 
@@ -404,7 +403,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	protected boolean needsSpreadsheetTableModel = false;
 	protected HashMap<Integer, Boolean> showConstProtNavigationNeedsUpdate = null;
 	protected HashMap<Integer, Boolean> showConsProtNavigation = null;
-	protected final @Nonnull AppCompanion companion;
+	protected final @NonNull AppCompanion companion;
 
 	private boolean showResetIcon = false;
 	private ParserFunctions pf;
@@ -439,7 +438,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private boolean scriptingDisabled = false;
 	private double exportScale = 1;
 	private PropertiesView propertiesView;
-	public final @Nonnull RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
+	public final @NonNull RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
 	private GeoScriptRunner geoScriptRunner;
 	private GeoElement geoForCopyStyle;
 	private boolean isErrorDialogsActive = true;
@@ -1806,7 +1805,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * @return the root settings object
 	 */
-	final public @Nonnull Settings getSettings() {
+	final public @NonNull Settings getSettings() {
 		if (settings == null) {
 			initSettings();
 		}
@@ -1816,7 +1815,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * @return The {@link AlgebraStyle} currently set.
 	 */
-	final public @Nonnull AlgebraStyle getAlgebraStyle() {
+	final public @NonNull AlgebraStyle getAlgebraStyle() {
 		return getSettings().getAlgebra().getStyle();
 	}
 
@@ -2254,7 +2253,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * @return kernel for this window
 	 */
-	public final @Nonnull Kernel getKernel() {
+	public final @NonNull Kernel getKernel() {
 		return kernel;
 	}
 
@@ -3461,11 +3460,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// overwritten in AppW
 	}
 
-	protected @Nonnull AppCompanion newAppCompanion() {
+	protected @NonNull AppCompanion newAppCompanion() {
 		return new AppCompanion(this);
 	}
 
-	public final @Nonnull AppCompanion getCompanion() {
+	public final @NonNull AppCompanion getCompanion() {
 		return companion;
 	}
 
@@ -3959,7 +3958,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * a spreadsheet view at all (via {@link AppConfig}), or if the spreadsheet is temporarily
 	 * disabled during an exam (via {@link FeatureRestriction#SPREADSHEET}).
 	 */
-	public @CheckForNull Spreadsheet<GeoElement> getSpreadsheet() {
+	public @Nullable Spreadsheet<GeoElement> getSpreadsheet() {
 		if (!isSpreadsheetEnabled()) {
 			return null;
 		}
@@ -3987,7 +3986,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return spreadsheet;
 	}
 
-	protected @Nonnull GeoElementCellRendererFactory getGeoElementCellRendererFactory(
+	protected @NonNull GeoElementCellRendererFactory getGeoElementCellRendererFactory(
 			Supplier<Double> fontSizeProvider) {
 		return new GeoElementCellRendererFactory(gGraphics2D -> null, fontSizeProvider);
 	}
@@ -4008,7 +4007,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *
 	 * @return the cached {@link InitialViewState}, creating it if necessary
 	 */
-	public @Nonnull InitialViewState getInitialViewState() {
+	public @NonNull InitialViewState getInitialViewState() {
 		if (initialViewState == null) {
 			initialViewState = new DefaultInitialViewState();
 		}
@@ -4440,12 +4439,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	@Override
-	public void addToolsFilter(@Nonnull ToolCollectionFilter filter) {
+	public void addToolsFilter(@NonNull ToolCollectionFilter filter) {
 		toolFilters.add(filter);
 	}
 
 	@Override
-	public void removeToolsFilter(@Nonnull ToolCollectionFilter filter) {
+	public void removeToolsFilter(@NonNull ToolCollectionFilter filter) {
 		toolFilters.remove(filter);
 	}
 
@@ -4454,7 +4453,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * depending on platform (iOS, Android) or during exams.
 	 */
 	@Override
-	public @Nonnull ToolCollection getAvailableTools() {
+	public @NonNull ToolCollection getAvailableTools() {
 		ToolCollection toolCollection = createToolCollectionFactory().createToolCollection();
 		toolCollection.filter(this::isModeValid);
 		if (getPlatform().isMobile()) {
@@ -4654,7 +4653,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            value in case temp perspective is not defined
 	 * @return perspective called "tmp" or given fallback
 	 */
-	public @CheckForNull Perspective getTmpPerspective(Perspective fallback) {
+	public @Nullable Perspective getTmpPerspective(Perspective fallback) {
 		return tmpPerspective == null ? fallback : tmpPerspective;
 	}
 
@@ -4719,7 +4718,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return MD5Checksum.compute(s);
 	}
 
-	public @CheckForNull EmbedManager getEmbedManager() {
+	public @Nullable EmbedManager getEmbedManager() {
 		return null;
 	}
 
@@ -4898,7 +4897,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @apiNote DO NOT CACHE THE RETURN VALUE, the converter may change at runtime (e.g., for
 	 * certain exams).
 	 */
-	public @Nonnull ToStringConverter getGeoElementValueConverter() {
+	public @NonNull ToStringConverter getGeoElementValueConverter() {
 		if (valueConverter == null) {
 			valueConverter = new ProtectiveGeoElementValueConverter(getAlgebraOutputFilter());
 		}
@@ -4994,7 +4993,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return "[main thread]";
 	}
 
-	public @CheckForNull Material getActiveMaterial() {
+	public @Nullable Material getActiveMaterial() {
 		return activeMaterial;
 	}
 
@@ -5010,14 +5009,14 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// -- AlgebraOutputFiltering --
 
 	@Override
-	public @Nonnull AlgebraOutputFilter createBaseAlgebraOutputFilter() {
+	public @NonNull AlgebraOutputFilter createBaseAlgebraOutputFilter() {
 		return getConfig().shouldHideEquations()
 				? new ProtectiveAlgebraOutputFilter()
 				: new DefaultAlgebraOutputFilter();
 	}
 
 	@Override
-	public @Nonnull AlgebraOutputFilter getAlgebraOutputFilter() {
+	public @NonNull AlgebraOutputFilter getAlgebraOutputFilter() {
 		if (algebraOutputFilter == null) {
 			algebraOutputFilter = createBaseAlgebraOutputFilter();
 		}
@@ -5025,7 +5024,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	@Override
-	public void setAlgebraOutputFilter(@Nonnull AlgebraOutputFilter filter) {
+	public void setAlgebraOutputFilter(@NonNull AlgebraOutputFilter filter) {
 		algebraOutputFilter = filter;
 		valueConverter = null;
 	}
@@ -5033,7 +5032,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// -- Restrictable --
 
 	@Override
-	public void applyRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
+	public void applyRestrictions(@NonNull Set<FeatureRestriction> featureRestrictions) {
 		resetCommandDict();
 		valueConverter = null;
 
@@ -5056,7 +5055,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	@Override
-	public void removeRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions) {
+	public void removeRestrictions(@NonNull Set<FeatureRestriction> featureRestrictions) {
 		valueConverter = null;
 		if (featureRestrictions.contains(FeatureRestriction.HIDE_SPECIAL_POINTS)) {
 			getSpecialPointsManager().isEnabled = true;

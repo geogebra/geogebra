@@ -24,8 +24,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.TreeSet;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.gui.layout.DockComponent;
@@ -56,6 +54,7 @@ import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.DockLayoutPanel;
 import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.BaseRenderingContext2D;
 import elemental2.dom.CanvasRenderingContext2D;
@@ -80,7 +79,7 @@ public class DockManagerW extends DockManager {
 	/**
 	 * The root split pane.
 	 */
-	@CheckForNull DockSplitPaneW rootPane;
+	@Nullable DockSplitPaneW rootPane;
 
 	/**
 	 * The dock panel which has the focus at the moment.
@@ -1770,7 +1769,7 @@ public class DockManagerW extends DockManager {
 		setRootPane(null);
 	}
 
-	private void setRootPane(@CheckForNull DockSplitPaneW rootPane) {
+	private void setRootPane(@Nullable DockSplitPaneW rootPane) {
 		this.rootPane = rootPane;
 	}
 }

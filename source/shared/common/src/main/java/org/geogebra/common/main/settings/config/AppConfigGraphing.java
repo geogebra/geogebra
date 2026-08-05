@@ -20,9 +20,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
@@ -47,6 +44,8 @@ import org.geogebra.common.main.syntax.suggestionfilter.GraphingSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.DefaultPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesFactory;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Config for Graphing Calculator app
@@ -210,7 +209,7 @@ public class AppConfigGraphing extends AbstractAppConfig {
 	}
 
 	@Override
-	public @Nonnull AlgebraStyle getDefaultAlgebraStyle() {
+	public @NonNull AlgebraStyle getDefaultAlgebraStyle() {
 		return AlgebraStyle.DEFINITION_AND_VALUE;
 	}
 
@@ -235,7 +234,7 @@ public class AppConfigGraphing extends AbstractAppConfig {
 	}
 
 	@Override
-	public @CheckForNull SyntaxFilter newCommandSyntaxFilter() {
+	public @Nullable SyntaxFilter newCommandSyntaxFilter() {
 		return new GraphingSyntaxFilter();
 	}
 

@@ -21,10 +21,9 @@ import static java.util.Map.entry;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
+import org.jspecify.annotations.NonNull;
 
 public class GlobalLanguageProperty extends AbstractNamedEnumeratedProperty<String> {
 
@@ -34,7 +33,7 @@ public class GlobalLanguageProperty extends AbstractNamedEnumeratedProperty<Stri
 	 * Create a new instance.
 	 * @param localization The localization.
 	 */
-	public GlobalLanguageProperty(@Nonnull Localization localization) {
+	public GlobalLanguageProperty(@NonNull Localization localization) {
 		super(localization, "Language");
 		setupValues(localization);
 	}

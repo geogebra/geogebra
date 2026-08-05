@@ -16,9 +16,8 @@
 
 package org.geogebra.common.exam;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.jspecify.annotations.Nullable;
 
 /**
  * The idea of this delegate is to "externalize" any functionality that does not fit into
@@ -46,10 +45,10 @@ public interface ExamControllerDelegate {
 	 *
 	 * @param material A material.
 	 */
-	void examSetActiveMaterial(@CheckForNull Material material);
+	void examSetActiveMaterial(@Nullable Material material);
 
 	/**
 	 * @return The current active material, or null.
 	 */
-	@CheckForNull Material examGetActiveMaterial();
+	@Nullable Material examGetActiveMaterial();
 }

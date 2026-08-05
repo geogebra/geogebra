@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
@@ -59,6 +57,7 @@ import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FlowPanel;
+import org.jspecify.annotations.Nullable;
 
 import com.google.gwt.core.client.Scheduler;
 
@@ -75,7 +74,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 	public final static int POPUP_MENU_DISTANCE = 8;
 	public final static int QUICK_STYLE_BAR_HEIGHT = 48;
 	private final PropertyWrapper propertyWrapper;
-	private @CheckForNull ContextMenuGeoElementW contextMenu;
+	private @Nullable ContextMenuGeoElementW contextMenu;
 	GeoElementPropertiesFactory geoElementPropertiesFactory;
 	private final PropertiesIconResource propertiesIconResource;
 	private boolean focusFontSizeBoxAfterUpdateRequested;

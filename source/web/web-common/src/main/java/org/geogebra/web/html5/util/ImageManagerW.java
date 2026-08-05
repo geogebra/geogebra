@@ -22,9 +22,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -49,6 +46,8 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ResourcePrototype;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;
@@ -89,7 +88,7 @@ public class ImageManagerW extends ImageManager {
 	}
 
 	@Override
-	public @CheckForNull MyImage getExternalImage(@Nonnull String path) {
+	public @Nullable MyImage getExternalImage(@NonNull String path) {
 		if (externalImageTable.containsKey(path)) {
 			MyImageW myImageW = new MyImageW(externalImageTable.get(path),
 					FileExtensions.SVG == StringUtil.getFileExtension(path));

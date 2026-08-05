@@ -24,9 +24,6 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
@@ -41,6 +38,8 @@ import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Renders global parts of spreadsheet (column headers, row headers, grid, cell backgrounds)
@@ -81,15 +80,15 @@ final class SpreadsheetRenderer {
 					makeReferenceDashPattern(index)))
 				.collect(Collectors.toList());
 
-	SpreadsheetRenderer(@Nonnull TableLayout layout, @Nonnull CellRenderableFactory converter,
-			@Nonnull SpreadsheetStyling styling, @Nonnull TabularData<?> tabularData) {
+	SpreadsheetRenderer(@NonNull TableLayout layout, @NonNull CellRenderableFactory converter,
+			@NonNull SpreadsheetStyling styling, @NonNull TabularData<?> tabularData) {
 		this.converter = converter;
 		this.layout = layout;
 		this.styling = styling;
 		this.tabularData = tabularData;
 	}
 
-	void drawCell(int row, int column, GGraphics2D graphics, @CheckForNull Object content,
+	void drawCell(int row, int column, GGraphics2D graphics, @Nullable Object content,
 			boolean hasError) {
 		Rectangle cellBounds = layout.getBounds(row, column);
 		GColor backgroundColor = styling.getBackgroundColor(row, column, null);
@@ -397,7 +396,7 @@ final class SpreadsheetRenderer {
 	 * @param graphics The Graphics to draw to.
 	 * @param viewport The current viewport.
 	 */
-	void drawReference(@Nonnull SpreadsheetReference reference, int referenceIndex, boolean filled,
+	void drawReference(@NonNull SpreadsheetReference reference, int referenceIndex, boolean filled,
 			GGraphics2D graphics, Rectangle viewport) {
 		TabularRange range = makeTabularRange(reference);
 		Rectangle bounds = layout.getBounds(range, viewport);

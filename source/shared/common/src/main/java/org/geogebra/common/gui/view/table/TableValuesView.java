@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.gui.view.table.dialog.RegressionBuilder;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
@@ -52,6 +50,7 @@ import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -78,7 +77,7 @@ public final class TableValuesView implements TableValues, SettingListener {
 	private final StatisticGroupsBuilder statisticGroupsBuilder;
 	private final RegressionSpecificationBuilder regressionSpecificationBuilder;
 	private TableValuesPoints points;
-	private @CheckForNull List<GeoEvaluatable> batchAdditions;
+	private @Nullable List<GeoEvaluatable> batchAdditions;
 
 	/**
 	 * Create a new Table Value View.

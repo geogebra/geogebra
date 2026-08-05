@@ -24,9 +24,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.Fractions;
 import org.geogebra.common.kernel.cas.AlgoSolve;
@@ -35,6 +32,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.main.ScreenReaderSupport;
 import org.geogebra.common.util.SymbolicUtil;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Possible output formats for {@code GeoElement}s shown in the Algebra view.
@@ -67,9 +66,9 @@ public enum AlgebraOutputFormat implements ScreenReaderSupport {
 	 * @return the list of possible output formats
 	 * @apiNote This method is public only for testing, for integration other methods should be sufficient.
 	 */
-	public static @Nonnull List<AlgebraOutputFormat> getPossibleFormats(@Nonnull GeoElement geoElement,
+	public static @NonNull List<AlgebraOutputFormat> getPossibleFormats(@NonNull GeoElement geoElement,
             boolean enableEngineeringFormat,
-            @Nonnull Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
+            @NonNull Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
         ArrayList<AlgebraOutputFormat> possibleFormats = new ArrayList<>();
 
         boolean hasEngineeringFormat = geoElement instanceof HasSymbolicMode
@@ -100,9 +99,9 @@ public enum AlgebraOutputFormat implements ScreenReaderSupport {
 	 * @return the next format in the sequence or {@code null} if switching between formats is not available.
 	 * @apiNote This method can be used to decide whether an entry in the algebra view has a toggle button, and if so, which one to display.
 	 */
-	public static @CheckForNull AlgebraOutputFormat getNextFormat(@Nonnull GeoElement geoElement,
+	public static @Nullable AlgebraOutputFormat getNextFormat(@NonNull GeoElement geoElement,
             boolean enableEngineeringFormat,
-            @Nonnull Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
+            @NonNull Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
         AlgebraOutputFormat activeFormat = getActiveFormat(geoElement);
         List<AlgebraOutputFormat> possibleFormats =
                 getPossibleFormats(geoElement, enableEngineeringFormat, algebraOutputFormatFilters);
@@ -131,9 +130,9 @@ public enum AlgebraOutputFormat implements ScreenReaderSupport {
      * @param algebraOutputFormatFilters filters to be applied to the possible list of formats
      * @apiNote This method can be used directly as a toggle button action in the algebra view entry.
      */
-    public static void switchToNextFormat(@Nonnull GeoElement geoElement,
+    public static void switchToNextFormat(@NonNull GeoElement geoElement,
             boolean enableEngineeringFormat,
-            @Nonnull Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
+            @NonNull Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
         AlgebraOutputFormat activeFormat = getActiveFormat(geoElement);
         AlgebraOutputFormat nextFormat =
                 getNextFormat(geoElement, enableEngineeringFormat, algebraOutputFormatFilters);
@@ -154,7 +153,7 @@ public enum AlgebraOutputFormat implements ScreenReaderSupport {
 	 * @param geoElement the {@code GeoElement} in the algebra view entry
 	 * @return the symbol to display in the output row of the algebra view
 	 */
-	public static @Nonnull AlgebraOutputOperator getOutputOperator(@Nonnull GeoElement geoElement) {
+	public static @NonNull AlgebraOutputOperator getOutputOperator(@NonNull GeoElement geoElement) {
         return (!AlgebraItem.isSymbolicDiffers(geoElement)
                 || isCASOutputTypeSymbolic(geoElement)
                 || Fractions.isExactFraction(geoElement.unwrapSymbolic(), geoElement.getKernel())
@@ -166,7 +165,7 @@ public enum AlgebraOutputFormat implements ScreenReaderSupport {
 	 * @param geoElement the {@code GeoElement} for which to retrieve the current format
 	 * @return the current format of {@code GeoElement}
 	 */
-	public static @Nonnull AlgebraOutputFormat getActiveFormat(@Nonnull GeoElement geoElement) {
+	public static @NonNull AlgebraOutputFormat getActiveFormat(@NonNull GeoElement geoElement) {
         if (SymbolicUtil.isEngineeringNotationMode(geoElement)) {
             return ENGINEERING;
         }
@@ -191,9 +190,9 @@ public enum AlgebraOutputFormat implements ScreenReaderSupport {
      * @param enableEngineeringFormat whether the engineering notation should be included if possible
      * @param algebraOutputFormatFilters filters to be applied to the possible list of formats
      */
-    public static void switchFromDisabledFormat(@Nonnull GeoElement geoElement,
+    public static void switchFromDisabledFormat(@NonNull GeoElement geoElement,
             boolean enableEngineeringFormat,
-            @Nonnull Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
+            @NonNull Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
         AlgebraOutputFormat currentFormat = getActiveFormat(geoElement);
         if (algebraOutputFormatFilters.stream().anyMatch(filter ->
                 !filter.isAllowed(geoElement, currentFormat))) {

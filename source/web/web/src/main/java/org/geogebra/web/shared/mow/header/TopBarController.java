@@ -20,8 +20,6 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
 
 import java.util.function.Consumer;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -37,13 +35,14 @@ import org.geogebra.web.html5.gui.zoompanel.ZoomController;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.topbar.TopBarIcon;
 import org.geogebra.web.html5.main.topbar.TopBarIconResource;
+import org.jspecify.annotations.Nullable;
 
 public class TopBarController {
 	private final AppW appW;
 	private final ZoomController zoomController;
 	private final EuclidianView view;
 	private ContextMenuGraphicsWindowW settingsContextMenu;
-	private @CheckForNull PageListPanel pageControlPanel;
+	private @Nullable PageListPanel pageControlPanel;
 	private final TopBarIconResource topBarIconResource;
 
 	/**

@@ -18,12 +18,11 @@ package org.geogebra.common.properties.factory;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.util.StringUtil;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Holds a reference to the array of the properties and to the name of this properties collection.
@@ -38,7 +37,7 @@ public class PropertiesArray {
 	 * @param name name
 	 * @param properties properties
 	 */
-	public PropertiesArray(@CheckForNull String name, Localization localization,
+	public PropertiesArray(@Nullable String name, Localization localization,
 			Property... properties) {
 		this.rawName = name;
 		this.localization = localization;
@@ -49,7 +48,7 @@ public class PropertiesArray {
 	 * @param name The name of the array.
 	 * @param properties The list of properties.
 	 */
-	public PropertiesArray(@CheckForNull String name, Localization localization,
+	public PropertiesArray(@Nullable String name, Localization localization,
 			List<Property> properties) {
 		this.rawName = name;
 		this.localization = localization;
@@ -59,14 +58,14 @@ public class PropertiesArray {
 	/**
 	 * @return localized name, may be empty
 	 */
-	public @Nonnull String getName() {
+	public @NonNull String getName() {
 		if (StringUtil.empty(rawName)) {
 			return "";
 		}
 		return localization.getMenu(rawName);
 	}
 
-	public @Nonnull String getRawName() {
+	public @NonNull String getRawName() {
 		return rawName;
 	}
 

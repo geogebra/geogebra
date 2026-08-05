@@ -16,10 +16,9 @@
 
 package org.geogebra.common.kernel.geos;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.ChartStyle;
+import org.jspecify.annotations.NonNull;
 
 public class BarChartGeoNumeric extends GeoNumeric implements ChartStyleGeo {
 	private String toolTipText;
@@ -42,7 +41,7 @@ public class BarChartGeoNumeric extends GeoNumeric implements ChartStyleGeo {
 	}
 
 	@Override
-	public @Nonnull ChartStyle getStyle() {
+	public @NonNull ChartStyle getStyle() {
 		return chartStyle;
 	}
 

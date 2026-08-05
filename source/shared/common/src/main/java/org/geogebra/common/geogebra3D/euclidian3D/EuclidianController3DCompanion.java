@@ -16,8 +16,6 @@
 
 package org.geogebra.common.geogebra3D.euclidian3D;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -45,6 +43,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager.CreateGeoForRotate;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Euclidian controller creator for 3D controller
@@ -82,7 +81,7 @@ public class EuclidianController3DCompanion
 	}
 
 	@Override
-	public void movePoint(AbstractEvent event, @Nonnull GeoPointND movedPoint) {
+	public void movePoint(AbstractEvent event, @NonNull GeoPointND movedPoint) {
 		if (movedPoint instanceof GeoPoint3D movedGeoPoint3D) {
 			movePoint3D(movedGeoPoint3D);
 

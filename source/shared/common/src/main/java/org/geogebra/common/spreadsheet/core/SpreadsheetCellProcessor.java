@@ -16,7 +16,7 @@
 
 package org.geogebra.common.spreadsheet.core;
 
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * An abstraction for spreadsheet cell input processing.
@@ -32,7 +32,7 @@ public interface SpreadsheetCellProcessor {
 	 * @param row The row identifying the cell being edited.
 	 * @param column The row identifying the cell being edited.
 	 */
-	void process(@Nonnull String input, int row, int column);
+	void process(@NonNull String input, int row, int column);
 
 	/**
 	 * Mark error for cell input.
@@ -45,7 +45,7 @@ public interface SpreadsheetCellProcessor {
 	 * @param searchPrefix prefix for autocompletion lookup
 	 * @return whether string is too short
 	 */
-	default boolean isTooShortForAutocomplete(@Nonnull String searchPrefix) {
+	default boolean isTooShortForAutocomplete(@NonNull String searchPrefix) {
 		return searchPrefix.length() < 3;
 	}
 }

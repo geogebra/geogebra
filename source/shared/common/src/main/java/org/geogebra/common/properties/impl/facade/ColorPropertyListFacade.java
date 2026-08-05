@@ -18,10 +18,9 @@ package org.geogebra.common.properties.impl.facade;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.properties.aliases.ColorProperty;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Handles a collection of ColorProperty objects as a single ColorProperty.
@@ -37,7 +36,7 @@ public class ColorPropertyListFacade<T extends ColorProperty>
 	}
 
 	@Override
-	public @Nonnull List<GColor> getValues() {
+	public @NonNull List<GColor> getValues() {
 		return getFirstProperty().getValues();
 	}
 }

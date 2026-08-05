@@ -16,7 +16,7 @@
 
 package org.geogebra.common.spreadsheet.core;
 
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Announces spreadsheet accessibility text.
@@ -26,5 +26,5 @@ public interface SpreadsheetAccessibilityDelegate {
 	/**
 	 * @param text Text to read
 	 */
-	void readText(@Nonnull String text);
+	void readText(@NonNull String text);
 }

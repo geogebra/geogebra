@@ -22,8 +22,6 @@ import static org.geogebra.common.properties.PropertyView.VisibilityUpdateDelega
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -36,6 +34,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.KeyboardEvent;
 
@@ -49,7 +48,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 	private boolean isDisabled = false;
 	private DropDownComboBoxController controller;
 	private boolean fullWidth = false;
-	private @CheckForNull Dropdown dropDown;
+	private @Nullable Dropdown dropDown;
 
 	/**
 	 * Style provider for individual items.
@@ -113,7 +112,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 	 * @param styler a function that applies style to an item
 	 */
 	public ComponentDropDown(AppW app, String label, Dropdown property,
-			@CheckForNull Styler styler) {
+			@Nullable Styler styler) {
 		this.app = app;
 		labelKey = label;
 		dropDown = property;

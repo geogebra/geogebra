@@ -21,8 +21,6 @@ import static org.geogebra.common.util.Classifier.isSlider;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.algos.AlgoVector;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -33,6 +31,7 @@ import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.PlacementProperty.Placement;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@code Property} responsible for setting the starting point of an object used as an anchor.
@@ -73,7 +72,7 @@ public class StartingPointPositionProperty extends AbstractValuedProperty<String
 	}
 
 	@Override
-	public @CheckForNull String validateValue(String value) {
+	public @Nullable String validateValue(String value) {
 		return PositionPropertyCollection.validatePointExpression(geoElement.getKernel()
 						.getParser(), geoElement.getKernel().getLocalization(), value);
 	}

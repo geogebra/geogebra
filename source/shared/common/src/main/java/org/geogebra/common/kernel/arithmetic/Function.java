@@ -22,8 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.annotation.Nonnull;
-
 import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Kernel;
@@ -37,6 +35,7 @@ import org.geogebra.common.kernel.roots.RealRootDerivFunction;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Function of one variable x that returns either a number or a boolean. This
@@ -569,7 +568,7 @@ public class Function extends FunctionNVar
 		return null;
 	}
 
-	private @Nonnull List<PolyFunction> getNumericFactorsOfNumerator(
+	private @NonNull List<PolyFunction> getNumericFactorsOfNumerator(
 			boolean rootFindingSimplification, boolean avoidCAS) {
 		List<PolyFunction> result = new ArrayList<>();
 		ExpressionValue[] fraction = new ExpressionValue[2];

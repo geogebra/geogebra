@@ -16,8 +16,6 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.geos.ChartStyleGeo;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -26,6 +24,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractImageProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.util.ImageManager;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@code Property} responsible for setting the image
@@ -55,13 +54,13 @@ public final class ChartSegmentFillImageProperty extends AbstractImageProperty
 	}
 
 	@Override
-	protected @CheckForNull String getImagePath() {
+	protected @Nullable String getImagePath() {
 		return chartSegmentSelection.getUniformValueOrNull(chartStyleGeo.getIntervals(),
 				index -> chartStyleGeo.getStyle().getBarImage(index));
 	}
 
 	@Override
-	protected void setImagePath(@CheckForNull String path) {
+	protected void setImagePath(@Nullable String path) {
 		String resolvedPath = path != null ? path : "";
 		chartSegmentSelection.forEachSelectedSegment(chartStyleGeo.getIntervals(), index -> {
 			chartStyleGeo.getStyle().setBarImage(resolvedPath, index);

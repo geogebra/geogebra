@@ -16,9 +16,8 @@
 
 package org.geogebra.common.properties.impl.distribution;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Property whose visible state or displayed values may change when the backing
@@ -28,5 +27,5 @@ public interface ProbabilityCalculatorViewDependentProperty {
 	/**
 	 * @return the probability calculator view this property depends on
 	 */
-	@Nonnull ProbabilityCalculatorView getProbabilityCalculatorView();
+	@NonNull ProbabilityCalculatorView getProbabilityCalculatorView();
 }

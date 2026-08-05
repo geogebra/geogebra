@@ -16,9 +16,8 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.plugin.ScriptType;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Script language selection owner, holding the state of the selected script language, enabling
@@ -36,14 +35,14 @@ public final class ScriptLanguageSelection {
 		this.selectedScriptLanguage = initialScriptLanguage;
 	}
 
-	void setSelection(@Nonnull ScriptType scriptLanguage) {
+	void setSelection(@NonNull ScriptType scriptLanguage) {
 		this.selectedScriptLanguage = scriptLanguage;
 	}
 
 	/**
 	 * @return the selected script language
 	 */
-	public @Nonnull ScriptType getSelection() {
+	public @NonNull ScriptType getSelection() {
 		return selectedScriptLanguage;
 	}
 }

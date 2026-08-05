@@ -21,15 +21,14 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetDimensions;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Settings for the spreadsheet view.
@@ -187,8 +186,8 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 	 * @param columnWidths a map of column indices to column widths
 	 * @param rowHeights a map of row indices to row heights
 	 */
-	public void setCellSizesNoFire(@Nonnull Map<Integer, Double> columnWidths,
-			@Nonnull Map<Integer, Double> rowHeights) {
+	public void setCellSizesNoFire(@NonNull Map<Integer, Double> columnWidths,
+			@NonNull Map<Integer, Double> rowHeights) {
 		this.columnWidths = columnWidths;
 		this.rowHeights = rowHeights;
 	}
@@ -842,18 +841,18 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 		}
 	}
 
-	public @CheckForNull String getCellFormatXml() {
+	public @Nullable String getCellFormatXml() {
 		return cellFormat;
 	}
 
-	public void setCellFormatXml(@CheckForNull String xml) {
+	public void setCellFormatXml(@Nullable String xml) {
 		cellFormat = xml;
 	}
 	
 	// -- SpreadsheetDimensions --
 
 	@Override
-	public @Nonnull Map<Integer, Double> getColumnWidths() {
+	public @NonNull Map<Integer, Double> getColumnWidths() {
 		if (columnWidths == null) {
 			columnWidths = new HashMap<>();
 		}
@@ -861,7 +860,7 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 	}
 
 	@Override
-	public @Nonnull Map<Integer, Double> getRowHeights() {
+	public @NonNull Map<Integer, Double> getRowHeights() {
 		if (rowHeights == null) {
 			rowHeights = new HashMap<>();
 		}

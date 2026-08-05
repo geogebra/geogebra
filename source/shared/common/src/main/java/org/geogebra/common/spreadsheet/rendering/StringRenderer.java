@@ -16,13 +16,12 @@
 
 package org.geogebra.common.spreadsheet.rendering;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.spreadsheet.core.CellRenderer;
 import org.geogebra.common.util.shape.Rectangle;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Renderer for plain text cells
@@ -50,7 +49,7 @@ public class StringRenderer implements CellRenderer {
 	}
 
 	@Override
-	public boolean match(@Nonnull Object renderable) {
+	public boolean match(@NonNull Object renderable) {
 		return renderable instanceof String;
 	}
 

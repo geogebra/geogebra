@@ -18,9 +18,8 @@ package org.geogebra.common.util;
 
 import java.util.concurrent.Callable;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
 
 public final class Util {
 
@@ -166,7 +165,7 @@ public final class Util {
 	 * or {@code null} if the callable throws any exception
 	 * @param <T> the type of the result produced by the callable
 	 */
-	public static <T> T tryOrNull(@Nonnull Callable<T> callable) {
+	public static <T> T tryOrNull(@NonNull Callable<T> callable) {
 		try {
 			return callable.call();
 		} catch (Exception exception) {

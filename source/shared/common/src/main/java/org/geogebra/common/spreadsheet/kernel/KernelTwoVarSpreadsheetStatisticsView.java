@@ -18,9 +18,6 @@ package org.geogebra.common.spreadsheet.kernel;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
 import org.geogebra.common.kernel.Kernel;
@@ -33,24 +30,26 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.Input.TwoVarIn
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.Result;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatisticsView;
 import org.geogebra.common.spreadsheet.core.TabularRange;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public final class KernelTwoVarSpreadsheetStatisticsView
 		extends KernelSpreadsheetStatisticsView<TwoVarInput>
 		implements SpreadsheetStatisticsView.TwoVar {
 
-	private @CheckForNull AlgoCellRange algoCellRangeX;
-	private @CheckForNull AlgoCellRange algoCellRangeY;
+	private @Nullable AlgoCellRange algoCellRangeX;
+	private @Nullable AlgoCellRange algoCellRangeY;
 
-	KernelTwoVarSpreadsheetStatisticsView(@Nonnull Kernel kernel,
-			@Nonnull StatisticGroupsBuilder statisticGroupsBuilder,
-			@Nonnull TabularRange range) {
+	KernelTwoVarSpreadsheetStatisticsView(@NonNull Kernel kernel,
+			@NonNull StatisticGroupsBuilder statisticGroupsBuilder,
+			@NonNull TabularRange range) {
 		super(kernel, statisticGroupsBuilder, new TwoVarInput(range), "2VariableStatistics");
 	}
 
 	// -- KernelSpreadsheetStatisticsView --
 
 	@Override
-	protected @Nonnull Result calculate(@Nonnull TwoVarInput input) {
+	protected @NonNull Result calculate(@NonNull TwoVarInput input) {
 		SpreadsheetReference inputRangeX = input.cellRangeX();
 		if (inputRangeX == null || inputRangeX.isSingleCell()) {
 			return newInvalidResult(
@@ -91,7 +90,7 @@ public final class KernelTwoVarSpreadsheetStatisticsView
 	}
 
 	@Override
-	protected boolean isWithinAlgoRange(@Nonnull GeoElement element) {
+	protected boolean isWithinAlgoRange(@NonNull GeoElement element) {
 		SpreadsheetReference cellRangeX = getInput().cellRangeX();
 		SpreadsheetReference cellRangeY = getInput().cellRangeY();
 		return cellRangeX != null && isElementInRange(element, cellRangeX)

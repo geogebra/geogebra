@@ -16,7 +16,7 @@
 
 package org.geogebra.common.spreadsheet.core;
 
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * {@link SpreadsheetController}-to-{@link Spreadsheet} coordination backlink.
@@ -28,7 +28,7 @@ interface SpreadsheetControllerDelegate {
 	 * cell reference (the one under the cursor) changes.
 	 * @param cellSizes the new cell sizes
 	 */
-	void cellSizesChanged(@Nonnull CellSizes cellSizes);
+	void cellSizesChanged(@NonNull CellSizes cellSizes);
 
 	/**
 	 * A state change in the controller is requiring a repaint of the spreadsheet.

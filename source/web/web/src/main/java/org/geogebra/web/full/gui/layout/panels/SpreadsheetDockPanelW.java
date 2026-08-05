@@ -16,8 +16,6 @@
 
 package org.geogebra.web.full.gui.layout.panels;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -40,6 +38,7 @@ import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.AbsolutePanel;
 import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.CanvasRenderingContext2D;
 
@@ -52,7 +51,7 @@ import elemental2.dom.CanvasRenderingContext2D;
 public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 
 	private SpreadsheetStyleBar sstylebar;
-	private @CheckForNull SpreadsheetPanel spreadsheetPanel;
+	private @Nullable SpreadsheetPanel spreadsheetPanel;
 	private AbsolutePanel wrapview;
 	boolean scrollToShow = true;
 

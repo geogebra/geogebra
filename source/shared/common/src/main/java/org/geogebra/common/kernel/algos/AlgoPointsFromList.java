@@ -19,9 +19,6 @@ package org.geogebra.common.kernel.algos;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -30,6 +27,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates one or more points from a numeric list passed to the {@code Point} command.
@@ -67,8 +66,8 @@ public class AlgoPointsFromList extends AlgoElement {
 	 * @param setLabels whether to set point labels
 	 * @param inputList list of numbers
 	 */
-	public AlgoPointsFromList(@Nonnull Construction cons, @CheckForNull String[] labels,
-			boolean setLabels, @Nonnull GeoList inputList) {
+	public AlgoPointsFromList(@NonNull Construction cons, String @Nullable[] labels,
+			boolean setLabels, @NonNull GeoList inputList) {
 		super(cons);
 		List<ParsedPoint> parsedPoints = parsePoints(inputList);
 		this.inputList = inputList;
@@ -84,7 +83,7 @@ public class AlgoPointsFromList extends AlgoElement {
 	/**
 	 * @return whether the list can initialize point outputs
 	 */
-	public static boolean isSupportedList(@Nonnull GeoList list) {
+	public static boolean isSupportedList(@NonNull GeoList list) {
 		return !parsePoints(list).isEmpty();
 	}
 
@@ -146,7 +145,7 @@ public class AlgoPointsFromList extends AlgoElement {
 	 * Removes one output element. Outputs with dependent objects are kept undefined.
 	 */
 	@Override
-	public void remove(@Nonnull GeoElement output) {
+	public void remove(@NonNull GeoElement output) {
 		if (output == inputList) {
 			super.remove();
 			return;
@@ -166,7 +165,7 @@ public class AlgoPointsFromList extends AlgoElement {
 		}
 	}
 
-	private void addOutputPoints(@Nonnull List<ParsedPoint> parsedPoints, boolean setLabels) {
+	private void addOutputPoints(@NonNull List<ParsedPoint> parsedPoints, boolean setLabels) {
 		int oldSize = outputPoints.size();
 		for (int index = oldSize; index < parsedPoints.size(); index++) {
 			GeoPointND point = parsedPoints.get(index).dimension() == 2 ? new GeoPoint(cons)
@@ -186,7 +185,7 @@ public class AlgoPointsFromList extends AlgoElement {
 		}
 	}
 
-	private static List<ParsedPoint> parsePoints(@Nonnull GeoList list) {
+	private static List<ParsedPoint> parsePoints(@NonNull GeoList list) {
 		if (!list.isDefined() || list.size() == 0) {
 			return List.of();
 		}
@@ -199,14 +198,14 @@ public class AlgoPointsFromList extends AlgoElement {
 		return List.of();
 	}
 
-	private static List<ParsedPoint> parseFlatList(@Nonnull GeoList list) {
+	private static List<ParsedPoint> parseFlatList(@NonNull GeoList list) {
 		if (!list.elements().allMatch(GeoElement::isGeoNumeric)) {
 			return List.of();
 		}
 		return List.of(parsedPointOf(list, list.size() > 2 ? 3 : 2));
 	}
 
-	private static List<ParsedPoint> parseNestedList(@Nonnull GeoList list) {
+	private static List<ParsedPoint> parseNestedList(@NonNull GeoList list) {
 		if (!list.elements().allMatch(row -> row instanceof GeoList
 				&& ((GeoList) row).elements().allMatch(GeoElement::isGeoNumeric))) {
 			return List.of();
@@ -217,12 +216,12 @@ public class AlgoPointsFromList extends AlgoElement {
 				.toList();
 	}
 
-	private static ParsedPoint parsedPointOf(@Nonnull GeoList row, int dimension) {
+	private static ParsedPoint parsedPointOf(@NonNull GeoList row, int dimension) {
 		return new ParsedPoint(coordinateAt(0, row), coordinateAt(1, row),
 				dimension == 3 ? coordinateAt(2, row) : 0, dimension);
 	}
 
-	private static double coordinateAt(int index, @Nonnull GeoList row) {
+	private static double coordinateAt(int index, @NonNull GeoList row) {
 		return index < row.size() ? ((GeoNumeric) row.get(index)).getDouble() : 0;
 	}
 

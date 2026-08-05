@@ -16,8 +16,6 @@
 
 package org.geogebra.web.full.gui.applet.panel;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.applet.FrameWithHeaderAndKeyboard;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
@@ -25,6 +23,7 @@ import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Shows and hides a panel. If the panel is an AnimatingPanel then the transition (showing/hiding)
@@ -48,7 +47,7 @@ public class PanelTransitioner {
 	 * @return Returns the panel that is currently visible.
 	 * Returns null if there aren't any panels on top of the main frame.
 	 */
-	public @CheckForNull MyHeaderPanel getCurrentPanel() {
+	public @Nullable MyHeaderPanel getCurrentPanel() {
 		return currentPanel;
 	}
 

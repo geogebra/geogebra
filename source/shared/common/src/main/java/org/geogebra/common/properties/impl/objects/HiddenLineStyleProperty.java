@@ -21,8 +21,6 @@ import static java.util.Map.entry;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -32,6 +30,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.HiddenLineStyleProperty.HiddenLineStyle;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@code Property} responsible for setting the hidden line style.
@@ -54,7 +53,7 @@ public class HiddenLineStyleProperty extends AbstractNamedEnumeratedProperty<Hid
 			this.transKey = transKey;
 		}
 
-		static @CheckForNull HiddenLineStyle fromEuclidianStyleConstant(
+		static @Nullable HiddenLineStyle fromEuclidianStyleConstant(
 				int euclidianStyleConstant) {
 			return Arrays.stream(HiddenLineStyle.values())
 					.filter(lineStyle -> lineStyle.euclidianStyleConstant == euclidianStyleConstant)

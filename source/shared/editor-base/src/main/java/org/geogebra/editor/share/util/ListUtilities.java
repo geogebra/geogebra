@@ -18,7 +18,7 @@ package org.geogebra.editor.share.util;
 
 import java.util.function.Predicate;
 
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 public class ListUtilities {
 
@@ -29,7 +29,7 @@ public class ListUtilities {
 	 * @param <T> type
 	 * @return first item or null
 	 */
-	@CheckForNull public static <T> T findFirst(Iterable<T> iterable, Predicate<T> predicate) {
+	@Nullable public static <T> T findFirst(Iterable<T> iterable, Predicate<T> predicate) {
 		for (T item : iterable) {
 			if (predicate.test(item)) {
 				return item;

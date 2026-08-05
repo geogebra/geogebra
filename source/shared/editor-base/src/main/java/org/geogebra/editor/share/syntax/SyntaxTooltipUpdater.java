@@ -16,7 +16,7 @@
 
 package org.geogebra.editor.share.syntax;
 
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Callback that notifies when the syntax hint changes.
@@ -27,5 +27,5 @@ public interface SyntaxTooltipUpdater {
 	 * Callback to notify when to update the syntax hint.
 	 * @param hint syntax hint
 	 */
-	void updateSyntaxTooltip(@Nonnull SyntaxHint hint);
+	void updateSyntaxTooltip(@NonNull SyntaxHint hint);
 }

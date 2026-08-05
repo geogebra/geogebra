@@ -24,8 +24,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.io.XMLStringBuilder;
@@ -41,6 +39,7 @@ import org.geogebra.common.main.undo.AppState;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.InternalClipboard;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
 
 /**
  * This class saves the given geos (which are usually the selected ones) into an
@@ -555,7 +554,7 @@ public class CopyPasteD extends CopyPaste {
 	 * @param overwrite Whether duplicated elements should be overwritten
 	 */
 	public void insertFrom(App fromApp, App toApp,
-			@Nonnull Set<String> duplicateLabels, boolean overwrite) {
+			@NonNull Set<String> duplicateLabels, boolean overwrite) {
 		Construction fromConstruction = fromApp.getKernel().getConstruction();
 		fromConstruction.getGeoSetConstructionOrder().stream()
 				.map(GeoElement::getLabelSimple)

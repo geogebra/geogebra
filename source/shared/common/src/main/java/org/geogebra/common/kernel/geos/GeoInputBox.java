@@ -21,8 +21,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -50,6 +48,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextObject;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Input box for user input
@@ -71,10 +70,10 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 	private HorizontalAlignment textAlignment = HorizontalAlignment.LEFT;
 
-	private @Nonnull GeoElementND linkedGeo;
+	private @NonNull GeoElementND linkedGeo;
 
-	private @Nonnull InputBoxProcessor inputBoxProcessor;
-	private @Nonnull InputBoxRenderer inputBoxRenderer;
+	private @NonNull InputBoxProcessor inputBoxProcessor;
+	private @NonNull InputBoxRenderer inputBoxRenderer;
 
 	private String tempUserEvalInput;
 	private String tempUserDisplayInput;
@@ -249,7 +248,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * Returns the linked geo
 	 * @return linked geo
 	 */
-	public @Nonnull GeoElementND getLinkedGeo() {
+	public @NonNull GeoElementND getLinkedGeo() {
 		return linkedGeo;
 	}
 

@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * List to hold IntervalTuples
@@ -56,7 +56,7 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 	}
 
 	@Override
-	public @Nonnull Iterator<IntervalTuple> iterator() {
+	public @NonNull Iterator<IntervalTuple> iterator() {
 		return list.iterator();
 	}
 

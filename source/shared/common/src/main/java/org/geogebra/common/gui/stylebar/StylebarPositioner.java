@@ -19,8 +19,6 @@ package org.geogebra.common.gui.stylebar;
 import java.util.Collections;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
@@ -38,6 +36,7 @@ import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -199,7 +198,7 @@ public class StylebarPositioner {
 	 * @param popupSize size of the popup
 	 * @return position on the canvas, or null if there is no place for the popup
 	 */
-	public @CheckForNull GPoint getPositionOnCanvas(GDimension popupSize) {
+	public @Nullable GPoint getPositionOnCanvas(GDimension popupSize) {
 		int euclideanViewWidth = euclidianView.getWidth();
 		int euclideanViewHeight = euclidianView.getHeight();
 		EdgeInsets safeArea = euclidianView.getSafeAreaInsets();
@@ -292,7 +291,7 @@ public class StylebarPositioner {
 	 *         top of the stylebar.
 	 */
 	@SuppressWarnings("WeakerAccess")
-	public @CheckForNull GPoint getPositionOnCanvas(int stylebarHeight, int stylebarWidth,
+	public @Nullable GPoint getPositionOnCanvas(int stylebarHeight, int stylebarWidth,
 			GRectangle canvasRect) {
 		List<GeoElement> activeGeoList = createActiveGeoList();
 		if (activeGeoList.isEmpty()) {
@@ -421,7 +420,7 @@ public class StylebarPositioner {
 	 * @param offsetHeight - offset height of stylebar
 	 * @return new position of the stylebar
 	 */
-	public @CheckForNull GPoint getPositionForStyleBar(int offsetWidth,
+	public @Nullable GPoint getPositionForStyleBar(int offsetWidth,
 			int offsetHeight) {
 		List<GeoElement> activeGeoList = createActiveGeoList();
 		if (!activeGeoList.contains(oldPosFor)) {

@@ -16,8 +16,6 @@
 
 package org.geogebra.web.full.gui.layout.panels;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
@@ -38,6 +36,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.ScrollPanel;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.CanvasRenderingContext2D;
 
@@ -53,7 +52,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 
 	private final DockPanelDecorator decorator;
 
-	private @CheckForNull AlgebraViewScroller scroller = null;
+	private @Nullable AlgebraViewScroller scroller = null;
 
 	/**
 	 * Create new dockapanel for algebra

@@ -20,11 +20,10 @@ import static org.geogebra.common.plugin.Operation.NO_OPERATION;
 
 import java.util.Set;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.plugin.Operation;
+import org.jspecify.annotations.NonNull;
 
 /**
  * A filter for operations used to restrict expressions containing them (during exams).
@@ -34,14 +33,14 @@ public interface OperationFilter {
 	 * @param operation operation to be evaluated
 	 * @return {@code true} if the operation is allowed, {@code false} otherwise
 	 */
-	boolean isAllowed(@Nonnull Operation operation);
+	boolean isAllowed(@NonNull Operation operation);
 
 	/**
 	 * Converts this into an {@link ExpressionFilter} that filters nodes with operations
 	 * that are restricted by this operation filter.
 	 * @return an expression filter base on this operation filter
 	 */
-	default @Nonnull ExpressionFilter toExpressionFilter() {
+	default @NonNull ExpressionFilter toExpressionFilter() {
 		return this::isAllowed;
 	}
 
@@ -50,11 +49,11 @@ public interface OperationFilter {
 	 * @param operations operations to restrict
 	 * @return an operation filter
 	 */
-	static @Nonnull OperationFilter restricting(@Nonnull Set<Operation> operations) {
+	static @NonNull OperationFilter restricting(@NonNull Set<Operation> operations) {
 		return operation -> !operations.contains(operation);
 	}
 
-	private boolean isAllowed(@Nonnull ExpressionValue expressionValue) {
+	private boolean isAllowed(@NonNull ExpressionValue expressionValue) {
 		if (!(expressionValue instanceof ExpressionNode)) {
 			return true;
 		}

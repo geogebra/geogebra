@@ -18,9 +18,6 @@ package org.geogebra.web.full.gui.applet;
 
 import java.util.ArrayList;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.javax.swing.SwingConstants;
@@ -83,6 +80,8 @@ import org.gwtproject.user.client.Event.NativePreviewEvent;
 import org.gwtproject.user.client.Event.NativePreviewHandler;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLCanvasElement;
@@ -104,7 +103,7 @@ public class GeoGebraFrameFull
 	private boolean keyboardShowing = false;
 	private ShowKeyboardButton showKeyboardButton;
 	private int keyboardHeight;
-	private @CheckForNull NotesLayout notesLayout;
+	private @Nullable NotesLayout notesLayout;
 	private PageListPanel pageListPanel;
 	private final PanelTransitioner panelTransitioner;
 	private HeaderResizer headerResizer;
@@ -822,7 +821,7 @@ public class GeoGebraFrameFull
 	 * @param app Needed for the initialization.
 	 * @return notes layout
 	 */
-	public @Nonnull NotesLayout getNotesLayoutSafe(AppWFull app) {
+	public @NonNull NotesLayout getNotesLayoutSafe(AppWFull app) {
 		if (notesLayout == null) {
 			notesLayout = new NotesLayout(app);
 		}

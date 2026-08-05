@@ -16,14 +16,13 @@
 
 package org.geogebra.common.spreadsheet.kernel;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
 import org.geogebra.common.gui.view.table.regression.RegressionSpecificationBuilder;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatisticsView;
 import org.geogebra.common.spreadsheet.core.TabularRange;
+import org.jspecify.annotations.NonNull;
 
 /**
  * An adapter between the {@code Kernel} and {@code Spreadsheet} that provides statistics
@@ -39,27 +38,27 @@ public final class KernelSpreadsheetStatistics implements SpreadsheetStatistics 
 	 * Creates a kernel / spreadsheet statistics adapter.
 	 * @param kernel the kernel
 	 */
-	public KernelSpreadsheetStatistics(@Nonnull Kernel kernel) {
+	public KernelSpreadsheetStatistics(@NonNull Kernel kernel) {
 		this.kernel = kernel;
 		this.statisticGroupsBuilder = kernel.getStatisticGroupsBuilder();
 		this.regressionSpecificationBuilder = kernel.getApplication().getRegressionSpecBuilder();
 	}
 
 	@Override
-	public @Nonnull SpreadsheetStatisticsView.OneVar getOneVarStatistics(
-			@Nonnull TabularRange range) {
+	public SpreadsheetStatisticsView.@NonNull OneVar getOneVarStatistics(
+			@NonNull TabularRange range) {
 		return new KernelOneVarSpreadsheetStatisticsView(kernel, statisticGroupsBuilder, range);
 	}
 
 	@Override
-	public @Nonnull SpreadsheetStatisticsView.TwoVar getTwoVarStatistics(
-			@Nonnull TabularRange range) {
+	public SpreadsheetStatisticsView.@NonNull TwoVar getTwoVarStatistics(
+			@NonNull TabularRange range) {
 		return new KernelTwoVarSpreadsheetStatisticsView(kernel, statisticGroupsBuilder, range);
 	}
 
 	@Override
-	public @Nonnull SpreadsheetStatisticsView.Regression getRegression(
-			@Nonnull TabularRange range) {
+	public SpreadsheetStatisticsView.@NonNull Regression getRegression(
+			@NonNull TabularRange range) {
 		return new KernelSpreadsheetRegressionView(kernel, statisticGroupsBuilder,
 				regressionSpecificationBuilder, range);
 	}

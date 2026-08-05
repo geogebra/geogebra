@@ -19,8 +19,6 @@ package org.geogebra.common.properties.impl.objects;
 import static org.geogebra.common.properties.impl.objects.PatternFillStyleProperty.patternFillTypeIcons;
 import static org.geogebra.common.properties.impl.objects.PatternFillStyleProperty.patternFillTypes;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.geos.ChartStyleGeo;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -30,6 +28,7 @@ import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@code Property} responsible for setting the pattern
@@ -65,7 +64,7 @@ public final class ChartSegmentPatternFillStyleProperty extends AbstractEnumerat
 	}
 
 	@Override
-	public @CheckForNull String[] getToolTipLabels() {
+	public @Nullable String[] getToolTipLabels() {
 		return null;
 	}
 

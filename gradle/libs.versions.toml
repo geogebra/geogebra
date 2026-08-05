@@ -23,7 +23,7 @@ j2objc = "7e76bfd"
 apache-math="org.apache:math-cross-platform:3.6.3"
 j2objc-annotations = { module = "com.google.j2objc:annotations", version.ref = "j2objc" }
 spotbugs-annotations = {module = "com.github.spotbugs:spotbugs-annotations", version.ref = "spotbugs"}
-findbugs-annotations = "com.google.code.findbugs:jsr305:3.0.2"
+jspecify-annotations = "org.jspecify:jspecify:1.0.0"
 javacc = "org.javacc.generator:java:8.0.5-GGB"
 echosvg = "io.sf.carte:echosvg-bridge:2.2.1"
 murok = { module = "org.murok:editor", version.ref = "murok" }

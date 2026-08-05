@@ -19,22 +19,21 @@ package org.geogebra.common.gui.view.probcalculator;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.apache.commons.math3.distribution.BinomialDistribution;
 import org.apache.commons.math3.distribution.HypergeometricDistribution;
 import org.apache.commons.math3.distribution.IntegerDistribution;
 import org.apache.commons.math3.distribution.PascalDistribution;
 import org.apache.commons.math3.distribution.PoissonDistribution;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /** UI-ready table data for the probability calculator table values view. */
-public record ProbabilityCalculatorTableValues(@Nonnull Row header, @Nonnull List<Row> rows) {
+public record ProbabilityCalculatorTableValues(@NonNull Row header, @NonNull List<Row> rows) {
 	private static final double NEARLY_ONE = 1 - 1E-6;
 
 	/** UI-ready row data for the probability calculator table values view. */
-	public record Row(@Nonnull String k, @Nonnull String probability, boolean highlighted) {}
+	public record Row(@NonNull String k, @NonNull String probability, boolean highlighted) {}
 
 	/**
 	 * Calculates the probabilities and constructs the table values view state
@@ -43,8 +42,8 @@ public record ProbabilityCalculatorTableValues(@Nonnull Row header, @Nonnull Lis
 	 * @return the table values, or {@code null} if table values are
 	 * unavailable for the current state of the probability calculator view
 	 */
-	public static @CheckForNull ProbabilityCalculatorTableValues from(
-			@Nonnull ProbabilityCalculatorView view) {
+	public static @Nullable ProbabilityCalculatorTableValues from(
+			@NonNull ProbabilityCalculatorView view) {
 		if (!view.isDiscreteProbability()) {
 			return null;
 		}

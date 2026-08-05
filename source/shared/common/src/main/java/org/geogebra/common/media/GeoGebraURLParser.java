@@ -16,10 +16,9 @@
 
 package org.geogebra.common.media;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Helper methods for getting material ID from URLs
@@ -46,7 +45,7 @@ public final class GeoGebraURLParser {
 	 *            GeoGebra URL
 	 * @return material sharing key (or numeric ID); null if URL does not specify any ID
 	 */
-	public static @CheckForNull String getIDfromURL(String url) {
+	public static @Nullable String getIDfromURL(String url) {
 		String urlNoProtocol = removeProtocol(url);
 		final String material = "/material/show/id/";
 

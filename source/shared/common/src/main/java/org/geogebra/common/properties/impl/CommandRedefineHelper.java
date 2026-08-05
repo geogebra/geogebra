@@ -16,14 +16,13 @@
 
 package org.geogebra.common.properties.impl;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Helper for redefining a {@link GeoElement} that was created by a command,
@@ -44,8 +43,8 @@ public final class CommandRedefineHelper {
 	 * @param app the application
 	 */
 	public static void redefineWithParam(
-			@Nonnull GeoElement geoElement, @Nonnull AlgoElement algoElement, int paramIndex,
-			@Nonnull String newParameterDefinition, @Nonnull App app) {
+			@NonNull GeoElement geoElement, @NonNull AlgoElement algoElement, int paramIndex,
+			@NonNull String newParameterDefinition, @NonNull App app) {
 		String commandName = algoElement.getClassName().getCommand();
 		GeoElement[] parameterElements = algoElement.getInput();
 		int totalNumberOfParameters = Math.max(parameterElements.length, paramIndex + 1);

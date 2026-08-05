@@ -18,9 +18,6 @@ package org.geogebra.common.spreadsheet.kernel;
 
 import java.util.function.Consumer;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
@@ -34,6 +31,8 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetReference;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatisticsView;
 import org.geogebra.common.spreadsheet.core.TabularRange;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class that adapts between the kernel and {@link SpreadsheetStatisticsView}.
@@ -43,16 +42,16 @@ import org.geogebra.common.spreadsheet.core.TabularRange;
 public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStatistics.Input>
 		implements SpreadsheetStatisticsView<I>, View {
 
-	private final @Nonnull String titleLocalizationKey;
-	protected final @Nonnull Kernel kernel;
-	protected final @Nonnull StatisticGroupsBuilder statisticGroupsBuilder;
-	private @Nonnull I input;
-	private @CheckForNull SpreadsheetStatistics.Result result;
-	private @CheckForNull Consumer<SpreadsheetStatistics.Result> changeListener;
+	private final @NonNull String titleLocalizationKey;
+	protected final @NonNull Kernel kernel;
+	protected final @NonNull StatisticGroupsBuilder statisticGroupsBuilder;
+	private @NonNull I input;
+	private SpreadsheetStatistics.@Nullable Result result;
+	private @Nullable Consumer<SpreadsheetStatistics.Result> changeListener;
 
-	protected KernelSpreadsheetStatisticsView(@Nonnull Kernel kernel,
-			@Nonnull StatisticGroupsBuilder statisticGroupsBuilder, @Nonnull I input,
-			@Nonnull String titleLocalizationKey) {
+	protected KernelSpreadsheetStatisticsView(@NonNull Kernel kernel,
+			@NonNull StatisticGroupsBuilder statisticGroupsBuilder, @NonNull I input,
+			@NonNull String titleLocalizationKey) {
 		this.kernel = kernel;
 		this.statisticGroupsBuilder = statisticGroupsBuilder;
 		this.input = input;
@@ -66,17 +65,17 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 	 * @return {@code true} if the element falls within the range of any involved
 	 * {@link AlgoCellRange}.
 	 */
-	protected abstract boolean isWithinAlgoRange(@Nonnull GeoElement element);
+	protected abstract boolean isWithinAlgoRange(@NonNull GeoElement element);
 
 	/**
 	 * Validate the input and compute the result.
 	 * @param input The input (needs to be validated).
 	 * @return An error if the input failed validation, or the result of the calculation.
 	 */
-	protected abstract @Nonnull SpreadsheetStatistics.Result calculate(@Nonnull I input);
+	protected abstract SpreadsheetStatistics.@NonNull Result calculate(@NonNull I input);
 
-	protected final @Nonnull AlgoCellRange setCellRange(@Nonnull SpreadsheetReference cellRange,
-			@CheckForNull AlgoCellRange algo) {
+	protected final @NonNull AlgoCellRange setCellRange(@NonNull SpreadsheetReference cellRange,
+			@Nullable AlgoCellRange algo) {
 		SpreadsheetCellReference fromCell = cellRange.fromCell;
 		SpreadsheetCellReference toCell = cellRange.toCell == null ? fromCell : cellRange.toCell;
 		if (algo == null) {
@@ -88,8 +87,8 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 		return algo;
 	}
 
-	protected final boolean isElementInRange(@Nonnull GeoElement element,
-			@Nonnull SpreadsheetReference cellRange) {
+	protected final boolean isElementInRange(@NonNull GeoElement element,
+			@NonNull SpreadsheetReference cellRange) {
 		SpreadsheetCoords coords = element.getSpreadsheetCoords();
 		if (coords == null) {
 			return false;
@@ -108,7 +107,7 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 		setResult(calculate(input));
 	}
 
-	private void setResult(@CheckForNull SpreadsheetStatistics.Result result) {
+	private void setResult(SpreadsheetStatistics.@Nullable Result result) {
 		this.result = result;
 		if (changeListener != null) {
 			changeListener.accept(result);
@@ -116,8 +115,8 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 	}
 
 	protected SpreadsheetStatistics.Result.Invalid newInvalidResult(
-			@Nonnull SpreadsheetStatistics.Error error,
-			@CheckForNull SpreadsheetStatistics.DataRange range) {
+			SpreadsheetStatistics.@NonNull Error error,
+			SpreadsheetStatistics.@Nullable DataRange range) {
 		// Only focus user attention to the data range, if this is the first result.
 		return new SpreadsheetStatistics.Result.Invalid(error, result == null ? range : null);
 	}
@@ -125,23 +124,23 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 	// -- SpreadsheetStatisticsView --
 
 	@Override
-	public @Nonnull String getTitleLocalizationKey() {
+	public @NonNull String getTitleLocalizationKey() {
 		return titleLocalizationKey;
 	}
 
 	@Override
-	public @Nonnull I getInput() {
+	public @NonNull I getInput() {
 		return input;
 	}
 
 	@Override
-	public void setInput(@Nonnull I input) {
+	public void setInput(@NonNull I input) {
 		this.input = input;
 		recalculate();
 	}
 
 	@Override
-	public final @Nonnull SpreadsheetStatistics.Result getResult() {
+	public final SpreadsheetStatistics.@NonNull Result getResult() {
 		// lazy evaluation
 		if (result == null) {
 			recalculate();
@@ -151,7 +150,7 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 	}
 
 	@Override
-	public void setChangeListener(@CheckForNull Consumer<SpreadsheetStatistics.Result> listener) {
+	public void setChangeListener(@Nullable Consumer<SpreadsheetStatistics.Result> listener) {
 		changeListener = listener;
 	}
 

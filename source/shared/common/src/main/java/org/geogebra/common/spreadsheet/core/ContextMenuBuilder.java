@@ -53,12 +53,11 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.statistics.Statistic;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.ActionableItem;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.Divider;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.SubMenuItem;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -74,7 +73,7 @@ public final class ContextMenuBuilder {
     @Weak
     private SpreadsheetConstructionDelegate constructionDelegate;
     @Weak
-    private @CheckForNull SpreadsheetStatisticsDelegate statisticsDelegate;
+    private @Nullable SpreadsheetStatisticsDelegate statisticsDelegate;
 
     /**
      * @param spreadsheetController {@link SpreadsheetController}
@@ -88,7 +87,7 @@ public final class ContextMenuBuilder {
      * @param constructionDelegate construction delegate
      */
     public void setSpreadsheetConstructionDelegate(
-            @CheckForNull SpreadsheetConstructionDelegate constructionDelegate) {
+            @Nullable SpreadsheetConstructionDelegate constructionDelegate) {
         this.constructionDelegate = constructionDelegate;
     }
 
@@ -97,7 +96,7 @@ public final class ContextMenuBuilder {
      * or {@code null} to disable the Statistics menu item.
      */
     public void setSpreadsheetStatisticsDelegate(
-            @CheckForNull SpreadsheetStatisticsDelegate statisticsDelegate) {
+            @Nullable SpreadsheetStatisticsDelegate statisticsDelegate) {
         this.statisticsDelegate = statisticsDelegate;
     }
 
@@ -173,24 +172,24 @@ public final class ContextMenuBuilder {
         ).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
-    private @CheckForNull ContextMenuItem getInsertRowItem(int fromRow, boolean below) {
+    private @Nullable ContextMenuItem getInsertRowItem(int fromRow, boolean below) {
         return spreadsheetController.canAddRow() ? new ActionableItem(
                 below ? INSERT_ROW_BELOW : INSERT_ROW_ABOVE,
                 () -> spreadsheetController.insertRowAt(fromRow, below)) : null;
     }
 
-    private @CheckForNull ContextMenuItem getInsertColItem(int fromCol, boolean right) {
+    private @Nullable ContextMenuItem getInsertColItem(int fromCol, boolean right) {
         return spreadsheetController.canAddColumn() ? new ActionableItem(
                 right ? INSERT_COLUMN_RIGHT : INSERT_COLUMN_LEFT,
                 () -> spreadsheetController.insertColumnAt(fromCol, right)) : null;
     }
 
-    private @CheckForNull ContextMenuItem getCalculateItem() {
+    private @Nullable ContextMenuItem getCalculateItem() {
         List<ContextMenuItem> items = getCalculateItems();
         return items.isEmpty() ? null : new SubMenuItem(CALCULATE, items);
     }
 
-    private @CheckForNull ContextMenuItem getStatisticsItem() {
+    private @Nullable ContextMenuItem getStatisticsItem() {
         List<ContextMenuItem> items = getStatisticsItems();
         if (items.isEmpty()) {
             return null;
@@ -212,7 +211,7 @@ public final class ContextMenuBuilder {
                         spreadsheetController::showRegression));
     }
 
-    private @CheckForNull ContextMenuItem getChartMenuItem() {
+    private @Nullable ContextMenuItem getChartMenuItem() {
         List<ContextMenuItem> items = getChartItems();
         return items.isEmpty() ? null : new SubMenuItem(CREATE_CHART, items);
     }

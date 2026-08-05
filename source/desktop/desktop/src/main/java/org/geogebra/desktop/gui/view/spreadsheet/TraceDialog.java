@@ -30,7 +30,6 @@ import java.awt.event.FocusListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-import javax.annotation.CheckForNull;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -65,6 +64,7 @@ import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Dialog to add/remove/edit spreadsheet traces
@@ -853,7 +853,7 @@ public class TraceDialog extends Dialog
 	 *            row
 	 * @return range
 	 */
-	public @CheckForNull TabularRange getTraceSelectionRange(int anchorColumn, int anchorRow) {
+	public @Nullable TabularRange getTraceSelectionRange(int anchorColumn, int anchorRow) {
 
 		TabularRange tr;
 

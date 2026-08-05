@@ -19,8 +19,6 @@ package org.geogebra.common.properties.impl.objects;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
@@ -28,6 +26,7 @@ import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.ScriptEventSelectionProperty.ScriptEvent;
+import org.jspecify.annotations.NonNull;
 
 /**
  * {@code Property} responsible for providing the possible script events the given element can emit
@@ -68,7 +67,7 @@ public class ScriptEventSelectionProperty extends AbstractNamedEnumeratedPropert
 	}
 
 	@Override
-	public @Nonnull List<ScriptEvent> getValues() {
+	public @NonNull List<ScriptEvent> getValues() {
 		return availableScriptEvents;
 	}
 

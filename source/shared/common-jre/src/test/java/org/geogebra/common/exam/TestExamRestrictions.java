@@ -26,8 +26,6 @@ import static org.geogebra.common.plugin.Operation.OR;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
@@ -52,6 +50,7 @@ import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.restrictions.FeatureRestriction;
 import org.geogebra.common.restrictions.PropertyRestriction;
 import org.geogebra.common.restrictions.Restrictions;
+import org.jspecify.annotations.NonNull;
 
 final class TestExamRestrictions extends Restrictions {
 
@@ -79,13 +78,13 @@ final class TestExamRestrictions extends Restrictions {
 	}
 
 	@Override
-	public void applyTo(@Nonnull ContextDependencies cd) {
+	public void applyTo(@NonNull ContextDependencies cd) {
 		super.applyTo(cd);
 		appliedCount++;
 	}
 
 	@Override
-	public void removeFrom(@Nonnull ContextDependencies cd) {
+	public void removeFrom(@NonNull ContextDependencies cd) {
 		super.removeFrom(cd);
 		appliedCount--;
 	}

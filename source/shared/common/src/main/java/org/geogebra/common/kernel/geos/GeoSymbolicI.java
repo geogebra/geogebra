@@ -16,10 +16,9 @@
 
 package org.geogebra.common.kernel.geos;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Common interface for CAS cells and symbolic geos in AV
@@ -50,6 +49,6 @@ public interface GeoSymbolicI {
 	/**
 	 * @return computed expression
 	 */
-	@CheckForNull ExpressionValue getValue();
+	@Nullable ExpressionValue getValue();
 
 }

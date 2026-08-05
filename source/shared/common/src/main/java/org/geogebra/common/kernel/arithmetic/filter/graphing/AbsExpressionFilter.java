@@ -16,13 +16,12 @@
 
 package org.geogebra.common.kernel.arithmetic.filter.graphing;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionNodeOperationFilter;
 import org.geogebra.common.plugin.Operation;
+import org.jspecify.annotations.NonNull;
 
 final public class AbsExpressionFilter extends ExpressionNodeOperationFilter {
 
@@ -31,7 +30,7 @@ final public class AbsExpressionFilter extends ExpressionNodeOperationFilter {
 	}
 
 	@Override
-	protected boolean isExpressionNodeAllowedForOperation(@Nonnull ExpressionNode expression) {
+	protected boolean isExpressionNodeAllowedForOperation(@NonNull ExpressionNode expression) {
 		ExpressionValue left = expression.getLeft();
 		return left.evaluatesToNumber(true) || left instanceof FunctionNVar;
 	}

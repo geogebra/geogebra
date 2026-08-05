@@ -16,14 +16,13 @@
 
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.jspecify.annotations.Nullable;
 
 public class CaptionProperties {
-	private @CheckForNull CaptionText caption;
+	private @Nullable CaptionText caption;
 	private final Coords color = new Coords(0, 0, 0, 1);
 	private final EuclidianView3D view;
 	private Coords backgroundColor;

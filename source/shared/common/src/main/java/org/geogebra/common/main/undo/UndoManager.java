@@ -25,9 +25,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -37,6 +34,8 @@ import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.spreadsheet.core.UndoProvider;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -296,8 +295,8 @@ public abstract class UndoManager implements UndoProvider {
 	 */
 	protected abstract void loadUndoInfo(AppState state, String slideID);
 
-	protected void loadUndoInfo(UndoCommand cmd, @CheckForNull String slideId,
-			@Nonnull UndoCommand until) {
+	protected void loadUndoInfo(UndoCommand cmd, @Nullable String slideId,
+			@NonNull UndoCommand until) {
 		loadUndoInfo(extractFromCommand(cmd), slideId);
 		replayActions(cmd, slideId, until);
 	}
@@ -321,12 +320,12 @@ public abstract class UndoManager implements UndoProvider {
 	 * @param slideID slide ID
 	 * @param until first action not to be replayed (null=replay all)
 	 */
-	public void replayActions(String slideID, @Nonnull UndoCommand until) {
+	public void replayActions(String slideID, @NonNull UndoCommand until) {
 		replayActions(getCheckpoint(slideID), slideID, until);
 	}
 
-	private void replayActions(@CheckForNull UndoCommand checkpoint, @CheckForNull String slideID,
-			@Nonnull UndoCommand until) {
+	private void replayActions(@Nullable UndoCommand checkpoint, @Nullable String slideID,
+			@NonNull UndoCommand until) {
 		boolean checkpointReached = checkpoint == null;
 
 		for (UndoCommand undoCommand : undoInfoList) {

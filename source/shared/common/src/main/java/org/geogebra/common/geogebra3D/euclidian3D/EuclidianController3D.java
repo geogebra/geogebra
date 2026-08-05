@@ -21,8 +21,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -120,6 +118,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Controller for the 3D view
@@ -1660,7 +1659,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	// mouse released
 
 	@Override
-	public void wrapMouseReleased(@Nonnull AbstractEvent e) {
+	public void wrapMouseReleased(@NonNull AbstractEvent e) {
 		boolean longDragOccurred = isDraggingOccurredBeyondThreshold();
 		if (!longDragOccurred && !e.isControlDown()) {
 			view3D.switchMoveCursor();
@@ -1829,7 +1828,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected void processMouseMoved(@Nonnull AbstractEvent e) {
+	protected void processMouseMoved(@NonNull AbstractEvent e) {
 		view3D.setHasMouse(true);
 		// for next mouse move process
 		setMouseMovedEvent(e);

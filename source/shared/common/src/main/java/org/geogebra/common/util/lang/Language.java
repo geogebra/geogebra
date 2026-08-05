@@ -21,12 +21,11 @@ import static org.geogebra.editor.share.util.Unicode.SPANISH_ORDINAL_INDICATOR;
 
 import java.util.Locale;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.main.OrdinalConverter;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Collection of which languages are official in which countries (only includes
@@ -442,7 +441,7 @@ public enum Language {
 	private final int rightAngleStyle;
 	private final char decimalSeparator;
 	private final char unicodeZero;
-	private final @CheckForNull String ordinalIndicator;
+	private final @Nullable String ordinalIndicator;
 
 	/**
 	 * Constructs a Language enum.

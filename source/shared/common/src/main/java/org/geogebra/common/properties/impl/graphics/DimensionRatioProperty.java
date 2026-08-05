@@ -16,8 +16,6 @@
 
 package org.geogebra.common.properties.impl.graphics;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -30,6 +28,7 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractNumericProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
+import org.jspecify.annotations.Nullable;
 
 public class DimensionRatioProperty extends AbstractPropertyCollection<Property> {
 	/**
@@ -89,7 +88,7 @@ public class DimensionRatioProperty extends AbstractPropertyCollection<Property>
 		}
 
 		@Override
-		public @CheckForNull String validateValue(String value) {
+		public @Nullable String validateValue(String value) {
 			String errorMessage = super.validateValue(value);
 			if (errorMessage != null) {
 				return errorMessage;

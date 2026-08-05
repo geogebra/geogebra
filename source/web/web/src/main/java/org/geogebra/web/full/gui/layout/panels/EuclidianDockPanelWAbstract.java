@@ -18,8 +18,6 @@ package org.geogebra.web.full.gui.layout.panels;
 
 import static org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel.PAGE_OVERVIEW_WIDTH;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
 import org.geogebra.web.full.gui.layout.DockPanelW;
@@ -37,6 +35,7 @@ import org.gwtproject.user.client.ui.AbsolutePanel;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;
@@ -242,7 +241,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	/**
 	 * @return panel for positioning overlay elements (e.g. input boxes)
 	 */
-	public final @CheckForNull AbsolutePanel getAbsolutePanel() {
+	public final @Nullable AbsolutePanel getAbsolutePanel() {
 		return getEuclidianPanel() == null ? null : getEuclidianPanel()
 				.getAbsolutePanel();
 	}

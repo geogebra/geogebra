@@ -18,7 +18,7 @@ package org.geogebra.common.restrictions;
 
 import java.util.Set;
 
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Apply custom restrictions.
@@ -30,12 +30,12 @@ public interface Restrictable {
 	 *
 	 * @param featureRestrictions The feature restrictions.
 	 */
-	void applyRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions);
+	void applyRestrictions(@NonNull Set<FeatureRestriction> featureRestrictions);
 
 	/**
 	 * Reverse the effects of {@link #applyRestrictions(Set)}.
 	 *
 	 * @param featureRestrictions The feature restrictions.
 	 */
-	void removeRestrictions(@Nonnull Set<FeatureRestriction> featureRestrictions);
+	void removeRestrictions(@NonNull Set<FeatureRestriction> featureRestrictions);
 }

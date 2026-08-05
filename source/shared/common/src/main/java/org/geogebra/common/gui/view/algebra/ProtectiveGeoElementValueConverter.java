@@ -20,13 +20,12 @@ import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_CAPTION;
 import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_NAME;
 import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_VALUE;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.util.ToStringConverter;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Converts a GeoElement to string that can be used in the Algebra view, while
@@ -43,7 +42,7 @@ public class ProtectiveGeoElementValueConverter implements ToStringConverter {
 	}
 
 	@Override
-	public  @Nonnull String toOutputValueString(GeoElement element, StringTemplate template) {
+	public  @NonNull String toOutputValueString(GeoElement element, StringTemplate template) {
 		if (functionAndEquationFilter.isAllowed(element)) {
 			return defaultConverter.toOutputValueString(element, template);
 		} else {
@@ -52,7 +51,7 @@ public class ProtectiveGeoElementValueConverter implements ToStringConverter {
 	}
 
 	@Override
-	public  @Nonnull String toValueString(GeoElement element, StringTemplate template) {
+	public  @NonNull String toValueString(GeoElement element, StringTemplate template) {
 		if (functionAndEquationFilter.isAllowed(element)) {
 			return defaultConverter.toValueString(element, template);
 		} else {
@@ -61,7 +60,7 @@ public class ProtectiveGeoElementValueConverter implements ToStringConverter {
 	}
 
 	@Override
-	public @Nonnull String toLabelAndDescription(GeoElement element, StringTemplate template) {
+	public @NonNull String toLabelAndDescription(GeoElement element, StringTemplate template) {
 		if (!functionAndEquationFilter.isAllowed(element)) {
 			return convertProtective(element, template);
 		} else {

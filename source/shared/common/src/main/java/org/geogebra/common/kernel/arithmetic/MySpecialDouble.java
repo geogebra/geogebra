@@ -19,8 +19,6 @@ package org.geogebra.common.kernel.arithmetic;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import javax.annotation.CheckForNull;
-
 import org.apache.commons.math3.util.Precision;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -28,6 +26,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.editor.share.input.Character;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.Nullable;
 
 /**
  * MyDouble that returns a certain string in toString(). This is used for
@@ -278,7 +277,7 @@ public class MySpecialDouble extends MyDouble {
 	}
 
 	@Override
-	public @CheckForNull BigDecimal toDecimal() {
+	public @Nullable BigDecimal toDecimal() {
 		if (!Double.isFinite(getDouble())) {
 			return null;
 		}

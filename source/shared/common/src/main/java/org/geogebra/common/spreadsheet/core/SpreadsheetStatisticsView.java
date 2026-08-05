@@ -19,10 +19,9 @@ package org.geogebra.common.spreadsheet.core;
 import java.util.List;
 import java.util.function.Consumer;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An auto-updating view of statistics calculations on a spreadsheet range.
@@ -76,31 +75,31 @@ public interface SpreadsheetStatisticsView<I extends SpreadsheetStatistics.Input
 	/**
 	 * @return The localization key of this view's title.
 	 */
-	@Nonnull String getTitleLocalizationKey();
+	@NonNull String getTitleLocalizationKey();
 
 	/**
 	 * @return The current input.
 	 */
-	@Nonnull I getInput();
+	@NonNull I getInput();
 
 	/**
 	 * Set new input values. This will immediately cause recalculation of the result and trigger
 	 * the change listener.
 	 * @param input The input (cell range(s), regression model) for the statistics calculation.
 	 */
-	void setInput(@Nonnull I input);
+	void setInput(@NonNull I input);
 
 	/**
 	 * @return The current result of the statistics calculation.
 	 */
-	@Nonnull SpreadsheetStatistics.Result getResult();
+	SpreadsheetStatistics.@NonNull Result getResult();
 
 	/**
 	 * Attach a change listener to the view.
 	 * @param listener The listener. Will be notified when the statistics result changed due to
 	 * changes in the spreadsheet data.
 	 */
-	void setChangeListener(@CheckForNull Consumer<SpreadsheetStatistics.Result> listener);
+	void setChangeListener(@Nullable Consumer<SpreadsheetStatistics.Result> listener);
 
 	/**
 	 * Tear down the view when it is no longer used (e.g., the UI closes).

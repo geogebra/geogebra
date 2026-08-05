@@ -21,8 +21,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -41,6 +39,7 @@ import org.geogebra.common.properties.impl.distribution.IsCumulativeProperty;
 import org.geogebra.common.properties.impl.distribution.ProbabilityResultValuesProperty;
 import org.geogebra.common.properties.impl.undo.UndoSavingPropertyObserver;
 import org.geogebra.common.properties.util.PropertyArrayValueObserving;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Factory class for creating {@link PropertyView}s.
@@ -51,8 +50,8 @@ public class PropertyViewFactory {
 	 * @param propertiesArray the {@code PropertiesArray} to convert
 	 * @return the list of {@code PropertyView}s
 	 */
-	public static @Nonnull List<PropertyView> propertyViewListOf(
-			@Nonnull PropertiesArray propertiesArray) {
+	public static @NonNull List<PropertyView> propertyViewListOf(
+			@NonNull PropertiesArray propertiesArray) {
 		List<PropertyView> propertyViewList = Arrays.stream(propertiesArray.getProperties())
 				.map(PropertyView::of)
 				.filter(Objects::nonNull)
@@ -101,8 +100,8 @@ public class PropertyViewFactory {
 	 * @param app the active app
 	 * @return the {@code PropertyView} containing the settings for the given objects
 	 */
-	public static @Nonnull PropertyView.TabbedPageSelector propertyViewOfObjectSettings(
-			@Nonnull App app) {
+	public static PropertyView.@NonNull TabbedPageSelector propertyViewOfObjectSettings(
+			@NonNull App app) {
 		List<GeoElement> geoElements = app.getSelectionManager().getSelectedGeos();
 		String title = app.getLocalization().getMenu(getTypeString(geoElements.get(0)));
 		SuiteScope suiteScope = GlobalScope.getSuiteScope(app);
@@ -128,8 +127,8 @@ public class PropertyViewFactory {
 	 * (see: <a href="https://geogebra-jira.atlassian.net/browse/APPS-7052">APPS-7052</a>)
 	 * @return the {@code PropertyView} containing the app settings
 	 */
-	public static @Nonnull PropertyView.TabbedPageSelector propertyViewOfAppSettings(
-			@Nonnull App app, @Nonnull PropertiesRegistry propertiesRegistry,
+	public static PropertyView.@NonNull TabbedPageSelector propertyViewOfAppSettings(
+			@NonNull App app, @NonNull PropertiesRegistry propertiesRegistry,
 			boolean objectPropertiesAreShown) {
 		List<PropertiesArray> propertyArrayList = app.getConfig().createPropertiesFactory()
 				.createProperties(app, app.getLocalization(), propertiesRegistry);
@@ -148,10 +147,10 @@ public class PropertyViewFactory {
 	 * @param propertiesRegistry the {@link PropertiesRegistry} to register the properties with
 	 * @return the list of {@code PropertyView} to be displayed in the distribution view
 	 */
-	public static @Nonnull List<PropertyView> propertyViewOfDistributionSettings(
-			@Nonnull Localization localization, @Nonnull AlgebraProcessor algebraProcessor,
-			@Nonnull ProbabilityCalculatorView probabilityCalculatorView,
-			@Nonnull PropertiesRegistry propertiesRegistry) {
+	public static @NonNull List<PropertyView> propertyViewOfDistributionSettings(
+			@NonNull Localization localization, @NonNull AlgebraProcessor algebraProcessor,
+			@NonNull ProbabilityCalculatorView probabilityCalculatorView,
+			@NonNull PropertiesRegistry propertiesRegistry) {
 		List<Property> properties = List.of(
 				new DistributionTypeProperty(localization, probabilityCalculatorView),
 				new IsCumulativeProperty(localization, probabilityCalculatorView),
@@ -178,10 +177,10 @@ public class PropertyViewFactory {
 	 * @param propertiesRegistry the {@link PropertiesRegistry} to register the properties with
 	 * @return the list of {@code PropertyView} to be displayed in the distribution view in classic
 	 */
-	public static @Nonnull List<PropertyView> propertyClassicDistributionParametersSettings(
-			@Nonnull Localization localization, @Nonnull AlgebraProcessor algebraProcessor,
-			@Nonnull ProbabilityCalculatorView probabilityCalculatorView,
-			@Nonnull PropertiesRegistry propertiesRegistry) {
+	public static @NonNull List<PropertyView> propertyClassicDistributionParametersSettings(
+			@NonNull Localization localization, @NonNull AlgebraProcessor algebraProcessor,
+			@NonNull ProbabilityCalculatorView probabilityCalculatorView,
+			@NonNull PropertiesRegistry propertiesRegistry) {
 		List<Property> properties = List.of(
 				new DistributionTypeProperty(localization, probabilityCalculatorView),
 				new DistributionParameterProperty(algebraProcessor, probabilityCalculatorView,
@@ -203,10 +202,10 @@ public class PropertyViewFactory {
 	 * @param propertiesRegistry the {@link PropertiesRegistry} to register the properties with
 	 * @return the list of {@code PropertyView} to be displayed in the distribution view in classic
 	 */
-	public static @Nonnull List<PropertyView> propertyClassicDistributionViewSettings(
-			@Nonnull Localization localization, @Nonnull AlgebraProcessor algebraProcessor,
-			@Nonnull ProbabilityCalculatorView probabilityCalculatorView,
-			@Nonnull PropertiesRegistry propertiesRegistry) {
+	public static @NonNull List<PropertyView> propertyClassicDistributionViewSettings(
+			@NonNull Localization localization, @NonNull AlgebraProcessor algebraProcessor,
+			@NonNull ProbabilityCalculatorView probabilityCalculatorView,
+			@NonNull PropertiesRegistry propertiesRegistry) {
 		List<Property> properties = List.of(
 				new IsCumulativeProperty(localization, probabilityCalculatorView),
 				new IntervalProperty(localization, probabilityCalculatorView),

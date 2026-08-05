@@ -22,8 +22,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.TreeSet;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -67,6 +65,7 @@ import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.Nullable;
 
 /**
  * 
@@ -152,7 +151,7 @@ public class GeoNumeric extends GeoElement
 	private boolean showAVSlider = false;
 	private static volatile Comparator<GeoNumberValue> comparator;
 	private BigDecimal exactValue;
-	private @CheckForNull GeoPointND startPoint;
+	private @Nullable GeoPointND startPoint;
 
 	/**
 	 * Creates a new GeoNumeric.

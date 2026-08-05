@@ -18,8 +18,6 @@ package org.geogebra.web.html5.gui.zoompanel;
 
 import java.util.function.Consumer;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.gwtutil.NavigatorUtil;
@@ -34,6 +32,7 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.timer.client.Timer;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;
@@ -138,7 +137,7 @@ public class ZoomController {
 	 *            element
 	 */
 	protected void scaleApplet(Element scaler, Element container,
-			@CheckForNull Element elem) {
+			@Nullable Element elem) {
 		if (app.isUnbundled()) {
 			app.getGgbApi().setSize(NavigatorUtil.getWindowWidth(),
 					NavigatorUtil.getWindowHeight());
@@ -185,7 +184,7 @@ public class ZoomController {
 	 * @param elem - element
 	 * @param fullscreenBtnSelectCB - fullscreen button select callback
 	 */
-	public void onExitFullscreen(@CheckForNull  Element elem,
+	public void onExitFullscreen(@Nullable  Element elem,
 			Consumer<Boolean> fullscreenBtnSelectCB) {
 		setFullScreenActive(false, fullscreenBtnSelectCB);
 		if (!app.getAppletParameters().getDataParamFitToScreen()) {

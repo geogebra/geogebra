@@ -18,7 +18,7 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Context menu items (for spreadsheet).
@@ -60,34 +60,34 @@ public class ContextMenuItem {
 		DELETE_COLUMN("ContextMenu.deleteColumn"),
 		DIVIDER("");
 
-		public final @Nonnull String localizationKey;
+		public final @NonNull String localizationKey;
 
-		Identifier(@Nonnull String localizationKey) {
+		Identifier(@NonNull String localizationKey) {
 			this.localizationKey = localizationKey;
 		}
 	}
 
-	private final @Nonnull Identifier identifier;
+	private final @NonNull Identifier identifier;
 
 	/**
 	 * Creates a context menu item.
 	 * @param identifier identifier to specify the context menu item and its displayed text
 	 */
-	protected ContextMenuItem(@Nonnull Identifier identifier) {
+	protected ContextMenuItem(@NonNull Identifier identifier) {
 		this.identifier = identifier;
 	}
 
 	/**
 	 * @return the identifier that specifies the context menu item
 	 */
-	public @Nonnull Identifier getIdentifier() {
+	public @NonNull Identifier getIdentifier() {
 		return identifier;
 	}
 
 	/**
 	 * @return localization key for the displayed text, derived from the identifier
 	 */
-	public @Nonnull String getLocalizationKey() {
+	public @NonNull String getLocalizationKey() {
 		return identifier.localizationKey;
 	}
 
@@ -102,7 +102,7 @@ public class ContextMenuItem {
 		 * @param identifier identifier to specify the context menu item and its displayed text
 		 * @param action operation to execute when this item is selected
 		 */
-		public ActionableItem(@Nonnull Identifier identifier, @Nonnull Runnable action) {
+		public ActionableItem(@NonNull Identifier identifier, @NonNull Runnable action) {
 			super(identifier);
 			this.action = action;
 		}
@@ -126,7 +126,7 @@ public class ContextMenuItem {
 		 * @param identifier identifier to specify the context menu item and its displayed text
 		 * @param items child context menu items to be nested in this item
 		 */
-		public SubMenuItem(@Nonnull Identifier identifier, @Nonnull List<ContextMenuItem> items) {
+		public SubMenuItem(@NonNull Identifier identifier, @NonNull List<ContextMenuItem> items) {
 			super(identifier);
 			this.items = items;
 		}
@@ -134,7 +134,7 @@ public class ContextMenuItem {
 		/**
 		 * @return the list of child items
 		 */
-		public @Nonnull List<ContextMenuItem> getItems() {
+		public @NonNull List<ContextMenuItem> getItems() {
 			return this.items;
 		}
 	}

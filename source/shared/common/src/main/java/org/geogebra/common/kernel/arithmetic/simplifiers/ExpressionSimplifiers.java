@@ -18,13 +18,12 @@ package org.geogebra.common.kernel.arithmetic.simplifiers;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Simplifier list to run on {@link ExpressionNode}
@@ -40,7 +39,7 @@ public class ExpressionSimplifiers {
 	 * @param utils {@link SimplifyUtils}
 	 * @param logEnabled pass true to enable the process log of simplifiers.
 	 */
-	public ExpressionSimplifiers(@Nonnull SimplifyUtils utils, boolean logEnabled) {
+	public ExpressionSimplifiers(@NonNull SimplifyUtils utils, boolean logEnabled) {
 		this.logEnabled = logEnabled;
 
 		// it is checked before any simplification and after all were run if they produced a
@@ -68,7 +67,7 @@ public class ExpressionSimplifiers {
 	 * @param node to run on.
 	 * @return the simplified node.
 	 */
-	public ExpressionNode run(@CheckForNull ExpressionValue node) {
+	public ExpressionNode run(@Nullable ExpressionValue node) {
 		if (node == null) {
 			return null;
 		}

@@ -16,8 +16,6 @@
 
 package org.geogebra.web.full.gui.view.algebra;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.GeoGebraColorConstants;
@@ -37,6 +35,7 @@ import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Provides a matrix/vector resizing popup together with a button that opens it.
@@ -59,10 +58,10 @@ public class MatrixResizePopup implements MatrixResizeController.StateListener {
 	private Label colCount;
 
 	MatrixResizePopup(
-			@Nonnull MatrixResizeController matrixResizeController,
-			@Nonnull MathFieldW mathField,
-			@Nonnull AppW app,
-			@Nonnull Runnable onStateChanged) {
+			@NonNull MatrixResizeController matrixResizeController,
+			@NonNull MathFieldW mathField,
+			@NonNull AppW app,
+			@NonNull Runnable onStateChanged) {
 		this.controller = matrixResizeController;
 		this.app = app;
 		this.mathField = mathField;
@@ -70,7 +69,7 @@ public class MatrixResizePopup implements MatrixResizeController.StateListener {
 	}
 
 	@Override
-	public void stateChanged(@Nonnull State state) {
+	public void stateChanged(@NonNull State state) {
 		MatrixResizeController.PopupState popupState = state.popupState();
 		if (popupState == null) {
 			hide();

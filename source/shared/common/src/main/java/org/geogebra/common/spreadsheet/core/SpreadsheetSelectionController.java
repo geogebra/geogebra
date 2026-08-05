@@ -23,10 +23,9 @@ import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.util.MulticastEvent;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides implementations for selection-related methods of {@link SpreadsheetController}
@@ -59,14 +58,14 @@ final class SpreadsheetSelectionController {
 	 * the current selection state, and compare that against the selection state after some
 	 * (potentially selection-modifying) operations.
 	 */
-	@Nonnull Stream<Selection> getSelections() {
+	@NonNull Stream<Selection> getSelections() {
 		return selections.stream();
 	}
 
 	/**
 	 * @return A copy of the current list of selections.
 	 */
-	@Nonnull List<Selection> getSelectionsCopy() {
+	@NonNull List<Selection> getSelectionsCopy() {
 		return new ArrayList<>(selections);
 	}
 
@@ -165,7 +164,7 @@ final class SpreadsheetSelectionController {
 	 * @param extendSelection Whether we want to extend the current selection (SHIFT)
 	 * @param addSelection Whether we want to add this selection to the current selections (CTRL)
 	 */
-	void select(@Nonnull Selection selection, boolean extendSelection,
+	void select(@NonNull Selection selection, boolean extendSelection,
 			boolean addSelection) {
 		Selection lastSelection = getLastSelection();
 		if (extendSelection && lastSelection != null) {
@@ -232,7 +231,7 @@ final class SpreadsheetSelectionController {
 	 * In case there are multiple selections (ctrl+click), returns the one that was created last.
 	 * @return Last selection if present, null otherwise
 	 */
-	@CheckForNull Selection getLastSelection() {
+	@Nullable Selection getLastSelection() {
 		return selections.isEmpty() ? null : selections.get(selections.size() - 1);
 	}
 
@@ -241,7 +240,7 @@ final class SpreadsheetSelectionController {
 	 * @return {@code false} if {@code coords} is {@code null},
 	 * or {@link #isOnlyCellSelected(int, int)} for the given row/column pair.
 	 */
-	boolean isOnlyCellSelected(@CheckForNull SpreadsheetCoords coords) {
+	boolean isOnlyCellSelected(@Nullable SpreadsheetCoords coords) {
 		if (coords == null) {
 			return false;
 		}

@@ -38,7 +38,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.annotation.Nonnull;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JToggleButton;
@@ -57,6 +56,7 @@ import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.main.MyResourceBundle;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.NonNull;
 
 /**
  * @author Michael Borcherds (based loosely on
@@ -103,7 +103,7 @@ public class VirtualKeyboardD extends JFrame
 	private JToggleButton GreekButton = null;
 	private JToggleButton EnglishButton = null;
 
-	private final @Nonnull AppD app;
+	private final @NonNull AppD app;
 
 	// max width character
 	private final static char wideCharDefault = '@';

@@ -18,12 +18,11 @@ package org.geogebra.common.kernel.arithmetic.simplifiers;
 
 import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isIntegerValue;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.plugin.Operation;
+import org.jspecify.annotations.Nullable;
 
 final class SurdAddition {
 	ExpressionNode a;
@@ -48,7 +47,7 @@ final class SurdAddition {
 
 	}
 
-	@CheckForNull ExpressionNode factorOut() {
+	@Nullable ExpressionNode factorOut() {
 		ensureIntegerFirst();
 		if (ExpressionValueUtils.isSqrtNode(b) || ExpressionValueUtils.isNegativeSqrt(b)) {
 			return null;

@@ -26,15 +26,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.ownership.NonOwning;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -79,7 +78,7 @@ public final class AlgebraViewItems {
 
 	private App app;
 
-	AlgebraViewItems(@Nonnull App app) {
+	AlgebraViewItems(@NonNull App app) {
 		this.app = app;
 	}
 
@@ -95,7 +94,7 @@ public final class AlgebraViewItems {
 	 * @param index Index (0...nrItems-1)
 	 * @return The item at the given index. Throws if index is out of the valid range.
 	 */
-	public @Nonnull AlgebraViewItem getItem(int index) {
+	public @NonNull AlgebraViewItem getItem(int index) {
 		return items.get(index);
 	}
 
@@ -124,7 +123,7 @@ public final class AlgebraViewItems {
 	 * @return The item for the given id, or {@code null} if the id is invalid (i.e., no item
 	 * with that id exists).
 	 */
-	public @CheckForNull AlgebraViewItem getItemById(Integer id) {
+	public @Nullable AlgebraViewItem getItemById(Integer id) {
 		return itemsById.get(id);
 	}
 
@@ -137,7 +136,7 @@ public final class AlgebraViewItems {
 		modifiedItemIds.clear();
 	}
 
-	private @CheckForNull AlgebraViewItem itemForGeo(@Nonnull GeoElement geo) {
+	private @Nullable AlgebraViewItem itemForGeo(@NonNull GeoElement geo) {
 		int index = items.indexOf(new AlgebraViewItem(geo));
 		if (index == -1) {
 			return null;
@@ -167,7 +166,7 @@ public final class AlgebraViewItems {
 	/**
 	 * Called after a GeoElement has been added.
 	 */
-	Integer onGeoAdded(@Nonnull GeoElement geo) {
+	Integer onGeoAdded(@NonNull GeoElement geo) {
 		Integer itemId = ITEM_ID.getAndIncrement();
 		AlgebraViewItem newItem = new AlgebraViewItem(geo, itemId);
 		int lastSiblingIndex = -1;
@@ -194,7 +193,7 @@ public final class AlgebraViewItems {
 	/**
 	 * Called after a GeoElement has been added.
 	 */
-	void onGeoRenamed(@Nonnull GeoElement geo) {
+	void onGeoRenamed(@NonNull GeoElement geo) {
 		AlgebraViewItem item = itemForGeo(geo);
 		if (item == null) {
 			return;
@@ -210,7 +209,7 @@ public final class AlgebraViewItems {
 	 * Called after a GeoElement has been updated (this may include visual style
 	 * changes).
 	 */
-	void onGeoUpdated(@Nonnull GeoElement geo) {
+	void onGeoUpdated(@NonNull GeoElement geo) {
 		AlgebraViewItem item = itemForGeo(geo);
 		if (item == null) {
 			return;
@@ -225,7 +224,7 @@ public final class AlgebraViewItems {
 	/**
 	 * Called after a GeoElement has been removed.
 	 */
-	void onGeoRemoved(@Nonnull GeoElement geo) {
+	void onGeoRemoved(@NonNull GeoElement geo) {
 		AlgebraViewItem item = itemForGeo(geo);
 		if (item == null) {
 			return;

@@ -18,10 +18,9 @@ package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
 import java.util.function.BooleanSupplier;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.FocusableComponent;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Focusable adapter for spreadsheet implementations.
@@ -75,7 +74,7 @@ public class SpreadsheetFocusableAdapter implements FocusableComponent {
 	}
 
 	@Override
-	public @CheckForNull AccessibilityGroup.ViewControlId getViewControlId() {
+	public AccessibilityGroup.@Nullable ViewControlId getViewControlId() {
 		return null;
 	}
 }

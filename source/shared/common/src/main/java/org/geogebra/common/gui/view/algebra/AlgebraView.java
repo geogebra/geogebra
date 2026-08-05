@@ -16,12 +16,11 @@
 
 package org.geogebra.common.gui.view.algebra;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.gui.Editing;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Algebra view -- shows algebraic representation of the objects either as
@@ -55,7 +54,7 @@ public interface AlgebraView extends Editing, SetLabels {
 	/**
 	 * @return screen reader adapter for reading selected rows
 	 */
-	default @CheckForNull ScreenReaderAdapter getScreenReaderAdapter() {
+	default @Nullable ScreenReaderAdapter getScreenReaderAdapter() {
 		return null;
 	}
 

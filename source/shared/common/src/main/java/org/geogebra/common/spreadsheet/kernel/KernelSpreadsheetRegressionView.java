@@ -18,9 +18,6 @@ package org.geogebra.common.spreadsheet.kernel;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.view.table.dialog.RegressionBuilder;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
@@ -40,20 +37,22 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.Result;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatisticsView;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public final class KernelSpreadsheetRegressionView
 		extends KernelSpreadsheetStatisticsView<RegressionInput>
 		implements SpreadsheetStatisticsView.Regression {
 
-	private @CheckForNull AlgoCellRange algoCellRangeX;
-	private @CheckForNull AlgoCellRange algoCellRangeY;
-	private final @Nonnull List<RegressionSpecification> regressionSpecifications;
+	private @Nullable AlgoCellRange algoCellRangeX;
+	private @Nullable AlgoCellRange algoCellRangeY;
+	private final @NonNull List<RegressionSpecification> regressionSpecifications;
 	private RegressionSpecification regressionSpecification;
 
-	KernelSpreadsheetRegressionView(@Nonnull Kernel kernel,
-			@Nonnull StatisticGroupsBuilder statisticGroupsBuilder,
-			@Nonnull RegressionSpecificationBuilder regressionSpecificationBuilder,
-			@Nonnull TabularRange range) {
+	KernelSpreadsheetRegressionView(@NonNull Kernel kernel,
+			@NonNull StatisticGroupsBuilder statisticGroupsBuilder,
+			@NonNull RegressionSpecificationBuilder regressionSpecificationBuilder,
+			@NonNull TabularRange range) {
 		super(kernel, statisticGroupsBuilder, new RegressionInput(range), "Regression");
 		this.regressionSpecifications = regressionSpecificationBuilder.getForListSize(2);
 	}
@@ -61,7 +60,7 @@ public final class KernelSpreadsheetRegressionView
 	// -- KernelSpreadsheetStatisticsView --
 
 	@Override
-	protected @Nonnull Result calculate(@Nonnull RegressionInput input) {
+	protected @NonNull Result calculate(@NonNull RegressionInput input) {
 		SpreadsheetReference inputRangeX = input.cellRangeX();
 		if (inputRangeX == null || inputRangeX.isSingleCell()) {
 			return newInvalidResult(
@@ -105,7 +104,7 @@ public final class KernelSpreadsheetRegressionView
 	}
 	
 	@Override
-	protected boolean isWithinAlgoRange(@Nonnull GeoElement element) {
+	protected boolean isWithinAlgoRange(@NonNull GeoElement element) {
 		SpreadsheetReference cellRangeX = getInput().cellRangeX();
 		SpreadsheetReference cellRangeY = getInput().cellRangeY();
 		return cellRangeX != null && isElementInRange(element, cellRangeX)
@@ -113,7 +112,7 @@ public final class KernelSpreadsheetRegressionView
 	}
 
 	@Override
-	public @Nonnull List<RegressionSpecification> getRegressionSpecifications() {
+	public @NonNull List<RegressionSpecification> getRegressionSpecifications() {
 		return regressionSpecifications;
 	}
 

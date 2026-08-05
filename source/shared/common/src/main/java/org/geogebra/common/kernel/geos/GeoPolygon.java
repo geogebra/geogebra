@@ -21,8 +21,6 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.TreeSet;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
@@ -66,6 +64,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Polygon through given points
@@ -85,7 +84,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	/** polygon vertices */
 	protected GeoPointND[] points;
 	/** polygon edges */
-	protected @CheckForNull GeoSegmentND[] segments;
+	protected @Nullable GeoSegmentND[] segments;
 
 	/** first point for region coord sys */
 	protected GeoPoint p0;

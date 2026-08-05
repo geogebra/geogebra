@@ -16,8 +16,6 @@
 
 package org.geogebra.web.full.gui.pagecontrolpanel;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.util.StringUtil;
@@ -31,6 +29,7 @@ import org.geogebra.web.html5.util.ArchiveEntry;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Page Preview Card showing preview of EuclidianView
@@ -84,7 +83,7 @@ public class PagePreviewCard extends FlowPanel
 	 * @return The duplicated card.
 	 */
 	public static PagePreviewCard pasteAfter(PagePreviewCard source,
-			@Nonnull String targetID, String json) {
+			@NonNull String targetID, String json) {
 		GgbFile file = new GgbFile(targetID);
 		source.app.getArchiveLoader().setFileFromJsonString(json, file);
 		return new PagePreviewCard(source.app, source.getPageIndex() + 1,

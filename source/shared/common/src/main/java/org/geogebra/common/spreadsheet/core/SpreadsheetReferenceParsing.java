@@ -18,11 +18,10 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.Locale;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.regexp.shared.MatchResult;
 import org.geogebra.regexp.shared.RegExp;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Methods for parsing spreadsheet cell references.
@@ -52,7 +51,7 @@ public final class SpreadsheetReferenceParsing {
 	 * @return A {@code TabularRange} representing the cell (e.g., "A1") or range (e.g., "A1:A10")
 	 * reference input string, or {@code null} if candidate is not a valid cell or range reference.
 	 */
-	public static @CheckForNull SpreadsheetReference parseReference(@Nonnull String candidate) {
+	public static @Nullable SpreadsheetReference parseReference(@NonNull String candidate) {
 		if (candidate.isBlank()) { // this includes empty strings
 			return null;
 		}
@@ -71,8 +70,8 @@ public final class SpreadsheetReferenceParsing {
 	 * (if toReference is non-null and a valid cell reference). Returns {@code null} if
 	 * {@code fromReference} or {@code toReference} are invalid strings.
 	 */
-	private static @CheckForNull SpreadsheetReference parseCellReferences(
-			@Nonnull String fromReference, @CheckForNull String toReference) {
+	private static @Nullable SpreadsheetReference parseCellReferences(
+			@NonNull String fromReference, @Nullable String toReference) {
 		SpreadsheetCellReference fromCell = parseCellReference(fromReference);
 		if (fromCell == null) {
 			return null; // invalid reference
@@ -90,8 +89,8 @@ public final class SpreadsheetReferenceParsing {
 	 * @return A {@link SpreadsheetReference} representing the cell reference, or null if
 	 * {@code cellReference} is an invalid input.
 	 */
-	private static @CheckForNull SpreadsheetCellReference parseCellReference(
-			@CheckForNull String cellReference) {
+	private static @Nullable SpreadsheetCellReference parseCellReference(
+			@Nullable String cellReference) {
 		if (cellReference == null || cellReference.isEmpty()) {
 			return null;
 		}
@@ -120,7 +119,7 @@ public final class SpreadsheetReferenceParsing {
 	 * @param columnName A spreadsheet column name, e.g. AAB
 	 * @return The column index (0-based), or -1 if {@code columnName} is not a valid column name.
 	 */
-	private static int columnIndexFromName(@Nonnull String columnName) {
+	private static int columnIndexFromName(@NonNull String columnName) {
 		String name = columnName.trim().toUpperCase(Locale.ROOT);
 		if (name.length() >= 7) {
 			return -1; // 26^7 = 8.031.810.176, this would already overflow a 32bit int

@@ -16,10 +16,9 @@
 
 package org.geogebra.common.restrictions;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.main.AppConfig;
+import org.jspecify.annotations.NonNull;
 
 public interface AlgebraOutputFiltering {
 
@@ -27,18 +26,18 @@ public interface AlgebraOutputFiltering {
 	 * Create the App's base/default algebra output filter, as defined by its {@link AppConfig}.
 	 * @return the base algebra output filter.
 	 */
-	@Nonnull AlgebraOutputFilter createBaseAlgebraOutputFilter();
+	@NonNull AlgebraOutputFilter createBaseAlgebraOutputFilter();
 
 	/**
 	 * Get the algebra output filter.
 	 * @return the current algebra output filter.
 	 * @apiNote DO NOT CACHE THE RETURN VALUE, the filter may change at runtime.
 	 */
-	@Nonnull AlgebraOutputFilter getAlgebraOutputFilter();
+	@NonNull AlgebraOutputFilter getAlgebraOutputFilter();
 
 	/**
 	 * Set the algebra output filter.
 	 * @param filter The new algebra output filter.
 	 */
-	void setAlgebraOutputFilter(@Nonnull AlgebraOutputFilter filter);
+	void setAlgebraOutputFilter(@NonNull AlgebraOutputFilter filter);
 }

@@ -16,8 +16,6 @@
 
 package org.geogebra.web.html5.gui.util;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.util.debug.Log;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.EventTarget;
@@ -26,6 +24,7 @@ import org.gwtproject.dom.client.Style;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.UIObject;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.NonNull;
 
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.DomGlobal;
@@ -113,7 +112,7 @@ public final class Dom {
 	 * @param add
 	 *            whether to add or remove
 	 */
-	public static void toggleClass(@Nonnull UIObject ui, String className, boolean add) {
+	public static void toggleClass(@NonNull UIObject ui, String className, boolean add) {
 		if (add) {
 			ui.getElement().addClassName(className);
 		} else {

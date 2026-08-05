@@ -16,8 +16,6 @@
 
 package org.geogebra.common.exam.restrictions;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -28,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Detects cases of angle conversion.
@@ -103,7 +102,7 @@ public class AngleConversionFilter implements AlgebraOutputFilter {
 				StringTemplate.defaultTemplate)) || s instanceof GeoAngle;
 	}
 
-	private Integer getAngleDimension(@CheckForNull ExpressionValue expression) {
+	private Integer getAngleDimension(@Nullable ExpressionValue expression) {
 		if (expression == null) {
 			return null;
 		}

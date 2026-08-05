@@ -21,8 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.kernel.StringTemplate;
@@ -34,6 +32,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.NonNull;
 
 @HasNativeSubclass
 public abstract class Localization extends LocalizationI {
@@ -526,7 +525,7 @@ public abstract class Localization extends LocalizationI {
 	 *            arguments for replacement
 	 * @return translated key with replaced %*s
 	 */
-	final public @Nonnull String getPlainDefault(String key, String defaultPattern,
+	final public @NonNull String getPlainDefault(String key, String defaultPattern,
 			String... args) {
 		String str = getMenuDefault(key, defaultPattern);
 		if (!str.isEmpty()) {
@@ -1158,7 +1157,7 @@ public abstract class Localization extends LocalizationI {
 		return Errors.InvalidInput.getError(this);
 	}
 
-	public @Nonnull LocalizedCommandSyntax getCommandSyntax() {
+	public @NonNull LocalizedCommandSyntax getCommandSyntax() {
 		return commandSyntax;
 	}
 

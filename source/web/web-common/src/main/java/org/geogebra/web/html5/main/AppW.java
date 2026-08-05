@@ -27,9 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.awt.AwtFactory;
@@ -193,6 +190,8 @@ import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -1669,7 +1668,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            application
 	 * @return a kernel
 	 */
-	protected Kernel newKernel(@Nonnull App thisApp) {
+	protected Kernel newKernel(@NonNull App thisApp) {
 		return new Kernel(thisApp, new GeoFactory());
 	}
 
@@ -3467,7 +3466,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * @return manager for showing/hiding keyboard
 	 */
-	public @CheckForNull KeyboardManagerInterface getKeyboardManager() {
+	public @Nullable KeyboardManagerInterface getKeyboardManager() {
 		return null;
 	}
 

@@ -21,13 +21,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -69,7 +68,7 @@ public abstract class ScriptManager implements EventListener {
 	 * @param app
 	 *            application
 	 */
-	public ScriptManager(@Nonnull App app) {
+	public ScriptManager(@NonNull App app) {
 		this.app = app;
 		app.getEventDispatcher().addEventListener(this);
 	}

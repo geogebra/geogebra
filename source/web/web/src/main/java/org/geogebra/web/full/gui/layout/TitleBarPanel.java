@@ -16,8 +16,6 @@
 
 package org.geogebra.web.full.gui.layout;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.full.cas.view.CASStylebarW;
 import org.geogebra.web.full.css.GuiResources;
@@ -34,6 +32,7 @@ import org.gwtproject.event.dom.client.DomEvent;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 public class TitleBarPanel extends FlowPanel implements DockControlPanel {
 	private final AppW app;
@@ -43,7 +42,7 @@ public class TitleBarPanel extends FlowPanel implements DockControlPanel {
 	/**
 	 * Style bar component.
 	 */
-	private @CheckForNull Widget styleBar;
+	private @Nullable Widget styleBar;
 	/**
 	 * Panel for the styling bar if one is available.
 	 */

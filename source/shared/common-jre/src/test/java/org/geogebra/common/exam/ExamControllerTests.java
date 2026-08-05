@@ -35,9 +35,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -57,6 +54,8 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.restrictions.FeatureRestriction;
 import org.geogebra.test.annotation.Issue;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -502,19 +501,19 @@ final class ExamControllerTests extends BaseExamTestSetup implements ExamControl
 	}
 
 	@Override
-	public void examSetActiveMaterial(@CheckForNull Material material) {
+	public void examSetActiveMaterial(@Nullable Material material) {
 		activeMaterial = material;
 	}
 
 	@Override
-	public @CheckForNull Material examGetActiveMaterial() {
+	public @Nullable Material examGetActiveMaterial() {
 		return activeMaterial;
 	}
 
 	// -- RestrictionsControllerDelegate --
 
 	@Override
-	public void switchSubApp(@Nonnull SuiteSubApp subApp) {
+	public void switchSubApp(@NonNull SuiteSubApp subApp) {
 		// keep references so that we can check if restrictions have been reverted correctly
 		previousCommandDispatcher = getCommandDispatcher();
 		restrictionsController.unregisterRestrictable(getApp());

@@ -18,8 +18,6 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GArc2D;
 import org.geogebra.common.awt.GColor;
@@ -33,6 +31,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.ChartStyle;
 import org.geogebra.common.kernel.statistics.GeoPieChart;
+import org.jspecify.annotations.Nullable;
 
 public class DrawPieChart extends Drawable {
 	private static final double INITIAL_ANGLE = 0.25; // fraction of full angle
@@ -152,7 +151,7 @@ public class DrawPieChart extends Drawable {
 	}
 
 	@Override
-	public @CheckForNull GRectangle getBounds() {
+	public @Nullable GRectangle getBounds() {
 		return outline.getBounds();
 	}
 }

@@ -16,19 +16,18 @@
 
 package org.geogebra.common.kernel.arithmetic.vector;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.Printer;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.GeneralSettings;
+import org.jspecify.annotations.Nullable;
 
 class CartesianPrinter implements Printer {
 
-    private final @CheckForNull GeneralSettings settings;
+    private final @Nullable GeneralSettings settings;
 
-    CartesianPrinter(@CheckForNull GeneralSettings settings) {
+    CartesianPrinter(@Nullable GeneralSettings settings) {
         this.settings = settings;
     }
 

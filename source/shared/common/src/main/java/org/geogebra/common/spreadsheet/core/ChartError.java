@@ -18,7 +18,7 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Enumeration representing possible validation errors when generating charts
@@ -115,7 +115,7 @@ public enum ChartError {
 	 * in which case there must only be one range.
 	 * @return {@link #NONE} if the ranges are valid, or a validation error otherwise.
 	 */
-	public static ChartError validateRangesForBoxPlot(@Nonnull List<TabularRange> ranges) {
+	public static ChartError validateRangesForBoxPlot(@NonNull List<TabularRange> ranges) {
 		if (ranges.isEmpty()) {
 			return ChartError.NoData; // not enough ranges
 		}

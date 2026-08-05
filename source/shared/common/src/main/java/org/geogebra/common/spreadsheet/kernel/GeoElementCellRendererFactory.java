@@ -20,8 +20,6 @@ import static org.geogebra.common.euclidian.EuclidianConstants.DEFAULT_CHECKBOX_
 
 import java.util.function.Supplier;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.DrawBoolean;
@@ -41,6 +39,7 @@ import org.geogebra.common.spreadsheet.rendering.StringRenderer;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.common.util.shape.Rectangle;
+import org.jspecify.annotations.Nullable;
 
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFont;
@@ -111,7 +110,7 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 				background, textColor);
 	}
 
-	private @CheckForNull GColor getBackgroundColor(GeoElement geoElement) {
+	private @Nullable GColor getBackgroundColor(GeoElement geoElement) {
 		return geoElement instanceof GeoNumeric number && number.isSliderable()
 				|| geoElement.isGeoButton()
 				? null : geoElement.getBackgroundColor();

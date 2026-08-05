@@ -18,8 +18,6 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import java.util.ArrayList;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInterface;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.io.XMLStringBuilder;
@@ -59,6 +57,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Plane
@@ -492,12 +491,12 @@ public class GeoPlane3D extends GeoElement3D
 	}
 
 	@Override
-	public @CheckForNull Form getEquationForm() {
+	public @Nullable Form getEquationForm() {
 		return equationForm;
 	}
 
 	@Override // EquationLinear
-	public void setEquationForm(@CheckForNull Form equationForm) {
+	public void setEquationForm(@Nullable Form equationForm) {
 		if (equationForm != null) {
 			this.equationForm = equationForm;
 		}

@@ -24,8 +24,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Locateable;
@@ -53,6 +51,7 @@ import org.geogebra.common.properties.impl.facade.StringPropertyWithSuggestionsL
 import org.geogebra.common.properties.impl.objects.PlacementProperty.Placement;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
+import org.jspecify.annotations.Nullable;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -132,7 +131,7 @@ public class PositionPropertyCollection extends AbstractPropertyCollection<Prope
 	 * @return the placement property if it can be applied to the given element,
 	 * or {@code null} otherwise
 	 */
-	public @CheckForNull NamedEnumeratedProperty<Placement> getPlacementProperty() {
+	public @Nullable NamedEnumeratedProperty<Placement> getPlacementProperty() {
 		return placementProperty;
 	}
 
@@ -140,7 +139,7 @@ public class PositionPropertyCollection extends AbstractPropertyCollection<Prope
 	 * @return the absolute screen positioning property if it can be applied to the given element,
 	 * or {@code null} otherwise
 	 */
-	public @CheckForNull PropertyCollection<StringProperty>
+	public @Nullable PropertyCollection<StringProperty>
 		getAbsoluteScreenPositionPropertyCollection() {
 		return absoluteScreenPositionPropertyCollection;
 	}
@@ -149,7 +148,7 @@ public class PositionPropertyCollection extends AbstractPropertyCollection<Prope
 	 * @return the starting point positioning property if it can be applied to the given element,
 	 * or {@code null} otherwise
 	 */
-	public @CheckForNull StringPropertyWithSuggestions getStartingPointPositionProperty() {
+	public @Nullable StringPropertyWithSuggestions getStartingPointPositionProperty() {
 		return startingPointPositionProperty;
 	}
 
@@ -157,7 +156,7 @@ public class PositionPropertyCollection extends AbstractPropertyCollection<Prope
 	 * @return the corner positioning properties if they can be applied to the given element,
 	 * or {@code null} otherwise
 	 */
-	public @CheckForNull List<StringPropertyWithSuggestions> getCornerPositionProperties() {
+	public @Nullable List<StringPropertyWithSuggestions> getCornerPositionProperties() {
 		List<StringPropertyWithSuggestions> cornerPositionProperties = Arrays.asList(
 				cornerPositionProperty1, cornerPositionProperty2, cornerPositionProperty4);
 		return cornerPositionProperties.stream().noneMatch(Objects::isNull)
@@ -168,7 +167,7 @@ public class PositionPropertyCollection extends AbstractPropertyCollection<Prope
 	 * @return the center positioning property if it can be applied to the given element,
 	 * or {@code null} otherwise
 	 */
-	public @CheckForNull StringPropertyWithSuggestions getCenterImagePositionProperty() {
+	public @Nullable StringPropertyWithSuggestions getCenterImagePositionProperty() {
 		return centerImagePositionProperty;
 	}
 
@@ -176,12 +175,12 @@ public class PositionPropertyCollection extends AbstractPropertyCollection<Prope
 	 * @return the pie chart center positioning property if it can be applied to the given element,
 	 * or {@code null} otherwise
 	 */
-	public @CheckForNull StringPropertyWithSuggestions getPieChartCenterPositionProperty() {
+	public @Nullable StringPropertyWithSuggestions getPieChartCenterPositionProperty() {
 		return pieChartCenterPositionProperty;
 	}
 
 	/** Utility method for validating expression for point input. */
-	static @CheckForNull String validatePointExpression(
+	static @Nullable String validatePointExpression(
 			Parser parser, Localization localization, String expression) {
 		if (expression == null || expression.isEmpty()) {
 			return "";

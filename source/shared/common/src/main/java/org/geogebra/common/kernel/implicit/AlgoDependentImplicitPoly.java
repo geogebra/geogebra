@@ -21,8 +21,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
@@ -41,6 +39,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Dependent implicit polynomial (or line / conic)
@@ -87,7 +86,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	 * @param evaluatedDef result of evaluation of the definition node
 	 */
 	public AlgoDependentImplicitPoly(Construction c, Equation equ, ExpressionNode definition,
-			boolean simplify, @CheckForNull ExpressionValue evaluatedDef) {
+			boolean simplify, @Nullable ExpressionValue evaluatedDef) {
 		super(c, false);
 		equation = equ;
 		if (equation.isFunctionDependent()) {

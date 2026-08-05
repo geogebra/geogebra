@@ -18,8 +18,6 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.measurement.MeasurementController;
@@ -29,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.util.MyMath;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Class to handle rotating of objects
@@ -44,8 +43,8 @@ public class RotateBoundingBox {
 	 * @param euclidianController {@link EuclidianController}
 	 * @param measurementController {@link MeasurementController}
 	 */
-	public RotateBoundingBox(@Nonnull EuclidianController euclidianController,
-			@Nonnull MeasurementController measurementController) {
+	public RotateBoundingBox(@NonNull EuclidianController euclidianController,
+			@NonNull MeasurementController measurementController) {
 		this.ec = euclidianController;
 		this.view = ec.getView();
 		this.measurementController = measurementController;

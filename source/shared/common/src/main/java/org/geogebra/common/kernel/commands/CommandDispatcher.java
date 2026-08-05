@@ -20,9 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
@@ -38,6 +35,8 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -233,7 +232,7 @@ public abstract class CommandDispatcher {
 		}
 	}
 
-	private GeoElement[] process(@CheckForNull CommandProcessor cmdProc, Command c, EvalInfo info) {
+	private GeoElement[] process(@Nullable CommandProcessor cmdProc, Command c, EvalInfo info) {
 		checkIsAllowedByCommandArgumentFilters(c, cmdProc);
 		// switch on macro mode to avoid labeling of output if desired
 		// Solve[{e^-(x*x/2)=1,x>0},x]
@@ -1025,7 +1024,7 @@ public abstract class CommandDispatcher {
 	 *            to add. only the commands that are allowed by all
 	 *            commandFilters will be added to the command table
 	 */
-	public void addCommandFilter(@Nonnull CommandFilter filter) {
+	public void addCommandFilter(@NonNull CommandFilter filter) {
 		commandFilters.add(filter);
 		if (cmdTable != null) {
 			cmdTable.clear();
@@ -1038,7 +1037,7 @@ public abstract class CommandDispatcher {
 	 * @param filter
 	 *            to remove.
 	 */
-	public void removeCommandFilter(@Nonnull CommandFilter filter) {
+	public void removeCommandFilter(@NonNull CommandFilter filter) {
 		commandFilters.remove(filter);
 	}
 
@@ -1048,7 +1047,7 @@ public abstract class CommandDispatcher {
 	 * @param filter
 	 *            to add.
 	 */
-	public void addCommandArgumentFilter(@Nonnull CommandArgumentFilter filter) {
+	public void addCommandArgumentFilter(@NonNull CommandArgumentFilter filter) {
 		commandArgumentFilters.add(filter);
 	}
 
@@ -1058,7 +1057,7 @@ public abstract class CommandDispatcher {
 	 * @param filter
 	 *            to remove.
 	 */
-	public void removeCommandArgumentFilter(@Nonnull CommandArgumentFilter filter) {
+	public void removeCommandArgumentFilter(@NonNull CommandArgumentFilter filter) {
 		commandArgumentFilters.remove(filter);
 	}
 

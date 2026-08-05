@@ -18,8 +18,6 @@ package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
 import java.util.function.Supplier;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -32,6 +30,7 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.dom.style.shared.Position;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tab of Table Values View.
@@ -41,7 +40,7 @@ import org.gwtproject.dom.style.shared.Position;
 public class TableTab extends ToolbarTab {
 
 	private final Supplier<? extends StickyTable<?>> tableSupplier;
-	private @CheckForNull StickyTable<?> table;
+	private @Nullable StickyTable<?> table;
 	private final ToolbarPanel toolbarPanel;
 	private final AppW app;
 

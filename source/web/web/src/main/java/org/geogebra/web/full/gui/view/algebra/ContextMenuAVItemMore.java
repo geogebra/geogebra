@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.contextmenu.AlgebraContextMenuActionHandler;
 import org.geogebra.common.contextmenu.AlgebraContextMenuItem;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
@@ -39,6 +37,7 @@ import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.NonNull;
 
 /**
  * The ... menu for AV items
@@ -165,7 +164,7 @@ public class ContextMenuAVItemMore implements SetLabels,
 	}
 
 	@Override
-	public void addFormulaToAlgebraView(@Nonnull String formula) {
+	public void addFormulaToAlgebraView(@NonNull String formula) {
 		RadioTreeItem input = mApp.getAlgebraView().getInputTreeItem();
 		RadioTreeItem currentNode = mApp.getAlgebraView().getNode(geo);
 		if (currentNode != null) {
@@ -178,7 +177,7 @@ public class ContextMenuAVItemMore implements SetLabels,
 	}
 
 	@Override
-	public void showObjectProperties(@Nonnull PropertyView.TabbedPageSelector tabbedPageSelector) {
+	public void showObjectProperties(PropertyView.@NonNull TabbedPageSelector tabbedPageSelector) {
 		mApp.getDialogManager().showPropertiesDialog(new ArrayList<>(List.of(geo))); // TODO
 	}
 }

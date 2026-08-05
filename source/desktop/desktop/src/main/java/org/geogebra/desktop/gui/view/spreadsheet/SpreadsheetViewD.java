@@ -35,7 +35,6 @@ import java.net.URL;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.annotation.CheckForNull;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -68,6 +67,7 @@ import org.geogebra.desktop.gui.view.Gridable;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.SpreadsheetTableModelD;
 import org.geogebra.desktop.util.GuiResourcesD;
+import org.jspecify.annotations.Nullable;
 
 public class SpreadsheetViewD implements SpreadsheetViewInterface, ComponentListener,
 		FocusListener, Gridable, SettingListener<SpreadsheetSettings>, SetLabels {
@@ -541,7 +541,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface, ComponentList
 	 * @param anchorRow initial row
 	 * @return trace selection range
 	 */
-	public @CheckForNull TabularRange getTraceSelectionRange(int anchorColumn, int anchorRow) {
+	public @Nullable TabularRange getTraceSelectionRange(int anchorColumn, int anchorRow) {
 		if (traceDialog == null) {
 			return null;
 		}

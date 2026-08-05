@@ -18,8 +18,6 @@ package org.geogebra.common.properties.impl.objects;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasSegmentStyle;
@@ -31,6 +29,7 @@ import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.SegmentPropertyDelegate;
+import org.jspecify.annotations.Nullable;
 
 public class SegmentStartProperty extends AbstractEnumeratedProperty<SegmentStyle>
 		implements IconsEnumeratedProperty<SegmentStyle> {
@@ -74,7 +73,7 @@ public class SegmentStartProperty extends AbstractEnumeratedProperty<SegmentStyl
 	}
 
 	@Override
-	public @CheckForNull String[] getToolTipLabels() {
+	public @Nullable String[] getToolTipLabels() {
 		return null;
 	}
 

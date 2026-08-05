@@ -18,11 +18,10 @@ package org.geogebra.common.spreadsheet.kernel;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularRange;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public final class ChartBuilder {
 
@@ -53,7 +52,7 @@ public final class ChartBuilder {
 	 * @param range The range in {@code data} from which to create the chart.
 	 * @return Pie chart command, e.g. =PieChart(A1:A3,(0,0))
 	 */
-	public static @CheckForNull String getPieChartCommand(TabularData<?> data, TabularRange range) {
+	public static @Nullable String getPieChartCommand(TabularData<?> data, TabularRange range) {
 		if (range.isEntireColumn()) {
 			return getPieChartCommand(data, 0, range.getMinColumn(),
 					data.numberOfRows() - 2, range.getMaxColumn());
@@ -64,7 +63,7 @@ public final class ChartBuilder {
 		return null;
 	}
 
-	private static @Nonnull String getPieChartCommand(TabularData<?> data,
+	private static @NonNull String getPieChartCommand(TabularData<?> data,
 			int fromRow, int fromCol, int toRow, int toCol) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("PieChart");
@@ -86,7 +85,7 @@ public final class ChartBuilder {
 	 * @param ranges List of ranges in {@code data} from which to create the chart.
 	 * @return Bar chart command, e.g. =BarChart(A1:A3,B1:B3)
 	 */
-	public static @CheckForNull String getBarChartCommand(TabularData<?> data, List<TabularRange> ranges) {
+	public static @Nullable String getBarChartCommand(TabularData<?> data, List<TabularRange> ranges) {
 		return getChart(data, ranges, "BarChart");
 	}
 
@@ -101,7 +100,7 @@ public final class ChartBuilder {
 				pair.end.getToRow(), pair.end.getToColumn());
 	}
 
-	private static @Nonnull String getChartCommandWithTwoListParameter(String commandName,
+	private static @NonNull String getChartCommandWithTwoListParameter(String commandName,
 			TabularData<?> data, int fromRow, int fromCol, int toRow, int toCol) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(commandName);
@@ -123,7 +122,7 @@ public final class ChartBuilder {
 	 * @param ranges List of ranges in {@code data} from which to create the chart.
 	 * @return Histogram command, e.g. =Histogram(A1:A3,B1:B3)
 	 */
-	public static @CheckForNull String getHistogramCommand(TabularData<?> data, List<TabularRange> ranges) {
+	public static @Nullable String getHistogramCommand(TabularData<?> data, List<TabularRange> ranges) {
 		return getChart(data, ranges, "Histogram");
 	}
 
@@ -161,8 +160,8 @@ public final class ChartBuilder {
 	 * must be passed, otherwise the resulting command may be garbage.
 	 * @return The BoxPlot command
 	 */
-	public static @Nonnull String getBoxPlotCommand(@Nonnull TabularData<?> data,
-			@Nonnull List<TabularRange> ranges) {
+	public static @NonNull String getBoxPlotCommand(@NonNull TabularData<?> data,
+			@NonNull List<TabularRange> ranges) {
 		TabularRange rawDataRange = ranges.get(0);
 		TabularRange frequenciesRange = null;
 		if (ranges.size() > 1) {
@@ -212,8 +211,8 @@ public final class ChartBuilder {
 		return sb.toString();
 	}
 
-	private static String formatCellRange(@Nonnull TabularRange range,
-			@Nonnull TabularData<?> data) {
+	private static String formatCellRange(@NonNull TabularRange range,
+			@NonNull TabularData<?> data) {
 		return data.getCellName(range.getFromRow(), range.getFromColumn())
 				+ ":"
 				+ data.getCellName(range.getToRow(), range.getToColumn());

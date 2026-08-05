@@ -16,7 +16,7 @@
 
 package org.geogebra.common.properties;
 
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Properties registry listener.
@@ -28,7 +28,7 @@ public interface PropertiesRegistryListener {
 	 *
 	 * @param property The property.
 	 */
-	void propertyRegistered(@Nonnull Property property);
+	void propertyRegistered(@NonNull Property property);
 
 	/**
 	 * Called when a property has been unregistered from a registry.

@@ -16,9 +16,6 @@
 
 package org.geogebra.common.gui.view.spreadsheet;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -30,13 +27,15 @@ import org.geogebra.common.spreadsheet.core.SelectionType;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public class SpreadsheetModeProcessor {
 
 	private final App app;
 	private final SpreadsheetTableModel tableModel;
 	private final Kernel kernel;
-	private final @CheckForNull MyTable table;
+	private final @Nullable MyTable table;
 	private GeoElement targetCell;
 
 	/**
@@ -45,7 +44,7 @@ public class SpreadsheetModeProcessor {
 	 * @param table
 	 *            table
 	 */
-	public SpreadsheetModeProcessor(@Nonnull App app, @CheckForNull MyTable table) {
+	public SpreadsheetModeProcessor(@NonNull App app, @Nullable MyTable table) {
 		this.app = app;
 		this.tableModel = app.getSpreadsheetTableModel();
 		this.kernel = app.getKernel();

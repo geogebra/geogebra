@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.contextmenu.TableValuesContextMenuActionHandler.PlotActionHandler;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
@@ -39,6 +37,7 @@ import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Panel;
+import org.jspecify.annotations.Nullable;
 
 public class StatsSideSheetTV {
 	private final AppW app;
@@ -118,7 +117,7 @@ public class StatsSideSheetTV {
 	 */
 	public void addRegressionChooser(
 			Map<RegressionSpecification, List<StatisticGroup>> regressionGroups,
-			@CheckForNull PlotActionHandler plotActionHandler) {
+			@Nullable PlotActionHandler plotActionHandler) {
 		List<RegressionSpecification> available = new ArrayList<>(regressionGroups.keySet());
 		List<String> items = new ArrayList<>();
 		available.forEach(spec -> items.add(app.getLocalization().getMenu(spec.getLabel())));

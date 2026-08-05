@@ -16,8 +16,6 @@
 
 package org.geogebra.common.kernel.geos;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -25,6 +23,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.StringUtil;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Library class for labeling geos; label-related static methods should go there
@@ -57,7 +56,7 @@ public class LabelManager {
 	 *            potential label
 	 * @return true for valid labels
 	 */
-	public static boolean checkName(@CheckForNull GeoElementND geo, String nameToCheck) {
+	public static boolean checkName(@Nullable GeoElementND geo, String nameToCheck) {
 		String name = nameToCheck;
 		if (name == null) {
 			return true;
@@ -90,7 +89,7 @@ public class LabelManager {
 	 *         start with $
 	 */
 	public static boolean isValidLabel(String label, Kernel kernel,
-			@CheckForNull GeoElement geo) {
+			@Nullable GeoElement geo) {
 
 		if (!checkName(geo, label)) {
 			return false;

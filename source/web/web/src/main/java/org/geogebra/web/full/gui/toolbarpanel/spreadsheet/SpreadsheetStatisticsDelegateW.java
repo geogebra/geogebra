@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
 import org.geogebra.common.spreadsheet.core.SpreadsheetReference;
 import org.geogebra.common.spreadsheet.core.SpreadsheetReferenceParsing;
@@ -38,6 +36,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.gwtproject.user.client.ui.FlowPanel;
+import org.jspecify.annotations.NonNull;
 
 public class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisticsDelegate {
 	private final AppW app;
@@ -57,7 +56,7 @@ public class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisticsDele
 	}
 
 	@Override
-	public void showOneVarStatistics(@Nonnull SpreadsheetStatisticsView.OneVar statisticsView) {
+	public void showOneVarStatistics(SpreadsheetStatisticsView.@NonNull OneVar statisticsView) {
 		inputPanel.clear();
 		xRange = new ComponentInputField(
 				app, null, "Statistics.DataRange", null,
@@ -75,7 +74,7 @@ public class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisticsDele
 	}
 
 	@Override
-	public void showTwoVarStatistics(@Nonnull SpreadsheetStatisticsView.TwoVar statisticsView) {
+	public void showTwoVarStatistics(SpreadsheetStatisticsView.@NonNull TwoVar statisticsView) {
 		inputPanel.clear();
 		xRange = new ComponentInputField(
 				app, null, "Statistics.XDataRange", null,
@@ -99,7 +98,7 @@ public class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisticsDele
 	}
 
 	@Override
-	public void showRegression(@Nonnull SpreadsheetStatisticsView.Regression statisticsView) {
+	public void showRegression(SpreadsheetStatisticsView.@NonNull Regression statisticsView) {
 		inputPanel.clear();
 		xRange = new ComponentInputField(
 				app, null, "Statistics.XDataRange", null,

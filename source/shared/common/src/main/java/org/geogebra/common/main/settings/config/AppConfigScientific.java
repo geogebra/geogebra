@@ -20,8 +20,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
@@ -38,6 +36,7 @@ import org.geogebra.common.main.syntax.suggestionfilter.ScientificSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.PropertiesFactory;
 import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Config for Scientific Calculator app
@@ -128,7 +127,7 @@ public class AppConfigScientific extends AppConfigGraphing {
 	}
 
 	@Override
-	public @CheckForNull SyntaxFilter newCommandSyntaxFilter() {
+	public @Nullable SyntaxFilter newCommandSyntaxFilter() {
 		return new ScientificSyntaxFilter();
 	}
 

@@ -18,8 +18,6 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import java.util.ArrayList;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoLinePoint;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.io.XMLStringBuilder;
@@ -50,6 +48,7 @@ import org.geogebra.common.kernel.matrix.CoordMatrixUtil;
 import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
+import org.jspecify.annotations.Nullable;
 
 /**
  * 1D linear object in space (segment, line, ...)
@@ -933,12 +932,12 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	}
 
 	@Override
-	public @CheckForNull Form getEquationForm() {
+	public @Nullable Form getEquationForm() {
 		return equationForm;
 	}
 
 	@Override // EquationLinear
-	public void setEquationForm(@CheckForNull Form equationForm) {
+	public void setEquationForm(@Nullable Form equationForm) {
 		if (equationForm != null) {
 			this.equationForm = equationForm;
 		}

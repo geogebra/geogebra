@@ -36,7 +36,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-import javax.annotation.Nonnull;
 import javax.swing.AbstractAction;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -72,6 +71,7 @@ import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidian.CursorMap;
 import org.geogebra.editor.desktop.MathFieldD;
 import org.geogebra.editor.share.editor.MathFieldInternal;
+import org.jspecify.annotations.NonNull;
 
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 
@@ -250,13 +250,13 @@ public class SpreadsheetDemo {
 				private ClipboardInterface clipboard = new ClipboardD();
 
 				@Override
-				public @Nonnull SpreadsheetCellEditor getCellEditor() {
+				public @NonNull SpreadsheetCellEditor getCellEditor() {
 					return editor;
 				}
 
 				@Override
 				public void showContextMenu(
-						@Nonnull List<ContextMenuItem> items, @Nonnull Point position) {
+						@NonNull List<ContextMenuItem> items, @NonNull Point position) {
 					contextMenu.show(editorOverlay,
 							(int) Math.round(position.x), (int) Math.round(position.y));
 					contextMenu.removeAll();
@@ -290,7 +290,7 @@ public class SpreadsheetDemo {
 
 				@Override
 				public void showAutoCompleteSuggestions(
-						@Nonnull String input, @Nonnull Rectangle editorBounds) {
+						@NonNull String input, @NonNull Rectangle editorBounds) {
 					// Not needed
 				}
 
@@ -310,7 +310,7 @@ public class SpreadsheetDemo {
 				}
 
 				@Override
-				public void showSnackbar(@Nonnull String messageKey) {
+				public void showSnackbar(@NonNull String messageKey) {
 					// Not needed
 				}
 			});
@@ -354,7 +354,7 @@ public class SpreadsheetDemo {
 			}
 
 			@Override
-			public void show(@Nonnull Rectangle editorBounds, @Nonnull Rectangle viewport, int textAlignment) {
+			public void show(@NonNull Rectangle editorBounds, @NonNull Rectangle viewport, int textAlignment) {
 				if (!frame.getContentPane().isAncestorOf(editorBox)) {
 					frame.getContentPane().add(editorBox);
 				}
@@ -364,7 +364,7 @@ public class SpreadsheetDemo {
 			}
 
 			@Override
-			public void updatePosition(@Nonnull Rectangle editorBounds, @Nonnull Rectangle viewport) {
+			public void updatePosition(@NonNull Rectangle editorBounds, @NonNull Rectangle viewport) {
 				java.awt.Point locationInWindow = getParent().getLocation();
 				editorBox.setBounds((int) editorBounds.getMinX() + locationInWindow.x,
 						(int) editorBounds.getMinY() + locationInWindow.y,
@@ -381,17 +381,17 @@ public class SpreadsheetDemo {
 			}
 
 			@Override
-			public @Nonnull MathFieldInternal getMathField() {
+			public @NonNull MathFieldInternal getMathField() {
 				return mathField.getInternal();
 			}
 
 			@Override
-			public @Nonnull DefaultSpreadsheetCellProcessor getCellProcessor() {
+			public @NonNull DefaultSpreadsheetCellProcessor getCellProcessor() {
 				return new DefaultSpreadsheetCellProcessor(app.getKernel().getAlgebraProcessor());
 			}
 
 			@Override
-			public @Nonnull SpreadsheetCellDataSerializer getCellDataSerializer() {
+			public @NonNull SpreadsheetCellDataSerializer getCellDataSerializer() {
 				return new DefaultSpreadsheetCellDataSerializer();
 			}
 		}

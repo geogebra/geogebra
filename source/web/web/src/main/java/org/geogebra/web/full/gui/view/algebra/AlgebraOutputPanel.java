@@ -18,9 +18,6 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
@@ -42,14 +39,16 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.HTML;
 import org.gwtproject.user.client.ui.Image;
 import org.gwtproject.user.client.ui.Label;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Output part of AV item
  */
 public class AlgebraOutputPanel extends FlowPanel {
-	private final @Nonnull FlowPanel valuePanel;
-	private @CheckForNull Canvas valCanvas;
-	private @CheckForNull Label valueLabel;
+	private final @NonNull FlowPanel valuePanel;
+	private @Nullable Canvas valCanvas;
+	private @Nullable Label valueLabel;
 
 	/**
 	 * Create new output panel

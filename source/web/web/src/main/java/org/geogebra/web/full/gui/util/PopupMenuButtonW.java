@@ -18,8 +18,6 @@ package org.geogebra.web.full.gui.util;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -38,6 +36,7 @@ import org.gwtproject.event.logical.shared.CloseEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Table popup for selecting properties of objects
@@ -284,7 +283,7 @@ public class PopupMenuButtonW extends StandardButton
 	/**
 	 * @return {@link ImageOrText}
 	 */
-	public @CheckForNull ImageOrText getButtonIcon() {
+	public @Nullable ImageOrText getButtonIcon() {
 		int selectedIndex = getSelectedIndex();
 		return selectedIndex < 0 ? null : data[selectedIndex];
 	}

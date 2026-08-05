@@ -16,9 +16,6 @@
 
 package org.geogebra.common.gui.view.algebra;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -27,6 +24,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.ownership.NonOwning;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -61,7 +60,7 @@ public class AlgebraViewUIAdapter {
 	 * Constructor
 	 * @param app The app.
 	 */
-	public AlgebraViewUIAdapter(@Nonnull App app) {
+	public AlgebraViewUIAdapter(@NonNull App app) {
 		algebraViewImpl = new AlgebraViewImpl(app);
 	}
 
@@ -70,8 +69,8 @@ public class AlgebraViewUIAdapter {
 	 * @param uiDelegate the UI delegate
 	 * @param itemsListener the AV items listener
 	 */
-	public void setDelegates(@CheckForNull AlgebraViewUIDelegate uiDelegate,
-			@CheckForNull AlgebraViewItems.Listener itemsListener) {
+	public void setDelegates(@Nullable AlgebraViewUIDelegate uiDelegate,
+			AlgebraViewItems.@Nullable Listener itemsListener) {
 		algebraViewImpl.uiDelegate = uiDelegate;
 		algebraViewImpl.items.listener = itemsListener;
 	}
@@ -98,7 +97,7 @@ public class AlgebraViewUIAdapter {
 
 		@Weak
 		@NonOwning
-		private @CheckForNull AlgebraViewUIDelegate uiDelegate;
+		private @Nullable AlgebraViewUIDelegate uiDelegate;
 
 		private final AlgebraViewItems items;
 		private final App app;
@@ -110,7 +109,7 @@ public class AlgebraViewUIAdapter {
 		private boolean isVisible = false;
 		private boolean isWrapped = false;
 
-		AlgebraViewImpl(@Nonnull App app) {
+		AlgebraViewImpl(@NonNull App app) {
 			this.app = app;
 			this.kernel = app.getKernel();
 			items = new AlgebraViewItems(app);

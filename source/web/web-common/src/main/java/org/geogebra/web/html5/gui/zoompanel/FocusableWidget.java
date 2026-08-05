@@ -18,8 +18,6 @@ package org.geogebra.web.html5.gui.zoompanel;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.FocusableComponent;
@@ -30,6 +28,7 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.DomGlobal;
@@ -40,7 +39,7 @@ public class FocusableWidget implements FocusableComponent {
 
 	private final List<Widget> btns;
 	private final AccessibilityGroup accessibilityGroup;
-	private final @CheckForNull AccessibilityGroup.ViewControlId subgroup;
+	private final AccessibilityGroup.@Nullable ViewControlId subgroup;
 
 	/**
 	 * @param btns button
@@ -48,7 +47,7 @@ public class FocusableWidget implements FocusableComponent {
 	 * @param subgroup subgroup
 	 */
 	public FocusableWidget(AccessibilityGroup accessibilityGroup,
-			@CheckForNull AccessibilityGroup.ViewControlId subgroup, Widget... btns) {
+			AccessibilityGroup.@Nullable ViewControlId subgroup, Widget... btns) {
 		this(accessibilityGroup, subgroup, List.of(btns));
 	}
 
@@ -58,7 +57,7 @@ public class FocusableWidget implements FocusableComponent {
 	 * @param subgroup subgroup
 	 */
 	public FocusableWidget(AccessibilityGroup accessibilityGroup,
-			@CheckForNull AccessibilityGroup.ViewControlId subgroup, List<Widget> btns) {
+			AccessibilityGroup.@Nullable ViewControlId subgroup, List<Widget> btns) {
 		this.btns = btns;
 		this.accessibilityGroup = accessibilityGroup;
 		this.subgroup = subgroup;
@@ -117,7 +116,7 @@ public class FocusableWidget implements FocusableComponent {
 				&& isFocusable(btn);
 	}
 
-	private @CheckForNull Widget getFirstFocusableWidget() {
+	private @Nullable Widget getFirstFocusableWidget() {
 		for (Widget w : btns) {
 			if (isVisibleAndFocusable(w)) {
 				return w;
@@ -126,7 +125,7 @@ public class FocusableWidget implements FocusableComponent {
 		return null;
 	}
 
-	private @CheckForNull Widget getLastFocusableWidget() {
+	private @Nullable Widget getLastFocusableWidget() {
 		for (int i = btns.size() - 1; i >= 0; i--) {
 			Widget widget = btns.get(i);
 			if (isVisibleAndFocusable(widget)) {
@@ -219,7 +218,7 @@ public class FocusableWidget implements FocusableComponent {
 	}
 
 	@Override
-	public @CheckForNull AccessibilityGroup.ViewControlId getViewControlId() {
+	public AccessibilityGroup.@Nullable ViewControlId getViewControlId() {
 		return subgroup;
 	}
 

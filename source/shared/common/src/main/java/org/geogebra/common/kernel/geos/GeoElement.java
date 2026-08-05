@@ -29,9 +29,6 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.Drawable;
@@ -117,6 +114,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.editor.share.util.Greek;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -142,7 +141,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public static final int MAX_LINE_WIDTH = 13;
 
 	@Weak
-	protected final @Nonnull App app;
+	protected final @NonNull App app;
 
 	private int tooltipMode = TOOLTIP_ALGEBRAVIEW_SHOWING;
 	/** should only be used directly in subclasses */
@@ -281,13 +280,13 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private boolean canBeRemovedAsInput = true;
 
-	protected @CheckForNull ExpressionNode definition;
+	protected @Nullable ExpressionNode definition;
 
 	private int defaultGeoType = -1;
 
 	/** parent algorithm */
 	@Weak
-	protected @CheckForNull AlgoElement algoParent = null;
+	protected @Nullable AlgoElement algoParent = null;
 
 	/** draw algorithm */
 	protected AlgoElement algoDraw = null;
@@ -363,7 +362,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		updateCascade(list, getTempSet(), true);
 	}
 
-	private void initWith(@Nonnull EuclidianViewInterfaceSlim ev) {
+	private void initWith(@NonNull EuclidianViewInterfaceSlim ev) {
 		viewFlags = new ArrayList<>();
 		viewFlags.add(ev.getViewID());
 
@@ -4140,7 +4139,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            fallback text
 	 * @return LaTeX text
 	 */
-	public @CheckForNull String getLaTeXAlgebraDescriptionWithFallback(
+	public @Nullable String getLaTeXAlgebraDescriptionWithFallback(
 			final boolean substituteNumbers, StringTemplate tpl,
 			boolean fallback) {
 		String ret = null;
@@ -4164,7 +4163,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	@Override
-	public final @CheckForNull String getLaTeXAlgebraDescription(
+	public final @Nullable String getLaTeXAlgebraDescription(
 			final boolean substituteNumbers,
 			StringTemplate tpl) {
 		return getLaTeXAlgebraDescription(this, substituteNumbers, tpl,
@@ -4178,12 +4177,12 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            template
 	 * @return LaTeX description without LHS
 	 */
-	public final @CheckForNull String getLaTeXDescriptionRHS(final boolean substituteNumbers,
+	public final @Nullable String getLaTeXDescriptionRHS(final boolean substituteNumbers,
 			StringTemplate tpl) {
 		return getLaTeXAlgebraDescription(this, substituteNumbers, tpl, false);
 	}
 
-	private @CheckForNull String getLaTeXAlgebraDescription(final GeoElement geo,
+	private @Nullable String getLaTeXAlgebraDescription(final GeoElement geo,
 			final boolean substituteNumbers, StringTemplate tpl,
 			boolean includeLHS) {
 
@@ -7074,7 +7073,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	@Override
-	public @CheckForNull GeoElementND unwrapSymbolic() {
+	public @Nullable GeoElementND unwrapSymbolic() {
 		return this;
 	}
 

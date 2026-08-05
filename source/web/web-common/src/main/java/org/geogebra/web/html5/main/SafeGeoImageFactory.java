@@ -19,8 +19,6 @@ package org.geogebra.web.html5.main;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -37,6 +35,7 @@ import org.geogebra.web.html5.safeimage.SafeImage;
 import org.geogebra.web.html5.safeimage.SafeImageProvider;
 import org.geogebra.web.html5.util.ArchiveEntry;
 import org.geogebra.web.html5.util.ImageManagerW;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.HTMLImageElement;
 
@@ -91,7 +90,7 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	 * @return the corresponding GeoImage object
 	 */
 	public GeoImage create(String fileName, String content,
-			@CheckForNull FileExtensions originalExtension) {
+			@Nullable FileExtensions originalExtension) {
 		ensureResultImageExists();
 		ArchiveEntry imageFile = new ArchiveEntry(fileName, content);
 		SafeImage safeImage = new SafeImage(imageFile, this,

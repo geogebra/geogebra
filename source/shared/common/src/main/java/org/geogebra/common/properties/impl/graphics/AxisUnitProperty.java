@@ -19,8 +19,6 @@ package org.geogebra.common.properties.impl.graphics;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
@@ -28,6 +26,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This property controls the unit of axis
@@ -54,7 +53,7 @@ public class AxisUnitProperty extends AbstractValuedProperty<String>
 	}
 
 	@Override
-	public @CheckForNull String validateValue(String value) {
+	public @Nullable String validateValue(String value) {
 		return null;
 	}
 

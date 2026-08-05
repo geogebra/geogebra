@@ -19,8 +19,6 @@ package org.geogebra.web.full.gui.menu;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.ExamType;
@@ -69,6 +67,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Controller for the main menu in the apps.
@@ -228,7 +227,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		return examType == null || getEnabledSubAppsFor(examType).size() > 1;
 	}
 
-	private @Nonnull List<SuiteSubApp> getEnabledSubAppsFor(ExamType examType) {
+	private @NonNull List<SuiteSubApp> getEnabledSubAppsFor(ExamType examType) {
 		Restrictions restrictions = examType.createRestrictions();
 		return SuiteSubApp.availableValues().stream().filter(subApp -> !restrictions
 				.getDisabledSubApps().contains(subApp)).collect(Collectors.toList());

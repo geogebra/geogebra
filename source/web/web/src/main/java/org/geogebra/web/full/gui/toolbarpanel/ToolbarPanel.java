@@ -21,8 +21,6 @@ import static org.geogebra.common.GeoGebraConstants.SCIENTIFIC_APPCODE;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.ModeChangeListener;
@@ -80,6 +78,7 @@ import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.CanvasRenderingContext2D;
 
@@ -108,20 +107,20 @@ public class ToolbarPanel extends FlowPanel
 	private Integer lastOpenWidth;
 	private AlgebraTab tabAlgebra;
 	private final List<ToolbarTab> tabs = new ArrayList<>();
-	private @CheckForNull TableTab tabTable;
-	private @CheckForNull ToolsTab tabTools;
-	private @CheckForNull SpreadsheetTab spreadsheetTab;
+	private @Nullable TableTab tabTable;
+	private @Nullable ToolsTab tabTools;
+	private @Nullable SpreadsheetTab spreadsheetTab;
 	private ShowableTab tabContainer;
 	private boolean isOpen = true;
 	private final ScheduledCommand deferredOnRes = this::resize;
 	private final UndoRedoProvider undoRedoProvider;
-	private @CheckForNull UndoRedoPanel undoRedoPanel;
+	private @Nullable UndoRedoPanel undoRedoPanel;
 	private FlowPanel heading;
 	private final FlowPanel styleBarWrapper;
 	private final DockPanelDecorator decorator;
 	private final ExamController examController;
 	private ScientificEmbedTopBar topBar;
-	private @CheckForNull SpreadsheetStyleBar spreadsheetStyleBar;
+	private @Nullable SpreadsheetStyleBar spreadsheetStyleBar;
 
 	/**
 	 * @param app application
@@ -1046,7 +1045,7 @@ public class ToolbarPanel extends FlowPanel
 	 * @param geo to ensure to be visible.
 	 * @param fade decides if tab should fade during animation.
 	 */
-	public void openTableView(@CheckForNull GeoEvaluatable geo, boolean fade) {
+	public void openTableView(@Nullable GeoEvaluatable geo, boolean fade) {
 		if (!needsNavRail() || !app.getConfig().hasTableView()) {
 			openAlgebra(fade);
 			return;
@@ -1331,7 +1330,7 @@ public class ToolbarPanel extends FlowPanel
 	 * @param tabIdentifier one of the App.VIEW_ int constants
 	 * @return the tab identified by the parameter, or null if no related tab is found
 	 */
-	public @CheckForNull ShowableTab getTab(int tabIdentifier) {
+	public @Nullable ShowableTab getTab(int tabIdentifier) {
 		return switch (tabIdentifier) {
 			case App.VIEW_ALGEBRA -> getTab(TabIds.ALGEBRA);
 			case App.VIEW_TOOLS -> getTab(TabIds.TOOLS);

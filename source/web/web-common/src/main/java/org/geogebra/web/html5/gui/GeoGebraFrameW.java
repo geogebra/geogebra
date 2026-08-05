@@ -18,8 +18,6 @@ package org.geogebra.web.html5.gui;
 
 import java.util.ArrayList;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.ownership.GlobalScope;
@@ -54,6 +52,7 @@ import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RootPanel;
+import org.jspecify.annotations.Nullable;
 
 import jsinterop.base.Js;
 
@@ -74,7 +73,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	/**
 	 * Splash Dialog to get it work quickly
 	 */
-	private @CheckForNull SplashDialog splash;
+	private @Nullable SplashDialog splash;
 
 	private static final int LOGO_WIDTH = 427;
 

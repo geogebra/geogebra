@@ -18,14 +18,13 @@ package org.geogebra.common.properties.impl.distribution;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Interval property.
@@ -67,7 +66,7 @@ public class IntervalProperty extends AbstractEnumeratedProperty<Integer> implem
 	}
 
 	@Override
-	public @CheckForNull String[] getToolTipLabels() {
+	public @Nullable String[] getToolTipLabels() {
 		return rawLabels;
 	}
 
@@ -87,7 +86,7 @@ public class IntervalProperty extends AbstractEnumeratedProperty<Integer> implem
 	}
 
 	@Override
-	public @Nonnull ProbabilityCalculatorView getProbabilityCalculatorView() {
+	public @NonNull ProbabilityCalculatorView getProbabilityCalculatorView() {
 		return view;
 	}
 }

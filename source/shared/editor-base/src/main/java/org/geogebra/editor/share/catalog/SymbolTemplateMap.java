@@ -20,8 +20,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Map of symbol templates indexed by name and unicode.
@@ -48,12 +48,12 @@ public class SymbolTemplateMap implements Iterable<SymbolTemplate> {
 	 * @return the template with name, otherwise null
 	 */
 
-	@CheckForNull public SymbolTemplate getSymbol(String templateName) {
+	@Nullable public SymbolTemplate getSymbol(String templateName) {
 		return templates.get(templateName);
 	}
 
 	@Override
-	@Nonnull public Iterator<SymbolTemplate> iterator() {
+	@NonNull public Iterator<SymbolTemplate> iterator() {
 		return templates.values().iterator();
 	}
 }

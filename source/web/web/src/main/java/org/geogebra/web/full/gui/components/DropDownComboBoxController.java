@@ -24,8 +24,6 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.util.MulticastEvent;
@@ -37,6 +35,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler {
 	private final Widget parent;
@@ -46,7 +45,7 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 	private final List<Runnable> changeHandlers = new ArrayList<>();
 	private final MulticastEvent<String> onHighlighted = new MulticastEvent<>();
 	private final PropertyView propertyView;
-	private final @CheckForNull ComponentDropDown.Styler styler;
+	private final ComponentDropDown.@Nullable Styler styler;
 
 	/**
 	 * popup controller for dropdown and combo box

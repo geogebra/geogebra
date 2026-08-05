@@ -16,8 +16,6 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -25,6 +23,7 @@ import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.ScriptEventSelectionProperty.ScriptEvent;
+import org.jspecify.annotations.Nullable;
 
 /** {@code Property} responsible for setting the script for the given script language and event. */
 public class ScriptProperty extends AbstractValuedProperty<String> implements StringProperty {
@@ -69,7 +68,7 @@ public class ScriptProperty extends AbstractValuedProperty<String> implements St
 	}
 
 	@Override
-	public @CheckForNull String validateValue(String value) {
+	public @Nullable String validateValue(String value) {
 		return null;
 	}
 

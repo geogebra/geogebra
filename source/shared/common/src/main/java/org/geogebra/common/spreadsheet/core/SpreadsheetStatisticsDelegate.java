@@ -16,7 +16,7 @@
  
 package org.geogebra.common.spreadsheet.core;
 
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Show an auto-updating spreadsheet statistics view in the UI (sidebar).
@@ -33,17 +33,17 @@ public interface SpreadsheetStatisticsDelegate {
 	 * Show one-variable statistics in the UI.
 	 * @param statisticsView An auto-updating spreadsheet statistics view.
 	 */
-	void showOneVarStatistics(@Nonnull SpreadsheetStatisticsView.OneVar statisticsView);
+	void showOneVarStatistics(SpreadsheetStatisticsView.@NonNull OneVar statisticsView);
 
 	/**
 	 * Show two-variable statistics in the UI.
 	 * @param statisticsView An auto-updating spreadsheet statistics view.
 	 */
-	void showTwoVarStatistics(@Nonnull SpreadsheetStatisticsView.TwoVar statisticsView);
+	void showTwoVarStatistics(SpreadsheetStatisticsView.@NonNull TwoVar statisticsView);
 
 	/**
 	 * Show regression metrics in the UI.
 	 * @param statisticsView An auto-updating spreadsheet statistics view.
 	 */
-	void showRegression(@Nonnull SpreadsheetStatisticsView.Regression statisticsView);
+	void showRegression(SpreadsheetStatisticsView.@NonNull Regression statisticsView);
 }

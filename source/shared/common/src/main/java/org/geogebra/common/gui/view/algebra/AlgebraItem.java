@@ -18,9 +18,6 @@ package org.geogebra.common.gui.view.algebra;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.Algos;
@@ -48,6 +45,8 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
 import org.geogebra.common.util.SymbolicUtil;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Utility class for AV items
@@ -196,7 +195,7 @@ public class AlgebraItem {
 	 *            element
 	 * @return output text (LaTex or plain)
 	 */
-	public static @CheckForNull String getOutputTextForGeoElement(GeoElement element) {
+	public static @Nullable String getOutputTextForGeoElement(GeoElement element) {
 		String outputText;
 		if (element.isLaTeXDrawableGeo()) {
 			outputText = element.getLaTeXDescriptionRHS(true,
@@ -227,7 +226,7 @@ public class AlgebraItem {
 	 * @return input preview string in LaTeX
 	 * @implNote Only used by Android and iOS
 	 */
-	public static String getPreviewLatexForGeoElement(@Nonnull GeoElement element) {
+	public static String getPreviewLatexForGeoElement(@NonNull GeoElement element) {
 		String latex = getPreviewFormula(element, StringTemplate.numericLatex);
 
 		if (latex != null) {
@@ -478,8 +477,8 @@ public class AlgebraItem {
 	 *            the element
 	 * @return true if both rows should be shown.
 	 */
-	public static boolean shouldShowBothRows(@Nonnull GeoElement element,
-			@Nonnull AlgebraSettings algebraSettings) {
+	public static boolean shouldShowBothRows(@NonNull GeoElement element,
+			@NonNull AlgebraSettings algebraSettings) {
 		if (isTangentOutputWithStyleDescription(element, algebraSettings)) {
 			return false;
 		}
@@ -492,7 +491,7 @@ public class AlgebraItem {
 	}
 
 	private static boolean isTangentOutputWithStyleDescription(
-			@Nonnull GeoElement geoElement, @Nonnull AlgebraSettings algebraSettings) {
+			@NonNull GeoElement geoElement, @NonNull AlgebraSettings algebraSettings) {
 		return geoElement.getParentAlgorithm() instanceof TangentAlgo
 				&& algebraSettings.getStyle() == AlgebraStyle.DESCRIPTION;
 	}
@@ -608,7 +607,7 @@ public class AlgebraItem {
 	 *            the GeoElement for what we need to get the preview for AV
 	 * @return the preview string for the given geoelement if there is any
 	 */
-	public static String getPreviewFormula(@Nonnull GeoElement element,
+	public static String getPreviewFormula(@NonNull GeoElement element,
 			StringTemplate stringTemplate) {
 		Settings settings = element.getApp().getSettings();
 		AlgebraStyle algebraStyle = settings.getAlgebra().getStyle();

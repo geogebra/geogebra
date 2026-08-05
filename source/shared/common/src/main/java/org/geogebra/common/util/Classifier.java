@@ -16,10 +16,9 @@
 
 package org.geogebra.common.util;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.jspecify.annotations.NonNull;
 
 /**
  * {@link GeoElement} classification utilities.
@@ -29,7 +28,7 @@ public final class Classifier {
 	/**
 	 * @return {@code true} iff element is a slider
 	 */
-	public static boolean isSlider(@Nonnull GeoElement element) {
+	public static boolean isSlider(@NonNull GeoElement element) {
 		return element instanceof GeoNumeric numeric && numeric.isSlider();
 	}
 }

@@ -18,8 +18,6 @@ package org.geogebra.web.full.exam;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamControllerDelegate;
 import org.geogebra.common.exam.ExamControllerIntegration;
@@ -28,6 +26,7 @@ import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.restrictions.Restrictable;
 import org.geogebra.common.restrictions.RestrictionsControllerDelegate;
 import org.geogebra.web.full.main.AppWFull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Clutter-reducing wrapper for `ExamControllerIntegration` (common).
@@ -43,9 +42,9 @@ public class ExamControllerIntegrationW {
 	 * integration.
 	 * @param examControllerDelegate The {@code ExamController} delegate.
 	 */
-	public static void setup(@Nonnull SuiteScope suiteScope,
-			@Nonnull ExamControllerDelegate examControllerDelegate,
-			@Nonnull RestrictionsControllerDelegate restrictionsControllerDelegate) {
+	public static void setup(@NonNull SuiteScope suiteScope,
+			@NonNull ExamControllerDelegate examControllerDelegate,
+			@NonNull RestrictionsControllerDelegate restrictionsControllerDelegate) {
 		examControllerIntegration = new ExamControllerIntegration(
 				suiteScope.examController,
 				examControllerDelegate,

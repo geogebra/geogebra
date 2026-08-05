@@ -18,8 +18,6 @@ package org.geogebra.common.kernel;
 
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
@@ -29,14 +27,15 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.MyError;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Kernel with its own construction for macros.
  */
 public class MacroKernel extends Kernel {
 
-	private final @Nonnull Kernel parentKernel;
-	private final @Nonnull MacroConstruction macroCons;
+	private final @NonNull Kernel parentKernel;
+	private final @NonNull MacroConstruction macroCons;
 
 	/**
 	 * Creates new kernel for macro

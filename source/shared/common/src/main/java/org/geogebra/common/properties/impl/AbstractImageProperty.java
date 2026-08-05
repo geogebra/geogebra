@@ -16,12 +16,11 @@
 
 package org.geogebra.common.properties.impl;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.ImageProperty;
 import org.geogebra.common.util.ImageManager;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for properties extending ImageProperty.
@@ -73,9 +72,9 @@ public abstract class AbstractImageProperty extends AbstractValuedProperty<Image
 		return getLocalization().getMenu("ChooseFromFile");
 	}
 
-	protected abstract @CheckForNull String getImagePath();
+	protected abstract @Nullable String getImagePath();
 	
-	protected abstract void setImagePath(@CheckForNull String path);
+	protected abstract void setImagePath(@Nullable String path);
 
 	@Override
 	public boolean isAvailable() {

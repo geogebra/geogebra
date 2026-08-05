@@ -16,11 +16,10 @@
 
 package org.geogebra.common.contextmenu;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AttributedString;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Items contained in context menus.
@@ -30,12 +29,12 @@ public interface ContextMenuItem {
 	 * @param localization Used for translating the title.
 	 * @return The title of the item with possible attributes for subscripts.
 	 */
-	@Nonnull AttributedString getLocalizedTitle(@Nonnull Localization localization);
+	@NonNull AttributedString getLocalizedTitle(@NonNull Localization localization);
 
 	/**
 	 * @return The item's icon, or null if the context menu item does not have an icon.
 	 */
-	default @CheckForNull ContextMenuIcon getIcon() {
+	default @Nullable ContextMenuIcon getIcon() {
 		return null;
 	}
 }

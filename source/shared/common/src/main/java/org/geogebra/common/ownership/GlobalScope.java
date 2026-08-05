@@ -19,11 +19,10 @@ package org.geogebra.common.ownership;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.main.App;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * <p>
@@ -51,7 +50,7 @@ public final class GlobalScope {
 	 * must be registered with the {@link SuiteScope}.
 	 * @return A new {@link SuiteScope} for this suite instance.
 	 */
-	public static @Nonnull SuiteScope registerNewSuiteScope() {
+	public static @NonNull SuiteScope registerNewSuiteScope() {
 		SuiteScope suiteScope = new SuiteScope();
         suiteScopes.add(suiteScope);
 		return suiteScope;
@@ -61,7 +60,7 @@ public final class GlobalScope {
 	 * Unregister a (previously registered) {@link SuiteScope}.
 	 * @param suiteScope A {@code SuiteScope}. May be {@code null}.
 	 */
-	public static void unregisterSuiteScope(@CheckForNull SuiteScope suiteScope) {
+	public static void unregisterSuiteScope(@Nullable SuiteScope suiteScope) {
 		if (suiteScope == null) {
 			return;
 		}
@@ -76,7 +75,7 @@ public final class GlobalScope {
 	 * @return The {@link SuiteScope} for this app instance, or {@code null} if the app instance
 	 * has not been registered with a {@link SuiteScope}.
 	 */
-	public static @CheckForNull SuiteScope getSuiteScope(App app) {
+	public static @Nullable SuiteScope getSuiteScope(App app) {
 		for (SuiteScope suiteScope : suiteScopes) {
 			if (suiteScope.apps.contains(app)) {
 				return suiteScope;
@@ -94,7 +93,7 @@ public final class GlobalScope {
 	 * @return the {@code ExamController} for the current app / suite scope, or {@code null}
 	 * if no suite scope has been set up for this app.
 	 */
-	public static @CheckForNull ExamController getExamController(App app) {
+	public static @Nullable ExamController getExamController(App app) {
 		SuiteScope suiteScope = getSuiteScope(app);
 		return suiteScope != null ? suiteScope.examController : null;
 	}

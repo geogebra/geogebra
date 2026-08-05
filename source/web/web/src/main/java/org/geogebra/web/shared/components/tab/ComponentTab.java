@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
@@ -38,6 +36,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.ScrollPanel;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.KeyboardEvent;
 
@@ -66,7 +65,7 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 	 * @param tabData {@link TabData} including title and panel widget
 	 */
 	public ComponentTab(AppW appW, String ariaLabel, int initialTab,
-			@CheckForNull String optionTypeName, TabData... tabData) {
+			@Nullable String optionTypeName, TabData... tabData) {
 		this.appW = appW;
 		this.loc = appW.getLocalization();
 		this.ariaLabel = ariaLabel;

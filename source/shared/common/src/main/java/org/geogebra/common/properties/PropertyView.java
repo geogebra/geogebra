@@ -23,9 +23,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -93,6 +90,8 @@ import org.geogebra.common.properties.impl.objects.StyledItemProperty;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 import org.geogebra.common.util.TextFormat;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -105,8 +104,8 @@ import com.google.j2objc.annotations.Weak;
  * </p>
  */
 public abstract class PropertyView {
-	protected @Weak @CheckForNull ConfigurationUpdateDelegate configurationUpdateDelegate;
-	protected @Weak @CheckForNull VisibilityUpdateDelegate visibilityUpdateDelegate;
+	protected @Weak @Nullable ConfigurationUpdateDelegate configurationUpdateDelegate;
+	protected @Weak @Nullable VisibilityUpdateDelegate visibilityUpdateDelegate;
 	// Prevents overriding the visibility delegate when it relies solely on the parent's visibility.
 	protected boolean disableVisibilityUpdateDelegateSetter = false;
 	private static final char LEQ = Unicode.LESS_EQUAL;
@@ -141,7 +140,7 @@ public abstract class PropertyView {
 	 * @param configurationUpdateDelegate the delegate or {@code null} to remove it
 	 */
 	public final void setConfigurationUpdateDelegate(
-			@CheckForNull ConfigurationUpdateDelegate configurationUpdateDelegate) {
+			@Nullable ConfigurationUpdateDelegate configurationUpdateDelegate) {
 		this.configurationUpdateDelegate = configurationUpdateDelegate;
 	}
 
@@ -150,7 +149,7 @@ public abstract class PropertyView {
 	 * @param visibilityUpdateDelegate the delegate or {@code null} to remove it
 	 */
 	public final void setVisibilityUpdateDelegate(
-			@CheckForNull VisibilityUpdateDelegate visibilityUpdateDelegate) {
+			@Nullable VisibilityUpdateDelegate visibilityUpdateDelegate) {
 		if (disableVisibilityUpdateDelegateSetter) {
 			return;
 		}
@@ -179,13 +178,13 @@ public abstract class PropertyView {
 			GeoElementDependentProperty.RedefinitionObserver, ProbabilityCalculatorView.Listener,
 			ValueFilter.Observer, ChartSegmentSelection.Listener, SettingListener, EventListener,
 			EuclidianViewInterfaceCommon.DimensionListener {
-		protected final @Nonnull T property;
+		protected final @NonNull T property;
 		private boolean previousAvailability;
-		private @CheckForNull List<GeoElement> dependentGeoElements;
-		private @CheckForNull List<ChartSegmentSelectionDependentProperty>
+		private @Nullable List<GeoElement> dependentGeoElements;
+		private @Nullable List<ChartSegmentSelectionDependentProperty>
 				chartSelectionDependentProperties;
 
-		protected PropertyBackedView(@Nonnull T property) {
+		protected PropertyBackedView(@NonNull T property) {
 			this.property = property;
 			this.previousAvailability = property.isAvailable();
 			if (property instanceof SettingsDependentProperty settingsDependentProperty) {
@@ -267,8 +266,8 @@ public abstract class PropertyView {
 		}
 
 		@Override
-		public void onGeoElementRedefined(@Nonnull GeoElement originalElement,
-				@Nonnull GeoElement newElement) {
+		public void onGeoElementRedefined(@NonNull GeoElement originalElement,
+				@NonNull GeoElement newElement) {
 			if (dependentGeoElements == null) {
 				return;
 			}
@@ -372,7 +371,7 @@ public abstract class PropertyView {
 		/**
 		 * @return the label for the checkbox
 		 */
-		public @Nonnull String getLabel() {
+		public @NonNull String getLabel() {
 			return property.getName();
 		}
 
@@ -412,25 +411,25 @@ public abstract class PropertyView {
 		/**
 		 * @return the label of the dropdown
 		 */
-		public @Nonnull String getLabel() {
+		public @NonNull String getLabel() {
 			return property.getName();
 		}
 
 		/**
 		 * @return the list of possible items
 		 */
-		public @Nonnull List<String> getItems() {
+		public @NonNull List<String> getItems() {
 			return List.of(property.getValueNames());
 		}
 
-		public @Nonnull Map<Integer, FontProperty.FontFamily> getFontFamilies() {
+		public @NonNull Map<Integer, FontProperty.FontFamily> getFontFamilies() {
 			return fontFamilies;
 		}
 
 		/**
 		 * @return the index of the currently selected item, or {@code null} if none is selected
 		 */
-		public @CheckForNull Integer getSelectedItemIndex() {
+		public @Nullable Integer getSelectedItemIndex() {
 			int index = property.getIndex();
 			return index != -1 ? index : null;
 		}
@@ -447,7 +446,7 @@ public abstract class PropertyView {
 		 * @return an array of indices where a divider must be inserted
 		 * or {@code null} if no dividers should be inserted.
 		 */
-		public @CheckForNull int[] getGroupDividerIndices() {
+		public @Nullable int[] getGroupDividerIndices() {
 			return property.getGroupDividerIndices();
 		}
 	}
@@ -465,14 +464,14 @@ public abstract class PropertyView {
 		/**
 		 * @return the label
 		 */
-		public @Nonnull String getLabel() {
+		public @NonNull String getLabel() {
 			return property.getName();
 		}
 
 		/**
 		 * @return the suggested items for the dropdown menu
 		 */
-		public @Nonnull List<String> getItems() {
+		public @NonNull List<String> getItems() {
 			return property.getSuggestions();
 		}
 
@@ -486,7 +485,7 @@ public abstract class PropertyView {
 		/**
 		 * @return The format of the text
 		 */
-		public @Nonnull TextFormat getFormat() {
+		public @NonNull TextFormat getFormat() {
 			return property.isDisplayedInMathFormat() ? TextFormat.MATH : TextFormat.PLAIN;
 		}
 	}
@@ -518,14 +517,14 @@ public abstract class PropertyView {
 		/**
 		 * @return the first property view
 		 */
-		public @Nonnull PropertyView getLeadingPropertyView() {
+		public @NonNull PropertyView getLeadingPropertyView() {
 			return leadingPropertyView;
 		}
 
 		/**
 		 * @return the second property view
 		 */
-		public @Nonnull PropertyView getTrailingPropertyView() {
+		public @NonNull PropertyView getTrailingPropertyView() {
 			return trailingPropertyView;
 		}
 
@@ -559,7 +558,7 @@ public abstract class PropertyView {
 		private String errorMessage;
 		private boolean isEditing;
 
-		protected ValidatablePropertyBackedView(@Nonnull T stringProperty) {
+		protected ValidatablePropertyBackedView(@NonNull T stringProperty) {
 			super(stringProperty);
 			value = stringProperty.getValue() != null ? stringProperty.getValue() : "";
 			errorMessage = null;
@@ -586,7 +585,7 @@ public abstract class PropertyView {
 		/**
 		 * @return the current value
 		 */
-		public @Nonnull String getValue() {
+		public @NonNull String getValue() {
 			return value;
 		}
 
@@ -594,7 +593,7 @@ public abstract class PropertyView {
 		 * Sets the value.
 		 * @param newValue the new value
 		 */
-		public void setValue(@Nonnull String newValue) {
+		public void setValue(@NonNull String newValue) {
 			boolean valueShouldUpdate = !Objects.equals(value, newValue);
 			boolean errorMessageShouldUpdate = !Objects.equals(errorMessage,
 					property.validateValue(newValue));
@@ -617,7 +616,7 @@ public abstract class PropertyView {
 		/**
 		 * @return the error message for invalid inputs or {@code null} if there is no error
 		 */
-		public @CheckForNull String getErrorMessage() {
+		public @Nullable String getErrorMessage() {
 			return errorMessage;
 		}
 
@@ -656,14 +655,14 @@ public abstract class PropertyView {
 		/**
 		 * @return the label
 		 */
-		public @Nonnull String getLabel() {
+		public @NonNull String getLabel() {
 			return property.getName();
 		}
 
 		/**
 		 * @return the format of the text
 		 */
-		public @Nonnull TextFormat getFormat() {
+		public @NonNull TextFormat getFormat() {
 			return property.isDisplayedInMathFormat() ? TextFormat.MATH : TextFormat.PLAIN;
 		}
 	}
@@ -682,7 +681,7 @@ public abstract class PropertyView {
 		/**
 		 * @return the label above the text area
 		 */
-		public @Nonnull String getLabel() {
+		public @NonNull String getLabel() {
 			return property.getName();
 		}
 	}
@@ -699,28 +698,28 @@ public abstract class PropertyView {
 		/**
 		 * @return the label above the icons
 		 */
-		public @Nonnull String getLabel() {
+		public @NonNull String getLabel() {
 			return property.getName();
 		}
 
 		/**
 		 * @return the list of icons to select from
 		 */
-		public @Nonnull List<PropertyResource> getIcons() {
+		public @NonNull List<PropertyResource> getIcons() {
 			return List.of(property.getValueIcons());
 		}
 
 		/**
 		 * @return the labels of buttons, which is used as tooltip or/and aria-label
 		 */
-		public @CheckForNull String[] getToolTipLabels() {
+		public @Nullable String[] getToolTipLabels() {
 			return property.getToolTipLabels();
 		}
 
 		/**
 		 * @return the index of the currently selected icon, or {@code null} if none is selected
 		 */
-		public @CheckForNull Integer getSelectedIconIndex() {
+		public @Nullable Integer getSelectedIconIndex() {
 			int index = property.getIndex();
 			return index != -1 ? index : null;
 		}
@@ -746,21 +745,21 @@ public abstract class PropertyView {
 		/**
 		 * @return the label above the colors
 		 */
-		public @Nonnull String getLabel() {
+		public @NonNull String getLabel() {
 			return property.getName();
 		}
 
 		/**
 		 * @return the list of colors available for selection
 		 */
-		public @Nonnull List<GColor> getColors() {
+		public @NonNull List<GColor> getColors() {
 			return property.getValues();
 		}
 
 		/**
 		 * @return an extended list of custom colors to show in a color picker.
 		 */
-		public @Nonnull List<GColor> getCustomColors() {
+		public @NonNull List<GColor> getCustomColors() {
 			return ElementColorProperty.createColorValues();
 		}
 
@@ -768,14 +767,14 @@ public abstract class PropertyView {
 		 * Sets a custom color resulting from custom color chooser.
 		 * @param color the new custom color
 		 */
-		public void setCustomColor(@Nonnull GColor color) {
+		public void setCustomColor(@NonNull GColor color) {
 			property.setValue(color);
 		}
 
 		/**
 		 * @return the index of the currently selected color, or {@code null} if none is selected
 		 */
-		public @CheckForNull Integer getSelectedColorIndex() {
+		public @Nullable Integer getSelectedColorIndex() {
 			int index = property.getIndex();
 			return index != -1 ? index : null;
 		}
@@ -800,14 +799,14 @@ public abstract class PropertyView {
 		/**
 		 * @return the label
 		 */
-		public @Nonnull String getLabel() {
+		public @NonNull String getLabel() {
 			return property.getName();
 		}
 
 		/**
 		 * @return the value that can be displayed
 		 */
-		public @Nonnull String getDisplayValue() {
+		public @NonNull String getDisplayValue() {
 			String value = String.valueOf(getValue());
 			if (property.isValueDisplayedAsPercentage()) {
 				return value + "%";
@@ -880,7 +879,7 @@ public abstract class PropertyView {
 	public static final class ExpandableList extends PropertyView {
 		private final PropertyCollection<?> propertyCollection;
 		private final List<PropertyView> propertyViews;
-		private final @CheckForNull Checkbox checkbox;
+		private final @Nullable Checkbox checkbox;
 		OrdinalPosition ordinalPosition = OrdinalPosition.Alone;
 
 		/**
@@ -902,28 +901,28 @@ public abstract class PropertyView {
 		/**
 		 * @return the representation of the checkbox if it should be shown, {@code null} otherwise
 		 */
-		public @CheckForNull Checkbox getCheckbox() {
+		public @Nullable Checkbox getCheckbox() {
 			return checkbox;
 		}
 
 		/**
 		 * @return the title of the expandable list
 		 */
-		public @Nonnull String getTitle() {
+		public @NonNull String getTitle() {
 			return propertyCollection.getName();
 		}
 
 		/**
 		 * @return the relative position compared to other expandable lists in the same sequence
 		 */
-		public @Nonnull OrdinalPosition getOrdinalPosition() {
+		public @NonNull OrdinalPosition getOrdinalPosition() {
 			return ordinalPosition;
 		}
 
 		/**
 		 * @return the list of {@code PropertyView}s displayed when the expandable list is open
 		 */
-		public @Nonnull List<PropertyView> getItems() {
+		public @NonNull List<PropertyView> getItems() {
 			return propertyViews;
 		}
 
@@ -948,12 +947,12 @@ public abstract class PropertyView {
 	 * displayed closer together with smaller spacing with an optional title.
 	 */
 	public static final class RelatedPropertyViewCollection extends PropertyView {
-		private final @CheckForNull String title;
+		private final @Nullable String title;
 		private final List<PropertyView> propertyViews;
 		private final int contentSpacing;
 
-		RelatedPropertyViewCollection(@CheckForNull String title,
-				@Nonnull List<PropertyView> propertyViews, int contentSpacing) {
+		RelatedPropertyViewCollection(@Nullable String title,
+				@NonNull List<PropertyView> propertyViews, int contentSpacing) {
 			this.title = title;
 			this.propertyViews = propertyViews;
 			this.contentSpacing = contentSpacing;
@@ -963,7 +962,7 @@ public abstract class PropertyView {
 		 * @return the title before the list of {@code PropertyView}s
 		 * or {@code null} if there is no title
 		 */
-		public @CheckForNull String getTitle() {
+		public @Nullable String getTitle() {
 			return title;
 		}
 
@@ -977,7 +976,7 @@ public abstract class PropertyView {
 		/**
 		 * @return the list of related {@code PropertyView}s
 		 */
-		public @Nonnull List<PropertyView> getPropertyViews() {
+		public @NonNull List<PropertyView> getPropertyViews() {
 			return propertyViews;
 		}
 
@@ -1006,21 +1005,21 @@ public abstract class PropertyView {
 		 */
 		public static final class ToggleableIcon
 				extends PropertyBackedView<ToggleableIconProperty> {
-			ToggleableIcon(@Nonnull ToggleableIconProperty property) {
+			ToggleableIcon(@NonNull ToggleableIconProperty property) {
 				super(property);
 			}
 
 			/**
 			 * @return the icon to display
 			 */
-			public @Nonnull PropertyResource getIcon() {
+			public @NonNull PropertyResource getIcon() {
 				return property.getIcon();
 			}
 
 			/**
 			 * @return the tooltip label of the icon
 			 */
-			public @Nonnull String getTooltipLabel() {
+			public @NonNull String getTooltipLabel() {
 				return property.getName();
 			}
 
@@ -1050,14 +1049,14 @@ public abstract class PropertyView {
 		/**
 		 * @return the label above the icons
 		 */
-		public @Nonnull String getLabel() {
+		public @NonNull String getLabel() {
 			return toggleableIconPropertyCollection.getName();
 		}
 
 		/**
 		 * @return the toggleable icons to display
 		 */
-		public @Nonnull List<ToggleableIcon> getToggleableIcons() {
+		public @NonNull List<ToggleableIcon> getToggleableIcons() {
 			return toggleableIcons;
 		}
 	}
@@ -1082,7 +1081,7 @@ public abstract class PropertyView {
 		 * @param index the index of the button to query
 		 * @return the icon resource for the given index
 		 */
-		public @Nonnull PropertyResource getIcon(int index) {
+		public @NonNull PropertyResource getIcon(int index) {
 			return property.getProperties()[index].getIcon();
 		}
 
@@ -1090,7 +1089,7 @@ public abstract class PropertyView {
 		 * @param index the index of the button to query
 		 * @return the title of the button for the given index
 		 */
-		public @Nonnull String getTitle(int index) {
+		public @NonNull String getTitle(int index) {
 			return property.getProperties()[index].getName();
 		}
 
@@ -1122,14 +1121,14 @@ public abstract class PropertyView {
 		/**
 		 * @return the list of tab titles
 		 */
-		public @Nonnull List<String> getTabTitles() {
+		public @NonNull List<String> getTabTitles() {
 			return tabTitles;
 		}
 
 		/**
 		 * @return the per-tab content views
 		 */
-		public @Nonnull List<List<PropertyView>> getTabContents() {
+		public @NonNull List<List<PropertyView>> getTabContents() {
 			return tabContents;
 		}
 
@@ -1280,7 +1279,7 @@ public abstract class PropertyView {
 		/**
 		 * @return the label above the text fields and the icon
 		 */
-		public @Nonnull String getLabel() {
+		public @NonNull String getLabel() {
 			return dimensionRatioProperty.getName();
 		}
 
@@ -1303,8 +1302,8 @@ public abstract class PropertyView {
 		private final List<List<PropertyView>> pageContents;
 		private int selectedTabIndex;
 
-		TabbedPageSelector(@Nonnull String title,
-				@Nonnull List<PropertiesArray> pagePropertyArrays, int initialSelectedTabIndex) {
+		TabbedPageSelector(@NonNull String title,
+				@NonNull List<PropertiesArray> pagePropertyArrays, int initialSelectedTabIndex) {
 			this.title = title;
 			this.tabTitles = pagePropertyArrays.stream()
 					.map(PropertiesArray::getName)
@@ -1318,14 +1317,14 @@ public abstract class PropertyView {
 		/**
 		 * @return the view's title
 		 */
-		public @Nonnull String getTitle() {
+		public @NonNull String getTitle() {
 			return title;
 		}
 
 		/**
 		 * @return the tab titles
 		 */
-		public @Nonnull List<String> getTabTitles() {
+		public @NonNull List<String> getTabTitles() {
 			return tabTitles;
 		}
 
@@ -1333,7 +1332,7 @@ public abstract class PropertyView {
 		 * @param pageIndex the index of the tab for which to retrieve the page contents
 		 * @return list of {@code PropertyView}s for the specified tab
 		 */
-		public @Nonnull List<PropertyView> getPageContents(int pageIndex) {
+		public @NonNull List<PropertyView> getPageContents(int pageIndex) {
 			return pageContents.get(pageIndex);
 		}
 
@@ -1383,21 +1382,21 @@ public abstract class PropertyView {
 		/**
 		 * @return the label of the button
 		 */
-		public @Nonnull String getLabel() {
+		public @NonNull String getLabel() {
 			return property.getName();
 		}
 
 		/**
 		 * @return the icon of the button
 		 */
-		public @Nonnull PropertyResource getIcon() {
+		public @NonNull PropertyResource getIcon() {
 			return property.getIcon();
 		}
 
 		/**
 		 * @return the style of the button
 		 */
-		public @Nonnull Style getStyle() {
+		public @NonNull Style getStyle() {
 			return property.isDisplayedAsOutlinedButton() ? Style.OUTLINED : Style.BORDERLESS;
 		}
 	}
@@ -1407,7 +1406,7 @@ public abstract class PropertyView {
 	 */
 	public static final class ConnectedButtonGroup
 			extends PropertyBackedView<NamedEnumeratedProperty<?>> {
-		ConnectedButtonGroup(@Nonnull NamedEnumeratedProperty<?> property) {
+		ConnectedButtonGroup(@NonNull NamedEnumeratedProperty<?> property) {
 			super(property);
 		}
 
@@ -1428,7 +1427,7 @@ public abstract class PropertyView {
 		/**
 		 * @return the index of the currently selected button, or {@code null} if none is selected
 		 */
-		public @CheckForNull Integer getSelectedButtonIndex() {
+		public @Nullable Integer getSelectedButtonIndex() {
 			int index = property.getIndex();
 			return index != -1 ? index : null;
 		}
@@ -1473,7 +1472,7 @@ public abstract class PropertyView {
 		 * @param index the index of the button to query
 		 * @return the label for the given index
 		 */
-		public @Nonnull String getLabel(int index) {
+		public @NonNull String getLabel(int index) {
 			return actionablePropertyCollection.getProperties()[index].getName();
 		}
 
@@ -1481,7 +1480,7 @@ public abstract class PropertyView {
 		 * @param index the index of the button to query
 		 * @return the style name for the given index
 		 */
-		public @Nonnull String getStyleName(int index) {
+		public @NonNull String getStyleName(int index) {
 			ActionableProperty actionableProperty =
 					actionablePropertyCollection.getProperties()[index];
 			if (actionableProperty instanceof SaveSettingsAction) {
@@ -1521,14 +1520,14 @@ public abstract class PropertyView {
 	 */
 	public static final class ImagePicker extends PropertyBackedView<ImageProperty> {
 
-		ImagePicker(@Nonnull ImageProperty property) {
+		ImagePicker(@NonNull ImageProperty property) {
 			super(property);
 		}
 
 		/**
 		 * @return the label for the file chooser button.
 		 */
-		public @Nonnull String getChooseFromFileLabel() {
+		public @NonNull String getChooseFromFileLabel() {
 			return property.getChooseFromFileLabel();
 		}
 
@@ -1536,7 +1535,7 @@ public abstract class PropertyView {
 		 * Sets the file path of the selected image.
 		 * @param filePath the path of the selected file
 		 */
-		public void setImage(@Nonnull MyImage image, @Nonnull String filePath) {
+		public void setImage(@NonNull MyImage image, @NonNull String filePath) {
 			property.setValue(new ImageProperty.Value(image, filePath));
 		}
 
@@ -1544,7 +1543,7 @@ public abstract class PropertyView {
 		 * Gets the selected image.
 		 * @return image or {@code null}
 		 */
-		public @CheckForNull MyImage getImage() {
+		public @Nullable MyImage getImage() {
 			ImageProperty.Value value = property.getValue();
 			if (value == null) {
 				return null;
@@ -1560,7 +1559,7 @@ public abstract class PropertyView {
 		/**
 		 * @return the file name extracted from the path, or {@code null} if no image is set
 		 */
-		public @CheckForNull String getFileName() {
+		public @Nullable String getFileName() {
 			ImageProperty.Value value = property.getValue();
 			if (value == null || value.path().isEmpty()) {
 				return null;
@@ -1640,7 +1639,7 @@ public abstract class PropertyView {
 		/**
 		 * @return the sequence of items to be displayed in the probability result row
 		 */
-		public @Nonnull List<Item> getItems() {
+		public @NonNull List<Item> getItems() {
 			return switch (property.getMode()) {
 				case ProbabilityCalculatorView.PROB_LEFT -> List.of(
 						new Item.Text(property.getProbabilityExpressionPrefix() + "X " + LEQ + " "),
@@ -1684,7 +1683,7 @@ public abstract class PropertyView {
 	 * @return the {@code PropertyView} matching the given {@code Property},
 	 * or {@code null} if the given {@code Property} is not supported
 	 */
-	public static @CheckForNull PropertyView of(Property property) {
+	public static @Nullable PropertyView of(Property property) {
 		if (property instanceof BooleanProperty booleanProperty) {
 			return new Checkbox(booleanProperty);
 		} else if (property instanceof AlignmentPropertyCollection

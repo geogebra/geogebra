@@ -55,9 +55,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.restrictions.cvte.CvteAlgebraOutputFilter;
@@ -101,6 +98,8 @@ import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty
 import org.geogebra.common.restrictions.FeatureRestriction;
 import org.geogebra.common.restrictions.PropertyRestriction;
 import org.geogebra.common.restrictions.Restrictions;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public final class CvteExamRestrictions extends Restrictions {
 
@@ -129,7 +128,7 @@ public final class CvteExamRestrictions extends Restrictions {
 	}
 
 	@Override
-	public void applyTo(@Nonnull ContextDependencies cd) {
+	public void applyTo(@NonNull ContextDependencies cd) {
 		if (cd.settings() != null) {
 			casEnabled = cd.settings().getCasSettings().isEnabled();
 			// Note: The effect we want to achieve here is disable the symbolic versions of the
@@ -146,7 +145,7 @@ public final class CvteExamRestrictions extends Restrictions {
 	}
 
 	@Override
-	public void removeFrom(@Nonnull ContextDependencies cd) {
+	public void removeFrom(@NonNull ContextDependencies cd) {
 		super.removeFrom(cd);
 		if (cd.settings() != null) {
 			cd.settings().getCasSettings().setEnabled(casEnabled);
@@ -355,7 +354,7 @@ public final class CvteExamRestrictions extends Restrictions {
 	private static final class AllowedExplicitEquationVisibilityRestriction
 			implements VisibilityRestriction {
 		@Override
-		public @Nonnull Effect getEffect(GeoElement geoElement) {
+		public @NonNull Effect getEffect(GeoElement geoElement) {
 			return isExplicitEquation(geoElement) ? ALLOW : IGNORE;
 		}
 	}
@@ -371,7 +370,7 @@ public final class CvteExamRestrictions extends Restrictions {
 	private static final class AllowedCenterAndRadiusCircleCommandVisibilityRestriction
 			implements VisibilityRestriction {
 		@Override
-		public @Nonnull Effect getEffect(GeoElement geoElement) {
+		public @NonNull Effect getEffect(GeoElement geoElement) {
 			return geoElement.getParentAlgorithm() instanceof AlgoCirclePointRadius
 					? ALLOW : IGNORE;
 		}
@@ -392,7 +391,7 @@ public final class CvteExamRestrictions extends Restrictions {
 	private static final class AllowedLinearEquationVisibilityRestriction
 			implements VisibilityRestriction {
 		@Override
-		public @Nonnull Effect getEffect(GeoElement geoElement) {
+		public @NonNull Effect getEffect(GeoElement geoElement) {
 			return isLinearEquation(geoElement) ? ALLOW : IGNORE;
 		}
 	}
@@ -410,7 +409,7 @@ public final class CvteExamRestrictions extends Restrictions {
 	private static final class HiddenConicVisibilityRestriction
 			implements VisibilityRestriction {
 		@Override
-		public @Nonnull Effect getEffect(GeoElement geoElement) {
+		public @NonNull Effect getEffect(GeoElement geoElement) {
 			return geoElement.isGeoConic() ? HIDE : IGNORE;
 		}
 	}
@@ -437,19 +436,19 @@ public final class CvteExamRestrictions extends Restrictions {
 	private static final class HiddenEquationVisibilityRestriction
 			implements VisibilityRestriction {
 		@Override
-		public @Nonnull Effect getEffect(GeoElement geoElement) {
+		public @NonNull Effect getEffect(GeoElement geoElement) {
 			return isEquation(geoElement) ? HIDE : IGNORE;
 		}
 	}
 
-	private static @CheckForNull String unwrapVariable(ExpressionValue expressionValue) {
+	private static @Nullable String unwrapVariable(ExpressionValue expressionValue) {
 		if (expressionValue instanceof FunctionVariable) {
 			return ((FunctionVariable) expressionValue).getSetVarString();
 		}
 		return null;
 	}
 
-	private static @CheckForNull Equation unwrapEquation(GeoElement geoElement) {
+	private static @Nullable Equation unwrapEquation(GeoElement geoElement) {
 		ExpressionNode definition = geoElement.getDefinition();
 		if (definition != null && definition.unwrap() instanceof Equation) {
 			return (Equation) definition.unwrap();

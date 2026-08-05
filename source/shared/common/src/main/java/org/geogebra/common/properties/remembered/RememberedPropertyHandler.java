@@ -19,11 +19,10 @@ package org.geogebra.common.properties.remembered;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.properties.PropertyKey;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Applies remembered values of a particular property type to supported construction elements.
@@ -35,25 +34,25 @@ public abstract class RememberedPropertyHandler<T> {
 	/**
 	 * @return handled property key
 	 */
-	protected abstract @Nonnull PropertyKey propertyKey();
+	protected abstract @NonNull PropertyKey propertyKey();
 
 	/**
 	 * @param geo construction element
 	 * @return whether the remembered property can be applied to the element
 	 */
-	public abstract boolean supports(@Nonnull GeoElement geo);
+	public abstract boolean supports(@NonNull GeoElement geo);
 
 	/**
 	 * Applies a remembered property value to a construction element.
 	 * @param geoElement construction element
 	 * @return whether the element is supported and the value was applied successfully
 	 */
-	public boolean apply(@Nonnull GeoElement geoElement) {
+	public boolean apply(@NonNull GeoElement geoElement) {
 		T value = storedValues.get(geoElement.getGeoClassType());
 		return value == null || apply(geoElement, value);
 	}
 
-	protected abstract boolean apply(@Nonnull GeoElement geoElement, @Nonnull T value);
+	protected abstract boolean apply(@NonNull GeoElement geoElement, @NonNull T value);
 
 	void remember(GeoClass geo, T value) {
 		storedValues.put(geo, value);

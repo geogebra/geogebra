@@ -16,8 +16,6 @@
 
 package org.geogebra.common.main;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
@@ -30,6 +28,7 @@ import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
 import org.geogebra.common.jre.main.LocalizationJre;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
+import org.jspecify.annotations.NonNull;
 
 public class AppCommon3D extends AppCommon {
 
@@ -42,7 +41,7 @@ public class AppCommon3D extends AppCommon {
 	}
 
 	@Override
-	protected @Nonnull AppCompanion newAppCompanion() {
+	protected @NonNull AppCompanion newAppCompanion() {
 		return new App3DCompanionHeadless(this);
 	}
 

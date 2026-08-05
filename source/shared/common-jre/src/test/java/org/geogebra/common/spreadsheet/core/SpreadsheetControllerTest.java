@@ -35,8 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GColor;
@@ -62,6 +60,7 @@ import org.geogebra.editor.share.tree.PlaceholderNode;
 import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.geogebra.test.LocalizationCommonUTF;
 import org.geogebra.test.annotation.Issue;
+import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -1511,12 +1510,12 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 	// -- SpreadsheetControlsDelegate --
 
 	@Override
-	public @Nonnull SpreadsheetCellEditor getCellEditor() {
+	public @NonNull SpreadsheetCellEditor getCellEditor() {
 		return cellEditor;
 	}
 
 	@Override
-	public void showContextMenu(@Nonnull List<ContextMenuItem> items, @Nonnull Point point) {
+	public void showContextMenu(@NonNull List<ContextMenuItem> items, @NonNull Point point) {
 		// Not needed
 	}
 
@@ -1531,8 +1530,8 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 	}
 
 	@Override
-	public void showAutoCompleteSuggestions(@Nonnull String input,
-			@Nonnull Rectangle editorBounds) {
+	public void showAutoCompleteSuggestions(@NonNull String input,
+			@NonNull Rectangle editorBounds) {
 		autoCompleteShown = true;
 		autoCompleteSearchPrefix = input;
 	}
@@ -1561,24 +1560,24 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 	}
 
 	@Override
-	public void showSnackbar(@Nonnull String messageKey) {
+	public void showSnackbar(@NonNull String messageKey) {
 		this.chartError = messageKey;
 	}
 
 	// -- SpreadsheetConstructionDelegate --
 
 	@Override
-	public void createPieChart(@Nonnull TabularData<?> data, @Nonnull TabularRange range) {
+	public void createPieChart(@NonNull TabularData<?> data, @NonNull TabularRange range) {
 		chartCommand = ChartBuilder.getPieChartCommand(data, range);
 	}
 
 	@Override
-	public void createBarChart(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges) {
+	public void createBarChart(@NonNull TabularData<?> data, @NonNull List<TabularRange> ranges) {
 		chartCommand = ChartBuilder.getBarChartCommand(data, ranges);
 	}
 
 	@Override
-	public void createHistogram(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges) {
+	public void createHistogram(@NonNull TabularData<?> data, @NonNull List<TabularRange> ranges) {
 		chartCommand = ChartBuilder.getHistogramCommand(data, ranges);
 	}
 
@@ -1598,7 +1597,7 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 	}
 
 	@Override
-	public void createBoxPlot(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges) {
+	public void createBoxPlot(@NonNull TabularData<?> data, @NonNull List<TabularRange> ranges) {
 		chartCommand = ChartBuilder.getBoxPlotCommand(data, ranges);
 	}
 }

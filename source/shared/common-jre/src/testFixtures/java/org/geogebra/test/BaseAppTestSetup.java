@@ -18,8 +18,6 @@ package org.geogebra.test;
 
 import java.util.Arrays;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
@@ -57,6 +55,7 @@ import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.ownership.SuiteScope;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.test.commands.ErrorAccumulator;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Base test class for initializing any app,
@@ -115,34 +114,34 @@ public class BaseAppTestSetup {
 
 	// Convenience getters for the most used app owned objects
 
-	protected final @Nonnull AppCommon getApp() {
+	protected final @NonNull AppCommon getApp() {
 		if (app == null) {
 			throw new Error("App is not initialized, \"setupApp\" should be called first.");
 		}
 		return app;
 	}
 
-	protected final @Nonnull Kernel getKernel() {
+	protected final @NonNull Kernel getKernel() {
 		return getApp().getKernel();
 	}
 
-	protected final @Nonnull AlgebraProcessor getAlgebraProcessor() {
+	protected final @NonNull AlgebraProcessor getAlgebraProcessor() {
 		return getApp().getKernel().getAlgebraProcessor();
 	}
 
-	protected final @Nonnull CommandDispatcher getCommandDispatcher() {
+	protected final @NonNull CommandDispatcher getCommandDispatcher() {
 		return getApp().getKernel().getAlgebraProcessor().getCommandDispatcher();
 	}
 
-	protected final @Nonnull AlgebraSettings getAlgebraSettings() {
+	protected final @NonNull AlgebraSettings getAlgebraSettings() {
 		return getApp().getSettings().getAlgebra();
 	}
 
-	protected final @Nonnull Localization getLocalization() {
+	protected final @NonNull Localization getLocalization() {
 		return getApp().getLocalization();
 	}
 
-	protected final @Nonnull EuclidianSettings getEuclidianSettings() {
+	protected final @NonNull EuclidianSettings getEuclidianSettings() {
 		return getApp().getSettings().getEuclidian(1);
 	}
 

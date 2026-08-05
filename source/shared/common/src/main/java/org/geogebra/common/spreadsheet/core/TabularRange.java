@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A finite (bounded along both axes), semi-finite (unbounded along one axis),
@@ -388,7 +388,7 @@ public final class TabularRange {
 	 * @param range other range
 	 * @return new range if this and the other range could be merged, null otherwise
 	 */
-	public @CheckForNull TabularRange getRectangularUnion(TabularRange range) {
+	public @Nullable TabularRange getRectangularUnion(TabularRange range) {
 		if (minColumn == range.minColumn && maxColumn == range.maxColumn) {
 			if ((range.minRow >= minRow && range.minRow <= maxRow + 1)
 					|| (minRow >= range.minRow && minRow <= range.maxRow + 1)) {
@@ -410,7 +410,7 @@ public final class TabularRange {
 	 * Run action for each (row, column) pair of the range.
 	 * @param action to run for each (row, column).
 	 */
-	public void forEach(@Nonnull TabularRangeAction action) {
+	public void forEach(@NonNull TabularRangeAction action) {
 		for (int row = getMinRow(); row <= getMaxRow() ; row++) {
 			for (int column = getMinColumn(); column <= getMaxColumn(); column++) {
 				action.run(row, column);
@@ -468,7 +468,7 @@ public final class TabularRange {
 	 * For empty or unbounded ranges, returns {@code null}.
 	 * @return A new range restricted to the first column.
 	 */
-	public @CheckForNull TabularRange firstColumn() {
+	public @Nullable TabularRange firstColumn() {
 		if (!isFinite() || getWidth() < 1) {
 			return null;
 		}
@@ -481,7 +481,7 @@ public final class TabularRange {
 	 * For empty or unbounded ranges, returns {@code null}.
 	 * @return A new range restricted to the second column.
 	 */
-	public @CheckForNull TabularRange secondColumn() {
+	public @Nullable TabularRange secondColumn() {
 		if (!isFinite() || getWidth() < 2) {
 			return null;
 		}

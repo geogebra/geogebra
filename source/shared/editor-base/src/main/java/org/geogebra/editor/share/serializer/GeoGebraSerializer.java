@@ -16,8 +16,6 @@
 
 package org.geogebra.editor.share.serializer;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.editor.share.catalog.Tag;
 import org.geogebra.editor.share.editor.EditorFeatures;
 import org.geogebra.editor.share.io.latex.ParseException;
@@ -32,6 +30,7 @@ import org.geogebra.editor.share.tree.Node;
 import org.geogebra.editor.share.tree.SequenceNode;
 import org.geogebra.editor.share.util.IntegralHelper;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.Nullable;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
@@ -40,7 +39,7 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
  */
 public class GeoGebraSerializer extends SerializerAdapter {
 
-	private final @CheckForNull EditorFeatures editorFeatures;
+	private final @Nullable EditorFeatures editorFeatures;
 
 	private String leftBracket = "[";
 	private String rightBracket = "]";
@@ -48,7 +47,7 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	private boolean showPlaceholderAsQuestionmark;
 	private boolean useTemplates = true;
 
-	public GeoGebraSerializer(@CheckForNull EditorFeatures editorFeatures) {
+	public GeoGebraSerializer(@Nullable EditorFeatures editorFeatures) {
 		this.editorFeatures = editorFeatures;
 	}
 
@@ -57,7 +56,7 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	 * @param editorFeatures editor feature set
 	 * @return string
 	 */
-	public static String serialize(Node c, @CheckForNull EditorFeatures editorFeatures) {
+	public static String serialize(Node c, @Nullable EditorFeatures editorFeatures) {
 		return new GeoGebraSerializer(editorFeatures).serialize(c, new StringBuilder()).toString();
 	}
 

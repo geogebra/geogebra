@@ -18,8 +18,6 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -30,6 +28,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Equation type setting for quadrics and conics
@@ -165,7 +164,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 			getListener().addItem(loc.getMenu("ParametricForm"));
 			this.parametricIndex = ++counter;
 		}
-		@CheckForNull QuadraticEquationRepresentable.Form mode;
+		QuadraticEquationRepresentable.@Nullable Form mode;
 		if (equalMode) {
 			mode = geo0.getEquationForm();
 		} else {

@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
@@ -150,6 +148,7 @@ import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.AbsolutePanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.core.JsDate;
 import elemental2.dom.DomGlobal;
@@ -1226,7 +1225,7 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void openHelp(final ManualPage page, @CheckForNull String detail) {
+	public void openHelp(final ManualPage page, @Nullable String detail) {
 		try {
 			final String helpURL = getHelpURL(page, detail);
 			getApp().getFileManager().open(helpURL);

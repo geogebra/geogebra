@@ -18,10 +18,9 @@ package org.geogebra.common.properties.impl.facade;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Handles a collection of IconsEnumeratedProperty objects as a single IconsEnumeratedProperty.
@@ -42,7 +41,7 @@ public class IconsEnumeratedPropertyListFacade<T extends IconsEnumeratedProperty
 	}
 
 	@Override
-	public @CheckForNull String[] getToolTipLabels() {
+	public @Nullable String[] getToolTipLabels() {
 		return getFirstProperty().getToolTipLabels();
 	}
 }

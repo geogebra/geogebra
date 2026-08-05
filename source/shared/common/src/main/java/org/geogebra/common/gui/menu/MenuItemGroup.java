@@ -19,7 +19,7 @@ package org.geogebra.common.gui.menu;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A model describing a menu item group. Each group can have
@@ -32,7 +32,7 @@ public interface MenuItemGroup extends Serializable {
 	 *
 	 * @return title
 	 */
-	@CheckForNull String getTitle();
+	@Nullable String getTitle();
 
 	/**
 	 * Get the menu items of this group.

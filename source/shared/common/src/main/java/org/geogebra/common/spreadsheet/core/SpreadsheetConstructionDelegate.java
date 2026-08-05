@@ -18,9 +18,8 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.statistics.Statistic;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Interaction with the construction.
@@ -40,7 +39,7 @@ public interface SpreadsheetConstructionDelegate {
 	 * @param data The spreadsheet data.
 	 * @param range The range in {@code data} from which to create the chart.
 	 */
-	void createPieChart(@Nonnull TabularData<?> data, @Nonnull TabularRange range);
+	void createPieChart(@NonNull TabularData<?> data, @NonNull TabularRange range);
 
 	/**
 	 * Check if bar charts are supported (in the current app).
@@ -55,7 +54,7 @@ public interface SpreadsheetConstructionDelegate {
 	 * @param data The spreadsheet data.
 	 * @param ranges The list of ranges in {@code data} from which to create the chart.
 	 */
-	void createBarChart(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges);
+	void createBarChart(@NonNull TabularData<?> data, @NonNull List<TabularRange> ranges);
 
 	/**
 	 * Check if histograms are supported (in the current app).
@@ -70,7 +69,7 @@ public interface SpreadsheetConstructionDelegate {
 	 * @param data The spreadsheet data.
 	 * @param ranges The list of ranges in {@code data} from which to create the chart.
 	 */
-	void createHistogram(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges);
+	void createHistogram(@NonNull TabularData<?> data, @NonNull List<TabularRange> ranges);
 
 	/**
 	 * Check if line graphs are supported (in the current app).
@@ -85,14 +84,14 @@ public interface SpreadsheetConstructionDelegate {
 	 * @param data The spreadsheet data.
 	 * @param range The range in {@code data} from which to create the graph.
 	 */
-	void createLineGraph(@Nonnull TabularData<?> data, @Nonnull TabularRange range);
+	void createLineGraph(@NonNull TabularData<?> data, @NonNull TabularRange range);
 
 	/**
 	 * Create a line graph.
 	 * @param data The spreadsheet data.
 	 * @param ranges The list of ranges in {@code data} from which to create the graph.
 	 */
-	void createLineGraph(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges);
+	void createLineGraph(@NonNull TabularData<?> data, @NonNull List<TabularRange> ranges);
 
 	/**
 	 * Check if box plots are supported (in the current app).
@@ -107,7 +106,7 @@ public interface SpreadsheetConstructionDelegate {
 	 * @param data The spreadsheet data.
 	 * @param ranges The ranges in {@code data} from which to take raw data and frequencies.
 	 */
-	void createBoxPlot(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges);
+	void createBoxPlot(@NonNull TabularData<?> data, @NonNull List<TabularRange> ranges);
 
 	/**
 	 * Check if the statistic is supported (in the current app).

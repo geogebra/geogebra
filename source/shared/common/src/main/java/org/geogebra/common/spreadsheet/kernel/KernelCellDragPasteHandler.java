@@ -16,8 +16,6 @@
 
 package org.geogebra.common.spreadsheet.kernel;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -29,6 +27,7 @@ import org.geogebra.common.spreadsheet.core.CellDragPasteHandler;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Utility class designed to handle dragging a selection in order to copy its content to adjacent
@@ -68,7 +67,7 @@ final class KernelCellDragPasteHandler implements CellDragPasteHandler {
 	}
 
 	@Override
-	public @CheckForNull TabularRange getDragPasteDestinationRange() {
+	public @Nullable TabularRange getDragPasteDestinationRange() {
 		if (rangeToCopy == null || (destinationRowIsWithinOriginalSelection()
 				&& destinationColumnIsWithinOriginalSelection())) {
 			return null;

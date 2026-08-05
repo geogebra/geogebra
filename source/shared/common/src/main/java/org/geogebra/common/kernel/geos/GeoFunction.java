@@ -24,8 +24,6 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import javax.annotation.CheckForNull;
-
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.io.XMLStringBuilder;
@@ -82,6 +80,7 @@ import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Explicit function in one variable ("x"). This is actually a wrapper class for
@@ -97,7 +96,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 		Lineable2D, Functional {
 
 	/** inner function representation */
-	protected @CheckForNull Function fun;
+	protected @Nullable Function fun;
 	/** true if this function should be considered defined */
 	protected boolean isDefined = true;
 	private boolean trace;

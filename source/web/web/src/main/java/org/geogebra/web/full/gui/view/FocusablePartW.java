@@ -16,8 +16,6 @@
 
 package org.geogebra.web.full.gui.view;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.compositefocus.FocusablePart;
 import org.geogebra.web.full.gui.TextFieldFocusablePart;
@@ -25,6 +23,7 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Web-specific base class for focusable parts used in composite focus traversal.
@@ -40,7 +39,7 @@ public class FocusablePartW implements FocusablePart {
 	private final Widget widget;
 	private final String focusKey;
 	private final String accessibleLabel;
-	private final @CheckForNull Runnable onFocusCallback;
+	private final @Nullable Runnable onFocusCallback;
 
 	/**
 	 * Creates a focusable part for the given widget.
@@ -50,7 +49,7 @@ public class FocusablePartW implements FocusablePart {
 	 * @param onFocusCallback on focus callback
 	 */
 	public FocusablePartW(Widget widget, String focusKey, String accessibleLabel,
-			@CheckForNull Runnable onFocusCallback) {
+			@Nullable Runnable onFocusCallback) {
 		this.widget = widget;
 		this.focusKey = focusKey;
 		this.accessibleLabel = accessibleLabel;

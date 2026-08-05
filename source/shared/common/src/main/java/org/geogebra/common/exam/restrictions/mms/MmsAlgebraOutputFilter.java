@@ -18,8 +18,6 @@ package org.geogebra.common.exam.restrictions.mms;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.exam.restrictions.AngleConversionFilter;
 import org.geogebra.common.exam.restrictions.PercentageOutputFilter;
 import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
@@ -31,6 +29,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.BarChartGeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.jspecify.annotations.Nullable;
 
 public final class MmsAlgebraOutputFilter implements AlgebraOutputFilter {
 
@@ -58,7 +57,7 @@ public final class MmsAlgebraOutputFilter implements AlgebraOutputFilter {
         return true;
     }
 
-    private boolean isOutputAllowed(@CheckForNull GeoElementND element) {
+    private boolean isOutputAllowed(@Nullable GeoElementND element) {
         if (element == null) {
             return false;
         }

@@ -24,8 +24,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
 
-import javax.annotation.CheckForNull;
-
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.DecompositionSolver;
@@ -81,6 +79,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.Nullable;
 
 /**
  * GeoElement representing an implicit curve.
@@ -2242,7 +2241,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	/**
 	 * @param equationForm equation form, ignore if null
 	 */
-	public void setEquationForm(@CheckForNull Form equationForm) {
+	public void setEquationForm(@Nullable Form equationForm) {
 		if (equationForm != null) {
 			this.equationForm = equationForm;
 		}

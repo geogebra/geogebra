@@ -19,9 +19,6 @@ package org.geogebra.common.properties.impl.distribution;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -31,6 +28,8 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.common.properties.impl.AbstractNumericProperty;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /** {@code Property} responsible for managing the values of the probability parameters. */
 public final class DistributionParameterProperty extends AbstractNumericProperty
@@ -49,9 +48,9 @@ public final class DistributionParameterProperty extends AbstractNumericProperty
 	 * @param localization localization used for the property label
 	 * @param parameterIndex zero-based index of the distribution parameter
 	 */
-	public DistributionParameterProperty(@Nonnull AlgebraProcessor algebraProcessor,
-			@Nonnull ProbabilityCalculatorView probabilityCalculatorView,
-			@Nonnull Localization localization, int parameterIndex) {
+	public DistributionParameterProperty(@NonNull AlgebraProcessor algebraProcessor,
+			@NonNull ProbabilityCalculatorView probabilityCalculatorView,
+			@NonNull Localization localization, int parameterIndex) {
 		super(algebraProcessor, localization, "");
 		this.probabilityCalculatorView = probabilityCalculatorView;
 		this.parameterIndex = parameterIndex;
@@ -111,7 +110,7 @@ public final class DistributionParameterProperty extends AbstractNumericProperty
 	}
 
 	@Override
-	public @CheckForNull String validateValue(String value) {
+	public @Nullable String validateValue(String value) {
 		if (super.validateValue(value) != null) {
 			return "";
 		}
@@ -130,7 +129,7 @@ public final class DistributionParameterProperty extends AbstractNumericProperty
 	}
 
 	@Override
-	public @Nonnull ProbabilityCalculatorView getProbabilityCalculatorView() {
+	public @NonNull ProbabilityCalculatorView getProbabilityCalculatorView() {
 		return probabilityCalculatorView;
 	}
 }

@@ -21,9 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.view.table.TableUtil;
 import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
@@ -35,6 +32,8 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AttributedString;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -66,8 +65,8 @@ public final class TableValuesContextMenuActionHandler {
 		 * @param header column label
 		 * @param statisticGroups list of statistic groups to display
 		 */
-		void showStatisticsDialog(@Nonnull String title, @Nonnull AttributedString header,
-				@Nonnull List<StatisticGroup> statisticGroups);
+		void showStatisticsDialog(@NonNull String title, @NonNull AttributedString header,
+				@NonNull List<StatisticGroup> statisticGroups);
 
 		/**
 		 * Opens the regression dialog. {@code plotActionHandler} is a callback invoked when the
@@ -79,9 +78,9 @@ public final class TableValuesContextMenuActionHandler {
 		 * @param plotActionHandler callback to plot the selected regression curve when the
 		 * "Plot" button is pressed or {@code null} when no "Plot" button is shown
 		 */
-		void showRegressionDialog(@Nonnull String title, @Nonnull AttributedString header,
-				@Nonnull Map<RegressionSpecification, List<StatisticGroup>> regressionGroups,
-				@CheckForNull PlotActionHandler plotActionHandler);
+		void showRegressionDialog(@NonNull String title, @NonNull AttributedString header,
+				@NonNull Map<RegressionSpecification, List<StatisticGroup>> regressionGroups,
+				@Nullable PlotActionHandler plotActionHandler);
 
 		/**
 		 * Opens an error dialog when statistics or regression cannot be computed.
@@ -89,8 +88,8 @@ public final class TableValuesContextMenuActionHandler {
 		 * @param header column label
 		 * @param errorMessage human-readable error description
 		 */
-		void showErrorDialog(@Nonnull String title, @Nonnull AttributedString header,
-				@Nonnull String errorMessage);
+		void showErrorDialog(@NonNull String title, @NonNull AttributedString header,
+				@NonNull String errorMessage);
 	}
 
 	/** Callback to be invoked when the user presses the "Plot" button in the regression view. */
@@ -100,7 +99,7 @@ public final class TableValuesContextMenuActionHandler {
 		 * Called when the user presses the "Plot" button.
 		 * @param selectedRegressionSpecification the regression specification selected by the user
 		 */
-		void onPlotButtonPressed(@Nonnull RegressionSpecification selectedRegressionSpecification);
+		void onPlotButtonPressed(@NonNull RegressionSpecification selectedRegressionSpecification);
 	}
 
 	/**
@@ -110,8 +109,8 @@ public final class TableValuesContextMenuActionHandler {
 	 * @param app the active {@link App}
 	 * @param delegate the delegate for the platform-specific operations
 	 */
-	public TableValuesContextMenuActionHandler(int columnIndex, @Nonnull TableValues tableValues,
-			@Nonnull App app, @Nonnull Localization localization, @Nonnull Delegate delegate) {
+	public TableValuesContextMenuActionHandler(int columnIndex, @NonNull TableValues tableValues,
+			@NonNull App app, @NonNull Localization localization, @NonNull Delegate delegate) {
 		this.columnIndex = columnIndex;
 		this.tableValues = tableValues;
 		this.app = app;
@@ -123,7 +122,7 @@ public final class TableValuesContextMenuActionHandler {
 	 * Perform the action for the selected context menu item.
 	 * @param selectedItem the selected context menu item
 	 */
-	public void handleSelectedItem(@Nonnull TableValuesContextMenuItem selectedItem) {
+	public void handleSelectedItem(@NonNull TableValuesContextMenuItem selectedItem) {
 		switch (selectedItem.getItem()) {
 			case Edit -> edit();
 			case ClearColumn -> clearColumn();

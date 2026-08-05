@@ -16,10 +16,9 @@
 
 package org.geogebra.common.main.settings.config.equationforms;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.QuadraticEquationRepresentable;
+import org.jspecify.annotations.NonNull;
 
 public class EquationBehaviourGeometry extends DefaultEquationBehaviour {
 
@@ -34,7 +33,7 @@ public class EquationBehaviourGeometry extends DefaultEquationBehaviour {
 	}
 
 	@Override
-	public @Nonnull LinearEquationRepresentable.Form getRayCommandEquationForm() {
+	public LinearEquationRepresentable.@NonNull Form getRayCommandEquationForm() {
 		return LinearEquationRepresentable.Form.EXPLICIT;
 	}
 

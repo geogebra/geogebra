@@ -20,13 +20,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.statistics.AlgoCellRange;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.TabularRange;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Maintains a list of all instances of AlgoCellRange in a construction and
@@ -38,7 +37,7 @@ import org.geogebra.common.spreadsheet.core.TabularRange;
  */
 public class AlgoCellRangeManager {
 
-	private @CheckForNull HashMap<String, AlgoCellRange> algos;
+	private @Nullable HashMap<String, AlgoCellRange> algos;
 
 	/**
 	 * Removes an AlgoCellRange algorithm from the internal algorithm list.

@@ -18,8 +18,6 @@ package org.geogebra.web.html5.gui;
 
 import java.util.ArrayList;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.SymbolicEditor;
@@ -37,6 +35,7 @@ import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.TemplateChooserControllerI;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 /**
  * GUI manager for the web platform.
@@ -426,7 +425,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * @param page page type
 	 * @param detail page specifier
 	 */
-	void openHelp(ManualPage page, @CheckForNull String detail);
+	void openHelp(ManualPage page, @Nullable String detail);
 
 	/**
 	 * Focus keyboard input (AV, CAS), if not available, focus active graphics.

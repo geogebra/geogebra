@@ -81,8 +81,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.exam.restrictions.expression.ExpressionRestriction;
 import org.geogebra.common.exam.restrictions.wtr.WtrAlgebraOutputFilter;
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -109,6 +107,7 @@ import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.restrictions.Restrictions;
+import org.jspecify.annotations.NonNull;
 
 public class WtrExamRestrictions extends Restrictions {
 
@@ -206,8 +205,8 @@ public class WtrExamRestrictions extends Restrictions {
 
 	private static final class RestrictComplexExpressions implements ExpressionRestriction {
 		@Override
-		public @Nonnull Set<ExpressionValue> getRestrictedSubExpressions(
-				@Nonnull ExpressionValue expression) {
+		public @NonNull Set<ExpressionValue> getRestrictedSubExpressions(
+				@NonNull ExpressionValue expression) {
 			return filter(expression, subExpression ->
 					subExpression.getValueType() == ValueType.COMPLEX);
 		}
@@ -215,8 +214,8 @@ public class WtrExamRestrictions extends Restrictions {
 
 	private static final class RestrictBooleanExpressions implements ExpressionRestriction {
 		@Override
-		public @Nonnull Set<ExpressionValue> getRestrictedSubExpressions(
-				@Nonnull ExpressionValue expression) {
+		public @NonNull Set<ExpressionValue> getRestrictedSubExpressions(
+				@NonNull ExpressionValue expression) {
 			return filter(expression, subExpression -> subExpression instanceof BooleanValue);
 		}
 	}
@@ -224,7 +223,7 @@ public class WtrExamRestrictions extends Restrictions {
 	private static final class AllowBooleanAndListCommandArguments
 			implements ExpressionRestriction {
 		@Override
-		public @Nonnull Set<ExpressionValue> getAllowedSubExpressions(@Nonnull ExpressionValue expression) {
+		public @NonNull Set<ExpressionValue> getAllowedSubExpressions(@NonNull ExpressionValue expression) {
 			return streamOf(expression)
 					// For commands,
 					.filter(subExpression -> subExpression instanceof Command)
@@ -244,8 +243,8 @@ public class WtrExamRestrictions extends Restrictions {
 
 	private static final class RestrictLists implements ExpressionRestriction {
 		@Override
-		public @Nonnull Set<ExpressionValue> getRestrictedSubExpressions(
-				@Nonnull ExpressionValue expression) {
+		public @NonNull Set<ExpressionValue> getRestrictedSubExpressions(
+				@NonNull ExpressionValue expression) {
 			return filter(expression, subExpression -> subExpression instanceof MyList);
 		}
 	}

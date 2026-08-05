@@ -16,8 +16,6 @@
 
 package org.geogebra.common.gui.view.table;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.advanced.AlgoParseToNumberOrFunction;
@@ -26,6 +24,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.jspecify.annotations.NonNull;
 
 public class TableValuesInputProcessor implements TableValuesProcessor {
 
@@ -45,7 +44,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 	}
 
 	@Override
-	public void processInput(@Nonnull String input, GeoList list, int rowIndex) {
+	public void processInput(@NonNull String input, GeoList list, int rowIndex) {
 		GeoElement element = parseInput(input);
 		if (model.isEmptyValue(element) && (list == null || rowIndex >= list.size())) {
 			// Do not process empty input at the end of the table

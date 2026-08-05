@@ -22,9 +22,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
@@ -58,6 +55,8 @@ import org.gwtproject.dom.client.Style;
 import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.RootPanel;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Handles creating, showing and updating the keyboard
@@ -66,7 +65,7 @@ public final class KeyboardManager
 		implements RequiresResize, KeyboardManagerInterface, SettingListener<GeneralSettings> {
 
 	private final AppW app;
-	private @CheckForNull VirtualKeyboardGUI keyboard;
+	private @Nullable VirtualKeyboardGUI keyboard;
 
 	private String originalBodyPadding;
 	private final Style bodyStyle;
@@ -227,7 +226,7 @@ public final class KeyboardManager
 	 * Lazy loading getter
 	 * @return the keyboard
 	 */
-	public @Nonnull VirtualKeyboardGUI getOnScreenKeyboard() {
+	public @NonNull VirtualKeyboardGUI getOnScreenKeyboard() {
 		return ensureKeyboardsExist();
 	}
 

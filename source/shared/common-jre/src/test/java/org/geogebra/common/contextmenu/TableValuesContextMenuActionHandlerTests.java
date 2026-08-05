@@ -25,9 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.contextmenu.TableValuesContextMenuActionHandler.PlotActionHandler;
 import org.geogebra.common.gui.view.table.TableValues;
@@ -38,6 +35,8 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.restrictions.FeatureRestriction;
 import org.geogebra.common.util.AttributedString;
 import org.geogebra.test.BaseAppTestSetup;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
 class TableValuesContextMenuActionHandlerTests extends BaseAppTestSetup
@@ -240,17 +239,17 @@ class TableValuesContextMenuActionHandlerTests extends BaseAppTestSetup
 	}
 
 	@Override
-	public void showStatisticsDialog(@Nonnull String title, @Nonnull AttributedString header,
-			@Nonnull List<StatisticGroup> statisticGroups) {
+	public void showStatisticsDialog(@NonNull String title, @NonNull AttributedString header,
+			@NonNull List<StatisticGroup> statisticGroups) {
 		capturedStatisticsTitle = title;
 		capturedStatisticsHeader = header;
 		capturedStatisticsGroups = statisticGroups;
 	}
 
 	@Override
-	public void showRegressionDialog(@Nonnull String title, @Nonnull AttributedString header,
-			@Nonnull Map<RegressionSpecification, List<StatisticGroup>> regressionGroups,
-			@CheckForNull PlotActionHandler plotActionHandler) {
+	public void showRegressionDialog(@NonNull String title, @NonNull AttributedString header,
+			@NonNull Map<RegressionSpecification, List<StatisticGroup>> regressionGroups,
+			@Nullable PlotActionHandler plotActionHandler) {
 		capturedRegressionTitle = title;
 		capturedRegressionHeader = header;
 		capturedRegressionGroups = regressionGroups;
@@ -258,8 +257,8 @@ class TableValuesContextMenuActionHandlerTests extends BaseAppTestSetup
 	}
 
 	@Override
-	public void showErrorDialog(@Nonnull String title, @Nonnull AttributedString header,
-			@Nonnull String errorMessage) {
+	public void showErrorDialog(@NonNull String title, @NonNull AttributedString header,
+			@NonNull String errorMessage) {
 		capturedErrorTitle = title;
 		capturedErrorHeader = header;
 		capturedErrorMessage = errorMessage;

@@ -21,15 +21,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.properties.PropertiesRegistryListener;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyKey;
 import org.geogebra.common.restrictions.Restrictions.ContextDependencies;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -49,7 +48,7 @@ public final class RestrictionsController implements PropertiesRegistryListener 
 	 */
 	@Weak
 	@com.google.j2objc.annotations.Property
-	public @CheckForNull RestrictionsControllerDelegate delegate;
+	public @Nullable RestrictionsControllerDelegate delegate;
 
 	private Restrictions restrictions;
 	private ContextDependencies activeDependencies;
@@ -67,7 +66,7 @@ public final class RestrictionsController implements PropertiesRegistryListener 
 	 * dependencies.
 	 * @param contextDependencies The set of context dependencies.
 	 */
-	public void setActiveContext(@Nonnull ContextDependencies contextDependencies) {
+	public void setActiveContext(@NonNull ContextDependencies contextDependencies) {
 		if (activeDependencies != null) {
 			activeDependencies.propertiesRegistry().removeListener(this);
 			// remove restrictions for current dependencies
@@ -93,7 +92,7 @@ public final class RestrictionsController implements PropertiesRegistryListener 
 	 * any {@code Restrictable}s when no longer needed, to prevent keeping objects alive
 	 * that could otherwise be discarded.
 	 */
-	public void registerRestrictable(@Nonnull Restrictable restrictable) {
+	public void registerRestrictable(@NonNull Restrictable restrictable) {
 		restrictables.add(restrictable);
 		if (restrictions != null) {
 			restrictable.applyRestrictions(restrictions.getFeatureRestrictions());
@@ -107,7 +106,7 @@ public final class RestrictionsController implements PropertiesRegistryListener 
 	 * @apiNote When {@link Restrictions} are currently active, the {@link Restrictable} is asked
 	 * to remove the current restrictions immediately.
 	 */
-	public void unregisterRestrictable(@Nonnull Restrictable restrictable) {
+	public void unregisterRestrictable(@NonNull Restrictable restrictable) {
 		if (restrictions != null) {
 			restrictable.removeRestrictions(restrictions.getFeatureRestrictions());
 		}
@@ -118,7 +117,7 @@ public final class RestrictionsController implements PropertiesRegistryListener 
 	 * Apply restrictions.
 	 * @param restrictions A set of restrictions.
 	 */
-	public void applyRestrictions(@Nonnull Restrictions restrictions) {
+	public void applyRestrictions(@NonNull Restrictions restrictions) {
 		assert delegate != null; // delegate is mandatory, not setting it is a developer error
 		applyRestrictionsToDelegate(restrictions);
 		// delay setting the restrictions field until after delegates have been notified
@@ -193,7 +192,7 @@ public final class RestrictionsController implements PropertiesRegistryListener 
 		restrictions.removeFrom(dependencies);
 	}
 
-	public @CheckForNull Restrictions getRestrictions() {
+	public @Nullable Restrictions getRestrictions() {
 		return restrictions;
 	}
 
@@ -202,7 +201,7 @@ public final class RestrictionsController implements PropertiesRegistryListener 
 	 * @return The set of disabled (restricted) sub-apps, or null if there are no
 	 * restrictions on sub-apps currently.
 	 */
-	public @CheckForNull Set<SuiteSubApp> getDisabledSubApps() {
+	public @Nullable Set<SuiteSubApp> getDisabledSubApps() {
 		return restrictions != null ? restrictions.getDisabledSubApps() : null;
 	}
 
@@ -211,7 +210,7 @@ public final class RestrictionsController implements PropertiesRegistryListener 
 	 * @return The set of disabled (restricted) sub-app codes, or null if there are no
 	 * restrictions on sub-apps currently.
 	 */
-	public @CheckForNull Set<String> getDisabledSubAppCodes() {
+	public @Nullable Set<String> getDisabledSubAppCodes() {
 		Set<SuiteSubApp> disabledSubApps = getDisabledSubApps();
 		if (disabledSubApps == null) {
 			return null;
@@ -237,7 +236,7 @@ public final class RestrictionsController implements PropertiesRegistryListener 
 	 * @return The context menu item filters if restrictions are currently active, or an
 	 * empty set otherwise.
 	 */
-	public @Nonnull Set<ContextMenuItemFilter> getContextMenuItemFilters() {
+	public @NonNull Set<ContextMenuItemFilter> getContextMenuItemFilters() {
 		return restrictions != null ? restrictions.getContextMenuItemFilters() : Set.of();
 	}
 
@@ -247,7 +246,7 @@ public final class RestrictionsController implements PropertiesRegistryListener 
 	 * @return True if restrictions are currently active and the feature is restricted, false
 	 * otherwise.
 	 */
-	public boolean isFeatureRestricted(@Nonnull FeatureRestriction featureRestriction) {
+	public boolean isFeatureRestricted(@NonNull FeatureRestriction featureRestriction) {
 		return restrictions != null
 				&& restrictions.getFeatureRestrictions().contains(featureRestriction);
 	}
@@ -259,7 +258,7 @@ public final class RestrictionsController implements PropertiesRegistryListener 
 	 * @param property A property that just got registered.
 	 */
 	@Override
-	public void propertyRegistered(@Nonnull Property property) {
+	public void propertyRegistered(@NonNull Property property) {
 		if (restrictions == null) {
 			return;
 		}
@@ -276,7 +275,7 @@ public final class RestrictionsController implements PropertiesRegistryListener 
 	 * @param property A property that just got unregistered.
 	 */
 	@Override
-	public void propertyUnregistered(@Nonnull Property property) {
+	public void propertyUnregistered(@NonNull Property property) {
 		if (restrictions == null) {
 			return;
 		}

@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
@@ -52,6 +50,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.util.Box;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.Nullable;
 
 public class EuclidianStyleBarStatic {
 
@@ -69,7 +68,7 @@ public class EuclidianStyleBarStatic {
 	 *            view
 	 * @return new geo if redefinition was needed
 	 */
-	public static @CheckForNull GeoElement applyFixPosition(List<GeoElement> geos,
+	public static @Nullable GeoElement applyFixPosition(List<GeoElement> geos,
 			boolean flag, EuclidianViewInterfaceCommon ev) {
 		GeoElement ret = geos.get(0);
 		App app = geos.get(0).getKernel().getApplication();
@@ -244,7 +243,7 @@ public class EuclidianStyleBarStatic {
 	 *            new definition
 	 * @return redefined geo
 	 */
-	public static @CheckForNull GeoElement redefineGeo(GeoElement geo, String cmdtext) {
+	public static @Nullable GeoElement redefineGeo(GeoElement geo, String cmdtext) {
 		if (cmdtext == null) {
 			return null;
 		}

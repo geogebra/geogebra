@@ -23,8 +23,6 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.kernel.commands.CommandsConstants;
@@ -33,6 +31,7 @@ import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Analytics;
+import org.jspecify.annotations.NonNull;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -323,7 +322,7 @@ public class InputBarHelpPanel {
 	 * @param commandName name of the command
 	 * @param useReverse whether the command name should be translated to internal name or not
 	 */
-	public void logHelpIconEvent(@Nonnull String commandName, boolean useReverse) {
+	public void logHelpIconEvent(@NonNull String commandName, boolean useReverse) {
 		Map<String, Object> params = new HashMap<>();
 		String command = commandName.contains("(") || !useReverse ? commandName
 				: mApp.getReverseCommand(commandName);

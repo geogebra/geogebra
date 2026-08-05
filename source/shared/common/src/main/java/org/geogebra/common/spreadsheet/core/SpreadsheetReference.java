@@ -18,8 +18,8 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.Objects;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A (relative or absolute) spreadsheet cell or cell range reference.
@@ -28,25 +28,25 @@ import javax.annotation.Nonnull;
  */
 public final class SpreadsheetReference {
 
-	public final @Nonnull SpreadsheetCellReference fromCell;
-	public final @CheckForNull SpreadsheetCellReference toCell;
+	public final @NonNull SpreadsheetCellReference fromCell;
+	public final @Nullable SpreadsheetCellReference toCell;
 
 	/**
 	 * Null-safe factory.
 	 * @param range A range, possibly {@code null}.
 	 * @return A spreadsheet reference, or {@code null} if {@code range} is null.
 	 */
-	public static @CheckForNull SpreadsheetReference fromRange(@CheckForNull TabularRange range) {
+	public static @Nullable SpreadsheetReference fromRange(@Nullable TabularRange range) {
 		return range != null ? new SpreadsheetReference(range) : null;
 	}
 
-	SpreadsheetReference(@Nonnull SpreadsheetCellReference fromCell,
-			@CheckForNull SpreadsheetCellReference toCell) {
+	SpreadsheetReference(@NonNull SpreadsheetCellReference fromCell,
+			@Nullable SpreadsheetCellReference toCell) {
 		this.fromCell = fromCell;
 		this.toCell = toCell;
 	}
 
-	SpreadsheetReference(@Nonnull TabularRange range) {
+	SpreadsheetReference(@NonNull TabularRange range) {
 		this.fromCell = new SpreadsheetCellReference(range.getMinRow(), range.getMinColumn());
 		this.toCell = range.isSingleCell() ? null
 				: new SpreadsheetCellReference(range.getMaxRow(), range.getMaxColumn());
@@ -63,7 +63,7 @@ public final class SpreadsheetReference {
 		return toCell != null;
 	}
 
-	boolean equalsIgnoringAbsolute(@CheckForNull SpreadsheetReference other) {
+	boolean equalsIgnoringAbsolute(@Nullable SpreadsheetReference other) {
 		if (other == null) {
 			return false;
 		}

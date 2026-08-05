@@ -19,8 +19,6 @@ package org.geogebra.common.kernel;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -35,6 +33,7 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -51,7 +50,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	private final int timeoutMs;
 	private String input = "";
 	// concurrent evaluation with CAS may set validInput to null
-	private @CheckForNull String validInput = "";
+	private @Nullable String validInput = "";
 	private ErrorHandler validation;
 	private int maxLength = DEFAULT_MAX_LENGTH;
 	private boolean notFirstInput;

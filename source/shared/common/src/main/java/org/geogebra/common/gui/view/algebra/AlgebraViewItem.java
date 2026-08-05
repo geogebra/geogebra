@@ -19,13 +19,12 @@ package org.geogebra.common.gui.view.algebra;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.settings.AlgebraSettings;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An item in the Algebra View UI that
@@ -72,7 +71,7 @@ public final class AlgebraViewItem {
 	/**
 	 * @return the item's header state.
 	 */
-	public @Nonnull HeaderState getHeader() {
+	public @NonNull HeaderState getHeader() {
 		if (header == null) {
 			header = new HeaderState();
 			if (geo.isEuclidianVisible()) {
@@ -94,7 +93,7 @@ public final class AlgebraViewItem {
 	/**
 	 * @return the item's input row state.
 	 */
-	public @Nonnull InputRowState getInputRow() {
+	public @NonNull InputRowState getInputRow() {
 		if (inputRow == null) {
 			inputRow = new InputRowState();
 			boolean showingOnlyOutput = AlgebraItem.isCompactItem(geo) && geo.getApp()
@@ -122,7 +121,7 @@ public final class AlgebraViewItem {
 	/**
 	 * @return the item's slider row state.
 	 */
-	public @Nonnull SliderRowState getSliderRow() {
+	public @NonNull SliderRowState getSliderRow() {
 		if (sliderRow == null) {
 			sliderRow = new SliderRowState();
 			sliderRow.isVisible = AlgebraItem.shouldShowSlider(geo);
@@ -145,7 +144,7 @@ public final class AlgebraViewItem {
 	/**
 	 * @return the item's output row state.
 	 */
-	public @Nonnull OutputRowState getOutputRow() {
+	public @NonNull OutputRowState getOutputRow() {
 		if (outputRow == null) {
 			outputRow = new OutputRowState();
 			boolean showSlider = AlgebraItem.shouldShowSlider(geo);
@@ -248,14 +247,14 @@ public final class AlgebraViewItem {
 
 	public static final class HeaderState {
 		/** marble state */
-		@Nonnull MarbleState marbleState = MarbleState.DISABLED;
+		@NonNull MarbleState marbleState = MarbleState.DISABLED;
 		/** #ARGB (A is most significant byte) */
 		int marbleOutlineColorARGB;
 		int marbleFillColorARGB;
 		/** marble icon (overlay) */
-		@Nonnull MarbleIcon marbleIcon = MarbleIcon.NONE;
+		@NonNull MarbleIcon marbleIcon = MarbleIcon.NONE;
 
-		public @Nonnull MarbleState getMarbleState() {
+		public @NonNull MarbleState getMarbleState() {
 			return marbleState;
 		}
 
@@ -267,7 +266,7 @@ public final class AlgebraViewItem {
 			return marbleFillColorARGB;
 		}
 
-		public @Nonnull MarbleIcon getMarbleIcon() {
+		public @NonNull MarbleIcon getMarbleIcon() {
 			return marbleIcon;
 		}
 	}
@@ -278,9 +277,9 @@ public final class AlgebraViewItem {
 		/** plain text, or formula? */
 		boolean isTextCell;
 		/** preview LaTeX (read-only) */
-		@CheckForNull String previewLaTex;
+		@Nullable String previewLaTex;
 		/** editor LaTeX */
-		@CheckForNull String editorLaTeX;
+		@Nullable String editorLaTeX;
 		/** more button visible? */
 		boolean isMoreButtonVisible;
 
@@ -292,11 +291,11 @@ public final class AlgebraViewItem {
 			return isTextCell;
 		}
 
-		public @CheckForNull String getPreviewLaTex() {
+		public @Nullable String getPreviewLaTex() {
 			return previewLaTex;
 		}
 
-		public @CheckForNull String getEditorLaTeX() {
+		public @Nullable String getEditorLaTeX() {
 			return editorLaTeX;
 		}
 
@@ -344,11 +343,11 @@ public final class AlgebraViewItem {
 		/** output row visible? */
 		boolean isVisible;
 		/** output format icon (equal, approximately equal) */
-		@CheckForNull AlgebraOutputOperator outputFormat;
+		@Nullable AlgebraOutputOperator outputFormat;
 		/** output format toggle button icon (=next value). null means "hide button" */
-		@CheckForNull AlgebraOutputFormat nextOutputFormat;
+		@Nullable AlgebraOutputFormat nextOutputFormat;
 		/** output LaTeX */
-		@CheckForNull String laTeX;
+		@Nullable String laTeX;
 		/** more button visible */
 		boolean isMoreButtonVisible;
 
@@ -356,15 +355,15 @@ public final class AlgebraViewItem {
 			return isVisible;
 		}
 
-		public @CheckForNull AlgebraOutputOperator getOutputFormat() {
+		public @Nullable AlgebraOutputOperator getOutputFormat() {
 			return outputFormat;
 		}
 
-		public @CheckForNull AlgebraOutputFormat getNextOutputFormat() {
+		public @Nullable AlgebraOutputFormat getNextOutputFormat() {
 			return nextOutputFormat;
 		}
 
-		public @CheckForNull String getLaTeX() {
+		public @Nullable String getLaTeX() {
 			return laTeX;
 		}
 

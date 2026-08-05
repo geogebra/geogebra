@@ -21,8 +21,6 @@ import static org.geogebra.common.properties.PropertyResource.ICON_CELL_BORDER_T
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -35,6 +33,7 @@ import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.TablePropertyDelegate;
+import org.jspecify.annotations.Nullable;
 
 public class CellBorderThicknessProperty extends AbstractEnumeratedProperty<Integer>
 		implements IconsEnumeratedProperty<Integer> {
@@ -62,7 +61,7 @@ public class CellBorderThicknessProperty extends AbstractEnumeratedProperty<Inte
 	}
 
 	@Override
-	public @CheckForNull String[] getToolTipLabels() {
+	public @Nullable String[] getToolTipLabels() {
 		return null;
 	}
 

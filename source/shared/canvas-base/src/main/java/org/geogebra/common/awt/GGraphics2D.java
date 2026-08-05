@@ -16,9 +16,8 @@
 
 package org.geogebra.common.awt;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.font.GTextLayout;
+import org.jspecify.annotations.NonNull;
 
 /**
  * 2D graphics.
@@ -42,7 +41,7 @@ public interface GGraphics2D {
 	 * @see #setClip(GShape)
 	 * @see #setComposite
 	 */
-	void draw(@Nonnull GShape s);
+	void draw(@NonNull GShape s);
 
 	/**
 	 * @param img image
@@ -128,7 +127,7 @@ public interface GGraphics2D {
 	 * @see #setComposite
 	 * @see #setClip(GShape)
 	 */
-	void fill(@Nonnull GShape s);
+	void fill(@NonNull GShape s);
 
 	/**
 	 * Sets the <code>Composite</code> for the <code>Graphics2D</code> context.

@@ -24,9 +24,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -154,6 +151,8 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Class for 3D view
@@ -228,7 +227,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	protected Coords tmpCoords1 = new Coords(4);
 	protected Coords tmpCoords2 = new Coords(4);
 	// background can be null before settings update is called
-	protected @CheckForNull GColor bgColor;
+	protected @Nullable GColor bgColor;
 	protected GColor bgAppliedColor;
 
 	private final Kernel3D kernel3D;
@@ -4926,12 +4925,12 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	@Override
-	public void addListener(@Nonnull Listener listener) {
+	public void addListener(@NonNull Listener listener) {
 		listeners.add(listener);
 	}
 
 	@Override
-	public void removeListener(@Nonnull Listener listener) {
+	public void removeListener(@NonNull Listener listener) {
 		listeners.remove(listener);
 	}
 

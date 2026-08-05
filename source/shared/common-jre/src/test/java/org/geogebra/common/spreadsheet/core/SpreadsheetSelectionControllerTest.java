@@ -25,11 +25,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 import java.util.Objects;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.util.Box;
 import org.geogebra.common.util.MulticastEvent;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
 class SpreadsheetSelectionControllerTest {
@@ -381,7 +380,7 @@ class SpreadsheetSelectionControllerTest {
 		assertNull(selectionController.getLastSelection());
 	}
 
-	private void assertRangeEquals(@CheckForNull Selection selection, Selection other) {
+	private void assertRangeEquals(@Nullable Selection selection, Selection other) {
 		assertNotNull(selection, "Selection should not be null");
 		TabularRange selectionRange = selection.getRange();
 		TabularRange otherRange = other.getRange();

@@ -16,10 +16,9 @@
 
 package org.geogebra.common.spreadsheet.core;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
+import org.jspecify.annotations.NonNull;
 
 /**
  * A utility class designed to adjust the spreadsheet's viewport if needed.
@@ -44,8 +43,8 @@ final class ViewportAdjuster {
 	 * @param layout TableLayout
 	 * @param viewportAdjusterDelegate ViewportAdjustmentHandler
 	 */
-	ViewportAdjuster(@Nonnull TableLayout layout,
-			@Nonnull ViewportAdjusterDelegate viewportAdjusterDelegate) {
+	ViewportAdjuster(@NonNull TableLayout layout,
+			@NonNull ViewportAdjusterDelegate viewportAdjusterDelegate) {
 		this.layout = layout;
 		this.viewportAdjusterDelegate = viewportAdjusterDelegate;
 	}

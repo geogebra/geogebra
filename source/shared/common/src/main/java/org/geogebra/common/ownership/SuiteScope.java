@@ -23,8 +23,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.main.App;
@@ -33,6 +31,7 @@ import org.geogebra.common.properties.ValuedProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.restrictions.RestrictionsController;
+import org.jspecify.annotations.NonNull;
 
 import com.google.j2objc.annotations.Property;
 
@@ -48,13 +47,13 @@ import com.google.j2objc.annotations.Property;
 public final class SuiteScope implements PropertyValueObserver {
 
 	@Property
-	public final @Nonnull GeoElementPropertiesFactory geoElementPropertiesFactory
+	public final @NonNull GeoElementPropertiesFactory geoElementPropertiesFactory
 			= new GeoElementPropertiesFactory();
 	@Property
-	public final @Nonnull RestrictionsController restrictionsController
+	public final @NonNull RestrictionsController restrictionsController
 			= new RestrictionsController();
 	@Property
-	public final @Nonnull ExamController examController
+	public final @NonNull ExamController examController
 			= new ExamController(restrictionsController);
 
     final Set<App> apps = new HashSet<>();
@@ -79,7 +78,7 @@ public final class SuiteScope implements PropertyValueObserver {
 	 * @return The list of enabled (not-disabled) {@link SuiteSubApp}s in case an exam is
 	 * currently active, or a list of all {@code SuiteSubApp} values otherwise.
 	 */
-	public @Nonnull List<SuiteSubApp> getEnabledSubApps() {
+	public @NonNull List<SuiteSubApp> getEnabledSubApps() {
 		if (examController.isExamActive()) {
 			return SuiteSubApp.availableValues().stream()
 					.filter(subApp -> !restrictionsController.isDisabledSubApp(subApp))
@@ -94,7 +93,7 @@ public final class SuiteScope implements PropertyValueObserver {
 	 * @param app An app.
 	 * @return The language property for this app.
 	 */
-	public @Nonnull LanguageProperty getLanguageProperty(App app) {
+	public @NonNull LanguageProperty getLanguageProperty(App app) {
 		LanguageProperty languageProperty = languageProperties.get(app);
 		if (languageProperty == null) {
 			languageProperty = new LanguageProperty(app, app.getLocalization());

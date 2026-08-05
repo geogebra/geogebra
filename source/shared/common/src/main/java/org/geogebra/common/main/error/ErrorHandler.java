@@ -16,9 +16,8 @@
 
 package org.geogebra.common.main.error;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.util.AsyncOperation;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Class capable of displaying error messages in the UI
@@ -30,7 +29,7 @@ public interface ErrorHandler {
 	 * @param msg
 	 *            localized error message
 	 */
-	void showError(@CheckForNull String msg);
+	void showError(@Nullable String msg);
 
 	/**
 	 * Show command help dialog

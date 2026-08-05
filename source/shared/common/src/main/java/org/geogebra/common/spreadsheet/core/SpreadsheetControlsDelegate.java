@@ -18,11 +18,10 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Shows and hides spreadsheet controls (editor, context menu)
@@ -32,14 +31,14 @@ public interface SpreadsheetControlsDelegate {
 	/**
 	 * @return A cell editor instance.
 	 */
-	@Nonnull SpreadsheetCellEditor getCellEditor();
+	@NonNull SpreadsheetCellEditor getCellEditor();
 
 	/**
 	 * Show context menu and take over focus (for keyboard navigation).
 	 * @param items list of context menu items
 	 * @param point preferred top left coordinates (lower right corner of the selected cell range)
 	 */
-	void showContextMenu(@Nonnull List<ContextMenuItem> items, @Nonnull Point point);
+	void showContextMenu(@NonNull List<ContextMenuItem> items, @NonNull Point point);
 
 	/**
 	 * Hide context menu (and potential submenus), move focus to spreadsheet.
@@ -49,7 +48,7 @@ public interface SpreadsheetControlsDelegate {
 	/**
 	 * @return Interface to system clipboard.
 	 */
-	@CheckForNull ClipboardInterface getClipboard();
+	@Nullable ClipboardInterface getClipboard();
 
 	/**
 	 * Show completion suggestions for the cell currently being edited. If the suggestions UI is not
@@ -58,7 +57,7 @@ public interface SpreadsheetControlsDelegate {
 	 * @param editorBounds The bounds of the cell being edited (in viewport-relative coordinates).
 	 * Use this to position the suggestions UI.
 	 */
-	void showAutoCompleteSuggestions(@Nonnull String input, @Nonnull Rectangle editorBounds);
+	void showAutoCompleteSuggestions(@NonNull String input, @NonNull Rectangle editorBounds);
 
 	/**
 	 * Hide the command suggestions UI (if currently visible).
@@ -82,5 +81,5 @@ public interface SpreadsheetControlsDelegate {
 	 * Show snackbar with given message.
 	 * @param messageKey Message key found in the menu localization bundle.
 	 */
-	void showSnackbar(@Nonnull String messageKey);
+	void showSnackbar(@NonNull String messageKey);
 }

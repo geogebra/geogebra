@@ -19,10 +19,9 @@ package org.geogebra.common.exam.restrictions.visibility;
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.HIDE;
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.IGNORE;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Restricts the visibility of inequalities.
@@ -38,7 +37,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
  */
 public final class HiddenInequalityVisibilityRestriction implements VisibilityRestriction {
 	@Override
-	public @Nonnull Effect getEffect(GeoElement geoElement) {
+	public @NonNull Effect getEffect(GeoElement geoElement) {
 		GeoElementND unwrappedSymbolic = geoElement.unwrapSymbolic();
 		return (unwrappedSymbolic != null && unwrappedSymbolic.isInequality()) ? HIDE : IGNORE;
 	}

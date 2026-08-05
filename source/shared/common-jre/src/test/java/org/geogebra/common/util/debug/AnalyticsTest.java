@@ -23,8 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
+import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -127,7 +126,7 @@ class AnalyticsTest {
 		}
 
 		@Override
-		protected void setDefaultEventParametersInternal(@Nonnull Map<String, Object> params) {
+		protected void setDefaultEventParametersInternal(@NonNull Map<String, Object> params) {
 			// not keeping track of default parameters (yet)
 		}
 	}

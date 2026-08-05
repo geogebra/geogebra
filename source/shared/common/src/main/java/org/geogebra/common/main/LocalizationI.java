@@ -18,9 +18,8 @@ package org.geogebra.common.main;
 
 import java.util.Locale;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.NonNull;
 
 public abstract class LocalizationI {
 
@@ -120,7 +119,7 @@ public abstract class LocalizationI {
 	 * @param key key
 	 * @return translation for key
 	 */
-	public final @Nonnull String getMenu(String key) {
+	public final @NonNull String getMenu(String key) {
 		String value = getMenuDefault(key, "");
 		return value.isEmpty() ? stripPrefix(key) : value;
 	}

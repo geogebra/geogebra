@@ -37,7 +37,7 @@ public class NormalizeAnnotations extends Recipe {
 
 	@Override
 	public String getDisplayName() {
-		return "Move `@CheckForNull` method annotations to the return type";
+		return "Move `@Nullable`, `@NonNull` method annotations to the return type";
 	}
 
 	@Override
@@ -48,8 +48,8 @@ public class NormalizeAnnotations extends Recipe {
 	@Override
 	public TreeVisitor<?, ExecutionContext> getVisitor() {
 		return Preconditions.or(
-						getVisitor("*..CheckForNull"),
-						getVisitor("*..Nonnull"));
+						getVisitor("*..Nullable"),
+						getVisitor("*..NonNull"));
 	}
 
 	private TreeVisitor<?, ExecutionContext> getVisitor(String signature) {

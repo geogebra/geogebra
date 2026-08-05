@@ -24,8 +24,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.parser.ParseException;
@@ -49,6 +47,7 @@ import org.geogebra.editor.share.serializer.TeXSerializer;
 import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.geogebra.editor.share.util.FormulaConverter;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.Nullable;
 
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.CharAtom;
@@ -97,7 +96,7 @@ class EditorChecker {
 		checkGGBMath(output, null);
 	}
 
-	public void checkGGBMath(String output, @CheckForNull EditorFeatures editorFeatures) {
+	public void checkGGBMath(String output, @Nullable EditorFeatures editorFeatures) {
 		SequenceNode rootComponent = getRootComponent();
 		String exp = new GeoGebraSerializer(editorFeatures)
 				.serialize(rootComponent, new StringBuilder()).toString();

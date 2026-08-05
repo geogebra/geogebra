@@ -16,8 +16,6 @@
 
 package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.web.full.gui.layout.ViewCounter;
@@ -27,6 +25,7 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FlowPanel;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.CanvasRenderingContext2D;
 
@@ -36,8 +35,8 @@ import elemental2.dom.CanvasRenderingContext2D;
 public class SpreadsheetTab extends ToolbarTab {
 
 	private final ToolbarPanel toolbarPanel;
-	private @CheckForNull FlowPanel tabPanel;
-	private @CheckForNull SpreadsheetPanel spreadsheetPanel;
+	private @Nullable FlowPanel tabPanel;
+	private @Nullable SpreadsheetPanel spreadsheetPanel;
 
 	/**
 	 * Constructor

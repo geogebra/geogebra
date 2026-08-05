@@ -16,8 +16,6 @@
 
 package org.geogebra.common.euclidian;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.DrawEmbed;
 import org.geogebra.common.euclidian.draw.DrawWidget;
@@ -27,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.plugin.ActionType;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Updates, adds and removes embedded applets.
@@ -193,7 +192,7 @@ public interface EmbedManager {
 	 * @param embed calculator
 	 * @return application for embedded calculator, null during slide switch
 	 */
-	@CheckForNull App getEmbedApp(GeoEmbed embed);
+	@Nullable App getEmbedApp(GeoEmbed embed);
 
 	/**
 	 * Add embedded suite calc

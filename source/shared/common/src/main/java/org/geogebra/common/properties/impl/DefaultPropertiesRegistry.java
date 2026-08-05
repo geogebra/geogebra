@@ -21,12 +21,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertiesRegistryListener;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyKey;
+import org.jspecify.annotations.NonNull;
 
 public class DefaultPropertiesRegistry implements PropertiesRegistry {
 
@@ -40,17 +39,17 @@ public class DefaultPropertiesRegistry implements PropertiesRegistry {
 	 * @param listener A listener.
 	 */
 	@Override
-	public void addListener(@Nonnull PropertiesRegistryListener listener) {
+	public void addListener(@NonNull PropertiesRegistryListener listener) {
 		listeners.add(listener);
 	}
 
 	@Override
-	public void removeListener(@Nonnull PropertiesRegistryListener listener) {
+	public void removeListener(@NonNull PropertiesRegistryListener listener) {
 		listeners.remove(listener);
 	}
 
 	@Override
-	public void register(@Nonnull Property property) {
+	public void register(@NonNull Property property) {
 		properties.put(property.getKey(), property);
 		for (PropertiesRegistryListener listener : listeners) {
 			listener.propertyRegistered(property);
@@ -58,7 +57,7 @@ public class DefaultPropertiesRegistry implements PropertiesRegistry {
 	}
 
 	@Override
-	public void unregister(@Nonnull Property property) {
+	public void unregister(@NonNull Property property) {
 		properties.remove(property.getKey());
 		for (PropertiesRegistryListener listener : listeners) {
 			listener.propertyUnregistered(property);
@@ -66,7 +65,7 @@ public class DefaultPropertiesRegistry implements PropertiesRegistry {
 	}
 
 	@Override
-	public Property lookup(@Nonnull PropertyKey key) {
+	public Property lookup(@NonNull PropertyKey key) {
 		return properties.get(key);
 	}
 

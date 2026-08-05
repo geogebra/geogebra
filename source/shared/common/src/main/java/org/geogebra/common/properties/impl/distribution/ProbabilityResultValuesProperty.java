@@ -16,9 +16,6 @@
 
 package org.geogebra.common.properties.impl.distribution;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -27,6 +24,8 @@ import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.NumericPropertyUtil;
 import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /** {@code Property} responsible for managing probability result in the distribution view. */
 public final class ProbabilityResultValuesProperty
@@ -44,8 +43,8 @@ public final class ProbabilityResultValuesProperty
 	 * @param algebraProcessor parser used for numeric user input
 	 * @param view backing probability calculator view
 	 */
-	public ProbabilityResultValuesProperty(@Nonnull Localization localization,
-			@Nonnull AlgebraProcessor algebraProcessor, @Nonnull ProbabilityCalculatorView view) {
+	public ProbabilityResultValuesProperty(@NonNull Localization localization,
+			@NonNull AlgebraProcessor algebraProcessor, @NonNull ProbabilityCalculatorView view) {
 		super(localization, "ProbabilityResult");
 		this.view = view;
 		this.util = new NumericPropertyUtil(algebraProcessor);
@@ -82,61 +81,61 @@ public final class ProbabilityResultValuesProperty
 	/**
 	 * @return the {@code Property} responsible for editing the lower bound
 	 */
-	public @Nonnull StringProperty getLowerBoundProperty() {
+	public @NonNull StringProperty getLowerBoundProperty() {
 		return lowerBoundProperty;
 	}
 
 	/**
 	 * @return the {@code Property} responsible for editing the upper bound
 	 */
-	public @Nonnull StringProperty getUpperBoundProperty() {
+	public @NonNull StringProperty getUpperBoundProperty() {
 		return upperBoundProperty;
 	}
 
 	/**
 	 * @return the {@code Property} responsible for editing the final probability result
 	 */
-	public @Nonnull StringProperty getProbabilityResultProperty() {
+	public @NonNull StringProperty getProbabilityResultProperty() {
 		return probabilityResultProperty;
 	}
 
 	/**
 	 * @return the probability result of the left tail
 	 */
-	public @Nonnull String getLeftProbability() {
+	public @NonNull String getLeftProbability() {
 		return view.getProbabilityText(view.getLeftProbability());
 	}
 
 	/**
 	 * @return localized text that starts the probability expression
 	 */
-	public @Nonnull String getProbabilityExpressionPrefix() {
+	public @NonNull String getProbabilityExpressionPrefix() {
 		return getLocalization().getMenu("ProbabilityOf");
 	}
 
 	/**
 	 * @return localized text that ends the probability expression
 	 */
-	public @Nonnull String getProbabilityExpressionSuffix() {
+	public @NonNull String getProbabilityExpressionSuffix() {
 		return getLocalization().getMenu("EndProbabilityOf");
 	}
 
 	/**
 	 * @return the probability result of the right tail
 	 */
-	public @Nonnull String getRightProbability() {
+	public @NonNull String getRightProbability() {
 		return view.getProbabilityText(view.getRightProbability());
 	}
 
 	/**
 	 * @return the sum of the left and right tail probability results
 	 */
-	public @Nonnull String getTotalProbability() {
+	public @NonNull String getTotalProbability() {
 		return view.getProbabilityText(view.getLeftProbability() + view.getRightProbability());
 	}
 
 	@Override
-	public @Nonnull ProbabilityCalculatorView getProbabilityCalculatorView() {
+	public @NonNull ProbabilityCalculatorView getProbabilityCalculatorView() {
 		return view;
 	}
 
@@ -164,7 +163,7 @@ public final class ProbabilityResultValuesProperty
 		}
 
 		@Override
-		public @CheckForNull String validateValue(String value) {
+		public @Nullable String validateValue(String value) {
 			return util.isNumber(value) ? null : "";
 		}
 
@@ -174,7 +173,7 @@ public final class ProbabilityResultValuesProperty
 		}
 
 		@Override
-		public @Nonnull ProbabilityCalculatorView getProbabilityCalculatorView() {
+		public @NonNull ProbabilityCalculatorView getProbabilityCalculatorView() {
 			return view;
 		}
 
@@ -209,7 +208,7 @@ public final class ProbabilityResultValuesProperty
 		}
 
 		@Override
-		public @CheckForNull String validateValue(String value) {
+		public @Nullable String validateValue(String value) {
 			return util.isNumber(value) ? null : "";
 		}
 
@@ -219,7 +218,7 @@ public final class ProbabilityResultValuesProperty
 		}
 
 		@Override
-		public @Nonnull ProbabilityCalculatorView getProbabilityCalculatorView() {
+		public @NonNull ProbabilityCalculatorView getProbabilityCalculatorView() {
 			return view;
 		}
 
@@ -257,7 +256,7 @@ public final class ProbabilityResultValuesProperty
 		}
 
 		@Override
-		public @CheckForNull String validateValue(String value) {
+		public @Nullable String validateValue(String value) {
 			return util.isNumber(value) ? null : "";
 		}
 
@@ -268,7 +267,7 @@ public final class ProbabilityResultValuesProperty
 		}
 
 		@Override
-		public @Nonnull ProbabilityCalculatorView getProbabilityCalculatorView() {
+		public @NonNull ProbabilityCalculatorView getProbabilityCalculatorView() {
 			return view;
 		}
 

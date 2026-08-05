@@ -22,9 +22,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UpdateLocationView;
@@ -45,6 +42,8 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
 import org.geogebra.common.spreadsheet.core.TabularDataPasteInterface;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Listens to changes of spreadsheet data (=GeoElements) in Kernel and passes
@@ -52,17 +51,17 @@ import org.geogebra.common.spreadsheet.core.TabularDataPasteInterface;
  */
 public final class KernelTabularDataAdapter implements UpdateLocationView, TabularData<GeoElement> {
 
-	private final @Nonnull App app;
-	private final @Nonnull Kernel kernel;
-	private final @Nonnull KernelTabularDataProcessor processor;
-	private final @Nonnull SpreadsheetCellProcessor cellProcessor;
+	private final @NonNull App app;
+	private final @NonNull Kernel kernel;
+	private final @NonNull KernelTabularDataProcessor processor;
+	private final @NonNull SpreadsheetCellProcessor cellProcessor;
 	private final List<TabularDataChangeListener> changeListeners = new ArrayList<>();
 	private final Map<Integer, Map<Integer, GeoElement>> data = new HashMap<>();
 
 	/**
 	 * @param app the App
 	 */
-	public KernelTabularDataAdapter(@Nonnull App app) {
+	public KernelTabularDataAdapter(@NonNull App app) {
 		this.app = app;
 		// careful: the SpreadsheetSettings instance may change at runtime, don't store a reference!
 		SpreadsheetSettings spreadsheetSettings = app.getSettings().getSpreadsheet();
@@ -202,7 +201,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	// -- HasTabularValues --
 
 	@Override
-	public @CheckForNull GeoElement contentAt(int row, int column) {
+	public @Nullable GeoElement contentAt(int row, int column) {
 		return data.get(row) != null ? data.get(row).get(column) : null;
 	}
 
@@ -219,7 +218,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	// -- TabularData --
 
 	@Override
-	public @Nonnull SpreadsheetCellProcessor getCellProcessor() {
+	public @NonNull SpreadsheetCellProcessor getCellProcessor() {
 		return cellProcessor;
 	}
 
@@ -234,7 +233,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public void addChangeListener(@Nonnull TabularDataChangeListener changeListener) {
+	public void addChangeListener(@NonNull TabularDataChangeListener changeListener) {
 		changeListeners.add(changeListener);
 	}
 
@@ -310,7 +309,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public @Nonnull String serializeContentAt(int row, int column) {
+	public @NonNull String serializeContentAt(int row, int column) {
 		GeoElement geoElement = contentAt(row, column);
 		return geoElement == null ? ""
 				: geoElement.getRedefineString(true, false);

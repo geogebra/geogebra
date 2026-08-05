@@ -18,9 +18,6 @@ package org.geogebra.common.properties.impl.objects;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
@@ -31,6 +28,8 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 import org.geogebra.common.properties.impl.objects.delegate.TextFormatterDelegate;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 import org.geogebra.common.util.StringUtil;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@code Property} responsible for setting the font size of texts within Notes,
@@ -53,7 +52,7 @@ public class NotesFontSizeProperty extends AbstractValuedProperty<String>
 	 * @param element element to create the property for
 	 * @throws NotApplicablePropertyException if the property is not applicable for the element
 	 */
-	public NotesFontSizeProperty(@Nonnull Localization localization, @Nonnull GeoElement element)
+	public NotesFontSizeProperty(@NonNull Localization localization, @NonNull GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "FontSize");
 		this.delegate = new TextFormatterDelegate(element);
@@ -77,13 +76,13 @@ public class NotesFontSizeProperty extends AbstractValuedProperty<String>
 	}
 
 	@Override
-	public @CheckForNull String validateValue(String value) {
+	public @Nullable String validateValue(String value) {
 		return parse(value) == null
 				? getLocalization().getError("InvalidInput") : null;
 	}
 
 	@Override
-	public @Nonnull List<String> getSuggestions() {
+	public @NonNull List<String> getSuggestions() {
 		return SUGGESTIONS;
 	}
 
@@ -101,7 +100,7 @@ public class NotesFontSizeProperty extends AbstractValuedProperty<String>
 	 * @param value Input text
 	 * @return Limited integer font size, or {@code null} for invalid input.
 	 */
-	public static @CheckForNull Integer parse(@CheckForNull String value) {
+	public static @Nullable Integer parse(@Nullable String value) {
 		if (StringUtil.emptyTrim(value)) {
 			return null;
 		}

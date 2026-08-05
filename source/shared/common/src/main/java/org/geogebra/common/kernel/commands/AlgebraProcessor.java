@@ -26,9 +26,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -151,6 +148,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.regexp.shared.MatchResult;
 import org.geogebra.regexp.shared.RegExp;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -270,7 +269,7 @@ public class AlgebraProcessor {
 	 * Add an input expression filter (used for dynamically filtering valid input expressions).
 	 * @param filter An input expression filter.
 	 */
-	public void addInputExpressionFilter(@Nonnull ExpressionFilter filter) {
+	public void addInputExpressionFilter(@NonNull ExpressionFilter filter) {
 		inputExpressionFilters.add(filter);
 	}
 
@@ -278,7 +277,7 @@ public class AlgebraProcessor {
 	 * Remove an input expression filter.
 	 * @param filter An input expression filter.
 	 */
-	public void removeInputExpressionFilter(@Nonnull ExpressionFilter filter) {
+	public void removeInputExpressionFilter(@NonNull ExpressionFilter filter) {
 		inputExpressionFilters.remove(filter);
 	}
 
@@ -286,7 +285,7 @@ public class AlgebraProcessor {
 	 * Add an output expression filter (used for dynamically filtering output expressions).
 	 * @param filter An output expression filter.
 	 */
-	public void addOutputExpressionFilter(@Nonnull ExpressionFilter filter) {
+	public void addOutputExpressionFilter(@NonNull ExpressionFilter filter) {
 		outputExpressionFilters.add(filter);
 	}
 
@@ -294,7 +293,7 @@ public class AlgebraProcessor {
 	 * Remove an output expression filter.
 	 * @param filter An output expression filter.
 	 */
-	public void removeOutputExpressionFilter(@Nonnull ExpressionFilter filter) {
+	public void removeOutputExpressionFilter(@NonNull ExpressionFilter filter) {
 		outputExpressionFilters.remove(filter);
 	}
 
@@ -620,8 +619,8 @@ public class AlgebraProcessor {
 			ValidExpression newValue, EvalInfo info,
 			final boolean storeUndoInfo,
 			final AsyncOperation<GeoElementND> callback, ErrorHandler handler) {
-		@CheckForNull String oldLabel;
-		@CheckForNull String newLabel;
+		@Nullable String oldLabel;
+		@Nullable String newLabel;
 
 		app.getCompanion().storeViewCreators();
 
@@ -1155,7 +1154,7 @@ public class AlgebraProcessor {
 	 */
 	GeoElementND[] postProcessCreatedElements(ValidExpression input,
 			AsyncOperation<GeoElementND[]> callback0, GeoElementND[] geos,
-			ErrorHandler handler, @CheckForNull Set<GeoNumeric> sliders) {
+			ErrorHandler handler, @Nullable Set<GeoNumeric> sliders) {
 		GeoElementND[] filteredGeos = geos;
 		if (geos != null) {
 			// Switch to an enabled algebra output format
@@ -3882,7 +3881,7 @@ public class AlgebraProcessor {
 	 *            only the commands that are allowed by the CommandFilter
 	 *            will be added to the command table
 	 */
-	public void addCommandFilter(@Nonnull CommandFilter commandFilter) {
+	public void addCommandFilter(@NonNull CommandFilter commandFilter) {
 		cmdDispatcher.addCommandFilter(commandFilter);
 	}
 

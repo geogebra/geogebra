@@ -26,8 +26,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
@@ -51,6 +49,7 @@ import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
 
 import com.google.j2objc.annotations.AutoreleasePool;
 
@@ -1839,7 +1838,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * @param newParent other algo
 	 * @return whether these two algos are compatible
 	 */
-	public final boolean isCompatible(@Nonnull AlgoElement newParent) {
+	public final boolean isCompatible(@NonNull AlgoElement newParent) {
 		return this.getClassName() == newParent.getClassName()
 				// we may add support for macros/expressions later
 				&& this.getClassName() instanceof Commands

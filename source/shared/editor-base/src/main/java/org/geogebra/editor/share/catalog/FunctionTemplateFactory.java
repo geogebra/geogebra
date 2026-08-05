@@ -16,10 +16,9 @@
 
 package org.geogebra.editor.share.catalog;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.editor.share.input.Character;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Factory for creating custom function templates.
@@ -39,7 +38,7 @@ public class FunctionTemplateFactory {
 	 * @param square use [ rather than (
 	 * @return function
 	 */
-	@CheckForNull FunctionTemplate createFunction(String name, boolean square) {
+	@Nullable FunctionTemplate createFunction(String name, boolean square) {
 		if (!isAcceptable(name)) {
 			return null;
 		}

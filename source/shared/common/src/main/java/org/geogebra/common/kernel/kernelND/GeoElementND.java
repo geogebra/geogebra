@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPaint;
@@ -56,6 +54,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.LaTeXCache;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Common interface for all interfaces that represent GeoElements.
@@ -1605,7 +1604,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	 * For symbolic geos return their twin (if it exists), for others return self.
 	 * @return twin or null for symbolic geos, the geo itself otherwise.
 	 */
-	@CheckForNull GeoElementND unwrapSymbolic();
+	@Nullable GeoElementND unwrapSymbolic();
 
 	/**
 	 * @return app
