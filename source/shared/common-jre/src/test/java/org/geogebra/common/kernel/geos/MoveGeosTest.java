@@ -20,6 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import java.util.Collections;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -156,5 +158,99 @@ class MoveGeosTest extends BaseUnitTest {
 		assertThat(element.getDefinition(StringTemplate.defaultTemplate),
 				is("Polygon((0, 1), (2, 1), (1, 2))"));
 
+	}
+
+	@Test
+	void fixedButtonNotMovableByArrowKeysInMoveMode1() {
+		GeoButton button = add("Button()");
+		button.setAbsoluteScreenLoc(100, 100);
+		button.setFixed(true);
+		moveByArrowKey(button);
+		assertEquals(100, button.getAbsoluteScreenLocX());
+		assertEquals(100, button.getAbsoluteScreenLocY());
+	}
+
+	@Test
+	void fixedButtonNotMovableByArrowKeysInMoveMode2() {
+		GeoButton button = add("Button()");
+		button.setAbsoluteScreenLocActive(false);
+		button.setRealWorldLoc(1, 1);
+		button.setFixed(true);
+		moveByArrowKey(button);
+		assertEquals(1, button.getRealWorldLocX(), 0);
+		assertEquals(1, button.getRealWorldLocY(), 0);
+	}
+
+	@Test
+	void movableButtonIsMovableByArrowKeys1() {
+		GeoButton button = add("Button()");
+		button.setAbsoluteScreenLoc(100, 100);
+		moveByArrowKey(button);
+		assertNotEquals(100, button.getAbsoluteScreenLocX());
+	}
+
+	@Test
+	void movableButtonIsMovableByArrowKeys2() {
+		GeoButton button = add("Button()");
+		button.setAbsoluteScreenLocActive(false);
+		button.setRealWorldLoc(1, 1);
+		moveByArrowKey(button);
+		assertNotEquals(1, button.getRealWorldLocX(), 0);
+	}
+
+	@Test
+	void movableButtonNotMovableByArrowKeysWhenRightClickDisabled1() {
+		GeoButton button = add("Button()");
+		button.setAbsoluteScreenLoc(100, 100);
+		getApp().setRightClickEnabled(false);
+		moveByArrowKey(button);
+		assertEquals(100, button.getAbsoluteScreenLocX());
+	}
+
+	@Test
+	void movableButtonNotMovableByArrowKeysWhenRightClickDisabled2() {
+		GeoButton button = add("Button()");
+		button.setAbsoluteScreenLocActive(false);
+		button.setRealWorldLoc(1, 1);
+		getApp().setRightClickEnabled(false);
+		moveByArrowKey(button);
+		assertEquals(1, button.getRealWorldLocX(), 0);
+	}
+
+	@Test
+	void fixedButtonMovableByArrowKeysWhenButtonToolActive1() {
+		GeoButton button = add("Button()");
+		button.setAbsoluteScreenLoc(100, 100);
+		button.setFixed(true);
+		getApp().setMode(EuclidianConstants.MODE_BUTTON_ACTION);
+		moveByArrowKey(button);
+		assertNotEquals(100, button.getAbsoluteScreenLocX());
+	}
+
+	@Test
+	void fixedButtonMovableByArrowKeysWhenButtonToolActive2() {
+		GeoButton button = add("Button()");
+		button.setAbsoluteScreenLocActive(false);
+		button.setRealWorldLoc(1, 1);
+		button.setFixed(true);
+		getApp().setMode(EuclidianConstants.MODE_BUTTON_ACTION);
+		moveByArrowKey(button);
+		assertNotEquals(1, button.getRealWorldLocX(), 0);
+	}
+
+	@Test
+	void fixedInputBoxMovableByArrowKeysWhenTextFieldToolActive() {
+		GeoInputBox inputBox = add("InputBox()");
+		inputBox.setAbsoluteScreenLoc(100, 100);
+		inputBox.setFixed(true);
+		getApp().setMode(EuclidianConstants.MODE_TEXTFIELD_ACTION);
+		moveByArrowKey(inputBox);
+		assertNotEquals(100, inputBox.getAbsoluteScreenLocX());
+	}
+
+	private void moveByArrowKey(GeoElement geo) {
+		Coords dummyCoords = new Coords(7, 7, 7);
+		MoveGeos.moveObjects(Collections.singletonList(geo), new Coords(1, 1, 0),
+				dummyCoords, dummyCoords, getApp().getActiveEuclidianView());
 	}
 }

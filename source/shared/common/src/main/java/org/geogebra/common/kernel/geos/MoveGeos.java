@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.DrawableND;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -31,6 +32,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Library class for moving geos by drag
@@ -78,7 +80,7 @@ public class MoveGeos {
 
 		final ArrayList<GeoElement> geos = new ArrayList<>();
 		for (GeoElement geo: deduplicated) {
-			if (!geo.isLocked()) { // Non fixed elements only
+			if (!geo.isLocked() || isFixedFurnitureMovableByOwnTool(geo)) {
 				if (!geo.isGeoList() || shouldAddListAsWhole((GeoList) geo, view)) {
 					addWithSiblingsAndChildNodes(geo, geos, view);
 				} else if (geo.isFreeOrExpression()) {
@@ -120,6 +122,20 @@ public class MoveGeos {
 			}
 		}
 		return moved;
+	}
+
+	private static boolean isFixedFurnitureMovableByOwnTool(@NonNull GeoElement geo) {
+		if (!(geo instanceof AbsoluteScreenLocateable locateable) || !locateable.isFurniture()) {
+			return false;
+		}
+		int mode = geo.getApp().getMode();
+		if (geo.isGeoInputBox()) {
+			return mode == EuclidianConstants.MODE_TEXTFIELD_ACTION;
+		}
+		if (geo.isGeoButton()) {
+			return mode == EuclidianConstants.MODE_BUTTON_ACTION;
+		}
+		return false;
 	}
 
 	/**
@@ -219,13 +235,11 @@ public class MoveGeos {
 			EuclidianView view) {
 		boolean movedGeo;
 
-		if (geo1.isMoveable()) {
-			movedGeo = moveMoveableGeo(geo1, rwTransVec, endPosition,
-					view);
+		if (geo1.isMoveable() || isFixedFurnitureMovableByOwnTool(geo1)) {
+			movedGeo = moveMoveableGeo(geo1, rwTransVec, endPosition, view);
 		} else if (geo1.isGeoList() && !geo1.isLocked() && !geo1.isRandomGeo()
 				&& geo1.getCorrespondingCasCell() == null) {
-			((GeoList) geo1).elements().forEach(el -> moveMoveableGeo(el, rwTransVec, null,
-					view));
+			((GeoList) geo1).elements().forEach(el -> moveMoveableGeo(el, rwTransVec, null, view));
 			moveObjectsUpdateList.add(geo1);
 			movedGeo = true;
 		} else if (isOutputOfTranslate(geo1)) {
@@ -280,9 +294,7 @@ public class MoveGeos {
 	 * @return movable parent point or null
 	 */
 	public static GeoPointND getMovablePointForVector(GeoElementND vec) {
-		if (vec.getParentAlgorithm() instanceof AlgoVectorPoint) {
-			AlgoVectorPoint algoVector = (AlgoVectorPoint) vec
-					.getParentAlgorithm();
+		if (vec.getParentAlgorithm() instanceof AlgoVectorPoint algoVector) {
 			GeoPointND p = algoVector.getP();
 			if (p.isIndependent()) {
 				return p;
@@ -296,7 +308,7 @@ public class MoveGeos {
 
 	private static boolean moveMoveableGeo(GeoElement geo1, final Coords rwTransVec,
 			final Coords endPosition, EuclidianView view) {
-		if (geo1.isLockedPosition()) {
+		if (geo1.isLockedPosition() && !isFixedFurnitureMovableByOwnTool(geo1)) {
 			return false;
 		}
 		boolean movedGeo = false;
@@ -325,6 +337,9 @@ public class MoveGeos {
 				&& ((AbsoluteScreenLocateable) geo1).isAbsoluteScreenLocActive()
 				&& ((AbsoluteScreenLocateable) geo1).hasStaticLocation()) {
 			final AbsoluteScreenLocateable screenLoc = (AbsoluteScreenLocateable) geo1;
+			if (screenLoc.isFurniture() && !geo1.getApp().isRightClickEnabled()) {
+				return false;
+			}
 			final int vxPixel = (int) Math
 					.round(geo1.kernel.getXscale() * rwTransVec.getX());
 			final int vyPixel = -(int) Math
@@ -337,6 +352,23 @@ public class MoveGeos {
 				screenLoc.setAbsoluteScreenLoc(x, y);
 				changedPosition = true;
 				movedGeo = screenLoc.needsUpdatedBoundingBox();
+			}
+		}
+		// real world position via start point (not absolute on screen) - furniture only
+		else if (geo1.isAbsoluteScreenLocateable()
+				&& ((AbsoluteScreenLocateable) geo1).isFurniture()
+				&& !((AbsoluteScreenLocateable) geo1).isAbsoluteScreenLocActive()) {
+			final AbsoluteScreenLocateable screenLoc = (AbsoluteScreenLocateable) geo1;
+			if (!geo1.getApp().isRightClickEnabled()) {
+				return false;
+			}
+			GeoPointND startPoint = screenLoc.getStartPoint();
+			if (startPoint == null || startPoint.isIndependent()) {
+				screenLoc.setRealWorldLoc(
+						screenLoc.getRealWorldLocX() + rwTransVec.getX(),
+						screenLoc.getRealWorldLocY() + rwTransVec.getY());
+				changedPosition = true;
+				movedGeo = true;
 			}
 		}
 		// translatable
