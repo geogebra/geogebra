@@ -67,7 +67,7 @@ public class ExpressionSimplifiers {
 	 * @param node to run on.
 	 * @return the simplified node.
 	 */
-	public ExpressionNode run(@Nullable ExpressionValue node) {
+	public @Nullable ExpressionNode run(@Nullable ExpressionValue node) {
 		if (node == null) {
 			return null;
 		}

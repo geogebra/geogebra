@@ -87,7 +87,7 @@ public final class SuggestionStatistics extends Suggestion {
 		}
 	}
 
-	protected void processCommand(AlgebraProcessor algebraProcessor, String cmd,
+	private void processCommand(AlgebraProcessor algebraProcessor, String cmd,
 			boolean isSymbolicMode) {
 		LabelHiderCallback callback;
 		if (isSymbolicMode) {

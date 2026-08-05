@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.OperationCountChecker;
 import org.geogebra.common.plugin.Operation;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Class that rationalizes a fraction if it is supported.
@@ -51,7 +52,7 @@ public final class RationalizableFraction {
 		simplifiers = new ExpressionSimplifiers(utils, false);
 	}
 
-	ExpressionNode simplify() {
+	@Nullable ExpressionNode simplify() {
 		if (!isSupported(root)) {
 			return null;
 		}

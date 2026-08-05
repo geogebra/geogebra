@@ -93,7 +93,7 @@ public final class DrawHalo extends DrawableTexture3D {
 	 *            buffered image
 	 * @return graphics2D
 	 */
-	protected GGraphics2D createGraphics2D(GBufferedImage bimg) {
+	private GGraphics2D createGraphics2D(GBufferedImage bimg) {
 		GGraphics2D g2d = bimg.createGraphics();
 		g2d.setColor(GColor.BLACK);
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -105,7 +105,7 @@ public final class DrawHalo extends DrawableTexture3D {
 	/**
 	 * @return buffered image with label drawn in it
 	 */
-	protected GBufferedImage createImage(double size) {
+	private GBufferedImage createImage(double size) {
 		GBufferedImage img = view.getRenderer().createBufferedImage(this);
 		GGraphics2D g2d = createGraphics2D(img);
 		double thickness = 3;

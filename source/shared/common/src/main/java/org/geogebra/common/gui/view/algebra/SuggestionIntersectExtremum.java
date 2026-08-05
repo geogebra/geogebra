@@ -102,7 +102,7 @@ public final class SuggestionIntersectExtremum extends Suggestion {
 				function.getFunctionExpression(), false, true);
 	}
 
-	protected void processCommand(AlgebraProcessor algebraProcessor, String cmd,
+	private void processCommand(AlgebraProcessor algebraProcessor, String cmd,
 			boolean isSymbolicMode) {
 		if (isSymbolicMode) {
 			GeoElementND[] pointLists = algebraProcessor
