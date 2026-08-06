@@ -53,11 +53,11 @@ public class RestrictedFileSystemView extends FileSystemView {
 	}
 
 	/**
-	 * Determines if the given file is a root in the navigatable tree(s).
+	 * Determines if the given file is a root in the navigable tree(s).
 	 * 
 	 * @param f
 	 *            a <code>File</code> object representing a directory
-	 * @return <code>true</code> if <code>f</code> is a root in the navigatable
+	 * @return <code>true</code> if <code>f</code> is a root in the navigable
 	 *         tree.
 	 * @see #isFileSystemRoot
 	 */
