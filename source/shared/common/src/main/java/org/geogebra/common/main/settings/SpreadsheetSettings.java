@@ -153,12 +153,14 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 	}
 
 	/**
-	 * @param prefWidth
+	 * @param preferredColumnWidth
 	 *            global preferred column width
 	 */
-	public void setPreferredColumnWidth(int prefWidth) {
-		this.preferredColumnWidth = prefWidth;
-		settingChanged();
+	public void setPreferredColumnWidth(int preferredColumnWidth) {
+		if (preferredColumnWidth > 0) {
+			this.preferredColumnWidth = preferredColumnWidth;
+			settingChanged();
+		}
 	}
 
 	/**
@@ -204,8 +206,10 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 	 *            preferred row height
 	 */
 	public void setPreferredRowHeight(int preferredRowHeight) {
-		this.preferredRowHeight = preferredRowHeight;
-		settingChanged();
+		if (preferredRowHeight > 0) {
+			this.preferredRowHeight = preferredRowHeight;
+			settingChanged();
+		}
 	}
 
 	public void setPreferredRowHeightNoFire(int height) {
@@ -540,7 +544,7 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 	private boolean isRowColumnSizeDefaults() {
 		return preferredColumnWidth == TABLE_CELL_WIDTH
 				&& preferredRowHeight == TABLE_CELL_HEIGHT
-				&& getColumnWidths().size() == 0 && getRowHeights().size() == 0;
+				&& getColumnWidths().isEmpty() && getRowHeights().isEmpty();
 	}
 
 	/**
@@ -686,7 +690,7 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 					.attrRaw("formatMap", cellFormat).endTag();
 		}
 
-		if (sb.length() > 0) {
+		if (sb.length() != 0) { // can't be simplified https://github.com/google/j2objc/issues/2823
 			xmlBuilder.startOpeningTag("spreadsheetView", 0).endTag();
 			xmlBuilder.append(xb);
 			xmlBuilder.closeTag("spreadsheetView");
