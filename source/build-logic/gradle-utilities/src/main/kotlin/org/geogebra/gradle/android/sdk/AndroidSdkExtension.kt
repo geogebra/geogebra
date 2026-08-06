@@ -33,7 +33,10 @@ val defaultArchitecture: Architecture
     }
 
 enum class SystemImage(val description: String) {
-    Default("default"), GoogleApis("google-apis"), PlayStore("google-apis-playstore");
+    Default("default"),
+    GoogleApis("google-apis"),
+    PlayStore("google-apis-playstore"),
+    AndroidOpenSourceATD("aosp_atd");
 }
 
 enum class Architecture(val description: String) {
