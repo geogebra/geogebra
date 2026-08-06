@@ -16,8 +16,10 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import org.geogebra.common.gui.dialog.options.model.SelectionAllowedModel;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
@@ -39,12 +41,15 @@ public class SelectionAllowedProperty extends AbstractValuedProperty<Boolean> im
 		this.element = element;
 	}
 
+	/**
+	 * Updates whether an object's selection is allowed, without deselecting it immediately,
+	 * so users can still edit other object properties.
+	 * Script / API changes go through
+	 * {@link SelectionAllowedModel#applyTo( GeoElement, App, boolean)}.
+	 */
 	@Override
 	protected void doSetValue(Boolean value) {
 		element.setSelectionAllowed(value);
-		if (!value) {
-			element.getApp().getSelectionManager().removeSelectedGeo(element);
-		}
 		element.updateVisualStyleRepaint(GProperty.COMBINED);
 	}
 

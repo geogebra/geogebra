@@ -36,7 +36,7 @@ public class SelectionAllowedModel extends BooleanOptionModel {
 		GeoElement geo = getGeoAt(index);
 		geo.setSelectionAllowed(value);
 		geo.updateVisualStyleRepaint(GProperty.COMBINED);
-		// do NOT unselect here to allow changing moore properties in settings dialog
+		// do NOT unselect here to allow changing more properties in settings dialog
 	}
 
 	/**
