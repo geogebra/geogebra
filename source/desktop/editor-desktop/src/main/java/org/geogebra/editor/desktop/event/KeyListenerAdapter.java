@@ -22,7 +22,7 @@ import org.geogebra.editor.share.event.KeyListener;
 
 public class KeyListenerAdapter implements java.awt.event.KeyListener {
 	
-	private KeyListener keyListener;
+	private final KeyListener keyListener;
 	
 	public KeyListenerAdapter(KeyListener keyListener) {
 		this.keyListener = keyListener;

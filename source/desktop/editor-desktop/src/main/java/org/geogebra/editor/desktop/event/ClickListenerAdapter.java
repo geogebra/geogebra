@@ -29,9 +29,9 @@ public class ClickListenerAdapter extends MouseAdapter {
 
 	/**
 	 * @param field math field component
-	 * @param clickListener xross-platform listener
+	 * @param clickListener cross-platform listener
 	 */
-	public ClickListenerAdapter(MathFieldD field,ClickListener clickListener) {
+	public ClickListenerAdapter(MathFieldD field, ClickListener clickListener) {
 		this.clickListener = clickListener;
 		this.mathField = field;
 	}

@@ -22,7 +22,7 @@ import org.geogebra.editor.share.event.FocusListener;
 
 public class FocusListenerAdapter implements java.awt.event.FocusListener {
 	
-	private FocusListener focusListener;
+	private final FocusListener focusListener;
 	
 	public FocusListenerAdapter(FocusListener focusListener) {
 		this.focusListener = focusListener;
