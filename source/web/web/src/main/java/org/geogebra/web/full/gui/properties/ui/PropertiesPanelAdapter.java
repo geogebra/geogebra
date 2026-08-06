@@ -180,8 +180,12 @@ public class PropertiesPanelAdapter {
 		if (propertyView instanceof HorizontalSplitView splitView) {
 			FlowPanel panel = new FlowPanel();
 			panel.addStyleName("horizontalSplitView");
-			panel.add(getHalfWidthWidget(splitView.getLeadingPropertyView()));
-			panel.add(getHalfWidthWidget(splitView.getTrailingPropertyView()));
+			Widget leading = getHalfWidthWidget(splitView.getLeadingPropertyView());
+			Widget trailing = getHalfWidthWidget(splitView.getTrailingPropertyView());
+			leading.setVisible(true);
+			trailing.setVisible(true);
+			panel.add(leading);
+			panel.add(trailing);
 			return panel;
 		}
 		if (propertyView instanceof ButtonIconEditor buttonIconEditor) {
