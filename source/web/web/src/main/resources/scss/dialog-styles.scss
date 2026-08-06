@@ -231,6 +231,61 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			gap: 8px;
 			padding: 8px 0;
 		}
+
+		.objectsHintButton {
+			position: absolute;
+			display: flex;
+			gap: 8px;
+			margin: 29px 0;
+			cursor: default;
+
+			img {
+				padding: 6px;
+				border-radius: 4px;
+				border: 1px solid neutral(300);
+				background-color: neutral(100);
+			}
+
+			.gwt-Label {
+				height: 20px;
+				line-height: 20px;
+				padding: 5px 0;
+				font-size: 12px;
+				color: neutral(500);
+			}
+		}
+	}
+
+	.objectsPopup {
+		width: 360px;
+		height: 176px;
+		overflow: auto;
+
+		&.empty {
+			display: flex;
+			align-items: center;
+
+			.noObjectsHint {
+				margin: auto;
+			}
+		}
+
+		.objectsPanel {
+			display: flex;
+			flex-wrap: wrap;
+			padding: 8px 16px;
+
+			.gwt-Label {
+				flex-basis: 50%;
+				box-sizing: border-box;
+				padding: 4px;
+				cursor: pointer;
+
+				&:hover {
+					background-color: neutral(200);
+				}
+			}
+		}
 	}
 
 	.dialogComponent.inputboxDialog {

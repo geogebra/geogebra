@@ -18,35 +18,52 @@ package org.geogebra.web.full.gui.dialog;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.geogebra.common.gui.dialog.ButtonDialogModel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.ComponentChip;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentInputField;
+import org.geogebra.web.full.gui.components.ComponentToast;
 import org.geogebra.web.full.gui.util.CodeMirrorEditorWidget;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
+import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.event.dom.client.MouseOutEvent;
+import org.gwtproject.event.dom.client.MouseOverEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
+
+import elemental2.dom.DOMRect;
+import elemental2.dom.KeyboardEvent;
 
 /**
  * Dialog for creating buttons and input-boxes
  */
 public class ButtonDialogW extends ComponentDialog implements HasKeyboardPopup {
+	private static final int BUTTON_MARGIN = 29;
+	private static final int TOOLTIP_HEIGHT = 20;
 	private ComponentInputField captionInput;
 	private final ButtonDialogModel model;
 	private CodeMirrorEditorWidget scriptArea;
 	private final Localization loc;
 	private final List<Commands> chipsCommands = List.of(Commands.SetValue,
 			Commands.StartAnimation, Commands.SetColor, Commands.SetVisibleInView);
+	private GPopupPanel objectsPopup;
 
 	/**
 	 * @param app {@link AppW}
@@ -61,31 +78,33 @@ public class ButtonDialogW extends ComponentDialog implements HasKeyboardPopup {
 		this.loc = app.getLocalization();
 		model = new ButtonDialogModel(app, x, y, inputBox);
 		addStyleName(inputBox ? "inputboxDialog" : "buttonDialog");
-		buildContent();
+		buildContent(inputBox);
 		setOnPositiveAction(() -> model.apply(captionInput.getText(), scriptArea.getText()));
 		if (!app.isWhiteboardActive()) {
 			app.registerPopup(this);
 		}
 
-		this.addCloseHandler(event -> {
+		Dom.addEventListener(getElement(), "click", event -> {
+			if (objectsPopup != null && objectsPopup.isShowing()) {
+				objectsPopup.hide();
+			}
+		});
+		addCloseHandler(event -> {
 			app.unregisterPopup(this);
 			app.hideKeyboard();
 		});
+
 	}
 
-	private void buildContent() {
-		// create caption panel
+	private void buildContent(boolean inputBox) {
 		String initString = model.getInitString();
-
 		captionInput = new ComponentInputField((AppW) app, "",
 				"Button.Caption", "", initString, null);
 		captionInput.getTextWidget().setAutoComplete(false);
 
 		Label scriptLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(loc.getMenu("Script"),
 				"scriptLabel");
-		scriptArea = new CodeMirrorEditorWidget();
-		scriptArea.setText("\n".repeat(2));
-		scriptArea.focusEditor();
+		initScriptArea();
 
 		FlowPanel scriptPanel = new FlowPanel();
 		scriptPanel.add(scriptLabel);
@@ -109,8 +128,31 @@ public class ButtonDialogW extends ComponentDialog implements HasKeyboardPopup {
 		} else {
 			contentPanel.add(scriptPanel);
 		}
-		createChips(contentPanel);
+
+		if (!inputBox) {
+			createChips(contentPanel);
+			createObjectsHint(contentPanel);
+		}
+
 		addDialogContent(contentPanel);
+	}
+
+	private void initScriptArea() {
+		scriptArea = new CodeMirrorEditorWidget();
+		scriptArea.focusEditor();
+		Dom.addEventListener(scriptArea.getElement(), "keyup", event -> {
+			KeyboardEvent e = (KeyboardEvent) event;
+			if ("Escape".equals(e.key) && objectsPopup != null && objectsPopup.isShowing()) {
+				objectsPopup.hide();
+			} else if ("@".equals(e.key)) {
+				DOMRect pixelPosition = scriptArea.getCursorPixelPosition();
+				fillAndShowObjectsPopup((int) pixelPosition.left,
+						(int) (pixelPosition.bottom - ((AppW) app).getAbsTop()));
+			} else if (!"Shift".equals(e.key) && objectsPopup != null
+					&& objectsPopup.isShowing()) {
+				objectsPopup.hide();
+			}
+		});
 	}
 
 	private void createChips(FlowPanel parentPanel) {
@@ -121,16 +163,65 @@ public class ButtonDialogW extends ComponentDialog implements HasKeyboardPopup {
 		chipsPanel.addStyleName("chipsHolder");
 		for (Commands command : chipsCommands) {
 			ComponentChip chips = new ComponentChip(command.name(), null, true,
-					() -> {
-						if (scriptArea != null) {
-							scriptArea.insertCommand(command.getCommand() + "()");
-						}
-			});
+					() -> scriptArea.insertCommand(command.getCommand() + "()"));
 			chipsPanel.add(chips);
 		}
 
 		parentPanel.add(suggestionsLabel);
 		parentPanel.add(chipsPanel);
+	}
+
+	private void createObjectsHint(FlowPanel parentPanel) {
+		StandardButton objectsHintButton = new StandardButton(MaterialDesignResources.INSTANCE
+				.alternate_email().withFill(GeoGebraColorConstants.NEUTRAL_500.toString()),
+				app.getLocalization().getMenu("Objects"), 16, 16);
+		ComponentToast toast = new ComponentToast((AppW) app,
+				app.getLocalization().getMenu("ButtonDialog.ObjectTooltip"));
+		objectsHintButton.addDomHandler(event -> {
+			getRootPanel().add(toast);
+			toast.setPopupPosition(objectsHintButton.getAbsoluteLeft(),
+					objectsHintButton.getAbsoluteTop() - objectsHintButton.getOffsetHeight()
+							- TOOLTIP_HEIGHT - 2 * BUTTON_MARGIN);
+			Scheduler.get().scheduleDeferred(() -> toast.addStyleName("fadeIn"));
+		}, MouseOverEvent.getType());
+		objectsHintButton.addDomHandler(event -> toast.hide(), MouseOutEvent.getType());
+		objectsHintButton.addStyleName("objectsHintButton");
+		parentPanel.add(objectsHintButton);
+	}
+
+	private void fillAndShowObjectsPopup(int left, int top) {
+		FlowPanel objectsPanel = new FlowPanel();
+		objectsPanel.addStyleName("objectsPanel");
+		if (objectsPopup == null) {
+			objectsPopup = new GPopupPanel(true, ((AppWFull) app).getAppletFrame(), app);
+			objectsPopup.addStyleName("objectsPopup");
+			objectsPopup.addAutoHidePartner(getElement());
+		}
+
+		TreeSet<GeoElement> geos = app.getKernel().getConstruction()
+				.getGeoSetLabelOrder();
+		if (geos.isEmpty()) {
+			Label emptyLabel = BaseWidgetFactory.INSTANCE.newPrimaryText(
+					"ButtonDialog.ObjectsNotFound", "noObjectsHint");
+			objectsPanel.add(emptyLabel);
+		} else {
+			for (GeoElement geo : geos) {
+				Label geoWidget =
+						BaseWidgetFactory.INSTANCE.newPrimaryText(geo.getNameDescription());
+				objectsPanel.add(geoWidget);
+				Dom.addEventListener(geoWidget.getElement(), "click", event -> {
+					scriptArea.insertGeoBox(geo.getLabelSimple());
+					objectsPopup.hide();
+				});
+			}
+		}
+		Dom.toggleClass(objectsPopup, "empty", geos.isEmpty());
+
+		objectsPopup.addAutoHidePartner(getElement());
+		objectsPopup.clear();
+		objectsPopup.add(objectsPanel);
+		objectsPopup.show();
+		objectsPopup.setPopupPosition(left, top);
 	}
 
 	/**
@@ -139,5 +230,13 @@ public class ButtonDialogW extends ComponentDialog implements HasKeyboardPopup {
 	 */
 	protected void updateModel(ComponentDropDown cbAdd, ArrayList<GeoElement> options) {
 		model.setLinkedGeo(options.get(cbAdd.getSelectedIndex()));
+	}
+
+	@Override
+	public void hide() {
+		super.hide();
+		if (objectsPopup != null) {
+			objectsPopup.hide();
+		}
 	}
 }

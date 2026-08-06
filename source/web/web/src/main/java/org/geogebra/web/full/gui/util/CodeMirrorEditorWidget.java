@@ -29,6 +29,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 
+import elemental2.dom.DOMRect;
 import elemental2.dom.Element;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
@@ -80,7 +81,20 @@ public class CodeMirrorEditorWidget extends FlowPanel {
 		if (codeMirrorEditor != null) {
 			int curPos = codeMirrorEditor.getCursorPosition();
 			int newCursorPos = curPos + command.length() - 1;
-			codeMirrorEditor.replaceText(curPos, command);
+			codeMirrorEditor.replaceText(curPos, curPos, command);
+			codeMirrorEditor.setCursorPosition(newCursorPos);
+		}
+	}
+
+	/**
+	 * Inserts the given object label at the current position replacing the '@' character.
+	 * @param geoLabel label of geo element
+	 */
+	public void insertGeoBox(String geoLabel) {
+		if (codeMirrorEditor != null) {
+			int curPos = codeMirrorEditor.getCursorPosition();
+			int newCursorPos = curPos + geoLabel.length() - 1;
+			codeMirrorEditor.replaceText(curPos - 1, curPos, geoLabel);
 			codeMirrorEditor.setCursorPosition(newCursorPos);
 		}
 	}
@@ -103,6 +117,14 @@ public class CodeMirrorEditorWidget extends FlowPanel {
 		} else {
 			focusOnCodeMirrorLoad = true;
 		}
+	}
+
+	/**
+	 * Returns the pixel bounding rect of the cursor caret in the editor.
+	 * @return bounding rect of the cursor caret
+	 */
+	public DOMRect getCursorPixelPosition() {
+		return codeMirrorEditor.getCursorPixelPosition();
 	}
 
 	@Override
@@ -236,6 +258,8 @@ public class CodeMirrorEditorWidget extends FlowPanel {
 
 		private native void setCursorPosition(int position);
 
-		private native void replaceText(int from, String text);
+		private native void replaceText(int from, int to, String text);
+
+		private native DOMRect getCursorPixelPosition();
 	}
 }
