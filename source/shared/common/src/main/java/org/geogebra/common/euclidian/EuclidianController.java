@@ -11118,8 +11118,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			selection.clearSelectedGeos(false, false);
 
 			// select all hidden objects
-			for (GeoElement geo : kernel.getConstruction()
-					.getGeoSetConstructionOrder()) {
+			for (GeoElement geo : new TreeSet<>(kernel.getConstruction()
+					.getGeoSetConstructionOrder())) {
 				// independent numbers should not be set visible
 				// as this would produce a slider
 				if (!geo.isSetEuclidianVisible()

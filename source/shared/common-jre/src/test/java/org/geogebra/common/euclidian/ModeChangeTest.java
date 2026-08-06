@@ -16,12 +16,17 @@
 
 package org.geogebra.common.euclidian;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
+import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.plugin.ScriptType;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,6 +35,22 @@ class ModeChangeTest extends BaseEuclidianControllerTest {
 	@BeforeEach
 	void setUp() {
 		setUpController();
+	}
+
+	@Test
+	@Issue("APPS-7762")
+	void showHideObjectShouldNotThrowWhenUpdateScriptAddsObject() {
+		getApp().startGeoScriptRunner();
+		GeoElement hidden = evaluateGeoElement("A=(1,1)");
+		hidden.setEuclidianVisible(false);
+		hidden.setScript(getApp().createScript(ScriptType.GGBSCRIPT, "B=(2,2)", false),
+				EventType.UPDATE);
+		evaluate("C=(3,3)"); // so that the iteration continues after A
+
+		// MODE_SHOW_HIDE_OBJECT reveals A, its update script labels B and thus
+		// modifies the construction order set that setMode is iterating over
+		assertDoesNotThrow(() -> setMode(EuclidianConstants.MODE_SHOW_HIDE_OBJECT));
+		assertTrue(hidden.isSetEuclidianVisible(), "hidden objects should be revealed");
 	}
 
 	@Test
