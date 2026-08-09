@@ -11,7 +11,7 @@ licensing.
 To start the web version from command line, run
 
 ```
-./gradlew :web:run
+./gradlew web:web:run
 ```
 
 This will start a development server on your machine where you can test the app. 
