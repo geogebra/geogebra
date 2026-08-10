@@ -66,6 +66,7 @@ import org.geogebra.common.properties.impl.objects.CaptionProperty;
 import org.geogebra.common.properties.impl.objects.CaptionStyleProperty;
 import org.geogebra.common.properties.impl.objects.CellBorderProperty;
 import org.geogebra.common.properties.impl.objects.CellBorderThicknessProperty;
+import org.geogebra.common.properties.impl.objects.ChartDataPropertyCollection;
 import org.geogebra.common.properties.impl.objects.ChartSegmentFillingPropertyCollection;
 import org.geogebra.common.properties.impl.objects.DefinitionProperty;
 import org.geogebra.common.properties.impl.objects.DrawArrowsProperty;
@@ -313,6 +314,7 @@ public final class GeoElementPropertiesFactory {
 		return Stream.of(
 				createBasicProperties(localization, elements),
 				createStyleProperties(processor, imageManager, localization, elements),
+				createDataProperties(localization, elements),
 				createAdvancedProperties(processor, localization, elements),
 				createScriptProperties(localization, jsEnabled, elements)
 		).filter(propertiesArray ->
@@ -427,6 +429,14 @@ public final class GeoElementPropertiesFactory {
 			Localization localization, boolean jsEnabled, List<GeoElement> elements) {
 		return createPropsArray("Scripting", localization, Stream.of(
 				new ScriptPropertyCollection(this, localization, elements, jsEnabled)));
+	}
+
+	private @NonNull PropertiesArray createDataProperties(
+			Localization localization, List<GeoElement> elements) {
+		return createPropsArray("Data", localization, Stream.of(
+				createOptionalProperty(
+						() -> new ChartDataPropertyCollection(this, localization, elements))
+		));
 	}
 
 	/**

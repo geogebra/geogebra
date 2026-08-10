@@ -51,6 +51,16 @@ public class StringPropertyWithSuggestionsListFacade<T extends StringPropertyWit
 	}
 
 	@Override
+	public boolean isDisplayedInMathFormat() {
+		return getFirstProperty().isDisplayedInMathFormat();
+	}
+
+	@Override
+	public boolean isDisplayedAsTextArea() {
+		return getFirstProperty().isDisplayedAsTextArea();
+	}
+
+	@Override
 	public boolean restoresPreviousValueOnInvalidInput() {
 		return getFirstProperty().restoresPreviousValueOnInvalidInput();
 	}

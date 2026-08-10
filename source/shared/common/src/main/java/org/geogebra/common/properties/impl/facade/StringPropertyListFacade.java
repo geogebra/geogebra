@@ -46,6 +46,11 @@ public class StringPropertyListFacade<T extends StringProperty>
 	}
 
 	@Override
+	public boolean isDisplayedInMathFormat() {
+		return getFirstProperty().isDisplayedInMathFormat();
+	}
+
+	@Override
 	public boolean isDisplayedAsTextArea() {
 		return getFirstProperty().isDisplayedAsTextArea();
 	}

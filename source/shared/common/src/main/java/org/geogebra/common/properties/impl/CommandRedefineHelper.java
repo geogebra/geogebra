@@ -53,7 +53,8 @@ public final class CommandRedefineHelper {
 			if (i == paramIndex) {
 				parameterDefinitions[i] = newParameterDefinition;
 			} else {
-				parameterDefinitions[i] = getInputString(parameterElements[i]);
+				parameterDefinitions[i] = parameterElements[i]
+						.getLabel(StringTemplate.maxPrecision);
 			}
 		}
 		String newDefinition = commandName + "(" + String.join(", ", parameterDefinitions) + ")";
