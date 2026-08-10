@@ -15,6 +15,12 @@ To start the web version from command line, run
 ```
 
 This will start a development server on your machine where you can test the app. 
+
+To build a compiled version servable using `python -m http.server -d source/web/web/war/`, prepare the necessary files first like this:
+```
+./gradlew web:web:gwtCompile web:web:copyHtml
+```
+
 If you need to access the server from other devices, you can specify a binding address
 
 ```
