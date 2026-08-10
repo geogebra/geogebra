@@ -1197,15 +1197,6 @@ $keyboard_button_transition: opacity .3s ease;
 		}
 	}
 
-	.sliderComponent {
-		.sliderLabel {
-			height: 20px;
-			line-height: 20px;
-			margin: 5px 8px;
-			font-size: 90%;
-		}
-	}
-
 	input[type=range].slider {
 		-webkit-appearance: none;
 		width: 100%;
@@ -1243,14 +1234,16 @@ $keyboard_button_transition: opacity .3s ease;
 	}
 
 	.sliderComponent {
+		.sliderLabel, .displayValue {
+			height: 20px;
+			line-height: 20px;
+			margin: 5px 8px;
+			font-size: 14px;
+		}
+
 		.labelPreviewHolder {
 			display: flex;
 			justify-content: space-between;
-		}
-
-		.preview {
-			overflow: hidden;
-			margin-right: 8px;
 		}
 
 		input.slider {

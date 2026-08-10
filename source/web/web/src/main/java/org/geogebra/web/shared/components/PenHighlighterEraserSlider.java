@@ -22,11 +22,9 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PEN;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.main.settings.PenToolsSettings;
-import org.geogebra.web.full.gui.util.PenPreview;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
-import org.gwtproject.dom.style.shared.Visibility;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
@@ -35,13 +33,13 @@ public class PenHighlighterEraserSlider extends FlowPanel {
 	private static final int MIN_ERASER_SIZE = 10;
 	private static final int ERASER_STEP = 10;
 	private final AppW appW;
-	private PenPreview preview;
 	private SliderW slider;
 	private Label sliderLabel;
+	private Label displayValue;
 	private int lastSelectedMode = MODE_PEN;
 
 	/**
-	 * constructor
+	 * Creates a slider component for pen, highlighter thickness and eraser size.
 	 * @param appW application
 	 */
 	public PenHighlighterEraserSlider(AppW appW) {
@@ -53,16 +51,14 @@ public class PenHighlighterEraserSlider extends FlowPanel {
 	private void buildGui() {
 		sliderLabel = BaseWidgetFactory.INSTANCE.newPrimaryText(
 				appW.getLocalization().getMenu("Thickness"), "sliderLabel");
-		preview = new PenPreview(appW.getActiveEuclidianView().getEuclidianController().getPen(),
-				30, 30);
-		preview.addStyleName("preview");
+		displayValue = BaseWidgetFactory.INSTANCE.newPrimaryText("", "displayValue");
 
-		FlowPanel labelPreviewHolder = new FlowPanel();
-		labelPreviewHolder.addStyleName("labelPreviewHolder");
-		labelPreviewHolder.add(sliderLabel);
-		labelPreviewHolder.add(preview);
+		FlowPanel labelDisplayHolder = new FlowPanel();
+		labelDisplayHolder.addStyleName("labelPreviewHolder");
+		labelDisplayHolder.add(sliderLabel);
+		labelDisplayHolder.add(displayValue);
 
-		add(labelPreviewHolder);
+		add(labelDisplayHolder);
 		buildSlider();
 		add(slider);
 	}
@@ -78,9 +74,6 @@ public class PenHighlighterEraserSlider extends FlowPanel {
 	 */
 	public void update(int mode) {
 		lastSelectedMode = mode;
-		preview.getElement().getStyle().setVisibility(mode != MODE_ERASER
-				? Visibility.VISIBLE : Visibility.HIDDEN);
-		preview.update();
 		if (sliderLabel != null) {
 			sliderLabel.setText(appW.getLocalization().getMenu(mode == MODE_ERASER
 					? "Size" : "Thickness"));
@@ -97,6 +90,7 @@ public class PenHighlighterEraserSlider extends FlowPanel {
 					.getPen().setPenSize((int) value);
 			update(lastSelectedMode);
 		}
+		updateDisplayValue(lastSelectedMode, (int) value);
 	}
 
 	private void updateSliderValue(int mode) {
@@ -116,6 +110,7 @@ public class PenHighlighterEraserSlider extends FlowPanel {
 		}
 
 		slider.setValue((double) sliderValue);
+		updateDisplayValue(mode, sliderValue);
 	}
 
 	private void setSliderRange(boolean isPenOrHighlighter) {
@@ -125,5 +120,9 @@ public class PenHighlighterEraserSlider extends FlowPanel {
 				: MAX_ERASER_SIZE);
 		slider.setStep(
 				isPenOrHighlighter ? EuclidianConstants.DEFAULT_PEN_STEP : ERASER_STEP);
+	}
+
+	private void updateDisplayValue(int mode, int sliderValue) {
+		displayValue.setText(String.valueOf(MODE_ERASER == mode ? sliderValue : sliderValue * 2));
 	}
 }

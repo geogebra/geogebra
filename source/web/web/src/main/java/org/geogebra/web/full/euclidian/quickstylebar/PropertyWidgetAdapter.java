@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
@@ -47,8 +46,8 @@ public class PropertyWidgetAdapter {
 	private List<IconButton> enumeratedPropertyButtons;
 
 	/**
-	 * @param appW - application
-	 * @param closePopupOnAction - weather popup should be closed on element click
+	 * @param appW application
+	 * @param closePopupOnAction whether popup should be closed on element click
 	 */
 	public PropertyWidgetAdapter(AppW appW, boolean closePopupOnAction) {
 		this.appW = appW;
@@ -56,8 +55,8 @@ public class PropertyWidgetAdapter {
 	}
 
 	/**
-	 * @param iconProperty - property
-	 * @param uiUpdater - update dependent ui
+	 * @param iconProperty property
+	 * @param uiUpdater update dependent ui
 	 * @return panel holding list of icon buttons based on property
 	 */
 	public FlowPanel getIconListPanel(IconsEnumeratedProperty<?> iconProperty,
@@ -99,7 +98,7 @@ public class PropertyWidgetAdapter {
 	}
 
 	/**
-	 * @param property - cell border thickness property
+	 * @param property cell border thickness property
 	 * @return panel for line thickness ui
 	 */
 	public FlowPanel getBorderThicknessWidget(
@@ -108,19 +107,16 @@ public class PropertyWidgetAdapter {
 	}
 
 	/**
-	 * @param property - range property
-	 * @param geo - geo element
+	 * @param property range property
 	 * @return slider based on range property
 	 */
 	public SliderWithProperty getSliderWidget(RangePropertyListFacade<?> property,
-			PropertySupplier propertySupplier,
-			GeoElement geo) {
-		return new SliderWithProperty(appW, property, propertySupplier, geo.getLineType(),
-				geo.getObjectColor());
+			PropertySupplier propertySupplier) {
+		return new SliderWithProperty(appW, property, propertySupplier);
 	}
 
 	/**
-	 * @param dropdown - text font size dropdown
+	 * @param dropdown text font size dropdown
 	 * @return menu based on text font size dropdown
 	 */
 	public GPopupMenuW getMenuWidget(PropertyView.Dropdown dropdown) {

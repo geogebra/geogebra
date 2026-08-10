@@ -138,7 +138,7 @@ public class IconButtonWithProperty extends IconButton {
 			FlowPanel enumeratedPropertyButtonPanel = widgetAdapter.getIconListPanel(
 					(IconsEnumeratedProperty<?>) property, propertySupplier, (index) -> {
 						if (lineThicknessSlider != null) {
-							lineThicknessSlider.setLineType(index);
+							lineThicknessSlider.updateUnitLabel();
 						}
 						setIcon(((AppWFull) appW).getPropertiesIconResource().getImageResource(
 								((IconsEnumeratedProperty<?>) property).getValueIcons()[index]));
@@ -183,11 +183,11 @@ public class IconButtonWithProperty extends IconButton {
 			RangeProperty<?> firstProperty = rangeProperty.getFirstProperty();
 			if (firstProperty instanceof NotesThicknessProperty) {
 				lineThicknessSlider = widgetAdapter.getSliderWidget(rangeProperty,
-						propertySupplier, geos.get(0));
+						propertySupplier);
 				parent.add(lineThicknessSlider);
 			}  else {
 				SliderWithProperty sliderWithProperty = widgetAdapter.getSliderWidget(
-						rangeProperty, propertySupplier, geos.get(0));
+						rangeProperty, propertySupplier);
 				parent.add(sliderWithProperty);
 			}
 		}
@@ -223,7 +223,7 @@ public class IconButtonWithProperty extends IconButton {
 
 	private void update() {
 		if (lineThicknessSlider != null) {
-			lineThicknessSlider.setLineColor(geos.get(0).getObjectColor());
+			lineThicknessSlider.updateUnitLabel();
 		}
 	}
 
