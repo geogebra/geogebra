@@ -106,6 +106,7 @@ public class QuickStyleBarFontSizeBox extends FlowPanel implements SetLabels {
 
 		inputTextField.addFocusHandler(event -> {
 			addStyleName("focusState");
+			app.closePopups();
 			previousValue = getDisplayValue();
 			inputTextField.setText(previousValue);
 			property.startEditing();
