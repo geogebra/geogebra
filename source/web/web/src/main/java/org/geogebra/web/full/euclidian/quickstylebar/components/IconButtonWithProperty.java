@@ -52,7 +52,6 @@ import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.general.GeneralIcon;
-import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
@@ -244,7 +243,8 @@ public class IconButtonWithProperty extends IconButton {
 		int minSpaceBottom = 3 * MENU_ITEM_HEIGHT + MARGIN_FROM_SCREEN + 8;
 		int popupHeight = propertyPopup.getOffsetHeight();
 
-		if (spaceBottom < minSpaceBottom) {
+		if (spaceBottom < minSpaceBottom
+				|| (spaceBottom < popupHeight && spaceTop >= popupHeight)) {
 			showAtTopOfAnchor(popupHeight, spaceTop);
 		} else {
 			showAtBottomOfAnchor(popupHeight, anchorBottom);
@@ -257,7 +257,7 @@ public class IconButtonWithProperty extends IconButton {
 		propertyPopup.setPopupPosition(getLeft(), popupTop);
 
 		if (popupHeight > spaceTop) {
-			propertyPopup.getElement().getStyle().setHeight(spaceTop, Unit.PX);
+			propertyPopup.setHeight(spaceTop + "px");
 		}
 	}
 
@@ -265,8 +265,7 @@ public class IconButtonWithProperty extends IconButton {
 		propertyPopup.setPopupPosition(getLeft(), bottomPos);
 		int spaceBottom = (int) (appW.getHeight() - bottomPos);
 		if (popupHeight > spaceBottom) {
-			propertyPopup.getElement().getStyle().setHeight(spaceBottom
-					- (MARGIN_FROM_SCREEN + 8), Unit.PX);
+			propertyPopup.setHeight((spaceBottom - (MARGIN_FROM_SCREEN + 8)) + "px");
 		}
 	}
 
