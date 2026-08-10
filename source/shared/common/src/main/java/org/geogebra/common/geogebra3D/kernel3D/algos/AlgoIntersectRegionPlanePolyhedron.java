@@ -1096,7 +1096,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 							try {
 								newPoint.setShowObjectCondition(
 										polygon.getShowObjectCondition());
-							} catch (Exception e) {
+							} catch (Exception ignored) {
 								// circular definition
 							}
 						}

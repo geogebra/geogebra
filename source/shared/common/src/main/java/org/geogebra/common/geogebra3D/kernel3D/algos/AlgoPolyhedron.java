@@ -271,7 +271,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 				try {
 					p.setShowObjectCondition(
 							getPolyhedron().getShowObjectCondition());
-				} catch (Exception e) {
+				} catch (Exception ignored) {
 					// circular definition
 				}
 			}

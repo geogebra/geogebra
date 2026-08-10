@@ -230,7 +230,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		try {
 			Double.parseDouble(text);
 			return true;
-		} catch (RuntimeException e) {
+		} catch (RuntimeException expected) {
 			// not a number
 		}
 		return false;

@@ -56,7 +56,7 @@ public class EditorStateDescription {
 			}
 			jso.put("caret", caretPathJson);
 			return jso.toString();
-		} catch (JSONException e) {
+		} catch (JSONException ignored) {
 			// only if integers are not valid doubles
 		}
 		return "";

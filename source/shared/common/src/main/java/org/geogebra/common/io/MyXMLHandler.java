@@ -1158,7 +1158,7 @@ public class MyXMLHandler implements DocHandler {
 
 			try {
 				evSettings.setGridIsBold(parseBoolean(attrs.get("gridIsBold")));
-			} catch (RuntimeException e) {
+			} catch (RuntimeException ignored) {
 				// not a number: ignore
 			}
 
@@ -1167,13 +1167,13 @@ public class MyXMLHandler implements DocHandler {
 					evSettings.setLockedAxesRatio(StringUtil
 							.parseDouble(attrs.get("lockedAxesRatio")));
 				}
-			} catch (RuntimeException e) {
+			} catch (RuntimeException ignored) {
 				// not a number: ignore
 			}
 
 			try {
 				evSettings.setGridType(Integer.parseInt(attrs.get("gridType")));
-			} catch (RuntimeException e) {
+			} catch (RuntimeException ignored) {
 				// not a number: ignore
 			}
 
@@ -2261,7 +2261,7 @@ public class MyXMLHandler implements DocHandler {
 			int ttt = -1;
 			try { // "off" will be -1
 				ttt = Integer.parseInt(attrs.get("timeout"));
-			} catch (NumberFormatException e) {
+			} catch (NumberFormatException ignored) {
 				// not a number, do nothing (use -1)
 			}
 			app.setTooltipTimeout(ttt);
@@ -2493,7 +2493,7 @@ public class MyXMLHandler implements DocHandler {
 		if (tab != null) {
 			try {
 				return DockPanelData.TabIds.valueOf(tab);
-			} catch (RuntimeException e) {
+			} catch (RuntimeException ignored) {
 				// enum value not found
 			}
 		}

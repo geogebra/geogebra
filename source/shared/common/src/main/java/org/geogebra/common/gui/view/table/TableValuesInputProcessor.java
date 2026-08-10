@@ -86,7 +86,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 
 	private GeoElement parseInput(String input) {
 		String trimmedInput = input.trim();
-		if (trimmedInput.equals("")) {
+		if (trimmedInput.isEmpty()) {
 			return model.createEmptyValue();
 		}
 		try {
@@ -110,7 +110,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		try {
 			cons.getKernel().getAlgebraProcessor().getCommandDispatcher()
 					.getScriptingCommandProcessorFactory();
-		} catch (CommandNotLoadedError err) {
+		} catch (CommandNotLoadedError expected) {
 			// preloading
 		}
 	}

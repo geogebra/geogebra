@@ -81,7 +81,7 @@ public class TextBuilder {
 			t.checkVisibleIn3DViewNeeded();
 			try {
 				t.setStartPoint(startPoint);
-			} catch (Exception e) {
+			} catch (Exception ignored) {
 				// circular definition
 			}
 		} else {

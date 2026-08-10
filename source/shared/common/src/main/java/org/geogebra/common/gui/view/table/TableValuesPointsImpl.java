@@ -167,7 +167,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 				yValues).wrap();
 		try {
 			result = (GeoList) kernel.getAlgebraProcessor().processValidExpression(vecNode)[0];
-		} catch (CircularDefinitionException ex) {
+		} catch (CircularDefinitionException ignored) {
 			//
 		}
 		return result;

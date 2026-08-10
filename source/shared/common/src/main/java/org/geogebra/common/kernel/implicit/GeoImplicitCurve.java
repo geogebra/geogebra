@@ -85,7 +85,6 @@ import org.jspecify.annotations.Nullable;
  * GeoElement representing an implicit curve.
  * 
  */
-@SuppressWarnings("PMD.UnusedAssignment")
 public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		Traceable, Translateable, Dilateable, Mirrorable, ConicMirrorable,
 		Transformable, Rotatable, GeoImplicit, AlgebraicExpression {

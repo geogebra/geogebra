@@ -530,7 +530,7 @@ public class GeoPolyhedron extends GeoElement3D
 		if (condShowObject != null) {
 			try {
 				polygon.setShowObjectCondition(getShowObjectCondition());
-			} catch (Exception e) {
+			} catch (Exception ignored) {
 				// circular definition
 			}
 		}
@@ -635,7 +635,7 @@ public class GeoPolyhedron extends GeoElement3D
 		if (condShowObject != null) {
 			try {
 				segment.setShowObjectCondition(getShowObjectCondition());
-			} catch (Exception e) {
+			} catch (Exception ignored) {
 				// circular definition
 			}
 		}

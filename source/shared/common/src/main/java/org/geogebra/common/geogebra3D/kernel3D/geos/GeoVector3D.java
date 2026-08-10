@@ -498,7 +498,7 @@ public class GeoVector3D extends GeoVec4D
 		if (startPoint == p) {
 			try {
 				setStartPoint(null);
-			} catch (Exception e) {
+			} catch (Exception ignored) {
 				// ignore circular definition here
 			}
 		}

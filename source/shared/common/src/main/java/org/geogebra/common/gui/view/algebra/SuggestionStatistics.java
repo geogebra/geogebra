@@ -82,7 +82,7 @@ public final class SuggestionStatistics extends Suggestion {
 	private static void ensureCommandsAreLoaded(AlgebraProcessor algebraProcessor) {
 		try {
 			algebraProcessor.getCommandDispatcher().getStatsCommandProcessorFactory();
-		} catch (CommandNotLoadedError e) {
+		} catch (CommandNotLoadedError expected) {
 			// ignore
 		}
 	}

@@ -31,6 +31,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.Locateable;
@@ -1272,7 +1273,7 @@ public class ConsElementXMLHandler {
 		int number = 0;
 		try {
 			number = Integer.parseInt(attrs.get("number"));
-		} catch (RuntimeException e) {
+		} catch (RuntimeException expected) {
 			// do nothing
 		}
 
@@ -1297,7 +1298,7 @@ public class ConsElementXMLHandler {
 							.add(new LocateableExpPair(locGeo, p, number));
 					locGeo.setWaitForStartPoint();
 				}
-			} catch (Exception e) {
+			} catch (CircularDefinitionException | RuntimeException ignored) {
 				// do nothing
 			}
 		}
@@ -1891,8 +1892,8 @@ public class ConsElementXMLHandler {
 	private void handleOrdering(Map<String, String> attrs) {
 		try {
 			geo.setOrdering(Double.parseDouble(attrs.get("val")));
-		} catch (RuntimeException e) {
-			// no or incorrect ordering
+		} catch (RuntimeException expected) {
+			// missing or incorrect ordering
 		}
 	}
 

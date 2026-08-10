@@ -921,7 +921,7 @@ public abstract class ProbabilityCalculatorView
 						xAxis.getHighExpression()), false);
 		try {
 			integral.setShowObjectCondition(cond.getGeoBoolean());
-		} catch (CircularDefinitionException e) {
+		} catch (CircularDefinitionException ignored) {
 			// cannot happen because condition is not depending on integral
 		}
 	}
