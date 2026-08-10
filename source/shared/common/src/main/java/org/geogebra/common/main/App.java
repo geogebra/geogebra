@@ -906,7 +906,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			try {
 				Commands.valueOf(command);
 				return command;
-			} catch (Exception e) {
+			} catch (Exception expected) {
 				// not a valid command, fall through
 			}
 		}

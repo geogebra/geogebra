@@ -52,7 +52,7 @@ public class SyntaxAdapterImpl extends AbstractSyntaxAdapter {
 			}
 			// parses OK as GGB, not LaTeX
 			return false;
-		} catch (Throwable e) {
+		} catch (Throwable ignored) {
 			// fall through
 		}
 

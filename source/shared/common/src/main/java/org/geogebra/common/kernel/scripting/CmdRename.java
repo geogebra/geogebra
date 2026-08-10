@@ -81,7 +81,7 @@ public class CmdRename extends CmdScripting {
 				try {
 					// get rid of trailing spaces, also "a b"->"a"
 					newLabel = kernel.getAlgebraProcessor().parseLabel(newLabel);
-				} catch (Throwable t) {
+				} catch (Throwable expected) {
 					// isValidLabel should fail
 				}
 				if (LabelManager.isValidLabel(newLabel, kernel, geo)) {

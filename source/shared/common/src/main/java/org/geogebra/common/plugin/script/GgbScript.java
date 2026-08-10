@@ -77,7 +77,7 @@ public class GgbScript extends Script {
 								new ScriptErrorHandler(app, evt, i), false,
 								null);
 				success = success && res != null;
-			} catch (Throwable e) {
+			} catch (Throwable ignored) {
 				// error handler should actually catch it
 			}
 		}

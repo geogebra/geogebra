@@ -122,7 +122,7 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 					&& cellName.equals(((Variable) v).getName()))) {
 				return true;
 			}
-		} catch (ParseException | TokenMgrException | MyError e) {
+		} catch (ParseException | TokenMgrException | MyError expected) {
 			// continue
 		}
 		return false;

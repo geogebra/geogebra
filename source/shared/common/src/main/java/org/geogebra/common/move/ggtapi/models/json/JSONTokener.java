@@ -297,7 +297,7 @@ public class JSONTokener {
 					return (int) longValue;
 				}
 				return longValue;
-			} catch (NumberFormatException e) {
+			} catch (NumberFormatException expected) {
 				/*
 				 * This only happens for integral numbers greater than
 				 * Long.MAX_VALUE, numbers in exponential form (5e-10) and

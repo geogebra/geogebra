@@ -129,9 +129,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		private Coords center;
 		private double radius;
 
-		protected DrawSphere() {
-		}
-
 		void set(PlotterSurface surface, Coords center, double radius) {
 			this.surface = surface;
 			this.center = center;

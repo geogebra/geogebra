@@ -339,7 +339,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		factorExpression[0] = expression.deepCopy(kernel);
 		try {
 			factorExpression[0].traverse(ConstantSimplifier.INSTANCE);
-		} catch (MyError err) {
+		} catch (MyError expected) {
 			// if simplification failed, leave as is
 		}
 	}

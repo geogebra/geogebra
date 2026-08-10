@@ -1496,7 +1496,7 @@ public abstract class PropertyView {
 		private final AbstractPropertyCollection propertyCollection;
 		private final List<SingleSelectionIconRow> iconRowList = new ArrayList<>();
 
-		protected GroupedIconButtonRow(AbstractPropertyCollection propertyCollection) {
+		GroupedIconButtonRow(AbstractPropertyCollection propertyCollection) {
 			this.propertyCollection = propertyCollection;
 			for (Property property : propertyCollection.getProperties()) {
 				if (property instanceof IconsEnumeratedProperty<?> iconsEnumeratedProperty) {

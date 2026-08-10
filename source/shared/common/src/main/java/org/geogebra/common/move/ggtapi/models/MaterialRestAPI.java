@@ -583,7 +583,7 @@ public class MaterialRestAPI implements BackendAPI {
 				try {
 					i = Integer.parseInt(numeric) + 1;
 					stem = title.substring(0, title.lastIndexOf('(') - 1);
-				} catch (RuntimeException e) {
+				} catch (RuntimeException ignored) {
 					// ignore
 				}
 			}

@@ -69,7 +69,6 @@
         <exclude name="LongVariable"/>
         <exclude name="ModifierOrder"/>
         <exclude name="VariableCanBeInlined"/>
-        <exclude name="UnnecessaryModifier"/>
         <exclude name="UnnecessaryLocalBeforeReturn"/>
         <exclude name="EmptyMethodInAbstractClassShouldBeAbstract"/>
         <exclude name="UselessParentheses"/>

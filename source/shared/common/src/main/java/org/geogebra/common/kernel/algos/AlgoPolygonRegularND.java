@@ -170,7 +170,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 						try {
 							newPoint.setShowObjectCondition(
 									conditionToShow);
-						} catch (Exception e) {
+						} catch (Exception ignored) {
 							// circular exception -- do nothing
 						}
 					}

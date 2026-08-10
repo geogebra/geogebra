@@ -182,7 +182,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 			if (hasIntersectsBetween(geo)) {
 				getIntersectsBetween(geo, retList);
 			}
-		} catch (Throwable exception) {
+		} catch (Throwable ignored) {
 			// ignore
 		} finally {
 			unwrapped.setCanBeRemovedAsInput(true);
@@ -327,7 +327,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 			});
 
 			add(elements, retList);
-		} catch (Throwable exception) {
+		} catch (Throwable ignored) {
 			// ignore
 		} finally {
 			dispatcher.setIntersectCacheEnabled(oldValue);
