@@ -48,8 +48,8 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
+import org.geogebra.common.kernel.geos.AlgebraicExpression;
 import org.geogebra.common.kernel.geos.AngleProperties;
-import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.ChartStyleGeo;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -94,6 +94,7 @@ import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -2078,12 +2079,14 @@ public class ConsElementXMLHandler {
 		if (!symbolicTagProcessed && (geo.isGeoText() || geo.isGeoInputBox() || geo.isGeoList())) {
 			((HasSymbolicMode) geo).setSymbolicMode(false, false);
 		}
-		if (xmlHandler.casMap != null && geo instanceof CasEvaluableFunction) {
-			((CasEvaluableFunction) geo).updateCASEvalMap(xmlHandler.casMap);
+		if (geo instanceof GeoImage image && image.isCentered()) {
+			image.setCentered(true);
 		}
-
-		if (geo.isGeoImage() && ((GeoImage) geo).isCentered()) {
-			((GeoImage) geo).setCentered(true);
+		if (geo instanceof GeoImplicitCurve curve && curve.getExpression() == null) {
+			geo.setUndefined();
+		}
+		if (xmlHandler.casMap != null && geo instanceof AlgebraicExpression expr) {
+			expr.updateCASEvalMap(xmlHandler.casMap);
 		}
 		if (pendingLabel != null) {
 			geo.setLoadedLabel(pendingLabel);

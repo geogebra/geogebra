@@ -19,6 +19,9 @@ package org.geogebra.common.kernel.implicit;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -30,6 +33,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.OrderingComparison;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.MockedConstruction;
@@ -96,5 +100,34 @@ class GeoImplicitCurveTest extends BaseUnitTest {
 					+ "sin(m))^(2))) / tan((x^(2) + sin(pi / (16 + m^(2)))) / sec(m + x))");
 		}
 		assertThat(counter.get(), OrderingComparison.lessThan(100));
+	}
+
+	@Test
+	@Issue("APPS-7750")
+	public void undefinedCurveShouldHaveValidVarString() {
+		getApp().getGgbApi().evalXML("""
+				<element type="implicitpoly" label="c">
+					<show object="false" label="true" ev="4"/>
+					<userinput show="false"/>
+				</element>
+				""");
+		assertFalse(lookup("c").isDefined());
+		assertEquals("x, y",
+				((GeoImplicitCurve) lookup("c")).getVarString(StringTemplate.testTemplate));
+	}
+
+	@Test
+	@Issue("APPS-7750")
+	public void freeCurveShouldBeDefined() {
+		getApp().getGgbApi().evalXML("""
+				<element type="implicitpoly" label="c">
+					<show object="false" label="true" ev="4"/>
+					<userinput show="false"/>
+					<coefficients rep="array" data="[[-1,0,0,1],[0,0,0,0],[0,0,0,0],[1,0,0,0]]"/>
+				</element>
+				""");
+		assertTrue(lookup("c").isDefined());
+		assertEquals("x^3 + y^3 = 1",
+				lookup("c").toValueString(StringTemplate.testTemplate));
 	}
 }
