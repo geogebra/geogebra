@@ -109,8 +109,11 @@ public class QuickStyleBarModel {
 		 */
 		void onSelectedButtonChanged(@Nullable Integer selectedButton);
 
-		/** Called to request opening the object settings. */
-		void openObjectSettings();
+		/**
+		 * Called to request opening the object settings.
+		 * @param elements elements
+		 */
+		void openObjectSettings(@NonNull List<GeoElement> elements);
 
 		/** Called to request closing the object settings. */
 		void closeObjectSettings();
@@ -163,7 +166,7 @@ public class QuickStyleBarModel {
 	 * @param elements the selected elements, determining the available buttons
 	 */
 	public void show(@NonNull List<GeoElement> elements) {
-		this.elements = elements;
+		this.elements = List.copyOf(elements);
 		setButtons(createButtons(elements));
 	}
 
@@ -193,7 +196,7 @@ public class QuickStyleBarModel {
 	 */
 	public void onMorePressed() {
 		if (delegate != null) {
-			delegate.openObjectSettings();
+			delegate.openObjectSettings(elements);
 		}
 		hideSubmenu();
 	}

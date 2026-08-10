@@ -141,7 +141,11 @@ public final class AlgebraContextMenuActionHandler {
 	private void showSettings() {
 		app.getSelectionManager().clearSelectedGeos();
 		app.getSelectionManager().addSelectedGeo(geoElement);
-		delegate.showObjectProperties(PropertyViewFactory.propertyViewOfObjectSettings(app));
+		PropertyView.TabbedPageSelector tabbedPageSelector = PropertyViewFactory
+				.propertyViewOfObjectSettings(app, app.getSelectionManager().getSelectedGeos());
+		if (tabbedPageSelector != null) {
+			delegate.showObjectProperties(tabbedPageSelector);
+		}
 	}
 
 	private void showSpecialPoints() {

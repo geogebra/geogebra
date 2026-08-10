@@ -168,10 +168,11 @@ class QuickStyleBarModelTest extends BaseAppTestSetup {
 
 	@Test
 	void morePressedEmitsOpenObjectSettingsAndClosesSubmenu() {
-		model.show(List.of(evaluateGeoElement("(1,2)")));
+		List<GeoElement> elements = List.of(evaluateGeoElement("(1,2)"));
+		model.show(elements);
 		model.onButtonPressed(new Button.Color());
 		model.onMorePressed();
-		verify(delegate).openObjectSettings();
+		verify(delegate).openObjectSettings(elements);
 		assertNull(model.getSubmenuItems());
 		assertNotNull(model.getButtons());
 	}

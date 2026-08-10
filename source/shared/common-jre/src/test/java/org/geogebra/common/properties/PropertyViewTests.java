@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -442,11 +443,20 @@ class PropertyViewTests extends BaseAppTestSetup {
 	void testTabbedPageSelectorTitleForCasElements(
 			String element, String expectedTitleTransKey) {
 		setupApp(SuiteSubApp.CAS);
-		getApp().getSelectionManager().setSelectedGeos(List.of(evaluateGeoElement(element)));
+		List<GeoElement> elements = List.of(evaluateGeoElement(element));
 		PropertyView.TabbedPageSelector tabbedPageSelector =
-				PropertyViewFactory.propertyViewOfObjectSettings(getApp());
+				PropertyViewFactory.propertyViewOfObjectSettings(getApp(), elements);
 		assertEquals(getLocalization().getMenu(expectedTitleTransKey),
 				tabbedPageSelector.getTitle());
+	}
+
+	@Issue("APPS-7765")
+	@Test
+	void testReturnsNullOnEmptyList() {
+		setupApp(SuiteSubApp.GRAPHING);
+		assertNull(
+				PropertyViewFactory.propertyViewOfObjectSettings(getApp(), Collections.emptyList())
+		);
 	}
 	
 	private EuclidianView getEuclidianView() {

@@ -40,6 +40,7 @@ import org.geogebra.common.properties.impl.distribution.ProbabilityResultValuesP
 import org.geogebra.common.properties.impl.undo.UndoSavingPropertyObserver;
 import org.geogebra.common.properties.util.PropertyArrayValueObserving;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Factory class for creating {@link PropertyView}s.
@@ -95,22 +96,26 @@ public class PropertyViewFactory {
 	}
 
 	/**
-	 * Constructs the {@link Property}s for the settings of the given objects, connects the
+	 * Constructs the {@link Property}s for the settings of the elements, connects the
 	 * undo manager, and transforms them into a {@code PropertyView} to be displayed.
 	 * @param app the active app
+	 * @param elements list of geo elements
 	 * @return the {@code PropertyView} containing the settings for the given objects
+	 * or {@code null} if the list of elements is empty
 	 */
-	public static PropertyView.@NonNull TabbedPageSelector propertyViewOfObjectSettings(
-			@NonNull App app) {
-		List<GeoElement> geoElements = app.getSelectionManager().getSelectedGeos();
-		String title = app.getLocalization().getMenu(getTypeString(geoElements.get(0)));
+	public static PropertyView.@Nullable TabbedPageSelector propertyViewOfObjectSettings(
+			@NonNull App app, @NonNull List<GeoElement> elements) {
+		if (elements.isEmpty()) {
+			return null;
+		}
+		String title = app.getLocalization().getMenu(getTypeString(elements.get(0)));
 		SuiteScope suiteScope = GlobalScope.getSuiteScope(app);
 		assert suiteScope != null;
 		boolean jsEnabled = !app.getPlatform().isMobile()
 				&& app.getEventDispatcher().availableTypes().contains(ScriptType.JAVASCRIPT);
 		List<PropertiesArray> propertiesArrayList = suiteScope.geoElementPropertiesFactory
 				.createProperties(app.getKernel().getAlgebraProcessor(),
-						app.getLocalization(), app.getImageManager(), jsEnabled, geoElements);
+						app.getLocalization(), app.getImageManager(), jsEnabled, elements);
 		propertiesArrayList.forEach(propertiesArray -> PropertyArrayValueObserving.addObserver(
 				propertiesArray, new UndoSavingPropertyObserver(app.getUndoManager())));
 		return new PropertyView.TabbedPageSelector(title, propertiesArrayList, 0);
