@@ -59,6 +59,7 @@ import org.gwtproject.user.client.ui.Label;
 public class IconButtonWithProperty extends IconButton {
 	private static final int MARGIN_FROM_SCREEN = 32;
 	private static final int MENU_ITEM_HEIGHT = 32;
+	private static final int VERTICAL_OFFSET = 16;
 	private final AppW appW;
 	private final List<GeoElement> geos;
 	private GPopupPanel propertyPopup;
@@ -235,7 +236,8 @@ public class IconButtonWithProperty extends IconButton {
 	}
 
 	private void positionPopup() {
-		int anchorBottom = (int) (getElement().getAbsoluteBottom() - appW.getAbsTop());
+		int anchorBottom = (int) (getElement().getAbsoluteBottom() - appW.getAbsTop()
+				+ VERTICAL_OFFSET);
 		int spaceBottom = (int) (appW.getHeight() - anchorBottom);
 		int spaceTop = (int) (getElement().getAbsoluteTop() - appW.getAbsTop()
 				- MARGIN_FROM_SCREEN);
@@ -251,7 +253,7 @@ public class IconButtonWithProperty extends IconButton {
 
 	private void showAtTopOfAnchor(int popupHeight, int spaceTop) {
 		int popupTop = popupHeight > spaceTop ? MARGIN_FROM_SCREEN
-				: (int) (getAbsoluteTop() - appW.getAbsTop() - popupHeight);
+				: (int) (getAbsoluteTop() - appW.getAbsTop() - popupHeight - VERTICAL_OFFSET);
 		propertyPopup.setPopupPosition(getLeft(), popupTop);
 
 		if (popupHeight > spaceTop) {
