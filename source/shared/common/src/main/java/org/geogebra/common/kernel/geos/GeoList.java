@@ -403,7 +403,7 @@ public class GeoList extends GeoElement
 			// CircularDefinitionException
 			try {
 				geo.setShowObjectCondition(getShowObjectCondition());
-			} catch (final Exception e) {
+			} catch (final Exception ignored) {
 				// Circular definition -- do nothing
 			}
 

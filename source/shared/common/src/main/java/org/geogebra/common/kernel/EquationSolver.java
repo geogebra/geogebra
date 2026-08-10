@@ -637,7 +637,7 @@ public class EquationSolver implements EquationSolverInterface {
 							root = brentRoot;
 						}
 					}
-				} catch (RuntimeException ex) {
+				} catch (RuntimeException ignored) {
 					//Log.debug(ex.getMessage());
 				}
 			}

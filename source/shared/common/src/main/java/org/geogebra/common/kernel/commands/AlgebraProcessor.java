@@ -992,7 +992,7 @@ public class AlgebraProcessor {
 				if (storeUndo && geoElements != null) {
 					app.storeUndoInfo();
 				}
-			} catch (Throwable ex) {
+			} catch (Throwable ignored) {
 				// do nothing
 			}
 			if (geoElements != null) {
@@ -1266,7 +1266,7 @@ public class AlgebraProcessor {
 	private int cellNumber(String lhs) {
 		try {
 			return Integer.parseInt(lhs) - 1;
-		} catch (Exception e) {
+		} catch (Exception expected) {
 			// eg $A$1 label, do nothing
 		}
 		return -1;
@@ -3900,7 +3900,7 @@ public class AlgebraProcessor {
 		Commands command = null;
 		try {
 			command = Commands.valueOf(internalCommandName);
-		} catch (Exception ignore) {
+		} catch (Exception ignored) {
 			// macro or error
 		}
 		if (command == null) {

@@ -299,7 +299,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			int row = -1;
 			try {
 				row = Integer.parseInt(label.substring(1)) - 1;
-			} catch (Exception e) {
+			} catch (Exception expected) {
 				// spreadsheet reference
 			}
 			return row > 0;

@@ -594,7 +594,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			try {
 				segment
 						.setShowObjectCondition(getShowObjectCondition());
-			} catch (Exception e) {
+			} catch (Exception ignored) {
 				// circular definition
 			}
 		}

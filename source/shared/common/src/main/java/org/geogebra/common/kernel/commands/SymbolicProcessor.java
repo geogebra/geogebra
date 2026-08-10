@@ -210,7 +210,7 @@ public class SymbolicProcessor {
 					.processCommand(cmd.deepCopy(kernel), info);
 		} catch (MyError err) {
 			invalidArgNumber = err.getErrorType() == MyError.Errors.IllegalArgumentNumber;
-		} catch (Throwable t) {
+		} catch (Throwable ignored) {
 			// something else went wrong
 		} finally {
 			kernel.getConstruction().setSuppressLabelCreation(oldSilent);

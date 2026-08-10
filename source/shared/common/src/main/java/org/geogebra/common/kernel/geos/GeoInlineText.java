@@ -217,7 +217,7 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 				text.put("color", StringUtil.toHtmlColor(geo.getObjectColor()));
 			}
 			setContent(content.toString());
-		} catch (JSONException e) {
+		} catch (JSONException ignored) {
 			// unlikely
 		}
     }

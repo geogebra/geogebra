@@ -1362,7 +1362,7 @@ public class GeoText extends GeoElement
 			// visible only in 3D view
 			try {
 				kernel.getApplication().removeFromEuclidianView(this);
-			} catch (Exception e) {
+			} catch (RuntimeException ignored) {
 				// in case EV is null
 			}
 			visibleInView3D = ExtendedBoolean.TRUE;

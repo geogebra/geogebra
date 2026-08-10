@@ -1761,7 +1761,7 @@ public class Construction {
 			if (newGeoAlgo != null && newGeoAlgo.isNearToAlgorithm()) {
 				try {
 					newGeo.set(oldGeo);
-				} catch (Exception e) {
+				} catch (RuntimeException ignored) {
 					// do nothing
 				}
 			}

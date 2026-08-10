@@ -2061,7 +2061,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 				}
 				return true;
 			}
-		} catch (Throwable t) {
+		} catch (Throwable ignored) {
 			// nothing to do
 		}
 		return false;
@@ -2902,7 +2902,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 				// gradient of line
 				return poly.getCoeffs()[1];
 			}
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 			//
 		}
 

@@ -239,7 +239,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 				// success
 				return secondSum;
 			}
-		} catch (RuntimeException ex) {
+		} catch (RuntimeException ignored) {
 			// return NaN
 		}
 		return Double.NaN;
@@ -927,7 +927,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			}
 		} catch (IllegalArgumentException e) {
 			return Double.NaN;
-		} catch (RuntimeException e) {
+		} catch (RuntimeException ignored) {
 			// catches IllegalStateException and ArithmeticException
 			// eg
 			// org.apache.commons.math3.exception.TooManyEvaluationsException:

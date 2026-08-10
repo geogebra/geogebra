@@ -2579,7 +2579,7 @@ public class GeoCasCell extends GeoElement
 				String test = null;
 				try {
 					test = kernel.getParser().parseLabel(lhs1);
-				} catch (Throwable t) {
+				} catch (Throwable expected) {
 					// not a label
 				}
 				if (test != null && !((Equation) arg.get(0).unwrap())

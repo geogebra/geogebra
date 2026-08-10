@@ -950,7 +950,7 @@ public class Command extends ValidExpression
 		Commands c = null;
 		try {
 			c = Commands.valueOf(name);
-		} catch (Exception e) {
+		} catch (Exception expected) {
 			// not found
 		}
 		return c != null;

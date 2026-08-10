@@ -1162,7 +1162,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			if (geo.condShowObject != null) {
 				try {
 					setShowObjectCondition(geo.getShowObjectCondition());
-				} catch (final Exception e) {
+				} catch (final Exception ignored) {
 					// do nothing
 				}
 
@@ -1361,7 +1361,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		// CircularDefinitionException
 		try {
 			setShowObjectCondition(geo.getShowObjectCondition());
-		} catch (final Exception e) {
+		} catch (final Exception ignored) {
 			// CircularException, we ignore it
 		}
 	}
@@ -1379,7 +1379,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (geo.getShowObjectCondition() != null) {
 			try {
 				setShowObjectCondition(geo.getShowObjectCondition().copy());
-			} catch (final Exception e) {
+			} catch (final Exception ignored) {
 				// CircularException, we ignore it
 			}
 		}
