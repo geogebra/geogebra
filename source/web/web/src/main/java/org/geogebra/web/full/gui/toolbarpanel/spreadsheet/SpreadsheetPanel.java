@@ -36,6 +36,7 @@ import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.awt.GGraphics2DW;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.html5.euclidian.ReaderWidget;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -110,6 +111,9 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize,
 		scrollOverlay = new ScrollPanel();
 
 		FlowPanel scrollContent = new FlowPanel();
+		AriaHelper.setRole(scrollContent, "application");
+		AriaHelper.setRoleDescription(scrollContent,
+				app.getLocalization().getMenu("Perspective.Spreadsheet"));
 		scrollOverlay.setWidget(scrollContent);
 		scrollOverlay.setStyleName("spreadsheetScrollOverlay");
 		add(scrollOverlay);

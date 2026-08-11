@@ -781,8 +781,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					tf.setVisible(false);
 				}
 			}
-			app.getGlobalKeyDispatcher().handleTab(e.isShiftKeyDown());
-			e.stopPropagation(); // avoid conflict with GeoTabber
+			elemental2.dom.Element element = Js.uncheckedCast(getElement());
+			if (element.closest(".popupContent") == null) {
+				app.getGlobalKeyDispatcher().handleTab(e.isShiftKeyDown());
+				e.stopPropagation(); // avoid conflict with GeoTabber
+			}
 		}
 		if (handleEscapeKey && keyCode == KeyCodes.KEY_ESCAPE) {
 			e.stopPropagation();

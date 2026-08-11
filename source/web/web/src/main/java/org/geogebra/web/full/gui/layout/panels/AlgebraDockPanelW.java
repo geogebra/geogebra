@@ -29,6 +29,7 @@ import org.geogebra.web.full.gui.view.algebra.AlgebraCanvasExporter;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.LatexTreeItemController;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.resources.client.ResourcePrototype;
@@ -104,6 +105,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 				algebrap.remove(wrapper);
 			}
 			wrapper = new FlowPanel();
+			AriaHelper.setRole(wrapper, "application");
 			aview = av;
 			wrapper.add(aview);
 			algebrap.add(wrapper);

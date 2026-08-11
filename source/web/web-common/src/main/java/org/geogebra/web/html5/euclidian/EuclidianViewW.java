@@ -220,7 +220,8 @@ public class EuclidianViewW extends EuclidianView implements
 	private void initAriaDefaults() {
 		Element element = g2p.getElement();
 		element.setAttribute("role", "application");
-		element.setAttribute("aria-roledescription", "Graphics");
+		element.setAttribute("aria-roledescription",
+				app.getLocalization().getMenuDefault("GeoGebraActivity", "GeoGebra Activity"));
 	}
 
 	@Override

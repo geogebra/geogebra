@@ -24,6 +24,7 @@ import org.geogebra.web.full.gui.view.algebra.AlgebraCanvasExporter;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.util.CustomScrollbar;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.event.dom.client.ClickEvent;
@@ -71,6 +72,7 @@ public class AlgebraTab extends ToolbarTab {
 				remove(wrapper);
 			}
 			wrapper = new FlowPanel();
+			AriaHelper.setRole(wrapper, "application");
 			aview = av;
 			aview.resetInputItemHeader();
 			wrapper.add(aview);
