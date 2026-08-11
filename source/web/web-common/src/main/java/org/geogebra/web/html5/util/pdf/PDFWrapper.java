@@ -163,7 +163,6 @@ public class PDFWrapper {
 	public void previousPage() {
 		if (pageNumber > 1) {
 			setPageNumber(pageNumber - 1);
-			getPage();
 		}
 	}
 
@@ -173,7 +172,6 @@ public class PDFWrapper {
 	public void nextPage() {
 		if (pageNumber < getNumberOfPages()) {
 			setPageNumber(pageNumber + 1);
-			getPage();
 		}
 	}
 
@@ -194,6 +192,7 @@ public class PDFWrapper {
 	public boolean setPageNumber(int num) {
 		if (num > 0 && num <= getNumberOfPages()) {
 			pageNumber = num;
+			getPage();
 			return true;
 		}
 		return false;
