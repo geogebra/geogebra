@@ -16,6 +16,8 @@
 
 package org.geogebra.common.kernel.geos;
 
+import static org.geogebra.common.main.GeoGebraColorConstants.NEUTRAL_900;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint2D;
@@ -62,6 +64,7 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 		setLocation(location);
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		setLineThickness(NO_BORDER);
+		setBorderColor(NEUTRAL_900);
 		setContentWidth(DEFAULT_WIDTH);
 		setContentHeight(DEFAULT_HEIGHT);
 	}
