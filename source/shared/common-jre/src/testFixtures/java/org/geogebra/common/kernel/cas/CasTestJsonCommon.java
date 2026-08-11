@@ -413,8 +413,13 @@ public abstract class CasTestJsonCommon {
 	}
 
 	@Test
-	public void testBinomialDist() {
-		testCat("BinomialDist");
+	public void testBinomialDist3() {
+		testCat("BinomialDist.3");
+	}
+
+	@Test
+	public void testBinomialDist4() {
+		testCat("BinomialDist.4");
 	}
 
 	@Test
@@ -458,8 +463,13 @@ public abstract class CasTestJsonCommon {
 	}
 
 	@Test
-	public void testCovariance() {
-		testCat("Covariance");
+	public void testCovariance1() {
+		testCat("Covariance.1");
+	}
+
+	@Test
+	public void testCovariance2() {
+		testCat("Covariance.2");
 	}
 
 	@Test

@@ -1,6 +1,6 @@
 package com.himamis.retex.renderer.desktop;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -11,9 +11,9 @@ import java.nio.file.Paths;
 import javax.imageio.ImageIO;
 
 import org.geogebra.common.awt.GColor;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.renderer.desktop.graphics.ImageD;
 import com.himamis.retex.renderer.share.TeXConstants;
@@ -24,16 +24,16 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 
-public class BasicTest {
+class BasicTest {
 
-	@BeforeClass
-	public static void setFactory() {
+	@BeforeAll
+	static void setFactory() {
 		FactoryProvider.setInstance(new FactoryProviderDesktop());
 	}
 	
 	@Test
-	@Ignore
-	public void basicExample2() {
+	@Disabled
+	void basicExample2() {
 		String latex = "\\begin{array}{l}";
 		latex += "\\forall\\varepsilon\\in\\mathbb{R}_+^*\\ \\exists\\eta>0\\ |x-x_0|\\leq\\eta\\Longrightarrow|f(x)-f(x_0)|\\leq\\varepsilon\\\\";
 		latex += "\\det\\begin{bmatrix}a_{11}&a_{12}&\\cdots&a_{1n}\\\\a_{21}&\\ddots&&\\vdots\\\\\\vdots&&\\ddots&\\vdots\\\\a_{n1}&\\cdots&\\cdots&a_{nn}\\end{bmatrix}\\overset{\\mathrm{def}}{=}\\sum_{\\sigma\\in\\mathfrak{S}_n}\\varepsilon(\\sigma)\\prod_{k=1}^n a_{k\\sigma(k)}\\\\";
@@ -83,6 +83,7 @@ public class BasicTest {
 		try {
 			ImageIO.write((BufferedImage) image, "png", os);
 		} catch (IOException ex) {
+			throw new RuntimeException(ex);
 		}
 		return os.toByteArray();
 	}
