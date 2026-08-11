@@ -24,14 +24,11 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class LineGraphCoordinatesPropertyTests extends BaseAppTestSetup {
-
-	private final GeoElementPropertiesFactory propertiesFactory = new GeoElementPropertiesFactory();
+class LineGraphCoordinatesPropertyTests extends BaseAppTestSetup {
 
 	@BeforeEach
 	void setUpTest() {
@@ -63,10 +60,10 @@ public class LineGraphCoordinatesPropertyTests extends BaseAppTestSetup {
 
 	@Test
 	void testLineChartFromNamedLists() {
-		GeoElement l1 = evaluateGeoElement("l1={1,2,3}");
-		GeoElement l2 = evaluateGeoElement("l2={3,1,2}");
-		GeoElement l3 = evaluateGeoElement("l3={4,5,6}");
-		GeoElement l4 = evaluateGeoElement("l4={7,8,9}");
+		evaluateGeoElement("l1={1,2,3}");
+		evaluateGeoElement("l2={3,1,2}");
+		evaluateGeoElement("l3={4,5,6}");
+		evaluateGeoElement("l4={7,8,9}");
 		GeoElement lineChart = evaluateGeoElement("LineGraph(l1,l2)");
 
 		LineGraphCoordinatesProperty x = assertDoesNotThrow(
@@ -85,9 +82,9 @@ public class LineGraphCoordinatesPropertyTests extends BaseAppTestSetup {
 
 	@Test
 	void testValidate() {
-		GeoElement l1 = evaluateGeoElement("l1={1,2,3}");
-		GeoElement l2 = evaluateGeoElement("l2={3,1,2}");
-		GeoElement l3 = evaluateGeoElement("l3={4,5,6}");
+		evaluateGeoElement("l1={1,2,3}");
+		evaluateGeoElement("l2={3,1,2}");
+		evaluateGeoElement("l3={4,5,6}");
 		GeoElement lineChart = evaluateGeoElement("LineGraph(l1,l2)");
 
 		LineGraphCoordinatesProperty x = assertDoesNotThrow(

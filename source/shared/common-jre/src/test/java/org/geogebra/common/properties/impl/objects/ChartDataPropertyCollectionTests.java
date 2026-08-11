@@ -28,7 +28,7 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ChartDataPropertyCollectionTests extends BaseAppTestSetup {
+class ChartDataPropertyCollectionTests extends BaseAppTestSetup {
 
 	private final GeoElementPropertiesFactory propertiesFactory = new GeoElementPropertiesFactory();
 
