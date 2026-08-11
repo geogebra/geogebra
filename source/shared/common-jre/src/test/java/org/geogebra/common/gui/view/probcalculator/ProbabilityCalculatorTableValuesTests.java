@@ -40,23 +40,23 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ProbabilityCalculatorTableValuesTests extends BaseAppTestSetup {
+class ProbabilityCalculatorTableValuesTests extends BaseAppTestSetup {
 	private ProbabilityCalculatorView probabilityCalculator;
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		setupApp(SuiteSubApp.PROBABILITY);
 		probabilityCalculator = new HeadlessProbabilityCalculatorView(getApp());
 	}
 
 	@Test
-	public void testContinuousDistributionHasNoTableValues() {
+	void testContinuousDistributionHasNoTableValues() {
 		probabilityCalculator.setProbabilityCalculator(NORMAL, null, false);
 		assertNull(ProbabilityCalculatorTableValues.from(probabilityCalculator));
 	}
 
 	@Test
-	public void testDiscreteDistributionsHaveTableValues() {
+	void testDiscreteDistributionsHaveTableValues() {
 		setProbabilityCalculator(BINOMIAL, false, 2, 0.5);
 		assertNotNull(ProbabilityCalculatorTableValues.from(probabilityCalculator));
 
@@ -65,7 +65,7 @@ public class ProbabilityCalculatorTableValuesTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testHeaderReflectsCumulativeState() {
+	void testHeaderReflectsCumulativeState() {
 		setProbabilityCalculator(BINOMIAL, false, 2, 0.5);
 		assertEquals("P(X = k)", ProbabilityCalculatorTableValues.from(probabilityCalculator)
 				.header().probability());
@@ -76,7 +76,7 @@ public class ProbabilityCalculatorTableValuesTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testBinomialFormattedProbabilities() {
+	void testBinomialFormattedProbabilities() {
 		setProbabilityCalculator(BINOMIAL, false, 2, 0.5);
 		assertEquals(List.of(
 				new Row("0", "0.25", true),
@@ -86,7 +86,7 @@ public class ProbabilityCalculatorTableValuesTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testBinomialFormattedCumulativeProbabilities() {
+	void testBinomialFormattedCumulativeProbabilities() {
 		setProbabilityCalculator(BINOMIAL, true, 2, 0.5);
 		assertEquals(List.of(
 				new Row("0", "0.25", true),
@@ -96,7 +96,7 @@ public class ProbabilityCalculatorTableValuesTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPascalDistributionInverseCumulativeProbabilities() {
+	void testPascalDistributionInverseCumulativeProbabilities() {
 		setProbabilityCalculator(PASCAL, false, 1, 0.9);
 		assertEquals(List.of(
 				new Row("0", "0.9", true),
@@ -109,7 +109,7 @@ public class ProbabilityCalculatorTableValuesTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testPoissonDistributionInverseCumulativeProbabilities() {
+	void testPoissonDistributionInverseCumulativeProbabilities() {
 		setProbabilityCalculator(POISSON, false, 0.1);
 		assertEquals(List.of(
 				new Row("0", "0.9048", true),
@@ -121,7 +121,7 @@ public class ProbabilityCalculatorTableValuesTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testHyperGeometricRowsStartAtMinimumValidValue() {
+	void testHyperGeometricRowsStartAtMinimumValidValue() {
 		setProbabilityCalculator(HYPERGEOMETRIC, false, 10, 8, 5);
 		assertEquals(List.of(
 				new Row("3", "0.2222", false),
@@ -131,7 +131,7 @@ public class ProbabilityCalculatorTableValuesTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testInvalidBinomialParameters() {
+	void testInvalidBinomialParameters() {
 		setProbabilityCalculator(BINOMIAL, false, -1, 0.5);
 		ProbabilityCalculatorTableValues tableValues = assertDoesNotThrow(
 				() -> ProbabilityCalculatorTableValues.from(probabilityCalculator));
@@ -144,7 +144,7 @@ public class ProbabilityCalculatorTableValuesTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testInvalidPascalParameters() {
+	void testInvalidPascalParameters() {
 		setProbabilityCalculator(PASCAL, false, 0, 0.5);
 		ProbabilityCalculatorTableValues tableValues = assertDoesNotThrow(
 				() -> ProbabilityCalculatorTableValues.from(probabilityCalculator));
@@ -157,7 +157,7 @@ public class ProbabilityCalculatorTableValuesTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testInvalidPoissonParameters() {
+	void testInvalidPoissonParameters() {
 		setProbabilityCalculator(POISSON, false, 0);
 		ProbabilityCalculatorTableValues tableValues = assertDoesNotThrow(
 				() -> ProbabilityCalculatorTableValues.from(probabilityCalculator));
@@ -165,7 +165,7 @@ public class ProbabilityCalculatorTableValuesTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testInvalidHyperGeometricParameters() {
+	void testInvalidHyperGeometricParameters() {
 		setProbabilityCalculator(HYPERGEOMETRIC, false, 1, 2, 1);
 		ProbabilityCalculatorTableValues tableValues = assertDoesNotThrow(
 				() -> ProbabilityCalculatorTableValues.from(probabilityCalculator));
@@ -178,7 +178,7 @@ public class ProbabilityCalculatorTableValuesTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testIntervalModeHighlightsRowsBetweenLowAndHigh() {
+	void testIntervalModeHighlightsRowsBetweenLowAndHigh() {
 		setProbabilityCalculator(BINOMIAL, false, 2, 0.5);
 		probabilityCalculator.setProbabilityMode(PROB_INTERVAL);
 		probabilityCalculator.setLow(0.5);
@@ -192,7 +192,7 @@ public class ProbabilityCalculatorTableValuesTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testTwoTailedModeHighlightsRowsOutsideLowAndHigh() {
+	void testTwoTailedModeHighlightsRowsOutsideLowAndHigh() {
 		setProbabilityCalculator(BINOMIAL, false, 2, 0.5);
 		probabilityCalculator.setProbabilityMode(PROB_TWO_TAILED);
 		probabilityCalculator.setLow(0.5);

@@ -205,7 +205,7 @@ class ParserTest {
 
 	private static String reparse(App app, String string, StringTemplate tpl,
 			boolean multipleUnassignedAllowed) {
-		String reparse1 = "";
+		String reparse1;
 		try {
 			ValidExpression v1 = parseExpression(app, string);
 			FunctionVariable xVar = new FunctionVariable(app.getKernel(), "x"),

@@ -20,11 +20,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 
-import org.geogebra.common.util.debug.Log;
 import org.mockito.Mockito;
 
 import elemental2.core.Global;

@@ -47,7 +47,7 @@ import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class RememberedPropertiesTest extends BaseAppTestSetup {
+class RememberedPropertiesTest extends BaseAppTestSetup {
 	private static final PropertyKey FONT_FAMILY_KEY = PropertyKey.of(FontProperty.class);
 	private static final PropertyKey FONT_SIZE_KEY =
 			PropertyKey.of(NotesFontSizeProperty.class);

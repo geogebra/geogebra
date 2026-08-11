@@ -201,7 +201,7 @@
             <property name="xpath">
                 <value>
                     <![CDATA[
-//ImportDeclaration[matches(@ImportedSimpleName, "(Nullable|Nonnull|NonNull|NotNull|CheckForNull)$") and @PackageName != "org.jspecify.annotations"]
+//ImportDeclaration[matches(@ImportedSimpleName, "^(Nullable|Nonnull|NonNull|NotNull|CheckForNull)$") and @PackageName != "org.jspecify.annotations"]
 ]]>
                 </value>
             </property>

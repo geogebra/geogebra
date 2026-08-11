@@ -16,26 +16,26 @@
 
 package org.geogebra.keyboard.base.model;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.keyboard.base.Keyboard;
 import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.impl.DefaultKeyboardFactory;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class DefaultKeyboardFactoryTests {
+class DefaultKeyboardFactoryTests {
     private double precision = 1.0E-6;
 
     private KeyboardFactory keyboardFactory;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         keyboardFactory = new DefaultKeyboardFactory();
     }
 
     @Test
-    public void testMathKeyboardRowWeights() {
+    void testMathKeyboardRowWeights() {
         Keyboard mathKeyboard = keyboardFactory.createMathKeyboard();
 
         for (Row row : mathKeyboard.getModel().getRows()) {
@@ -44,7 +44,7 @@ public class DefaultKeyboardFactoryTests {
     }
 
     @Test
-    public void testFunctionsKeyboardRowWeights() {
+    void testFunctionsKeyboardRowWeights() {
         Keyboard functionsKeyboard = keyboardFactory.createFunctionsKeyboard();
 
         for (Row row : functionsKeyboard.getModel().getRows()) {
@@ -53,7 +53,7 @@ public class DefaultKeyboardFactoryTests {
     }
 
     @Test
-    public void testLettersKeyboardRowWeights() {
+    void testLettersKeyboardRowWeights() {
         Keyboard lettersKeyboard = keyboardFactory.createLettersKeyboard(
                 "qwertyuiop", "asdfghjkl", "zxcvbnm"
         );
@@ -64,7 +64,7 @@ public class DefaultKeyboardFactoryTests {
     }
 
     @Test
-    public void testSpecialSymbolsKeyboardRowWeights() {
+    void testSpecialSymbolsKeyboardRowWeights() {
         Keyboard specialSymbolsKeyboard = keyboardFactory.createSpecialSymbolsKeyboard();
 
         for (Row row : specialSymbolsKeyboard.getModel().getRows()) {

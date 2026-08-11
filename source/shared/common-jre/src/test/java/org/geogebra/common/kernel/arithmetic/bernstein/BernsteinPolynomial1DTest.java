@@ -38,13 +38,11 @@ class BernsteinPolynomial1DTest extends BaseUnitTest {
 	private BernsteinPolynomial1D bernstein1D;
 	private GeoImplicitCurve curve;
 	private EuclidianView view;
-	private BernsteinPolynomialConverter converter;
 
 	@BeforeEach
 	void setUp() {
 		add("ZoomIn(0,0,1,1)");
 		view = getApp().getEuclidianView1();
-		converter = new BernsteinPolynomialConverter();
 	}
 
 	private void newBernsteinPolynomialPolynomialFrom(String definition) {

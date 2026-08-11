@@ -51,9 +51,10 @@ import jsinterop.base.JsPropertyMap;
 
 public class AppMocker {
 
-	private static class TestLog extends Log {
+	private static final class TestLog extends Log {
 
 		@Override
+		@SuppressWarnings("PMD.SystemPrintln")
 		public void print(Level level, Object logEntry) {
 			if (logEntry instanceof Throwable) {
 				((Throwable) logEntry).printStackTrace(System.out);

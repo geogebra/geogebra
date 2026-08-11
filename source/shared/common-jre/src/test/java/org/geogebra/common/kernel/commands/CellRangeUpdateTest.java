@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.Test;
 
-public class CellRangeUpdateTest extends BaseUnitTest {
+class CellRangeUpdateTest extends BaseUnitTest {
 	@Test
 	@Issue("APPS-7726")
 	void cellRangesShouldNotBeNotifiedByUnlabeledGeos() {

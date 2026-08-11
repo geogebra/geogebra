@@ -29,10 +29,12 @@ public class CommandDispatcher3DWSync extends CommandDispatcherWSync {
 		super(kernel);
 	}
 
+	@Override
 	public CommandProcessorFactory getSpatialCommandProcessorFactory() {
 		return new SpatialCommandProcessorFactory();
 	}
 
+	@Override
 	public CommandProcessorFactory getBasicCommandProcessorFactory() {
 		return new BasicCommandProcessorFactory3D();
 	}

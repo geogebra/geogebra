@@ -104,7 +104,7 @@ class GeoImplicitCurveTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-7750")
-	public void undefinedCurveShouldHaveValidVarString() {
+	void undefinedCurveShouldHaveValidVarString() {
 		getApp().getGgbApi().evalXML("""
 				<element type="implicitpoly" label="c">
 					<show object="false" label="true" ev="4"/>
@@ -118,7 +118,7 @@ class GeoImplicitCurveTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-7750")
-	public void freeCurveShouldBeDefined() {
+	void freeCurveShouldBeDefined() {
 		getApp().getGgbApi().evalXML("""
 				<element type="implicitpoly" label="c">
 					<show object="false" label="true" ev="4"/>

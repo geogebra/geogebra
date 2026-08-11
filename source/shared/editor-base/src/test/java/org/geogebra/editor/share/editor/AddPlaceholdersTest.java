@@ -28,12 +28,12 @@ import org.geogebra.editor.share.tree.Formula;
 import org.geogebra.editor.share.tree.SequenceNode;
 import org.junit.jupiter.api.Test;
 
-public class AddPlaceholdersTest {
+class AddPlaceholdersTest {
 	private final Parser parser = new Parser(new TemplateCatalog());
 	private final AddPlaceholders placeholders = new AddPlaceholders();
 
 	@Test
-	public void testEmptyPoint() {
+	void testEmptyPoint() {
 		Formula formula = getFormula("(?,?)");
 		SequenceNode rootSequence = formula.getRootNode();
 		ArrayNode arrayNode = (ArrayNode) (rootSequence.getChild(0));
@@ -43,7 +43,7 @@ public class AddPlaceholdersTest {
 	}
 
 	@Test
-	public void testHalfEmptyPoint() {
+	void testHalfEmptyPoint() {
 		Formula formula = getFormula("(1,?)");
 		SequenceNode rootSequence = formula.getRootNode();
 		ArrayNode arrayNode = (ArrayNode) (rootSequence.getChild(0));
@@ -53,7 +53,7 @@ public class AddPlaceholdersTest {
 	}
 
 	@Test
-	public void deepFractionsShouldParseAndSerializeFast() {
+	void deepFractionsShouldParseAndSerializeFast() {
 		int depth = 15;
 		long start = System.currentTimeMillis();
 		Formula formula = getFormula("1/(".repeat(depth) + "1" + ")".repeat(depth));

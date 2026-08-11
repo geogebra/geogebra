@@ -83,7 +83,6 @@ import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 
 import elemental2.core.JsDate;
 import elemental2.core.Uint8Array;
-import elemental2.dom.CSSProperties;
 import elemental2.dom.Document;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.XMLHttpRequest;

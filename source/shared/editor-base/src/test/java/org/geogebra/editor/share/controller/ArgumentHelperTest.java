@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
  * parsing and serialization. These tests also make use of the ArgumentHelper when parsing
  * fractions, mixed numbers, and recurring decimals.
  */
-public class ArgumentHelperTest {
+class ArgumentHelperTest {
 
 	private final TemplateCatalog templateCatalog = new TemplateCatalog();
 	private final EditorState editorState = new EditorState(templateCatalog);
@@ -47,8 +47,7 @@ public class ArgumentHelperTest {
 	 * Checks whether parsing e.g. 1&nbsp;&nbsp;&nbsp;&nbsp;/2 deletes all whitespace characters
 	 */
 	@Test
-	public void shouldNotParseWhitespaces() {
-		FunctionNode fraction;
+	void shouldNotParseWhitespaces() {
 		SequenceNode numerator;
 
 		//Test if whitespace and horizontal tab are passed
@@ -56,14 +55,14 @@ public class ArgumentHelperTest {
 				new CharacterNode(new CharacterTemplate(" ", ' ', 1));
 		CharacterNode horizontalTab =
 				new CharacterNode(
-						new CharacterTemplate(java.lang.Character.toString((char) 9), (char) 9, 1));
+						new CharacterTemplate(Character.toString((char) 9), (char) 9, 1));
 
 		numerator = new SequenceNode();
 		numerator.addChild(characterNodeOne);
 		numerator.addChild(whitespace);
 		numerator.addChild(horizontalTab);
 
-		fraction = new FunctionNode(templateCatalog.getGeneral(Tag.FRAC));
+		FunctionNode fraction = new FunctionNode(templateCatalog.getGeneral(Tag.FRAC));
 		fraction.setChild(0, numerator);
 
 		editorState.setCurrentNode(numerator);
@@ -81,7 +80,7 @@ public class ArgumentHelperTest {
 	 * @see ArgumentHelper#passSingleCharacter(EditorState, SequenceNode)
 	 */
 	@Test
-	public void passOnlySingleCharacter() {
+	void passOnlySingleCharacter() {
 		// Create a sequence node with two characters
 		SequenceNode passFrom = new SequenceNode();
 		passFrom.addChild(characterNodeOne);
@@ -103,7 +102,7 @@ public class ArgumentHelperTest {
 	 * @see ArgumentHelper#readCharacters(EditorState, int)
 	 */
 	@Test
-	public void readOnlyCharacters() {
+	void readOnlyCharacters() {
 		SequenceNode sequence = new SequenceNode();
 		sequence.addChild(new FunctionNode(templateCatalog.getGeneral(Tag.LIM_EQ)));
 		sequence.addChild(characterNodeOne);

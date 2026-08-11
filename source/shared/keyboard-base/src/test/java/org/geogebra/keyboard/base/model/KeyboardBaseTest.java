@@ -16,20 +16,20 @@
 
 package org.geogebra.keyboard.base.model;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.geogebra.keyboard.base.model.impl.AccentModifier;
 import org.geogebra.keyboard.base.model.impl.CapsLockModifier;
 import org.geogebra.keyboard.base.model.impl.RowImpl;
 import org.geogebra.keyboard.base.model.impl.WeightedButtonImpl;
 import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class KeyboardBaseTest {
-    private final double precision = 1.0E-6;
+class KeyboardBaseTest {
+    private final static double precision = 1.0E-6;
 
     @Test
-    public void testRowWeights() {
+    void testRowWeights() {
         ButtonFactory unmodifiedButtonFactory = new ButtonFactory(null);
         ButtonFactory accentButtonFactory = new ButtonFactory(
                 new KeyModifier[]{new AccentModifier()}

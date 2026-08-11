@@ -43,7 +43,7 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class RememberedFontFamilyHandlerTest extends BaseAppTestSetup {
+class RememberedFontFamilyHandlerTest extends BaseAppTestSetup {
 	private final RememberedFontFamilyHandler handler = new RememberedFontFamilyHandler();
 
 	@BeforeEach

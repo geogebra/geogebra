@@ -40,47 +40,47 @@ public class InlineTextControllerMock implements InlineTextController {
 
 	@Override
 	public void create() {
-
+		// mock
 	}
 
 	@Override
 	public void discard() {
-
+		// mock
 	}
 
 	@Override
 	public void setLocation(int x, int y) {
-
+		// mock
 	}
 
 	@Override
 	public void setWidth(int width) {
-
+		// mock
 	}
 
 	@Override
 	public void setHeight(int height) {
-
+		// mock
 	}
 
 	@Override
 	public void toForeground(int x, int y) {
-
+		// mock
 	}
 
 	@Override
 	public void toBackground(DrawInline.SuspensionTrigger trigger) {
-
+		// mock
 	}
 
 	@Override
 	public void format(String key, Object val) {
-
+		// mock
 	}
 
 	@Override
 	public void formatFont(String val) {
-
+		// mock
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class InlineTextControllerMock implements InlineTextController {
 
 	@Override
 	public void updateContent() {
-
+		// mock
 	}
 
 	@Override
@@ -110,12 +110,12 @@ public class InlineTextControllerMock implements InlineTextController {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-
+		// mock
 	}
 
 	@Override
 	public void insertHyperlink(String url, String text) {
-
+		// mock
 	}
 
 	@Override
@@ -125,7 +125,7 @@ public class InlineTextControllerMock implements InlineTextController {
 
 	@Override
 	public void switchListTo(String listType) {
-
+		// mock
 	}
 
 	@Override
@@ -140,12 +140,12 @@ public class InlineTextControllerMock implements InlineTextController {
 
 	@Override
 	public void updateContentIfChanged() {
-
+		// mock
 	}
 
 	@Override
 	public void saveContent() {
-
+		// mock
 	}
 
 	@Override
@@ -155,12 +155,12 @@ public class InlineTextControllerMock implements InlineTextController {
 
 	@Override
 	public void setSelectionText(String text) {
-
+		// mock
 	}
 
 	@Override
 	public void setTransform(double angle, double sx, double sy) {
-
+		// mock
 	}
 
 	@Override
@@ -173,13 +173,14 @@ public class InlineTextControllerMock implements InlineTextController {
 		return true;
 	}
 
+	@Override
 	public VerticalAlignment getVerticalAlignment() {
 		return VerticalAlignment.TOP;
 	}
 
 	@Override
 	public void setVerticalAlignment(VerticalAlignment alignment) {
-
+		// mock
 	}
 
 	@Override
@@ -189,7 +190,7 @@ public class InlineTextControllerMock implements InlineTextController {
 
 	@Override
 	public void setHorizontalAlignment(HorizontalAlignment alignment) {
-
+		// mock
 	}
 
 }

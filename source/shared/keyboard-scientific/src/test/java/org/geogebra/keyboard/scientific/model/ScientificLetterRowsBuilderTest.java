@@ -16,22 +16,22 @@
 
 package org.geogebra.keyboard.scientific.model;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class ScientificLetterRowsBuilderTest {
+class ScientificLetterRowsBuilderTest {
 
 	private ScientificLetterRowsBuilder rowsBuilder;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		rowsBuilder = new ScientificLetterRowsBuilder();
 	}
 
 	@Test
-	public void rowsFrom() {
+	void rowsFrom() {
 		String topRow = "qwertyuiop";
 		String middleRow = "asdfghjkl";
 		String bottomRow = "zxcvbnm";

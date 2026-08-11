@@ -44,7 +44,7 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class RememberedFontSizeHandlerTest extends BaseAppTestSetup {
+class RememberedFontSizeHandlerTest extends BaseAppTestSetup {
 	private final RememberedFontSizeHandler handler = new RememberedFontSizeHandler();
 
 	@BeforeEach

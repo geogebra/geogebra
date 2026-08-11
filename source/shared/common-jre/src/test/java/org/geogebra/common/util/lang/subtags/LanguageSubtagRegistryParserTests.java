@@ -74,7 +74,7 @@ class LanguageSubtagRegistryParserTests {
 
 	@Test
 	void testTwoEntries() {
-		List<Record> records = null;
+		List<Record> records;
 		try {
 			records = parse(HEADER + TWO_ENTRIES);
 		} catch (Exception e) {

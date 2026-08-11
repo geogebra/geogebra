@@ -29,7 +29,7 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ProbabilityCalculatorTableValuesViewModelTests extends BaseAppTestSetup {
+class ProbabilityCalculatorTableValuesViewModelTests extends BaseAppTestSetup {
 	private ProbabilityCalculatorView view;
 	private ProbabilityCalculatorTableValuesViewModel tableValuesView;
 

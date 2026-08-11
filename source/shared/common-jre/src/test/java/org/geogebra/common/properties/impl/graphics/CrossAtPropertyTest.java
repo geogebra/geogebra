@@ -23,7 +23,7 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.Test;
 
-public class CrossAtPropertyTest extends BaseAppTestSetup {
+class CrossAtPropertyTest extends BaseAppTestSetup {
 
 	@Test
 	@Issue("APPS-7766")

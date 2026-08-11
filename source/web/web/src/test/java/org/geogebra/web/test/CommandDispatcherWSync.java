@@ -33,7 +33,7 @@ import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
  */
 class CommandDispatcherWSync extends CommandDispatcherW {
 
-	public CommandDispatcherWSync(Kernel cmdKernel) {
+	CommandDispatcherWSync(Kernel cmdKernel) {
 		super(cmdKernel);
 	}
 

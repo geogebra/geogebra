@@ -16,27 +16,27 @@
 
 package org.geogebra.keyboard.scientific.model;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.keyboard.base.Keyboard;
 import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.model.Row;
 import org.geogebra.keyboard.scientific.factory.ScientificKeyboardFactory;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class ScientificKeyboardFactoryTests {
-    private final double precision = 1.0E-6;
+class ScientificKeyboardFactoryTests {
+    private static final double precision = 1.0E-6;
 
     private KeyboardFactory keyboardFactory;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         keyboardFactory = new ScientificKeyboardFactory();
     }
 
     @Test
-    public void testMathKeyboardRowWeights() {
+    void testMathKeyboardRowWeights() {
         Keyboard mathKeyboard = keyboardFactory.createMathKeyboard();
 
         for (Row row : mathKeyboard.getModel().getRows()) {
@@ -45,7 +45,7 @@ public class ScientificKeyboardFactoryTests {
     }
 
     @Test
-    public void testFunctionsKeyboardRowWeights() {
+    void testFunctionsKeyboardRowWeights() {
         Keyboard functionsKeyboard = keyboardFactory.createFunctionsKeyboard();
 
         for (Row row : functionsKeyboard.getModel().getRows()) {
@@ -54,7 +54,7 @@ public class ScientificKeyboardFactoryTests {
     }
 
     @Test
-    public void testLettersKeyboardRowWeights() {
+    void testLettersKeyboardRowWeights() {
         Keyboard lettersKeyboard = keyboardFactory.createLettersKeyboard(
                 "abcdefghi", "jklmnopqr", "stuvwxyz"
         );
