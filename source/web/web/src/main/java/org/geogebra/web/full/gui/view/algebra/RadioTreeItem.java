@@ -83,6 +83,7 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.DrawEquationW;
+import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.DataTest;
 import org.geogebra.web.html5.util.HasDataTest;
 import org.gwtproject.canvas.client.Canvas;
@@ -101,6 +102,7 @@ import org.jspecify.annotations.Nullable;
 
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 
+import elemental2.dom.KeyboardEvent;
 import elemental2.dom.ScrollIntoViewOptions;
 import jsinterop.base.Js;
 
@@ -228,6 +230,15 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 
 		getController().setLongTouchManager(LongTouchManager.getInstance());
 		setDraggable();
+		Dom.addEventListener(getElement(), "keyup", event -> {
+			KeyboardEvent e = (KeyboardEvent) event;
+			if ("c".equals(e.key) && (e.metaKey || e.ctrlKey)) {
+				if (compositeFocus != null && compositeFocus.getSelectedPart() != null) {
+					CopyPasteW.writeToExternalClipboardWithFallback(
+							compositeFocus.getSelectedPart().getAccessibleLabel());
+				}
+			}
+		});
 	}
 
 	private Rectangle getBounds() {

@@ -123,7 +123,7 @@ public abstract class AbstractFocusableComposite<T extends FocusablePart>
 	/**
 	 * @return the currently selected part, or {@code null} if none is selected
 	 */
-	protected final @Nullable T getSelectedPart() {
+	public final @Nullable T getSelectedPart() {
 		return hasSelectedPart() ? parts.get(selectedIndex) : null;
 	}
 
