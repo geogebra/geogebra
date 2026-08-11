@@ -49,12 +49,12 @@ public class ChartDataPropertyCollection extends AbstractPropertyCollection<Prop
 		super(localization, "Data");
 		setProperties(Stream.<Property>of(
 				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new ChartDataCoordinateProperty(localization, element,
-								ChartDataCoordinateProperty.Axis.X),
+						element -> new LineGraphCoordinatesProperty(localization, element,
+								LineGraphCoordinatesProperty.Axis.X),
 						StringPropertyListFacade::new),
 				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new ChartDataCoordinateProperty(localization, element,
-								ChartDataCoordinateProperty.Axis.Y),
+						element -> new LineGraphCoordinatesProperty(localization, element,
+								LineGraphCoordinatesProperty.Axis.Y),
 						StringPropertyListFacade::new)
 		).filter(Objects::nonNull).toArray(Property[]::new));
 		if (getProperties().length == 0) {

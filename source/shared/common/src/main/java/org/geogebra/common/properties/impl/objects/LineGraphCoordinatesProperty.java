@@ -29,9 +29,9 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 import org.jspecify.annotations.Nullable;
 
 /**
- * Property for one coordinate list of a chart's data function.
+ * Property for the x/y coordinates lists of a line graph.
  */
-public class ChartDataCoordinateProperty extends AbstractValuedProperty<String>
+public class LineGraphCoordinatesProperty extends AbstractValuedProperty<String>
 		implements StringProperty {
 
 	/**
@@ -62,7 +62,7 @@ public class ChartDataCoordinateProperty extends AbstractValuedProperty<String>
 	 * @throws NotApplicablePropertyException if {@code geoElement} is not a function produced by
 	 * an {@code AlgoLineGraph}.
 	 */
-	public ChartDataCoordinateProperty(Localization localization, GeoElement geoElement, Axis axis)
+	public LineGraphCoordinatesProperty(Localization localization, GeoElement geoElement, Axis axis)
 			throws NotApplicablePropertyException {
 		super(localization, axis.propertyName);
 		if (!(geoElement instanceof GeoFunction function
