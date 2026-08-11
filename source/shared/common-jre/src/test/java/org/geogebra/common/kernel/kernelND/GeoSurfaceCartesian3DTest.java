@@ -16,10 +16,14 @@
  
 package org.geogebra.common.kernel.kernelND;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,5 +53,30 @@ class GeoSurfaceCartesian3DTest extends BaseUnitTest {
 	void testCopyOfUndefinedSurface() {
 		add("f:Element({x},2)");
 		t("Sequence(Surface(f(u),v+s,u+v,u,0,1,v,0,1),s,1,3)", "{?, ?, ?}");
+	}
+
+	@Test
+	@Issue("APPS-7787")
+	void dependentSurface() {
+		add("c(t)=Spline({(1,0,0),(1,.5,0),(.5,1,0),(0,1,0)})");
+		add("s=Surface(cos(v)*c(t)+(0,0,sin(v)),t,0,1,v,0,pi/2)");
+		add("s1=Surface(2 * s(t,v),t,0,1,v,0,pi/2)");
+		update3DView();
+		assertEquals("(1, 0, 0)",
+				add("A=s(0,0)").toValueString(StringTemplate.editTemplate));
+		assertEquals("(0, 1, 0)",
+				add("B=s(1,0)").toValueString(StringTemplate.editTemplate));
+		reload();
+		update3DView();
+		assertEquals("(1, 0, 0)",
+				lookup("A").toValueString(StringTemplate.editTemplate));
+		assertEquals("(0, 1, 0)",
+				lookup("B").toValueString(StringTemplate.editTemplate));
+	}
+
+	private void update3DView() {
+		EuclidianView3D euclidianView3D = (EuclidianView3D) getApp().getEuclidianView3D();
+		euclidianView3D.update();
+		euclidianView3D.updateDrawables();
 	}
 }

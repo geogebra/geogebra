@@ -16,6 +16,8 @@
 
 package org.geogebra.common.kernel.arithmetic;
 
+import java.util.function.UnaryOperator;
+
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -149,7 +151,8 @@ public class FunctionExpander implements Traversing {
 					if (en2.getLeft() instanceof GeoSurfaceCartesianND) {
 						FunctionNVar[] fun = ((GeoSurfaceCartesianND) en2
 								.getLeft()).getFunctions();
-						MyVecNDNode vector = buildVector(fun, en.getKernel());
+						MyVecNDNode vector = buildVector(fun, en.getKernel(),
+								UnaryOperator.identity());
 						en2 = new ExpressionNode(en.getKernel(), vector);
 						if (en.getRight() instanceof MyList argList
 								&& argList.get(0).unwrap() instanceof MyList) {
@@ -177,8 +180,9 @@ public class FunctionExpander implements Traversing {
 					} else {
 						surfaceNoComplex = true;
 						FunctionNVar[] fun = geoSurface.getFunctions();
-						MyVecNDNode vect = buildVector(fun, en.getKernel());
-						en2 = new ExpressionNode(en.getKernel(), vect);
+						MyVecNDNode vector = buildVector(fun, en.getKernel(),
+								ex -> ex.deepCopy(kernel));
+						en2 = new ExpressionNode(en.getKernel(), vector);
 					}
 				}
 				if (deriv != null) {
@@ -244,18 +248,19 @@ public class FunctionExpander implements Traversing {
 		return ev;
 	}
 
-	private MyVecNDNode buildVector(FunctionNVar[] fun, Kernel kernel) {
+	private MyVecNDNode buildVector(FunctionNVar[] fun, Kernel kernel,
+			UnaryOperator<ExpressionNode> transform) {
 		if (fun.length > 2) {
 			return new MyVec3DNode(
 					kernel,
-					fun[0].getExpression(),
-					fun[1].getExpression(),
-					fun[2].getExpression());
+					transform.apply(fun[0].getExpression()),
+					transform.apply(fun[1].getExpression()),
+					transform.apply(fun[2].getExpression()));
 		} else {
 			return new MyVecNode(
 					kernel,
-					fun[0].getExpression(),
-					fun[1].getExpression());
+					transform.apply(fun[0].getExpression()),
+					transform.apply(fun[1].getExpression()));
 		}
 	}
 

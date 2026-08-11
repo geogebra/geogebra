@@ -1873,7 +1873,7 @@ public abstract class Renderer {
 	 * @return true if uses shaders
 	 */
 	public boolean useShaders() {
-		return rendererImpl.useShaders();
+		return rendererImpl != null && rendererImpl.useShaders();
 	}
 
 	/**
