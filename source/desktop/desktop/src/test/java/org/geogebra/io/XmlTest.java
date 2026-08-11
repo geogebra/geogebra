@@ -26,6 +26,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSpace;
 import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
@@ -182,6 +183,18 @@ public class XmlTest {
 				.toValueString(StringTemplate.defaultTemplate);
 		assertEquals("9.00719925474099 " + Unicode.CENTER_DOT + " 10"
 				+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_5, largestInteger);
+	}
+
+	@Test
+	@Issue("APPS-7729")
+	public void horizontalIncrementShouldBeSavedForFixedPoint() {
+		GeoPoint point = (GeoPoint) processAlgebraCommand("A = (6, 7)");
+		point.setAnimationStep(2.2);
+		point.setVerticalIncrement(new MyDouble(app.getKernel(), 3.3));
+		point.setFixed(true);
+		String xml = app.getXML();
+		assertTrue(xml.contains("<animation step=\"2.2\" type=\"1\" playing=\"false\"/>")
+				&& xml.contains("<incrementY val=\"3.3\"/>"));
 	}
 
 	private GeoElementND processAlgebraCommand(String input) {
