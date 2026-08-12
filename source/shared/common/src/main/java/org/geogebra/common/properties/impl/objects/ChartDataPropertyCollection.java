@@ -55,6 +55,9 @@ public class ChartDataPropertyCollection extends AbstractPropertyCollection<Prop
 				propertiesFactory.createOptionalPropertyFacade(elements,
 						element -> new LineGraphCoordinatesProperty(localization, element,
 								LineGraphCoordinatesProperty.Axis.Y),
+						StringPropertyListFacade::new),
+				propertiesFactory.createOptionalPropertyFacade(elements,
+						element -> new PieChartFrequenciesProperty(localization, element),
 						StringPropertyListFacade::new)
 		).filter(Objects::nonNull).toArray(Property[]::new));
 		if (getProperties().length == 0) {

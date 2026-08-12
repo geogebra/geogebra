@@ -110,6 +110,13 @@ public class AlgoPieChart extends AlgoElement {
 		return chart;
 	}
 
+	/**
+	 * @return The index to {@link #getInput(int)} for the list of frequencies parameter.
+	 */
+	public int getFrequenciesParamIndex() {
+		return 0;
+	}
+
     /**
      * @return The index to {@link #getInput(int)} for the {@code center} (Point) parameter.
      */
