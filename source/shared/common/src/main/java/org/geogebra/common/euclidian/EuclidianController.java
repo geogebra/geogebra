@@ -11744,6 +11744,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			if (Math.abs(newDistance
 					- this.getOldDistance()) > MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM) {
+				if (pen != null) {
+					pen.resetPenState();
+				}
 				onPinch(centerX, centerY, newDistance / this.getOldDistance());
 				this.setOldDistance(newDistance);
 			}
