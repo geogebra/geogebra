@@ -101,5 +101,17 @@
 		.tabList {
 			padding: 8px 0;
 		}
+		.panelContainer {
+			height: 100%;
+		}
+		.PlotPanelPlus {
+			position: relative;
+		}
+		/* Make options float in classic since there's less space above the graph */
+		.plotPanelOptions {
+			position: absolute;
+			z-index: 1;
+			width: 100%;
+		}
 	}
 }

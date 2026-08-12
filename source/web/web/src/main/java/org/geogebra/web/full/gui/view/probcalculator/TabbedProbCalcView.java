@@ -38,7 +38,7 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 	protected FlowPanel plotSplitPane;
 	protected @Nullable FlowPanel mainSplitPane;
 	private Label lblMeanSigma;
-	private static final int CONTROL_PANEL_HEIGHT = 180;
+	private static final int CONTROL_PANEL_HEIGHT = 300;
 	private static final int TABLE_PADDING_AND_SCROLLBAR = 32;
 	private static final int DEFAULT_MENU_WIDTH = 208;
 	private static final int BTN_SIZE = 36; // includes margin

@@ -393,10 +393,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 				? Math.max(PlotPanelEuclidianViewW.DEFAULT_HEIGHT, maxHeight / 2)
 				: Math.max(maxHeight, 40);
 		getPlotPanel().setPreferredSize(new Dimension(width, height));
-		if (app.isUnbundled()) {
-			getPlotPanel().getCanvasElement().getStyle().setMarginTop((maxHeight - height) / 2.0,
+		double margin = (maxHeight - height) / 2.0;
+
+		getPlotPanel().getCanvasElement().getStyle().setMarginTop(margin,
 					Unit.PX);
-		}
+
 		getPlotPanel().repaintView();
 		getPlotPanel().getEuclidianController().calculateEnvironment();
 	}
