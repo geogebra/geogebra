@@ -164,7 +164,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 
 		@Override
 		public void setAriaLabel(String localizedLabel) {
-			AriaHelper.setTitle(inputTextField.getTextComponent().getTextField(), localizedLabel);
+			AriaHelper.setLabel(inputTextField.getTextComponent().getTextField(), localizedLabel);
 		}
 
 		@Override
@@ -254,7 +254,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 
 		@Override
 		public void setAriaLabel(String localizedLabel) {
-			AriaHelper.setTitle(inputMathField.asWidget(), localizedLabel);
+			AriaHelper.setLabel(inputMathField.asWidget(), localizedLabel);
 		}
 
 		@Override
