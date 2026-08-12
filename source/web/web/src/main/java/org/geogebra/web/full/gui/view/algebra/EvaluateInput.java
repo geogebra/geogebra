@@ -143,10 +143,11 @@ public class EvaluateInput {
 						info, cbEval);
 	}
 
-	private AsyncOperation<GeoElementND[]> evaluationCallback(final boolean keepFocus) {
+	AsyncOperation<GeoElementND[]> evaluationCallback(final boolean keepFocus) {
 		final int oldStep = app.getKernel().getConstructionStep();
 		return geos -> {
 			if (geos == null) {
+				item.removeOutput();
 				ctrl.setFocus(true);
 				return;
 			}

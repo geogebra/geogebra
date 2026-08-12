@@ -634,9 +634,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	}
 
 	private void buildItemWithSingleRow() {
-		if (outputPanel != null) {
-			outputPanel.reset();
-		}
+		resetOutputPanel();
 		// LaTeX
 		String text = getLatexString(LATEX_MAX_EDIT_LENGTH,
 				geo.getDescriptionMode() != DescriptionMode.DEFINITION);
@@ -1608,9 +1606,13 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		this.commandError = command;
 		if (marblePanel != null) {
 			marblePanel.updateIcons(true);
-			if (outputPanel != null) {
-				outputPanel.reset();
-			}
+			resetOutputPanel();
+		}
+	}
+
+	private void resetOutputPanel() {
+		if (outputPanel != null) {
+			outputPanel.reset();
 		}
 	}
 
