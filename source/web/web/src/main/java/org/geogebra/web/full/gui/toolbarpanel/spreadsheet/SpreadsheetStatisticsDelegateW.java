@@ -195,7 +195,7 @@ public class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisticsView
 				validateInputs();
 			}
 		}
-		statisticsView.setChangeListener(this::fillContent);
+		statisticsView.setResultChangeListener(this::fillContent);
 		sideSheet.show();
 	}
 

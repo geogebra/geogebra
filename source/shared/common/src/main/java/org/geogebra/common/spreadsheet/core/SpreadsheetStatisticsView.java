@@ -26,8 +26,8 @@ import org.jspecify.annotations.Nullable;
 /**
  * An auto-updating view of statistics calculations on a spreadsheet range.
  * <p>
- * A client receiving an instance of this type should set itself as the (single) listener straight
- * away to make sure that no new results are missed (the result can change any time).
+ * A client receiving an instance of this type should set its listeners straight away to make sure
+ * that no input or result updates are missed.
  * </p>
  * <p>
  * When the view is no longer needed (because the UI gets closed), clients are expected to
@@ -104,16 +104,29 @@ public interface SpreadsheetStatisticsView<I extends SpreadsheetStatistics.Input
 	void setFocusedDataRange(SpreadsheetStatistics.@Nullable DataRange focusedDataRange);
 
 	/**
+	 * @return the currently focused data range, or {@code null} if none is focused
+	 */
+	SpreadsheetStatistics.@Nullable DataRange getFocusedDataRange();
+
+	/**
 	 * @return The current result of the statistics calculation.
 	 */
 	SpreadsheetStatistics.@NonNull Result getResult();
 
 	/**
-	 * Attach a change listener to the view.
-	 * @param listener The listener. Will be notified when the statistics result changed due to
-	 * changes in the spreadsheet data.
+	 * Attach an input change listener to the view.
+	 * @param listener notified when the current input changes
+	 * @apiNote UI integrations should only update the input fields if the received cell range is
+	 * not {@code null}.
 	 */
-	void setChangeListener(@Nullable Consumer<SpreadsheetStatistics.@NonNull Result> listener);
+	void setInputChangeListener(@Nullable Consumer<@NonNull I> listener);
+
+	/**
+	 * Attach a result change listener to the view.
+	 * @param listener notified when the calculated result changes
+	 */
+	void setResultChangeListener(
+			@Nullable Consumer<SpreadsheetStatistics.@NonNull Result> listener);
 
 	/** Tear down the view when it is no longer used (e.g. view is replaced or the UI closes). */
 	void tearDown();

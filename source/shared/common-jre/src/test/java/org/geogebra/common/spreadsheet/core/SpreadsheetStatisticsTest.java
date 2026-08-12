@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.gui.view.table.regression.RegressionSpecificationBuilder;
@@ -44,6 +45,7 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.Result;
 import org.geogebra.common.spreadsheet.kernel.KernelSpreadsheetStatistics;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
+import org.geogebra.common.util.shape.Point;
 import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -277,20 +279,90 @@ class SpreadsheetStatisticsTest {
 		setupTestData(new TabularRange(0, 2, 1, 2), Content.NUMBERS);
 		kernelBackedController.select(new TabularRange(0, 0, 2, 0), false, false);
 		kernelBackedController.showOneVarStatistics();
+		AtomicInteger inputUpdates = new AtomicInteger(0);
+		AtomicInteger resultUpdates = new AtomicInteger(0);
+		oneVarStatisticsView().setInputChangeListener(input -> inputUpdates.incrementAndGet());
+		oneVarStatisticsView().setResultChangeListener(result -> resultUpdates.incrementAndGet());
+		oneVarStatisticsView().setFocusedDataRange(SpreadsheetStatistics.DataRange.X);
 		Result originalResult = oneVarStatisticsView().getResult();
-		List<Result> resultUpdates = new ArrayList<>();
-		oneVarStatisticsView().setChangeListener(resultUpdates::add);
+		assertEquals(0, inputUpdates.get());
+		assertEquals(0, resultUpdates.get());
 
 		oneVarStatisticsView().setInput(new OneVarInput(parseReference("C1:C2")));
 
 		assertEquals(new OneVarInput(parseReference("C1:C2")), oneVarStatisticsView().getInput());
 		assertEquals(originalResult, oneVarStatisticsView().getResult());
-		assertEquals(0, resultUpdates.size());
+		assertEquals(1, inputUpdates.get());
+		assertEquals(0, resultUpdates.get());
+
+		oneVarStatisticsView().setInput(new OneVarInput(parseReference("C1:C2")));
+
+		assertEquals(2, inputUpdates.get());
 
 		oneVarStatisticsView().commitInput();
 
 		assertNotEquals(originalResult, oneVarStatisticsView().getResult());
-		assertEquals(1, resultUpdates.size());
+		assertEquals(1, resultUpdates.get());
+	}
+
+	@Test
+	void testDraggingWithoutFocusedStatisticsRangeShouldNotUpdateInput() {
+		setupTestData(new TabularRange(0, 0, 2, 2), Content.NUMBERS);
+		kernelBackedController.select(new TabularRange(0, 0, 2, 0), false, false);
+		kernelBackedController.showOneVarStatistics();
+		OneVarInput originalInput = oneVarStatisticsView().getInput();
+
+		dragCells(0, 2, 1, 2);
+
+		assertEquals(originalInput, oneVarStatisticsView().getInput());
+	}
+
+	@Test
+	void testDraggingShouldUpdateFocusedYRangeAndPreserveXRange() {
+		setupTestData(new TabularRange(0, 0, 2, 2), Content.NUMBERS);
+		kernelBackedController.select(new TabularRange(0, 0, 2, 1), false, false);
+		kernelBackedController.showTwoVarStatistics();
+		TwoVarInput originalInput = twoVarStatisticsView().getInput();
+		twoVarStatisticsView().setFocusedDataRange(SpreadsheetStatistics.DataRange.Y);
+
+		dragCells(0, 2, 2, 2);
+
+		assertEquals(new TwoVarInput(originalInput.cellRangeX(), parseReference("C1:C3")),
+				twoVarStatisticsView().getInput());
+	}
+
+	@Test
+	void testDraggingShouldPreviewFocusedStatisticsRangeAndCommitOnPointerUp() {
+		setupTestData(new TabularRange(0, 0, 2, 2), Content.NUMBERS);
+		kernelBackedController.select(new TabularRange(0, 0, 2, 1), false, false);
+		kernelBackedController.showRegression();
+		regressionView().setFocusedDataRange(SpreadsheetStatistics.DataRange.X);
+		RegressionInput originalInput = regressionView().getInput();
+		Result originalResult = regressionView().getResult();
+		AtomicInteger inputUpdates = new AtomicInteger(0);
+		AtomicInteger resultUpdates = new AtomicInteger(0);
+		regressionView().setInputChangeListener(input -> inputUpdates.incrementAndGet());
+		regressionView().setResultChangeListener(result -> resultUpdates.incrementAndGet());
+		Point start = SpreadsheetTestHelpers.getCellCenter(kernelBackedController, 0, 2);
+		Point end = SpreadsheetTestHelpers.getCellCenter(kernelBackedController, 2, 2);
+
+		kernelBackedController.handlePointerDown(start.x, start.y, Modifiers.NONE);
+		kernelBackedController.handlePointerMove(end.x, end.y, Modifiers.NONE);
+
+		assertEquals(new RegressionInput(parseReference("C1:C3"),
+				originalInput.cellRangeY(), originalInput.regression()),
+				regressionView().getInput());
+		assertEquals(originalResult, regressionView().getResult());
+		assertEquals(0, resultUpdates.get());
+		assertEquals(2, inputUpdates.get());
+
+		kernelBackedController.handlePointerUp(end.x, end.y, Modifiers.NONE);
+
+		assertEquals(new RegressionInput(parseReference("C1:C3"),
+				originalInput.cellRangeY(), originalInput.regression()),
+				regressionView().getInput());
+		assertEquals(1, resultUpdates.get());
+		assertEquals(3, inputUpdates.get());
 	}
 
 	@Test
@@ -659,5 +731,15 @@ class SpreadsheetStatisticsTest {
 
 	private SpreadsheetStatisticsView.Regression regressionView() {
 		return (SpreadsheetStatisticsView.Regression) kernelBackedController.getStatisticsView();
+	}
+
+	private void dragCells(int fromRow, int fromColumn, int toRow, int toColumn) {
+		Point start = SpreadsheetTestHelpers.getCellCenter(
+				kernelBackedController, fromRow, fromColumn);
+		Point end = SpreadsheetTestHelpers.getCellCenter(
+				kernelBackedController, toRow, toColumn);
+		kernelBackedController.handlePointerDown(start.x, start.y, Modifiers.NONE);
+		kernelBackedController.handlePointerMove(end.x, end.y, Modifiers.NONE);
+		kernelBackedController.handlePointerUp(end.x, end.y, Modifiers.NONE);
 	}
 }

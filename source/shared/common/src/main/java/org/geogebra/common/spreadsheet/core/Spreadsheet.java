@@ -252,11 +252,14 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 		Rectangle viewport = controller.getViewport();
 		renderer.fillRect(graphics, 0, 0, viewport.getWidth(), viewport.getHeight());
 
+		SpreadsheetStatisticsView<?> statisticsView = controller.getStatisticsView();
+		boolean statisticsInputFocused = statisticsView != null
+				&& statisticsView.getFocusedDataRange() != null;
 		List<TabularRange> visibleSelections = controller.getVisibleSelections();
 		for (TabularRange range: visibleSelections) {
 			renderer.drawSelection(range, graphics, viewport);
 		}
-		drawCells(graphics, viewport); // on top of selections
+		drawCells(graphics, viewport, !statisticsInputFocused); // on top of selections
 		for (TabularRange range: visibleSelections) {
 			renderer.drawSelectionBorder(range, graphics, viewport, false, false);
 		}
@@ -268,16 +271,19 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 		if (editorReferences != null) {
 			drawReferences(graphics, viewport, editorReferences);
 		}
-		SpreadsheetCoords selectedCell = controller.getLastSelectionUpperLeftCell();
+		SpreadsheetCoords selectedCell = statisticsInputFocused ? null
+				: controller.getLastSelectionUpperLeftCell();
 		if (selectedCell != null) {
 			renderer.drawSelectionBorder(new TabularRange(selectedCell.row, selectedCell.column),
 					graphics, viewport, true, false);
 		}
-		Point draggingDotLocation = controller.getDraggingDotLocation();
+		Point draggingDotLocation = statisticsInputFocused ? null
+				: controller.getDraggingDotLocation();
 		if (draggingDotLocation != null) {
 			renderer.drawDraggingDot(draggingDotLocation, graphics);
 		}
-		TabularRange dragPasteSelection = controller.getDragPasteSelection();
+		TabularRange dragPasteSelection = statisticsInputFocused ? null
+				: controller.getDragPasteSelection();
 		if (dragPasteSelection != null) {
 			renderer.drawSelectionBorder(dragPasteSelection, graphics, viewport, false, true);
 		}
@@ -288,7 +294,7 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 		}
 	}
 
-	private void drawCells(GGraphics2D graphics, Rectangle viewport) {
+	private void drawCells(GGraphics2D graphics, Rectangle viewport, boolean drawSelectionHeaders) {
 		TableLayout layout = controller.getLayout();
 		TableLayout.Portion portion =
 				layout.getLayoutIntersecting(viewport);
@@ -296,9 +302,11 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 		double offsetY = viewport.getMinY() - layout.getColumnHeaderHeight();
 		drawContentCells(graphics, portion, offsetX, offsetY);
 		renderer.drawHeaderBackgroundAndOutline(graphics, viewport);
-		controller.getSelections().forEach(selection ->
-			renderer.drawSelectionHeader(selection, graphics, controller.getViewport())
-		);
+		if (drawSelectionHeaders) {
+			controller.getSelections().forEach(selection ->
+				renderer.drawSelectionHeader(selection, graphics, controller.getViewport())
+			);
+		}
 		graphics.translate(-offsetX, 0);
 		graphics.setColor(styling.getGridColor());
 		for (int column = portion.fromColumn + 1; column <= portion.toColumn; column++) {
@@ -306,7 +314,7 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 		}
 
 		for (int column = portion.fromColumn; column <= portion.toColumn; column++) {
-			setHeaderColor(graphics, controller.isSelected(-1, column));
+			setHeaderColor(graphics, drawSelectionHeaders && controller.isSelected(-1, column));
 			renderer.drawColumnHeader(column, graphics, controller::getColumnName);
 		}
 
@@ -316,7 +324,7 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 			renderer.drawRowBorder(row, graphics);
 		}
 		for (int row = portion.fromRow; row <= portion.toRow; row++) {
-			setHeaderColor(graphics, controller.isSelected(row, -1));
+			setHeaderColor(graphics, drawSelectionHeaders && controller.isSelected(row, -1));
 			renderer.drawRowHeader(row, graphics, controller::getRowName);
 		}
 		graphics.translate(0, offsetY);

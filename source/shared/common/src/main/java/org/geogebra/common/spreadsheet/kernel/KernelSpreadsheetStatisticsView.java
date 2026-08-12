@@ -51,7 +51,8 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 	private @NonNull I input;
 	private SpreadsheetStatistics.@Nullable DataRange focusedDataRange;
 	private SpreadsheetStatistics.@Nullable Result result;
-	private @Nullable Consumer<SpreadsheetStatistics.@NonNull Result> changeListener;
+	private @Nullable Consumer<@NonNull I> inputChangeListener;
+	private @Nullable Consumer<SpreadsheetStatistics.@NonNull Result> resultChangeListener;
 	private @Nullable StatisticsReferenceDelegate statisticsReferenceDelegate;
 
 	protected KernelSpreadsheetStatisticsView(@NonNull Kernel kernel,
@@ -156,8 +157,8 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 
 	private void setResult(SpreadsheetStatistics.@NonNull Result result) {
 		this.result = result;
-		if (changeListener != null) {
-			changeListener.accept(result);
+		if (resultChangeListener != null) {
+			resultChangeListener.accept(result);
 		}
 	}
 
@@ -184,6 +185,9 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 	public void setInput(@NonNull I input) {
 		this.input = input;
 		notifyStatisticsReferencesChanged();
+		if (inputChangeListener != null) {
+			inputChangeListener.accept(input);
+		}
 	}
 
 	@Override
@@ -198,6 +202,11 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 	}
 
 	@Override
+	public SpreadsheetStatistics.@Nullable DataRange getFocusedDataRange() {
+		return focusedDataRange;
+	}
+
+	@Override
 	public final SpreadsheetStatistics.@NonNull Result getResult() {
 		// lazy evaluation
 		if (result == null) {
@@ -208,15 +217,21 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 	}
 
 	@Override
-	public void setChangeListener(
+	public void setInputChangeListener(@Nullable Consumer<@NonNull I> listener) {
+		inputChangeListener = listener;
+	}
+
+	@Override
+	public void setResultChangeListener(
 			@Nullable Consumer<SpreadsheetStatistics.@NonNull Result> listener) {
-		changeListener = listener;
+		resultChangeListener = listener;
 	}
 
 	@Override
 	public void tearDown() {
 		statisticsReferenceDelegate = null;
-		changeListener = null;
+		inputChangeListener = null;
+		resultChangeListener = null;
 		kernel.detach(this);
 	}
 

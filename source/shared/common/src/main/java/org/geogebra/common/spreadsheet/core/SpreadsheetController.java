@@ -27,6 +27,10 @@ import java.util.stream.Stream;
 
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.kernel.statistics.Statistic;
+import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.DataRange;
+import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.Input.OneVarInput;
+import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.Input.RegressionInput;
+import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.Input.TwoVarInput;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.common.util.MouseCursor;
@@ -74,6 +78,7 @@ public final class SpreadsheetController<T> {
 	private @Nullable SpreadsheetStatistics spreadsheetStatistics;
 	private @Nullable SpreadsheetStatisticsView<?> statisticsView;
 	private @Nullable SpreadsheetReferences statisticsReferences;
+	private SpreadsheetStatistics.@Nullable DataRange activeStatisticsDataRange;
 
 	private Editor editor;
 	private SpreadsheetReferences editorReferences;
@@ -507,6 +512,9 @@ public final class SpreadsheetController<T> {
 	 * @return selections limited to data size
 	 */
 	@NonNull List<TabularRange> getVisibleSelections() {
+		if (statisticsView != null && statisticsView.getFocusedDataRange() != null) {
+			return List.of();
+		}
 		return getSelections().map(this::intersectWithDataRange)
 				.collect(Collectors.toList());
 	}
@@ -771,6 +779,7 @@ public final class SpreadsheetController<T> {
 	 */
 	public void handlePointerDown(double x, double y, @NonNull Modifiers modifiers) {
 		pendingEditorActivationCoords = null;
+		activeStatisticsDataRange = null;
 		if (controlsDelegate != null) {
 			controlsDelegate.hideContextMenu();
 			controlsDelegate.hideAutoCompleteSuggestions();
@@ -813,12 +822,18 @@ public final class SpreadsheetController<T> {
 			return;
 		}
 		if (!modifiers.ctrlOrCmd && !modifiers.shift && !modifiers.secondaryButton
-				&& row >= 0 && column >= 0
-				&& selectionController.isOnlyCellSelected(row, column)) {
-			pendingEditorActivationCoords = new SpreadsheetCoords(row, column);
-			return;
+				&& row >= 0 && column >= 0) {
+			if (statisticsView != null) {
+				activeStatisticsDataRange = statisticsView.getFocusedDataRange();
+			}
+			if (selectionController.isOnlyCellSelected(row, column)
+					&& activeStatisticsDataRange == null) {
+				pendingEditorActivationCoords = new SpreadsheetCoords(row, column);
+				return;
+			}
 		}
 		updateCellSelection(row, column, modifiers);
+		updateStatisticsRangeSelection();
 	}
 
 	private void showContextMenuForSelection(double x, double y) {
@@ -906,6 +921,10 @@ public final class SpreadsheetController<T> {
 				onLayoutChange();
 			}
 		}
+		if (activeStatisticsDataRange != null && statisticsView != null) {
+			statisticsView.commitInput();
+		}
+		activeStatisticsDataRange = null;
 		autoscrollColumn = autoscrollRow = false;
 		resetDragAction();
 		if (shouldOpenEditor) {
@@ -954,7 +973,7 @@ public final class SpreadsheetController<T> {
 	}
 
 	@Nullable Point getDraggingDotLocation() {
-		if (isEditorActive()) {
+		if (isEditorActive() || activeStatisticsDataRange != null) {
 			return null;
 		}
 		List<TabularRange> visibleSelections = getVisibleSelections();
@@ -1076,6 +1095,7 @@ public final class SpreadsheetController<T> {
 			}
 		}
 		handleCellReferenceInsertion();
+		updateStatisticsRangeSelection();
 	}
 
 	private void handleCellReferenceInsertion() {
@@ -1577,6 +1597,7 @@ public final class SpreadsheetController<T> {
 	}
 
 	private void showStatisticsView(@Nullable SpreadsheetStatisticsView<?> newStatisticsView) {
+		activeStatisticsDataRange = null;
 		if (statisticsView != null) {
 			statisticsView.tearDown();
 			statisticsView = null;
@@ -1629,6 +1650,30 @@ public final class SpreadsheetController<T> {
 		return range == null || spreadsheetStatistics == null ? null
 				: range.restrictInfiniteRangeTo(tabularData.numberOfRows(),
 					getLayout().numberOfColumns());
+	}
+
+	private void updateStatisticsRangeSelection() {
+		if (activeStatisticsDataRange == null || statisticsView == null) {
+			return;
+		}
+		Selection selection = getLastSelection();
+		if (selection == null || selection.getType() != SelectionType.CELLS) {
+			return;
+		}
+		SpreadsheetReference selectedReference = new SpreadsheetReference(selection.getRange());
+		if (statisticsView instanceof SpreadsheetStatisticsView.OneVar oneVarStatistics) {
+			oneVarStatistics.setInput(new OneVarInput(selectedReference));
+		} else if (statisticsView instanceof SpreadsheetStatisticsView.TwoVar twoVarStatistics) {
+			twoVarStatistics.setInput(activeStatisticsDataRange == DataRange.X
+					? new TwoVarInput(selectedReference, twoVarStatistics.getInput().cellRangeY())
+					: new TwoVarInput(twoVarStatistics.getInput().cellRangeX(), selectedReference));
+		} else if (statisticsView instanceof SpreadsheetStatisticsView.Regression regressionView) {
+			regressionView.setInput(activeStatisticsDataRange == DataRange.X
+					? new RegressionInput(selectedReference, regressionView.getInput().cellRangeY(),
+							regressionView.getInput().regression())
+					: new RegressionInput(regressionView.getInput().cellRangeX(), selectedReference,
+							regressionView.getInput().regression()));
+		}
 	}
 
 	// Charts
