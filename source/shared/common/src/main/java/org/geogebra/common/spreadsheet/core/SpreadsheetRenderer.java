@@ -16,6 +16,9 @@
 
 package org.geogebra.common.spreadsheet.core;
 
+import static org.geogebra.common.main.GeoGebraColorConstants.NEUTRAL_500;
+import static org.geogebra.common.main.GeoGebraColorConstants.PURPLE_600;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -179,7 +182,7 @@ final class SpreadsheetRenderer {
 		// Draw error border
 		Rectangle bounds = layout.getBounds(new TabularRange(row, column), viewport);
 		if (bounds != null) {
-			drawVisibleSelectionBorders(graphics, bounds,
+			drawVisibleBorders(graphics, bounds,
 					leftCropped, topCropped, leftCropped + width, topCropped + height);
 		}
 
@@ -296,7 +299,7 @@ final class SpreadsheetRenderer {
 			double maxX = bounds.getMaxX();
 			double maxY = bounds.getMaxY();
 			if (minX < maxX && minY < maxY) {
-				drawVisibleSelectionBorders(graphics, bounds, minX, minY, maxX, maxY);
+				drawVisibleBorders(graphics, bounds, minX, minY, maxX, maxY);
 			}
 			setStroke(graphics, false, false);
 		}
@@ -318,12 +321,7 @@ final class SpreadsheetRenderer {
 		graphics.drawStraightLine(maxX, minY, maxX, maxY);
 	}
 
-	/**
-	 * Draws only the selection borders that should be fully visible
-	 * @implNote Only checks if the top horizontal line and the left vertical line are visible
-	 * since the bottom horizontal line and right vertical line are hidden behind the Scrollbar
-	 */
-	private void drawVisibleSelectionBorders(GGraphics2D graphics, Rectangle bounds,
+	private void drawVisibleBorders(GGraphics2D graphics, Rectangle bounds,
 			double minX, double minY, double maxX, double maxY) {
 		if (bounds.getMinY() - layout.getColumnHeaderHeight() >= 0) {
 			graphics.drawStraightLine(minX, minY, maxX, minY);
@@ -398,39 +396,60 @@ final class SpreadsheetRenderer {
 	 */
 	void drawReference(@NonNull SpreadsheetReference reference, int referenceIndex, boolean filled,
 			GGraphics2D graphics, Rectangle viewport) {
-		TabularRange range = makeTabularRange(reference);
-		Rectangle bounds = layout.getBounds(range, viewport);
+		drawReference(reference, filled,
+			REFERENCE_COLORS.get(referenceIndex % REFERENCE_COLORS.size()),
+			referenceStrokes.get(referenceIndex % referenceStrokes.size()), graphics, viewport);
+	}
+
+	void drawStatisticsReference(@NonNull SpreadsheetReference reference, boolean focused,
+			GGraphics2D graphics, Rectangle viewport) {
+		drawReference(reference, focused, focused ? PURPLE_600 : NEUTRAL_500,
+				referenceStrokes.get(0), graphics, viewport);
+	}
+
+	private void drawReference(@NonNull SpreadsheetReference reference, boolean filled, GColor color,
+			GBasicStroke stroke, GGraphics2D graphics, Rectangle viewport) {
+		TabularRange visibleRange = getVisibleTabularRange(reference);
+		Rectangle bounds = visibleRange == null ? null : layout.getBounds(visibleRange, viewport);
 		if (bounds == null) {
 			return;
 		}
 		double columnHeaderHeight = layout.getColumnHeaderHeight();
 		double rowHeaderWidth = layout.getRowHeaderWidth();
-		graphics.setClip(rowHeaderWidth, columnHeaderHeight,
-				viewport.getWidth() - rowHeaderWidth,
-				viewport.getHeight() - columnHeaderHeight);
-		GColor color = REFERENCE_COLORS.get(referenceIndex % REFERENCE_COLORS.size());
 		if (filled) {
+			graphics.setClip(rowHeaderWidth, columnHeaderHeight,
+					viewport.getWidth() - rowHeaderWidth,
+					viewport.getHeight() - columnHeaderHeight);
 			graphics.setColor(color.deriveWithAlpha(25)); // 0.1 * 255
 			fillRect(graphics, bounds.getMinX(), bounds.getMinY(),
 					bounds.getWidth(), bounds.getHeight());
+			graphics.resetClip();
 		}
 		graphics.setColor(color);
-		graphics.setStroke(referenceStrokes.get(referenceIndex % referenceStrokes.size()));
-		drawRectangleWithStraightLines(graphics,
-				bounds.getMinX(), bounds.getMinY(), bounds.getMaxX(), bounds.getMaxY());
-		graphics.resetClip();
+		graphics.setStroke(stroke);
+		double minX = Math.max(bounds.getMinX(), rowHeaderWidth);
+		double minY = Math.max(bounds.getMinY(), columnHeaderHeight);
+		if (minX < bounds.getMaxX() && minY < bounds.getMaxY()) {
+			drawVisibleBorders(graphics, bounds,
+					minX, minY, bounds.getMaxX(), bounds.getMaxY());
+		}
+		graphics.setStroke(gridStroke);
 	}
 
 	private static double[] makeReferenceDashPattern(int index) {
 		return new double[]{ 4.0, (index % 3) + 1 };
 	}
 
-	private static TabularRange makeTabularRange(SpreadsheetReference reference) {
-		if (reference.toCell == null) {
-			return new TabularRange(reference.fromCell.rowIndex, reference.fromCell.columnIndex);
-		}
-		return new TabularRange(reference.fromCell.rowIndex, reference.fromCell.columnIndex,
-				reference.toCell.rowIndex, reference.toCell.columnIndex);
+	private @Nullable TabularRange getVisibleTabularRange(SpreadsheetReference reference) {
+		SpreadsheetCellReference from = reference.fromCell;
+		SpreadsheetCellReference to = reference.toCell != null ? reference.toCell : from;
+		int minRow = Math.max(0, Math.min(from.rowIndex, to.rowIndex));
+		int maxRow = Math.min(layout.numberOfRows() - 1, Math.max(from.rowIndex, to.rowIndex));
+		int minColumn = Math.max(0, Math.min(from.columnIndex, to.columnIndex));
+		int maxColumn = Math.min(layout.numberOfColumns() - 1,
+				Math.max(from.columnIndex, to.columnIndex));
+		return minRow <= maxRow && minColumn <= maxColumn
+				? new TabularRange(minRow, minColumn, maxRow, maxColumn) : null;
 	}
 
 	/**

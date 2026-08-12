@@ -34,6 +34,7 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetReference;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.Input.RegressionInput;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.Result;
+import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.StatisticsReferenceDelegate;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatisticsView;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
@@ -52,9 +53,12 @@ public final class KernelSpreadsheetRegressionView
 	KernelSpreadsheetRegressionView(@NonNull Kernel kernel,
 			@NonNull StatisticGroupsBuilder statisticGroupsBuilder,
 			@NonNull RegressionSpecificationBuilder regressionSpecificationBuilder,
-			@NonNull TabularRange range) {
-		super(kernel, statisticGroupsBuilder, new RegressionInput(range), "Regression");
+			@NonNull TabularRange range,
+			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate) {
+		super(kernel, statisticGroupsBuilder, new RegressionInput(range), "Regression",
+				statisticsReferenceDelegate);
 		this.regressionSpecifications = regressionSpecificationBuilder.getForListSize(2);
+		recalculate();
 	}
 
 	// -- KernelSpreadsheetStatisticsView --

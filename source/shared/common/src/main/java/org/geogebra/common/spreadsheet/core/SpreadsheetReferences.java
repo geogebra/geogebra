@@ -23,9 +23,7 @@ import java.util.Objects;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
-/**
- * Container to group a list of cell references and a current reference into a single value.
- */
+/** Container to group a list of cell references and a current reference into a single value. */
 final class SpreadsheetReferences {
 
 	final @NonNull List<SpreadsheetReference> cellReferences;

@@ -21,11 +21,11 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
+import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetReference;
 import org.geogebra.common.spreadsheet.core.SpreadsheetReferenceParsing;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.Result;
-import org.geogebra.common.spreadsheet.core.SpreadsheetStatisticsDelegate;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatisticsView;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentInputField;
@@ -38,8 +38,9 @@ import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.jspecify.annotations.NonNull;
 
-public class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisticsDelegate {
+public class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisticsView.Delegate {
 	private final AppW app;
+	private final Spreadsheet<?> spreadsheet;
 	private ComponentSideSheet sideSheet;
 	private final FlowPanel inputPanel;
 	private final FlowPanel outputPanel;
@@ -48,15 +49,31 @@ public class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisticsDele
 
 	/**
 	 * @param app application
+	 * @param spreadsheet spreadsheet
 	 */
-	public SpreadsheetStatisticsDelegateW(AppW app) {
+	public SpreadsheetStatisticsDelegateW(AppW app, Spreadsheet<?> spreadsheet) {
 		this.app = app;
+		this.spreadsheet = spreadsheet;
 		inputPanel = new FlowPanel();
 		outputPanel = new FlowPanel();
 	}
 
 	@Override
-	public void showOneVarStatistics(SpreadsheetStatisticsView.@NonNull OneVar statisticsView) {
+	public void statisticsViewChanged() {
+		SpreadsheetStatisticsView<?> statisticsView = spreadsheet.getStatisticsView();
+		if (statisticsView instanceof SpreadsheetStatisticsView.OneVar oneVarStatistics) {
+			showOneVarStatistics(oneVarStatistics);
+		} else if (statisticsView instanceof SpreadsheetStatisticsView.TwoVar twoVarStatistics) {
+			showTwoVarStatistics(twoVarStatistics);
+		} else if (statisticsView instanceof SpreadsheetStatisticsView.Regression regression) {
+			showRegression(regression);
+		} else if (sideSheet != null) {
+			sideSheet.close();
+			sideSheet = null;
+		}
+	}
+
+	private void showOneVarStatistics(SpreadsheetStatisticsView.@NonNull OneVar statisticsView) {
 		inputPanel.clear();
 		xRange = new ComponentInputField(
 				app, null, "Statistics.DataRange", null,
@@ -66,6 +83,7 @@ public class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisticsDele
 			statisticsView.setInput(new SpreadsheetStatistics.Input.OneVarInput(
 					SpreadsheetReferenceParsing.parseReference(input)
 			));
+			statisticsView.commitInput();
 			validateInputs();
 			fillContent(statisticsView.getResult());
 		};
@@ -73,42 +91,41 @@ public class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisticsDele
 		showSideSheet(statisticsView, null);
 	}
 
-	@Override
-	public void showTwoVarStatistics(SpreadsheetStatisticsView.@NonNull TwoVar statisticsView) {
+	private void showTwoVarStatistics(SpreadsheetStatisticsView.@NonNull TwoVar twoVarStatistics) {
 		inputPanel.clear();
 		xRange = new ComponentInputField(
 				app, null, "Statistics.XDataRange", null,
-				rangeToString(statisticsView.getInput().cellRangeX()));
+				rangeToString(twoVarStatistics.getInput().cellRangeX()));
 		inputPanel.add(xRange);
 		yRange = new ComponentInputField(
 				app, null, "Statistics.YDataRange", null,
-				rangeToString(statisticsView.getInput().cellRangeY()));
+				rangeToString(twoVarStatistics.getInput().cellRangeY()));
 		inputPanel.add(yRange);
 		Consumer<String> update = (ignore) -> {
-			statisticsView.setInput(new SpreadsheetStatistics.Input.TwoVarInput(
+			twoVarStatistics.setInput(new SpreadsheetStatistics.Input.TwoVarInput(
 					SpreadsheetReferenceParsing.parseReference(xRange.getText()),
 					SpreadsheetReferenceParsing.parseReference(yRange.getText()))
 			);
+			twoVarStatistics.commitInput();
 			validateInputs();
-			fillContent(statisticsView.getResult());
+			fillContent(twoVarStatistics.getResult());
 		};
 		xRange.addEnterHandler(update);
 		yRange.addEnterHandler(update);
-		showSideSheet(statisticsView, null);
+		showSideSheet(twoVarStatistics, null);
 	}
 
-	@Override
-	public void showRegression(SpreadsheetStatisticsView.@NonNull Regression statisticsView) {
+	private void showRegression(SpreadsheetStatisticsView.@NonNull Regression regression) {
 		inputPanel.clear();
 		xRange = new ComponentInputField(
 				app, null, "Statistics.XDataRange", null,
-				rangeToString(statisticsView.getInput().cellRangeX()));
+				rangeToString(regression.getInput().cellRangeX()));
 		inputPanel.add(xRange);
 		yRange = new ComponentInputField(
 				app, null, "Statistics.YDataRange", null,
-				rangeToString(statisticsView.getInput().cellRangeY()));
+				rangeToString(regression.getInput().cellRangeY()));
 		inputPanel.add(yRange);
-		List<RegressionSpecification> specs = statisticsView.getRegressionSpecifications();
+		List<RegressionSpecification> specs = regression.getRegressionSpecifications();
 		List<String> items = new ArrayList<>();
 		specs.forEach(spec -> items.add(app.getLocalization().getMenu(spec.getLabel())));
 
@@ -116,20 +133,21 @@ public class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisticsDele
 				app.getLocalization().getMenu("RegressionModel"), items, 0);
 		regressionChooser.setFullWidth(true);
 		Runnable update = () -> {
-			statisticsView.setInput(new SpreadsheetStatistics.Input.RegressionInput(
+			regression.setInput(new SpreadsheetStatistics.Input.RegressionInput(
 					SpreadsheetReferenceParsing.parseReference(xRange.getText()),
 					SpreadsheetReferenceParsing.parseReference(yRange.getText()),
 					specs.get(regressionChooser.getSelectedIndex())
 			));
+			regression.commitInput();
 			validateInputs();
-			fillContent(statisticsView.getResult());
+			fillContent(regression.getResult());
 		};
 		regressionChooser.addChangeHandler(update);
 		xRange.addEnterHandler(ignore -> update.run());
 		yRange.addEnterHandler(ignore -> update.run());
 		inputPanel.add(regressionChooser);
-		showSideSheet(statisticsView, "Plot");
-		sideSheet.addPositiveButtonRunnable(statisticsView::plotResult);
+		showSideSheet(regression, "Plot");
+		sideSheet.addPositiveButtonRunnable(regression::plotResult);
 	}
 
 	private void validateInputs() {
@@ -156,6 +174,11 @@ public class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisticsDele
 		SideSheetData data = new SideSheetData(titleKey, null, positiveButtonKey);
 		if (sideSheet == null) {
 			sideSheet = new ComponentSideSheet(app, data);
+			sideSheet.addAttachHandler(evt -> {
+				if (!evt.isAttached()) {
+					spreadsheet.closeStatisticsView();
+				}
+			});
 			sideSheet.addStyleName("statistics");
 		} else {
 			sideSheet.update(data);

@@ -64,7 +64,10 @@ public class ComponentSideSheet extends FlowPanel implements SetLabels {
 	public void show() {
 		GeoGebraFrameW frame = app.getAppletFrame();
 		for (int i = 0; i < frame.getWidgetCount(); i++) {
-			if (frame.getWidget(i) instanceof ComponentSideSheet) {
+			Widget other = frame.getWidget(i);
+			if (other == this) {
+				return;
+			} else if (other instanceof ComponentSideSheet) {
 				frame.getWidget(i).removeFromParent();
 				break; // assume there's at most one side sheet attached
 			}

@@ -23,6 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -46,14 +48,11 @@ import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
+class SpreadsheetStatisticsTest {
 
 	private AppCommon app;
 	private SpreadsheetController<GeoElement> kernelBackedController;
 	private TabularData<GeoElement> kernelTabularData;
-	private SpreadsheetStatisticsView.OneVar oneVarStatisticsView;
-	private SpreadsheetStatisticsView.TwoVar twoVarStatisticsView;
-	private SpreadsheetStatisticsView.Regression regressionView;
 
 	@BeforeEach
 	void setup() {
@@ -64,7 +63,7 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 				new SpreadsheetStyling());
 
 		SpreadsheetStatistics statistics = new KernelSpreadsheetStatistics(app.getKernel());
-		kernelBackedController.setStatisticsDelegate(this, statistics);
+		kernelBackedController.setStatisticsDelegate(() -> {}, statistics);
 	}
 
 	private enum Content {
@@ -95,19 +94,19 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 		setupTestData(range, Content.NUMBERS);
 		kernelBackedController.select(range, false, false);
 		kernelBackedController.showOneVarStatistics();
-		assertNotNull(oneVarStatisticsView);
+		assertNotNull(oneVarStatisticsView());
 		assertEquals(new OneVarInput(parseReference("A1:A3")),
-				oneVarStatisticsView.getInput());
+				oneVarStatisticsView().getInput());
 
 		Result.Valid result = assertInstanceOf(Result.Valid.class,
-				oneVarStatisticsView.getResult());
+				oneVarStatisticsView().getResult());
 		assertEquals(11, result.statisticGroups().size());
 	}
 
 	@Test
 	void testOneVarStatisticsEmptyRange() {
 		kernelBackedController.showOneVarStatistics();
-		assertNull(oneVarStatisticsView);
+		assertNull(oneVarStatisticsView());
 	}
 
 	@Test
@@ -117,12 +116,9 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 		range = new TabularRange(-1, 0, -1, 0);
 		kernelBackedController.select(range, false, false);
 		kernelBackedController.showOneVarStatistics();
-		assertNotNull(oneVarStatisticsView);
+		assertNotNull(oneVarStatisticsView());
 
-		assertEquals(new OneVarInput(
-						// an unbounded TabularRange will give a null cell range
-						parseReference("A1:A100")),
-				oneVarStatisticsView.getInput());
+		assertEquals(new OneVarInput(parseReference("A1:A100")), oneVarStatisticsView().getInput());
 	}
 
 	@Test
@@ -133,7 +129,7 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 		kernelBackedController.showOneVarStatistics();
 
 		assertEquals(new Result.Invalid(Error.NUMERIC_DATA_RANGE_REQUIRED,
-				null), oneVarStatisticsView.getResult());
+				null), oneVarStatisticsView().getResult());
 	}
 
 	@Test
@@ -144,19 +140,38 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 		kernelBackedController.showOneVarStatistics();
 
 		assertEquals(new OneVarInput(parseReference("A1:A3")),
-				oneVarStatisticsView.getInput());
+				oneVarStatisticsView().getInput());
 		Result.Valid result1 = assertInstanceOf(Result.Valid.class,
-				oneVarStatisticsView.getResult());
+				oneVarStatisticsView().getResult());
 
-		oneVarStatisticsView.setInput(new OneVarInput(
+		oneVarStatisticsView().setInput(new OneVarInput(
 				new SpreadsheetReference(new TabularRange(0, 0, 1, 0))
 		));
+		oneVarStatisticsView().commitInput();
 		assertEquals(new OneVarInput(parseReference("A1:A2")),
-				oneVarStatisticsView.getInput());
+				oneVarStatisticsView().getInput());
 		Result.Valid result2 = assertInstanceOf(Result.Valid.class,
-				oneVarStatisticsView.getResult());
+				oneVarStatisticsView().getResult());
 
 		assertNotEquals(result1.statisticGroups(), result2.statisticGroups());
+	}
+
+	@Test
+	void testSetInputBeforeFirstGetResultShouldKeepInitialResult() {
+		setupTestData(new TabularRange(0, 0, 2, 0), Content.NUMBERS);
+		setupTestData(new TabularRange(0, 2, 1, 2), Content.NUMBERS);
+		kernelBackedController.select(new TabularRange(0, 0, 2, 0), false, false);
+		kernelBackedController.showOneVarStatistics();
+
+		oneVarStatisticsView().setInput(new OneVarInput(parseReference("C1:C2")));
+		Result.Valid initialResult = assertInstanceOf(Result.Valid.class,
+				oneVarStatisticsView().getResult());
+
+		oneVarStatisticsView().commitInput();
+		Result.Valid committedResult = assertInstanceOf(Result.Valid.class,
+				oneVarStatisticsView().getResult());
+
+		assertNotEquals(initialResult.statisticGroups(), committedResult.statisticGroups());
 	}
 
 	@Test
@@ -166,15 +181,15 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 
 		kernelBackedController.select(range, false, false);
 		kernelBackedController.showOneVarStatistics();
-		assertNotNull(oneVarStatisticsView);
-		assertInstanceOf(Result.Valid.class, oneVarStatisticsView.getResult());
+		assertNotNull(oneVarStatisticsView());
+		assertInstanceOf(Result.Valid.class, oneVarStatisticsView().getResult());
 
 		kernelTabularData.removeContentAt(1, 0);
-		assertInstanceOf(Result.Invalid.class, oneVarStatisticsView.getResult());
+		assertInstanceOf(Result.Invalid.class, oneVarStatisticsView().getResult());
 
 		kernelTabularData.setContent(1, 0,
 				new GeoNumeric(app.getKernel().getConstruction(), 1));
-		assertInstanceOf(Result.Valid.class, oneVarStatisticsView.getResult());
+		assertInstanceOf(Result.Valid.class, oneVarStatisticsView().getResult());
 	}
 
 	@Test
@@ -184,7 +199,7 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 		kernelBackedController.select(new TabularRange(0, 0), false, false);
 		kernelBackedController.showOneVarStatistics();
 		assertEquals(new Result.Invalid(Error.NUMERIC_DATA_RANGE_REQUIRED,
-				SpreadsheetStatistics.DataRange.X), oneVarStatisticsView.getResult());
+				SpreadsheetStatistics.DataRange.X), oneVarStatisticsView().getResult());
 	}
 
 	@Test
@@ -194,12 +209,126 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 		kernelBackedController.select(new TabularRange(0, 0), false, false);
 		kernelBackedController.showOneVarStatistics();
 		assertEquals(new Result.Invalid(Error.NUMERIC_DATA_RANGE_REQUIRED,
-				SpreadsheetStatistics.DataRange.X), oneVarStatisticsView.getResult());
+				SpreadsheetStatistics.DataRange.X), oneVarStatisticsView().getResult());
 		
 		// Second try
-		oneVarStatisticsView.setInput(new OneVarInput(new TabularRange(0, 0)));
+		oneVarStatisticsView().setInput(new OneVarInput(new TabularRange(0, 0)));
+		oneVarStatisticsView().commitInput();
 		assertEquals(new Result.Invalid(Error.NUMERIC_DATA_RANGE_REQUIRED,
-				null), oneVarStatisticsView.getResult());
+				null), oneVarStatisticsView().getResult());
+	}
+
+	@Test
+	void testInvalidInputAfterValidResultShouldNotDriveUserAttention() {
+		TabularRange range = new TabularRange(0, 0, 2, 0);
+		setupTestData(range, Content.NUMBERS);
+		kernelBackedController.select(range, false, false);
+		kernelBackedController.showOneVarStatistics();
+		assertInstanceOf(Result.Valid.class, oneVarStatisticsView().getResult());
+
+		oneVarStatisticsView().setInput(new OneVarInput(parseReference("A1")));
+		oneVarStatisticsView().commitInput();
+
+		assertEquals(new Result.Invalid(Error.NUMERIC_DATA_RANGE_REQUIRED, null),
+				oneVarStatisticsView().getResult());
+	}
+
+	@Test
+	void testStatisticsReferencesShouldUpdateWhenInputBecomesValidOrInvalid() {
+		setupTestData(new TabularRange(0, 0, 1, 0), Content.NUMBERS);
+		kernelBackedController.select(new TabularRange(0, 0), false, false);
+		kernelBackedController.showOneVarStatistics();
+		assertNull(kernelBackedController.getStatisticsReferences());
+
+		oneVarStatisticsView().setFocusedDataRange(SpreadsheetStatistics.DataRange.X);
+
+		assertEquals(new OneVarInput(parseReference("A1")), oneVarStatisticsView().getInput());
+		assertEquals(new SpreadsheetReferences(List.of(), parseReference("A1")),
+				kernelBackedController.getStatisticsReferences());
+
+		oneVarStatisticsView().setInput(new OneVarInput(parseReference("A1:A")));
+		assertEquals(new SpreadsheetReferences(List.of(), null),
+				kernelBackedController.getStatisticsReferences());
+
+		oneVarStatisticsView().setInput(new OneVarInput(parseReference("A1:A2")));
+		assertEquals(new SpreadsheetReferences(List.of(), parseReference("A1:A2")),
+				kernelBackedController.getStatisticsReferences());
+
+		oneVarStatisticsView().setFocusedDataRange(null);
+		assertNull(kernelBackedController.getStatisticsReferences());
+	}
+
+	@Test
+	void testValidInputRangeShouldUpdateForInvalidCalculation() {
+		kernelBackedController.select(new TabularRange(0, 0), false, false);
+		kernelBackedController.showOneVarStatistics();
+		oneVarStatisticsView().setInput(new OneVarInput(parseReference("A1:A2")));
+		assertInstanceOf(Result.Invalid.class, oneVarStatisticsView().getResult());
+		assertNull(kernelBackedController.getStatisticsReferences());
+
+		oneVarStatisticsView().setFocusedDataRange(SpreadsheetStatistics.DataRange.X);
+		assertEquals(new SpreadsheetReferences(List.of(), parseReference("A1:A2")),
+				kernelBackedController.getStatisticsReferences());
+	}
+
+	@Test
+	void testInputShouldOnlyRecalculateWhenCommitted() {
+		setupTestData(new TabularRange(0, 0, 2, 0), Content.NUMBERS);
+		setupTestData(new TabularRange(0, 2, 1, 2), Content.NUMBERS);
+		kernelBackedController.select(new TabularRange(0, 0, 2, 0), false, false);
+		kernelBackedController.showOneVarStatistics();
+		Result originalResult = oneVarStatisticsView().getResult();
+		List<Result> resultUpdates = new ArrayList<>();
+		oneVarStatisticsView().setChangeListener(resultUpdates::add);
+
+		oneVarStatisticsView().setInput(new OneVarInput(parseReference("C1:C2")));
+
+		assertEquals(new OneVarInput(parseReference("C1:C2")), oneVarStatisticsView().getInput());
+		assertEquals(originalResult, oneVarStatisticsView().getResult());
+		assertEquals(0, resultUpdates.size());
+
+		oneVarStatisticsView().commitInput();
+
+		assertNotEquals(originalResult, oneVarStatisticsView().getResult());
+		assertEquals(1, resultUpdates.size());
+	}
+
+	@Test
+	void testClosingStatisticsViewShouldClearState() {
+		setupTestData(new TabularRange(0, 0, 2, 0), Content.NUMBERS);
+		kernelBackedController.select(new TabularRange(0, 0, 2, 0), false, false);
+		kernelBackedController.showOneVarStatistics();
+		assertNotNull(kernelBackedController.getStatisticsView());
+		assertNull(kernelBackedController.getStatisticsReferences());
+
+		oneVarStatisticsView().setFocusedDataRange(SpreadsheetStatistics.DataRange.X);
+		assertNotNull(kernelBackedController.getStatisticsReferences());
+
+		kernelBackedController.closeStatisticsView();
+
+		assertNull(kernelBackedController.getStatisticsView());
+		assertNull(kernelBackedController.getStatisticsReferences());
+	}
+
+	@Test
+	void testStatisticsDelegateShouldReceiveCurrentView() {
+		List<SpreadsheetStatisticsView<?>> notifiedViews = new ArrayList<>();
+		kernelBackedController.setStatisticsDelegate(
+				() -> notifiedViews.add(kernelBackedController.getStatisticsView()),
+				new KernelSpreadsheetStatistics(app.getKernel()));
+		setupTestData(new TabularRange(0, 0, 2, 1), Content.NUMBERS);
+		kernelBackedController.select(new TabularRange(0, 0, 2, 1), false, false);
+
+		kernelBackedController.showOneVarStatistics();
+		SpreadsheetStatisticsView<?> oneVarView = kernelBackedController.getStatisticsView();
+		kernelBackedController.showTwoVarStatistics();
+		SpreadsheetStatisticsView<?> twoVarView = kernelBackedController.getStatisticsView();
+		kernelBackedController.closeStatisticsView();
+
+		assertEquals(3, notifiedViews.size());
+		assertEquals(oneVarView, notifiedViews.get(0));
+		assertEquals(twoVarView, notifiedViews.get(1));
+		assertNull(notifiedViews.get(2));
 	}
 
 	// 2-var Statistics
@@ -210,22 +339,51 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 		setupTestData(range, Content.NUMBERS);
 		kernelBackedController.select(range, false, false);
 		kernelBackedController.showTwoVarStatistics();
-		assertNotNull(twoVarStatisticsView);
+		assertNotNull(twoVarStatisticsView());
 
 		assertEquals(new TwoVarInput(
 						parseReference("A1:A3"),
 						parseReference("B1:B3")),
-				twoVarStatisticsView.getInput());
+				twoVarStatisticsView().getInput());
 
 		Result.Valid result = assertInstanceOf(Result.Valid.class,
-				twoVarStatisticsView.getResult());
+				twoVarStatisticsView().getResult());
 		assertEquals(18, result.statisticGroups().size());
+	}
+
+	@Test
+	void testFocusedReferenceShouldBeSeparatedFromUnfocusedReferences() {
+		TabularRange range = new TabularRange(0, 0, 2, 1);
+		setupTestData(range, Content.NUMBERS);
+		kernelBackedController.select(range, false, false);
+		kernelBackedController.showTwoVarStatistics();
+
+		twoVarStatisticsView().setFocusedDataRange(SpreadsheetStatistics.DataRange.X);
+		assertEquals(new SpreadsheetReferences(List.of(parseReference("B1:B3")),
+				parseReference("A1:A3")), kernelBackedController.getStatisticsReferences());
+
+		twoVarStatisticsView().setFocusedDataRange(SpreadsheetStatistics.DataRange.Y);
+		assertEquals(new SpreadsheetReferences(List.of(parseReference("A1:A3")),
+				parseReference("B1:B3")), kernelBackedController.getStatisticsReferences());
+
+		twoVarStatisticsView().setFocusedDataRange(SpreadsheetStatistics.DataRange.X);
+		twoVarStatisticsView().setInput(new TwoVarInput(
+				parseReference("A1:A3"), parseReference("A1:A3")));
+		assertEquals(new SpreadsheetReferences(List.of(parseReference("A1:A3")),
+				parseReference("A1:A3")), kernelBackedController.getStatisticsReferences());
+
+		twoVarStatisticsView().setInput(new TwoVarInput(null, parseReference("B1:B3")));
+		assertEquals(new SpreadsheetReferences(List.of(parseReference("B1:B3")), null),
+				kernelBackedController.getStatisticsReferences());
+
+		twoVarStatisticsView().setFocusedDataRange(null);
+		assertNull(kernelBackedController.getStatisticsReferences());
 	}
 
 	@Test
 	void testTwoVarStatisticsEmptyRange() {
 		kernelBackedController.showTwoVarStatistics();
-		assertNull(twoVarStatisticsView);
+		assertNull(twoVarStatisticsView());
 	}
 
 	@Test
@@ -236,7 +394,7 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 		kernelBackedController.showTwoVarStatistics();
 
 		assertEquals(new Result.Invalid(Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED,
-				null), twoVarStatisticsView.getResult());
+				null), twoVarStatisticsView().getResult());
 	}
 
 	@Test
@@ -249,20 +407,21 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 		assertEquals(new TwoVarInput(
 						parseReference("A1:A3"),
 						parseReference("B1:B3")),
-				twoVarStatisticsView.getInput());
+				twoVarStatisticsView().getInput());
 		Result.Valid result1 = assertInstanceOf(Result.Valid.class,
-				twoVarStatisticsView.getResult());
+				twoVarStatisticsView().getResult());
 
-		twoVarStatisticsView.setInput(new TwoVarInput(
+		twoVarStatisticsView().setInput(new TwoVarInput(
 				new SpreadsheetReference(new TabularRange(0, 0, 1, 0)),
 				new SpreadsheetReference(new TabularRange(0, 1, 1, 1))
 		));
+		twoVarStatisticsView().commitInput();
 		assertEquals(new TwoVarInput(
 						parseReference("A1:A2"),
 						parseReference("B1:B2")),
-				twoVarStatisticsView.getInput());
+				twoVarStatisticsView().getInput());
 		Result.Valid result2 = assertInstanceOf(Result.Valid.class,
-				twoVarStatisticsView.getResult());
+				twoVarStatisticsView().getResult());
 
 		assertNotEquals(result1.statisticGroups(), result2.statisticGroups());
 	}
@@ -276,7 +435,7 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 		kernelBackedController.showTwoVarStatistics();
 
 		assertEquals(new Result.Invalid(Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED,
-				SpreadsheetStatistics.DataRange.X), twoVarStatisticsView.getResult());
+				SpreadsheetStatistics.DataRange.X), twoVarStatisticsView().getResult());
 	}
 	
 	@Test
@@ -288,7 +447,7 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 		kernelBackedController.showTwoVarStatistics();
 
 		assertEquals(new Result.Invalid(Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED,
-				SpreadsheetStatistics.DataRange.Y), twoVarStatisticsView.getResult());
+				SpreadsheetStatistics.DataRange.Y), twoVarStatisticsView().getResult());
 	}
 
 	@Test
@@ -298,12 +457,13 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 		kernelBackedController.select(range.firstColumn(), false, false);
 		kernelBackedController.showTwoVarStatistics();
 		assertEquals(new Result.Invalid(Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED,
-				SpreadsheetStatistics.DataRange.Y), twoVarStatisticsView.getResult());
+				SpreadsheetStatistics.DataRange.Y), twoVarStatisticsView().getResult());
 
 		// Second try
-		twoVarStatisticsView.setInput(new TwoVarInput(range.firstColumn()));
+		twoVarStatisticsView().setInput(new TwoVarInput(range.firstColumn()));
+		twoVarStatisticsView().commitInput();
 		assertEquals(new Result.Invalid(Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED,
-				null), twoVarStatisticsView.getResult());
+				null), twoVarStatisticsView().getResult());
 	}
 
 	@Test
@@ -317,7 +477,7 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 		assertEquals(new TwoVarInput(
 						parseReference("A1:A100"),
 						parseReference("B1:B100")),
-				twoVarStatisticsView.getInput());
+				twoVarStatisticsView().getInput());
 	}
 
 	// Regression
@@ -328,22 +488,22 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 		setupTestData(range, Content.NUMBERS);
 		kernelBackedController.select(range, false, false);
 		kernelBackedController.showRegression();
-		assertNotNull(regressionView);
+		assertNotNull(regressionView());
 
 		assertEquals(new RegressionInput(
 						parseReference("A1:A3"),
 						parseReference("B1:B3"),
 						null),
-				regressionView.getInput());
+				regressionView().getInput());
 
-		Result.Valid result = assertInstanceOf(Result.Valid.class, regressionView.getResult());
+		Result.Valid result = assertInstanceOf(Result.Valid.class, regressionView().getResult());
 		assertEquals(4, result.statisticGroups().size());
 	}
 
 	@Test
 	void testRegressionEmptyRange() {
 		kernelBackedController.showRegression();
-		assertNull(regressionView);
+		assertNull(regressionView());
 	}
 
 	@Test
@@ -354,7 +514,7 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 		kernelBackedController.showRegression();
 
 		assertEquals(new Result.Invalid(Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED,
-				null), regressionView.getResult());
+				null), regressionView().getResult());
 	}
 
 	@Test
@@ -368,20 +528,21 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 						parseReference("A1:A3"),
 						parseReference("B1:B3"),
 						null),
-				regressionView.getInput());
-		Result.Valid result1 = assertInstanceOf(Result.Valid.class, regressionView.getResult());
+				regressionView().getInput());
+		Result.Valid result1 = assertInstanceOf(Result.Valid.class, regressionView().getResult());
 
-		regressionView.setInput(new RegressionInput(
+		regressionView().setInput(new RegressionInput(
 				new SpreadsheetReference(new TabularRange(0, 0, 1, 0)),
 				new SpreadsheetReference(new TabularRange(0, 1, 1, 1)),
 				null
 		));
+		regressionView().commitInput();
 		assertEquals(new RegressionInput(
 						parseReference("A1:A2"),
 						parseReference("B1:B2"),
 						null),
-				regressionView.getInput());
-		Result.Valid result2 = assertInstanceOf(Result.Valid.class, regressionView.getResult());
+				regressionView().getInput());
+		Result.Valid result2 = assertInstanceOf(Result.Valid.class, regressionView().getResult());
 
 		assertNotEquals(result1.statisticGroups(), result2.statisticGroups());
 	}
@@ -397,16 +558,17 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 						parseReference("A1:A3"),
 						parseReference("B1:B3"),
 						null),
-				regressionView.getInput());
-		Result.Valid result1 = assertInstanceOf(Result.Valid.class, regressionView.getResult());
+				regressionView().getInput());
+		Result.Valid result1 = assertInstanceOf(Result.Valid.class, regressionView().getResult());
 
-		regressionView.setInput(new RegressionInput(
+		regressionView().setInput(new RegressionInput(
 				parseReference("A1:A3"),
 				parseReference("B1:B3"),
 				// Different regression
-				regressionView.getRegressionSpecifications().get(1)));
+				regressionView().getRegressionSpecifications().get(1)));
+		regressionView().commitInput();
 		
-		Result.Valid result2 = assertInstanceOf(Result.Valid.class, regressionView.getResult());
+		Result.Valid result2 = assertInstanceOf(Result.Valid.class, regressionView().getResult());
 
 		assertNotEquals(result1.statisticGroups(), result2.statisticGroups());
 	}
@@ -423,7 +585,7 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 						parseReference("A1:A100"),
 						parseReference("B1:B100"),
 						null),
-				regressionView.getInput());
+				regressionView().getInput());
 	}
 
 	@Test
@@ -432,16 +594,17 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 		setupTestData(range, Content.NUMBERS);
 		kernelBackedController.select(range, false, false);
 		kernelBackedController.showRegression();
-		regressionView.plotResult();
+		regressionView().plotResult();
 		GeoElement function = Objects.requireNonNull(app.getKernel().lookupLabel("f"));
 		assertEquals("-0.13547x + 0.9208",
 				function.toValueString(StringTemplate.editTemplate));
-		regressionView.setInput(new SpreadsheetStatistics.Input.RegressionInput(
+		regressionView().setInput(new SpreadsheetStatistics.Input.RegressionInput(
 				parseReference("A1:A3"),
 				parseReference("B1:B3"),
 				new RegressionSpecificationBuilder().getForListSize(3).get(2)
 		));
-		regressionView.plotResult();
+		regressionView().commitInput();
+		regressionView().plotResult();
 		assertEquals("0.7787x^-0.09252",
 				app.getKernel().lookupLabel("g").toValueString(StringTemplate.editTemplate));
 	}
@@ -455,7 +618,7 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 		kernelBackedController.showRegression();
 
 		assertEquals(new Result.Invalid(Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED,
-				SpreadsheetStatistics.DataRange.X), regressionView.getResult());
+				SpreadsheetStatistics.DataRange.X), regressionView().getResult());
 	}
 
 	@Test
@@ -467,7 +630,7 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 		kernelBackedController.showRegression();
 
 		assertEquals(new Result.Invalid(Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED,
-				SpreadsheetStatistics.DataRange.Y), regressionView.getResult());
+				SpreadsheetStatistics.DataRange.Y), regressionView().getResult());
 	}
 
 	@Test
@@ -477,30 +640,24 @@ class SpreadsheetStatisticsTest implements SpreadsheetStatisticsDelegate {
 		kernelBackedController.select(range.firstColumn(), false, false);
 		kernelBackedController.showRegression();
 		assertEquals(new Result.Invalid(Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED,
-				SpreadsheetStatistics.DataRange.Y), regressionView.getResult());
+				SpreadsheetStatistics.DataRange.Y), regressionView().getResult());
 
 		// Second try
-		regressionView.setInput(new RegressionInput(range.firstColumn()));
+		regressionView().setInput(new RegressionInput(range.firstColumn()));
+		regressionView().commitInput();
 		assertEquals(new Result.Invalid(Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED,
-				null), regressionView.getResult());
+				null), regressionView().getResult());
 	}
 
-	// -- SpreadsheetStatisticsDelegate --
-
-	@Override
-	public void showOneVarStatistics(
-			SpreadsheetStatisticsView.@NonNull OneVar statisticsView) {
-		this.oneVarStatisticsView = statisticsView;
+	private SpreadsheetStatisticsView.OneVar oneVarStatisticsView() {
+		return (SpreadsheetStatisticsView.OneVar) kernelBackedController.getStatisticsView();
 	}
 
-	@Override
-	public void showTwoVarStatistics(
-			SpreadsheetStatisticsView.@NonNull TwoVar statisticsView) {
-		this.twoVarStatisticsView = statisticsView;
+	private SpreadsheetStatisticsView.TwoVar twoVarStatisticsView() {
+		return (SpreadsheetStatisticsView.TwoVar) kernelBackedController.getStatisticsView();
 	}
 
-	@Override
-	public void showRegression(SpreadsheetStatisticsView.@NonNull Regression statisticsView) {
-		this.regressionView = statisticsView;
+	private SpreadsheetStatisticsView.Regression regressionView() {
+		return (SpreadsheetStatisticsView.Regression) kernelBackedController.getStatisticsView();
 	}
 }

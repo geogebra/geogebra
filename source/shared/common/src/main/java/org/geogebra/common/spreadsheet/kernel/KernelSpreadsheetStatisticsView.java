@@ -16,6 +16,8 @@
 
 package org.geogebra.common.spreadsheet.kernel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
@@ -29,6 +31,7 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetCellReference;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.SpreadsheetReference;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics;
+import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.StatisticsReferenceDelegate;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatisticsView;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.jspecify.annotations.NonNull;
@@ -46,16 +49,20 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 	protected final @NonNull Kernel kernel;
 	protected final @NonNull StatisticGroupsBuilder statisticGroupsBuilder;
 	private @NonNull I input;
+	private SpreadsheetStatistics.@Nullable DataRange focusedDataRange;
 	private SpreadsheetStatistics.@Nullable Result result;
-	private @Nullable Consumer<SpreadsheetStatistics.Result> changeListener;
+	private @Nullable Consumer<SpreadsheetStatistics.@NonNull Result> changeListener;
+	private @Nullable StatisticsReferenceDelegate statisticsReferenceDelegate;
 
 	protected KernelSpreadsheetStatisticsView(@NonNull Kernel kernel,
 			@NonNull StatisticGroupsBuilder statisticGroupsBuilder, @NonNull I input,
-			@NonNull String titleLocalizationKey) {
+			@NonNull String titleLocalizationKey,
+			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate) {
 		this.kernel = kernel;
 		this.statisticGroupsBuilder = statisticGroupsBuilder;
 		this.input = input;
 		this.titleLocalizationKey = titleLocalizationKey;
+		this.statisticsReferenceDelegate = statisticsReferenceDelegate;
 		kernel.attach(this);
 	}
 
@@ -103,11 +110,51 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 				&& coords.column >= minCol && coords.column <= maxCol;
 	}
 
-	private void recalculate() {
+	protected final void recalculate() {
 		setResult(calculate(input));
 	}
 
-	private void setResult(SpreadsheetStatistics.@Nullable Result result) {
+	private void notifyStatisticsReferencesChanged() {
+		if (focusedDataRange == null) {
+			if (statisticsReferenceDelegate != null) {
+				statisticsReferenceDelegate.statisticsReferencesChanged(null, null);
+			}
+			return;
+		}
+		if (input instanceof SpreadsheetStatistics.Input.OneVarInput oneVarInput) {
+			publishStatisticsReferences(oneVarInput.cellRange(), null);
+		} else if (input instanceof SpreadsheetStatistics.Input.TwoVarInput twoVarInput) {
+			publishStatisticsReferences(twoVarInput.cellRangeX(), twoVarInput.cellRangeY());
+		} else if (input instanceof SpreadsheetStatistics.Input.RegressionInput regressionInput) {
+			publishStatisticsReferences(regressionInput.cellRangeX(), regressionInput.cellRangeY());
+		}
+	}
+
+	private void publishStatisticsReferences(@Nullable SpreadsheetReference statisticsReferenceX,
+			@Nullable SpreadsheetReference statisticsReferenceY) {
+		List<SpreadsheetReference> unfocusedStatisticsReferences = new ArrayList<>(1);
+		SpreadsheetReference focusedStatisticsReference = null;
+		if (statisticsReferenceX != null) {
+			if (focusedDataRange == SpreadsheetStatistics.DataRange.X) {
+				focusedStatisticsReference = statisticsReferenceX;
+			} else {
+				unfocusedStatisticsReferences.add(statisticsReferenceX);
+			}
+		}
+		if (statisticsReferenceY != null) {
+			if (focusedDataRange == SpreadsheetStatistics.DataRange.Y) {
+				focusedStatisticsReference = statisticsReferenceY;
+			} else {
+				unfocusedStatisticsReferences.add(statisticsReferenceY);
+			}
+		}
+		if (statisticsReferenceDelegate != null) {
+			statisticsReferenceDelegate.statisticsReferencesChanged(
+					focusedStatisticsReference, unfocusedStatisticsReferences);
+		}
+	}
+
+	private void setResult(SpreadsheetStatistics.@NonNull Result result) {
 		this.result = result;
 		if (changeListener != null) {
 			changeListener.accept(result);
@@ -136,7 +183,18 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 	@Override
 	public void setInput(@NonNull I input) {
 		this.input = input;
+		notifyStatisticsReferencesChanged();
+	}
+
+	@Override
+	public void commitInput() {
 		recalculate();
+	}
+
+	@Override
+	public void setFocusedDataRange(SpreadsheetStatistics.@Nullable DataRange focusedDataRange) {
+		this.focusedDataRange = focusedDataRange;
+		notifyStatisticsReferencesChanged();
 	}
 
 	@Override
@@ -150,12 +208,15 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 	}
 
 	@Override
-	public void setChangeListener(@Nullable Consumer<SpreadsheetStatistics.Result> listener) {
+	public void setChangeListener(
+			@Nullable Consumer<SpreadsheetStatistics.@NonNull Result> listener) {
 		changeListener = listener;
 	}
 
 	@Override
 	public void tearDown() {
+		statisticsReferenceDelegate = null;
+		changeListener = null;
 		kernel.detach(this);
 	}
 
@@ -218,7 +279,7 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 
 	@Override
 	public void reset() {
-		setResult(null);
+		recalculate();
 	}
 
 	@Override

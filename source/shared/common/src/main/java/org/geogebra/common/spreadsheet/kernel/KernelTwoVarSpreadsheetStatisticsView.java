@@ -28,6 +28,7 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetReference;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.Input.TwoVarInput;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.Result;
+import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.StatisticsReferenceDelegate;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatisticsView;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.jspecify.annotations.NonNull;
@@ -41,9 +42,11 @@ public final class KernelTwoVarSpreadsheetStatisticsView
 	private @Nullable AlgoCellRange algoCellRangeY;
 
 	KernelTwoVarSpreadsheetStatisticsView(@NonNull Kernel kernel,
-			@NonNull StatisticGroupsBuilder statisticGroupsBuilder,
-			@NonNull TabularRange range) {
-		super(kernel, statisticGroupsBuilder, new TwoVarInput(range), "2VariableStatistics");
+			@NonNull StatisticGroupsBuilder statisticGroupsBuilder, @NonNull TabularRange range,
+			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate) {
+		super(kernel, statisticGroupsBuilder, new TwoVarInput(range), "2VariableStatistics",
+				statisticsReferenceDelegate);
+		recalculate();
 	}
 
 	// -- KernelSpreadsheetStatisticsView --

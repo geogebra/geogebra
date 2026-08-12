@@ -70,14 +70,13 @@ public final class SpreadsheetController<T> {
 	private final @NonNull ContextMenuBuilder contextMenuBuilder;
 
 	// statistics
-	private @Nullable SpreadsheetStatisticsDelegate statisticsDelegate;
+	private SpreadsheetStatisticsView.@Nullable Delegate statisticsViewDelegate;
 	private @Nullable SpreadsheetStatistics spreadsheetStatistics;
-	private SpreadsheetStatisticsView.@Nullable OneVar oneVarStatisticsView;
-	private SpreadsheetStatisticsView.@Nullable TwoVar twoVarStatisticsView;
-	private SpreadsheetStatisticsView.@Nullable Regression regressionView;
+	private @Nullable SpreadsheetStatisticsView<?> statisticsView;
+	private @Nullable SpreadsheetReferences statisticsReferences;
 
 	private Editor editor;
-	private SpreadsheetReferences currentReferences;
+	private SpreadsheetReferences editorReferences;
 
 	private @NonNull DragState dragState;
 	private Rectangle viewport;
@@ -145,11 +144,11 @@ public final class SpreadsheetController<T> {
 	}
 
 	void setStatisticsDelegate(
-			@Nullable SpreadsheetStatisticsDelegate spreadsheetStatisticsDelegate,
+			SpreadsheetStatisticsView.@Nullable Delegate statisticsViewDelegate,
 			@Nullable SpreadsheetStatistics spreadsheetStatistics) {
-		this.statisticsDelegate = spreadsheetStatisticsDelegate;
+		this.statisticsViewDelegate = statisticsViewDelegate;
 		this.spreadsheetStatistics = spreadsheetStatistics;
-		this.contextMenuBuilder.setSpreadsheetStatisticsDelegate(statisticsDelegate);
+		this.contextMenuBuilder.setSpreadsheetStatisticsDelegate(this.statisticsViewDelegate);
 	}
 
 	/**
@@ -606,7 +605,7 @@ public final class SpreadsheetController<T> {
 		if (editor == null) {
 			editor = new Editor(controlsDelegate.getCellEditor());
 		}
-		currentReferences = null;
+		editorReferences = null;
 		editor.showAt(row, column, editExistingContent);
 		readCellEditorContent();
 		resetDragAction();
@@ -625,7 +624,7 @@ public final class SpreadsheetController<T> {
 		if (isEditorActive()) {
 			editor.hide();
 		}
-		currentReferences = null;
+		editorReferences = null;
 		if (controlsDelegate != null) {
 			controlsDelegate.hideAutoCompleteSuggestions();
 		}
@@ -699,8 +698,22 @@ public final class SpreadsheetController<T> {
 	 * @return A (possibly empty) list of cell or cell range references in the editor, or
 	 * {@code null} if the editor is currently not active.
 	 */
-	@Nullable SpreadsheetReferences getCurrentReferences() {
-		return currentReferences;
+	@Nullable SpreadsheetReferences getEditorReferences() {
+		return editorReferences;
+	}
+
+	/**
+	 * @return the statistics reference highlighting state, or {@code null} if no input is focused
+	 */
+	@Nullable SpreadsheetReferences getStatisticsReferences() {
+		return statisticsReferences;
+	}
+
+	/**
+	 * @return The current statistics view, or {@code null} if it is closed.
+	 */
+	@Nullable SpreadsheetStatisticsView<?> getStatisticsView() {
+		return statisticsView;
 	}
 
 	/**
@@ -1258,8 +1271,8 @@ public final class SpreadsheetController<T> {
 
 		SpreadsheetReferences editorReferences = new SpreadsheetReferences(
 				getEditorCellReferences(), getCurrentEditorCellReference());
-		SpreadsheetReferences previousReferences = currentReferences;
-		currentReferences = editorReferences;
+		SpreadsheetReferences previousReferences = this.editorReferences;
+		this.editorReferences = editorReferences;
 		if (!Objects.equals(previousReferences, editorReferences)) {
 			notifyRepaintNeeded();
 		}
@@ -1536,63 +1549,44 @@ public final class SpreadsheetController<T> {
 	// Statistics
 
 	/**
-	 * Creates a one-variable statistics view and hands it to the statistics delegate.
-	 *
-	 * @apiNote Only one instance of each statistics view is expected to exist per
-	 * {@code SpreadsheetController} instance at any time. Calling {@code showOneVarStatistics()}
-	 * multiple times on the same controller will tear down any previous instance of that type
-	 * before handing out a new instance. However, clients are still expected to call
-	 * {@link SpreadsheetStatisticsView#tearDown()} when the statistics UI is closed.
+	 * Hides the previous statistics view and shows the one variable statistics.
+	 * If something unexpected happens (missing delegate or selection), it won't open the new view.
 	 */
 	public void showOneVarStatistics() {
-		if (oneVarStatisticsView != null) {
-			oneVarStatisticsView.tearDown();
-		}
-		oneVarStatisticsView = calculateOneVarStatistics();
-		if (oneVarStatisticsView == null || statisticsDelegate == null) {
-			return;
-		}
-		statisticsDelegate.showOneVarStatistics(oneVarStatisticsView);
+		showStatisticsView(statisticsViewDelegate == null ? null : calculateOneVarStatistics());
 	}
 
 	/**
-	 * Creates a two-variable statistics view and hands it to the statistics delegate.
-	 *
-	 * @apiNote Only one instance of each statistics view is expected to exist per
-	 * {@code SpreadsheetController} instance at any time. Calling {@code showTwoVarStatistics()}
-	 * multiple times on the same controller will tear down any previous instance of that type
-	 * before handing out a new instance. However, clients are still expected to call
-	 * {@link SpreadsheetStatisticsView#tearDown()} when the statistics UI is closed.
+	 * Hides the previous statistics view and shows the two variable statistics.
+	 * If something unexpected happens (missing delegate or selection), it won't open the new view.
 	 */
 	public void showTwoVarStatistics() {
-		if (twoVarStatisticsView != null) {
-			twoVarStatisticsView.tearDown();
-		}
-		twoVarStatisticsView = calculateTwoVarStatistics();
-		if (twoVarStatisticsView == null || statisticsDelegate == null) {
-			return;
-		}
-		statisticsDelegate.showTwoVarStatistics(twoVarStatisticsView);
+		showStatisticsView(statisticsViewDelegate == null ? null : calculateTwoVarStatistics());
 	}
 
 	/**
-	 * Creates a regression metrics view and hands it to the statistics delegate.
-	 *
-	 * @apiNote Only one instance of each statistics view is expected to exist per
-	 * {@code SpreadsheetController} instance at any time. Calling {@code showRegression()}
-	 * multiple times on the same controller will tear down any previous instance of that type
-	 * before handing out a new instance. However, clients are still expected to call
-	 * {@link SpreadsheetStatisticsView#tearDown()} when the statistics UI is closed.
+	 * Hides the previous statistics view and shows the regression.
+	 * If something unexpected happens (missing delegate or selection), it won't open the new view.
 	 */
 	public void showRegression() {
-		if (regressionView != null) {
-			regressionView.tearDown();
+		showStatisticsView(statisticsViewDelegate == null ? null : calculateRegression());
+	}
+
+	void closeStatisticsView() {
+		showStatisticsView(null);
+	}
+
+	private void showStatisticsView(@Nullable SpreadsheetStatisticsView<?> newStatisticsView) {
+		if (statisticsView != null) {
+			statisticsView.tearDown();
+			statisticsView = null;
+			statisticsReferences = null;
+			notifyRepaintNeeded();
 		}
-		regressionView = calculateRegression();
-		if (regressionView == null || statisticsDelegate == null) {
-			return;
+		statisticsView = newStatisticsView;
+		if (statisticsViewDelegate != null) {
+			statisticsViewDelegate.statisticsViewChanged();
 		}
-		statisticsDelegate.showRegression(regressionView);
 	}
 
 	SpreadsheetStatisticsView.@Nullable OneVar calculateOneVarStatistics() {
@@ -1600,7 +1594,8 @@ public final class SpreadsheetController<T> {
 		if (range == null || spreadsheetStatistics == null) {
 			return null;
 		}
-		return spreadsheetStatistics.getOneVarStatistics(range);
+		return spreadsheetStatistics.getOneVarStatistics(range,
+				this::statisticsReferencesChanged);
 	}
 
 	SpreadsheetStatisticsView.@Nullable TwoVar calculateTwoVarStatistics() {
@@ -1608,7 +1603,8 @@ public final class SpreadsheetController<T> {
 		if (range == null || spreadsheetStatistics == null) {
 			return null;
 		}
-		return spreadsheetStatistics.getTwoVarStatistics(range);
+		return spreadsheetStatistics.getTwoVarStatistics(range,
+				this::statisticsReferencesChanged);
 	}
 
 	SpreadsheetStatisticsView.@Nullable Regression calculateRegression() {
@@ -1616,7 +1612,15 @@ public final class SpreadsheetController<T> {
 		if (range == null || spreadsheetStatistics == null) {
 			return null;
 		}
-		return spreadsheetStatistics.getRegression(range);
+		return spreadsheetStatistics.getRegression(range,
+				this::statisticsReferencesChanged);
+	}
+
+	private void statisticsReferencesChanged(@Nullable SpreadsheetReference focusedReference,
+			@Nullable List<SpreadsheetReference> unfocusedReferences) {
+		statisticsReferences = unfocusedReferences == null ? null
+				: new SpreadsheetReferences(unfocusedReferences, focusedReference);
+		notifyRepaintNeeded();
 	}
 
 	private TabularRange getStatisticsSelectionRange() {

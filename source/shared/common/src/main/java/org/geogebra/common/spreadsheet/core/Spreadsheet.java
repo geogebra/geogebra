@@ -136,13 +136,25 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 	// Statistics
 
 	/**
-	 * @param statisticsDelegate The delegate responsible for showing the statistics UI.
+	 * @param statisticsViewDelegate The delegate notified when the statistics view changes.
 	 * @param spreadsheetStatistics An abstraction for statistics calculations.
 	 */
-	public void setStatisticsDelegate(
-			@Nullable SpreadsheetStatisticsDelegate statisticsDelegate,
+	public void setStatisticsViewDelegate(
+			SpreadsheetStatisticsView.@Nullable Delegate statisticsViewDelegate,
 			@Nullable SpreadsheetStatistics spreadsheetStatistics) {
-		controller.setStatisticsDelegate(statisticsDelegate, spreadsheetStatistics);
+		controller.setStatisticsDelegate(statisticsViewDelegate, spreadsheetStatistics);
+	}
+
+	/**
+	 * @return the current statistics view, or {@code null} if it is closed
+	 */
+	public @Nullable SpreadsheetStatisticsView<?> getStatisticsView() {
+		return controller.getStatisticsView();
+	}
+
+	/** Closes the current statistics view. */
+	public void closeStatisticsView() {
+		controller.closeStatisticsView();
 	}
 
 	// Accessibility
@@ -248,17 +260,19 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 		for (TabularRange range: visibleSelections) {
 			renderer.drawSelectionBorder(range, graphics, viewport, false, false);
 		}
+		SpreadsheetReferences statisticsReferences = controller.getStatisticsReferences();
+		if (statisticsReferences != null) {
+			drawStatisticsReferences(graphics, viewport, statisticsReferences);
+		}
+		SpreadsheetReferences editorReferences = controller.getEditorReferences();
+		if (editorReferences != null) {
+			drawReferences(graphics, viewport, editorReferences);
+		}
 		SpreadsheetCoords selectedCell = controller.getLastSelectionUpperLeftCell();
 		if (selectedCell != null) {
 			renderer.drawSelectionBorder(new TabularRange(selectedCell.row, selectedCell.column),
 					graphics, viewport, true, false);
 		}
-
-		SpreadsheetReferences references = controller.getCurrentReferences();
-		if (references != null) {
-			drawReferences(graphics, viewport, references);
-		}
-
 		Point draggingDotLocation = controller.getDraggingDotLocation();
 		if (draggingDotLocation != null) {
 			renderer.drawDraggingDot(draggingDotLocation, graphics);
@@ -343,6 +357,19 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 			SpreadsheetReference reference = deduplicatedReferences.cellReferences.get(index);
 			boolean filled = reference.equalsIgnoringAbsolute(references.currentCellReference);
 			renderer.drawReference(reference, index, filled, graphics, viewport);
+		}
+	}
+
+	private void drawStatisticsReferences(GGraphics2D graphics, Rectangle viewport,
+			@NonNull SpreadsheetReferences statisticsReferences) {
+		SpreadsheetReference focusedReference = statisticsReferences.currentCellReference;
+		for (SpreadsheetReference reference : statisticsReferences.cellReferences) {
+			if (!reference.equalsIgnoringAbsolute(focusedReference)) {
+				renderer.drawStatisticsReference(reference, false, graphics, viewport);
+			}
+		}
+		if (focusedReference != null) {
+			renderer.drawStatisticsReference(focusedReference, true, graphics, viewport);
 		}
 	}
 

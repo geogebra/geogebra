@@ -23,6 +23,8 @@ import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import com.google.j2objc.annotations.Property;
+
 /**
  * Calculate statistics from spreadsheet contents.
  * <p>
@@ -51,6 +53,7 @@ public interface SpreadsheetStatistics {
 				"Statistics.Error.TwoNumericDataRangesRequired");
 
 		/** The translation key for this error. */
+		@Property("readonly")
 		public final @NonNull String localizationKey;
 
 		Error(@NonNull String localizationKey) {
@@ -149,27 +152,43 @@ public interface SpreadsheetStatistics {
 					   @Nullable DataRange dataRange) implements Result { }
 	}
 
+	/** Delegate to handle spreadsheet reference changes in the statistics view. */
+	interface StatisticsReferenceDelegate {
+		/**
+		 * Notification call when the statistics reference highlighting has changed.
+		 * @param focusedReference the focused reference, or {@code null} if the focused input is
+		 * invalid
+		 * @param unfocusedReferences the valid references of the unfocused inputs, or {@code null}
+		 * to clear the statistics references
+		 */
+		void statisticsReferencesChanged(@Nullable SpreadsheetReference focusedReference,
+				@Nullable List<SpreadsheetReference> unfocusedReferences);
+	}
+
 	/**
 	 * Create an auto-updating view for one-variable statistics.
 	 * @param range The spreadsheet range used for the statistics calculation (will be validated).
+	 * @param statisticsReferenceDelegate the delegate used to handle statistics reference changes
 	 * @return a view providing auto-updating one-variable statistics
 	 */
-	SpreadsheetStatisticsView.@NonNull OneVar getOneVarStatistics(
-			@NonNull TabularRange range);
+	SpreadsheetStatisticsView.@NonNull OneVar getOneVarStatistics(@NonNull TabularRange range,
+			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate);
 
 	/**
 	 * Create an auto-updating view for two-variable statistics.
 	 * @param range The spreadsheet range used for the statistics calculation (will be validated).
+	 * @param statisticsReferenceDelegate the delegate used to handle statistics reference changes
 	 * @return a view providing auto-updating two-variable statistics
 	 */
-	SpreadsheetStatisticsView.@NonNull TwoVar getTwoVarStatistics(
-			@NonNull TabularRange range);
+	SpreadsheetStatisticsView.@NonNull TwoVar getTwoVarStatistics(@NonNull TabularRange range,
+			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate);
 
 	/**
 	 * Create an auto-updating view for regression metrics.
 	 * @param range The spreadsheet range used for the statistics calculation (will be validated).
+	 * @param statisticsReferenceDelegate the delegate used to handle statistics reference changes
 	 * @return a view providing auto-updating regression metrics
 	 */
-	SpreadsheetStatisticsView.@NonNull Regression getRegression(
-			@NonNull TabularRange range);
+	SpreadsheetStatisticsView.@NonNull Regression getRegression(@NonNull TabularRange range,
+			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate);
 }

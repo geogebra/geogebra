@@ -46,20 +46,25 @@ public final class KernelSpreadsheetStatistics implements SpreadsheetStatistics 
 
 	@Override
 	public SpreadsheetStatisticsView.@NonNull OneVar getOneVarStatistics(
-			@NonNull TabularRange range) {
-		return new KernelOneVarSpreadsheetStatisticsView(kernel, statisticGroupsBuilder, range);
+			@NonNull TabularRange range,
+			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate) {
+		return new KernelOneVarSpreadsheetStatisticsView(kernel, statisticGroupsBuilder, range,
+				statisticsReferenceDelegate);
 	}
 
 	@Override
 	public SpreadsheetStatisticsView.@NonNull TwoVar getTwoVarStatistics(
-			@NonNull TabularRange range) {
-		return new KernelTwoVarSpreadsheetStatisticsView(kernel, statisticGroupsBuilder, range);
+			@NonNull TabularRange range,
+			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate) {
+		return new KernelTwoVarSpreadsheetStatisticsView(kernel, statisticGroupsBuilder, range,
+				statisticsReferenceDelegate);
 	}
 
 	@Override
 	public SpreadsheetStatisticsView.@NonNull Regression getRegression(
-			@NonNull TabularRange range) {
+			@NonNull TabularRange range,
+			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate) {
 		return new KernelSpreadsheetRegressionView(kernel, statisticGroupsBuilder,
-				regressionSpecificationBuilder, range);
+				regressionSpecificationBuilder, range, statisticsReferenceDelegate);
 	}
 }

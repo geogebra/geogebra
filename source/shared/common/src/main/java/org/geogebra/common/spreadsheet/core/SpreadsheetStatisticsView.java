@@ -43,6 +43,12 @@ import org.jspecify.annotations.Nullable;
  */
 public interface SpreadsheetStatisticsView<I extends SpreadsheetStatistics.Input> {
 
+	/** Delegate facing the UI layer, notifying when the spreadsheet statistics view changes. */
+	interface Delegate {
+		/** Called when the current statistics view changes. */
+		void statisticsViewChanged();
+	}
+
 	/**
 	 * One variable statistics view.
 	 */
@@ -83,11 +89,19 @@ public interface SpreadsheetStatisticsView<I extends SpreadsheetStatistics.Input
 	@NonNull I getInput();
 
 	/**
-	 * Set new input values. This will immediately cause recalculation of the result and trigger
-	 * the change listener.
-	 * @param input The input (cell range(s), regression model) for the statistics calculation.
+	 * Updates the input during an ongoing user edit.
+	 * @param input the current input
 	 */
 	void setInput(@NonNull I input);
+
+	/** Commits the input when the user has finished editing. */
+	void commitInput();
+
+	/**
+	 * Sets the currently focused data range (input field), communicating focus changes from the UI.
+	 * @param focusedDataRange the focused data range, or {@code null} if none is focused
+	 */
+	void setFocusedDataRange(SpreadsheetStatistics.@Nullable DataRange focusedDataRange);
 
 	/**
 	 * @return The current result of the statistics calculation.
@@ -99,11 +113,8 @@ public interface SpreadsheetStatisticsView<I extends SpreadsheetStatistics.Input
 	 * @param listener The listener. Will be notified when the statistics result changed due to
 	 * changes in the spreadsheet data.
 	 */
-	void setChangeListener(@Nullable Consumer<SpreadsheetStatistics.Result> listener);
+	void setChangeListener(@Nullable Consumer<SpreadsheetStatistics.@NonNull Result> listener);
 
-	/**
-	 * Tear down the view when it is no longer used (e.g., the UI closes).
-	 * @apiNote It is safe to call this method multiple times.
-	 */
+	/** Tear down the view when it is no longer used (e.g. view is replaced or the UI closes). */
 	void tearDown();
 }

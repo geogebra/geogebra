@@ -3986,6 +3986,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return spreadsheet;
 	}
 
+	/** Closes the statistics view if the spreadsheet has been initialized. */
+	public void closeSpreadsheetStatisticsView() {
+		if (spreadsheet != null) {
+			spreadsheet.closeStatisticsView();
+		}
+	}
+
 	protected @NonNull GeoElementCellRendererFactory getGeoElementCellRendererFactory(
 			Supplier<Double> fontSizeProvider) {
 		return new GeoElementCellRendererFactory(gGraphics2D -> null, fontSizeProvider);

@@ -73,7 +73,7 @@ public final class ContextMenuBuilder {
     @Weak
     private SpreadsheetConstructionDelegate constructionDelegate;
     @Weak
-    private @Nullable SpreadsheetStatisticsDelegate statisticsDelegate;
+    private SpreadsheetStatisticsView.@Nullable Delegate statisticsViewDelegate;
 
     /**
      * @param spreadsheetController {@link SpreadsheetController}
@@ -92,12 +92,12 @@ public final class ContextMenuBuilder {
     }
 
     /**
-     * @param statisticsDelegate the delegate responsible for showing the statistics UI,
+     * @param statisticsViewDelegate the delegate notified when the statistics view changes,
      * or {@code null} to disable the Statistics menu item.
      */
     public void setSpreadsheetStatisticsDelegate(
-            @Nullable SpreadsheetStatisticsDelegate statisticsDelegate) {
-        this.statisticsDelegate = statisticsDelegate;
+            SpreadsheetStatisticsView.@Nullable Delegate statisticsViewDelegate) {
+        this.statisticsViewDelegate = statisticsViewDelegate;
     }
 
     /**
@@ -199,7 +199,7 @@ public final class ContextMenuBuilder {
 
     List<ContextMenuItem> getStatisticsItems() {
         // Require explicit statistics support
-        if (statisticsDelegate == null) {
+        if (statisticsViewDelegate == null) {
             return Collections.emptyList();
         }
         return List.of(

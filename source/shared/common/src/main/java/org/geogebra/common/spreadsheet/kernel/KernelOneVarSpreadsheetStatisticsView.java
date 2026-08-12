@@ -28,6 +28,7 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetReference;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.Input.OneVarInput;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.Result;
+import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.StatisticsReferenceDelegate;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatisticsView;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.jspecify.annotations.NonNull;
@@ -40,9 +41,11 @@ public final class KernelOneVarSpreadsheetStatisticsView
 	private @Nullable AlgoCellRange algoCellRange;
 
 	KernelOneVarSpreadsheetStatisticsView(@NonNull Kernel kernel,
-			@NonNull StatisticGroupsBuilder statisticGroupsBuilder,
-			@NonNull TabularRange range) {
-		super(kernel, statisticGroupsBuilder, new OneVarInput(range), "1VariableStatistics");
+			@NonNull StatisticGroupsBuilder statisticGroupsBuilder, @NonNull TabularRange range,
+			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate) {
+		super(kernel, statisticGroupsBuilder, new OneVarInput(range), "1VariableStatistics",
+				statisticsReferenceDelegate);
+		recalculate();
 	}
 
 	// -- KernelSpreadsheetStatisticsView --

@@ -101,7 +101,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize,
 		this.spreadsheet = spreadsheet;
 		KernelSpreadsheetStatistics spreadsheetStatistics =
 				new KernelSpreadsheetStatistics(app.getKernel());
-		spreadsheet.setStatisticsDelegate(new SpreadsheetStatisticsDelegateW(app),
+		spreadsheet.setStatisticsViewDelegate(new SpreadsheetStatisticsDelegateW(app, spreadsheet),
 				spreadsheetStatistics);
 		spreadsheet.setControlsDelegate(initControlsDelegate());
 		spreadsheet.setSpreadsheetDelegate(initSpreadsheetDelegate());
