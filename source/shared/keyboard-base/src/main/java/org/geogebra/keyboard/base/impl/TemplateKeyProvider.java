@@ -29,4 +29,9 @@ public interface TemplateKeyProvider {
 	 * @return input sequence for vector key
 	 */
 	String getVectorFunction();
+
+	/**
+	 * @return input sequence for matrix key
+	 */
+	String getMatrixFunction();
 }

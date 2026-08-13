@@ -38,4 +38,10 @@ public class LocalizedTemplateKeyProvider implements TemplateKeyProvider {
 		int dimension = app.getActiveEuclidianView().getDimension();
 		return "$vector:" + dimension;
 	}
+
+	@Override
+	public String getMatrixFunction() {
+		int dimension = app.getActiveEuclidianView().getDimension();
+		return "$matrix:" + dimension + ":" + dimension;
+	}
 }

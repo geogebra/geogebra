@@ -783,10 +783,6 @@ public class TabbedKeyboard extends FlowPanel
 		if (processField == null) {
 			return;
 		}
-		if (Action.SHOW_MATRIX_INPUT_DIALOG.name().equals(btn.getFeedback())) {
-			showMatrixInputDialog();
-			return;
-		}
 		if (btn instanceof FunctionalKeyboardButton
 				&& ((FunctionalKeyboardButton) btn).getAction() != null) {
 			FunctionalKeyboardButton button = (FunctionalKeyboardButton) btn;
@@ -818,14 +814,6 @@ public class TabbedKeyboard extends FlowPanel
 		if (Action.SWITCH_TO_123.name().equals(btn.getSecondaryAction())) {
 			switcher.select(KeyboardType.NUMBERS);
 		}
-	}
-
-	private void showMatrixInputDialog() {
-		KeyboardListener currentProcessField = processField;
-		hasKeyboard.showMatrixInputDialog((input) -> {
-			setProcessing(currentProcessField);
-			processInput(input);
-		});
 	}
 
 	private void processInput(String text) {

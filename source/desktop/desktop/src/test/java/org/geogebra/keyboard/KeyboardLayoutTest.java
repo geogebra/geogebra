@@ -78,9 +78,9 @@ public class KeyboardLayoutTest {
 						+ "POINT_TEMPLATE,VECTOR_TEMPLATE,MATRIX_TEMPLATE,\\,&,@,#,"
 						+ "Translate.currency,BACKSPACE_DELETE,;,:,',\",′,"
 						+ "″,LEFT_ARROW,RIGHT_ARROW,RETURN_ENTER,",
-				resources.toString()); // TODO fix test
+				resources.toString());
 		assertEquals("∞,≟,≠,∧,∨,¬,⊗,[,],∥,⟂,∈,⊂,⊆,∠,→,⌈,⌊,"
-						+ "$point:2,$vector:2,SHOW_MATRIX_INPUT_DIALOG,\\,&,@,#,"
+						+ "$point:2,$vector:2,$matrix:2:2,\\,&,@,#,"
 						+ "Translate.currency,BACKSPACE_DELETE,;,:,',\",′,"
 						+ "″,LEFT_CURSOR,RIGHT_CURSOR,RETURN_ENTER,",
 				actions.toString());

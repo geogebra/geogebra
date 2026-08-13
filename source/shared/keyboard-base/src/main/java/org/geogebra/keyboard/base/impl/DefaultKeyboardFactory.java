@@ -239,5 +239,10 @@ public class DefaultKeyboardFactory implements KeyboardFactory {
 		public String getVectorFunction() {
 			return "$vector:2";
 		}
+
+		@Override
+		public String getMatrixFunction() {
+			return "$matrix:2:2";
+		}
 	}
 }

@@ -50,7 +50,6 @@ import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addTranslateInputCommandButton;
 
 import org.geogebra.keyboard.base.Action;
-import org.geogebra.keyboard.base.Background;
 import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.impl.TemplateKeyProvider;
 import org.geogebra.keyboard.base.model.KeyboardModel;
@@ -102,9 +101,8 @@ public class SpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
 					templateKeyProvider.getPointFunction(), 1.0f);
 			addConstantInputCommandButton(row, buttonFactory, Resource.VECTOR_TEMPLATE,
 					templateKeyProvider.getVectorFunction(), 1.0f);
-			row.addButton(buttonFactory.createCustomConstantButton(
-					Resource.MATRIX_TEMPLATE.name(), Action.SHOW_MATRIX_INPUT_DIALOG.name(),
-					1.0f, Background.STANDARD));
+			addConstantInputCommandButton(row, buttonFactory, Resource.MATRIX_TEMPLATE,
+					templateKeyProvider.getMatrixFunction(), 1.0f);
 			addInputButton(row, buttonFactory, BACKSLASH);
 			addInputButton(row, buttonFactory, AMPERSAND);
 			addInputButton(row, buttonFactory, AT);
