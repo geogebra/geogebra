@@ -357,6 +357,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 				() -> {
 					getApp().closePopups();
 					getApp().splitAndDeleteSelectedObjects();
+					setVisible(false);
 				},
 				getApp().getGeneralIconResource().getImageResource(GeneralIcon.DELETE), "Delete");
 		styleAndRegisterButton(deleteButton);
