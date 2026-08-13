@@ -221,7 +221,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	public void setSideSheetTable(@NonNull StickyProbabilityTable table) {
 		table.setStyleName("tvTable", true);
 		if (sideSheet != null) {
-			sideSheet.addToContent(table);
+			sideSheet.resetContentTo(table);
 		}
 	}
 

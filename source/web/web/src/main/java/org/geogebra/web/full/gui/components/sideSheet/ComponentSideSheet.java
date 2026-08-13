@@ -93,6 +93,13 @@ public class ComponentSideSheet extends FlowPanel implements SetLabels {
 	}
 
 	/**
+	 * @param widget reset to widget the content
+	 */
+	public void resetContentTo(Widget widget) {
+		sideSheet.resetContentTo(widget);
+	}
+
+	/**
 	 * Focus the first element (close button).
 	 */
 	public void focus() {

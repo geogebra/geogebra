@@ -127,6 +127,15 @@ class SideSheetPanel extends FlowPanel implements SetLabels {
 		contentPanel.add(widget);
 	}
 
+	/**
+	 * Resets the content panel to this widget
+	 * @param widget ui element
+	 */
+	void resetContentTo(Widget widget) {
+		contentPanel.clear();
+		contentPanel.add(widget);
+	}
+
 	private boolean hasButtonPanel() {
 		return data.hasPositiveBtn() || data.hasNegativeBtn();
 	}

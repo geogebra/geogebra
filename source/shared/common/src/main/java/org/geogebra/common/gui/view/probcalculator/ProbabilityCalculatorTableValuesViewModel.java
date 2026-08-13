@@ -24,7 +24,6 @@ public final class ProbabilityCalculatorTableValuesViewModel
 		implements ProbabilityCalculatorView.Listener {
 	private final @NonNull ProbabilityCalculatorView probabilityCalculatorView;
 	private @Nullable ProbabilityCalculatorTableValues tableValues;
-	private boolean buttonVisible;
 	private @Nullable Delegate delegate;
 
 	/** Receives notifications when the content or button state changes. */
@@ -50,7 +49,6 @@ public final class ProbabilityCalculatorTableValuesViewModel
 	public ProbabilityCalculatorTableValuesViewModel(
 			@NonNull ProbabilityCalculatorView probabilityCalculatorView) {
 		this.probabilityCalculatorView = probabilityCalculatorView;
-		this.buttonVisible = probabilityCalculatorView.isDiscreteProbability();
 		probabilityCalculatorView.addListener(this);
 	}
 
@@ -73,8 +71,8 @@ public final class ProbabilityCalculatorTableValuesViewModel
 	 * @return current button state
 	 */
 	public @NonNull ButtonState getButtonState() {
-		return buttonVisible ? tableValues != null ? ButtonState.ACTIVE : ButtonState.INACTIVE
-				: ButtonState.HIDDEN;
+		return probabilityCalculatorView.isDiscreteProbability() ? tableValues != null
+				? ButtonState.ACTIVE : ButtonState.INACTIVE : ButtonState.HIDDEN;
 	}
 
 	/** Handles tapping on the table values button. */
@@ -105,7 +103,6 @@ public final class ProbabilityCalculatorTableValuesViewModel
 		if (tableValues != null) {
 			tableValues = ProbabilityCalculatorTableValues.from(probabilityCalculatorView);
 		}
-		buttonVisible = probabilityCalculatorView.isDiscreteProbability();
 		if (delegate != null) {
 			delegate.update();
 		}
