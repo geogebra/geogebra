@@ -66,7 +66,7 @@ public class DistributionPanel extends FlowPanel {
 							appW.getKernel().getAlgebraProcessor(),
 							view, appW.appScope.propertiesRegistry);
 			FlowPanel holder = new FlowPanel();
-			holder.addStyleName("holder");
+			holder.addStyleName("parameterHolder");
 			for (PropertyView propertyView : distributionParametersProperties) {
 				Widget widget = adapter.getWidget(propertyView);
 				holder.add(widget);
