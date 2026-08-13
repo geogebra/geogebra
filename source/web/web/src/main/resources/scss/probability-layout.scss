@@ -10,6 +10,9 @@
 		.holder {
 			display: flex;
 			gap: 8px;
+			width: 100%;
+			flex-direction: row;
+			flex-wrap: wrap;
 		}
 
 		.inputTextField {
