@@ -86,6 +86,12 @@
 			z-index: 3000;
 			left: 0;
 		}
+		#console {
+			bottom: 0;
+			position: absolute;
+			max-height: 300px;
+			overflow: auto;
+		}
 	</style>
 
 	<script type="text/javascript">
@@ -240,9 +246,9 @@
 
 			for (param in params) {
 				type = typeof params[param] == "object" ? params[param][0]
-					: params[param];
+						: params[param];
 				var input = document.createElement(type === "select" ? "select"
-					: "input");
+						: "input");
 				if (type === "select") {
 					for (var opt = 1; opt < params[param].length; opt++) {
 						var optVal = params[param][opt];
@@ -323,20 +329,24 @@
 					resizer.style.top = (y - 24) + "px";
 				}
 			});
-			document.getElementById("hide").addEventListener("click", function(e) {
+			document.getElementById("hide").addEventListener("click", function() {
 				const style = document.getElementById("settings").style;
 				style.display = style.display == "none" ? "" : "none";
 			});
-			document.getElementById("filter").addEventListener("input", function(e) {
+			document.getElementById("filter").addEventListener("input", function() {
 				document.querySelectorAll("[data-for]").forEach(el => {
 					el.style.display = el.getAttribute("data-for").includes(document.getElementById("filter").value.toLowerCase()) ? "" : "none";
 				});
 			});
-			document.getElementById("testDrag").addEventListener("click", function(e) {
+			document.getElementById("testDrag").addEventListener("click", function() {
 				document.getElementById("draggables").style.display = "flex";
 			});
+			document.getElementById("log").addEventListener("click", function() {
+				let logs = document.getElementById("console");
+				console.log = console.warn = console.error = (line) => logs.textContent = line + "\n" + logs.textContent;
+			});
 			var reloadInterval;
-			document.getElementById("testReloading").addEventListener("click", function(e) {
+			document.getElementById("testReloading").addEventListener("click", function() {
 				if (reloadInterval) {
 					window.clearInterval(reloadInterval);
 				} else {
@@ -354,7 +364,7 @@
 				const el = event.srcElement;
 				if (el.getAttribute("data-type")) {
 					event.dataTransfer.setData(el.getAttribute("data-type"),
-						el.getAttribute("data-content") || el.innerHTML);
+							el.getAttribute("data-content") || el.innerHTML);
 				} else if (el.querySelector("img")) {
 					// binary not supported in Chrome, use data URL instead https://bugs.chromium.org/p/chromium/issues/detail?id=438479
 					const url = el.querySelector("img").src;
@@ -374,6 +384,7 @@
 <button id="testDrag">Test dragging</button>
 <button id="testReloading">Test reloading</button>
 <button id="hide">Show / Hide Settings</button>
+<button id="log">Show log</button>
 <div id="draggables">
 	<p draggable="true" data-type="text/plain">Drag me as text!</p>
 	<p draggable="true" data-type="application/x-latex" data-content="\sqrt{a}"><img draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAXCAYAAAAYyi9XAAAAAXNSR0IArs4c6QAAAXZJREFUSEvV1D9IlWEUx/GPEDjYUkujDuJYQ5BL+AdSFEIQjMjaQ5oiQZy0TXTQRQhFBAdRbEuDCscW16JBSAKDxEGc3AQ58Cov13u5772PXOiBZ3h4znO+53fOc06TBq+mBvP8l8C3+FclUxuX96kKhzGC9SrAnZsC7qIf50X/QorCQTzC+6KwsEsBfsJznDUC2IPuWtWlKNzEa5zm1EUQz3ALoX67nPJ6UtqJgRJ1L/EUX9CGKTzG91JoJWAX7mGrTJSrmMBx7u4uTnLnz9jDdBHgOFrQl0WZf/MA0XvXHOWM2vEqq3FvEWDYtOIAQ7hqWixiBocljp5gGX9yO2paGBj+VnA7+/px7sBoBXU/8TF3FxmIX1wTMFL6FffxA3P4gN9l6hq1DugSHmIhy0JNwPD7Db8y2BtMVmjyF9lMvYN9HNWjMHyPYR6ziIkf8KRVrQ+b8RdreJdEyh5XA4ZZNHHUKFldymirW2wRhXU7v6lZmhTABegYPRiILkp1AAAAAElFTkSuQmCC"/></p>
@@ -390,6 +401,7 @@
 		&#x2194;
 	</div>
 </div>
+<pre id="console"></pre>
 <div id="glasspane"></div>
 <div id="status"></div>
 <div id="keyboardParent">Keyboard comes here</div>

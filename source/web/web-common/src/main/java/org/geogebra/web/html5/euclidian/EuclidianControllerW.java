@@ -320,6 +320,13 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	@Override
+	public void onPointerCancel() {
+		if (pen != null) {
+			pen.finishStrokePart();
+		}
+	}
+
+	@Override
 	public MouseTouchGestureControllerW getOffsets() {
 		return mtg;
 	}

@@ -109,4 +109,12 @@ public interface IsEuclidianController extends LongTouchHandler {
 	 * @return mouse, touch and gesture controller
 	 */
 	MouseTouchGestureControllerW getOffsets();
+
+	/**
+	 * Called when pointer event canceled.
+	 * Happens e.g. when device is touched by stylus after being touched by finger
+	 */
+	default void onPointerCancel() {
+		// not needed in 3D
+	}
 }

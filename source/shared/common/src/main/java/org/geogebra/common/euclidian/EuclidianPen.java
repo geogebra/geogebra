@@ -321,7 +321,7 @@ public class EuclidianPen implements GTimerListener {
 			boolean anglesOK = true;
 			for (int j = 1; j < i; j++) {
 				if (angle(newPoint, penPoints.get(penPoints.size() - j),
-						current, MAX_POINT_COS)) {
+						current)) {
 					anglesOK = false;
 				}
 			}
@@ -332,7 +332,7 @@ public class EuclidianPen implements GTimerListener {
 		return null;
 	}
 
-	private static boolean angle(GPoint2D a, GPoint2D b, GPoint2D c, double max) {
+	private static boolean angle(GPoint2D a, GPoint2D b, GPoint2D c) {
 		if (a == null || b == null || c == null) {
 			return true;
 		}
@@ -342,7 +342,7 @@ public class EuclidianPen implements GTimerListener {
 		double dy2 = c.y - b.y;
 		double ret = Math.abs(dx1 * dx2 + dy1 * dy2) / Math.hypot(dx1, dy1)
 				/ Math.hypot(dx2, dy2);
-		return Double.isNaN(ret) || ret < max;
+		return Double.isNaN(ret) || ret < EuclidianPen.MAX_POINT_COS;
 	}
 
 	/**
@@ -367,6 +367,13 @@ public class EuclidianPen implements GTimerListener {
 			penPoints.clear();
 		}
 
+		finishStrokePart();
+	}
+
+	/**
+	 * Add current points to the stroke.
+	 */
+	public void finishStrokePart() {
 		timer.start();
 		String oldXML = null;
 		if (lastAlgo != null && !startNewStroke) {

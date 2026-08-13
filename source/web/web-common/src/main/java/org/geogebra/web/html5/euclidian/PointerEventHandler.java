@@ -44,7 +44,7 @@ public class PointerEventHandler {
 
 	private final IsEuclidianController tc;
 	private static Element pointerCapture;
-	private HasOffsets off;
+	private final HasOffsets off;
 
 	private @Nullable PointerState first;
 	private @Nullable PointerState second;
@@ -278,8 +278,10 @@ public class PointerEventHandler {
 		globalHandlers.addEventListener(element, "pointerout",
 				evt -> onPointerOut(Js.uncheckedCast(evt)));
 
-		globalHandlers.addEventListener(element, "pointercancel",
-				evt -> onPointerOut(Js.uncheckedCast(evt)));
+		globalHandlers.addEventListener(element, "pointercancel", evt -> {
+			onPointerOut(Js.uncheckedCast(evt));
+			tc.onPointerCancel();
+		});
 
 		// if pointer was released in the applet, process event coordinates like "pointerdown"
 		globalHandlers.addEventListener(element, "pointerup",
