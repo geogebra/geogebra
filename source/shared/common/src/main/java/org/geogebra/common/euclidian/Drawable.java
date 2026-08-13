@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -79,7 +80,7 @@ public abstract class Drawable extends DrawableND {
 	 */
 	protected GBasicStroke decoStroke = EuclidianStatic.getDefaultStroke();
 
-	private int lineThickness = -1;
+	private double lineThickness = -1;
 	private int lineType = -1;
 
 	/**
@@ -612,11 +613,14 @@ public abstract class Drawable extends DrawableND {
 		strokedShape = null;
 		strokedShape2 = null;
 
-		int geoLineThickness = fromGeo.getLineThickness();
+		double geoLineThickness = fromGeo.getLineThickness();
+		if (view.getSettings() != null && view.getSettings().getLineThicknessScaled()) {
+			geoLineThickness = geoLineThickness * view.getXscale() / EuclidianView.SCALE_STANDARD;
+		}
 		if (view.getApplication().getSelectionManager().isKeyboardFocused(geo)) {
 			geoLineThickness += KEYBOARD_HIGHLIGHT_EXTRA_WIDTH;
 		}
-		if (lineThickness != geoLineThickness) {
+		if (!DoubleUtil.isEqual(lineThickness, geoLineThickness)) {
 			lineThickness = Math.max(minThickness, geoLineThickness);
 			if (!forcedLineType) {
 				lineType = fromGeo.getLineType();

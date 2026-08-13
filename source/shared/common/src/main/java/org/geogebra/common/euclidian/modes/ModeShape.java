@@ -156,12 +156,10 @@ public class ModeShape {
 		}
 		if (mode == EuclidianConstants.MODE_SHAPE_RECTANGLE) {
 			updateRectangle(event, false);
-			view.setRounded(false);
 			view.setShapeRectangle(rectangle);
 			view.repaintView();
 		} else if (mode == EuclidianConstants.MODE_SHAPE_SQUARE) {
 			updateRectangle(event, true);
-			view.setRounded(false);
 			view.setShapeRectangle(rectangle);
 			view.repaintView();
 		} else if (mode == EuclidianConstants.MODE_SHAPE_ELLIPSE
@@ -302,7 +300,6 @@ public class ModeShape {
 	 * @return geo was created
 	 */
 	public GeoElement handleMouseReleasedForShapeMode(AbstractEvent event) {
-		view.setRounded(false);
 		int mode = ec.getMode();
 		// make sure we set new start point after ignoring simple click
 		if (mode != EuclidianConstants.MODE_SHAPE_FREEFORM && !wasDragged) {

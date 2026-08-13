@@ -1517,7 +1517,7 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 		EuclidianPen pen = getEuclidianController().getPen();
 		overlayGraphics.setCoordinateSpaceSize(getWidth(), getHeight());
-		overlayGraphics.setStroke(EuclidianStatic.getStroke(pen.getPenSize(),
+		overlayGraphics.setStroke(EuclidianStatic.getStroke(pen.getScaledPenSize(),
 				pen.getPenLineStyle(), GBasicStroke.JOIN_ROUND));
 		overlayGraphics.setColor(pen.getPenColorWithOpacity());
 	}

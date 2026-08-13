@@ -114,10 +114,19 @@ public class EuclidianPen implements GTimerListener {
 	}
 
 	/**
-	 * @return pen size
+	 * @return pen size as saved in file
 	 */
 	public int getPenSize() {
 		return defaultPenLine.getLineThickness();
+	}
+
+	/**
+	 * @return pen size as drawn on screen
+	 */
+	public double getScaledPenSize() {
+		double zoom = view.getXscale() / EuclidianView.SCALE_STANDARD;
+		return view.getSettings().getLineThicknessScaled()
+				? defaultPenLine.getLineThickness() * zoom : defaultPenLine.getLineThickness();
 	}
 
 	/**
@@ -503,7 +512,7 @@ public class EuclidianPen implements GTimerListener {
 	 */
 	public void setStyleAndRepaint(GGraphics2D g2) {
 		if (!previewPoints.isEmpty()) {
-			g2.setStroke(EuclidianStatic.getStroke(getPenSize(),
+			g2.setStroke(EuclidianStatic.getStroke(getScaledPenSize(),
 					getPenLineStyle(), GBasicStroke.JOIN_ROUND));
 			g2.setColor(getPenColorWithOpacity());
 		}
@@ -511,7 +520,7 @@ public class EuclidianPen implements GTimerListener {
 	}
 
 	/**
-	 * Paint on graphics if needed
+	 * Paint on graphics if needed, assumes stroke was set previously on {@code g2}.
 	 * @param g2 graphics
 	 */
 	public void repaintIfNeeded(GGraphics2D g2) {

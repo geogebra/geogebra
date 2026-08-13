@@ -177,6 +177,7 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 
 	private int visibleFromX;
 	private int visibleUntilY = Integer.MIN_VALUE;
+	private boolean lineThicknessScaled = false;
 
 	/**
 	 * @param app
@@ -1692,5 +1693,13 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 
 	public int getVisibleUntilY() {
 		return visibleUntilY > Integer.MIN_VALUE ? visibleUntilY : getHeight();
+	}
+
+	public void setLineThicknessScaled(boolean lineThicknessScaled) {
+		this.lineThicknessScaled = lineThicknessScaled;
+	}
+
+	public boolean getLineThicknessScaled() {
+		return lineThicknessScaled;
 	}
 }

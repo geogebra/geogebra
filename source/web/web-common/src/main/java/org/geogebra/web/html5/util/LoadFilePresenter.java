@@ -289,6 +289,9 @@ public class LoadFilePresenter {
 		if (!app.isUnbundled() && app.isPortrait()) {
 			app.adjustViews(false, false);
 		}
+		if (app.isWhiteboardActive()) {
+			app.getSettings().getEuclidian(1).setLineThicknessScaled(true);
+		}
 
 		app.showPerspectivesPopupIfNeeded();
 

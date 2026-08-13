@@ -142,18 +142,22 @@ public class DrawLocus extends Drawable {
 		if (!isVisible) {
 			return;
 		}
-		GRectangle bounds = getBounds();
 		GRectangle viewBounds = view.getFrame();
-
 		if (geo.isPenStroke() && !geo.getKernel().getApplication().isExporting()) {
 			if (bitmap == null) {
-				GRectangle bitmapBounds = getBitmapBounds(bounds, viewBounds);
+				GRectangle bounds = gp.getBounds();
+				int padding = BITMAP_PADDING;
+				if (view.getSettings().getLineThicknessScaled()) {
+					padding = (int) Math.ceil(padding * view.getXscale()
+							/ EuclidianView.SCALE_STANDARD);
+				}
+				GRectangle bitmapBounds = getBitmapBounds(bounds, viewBounds, padding);
 				if (bitmapBounds.getWidth() <= 0 || bitmapBounds.getHeight() <= 0) {
 					return;
 				}
 				bitmap = makeImage(g2, bitmapBounds);
-				bitmapShiftX = (int) bitmapBounds.getMinX() - BITMAP_PADDING;
-				bitmapShiftY = (int) bitmapBounds.getMinY() - BITMAP_PADDING;
+				bitmapShiftX = (int) bitmapBounds.getMinX() - padding;
+				bitmapShiftY = (int) bitmapBounds.getMinY() - padding;
 
 				GGraphics2D graphics = bitmap.createGraphics();
 				graphics.setAntialiasing();
@@ -182,12 +186,12 @@ public class DrawLocus extends Drawable {
 				(int) bounds.getWidth(), (int) bounds.getHeight(), g2p);
 	}
 
-	private GRectangle getBitmapBounds(GRectangle bounds, GRectangle viewBounds) {
+	private GRectangle getBitmapBounds(GRectangle bounds, GRectangle viewBounds, int padding) {
 		GRectangle2D rectangle = bounds.createIntersection(viewBounds);
 		return AwtFactory.getPrototype().newRectangle(
 				(int) rectangle.getX(), (int) rectangle.getY(),
-				(int) rectangle.getWidth() + 2 * BITMAP_PADDING,
-				(int) rectangle.getHeight() + 2 * BITMAP_PADDING);
+				(int) rectangle.getWidth() + 2 * padding,
+				(int) rectangle.getHeight() + 2 * padding);
 	}
 
 	private void buildGeneralPath(ArrayList<? extends MyPoint> pointList) {

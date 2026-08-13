@@ -885,9 +885,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		rotationMatrix.setOrigin(translation);
 	}
 
-	// TODO specific scaling for each direction
-	// private double scale = 50;
-
 	private void updateScaleMatrix() {
 		scaleMatrix.set(1, 1, getXscale());
 		scaleMatrix.set(2, 2, getYscale());

@@ -1153,7 +1153,6 @@ public class MyXMLHandler implements DocHandler {
 				// #2534
 				evSettings.setShowAxes(showAxes, showAxes);
 			}
-
 			evSettings.showGrid(parseBoolean(attrs.get("grid")));
 
 			try {
@@ -1219,7 +1218,7 @@ public class MyXMLHandler implements DocHandler {
 			if (del != null) {
 				app.getSettings().getPenTools().setDeleteToolSize(Integer.parseInt(del));
 			}
-
+			evSettings.setLineThicknessScaled(parseBoolean(attrs.get("lineThicknessScaled")));
 			// v3.0: appearance of right angle
 			String strRightAngleStyle = attrs.get("rightAngleStyle");
 			if (strRightAngleStyle == null) {

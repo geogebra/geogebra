@@ -17,6 +17,8 @@
 package org.geogebra.common.euclidian;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.test.BaseAppTestSetup;
@@ -48,5 +50,35 @@ class EuclidianViewForNotesTest extends BaseAppTestSetup {
 				evaluateGeoElement("Corner(1)").toValueString(StringTemplate.editTemplate));
 		assertEquals("(20.6288, 13.67011)",
 				evaluateGeoElement("Corner(3)").toValueString(StringTemplate.editTemplate));
+	}
+
+	@Test
+	public void lineThicknessScaledShouldBeSavedAndReloaded() {
+		getApp().getSettings().getEuclidian(1).setLineThicknessScaled(true);
+		String xml = getApp().getXML();
+		assertTrue(xml.contains("lineThicknessScaled=\"true\""));
+
+		// reset then reload
+		getApp().getSettings().getEuclidian(1).setLineThicknessScaled(false);
+		getApp().setXML(xml, true);
+		assertTrue(getApp().getSettings().getEuclidian(1).getLineThicknessScaled());
+	}
+
+	@Test
+	public void lineThicknessScaledShouldDefaultToFalseAndNotBeSaved() {
+		getApp().getSettings().getEuclidian(1).setLineThicknessScaled(false);
+		String xml = getApp().getXML();
+		assertFalse(xml.contains("lineThicknessScaled"));
+
+		getApp().setXML(xml, true);
+		assertFalse(getApp().getSettings().getEuclidian(1).getLineThicknessScaled());
+	}
+
+	@Test
+	public void loadingFileWithoutLineThicknessScaledShouldResetIt() {
+		getApp().getSettings().getEuclidian(1).setLineThicknessScaled(true);
+		String xml = getApp().getXML().replace(" lineThicknessScaled=\"true\"", "");
+		getApp().setXML(xml, true);
+		assertFalse(getApp().getSettings().getEuclidian(1).getLineThicknessScaled());
 	}
 }

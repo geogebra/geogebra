@@ -248,13 +248,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * object color of shape (black by default)
 	 */
 	private final static GColor shapeObjCol = GColor.BLACK;
-	/**
-	 * stroke of shape
-	 */
-	private final GBasicStroke shapeStroke = AwtFactory
-			.getPrototype().newBasicStroke(2.0f, GBasicStroke.CAP_BUTT,
-					GBasicStroke.JOIN_MITER);
-	private boolean isRounded = false;
 
 	// colors: axes, grid, background
 	GColor axesColor;
@@ -3838,21 +3831,23 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			g2.fill(shape);
 		}
 		g2.setColor(objCol);
-		if (!isRounded) {
-			g2.draw(shape);
-		} else {
-			// rectangle with rounded edges
-			g2.drawRoundRect((int) Math.round(((GRectangle) shape).getX()),
-					(int) Math.round(((GRectangle) shape).getY()),
-					(int) Math.round(((GRectangle) shape).getWidth()),
-					(int) Math.round(((GRectangle) shape).getHeight()), 20, 20);
-		}
+		g2.draw(shape);
 	}
 
 	protected void drawShape(GGraphics2D g2, GShape shape) {
 		if (shape != null) {
-			drawShape(g2, null, shapeObjCol, shapeStroke, shape);
+			drawShape(g2, null, shapeObjCol, getShapeStroke(), shape);
 		}
+	}
+
+	/**
+	 * stroke of shape
+	 */
+	private GBasicStroke getShapeStroke() {
+		return AwtFactory.getPrototype().newBasicStroke(
+				settings.getLineThicknessScaled() ? 2.0 * getXscale() / SCALE_STANDARD : 2.0,
+				GBasicStroke.CAP_BUTT,
+				GBasicStroke.JOIN_MITER);
 	}
 
 	/**
@@ -4384,21 +4379,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return shapePath;
 	}
 
-	/**
-	 * @return true if shape is rounded (e.g. for ShapeRectangleRoundEdges)
-	 */
-	public boolean isRounded() {
-		return isRounded;
-	}
-
-	/**
-	 * @param isRounded
-	 *            - true if shape is rounded (e.g. for ShapeRectangleRoundEdges)
-	 */
-	public void setRounded(boolean isRounded) {
-		this.isRounded = isRounded;
-	}
-
 	private GGeneralPath getBoundingPath() {
 		GeneralPathClipped gs = new GeneralPathClipped(this);
 		gs.resetWithThickness(1);
@@ -4699,6 +4679,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				: getPointCapturingMode());
 
 		sbxml.attr("rightAngleStyle", getApplication().rightAngleStyle);
+		if (settings != null && settings.getLineThicknessScaled()) {
+			sbxml.attr("lineThicknessScaled", true);
+		}
 		if (asPreference) {
 			sbxml.attr("allowShowMouseCoords", getAllowShowMouseCoords());
 

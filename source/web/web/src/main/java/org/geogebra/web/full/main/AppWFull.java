@@ -790,6 +790,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void resetUI() {
 		resetEVs();
+		if (isWhiteboardActive()) {
+			getActiveEuclidianView().getSettings().setLineThicknessScaled(true);
+		}
 		ToolbarPanel unbundledToolbarBefore = getGuiManager() != null
 				? getGuiManager().getUnbundledToolbar() : null;
 		final TabIds previousTabId = unbundledToolbarBefore != null
