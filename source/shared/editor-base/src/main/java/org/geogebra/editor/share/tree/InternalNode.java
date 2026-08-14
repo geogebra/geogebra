@@ -474,4 +474,13 @@ abstract public class InternalNode extends Node implements Iterable<Node> {
 	public boolean isRenderingOwnPlaceholders() {
 		return false;
 	}
+
+	/**
+	 * Whether this node is equal or ancestor of the other node.
+	 * @param other potential child node
+	 * @return whether this node is equal or ancestor of the other node.
+	 */
+	public boolean isOrHasChild(InternalNode other) {
+		return this == other || (other.getParent() != null && isOrHasChild(other.getParent()));
+	}
 }

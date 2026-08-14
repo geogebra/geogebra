@@ -20,7 +20,9 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.editor.share.catalog.TemplateCatalog;
 import org.geogebra.editor.share.serializer.TeXEscaper;
+import org.geogebra.editor.share.serializer.TeXSerializer;
 import org.geogebra.editor.share.util.FormulaConverter;
 import org.geogebra.editor.share.util.Unicode;
 
@@ -34,14 +36,16 @@ class InputBoxRenderer {
 		this.inputBox = inputBox;
 		this.linkedGeo = inputBox.getLinkedGeo();
 		this.stringTemplateForLaTeX = inputBox.tpl.derivePrecisionPreservingLaTeXTemplate();
-		formulaConverter = new FormulaConverter();
+		TeXSerializer serializer = new TeXSerializer();
+		serializer.useSimpleMatrixPlaceholders(true);
+		formulaConverter = new FormulaConverter(new TemplateCatalog(), serializer);
 	}
 
 	String getText() {
 		if (inputBox.isSymbolicModeWithSpecialEditor()) {
 			String tempUserEvalInput = inputBox.getTempUserEvalInput();
 			formulaConverter.setTemporaryInput(!"".equals(tempUserEvalInput));
-			return removeJlminput(formulaConverter.convert(inputBox.getTextForEditor()));
+			return formulaConverter.convert(inputBox.getTextForEditor());
 		}
 		if (linkedGeo.isGeoText()) {
 			String str = ((GeoText) linkedGeo).getTextStringSafe()
@@ -150,29 +154,4 @@ class InputBoxRenderer {
 		this.linkedGeo = linkedGeo;
 	}
 
-	private String removeJlminput(String input) {
-		StringBuilder output = new StringBuilder();
-		int i = 0;
-		while (i < input.length()) {
-			if (input.startsWith("\\jlminput{", i)) {
-				i += 10;
-				int braceCount = 1;
-				int start = i;
-
-				while (i < input.length() && braceCount > 0) {
-					if (input.charAt(i) == '{') {
-						braceCount++;
-					} else if (input.charAt(i) == '}') {
-						braceCount--;
-					}
-					i++;
-				}
-				output.append(input, start, i - 1);
-			} else {
-				output.append(input.charAt(i));
-				i++;
-			}
-		}
-		return output.toString();
-	}
 }

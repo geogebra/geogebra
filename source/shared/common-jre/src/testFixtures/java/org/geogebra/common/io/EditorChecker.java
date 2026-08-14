@@ -92,6 +92,15 @@ class EditorChecker {
 		reset();
 	}
 
+	public void checkLaTeXWithCursor(String output) {
+		EditorState state = mathField.getInternal().getEditorState();
+		assertEquals(output,
+				new TeXSerializer().serialize(state.getRootNode(),
+						state.getCurrentNode(), state.getCurrentOffset()));
+		// clean the checker after typing
+		reset();
+	}
+
 	public void checkGGBMath(String output) {
 		checkGGBMath(output, null);
 	}
@@ -262,7 +271,7 @@ class EditorChecker {
 	private EditorChecker convertFormulaAndProtect(String input, boolean protect) {
 		try {
 			FormulaConverter converter =
-					new FormulaConverter(mathField.getCatalog());
+					new FormulaConverter(mathField.getCatalog(), new TeXSerializer());
 			mathField.getInternal().setFormula(converter.buildFormula(input));
 			if (protect) {
 				mathField.getInternal().getFormula().getRootNode().setProtected();

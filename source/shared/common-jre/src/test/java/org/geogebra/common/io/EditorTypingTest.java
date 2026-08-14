@@ -1072,6 +1072,16 @@ class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
+	@Issue("APPS-7802")
+	void emptyMatrixFromKeyboardLaTeX() {
+		checker.pressSingleKey("$matrix:2:3").right(1)
+				.checkLaTeXWithCursor("\\begin{pmatrix} \\jlminput{\\vspace{0.7}} "
+						+ "& \\jlminput{\\jlmcursor{0.9}} & \\jlminput{\\vspace{0.7}} \\\\ "
+						+ "\\jlminput{\\vspace{0.7}} & \\jlminput{\\vspace{0.7}} & "
+						+ "\\jlminput{\\vspace{0.7}} \\end{pmatrix}");
+	}
+
+	@Test
 	@Issue("APPS-7000")
 	void pointToClipboard() {
 		checker.pressSingleKey("$point:2").type("1").right(1).type("2")

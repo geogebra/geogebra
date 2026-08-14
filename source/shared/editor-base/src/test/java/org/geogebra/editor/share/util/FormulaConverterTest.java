@@ -26,9 +26,8 @@ class FormulaConverterTest {
 	static final String BEGIN_PMATRIX = "\\begin{pmatrix} ";
 	static final String GREY_BOX =
 			"\\bgcolor{#e6e6eb}\\scalebox{1}[1.6]{\\phantom{g}}";
-	private final static String PLACEHOLDER1
+	private final static String PLACEHOLDER
 			= "{" + GREY_BOX + "}";
-	private final static String PLACEHOLDER = "{" + PLACEHOLDER1 + "}";
 	private final FormulaConverter converter = new FormulaConverter();
 
 	@BeforeEach
@@ -79,35 +78,35 @@ class FormulaConverterTest {
 
 	@Test
 	void testConvertEmpty2DPoint() {
-		assertEquals("\\left({" + PLACEHOLDER1
-				+ "," + PLACEHOLDER1 + "}\\right)", converter.convert("(?,?)"));
+		assertEquals("\\left({" + PLACEHOLDER
+				+ "," + PLACEHOLDER + "}\\right)", converter.convert("(?,?)"));
 	}
 
 	@Test
 	void testConvertEmpty3DPoint() {
-		assertEquals("\\left({" + PLACEHOLDER1
-				+ "," + PLACEHOLDER1 + "," + PLACEHOLDER1
+		assertEquals("\\left({" + PLACEHOLDER
+				+ "," + PLACEHOLDER + "," + PLACEHOLDER
 				+ "}\\right)", converter.convert("(,,)"));
 	}
 
 	@Test
 	void testConvertSemiEmptyPointNumberInLeft() {
-		assertEquals("\\left({4," + PLACEHOLDER1 + ","
-						+ PLACEHOLDER1 + "}\\right)",
+		assertEquals("\\left({4," + PLACEHOLDER + ","
+						+ PLACEHOLDER + "}\\right)",
 				converter.convert("(4,,)"));
 	}
 
 	@Test
 	void testConvertSemiEmptyPointNumberInMiddle() {
-		assertEquals("\\left({" + PLACEHOLDER1 + ",4,"
-						+ PLACEHOLDER1 + "}\\right)",
+		assertEquals("\\left({" + PLACEHOLDER + ",4,"
+						+ PLACEHOLDER + "}\\right)",
 				converter.convert("(,4,)"));
 	}
 
 	@Test
 	void testConvertSemiEmptyPointNumberInRight() {
-		assertEquals("\\left({" + PLACEHOLDER1 + ","
-						+ PLACEHOLDER1 + ",4}\\right)",
+		assertEquals("\\left({" + PLACEHOLDER + ","
+						+ PLACEHOLDER + ",4}\\right)",
 				converter.convert("(,,4)"));
 	}
 

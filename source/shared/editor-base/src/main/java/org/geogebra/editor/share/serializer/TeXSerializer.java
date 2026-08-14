@@ -37,9 +37,9 @@ public class TeXSerializer extends SerializerAdapter {
 	public static final int placeholderColor = 0xE6E6EB;
 	public static final int commandPlaceholderColor = 0x9E9E9E;
 	public static final int placeholderBackground = 0xF3F2F7;
-
-	public static final String PLACEHOLDER = "{\\bgcolor{#"
-			+ Integer.toHexString(placeholderColor) + "}\\scalebox{1}[1.6]{\\phantom{g}}}";
+	private static final String PLACEHOLDER_NO_BRACE = "\\bgcolor{#"
+			+ Integer.toHexString(placeholderColor) + "}\\scalebox{1}[1.6]{\\phantom{g}}";
+	public static final String PLACEHOLDER = "{" + PLACEHOLDER_NO_BRACE + "}";
 	private static final String selection_start = "\\jlmselection{";
 	private static final String selection_end = "}";
 	private static final String PLACEHOLDER_INVISIBLE = "\\nbsp{}";
@@ -160,7 +160,7 @@ public class TeXSerializer extends SerializerAdapter {
 					stringBuilder.append(cursorBig);
 				}
 			} else {
-				stringBuilder.append(getPlaceholder(sequence));
+				stringBuilder.append(getPlaceholder(sequence, addBraces));
 			}
 		} else {
 			if (sequence == mCurrentField) {
@@ -204,7 +204,7 @@ public class TeXSerializer extends SerializerAdapter {
 		stringBuilder.append(cursorFix);
 	}
 
-	private String getPlaceholder(SequenceNode sequence) {
+	private String getPlaceholder(SequenceNode sequence, boolean afterBrace) {
 		InternalNode parent = sequence.getParent();
 		if (parent == null
 				|| (parent instanceof ArrayNode && parent.size() == 1)) {
@@ -216,7 +216,8 @@ public class TeXSerializer extends SerializerAdapter {
 				return PLACEHOLDER_INVISIBLE;
 			}
 		}
-		return showPlaceholder ? PLACEHOLDER : PLACEHOLDER_INVISIBLE;
+		return showPlaceholder ? (afterBrace ? PLACEHOLDER_NO_BRACE : PLACEHOLDER)
+				: PLACEHOLDER_INVISIBLE;
 	}
 
 	@Override
@@ -402,22 +403,21 @@ public class TeXSerializer extends SerializerAdapter {
 		}
 	}
 
-	private void point(FunctionNode function, StringBuilder stringBuilder, String s) {
-		stringBuilder.append("\\left(\\jlminput{");
-		serialize(function.getChild(0), stringBuilder);
+	private void point(FunctionNode function, StringBuilder stringBuilder, String separator) {
+		stringBuilder.append("\\left(");
+		appendAsInput(function.getChild(0), stringBuilder);
 		for (int i = 1; i < function.size(); i++) {
-			stringBuilder.append("}").append(s).append("\\jlminput{");
-			serialize(function.getChild(i), stringBuilder);
+			stringBuilder.append(separator);
+			appendAsInput(function.getChild(i), stringBuilder);
 		}
-		stringBuilder.append("}\\right)");
+		stringBuilder.append("\\right)");
 	}
 
 	private void vector(FunctionNode function, StringBuilder stringBuilder) {
 		stringBuilder.append("\\begin{pmatrix}");
 		for (int i = 0; i < function.size(); i++) {
-			stringBuilder.append("\\jlminput{");
-			serialize(function.getChild(i), stringBuilder);
-			stringBuilder.append("}\\\\");
+			appendAsInput(function.getChild(i), stringBuilder);
+			stringBuilder.append("\\\\");
 		}
 		stringBuilder.append("\\end{pmatrix}");
 	}
@@ -509,9 +509,12 @@ public class TeXSerializer extends SerializerAdapter {
 		stringBuilder.append(array.getOpenDelimiter().getTex());
 		for (int i = 0; i < array.getRows(); i++) {
 			for (int j = 0; j < array.getColumns(); j++) {
-				stringBuilder.append(showFancyPlaceholders ? "\\jlminput{" : "");
-				serialize(array.getChild(i, j), stringBuilder);
-				stringBuilder.append(showFancyPlaceholders ? "}" : "");
+				SequenceNode child = array.getChild(i, j);
+				if (showFancyPlaceholders) {
+					appendAsInput(child, stringBuilder);
+				} else {
+					serialize(child, stringBuilder);
+				}
 				if (j + 1 < array.getColumns()) {
 					stringBuilder.append(array.getFieldDelimiter().getTex());
 				} else if (i + 1 < array.getRows()) {
@@ -523,6 +526,17 @@ public class TeXSerializer extends SerializerAdapter {
 		if (this.currentSelEnd == array) {
 			stringBuilder.append(TeXSerializer.selection_end);
 		}
+	}
+
+	private void appendAsInput(SequenceNode child, StringBuilder stringBuilder) {
+		stringBuilder.append("\\jlminput{");
+		if (child.size() > 0
+				|| mCurrentField != null && child.isOrHasChild(mCurrentField)) {
+			serialize(child, stringBuilder);
+		} else {
+			stringBuilder.append("\\vspace{0.7}");
+		}
+		stringBuilder.append("}");
 	}
 
 	@Override

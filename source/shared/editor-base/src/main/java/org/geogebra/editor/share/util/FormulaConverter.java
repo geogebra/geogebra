@@ -33,15 +33,15 @@ public class FormulaConverter {
 	private String lastOutput = "";
 
 	public FormulaConverter() {
-		this(new TemplateCatalog());
+		this(new TemplateCatalog(), new TeXSerializer());
 	}
 
 	/**
 	 * Constructor
 	 */
-	public FormulaConverter(TemplateCatalog catalog) {
+	public FormulaConverter(TemplateCatalog catalog, TeXSerializer serializer) {
 		parser = new Parser(catalog);
-		texSerializer = new TeXSerializer();
+		texSerializer = serializer;
 		placeholders = new AddPlaceholders();
 	}
 

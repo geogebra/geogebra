@@ -24,6 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -787,9 +788,9 @@ class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("u=(?,?/?)");
 		GeoInputBox inputBox = add("InputBox(u)");
 		assertEquals("\\begin{pmatrix} "
-				+ TeXSerializer.PLACEHOLDER + " \\\\ "
+				+ TeXSerializer.PLACEHOLDER + " \\\\ {"
 				+ "{\\frac{" + TeXSerializer.PLACEHOLDER + "}{" + TeXSerializer.PLACEHOLDER + "}}"
-				+ " \\end{pmatrix}", inputBox.getText());
+				+ "} \\end{pmatrix}", inputBox.getText());
 	}
 
 	@Test
@@ -880,8 +881,8 @@ class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		EditorState editorState = mf.getInternal().getEditorState();
 		assertNull(editorState.getSelectionStart());
 		assertNull(editorState.getSelectionEnd());
-		assertTrue(editorState.getCurrentNode().getChild(editorState.getCurrentOffset())
-				instanceof CharPlaceholderNode);
+		assertInstanceOf(CharPlaceholderNode.class,
+				editorState.getCurrentNode().getChild(editorState.getCurrentOffset()));
 	}
 
 	@Issue("APPS-7703")
@@ -897,7 +898,7 @@ class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		Node selectionStart = mf.getInternal().getEditorState().getSelectionStart();
 		Node selectionEnd = mf.getInternal().getEditorState().getSelectionEnd();
 
-		assertTrue(selectionStart instanceof FunctionNode);
+		assertInstanceOf(FunctionNode.class, selectionStart);
 		assertEquals(Tag.FRAC, ((FunctionNode) selectionStart).getName());
 		assertEquals(selectionStart, selectionEnd);
 	}
@@ -916,8 +917,8 @@ class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		mf.getInternal().onTab(false);
 		assertNull(editorState.getSelectionStart());
 		assertNull(editorState.getSelectionEnd());
-		assertTrue(editorState.getCurrentNode().getChild(editorState.getCurrentOffset())
-				instanceof CharPlaceholderNode);
+		assertInstanceOf(CharPlaceholderNode.class,
+				editorState.getCurrentNode().getChild(editorState.getCurrentOffset()));
 	}
 
 	@Issue("APPS-7703")
@@ -936,7 +937,7 @@ class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		EditorState editorState = mf.getInternal().getEditorState();
 		assertNull(editorState.getSelectionStart());
 		assertNull(editorState.getSelectionEnd());
-		assertTrue(editorState.getCurrentNode().getChild(editorState.getCurrentOffset())
-				instanceof CharPlaceholderNode);
+		assertInstanceOf(CharPlaceholderNode.class,
+				editorState.getCurrentNode().getChild(editorState.getCurrentOffset()));
 	}
 }
