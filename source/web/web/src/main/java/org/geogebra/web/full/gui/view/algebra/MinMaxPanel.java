@@ -137,7 +137,7 @@ public final class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	 * @param event
 	 *            focus event in step field
 	 */
-	protected void stepFocused(FocusEvent event) {
+	private void stepFocused(FocusEvent event) {
 		if (focusRequested) {
 			event.preventDefault();
 			event.stopPropagation();

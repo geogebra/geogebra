@@ -95,7 +95,7 @@ public final class AlgebraTab extends ToolbarTab {
 	 * @param evt
 	 *            click event
 	 */
-	protected void emptyAVclicked(ClickEvent evt) {
+	private void emptyAVclicked(ClickEvent evt) {
 		int bt = wrapper.getAbsoluteTop() + wrapper.getOffsetHeight();
 		if (evt.getClientY() > bt && aview != null) {
 			app.getSelectionManager()

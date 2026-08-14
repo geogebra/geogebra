@@ -239,7 +239,7 @@ public final class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	/**
 	 * Click start callback
 	 */
-	protected void doClickStart() {
+	private void doClickStart() {
 		setFocus(true);
 		app.showKeyboard(retexListener);
 		// prevent that keyboard is closed on clicks (changing

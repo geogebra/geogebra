@@ -567,7 +567,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/**
 	 * updates only GeoNumerics; used for animated
 	 */
-	protected void doRepaintSliders() {
+	private void doRepaintSliders() {
 		switch (treeMode) {
 
 		case ORDER:
@@ -839,7 +839,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 *
 	 * This method will also actually change the model of the tree.
 	 */
-	protected void initModel() {
+	private void initModel() {
 		// build default tree structure
 		switch (treeMode) {
 		default:
@@ -944,7 +944,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/**
 	 * remove all from the tree
 	 */
-	protected void clearTree() {
+	private void clearTree() {
 		switch (getTreeMode()) {
 		default:
 		case DEPENDENCY:
@@ -969,7 +969,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/**
 	 * set labels on the tree
 	 */
-	protected void setTreeLabels() {
+	private void setTreeLabels() {
 		TreeItem node;
 		switch (getTreeMode()) {
 		case DEPENDENCY:
@@ -1008,7 +1008,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 *            override layer stored in Geo
 	 * @return parent node of this geo
 	 */
-	protected TreeItem getParentNode(GeoElement geo, int forceLayer) {
+	private TreeItem getParentNode(GeoElement geo, int forceLayer) {
 		TreeItem parent;
 
 		switch (treeMode) {
@@ -1237,7 +1237,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * @param scroll
 	 *            whether we may scroll down
 	 */
-	protected void add(GeoElement geo, boolean scroll) {
+	void add(GeoElement geo, boolean scroll) {
 		if (!this.isAttachedToKernel()) {
 			return;
 		}
@@ -1649,13 +1649,6 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	public boolean isNodeTableEmpty() {
 		return this.nodeTable.isEmpty();
-	}
-
-	/**
-	 * @return number of elements in the view
-	 */
-	public int getNodeTableSize() {
-		return this.nodeTable.size();
 	}
 
 	/**

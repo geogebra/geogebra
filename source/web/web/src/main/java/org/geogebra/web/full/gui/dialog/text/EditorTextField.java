@@ -47,7 +47,7 @@ public final class EditorTextField extends GTextBox implements KeyUpHandler {
 				"font-family:" + fontFamily + "; font-size:" + fontSize + "pt");
 	}
 
-	protected void updateTarget() {
+	private void updateTarget() {
 		if (target != null) {
 			target.setPropertyString("value", getText());
 		}

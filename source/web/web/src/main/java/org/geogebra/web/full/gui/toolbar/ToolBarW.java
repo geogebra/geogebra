@@ -135,7 +135,7 @@ public final class ToolBarW extends FlowPanel
 		this.add(menuList);
 	}
 
-	protected ArrayList<ModeToggleMenuW> getModeToggleMenus() {
+	ArrayList<ModeToggleMenuW> getModeToggleMenus() {
 		return modeToggleMenus;
 	}
 
@@ -182,13 +182,6 @@ public final class ToolBarW extends FlowPanel
 	}
 
 	/**
-	 * @return currently selected mode
-	 */
-	public int getSelectedMode() {
-		return mode;
-	}
-
-	/**
 	 * @return first mode in this toolbar
 	 */
 	public int getFirstMode() {
@@ -230,7 +223,7 @@ public final class ToolBarW extends FlowPanel
 		}
 	}
 
-	protected ModeToggleMenuW createModeToggleMenu(AppW appw, Vector<Integer> menu, int order) {
+	private ModeToggleMenuW createModeToggleMenu(AppW appw, Vector<Integer> menu, int order) {
 		// toolbarVecSize is i.e. 12 for AV, 14 for 3D
 		if (maxButtons < getToolbarVecSize() || (maxButtons < 11 && getToolbarVecSize() < 11)) {
 			mobileToolbar = true;
@@ -240,7 +233,7 @@ public final class ToolBarW extends FlowPanel
 		return new ModeToggleMenuW(appw, menu, this, order);
 	}
 	
-	protected Vector<ToolbarItem> getToolbarVec() {
+	private Vector<ToolbarItem> getToolbarVec() {
 		Vector<ToolbarItem> toolbarVec;
 		try {
 

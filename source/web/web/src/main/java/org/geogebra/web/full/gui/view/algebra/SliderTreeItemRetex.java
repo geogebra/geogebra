@@ -45,7 +45,7 @@ public final class SliderTreeItemRetex extends LaTeXTreeItem {
 	 */
 
 	private MinMaxPanel minMaxPanel;
-	private GeoNumeric num;
+	private final GeoNumeric num;
 
 	/**
 	 * Creates a SliderTreeItem for AV sliders
@@ -267,7 +267,7 @@ public final class SliderTreeItemRetex extends LaTeXTreeItem {
 	/**
 	 * @return number
 	 */
-	protected GeoNumeric getNum() {
+	GeoNumeric getNum() {
 		return num;
 	}
 

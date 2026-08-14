@@ -152,14 +152,14 @@ public final class AnimPanel extends FlowPanel implements ClickHandler, HasDataT
 	}
 
 	/** @return tree item controller */
-	protected RadioTreeItemController getController() {
+	private RadioTreeItemController getController() {
 		return radioTreeItem.getController();
 	}
 
 	/**
 	 * @return geo element
 	 */
-	protected GeoElement getGeo() {
+	private GeoElement getGeo() {
 		return this.radioTreeItem.geo;
 	}
 

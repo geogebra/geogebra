@@ -402,7 +402,7 @@ public final class ToolbarPanel extends FlowPanel
 		}
 	}
 
-	protected boolean needsNavRail() {
+	boolean needsNavRail() {
 		return app.showToolBar() || app.getConfig().hasDistributionView();
 	}
 
@@ -587,7 +587,7 @@ public final class ToolbarPanel extends FlowPanel
 	/**
 	 * Handler for move floating button
 	 */
-	protected void moveBtnClicked() {
+	private void moveBtnClicked() {
 		setMoveMode();
 		if (tabTools != null) {
 			tabTools.showTooltip(EuclidianConstants.MODE_MOVE);
@@ -1377,7 +1377,7 @@ public final class ToolbarPanel extends FlowPanel
 				? CLOSED_WIDTH_LANDSCAPE_COMPACT : CLOSED_WIDTH_LANDSCAPE;
 	}
 
-	protected void setMenuButton(FocusableWidget focusableMenuButton) {
+	void setMenuButton(FocusableWidget focusableMenuButton) {
 		undoRedoProvider.redoAnchor = focusableMenuButton;
 	}
 

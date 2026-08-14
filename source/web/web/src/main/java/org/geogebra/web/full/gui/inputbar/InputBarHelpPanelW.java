@@ -27,7 +27,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.ManualPage;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
@@ -173,7 +172,7 @@ public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, Bo
 	/**
 	 * Opens browser with online help
 	 */
-	protected void openOnlineHelp() {
+	private void openOnlineHelp() {
 		if (getSelectedCommand() == null) {
 			app.getGuiManager().openHelp(ManualPage.INPUT_BAR, null);
 
@@ -190,7 +189,7 @@ public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, Bo
 	/**
 	 * Hide the parent popup
 	 */
-	protected void hide() {
+	private void hide() {
 		((InputBarHelpPopup) this.getParent()).hide();
 	}
 
@@ -360,7 +359,7 @@ public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, Bo
 	/**
 	 * Update syntax panel
 	 */
-	protected void updateDetailPanel() {
+	private void updateDetailPanel() {
 		syntaxPanel.clear();
 		if (getSelectedCommand() == null) {
 			
@@ -466,14 +465,9 @@ public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, Bo
 	}
 
 	private void ensureInputHasFocus() {
-		if (!(inputField instanceof RadioTreeItem)) {
-			Log.debug("HH not a RadioTreeItem");
-			return;
+		if (inputField instanceof RadioTreeItem ri) {
+			ri.ensureEditing();
 		}
-
-		RadioTreeItem ri = (RadioTreeItem) inputField;
-		Log.debug("HH RadioTreeItem turn to editing");
-		ri.ensureEditing();
 	}
 
 	private ArrayList<Widget> functionTableHTML() {

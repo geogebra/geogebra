@@ -101,7 +101,7 @@ public final class CheckboxCreationDialogW extends ComponentDialog implements
 		}
 	}
 
-	protected static String getDescription(GeoElement geo) {
+	private static String getDescription(GeoElement geo) {
 		String text = geo.getLongDescription();
 		if (text.length() < 100) {
 			return text;
@@ -184,7 +184,7 @@ public final class CheckboxCreationDialogW extends ComponentDialog implements
 		}
 	}
 
-	protected void buildContent() {
+	private void buildContent() {
 		// create caption panel
 		String initString = geoBoolean == null ? ""
 				: geoBoolean.getCaption(StringTemplate.defaultTemplate);

@@ -121,7 +121,7 @@ public final class AlgebraDockPanelW extends NavigableDockPanelW
 	 * @param event
 	 *            click event
 	 */
-	protected void algebraPanelClicked(AlgebraViewW av, ClickEvent event) {
+	private void algebraPanelClicked(AlgebraViewW av, ClickEvent event) {
 		int bt = wrapper.getAbsoluteTop() + wrapper.getOffsetHeight();
 		if (event.getClientY() > bt) {
 			app.getSelectionManager().clearSelectedGeos();

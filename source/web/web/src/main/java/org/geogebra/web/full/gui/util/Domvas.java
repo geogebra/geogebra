@@ -27,7 +27,7 @@ import jsinterop.annotations.JsType;
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "window")
 public final class Domvas {
 
-	protected Domvas() {
+	private Domvas() {
 		// use Domvas.get() instead, may return null
 	}
 

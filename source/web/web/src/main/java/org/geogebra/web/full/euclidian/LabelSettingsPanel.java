@@ -51,13 +51,6 @@ public final class LabelSettingsPanel extends FlowPanel implements SetLabels {
 		updateUI();
 	}
 
-	/**
-	 * Submit the change
-	 */
-	protected void onEnter() {
-		applyCheckboxes();
-	}
-
 	@Override
 	public void setLabels() {
 		List<String> flagNames = labelStyleProperty.getFlagNames();

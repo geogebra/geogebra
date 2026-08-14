@@ -20,7 +20,6 @@ import java.util.TreeMap;
 
 import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.main.AppW;
@@ -58,7 +57,7 @@ public final class TabletFileManager extends FileManagerT {
 		setInstance();
 	}
 
-	protected void init() {
+	private void init() {
 		callbacks = new TreeMap<>();
 	}
 
@@ -70,7 +69,7 @@ public final class TabletFileManager extends FileManagerT {
 		INSTANCE = this;
 	}
 
-	protected int addNewCallback(NativeBridgeCallback callback) {
+	private int addNewCallback(NativeBridgeCallback callback) {
 		callbacksCount++;
 		callbacks.put(callbacksCount, callback);
 		return callbacksCount;
@@ -343,16 +342,5 @@ public final class TabletFileManager extends FileManagerT {
 	public void setTubeID(String localID, Material mat) {
 		mat.setBase64("");
 		overwriteMetaDataNative(localID, mat.toJson().toString(), NO_CALLBACK);
-	}
-
-	protected void debug(String s) {
-		Log.debug(s);
-		debugNative(s);
-	}
-
-	private void debugNative(String s) {
-		if (GeoGebraJSNativeBridge.get() != null) {
-			GeoGebraJSNativeBridge.get().debug(s);
-		}
 	}
 }

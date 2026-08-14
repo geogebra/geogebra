@@ -121,7 +121,7 @@ public final class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 	 * @param btn - clicked button
 	 * @param viewId - view ID
 	 */
-	protected void selectAndUpdate(ToggleButton btn, int viewId) {
+	private void selectAndUpdate(ToggleButton btn, int viewId) {
 		uncheckAll(btn);
 		selectedViewId = viewId;
 		listener.update(selectedViewId);

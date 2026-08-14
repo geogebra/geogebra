@@ -115,7 +115,7 @@ public final class TwoVarStatPanelW extends StatTableW implements TwoVarStatList
 	 * @param idx
 	 *            selected index
 	 */
-	protected void listboxChange(int row, int idx) {
+	private void listboxChange(int row, int idx) {
 		if (row == 0) {
 			model.setSelectedDataIndex0(idx);
 		} else {

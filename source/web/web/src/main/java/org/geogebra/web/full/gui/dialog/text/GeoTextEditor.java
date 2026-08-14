@@ -371,7 +371,7 @@ public final class GeoTextEditor extends FocusWidget implements HasKeyboardTF {
 	// Editor Popup
 	// ======================================================
 
-	protected void showEditPopup(boolean isVisible) {
+	private void showEditPopup(boolean isVisible) {
 		if (isVisible) {
 			textEditPopup
 					.setPopupPositionAndShow((offsetWidth, offsetHeight) -> {
@@ -391,7 +391,7 @@ public final class GeoTextEditor extends FocusWidget implements HasKeyboardTF {
 		}
 	}
 
-	protected void createEditPopup() {
+	private void createEditPopup() {
 		if (textEditPopup == null) {
 			textEditPopup = new GPopupPanel(app.getAppletFrame(), app);
 			textEditPopup.addStyleName("textEditPopup");

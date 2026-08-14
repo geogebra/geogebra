@@ -181,7 +181,7 @@ public final class CustomColorDialog extends ComponentDialog {
 				blue.getValue());
 	}
 
-	protected void createGUI() {
+	private void createGUI() {
 		red = new ColorComponent();
 		red.setTitle(StringUtil.capitalize(loc.getColor("red")));
 		green = new ColorComponent();
@@ -202,7 +202,7 @@ public final class CustomColorDialog extends ComponentDialog {
 	/**
 	 * Update textfield from original color
 	 */
-	protected void setOriginalValues() {
+	private void setOriginalValues() {
 		red.setValue(origColor.getRed());
 		green.setValue(origColor.getGreen());
 		blue.setValue(origColor.getBlue());

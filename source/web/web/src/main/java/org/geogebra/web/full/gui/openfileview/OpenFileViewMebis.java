@@ -112,7 +112,7 @@ public final class OpenFileViewMebis extends HeaderFileView
 	/**
 	 * adds content if available, notification otherwise
 	 */
-	protected void addContent() {
+	private void addContent() {
 		common.clearContents();
 		if (materialListEmpty) {
 			common.showEmptyListNotification(getInfoErrorData());
@@ -186,7 +186,7 @@ public final class OpenFileViewMebis extends HeaderFileView
 	/**
 	 * Reload materials sorted by another property.
 	 */
-	protected void updateOrder() {
+	private void updateOrder() {
 		order = map[sortDropDown.getSelectedIndex() - 1];
 		loadAllMaterials(0);
 	}
@@ -198,7 +198,7 @@ public final class OpenFileViewMebis extends HeaderFileView
 	/**
 	 * start a new file
 	 */
-	protected void newFile() {
+	private void newFile() {
 		AsyncOperation<Boolean> newConstruction = active -> app.tryLoadTemplatesOnFileNew();
 		app.getAppletParameters().setAttribute("perspective", "");
 		app.getSaveController().showDialogIfNeeded(newConstruction, false);
@@ -344,7 +344,7 @@ public final class OpenFileViewMebis extends HeaderFileView
 	 * @param matList
 	 *            List of materials
 	 */
-	protected void addUsersMaterials(final List<Material> matList) {
+	private void addUsersMaterials(final List<Material> matList) {
 		materialListEmpty = matList.isEmpty();
 		for (Material material : matList) {
 			addMaterial(material);
@@ -406,7 +406,7 @@ public final class OpenFileViewMebis extends HeaderFileView
 	}
 
 	// EXPORT STATUS
-	protected void startExport() {
+	private void startExport() {
 		app.getLoginOperation().getResourcesAPI().startExport(new AjaxCallback() {
 			@Override
 			public void onSuccess(String response) {

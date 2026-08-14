@@ -68,7 +68,7 @@ public final class LabelValuePanel extends FlowPanel
 	/**
 	 * Submit the change
 	 */
-	protected void onEnter() {
+	private void onEnter() {
 		setNamePropertyValueOrThrowError();
 	}
 

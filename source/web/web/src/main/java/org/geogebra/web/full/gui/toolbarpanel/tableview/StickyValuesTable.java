@@ -288,14 +288,14 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 		el.removeClassName(styleName);
 	}
 
-	protected void addColumn() {
+	private void addColumn() {
 		addColumn(tableModel.getColumnCount() - 1);
 	}
 
 	/**
 	 * Decreases the number of columns by removing the last column.
 	 */
-	protected void decreaseColumnNumber() {
+	private void decreaseColumnNumber() {
 		// In AbstractCellTable model each column remembers its index
 		// so deleting last column and let dataProvider do the rest we need.
 		getTable().removeColumn(getTable().getColumnCount() - 1);

@@ -66,7 +66,7 @@ public final class DataAnalysisViewW extends FlowPanel implements View,
 	public static final GColor REGRESSION_COLOR = GColor.RED;
 	public static final GColor OVERLAY_COLOR = GeoGebraColorConstants.DARKBLUE;
 
-	private GColor[] colors = { TABLE_GRID_COLOR, TABLE_HEADER_COLOR,
+	private final GColor[] colors = { TABLE_GRID_COLOR, TABLE_HEADER_COLOR,
 			HISTOGRAM_COLOR, BOXPLOT_COLOR, BARCHART_COLOR, DOTPLOT_COLOR,
 			NQPLOT_COLOR, REGRESSION_COLOR, OVERLAY_COLOR, GColor.BLACK,
 			GColor.WHITE };
@@ -83,11 +83,11 @@ public final class DataAnalysisViewW extends FlowPanel implements View,
 	/**
 	 * For calling the onResize method in a deferred way
 	 */
-	private ScheduledCommand deferredOnRes = this::onResize;
+	private final ScheduledCommand deferredOnRes = this::onResize;
 
-	private ScheduledCommand deferredDataPanelOnRes = this::resizeDataPanels;
+	private final ScheduledCommand deferredDataPanelOnRes = this::resizeDataPanels;
 
-	private DataSource dataSource;
+	private final DataSource dataSource;
 
 	/*************************************************
 	 * Constructs the view.
@@ -116,7 +116,7 @@ public final class DataAnalysisViewW extends FlowPanel implements View,
 	/**
 	 * Update panels after resize.
 	 */
-	protected void resizeDataPanels() {
+	private void resizeDataPanels() {
 		if (model.isMultiVar() && model.showStatPanel()) {
 			Log.debug("Showing MultiVar stat panel");
 			dataDisplayPanel1.resize(getOffsetWidth(),
@@ -149,7 +149,7 @@ public final class DataAnalysisViewW extends FlowPanel implements View,
 	 * @param forceModeUpdate
 	 *            whether to force mode change
 	 */
-	protected void setView(DataSource dataSource, int mode,
+	private void setView(DataSource dataSource, int mode,
 			boolean forceModeUpdate) {
 		
 		dataSource.setFrequencyFromColumn(true);
@@ -240,7 +240,7 @@ public final class DataAnalysisViewW extends FlowPanel implements View,
 
 	// Create DataPanel to display the current data set(s) and allow
 	// temporary editing.
-	protected DataPanelW buildDataPanel() {
+	private DataPanelW buildDataPanel() {
 
 		if (dataPanel != null) {
 			// TODO handle any orphaned data panel geos
@@ -261,7 +261,7 @@ public final class DataAnalysisViewW extends FlowPanel implements View,
 		// TODO: Implement! dataPanel.loadDataTable(dataArray);
 	}
 
-	protected DataPanelW getDataPanel() {
+	DataPanelW getDataPanel() {
 		return dataPanel;
 	}
 
@@ -322,10 +322,6 @@ public final class DataAnalysisViewW extends FlowPanel implements View,
 		}
 
 		deferredDataPanelOnResize();
-	}
-
-	public DataAnalysisControllerW getDaCtrl() {
-		return daCtrl;
 	}
 
 	public DataSource getDataSource() {

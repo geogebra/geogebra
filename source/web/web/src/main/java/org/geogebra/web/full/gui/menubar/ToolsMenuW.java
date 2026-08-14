@@ -49,7 +49,7 @@ public final class ToolsMenuW extends Submenu {
 	/**
 	 * Initialize the menu items
 	 */
-	protected void initActions() {
+	private void initActions() {
 		Localization loc = getApp().getLocalization();
 		if (examController.isIdle()) {
 			addItem(MainMenu.getMenuBarItem(

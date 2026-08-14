@@ -192,7 +192,7 @@ public final class FileManagerW extends FileManager {
 	/**
 	 * @return local storage key for preferences
 	 */
-	protected String getAutosaveKey() {
+	private String getAutosaveKey() {
 		return AUTO_SAVE_KEY + app.getConfig().getPreferencesKey();
 	}
 

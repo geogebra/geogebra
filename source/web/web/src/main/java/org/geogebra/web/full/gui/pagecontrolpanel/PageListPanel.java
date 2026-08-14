@@ -143,7 +143,7 @@ public final class PageListPanel
 	 * @param doShow
 	 *            - true if plus button should be visible, false otherwise
 	 */
-	protected void showPlusButton(boolean doShow) {
+	private void showPlusButton(boolean doShow) {
 		if (plusButton == null) {
 			return;
 		}
@@ -188,7 +188,7 @@ public final class PageListPanel
 	/**
 	 * handles close actions after animation
 	 */
-	protected void onClose() {
+	private void onClose() {
 		setVisible(false);
 	}
 
@@ -200,7 +200,7 @@ public final class PageListPanel
 	 * 
 	 * @return index of new slide
 	 */
-	protected int addNewPreviewCard(boolean selected, String id) {
+	private int addNewPreviewCard(boolean selected, String id) {
 		int index = pageController.getSlideCount();
 		PagePreviewCard card = pageController.addNewPreviewCard(index, new GgbFile(id));
 		if (selected) {
@@ -216,7 +216,7 @@ public final class PageListPanel
 	 * @param id generated ID for next slide
 	 * @return index of new slide
 	 */
-	protected int addNewPreviewCardAt(int index, String id) {
+	private int addNewPreviewCardAt(int index, String id) {
 		PagePreviewCard newCard = pageController.addNewPreviewCard(index, new GgbFile(id));
 		addPreviewCard(newCard);
 		pageController.updatePreviewImage();

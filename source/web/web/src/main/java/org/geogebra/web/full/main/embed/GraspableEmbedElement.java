@@ -53,7 +53,7 @@ public final class GraspableEmbedElement extends EmbedElement {
 	 * @param core
 	 *            core API
 	 */
-	protected void setAPI(GMCanvas core) {
+	private void setAPI(GMCanvas core) {
 		this.api = core;
 		if (content != null) {
 			api.loadFromJSON(content);

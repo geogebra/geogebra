@@ -501,7 +501,7 @@ public final class OptionsPanelW extends FlowPanel
 		}
 	}
 
-	protected void onComboBoxChange() {
+	private void onComboBoxChange() {
 		int index = cbLogAxes.getSelectedIndex();
 		settings.setCoordMode(StatPanelSettings.CoordMode.values()[index]);
 		this.firePropertyChange();

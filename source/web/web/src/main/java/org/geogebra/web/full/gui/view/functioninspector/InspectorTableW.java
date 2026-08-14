@@ -127,7 +127,7 @@ public final class InspectorTableW extends FlexTable implements IGridListener {
 		updateCell(row + 1, col, value);
 	}
 		
-	protected void updateCell(int row, int col, DataCell value) {
+	private void updateCell(int row, int col, DataCell value) {
 		Widget widget = getWidget(row, col);
 		
 		if (widget != null) {
@@ -141,7 +141,7 @@ public final class InspectorTableW extends FlexTable implements IGridListener {
 		}
 	}
 
-	protected void setCellWidget(int row, int col, String style, DataCell cell) {
+	private void setCellWidget(int row, int col, String style, DataCell cell) {
 		Widget w;
 		if (cell.isEditable()) {
 			cellEditor.setText(cell.toString());
@@ -154,7 +154,7 @@ public final class InspectorTableW extends FlexTable implements IGridListener {
 		setWidget(row, col, w);
 	}
 	
-	protected void setCellWidget(int row, int col, String style, String text) {
+	private void setCellWidget(int row, int col, String style, String text) {
 		Label label = new Label(text);
 		getCellFormatter().setStyleName(row, col, style);
 		setWidget(row, col, label);

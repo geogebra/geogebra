@@ -141,7 +141,7 @@ public final class ShareLinkDialog extends ComponentDialog {
 	/**
 	 * focus textBox and select text
 	 */
-	protected void focusLinkBox() {
+	private void focusLinkBox() {
 		linkBox.setFocus(true);
 		linkBox.setSelectionRange(0, 0);
 		linkBox.selectAll();

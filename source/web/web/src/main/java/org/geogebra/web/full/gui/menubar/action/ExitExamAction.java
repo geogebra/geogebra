@@ -61,7 +61,7 @@ public final class ExitExamAction extends DefaultMenuAction<AppWFull> {
 	/**
 	 * Show exit exam dialog
 	 */
-	protected void showExamExitDialog() {
+	private void showExamExitDialog() {
 		DialogData data = new DialogData(null,
 				"Cancel", "Exit");
 		ExamExitConfirmDialog exit = new ExamExitConfirmDialog(app, data);
@@ -83,7 +83,7 @@ public final class ExitExamAction extends DefaultMenuAction<AppWFull> {
 	/**
 	 * Exit exam and restore normal mode
 	 */
-	protected void exitAndResetExam() {
+	private void exitAndResetExam() {
 		app.getLAF().toggleFullscreen(false);
 		saveScreenshot(app.getLocalization().getMenu("exam_log_header")
 				+ " " + app.getVersionString());
@@ -207,7 +207,7 @@ public final class ExitExamAction extends DefaultMenuAction<AppWFull> {
 	/**
 	 * Exit exam and restore normal mode
 	 */
-	protected void exitAndResetExamOffline() {
+	private void exitAndResetExamOffline() {
 		app.getLAF().toggleFullscreen(false);
 		ExamType examType = !examController.isIdle() ? examController.getExamType() : null;
 		String title = "";

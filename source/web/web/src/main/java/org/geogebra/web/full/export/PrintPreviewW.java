@@ -124,7 +124,7 @@ public final class PrintPreviewW extends ComponentDialog {
 	/**
 	 * Dialog close callback
 	 */
-	protected void onPreviewClose() {
+	private void onPreviewClose() {
 		app.setDefaultCursor();
 		app.closePopups();
 	}

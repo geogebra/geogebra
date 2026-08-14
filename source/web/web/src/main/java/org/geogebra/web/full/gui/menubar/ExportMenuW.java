@@ -60,7 +60,7 @@ public final class ExportMenuW extends AriaMenuBar implements MenuBarI {
 	 * @param app
 	 *            application
 	 */
-	protected static void initActions(final MenuBarI menu, final AppW app) {
+	private static void initActions(final MenuBarI menu, final AppW app) {
 
 		menu.addItem(menuText(app.getLocalization().getMenu("Download.GeoGebraFile"),
 				new MenuCommand(app) {
@@ -144,7 +144,7 @@ public final class ExportMenuW extends AriaMenuBar implements MenuBarI {
 
 					menu.hide();
 					app.getGgbApi()
-							.exportPSTricks(exportCallback("Pstricks", app));
+							.exportPSTricks(exportCallback(app));
 				}
 			}));
 
@@ -155,7 +155,7 @@ public final class ExportMenuW extends AriaMenuBar implements MenuBarI {
 					app.getActiveEuclidianView().getEuclidianController()
 							.clearSelectionAndRectangle();
 					menu.hide();
-					app.getGgbApi().exportPGF(exportCallback("PGF", app));
+					app.getGgbApi().exportPGF(exportCallback(app));
 				}
 			}));
 
@@ -194,7 +194,7 @@ public final class ExportMenuW extends AriaMenuBar implements MenuBarI {
 							.clearSelectionAndRectangle();
 					menu.hide();
 					app.getGgbApi()
-							.exportAsymptote(exportCallback("Asymptote", app));
+							.exportAsymptote(exportCallback(app));
 				}
 			}));
 
@@ -231,14 +231,11 @@ public final class ExportMenuW extends AriaMenuBar implements MenuBarI {
 	}
 
 	/**
-	 * @param string
-	 *            file type (for event logging)
 	 * @param app
 	 *            application
 	 * @return callback for saving text export / images
 	 */
-	protected static AsyncOperation<String> exportCallback(final String string,
-			final AppW app) {
+	private static AsyncOperation<String> exportCallback(final AppW app) {
 		return obj -> {
 			String url = Browser.addTxtMarker(obj);
 			app.getFileManager().showExportAsPictureDialog(url,
@@ -248,20 +245,6 @@ public final class ExportMenuW extends AriaMenuBar implements MenuBarI {
 
 	private static AriaMenuItem menuText(String string, Scheduler.ScheduledCommand cmd) {
 		return MainMenu.getMenuBarHtmlEmptyIcon(string, cmd);
-	}
-
-	/**
-	 * Fire dialog open event
-	 * 
-	 * @param app
-	 *            application to receive the evt
-	 * 
-	 * @param string
-	 *            dialog name
-	 */
-	protected static void dialogEvent(AppW app, String string) {
-		app.dispatchEvent(new org.geogebra.common.plugin.Event(
-				EventType.OPEN_DIALOG, null, string));
 	}
 
 	/** hide the submenu */

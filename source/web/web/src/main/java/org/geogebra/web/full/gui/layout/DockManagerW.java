@@ -487,7 +487,7 @@ public final class DockManagerW extends DockManager {
 	 * @param theRealWindowWidth
 	 *            target center pane width (might be affected by data param)
 	 */
-	protected void setSplitPaneDividers(DockSplitPaneData[] spData,
+	private void setSplitPaneDividers(DockSplitPaneData[] spData,
 			DockSplitPaneW[] splitPanes, int windowHeight, int windowWidth,
 			int theRealWindowHeight, int theRealWindowWidth) {
 
@@ -1551,7 +1551,7 @@ public final class DockManagerW extends DockManager {
 	 * @param landscapeRatio
 	 *            preferred landscape ratio
 	 */
-	protected void adjustViews(double landscapeRatio, boolean orientationChanged) {
+	private void adjustViews(double landscapeRatio, boolean orientationChanged) {
 		DockPanelW avPanel = getPanel(App.VIEW_ALGEBRA);
 		if (avPanel == null) {
 			return;

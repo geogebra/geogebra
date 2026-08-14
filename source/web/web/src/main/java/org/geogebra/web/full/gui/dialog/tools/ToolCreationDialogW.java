@@ -217,7 +217,7 @@ public final class ToolCreationDialogW extends ComponentDialog implements
 	 * @param tab
 	 *            selected tab
 	 */
-	protected void updateBackNextButtons(int tab) {
+	private void updateBackNextButtons(int tab) {
 		btBack.setEnabled(tab > 0);
 
 		switch (tab) {

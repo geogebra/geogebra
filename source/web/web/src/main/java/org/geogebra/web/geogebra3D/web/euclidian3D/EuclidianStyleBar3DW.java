@@ -113,7 +113,7 @@ public final class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		setPopupHandlerWithUndoPoint(btnChangeView, this::processChangeView);
 	}
 
-	protected boolean processAxesPlane(Object source) {
+	private boolean processAxesPlane(Object ignored) {
 		return btnShowAxesAndPlane.setEVFromIndex();
 	}
 

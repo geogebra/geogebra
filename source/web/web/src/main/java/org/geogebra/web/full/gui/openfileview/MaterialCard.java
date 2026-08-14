@@ -59,7 +59,7 @@ public final class MaterialCard extends FlowPanel implements MaterialCardI {
 	/**
 	 * Open this material.
 	 */
-	protected void openMaterial() {
+	void openMaterial() {
 		app.getGuiManager().getBrowseView().closeAndSave(obj -> controller.loadOnlineFile());
 	}
 
@@ -100,13 +100,6 @@ public final class MaterialCard extends FlowPanel implements MaterialCardI {
 	@Override
 	public void remove() {
 		removeFromParent();
-	}
-
-	/**
-	 * Actually delete the file.
-	 */
-	protected void onConfirmDelete() {
-		controller.onConfirmDelete(this);
 	}
 
 	/**

@@ -143,7 +143,7 @@ public final class OnscreenTabbedKeyboard extends TabbedKeyboard
 	 * @param y
 	 *            popup y-coord
 	 */
-	protected void doUpdateHelpPosition(final InputBarHelpPanelW helpPanel,
+	private void doUpdateHelpPosition(final InputBarHelpPanelW helpPanel,
 			final int x, final int y) {
 		AppW appw = (AppW) hasKeyboard;
 		double scale = appw.getGeoGebraElement().getScaleX();

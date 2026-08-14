@@ -110,7 +110,7 @@ public final class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
 	/**
 	 * Handler for marble
 	 */
-	protected static class MarbleClickHandler implements ClickHandler {
+	private static final class MarbleClickHandler implements ClickHandler {
 		private final GeoCasCell cell;
 		private final RowHeaderWidget rowHeaderWidget;
 
@@ -120,7 +120,7 @@ public final class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
 		 * @param rowHeaderWidget
 		 *            row header
 		 */
-		protected MarbleClickHandler(GeoCasCell cell,
+		private MarbleClickHandler(GeoCasCell cell,
 				RowHeaderWidget rowHeaderWidget) {
 			this.cell = cell;
 			this.rowHeaderWidget = rowHeaderWidget;

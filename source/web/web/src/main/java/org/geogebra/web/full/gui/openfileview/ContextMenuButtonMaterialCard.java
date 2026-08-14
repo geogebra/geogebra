@@ -136,7 +136,7 @@ public final class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	/**
 	 * execute share action
 	 */
-	protected void onShare() {
+	private void onShare() {
 		Material activeMaterial = app.getActiveMaterial();
 		if (activeMaterial != null && activeMaterial
 				.getSharingKeySafe().equals(material.getSharingKeySafe())) {
@@ -166,7 +166,7 @@ public final class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	 * @param result
 	 *            single material after visibility change
 	 */
-	protected void updateCardVisibility(List<Material> result) {
+	private void updateCardVisibility(List<Material> result) {
 		card.updateVisibility(result.get(0));
 		card.setThumbnail(result.get(0));
 	}
@@ -174,7 +174,7 @@ public final class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	/**
 	 * execute rename action
 	 */
-	protected void onRename() {
+	private void onRename() {
 		hide();
 		DialogData data = new DialogData("rename.resource", "Cancel", "Rename");
 		MaterialRenameDialog renameDialog = new MaterialRenameDialog(

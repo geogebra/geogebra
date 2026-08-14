@@ -26,7 +26,7 @@ import jsinterop.base.JsPropertyMap;
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "window")
 public final class GoogleApi {
 
-	protected GoogleApi() {
+	private GoogleApi() {
 		// use GoogleApi.get() instead, may return null
 	}
 

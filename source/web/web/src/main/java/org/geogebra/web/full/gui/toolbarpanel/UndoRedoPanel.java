@@ -48,7 +48,4 @@ public final class UndoRedoPanel extends PersistablePanel {
 		undoRedoProvider.updateUndoRedoActions();
 	}
 
-	protected void setLabels() {
-		undoRedoProvider.setLabels();
-	}
 }

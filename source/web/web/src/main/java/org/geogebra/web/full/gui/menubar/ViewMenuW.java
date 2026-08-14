@@ -68,7 +68,7 @@ public final class ViewMenuW extends Submenu {
 	 * @param loc
 	 *            localization
 	 */
-	protected void initRefreshActions(Localization loc) {
+	private void initRefreshActions(Localization loc) {
 		addItem(MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("Refresh"),
 				new MenuCommand(app) {
 
@@ -90,7 +90,7 @@ public final class ViewMenuW extends Submenu {
 	/**
 	 * Initialize menu items
 	 */
-	protected void initActions() {
+	private void initActions() {
 		for (final ViewType e : Views.getViews()) {
 			if (!app.supportsView(e.getID())) {
 				continue;

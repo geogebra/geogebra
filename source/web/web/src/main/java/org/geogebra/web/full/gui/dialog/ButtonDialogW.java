@@ -228,7 +228,7 @@ public final class ButtonDialogW extends ComponentDialog implements HasKeyboardP
 	 * Update linked geo in model.
 	 * @param cbAdd list of geos
 	 */
-	protected void updateModel(ComponentDropDown cbAdd, ArrayList<GeoElement> options) {
+	private void updateModel(ComponentDropDown cbAdd, ArrayList<GeoElement> options) {
 		model.setLinkedGeo(options.get(cbAdd.getSelectedIndex()));
 	}
 

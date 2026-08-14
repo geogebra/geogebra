@@ -396,7 +396,7 @@ public final class DataDisplayPanelW extends FlowPanel implements
 				MaterialDesignResources.INSTANCE.prob_calc_export(), menu));
 	}
 
-	protected void exportAsPicture() {
+	private void exportAsPicture() {
 		app.getSelectionManager().clearSelectedGeos(true,
 				false);
 		app.updateSelection(false);
@@ -406,7 +406,7 @@ public final class DataDisplayPanelW extends FlowPanel implements
 		app.setDefaultCursor();
 	}
 
-	protected void exportToEV() {
+	private void exportToEV() {
 		// use EV1 unless shift is down, then use EV2
 		int euclidianViewID = GlobalKeyDispatcherW.getShiftDown()
 				? app.getEuclidianView2(1).getViewID()
@@ -437,7 +437,7 @@ public final class DataDisplayPanelW extends FlowPanel implements
 	/**
 	 * @param source - event source
 	 */
-	protected void actionPerformed(Object source) {
+	private void actionPerformed(Object source) {
 		if (source instanceof AutoCompleteTextFieldW) {
 			doTextFieldActionPerformed(source);
 		}

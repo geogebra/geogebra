@@ -65,7 +65,7 @@ public final class MenuToggleButton extends IconButton
 	/**
 	 * Toggle open/closed state of the menu
 	 */
-	protected void toggleMenu() {
+	private void toggleMenu() {
 		appW.hideKeyboard();
 		appW.toggleMenu();
 	}

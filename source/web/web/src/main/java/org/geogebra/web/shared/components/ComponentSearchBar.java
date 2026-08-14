@@ -66,29 +66,6 @@ public final class ComponentSearchBar extends FlowPanel implements FocusListener
 		addClearButton();
 	}
 
-	/**
-	 * sets the style of InputPanel to focus state and shows keyboard
-	 */
-	protected void setFocusState() {
-		addStyleName("focusState");
-		if (NavigatorUtil.isMobile()) {
-			KeyboardManagerInterface keyboard = app.getKeyboardManager();
-			if (keyboard instanceof KeyboardManager) {
-				((KeyboardManager) keyboard).resizeKeyboard();
-				((KeyboardManager) keyboard).selectTab(KeyboardType.ABC);
-			}
-			app.showKeyboard(inputTextField.getTextComponent(), true);
-		}
-	}
-
-	/**
-	 * Resets input style on blur and hides keyboard
-	 */
-	public void removeFocusState() {
-		removeStyleName("focusState");
-		app.hideKeyboard();
-	}
-
 	private void addClearButton() {
 		clearButton.addStyleName("clearBtn");
 		clearButton.addStyleName("flatButtonHeader");

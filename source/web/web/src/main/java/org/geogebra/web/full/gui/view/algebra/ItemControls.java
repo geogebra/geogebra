@@ -222,7 +222,7 @@ public final class ItemControls extends FlowPanel
 	/**
 	 *
 	 */
-	protected void createAnimPanel() {
+	private void createAnimPanel() {
 		GeoElement geo = radioTreeItem.geo;
 		if (geo.isAnimatable() && animPanelFits(geo)) {
 			animPanel = new AnimPanel(radioTreeItem, this);
@@ -302,15 +302,6 @@ public final class ItemControls extends FlowPanel
 	}
 
 	/**
-	 * Remove animation panel
-	 */
-	public void removeAnimPanel() {
-		if (hasAnimPanel()) {
-			remove(animPanel);
-		}
-	}
-
-	/**
 	 * @return whether animation panel exists
 	 */
 	public boolean hasAnimPanel() {
@@ -363,7 +354,7 @@ public final class ItemControls extends FlowPanel
 	/**
 	 * @return distance of item's right border from AV right border
 	 */
-	protected int getItemRightOffset() {
+	private int getItemRightOffset() {
 		int itemWidth = radioTreeItem.getItemWidth();
 		int avWidth = radioTreeItem.getAV().getOffsetWidth();
 		return Math.max(0, itemWidth - avWidth);

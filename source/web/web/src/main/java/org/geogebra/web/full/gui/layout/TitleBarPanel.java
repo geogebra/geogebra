@@ -51,7 +51,7 @@ public final class TitleBarPanel extends FlowPanel implements DockControlPanel {
 	private StandardButton toggleStyleBarButton;
 	private final FlowPanel closeButtonPanel;
 
-	protected TitleBarPanel(AppW app, DockPanelW parent) {
+	TitleBarPanel(AppW app, DockPanelW parent) {
 		this.app = app;
 		this.dockPanel = parent;
 		titleBarPanelContent = new FlowPanel();
@@ -111,7 +111,7 @@ public final class TitleBarPanel extends FlowPanel implements DockControlPanel {
 		titleBarPanelContent.add(toggleStyleBarButton);
 	}
 
-	protected void enableDragging(boolean drag) {
+	void enableDragging(boolean drag) {
 		if (dragPanel == null) {
 			return;
 		}
@@ -207,7 +207,7 @@ public final class TitleBarPanel extends FlowPanel implements DockControlPanel {
 		}
 	}
 
-	protected void setCloseButtonVisible(boolean isVisible) {
+	void setCloseButtonVisible(boolean isVisible) {
 		closeButtonPanel.setVisible(isVisible);
 	}
 

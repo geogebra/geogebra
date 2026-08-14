@@ -135,7 +135,7 @@ public final class RelationPaneW extends ComponentDialog
 	 * Add symbolical solutions
 	 * @param row - row number
 	 */
-	protected void expandRow(int row) {
+	private void expandRow(int row) {
 		Relation callback = callbacks[row];
 		if (callback != null) {
 			RelationRow relation = callback.getExpandedRow(row);

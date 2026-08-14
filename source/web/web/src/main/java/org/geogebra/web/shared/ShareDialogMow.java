@@ -290,7 +290,7 @@ public final class ShareDialogMow extends ComponentDialog
 		dialogContent.add(groupPanel);
 	}
 
-	protected void updateChangedGroupList(GroupIdentifier groupID, Boolean shared) {
+	private void updateChangedGroupList(GroupIdentifier groupID, Boolean shared) {
 		if (changedGroups.containsKey(groupID)) {
 			changedGroups.remove(groupID);
 		} else {
@@ -392,14 +392,14 @@ public final class ShareDialogMow extends ComponentDialog
 	 * @param groupCallback
 	 *            callback for share with group
 	 */
-	protected void shareWithGroups(AsyncOperation<Boolean> groupCallback) {
+	private void shareWithGroups(AsyncOperation<Boolean> groupCallback) {
 		for (Map.Entry<GroupIdentifier, Boolean> group : changedGroups.entrySet()) {
 			app.getLoginOperation().getResourcesAPI().setShared(material,
 					group.getKey(), group.getValue(), groupCallback);
 		}
 	}
 
-	protected void getGroupsSharedWith() {
+	private void getGroupsSharedWith() {
 		final AsyncOperation<List<GroupIdentifier>> partial =
 				new AsyncOperation<>() {
 					private int counter = 2;
@@ -427,7 +427,7 @@ public final class ShareDialogMow extends ComponentDialog
 	 * @param success
 	 *            shared with group successful or not
 	 */
-	protected void onGroupShareChanged(boolean success) {
+	private void onGroupShareChanged(boolean success) {
 		((AppW) app).getToolTipManager().showBottomMessage(
 				app.getLocalization()
 						.getMenu(success ? "GroupShareOk"

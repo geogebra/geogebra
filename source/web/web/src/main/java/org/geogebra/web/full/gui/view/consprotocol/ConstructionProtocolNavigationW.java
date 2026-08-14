@@ -125,7 +125,7 @@ public final class ConstructionProtocolNavigationW
 	/**
 	 * Show or hide construction protocol
 	 */
-	protected void toggleConstructionProtocol() {
+	private void toggleConstructionProtocol() {
 		if (!app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
 			app.getGuiManager().setShowView(true,
 					App.VIEW_CONSTRUCTION_PROTOCOL);
