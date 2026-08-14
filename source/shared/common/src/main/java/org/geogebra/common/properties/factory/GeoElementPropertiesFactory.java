@@ -496,20 +496,6 @@ public final class GeoElementPropertiesFactory {
 	}
 
 	/**
-	 * Creates Lines style properties for a list of GeoElements.
-	 * @param localization localization
-	 * @param elements input elements
-	 * @return the list of properties for the GeoElement(s)
-	 */
-	public List<Property> createNotesLineStyleProperties(
-			Localization localization, List<GeoElement> elements) {
-		return keepNonNulls(
-				createLineStyleProperty(localization, elements),
-				createNotesThicknessProperty(localization, elements)
-		);
-	}
-
-	/**
 	 * Creates color with opacity properties for a list of GeoElements.
 	 * @param localization localization
 	 * @param elements input elements
@@ -841,20 +827,6 @@ public final class GeoElementPropertiesFactory {
 	}
 
 	/**
-	 * Returns an Integer RangeProperty controlling the line thickness in notes,
-	 * null if not applicable.
-	 * @param localization localization
-	 * @param elements elements
-	 * @return property or null
-	 */
-	public RangePropertyListFacade<?> createNotesThicknessProperty(Localization
-			localization, List<GeoElement> elements) {
-		return createOptionalPropertyFacade(elements,
-				element -> new NotesThicknessProperty(localization, element),
-				RangePropertyListFacade::new);
-	}
-
-	/**
 	 * Returns an IconsEnumeratedProperty controlling the line style or null if not applicable.
 	 * @param localization localization
 	 * @param elements elements
@@ -1107,8 +1079,10 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public RangeProperty<Integer> createThicknessProperty(
 			Localization localization, List<GeoElement> elements) {
-		return createOptionalPropertyFacade(elements,
-				element -> new ThicknessProperty(localization, element),
+		boolean isNotes = elements.get(0).getApp().isWhiteboardActive();
+		return createOptionalPropertyFacade(elements, element -> isNotes
+						? new NotesThicknessProperty(localization, element)
+						: new ThicknessProperty(localization, element),
 				RangePropertyListFacade::new);
 	}
 

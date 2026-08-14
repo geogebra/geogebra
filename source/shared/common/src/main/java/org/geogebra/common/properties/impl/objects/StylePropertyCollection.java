@@ -49,6 +49,7 @@ public class StylePropertyCollection extends AbstractPropertyCollection<Property
 			GeoElementPropertiesFactory propertiesFactory, Localization localization,
 			List<GeoElement> elements) throws NotApplicablePropertyException {
 		super(localization, "Properties.Style");
+		boolean isNotes = elements.get(0).getApp().isWhiteboardActive();
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
 		setProperties(Stream.<Property>of(
 				propertiesFactory.createOptionalPropertyFacade(elements, element ->
@@ -85,7 +86,8 @@ public class StylePropertyCollection extends AbstractPropertyCollection<Property
 						new LineStyleProperty(localization, element),
 						IconsEnumeratedPropertyListFacade::new),
 				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new ThicknessProperty(localization, element),
+						isNotes ? new NotesThicknessProperty(localization, element)
+								: new ThicknessProperty(localization, element),
 						RangePropertyListFacade::new),
 				propertiesFactory.createOptionalPropertyFacade(elements, element ->
 						LineOpacityProperty.forLine(localization, element),

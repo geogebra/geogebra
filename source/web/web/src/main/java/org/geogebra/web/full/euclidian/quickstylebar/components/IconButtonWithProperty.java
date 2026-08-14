@@ -34,8 +34,8 @@ import org.geogebra.common.properties.impl.facade.StringPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.BorderColorProperty;
 import org.geogebra.common.properties.impl.objects.BorderWidthProperty;
 import org.geogebra.common.properties.impl.objects.CellBorderThicknessProperty;
-import org.geogebra.common.properties.impl.objects.NotesThicknessProperty;
 import org.geogebra.common.properties.impl.objects.TextBackgroundColorProperty;
+import org.geogebra.common.properties.impl.objects.ThicknessProperty;
 import org.geogebra.web.full.euclidian.LabelSettingsPanel;
 import org.geogebra.web.full.euclidian.LabelValuePanel;
 import org.geogebra.web.full.euclidian.quickstylebar.PropertyWidgetAdapter;
@@ -181,7 +181,7 @@ public class IconButtonWithProperty extends IconButton {
 		}
 		if (property instanceof RangePropertyListFacade<?> rangeProperty) {
 			RangeProperty<?> firstProperty = rangeProperty.getFirstProperty();
-			if (firstProperty instanceof NotesThicknessProperty) {
+			if (firstProperty instanceof ThicknessProperty) {
 				lineThicknessSlider = widgetAdapter.getSliderWidget(rangeProperty,
 						propertySupplier);
 				parent.add(lineThicknessSlider);
