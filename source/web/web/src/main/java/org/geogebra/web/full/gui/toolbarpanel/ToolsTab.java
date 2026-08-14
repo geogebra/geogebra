@@ -33,7 +33,7 @@ import org.gwtproject.user.client.ui.ScrollPanel;
 /**
  * tab of tools
  */
-public class ToolsTab extends ToolbarTab implements ExamListener {
+public final class ToolsTab extends ToolbarTab implements ExamListener {
 
 	/**
 	 *

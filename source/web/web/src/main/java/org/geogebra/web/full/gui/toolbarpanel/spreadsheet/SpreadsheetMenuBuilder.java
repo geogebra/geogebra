@@ -30,7 +30,7 @@ import org.gwtproject.core.client.Scheduler;
 /**
  * UI builder for context menu and style bar menus.
  */
-public class SpreadsheetMenuBuilder {
+public final class SpreadsheetMenuBuilder {
 
 	private final Localization loc;
 	private final Runnable hideCallback;

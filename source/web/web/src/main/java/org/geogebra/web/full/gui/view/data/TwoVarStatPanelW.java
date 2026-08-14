@@ -35,7 +35,7 @@ import org.gwtproject.user.client.ui.ListBox;
  * @author G. Sturr
  * 
  */
-public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
+public final class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 	private AppW app;
 	private DataAnalysisViewW statDialog;
 	private StatDataTable statTable;

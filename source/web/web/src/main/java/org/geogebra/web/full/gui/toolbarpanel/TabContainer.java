@@ -19,7 +19,7 @@ package org.geogebra.web.full.gui.toolbarpanel;
 /**
  * Hosts actions for the left side panel container.
  */
-public class TabContainer implements ShowableTab {
+public final class TabContainer implements ShowableTab {
 
 	private ToolbarPanel toolbarPanel;
 

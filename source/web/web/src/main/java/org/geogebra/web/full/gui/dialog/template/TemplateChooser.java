@@ -21,7 +21,7 @@ import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class TemplateChooser extends ComponentDialog {
+public final class TemplateChooser extends ComponentDialog {
     private TemplateChooserController controller;
 
     /**

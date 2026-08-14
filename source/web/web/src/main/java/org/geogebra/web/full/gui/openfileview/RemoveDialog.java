@@ -25,7 +25,7 @@ import org.gwtproject.user.client.ui.Label;
 /**
  * Confirmation dialog for removing cards.
  */
-public class RemoveDialog extends ComponentDialog {
+public final class RemoveDialog extends ComponentDialog {
 	private MaterialCardI card;
 
 	/**

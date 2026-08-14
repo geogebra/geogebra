@@ -32,7 +32,7 @@ import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.HTMLCanvasElement;
 import jsinterop.base.Js;
 
-public class AlgebraCanvasExporter {
+public final class AlgebraCanvasExporter {
 
 	private final AppW app;
 	private final AlgebraViewW algebraView;

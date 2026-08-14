@@ -22,7 +22,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.PageListControllerInterface;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
-public class PreviewCardRenameDialog extends CardRenameDialog {
+public final class PreviewCardRenameDialog extends CardRenameDialog {
 	private final PageListControllerInterface pageController;
 	private final PagePreviewCard card;
 

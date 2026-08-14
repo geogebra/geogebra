@@ -40,7 +40,7 @@ import org.gwtproject.user.client.ui.Label;
  * on Table of values
  *
  */
-public class InputDialogTableView extends ComponentDialog
+public final class InputDialogTableView extends ComponentDialog
 		implements HasKeyboardPopup {
 	private ComponentInputField startValue;
 	private ComponentInputField endValue;

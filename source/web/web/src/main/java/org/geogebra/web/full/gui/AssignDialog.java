@@ -32,7 +32,7 @@ import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
 import jsinterop.base.JsPropertyMap;
 
-public class AssignDialog extends ComponentDialog {
+public final class AssignDialog extends ComponentDialog {
 	private final ShareControllerW materialProvider;
 
 	/**

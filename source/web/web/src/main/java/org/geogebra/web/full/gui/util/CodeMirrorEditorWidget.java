@@ -41,7 +41,7 @@ import jsinterop.base.JsPropertyMap;
 /**
  * Plain CodeMirror 6 editor host for the scripting editor prototype.
  */
-public class CodeMirrorEditorWidget extends FlowPanel {
+public final class CodeMirrorEditorWidget extends FlowPanel {
 	private boolean loading = false;
 	private static final List<Runnable> callbacks = new ArrayList<>();
 	private final FlowPanel editorHost = new FlowPanel();

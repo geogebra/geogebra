@@ -27,7 +27,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
 
-public class DistributionPanel extends FlowPanel {
+public final class DistributionPanel extends FlowPanel {
 	private final ProbabilityCalculatorViewW view;
 	private final AppW appW;
 	private final List<PropertyView> props = new ArrayList<>();

@@ -20,7 +20,7 @@ import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 
-public class MaterialVisibilityController {
+public final class MaterialVisibilityController {
 	private final LogInOperation logInOperation;
 
 	public MaterialVisibilityController(LogInOperation loginOperation) {

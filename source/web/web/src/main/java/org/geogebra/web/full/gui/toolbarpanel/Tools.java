@@ -43,7 +43,7 @@ import elemental2.dom.DomGlobal;
 /**
  * @author judit Content of tools tab of Toolbar panel.
  */
-public class Tools extends FlowPanel implements SetLabels {
+public final class Tools extends FlowPanel implements SetLabels {
 
 	/**
 	 * application

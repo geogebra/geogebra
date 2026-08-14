@@ -36,7 +36,7 @@ import elemental2.dom.CanvasRenderingContext2D;
 /**
  * Algebra tab of tool panel
  */
-public class AlgebraTab extends ToolbarTab {
+public final class AlgebraTab extends ToolbarTab {
 
 	final private App app;
 	private final ToolbarPanel toolbarPanel;

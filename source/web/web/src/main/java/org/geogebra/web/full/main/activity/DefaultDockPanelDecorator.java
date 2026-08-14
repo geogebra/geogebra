@@ -24,7 +24,7 @@ import org.gwtproject.dom.client.Style;
 import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.Widget;
 
-public class DefaultDockPanelDecorator implements DockPanelDecorator {
+public final class DefaultDockPanelDecorator implements DockPanelDecorator {
 
 	@Override
 	public Panel decorate(Widget algebraTab, Panel algebraPanel, AppW app) {

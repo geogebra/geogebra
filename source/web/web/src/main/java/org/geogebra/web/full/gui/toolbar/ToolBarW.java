@@ -43,7 +43,7 @@ import org.gwtproject.user.client.ui.ScrollPanel;
  *
  * @author gabor
  */
-public class ToolBarW extends FlowPanel
+public final class ToolBarW extends FlowPanel
  implements ClickHandler, ToolBarInterface, MouseOutHandler {
 
 	private AppW app;

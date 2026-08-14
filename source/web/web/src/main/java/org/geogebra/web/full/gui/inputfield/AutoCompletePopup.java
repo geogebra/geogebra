@@ -34,7 +34,7 @@ import org.gwtproject.user.client.ui.InlineHTML;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
 
-public class AutoCompletePopup extends GPopupMenuW {
+public final class AutoCompletePopup extends GPopupMenuW {
 
 	private final AutocompleteProvider suggestions;
 	private final AutoCompleteW component;

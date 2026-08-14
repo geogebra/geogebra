@@ -25,7 +25,7 @@ import org.gwtproject.user.client.ui.DeckPanel;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
 
-public class MultiRowsTabPanel extends Composite
+public final class MultiRowsTabPanel extends Composite
 		implements HasSelectionHandlers<Integer> {
 
 	MultiRowsTabBar tabBar;

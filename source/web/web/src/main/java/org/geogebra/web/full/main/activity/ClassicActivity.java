@@ -28,7 +28,7 @@ import org.geogebra.web.html5.gui.GeoGebraFrameW;
  *
  * @author Zbynek
  */
-public class ClassicActivity extends BaseActivity {
+public final class ClassicActivity extends BaseActivity {
 
 	/**
 	 * @param appConfig

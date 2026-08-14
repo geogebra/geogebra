@@ -23,7 +23,7 @@ import org.geogebra.web.full.gui.applet.AppletFactory;
 import elemental2.core.Function;
 import elemental2.dom.DomGlobal;
 
-public class Web3D extends Web {
+public final class Web3D extends Web {
 
 	@Override
 	public void onModuleLoad() {

@@ -34,7 +34,7 @@ import org.jspecify.annotations.Nullable;
  * Panel holding the title, close button and possible back button for a side sheet or
  * a fixed sheet.
  */
-public class SheetTitlePanel extends FlowPanel implements SetLabels {
+public final class SheetTitlePanel extends FlowPanel implements SetLabels {
 	private final Label titleLabel;
 	private final IconButton closeButton;
 	private final AppW appW;

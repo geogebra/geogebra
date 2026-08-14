@@ -29,7 +29,7 @@ import jsinterop.base.Js;
  * @author laszlo
  *
  */
-public class HTML5VideoWidget extends Widget {
+public final class HTML5VideoWidget extends Widget {
 	private HTMLVideoElement elem;
 	private VideoListener listener;
 

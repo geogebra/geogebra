@@ -29,7 +29,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.general.GeneralIcon;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class BorderThicknessPanel extends FlowPanel {
+public final class BorderThicknessPanel extends FlowPanel {
 	private final IconsEnumeratedProperty<Integer> property;
 	private final AppW appW;
 	private List<LineThicknessCheckMarkItem> checkMarkItems;

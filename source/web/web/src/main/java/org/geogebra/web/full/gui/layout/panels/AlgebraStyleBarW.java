@@ -40,7 +40,7 @@ import org.geogebra.web.html5.main.AppW;
 /**
  * StyleBar for AlgebraView
  */
-public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener<AlgebraSettings> {
+public final class AlgebraStyleBarW extends StyleBarW2 implements SettingListener<AlgebraSettings> {
 
 	/** button to open the popup with the supported tree-modes */
 	PopupMenuButtonW treeModeButton;

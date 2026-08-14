@@ -40,7 +40,7 @@ import jsinterop.base.Js;
  * @author csilla
  *
  */
-public class ExportImageDialog extends ComponentDialog {
+public final class ExportImageDialog extends ComponentDialog {
 	private FlowPanel contentPanel;
 	private NoDragImage previewImage;
 	private Frame iframePDF;

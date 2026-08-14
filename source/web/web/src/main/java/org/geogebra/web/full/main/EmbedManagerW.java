@@ -90,7 +90,7 @@ import jsinterop.base.JsPropertyMap;
  * @author Zbynek
  *
  */
-public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecutor {
+public final class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecutor {
 
 	private final AppWFull app;
 	private final HashMap<DrawWidget, EmbedElement> widgets = new HashMap<>();

@@ -49,11 +49,11 @@ import jsinterop.base.Js;
  * @author mathieu
  *
  */
-public class RendererImplShadersW extends RendererImplShaders {
+public final class RendererImplShadersW extends RendererImplShaders {
 
 	private static final int GL_TYPE_DRAW_TO_BUFFER = WebGLRenderingContext.STREAM_DRAW;
 	private WebGLRenderingContext glContext;
-	private ArrayList<WebGLTexture> texturesArray = new ArrayList<>();
+	private final ArrayList<WebGLTexture> texturesArray = new ArrayList<>();
 	private WebGLBuffer[] vboHandles;
 
 	/**
@@ -102,7 +102,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 
 	@Override
-	protected final void compileShadersProgram() {
+	protected void compileShadersProgram() {
 		setFragShader(getShader(
 				WebGLRenderingContext.FRAGMENT_SHADER,
 				FragmentShader.getFragmentShaderShinyForPacking(true)));
@@ -112,24 +112,24 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 
 	@Override
-	protected final Object glCreateProgram() {
+	protected Object glCreateProgram() {
 		return glContext.createProgram();
 	}
 
 	@Override
-	protected final void glAttachShader(Object shader) {
+	protected void glAttachShader(Object shader) {
 		glContext.attachShader((WebGLProgram) shaderProgram,
 				(WebGLShader) shader);
 	}
 
 	@Override
-	protected final void glBindAttribLocation(int index, String name) {
+	protected void glBindAttribLocation(int index, String name) {
 		glContext.bindAttribLocation((WebGLProgram) shaderProgram, index,
 				name);
 	}
 
 	@Override
-	protected final void glLinkProgram() {
+	protected void glLinkProgram() {
 		glContext.linkProgram((WebGLProgram) shaderProgram);
 
 		if (Js.isFalsy(glContext.getProgramParameter((WebGLProgram) shaderProgram,
@@ -142,13 +142,13 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 
 	@Override
-	protected final Object glGetUniformLocation(String name) {
+	protected Object glGetUniformLocation(String name) {
 		return glContext.getUniformLocation((WebGLProgram) shaderProgram,
 				name);
 	}
 
 	@Override
-	protected final void createVBOs() {
+	protected void createVBOs() {
 		vboHandles = new WebGLBuffer[GLSL_ATTRIB_SIZE];
 		for (int i = 0; i < 5; i++) {
 			vboHandles[i] = glContext.createBuffer();
@@ -156,22 +156,22 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 
 	@Override
-	protected final int getStoreBufferNumBytes(int length, int size) {
+	protected int getStoreBufferNumBytes(int length, int size) {
 		return length * size * 4; // 4 bytes per float
 	}
 
 	@Override
-	protected final void bindBuffer(int bufferType, int buffer) {
+	protected void bindBuffer(int bufferType, int buffer) {
 		glContext.bindBuffer(bufferType, vboHandles[buffer]);
 	}
 
 	@Override
-	protected final int getGL_ELEMENT_ARRAY_BUFFER() {
+	protected int getGL_ELEMENT_ARRAY_BUFFER() {
 		return WebGLRenderingContext.ELEMENT_ARRAY_BUFFER;
 	}
 
 	@Override
-	protected final int getGL_ARRAY_BUFFER() {
+	protected int getGL_ARRAY_BUFFER() {
 		return WebGLRenderingContext.ARRAY_BUFFER;
 	}
 
@@ -238,48 +238,48 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 
 	@Override
-	protected final void glUniformMatrix4fv(Object location, float[] values) {
+	protected void glUniformMatrix4fv(Object location, float[] values) {
 		glContext.uniformMatrix4fv((WebGLUniformLocation) location, false,
 				Js.<double[]>uncheckedCast(values));
 	}
 
 	@Override
-	protected final void glUseProgram(Object program) {
+	protected void glUseProgram(Object program) {
 		glContext.useProgram((WebGLProgram) program);
 	}
 
 	@Override
-	protected final void glDisableVertexAttribArray(int attrib) {
+	protected void glDisableVertexAttribArray(int attrib) {
 		glContext.disableVertexAttribArray(attrib);
 	}
 
 	@Override
-	protected final void glDetachAndDeleteShader(Object program,
+	protected void glDetachAndDeleteShader(Object program,
 			Object shader) {
 		glContext.detachShader((WebGLProgram) program, (WebGLShader) shader);
 		glContext.deleteShader((WebGLShader) shader);
 	}
 
 	@Override
-	protected final void glDeleteProgram(Object program) {
+	protected void glDeleteProgram(Object program) {
 		glContext.deleteProgram((WebGLProgram) program);
 	}
 
 	@Override
-	protected final void glUniform4f(Object location, float a, float b,
+	protected void glUniform4f(Object location, float a, float b,
 			float c,
 			float d) {
 		glContext.uniform4f((WebGLUniformLocation) location, a, b, c, d);
 	}
 
 	@Override
-	protected final void glUniform4fv(Object location, float[] values) {
+	protected void glUniform4fv(Object location, float[] values) {
 		glContext.uniform4fv((WebGLUniformLocation) location,
 				WebGLRenderingContext.Uniform4fvValueUnionType.of(values));
 	}
 
 	@Override
-	protected final void glUniform2fv(Object location, float[] values) {
+	protected void glUniform2fv(Object location, float[] values) {
 		glContext.uniform2fv((WebGLUniformLocation) location,
 				WebGLRenderingContext.Uniform2fvValueUnionType.of(values));
 	}
@@ -311,17 +311,17 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 
 	@Override
-	protected final void glCullFace(int flag) {
+	protected void glCullFace(int flag) {
 		getGL().cullFace(flag);
 	}
 
 	@Override
-	protected final int getGL_FRONT() {
+	protected int getGL_FRONT() {
 		return WebGLRenderingContext.FRONT;
 	}
 
 	@Override
-	protected final int getGL_BACK() {
+	protected int getGL_BACK() {
 		return WebGLRenderingContext.BACK;
 	}
 
@@ -341,7 +341,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 
 	@Override
-	protected final void glDepthMask(boolean flag) {
+	protected void glDepthMask(boolean flag) {
 		getGL().depthMask(flag);
 	}
 
@@ -386,12 +386,12 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 
 	@Override
-	public final void enableMultisample() {
+	public void enableMultisample() {
 		// not used in web
 	}
 
 	@Override
-	public final void disableMultisample() {
+	public void disableMultisample() {
 		// not used in web
 	}
 
@@ -629,12 +629,12 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 
 	@Override
-	public final void selectFBO() {
+	public void selectFBO() {
 		// TODO implement?
 	}
 
 	@Override
-	public final void unselectFBO() {
+	public void unselectFBO() {
 		// TODO implement?
 	}
 

@@ -21,7 +21,7 @@ import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.ScrollPanel;
 
-public class AlgebraViewScroller {
+public final class AlgebraViewScroller {
 	private int savedPosition;
 	private final ScrollPanel panel;
 	private final AlgebraViewW view;

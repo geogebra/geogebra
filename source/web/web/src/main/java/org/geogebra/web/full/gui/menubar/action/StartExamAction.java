@@ -35,7 +35,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 /**
  * Starts exam.
  */
-public class StartExamAction extends DefaultMenuAction<AppWFull> {
+public final class StartExamAction extends DefaultMenuAction<AppWFull> {
 
 	private ExamController examController;
 

@@ -31,7 +31,7 @@ import com.google.gwt.core.client.EntryPoint;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
-public class Tablet implements EntryPoint {
+public final class Tablet implements EntryPoint {
 
 	/**
 	 * set true if Google Api Js loaded

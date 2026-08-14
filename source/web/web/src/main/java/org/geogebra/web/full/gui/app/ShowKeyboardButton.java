@@ -38,7 +38,7 @@ import org.gwtproject.user.client.ui.SimplePanel;
  * A PopupPanel in the bottom left corner of the application which represents a
  * button to open the {@link OnscreenTabbedKeyboard}
  */
-public class ShowKeyboardButton extends SimplePanel {
+public final class ShowKeyboardButton extends SimplePanel {
 	
 	/**
 	 * @param listener

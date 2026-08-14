@@ -59,7 +59,7 @@ import org.gwtproject.user.client.ui.TreeItem;
  * A GUI to customize the toolbar
  *
  */
-public class CustomizeToolbarGUI extends MyHeaderPanel implements
+public final class CustomizeToolbarGUI extends MyHeaderPanel implements
         CustomizeToolbarListener {
 	private static final int PANEL_GAP = 30;
 	private static final int MARGIN_Y = 21;

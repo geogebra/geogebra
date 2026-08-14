@@ -27,7 +27,7 @@ import org.gwtproject.user.client.ui.SimplePanel;
 /**
  * Header for numbered rows
  */
-public class AVItemHeaderScientific extends SimplePanel
+public final class AVItemHeaderScientific extends SimplePanel
 		implements AlgebraItemHeader {
 
 	private final Label number;

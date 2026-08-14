@@ -30,7 +30,7 @@ import org.gwtproject.user.client.ui.RootPanel;
  * ConstructionProtocolView for touch-devices
  * @see ConstructionProtocolViewW
  */
-public class ConstructionProtocolViewT extends ConstructionProtocolViewW {
+public final class ConstructionProtocolViewT extends ConstructionProtocolViewW {
 	
 	/** long press timeout in ms **/
 	private static final int LONG_PRESS_TIMEOUT = 500;

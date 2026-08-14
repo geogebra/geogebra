@@ -23,7 +23,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.resources.SVGResourcePrototype;
 
-public class ComponentChip extends StandardButton {
+public final class ComponentChip extends StandardButton {
 
 	/**
 	 * Creates a chip component.

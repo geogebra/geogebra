@@ -24,7 +24,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
-public class ColorChooserDialog extends ComponentDialog {
+public final class ColorChooserDialog extends ComponentDialog {
 	private ColorChooserW colorChooserW;
 	private GColor selectedColor;
 	private ColorChangeHandler handler;

@@ -31,7 +31,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Image;
 import org.gwtproject.user.client.ui.Label;
 
-public class ImagePickerPanel extends FlowPanel {
+public final class ImagePickerPanel extends FlowPanel {
 	private final AppW appW;
 	private final ImagePicker imagePicker;
 	private StandardButton fileChooser;

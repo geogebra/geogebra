@@ -24,7 +24,7 @@ import org.geogebra.web.resources.SVGResource;
 /**
  * Specific behavior for CAS app
  */
-public class CASActivity extends BaseActivity {
+public final class CASActivity extends BaseActivity {
 
 	/**
 	 * Graphing activity

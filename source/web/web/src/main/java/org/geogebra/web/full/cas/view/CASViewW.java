@@ -38,7 +38,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
  * Web implementation of the CAS view
  *
  */
-public class CASViewW extends CASView implements PrintableW {
+public final class CASViewW extends CASView implements PrintableW {
 
 	private final CASComponentW component;
 	private final AppW app;

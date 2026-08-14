@@ -34,12 +34,12 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  *   Share link dialog
  */
-public class ShareLinkDialog extends ComponentDialog {
+public final class ShareLinkDialog extends ComponentDialog {
 	/** textbox providing share url */
-	protected TextBox linkBox;
+	private TextBox linkBox;
 
 	/** parent widget */
-	protected Widget anchor;
+	private final Widget anchor;
 
 	/**
 	 * @param app application

@@ -31,7 +31,7 @@ import org.geogebra.web.html5.main.AppW;
  * @author mathieu
  *
  */
-public class App3DW {
+public final class App3DW {
 
 	/**
 	 * 

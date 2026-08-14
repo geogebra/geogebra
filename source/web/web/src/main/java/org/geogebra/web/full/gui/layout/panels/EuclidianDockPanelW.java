@@ -26,7 +26,7 @@ import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.Widget;
 
-public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
+public final class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 		implements EuclidianPanelWAbstract {
 
 	EuclidianStyleBar espanel;

@@ -30,9 +30,8 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Image;
 import org.gwtproject.user.client.ui.Label;
 
-public class DataImportSnackbar extends FlowPanel {
-	protected AppW appW;
-	private Label titleLbl;
+public final class DataImportSnackbar extends FlowPanel {
+	private final AppW appW;
 	private Timer fadeIn = new Timer() {
 		@Override
 		public void run() {
@@ -46,7 +45,7 @@ public class DataImportSnackbar extends FlowPanel {
 			remove.schedule(2000);
 		}
 	};
-	private Timer remove = new Timer() {
+	private final Timer remove = new Timer() {
 		@Override
 		public void run() {
 			removeFromParent();
@@ -97,7 +96,7 @@ public class DataImportSnackbar extends FlowPanel {
 
 		Image dataImg = new Image(MaterialDesignResources.INSTANCE.upload_file().withFill(
 				svgFiller.toString()).getSafeUri());
-		titleLbl = new Label(title);
+		Label titleLbl = new Label(title);
 
 		titleHolder.add(dataImg);
 		titleHolder.add(titleLbl);

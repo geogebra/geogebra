@@ -23,7 +23,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.jspecify.annotations.NonNull;
 
-public class AlgebraOutputFormatButton extends StandardButton {
+public final class AlgebraOutputFormatButton extends StandardButton {
 
 	/**
 	 * Default constructor

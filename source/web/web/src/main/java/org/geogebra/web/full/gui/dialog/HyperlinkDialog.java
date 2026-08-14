@@ -27,7 +27,7 @@ import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class HyperlinkDialog extends ComponentDialog {
+public final class HyperlinkDialog extends ComponentDialog {
 	private String hyperlinkText;
 	private MediaInputPanel textInputPanel;
 	private MediaInputPanel linkInputPanel;

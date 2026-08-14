@@ -25,7 +25,7 @@ import elemental2.dom.DomGlobal;
 /**
  * Opens profile page.
  */
-public class OpenProfilePage extends DefaultMenuAction<AppWFull> {
+public final class OpenProfilePage extends DefaultMenuAction<AppWFull> {
 
 	@Override
 	public void execute(AppWFull app) {

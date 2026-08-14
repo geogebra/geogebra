@@ -23,7 +23,7 @@ import org.geogebra.web.awt.GGraphics2DWI;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 
-public class AwtReTexGraphicsBridgeW implements AwtReTeXGraphicsBridge {
+public final class AwtReTexGraphicsBridgeW implements AwtReTeXGraphicsBridge {
 	@Override
 	public Graphics2DInterface convert(GGraphics2D gGraphics2D) {
 		return new Graphics2DW(((GGraphics2DWI) gGraphics2D).getContext());

@@ -34,7 +34,7 @@ import elemental2.dom.KeyboardEvent;
 /**
  * Toggle button for main menu
  */
-public class MenuToggleButton extends IconButton
+public final class MenuToggleButton extends IconButton
 		implements Persistable {
 	private final AppW appW;
 

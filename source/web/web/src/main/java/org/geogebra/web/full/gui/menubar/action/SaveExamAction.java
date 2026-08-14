@@ -20,7 +20,7 @@ import org.geogebra.common.gui.view.algebra.contextmenu.MenuAction;
 import org.geogebra.web.full.gui.util.ExamSaveDialog;
 import org.geogebra.web.full.main.AppWFull;
 
-public class SaveExamAction implements MenuAction<AppWFull> {
+public final class SaveExamAction implements MenuAction<AppWFull> {
 
 	@Override
 	public boolean isAvailable(AppWFull item) {

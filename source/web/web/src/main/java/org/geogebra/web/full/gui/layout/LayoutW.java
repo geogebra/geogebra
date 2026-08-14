@@ -35,7 +35,7 @@ import org.geogebra.web.html5.main.AppW;
 /**
  * Panel layout for Web
  */
-public class LayoutW extends Layout {
+public final class LayoutW extends Layout {
 	
 	private AppWFull app;
 

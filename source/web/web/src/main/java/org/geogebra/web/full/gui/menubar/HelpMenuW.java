@@ -36,7 +36,7 @@ import org.gwtproject.user.client.ui.Label;
 /**
  * The help menu for Classic.
  */
-public class HelpMenuW extends Submenu implements BooleanRenderable {
+public final class HelpMenuW extends Submenu implements BooleanRenderable {
 
 	private AriaMenuItem tutorials;
 	private AriaMenuItem forum;

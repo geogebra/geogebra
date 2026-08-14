@@ -24,7 +24,7 @@ import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class MultiSelectionIconRowPanel extends FlowPanel {
+public final class MultiSelectionIconRowPanel extends FlowPanel {
 	private final AppW appW;
 
 	/**

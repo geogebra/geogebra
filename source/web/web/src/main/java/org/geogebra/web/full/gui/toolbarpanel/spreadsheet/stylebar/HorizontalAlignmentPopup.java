@@ -28,7 +28,7 @@ import org.gwtproject.event.logical.shared.CloseEvent;
 import org.gwtproject.event.logical.shared.CloseHandler;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class HorizontalAlignmentPopup extends GPopupPanel implements CloseHandler<GPopupPanel> {
+public final class HorizontalAlignmentPopup extends GPopupPanel implements CloseHandler<GPopupPanel> {
 	private final IconButton horizontalAlignmentButton;
 	private final SpreadsheetStyleBarModel styleBarModel;
 	private IconButton lastSelectedButton;

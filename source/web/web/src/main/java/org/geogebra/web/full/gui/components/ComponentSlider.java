@@ -25,7 +25,7 @@ import org.geogebra.web.html5.util.sliderPanel.SliderW;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class ComponentSlider extends FlowPanel implements ConfigurationUpdateDelegate {
+public final class ComponentSlider extends FlowPanel implements ConfigurationUpdateDelegate {
 	private final AppW appW;
 	private final Slider sliderProperty;
 	private SliderW sliderPanel;

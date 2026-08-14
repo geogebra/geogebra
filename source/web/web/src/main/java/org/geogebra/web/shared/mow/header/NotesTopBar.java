@@ -43,7 +43,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 
 import elemental2.dom.DomGlobal;
 
-public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemListener,
+public final class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemListener,
 		ModeChangeListener {
 	private final AppletParameters appletParams;
 	private final TopBarController controller;

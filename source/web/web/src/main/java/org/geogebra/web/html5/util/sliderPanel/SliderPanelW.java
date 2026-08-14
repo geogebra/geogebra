@@ -31,7 +31,7 @@ import org.gwtproject.user.client.ui.Label;
 /**
  * Panel containing a slider.
  */
-public class SliderPanelW extends FlowPanel implements HasDataTest  {
+public final class SliderPanelW extends FlowPanel implements HasDataTest  {
 
 	private final SliderW slider;
 	private final Label minLabel;

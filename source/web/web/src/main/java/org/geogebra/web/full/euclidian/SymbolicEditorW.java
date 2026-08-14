@@ -47,7 +47,7 @@ import com.himamis.retex.renderer.share.TeXFont;
  *
  * @author Laszlo
  */
-public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardListener,
+public final class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardListener,
 		BlurHandler, ChangeHandler {
 
 	private static final int EDITOR_PADDING = 2;

@@ -27,7 +27,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
  * Wrap MainMenu in composite
  *
  */
-public class GGWMenuBar extends Composite {
+public final class GGWMenuBar extends Composite {
 
 	private FlowPanel ggbmenubarwrapper;
 	private MainMenu menubar;

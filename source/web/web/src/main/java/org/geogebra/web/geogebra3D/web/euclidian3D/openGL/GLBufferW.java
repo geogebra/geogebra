@@ -29,7 +29,7 @@ import jsinterop.base.Js;
  * @author mathieu
  *
  */
-public class GLBufferW implements GLBuffer {
+public final class GLBufferW implements GLBuffer {
 
 	private Float32Array impl;
 	private boolean isEmpty;

@@ -42,7 +42,7 @@ import org.geogebra.web.shared.GlobalHeader;
  *
  * @author Zbynek
  */
-public class ScientificActivity extends BaseActivity {
+public final class ScientificActivity extends BaseActivity {
 
 	private ScientificHeaderResizer headerResizer = null;
 	private ScientificDataTableController tableController;

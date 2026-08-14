@@ -25,7 +25,7 @@ import elemental2.dom.File;
 import elemental2.dom.HTMLInputElement;
 import jsinterop.base.Js;
 
-public class FileChooser extends FileUpload implements ChangeHandler {
+public final class FileChooser extends FileUpload implements ChangeHandler {
 	private AppW app;
 
 	/**

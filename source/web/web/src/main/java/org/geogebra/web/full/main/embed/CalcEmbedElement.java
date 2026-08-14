@@ -44,7 +44,7 @@ import jsinterop.base.Js;
 /**
  * Embedded GeoGebra calculator for Notes
  */
-public class CalcEmbedElement extends EmbedElement {
+public final class CalcEmbedElement extends EmbedElement {
 
 	private final GeoGebraFrameFull frame;
 	private UndoRedoGlue undoRedoGlue;

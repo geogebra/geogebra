@@ -21,7 +21,7 @@ import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 
-public class AlgebraMathFieldProcessing extends MathFieldProcessing {
+public final class AlgebraMathFieldProcessing extends MathFieldProcessing {
 
 	private final RadioTreeItem avInput;
 	private final AnsProvider ansProvider;

@@ -43,7 +43,7 @@ import jsinterop.base.JsPropertyMap;
  * 
  * @author stefan
  */
-public class LoginOperationW extends LogInOperation {
+public final class LoginOperationW extends LogInOperation {
 	private final AppW app;
 	private BackendAPIFactory apiFactory;
 

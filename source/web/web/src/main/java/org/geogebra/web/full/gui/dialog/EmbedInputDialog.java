@@ -23,7 +23,7 @@ import org.geogebra.web.html5.main.AppW;
 
 /** embed dialog
  */
-public class EmbedInputDialog extends MediaDialog {
+public final class EmbedInputDialog extends MediaDialog {
 	private final EmbedFactory embedFactory;
 
 	/** Creates dialog for embed input

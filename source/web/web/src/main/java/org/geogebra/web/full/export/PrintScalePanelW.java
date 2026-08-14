@@ -34,7 +34,7 @@ import org.gwtproject.user.client.ui.TextBox;
  * Scale panel for print dialog
  *
  */
-public class PrintScalePanelW extends FlowPanel {
+public final class PrintScalePanelW extends FlowPanel {
 
 	private TextBox tfScale1;
 	private TextBox tfScale2;

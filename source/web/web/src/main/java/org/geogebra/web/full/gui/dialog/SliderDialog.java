@@ -32,7 +32,7 @@ import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class SliderDialog extends ComponentDialog implements HasKeyboardPopup {
+public final class SliderDialog extends ComponentDialog implements HasKeyboardPopup {
 	private final AppW appW;
 	private final SliderInputDialogModel model;
 	private ComponentInputField nameTextField;

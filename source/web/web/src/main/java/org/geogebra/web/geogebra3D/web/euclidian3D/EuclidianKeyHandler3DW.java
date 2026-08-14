@@ -32,7 +32,7 @@ import org.gwtproject.event.dom.client.KeyUpHandler;
  * @author laszlo
  *
  */
-public class EuclidianKeyHandler3DW implements KeyUpHandler, KeyDownHandler, KeyPressHandler {
+public final class EuclidianKeyHandler3DW implements KeyUpHandler, KeyDownHandler, KeyPressHandler {
 
 	private GlobalKeyDispatcherW gkd;
 

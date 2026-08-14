@@ -39,7 +39,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
  * Item action bar
  *
  */
-public class ItemControls extends FlowPanel
+public final class ItemControls extends FlowPanel
 		implements AnimPanelListener, SetLabels, HasDataTest {
 
 	private final RadioTreeItem radioTreeItem;

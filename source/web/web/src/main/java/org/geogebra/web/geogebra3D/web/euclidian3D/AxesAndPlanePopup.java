@@ -31,7 +31,7 @@ import org.geogebra.web.html5.main.AppW;
  * Popup for axes and coordinate plane
  *
  */
-public class AxesAndPlanePopup extends PopupMenuButtonWithDefault {
+public final class AxesAndPlanePopup extends PopupMenuButtonWithDefault {
 
 	private EuclidianView3D ev;
 

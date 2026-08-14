@@ -21,7 +21,7 @@ import org.geogebra.gwtutil.JsRunnable;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true)
-public class GMCanvasController {
+public final class GMCanvasController {
 
 	public native void on(String event, JsRunnable callback);
 

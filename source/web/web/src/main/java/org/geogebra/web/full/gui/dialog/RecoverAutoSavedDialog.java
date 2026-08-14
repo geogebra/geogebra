@@ -26,7 +26,7 @@ import org.gwtproject.user.client.ui.Label;
 /**
  *  A dialog to ask the user to recover the autoSaved file.
  */
-public class RecoverAutoSavedDialog extends ComponentDialog {
+public final class RecoverAutoSavedDialog extends ComponentDialog {
 
 	/**
 	 * only used from {@link AppWFull} with menu

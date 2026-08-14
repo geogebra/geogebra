@@ -21,7 +21,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.resources.client.ResourcePrototype;
 
-public class GCheckMarkLabel extends GCheckMarkPanel {
+public final class GCheckMarkLabel extends GCheckMarkPanel {
 
 	/**
 	 * @param text initial text for item.

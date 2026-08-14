@@ -36,9 +36,9 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  * Menu item that acts like a toolbar.
  */
-public class InlineTextToolbar implements FastClickHandler {
+public final class InlineTextToolbar implements FastClickHandler {
 	private final App app;
-	private List<HasTextFormat> formatters;
+	private final List<HasTextFormat> formatters;
 	private FlowPanel panel;
 	private StandardButton subScriptBtn;
 	private StandardButton superScriptBtn;
@@ -64,7 +64,7 @@ public class InlineTextToolbar implements FastClickHandler {
 	/**
 	 * Creates the toolbar gui
 	 */
-	protected void createGui() {
+	private void createGui() {
 		panel = new FlowPanel();
 		createSubscriptBtn();
 		createSuperscriptBtn();
@@ -109,7 +109,7 @@ public class InlineTextToolbar implements FastClickHandler {
 		return button;
 	}
 
-	protected String getScriptFormat() {
+	private String getScriptFormat() {
 		if (formatters.isEmpty()) {
 			return "";
 		}
@@ -128,7 +128,7 @@ public class InlineTextToolbar implements FastClickHandler {
 		return format;
 	}
 
-	protected String getListStyle() {
+	private String getListStyle() {
 		if (formatters.isEmpty()) {
 			return "";
 		}
@@ -208,7 +208,7 @@ public class InlineTextToolbar implements FastClickHandler {
 	/**
 	 * Sets the tooltips
 	 */
-	protected void setTooltips() {
+	private void setTooltips() {
 		subScriptBtn.setTitle(app.getLocalization().getMenu("Subscript"));
 		superScriptBtn.setTitle(app.getLocalization().getMenu("Superscript"));
 		bulletListBtn.setTitle(app.getLocalization().getMenu("bulletList"));

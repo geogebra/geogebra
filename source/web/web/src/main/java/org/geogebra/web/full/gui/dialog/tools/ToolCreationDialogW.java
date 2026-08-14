@@ -51,7 +51,7 @@ import jsinterop.base.JsPropertyMap;
 /**
  * Dialog to create a new user defined tool
  */
-public class ToolCreationDialogW extends ComponentDialog implements
+public final class ToolCreationDialogW extends ComponentDialog implements
 		GeoElementSelectionListener, ToolInputOutputListener {
 
 	private final AppW appw;

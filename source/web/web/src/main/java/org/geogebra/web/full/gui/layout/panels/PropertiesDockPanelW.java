@@ -23,7 +23,7 @@ import org.geogebra.web.full.main.AppWFull;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.Widget;
 
-public class PropertiesDockPanelW extends DockPanelW {
+public final class PropertiesDockPanelW extends DockPanelW {
 
 	private PropertiesViewW view;
 	

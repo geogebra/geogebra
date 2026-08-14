@@ -25,7 +25,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 /**
  * Dialog for one number and changing sign
  */
-public class NumberChangeSignInputDialogW extends ComponentInputDialog {
+public final class NumberChangeSignInputDialogW extends ComponentInputDialog {
 	private boolean changingSign;
 
 	/**

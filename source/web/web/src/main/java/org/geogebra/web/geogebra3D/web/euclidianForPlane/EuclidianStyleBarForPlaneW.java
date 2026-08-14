@@ -26,7 +26,7 @@ import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
  * 
  * @author Mathieu
  */
-public class EuclidianStyleBarForPlaneW extends EuclidianStyleBarW {
+public final class EuclidianStyleBarForPlaneW extends EuclidianStyleBarW {
 
 	/**
 	 * @param ev

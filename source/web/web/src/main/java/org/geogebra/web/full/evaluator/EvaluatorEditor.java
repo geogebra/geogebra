@@ -37,7 +37,7 @@ import org.gwtproject.user.client.ui.Widget;
  *
  * @author Laszlo
  */
-public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler {
+public final class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler {
 
 	private final AppW app;
 	private final MathFieldEditor mathFieldEditor;

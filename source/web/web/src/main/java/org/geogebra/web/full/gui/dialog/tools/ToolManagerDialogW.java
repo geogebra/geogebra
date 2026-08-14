@@ -47,7 +47,7 @@ import org.gwtproject.user.client.ui.ListBox;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.URL;
 
-public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDialogListener,
+public final class ToolManagerDialogW extends ComponentDialog implements ToolManagerDialogListener,
 		ToolNameIconPanelW.MacroChangeListener, MultiSelectButtonsPanel.ButtonsListener {
 
 	AppW appw;

@@ -29,7 +29,7 @@ import org.gwtproject.canvas.client.Canvas;
  * @author mathieu
  *
  */
-public class RendererWnoWebGL extends RendererWithImplW {
+public final class RendererWnoWebGL extends RendererWithImplW {
 
 	/**
 	 * constructor

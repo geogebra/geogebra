@@ -29,7 +29,7 @@ import org.geogebra.web.simple.Stub3DFragment;
 /**
  * Applet factory for 2D compilation
  */
-public class AppletFactory2D implements AppletFactory {
+public final class AppletFactory2D implements AppletFactory {
 
 	/**
 	 * Load 3D stub when created

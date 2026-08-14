@@ -27,7 +27,7 @@ import org.geogebra.web.html5.bridge.AttributeProvider;
 
 import elemental2.dom.DomGlobal;
 
-public class EditorKeyboardContext implements HasKeyboard {
+public final class EditorKeyboardContext implements HasKeyboard {
 
 	private final AttributeProvider element;
 

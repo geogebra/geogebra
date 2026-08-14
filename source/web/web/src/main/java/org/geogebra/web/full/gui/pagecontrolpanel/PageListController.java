@@ -85,13 +85,13 @@ import jsinterop.base.JsPropertyMap;
 /**
  * controller for page actions, such as delete or add slide
  */
-public class PageListController implements PageListControllerInterface,
+public final class PageListController implements PageListControllerInterface,
 		MouseDownHandler, MouseMoveHandler, MouseUpHandler, TouchStartHandler, MouseOutHandler,
 		TouchMoveHandler, TouchEndHandler, Cards, EventListener, EventRenderable {
 	/**
 	 * application {@link AppW}
 	 */
-	protected AppWFull app;
+	private final AppWFull app;
 	/**
 	 * list of slides (pages)
 	 */
@@ -154,7 +154,7 @@ public class PageListController implements PageListControllerInterface,
 		refreshSlide(slides.get(index));
 	}
 
-	protected void refreshSlide(PagePreviewCard card) {
+	void refreshSlide(PagePreviewCard card) {
 		if (selectedCard == card) {
 			app.getGgbApi().createArchiveContent(true,
 					card.getFile());
@@ -458,7 +458,7 @@ public class PageListController implements PageListControllerInterface,
 	 * @param previewCard
 	 *            selected preview card
 	 */
-	protected void setCardSelected(PagePreviewCard previewCard) {
+	void setCardSelected(PagePreviewCard previewCard) {
 		if (selectedCard == previewCard) {
 			return;
 		}

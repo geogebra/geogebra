@@ -43,8 +43,8 @@ import org.gwtproject.user.client.ui.Widget;
  */
 public class AdvancedFlowPanel extends Composite implements HasWidgets,
 		HasAllKeyHandlers, HasAllMouseHandlers {
-	protected FlowPanel mainPanel;
-	protected FocusPanel focusPanel;
+	private FlowPanel mainPanel;
+	private FocusPanel focusPanel;
 
 	/**
 	 * New flow panel with focus handler.

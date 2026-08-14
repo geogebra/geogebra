@@ -79,7 +79,7 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  * Maps properties to UI components for the properties view.
  */
-public class PropertiesPanelAdapter {
+public final class PropertiesPanelAdapter {
 	private final Localization loc;
 	private final AppW app;
 	private final List<Widget> widgets = new ArrayList<>();

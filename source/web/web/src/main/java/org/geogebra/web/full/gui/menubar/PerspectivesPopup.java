@@ -33,8 +33,8 @@ import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class PerspectivesPopup {
-	protected GPopupMenuW wrappedPopup;
+public final class PerspectivesPopup {
+	private final GPopupMenuW wrappedPopup;
 	final AppWFull app;
 
 	/**

@@ -35,7 +35,7 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  * @author bencze The "Export Image" menu, part of the "File" menu.
  */
-public class ExportMenuW extends AriaMenuBar implements MenuBarI {
+public final class ExportMenuW extends AriaMenuBar implements MenuBarI {
 
 	/**
 	 * Constructs the "Insert Image" menu

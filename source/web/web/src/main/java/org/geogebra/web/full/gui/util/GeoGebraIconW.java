@@ -30,7 +30,7 @@ import org.geogebra.web.resources.SVGResource;
 /**
  * icon resources (point style, line style, etc.)
  */
-public class GeoGebraIconW {
+public final class GeoGebraIconW {
 
 	private static final MaterialDesignResources matIcons = MaterialDesignResources.INSTANCE;
 

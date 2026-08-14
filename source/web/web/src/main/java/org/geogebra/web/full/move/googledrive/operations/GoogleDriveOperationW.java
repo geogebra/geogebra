@@ -54,7 +54,7 @@ import jsinterop.base.JsPropertyMap;
 /**
  * Operational class for Google Drive Api
  */
-public class GoogleDriveOperationW implements GoogleDriveOperation {
+public final class GoogleDriveOperationW implements GoogleDriveOperation {
 
 	private static final String GoogleApiJavaScriptSrc = "https://apis.google.com/js/client.js?onload=GGW_loadGoogleDrive";
 	private final AppW app;

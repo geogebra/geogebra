@@ -21,7 +21,7 @@ import org.geogebra.common.util.StringUtil;
 /**
  * Input control with more button
  */
-public class InputMoreControl implements InputItemControl {
+public final class InputMoreControl implements InputItemControl {
 
 	private RadioTreeItem item;
 	

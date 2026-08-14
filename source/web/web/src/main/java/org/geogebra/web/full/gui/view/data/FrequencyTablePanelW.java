@@ -23,10 +23,10 @@ import org.gwtproject.user.client.ui.Label;
 /**
  * Frequency table for Web
  */
-public class FrequencyTablePanelW extends FlowPanel implements StatPanelInterfaceW {
+public final class FrequencyTablePanelW extends FlowPanel implements StatPanelInterfaceW {
 
 	private String[] strHeader;
-	protected StatTableW statTable;
+	private final StatTableW statTable;
 
 	/**
 	 * Create new frequency table

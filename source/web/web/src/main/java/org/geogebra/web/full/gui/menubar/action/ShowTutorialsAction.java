@@ -24,7 +24,7 @@ import elemental2.dom.DomGlobal;
 /**
  * Shows the tutorial.
  */
-public class ShowTutorialsAction extends DefaultMenuAction<AppWFull> {
+public final class ShowTutorialsAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
 	public void execute(AppWFull app) {

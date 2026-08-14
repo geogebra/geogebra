@@ -39,7 +39,7 @@ import org.gwtproject.user.client.ui.Label;
  * Animation panel for points and sliders
  *
  */
-public class AnimPanel extends FlowPanel implements ClickHandler, HasDataTest {
+public final class AnimPanel extends FlowPanel implements ClickHandler, HasDataTest {
 
 	/** Size of play button in pixels */
 	public static final int PLAY_BUTTON_SIZE = 24;

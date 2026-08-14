@@ -29,7 +29,7 @@ import org.gwtproject.user.client.ui.ScrollPanel;
  * Widget representing the CAS View
  *
  */
-public class CASComponentW extends ScrollPanel implements ScrollHandler,
+public final class CASComponentW extends ScrollPanel implements ScrollHandler,
         NativePreviewHandler {
 
 	private boolean scrollHappened;

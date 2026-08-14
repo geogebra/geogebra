@@ -24,7 +24,7 @@ import org.geogebra.web.html5.main.AppW;
 /**
  * Menu item provider for Classic
  */
-public class ClassicMenuItemProvider {
+public final class ClassicMenuItemProvider {
 
 	private AppW app;
 

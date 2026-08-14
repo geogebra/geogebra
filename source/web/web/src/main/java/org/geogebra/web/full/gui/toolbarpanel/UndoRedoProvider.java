@@ -25,9 +25,9 @@ import org.geogebra.web.html5.main.topbar.TopBarIcon;
 /**
  * Undo/redo panel for unbundled apps
  */
-public class UndoRedoProvider {
+public final class UndoRedoProvider {
 	private final AppW app;
-	protected FocusableWidget redoAnchor;
+	FocusableWidget redoAnchor;
 	IconButton btnUndo;
 	IconButton btnRedo;
 
@@ -103,7 +103,7 @@ public class UndoRedoProvider {
 		btnRedo.setDisabled(!app.getKernel().redoPossible());
 	}
 
-	protected void setLabels() {
+	void setLabels() {
 		btnUndo.setLabels();
 		btnRedo.setLabels();
 	}

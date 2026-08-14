@@ -22,7 +22,7 @@ import org.gwtproject.event.logical.shared.ValueChangeHandler;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class SliderPanel extends FlowPanel implements SliderInputHandler {
+public final class SliderPanel extends FlowPanel implements SliderInputHandler {
 
 	private final Slider slider;
 	private final Label sliderLabel;

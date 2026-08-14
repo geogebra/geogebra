@@ -28,7 +28,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 /**
  * Dialog for segment with fixed radius.
  */
-public class InputDialogSegmentFixedW extends ComponentInputDialog {
+public final class InputDialogSegmentFixedW extends ComponentInputDialog {
 	private GeoPointND geoPoint1;
 	private Kernel kernel;
 

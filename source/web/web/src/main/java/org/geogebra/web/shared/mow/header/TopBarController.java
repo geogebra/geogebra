@@ -37,7 +37,7 @@ import org.geogebra.web.html5.main.topbar.TopBarIcon;
 import org.geogebra.web.html5.main.topbar.TopBarIconResource;
 import org.jspecify.annotations.Nullable;
 
-public class TopBarController {
+public final class TopBarController {
 	private final AppW appW;
 	private final ZoomController zoomController;
 	private final EuclidianView view;

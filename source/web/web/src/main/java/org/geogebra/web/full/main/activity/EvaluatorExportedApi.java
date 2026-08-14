@@ -32,7 +32,7 @@ import jsinterop.base.JsPropertyMap;
  * API exporter for evaluator app
  */
 @JsType
-public class EvaluatorExportedApi implements ExportedApi {
+public final class EvaluatorExportedApi implements ExportedApi {
 
 	private final EvaluatorActivity evaluatorActivity;
 

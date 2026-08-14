@@ -23,7 +23,7 @@ import org.geogebra.web.html5.main.toolbox.FaIconSpec;
 /**
  * Gives access to Mebis menu icons.
  */
-public class MebisMenuIconProvider extends DefaultMenuIconProvider {
+public final class MebisMenuIconProvider extends DefaultMenuIconProvider {
 
 	@Override
 	public IconSpec matchIconWithResource(Icon icon) {

@@ -23,7 +23,7 @@ import org.geogebra.web.full.main.AppWFull;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.Panel;
 
-public class ConstructionProtocolDockPanelW extends NavigableDockPanelW {
+public final class ConstructionProtocolDockPanelW extends NavigableDockPanelW {
 
 	/**
 	 * @param app

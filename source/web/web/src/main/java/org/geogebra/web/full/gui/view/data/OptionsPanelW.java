@@ -47,7 +47,7 @@ import org.gwtproject.user.client.ui.TabPanel;
  * @author G. Sturr
  * 
  */
-public class OptionsPanelW extends FlowPanel
+public final class OptionsPanelW extends FlowPanel
 		implements StatPanelInterfaceW {
 
 	private final AppW app;

@@ -24,7 +24,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.html5.main.AppW;
 
-public class ToolboxController {
+public final class ToolboxController {
 	private final AppW appW;
 	private final NotesToolbox toolbox;
 	

@@ -23,7 +23,7 @@ import org.geogebra.web.resources.SVGResource;
 /**
  * Specific behaviors of Geometry app
  */
-public class GeometryActivity extends BaseActivity {
+public final class GeometryActivity extends BaseActivity {
 
 	/**
 	 * New Geometry activity

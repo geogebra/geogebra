@@ -29,7 +29,7 @@ import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.resources.client.ResourcePrototype;
 
-public class OrderSubMenu extends AriaMenuBar {
+public final class OrderSubMenu extends AriaMenuBar {
 
 	private App app;
 	private LayerManager layerManager;

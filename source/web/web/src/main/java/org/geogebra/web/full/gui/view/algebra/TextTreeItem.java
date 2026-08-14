@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoText;
  * ReTeX based implementation of AV Text
  *
  */
-public class TextTreeItem extends LaTeXTreeItem {
+public final class TextTreeItem extends LaTeXTreeItem {
 
 	/**
 	 * @param geo0

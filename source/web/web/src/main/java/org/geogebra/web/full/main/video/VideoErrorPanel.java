@@ -25,7 +25,7 @@ import org.gwtproject.user.client.ui.Label;
  *
  * @author Laszlo
  */
-public class VideoErrorPanel extends PersistablePanel {
+public final class VideoErrorPanel extends PersistablePanel {
 	private final Localization loc;
 	private Label error;
 	private String errorId;

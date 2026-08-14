@@ -24,7 +24,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class ComponentInfoErrorPanel extends FlowPanel {
+public final class ComponentInfoErrorPanel extends FlowPanel {
 	private final Localization loc;
 	private StandardButton actionButton;
 

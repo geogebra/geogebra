@@ -25,7 +25,7 @@ import elemental2.dom.DomGlobal;
 /**
  * Opens the bug report page.
  */
-public class ReportProblemAction extends DefaultMenuAction<AppWFull> {
+public final class ReportProblemAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
 	public void execute(AppWFull app) {

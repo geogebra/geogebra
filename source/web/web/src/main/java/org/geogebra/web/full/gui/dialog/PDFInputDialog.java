@@ -54,7 +54,7 @@ import jsinterop.base.Js;
 /**
  * dialog to insert pdf page as image
  */
-public class PDFInputDialog extends ComponentDialog
+public final class PDFInputDialog extends ComponentDialog
 		implements FastClickHandler, PDFListener {
 	private FlowPanel pdfContainerPanel;
 	private FlowPanel imgTextPanel;

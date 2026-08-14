@@ -42,7 +42,7 @@ import org.gwtproject.user.client.ui.UIObject;
  * The content supplier returns either a combined definition/value representation
  * or a single representation, depending on the algebra style.</p>
  */
-public class AccessibleContentProvider {
+public final class AccessibleContentProvider {
 	private final GeoElement geo;
 	private final Localization loc;
 	private final AlgebraStyle style;

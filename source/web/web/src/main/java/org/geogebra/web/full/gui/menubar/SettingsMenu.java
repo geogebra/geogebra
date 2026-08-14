@@ -24,7 +24,7 @@ import org.geogebra.web.resources.SVGResource;
 /**
  * Single item submenu with settings action
  */
-public class SettingsMenu extends Submenu {
+public final class SettingsMenu extends Submenu {
 
 	/**
 	 * @param app

@@ -28,7 +28,7 @@ import org.gwtproject.user.client.ui.Widget;
  * FunctionInspector dockpanel for Web
  *
  */
-public class FunctionInspectorDockPanelW extends DockPanelW {
+public final class FunctionInspectorDockPanelW extends DockPanelW {
 	
 	/**
 	 * default width of this panel

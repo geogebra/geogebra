@@ -21,7 +21,7 @@ import jsinterop.annotations.JsType;
 import jsinterop.base.JsPropertyMap;
 
 @JsType(isNative = true, namespace = "gmath", name = "Canvas")
-public class GMCanvas {
+public final class GMCanvas {
 
 	@JsProperty
 	public GMCanvasController controller;

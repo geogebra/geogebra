@@ -19,7 +19,7 @@ package org.geogebra.web.full.gui.layout.animation;
 /**
  * In- and out-animation.
  */
-public class Animation {
+public final class Animation {
 	private String animateInStyle;
 	private String animateOutStyle;
 	private boolean isFadeAnimation;

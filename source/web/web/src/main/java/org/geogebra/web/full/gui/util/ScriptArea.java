@@ -32,13 +32,13 @@ import org.gwtproject.event.dom.client.KeyUpHandler;
 import org.gwtproject.user.client.ui.TextArea;
 
 /** Class for future syntax highlighting, line numbering and so on. */
-public class ScriptArea extends TextArea
+public final class ScriptArea extends TextArea
  implements KeyPressHandler,
 		KeyDownHandler, KeyUpHandler, HasKeyboardTF {
 
 	/** application */
-	protected AppW app;
-	private DummyCursor dummyCursor;
+	private final AppW app;
+	private final DummyCursor dummyCursor;
 	private boolean isFocused = false;
 
 	/**

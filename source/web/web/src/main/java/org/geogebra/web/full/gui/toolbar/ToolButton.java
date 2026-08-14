@@ -28,7 +28,7 @@ import org.geogebra.web.resources.SVGResourcePrototype;
  * @author csilla
  *
  */
-public class ToolButton extends StandardButton {
+public final class ToolButton extends StandardButton {
 
 	private final int mode;
 	private final AppW appW;

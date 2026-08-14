@@ -51,20 +51,20 @@ import org.gwtproject.user.client.ui.RequiresResize;
 /**
  * InputBar for GeoGebraWeb
  */
-public class AlgebraInputW extends FlowPanel
+public final class AlgebraInputW extends FlowPanel
 		implements KeyUpHandler, FocusHandler, BlurHandler,
 		RequiresResize, AlgebraInput, HasHelpButton {
 	/** app */
-	protected AppW app;
+	private AppW app;
 	/** input panel */
-	protected InputPanelW inputPanel;
+	private InputPanelW inputPanel;
 	/** text component */
-	protected AutoCompleteTextFieldW inputField;
+	private AutoCompleteTextFieldW inputField;
 	// protected FlowPanel innerPanel;
 	/** button for help */
-	protected ToggleButton btnHelpToggle;
+	private ToggleButton btnHelpToggle;
 	/** help popup */
-	protected InputBarHelpPopup helpPopup;
+	private InputBarHelpPopup helpPopup;
 	private boolean focused = false;
 	private HistoryPopupW popup;
 

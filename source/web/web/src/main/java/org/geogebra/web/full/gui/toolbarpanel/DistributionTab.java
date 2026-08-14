@@ -22,7 +22,7 @@ import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyProbabilityTable;
 import org.geogebra.web.full.gui.view.probcalculator.DistributionPanel;
 import org.geogebra.web.full.gui.view.probcalculator.ProbabilityCalculatorViewW;
 
-public class DistributionTab extends ToolbarTab {
+public final class DistributionTab extends ToolbarTab {
 
 	private final ToolbarPanel toolbarPanel;
 	private DistributionPanel distrPanel;

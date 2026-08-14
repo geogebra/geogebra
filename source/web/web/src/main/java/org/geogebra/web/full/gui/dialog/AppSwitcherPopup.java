@@ -35,7 +35,7 @@ import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class AppSwitcherPopup extends GPopupPanel implements ExamListener {
+public final class AppSwitcherPopup extends GPopupPanel implements ExamListener {
 
 	SuiteHeaderAppPicker appPickerButton;
 	private FlowPanel contentPanel;

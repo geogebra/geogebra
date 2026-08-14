@@ -34,7 +34,7 @@ import jsinterop.base.Js;
  * @author gabor
  *
  */
-public class AuthenticationModelW extends AuthenticationModel  {
+public final class AuthenticationModelW extends AuthenticationModel  {
 
 	private static final String GGB_LAST_USER = "last_user";
 	/** token storage */

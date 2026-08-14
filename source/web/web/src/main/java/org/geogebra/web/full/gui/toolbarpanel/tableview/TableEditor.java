@@ -33,7 +33,7 @@ import org.gwtproject.user.client.DOM;
 import elemental2.dom.Event;
 import elemental2.dom.MouseEvent;
 
-public class TableEditor implements UnhandledArrowListener {
+public final class TableEditor implements UnhandledArrowListener {
 	private final StickyValuesTable table;
 	private final AppW app;
 	public TableValuesKeyboardNavigationController controller;

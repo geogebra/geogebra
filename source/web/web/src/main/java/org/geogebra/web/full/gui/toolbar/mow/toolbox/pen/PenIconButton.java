@@ -25,7 +25,7 @@ import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.ToolIconButton;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.main.AppW;
 
-public class PenIconButton extends ToolIconButton {
+public final class PenIconButton extends ToolIconButton {
 	private final AppW appW;
 	private PenCategoryPopup penPopup;
 	private final List<Integer> modes;

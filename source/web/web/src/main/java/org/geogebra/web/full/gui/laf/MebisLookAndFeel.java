@@ -23,7 +23,7 @@ import org.geogebra.web.html5.gui.laf.SignInControllerI;
 /**
  * LAF for Mebis environment
  */
-public class MebisLookAndFeel extends GLookAndFeel {
+public final class MebisLookAndFeel extends GLookAndFeel {
 
 	@Override
 	public SignInControllerI getSignInController(App app) {

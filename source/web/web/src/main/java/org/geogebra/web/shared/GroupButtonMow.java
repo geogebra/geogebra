@@ -33,7 +33,7 @@ import org.gwtproject.user.client.ui.SimplePanel;
  *         Group button for the joint share dialog (mow)
  *
  */
-public class GroupButtonMow extends FlowPanel {
+public final class GroupButtonMow extends FlowPanel {
 	private boolean selected;
 	private final BiConsumer<GroupIdentifier, Boolean> callBack;
 	private final GroupIdentifier groupDescription;

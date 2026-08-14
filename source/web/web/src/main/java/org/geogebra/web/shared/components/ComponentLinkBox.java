@@ -28,11 +28,11 @@ import org.gwtproject.user.client.ui.TextBox;
  * @author Csilla
  *
  */
-public class ComponentLinkBox extends TextBox
+public final class ComponentLinkBox extends TextBox
 		implements ClickHandler, BlurHandler {
 
 	/** true if linkBox is focused */
-	protected boolean isFocused = true;
+	private boolean isFocused = true;
 
 	/**
 	 * @param isReadOnly

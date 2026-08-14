@@ -24,7 +24,7 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Builds MenuActionHandler instances for Mebis Board.
  */
-public class MebisMenuActionHandlerFactory implements MenuActionHandlerFactory {
+public final class MebisMenuActionHandlerFactory implements MenuActionHandlerFactory {
 
 	private DefaultMenuActionHandlerFactory defaultMenuActionHandlerFactory;
 

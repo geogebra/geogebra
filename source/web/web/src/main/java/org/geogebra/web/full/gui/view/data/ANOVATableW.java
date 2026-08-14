@@ -24,7 +24,7 @@ import org.geogebra.web.html5.main.AppW;
 /**
  * ANOVA table for Web
  */
-public class ANOVATableW extends BasicStatTableW {
+public final class ANOVATableW extends BasicStatTableW {
 	private static final int ROW_COUNT = 3;
 	private static final int COLUMN_COUNT = 6;
 

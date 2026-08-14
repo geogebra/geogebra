@@ -42,7 +42,7 @@ import org.gwtproject.user.client.ui.TextBox;
 /**
  * ChiSquarePanel for Web
  */
-public class ChiSquarePanelW extends ChiSquarePanel
+public final class ChiSquarePanelW extends ChiSquarePanel
 		implements ChangeHandler {
 	private FlowPanel wrappedPanel;
 	private ComponentCheckbox ckExpected;
@@ -257,7 +257,7 @@ public class ChiSquarePanelW extends ChiSquarePanel
 	 * Cell (input+output) of the table
 	 *
 	 */
-	public class ChiSquareCellW extends ChiSquareCell
+	public final class ChiSquareCellW extends ChiSquareCell
 			implements FocusHandler, KeyUpHandler {
 
 		private FlowPanel wrappedCellPanel;

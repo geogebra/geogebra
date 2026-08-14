@@ -20,7 +20,7 @@ import org.geogebra.common.gui.menu.Action;
 import org.geogebra.web.full.gui.menubar.action.SwitchCalculatorAction;
 import org.geogebra.web.full.main.AppWFull;
 
-public class SuiteMenuActionHandlerFactory implements MenuActionHandlerFactory {
+public final class SuiteMenuActionHandlerFactory implements MenuActionHandlerFactory {
 	private final DefaultMenuActionHandlerFactory factory;
 
 	public SuiteMenuActionHandlerFactory(AppWFull app) {

@@ -31,7 +31,7 @@ import com.google.gwt.core.client.GWT;
 /**
  * Resource injector that includes UI styles.
  */
-public class ResourcesInjectorFull extends ResourcesInjector {
+public final class ResourcesInjectorFull extends ResourcesInjector {
 
 	@Override
 	protected void injectResourcesGUI(AppletParameters parameters) {

@@ -25,7 +25,7 @@ import org.geogebra.web.full.gui.components.ComponentToast;
 import org.geogebra.web.html5.main.AppW;
 import org.jspecify.annotations.NonNull;
 
-public class ToastController implements SyntaxTooltipUpdater {
+public final class ToastController implements SyntaxTooltipUpdater {
 
 	private final Supplier<Rectangle> boundsSupplier;
 	private final AppW app;

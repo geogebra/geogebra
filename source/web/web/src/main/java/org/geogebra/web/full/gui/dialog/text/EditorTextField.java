@@ -22,7 +22,7 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.event.dom.client.KeyUpHandler;
 
-public class EditorTextField extends GTextBox implements KeyUpHandler {
+public final class EditorTextField extends GTextBox implements KeyUpHandler {
 
 	Element target;
 

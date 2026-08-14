@@ -44,7 +44,7 @@ import elemental2.dom.CanvasRenderingContext2D;
 /**
  * Classic (no toolbar) dock panel for algebra
  */
-public class AlgebraDockPanelW extends NavigableDockPanelW
+public final class AlgebraDockPanelW extends NavigableDockPanelW
 		implements AlgebraPanelInterface {
 
 	private ScrollPanel algebrap;

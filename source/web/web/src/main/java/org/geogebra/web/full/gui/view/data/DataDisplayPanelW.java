@@ -55,7 +55,7 @@ import org.gwtproject.user.client.ui.ScrollPanel;
  * Class to dynamically display plots and statistics in coordination with the
  * DataAnalysisView.
  */
-public class DataDisplayPanelW extends FlowPanel implements
+public final class DataDisplayPanelW extends FlowPanel implements
 		StatPanelInterfaceW, RequiresResize, IDataDisplayListener {
 	private static final int NUM_CLASSES_IDX = 0;
 	private static final int MANUAL_CLASSES_IDX = 1;

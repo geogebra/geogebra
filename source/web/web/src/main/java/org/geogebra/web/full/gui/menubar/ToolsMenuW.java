@@ -29,7 +29,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 /**
  * Web implementation of ToolsMenu
  */
-public class ToolsMenuW extends Submenu {
+public final class ToolsMenuW extends Submenu {
 
 	private final ExamController examController;
 

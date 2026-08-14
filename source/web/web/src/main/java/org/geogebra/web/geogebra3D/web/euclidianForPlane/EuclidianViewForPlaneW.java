@@ -34,7 +34,7 @@ import org.gwtproject.user.client.ui.Widget;
  * @author Mathieu
  *
  */
-public class EuclidianViewForPlaneW extends EuclidianViewW implements
+public final class EuclidianViewForPlaneW extends EuclidianViewW implements
         EuclidianViewForPlaneInterface {
 
 	private int panelID;

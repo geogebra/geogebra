@@ -22,7 +22,7 @@ import org.geogebra.web.html5.gui.util.Dom;
 
 import elemental2.dom.KeyboardEvent;
 
-public class TextFieldFocusablePart extends FocusablePartW {
+public final class TextFieldFocusablePart extends FocusablePartW {
 	/**
 	 * Creates a focusable part for the given widget.
 	 * @param textField the underlying {@link AutoCompleteTextFieldW} to be focused

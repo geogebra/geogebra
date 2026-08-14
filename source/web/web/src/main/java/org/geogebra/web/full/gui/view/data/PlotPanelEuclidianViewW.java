@@ -31,7 +31,7 @@ import org.gwtproject.user.client.ui.Widget;
  *
  *Plot panel for ProbabilityCalculator
  */
-public class PlotPanelEuclidianViewW extends EuclidianViewW
+public final class PlotPanelEuclidianViewW extends EuclidianViewW
 		implements PlotPanelEuclidianViewInterface {
 	
 	/**

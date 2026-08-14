@@ -44,7 +44,7 @@ import org.gwtproject.user.client.ui.Widget;
  * @author Zbynek Konecny
  *
  */
-public class CASTableCellW extends FlowPanel {
+public final class CASTableCellW extends FlowPanel {
 	private final GeoCasCell casCell;
 	private final InputPanel inputPanel;
 	private final FlowPanel inputWrapper;

@@ -19,7 +19,7 @@ package org.geogebra.web.shared.components.tab;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.gwtproject.user.client.ui.Widget;
 
-public class TabData {
+public final class TabData {
 	private String tabTitle;
 	private Widget tabPanel;
 

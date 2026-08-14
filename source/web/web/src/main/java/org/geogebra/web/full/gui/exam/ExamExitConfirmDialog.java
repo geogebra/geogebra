@@ -27,7 +27,7 @@ import org.gwtproject.user.client.ui.Label;
  * 
  *         exit exam confirmation dialog
  */
-public class ExamExitConfirmDialog extends ComponentDialog {
+public final class ExamExitConfirmDialog extends ComponentDialog {
 
 	/**
 	 * @param app

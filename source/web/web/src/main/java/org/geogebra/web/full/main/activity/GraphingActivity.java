@@ -23,7 +23,7 @@ import org.geogebra.web.resources.SVGResource;
 /**
  * Specific behavior for graphing app
  */
-public class GraphingActivity extends BaseActivity {
+public final class GraphingActivity extends BaseActivity {
 
 	/**
 	 * Graphing activity

@@ -31,7 +31,7 @@ import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
  * 
  * @author Laszlo
  */
-public class AVSelectionController {
+public final class AVSelectionController {
 	/** Selection mode */
 	public enum SelectMode {
 		/** single select */

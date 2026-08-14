@@ -27,7 +27,7 @@ import elemental2.core.JsArray;
 import elemental2.dom.DomGlobal;
 import jsinterop.base.JsPropertyMap;
 
-public class EditorListener implements MathFieldListener {
+public final class EditorListener implements MathFieldListener {
 
 	private final JsArray<Function> listeners = JsArray.of();
 	private MathFieldW mathField;

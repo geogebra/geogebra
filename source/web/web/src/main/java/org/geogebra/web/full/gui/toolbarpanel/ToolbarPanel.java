@@ -85,7 +85,7 @@ import elemental2.dom.CanvasRenderingContext2D;
 /**
  * @author Laszlo Gal
  */
-public class ToolbarPanel extends FlowPanel
+public final class ToolbarPanel extends FlowPanel
 		implements ModeChangeListener, SideBarAccessibilityAdapter {
 
 	/** Closed width of header in landscape mode */

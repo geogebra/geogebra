@@ -33,7 +33,7 @@ import org.gwtproject.user.client.Command;
  * @author mathieu
  *
  */
-public class GuiManager3DW extends GuiManagerW {
+public final class GuiManager3DW extends GuiManagerW {
 
 	private DockPanelW euclidian3Dpanel;
 

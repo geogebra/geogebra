@@ -24,7 +24,7 @@ import org.geogebra.common.gui.view.table.TableValuesModel;
  * @author latzg
  *
  */
-public class TVRowData {
+public final class TVRowData {
 	private int row;
 	private TableValuesModel model;
 

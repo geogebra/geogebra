@@ -22,7 +22,7 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Exports image.
  */
-public class ExportImage extends DefaultMenuAction<AppWFull> {
+public final class ExportImage extends DefaultMenuAction<AppWFull> {
 
 	@Override
 	public void execute(AppWFull app) {

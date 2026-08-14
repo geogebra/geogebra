@@ -27,7 +27,7 @@ import org.geogebra.web.full.javax.swing.GCheckMarkPanel;
 import org.gwtproject.user.client.Command;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class LabelSettingsPanel extends FlowPanel implements SetLabels {
+public final class LabelSettingsPanel extends FlowPanel implements SetLabels {
 
 	private final FlagListPropertyListFacade<?> labelStyleProperty;
 	private final List<GCheckMarkLabel> checkmarks = new ArrayList<>();

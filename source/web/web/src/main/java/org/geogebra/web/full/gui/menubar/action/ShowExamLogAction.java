@@ -23,7 +23,7 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Shows exam log.
  */
-public class ShowExamLogAction extends DefaultMenuAction<AppWFull> {
+public final class ShowExamLogAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
 	public void execute(AppWFull app) {

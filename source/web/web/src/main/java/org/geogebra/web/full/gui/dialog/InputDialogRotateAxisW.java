@@ -29,7 +29,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 /**
  * Dialog for rotation around a line
  */
-public class InputDialogRotateAxisW extends InputDialogRotateW {
+public final class InputDialogRotateAxisW extends InputDialogRotateW {
 
 	private GeoLineND[] lines;
 

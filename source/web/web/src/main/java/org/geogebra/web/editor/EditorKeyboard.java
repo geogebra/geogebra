@@ -26,7 +26,7 @@ import org.gwtproject.user.client.ui.RootPanel;
 
 import elemental2.dom.DomGlobal;
 
-public class EditorKeyboard {
+public final class EditorKeyboard {
 
 	private TabbedKeyboard tabbedKeyboard;
 

@@ -21,7 +21,7 @@ import org.geogebra.web.full.gui.components.ComponentInputDialog;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
-public class NumberInputDialog extends ComponentInputDialog {
+public final class NumberInputDialog extends ComponentInputDialog {
 
 	/**
 	 * dialog constructor

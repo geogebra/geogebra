@@ -27,7 +27,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class GraphicsControlsPanel extends FlowPanel implements DockControlPanel {
+public final class GraphicsControlsPanel extends FlowPanel implements DockControlPanel {
 	private final AppW app;
 	private IconButton graphicsContextMenuBtn;
 

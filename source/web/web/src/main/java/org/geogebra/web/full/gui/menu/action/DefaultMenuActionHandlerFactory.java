@@ -46,7 +46,7 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Builds MenuActionHandler instances.
  */
-public class DefaultMenuActionHandlerFactory implements MenuActionHandlerFactory {
+public final class DefaultMenuActionHandlerFactory implements MenuActionHandlerFactory {
 
 	private AppWFull app;
 

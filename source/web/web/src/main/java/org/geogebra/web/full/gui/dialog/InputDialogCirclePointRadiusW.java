@@ -27,7 +27,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 /**
  * Dialog for circle with center and radius.
  */
-public class InputDialogCirclePointRadiusW extends InputDialogRadiusW {
+public final class InputDialogCirclePointRadiusW extends InputDialogRadiusW {
 	private GeoPoint geoPoint1;
 
 	/**

@@ -26,7 +26,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
-public class ExamControllerDelegateW
+public final class ExamControllerDelegateW
 		implements ExamControllerDelegate, RestrictionsControllerDelegate {
 
 	private final AppW app;

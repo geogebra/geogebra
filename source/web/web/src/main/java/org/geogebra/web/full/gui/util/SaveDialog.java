@@ -32,7 +32,7 @@ import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Image;
 
-public class SaveDialog extends SaveFileDialog {
+public final class SaveDialog extends SaveFileDialog {
 	private ComponentCheckbox templateCheckbox;
 	private Image providerImage;
 	private Set<Material.Provider> availableProviders;

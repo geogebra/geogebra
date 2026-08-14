@@ -42,7 +42,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
  *
  * @author laszlo
  */
-public class MaskWidgetListW implements MaskWidgetList {
+public final class MaskWidgetListW implements MaskWidgetList {
 
 	private GeoGebraFrameFull appletFrame;
 	private final EuclidianView view;

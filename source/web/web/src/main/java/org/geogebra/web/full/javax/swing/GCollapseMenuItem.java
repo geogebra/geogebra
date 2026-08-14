@@ -32,7 +32,7 @@ import org.gwtproject.user.client.ui.InlineLabel;
  * @author laszlo
  * 
  */
-public class GCollapseMenuItem {
+public final class GCollapseMenuItem {
 
 	private AriaMenuItem menuItem;
 	private AriaMenuBar items;

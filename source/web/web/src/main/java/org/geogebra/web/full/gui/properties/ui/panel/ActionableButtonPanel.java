@@ -21,7 +21,7 @@ import static org.geogebra.common.properties.PropertyView.*;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class ActionableButtonPanel extends FlowPanel {
+public final class ActionableButtonPanel extends FlowPanel {
 
 	/**
 	 * Create the actionable button panel

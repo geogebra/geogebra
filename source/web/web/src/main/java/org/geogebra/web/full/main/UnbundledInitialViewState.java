@@ -25,7 +25,7 @@ import static org.geogebra.common.main.App.VIEW_ALGEBRA;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.InitialViewState;
 
-public class UnbundledInitialViewState implements InitialViewState {
+public final class UnbundledInitialViewState implements InitialViewState {
 
 	private final AppWFull app;
 	private final boolean toolbarVisible;

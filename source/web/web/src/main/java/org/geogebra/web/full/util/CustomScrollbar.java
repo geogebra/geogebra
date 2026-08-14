@@ -19,7 +19,7 @@ package org.geogebra.web.full.util;
 import org.geogebra.web.html5.Browser;
 import org.gwtproject.user.client.ui.Panel;
 
-public class CustomScrollbar {
+public final class CustomScrollbar {
 
 	/**
 	 * @param scroller panel to be scrolled

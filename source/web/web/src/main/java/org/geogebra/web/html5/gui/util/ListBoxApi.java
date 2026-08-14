@@ -25,7 +25,7 @@ import org.gwtproject.user.client.ui.ListBox;
  * TODO these static methods should just be methods of ListBox
  * @author gabor
  */
-public class ListBoxApi {
+public final class ListBoxApi {
 
 	/**
 	 * @param value

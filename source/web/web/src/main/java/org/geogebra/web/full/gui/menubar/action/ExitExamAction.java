@@ -40,11 +40,11 @@ import org.gwtproject.canvas.client.Canvas;
 /**
  * Exits exam mode.
  */
-public class ExitExamAction extends DefaultMenuAction<AppWFull> {
+public final class ExitExamAction extends DefaultMenuAction<AppWFull> {
 	/**
 	 * Canvas line height
 	 */
-	protected static final int LINE_HEIGHT = 24;
+	private static final int LINE_HEIGHT = 24;
 	private static final double PADDING = 24;
 	private static final GColor EXAM_OK_COLOR = GColor.newColorRGB(0x3DA196);
 	private static final int SCREENSHOT_HEADER_HEIGHT = 78;

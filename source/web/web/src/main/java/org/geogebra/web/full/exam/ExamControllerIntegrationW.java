@@ -31,7 +31,7 @@ import org.jspecify.annotations.NonNull;
 /**
  * Clutter-reducing wrapper for `ExamControllerIntegration` (common).
  */
-public class ExamControllerIntegrationW {
+public final class ExamControllerIntegrationW {
 
 	private static ExamControllerIntegration examControllerIntegration;
 	private static GeoElementPropertiesFactory geoElementPropertiesFactory;

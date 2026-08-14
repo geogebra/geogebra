@@ -28,7 +28,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.ListBox;
 
-public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfaceW,
+public final class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfaceW,
 		TwoVarInferenceListener {
 
 	private AppW app;

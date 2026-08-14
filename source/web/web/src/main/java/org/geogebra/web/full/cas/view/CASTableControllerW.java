@@ -54,7 +54,7 @@ import org.gwtproject.user.client.ui.Widget;
  * HTML5 version of CAS controller
  *
  */
-public class CASTableControllerW extends CASTableCellController implements
+public final class CASTableControllerW extends CASTableCellController implements
         MouseDownHandler, MouseUpHandler, MouseMoveHandler, KeyHandler,
         TouchStartHandler, TouchEndHandler, TouchMoveHandler,
         LongTouchHandler {

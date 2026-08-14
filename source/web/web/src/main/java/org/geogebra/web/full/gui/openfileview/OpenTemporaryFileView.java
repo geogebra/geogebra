@@ -31,7 +31,7 @@ import org.geogebra.web.shared.components.infoError.InfoErrorData;
 /**
  * View for browsing materials
  */
-public class OpenTemporaryFileView extends HeaderFileView implements
+public final class OpenTemporaryFileView extends HeaderFileView implements
 		OpenFileListener {
 
 	private final TempStorage tempStorage;

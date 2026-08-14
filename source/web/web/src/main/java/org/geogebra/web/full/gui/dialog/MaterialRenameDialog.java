@@ -20,7 +20,7 @@ import org.geogebra.web.full.gui.openfileview.MaterialCard;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
-public class MaterialRenameDialog extends CardRenameDialog {
+public final class MaterialRenameDialog extends CardRenameDialog {
 
 	private final MaterialCard card;
 

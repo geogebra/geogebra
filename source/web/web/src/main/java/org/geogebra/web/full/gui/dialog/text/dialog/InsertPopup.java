@@ -36,7 +36,7 @@ import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
 
-public class InsertPopup extends GPopupPanel {
+public final class InsertPopup extends GPopupPanel {
 	private final TextEditPanel textEditPanel;
 	private final Map<String, GeoElement> geosMap = new HashMap<>();
 	private final Runnable previewUpdater;

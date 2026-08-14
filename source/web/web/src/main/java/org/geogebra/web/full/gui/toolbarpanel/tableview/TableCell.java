@@ -21,7 +21,7 @@ import org.gwtproject.safehtml.shared.SafeHtml;
 
 import elemental2.dom.HTMLElement;
 
-public class TableCell {
+public final class TableCell {
 
 	private final HTMLElement main;
 	private final String errorHTML;

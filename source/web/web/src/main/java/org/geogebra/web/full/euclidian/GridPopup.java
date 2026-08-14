@@ -28,7 +28,7 @@ import org.geogebra.web.html5.main.AppW;
  * Grid style popup
  *
  */
-public class GridPopup extends PopupMenuButtonWithDefault {
+public final class GridPopup extends PopupMenuButtonWithDefault {
 
 	/**
 	 * @param app

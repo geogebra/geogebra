@@ -38,7 +38,7 @@ import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.KeyboardEvent;
 
-public class ComponentDropDown extends FlowPanel implements SetLabels,
+public final class ComponentDropDown extends FlowPanel implements SetLabels,
 		ConfigurationUpdateDelegate, VisibilityUpdateDelegate {
 	private final AppW app;
 	private final Styler styler;

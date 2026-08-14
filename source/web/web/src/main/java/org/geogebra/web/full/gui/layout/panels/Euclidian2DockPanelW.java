@@ -34,7 +34,7 @@ import org.gwtproject.user.client.ui.Widget;
  * @author arpad
  */
 
-public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract
+public final class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract
 		implements EuclidianPanelWAbstract {
 
 	EuclidianStyleBar espanel;

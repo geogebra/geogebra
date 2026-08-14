@@ -30,7 +30,7 @@ import jsinterop.annotations.JsIgnore;
 import jsinterop.annotations.JsType;
 
 @JsType
-public class TabletFileManager extends FileManagerT {
+public final class TabletFileManager extends FileManagerT {
 
 	private static TabletFileManager INSTANCE;
 	private final static int NO_CALLBACK = 0;

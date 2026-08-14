@@ -24,7 +24,7 @@ import org.gwtproject.user.client.ui.Widget;
  * <p>Provides access to the focusable parts specific to linear notation,
  * such as the editable input row.</p>
  */
-public class LinearNotationFocusAccess extends RadioTreeItemFocusAccess {
+public final class LinearNotationFocusAccess extends RadioTreeItemFocusAccess {
 	private final LinearNotationTreeItem item;
 
 	/**

@@ -476,7 +476,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		createChangeViewButtons();
 	}
 
-	public class ProjectionPopup extends PopupMenuButtonW {
+	public final class ProjectionPopup extends PopupMenuButtonW {
 
 		/**
 		 * @param app

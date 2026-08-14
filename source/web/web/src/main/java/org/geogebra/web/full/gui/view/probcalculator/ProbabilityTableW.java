@@ -32,7 +32,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
  * @author gabor
  *
  */
-public class ProbabilityTableW extends ProbabilityTable implements ClickHandler {
+public final class ProbabilityTableW extends ProbabilityTable implements ClickHandler {
 
 	private final FlowPanel wrappedPanel;
 	private final StatTableW statTable;

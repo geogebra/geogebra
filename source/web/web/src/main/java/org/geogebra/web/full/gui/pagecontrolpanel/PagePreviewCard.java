@@ -34,7 +34,7 @@ import org.jspecify.annotations.NonNull;
 /**
  * Page Preview Card showing preview of EuclidianView
  */
-public class PagePreviewCard extends FlowPanel
+public final class PagePreviewCard extends FlowPanel
 		implements SetLabels {
 
 	/** Margin of the cards. */
@@ -56,7 +56,7 @@ public class PagePreviewCard extends FlowPanel
 	/**
 	 * ggb file
 	 */
-	protected GgbFile file;
+	private GgbFile file;
 
 	/**
 	 * @param app

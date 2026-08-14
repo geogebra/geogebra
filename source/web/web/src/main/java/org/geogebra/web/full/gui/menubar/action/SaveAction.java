@@ -24,7 +24,7 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Opens save dialog.
  */
-public class SaveAction extends DefaultMenuAction<AppWFull> {
+public final class SaveAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
 	public void execute(AppWFull app) {

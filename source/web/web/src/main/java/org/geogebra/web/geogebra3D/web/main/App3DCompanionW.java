@@ -37,7 +37,7 @@ import org.geogebra.web.geogebra3D.web.gui.layout.panels.EuclidianDockPanelForPl
  *
  *         Companion for 3D application in desktop
  */
-public class App3DCompanionW extends App3DCompanion {
+public final class App3DCompanionW extends App3DCompanion {
 
 	private EuclidianDockPanelForPlaneW panel;
 	private ArrayList<EuclidianDockPanelForPlaneW> panelForPlaneList;

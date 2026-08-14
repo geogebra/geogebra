@@ -45,13 +45,13 @@ import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.SplitLayoutPanel;
 import org.gwtproject.user.client.ui.Widget;
 
-public class DataAnalysisViewW extends FlowPanel implements View,
+public final class DataAnalysisViewW extends FlowPanel implements View,
 		ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener,
 		PrintableW {
-	private AppW app;
-	private Kernel kernel;
+	private final AppW app;
+	private final Kernel kernel;
 	private DataAnalysisModel model;
-	protected DataAnalysisControllerW daCtrl;
+	private final DataAnalysisControllerW daCtrl;
 	private DataAnalysisStyleBarW stylebar;
 
 	public static final GColor TABLE_GRID_COLOR = GeoGebraColorConstants.TABLE_GRID_COLOR;
@@ -416,7 +416,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	}
 
 	@Override
-	final public void updateVisualStyle(GeoElement geo, GProperty prop) {
+	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		update(geo);
 	}
 

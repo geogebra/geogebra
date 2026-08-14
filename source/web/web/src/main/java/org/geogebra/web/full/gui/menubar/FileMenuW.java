@@ -41,7 +41,7 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  * Web implementation of FileMenu
  */
-public class FileMenuW extends Submenu implements BooleanRenderable {
+public final class FileMenuW extends Submenu implements BooleanRenderable {
 
 	private AriaMenuItem shareItem;
 

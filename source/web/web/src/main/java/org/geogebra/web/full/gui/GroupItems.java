@@ -27,7 +27,7 @@ import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 /**
  * Class to create group related menu items.
  */
-public class GroupItems {
+public final class GroupItems {
 
 	private final App app;
 

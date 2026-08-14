@@ -25,7 +25,7 @@ import org.gwtproject.resources.client.ResourcePrototype;
 /**
  * Contains the real views and also the "extensions"
  */
-public class Views {
+public final class Views {
 	/** Properties of a view type */
 	public enum ViewType {
 		/**

@@ -23,7 +23,7 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Display;
 import org.gwtproject.user.client.DOM;
 
-public class BaseHeaderResizer implements HeaderResizer {
+public final class BaseHeaderResizer implements HeaderResizer {
 
 	private final GeoGebraFrameW frame;
 

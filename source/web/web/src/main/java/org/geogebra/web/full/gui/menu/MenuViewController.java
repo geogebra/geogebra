@@ -72,7 +72,7 @@ import org.jspecify.annotations.NonNull;
 /**
  * Controller for the main menu in the apps.
  */
-public class MenuViewController implements EventRenderable, SetLabels, RequiresResize {
+public final class MenuViewController implements EventRenderable, SetLabels, RequiresResize {
 
 	private MenuViewListener menuViewListener;
 

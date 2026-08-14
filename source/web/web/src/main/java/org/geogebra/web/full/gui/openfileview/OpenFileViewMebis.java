@@ -60,14 +60,14 @@ import jsinterop.base.Js;
 /**
  * View for browsing materials
  */
-public class OpenFileViewMebis extends HeaderFileView
+public final class OpenFileViewMebis extends HeaderFileView
 		implements OpenFileListener, EventRenderable {
 
 	private final FileViewCommon common;
 	/**
 	 * application
 	 */
-	protected AppWFull app;
+	private final AppWFull app;
 
 	private FlowPanel buttonPanel;
 	private StandardButton downloadAllFiles;

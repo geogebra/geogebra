@@ -22,7 +22,7 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Exports collada DAE.
  */
-public class DownloadColladaDaeAction extends DefaultMenuAction<AppWFull> {
+public final class DownloadColladaDaeAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
 	public void execute(AppWFull app) {

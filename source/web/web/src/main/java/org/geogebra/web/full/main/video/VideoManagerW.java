@@ -44,7 +44,7 @@ import elemental2.dom.HTMLImageElement;
  * @author laszlo
  *
  */
-public class VideoManagerW implements VideoManager {
+public final class VideoManagerW implements VideoManager {
 
 	private final static int DEFAULT_WIDTH = 420;
 	private final static int DEFAULT_HEIGHT = 365;

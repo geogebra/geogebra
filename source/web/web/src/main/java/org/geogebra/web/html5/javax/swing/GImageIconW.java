@@ -21,7 +21,7 @@ import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.gwtproject.resources.client.ResourcePrototype;
 
-public class GImageIconW extends GImageIcon implements HasResource {
+public final class GImageIconW extends GImageIcon implements HasResource {
 
 	private String impl;
 

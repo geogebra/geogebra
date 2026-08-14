@@ -30,7 +30,7 @@ import jsinterop.base.Js;
  * Utility class for resizing Images
  *
  */
-public class ImageResizer {
+public final class ImageResizer {
 
 	/**
 	 * Resizes an Image not keeping the aspect ratio

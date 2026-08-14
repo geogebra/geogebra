@@ -21,7 +21,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.full.gui.components.MathFieldEditorDecoratorBase;
 
-public class SymbolicEditorDecorator extends MathFieldEditorDecoratorBase {
+public final class SymbolicEditorDecorator extends MathFieldEditorDecoratorBase {
 
 	public static final int LEFT_OFFSET = -1; // TODO: clean this up once...
 	private final int fixMargin;

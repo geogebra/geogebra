@@ -29,7 +29,7 @@ import org.jspecify.annotations.Nullable;
  * Shows and hides a panel. If the panel is an AnimatingPanel then the transition (showing/hiding)
  * will be animated.
  */
-public class PanelTransitioner {
+public final class PanelTransitioner {
 
 	private static final int Z_INDEX = 100;
 

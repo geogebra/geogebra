@@ -27,7 +27,7 @@ import elemental2.core.Global;
 import jsinterop.annotations.JsFunction;
 import jsinterop.base.Js;
 
-public class MathFieldExporter {
+public final class MathFieldExporter {
 	private static final String SVG_PREFIX = "data:image/svg+xml;utf8,";
 	private final MathFieldW mathField;
 

@@ -24,7 +24,7 @@ import org.geogebra.web.html5.Browser;
 /**
  * Connector for keyboard and scripting editor
  */
-public class ScriptAreaProcessing implements KeyboardListener {
+public final class ScriptAreaProcessing implements KeyboardListener {
 
 	private ScriptArea field;
 

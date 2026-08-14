@@ -40,7 +40,7 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  * Exam exit dialog with the whole information
  */
-public class ExamLogAndExitDialog extends GPopupPanel {
+public final class ExamLogAndExitDialog extends GPopupPanel {
 	private final Runnable returnHandler;
 	private FlowPanel contentPanel;
 	private FlowPanel activityPanel;

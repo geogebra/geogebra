@@ -40,7 +40,7 @@ import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.KeyboardEvent;
 
-public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels {
+public final class ComponentTab extends FlowPanel implements RequiresResize, SetLabels {
 	private final AppW appW;
 	private final Localization loc;
 	private ScrollPanel scrollPanel;

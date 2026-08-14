@@ -25,7 +25,7 @@ import org.geogebra.web.html5.main.AppW;
  * @author G. Sturr
  * 
  */
-public class DataAnalysisControllerW extends DataAnalysisController {
+public final class DataAnalysisControllerW extends DataAnalysisController {
 
 	private DataAnalysisViewW view;
 

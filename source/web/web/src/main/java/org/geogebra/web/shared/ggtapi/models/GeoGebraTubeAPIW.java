@@ -35,7 +35,7 @@ import jsinterop.base.JsPropertyMap;
  * @author Matthias Meisinger
  * 
  */
-public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
+public final class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 
 	/**
 	 * @param beta

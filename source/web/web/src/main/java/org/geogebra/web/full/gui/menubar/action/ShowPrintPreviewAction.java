@@ -22,7 +22,7 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Shows the print preview.
  */
-public class ShowPrintPreviewAction extends DefaultMenuAction<AppWFull> {
+public final class ShowPrintPreviewAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
 	public void execute(AppWFull app) {

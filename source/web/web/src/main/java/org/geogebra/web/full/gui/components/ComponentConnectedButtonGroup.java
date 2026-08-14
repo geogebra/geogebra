@@ -29,7 +29,7 @@ import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.KeyboardEvent;
 
-public class ComponentConnectedButtonGroup extends FlowPanel
+public final class ComponentConnectedButtonGroup extends FlowPanel
 		implements ConfigurationUpdateDelegate, VisibilityUpdateDelegate {
 	private final ConnectedButtonGroup connectedButtonGroupProperty;
 	private StandardButton selectedButton;

@@ -46,7 +46,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
 
-public class FileViewCommon extends AnimatingPanel implements Persistable {
+public final class FileViewCommon extends AnimatingPanel implements Persistable {
 
 	private final AppW app;
 	private final String title;

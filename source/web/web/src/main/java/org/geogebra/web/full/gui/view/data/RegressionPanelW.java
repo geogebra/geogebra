@@ -43,7 +43,7 @@ import org.gwtproject.user.client.ui.ScrollPanel;
  * 
  * @author G. Sturr, Laszlo Gal
  */
-public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
+public final class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 
 	private final AppW app;
 	private final LocalizationW loc;

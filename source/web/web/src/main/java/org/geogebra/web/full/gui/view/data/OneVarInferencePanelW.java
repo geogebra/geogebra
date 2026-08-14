@@ -43,7 +43,7 @@ import org.gwtproject.user.client.ui.ListBox;
  * @author G. Sturr
  * 
  */
-public class OneVarInferencePanelW extends FlowPanel
+public final class OneVarInferencePanelW extends FlowPanel
 		implements ClickHandler, BlurHandler, StatPanelInterfaceW {
 	// ggb fields
 	private AppW app;

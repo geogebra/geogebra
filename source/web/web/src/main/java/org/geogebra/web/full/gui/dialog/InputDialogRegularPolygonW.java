@@ -28,7 +28,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 /**
  * Web dialog for regular polygons
  */
-public class InputDialogRegularPolygonW extends ComponentInputDialog {
+public final class InputDialogRegularPolygonW extends ComponentInputDialog {
 	private GeoPointND geoPoint1;
 	private GeoPointND geoPoint2;
 	private GeoCoordSys2D direction;

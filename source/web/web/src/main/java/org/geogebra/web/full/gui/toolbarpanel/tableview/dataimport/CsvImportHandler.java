@@ -33,8 +33,8 @@ import elemental2.dom.FileReader;
 import elemental2.dom.HTMLInputElement;
 import jsinterop.base.Js;
 
-public class CsvImportHandler {
-	protected AppW appW;
+public final class CsvImportHandler {
+	private AppW appW;
 	private DataImportSnackbar progressSnackbar;
 	private final Command csvHandler = () -> {
 		FileUpload csvChooser = getCSVChooser();
@@ -76,7 +76,7 @@ public class CsvImportHandler {
 	 * open csv file
 	 * @param fileToHandle - selected file
 	 */
-	public final void openCSV(File fileToHandle) {
+	public void openCSV(File fileToHandle) {
 		FileReader reader = new FileReader();
 		String fileName = fileToHandle.name;
 		reader.addEventListener("load", (event) -> {

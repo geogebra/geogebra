@@ -27,7 +27,7 @@ import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class DimensionRatioPanel extends FlowPanel {
+public final class DimensionRatioPanel extends FlowPanel {
 	private final AppW appW;
 	private final PropertiesPanelAdapter propertiesPanelAdapter;
 

@@ -55,7 +55,7 @@ import org.gwtproject.user.client.DOM;
 import elemental2.core.Global;
 import jsinterop.base.Js;
 
-public class InlineTableControllerW implements InlineTableController {
+public final class InlineTableControllerW implements InlineTableController {
 
 	private final GeoInlineTable table;
 	private final EuclidianView view;

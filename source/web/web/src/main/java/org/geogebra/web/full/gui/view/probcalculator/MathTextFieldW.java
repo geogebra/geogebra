@@ -29,7 +29,7 @@ import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.gwtproject.dom.style.shared.Unit;
 
-public class MathTextFieldW extends MathFieldEditor implements MathFieldListener, ErrorHandler {
+public final class MathTextFieldW extends MathFieldEditor implements MathFieldListener, ErrorHandler {
 	private final ArrayList<JsRunnable> inputHandlers = new ArrayList<>();
 	private final ArrayList<JsConsumer<Boolean>> changeHandlers = new ArrayList<>();
 

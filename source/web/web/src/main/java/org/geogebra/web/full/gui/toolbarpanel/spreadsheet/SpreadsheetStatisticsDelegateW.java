@@ -40,7 +40,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
-public class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisticsView.Delegate {
+public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisticsView.Delegate {
 	private final AppW app;
 	private final Spreadsheet<?> spreadsheet;
 	private ComponentSideSheet sideSheet;

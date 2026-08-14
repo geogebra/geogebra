@@ -28,7 +28,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class ComponentSearchBar extends FlowPanel implements FocusListenerDelegate {
+public final class ComponentSearchBar extends FlowPanel implements FocusListenerDelegate {
 	private final AppW app;
 	private InputPanelW inputTextField;
 	private StandardButton clearButton;

@@ -45,7 +45,7 @@ import org.jspecify.annotations.NonNull;
 import elemental2.dom.HTMLImageElement;
 import jsinterop.base.Js;
 
-public class ColorChooserW extends FlowPanel implements ICustomColor {
+public final class ColorChooserW extends FlowPanel implements ICustomColor {
 	private static final int PREVIEW_HEIGHT = 40;
 	private static final int PREVIEW_WIDTH = 100;
 	private static final int MARGIN_TOP = 20;

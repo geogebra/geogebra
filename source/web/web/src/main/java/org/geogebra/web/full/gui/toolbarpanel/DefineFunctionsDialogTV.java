@@ -28,7 +28,7 @@ import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class DefineFunctionsDialogTV extends ComponentDialog {
+public final class DefineFunctionsDialogTV extends ComponentDialog {
 	private MathTextFieldW fieldF;
 	private MathTextFieldW fieldG;
 	ScientificDataTableController controller;

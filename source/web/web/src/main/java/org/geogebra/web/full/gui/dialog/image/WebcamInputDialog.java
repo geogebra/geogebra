@@ -28,7 +28,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 /**
  * Input Dialog for Webcam / Document Camera
  */
-public class WebcamInputDialog extends ComponentDialog
+public final class WebcamInputDialog extends ComponentDialog
 		implements WebcamDialogInterface {
 	private WebCamInputPanel webcamInputPanel;
 

@@ -32,7 +32,7 @@ import jsinterop.base.Js;
 /**
  * Panel for HTML5 webcam input
  */
-public class WebCamInputPanel extends FlowPanel {
+public final class WebCamInputPanel extends FlowPanel {
 	private final boolean isElectronMac;
 	private SimplePanel inputWidget;
 	private HTMLVideoElement video;

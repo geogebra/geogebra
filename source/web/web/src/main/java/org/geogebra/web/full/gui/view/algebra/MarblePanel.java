@@ -32,7 +32,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 /**
  * @author Zbynek
  */
-public class MarblePanel extends FlowPanel
+public final class MarblePanel extends FlowPanel
 		implements KeyDownHandler, AlgebraItemHeader {
 	
 	private Marble marble;

@@ -55,7 +55,7 @@ import org.geogebra.web.html5.main.general.GeneralIcon;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class IconButtonWithProperty extends IconButton {
+public final class IconButtonWithProperty extends IconButton {
 	private static final int MARGIN_FROM_SCREEN = 32;
 	private static final int MENU_ITEM_HEIGHT = 32;
 	private static final int VERTICAL_OFFSET = 16;

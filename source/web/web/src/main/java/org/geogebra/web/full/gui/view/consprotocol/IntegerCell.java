@@ -25,7 +25,7 @@ import org.gwtproject.text.shared.SimpleSafeHtmlRenderer;
  * Based on GWT's NumberCell (Apache 2.0 license). Does not use GWT's NumberFormat to avoid
  * duplicate code.
  */
-public class IntegerCell extends AbstractCell<Integer> {
+public final class IntegerCell extends AbstractCell<Integer> {
 
 	/**
 	 * The {@link SafeHtmlRenderer} used to render the formatted number as HTML.

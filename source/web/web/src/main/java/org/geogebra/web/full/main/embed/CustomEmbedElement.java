@@ -18,7 +18,7 @@ package org.geogebra.web.full.main.embed;
 
 import org.gwtproject.user.client.ui.Widget;
 
-public class CustomEmbedElement extends EmbedElement {
+public final class CustomEmbedElement extends EmbedElement {
 	/**
 	 * @param widget UI widget
 	 */

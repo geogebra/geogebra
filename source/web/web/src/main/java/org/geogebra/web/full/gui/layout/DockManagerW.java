@@ -66,7 +66,7 @@ import jsinterop.base.Js;
  * 
  * <p>Based on desktop implementation by Florian Sonner</p>
  */
-public class DockManagerW extends DockManager {
+public final class DockManagerW extends DockManager {
 
 	/** application */
 	private final AppWFull app;

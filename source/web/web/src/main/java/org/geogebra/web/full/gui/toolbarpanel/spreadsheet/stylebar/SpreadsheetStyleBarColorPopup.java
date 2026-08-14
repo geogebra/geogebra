@@ -27,7 +27,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.event.logical.shared.CloseEvent;
 import org.gwtproject.event.logical.shared.CloseHandler;
 
-public class SpreadsheetStyleBarColorPopup extends GPopupPanel
+public final class SpreadsheetStyleBarColorPopup extends GPopupPanel
 		implements CloseHandler<GPopupPanel> {
 	private final IconButton anchorButton;
 	private ColorChooserPanel colorChooserPanel;

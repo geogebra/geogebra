@@ -22,7 +22,7 @@ import org.geogebra.web.full.main.AppWFull;
 
 import elemental2.dom.DomGlobal;
 
-public class ShowPrivacyPolicyAction extends DefaultMenuAction<AppWFull> {
+public final class ShowPrivacyPolicyAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
 	public void execute(AppWFull app) {

@@ -19,7 +19,7 @@ package org.geogebra.web.full.main.activity;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 
-public class MebisNotesActivity extends NotesActivity {
+public final class MebisNotesActivity extends NotesActivity {
 
 	@Override
 	public void markSearchOpen() {

@@ -28,7 +28,7 @@ import org.gwtproject.user.client.ui.IsWidget;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
 
-public class LogoAndName implements IsWidget, SetLabels {
+public final class LogoAndName implements IsWidget, SetLabels {
 
 	private static final int LOGO_MARGIN = 72; // 24px top + 48px bottom
 	private final Widget panel;

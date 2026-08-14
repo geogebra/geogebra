@@ -37,7 +37,7 @@ import org.gwtproject.user.client.ui.Widget;
  * Web implementation of the Relation Tool dialog
  */
 
-public class RelationPaneW extends ComponentDialog
+public final class RelationPaneW extends ComponentDialog
 		implements RelationPane, FastClickHandler {
 	private Relation[] callbacks;
 	private FlowPanel numerical;

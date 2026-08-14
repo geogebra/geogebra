@@ -26,7 +26,7 @@ import org.gwtproject.user.client.ui.SimplePanel;
 /**
  * item with checkmark and line thickness preview
  */
-public class LineThicknessCheckMarkItem extends FlowPanel {
+public final class LineThicknessCheckMarkItem extends FlowPanel {
 	private Element checkImg;
 	private boolean selected;
 	private Label text;

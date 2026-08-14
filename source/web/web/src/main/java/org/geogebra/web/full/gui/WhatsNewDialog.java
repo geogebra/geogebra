@@ -29,7 +29,7 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  * A Dialog that describes what has changed recently in the app.
  */
-public class WhatsNewDialog extends ComponentDialog {
+public final class WhatsNewDialog extends ComponentDialog {
 	/**
 	 * Create a new WhatsNewDialog.
 	 * @param app the app

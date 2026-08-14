@@ -31,7 +31,7 @@ import org.gwtproject.user.client.ui.Label;
 /**
  * Row header with marble
  */
-public class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
+public final class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
 	private final Image marble;
 	private boolean oldValue;
 	private final RowHeaderHandler handler;

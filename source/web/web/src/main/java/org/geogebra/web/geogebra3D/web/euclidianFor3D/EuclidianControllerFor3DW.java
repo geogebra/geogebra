@@ -24,7 +24,7 @@ import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 /**
  * euclidian controller for 2D view with 3D geos
  */
-public class EuclidianControllerFor3DW extends EuclidianControllerW {
+public final class EuclidianControllerFor3DW extends EuclidianControllerW {
 
 	/**
 	 * @param kernel

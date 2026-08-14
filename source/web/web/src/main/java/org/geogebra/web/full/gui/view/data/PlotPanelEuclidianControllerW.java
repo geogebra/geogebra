@@ -30,7 +30,7 @@ import org.geogebra.web.html5.euclidian.EuclidianControllerW;
  * EuclidianController for plot panel in web
  *
  */
-public class PlotPanelEuclidianControllerW extends EuclidianControllerW {
+public final class PlotPanelEuclidianControllerW extends EuclidianControllerW {
 
 	/**
 	 * @param kernel Kernel

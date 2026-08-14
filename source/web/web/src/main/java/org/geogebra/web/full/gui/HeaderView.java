@@ -27,7 +27,7 @@ import org.gwtproject.user.client.ui.Label;
 /**
  * Header view containing a back button and a label.
  */
-public class HeaderView extends FlowPanel {
+public final class HeaderView extends FlowPanel {
 	private IconButton backButton;
 	private Label caption;
 

@@ -26,7 +26,7 @@ import org.gwtproject.user.client.ui.TreeItem;
  * Toggle button connected to tree item state
  *
  */
-public class OpenButton extends SimplePanel {
+public final class OpenButton extends SimplePanel {
 
     private SafeUri showUrl;
     private SafeUri hiddenUrl;

@@ -21,7 +21,7 @@ import org.geogebra.web.html5.util.StringConsumer;
 
 import elemental2.dom.HTMLCanvasElement;
 
-public class ViewCounter {
+public final class ViewCounter {
 	private final HTMLCanvasElement canvas;
 	private final StringConsumer callback;
 	private int count;

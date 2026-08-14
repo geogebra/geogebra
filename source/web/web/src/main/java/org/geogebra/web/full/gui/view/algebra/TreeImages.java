@@ -21,7 +21,7 @@ import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.user.client.ui.Tree;
 
 /** Helper class to hide default tree images for collapse / expand */
-public class TreeImages implements Tree.Resources {
+public final class TreeImages implements Tree.Resources {
 
 	@Override
 	public ImageResource treeClosed() {

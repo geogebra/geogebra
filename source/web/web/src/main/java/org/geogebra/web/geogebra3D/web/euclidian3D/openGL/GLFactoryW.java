@@ -26,10 +26,10 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
  * @author mathieu
  *
  */
-public class GLFactoryW extends GLFactory {
+public final class GLFactoryW extends GLFactory {
 
 	@Override
-	final public GLBuffer newBuffer() {
+	public GLBuffer newBuffer() {
 		return new GLBufferW();
 	}
 

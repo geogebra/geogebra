@@ -33,7 +33,7 @@ import jsinterop.base.Js;
 /**
  * Utility class for exam mode
  */
-public class ExamUtil {
+public final class ExamUtil {
 
 	private AppW app;
 	private static boolean examModeRunning = false;

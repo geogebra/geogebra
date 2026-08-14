@@ -29,7 +29,7 @@ import org.gwtproject.event.logical.shared.CloseEvent;
 import org.gwtproject.event.logical.shared.CloseHandler;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class LabelValuePanel extends FlowPanel
+public final class LabelValuePanel extends FlowPanel
 		implements CloseHandler<GPopupPanel>, SetLabels {
 	private final AppW appW;
 	private final StringPropertyListFacade<?> nameProperty;

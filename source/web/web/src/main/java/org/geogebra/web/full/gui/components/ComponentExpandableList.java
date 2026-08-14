@@ -31,7 +31,7 @@ import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.KeyboardEvent;
 
-public class ComponentExpandableList extends FlowPanel implements SetLabels {
+public final class ComponentExpandableList extends FlowPanel implements SetLabels {
 	private final AppW appW;
 	private final String titleTransKey;
 	private Checkbox booleanProperty;

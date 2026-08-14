@@ -24,18 +24,18 @@ import org.gwtproject.user.client.ui.TreeItem;
 /**
  * AV group header
  */
-public class GroupHeader extends FlowPanel {
+public final class GroupHeader extends FlowPanel {
 	
 	/**
 	 * label
 	 */
-	protected GroupNameLabel il;
+	private final GroupNameLabel il;
 
 	/**
 	 * +/- button
 	 */
-	protected OpenButton open;
-	private String label;
+	private final OpenButton open;
+	private final String label;
 
 	/**
 	 * @param selection

@@ -40,7 +40,7 @@ import org.gwtproject.user.client.ui.Label;
 /**
  * Dialog for export 3D
  */
-public class Export3dDialog extends ComponentDialog
+public final class Export3dDialog extends ComponentDialog
 		implements Export3dDialogInterface, HasKeyboardPopup {
 	final static private double MM_TO_CM = 0.1;
 

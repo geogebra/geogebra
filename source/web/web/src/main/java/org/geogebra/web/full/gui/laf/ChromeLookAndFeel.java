@@ -30,7 +30,7 @@ import jsinterop.base.JsPropertyMap;
  * LAF for offline chrome apps
  *
  */
-public class ChromeLookAndFeel extends GLookAndFeel {
+public final class ChromeLookAndFeel extends GLookAndFeel {
 
 	// https://developer.chrome.com/docs/extensions/reference/api/storage#type-StorageArea
 	@JsType(isNative = true)

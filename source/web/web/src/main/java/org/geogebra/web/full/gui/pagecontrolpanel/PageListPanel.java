@@ -48,7 +48,7 @@ import jsinterop.base.Js;
 /**
  * Page Control Panel for navigating through multiple pages
  */
-public class PageListPanel
+public final class PageListPanel
 		extends PersistablePanel implements SetLabels, CardListInterface, UndoInfoStoredListener {
 
 	public static final int PAGE_OVERVIEW_WIDTH = 240;

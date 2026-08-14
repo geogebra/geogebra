@@ -36,7 +36,7 @@ import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
  * @author G. Sturr
  *
  */
-public class SpreadsheetToolbarManagerW {
+public final class SpreadsheetToolbarManagerW {
 
 	private final AppW app;
 	private final Spreadsheet spreadsheet;

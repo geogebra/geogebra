@@ -43,7 +43,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
  * to extract title after we load file from LS.
  *
  */
-public class FileManagerW extends FileManager {
+public final class FileManagerW extends FileManager {
 
 	private static final String TIMESTAMP = "timestamp";
 	/** locale storage */

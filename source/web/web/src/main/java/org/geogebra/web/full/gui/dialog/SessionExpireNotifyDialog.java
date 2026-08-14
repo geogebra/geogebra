@@ -27,7 +27,7 @@ import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.user.client.ui.Label;
 
-public class SessionExpireNotifyDialog extends ComponentDialog
+public final class SessionExpireNotifyDialog extends ComponentDialog
 		implements GTimerListener {
 
 	/**

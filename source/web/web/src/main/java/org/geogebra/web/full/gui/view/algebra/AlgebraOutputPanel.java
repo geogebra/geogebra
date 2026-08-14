@@ -45,7 +45,7 @@ import org.jspecify.annotations.Nullable;
 /**
  * Output part of AV item
  */
-public class AlgebraOutputPanel extends FlowPanel {
+public final class AlgebraOutputPanel extends FlowPanel {
 	private final @NonNull FlowPanel valuePanel;
 	private @Nullable Canvas valCanvas;
 	private @Nullable Label valueLabel;

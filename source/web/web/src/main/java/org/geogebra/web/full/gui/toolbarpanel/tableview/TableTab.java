@@ -37,7 +37,7 @@ import org.jspecify.annotations.Nullable;
  * 
  * @author laszlo
  */
-public class TableTab extends ToolbarTab {
+public final class TableTab extends ToolbarTab {
 
 	private final Supplier<? extends StickyTable<?>> tableSupplier;
 	private @Nullable StickyTable<?> table;

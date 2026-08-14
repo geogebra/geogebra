@@ -39,7 +39,7 @@ import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Panel;
 import org.jspecify.annotations.Nullable;
 
-public class StatsSideSheetTV {
+public final class StatsSideSheetTV {
 	private final AppW app;
 	private FlowPanel statPanel;
 	private final ComponentSideSheet sideSheet;

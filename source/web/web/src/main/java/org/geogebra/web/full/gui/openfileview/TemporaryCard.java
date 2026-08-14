@@ -30,7 +30,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 /**
  * Material card
  */
-public class TemporaryCard extends FlowPanel implements MaterialCardI {
+public final class TemporaryCard extends FlowPanel implements MaterialCardI {
 	private final AppWFull app;
 	private final MaterialCardController controller;
 

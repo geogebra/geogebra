@@ -25,7 +25,7 @@ import org.geogebra.web.shared.mow.header.NotesTopBar;
 import org.gwtproject.user.client.ui.Widget;
 import org.jspecify.annotations.Nullable;
 
-public class NotesLayout implements SetLabels, ModeChangeListener {
+public final class NotesLayout implements SetLabels, ModeChangeListener {
 	private final AppW appW;
 	private final @Nullable NotesToolbox toolbar;
 	private final @Nullable NotesTopBar topBar;

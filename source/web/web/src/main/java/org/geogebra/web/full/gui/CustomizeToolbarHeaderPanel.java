@@ -29,12 +29,12 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  * GUI for toolbar customization
  */
-public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
+public final class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 
 	/**
 	 * General toolbar id
 	 */
-	protected static final int GENERAL = -1;
+	static final int GENERAL = -1;
 	private AppW app;
 	private FlowPanel buttons;
 	private int selectedViewId = GENERAL;

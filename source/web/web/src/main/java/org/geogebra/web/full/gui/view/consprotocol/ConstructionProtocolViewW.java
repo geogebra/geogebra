@@ -199,7 +199,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 	}
 
-	public class ConsProtocolScrollPanel extends ScrollPanel {
+	public final class ConsProtocolScrollPanel extends ScrollPanel {
 
 		@Override
 		public void onResize() {

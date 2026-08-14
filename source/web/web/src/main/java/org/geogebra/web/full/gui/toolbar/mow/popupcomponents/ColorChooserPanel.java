@@ -39,7 +39,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
 
-public class ColorChooserPanel extends FlowPanel implements SetLabels,
+public final class ColorChooserPanel extends FlowPanel implements SetLabels,
 		ConfigurationUpdateDelegate {
 	private final Consumer<GColor> callback;
 	private GColor activeColor;

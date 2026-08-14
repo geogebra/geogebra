@@ -43,7 +43,7 @@ import org.gwtproject.user.client.ui.SimplePanel;
  * 
  * @author Florian Sonner, adapted by G.Sturr
  */
-public class DockGlassPaneW extends AbsolutePanel
+public final class DockGlassPaneW extends AbsolutePanel
 		implements MouseMoveHandler, TouchMoveHandler {
 
 	private boolean dragInProgress = false;

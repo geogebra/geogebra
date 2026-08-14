@@ -31,9 +31,9 @@ import jsinterop.base.JsPropertyMap;
  * Loader for Graspable Math
  *
  */
-public class GMLoader {
+public final class GMLoader {
 	static final GMLoader INSTANCE = new GMLoader();
-	private Map<Integer, GraspableEmbedElement> loadQueue = new HashMap<>();
+	private final Map<Integer, GraspableEmbedElement> loadQueue = new HashMap<>();
 	private boolean loadingStarted;
 
 	/**
@@ -68,7 +68,7 @@ public class GMLoader {
 		});
 	}
 
-	protected void loadLatest() {
+	private void loadLatest() {
 		NativeGMLoader.loadGM(this::loadFromQueue,
 				JsPropertyMap.of("version", "latest", "build", "ggb"));
 	}
@@ -76,7 +76,7 @@ public class GMLoader {
 	/**
 	 * Load all elements in the queue
 	 */
-	protected void loadFromQueue() {
+	private void loadFromQueue() {
 		for (Entry<Integer, GraspableEmbedElement> entry : loadQueue
 				.entrySet()) {
 			entry.getValue().initCanvas(entry.getKey());

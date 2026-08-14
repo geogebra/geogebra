@@ -44,7 +44,7 @@ import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class CalculatorSubMenu extends AriaMenuBar {
+public final class CalculatorSubMenu extends AriaMenuBar {
 
 	private static final String BOARD_URL = "https://board.bycs.de";
 	private final AppW app;

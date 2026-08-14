@@ -34,7 +34,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
 
-public class ConstructionProtocolNavigationW
+public final class ConstructionProtocolNavigationW
 		extends ConstructionProtocolNavigation implements FastClickHandler {
 
 	private final Label lbSteps;

@@ -31,7 +31,7 @@ import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.RootPanel;
 
-public class SuiteHeaderAppPicker extends StandardButton {
+public final class SuiteHeaderAppPicker extends StandardButton {
 	private final AppW appW;
 	private AppSwitcherPopup suitePopup;
 

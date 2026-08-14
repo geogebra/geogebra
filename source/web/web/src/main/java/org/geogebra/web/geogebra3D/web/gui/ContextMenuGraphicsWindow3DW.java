@@ -27,7 +27,7 @@ import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
-public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
+public final class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 	/**
 	 * @param app application

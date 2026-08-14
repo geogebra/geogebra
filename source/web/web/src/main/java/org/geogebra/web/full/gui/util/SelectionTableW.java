@@ -24,7 +24,7 @@ import org.gwtproject.user.client.ui.Grid;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
 
-public class SelectionTableW extends Grid implements ClickHandler {
+public final class SelectionTableW extends Grid implements ClickHandler {
 	private int selectedColumn = -1;
 	private int selectedRow = -1;
 	private SelectionTable mode;

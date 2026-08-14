@@ -40,7 +40,7 @@ import org.gwtproject.event.dom.client.TouchStartHandler;
  * Algebra controller for web;
  *
  */
-public class AlgebraControllerW extends AlgebraController
+public final class AlgebraControllerW extends AlgebraController
 		implements MouseMoveHandler, MouseDownHandler, TouchStartHandler,
 		TouchEndHandler, TouchMoveHandler {
 

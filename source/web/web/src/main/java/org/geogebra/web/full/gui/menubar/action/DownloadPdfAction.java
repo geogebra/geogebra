@@ -22,7 +22,7 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Exports PDF.
  */
-public class DownloadPdfAction extends DownloadImageAction {
+public final class DownloadPdfAction extends DownloadImageAction {
 
 	public DownloadPdfAction(AppWFull app) {
 		super(app, "pdf");

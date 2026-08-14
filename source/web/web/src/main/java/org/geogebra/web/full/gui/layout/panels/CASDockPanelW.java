@@ -31,7 +31,7 @@ import org.gwtproject.user.client.ui.Widget;
  * Top level GUI for the CAS view
  *
  */
-public class CASDockPanelW extends NavigableDockPanelW {
+public final class CASDockPanelW extends NavigableDockPanelW {
 
 	private CASViewW casView;
 

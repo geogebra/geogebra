@@ -28,7 +28,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
  * @author balazs.bencze
  *
  */
-public class CASSubDialogW extends CASSubDialog {
+public final class CASSubDialogW extends CASSubDialog {
 	private CASSubstituteDialogW dialog;
 	private AppW app;
 	private CASViewW casView;

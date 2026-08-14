@@ -90,7 +90,7 @@ import jsinterop.base.Js;
 /**
  * Frame for applets with GUI
  */
-public class GeoGebraFrameFull
+public final class GeoGebraFrameFull
 		extends GeoGebraFrameW implements NativePreviewHandler, FrameWithHeaderAndKeyboard {
 
 	private final AppletFactory factory;
@@ -937,7 +937,7 @@ public class GeoGebraFrameFull
 	}
 
 	@Override
-	public final void onHeaderVisible() {
+	public void onHeaderVisible() {
 		ToolbarPanel toolbar = getApp().getGuiManager()
 				.getUnbundledToolbar();
 		if (app.isPortrait() && toolbar != null && toolbar.isClosed()) {

@@ -24,7 +24,7 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Builds MenuActionHandler for the Scientific Calculator.
  */
-public class ScientificMenuActionHandlerFactory implements MenuActionHandlerFactory {
+public final class ScientificMenuActionHandlerFactory implements MenuActionHandlerFactory {
 
 	private final DefaultMenuActionHandlerFactory factory;
 

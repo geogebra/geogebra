@@ -22,7 +22,7 @@ import org.geogebra.web.html5.gui.laf.SignInControllerI;
 /**
  * Signin button for mebis; uses native JS in parent frame
  */
-public class MebisSignInController implements SignInControllerI {
+public final class MebisSignInController implements SignInControllerI {
 
 	@Override
 	public void login() {

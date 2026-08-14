@@ -61,7 +61,7 @@ import org.gwtproject.user.client.Command;
  *
  * @author laszlo
  */
-public class InlineFormattingItems {
+public final class InlineFormattingItems {
 
 	private final App app;
 	private final Localization loc;
@@ -326,7 +326,7 @@ public class InlineFormattingItems {
 		menu.addItem(menuItem);
 	}
 
-	protected void addHyperlinkItems() {
+	private void addHyperlinkItems() {
 		if (inlines.size() == 1 && textOrEditModeTable(inlines.get(0))) {
 			if (StringUtil.emptyOrZero(inlines.get(0).getHyperLinkURL())) {
 				addHyperlinkItem("Link");

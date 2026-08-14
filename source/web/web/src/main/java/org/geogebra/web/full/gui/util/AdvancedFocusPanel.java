@@ -24,7 +24,7 @@ import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
 
-public class AdvancedFocusPanel extends SimplePanel {
+public final class AdvancedFocusPanel extends SimplePanel {
 
 	TextAreaElement focusTextarea;
 	boolean disabledTextarea;

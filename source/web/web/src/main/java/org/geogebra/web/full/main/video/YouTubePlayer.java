@@ -23,7 +23,7 @@ import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.util.PersistableFrame;
 import org.gwtproject.user.client.ui.Widget;
 
-public class YouTubePlayer extends VideoPlayer {
+public final class YouTubePlayer extends VideoPlayer {
 
 	private PersistableFrame frame;
 

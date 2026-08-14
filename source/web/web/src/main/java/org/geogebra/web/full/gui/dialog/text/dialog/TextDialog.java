@@ -37,7 +37,7 @@ import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.user.client.ui.TextBox;
 
-public class TextDialog extends ComponentDialog implements TextInputDialog {
+public final class TextDialog extends ComponentDialog implements TextInputDialog {
 	private final AppWFull appW;
 	private boolean shouldCreateText = true;
 	private GeoText geoText;

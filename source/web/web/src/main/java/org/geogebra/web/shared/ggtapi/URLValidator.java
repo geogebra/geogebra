@@ -23,7 +23,7 @@ import org.geogebra.regexp.shared.RegExp;
  *
  * @author laszlo
  */
-public class URLValidator {
+public final class URLValidator {
 	private static final String AZLATIN2 = "a-z\u00E1\u00E9\u00ED\u00F3\u00F6"
 			+ "\u0151\u00FA\u00FC\u0171";
 	private static final String AZLATIN2D = AZLATIN2 + "\\d";

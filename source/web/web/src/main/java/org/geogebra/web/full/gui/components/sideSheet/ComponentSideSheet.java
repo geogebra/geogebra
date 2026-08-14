@@ -23,7 +23,7 @@ import org.geogebra.web.html5.util.CSSEvents;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
 
-public class ComponentSideSheet extends FlowPanel implements SetLabels {
+public final class ComponentSideSheet extends FlowPanel implements SetLabels {
 
 	private final SideSheetPanel sideSheet;
 	private final AppW app;

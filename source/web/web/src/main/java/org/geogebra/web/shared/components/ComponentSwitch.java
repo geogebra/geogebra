@@ -26,7 +26,7 @@ import org.gwtproject.user.client.ui.SimplePanel;
 /**
  * material design switch component
  */
-public class ComponentSwitch extends FlowPanel {
+public final class ComponentSwitch extends FlowPanel {
 	private SimplePanel track;
 	private SimplePanel thumb;
 	private boolean isSwitchOn;

@@ -28,7 +28,7 @@ import org.geogebra.web.resources.SVGResource;
  * Toggle button that should be visible if no geos are selected or to be
  * created and no special icons appear in stylebar (eg. delete mode)
  */
-public class ToggleButtonWforEV extends ToggleButton {
+public final class ToggleButtonWforEV extends ToggleButton {
 	private EuclidianStyleBarW stylebar;
 
 	/**

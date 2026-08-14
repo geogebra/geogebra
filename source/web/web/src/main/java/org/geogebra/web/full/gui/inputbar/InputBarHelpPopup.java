@@ -29,7 +29,7 @@ import org.gwtproject.user.client.ui.Widget;
  * A popup panel, which holds the {@link InputBarHelpPanelW}
  *
  */
-public class InputBarHelpPopup extends GPopupPanel implements HasKeyboardPopup {
+public final class InputBarHelpPopup extends GPopupPanel implements HasKeyboardPopup {
 
 	private ToggleButton toggleButton;
 

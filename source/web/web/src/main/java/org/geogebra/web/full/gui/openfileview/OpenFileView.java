@@ -40,7 +40,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class OpenFileView extends HeaderFileView
+public final class OpenFileView extends HeaderFileView
 		implements OpenFileListener, EventRenderable {
 	private final FileViewCommon common;
 	private final AppWFull app;

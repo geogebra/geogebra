@@ -34,7 +34,7 @@ import org.geogebra.web.shared.GlobalHeader;
 /**
  * Activity class for the GeoGebra Suite app
  */
-public class SuiteActivity extends BaseActivity {
+public final class SuiteActivity extends BaseActivity {
 
 	private ScientificActivity scientificSubApp;
 

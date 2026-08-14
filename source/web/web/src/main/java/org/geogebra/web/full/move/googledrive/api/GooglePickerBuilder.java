@@ -24,7 +24,7 @@ import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true, namespace = "google.picker", name = "PickerBuilder")
-public class GooglePickerBuilder {
+public final class GooglePickerBuilder {
 
 	public native GooglePickerBuilder addView(Object view);
 

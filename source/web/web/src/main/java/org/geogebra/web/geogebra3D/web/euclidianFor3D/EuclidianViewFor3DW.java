@@ -29,7 +29,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
  * @author mathieu
  * 
  */
-public class EuclidianViewFor3DW extends EuclidianViewW {
+public final class EuclidianViewFor3DW extends EuclidianViewW {
 
 	/**
 	 * @param euclidianViewPanel

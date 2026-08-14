@@ -52,7 +52,7 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  *  Joint share dialog for mow (group + link sharing)
  */
-public class ShareDialogMow extends ComponentDialog
+public final class ShareDialogMow extends ComponentDialog
 		implements FastClickHandler, SaveListener {
 	private Localization localization;
 	private ScrollPanel scrollPanel;

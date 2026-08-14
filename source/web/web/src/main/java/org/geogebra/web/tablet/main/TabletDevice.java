@@ -25,7 +25,7 @@ import org.geogebra.web.touch.gui.view.ConstructionProtocolViewT;
 
 import elemental2.dom.DomGlobal;
 
-public class TabletDevice implements GDevice {
+public final class TabletDevice implements GDevice {
 
 	@Override
 	public ConstructionProtocolView getConstructionProtocolView(AppW app) {

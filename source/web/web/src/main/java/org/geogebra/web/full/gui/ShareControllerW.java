@@ -74,7 +74,7 @@ import jsinterop.base.JsPropertyMap;
  * @author laszlo
  *
  */
-public class ShareControllerW implements ShareController {
+public final class ShareControllerW implements ShareController {
 
 	private final AppW app;
 	private Widget anchor = null;

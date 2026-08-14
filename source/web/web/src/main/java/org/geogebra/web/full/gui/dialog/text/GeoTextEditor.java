@@ -58,13 +58,13 @@ import jsinterop.base.Js;
  * @author G. Sturr
  * 
  */
-public class GeoTextEditor extends FocusWidget implements HasKeyboardTF {
+public final class GeoTextEditor extends FocusWidget implements HasKeyboardTF {
 	private static final String DYNAMIC_TEXT_CLASS = "dynamicText";
 	private final AppW app;
-	protected ITextEditPanel editPanel;
+	private final ITextEditPanel editPanel;
 
-	protected GPopupPanel textEditPopup;
-	protected EditorTextField editBox;
+	private GPopupPanel textEditPopup;
+	private EditorTextField editBox;
 	private elemental2.dom.Element targetChild;
 
 	/**************************************

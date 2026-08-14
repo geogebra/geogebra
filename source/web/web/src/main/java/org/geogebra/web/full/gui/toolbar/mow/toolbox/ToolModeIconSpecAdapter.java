@@ -34,7 +34,7 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_VIDEO;
 
 import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
 
-public class ToolModeIconSpecAdapter {
+public final class ToolModeIconSpecAdapter {
 
 	/**
 	 * Get IconSpec of a mode

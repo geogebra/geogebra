@@ -20,7 +20,7 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.web.html5.gui.view.IconSpec;
 
-public class PropertiesIconResource {
+public final class PropertiesIconResource {
 
 	private final PropertiesIconProvider propertiesIconProvider;
 

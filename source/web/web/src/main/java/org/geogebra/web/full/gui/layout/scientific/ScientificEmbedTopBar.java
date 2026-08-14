@@ -25,7 +25,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class ScientificEmbedTopBar extends FlowPanel {
+public final class ScientificEmbedTopBar extends FlowPanel {
 	private final static int LEFT_PADDING_WITH_NAV_RAIL = 88;
 	private final static int LEFT_PADDING = 16;
 	/**

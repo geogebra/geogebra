@@ -23,7 +23,7 @@ import org.geogebra.web.html5.util.PersistablePanel;
 /**
  * Undo/redo panel for graphics view
  */
-public class UndoRedoPanel extends PersistablePanel {
+public final class UndoRedoPanel extends PersistablePanel {
 	private final UndoRedoProvider undoRedoProvider;
 
 	/**

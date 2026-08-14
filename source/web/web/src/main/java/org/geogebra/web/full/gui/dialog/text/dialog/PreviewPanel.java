@@ -28,7 +28,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class PreviewPanel extends FlowPanel {
+public final class PreviewPanel extends FlowPanel {
 	private final AppW appW;
 	private final TextPreviewPanelW previewer;
 	private ComponentCheckbox latexCheckbox;

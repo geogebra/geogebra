@@ -20,7 +20,7 @@ import org.geogebra.common.move.ggtapi.operations.URLChecker;
 import org.geogebra.common.move.ggtapi.operations.URLStatus;
 import org.geogebra.common.util.AsyncOperation;
 
-public class MarvlURLChecker implements URLChecker {
+public final class MarvlURLChecker implements URLChecker {
 
 	private final URLValidator validator;
 

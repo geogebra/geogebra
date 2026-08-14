@@ -28,7 +28,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.JsEval;
 import org.geogebra.web.html5.main.toolbox.CustomIconSpec;
 
-public class IconButtonWithMenu extends IconButton {
+public final class IconButtonWithMenu extends IconButton {
 	private final AppW appW;
 	private final List<Integer> tools;
 	private CategoryMenuPopup iconButtonPopup;

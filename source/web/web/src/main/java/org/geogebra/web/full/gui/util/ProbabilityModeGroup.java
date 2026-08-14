@@ -29,7 +29,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 /**
  * Group of toggles to switch between probability modes
  */
-public class ProbabilityModeGroup extends FlowPanel implements SetLabels {
+public final class ProbabilityModeGroup extends FlowPanel implements SetLabels {
 	private final Map<Integer, ToggleButton> buttons;
 	private final Map<Integer, String> tooltips;
 	private final Localization loc;

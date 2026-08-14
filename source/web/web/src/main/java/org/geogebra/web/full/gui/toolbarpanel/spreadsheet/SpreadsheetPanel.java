@@ -64,7 +64,7 @@ import elemental2.dom.Touch;
 import elemental2.dom.TouchEvent;
 import jsinterop.base.Js;
 
-public class SpreadsheetPanel extends FlowPanel implements RequiresResize,
+public final class SpreadsheetPanel extends FlowPanel implements RequiresResize,
 		LongTouchTimer.LongTouchHandler {
 
 	public static final int AUTOSCROLL_OFFSET = 30;

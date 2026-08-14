@@ -30,7 +30,7 @@ import org.gwtproject.user.cellview.client.Column;
 
 import elemental2.dom.HTMLElement;
 
-public class StickyProbabilityTable extends StickyTable<Row> {
+public final class StickyProbabilityTable extends StickyTable<Row> {
 
 	private ProbabilityCalculatorTableValuesViewModel model;
 	private ProbabilityCalculatorTableValues values;

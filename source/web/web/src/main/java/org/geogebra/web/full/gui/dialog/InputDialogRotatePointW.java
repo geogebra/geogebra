@@ -29,7 +29,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 /**
  * Dialog for rotation around a point
  */
-public class InputDialogRotatePointW extends InputDialogRotateW {
+public final class InputDialogRotatePointW extends InputDialogRotateW {
 
 	private GeoPointND[] points;
 

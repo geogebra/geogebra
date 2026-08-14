@@ -24,7 +24,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Image;
 import org.gwtproject.user.client.ui.Label;
 
-public class ExportStatusPanelBuilder {
+public final class ExportStatusPanelBuilder {
 
 	/**
 	 * @return panel showing information for status {@link ExportStatus#PENDING}

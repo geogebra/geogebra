@@ -19,7 +19,7 @@ package org.geogebra.web.full.gui.util;
 import elemental2.core.JsDate;
 import jsinterop.base.JsPropertyMap;
 
-public class DateTimeFormat {
+public final class DateTimeFormat {
 
 	/**
 	 * Prints date in german locale

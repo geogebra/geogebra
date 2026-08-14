@@ -33,7 +33,7 @@ import org.jspecify.annotations.NonNull;
  * @author laszlo
  *
  */
-public class SliderTreeItemRetexController extends LatexTreeItemController {
+public final class SliderTreeItemRetexController extends LatexTreeItemController {
 
 	private final SliderTreeItemRetex slider;
 	private boolean hasUnsavedChanges;

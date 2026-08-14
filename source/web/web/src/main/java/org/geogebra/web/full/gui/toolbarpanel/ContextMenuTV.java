@@ -51,16 +51,16 @@ import org.jspecify.annotations.Nullable;
 /**
  * Context menu which is opened with the table of values header 3dot button
  */
-public class ContextMenuTV implements TableValuesContextMenuActionHandler.Delegate {
+public final class ContextMenuTV implements TableValuesContextMenuActionHandler.Delegate {
 	private final TableValuesView view;
 	/**
 	 * popup for the context menu
 	 */
-	protected GPopupMenuW wrappedPopup;
+	private GPopupMenuW wrappedPopup;
 	/**
 	 * application
 	 */
-	protected AppWFull app;
+	private final AppWFull app;
 	private final int columnIdx;
 
 	/**

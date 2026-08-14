@@ -33,7 +33,7 @@ import elemental2.dom.BaseRenderingContext2D;
 import elemental2.dom.CanvasRenderingContext2D;
 import jsinterop.base.Js;
 
-public class CustomColorDialog extends ComponentDialog {
+public final class CustomColorDialog extends ComponentDialog {
 	private static final int PREVIEW_HEIGHT = 40;
 	private static final int PREVIEW_WIDTH = 258;
 	private ColorComponent red;

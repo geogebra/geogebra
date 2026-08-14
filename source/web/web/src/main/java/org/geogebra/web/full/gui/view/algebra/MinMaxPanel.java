@@ -42,7 +42,7 @@ import org.gwtproject.user.client.ui.Label;
  * Min/max setting for slider
  *
  */
-public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
+public final class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		KeyHandler, MouseDownHandler, MouseUpHandler, HasDataTest {
 	private static volatile MinMaxPanel openedMinMaxPanel = null;
 	private SliderTreeItemRetex sliderTreeItem;

@@ -29,7 +29,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.TextArea;
 
-public class ComponentTextArea extends FlowPanel implements SetLabels,
+public final class ComponentTextArea extends FlowPanel implements SetLabels,
 		ConfigurationUpdateDelegate, VisibilityUpdateDelegate {
 	private final String title;
 	private final Localization loc;

@@ -30,7 +30,7 @@ import org.gwtproject.user.client.ui.RootPanel;
 /**
  * A view element that can perform an action.
  */
-public class ActionButton implements ActionView, SetLabels {
+public final class ActionButton implements ActionView, SetLabels {
 
 	private final AppW app;
 	private final RootPanel view;

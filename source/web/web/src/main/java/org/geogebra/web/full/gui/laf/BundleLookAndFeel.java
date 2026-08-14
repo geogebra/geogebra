@@ -31,7 +31,7 @@ import elemental2.dom.DomGlobal;
 /**
  * For offline browser
  */
-public class BundleLookAndFeel extends GLookAndFeel {
+public final class BundleLookAndFeel extends GLookAndFeel {
 	@Override
 	public Platform getPlatform(int dim, String appName) {
 		return Platform.OFFLINE;

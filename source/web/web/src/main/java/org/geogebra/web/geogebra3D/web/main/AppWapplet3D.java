@@ -237,7 +237,7 @@ public class AppWapplet3D extends AppWFull {
 	}
 
 	@Override
-	public final void openOFF(String content) {
+	public void openOFF(String content) {
 		OFFHandler h = new OFFHandler(getKernel().getConstruction());
 		h.reset();
 		String[] lines = content.split("\n");

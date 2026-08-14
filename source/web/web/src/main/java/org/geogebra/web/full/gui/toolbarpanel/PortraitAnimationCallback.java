@@ -25,7 +25,7 @@ import org.gwtproject.dom.style.shared.Overflow;
 /**
  * Callback for tool panel opening/closing in portrait mode
  */
-public class PortraitAnimationCallback extends NavRailAnimationCallback {
+public final class PortraitAnimationCallback extends NavRailAnimationCallback {
 
 	private final DockSplitPaneW dockParent;
 	private final AppW app;

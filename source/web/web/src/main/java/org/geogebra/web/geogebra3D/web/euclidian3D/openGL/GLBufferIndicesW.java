@@ -26,7 +26,7 @@ import elemental2.core.Int16Array;
  * @author mathieu
  *
  */
-public class GLBufferIndicesW implements GLBufferIndices {
+public final class GLBufferIndicesW implements GLBufferIndices {
 
 	private Int16Array impl;
 	private boolean isEmpty;

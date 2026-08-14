@@ -28,7 +28,7 @@ import org.gwtproject.user.client.ui.Label;
 /**
  * Default error handler
  */
-public class ErrorHandlerW implements ErrorHandler {
+public final class ErrorHandlerW implements ErrorHandler {
 	private final AppW app;
 
 	/**
@@ -71,7 +71,7 @@ public class ErrorHandlerW implements ErrorHandler {
 	 * @param command
 	 *            command name
 	 */
-	protected void openCommandHelp(String command) {
+	private void openCommandHelp(String command) {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().openHelp(ManualPage.COMMAND, command);
 		}

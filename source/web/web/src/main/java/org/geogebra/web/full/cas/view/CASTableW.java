@@ -41,7 +41,7 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  * CAS table
  */
-public class CASTableW extends Grid implements CASTable {
+public final class CASTableW extends Grid implements CASTable {
 	/** column index of content */
 	public static final int COL_CAS_CELLS_WEB = 1;
 	/** column index of marbles */
@@ -454,7 +454,7 @@ public class CASTableW extends Grid implements CASTable {
 	/**
 	 * Return value for {@link HTMLTable#getCellForEvent}.
 	 */
-	public class CellCoordinates extends HTMLTable.Cell {
+	public final class CellCoordinates extends HTMLTable.Cell {
 		/**
 		 * @param rowIndex
 		 *            row

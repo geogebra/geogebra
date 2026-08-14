@@ -25,7 +25,7 @@ import org.jspecify.annotations.Nullable;
 /**
  * Focusable adapter for spreadsheet implementations.
  */
-public class SpreadsheetFocusableAdapter implements FocusableComponent {
+public final class SpreadsheetFocusableAdapter implements FocusableComponent {
 
 	private final BooleanSupplier isVisible;
 	private final BooleanSupplier hasFocus;

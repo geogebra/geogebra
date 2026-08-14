@@ -33,7 +33,7 @@ import org.gwtproject.resources.client.ResourcePrototype;
 /**
  * Web implementation of PerspectivesMenu
  */
-public class PerspectivesMenuW extends Submenu {
+public final class PerspectivesMenuW extends Submenu {
 
 	/** Application */
 	AppW app;

@@ -23,7 +23,7 @@ import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Object")
-public class GoogleUploadRequest {
+public final class GoogleUploadRequest {
 
 	public native Object execute(JsConsumer<FileRequestResponseType> callback);
 

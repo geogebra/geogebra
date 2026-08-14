@@ -25,7 +25,7 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
 
-public class TextIconButton extends ToolIconButton {
+public final class TextIconButton extends ToolIconButton {
 	private final AppW appW;
 	private final List<Integer> tools;
 	private TextCategoryPopup textCategoryPopup;

@@ -32,7 +32,7 @@ import org.gwtproject.user.client.ui.ListBox;
  * @author G. Sturr
  * 
  */
-public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
+public final class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 		 IStatisticsModelListener {
 	private static final String SEPARATOR = "-------------------";
 

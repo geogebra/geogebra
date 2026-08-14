@@ -21,16 +21,16 @@ import org.geogebra.common.gui.view.table.importer.DataImporterError;
 import org.geogebra.common.gui.view.table.importer.DataImporterWarning;
 import org.geogebra.web.full.main.AppWFull;
 
-public class DataImportHandler implements DataImporterDelegate {
-	protected AppWFull appW;
-	private String fileName;
-	private DataImportSnackbar progressSnackbar;
+public final class DataImportHandler implements DataImporterDelegate {
+	private final AppWFull appW;
+	private final String fileName;
+	private final DataImportSnackbar progressSnackbar;
 
 	/**
 	 * data import handler
 	 * @param appW - application
 	 * @param fileName - file name
-	 * @param progressSnackbar - progress showing nackbar
+	 * @param progressSnackbar - progress showing snackbar
 	 */
 	public DataImportHandler(AppWFull appW, String fileName, DataImportSnackbar progressSnackbar) {
 		this.appW = appW;

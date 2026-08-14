@@ -22,7 +22,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
  * Collection of widgets, only one is shown
  *
  */
-public class CardPanel extends FlowPanel {
+public final class CardPanel extends FlowPanel {
 
 	/**
 	 * Show only selected card.

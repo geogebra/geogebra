@@ -21,7 +21,7 @@ import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.images.PropertiesResources;
 import org.gwtproject.resources.client.ImageResource;
 
-public class GridDataProvider {
+public final class GridDataProvider {
 	/**
 	 * @param rulingType - grid type
 	 * @return name on type

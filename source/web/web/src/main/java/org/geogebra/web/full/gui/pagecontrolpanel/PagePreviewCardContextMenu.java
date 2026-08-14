@@ -25,7 +25,7 @@ import org.geogebra.web.html5.main.general.GeneralIconResource;
 /**
  * Context menu of the preview card.
  */
-public class PagePreviewCardContextMenu extends IconButtonCardContextMenu {
+public final class PagePreviewCardContextMenu extends IconButtonCardContextMenu {
 
 	private final PagePreviewCard card;
 	private MenuItemController menuItemController;

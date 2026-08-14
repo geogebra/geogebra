@@ -32,7 +32,7 @@ import org.gwtproject.event.dom.client.MouseOverEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class CASSubstituteDialogW extends ComponentDialog {
+public final class CASSubstituteDialogW extends ComponentDialog {
 	private List<InputPanelW> substFields = new ArrayList<>();
 	private List<InputPanelW> withFields = new ArrayList<>();
 

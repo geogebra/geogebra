@@ -39,7 +39,7 @@ import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class ComponentComboBox extends FlowPanel implements SetLabels,
+public final class ComponentComboBox extends FlowPanel implements SetLabels,
 		ConfigurationUpdateDelegate, VisibilityUpdateDelegate {
 	private final AppW appW;
 	private final AutoCompleteTextFieldW inputTextField;

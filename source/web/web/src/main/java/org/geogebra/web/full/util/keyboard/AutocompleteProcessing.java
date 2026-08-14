@@ -25,7 +25,7 @@ import org.gwtproject.user.client.Event;
 /**
  * Connector for keyboard and input boxes
  */
-public class AutocompleteProcessing implements KeyboardListener {
+public final class AutocompleteProcessing implements KeyboardListener {
 
 	private AutoCompleteTextFieldW field;
 

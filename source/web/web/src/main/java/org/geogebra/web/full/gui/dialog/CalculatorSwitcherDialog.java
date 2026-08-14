@@ -30,7 +30,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 /**
  * Calculator chooser for suite
  */
-public class CalculatorSwitcherDialog extends ComponentDialog {
+public final class CalculatorSwitcherDialog extends ComponentDialog {
 	private final SuiteScope suiteScope;
 	private StandardButton selectedSubAppButton;
 

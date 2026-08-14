@@ -38,7 +38,7 @@ import jsinterop.base.Js;
 /**
  * Device class for case we are running in the browser (eg Chrome app)
  */
-public class BrowserDevice implements GDevice {
+public final class BrowserDevice implements GDevice {
 
 	/**
 	 * Button for opening local files

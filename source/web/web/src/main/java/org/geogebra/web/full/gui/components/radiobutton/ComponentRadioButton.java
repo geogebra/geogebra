@@ -25,7 +25,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
 
-public class ComponentRadioButton<T> extends FlowPanel implements SetLabels {
+public final class ComponentRadioButton<T> extends FlowPanel implements SetLabels {
 	private boolean disabled = false;
 	private boolean selected;
 	private Label radioLabel;

@@ -31,7 +31,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
  * Dialog manager for 3D
  *
  */
-public class DialogManager3DW extends DialogManagerW {
+public final class DialogManager3DW extends DialogManagerW {
 	/**
 	 * @param app
 	 *            application

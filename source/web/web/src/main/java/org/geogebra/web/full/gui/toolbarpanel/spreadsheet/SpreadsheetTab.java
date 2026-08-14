@@ -32,7 +32,7 @@ import elemental2.dom.CanvasRenderingContext2D;
 /**
  * Tab of Spreadsheet View.
  */
-public class SpreadsheetTab extends ToolbarTab {
+public final class SpreadsheetTab extends ToolbarTab {
 
 	private final ToolbarPanel toolbarPanel;
 	private @Nullable FlowPanel tabPanel;

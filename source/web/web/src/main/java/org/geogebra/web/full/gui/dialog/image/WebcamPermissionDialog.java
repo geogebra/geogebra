@@ -27,7 +27,7 @@ import org.gwtproject.user.client.ui.Label;
 /**
  * dialog to ask user for webcam permission and show error messages
  */
-public class WebcamPermissionDialog extends ComponentDialog {
+public final class WebcamPermissionDialog extends ComponentDialog {
 
 	/**
 	 * @param app application

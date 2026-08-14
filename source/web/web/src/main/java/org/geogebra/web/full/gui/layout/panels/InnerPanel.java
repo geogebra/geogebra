@@ -24,7 +24,7 @@ import org.gwtproject.user.client.ui.RequiresResize;
 /**
  * Inner panel for dock panels with navigation.
  */
-public class InnerPanel extends FlowPanel implements RequiresResize {
+public final class InnerPanel extends FlowPanel implements RequiresResize {
 
 	private Panel content;
 		private DockPanelW dock;

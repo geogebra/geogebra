@@ -48,7 +48,7 @@ import elemental2.dom.CanvasRenderingContext2D;
  * Top level GUI for the spreadsheet view
  *
  */
-public class SpreadsheetDockPanelW extends NavigableDockPanelW {
+public final class SpreadsheetDockPanelW extends NavigableDockPanelW {
 
 	private SpreadsheetStyleBar sstylebar;
 	private @Nullable SpreadsheetPanel spreadsheetPanel;

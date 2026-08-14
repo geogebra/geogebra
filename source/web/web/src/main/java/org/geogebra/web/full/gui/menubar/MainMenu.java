@@ -53,7 +53,7 @@ import org.gwtproject.user.client.ui.Widget;
  *
  *
  */
-public class MainMenu extends FlowPanel
+public final class MainMenu extends FlowPanel
 		implements EventRenderable, BooleanRenderable, KeyDownHandler {
 
 	AppWFull app;

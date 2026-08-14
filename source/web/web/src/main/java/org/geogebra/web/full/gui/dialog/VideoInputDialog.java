@@ -25,7 +25,7 @@ import org.geogebra.web.html5.main.AppW;
 
 /** video dialog
  */
-public class VideoInputDialog extends MediaDialog {
+public final class VideoInputDialog extends MediaDialog {
 
 	/**
 	 * @param app

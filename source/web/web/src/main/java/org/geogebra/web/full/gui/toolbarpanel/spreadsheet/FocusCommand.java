@@ -20,7 +20,7 @@ import org.gwtproject.core.client.Scheduler;
 
 import elemental2.dom.Element;
 
-public class FocusCommand implements Scheduler.ScheduledCommand {
+public final class FocusCommand implements Scheduler.ScheduledCommand {
 	private final Element element;
 	private final Element.FocusOptionsType focusOptionsType;
 	private boolean canceled;

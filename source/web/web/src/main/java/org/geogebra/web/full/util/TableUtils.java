@@ -24,7 +24,7 @@ import org.gwtproject.user.cellview.client.CellTable;
  * @author laszlo
  *
  */
-public class TableUtils {
+public final class TableUtils {
 	/**
 	 * Remove all columns from table.
 	 * 

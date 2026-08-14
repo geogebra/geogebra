@@ -35,12 +35,9 @@ import org.gwtproject.user.client.ui.InlineHTML;
 /**
  * Menu for choosing geos
  */
-public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
+public final class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 
-	/**
-	 * 
-	 */
-	protected EuclidianView view;
+	private EuclidianView view;
 
 	/**
 	 * polygons/polyhedra parents of segments, polygons, ...

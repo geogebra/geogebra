@@ -22,7 +22,7 @@ import jsinterop.annotations.JsType;
 import jsinterop.base.JsPropertyMap;
 
 @JsType(isNative = true)
-public class GoogleClient {
+public final class GoogleClient {
 
 	/**
 	 * @param param parameter

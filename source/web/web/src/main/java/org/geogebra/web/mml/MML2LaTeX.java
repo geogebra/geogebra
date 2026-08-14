@@ -27,7 +27,7 @@ import jsinterop.annotations.JsFunction;
 /**
  * Entry point for MML to LaTeX converter, exports toLaTeX global function
  */
-public class MML2LaTeX implements EntryPoint {
+public final class MML2LaTeX implements EntryPoint {
 
 	final private static MathMLParser MATHML_PARSER_LATEX = new MathMLParser(
 			false);

@@ -30,7 +30,7 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  * Top bar of a tab panel.
  */
-public class MultiRowsTabBar extends FlowPanel implements
+public final class MultiRowsTabBar extends FlowPanel implements
 		HasSelectionHandlers<Integer> {
 
 	private int selectedTab;

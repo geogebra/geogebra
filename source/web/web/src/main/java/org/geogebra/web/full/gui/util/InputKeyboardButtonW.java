@@ -31,7 +31,7 @@ import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.IsWidget;
 import org.gwtproject.user.client.ui.Widget;
 
-public class InputKeyboardButtonW implements InputKeyboardButton, IsWidget {
+public final class InputKeyboardButtonW implements InputKeyboardButton, IsWidget {
 	private final ToggleButton button;
 	private AutoCompleteTextFieldW textField;
 	private boolean enabled = true;

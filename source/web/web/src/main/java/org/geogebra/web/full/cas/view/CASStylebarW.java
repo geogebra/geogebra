@@ -41,7 +41,7 @@ import org.geogebra.web.html5.main.AppW;
 /**
  * StyleBar for CASview
  */
-public class CASStylebarW extends StyleBarW {
+public final class CASStylebarW extends StyleBarW {
 	ToggleButton btnUseAsText;
 	ToggleButton btnBold;
 	ToggleButton btnItalic;

@@ -28,7 +28,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 /**
  * Menu item with a checkbox (for new UI use the checkmark version)
  */
-public class GCheckBoxMenuItem {
+public final class GCheckBoxMenuItem {
 
 	private ComponentCheckbox checkBox;
 	private AriaMenuItem menuItem;

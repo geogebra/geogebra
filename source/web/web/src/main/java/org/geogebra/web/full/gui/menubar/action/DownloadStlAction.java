@@ -23,7 +23,7 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Exports STL.
  */
-public class DownloadStlAction extends DefaultMenuAction<AppWFull> {
+public final class DownloadStlAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
 	public void execute(AppWFull app) {

@@ -29,7 +29,7 @@ import jsinterop.base.JsPropertyMap;
 /**
  * Embedded element GM element for Notes
  */
-public class GraspableEmbedElement extends EmbedElement {
+public final class GraspableEmbedElement extends EmbedElement {
 
 	private GMCanvas api;
 	private String content;

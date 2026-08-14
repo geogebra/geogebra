@@ -31,7 +31,7 @@ import org.gwtproject.core.client.Scheduler;
  * @author laszlo
  *
  */
-public class SliderTreeItemRetex extends LaTeXTreeItem {
+public final class SliderTreeItemRetex extends LaTeXTreeItem {
 
 	private static final int SLIDER_EXT = 15;
 

@@ -32,7 +32,7 @@ import org.gwtproject.user.client.ui.Label;
 /**
  * Material card
  */
-public class MaterialCard extends FlowPanel implements MaterialCardI {
+public final class MaterialCard extends FlowPanel implements MaterialCardI {
 	private AppWFull app;
 	// image of material
 	private MaterialImagePanel imgPanel;

@@ -52,7 +52,7 @@ import org.gwtproject.user.client.ui.Widget;
  * ReTeX editor for CAS
  *
  */
-public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
+public final class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		MathKeyboardListener, MathFieldListener, BlurHandler {
 	/** suggestions */
 	AutoCompletePopup sug;

@@ -28,7 +28,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
  * Dialog for cone given by two points and radius
  *
  */
-public class InputDialogConeTwoPointsRadiusW extends InputDialogRadiusW {
+public final class InputDialogConeTwoPointsRadiusW extends InputDialogRadiusW {
 
 	private GeoPointND a;
 	private GeoPointND b;

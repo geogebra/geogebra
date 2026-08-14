@@ -33,15 +33,15 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Image;
 import org.gwtproject.user.client.ui.Label;
 
-public class ProfileAvatar extends FlowPanel {
-	protected AppW app;
-	protected LocalizationW loc;
-	protected GPopupMenuW profilePanel;
+public final class ProfileAvatar extends FlowPanel {
+	private final AppW app;
+	private final LocalizationW loc;
+	private GPopupMenuW profilePanel;
 	private Image avatar;
 	private Image profileImage;
 	private Label userName;
-	protected String profileLink;
-	private String editProfileHref = "https://accounts.geogebra.org/";
+	private String profileLink;
+	private static final String editProfileHref = "https://accounts.geogebra.org/";
 	private AriaMenuItem profileItem;
 	private AriaMenuItem settingsItem;
 	private AriaMenuItem signOutItem;

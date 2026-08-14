@@ -35,7 +35,7 @@ import elemental2.dom.KeyboardEvent;
 /**
  * material design checkbox component
  */
-public class ComponentCheckbox extends FlowPanel implements SetLabels,
+public final class ComponentCheckbox extends FlowPanel implements SetLabels,
 		ConfigurationUpdateDelegate, VisibilityUpdateDelegate {
 	private final Localization loc;
 	private boolean isSelected;

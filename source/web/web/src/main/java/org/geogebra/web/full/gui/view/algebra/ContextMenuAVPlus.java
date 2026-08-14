@@ -41,11 +41,11 @@ import org.gwtproject.user.client.ui.Widget;
  * @author Laszlo Gal
  *
  */
-public class ContextMenuAVPlus implements SetLabels {
+public final class ContextMenuAVPlus implements SetLabels {
 	/** The popup itself */
-	protected GPopupMenuW wrappedPopup;
+	private final GPopupMenuW wrappedPopup;
 	/** Localization */
-	protected Localization loc;
+	private final Localization loc;
 	/** Application */
 	AppWFull app;
 	/** The AV item associated the menu with */
@@ -82,7 +82,7 @@ public class ContextMenuAVPlus implements SetLabels {
 		}
 	}
 
-	protected boolean hasImageItem() {
+	boolean hasImageItem() {
 		return !GlobalScope.isExamActive(app) && app.getGuiManager().toolbarHasImageMode();
 	}
 

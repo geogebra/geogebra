@@ -32,7 +32,7 @@ import com.google.gwt.core.client.RunAsyncCallback;
 /**
  * Adds 3D support to {@link CommandDispatcherW}.
  */
-public class CommandDispatcher3DW extends CommandDispatcherW {
+public final class CommandDispatcher3DW extends CommandDispatcherW {
 
 	/** dispatcher for 3D commands */
 	private static CommandProcessorFactory spatialCommandProcessorFactory = null;

@@ -22,7 +22,7 @@ import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.user.client.ui.Label;
 
-public class OverwriteDataDialog extends ComponentDialog {
+public final class OverwriteDataDialog extends ComponentDialog {
 
 	/**
 	 * Overwrite data dialog

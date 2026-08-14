@@ -51,7 +51,7 @@ import jsinterop.base.JsPropertyMap;
  * @author laszlo
  *
  */
-public class SaveControllerW implements SaveController {
+public final class SaveControllerW implements SaveController {
 
 	private final AppW app;
 	private final Localization loc;

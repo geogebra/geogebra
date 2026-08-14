@@ -30,7 +30,7 @@ import org.gwtproject.user.client.Event;
  * Override splitter behavior on touch devices: add glass dragging zone
  *
  */
-public class SplitterImplTouch extends SplitterImpl {
+public final class SplitterImplTouch extends SplitterImpl {
 
 	private Element mainDivElement;
 	private Element glassDivElement;

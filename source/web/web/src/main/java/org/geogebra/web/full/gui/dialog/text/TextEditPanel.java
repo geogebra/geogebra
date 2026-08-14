@@ -29,14 +29,14 @@ import org.gwtproject.user.client.ui.FlowPanel;
 /**
  * Panel to manage editing of GeoText strings.
  */
-public class TextEditPanel extends FlowPanel implements ITextEditPanel {
+public final class TextEditPanel extends FlowPanel implements ITextEditPanel {
 	private final AppW app;
 	private final DynamicTextProcessor dTProcessor;
 	/** editor */
-	protected GeoTextEditor editor;
+	private final GeoTextEditor editor;
 	private final TextPreviewPanelW previewer;
 	/** GeoText edited by this panel */
-	protected GeoText editGeo = null;
+	private GeoText editGeo = null;
 
 	/**
 	 * @param app - application

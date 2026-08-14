@@ -23,7 +23,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 /**
  * Exports SVG.
  */
-public class DownloadSvgAction extends DownloadImageAction {
+public final class DownloadSvgAction extends DownloadImageAction {
 
 	/**
 	 * @param app app

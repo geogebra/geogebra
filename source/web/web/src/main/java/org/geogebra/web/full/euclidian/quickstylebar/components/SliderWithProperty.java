@@ -27,7 +27,7 @@ import org.geogebra.web.html5.util.sliderPanel.SliderW;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class SliderWithProperty extends FlowPanel {
+public final class SliderWithProperty extends FlowPanel {
 	private final AppW appW;
 	private RangePropertyListFacade<?> property;
 	private final PropertySupplier propertySupplier;

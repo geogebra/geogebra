@@ -31,7 +31,7 @@ import org.geogebra.web.html5.util.AppletParameters;
  * Class to open the corresponding material browsing view.
  *
  */
-public class OpenSearch {
+public final class OpenSearch {
 	private final GeoGebraFrameFull frame;
 	private final AppWFull app;
 	private final GuiManagerW guiManager;
@@ -53,7 +53,7 @@ public class OpenSearch {
 
 	 * @param query to filter the materials.
 	 */
-	public final void show(String query) {
+	public void show(String query) {
 		app.hideMenu();
 
 		if (isOnMebisWithoutLogin()) {
@@ -127,7 +127,7 @@ public class OpenSearch {
 	/**
 	 * Open temporary saved files view in exam mode.
 	 */
-	public final void openInExamMode() {
+	public void openInExamMode() {
 		app.hideMenu();
 		OpenTemporaryFileView openFileView =
 				(OpenTemporaryFileView) guiManager.getBrowseView();

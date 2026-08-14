@@ -34,7 +34,7 @@ import org.gwtproject.user.client.ui.Widget;
 
 import com.google.gwt.core.client.Scheduler;
 
-public class ProbabilityResultRow extends FlowPanel {
+public final class ProbabilityResultRow extends FlowPanel {
 	private final AppW appW;
 	private final PropertyView.ProbabilityResultRow resultRowProperty;
 	private final List<Label> labels = new ArrayList<>();

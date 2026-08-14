@@ -40,7 +40,7 @@ import elemental2.dom.Element;
 import elemental2.dom.Event;
 import jsinterop.base.Js;
 
-public class InlineFormulaControllerW implements InlineFormulaController {
+public final class InlineFormulaControllerW implements InlineFormulaController {
 
 	private final GeoFormula formula;
 	private final MathFieldEditor mathFieldEditor;

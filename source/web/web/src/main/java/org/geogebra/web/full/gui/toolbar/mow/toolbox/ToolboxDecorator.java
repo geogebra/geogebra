@@ -19,7 +19,7 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.shared.mow.header.NotesTopBar;
 
-public class ToolboxDecorator {
+public final class ToolboxDecorator {
 	private final NotesToolbox toolboxMow;
 
 	/**

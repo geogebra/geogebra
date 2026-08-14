@@ -32,7 +32,7 @@ import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 @JsType
-public class EditorApi {
+public final class EditorApi {
 	private final MathFieldW mathField;
 	private final TabbedKeyboard kb;
 	private final EditorListener listener;

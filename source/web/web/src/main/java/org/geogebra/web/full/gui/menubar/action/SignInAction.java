@@ -23,7 +23,7 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Opens sign in window.
  */
-public class SignInAction extends DefaultMenuAction<AppWFull> {
+public final class SignInAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
 	public void execute(AppWFull app) {

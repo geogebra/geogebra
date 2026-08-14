@@ -29,7 +29,7 @@ import org.geogebra.web.html5.util.AppletParameters;
 /**
  * Evaluator Activity.
  */
-public class EvaluatorActivity extends BaseActivity {
+public final class EvaluatorActivity extends BaseActivity {
 
 	private EvaluatorEditor editor;
 

@@ -33,7 +33,7 @@ import elemental2.core.Function;
 import elemental2.dom.DomGlobal;
 import jsinterop.base.JsPropertyMap;
 
-public class EditorEntry implements EntryPoint {
+public final class EditorEntry implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {

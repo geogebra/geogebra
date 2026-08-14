@@ -22,7 +22,7 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Signs out.
  */
-public class SignOutAction extends DefaultMenuAction<AppWFull> {
+public final class SignOutAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
 	public void execute(AppWFull app) {

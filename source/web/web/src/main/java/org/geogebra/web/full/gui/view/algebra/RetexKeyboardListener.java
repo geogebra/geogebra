@@ -25,7 +25,7 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  * ReTeX connector for keyboard
  */
-public class RetexKeyboardListener implements MathKeyboardListener {
+public final class RetexKeyboardListener implements MathKeyboardListener {
 
 	private Canvas canvas;
 	private MathFieldW mf;

@@ -26,7 +26,7 @@ import com.himamis.retex.renderer.share.CursorBox;
 /**
  * Editor API for algebra view
  */
-public class AlgebraMathEditorAPI implements MathEditorAPI {
+public final class AlgebraMathEditorAPI implements MathEditorAPI {
 
 	private AlgebraViewW algebraView;
 

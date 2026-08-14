@@ -38,7 +38,7 @@ import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Response;
 
-public class MenuItemController {
+public final class MenuItemController {
 	private final AppWFull appW;
 	private final GeoGebraFrameFull frame;
 	private final GPopupPanel contextMenu;
@@ -157,7 +157,7 @@ public class MenuItemController {
 		frame.getPageControlPanel().pastePage(pasteAfter, targetID, text);
 	}
 
-	protected Map<String, Object> getPasteJson(PagePreviewCard pasteAfter, String content,
+	private Map<String, Object> getPasteJson(PagePreviewCard pasteAfter, String content,
 			String targetId, String objects) {
 		Map<String, Object> pasteJson = new HashMap<>();
 		pasteJson.put("argument", targetId);

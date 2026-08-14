@@ -50,7 +50,7 @@ import org.gwtproject.user.client.ui.Widget;
  * Dialog to create GeoElements (lists, matrices, tabletext, etc.) from
  * spreadsheet cell selections
  */
-public class CreateObjectDialogW extends ComponentDialog implements ICreateObjectListener {
+public final class CreateObjectDialogW extends ComponentDialog implements ICreateObjectListener {
 
 	private final CreateObjectModel coModel;
 	private Label lblObject;

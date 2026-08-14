@@ -27,7 +27,7 @@ import org.gwtproject.user.client.ui.Image;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
 
-public class GridCard extends FlowPanel implements SetLabels {
+public final class GridCard extends FlowPanel implements SetLabels {
 	private final AppW appW;
 	private final ImageResource imageResource;
 	private final String titleTransKey;

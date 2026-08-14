@@ -28,7 +28,7 @@ import org.gwtproject.user.client.ui.Widget;
  * @author Laszlo Gal
  *
  */
-public class VideoOffline extends AbstractVideoPlayer {
+public final class VideoOffline extends AbstractVideoPlayer {
 
 	private VideoErrorPanel errorPanel;
 

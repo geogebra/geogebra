@@ -36,7 +36,7 @@ import org.gwtproject.user.client.ui.Widget;
  * Dock panel for view for plane
  *
  */
-public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
+public final class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
         implements EuclidianPanelWAbstract {
 
 	/**

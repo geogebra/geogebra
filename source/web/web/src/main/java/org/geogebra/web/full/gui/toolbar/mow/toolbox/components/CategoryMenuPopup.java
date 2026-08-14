@@ -29,7 +29,7 @@ import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
 
-public class CategoryMenuPopup extends GPopupMenuW implements SetLabels {
+public final class CategoryMenuPopup extends GPopupMenuW implements SetLabels {
 	private final List<Integer> tools;
 
 	/**

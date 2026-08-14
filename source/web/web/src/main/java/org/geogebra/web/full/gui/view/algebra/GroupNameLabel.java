@@ -31,7 +31,7 @@ import org.gwtproject.user.client.ui.TreeItem;
  * File created by Arpad Fekete
  */
 
-public class GroupNameLabel extends Label implements ClickHandler {
+public final class GroupNameLabel extends Label implements ClickHandler {
 
 	private TreeItem par;
 	private SelectionManager selection;

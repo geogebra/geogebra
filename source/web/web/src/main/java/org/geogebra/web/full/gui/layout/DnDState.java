@@ -21,7 +21,7 @@ package org.geogebra.web.full.gui.layout;
  * 
  * @author Florian Sonner
  */
-public class DnDState {
+public final class DnDState {
 	/**
 	 * The panel will be placed in the top area of the target panel.
 	 */

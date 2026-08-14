@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.main.AppW;
 
-public class PointStylePopup extends PopupMenuButtonW {
+public final class PointStylePopup extends PopupMenuButtonW {
 
 	private static final int DEFAULT_SIZE = 4;
 	static final HashMap<Integer, Integer> pointStyleMap = new HashMap<>();

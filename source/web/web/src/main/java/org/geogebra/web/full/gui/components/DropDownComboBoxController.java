@@ -37,7 +37,7 @@ import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.Widget;
 import org.jspecify.annotations.Nullable;
 
-public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler {
+public final class DropDownComboBoxController implements SetLabels, UpDownArrowHandler {
 	private final Widget parent;
 	private ComponentDropDownPopup dropDown;
 	private List<AriaMenuItem> dropDownElementsList;

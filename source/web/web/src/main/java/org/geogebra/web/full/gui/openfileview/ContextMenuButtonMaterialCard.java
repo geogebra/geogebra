@@ -45,7 +45,7 @@ import elemental2.core.Global;
 /**
  * Context Menu of Material Cards
  */
-public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
+public final class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	private final Material material;
 	private final MaterialCard card;
 	private final GeneralIconResource generalIconResource;

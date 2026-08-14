@@ -46,7 +46,7 @@ import org.gwtproject.user.client.ui.TabBar;
 import org.gwtproject.user.client.ui.TabPanel;
 import org.gwtproject.user.client.ui.Widget;
 
-public class FunctionInspectorW extends FunctionInspector {
+public final class FunctionInspectorW extends FunctionInspector {
 
 	private static final int PADDING_RIGHT = 45;
 	// color constants

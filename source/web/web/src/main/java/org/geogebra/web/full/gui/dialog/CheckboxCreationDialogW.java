@@ -44,7 +44,7 @@ import org.gwtproject.user.client.ui.ListBox;
  * Dialog to create a GeoBoolean object (checkbox) that determines the
  * visibility of a list of objects.
  */
-public class CheckboxCreationDialogW extends ComponentDialog implements
+public final class CheckboxCreationDialogW extends ComponentDialog implements
 		GeoElementSelectionListener, HasKeyboardPopup {
 	private ComponentInputField tfCaption;
 	private final List<GeoElement> availableObjects = new ArrayList<>();

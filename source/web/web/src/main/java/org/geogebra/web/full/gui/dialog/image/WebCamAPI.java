@@ -34,7 +34,7 @@ import jsinterop.base.Js;
  * @author laszlo
  *
  */
-public class WebCamAPI {
+public final class WebCamAPI {
 	private static final int MAX_CANVAS_WIDTH = 640;
 	private static final int MAX_CANVAS_HEIGHT = (int) Math.round(0.75 * MAX_CANVAS_WIDTH);
 	

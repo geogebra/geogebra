@@ -27,7 +27,7 @@ import org.geogebra.web.html5.main.AppW;
  * @author G. Sturr
  * 
  */
-public class MultiVarStatPanelW extends BasicStatTableW implements
+public final class MultiVarStatPanelW extends BasicStatTableW implements
 		MultiVarStatTableListener {
 
 	private boolean minimalTable = false;

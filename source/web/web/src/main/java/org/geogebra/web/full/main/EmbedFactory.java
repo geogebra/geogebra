@@ -43,7 +43,7 @@ import org.gwtproject.user.client.DOM;
 
 import elemental2.dom.DomGlobal;
 
-public class EmbedFactory implements AsyncOperation<URLStatus>, MaterialCallbackI {
+public final class EmbedFactory implements AsyncOperation<URLStatus>, MaterialCallbackI {
 	private URLChecker urlChecker;
 	final AppW app;
 	private Runnable hideDialogCallback;

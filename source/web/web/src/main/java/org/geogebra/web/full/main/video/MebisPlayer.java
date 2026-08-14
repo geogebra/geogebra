@@ -26,7 +26,7 @@ import org.gwtproject.user.client.ui.Widget;
  * @author laszlo
  *
  */
-public class MebisPlayer extends HTML5Player {
+public final class MebisPlayer extends HTML5Player {
 
 	/**
 	 * Constructor

@@ -28,7 +28,7 @@ import org.geogebra.web.html5.util.sliderPanel.SliderW;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class PenHighlighterEraserSlider extends FlowPanel {
+public final class PenHighlighterEraserSlider extends FlowPanel {
 	private static final int MAX_ERASER_SIZE = 200;
 	private static final int MIN_ERASER_SIZE = 10;
 	private static final int ERASER_STEP = 10;

@@ -34,7 +34,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
 import org.jspecify.annotations.Nullable;
 
-public class TitleBarPanel extends FlowPanel implements DockControlPanel {
+public final class TitleBarPanel extends FlowPanel implements DockControlPanel {
 	private final AppW app;
 	private final DockPanelW dockPanel;
 	private final FlowPanel titleBarPanelContent;

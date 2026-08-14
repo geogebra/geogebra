@@ -43,11 +43,11 @@ import org.jspecify.annotations.NonNull;
  * The ... menu for AV items
  *
  */
-public class ContextMenuAVItemMore implements SetLabels,
+public final class ContextMenuAVItemMore implements SetLabels,
 		AlgebraContextMenuActionHandler.Delegate {
 
 	/** visible component */
-	protected final GPopupMenuW wrappedPopup;
+	final GPopupMenuW wrappedPopup;
 	/** localization */
 	private final Localization loc;
 	private final AppWFull mApp;

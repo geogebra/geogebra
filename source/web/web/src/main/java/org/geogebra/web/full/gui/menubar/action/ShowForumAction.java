@@ -25,7 +25,7 @@ import elemental2.dom.DomGlobal;
 /**
  * Opens the forum.
  */
-public class ShowForumAction extends DefaultMenuAction<AppWFull> {
+public final class ShowForumAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
 	public void execute(AppWFull app) {

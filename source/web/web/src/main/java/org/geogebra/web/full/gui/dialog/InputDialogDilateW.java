@@ -30,7 +30,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 /**
  * Dialog for dilate tool
  */
-public class InputDialogDilateW extends ComponentInputDialog {
+public final class InputDialogDilateW extends ComponentInputDialog {
 	private GeoPointND[] points;
 	private GeoElement[] selGeos;
 	private Kernel kernel;

@@ -39,7 +39,7 @@ import org.geogebra.web.resources.SVGResource;
 /**
  * style bar for 3D view
  */
-public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
+public final class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 	private RotateViewPopup btnRotateView;
 	private ToggleButton btnShowGrid3D;

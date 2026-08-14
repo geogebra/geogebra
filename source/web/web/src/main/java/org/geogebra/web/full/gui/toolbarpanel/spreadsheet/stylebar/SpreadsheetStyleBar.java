@@ -33,7 +33,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
 
-public class SpreadsheetStyleBar extends FlowPanel {
+public final class SpreadsheetStyleBar extends FlowPanel {
 	private final static int STYLE_BAR_HEIGHT = 36;
 	private final AppW appW;
 	private final SpreadsheetStyleBarModel styleBarModel;

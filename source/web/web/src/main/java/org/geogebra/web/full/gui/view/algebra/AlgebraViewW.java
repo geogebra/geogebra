@@ -103,7 +103,7 @@ import jsinterop.base.Js;
  * HTML5 version of AV
  *
  */
-public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
+public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		OpenHandler<TreeItem>, SettingListener<AlgebraSettings>,
 		ProvidesResize, PrintableW, HasThumbnailURL {
 
@@ -112,9 +112,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/** app */
 	private final AppW app;
 	/** Localization */
-	protected final Localization loc;
+	private final Localization loc;
 	/** Kernel */
-	protected final Kernel kernel;
+	private final Kernel kernel;
 	private final AnimationScheduler repaintScheduler = AnimationScheduler.get();
 	/** Input item */
 	private @Nullable RadioTreeItem inputPanelLatex;
@@ -128,7 +128,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private TreeItem inputPanelTreeItem;
 	private boolean isShowingAuxiliaryObjects;
 	/** whether it's attached to kernel */
-	protected boolean attached = false;
+	private boolean attached = false;
 
 	private final AnimationCallback repaintCallback = ts -> doRepaint();
 
@@ -137,7 +137,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/**
 	 * The mode of the tree, see MODE_DEPENDENCY, MODE_TYPE
 	 */
-	protected SortMode treeMode = SortMode.ORDER;
+	private SortMode treeMode = SortMode.ORDER;
 
 	private boolean showAuxiliaryObjectsSettings = false;
 
@@ -423,7 +423,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	@Override
-	public final void repaintView() {
+	public void repaintView() {
 		app.ensureTimerRunning();
 		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG) {
 			waitForRepaint = TimerSystemW.ALGEBRA_LOOPS;
@@ -440,7 +440,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	@Override
-	public final int getViewID() {
+	public int getViewID() {
 		return App.VIEW_ALGEBRA;
 	}
 
@@ -674,7 +674,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * @param sb
 	 *            string builder
 	 */
-	public final void getXML(XMLStringBuilder sb) {
+	public void getXML(XMLStringBuilder sb) {
 		updateCollapsedNodesIndices();
 		getSettings().getXML(sb, showAuxiliaryObjects());
 	}
@@ -1108,7 +1108,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * @param key
 	 *            sorting key
 	 */
-	public final void setUserObject(TreeItem ti, final String label, String key) {
+	public void setUserObject(TreeItem ti, final String label, String key) {
 		ti.setUserObject(label);
 		GroupHeader group = new GroupHeader(this.app.getSelectionManager(), ti,
 				label, key,
@@ -1371,7 +1371,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 *            sort mode
 	 * @return position
 	 */
-	final public int getInsertPosition(TreeItem parent, GeoElement newGeo,
+	public int getInsertPosition(TreeItem parent, GeoElement newGeo,
 			SortMode mode) {
 
 		// standard case: binary search
@@ -1439,7 +1439,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	@Override
-	final public void updateAuxiliaryObject(GeoElement geo) {
+	public void updateAuxiliaryObject(GeoElement geo) {
 		remove(geo);
 		add(geo);
 	}
@@ -1476,12 +1476,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	@Override
-	public final GeoElement getLastSelectedGeo() {
+	public GeoElement getLastSelectedGeo() {
 		return getSelectionCtrl().getLastSelectedGeo();
 	}
 
 	@Override
-	public final void setLastSelectedGeo(GeoElement geo) {
+	public void setLastSelectedGeo(GeoElement geo) {
 		getSelectionCtrl().setLastSelectedGeo(geo);
 	}
 

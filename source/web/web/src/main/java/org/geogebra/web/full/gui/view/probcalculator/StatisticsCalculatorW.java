@@ -49,7 +49,7 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  *  Statistics calculator for classic
  */
-public class StatisticsCalculatorW extends StatisticsCalculator
+public final class StatisticsCalculatorW extends StatisticsCalculator
 		implements ChangeHandler, BlurHandler, KeyUpHandler {
 	private FlowPanel wrappedPanel;
 	private FlowPanel resultPane;

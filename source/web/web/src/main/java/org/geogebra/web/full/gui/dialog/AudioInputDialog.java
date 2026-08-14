@@ -25,7 +25,7 @@ import org.geogebra.web.html5.main.AppW;
 /**
  * audio dialog
  */
-public class AudioInputDialog extends MediaDialog {
+public final class AudioInputDialog extends MediaDialog {
 
 	/**
 	 * @param app

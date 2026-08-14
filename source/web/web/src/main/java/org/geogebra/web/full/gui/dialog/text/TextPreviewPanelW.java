@@ -45,7 +45,7 @@ import org.gwtproject.user.client.ui.Widget;
  * @author G. Sturr
  * 
  */
-public class TextPreviewPanelW extends TextPreviewer {
+public final class TextPreviewPanelW extends TextPreviewer {
 
 	private TextPreviewEuclidianViewPanelW evPanel;
 

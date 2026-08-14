@@ -24,7 +24,7 @@ import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.SimplePanel;
 
-public class ComponentToast extends GPopupPanel {
+public final class ComponentToast extends GPopupPanel {
 	private SimplePanel content;
 	public static final int TOAST_PADDING = 12;
 	private static final int MIN_WIDTH = 300;

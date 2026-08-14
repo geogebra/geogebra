@@ -34,7 +34,7 @@ import elemental2.dom.CanvasRenderingContext2D;
  * @author Laszlo Gal
  *
  */
-public class ToolbarDockPanelW extends DockPanelW
+public final class ToolbarDockPanelW extends DockPanelW
 		implements AlgebraPanelInterface {
 
 	private ToolbarPanel toolbar;

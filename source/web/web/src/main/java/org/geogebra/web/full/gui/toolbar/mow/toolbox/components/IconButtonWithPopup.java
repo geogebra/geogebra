@@ -23,7 +23,7 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
 
-public class IconButtonWithPopup extends ToolIconButton {
+public final class IconButtonWithPopup extends ToolIconButton {
 	private final AppW appW;
 	private final List<Integer> tools;
 	private CategoryPopup categoryPopup;

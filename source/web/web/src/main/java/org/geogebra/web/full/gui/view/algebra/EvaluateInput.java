@@ -37,7 +37,7 @@ import org.gwtproject.core.client.Scheduler;
  * @author laszlo
  *
  */
-public class EvaluateInput {
+public final class EvaluateInput {
 	private final GeoSelectionCallback selectionCallback;
 	RadioTreeItem item;
 	App app;

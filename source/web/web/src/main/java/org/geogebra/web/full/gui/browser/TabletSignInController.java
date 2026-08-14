@@ -24,7 +24,7 @@ import org.geogebra.web.shared.SignInController;
 /**
  * Signin button for tablets, uses native APIs
  */
-public class TabletSignInController extends SignInController {
+public final class TabletSignInController extends SignInController {
 
 	/**
 	 * @param app application

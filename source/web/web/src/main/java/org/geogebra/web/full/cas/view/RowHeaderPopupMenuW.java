@@ -33,7 +33,7 @@ import jsinterop.base.Js;
  * The one popup menu used in web CAS
  *
  */
-public class RowHeaderPopupMenuW extends
+public final class RowHeaderPopupMenuW extends
         org.geogebra.common.cas.view.RowHeaderPopupMenu implements AttachedToDOM {
 
 	private final CASTableW table;

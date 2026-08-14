@@ -32,7 +32,7 @@ import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FileUpload;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class ImageDialog extends ComponentDialog implements WebcamDialogInterface {
+public final class ImageDialog extends ComponentDialog implements WebcamDialogInterface {
 	private FlowPanel cameraPanel;
 	private WebCamInputPanel webcamInputPanel;
 	private StandardButton captureBtn;

@@ -28,7 +28,7 @@ import org.geogebra.web.html5.main.AppW;
  * @author geogebra
  *
  */
-public class SaveCallback {
+public final class SaveCallback {
 
 	private final AppW app;
 	private SaveState state;

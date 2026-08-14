@@ -31,7 +31,7 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  * Dock panel for 3D
  */
-public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
+public final class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 	/**
 	 * default width of this panel
 	 */

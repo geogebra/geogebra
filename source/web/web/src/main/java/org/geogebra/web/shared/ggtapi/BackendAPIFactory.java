@@ -31,7 +31,7 @@ import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
  *
  * @author laszlo
  */
-public class BackendAPIFactory {
+public final class BackendAPIFactory {
 
 	private final AppW app;
 	private final AppletParameters articleElement;

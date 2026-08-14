@@ -37,7 +37,7 @@ import elemental2.dom.HTMLImageElement;
  * @author mathieu
  *
  */
-public class EuclidianView3DWnoWebGL extends EuclidianView3DW {
+public final class EuclidianView3DWnoWebGL extends EuclidianView3DW {
 
 	private GBufferedImage thumb;
 

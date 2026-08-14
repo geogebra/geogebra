@@ -54,7 +54,7 @@ import elemental2.dom.KeyboardEvent;
 /**
  * Dialog for creating buttons and input-boxes
  */
-public class ButtonDialogW extends ComponentDialog implements HasKeyboardPopup {
+public final class ButtonDialogW extends ComponentDialog implements HasKeyboardPopup {
 	private static final int BUTTON_MARGIN = 29;
 	private static final int TOOLTIP_HEIGHT = 20;
 	private ComponentInputField captionInput;

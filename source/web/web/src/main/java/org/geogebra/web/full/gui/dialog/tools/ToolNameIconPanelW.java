@@ -38,7 +38,7 @@ import org.gwtproject.user.client.ui.Image;
  * Panel of Tool Creation Dialog. Contains tool name, command name, help and
  * icon for the tool. It also allows user to add/remove the tool from toolbar.
  */
-public class ToolNameIconPanelW extends FlowPanel {
+public final class ToolNameIconPanelW extends FlowPanel {
 
 	/** With of tool icon in pixels **/
 	public static final int ICON_WIDTH = 32;

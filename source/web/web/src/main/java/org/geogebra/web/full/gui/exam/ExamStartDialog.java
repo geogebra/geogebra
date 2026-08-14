@@ -35,7 +35,7 @@ import org.gwtproject.user.client.ui.Label;
 /**
  * Dialog to enter in graphing or cas calc exam mode
  */
-public class ExamStartDialog extends ComponentDialog {
+public final class ExamStartDialog extends ComponentDialog {
 
 	private ExamType selectedRegion = ExamType.GENERIC;
 	private final ExamController examController;

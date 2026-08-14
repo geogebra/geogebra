@@ -33,7 +33,7 @@ import org.gwtproject.event.dom.client.DoubleClickEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class TemplatePreviewCard extends FlowPanel
+public final class TemplatePreviewCard extends FlowPanel
         implements SetLabels, MaterialCardI {
     private final MaterialCardController controller;
     private FlowPanel imgPanel;

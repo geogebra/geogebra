@@ -25,11 +25,11 @@ import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class MediaInputPanel extends FlowPanel implements ProcessInput {
+public final class MediaInputPanel extends FlowPanel implements ProcessInput {
 	private final AppW app;
 	private final ComponentDialog parentDialog;
 	private final boolean required;
-	protected final ComponentInputField inputField;
+	final ComponentInputField inputField;
 	private Label infoLabel;
 
 	/**

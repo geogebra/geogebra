@@ -27,7 +27,7 @@ import org.geogebra.web.shared.SignInController;
 /**
  * Look and feel for tablet apps
  */
-public class TabletLookAndFeel extends GLookAndFeel {
+public final class TabletLookAndFeel extends GLookAndFeel {
 
 	@Override
 	public void addWindowClosingHandler(AppW app) {

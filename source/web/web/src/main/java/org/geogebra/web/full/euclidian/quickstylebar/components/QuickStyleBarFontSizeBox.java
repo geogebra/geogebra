@@ -34,7 +34,7 @@ import org.jspecify.annotations.NonNull;
 /**
  * Compact editable font size combo box for the quick style bar in Notes.
  */
-public class QuickStyleBarFontSizeBox extends FlowPanel implements SetLabels {
+public final class QuickStyleBarFontSizeBox extends FlowPanel implements SetLabels {
 
 	private static final int POPUP_WIDTH = 52;
 

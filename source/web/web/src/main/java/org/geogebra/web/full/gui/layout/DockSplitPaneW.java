@@ -38,7 +38,7 @@ import elemental2.dom.CanvasRenderingContext2D;
  * 
  * @author Florian Sonner, adapted by G.Sturr for web
  */
-public class DockSplitPaneW extends ZoomSplitLayoutPanel
+public final class DockSplitPaneW extends ZoomSplitLayoutPanel
 		implements DockComponent, PaintToCanvas {
 	/** The view sizes stored in XML and view sizes in DOM differ by 4 because of the splitter. */
 	public static final double HALF_SPLITTER_WIDTH = 4;

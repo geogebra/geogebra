@@ -29,7 +29,7 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  * Popup menu following the Material Design.
  */
-public class ComponentDropDownPopup {
+public final class ComponentDropDownPopup {
 	private static final int OFFSET_X = 0;
 	public static final int POPUP_PADDING = 8;
 	public static final int MARGIN_FROM_SCREEN = 32;

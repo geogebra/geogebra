@@ -30,7 +30,7 @@ import org.gwtproject.user.client.ui.Widget;
  * DataAnalysis dockpanel for Web
  *
  */
-public class DataAnalysisViewDockPanelW extends DockPanelW {
+public final class DataAnalysisViewDockPanelW extends DockPanelW {
 
 	/**
 	 * @param app App

@@ -23,7 +23,7 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Opens file in Mebis Board.
  */
-public class OpenFileActionMebis extends DefaultMenuAction<AppWFull> {
+public final class OpenFileActionMebis extends DefaultMenuAction<AppWFull> {
 
 	@Override
 	public void execute(final AppWFull app) {

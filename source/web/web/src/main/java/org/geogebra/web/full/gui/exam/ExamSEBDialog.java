@@ -29,7 +29,7 @@ import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class ExamSEBDialog extends ComponentDialog {
+public final class ExamSEBDialog extends ComponentDialog {
 	private static final String downloadDE = "https://safeexambrowser.org/download_de.html";
 	private static final String downloadEN = "https://safeexambrowser.org/download_en.html";
 

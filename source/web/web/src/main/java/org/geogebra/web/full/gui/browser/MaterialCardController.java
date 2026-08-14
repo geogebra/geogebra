@@ -41,16 +41,12 @@ import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 /**
  * Controller for material cards, common for new and old UI.
  */
-public class MaterialCardController implements OpenFileListener {
+public final class MaterialCardController implements OpenFileListener {
 	/** application */
-	protected AppW app;
+	private final AppW app;
 	private Material material;
 	/** callback for deleting materials */
-	Runnable deleteCallback = () -> {
-		Log.debug("DELETE finished");
-		app.getGuiManager().getBrowseView()
-				.setMaterialsDefaultStyle();
-	};
+	private final Runnable deleteCallback;
 
 	/**
 	 * @param app
@@ -58,6 +54,11 @@ public class MaterialCardController implements OpenFileListener {
 	 */
 	public MaterialCardController(AppW app) {
 		this.app = app;
+		deleteCallback = () -> {
+			Log.debug("DELETE finished");
+			app.getGuiManager().getBrowseView()
+					.setMaterialsDefaultStyle();
+		};
 	}
 
 	/**

@@ -23,7 +23,7 @@ import jsinterop.annotations.JsType;
 
 @SuppressFBWarnings("MS_SHOULD_BE_FINAL")
 @JsType(isNative = true, namespace = "google.picker", name = "ViewId")
-public class GoogleViewId {
+public final class GoogleViewId {
 
 	@InjectJsInterop public static Object DOCS;
 

@@ -31,12 +31,12 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.jspecify.annotations.Nullable;
 
-public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
+public final class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 	private ComponentTab probabilityTab;
-	protected final StatisticsCalculatorW statCalculator;
-	protected DistributionPanel distrPanel;
-	protected FlowPanel plotSplitPane;
-	protected @Nullable FlowPanel mainSplitPane;
+	private final StatisticsCalculatorW statCalculator;
+	private DistributionPanel distrPanel;
+	private FlowPanel plotSplitPane;
+	private @Nullable FlowPanel mainSplitPane;
 	private Label lblMeanSigma;
 	private static final int CONTROL_PANEL_HEIGHT = 300;
 	private static final int TABLE_PADDING_AND_SCROLLBAR = 32;
@@ -166,7 +166,7 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 		return statCalculator;
 	}
 
-	protected void buildProbCalcPanel() {
+	private void buildProbCalcPanel() {
 		distrPanel = new DistributionPanel(this, (AppW) app);
 		plotSplitPane = new FlowPanel();
 		plotSplitPane.add(plotPanelPlus);

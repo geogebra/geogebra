@@ -42,7 +42,7 @@ import elemental2.dom.HTMLCollection;
 /**
  * Print dialog
  */
-public class PrintPreviewW extends ComponentDialog {
+public final class PrintPreviewW extends ComponentDialog {
 	private ComponentDropDown viewDropDown;
 	private FlowPanel printPanel;
 	private SimplePanel scalePanelHolder;

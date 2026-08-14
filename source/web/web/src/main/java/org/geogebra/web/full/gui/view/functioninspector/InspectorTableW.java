@@ -27,7 +27,7 @@ import org.gwtproject.user.client.ui.FlexTable;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
 
-public class InspectorTableW extends FlexTable implements IGridListener {
+public final class InspectorTableW extends FlexTable implements IGridListener {
 	private static final int HEADER_ROW = 0;
 	private GridModel model;
 	private int selectedRow;

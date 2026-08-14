@@ -29,7 +29,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 import org.gwtproject.user.client.ui.Label;
 
-public class CollaborationStoppedDialog extends ComponentDialog {
+public final class CollaborationStoppedDialog extends ComponentDialog {
 
 	/**
 	 * Dialog for stopping the collaboration

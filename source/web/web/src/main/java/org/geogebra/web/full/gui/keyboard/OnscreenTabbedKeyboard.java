@@ -36,7 +36,7 @@ import org.geogebra.web.html5.util.CSSEvents;
  * 
  * @author Zbynek, based on Balazs's cross-platform model
  */
-public class OnscreenTabbedKeyboard extends TabbedKeyboard
+public final class OnscreenTabbedKeyboard extends TabbedKeyboard
 		implements VirtualKeyboardGUI {
 
 	private InputBarHelpPopup helpPopup = null;

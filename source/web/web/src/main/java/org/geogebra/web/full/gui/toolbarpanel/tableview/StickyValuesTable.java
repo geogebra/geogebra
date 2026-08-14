@@ -61,12 +61,12 @@ import jsinterop.base.Js;
 /**
  * Sticky table of values.
  */
-public class StickyValuesTable extends StickyTable<TVRowData> implements TableValuesListener {
+public final class StickyValuesTable extends StickyTable<TVRowData> implements TableValuesListener {
 
 	private static final int CONTEXT_MENU_OFFSET = 4; // distance from three-dot button
 	private static final int LINE_HEIGHT = 56;
-	protected final TableValuesModel tableModel;
-	protected final TableValuesView view;
+	final TableValuesModel tableModel;
+	private final TableValuesView view;
 	private final AppWFull app;
 	private final HeaderCell headerCell = new HeaderCell();
 	private boolean transitioning;

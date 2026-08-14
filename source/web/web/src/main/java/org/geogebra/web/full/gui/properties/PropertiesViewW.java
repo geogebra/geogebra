@@ -58,7 +58,7 @@ import jsinterop.base.Js;
  * PropertiesView for Web
  *
  */
-public class PropertiesViewW extends PropertiesView
+public final class PropertiesViewW extends PropertiesView
 		implements ExamListener, RequiresResize, SetLabels {
 	private static final int DEFAULT_SETTINGS_WIDTH = 400;
 	private final FlowPanel wrappedPanel;

@@ -25,7 +25,7 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TemplateChooserControllerI;
 
-public class TemplateChooserController implements TemplateChooserControllerI {
+public final class TemplateChooserController implements TemplateChooserControllerI {
     private final ArrayList<TemplatePreviewCard> templates;
     private final AppWFull app;
     private TemplatePreviewCard selected;

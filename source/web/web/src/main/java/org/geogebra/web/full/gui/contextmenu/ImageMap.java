@@ -21,7 +21,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.SharedResources;
 
-public class ImageMap {
+public final class ImageMap {
 
 	/**
 	 * @param icon icon identifier

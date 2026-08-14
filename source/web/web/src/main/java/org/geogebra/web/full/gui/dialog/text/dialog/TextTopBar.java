@@ -38,7 +38,7 @@ import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class TextTopBar extends FlowPanel {
+public final class TextTopBar extends FlowPanel {
 	private final AppWFull appW;
 	private final GeoText geoText;
 	private final GeoElementPropertiesFactory propertiesFactory;

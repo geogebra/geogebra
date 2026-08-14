@@ -23,7 +23,7 @@ import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.Image;
 
-public class ToolbarSubmenuP extends ToolbarSubmenuW {
+public final class ToolbarSubmenuP extends ToolbarSubmenuW {
 
 	/**
 	 * @param app

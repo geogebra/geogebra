@@ -20,7 +20,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ResourcePrototype;
 
-public class InfoErrorData {
+public final class InfoErrorData {
 	private String title;
 	private String subtext;
 	private String actionButtonText;

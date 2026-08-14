@@ -22,7 +22,7 @@ import org.geogebra.common.main.settings.PenToolsSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.web.html5.main.AppW;
 
-public class PenCategoryController {
+public final class PenCategoryController {
 	private final AppW appW;
 
 	/**

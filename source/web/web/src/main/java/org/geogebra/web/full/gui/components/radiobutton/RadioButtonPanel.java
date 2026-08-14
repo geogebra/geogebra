@@ -25,7 +25,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class RadioButtonPanel<T> extends FlowPanel implements SetLabels {
+public final class RadioButtonPanel<T> extends FlowPanel implements SetLabels {
 	private List<ComponentRadioButton<T>> radioButtonList = new ArrayList<>();
 
 	/**

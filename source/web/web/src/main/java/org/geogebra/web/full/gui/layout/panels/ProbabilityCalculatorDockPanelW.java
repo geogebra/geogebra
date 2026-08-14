@@ -30,7 +30,7 @@ import org.gwtproject.user.client.ui.Widget;
  *         ProabilityCalculator dockpanel for Web
  *
  */
-public class ProbabilityCalculatorDockPanelW extends DockPanelW {
+public final class ProbabilityCalculatorDockPanelW extends DockPanelW {
 
 	/**
 	 * default width of this panel

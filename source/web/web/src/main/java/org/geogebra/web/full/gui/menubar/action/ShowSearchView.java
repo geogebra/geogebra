@@ -25,7 +25,7 @@ import org.geogebra.web.html5.util.AppletParameters;
 /**
  * Shows search view.
  */
-public class ShowSearchView extends DefaultMenuAction<AppWFull> {
+public final class ShowSearchView extends DefaultMenuAction<AppWFull> {
 
 	@Override
 	public void execute(AppWFull app) {

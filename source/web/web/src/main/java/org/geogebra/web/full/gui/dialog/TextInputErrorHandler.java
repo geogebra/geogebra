@@ -21,7 +21,7 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 
-public class TextInputErrorHandler implements ErrorHandler {
+public final class TextInputErrorHandler implements ErrorHandler {
 	private final App app;
 
 	public TextInputErrorHandler(App app) {

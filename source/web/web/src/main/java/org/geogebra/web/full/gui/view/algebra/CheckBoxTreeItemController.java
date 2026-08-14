@@ -30,7 +30,7 @@ import org.gwtproject.event.dom.client.TouchStartEvent;
  * @author Laszlo
  *
  */
-public class CheckBoxTreeItemController extends LatexTreeItemController {
+public final class CheckBoxTreeItemController extends LatexTreeItemController {
 
 	/**
 	 * @param item

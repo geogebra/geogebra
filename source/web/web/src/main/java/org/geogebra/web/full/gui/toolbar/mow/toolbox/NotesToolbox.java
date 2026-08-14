@@ -52,7 +52,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.jspecify.annotations.Nullable;
 
-public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeListener, ExamListener {
+public final class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeListener, ExamListener {
 	private final AppW appW;
 	private final ToolboxDecorator decorator;
 	private final ToolboxController controller;

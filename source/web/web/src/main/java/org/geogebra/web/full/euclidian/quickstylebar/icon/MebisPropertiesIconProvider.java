@@ -23,7 +23,7 @@ import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.toolbox.FaIconSpec;
 import org.geogebra.web.resources.SVGResource;
 
-public class MebisPropertiesIconProvider extends DefaultPropertiesIconProvider {
+public final class MebisPropertiesIconProvider extends DefaultPropertiesIconProvider {
 
 	private final static MaterialDesignResources res = MaterialDesignResources.INSTANCE;
 

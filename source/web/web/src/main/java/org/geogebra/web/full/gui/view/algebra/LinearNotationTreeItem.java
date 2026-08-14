@@ -32,7 +32,7 @@ import org.gwtproject.event.dom.client.KeyDownEvent;
 import org.gwtproject.event.dom.client.KeyDownHandler;
 import org.gwtproject.user.client.ui.Widget;
 
-public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHandler {
+public final class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHandler {
 
 	AutoCompleteTextFieldW textField;
 

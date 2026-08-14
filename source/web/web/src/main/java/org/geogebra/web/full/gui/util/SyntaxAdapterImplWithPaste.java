@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.web.html5.util.CopyPasteW;
 
-public class SyntaxAdapterImplWithPaste extends SyntaxAdapterImpl {
+public final class SyntaxAdapterImplWithPaste extends SyntaxAdapterImpl {
 
 	public SyntaxAdapterImplWithPaste(Kernel kernel) {
 		super(kernel);

@@ -44,9 +44,9 @@ import elemental2.dom.KeyboardEvent;
 /**
  * Exam start dialog
  */
-public class ExamClassicStartDialog extends ComponentDialog {
+public final class ExamClassicStartDialog extends ComponentDialog {
 	private static boolean examStyle;
-	protected AppW appW;
+	private final AppW appW;
 	private final ExamController examController;
 
 	/**

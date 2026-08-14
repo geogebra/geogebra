@@ -28,7 +28,7 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Builds MenuActionHandler for exam mode.
  */
-public class ExamMenuActionHandlerFactory implements MenuActionHandlerFactory {
+public final class ExamMenuActionHandlerFactory implements MenuActionHandlerFactory {
 
 	private AppWFull app;
 

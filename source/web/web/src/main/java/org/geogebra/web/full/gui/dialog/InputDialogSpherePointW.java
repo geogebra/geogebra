@@ -27,7 +27,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 /**
  * Sphere dialog
  */
-public class InputDialogSpherePointW extends InputDialogRadiusW {
+public final class InputDialogSpherePointW extends InputDialogRadiusW {
 
 	private GeoPointND geoPoint;
 

@@ -40,7 +40,7 @@ import org.jspecify.annotations.NonNull;
 /**
  * Provides a matrix/vector resizing popup together with a button that opens it.
  */
-public class MatrixResizePopup implements MatrixResizeController.StateListener {
+public final class MatrixResizePopup implements MatrixResizeController.StateListener {
 	private static final int POPUP_HEIGHT = 74;
 	private static final int POPUP_HALF_WIDTH = 224 / 2;
 	private static final int INDICATOR_HALF_WIDTH = 28 / 2;

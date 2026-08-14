@@ -28,7 +28,7 @@ import jsinterop.base.JsPropertyMap;
  * It gives a default file name and sets the extension filter depending on the app.
  *
  */
-public class LocalSaveOptions {
+public final class LocalSaveOptions {
 
 	private final App app;
 	private final MimeType mimeType;

@@ -32,7 +32,7 @@ import org.gwtproject.user.client.ui.ScrollPanel;
 import org.gwtproject.user.client.ui.Widget;
 
 /** Data panel */
-public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
+public final class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		RequiresResize {
 	private DataAnalysisViewW daView;
 	private DataAnalysisControllerW statController;

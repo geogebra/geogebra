@@ -29,7 +29,7 @@ import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 
-public class ContextMenuButtonDeleteCard extends ContextMenuButtonCard {
+public final class ContextMenuButtonDeleteCard extends ContextMenuButtonCard {
     private MaterialCardI card;
 
     /**

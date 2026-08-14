@@ -19,7 +19,7 @@ package org.geogebra.web.full.gui.components;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class ComponentProgressBar extends FlowPanel {
+public final class ComponentProgressBar extends FlowPanel {
 
 	private FlowPanel indicatorPrimary;
 

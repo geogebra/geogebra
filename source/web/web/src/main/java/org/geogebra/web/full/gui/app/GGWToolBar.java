@@ -76,7 +76,7 @@ import jsinterop.base.Js;
 /**
  * Toolbar for web, includes ToolbarW, undo panel and search / menu
  */
-public class GGWToolBar extends Composite
+public final class GGWToolBar extends Composite
 		implements RequiresResize, ToolBarInterface, SetLabels {
 
 	private ArrayList<ToolBarW> toolbars;

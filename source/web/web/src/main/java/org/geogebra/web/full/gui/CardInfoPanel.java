@@ -26,7 +26,7 @@ import org.gwtproject.user.client.ui.Widget;
  *
  * @author laszlo
  */
-public class CardInfoPanel extends FlowPanel {
+public final class CardInfoPanel extends FlowPanel {
 	private Label idLabel;
 	private Label titleLabel = null;
 

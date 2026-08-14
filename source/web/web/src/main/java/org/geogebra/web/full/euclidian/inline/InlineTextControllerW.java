@@ -64,7 +64,7 @@ import jsinterop.base.JsPropertyMap;
 /**
  * Web implementation of the inline text controller.
  */
-public class InlineTextControllerW implements InlineTextController {
+public final class InlineTextControllerW implements InlineTextController {
 
 	private static final String INVISIBLE = "invisible";
 	private final GeoInline geo;

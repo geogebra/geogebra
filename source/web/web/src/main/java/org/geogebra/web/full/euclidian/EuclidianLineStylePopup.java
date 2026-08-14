@@ -27,7 +27,7 @@ import org.geogebra.web.html5.main.AppW;
 /**
  * Line style popup
  */
-public class EuclidianLineStylePopup extends LineStylePopup {
+public final class EuclidianLineStylePopup extends LineStylePopup {
 	private final LineStyleModel model;
 
 	/**

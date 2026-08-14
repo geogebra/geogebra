@@ -30,7 +30,7 @@ import org.gwtproject.user.client.ui.RequiresResize;
 /**
  * context menu
  */
-public class ContextMenuPopup extends StandardButton
+public final class ContextMenuPopup extends StandardButton
 		implements CloseHandler<GPopupPanel>, RequiresResize {
 
 	private final AppW app;

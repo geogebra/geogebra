@@ -24,7 +24,7 @@ import jsinterop.annotations.JsType;
 import jsinterop.base.JsPropertyMap;
 
 @JsType(isNative = true)
-public class GoogleAuthorization {
+public final class GoogleAuthorization {
 
 	public native Response getToken();
 

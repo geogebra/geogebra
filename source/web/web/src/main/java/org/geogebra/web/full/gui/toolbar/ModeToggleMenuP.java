@@ -38,7 +38,7 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  * Small screen tool menu
  */
-public class ModeToggleMenuP extends ModeToggleMenuW
+public final class ModeToggleMenuP extends ModeToggleMenuW
 		implements MouseMoveHandler {
 
 	private FlowPanel submenuPanel;

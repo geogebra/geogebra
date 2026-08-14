@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.geogebra.common.util.debug.Log;
 
-public class GridModel {
+public final class GridModel {
 
 	private IGridListener listener;
 	private List<String> headers;

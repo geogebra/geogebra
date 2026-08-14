@@ -21,7 +21,7 @@ import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Object")
-public class EquationExportImage {
+public final class EquationExportImage {
 	@JsProperty
 	public native void setSvg(String svg);
 

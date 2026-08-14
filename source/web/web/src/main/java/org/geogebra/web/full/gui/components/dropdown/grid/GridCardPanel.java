@@ -24,7 +24,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class GridCardPanel extends FlowPanel {
+public final class GridCardPanel extends FlowPanel {
 	private final AppW appW;
 	private final List<GridCard> cardList = new ArrayList<>();
 	private GridDropdownListener listener;

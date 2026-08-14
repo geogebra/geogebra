@@ -25,7 +25,7 @@ import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
-public class ExamSaveDialog {
+public final class ExamSaveDialog {
 
 	private ComponentInputDialog examSave;
 

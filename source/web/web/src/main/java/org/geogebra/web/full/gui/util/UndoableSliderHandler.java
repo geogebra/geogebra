@@ -19,7 +19,7 @@ package org.geogebra.web.full.gui.util;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.main.undo.UpdateStyleActionStore;
 
-public class UndoableSliderHandler
+public final class UndoableSliderHandler
 		implements SliderEventHandler {
 
 	private final ElementPropertySetter parent;

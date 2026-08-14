@@ -25,7 +25,7 @@ import org.geogebra.web.shared.SignInController;
  * Look and Feel for SMART
  *
  */
-public class OfficeLookAndFeel extends SmartLookAndFeel {
+public final class OfficeLookAndFeel extends SmartLookAndFeel {
 	
 	@Override
 	public boolean undoRedoSupported() {

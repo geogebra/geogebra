@@ -24,7 +24,7 @@ import org.geogebra.common.main.settings.AlgebraStyle;
 /**
  * Helper methods for creating new AV items
  */
-public class ItemFactory {
+public final class ItemFactory {
 
 	/**
 	 *
@@ -57,7 +57,7 @@ public class ItemFactory {
 	 * @param ob geo element
 	 * @return AV item
 	 */
-	public final RadioTreeItem createAVItem(final GeoElement ob) {
+	public RadioTreeItem createAVItem(final GeoElement ob) {
 		RadioTreeItem ti;
 		if (matchCheckbox(ob)) {
 			ti = new CheckboxTreeItem(ob);

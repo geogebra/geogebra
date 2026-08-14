@@ -50,7 +50,7 @@ import elemental2.core.JsString;
  * @author G. Sturr
  * 
  */
-public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanRenderable {
+public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanRenderable {
 	private final AppW app;
 	private Tree indexTree;
 	private FlowPanel syntaxPanel;

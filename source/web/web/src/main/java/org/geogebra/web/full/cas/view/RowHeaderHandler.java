@@ -26,7 +26,7 @@ import org.gwtproject.event.dom.client.MouseUpHandler;
 /**
  * Handles mouse events in row headers
  */
-public class RowHeaderHandler implements MouseUpHandler {
+public final class RowHeaderHandler implements MouseUpHandler {
 
 	private AppW app;
 	private RowHeaderWidget rowHeader;

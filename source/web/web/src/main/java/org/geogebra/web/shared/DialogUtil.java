@@ -24,7 +24,7 @@ import org.geogebra.web.html5.main.AppW;
  * Helper for share / save dialog.
  *
  */
-public class DialogUtil {
+public final class DialogUtil {
 
 	/**
 	 * @param app

@@ -27,7 +27,7 @@ import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class ButtonIconEditorPanel extends FlowPanel implements ConfigurationUpdateDelegate,
+public final class ButtonIconEditorPanel extends FlowPanel implements ConfigurationUpdateDelegate,
 	VisibilityUpdateDelegate {
 	private final AppW appW;
 	private final ButtonIconEditor buttonIconEditor;

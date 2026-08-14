@@ -40,7 +40,7 @@ import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class PropertyWidgetAdapter {
+public final class PropertyWidgetAdapter {
 	private final AppW appW;
 	private final boolean closePopupOnAction;
 	private List<IconButton> enumeratedPropertyButtons;

@@ -33,7 +33,7 @@ import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.CategoryPopup;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.PenHighlighterEraserSlider;
 
-public class PenCategoryPopup extends CategoryPopup implements SettingListener<PenToolsSettings> {
+public final class PenCategoryPopup extends CategoryPopup implements SettingListener<PenToolsSettings> {
 	private final PenCategoryController controller;
 	private ColorChooserPanel colorChooser;
 	private PenHighlighterEraserSlider sliderComponent;

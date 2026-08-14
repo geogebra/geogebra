@@ -27,7 +27,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 /**
  * Dialog for cylinder given by top and bottom centers.
  */
-public class InputDialogCylinderTwoPointsRadiusW extends InputDialogRadiusW {
+public final class InputDialogCylinderTwoPointsRadiusW extends InputDialogRadiusW {
 
 	private GeoPointND a;
 	private GeoPointND b;
