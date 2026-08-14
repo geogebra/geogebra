@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.UpdateLocationView;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -309,10 +310,15 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public @NonNull String serializeContentAt(int row, int column) {
+	public @NonNull String serializeContentAt(int row, int column, SerializationFormat format) {
 		GeoElement geoElement = contentAt(row, column);
-		return geoElement == null ? ""
-				: geoElement.getRedefineString(true, false);
+		if (geoElement == null) {
+			return "";
+		}
+		return switch (format) {
+			case FORMULAS -> geoElement.getRedefineString(true, false);
+			case VALUES -> geoElement.toValueString(StringTemplate.editTemplate);
+		};
 	}
 
 	@Override

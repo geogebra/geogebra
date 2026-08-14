@@ -311,7 +311,7 @@ class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 		copyPasteCut.copy(new TabularRange(1, 1, 2, 1));
 		assertEquals("1\n2", clipboard.getContent());
 		copyPasteCut.readExternalClipboard(Assertions::assertNull);
-		clipboard.setContent("3");
+		clipboard.setContent("3", "3");
 		copyPasteCut.readExternalClipboard(content -> assertEquals("3", content));
 	}
 

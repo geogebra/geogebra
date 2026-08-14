@@ -123,7 +123,7 @@ public class TestTabularData implements TabularData<String> {
 	}
 
 	@Override
-	public @NonNull String serializeContentAt(int row, int column) {
+	public @NonNull String serializeContentAt(int row, int column, SerializationFormat format) {
 		return data.get(row).get(column);
 	}
 

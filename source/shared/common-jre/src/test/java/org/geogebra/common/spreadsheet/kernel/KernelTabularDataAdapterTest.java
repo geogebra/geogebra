@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.spreadsheet.core.TabularData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -52,8 +53,14 @@ class KernelTabularDataAdapterTest extends BaseUnitTest {
 	@Test
 	void testContentSerialization() {
 		add("A1:x=y");
+		add("A2:Slope(A1)");
 		// this should be the default string template, not the one for editor
-		assertThat(tabularData.serializeContentAt(0, 0), equalTo("x = y"));
+		assertThat(tabularData.serializeContentAt(0, 0,
+				TabularData.SerializationFormat.FORMULAS), equalTo("x = y"));
+		assertThat(tabularData.serializeContentAt(1, 0,
+				TabularData.SerializationFormat.FORMULAS), equalTo("Slope(A1)"));
+		assertThat(tabularData.serializeContentAt(1, 0,
+				TabularData.SerializationFormat.VALUES), equalTo("1"));
 	}
 
 	@Test

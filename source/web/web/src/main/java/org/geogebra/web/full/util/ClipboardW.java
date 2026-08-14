@@ -29,7 +29,7 @@ public class ClipboardW implements ClipboardInterface {
 	}
 
 	@Override
-	public void setContent(String content) {
-		CopyPasteW.writeToExternalClipboardWithFallback(content);
+	public void setContent(String content, String external) {
+		CopyPasteW.writeToExternalClipboardWithFallback(content, external);
 	}
 }

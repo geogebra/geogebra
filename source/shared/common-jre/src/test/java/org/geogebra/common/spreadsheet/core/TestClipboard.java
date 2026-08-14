@@ -29,7 +29,7 @@ public class TestClipboard
 	}
 
 	@Override
-	public void setContent(String content) {
+	public void setContent(String content, String external) {
 		this.content = content;
 	}
 

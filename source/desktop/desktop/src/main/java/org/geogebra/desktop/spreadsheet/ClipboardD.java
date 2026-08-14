@@ -44,7 +44,7 @@ public class ClipboardD implements ClipboardInterface {
 	}
 
 	@Override
-	public void setContent(String content) {
+	public void setContent(String content, String external) {
 		clipboard.setContents(new StringSelection(content), null);
 	}
 }

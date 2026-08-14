@@ -235,7 +235,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 			if ("c".equals(e.key) && (e.metaKey || e.ctrlKey)) {
 				if (compositeFocus != null && compositeFocus.getSelectedPart() != null) {
 					CopyPasteW.writeToExternalClipboardWithFallback(
-							compositeFocus.getSelectedPart().getAccessibleLabel());
+							compositeFocus.getSelectedPart().getAccessibleLabel(), null);
 				}
 			}
 		});

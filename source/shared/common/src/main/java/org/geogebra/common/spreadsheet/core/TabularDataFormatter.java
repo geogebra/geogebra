@@ -38,11 +38,11 @@ public final class TabularDataFormatter<T> {
 	 * @param range to convert.
 	 * @return the string representation.
 	 */
-	String toString(TabularRange range) {
+	String toString(TabularRange range, TabularData.SerializationFormat format) {
 		StringBuilder sb = new StringBuilder();
 		for (int row = range.getFromRow(); row < range.getToRow() + 1; row++) {
 			for (int column = range.getFromColumn(); column < range.getToColumn() + 1; column++) {
-				sb.append(data.serializeContentAt(row, column));
+				sb.append(data.serializeContentAt(row, column, format));
 				if (column != range.getToColumn()) {
 					sb.append('\t');
 				}

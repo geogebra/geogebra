@@ -25,6 +25,8 @@ import org.jspecify.annotations.Nullable;
  * @apiNote All indices (e.g., row, column) are 0-based.
  */
 public interface TabularData<T> extends HasTabularValues<T> {
+	/** Controls how cell content is serialised (e.g. for the clipboard). */
+	enum SerializationFormat { FORMULAS, VALUES }
 
 	// -- Delegates & Listeners --
 
@@ -161,10 +163,11 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	 * Serialize cell content (e.g. for clipboard).
 	 * @param row Row index of cell.
 	 * @param column Column index of cell.
+	 * @param format specifies how to serialize content
 	 * @return Content of given cell formatted for external use (clipboard), or an empty string
 	 * if there is no content at (row, column).
 	 */
-	@NonNull String serializeContentAt(int row, int column);
+	@NonNull String serializeContentAt(int row, int column, SerializationFormat format);
 
 	/**
 	 * @param row Row index

@@ -34,7 +34,8 @@ public interface ClipboardInterface {
 
 	/**
 	 * Set the clipboard's content.
-	 * @param content Clipboard content.
+	 * @param content Clipboard content, can be read by this or other GGB app.
+	 * @param externalContent clipboard content for other apps
 	 */
-	void setContent(@Nullable String content);
+	void setContent(@Nullable String content, @Nullable String externalContent);
 }

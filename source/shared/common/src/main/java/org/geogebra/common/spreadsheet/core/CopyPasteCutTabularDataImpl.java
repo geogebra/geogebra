@@ -55,8 +55,10 @@ final class CopyPasteCutTabularDataImpl<T>
 
 	@Override
 	public void copy(TabularRange range) {
-		lastCopiedValue = tabularDataFormatter.toString(range);
-		clipboard.setContent(lastCopiedValue);
+		lastCopiedValue = tabularDataFormatter.toString(range,
+				TabularData.SerializationFormat.FORMULAS);
+		clipboard.setContent(lastCopiedValue, tabularDataFormatter.toString(range,
+				TabularData.SerializationFormat.VALUES));
 	}
 
 	@Override
