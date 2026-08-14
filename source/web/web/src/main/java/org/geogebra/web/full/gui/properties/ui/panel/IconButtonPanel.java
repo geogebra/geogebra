@@ -37,8 +37,8 @@ import org.gwtproject.user.client.ui.Label;
 
 import elemental2.dom.KeyboardEvent;
 
-public final class IconButtonPanel extends FlowPanel implements SetLabels, ConfigurationUpdateDelegate,
-		VisibilityUpdateDelegate, HasFocus {
+public final class IconButtonPanel extends FlowPanel implements
+		SetLabels, ConfigurationUpdateDelegate, VisibilityUpdateDelegate, HasFocus {
 	private final AppW appW;
 	private Label label;
 	private final String labelKey;

@@ -25,9 +25,10 @@ import org.geogebra.web.html5.main.AppW;
 /**
  * Clears construction.
  */
-public final class ClearAllAction extends DefaultMenuAction<AppWFull> implements AsyncOperation<Boolean> {
+public final class ClearAllAction extends DefaultMenuAction<AppWFull>
+		implements AsyncOperation<Boolean> {
 
-	private boolean askForSave;
+	private final boolean askForSave;
 	private AppW app;
 
 	/**

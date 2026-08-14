@@ -50,7 +50,8 @@ import org.gwtproject.dom.style.shared.TextAlign;
 import org.gwtproject.dom.style.shared.Unit;
 import org.jspecify.annotations.NonNull;
 
-public final class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate, AutoCompleteW {
+public final class SpreadsheetControlsDelegateW implements
+		SpreadsheetControlsDelegate, AutoCompleteW {
 
 	private final SpreadsheetCellEditorW editor;
 	private final GPopupMenuW contextMenu;

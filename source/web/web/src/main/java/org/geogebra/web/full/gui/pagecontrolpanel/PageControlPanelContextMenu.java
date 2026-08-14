@@ -28,7 +28,8 @@ import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.logical.shared.CloseEvent;
 import org.gwtproject.event.logical.shared.CloseHandler;
 
-public final class PageControlPanelContextMenu extends GPopupMenuW implements CloseHandler<GPopupPanel> {
+public final class PageControlPanelContextMenu extends GPopupMenuW
+		implements CloseHandler<GPopupPanel> {
 	private final AppWFull appW;
 	private final PageListController pageController;
 	private final GeoGebraFrameFull frame;
