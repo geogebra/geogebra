@@ -16,9 +16,7 @@
 
 package org.geogebra.web.full.gui.components;
 
-import static org.geogebra.common.properties.PropertyView.ConfigurationUpdateDelegate;
 import static org.geogebra.common.properties.PropertyView.TextField;
-import static org.geogebra.common.properties.PropertyView.VisibilityUpdateDelegate;
 
 import java.util.function.Consumer;
 
@@ -26,6 +24,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.inputfield.Input;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.MulticastEvent;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextFormat;
 import org.geogebra.common.util.TextObject;
@@ -41,6 +40,8 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.event.dom.client.BlurEvent;
+import org.gwtproject.event.dom.client.FocusEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.FocusWidget;
 import org.gwtproject.user.client.ui.IsWidget;
@@ -51,7 +52,7 @@ import org.gwtproject.user.client.ui.Widget;
  * Input field material design component, supports plain text field and math text field.
  */
 public class ComponentInputField extends FlowPanel implements SetLabels, Input,
-		ConfigurationUpdateDelegate, VisibilityUpdateDelegate, HasFocus, TextObject {
+		HasFocus, TextObject {
 	private final Localization loc;
 	private String errorTextKey;
 	private String labelTextKey;
@@ -62,7 +63,8 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 	private InputAdapter adapter;
 	private Label errorLabel;
 	private Label suffixLabel;
-	private TextField textFieldProperty;
+	private final MulticastEvent<BlurEvent> onBlur = new MulticastEvent<>();
+	private final MulticastEvent<FocusEvent> onFocus = new MulticastEvent<>();
 
 	private interface InputAdapter extends IsWidget {
 
@@ -109,8 +111,14 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 		@Override
 		public void addFocusBlurHandlers() {
 			FocusWidget inputFocusWidget = inputTextField.getTextComponent().getTextBox();
-			inputFocusWidget.addFocusHandler(event -> setFocusState());
-			inputFocusWidget.addBlurHandler(event -> resetInputField());
+			inputFocusWidget.addFocusHandler(event -> {
+				onFocus.notifyListeners(event);
+				setFocusState();
+			});
+			inputFocusWidget.addBlurHandler(event -> {
+				onBlur.notifyListeners(event);
+				resetInputField();
+			});
 		}
 
 		@Override
@@ -195,9 +203,12 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 		@Override
 		public void addFocusBlurHandlers() {
 			MathFieldW mathField = inputMathField.getMathField();
-			mathField.setOnFocus(event -> setFocusState());
+			mathField.setOnFocus(event -> {
+				onFocus.notifyListeners(event);
+				setFocusState();
+			});
 			inputMathField.addBlurHandler(event -> {
-				textFieldProperty.setValue(inputMathField.getText());
+				onBlur.notifyListeners(event);
 				resetInputField();
 			});
 		}
@@ -299,7 +310,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 		this.errorTextKey = errorTxt;
 		this.placeholderTextKey = placeholder;
 		this.suffixTextKey = suffixTxt;
-		buildGui(app, hasKeyboardBtn);
+		buildGui(app, hasKeyboardBtn, false);
 		if (!StringUtil.empty(defaultValue)) {
 			setInputText(defaultValue);
 		}
@@ -332,23 +343,21 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 		this.errorTextKey = errorTxt;
 		this.placeholderTextKey = placeholder;
 		this.suffixTextKey = null;
-		textFieldProperty = property;
-		buildGui(app, true);
+		buildGui(app, true, property.getFormat() == TextFormat.MATH);
 		if (!StringUtil.empty(property.getValue())) {
 			setInputText(property.getValue());
 		}
 		addClickHandler();
 		adapter.addFocusBlurHandlers();
+		addEnterHandler(property::setValue);
 		adapter.addHoverHandlers();
-		textFieldProperty.setConfigurationUpdateDelegate(this);
-		textFieldProperty.setVisibilityUpdateDelegate(this);
+		property.setConfigurationUpdateDelegate(() -> this.configurationUpdated(property));
+		property.setVisibilityUpdateDelegate(() -> setVisible(property.isVisible()));
 	}
 
 	// BUILD UI
 
-	private void buildGui(AppW app, boolean hasKeyboardBtn) {
-		boolean isMathTextField = textFieldProperty != null
-				&& textFieldProperty.getFormat().equals(TextFormat.MATH);
+	private void buildGui(AppW app, boolean hasKeyboardBtn, boolean isMathTextField) {
 		contentPanel = new FlowPanel();
 		contentPanel.setStyleName("inputTextField");
 		contentPanel.addStyleName("validation");
@@ -440,10 +449,29 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 	}
 
 	/**
-	 * @param enterHandler handler for Enter key
+	 * Adds a handler that is invoked when the user confirms input, either by
+	 * pressing Enter or by moving focus away from the field.
+	 * Note: if Enter is pressed and focus subsequently leaves the field,
+	 * the handler will be called twice.
+	 * @param enterHandler handler invoked on Enter key or blur
 	 */
 	public void addEnterHandler(Consumer<String> enterHandler) {
 		adapter.addEnterHandler(enterHandler);
+		onBlur.addListener(evt -> enterHandler.accept(getText()));
+	}
+
+	/**
+	 * @param listener listener invoked when the input field gains focus
+	 */
+	public void addFocusHandler(MulticastEvent.Listener<FocusEvent> listener) {
+		onFocus.addListener(listener);
+	}
+
+	/**
+	 * @param listener listener invoked when the input field loses focus
+	 */
+	public void addBlurHandler(MulticastEvent.Listener<BlurEvent> listener) {
+		onBlur.addListener(listener);
 	}
 
 	/**
@@ -580,8 +608,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 		}
 	}
 
-	@Override
-	public void configurationUpdated() {
+	private void configurationUpdated(TextField textFieldProperty) {
 		labelTextKey = textFieldProperty.getLabel();
 		String localizedLabel = loc.getMenu(labelTextKey);
 		if (labelText != null) {
@@ -592,11 +619,6 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 		setDisabled(!textFieldProperty.isEnabled());
 		String error = textFieldProperty.getErrorMessage();
 		setError(error);
-	}
-
-	@Override
-	public void visibilityUpdated() {
-		setVisible(textFieldProperty.isVisible());
 	}
 
 	@Override

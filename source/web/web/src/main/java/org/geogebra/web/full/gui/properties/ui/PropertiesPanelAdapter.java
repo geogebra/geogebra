@@ -283,7 +283,6 @@ public class PropertiesPanelAdapter {
 		if (propertyView instanceof TextField textField) {
 			ComponentInputField inputField = new ComponentInputField(app, "", "",
 					textField);
-			inputField.addEnterHandler(textField::setValue);
 			inputField.setDisabled(!textField.isEnabled());
 			return inputField;
 		}

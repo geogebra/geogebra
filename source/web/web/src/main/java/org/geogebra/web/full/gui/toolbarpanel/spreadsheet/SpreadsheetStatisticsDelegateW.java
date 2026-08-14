@@ -17,8 +17,8 @@
 package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
 
 import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
@@ -31,12 +31,14 @@ import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.components.sideSheet.ComponentSideSheet;
 import org.geogebra.web.full.gui.components.sideSheet.SideSheetData;
+import org.geogebra.web.full.gui.dialog.ProcessInput;
 import org.geogebra.web.full.gui.toolbarpanel.StatsSideSheetTV;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisticsView.Delegate {
 	private final AppW app;
@@ -45,7 +47,7 @@ public class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisticsView
 	private final FlowPanel inputPanel;
 	private final FlowPanel outputPanel;
 	private ComponentInputField xRange;
-	private ComponentInputField yRange;
+	private @Nullable ComponentInputField yRange;
 
 	/**
 	 * @param app application
@@ -79,15 +81,13 @@ public class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisticsView
 				app, null, "Statistics.DataRange", null,
 				rangeToString(statisticsView.getInput().cellRange()));
 		inputPanel.add(xRange);
-		Consumer<String> update = (input) -> {
-			statisticsView.setInput(new SpreadsheetStatistics.Input.OneVarInput(
-					SpreadsheetReferenceParsing.parseReference(input)
-			));
-			statisticsView.commitInput();
-			validateInputs();
-			fillContent(statisticsView.getResult());
-		};
-		xRange.addEnterHandler(update);
+		ProcessInput update = () -> statisticsView.setInput(
+				new SpreadsheetStatistics.Input.OneVarInput(
+						SpreadsheetReferenceParsing.parseReference(xRange.getText())
+		));
+		yRange = null;
+		xRange.addInputHandler(update);
+		addEnterHandlers(statisticsView);
 		showSideSheet(statisticsView, null);
 	}
 
@@ -101,17 +101,15 @@ public class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisticsView
 				app, null, "Statistics.YDataRange", null,
 				rangeToString(twoVarStatistics.getInput().cellRangeY()));
 		inputPanel.add(yRange);
-		Consumer<String> update = (ignore) -> {
-			twoVarStatistics.setInput(new SpreadsheetStatistics.Input.TwoVarInput(
-					SpreadsheetReferenceParsing.parseReference(xRange.getText()),
-					SpreadsheetReferenceParsing.parseReference(yRange.getText()))
-			);
-			twoVarStatistics.commitInput();
-			validateInputs();
-			fillContent(twoVarStatistics.getResult());
-		};
-		xRange.addEnterHandler(update);
-		yRange.addEnterHandler(update);
+		ProcessInput update = () -> twoVarStatistics.setInput(
+				new SpreadsheetStatistics.Input.TwoVarInput(
+						SpreadsheetReferenceParsing.parseReference(xRange.getText()),
+						SpreadsheetReferenceParsing.parseReference(yRange.getText())
+				)
+		);
+		xRange.addInputHandler(update);
+		yRange.addInputHandler(update);
+		addEnterHandlers(twoVarStatistics);
 		showSideSheet(twoVarStatistics, null);
 	}
 
@@ -132,26 +130,46 @@ public class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisticsView
 		ComponentDropDown regressionChooser = new ComponentDropDown(app,
 				app.getLocalization().getMenu("RegressionModel"), items, 0);
 		regressionChooser.setFullWidth(true);
-		Runnable update = () -> {
-			regression.setInput(new SpreadsheetStatistics.Input.RegressionInput(
-					SpreadsheetReferenceParsing.parseReference(xRange.getText()),
-					SpreadsheetReferenceParsing.parseReference(yRange.getText()),
-					specs.get(regressionChooser.getSelectedIndex())
-			));
-			regression.commitInput();
-			validateInputs();
-			fillContent(regression.getResult());
-		};
-		regressionChooser.addChangeHandler(update);
-		xRange.addEnterHandler(ignore -> update.run());
-		yRange.addEnterHandler(ignore -> update.run());
+		ProcessInput update = () -> regression.setInput(
+				new SpreadsheetStatistics.Input.RegressionInput(
+						SpreadsheetReferenceParsing.parseReference(xRange.getText()),
+						SpreadsheetReferenceParsing.parseReference(yRange.getText()),
+						specs.get(regressionChooser.getSelectedIndex()
+				)
+		));
+		regressionChooser.addChangeHandler(() -> {
+			update.onInput();
+			commit(regression);
+		});
+		xRange.addInputHandler(update);
+		yRange.addInputHandler(update);
+		addEnterHandlers(regression);
 		inputPanel.add(regressionChooser);
 		showSideSheet(regression, "Plot");
 		sideSheet.addPositiveButtonRunnable(regression::plotResult);
 	}
 
+	private void addEnterHandlers(SpreadsheetStatisticsView<?> view) {
+		for (ComponentInputField inputField: Arrays.asList(xRange, yRange)) {
+			if (inputField != null) {
+				inputField.addEnterHandler(ignore -> commit(view));
+				inputField.addFocusHandler(ignore -> view.setFocusedDataRange(
+						inputField == xRange ? SpreadsheetStatistics.DataRange.X
+								: SpreadsheetStatistics.DataRange.Y
+				));
+				inputField.addBlurHandler(ignore -> view.setFocusedDataRange(null));
+			}
+		}
+	}
+
+	private void commit(SpreadsheetStatisticsView<?> view) {
+		view.commitInput();
+		validateInputs();
+		fillContent(view.getResult());
+	}
+
 	private void validateInputs() {
-		for (ComponentInputField inputField: List.of(xRange, yRange)) {
+		for (ComponentInputField inputField: Arrays.asList(xRange, yRange)) {
 			if (inputField != null) {
 				SpreadsheetReference parsed = SpreadsheetReferenceParsing.parseReference(
 								inputField.getText());
