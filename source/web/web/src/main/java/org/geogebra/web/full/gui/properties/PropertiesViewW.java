@@ -164,6 +164,9 @@ public final class PropertiesViewW extends PropertiesView
 
 	@Override
 	public void updateSelection() {
+		if (!isShowing()) {
+			return;
+		}
 		List<GeoElement> showableElements = getShowableElements();
 		if (!showableElements.isEmpty() && optionType != OptionType.OBJECTS) {
 			setOptionPanel(OptionType.OBJECTS);
@@ -178,6 +181,10 @@ public final class PropertiesViewW extends PropertiesView
 			}
 		}
 		rebuildContent();
+	}
+
+	private boolean isShowing() {
+		return (sideSheet != null && sideSheet.isAttached()) || isAttached();
 	}
 
 	@Override

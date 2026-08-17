@@ -2348,7 +2348,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 				updateStyleBars();
 			}
 
-			if (updatePropertiesView && propertiesView != null && showMenuBar) {
+			if (updatePropertiesView && propertiesView != null) {
 				propertiesView.updateSelection();
 			}
 		}
