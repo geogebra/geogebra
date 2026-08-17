@@ -119,7 +119,7 @@ public final class TextDialog extends ComponentDialog implements TextInputDialog
 	 * keyboard has to be closed programmatically at clicking on OK or Cancel,
 	 * otherwise it won't be closed after the dialog will be hidden.
 	 */
-	protected void closeIOSKeyboard() {
+	private void closeIOSKeyboard() {
 		if (appW.isWhiteboardActive()) {
 			return;
 		}
@@ -138,13 +138,16 @@ public final class TextDialog extends ComponentDialog implements TextInputDialog
 		super.show();
 		setPosBtnDisabled(editPanel.getText().isEmpty());
 		// prevent topbar's actions from closing this dialog
-		Scheduler.get().scheduleDeferred(() -> appW.unregisterPopup(this));
+		Scheduler.get().scheduleDeferred(() -> {
+			showKeyboard();
+			appW.unregisterPopup(this);
+		});
 	}
 
 	/**
 	 * Shows the keyboard.
 	 */
-	protected void showKeyboard() {
+	private void showKeyboard() {
 		appW.showKeyboard(editPanel.getTextArea(), true);
 		appW.updateKeyboardField(editPanel.getTextArea());
 		KeyboardManagerInterface keyboardManager = appW.getKeyboardManager();
