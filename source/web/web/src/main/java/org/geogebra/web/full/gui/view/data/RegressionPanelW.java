@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.statistics.Regression;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
@@ -55,7 +55,7 @@ public final class RegressionPanelW extends FlowPanel implements StatPanelInterf
 	private ListBox lbRegression;
 	private ListBox lbPolyOrder;
 	private Label lblEvaluate;
-	private AutoCompleteTextFieldW fldInputX;
+	private MathTextFieldW fldInputX;
 
 	private String[] regressionLabels;
 	private Label fldOutputY;
@@ -152,17 +152,21 @@ public final class RegressionPanelW extends FlowPanel implements StatPanelInterf
 	 */
 	private void createPredictionPanel() {
 		lblEvaluate = new Label();
-		fldInputX = new AutoCompleteTextFieldW(6, app);
+		fldInputX = new MathTextFieldW(app);
 		
-		fldInputX.addEnterPressHandler(() -> doTextFieldActionPerformed(fldInputX));
-		fldInputX.enableGGBKeyboard();
+		fldInputX.addChangeHandler(enter -> {
+			if (enter) {
+				doTextFieldActionPerformed(fldInputX);
+			}
+		});
+		fldInputX.addBlurHandler(event -> doTextFieldActionPerformed(fldInputX));
 
 		Label lblOutputY = new Label();
 		fldOutputY = new Label();
 
 		predictionPanel = new FlowPanel();
-		
-		predictionPanel.add(LayoutUtilW.panelRow(lblEvaluate, new Label("x = "), fldInputX,
+		predictionPanel.add(LayoutUtilW.panelRow("evaluationRow",
+				lblEvaluate, new Label("x = "), fldInputX,
 				new Label("y = "), lblOutputY, fldOutputY));
 	}
 
@@ -284,7 +288,7 @@ public final class RegressionPanelW extends FlowPanel implements StatPanelInterf
 		daModel.setRegressionMode(Regression.POLY.ordinal());
 	}
 
-	private void doTextFieldActionPerformed(AutoCompleteTextFieldW source) {
+	private void doTextFieldActionPerformed(MathTextFieldW source) {
 		if (isIniting) {
 			return;
 		}
@@ -292,7 +296,7 @@ public final class RegressionPanelW extends FlowPanel implements StatPanelInterf
 		if (source == fldInputX) {
 			try {
 				String inputText = source.getText().trim();
-				if (inputText.length() == 0) {
+				if (inputText.isEmpty()) {
 					return;
 				}
 
@@ -304,7 +308,6 @@ public final class RegressionPanelW extends FlowPanel implements StatPanelInterf
 						.getRegressionModel()).value(value);
 
 				fldOutputY.setText(statDialog.format(output));
-
 			} catch (Exception e) {
 				Log.debug(e);
 			}

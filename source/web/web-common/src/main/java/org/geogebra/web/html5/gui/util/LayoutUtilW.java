@@ -30,12 +30,20 @@ public class LayoutUtilW {
 	 * @return widgets merged in a row
 	 */
 	public static FlowPanel panelRow(IsWidget... widgets) {
+		return panelRow("panelRow", widgets);
+	}
+
+	/**
+	 * @param className class name of the resulting panel
+	 * @param widgets widgets
+	 * @return widgets merged in a row
+	 */
+	public static FlowPanel panelRow(String className, IsWidget... widgets) {
 		FlowPanel p = new FlowPanel();
 		for (IsWidget widget : widgets) {
 			p.add(widget);
 		}
-		p.setStyleName("panelRow");
-
+		p.setStyleName(className);
 		return p;
 	}
 
@@ -47,10 +55,7 @@ public class LayoutUtilW {
 	 * @return widgets merged in a row
 	 */
 	public static FlowPanel panelRowIndent(IsWidget... widgets) {
-		FlowPanel p = panelRow(widgets);
-		p.setStyleName("panelRowIndent");
-
-		return p;
+		return panelRow("panelRowIndent", widgets);
 	}
 
 	/**
