@@ -570,16 +570,15 @@ public abstract class PropertyView {
 			refreshCachedValue();
 		}
 
+		@Override
+		public void probabilityCalculatorViewChanged() {
+			updatePropertyViewValues();
+			super.probabilityCalculatorViewChanged();
+		}
+
 		private void refreshCachedValue() {
 			value = property.getValue() != null ? property.getValue() : "";
 			errorMessage = null;
-		}
-
-		/**
-		 * Refreshes the displayed value from the underlying property.
-		 */
-		public void refreshValue() {
-			refreshCachedValue();
 		}
 
 		/**
@@ -1593,12 +1592,6 @@ public abstract class PropertyView {
 				InputField(StringProperty stringProperty) {
 					super(stringProperty);
 					this.stringProperty = stringProperty;
-				}
-
-				@Override
-				public void probabilityCalculatorViewChanged() {
-					updatePropertyViewValues();
-					super.probabilityCalculatorViewChanged();
 				}
 
 				public String getAriaLabel() {

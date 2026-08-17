@@ -90,14 +90,11 @@ public final class ComponentComboBox extends FlowPanel implements SetLabels,
 			String text = getSelectedText().trim();
 			property.setValue(text);
 			String message = property.getErrorMessage();
-			if (message == null) {
-				property.refreshValue();
-			} else if (property.restoresPreviousValueOnInvalidInput()) {
+			if (message != null && property.restoresPreviousValueOnInvalidInput()) {
 				property.setValue(previousValue);
-				property.refreshValue();
+				setValue(previousValue);
 				message = null;
 			}
-			setValue(property.getValue());
 			AriaHelper.setErrorMessage(inputTextField.getTextBox(), message);
 			setStyleName("error", message != null);
 		});

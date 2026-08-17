@@ -59,7 +59,7 @@ public final class DistributionPanel extends FlowPanel {
 					.propertyViewOfDistributionSettings(appW.getLocalization(),
 							appW.getKernel().getAlgebraProcessor(),
 							view, appW.appScope.propertiesRegistry);
-			fillPanelWithWidgets(propertyViewList, adapter);
+			fillPanelWithWidgets(this, propertyViewList, adapter);
 		} else {
 			List<PropertyView> distributionParametersProperties = PropertyViewFactory
 					.propertyClassicDistributionParametersSettings(appW.getLocalization(),
@@ -67,27 +67,23 @@ public final class DistributionPanel extends FlowPanel {
 							view, appW.appScope.propertiesRegistry);
 			FlowPanel holder = new FlowPanel();
 			holder.addStyleName("parameterHolder");
-			for (PropertyView propertyView : distributionParametersProperties) {
-				Widget widget = adapter.getWidget(propertyView);
-				holder.add(widget);
-				props.add(propertyView);
-			}
+			fillPanelWithWidgets(holder, distributionParametersProperties, adapter);
 
 			add(holder);
 			List<PropertyView> distributionViewProperties = PropertyViewFactory
 					.propertyClassicDistributionViewSettings(appW.getLocalization(),
 							appW.getKernel().getAlgebraProcessor(),
 							view, appW.appScope.propertiesRegistry);
-			fillPanelWithWidgets(distributionViewProperties, adapter);
+			fillPanelWithWidgets(this, distributionViewProperties, adapter);
 		}
 		adapter.addAccessibility(AccessibilityGroup.PROBABILITY);
 	}
 
-	private void fillPanelWithWidgets(List<PropertyView> propertyViewList,
+	private void fillPanelWithWidgets(FlowPanel parent, List<PropertyView> propertyViewList,
 			PropertiesPanelAdapter adapter) {
 		for (PropertyView propertyView : propertyViewList) {
 			Widget widget = adapter.getWidget(propertyView);
-			add(widget);
+			parent.add(widget);
 			props.add(propertyView);
 		}
 	}

@@ -42,6 +42,8 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
+import org.geogebra.common.properties.PropertyView;
+import org.geogebra.common.properties.impl.distribution.DistributionParameterProperty;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -206,6 +208,22 @@ class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 				.shouldBeHighlightedFrom(19);
 		withProbabilityTable(PASCAL, PROB_LEFT, Double.NaN, 5.55)
 				.shouldBeHighlightedBetween(-1, 6);
+	}
+
+	@Test
+	void testDistributionParameterPropertyUpdates() {
+		probCalc = new HeadlessProbabilityCalculatorView(getApp());
+		probCalc.settingsChanged(getApp().getSettings().getProbCalcSettings());
+		DistributionParameterProperty distributionParameterProperty =
+				new DistributionParameterProperty(
+						getAlgebraProcessor(), probCalc, getLocalization(), 0);
+		PropertyView.TextField textField = (PropertyView.TextField)
+				PropertyView.of(distributionParameterProperty);
+
+		probCalc.setProbabilityCalculator(Dist.EXPONENTIAL, null, probCalc.isCumulative());
+		assertEquals("1", textField.getValue());
+		probCalc.setProbabilityCalculator(Dist.PASCAL, null, probCalc.isCumulative());
+		assertEquals("10", textField.getValue());
 	}
 
 	@Test
