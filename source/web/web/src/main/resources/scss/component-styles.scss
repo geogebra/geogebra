@@ -1374,8 +1374,9 @@ $keyboard_button_transition: opacity .3s ease;
 		}
 
 		.containerPanel {
-			visibility: hidden;
+			display: none;
 			height: 0;
+			overflow: hidden;
 
 			&.keyboardFocus:focus-visible {
 				outline-color: var(--ggb-dark-color);
@@ -1387,7 +1388,7 @@ $keyboard_button_transition: opacity .3s ease;
 		}
 
 		&.extended {
-			height: fit-content;
+			height: auto;
 			box-sizing: border-box;
 			border-top: 1px solid neutral(300);
 			border-bottom: 1px solid neutral(300);
@@ -1397,8 +1398,9 @@ $keyboard_button_transition: opacity .3s ease;
 			}
 
 			.containerPanel {
-				visibility: visible;
-				height: 100%;
+				display: block;
+				height: auto;
+				overflow: visible;
 			}
 		}
 	}

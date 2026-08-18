@@ -95,7 +95,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 	.sideSheetTab {
 		width: 100%;
 
-		.expandableList .containerPanel {
+		.expandableList.extended .containerPanel {
 			display: grid;
 			gap: 16px;
 			margin: 0 16px 16px 16px;
@@ -173,10 +173,6 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		}
 		.expandableList.extended + .expandableList.extended {
 			border-top: none;
-		}
-		.expandableList:not(.extended) .colorPalette .colorButton.selected .checkmark,
-		 .expandableList:not(.extended) .colorPalette .colorButton .plus{
-			visibility: hidden;
 		}
 		.iconButtonPanel .iconPanel {
 			display: flex;
