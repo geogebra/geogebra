@@ -29,6 +29,7 @@ import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoInline;
+import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.HasVerticalAlignment;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
@@ -297,7 +298,8 @@ public final class InlineTextControllerW implements InlineTextController {
 						new UndoableDeletionExecutor();
 				undoableDeletionExecutor.delete(geo);
 				undoableDeletionExecutor.storeUndoAction(view.getKernel());
-			} else if (trigger == DrawInline.SuspensionTrigger.BLUR) {
+			} else if (trigger == DrawInline.SuspensionTrigger.BLUR
+					&& !(geo instanceof GeoMindMapNode)) {
 				// this was added to construction but not to undo stack => just remove
 				geo.remove();
 			}
