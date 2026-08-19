@@ -105,7 +105,10 @@ public class LaTeXTreeItem extends RadioTreeItem {
 			resizePopup.hide();
 			controller.onBlur(blurEvent);
 		});
-		mf.setOnFocus(focusEvent -> setFocusedStyle(true, false));
+		mf.setOnFocus(focusEvent -> {
+			setFocusedStyle(true, false);
+			mf.getInternal().getMatrixResizeController().addListener(resizePopup);
+		});
 	}
 
 	private void updateEditorAriaLabel(String text) {

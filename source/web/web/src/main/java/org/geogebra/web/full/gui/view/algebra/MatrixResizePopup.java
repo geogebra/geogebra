@@ -88,6 +88,7 @@ public final class MatrixResizePopup implements MatrixResizeController.StateList
 		}
 		popupPanel = null;
 		openResizeButton = null;
+		controller.removeListener(this);
 	}
 
 	private void show(MatrixResizeController.PopupState popupState) {
