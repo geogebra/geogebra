@@ -25,8 +25,11 @@ import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -95,10 +98,10 @@ public final class MatrixResizePopup implements MatrixResizeController.StateList
 		if (popupPanel == null) {
 			buildUI();
 		}
-		removeCol.setEnabled(popupState.controlState().isRemoveColumnEnabled());
-		addCol.setEnabled(popupState.controlState().isAddColumnEnabled());
-		removeRow.setEnabled(popupState.controlState().isRemoveRowEnabled());
-		addRow.setEnabled(popupState.controlState().isAddRowEnabled());
+		setEnabled(removeCol, popupState.controlState().isRemoveColumnEnabled());
+		setEnabled(addCol, popupState.controlState().isAddColumnEnabled());
+		setEnabled(removeRow, popupState.controlState().isRemoveRowEnabled());
+		setEnabled(addRow, popupState.controlState().isAddRowEnabled());
 		rowCount.setText(popupState.controlState().rows());
 		colCount.setText(popupState.controlState().columns());
 		double center = (popupState.anchor().getMinX() + popupState.anchor().getMaxX()) / 2;
@@ -176,8 +179,8 @@ public final class MatrixResizePopup implements MatrixResizeController.StateList
 				controller::removeRow);
 		addRow = newStandardButton(MaterialDesignResources.INSTANCE.add_black(),
 				controller::addRow);
-		Label rowTitle = new Label(app.getLocalization().getMenu("Rows"));
-		rowTitle.setStyleName("groupTitle");
+		Label rowTitle = BaseWidgetFactory.INSTANCE.newSecondaryText(app.getLocalization()
+				.getMenu("Rows"), "groupTitle");
 		rowControls.add(rowTitle);
 		rowControls.add(removeRow);
 		rowCount = new Label();
@@ -192,8 +195,8 @@ public final class MatrixResizePopup implements MatrixResizeController.StateList
 				controller::removeColumn);
 		addCol = newStandardButton(MaterialDesignResources.INSTANCE.add_black(),
 				controller::addColumn);
-		Label columnTitle = new Label(app.getLocalization().getMenu("Columns"));
-		columnTitle.setStyleName("groupTitle");
+		Label columnTitle = BaseWidgetFactory.INSTANCE.newSecondaryText(app.getLocalization()
+				.getMenu("Columns"), "groupTitle");
 		columnControls.add(columnTitle);
 		columnControls.add(removeCol);
 		colCount = new Label();
@@ -203,7 +206,8 @@ public final class MatrixResizePopup implements MatrixResizeController.StateList
 	}
 
 	private StandardButton newStandardButton(SVGResource s, Runnable onClick) {
-		StandardButton button = new StandardButton(s, 16);
+		StandardButton button = new StandardButton(s.withFill(
+				GeoGebraColorConstants.NEUTRAL_800.toString()), 16);
 		ClickStartHandler.init(button, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
@@ -212,5 +216,10 @@ public final class MatrixResizePopup implements MatrixResizeController.StateList
 		});
 		button.addStyleName("resizeButton");
 		return button;
+	}
+
+	private void setEnabled(StandardButton button, boolean enabled) {
+		Dom.toggleClass(button, "disabled", !enabled);
+		AriaHelper.setDisabled(button, !enabled);
 	}
 }

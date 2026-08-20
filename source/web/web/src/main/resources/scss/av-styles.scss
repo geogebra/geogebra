@@ -191,6 +191,10 @@
 		}
 	}
 
+	.avInputItem .scrollableTextBox.noPreview div {
+		padding-bottom: 8px;
+	}
+
 	.algebraPanelScientific {
 		.avItem, .avInputItem {
 			border-top: none;
@@ -524,7 +528,7 @@
 	}
 
 	.resizeControlsSeparator {
-		margin: 30px 8px 0;
+		margin: 36px 8px 0;
 	}
 
 	.resizeControlGroup {
