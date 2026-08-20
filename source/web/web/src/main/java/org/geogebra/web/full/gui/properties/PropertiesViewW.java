@@ -253,6 +253,7 @@ public final class PropertiesViewW extends PropertiesView
 		kernel.attach(this);
 		app.getKernel().getAnimationManager().stopAnimation();
 		setAttached(true);
+		updateSelection();
 	}
 
 	@Override
@@ -318,6 +319,7 @@ public final class PropertiesViewW extends PropertiesView
 		((AppWFull) app).centerAndResizeViews();
 		if (sideSheet != null) {
 			sideSheet.show();
+			updateSelection();
 			sideSheet.focus();
 		}
 	}
