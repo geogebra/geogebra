@@ -36,6 +36,7 @@ import org.geogebra.web.full.gui.toolbarpanel.StatsSideSheetTV;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
+import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -214,7 +215,7 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 			}
 		}
 		statisticsView.setResultChangeListener(this::fillContent);
-		sideSheet.show();
+		Scheduler.get().scheduleDeferred(sideSheet::show);
 	}
 
 	private void fillContent(Result result) {
