@@ -7,7 +7,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 
 .GeoGebraFrame {
 
-	.floatingSettings {
+	.floatingSideSheet {
 		position: absolute;
 		top: 0px;
 		right: 0px;
@@ -17,7 +17,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		/* keep shadow under keyboard */
 		z-index: z-index.$z-dialog-under-keyboard;
 		height: 100%;
-		width: 500px;
+		width: 400px;
 		overflow: hidden;
 	}
 
@@ -34,7 +34,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		overflow: auto;
 	}
 
-	.floatingSettings.animateIn {
+	.floatingSideSheet.animateIn {
 		@extend .animateInFromRight;
 	}
 
@@ -56,7 +56,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		right: -500px;
 	}
 
-	.floatingSettings.animateOut {
+	.floatingSideSheet.animateOut {
 		@extend .animateOutToRight;
 	}
 

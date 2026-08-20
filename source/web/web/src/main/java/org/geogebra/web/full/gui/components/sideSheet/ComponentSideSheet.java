@@ -73,7 +73,7 @@ public final class ComponentSideSheet extends FlowPanel implements SetLabels {
 			}
 		}
 		frame.add(this);
-		addStyleName("floatingSettings");
+		addStyleName("floatingSideSheet");
 		addStyleName("animateIn");
 	}
 
