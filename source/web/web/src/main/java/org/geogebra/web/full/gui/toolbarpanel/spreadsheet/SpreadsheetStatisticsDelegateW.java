@@ -224,7 +224,8 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 			StatsSideSheetTV.renderGroups(valid.statisticGroups(), app, outputPanel);
 		} else if (result instanceof Result.Invalid invalid) {
 			outputPanel.add(new ComponentInfoErrorPanel(app.getLocalization(),
-					new InfoErrorData("Error.Error", invalid.error().localizationKey), null));
+					new InfoErrorData("Error.InvalidInput",
+							invalid.error().localizationKey), null));
 		}
 	}
 
