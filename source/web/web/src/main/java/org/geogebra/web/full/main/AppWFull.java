@@ -226,8 +226,6 @@ import org.gwtproject.user.client.ui.Widget;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
-import com.google.gwt.core.client.Scheduler;
-
 import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.File;
@@ -2140,13 +2138,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void onMenuClosed() {
 		menuShowing = false;
 		updateMenuBtnStatus(false);
-		ToolbarPanel toolbarPanel = getToolbarPanel();
-		if (toolbarPanel != null) {
-			// deferred needed because of https://github.com/nvaccess/nvda/issues/12738#issuecomment-3519405473
-			Scheduler.get().scheduleDeferred(toolbarPanel::focusMenu);
-		} else {
-			getAccessibilityManager().focusFirstElement();
-		}
+		getAccessibilityManager().focusFirstElement();
 	}
 
 	private @Nullable ToolbarPanel getToolbarPanel() {
