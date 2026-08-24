@@ -47,7 +47,7 @@ public class AriaMenuBar extends FlowPanel {
 	public AriaMenuBar() {
 		super("UL");
 		sinkEvents(Event.ONCLICK | Event.ONMOUSEOVER | Event.ONMOUSEOUT
-				| Event.ONFOCUS | Event.ONKEYPRESS | Event.ONKEYDOWN);
+				| Event.ONFOCUS | Event.ONKEYUP | Event.ONKEYDOWN);
 		getElement().setAttribute("role", "menubar");
 		getElement().setTabIndex(0);
 		addStyleName("gwt-MenuBar");
@@ -361,7 +361,7 @@ public class AriaMenuBar extends FlowPanel {
 			break;
 		}
 
-		case Event.ONKEYPRESS:
+		case Event.ONKEYUP:
 			handleActionKey(event, item);
 			break;
 
