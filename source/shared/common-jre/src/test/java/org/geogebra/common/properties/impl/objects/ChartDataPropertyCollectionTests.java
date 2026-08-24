@@ -25,6 +25,7 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -42,7 +43,16 @@ class ChartDataPropertyCollectionTests extends BaseAppTestSetup {
 		GeoElement lineChart = evaluateGeoElement("LineGraph({1,2,3},{2,4,3})");
 		ChartDataPropertyCollection collection = assertDoesNotThrow(
 				() -> new ChartDataPropertyCollection(propertiesFactory,
-						getLocalization(), List.of(lineChart)));
+						getAlgebraProcessor(), getLocalization(), List.of(lineChart)));
 		assertEquals(2, collection.getProperties().length); // x, y
+	}
+
+	@Test
+	void testHistogram() {
+		GeoElement histogram = evaluateGeoElement("Histogram({0,1,2,3},{2,3,1})");
+		ChartDataPropertyCollection collection = assertDoesNotThrow(
+				() -> new ChartDataPropertyCollection(propertiesFactory,
+						getAlgebraProcessor(), getLocalization(), List.of(histogram)));
+		assertEquals(7, collection.getProperties().length);
 	}
 }

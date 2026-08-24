@@ -74,6 +74,7 @@ import org.geogebra.common.properties.impl.objects.AlignmentPropertyCollection;
 import org.geogebra.common.properties.impl.objects.BackgroundColorPropertyCollection;
 import org.geogebra.common.properties.impl.objects.BorderStylePropertyCollection;
 import org.geogebra.common.properties.impl.objects.ButtonIconPropertyCollection;
+import org.geogebra.common.properties.impl.objects.ChartDataPropertyCollection;
 import org.geogebra.common.properties.impl.objects.ChartSegmentFillCategoryProperty;
 import org.geogebra.common.properties.impl.objects.ChartSegmentSelection;
 import org.geogebra.common.properties.impl.objects.ChartSegmentSelectionDependentProperty;
@@ -1712,6 +1713,8 @@ public abstract class PropertyView {
 			return new RelatedPropertyViewCollection(null,
 					propertyViewListOf((PropertyCollection<?>) property), 0);
 		} else if (property instanceof NavigationBarPropertiesCollection collection) {
+			return new RelatedPropertyViewCollection(null, propertyViewListOf(collection), 16);
+		} else if (property instanceof ChartDataPropertyCollection collection) {
 			return new RelatedPropertyViewCollection(null, propertyViewListOf(collection), 16);
 		} else if (property instanceof ClippingPropertyCollection
 				|| property instanceof LocationPropertyCollection

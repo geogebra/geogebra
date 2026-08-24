@@ -20,11 +20,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
+import org.geogebra.common.properties.impl.facade.BooleanPropertyListFacade;
+import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.StringPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
@@ -44,10 +47,34 @@ public class ChartDataPropertyCollection extends AbstractPropertyCollection<Prop
 	 */
 	public ChartDataPropertyCollection(
 			GeoElementPropertiesFactory propertiesFactory,
+			AlgebraProcessor algebraProcessor,
 			Localization localization,
 			List<GeoElement> elements) throws NotApplicablePropertyException {
 		super(localization, "Data");
+		HistogramDataPropertyFactory histogramFactory =
+				new HistogramDataPropertyFactory(algebraProcessor, localization, elements);
 		setProperties(Stream.<Property>of(
+				propertiesFactory.createOptionalPropertyFacade(elements,
+						histogramFactory::createInputTypeProperty,
+						NamedEnumeratedPropertyListFacade::new),
+				propertiesFactory.createOptionalPropertyFacade(elements,
+						histogramFactory::createClassBoundariesProperty,
+						StringPropertyListFacade::new),
+				propertiesFactory.createOptionalPropertyFacade(elements,
+						histogramFactory::createHeightsProperty,
+						StringPropertyListFacade::new),
+				propertiesFactory.createOptionalPropertyFacade(elements,
+						histogramFactory::createRawDataProperty,
+						StringPropertyListFacade::new),
+				propertiesFactory.createOptionalPropertyFacade(elements,
+						histogramFactory::createCumulativeProperty,
+						BooleanPropertyListFacade::new),
+				propertiesFactory.createOptionalPropertyFacade(elements,
+						histogramFactory::createUseDensityProperty,
+						BooleanPropertyListFacade::new),
+				propertiesFactory.createOptionalPropertyFacade(elements,
+						histogramFactory::createDensityScaleFactorProperty,
+						StringPropertyListFacade::new),
 				propertiesFactory.createOptionalPropertyFacade(elements,
 						element -> new LineGraphCoordinatesProperty(localization, element,
 								LineGraphCoordinatesProperty.Axis.X),
