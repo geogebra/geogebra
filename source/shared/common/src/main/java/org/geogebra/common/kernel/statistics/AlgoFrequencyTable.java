@@ -383,8 +383,7 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 
 				strHeader = new String[2];
 				strHeader[0] = getLoc().getMenu("Interval");
-				strHeader[1] = useDens ? getLoc().getMenu("Frequency")
-						: getLoc().getMenu("Count");
+				strHeader[1] = getLoc().getMenu("Frequency");
 
 				strValue = new String[length + 1];
 				strFrequency = new String[length + 1];
@@ -437,7 +436,6 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 	}
 
 	private void createLaTeXTable(boolean useClassList) {
-
 		sb.setLength(0);
 		sb.append("\\begin{array}{c|c}");
 
@@ -448,7 +446,10 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		if (useClassList) {
 			for (int i = 0; i < strFrequency.length - 1; i++) {
 				sb.append(strValue[i]);
-				sb.append("\\text{ -- }");
+				sb.append("\\text{ \\leq x ");
+				String lessOrLessEqual = i == strFrequency.length - 2 ? "\\leq" : "<";
+				sb.append(lessOrLessEqual);
+				sb.append(" }");
 				sb.append(strValue[i + 1]);
 				sb.append("&");
 				sb.append(strFrequency[i]);

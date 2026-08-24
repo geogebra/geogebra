@@ -1665,24 +1665,24 @@ class CommandsTest extends CommandTestSetup {
 	@Test
 	void cmdFrequencyTable() {
 		t("FrequencyTable[ false, {1,2,3,4,5}, {2,3,4}]",
-				"\\begin{array}{c|c}Interval&\\text{Count} \\\\\\hline 1\\text{ -- "
-						+ "}2&0\\\\ 2\\text{ -- }3&1\\\\ 3\\text{ -- }4&1\\\\ 4\\text{ -- }5&1"
-						+ "\\\\ \\end{array}");
+				"\\begin{array}{c|c}Interval&\\text{Frequency} \\\\\\hline 1\\text{ \\leq x < "
+						+ "}2&0\\\\ 2\\text{ \\leq x < }3&1\\\\ 3\\text{ \\leq x < }4&1\\\\ 4"
+						+ "\\text{ \\leq x \\leq }5&1\\\\ \\end{array}");
 		t("FrequencyTable[ false, {1,2,3,4,5}, {2,3,4}, true , 4 ]",
-				"\\begin{array}{c|c}Interval&\\text{Frequency} \\\\\\hline 1\\text{ -- "
-						+ "}2&0\\\\ 2\\text{ -- }3&4\\\\ 3\\text{ -- }4&4\\\\ 4\\text{ -- }5&4\\\\"
-						+ " \\end{array}");
+				"\\begin{array}{c|c}Interval&\\text{Frequency} \\\\\\hline 1\\text{ \\leq x < "
+						+ "}2&0\\\\ 2\\text{ \\leq x < }3&4\\\\ 3\\text{ \\leq x < }4&4\\\\ 4"
+						+ "\\text{ \\leq x \\leq }5&4\\\\ \\end{array}");
 		t("FrequencyTable[ false, {2,3,4}]",
 				"\\begin{array}{c|c}Value&\\text{Frequency} \\\\\\hline 2&1\\\\ 3&1\\\\ 4&1"
 						+ "\\\\ \\end{array}");
 		t("FrequencyTable[ {1,2,3,4,5}, {2,3,4} ]",
-				"\\begin{array}{c|c}Interval&\\text{Count} \\\\\\hline 1\\text{ -- "
-						+ "}2&0\\\\ 2\\text{ -- }3&1\\\\ 3\\text{ -- }4&1\\\\ 4\\text{ -- "
-						+ "}5&1\\\\ \\end{array}");
+				"\\begin{array}{c|c}Interval&\\text{Frequency} \\\\\\hline 1\\text{ \\leq x < "
+						+ "}2&0\\\\ 2\\text{ \\leq x < }3&1\\\\ 3\\text{ \\leq x < }4&1\\\\ 4"
+						+ "\\text{ \\leq x \\leq }5&1\\\\ \\end{array}");
 		t("FrequencyTable[ {1,2,3,4,5}, {2,3,4}, true , 4 ]",
-				"\\begin{array}{c|c}Interval&\\text{Frequency} \\\\\\hline 1\\text{ -- "
-						+ "}2&0\\\\ 2\\text{ -- }3&4\\\\ 3\\text{ -- }4&4\\\\ 4\\text{ -- "
-						+ "}5&4\\\\ \\end{array}");
+				"\\begin{array}{c|c}Interval&\\text{Frequency} \\\\\\hline 1\\text{ \\leq x < "
+						+ "}2&0\\\\ 2\\text{ \\leq x < }3&4\\\\ 3\\text{ \\leq x < }4&4\\\\ 4"
+						+ "\\text{ \\leq x \\leq }5&4\\\\ \\end{array}");
 		t("FrequencyTable[ {2,3,4} ]",
 				"\\begin{array}{c|c}Value&\\text{Frequency} \\\\\\hline "
 						+ "2&1\\\\ 3&1\\\\ 4&1\\\\ \\end{array}");
