@@ -99,6 +99,9 @@ public class LatexTreeItemController extends RadioTreeItemController
 		if (isEditing()) {
 			dispatchEditEvent(EventType.EDITOR_STOP);
 		}
+		if (keepFocus) {
+			app.getAccessibilityManager().resetTabOverGeos();
+		}
 		if (item.isInputTreeItem() && item.isEmpty()) {
 			hideKeyboardIfNotLast();
 			item.styleEditor();
@@ -261,11 +264,12 @@ public class LatexTreeItemController extends RadioTreeItemController
 	@Override
 	public boolean onTab(boolean shiftDown) {
 		onEnter(false);
+		boolean handled;
 		if (item.isInputTreeItem()) {
 			item.setItemWidth(item.getAV().getFullWidth());
-		}
-		boolean handled;
-		if (shiftDown) {
+			item.setFocus(false);
+			handled = item.getAV().focusAdjacentFromInput(shiftDown);
+		} else if (shiftDown) {
 			handled = app.getAccessibilityManager().focusPrevious();
 		} else {
 			handled = app.getAccessibilityManager().focusNext();

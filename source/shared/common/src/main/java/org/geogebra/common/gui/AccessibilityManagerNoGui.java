@@ -108,6 +108,11 @@ public final class AccessibilityManagerNoGui
 	}
 
 	@Override
+	public void resetTabOverGeos() {
+		// not needed
+	}
+
+	@Override
 	public void appendAltText(GeoText altText) {
 		// not used
 	}

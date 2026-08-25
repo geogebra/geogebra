@@ -113,6 +113,11 @@ public interface AccessibilityManagerInterface {
 	void setTabOverGeos();
 
 	/**
+	 * Stop tabbing over construction elements.
+	 */
+	void resetTabOverGeos();
+
+	/**
 	 * Read slider update.
 	 * @param geo slider
 	 */

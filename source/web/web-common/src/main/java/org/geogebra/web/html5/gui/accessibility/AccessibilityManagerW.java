@@ -189,6 +189,11 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
+	public void resetTabOverGeos() {
+		geoTabber.setFocused(false);
+	}
+
+	@Override
 	public void focusFirstElement() {
 		components.first().focusIfVisible(false);
 	}

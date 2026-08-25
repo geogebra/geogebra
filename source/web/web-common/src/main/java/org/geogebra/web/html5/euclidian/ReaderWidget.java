@@ -88,7 +88,6 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 		String normalized = new JsString(text).normalize();
 		ScreenReader.debug(normalized);
 		// make sure text isn't truncated by <return>
-		// https://help.geogebra.org/topic/alttext-reading-stops-at-hard-return
 		setText(normalized.replace('\n', ' '));
 		focus();
 		resetWithDelay();

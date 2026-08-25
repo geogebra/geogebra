@@ -178,6 +178,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private final List<GeoElement> addOnRepaint = new ArrayList<>();
 	private boolean scrollOnRepaint;
 	private ReaderWidget readerWidget;
+	private boolean allowScreenReaderForInput;
 
 	/**
 	 * Creates new AV
@@ -1893,7 +1894,8 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	@Override
 	public @Nullable ScreenReaderAdapter getScreenReaderAdapter() {
 		elemental2.dom.Element activeElement = DomGlobal.document.activeElement;
-		if (activeElement != null && CopyPasteW.incorrectTarget(activeElement)) {
+		if (!allowScreenReaderForInput && activeElement != null
+				&& CopyPasteW.incorrectTarget(activeElement)) {
 			return null;
 		}
 		if (readerWidget == null) {
@@ -1901,6 +1903,22 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			EuclidianViewW.attachReaderWidget(readerWidget, app);
 		}
 		return readerWidget;
+	}
+
+	/**
+	 * Move from the AV input without blurring it before focus traversal finds the current item.
+	 *
+	 * @param reverse whether to move backwards
+	 * @return whether focus was handled
+	 */
+	boolean focusAdjacentFromInput(boolean reverse) {
+		allowScreenReaderForInput = true;
+		try {
+			return reverse ? app.getAccessibilityManager().focusPrevious()
+					: app.getAccessibilityManager().focusNext();
+		} finally {
+			allowScreenReaderForInput = false;
+		}
 	}
 
 	@Override
