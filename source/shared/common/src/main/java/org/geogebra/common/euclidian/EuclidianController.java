@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
@@ -10060,8 +10061,23 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		String hyperlinkURL = drawInline.urlByCoordinate(mouseLoc.x, mouseLoc.y);
 		if (!StringUtil.emptyOrZero(hyperlinkURL)) {
 			drawInline.toForeground(mouseLoc.x, mouseLoc.y);
-			app.showURLinBrowser(hyperlinkURL);
+			if (isSupportedLinkProtocol(hyperlinkURL)) {
+				app.showURLinBrowser(hyperlinkURL);
+			} else {
+				showListToolTip(localization.getMenu("InvalidLink"));
+			}
 		}
+	}
+
+	/**
+	 * Visible for tests.
+	 * @param url URL
+	 * @return Whether the URL can be safely opened.
+	 */
+	static boolean isSupportedLinkProtocol(String url) {
+		return url.startsWith(GeoGebraConstants.HTTPS)
+				|| url.startsWith(GeoGebraConstants.HTTP)
+				|| url.startsWith(GeoGebraConstants.MAILTO);
 	}
 
 	/**

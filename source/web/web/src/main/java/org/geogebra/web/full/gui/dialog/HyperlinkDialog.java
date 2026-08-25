@@ -89,7 +89,8 @@ public final class HyperlinkDialog extends ComponentDialog {
 	}
 
 	private static String normalizeUrl(String url) {
-		if (url.startsWith(GeoGebraConstants.HTTP) || url.startsWith(GeoGebraConstants.HTTPS)) {
+		if (url.startsWith(GeoGebraConstants.HTTP) || url.startsWith(GeoGebraConstants.HTTPS)
+				|| url.startsWith(GeoGebraConstants.MAILTO)) {
 			return url;
 		}
 

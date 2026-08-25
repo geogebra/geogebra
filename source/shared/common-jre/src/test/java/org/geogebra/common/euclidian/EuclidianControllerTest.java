@@ -19,6 +19,7 @@ package org.geogebra.common.euclidian;
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -1132,6 +1133,20 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 				element.getDefinition(StringTemplate.defaultTemplate));
 		assertEquals("{(0, 0), (1, 2), (2, 3)}",
 				element.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@Issue("MOW-1911")
+	void onlyHttpsHttpAndMailtoLinksCanBeOpened() {
+		assertTrue(EuclidianController.isSupportedLinkProtocol("https://geogebra.org"));
+		assertTrue(EuclidianController.isSupportedLinkProtocol("http://geogebra.org"));
+		assertTrue(EuclidianController.isSupportedLinkProtocol("http://example@email.com"));
+
+		assertFalse(EuclidianController.isSupportedLinkProtocol("javascript:alert(1)"));
+		assertFalse(EuclidianController.isSupportedLinkProtocol(" javascript:alert(1)"));
+		assertFalse(EuclidianController.isSupportedLinkProtocol("JAVASCRIPT:alert(1)"));
+		assertFalse(EuclidianController.isSupportedLinkProtocol("https:evil.com"));
+		assertFalse(EuclidianController.isSupportedLinkProtocol("//bad-url.com"));
 	}
 
 	@Override

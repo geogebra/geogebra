@@ -198,6 +198,8 @@ public interface GeoGebraConstants {
 	String HTTP = "http://";
 	/** https prefix */
 	String HTTPS = "https://";
+	/** mailto prefix */
+	String MAILTO = "mailto:";
 
 	/** GeoGebra URL */
 	String GEOGEBRA_WEBSITE = "https://www.geogebra.org/";
