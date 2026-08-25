@@ -682,6 +682,15 @@ class SpreadsheetStatisticsTest {
 	}
 
 	@Test
+	void testAllRegressionOptionsAvailable() {
+		TabularRange range = new TabularRange(0, 0, 2, 1);
+		setupTestData(range, Content.NUMBERS);
+		kernelBackedController.select(range, false, false);
+		kernelBackedController.showRegression();
+		assertEquals(10, regressionView().getRegressionSpecifications().size());
+	}
+
+	@Test
 	void testRegressionSingleCellInvalidRange() {
 		TabularRange range = new TabularRange(0, 0, 2, 1);
 		setupTestData(range, Content.NUMBERS);

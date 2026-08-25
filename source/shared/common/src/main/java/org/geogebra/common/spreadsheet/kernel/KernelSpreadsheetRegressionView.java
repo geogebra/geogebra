@@ -57,7 +57,8 @@ public final class KernelSpreadsheetRegressionView
 			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate) {
 		super(kernel, statisticGroupsBuilder, new RegressionInput(range), "Regression",
 				statisticsReferenceDelegate);
-		this.regressionSpecifications = regressionSpecificationBuilder.getForListSize(2);
+		this.regressionSpecifications = regressionSpecificationBuilder
+				.getForListSize(Integer.MAX_VALUE);
 		recalculate();
 	}
 
