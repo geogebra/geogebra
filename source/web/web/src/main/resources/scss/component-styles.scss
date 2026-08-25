@@ -818,7 +818,7 @@ $keyboard_button_transition: opacity .3s ease;
 
 	.dropDown, .comboBox {
 		.optionLabelHolder {
-			max-width: calc(100% - 56px);
+			max-width: calc(100% - 32px);
 		}
 	}
 	.dropDown, .comboBox, .inputTextField, .textEdit {
@@ -863,7 +863,7 @@ $keyboard_button_transition: opacity .3s ease;
 
 		.arrow {
 			padding: 6px;
-			margin: 5px 6px 5px 10px;
+			margin: 5px 6px 5px 5px;
 			transition: transform 200ms ease-in-out;
 
 			svg {
@@ -928,9 +928,11 @@ $keyboard_button_transition: opacity .3s ease;
 
 	.comboBox {
 		.optionLabelHolder {
+			width: 100%;
+
 			.AutoCompleteTextFieldW {
 				border: none;
-				margin: 11px 10px 11px 16px;
+				margin: 11px 0px 11px 16px;
 
 				input[type="text"] {
 					border: none;
@@ -999,7 +1001,7 @@ $keyboard_button_transition: opacity .3s ease;
 		}
 
 		.AutoCompleteTextFieldW {
-			width: calc(100% - 58px);
+			width: calc(100% - 32px);
 			margin: 11px 0 11px 16px;
 
 			.fieldContainer {
@@ -1036,8 +1038,11 @@ $keyboard_button_transition: opacity .3s ease;
 					}
 			}
 
-			&.kbdInput button {
+			&.kbdInput {
+			 width: calc(100% - 56px);
+			 button {
 				visibility: visible;
+				}
 			}
 		}
 
