@@ -49,6 +49,12 @@ class PointDerivativeFilterTest extends BaseUnitTest {
 		assertTrue(filter.isAllowed(parse("f'(a)")));
 	}
 
+	@Test
+	void testChecksNestedDerivativeExpressions() {
+		assertFalse(filter.isAllowed(parse("1 + f'(x)")));
+		assertTrue(filter.isAllowed(parse("1 + f'(1)")));
+	}
+
 	private ExpressionNode parse(String expression) {
 		try {
 			ExpressionNode node = getKernel().getParser().parseExpression(expression);
