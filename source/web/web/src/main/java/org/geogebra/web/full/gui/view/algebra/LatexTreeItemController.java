@@ -79,7 +79,9 @@ public class LatexTreeItemController extends RadioTreeItemController
 			if (preventBlur || isSuggesting()) {
 				return;
 			}
-			getMathField().getInternal().moveCursorToFirstEditablePart();
+			if (getMathField() != null) {
+				getMathField().getInternal().moveCursorToFirstEditablePart();
+			}
 
 			onEnter(false);
 			if (item.isEmpty() && item.isInputTreeItem()) {
@@ -263,7 +265,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	@Override
 	public boolean onTab(boolean shiftDown) {
-		onEnter(false);
 		boolean handled;
 		if (item.isInputTreeItem()) {
 			item.setItemWidth(item.getAV().getFullWidth());

@@ -203,7 +203,7 @@ public final class LinearNotationTreeItem extends RadioTreeItem implements KeyDo
 		if (geo == null) {
 			initInput();
 		}
-		setFocusedStyle(focus, false);
+		setFocusedStyle(focus, !app.getSelectionManager().hasPointerFocus());
 		textField.setFocus(focus);
 	}
 
