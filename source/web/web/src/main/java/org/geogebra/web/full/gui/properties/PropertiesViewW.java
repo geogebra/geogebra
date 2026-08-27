@@ -164,9 +164,12 @@ public final class PropertiesViewW extends PropertiesView
 
 	@Override
 	public void updateSelection() {
-		if (!isShowing()) {
-			return;
+		if (isShowing()) {
+			doUpdateSelection();
 		}
+	}
+
+	private void doUpdateSelection() {
 		List<GeoElement> showableElements = getShowableElements();
 		if (!showableElements.isEmpty() && optionType != OptionType.OBJECTS) {
 			setOptionPanel(OptionType.OBJECTS);
@@ -175,7 +178,7 @@ public final class PropertiesViewW extends PropertiesView
 				setOptionPanel(OptionType.EUCLIDIAN3D);
 			} else if (app.getActiveEuclidianView().isDefault2D()) {
 				setOptionPanel(app.getActiveEuclidianView().getEuclidianViewNo() == 1
-					? OptionType.EUCLIDIAN : OptionType.EUCLIDIAN2);
+						? OptionType.EUCLIDIAN : OptionType.EUCLIDIAN2);
 			} else {
 				setOptionPanel(OptionType.EUCLIDIAN_FOR_PLANE);
 			}
@@ -318,8 +321,9 @@ public final class PropertiesViewW extends PropertiesView
 		}
 		((AppWFull) app).centerAndResizeViews();
 		if (sideSheet != null) {
+			// make sure content is up-to-date before animation starts
+			doUpdateSelection();
 			sideSheet.show();
-			updateSelection();
 			sideSheet.focus();
 		}
 	}
