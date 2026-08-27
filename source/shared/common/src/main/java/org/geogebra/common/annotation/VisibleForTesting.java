@@ -16,13 +16,15 @@
 
 package org.geogebra.common.annotation;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Target;
 
 /**
- * This annotation is a temporary placeholder for Javadoc.
- * @deprecated document methods instead
+ * Class members with this annotation have a higher access level than they would normally have
+ * solely to make them accessible from tests. They should not be used from classes that
+ * are defined in another compilation unit.
  */
-@Retention(RetentionPolicy.SOURCE)
-@Deprecated
-public @interface MissingDoc { }
+@Documented
+@Target({ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.FIELD})
+public @interface VisibleForTesting { }

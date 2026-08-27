@@ -19,6 +19,7 @@ package org.geogebra.common.spreadsheet.core;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.geogebra.common.annotation.TestOnly;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
@@ -100,13 +101,6 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 				styling, tabularData);
 
 		setViewport(new Rectangle(0, 0, 0, 0));
-	}
-
-	/**
-	 * @return the controller.
-	 */
-	public @NonNull SpreadsheetController<T> getController() {
-		return controller;
 	}
 
 	// Delegates
@@ -584,7 +578,7 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 	// -- SpreadsheetControllerDelegate
 
 	@Override
-	public void cellSizesChanged(CellSizes cellSizes) {
+	public void cellSizesChanged(@NonNull CellSizes cellSizes) {
 		cellSizesChanged.notifyListeners(cellSizes);
 	}
 
@@ -610,44 +604,42 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 		notifyRepaintNeeded();
 	}
 
-	// -- Test support API (DO NOT USE except for tests!)
-
-	/**
-	 * @deprecated Test support API, do not use
-	 */
-	@Deprecated
-	SpreadsheetStyling getStyling() {
-		return styling;
-	}
-
-	/**
-	 * @deprecated Test support API, DO NOT USE
-	 */
-	@Deprecated
-	void selectRow(int row, boolean extend, boolean add) {
-		controller.selectRow(row, extend, add);
-	}
-
-	/**
-	 * @deprecated Test support API, DO NOT USE
-	 */
-	@Deprecated
-	void selectColumn(int column, boolean extend, boolean add) {
-		controller.selectColumn(column, extend, add);
-	}
-
-	/**
-	 * @deprecated Test support API, DO NOT USE
-	 */
-	@Deprecated
-	void selectCell(int row, int column, boolean extend, boolean add) {
-		controller.selectCell(row, column, extend, add);
-	}
-
 	/**
 	 * Called when the spreadsheet view becomes visible.
 	 */
 	public void handleOnViewAppear() {
 		controller.handleOnViewAppear();
+	}
+
+	// -- Test support API (DO NOT USE except for tests!)
+
+	/**
+	 * Getter for tests. The controller should not be accessed directly outside of tests,
+	 * facade methods should be used to expose its functionality.
+	 * @return the controller.
+	 */
+	@TestOnly
+	@NonNull SpreadsheetController<T> getController() {
+		return controller;
+	}
+
+	@TestOnly
+	SpreadsheetStyling getStyling() {
+		return styling;
+	}
+
+	@TestOnly
+	void selectRow(int row, boolean extend, boolean add) {
+		controller.selectRow(row, extend, add);
+	}
+
+	@TestOnly
+	void selectColumn(int column, boolean extend, boolean add) {
+		controller.selectColumn(column, extend, add);
+	}
+
+	@TestOnly
+	void selectCell(int row, int column, boolean extend, boolean add) {
+		controller.selectCell(row, column, extend, add);
 	}
 }

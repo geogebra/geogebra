@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.TreeSet;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.annotation.VisibleForTesting;
 import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
@@ -10070,10 +10071,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * Visible for tests.
+	 * Check protocol validity.
 	 * @param url URL
 	 * @return Whether the URL can be safely opened.
 	 */
+	@VisibleForTesting
 	static boolean isSupportedLinkProtocol(String url) {
 		return url.startsWith(GeoGebraConstants.HTTPS)
 				|| url.startsWith(GeoGebraConstants.HTTP)

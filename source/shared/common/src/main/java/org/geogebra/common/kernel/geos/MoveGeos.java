@@ -19,6 +19,7 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.annotation.VisibleForTesting;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -152,7 +153,7 @@ public class MoveGeos {
 				|| list.getCorrespondingCasCell() != null;
 	}
 
-	/* visible for tests */
+	@VisibleForTesting
 	static void addWithSiblingsAndChildNodes(GeoElement geo, ArrayList<GeoElement> geos,
 			EuclidianView view) {
 		if (!geos.contains(geo)) {

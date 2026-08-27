@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import org.geogebra.common.annotation.VisibleForTesting;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.common.util.MulticastEvent;
@@ -68,14 +69,15 @@ public final class SpreadsheetStyleBarModel {
 		public final @Nullable GColor textColor;
 
 		/**
-		 * Constructs a state class. Visible for testing only.
+		 * Constructs a state class.
 		 * @param isEnabled enabled
 		 * @param fontTraits traits
 		 * @param textAlignment alignment
 		 * @param backgroundColor background color
 		 * @param textColor text color
 		 */
-		public State(boolean isEnabled,
+		@VisibleForTesting
+		State(boolean isEnabled,
 				@Nullable Set<SpreadsheetStyling.FontTrait> fontTraits,
 				SpreadsheetStyling.@Nullable TextAlignment textAlignment,
 				@Nullable GColor backgroundColor,
@@ -123,6 +125,13 @@ public final class SpreadsheetStyleBarModel {
 		public int hashCode() {
 			return Objects.hash(isEnabled, fontTraits, textAlignment, backgroundColor, textColor);
 		}
+	}
+
+	/**
+	 * @return placeholder state to be used until model is initialized
+	 */
+	public static State getInitialState() {
+		return new State(true, null, null, null, null);
 	}
 
 	/**
