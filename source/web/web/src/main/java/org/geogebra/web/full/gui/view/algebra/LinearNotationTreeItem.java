@@ -264,7 +264,8 @@ public final class LinearNotationTreeItem extends RadioTreeItem implements KeyDo
 			getController().onEnter(true);
 			event.preventDefault();
 			return;
-		} else if (event.getNativeKeyCode() == GWTKeycodes.KEY_TAB) {
+		} else if (event.getNativeKeyCode() == GWTKeycodes.KEY_TAB
+				&& !isInputTreeItem()) { // skip input, let the text field handle it
 			getController().onTab(event.getNativeEvent().getShiftKey());
 			event.preventDefault();
 			return;
