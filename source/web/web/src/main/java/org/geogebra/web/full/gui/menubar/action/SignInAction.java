@@ -17,6 +17,7 @@
 package org.geogebra.web.full.gui.menubar.action;
 
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
+import org.geogebra.common.util.debug.AccessibilityAnalytics;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
@@ -33,7 +34,15 @@ public final class SignInAction extends DefaultMenuAction<AppWFull> {
 
 		LogInOperation logInOperation = app.getLoginOperation();
 		if (!logInOperation.isLoggedIn()) {
+			registerLoginClicked(app);
 			logInOperation.showLoginDialog();
 		}
+	}
+
+	private void registerLoginClicked(AppWFull app) {
+		app.getAccessibilityAnalyticsContext()
+				.setTrigger(AccessibilityAnalytics.Value.BURGER_MENU)
+				.setFlow(AccessibilityAnalytics.Value.DIRECT);
+		AccessibilityAnalytics.logLoginClicked(AccessibilityAnalytics.Value.BURGER_MENU);
 	}
 }

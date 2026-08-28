@@ -26,8 +26,10 @@ import org.geogebra.common.main.ShareController;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Pagination;
+import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.AccessibilityAnalytics;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JavaScriptInjector;
 import org.geogebra.multiplayer.MultiplayerResources;
@@ -100,12 +102,12 @@ public final class ShareControllerW implements ShareController {
 
 	@Override
 	public void share() {
-		runAfterLogin(this::shareAsLoggedIn);
+		runAfterLogin(this::shareAsLoggedIn, AccessibilityAnalytics.Value.SHARE);
 	}
 
 	@Override
 	public void assign() {
-		runAfterLogin(this::showAssignDialog);
+		runAfterLogin(this::showAssignDialog, AccessibilityAnalytics.Value.ASSIGN);
 	}
 
 	private void shareAsLoggedIn() {
@@ -149,6 +151,8 @@ public final class ShareControllerW implements ShareController {
 	 * Create material and save online
 	 */
 	private void saveUntitledMaterial(AsyncOperation<Boolean> shareCallback) {
+		app.getAccessibilityAnalyticsContext()
+				.setFlow(AccessibilityAnalytics.Value.SHARE);
 		SaveDialogI saveDialog = ((DialogManagerW) app.getDialogManager())
 				.getSaveDialog(false);
 		((SaveControllerW) app.getSaveController())
@@ -179,12 +183,15 @@ public final class ShareControllerW implements ShareController {
 		return false;
 	}
 
-	private void runAfterLogin(Runnable afterLogin) {
+	private void runAfterLogin(Runnable afterLogin, String flow) {
 		if (app.getLoginOperation().isLoggedIn()) {
 			afterLogin.run();
 		} else {
+			LogInOperation loginOperation = app.getLoginOperation();
+			app.getAccessibilityAnalyticsContext()
+					.setFlow(flow);
 			app.getGuiManager().listenToLogin(afterLogin);
-			app.getLoginOperation().showLoginDialog();
+			loginOperation.showLoginDialog();
 		}
 	}
 
@@ -207,6 +214,7 @@ public final class ShareControllerW implements ShareController {
 				shareDialogMow.setCallback(new MaterialCallback() {
 					// empty callback, just to avoid NPEs
 				});
+				registerShareDialogShown();
 				shareDialogMow.show();
 			} else {
 				DialogData data = new DialogData("Share",
@@ -214,6 +222,7 @@ public final class ShareControllerW implements ShareController {
 				ShareLinkDialog shareDialog = new ShareLinkDialog(getAppW(), data,
 						getAppW().getCurrentURL(sharingKey, true),
 						getAnchor());
+				registerShareDialogShown();
 				shareDialog.show();
 				shareDialog.center();
 			}
@@ -222,10 +231,20 @@ public final class ShareControllerW implements ShareController {
 
 	private void showAssignDialog() {
 		isAssign = true;
+		registerAssignDialogShown();
 		DialogData data = new DialogData("assignDialog.title", "Cancel", null);
 		AssignDialog shareDialogMow = new AssignDialog(getAppW(), data,
 				this);
 		shareDialogMow.show();
+	}
+
+	private void registerShareDialogShown() {
+		AccessibilityAnalytics.logShareDialogShown(
+				app.getAccessibilityAnalyticsContext().getTrigger());
+	}
+
+	private void registerAssignDialogShown() {
+		AccessibilityAnalytics.logAssignDialogShown();
 	}
 
 	/**

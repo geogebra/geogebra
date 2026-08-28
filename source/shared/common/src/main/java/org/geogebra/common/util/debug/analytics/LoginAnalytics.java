@@ -16,23 +16,47 @@
 
 package org.geogebra.common.util.debug.analytics;
 
+import java.util.function.Supplier;
+
 import org.geogebra.common.move.events.BaseEvent;
+import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.util.debug.AccessibilityAnalytics;
+import org.geogebra.common.util.debug.AccessibilityAnalyticsContext;
 import org.geogebra.common.util.debug.Analytics;
 
 public class LoginAnalytics implements EventRenderable {
+
+	private final Supplier<AccessibilityAnalyticsContext> contextSupplier;
+
+	public LoginAnalytics() {
+		this(AccessibilityAnalyticsContext::new);
+	}
+
+	public LoginAnalytics(Supplier<AccessibilityAnalyticsContext> contextSupplier) {
+		this.contextSupplier = contextSupplier;
+	}
 
 	@Override
 	public void renderEvent(BaseEvent event) {
 		if (event instanceof LoginEvent) {
 			handleLoginEvent((LoginEvent) event);
+		} else if (event instanceof StayLoggedOutEvent) {
+			contextSupplier.get().reset();
 		}
 	}
 
 	private void handleLoginEvent(LoginEvent loginEvent) {
 		if (!loginEvent.isAutomatic() && loginEvent.isSuccessful()) {
 			Analytics.logEvent(Analytics.Event.LOGIN);
+			registerLoginCompleted();
 		}
+	}
+
+	private void registerLoginCompleted() {
+		AccessibilityAnalyticsContext context = contextSupplier.get();
+		AccessibilityAnalytics.logLoginCompleted(context.getTrigger(), context.getFlow());
+		context.resetLogin();
 	}
 }

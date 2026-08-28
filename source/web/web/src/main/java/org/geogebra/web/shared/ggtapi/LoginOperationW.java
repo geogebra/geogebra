@@ -24,6 +24,8 @@ import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.AccessibilityAnalytics;
+import org.geogebra.common.util.debug.AccessibilityAnalyticsContext;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.debug.analytics.LoginAnalytics;
 import org.geogebra.gwtutil.Cookies;
@@ -69,7 +71,7 @@ public final class LoginOperationW extends LogInOperation {
 		super();
 		this.app = appWeb;
 		getView().add(new LanguageLoginCallback());
-		getView().add(new LoginAnalytics());
+		getView().add(new LoginAnalytics(app::getAccessibilityAnalyticsContext));
 		AuthenticationModelW model = new AuthenticationModelW(appWeb);
 		setModel(model);
 
@@ -144,7 +146,13 @@ public final class LoginOperationW extends LogInOperation {
 
 	@Override
 	public void showLoginDialog() {
+		registerLoginShown();
 		app.getSignInController().login();
+	}
+
+	private void registerLoginShown() {
+		AccessibilityAnalyticsContext context = app.getAccessibilityAnalyticsContext();
+		AccessibilityAnalytics.logLoginShown(context.getTrigger(), context.getFlow());
 	}
 
 	@Override

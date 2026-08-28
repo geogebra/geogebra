@@ -50,6 +50,8 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.GTimerListener;
+import org.geogebra.common.util.debug.AccessibilityAnalytics;
+import org.geogebra.common.util.debug.AccessibilityAnalyticsContext;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.export.PrintPreviewW;
 import org.geogebra.web.full.gui.GuiManagerW;
@@ -493,8 +495,18 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public void showSaveDialog() {
 		if (saveDialog == null || !saveDialog.isShowing()) {
+			registerSaveDialogShown();
 			getSaveDialog(app.isWhiteboardActive()).show();
 		}
+	}
+
+	private void registerSaveDialogShown() {
+		AccessibilityAnalyticsContext context = app.getAccessibilityAnalyticsContext();
+		if (AccessibilityAnalytics.Value.UNSET.equals(context.getFlow())) {
+			context.setFlow(AccessibilityAnalytics.Value.DIRECT);
+		}
+		context.markSaveDialogShown();
+		AccessibilityAnalytics.logSaveShown(context.getTrigger(), context.getFlow());
 	}
 
 	@Override

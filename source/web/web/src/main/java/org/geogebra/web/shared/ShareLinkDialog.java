@@ -17,6 +17,8 @@
 package org.geogebra.web.shared;
 
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.util.debug.AccessibilityAnalytics;
+import org.geogebra.common.util.debug.AccessibilityAnalyticsContext;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -77,6 +79,7 @@ public final class ShareLinkDialog extends ComponentDialog {
 
 		StandardButton copyBtn = BaseWidgetFactory.INSTANCE.newTextButton(localize("Copy"));
 		copyBtn.addFastClickHandler(source -> {
+			logShareCompleted(AccessibilityAnalytics.Value.COPY);
 			app.getCopyPaste().copyTextToSystemClipboard(linkBox.getText());
 			hide();
 		});
@@ -100,6 +103,7 @@ public final class ShareLinkDialog extends ComponentDialog {
 		StandardButton printBtn = roundButton(
 				SharedResources.INSTANCE.print_white(), "Print");
 		printBtn.addFastClickHandler(source -> {
+			logShareCompleted(AccessibilityAnalytics.Value.PRINT);
 			app.getDialogManager().showPrintPreview();
 			hide();
 		});
@@ -107,6 +111,7 @@ public final class ShareLinkDialog extends ComponentDialog {
 		StandardButton exportImgBtn = roundButton(
 				SharedResources.INSTANCE.file_download_white(), "exportImage");
 		exportImgBtn.addFastClickHandler(source -> {
+			logShareCompleted(AccessibilityAnalytics.Value.EXPORT_IMAGE);
 			app.getDialogManager().showExportImageDialog(null);
 			hide();
 		});
@@ -114,6 +119,7 @@ public final class ShareLinkDialog extends ComponentDialog {
 		StandardButton embedBtn = roundButton(
 				SharedResources.INSTANCE.code_white(), "Embed");
 		embedBtn.addFastClickHandler(source -> {
+			logShareCompleted(AccessibilityAnalytics.Value.EMBED);
 			copyEmbedCode();
 			hide();
 		});
@@ -124,6 +130,12 @@ public final class ShareLinkDialog extends ComponentDialog {
 
 		contentPanel.add(buttonPanel);
 		addDialogContent(contentPanel);
+	}
+
+	private void logShareCompleted(String action) {
+		AccessibilityAnalyticsContext context = app.getAccessibilityAnalyticsContext();
+		AccessibilityAnalytics.logShareCompleted(context.getTrigger(), action);
+		context.reset();
 	}
 
 	private StandardButton roundButton(SVGResource icon, String titleKey) {

@@ -34,9 +34,11 @@ import org.geogebra.common.main.undo.UndoRedoButtonsController;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
+import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.AccessibilityAnalytics;
 import org.geogebra.gwtutil.JavaScriptInjector;
 import org.geogebra.gwtutil.SafeExamBrowser;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -129,13 +131,15 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 		}
 
 		registerSignInButtonsAsFocusable();
+		LogInOperation logInOperation = appW.getLoginOperation();
 
 		Dom.addEventListener(signIn, "click", (e) -> {
-			appW.getSignInController().login();
+			registerLoginClicked(appW);
+			logInOperation.showLoginDialog();
 			e.stopPropagation();
 			e.preventDefault();
 		});
-		app.getLoginOperation().getView().add(this);
+		logInOperation.getView().add(this);
 	}
 
 	private RootPanel getSignInTextButton() {
@@ -246,6 +250,7 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 			shareButtonInitialized = true;
 			registerFocusable(app, AccessibilityGroup.SHARE, shareBtn);
 			Dom.addEventListener(shareBtn.getElement(), "click", (e) -> {
+				registerShareClicked(app);
 				callback.callback(shareBtn);
 				e.stopPropagation();
 				e.preventDefault();
@@ -263,6 +268,7 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 			registerFocusable(app, AccessibilityGroup.ASSIGN, assignButton);
 			assignButtonInitialized = true;
 			Dom.addEventListener(assignButton.getElement(), "click", (e) -> {
+				registerAssignClicked(app);
 				onClick.run();
 				e.stopPropagation();
 				e.preventDefault();
@@ -276,6 +282,29 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 
 	private static RootPanel getShareButton() {
 		return RootPanel.get("shareButton");
+	}
+
+	private void registerLoginClicked(AppW app) {
+		app.getAccessibilityAnalyticsContext()
+				.setTrigger(AccessibilityAnalytics.Value.HEADER)
+				.setFlow(AccessibilityAnalytics.Value.DIRECT);
+		AccessibilityAnalytics.logLoginClicked(AccessibilityAnalytics.Value.HEADER);
+	}
+
+	private void registerShareClicked(AppW app) {
+		app.getAccessibilityAnalyticsContext()
+				.setTrigger(AccessibilityAnalytics.Value.HEADER)
+				.setFlow(AccessibilityAnalytics.Value.SHARE);
+		AccessibilityAnalytics.logShareClicked(true,
+				app.getLoginOperation().isLoggedIn(), app.isSaved());
+	}
+
+	private void registerAssignClicked(AppW app) {
+		app.getAccessibilityAnalyticsContext()
+				.setTrigger(AccessibilityAnalytics.Value.HEADER)
+				.setFlow(AccessibilityAnalytics.Value.ASSIGN);
+		AccessibilityAnalytics.logAssignClicked(app.getLoginOperation().isLoggedIn(),
+				app.isSaved());
 	}
 
 	/**

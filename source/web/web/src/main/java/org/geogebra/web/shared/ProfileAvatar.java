@@ -17,6 +17,7 @@
 package org.geogebra.web.shared;
 
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import org.geogebra.common.util.debug.AccessibilityAnalytics;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -107,7 +108,7 @@ public final class ProfileAvatar extends FlowPanel {
 		profileItem =
 				MainMenu.getMenuBarItem(MaterialDesignResources.INSTANCE.person_black(),
 						loc.getMenu("ProfilePanel.Profile"),
-				(Command) () -> Browser.openWindow(profileLink));
+				(Command) this::openProfile);
 		profilePanel.addItem(profileItem);
 	}
 
@@ -115,7 +116,7 @@ public final class ProfileAvatar extends FlowPanel {
 		settingsItem =
 				MainMenu.getMenuBarItem(MaterialDesignResources.INSTANCE.settings_border(),
 						loc.getMenu("ProfilePanel.Settings"),
-				(Command) () -> Browser.openWindow(editProfileHref));
+				(Command) this::openAccountSettings);
 		profilePanel.addItem(settingsItem);
 	}
 
@@ -123,12 +124,29 @@ public final class ProfileAvatar extends FlowPanel {
 		signOutItem =
 				MainMenu.getMenuBarItem(MaterialDesignResources.INSTANCE.signout_black(),
 						loc.getMenu("SignOut"),
-				(Command) () -> {
-			app.getLoginOperation().showLogoutUI();
-			app.getLoginOperation().performLogOut();
-			togglePopup();
-		});
+				(Command) this::signOut);
 		profilePanel.addItem(signOutItem);
+	}
+
+	private void openProfile() {
+		registerProfileAction(AccessibilityAnalytics.Value.PROFILE);
+		Browser.openWindow(profileLink);
+	}
+
+	private void openAccountSettings() {
+		registerProfileAction(AccessibilityAnalytics.Value.ACCOUNT_SETTINGS);
+		Browser.openWindow(editProfileHref);
+	}
+
+	private void signOut() {
+		registerProfileAction(AccessibilityAnalytics.Value.SIGN_OUT);
+		app.getLoginOperation().showLogoutUI();
+		app.getLoginOperation().performLogOut();
+		togglePopup();
+	}
+
+	private void registerProfileAction(String action) {
+		AccessibilityAnalytics.logProfileAction(action);
 	}
 
 	/**
@@ -156,9 +174,14 @@ public final class ProfileAvatar extends FlowPanel {
 		if (profilePanel.getPopupPanel().isShowing()) {
 			profilePanel.hide();
 		} else {
+			registerProfileClicked();
 			profilePanel.getPopupPanel().showRelativeTo(this);
 		}
 		Dom.toggleClass(this, "selected", profilePanel.getPopupPanel().isShowing());
+	}
+
+	private void registerProfileClicked() {
+		AccessibilityAnalytics.logProfileClicked();
 	}
 
 	/**

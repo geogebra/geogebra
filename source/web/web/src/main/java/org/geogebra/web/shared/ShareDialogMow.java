@@ -30,6 +30,8 @@ import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.AccessibilityAnalytics;
+import org.geogebra.common.util.debug.AccessibilityAnalyticsContext;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -371,6 +373,7 @@ public final class ShareDialogMow extends ComponentDialog
 	@Override
 	public void onClick(Widget source) {
 		if (source == copyBtn) {
+			logShareCompleted(AccessibilityAnalytics.Value.COPY);
 			linkBox.setFocused(false);
 			app.getCopyPaste().copyTextToSystemClipboard(linkBox.getText());
 			linkBox.focus();
@@ -378,6 +381,12 @@ public final class ShareDialogMow extends ComponentDialog
 				.showBottomMessage(((AppW) app).getLocalization()
 				.getMenu("linkCopyClipboard"), (AppW) app);
 		}
+	}
+
+	private void logShareCompleted(String action) {
+		AccessibilityAnalyticsContext context = app.getAccessibilityAnalyticsContext();
+		AccessibilityAnalytics.logShareCompleted(context.getTrigger(), action);
+		context.reset();
 	}
 
 	/**

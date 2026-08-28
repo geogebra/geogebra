@@ -16,6 +16,7 @@
 
 package org.geogebra.web.full.gui.menubar;
 
+import org.geogebra.common.util.debug.AccessibilityAnalytics;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -45,10 +46,19 @@ public final class SignInMenu extends Submenu {
 
 	@Override
 	public void handleHeaderClick() {
-		if (getApp().getNetworkOperation().isOnline()
-				&& !getApp().getLoginOperation().isLoggedIn()) {
-			getApp().getLoginOperation().showLoginDialog();
+		AppW app = getApp();
+		if (app.getNetworkOperation().isOnline()
+				&& !app.getLoginOperation().isLoggedIn()) {
+			registerLoginClicked(app);
+			app.getLoginOperation().showLoginDialog();
 		}
+	}
+
+	private void registerLoginClicked(AppW app) {
+		app.getAccessibilityAnalyticsContext()
+				.setTrigger(AccessibilityAnalytics.Value.BURGER_MENU)
+				.setFlow(AccessibilityAnalytics.Value.DIRECT);
+		AccessibilityAnalytics.logLoginClicked(AccessibilityAnalytics.Value.BURGER_MENU);
 	}
 
 }

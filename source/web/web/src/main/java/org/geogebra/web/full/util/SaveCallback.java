@@ -20,6 +20,8 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
+import org.geogebra.common.util.debug.AccessibilityAnalytics;
+import org.geogebra.common.util.debug.AccessibilityAnalyticsContext;
 import org.geogebra.web.html5.gui.tooltip.ComponentSnackbar;
 import org.geogebra.web.html5.gui.tooltip.ToolTip;
 import org.geogebra.web.html5.main.AppW;
@@ -63,6 +65,7 @@ public final class SaveCallback {
 	 *            whether this is for GGT file
 	 */
 	public static void onSaved(AppW app, SaveState state, boolean isMacro) {
+		logSaveCompleted(app, state);
 		Localization loc = app.getLocalization();
 		if (!isMacro) {
 			app.setSaved();
@@ -90,6 +93,17 @@ public final class SaveCallback {
 			app.getToolTipManager().showBottomMessage(
 					loc.getMenu("SavedSuccessfully"), app);
 		}
+	}
+
+	private static void logSaveCompleted(AppW app, SaveState state) {
+		AccessibilityAnalyticsContext context = app.getAccessibilityAnalyticsContext();
+		if (!context.isSaveDialogShown()) {
+			return;
+		}
+		if (state != SaveState.ERROR) {
+			AccessibilityAnalytics.logSaveCompleted(context.getTrigger(), context.getFlow());
+		}
+		context.resetSave();
 	}
 
 	/**

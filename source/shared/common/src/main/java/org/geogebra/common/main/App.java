@@ -165,6 +165,7 @@ import org.geogebra.common.util.MD5Checksum;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.ToStringConverter;
+import org.geogebra.common.util.debug.AccessibilityAnalyticsContext;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.profiler.FpsProfiler;
 import org.geogebra.editor.share.editor.EditorFeatures;
@@ -358,6 +359,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * User Sign in handling
 	 */
 	protected LogInOperation loginOperation = null;
+	private final AccessibilityAnalyticsContext accessibilityAnalyticsContext =
+			new AccessibilityAnalyticsContext();
 	/** XML input / output handler */
 	private MyXMLio myXMLio;
 	/** kernel */
@@ -3418,6 +3421,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public LogInOperation getLoginOperation() {
 		return loginOperation;
+	}
+
+	/**
+	 * @return Accessibility Analytics Context for this app instance
+	 */
+	public AccessibilityAnalyticsContext getAccessibilityAnalyticsContext() {
+		return accessibilityAnalyticsContext;
 	}
 
 	/**

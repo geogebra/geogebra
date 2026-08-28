@@ -18,6 +18,7 @@ package org.geogebra.web.full.gui.menubar.action;
 
 import static org.geogebra.web.full.gui.menubar.action.OpenFileActionMebis.isLoggedOut;
 
+import org.geogebra.common.util.debug.AccessibilityAnalytics;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
@@ -32,6 +33,9 @@ public final class SaveAction extends DefaultMenuAction<AppWFull> {
 			app.getActivity().markSaveOpen();
 		}
 
+		app.getAccessibilityAnalyticsContext()
+				.setTrigger(AccessibilityAnalytics.Value.BURGER_MENU)
+				.setFlow(AccessibilityAnalytics.Value.DIRECT);
 		app.getDialogManager().showSaveDialog();
 	}
 }

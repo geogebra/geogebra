@@ -18,6 +18,7 @@ package org.geogebra.web.full.gui;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.util.debug.AccessibilityAnalytics;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -46,18 +47,21 @@ public final class AssignDialog extends ComponentDialog {
 		this.materialProvider = materialProvider;
 		addAssignButton("assignDialog.lesson", "assignDialog.lesson.description",
 				"https://www.geogebra.org/classroom/create?id=%0",
-				MaterialDesignResources.INSTANCE.geogebra_color());
+				MaterialDesignResources.INSTANCE.geogebra_color(),
+				AccessibilityAnalytics.Value.GEOGEBRA_CLASSROOM);
 		addAssignButton("assignDialog.google", "assignDialog.google.description",
 				"https://www.geogebra.org/classroom/embed/google-classroom/share"
 				+ "?material=%1&backUrl=https://www.geogebra.org/m/%0",
-				MaterialDesignResources.INSTANCE.google_classroom());
+				MaterialDesignResources.INSTANCE.google_classroom(),
+				AccessibilityAnalytics.Value.GOOGLE_CLASSROOM);
 	}
 
-	private void addAssignButton(String title, String subtitle, String pattern, SVGResource icon) {
+	private void addAssignButton(String title, String subtitle, String pattern, SVGResource icon,
+			String action) {
 		FlowPanel classroom = new FlowPanel();
 		classroom.addStyleName("assignOption");
 		Dom.addEventListener(classroom.getElement(), "click",
-				click -> openNewTab(pattern));
+				click -> openNewTab(pattern, action));
 		Label image = new Label();
 		image.setStyleName("icon");
 		image.getElement().getStyle().setBackgroundImage("url("
@@ -75,15 +79,21 @@ public final class AssignDialog extends ComponentDialog {
 		addDialogContent(classroom);
 	}
 
-	private void openNewTab(String pattern) {
+	private void openNewTab(String pattern, String action) {
 		hide();
 		materialProvider.afterSaved((material) -> {
+			registerAssignCompleted(action);
 			String url = pattern
 					.replace("%0", Global.encodeURIComponent(material.getSharingKey()))
 					.replace("%1", Global.encodeURIComponent(toJson(material)));
 			DomGlobal.window.open(url);
 			materialProvider.setAssign(false);
 		});
+	}
+
+	private void registerAssignCompleted(String action) {
+		AccessibilityAnalytics.logAssignCompleted(action);
+		app.getAccessibilityAnalyticsContext().reset();
 	}
 
 	private String toJson(Material material) {

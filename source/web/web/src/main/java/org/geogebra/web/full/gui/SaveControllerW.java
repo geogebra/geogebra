@@ -31,6 +31,8 @@ import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.AccessibilityAnalytics;
+import org.geogebra.common.util.debug.AccessibilityAnalyticsContext;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.FileSystemAPI;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
@@ -135,15 +137,20 @@ public final class SaveControllerW implements SaveController {
 
 	@Override
 	public void showLocalSaveDialog(Runnable afterSave) {
+		logSaveDialogShownIfNeeded();
 		if (!FileSystemAPI.isSupported()) {
 			app.getFileManager().export(app);
+			logSaveCompleted();
 			return;
 		}
 
 		JsPropertyMap<Object> options = localSaveOptions.asPropertyMap();
 
 		FileSystemAPI.showSaveFilePicker(options).then(handle -> {
-			((FileManager) app.getFileManager()).saveAs(handle, afterSave);
+			((FileManager) app.getFileManager()).saveAs(handle, () -> {
+				afterSave.run();
+				logSaveCompleted();
+			});
 			return null;
 		});
 	}
@@ -172,6 +179,7 @@ public final class SaveControllerW implements SaveController {
 				runnable.callback(saved);
 			});
 			DialogManagerW dm = (DialogManagerW) app.getDialogManager();
+			logSaveDialogShownIfNeeded();
 			if (doYouWantSaveChanges) {
 				dm.getSaveCheckDialog().show();
 			} else {
@@ -180,6 +188,26 @@ public final class SaveControllerW implements SaveController {
 		} else {
 			setRunAfterSave(null);
 			runnable.callback(true);
+		}
+	}
+
+	private void logSaveDialogShownIfNeeded() {
+		AccessibilityAnalyticsContext context = app.getAccessibilityAnalyticsContext();
+		if (context.isSaveDialogShown()) {
+			return;
+		}
+		if (AccessibilityAnalytics.Value.UNSET.equals(context.getFlow())) {
+			context.setFlow(AccessibilityAnalytics.Value.DIRECT);
+		}
+		context.markSaveDialogShown();
+		AccessibilityAnalytics.logSaveShown(context.getTrigger(), context.getFlow());
+	}
+
+	private void logSaveCompleted() {
+		AccessibilityAnalyticsContext context = app.getAccessibilityAnalyticsContext();
+		if (context.isSaveDialogShown()) {
+			AccessibilityAnalytics.logSaveCompleted(context.getTrigger(), context.getFlow());
+			context.resetSave();
 		}
 	}
 
@@ -494,6 +522,7 @@ public final class SaveControllerW implements SaveController {
 
 	@Override
 	public void dontSave() {
+		app.getAccessibilityAnalyticsContext().reset();
 		if (isWorksheet()) {
 			app.setSaved();
 			// run only if material active/created
@@ -503,6 +532,7 @@ public final class SaveControllerW implements SaveController {
 
 	@Override
 	public void cancel() {
+		app.getAccessibilityAnalyticsContext().reset();
 		if (isWorksheet()) {
 			// run only if material active/created
 			runAfterSaveCallback(app.getActiveMaterial() != null);
