@@ -17,10 +17,9 @@
 package org.geogebra.web.full.gui;
 
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
-import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.general.GeneralIcon;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
@@ -46,8 +45,8 @@ public final class HeaderView extends FlowPanel {
 	}
 
 	private void createButton(AppW appW) {
-		backButton = new IconButton(appW, "Back", new ImageIconSpec(GuiResourcesSimple
-				.INSTANCE.arrow_back()));
+		backButton = new IconButton(appW, "Back", appW.getGeneralIconResource()
+				.getImageResource(GeneralIcon.ARROW_BACK));
 		backButton.addStyleName("headerBackButton");
 
 		add(backButton);

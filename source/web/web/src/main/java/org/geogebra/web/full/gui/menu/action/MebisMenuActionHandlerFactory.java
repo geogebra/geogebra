@@ -17,8 +17,10 @@
 package org.geogebra.web.full.gui.menu.action;
 
 import org.geogebra.common.gui.menu.Action;
+import org.geogebra.web.full.gui.menubar.action.OpenAboutBoardActionMebis;
 import org.geogebra.web.full.gui.menubar.action.OpenFileActionMebis;
 import org.geogebra.web.full.gui.menubar.action.OpenOfflineFileAction;
+import org.geogebra.web.full.gui.menubar.action.OpenTemplatesActionMebis;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
@@ -26,7 +28,7 @@ import org.geogebra.web.full.main.AppWFull;
  */
 public final class MebisMenuActionHandlerFactory implements MenuActionHandlerFactory {
 
-	private DefaultMenuActionHandlerFactory defaultMenuActionHandlerFactory;
+	private final DefaultMenuActionHandlerFactory defaultMenuActionHandlerFactory;
 
 	public MebisMenuActionHandlerFactory(AppWFull app) {
 		defaultMenuActionHandlerFactory = new DefaultMenuActionHandlerFactory(app);
@@ -37,7 +39,8 @@ public final class MebisMenuActionHandlerFactory implements MenuActionHandlerFac
 		DefaultMenuActionHandler actionHandler = defaultMenuActionHandlerFactory.create();
 		actionHandler.setMenuAction(Action.SHOW_SEARCH_VIEW, new OpenFileActionMebis());
 		actionHandler.setMenuAction(Action.OPEN_OFFLINE_FILE, new OpenOfflineFileAction());
-
+		actionHandler.setMenuAction(Action.ABOUT_BOARD, new OpenAboutBoardActionMebis());
+		actionHandler.setMenuAction(Action.TEMPLATES, new OpenTemplatesActionMebis());
 		return actionHandler;
 	}
 }

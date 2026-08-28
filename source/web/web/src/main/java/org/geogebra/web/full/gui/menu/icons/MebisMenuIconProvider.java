@@ -30,28 +30,14 @@ public final class MebisMenuIconProvider extends DefaultMenuIconProvider {
 		if (icon == null) {
 			return null;
 		}
-		switch (icon) {
-		case CLEAR:
-			return new FaIconSpec("fa-file");
-		case SEARCH:
-			return new FaIconSpec("fa-folder-open");
-		case FOLDER:
-			return new FaIconSpec("fa-folder-arrow-up");
-		case SAVE:
-			return new FaIconSpec("fa-floppy-disk");
-		case EXPORT_FILE:
-			return new FaIconSpec("fa-share-nodes");
-		case EXPORT_IMAGE:
-			return new FaIconSpec("fa-images");
-		case DOWNLOAD:
-			return new FaIconSpec("fa-arrow-down-to-line");
-		case PRINT:
-			return new FaIconSpec("fa-print");
-		case SETTINGS:
-			return new FaIconSpec("fa-gear");
-		case INFO:
-			return new FaIconSpec("fa-circle-info");
-		}
-		return super.matchIconWithResource(icon);
+		return switch (icon) {
+			case CLEAR -> new FaIconSpec("fa-xmark");
+			case DOWNLOAD -> new FaIconSpec("fa-arrow-down-to-line");
+			case ABOUT_BOARD -> new FaIconSpec("fa-circle-info");
+			case HELP -> new FaIconSpec("fa-circle-question");
+			case TEMPLATES -> new FaIconSpec("fa-store");
+			case INFO -> new FaIconSpec("fa-section");
+			default -> super.matchIconWithResource(icon);
+		};
 	}
 }

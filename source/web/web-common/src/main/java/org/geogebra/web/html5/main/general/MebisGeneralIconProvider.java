@@ -46,6 +46,7 @@ public class MebisGeneralIconProvider extends DefaultGeneralIconProvider {
 			case ARROW_RIGHT -> new FaIconSpec("fa-caret-right");
 			case ARROW_LEFT -> new FaIconSpec("fa-caret-left");
 			case PLUS -> new FaIconSpec("fa-plus");
+			case ARROW_BACK -> new FaIconSpec("fa-arrow-left");
 			case RENAME, CUT, DUPLICATE, TABLE_HEADING_COLUMN, TABLE_HEADING_ROW, X_SQUARE,
 				 X_2 -> new ImageIconSpec(getFallbackSVG(icon));
 		default -> super.matchIconWithResource(icon);

@@ -16,6 +16,7 @@
 
 package org.geogebra.web.html5.main.general;
 
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.resources.SVGResource;
@@ -56,6 +57,7 @@ public class DefaultGeneralIconProvider implements GeneralIconProvider {
 			case LINE_CHART -> res.line_chart();
 			case BAR_CHART -> res.bar_chart();
 			case PIE_CHART -> res.pie_chart();
+			case ARROW_BACK -> GuiResourcesSimple.INSTANCE.arrow_back();
 			default -> null;
 		};
 	}

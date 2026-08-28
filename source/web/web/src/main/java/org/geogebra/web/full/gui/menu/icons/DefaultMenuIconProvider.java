@@ -34,49 +34,28 @@ public class DefaultMenuIconProvider implements MenuIconProvider {
 	}
 
 	private SVGResource findImage(Icon icon) {
-		switch (icon) {
-		case CLEAR:
-			return res.clear();
-		case DOWNLOAD:
-			return res.download();
-		case SAVE:
-			return res.save();
-		case SAVE_ONLINE:
-			return res.saveOnline();
-		case HOURGLASS_EMPTY:
-			return res.hourglassEmpty();
-		case GEOGEBRA:
-			return res.geogebra();
-		case SETTINGS:
-			return res.settings();
-		case HELP:
-			return res.help();
-		case PRINT:
-			return res.print();
-		case SEARCH:
-			return res.search();
-		case EXPORT_FILE:
-			return res.exportFile();
-		case EXPORT_IMAGE:
-			return res.exportImage();
-		case ASSIGNMENT:
-			return res.assignment();
-		case SCHOOL:
-			return res.school();
-		case BUG_REPORT:
-			return res.bugReport();
-		case INFO:
-			return res.info();
-		case PRIVACY_POLICY:
-			return res.privacyPolicy();
-		case SIGN_IN:
-			return res.signIn();
-		case SIGN_OUT:
-			return res.signOut();
-		case FOLDER:
-			return res.folder();
-		default:
-			return null;
-		}
+		return switch (icon) {
+			case CLEAR -> res.clear();
+			case DOWNLOAD -> res.download();
+			case SAVE -> res.save();
+			case SAVE_ONLINE -> res.saveOnline();
+			case HOURGLASS_EMPTY -> res.hourglassEmpty();
+			case GEOGEBRA -> res.geogebra();
+			case SETTINGS -> res.settings();
+			case HELP -> res.help();
+			case PRINT -> res.print();
+			case SEARCH -> res.search();
+			case EXPORT_FILE -> res.exportFile();
+			case EXPORT_IMAGE -> res.exportImage();
+			case ASSIGNMENT -> res.assignment();
+			case SCHOOL -> res.school();
+			case BUG_REPORT -> res.bugReport();
+			case INFO -> res.info();
+			case PRIVACY_POLICY -> res.privacyPolicy();
+			case SIGN_IN -> res.signIn();
+			case SIGN_OUT -> res.signOut();
+			case FOLDER -> res.folder();
+			default -> null;
+		};
 	}
 }

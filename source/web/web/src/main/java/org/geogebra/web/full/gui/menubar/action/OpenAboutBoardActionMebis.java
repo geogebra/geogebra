@@ -14,16 +14,22 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.web.html5.main.general;
+package org.geogebra.web.full.gui.menubar.action;
+
+import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
+import org.geogebra.web.full.main.AppWFull;
+
+import elemental2.dom.DomGlobal;
 
 /**
- * General icons that the notes UI can show.
+ * Shows about board link for Mebis.
  */
-public enum GeneralIcon {
-	NEW_TAB, DELETE, MORE, CROP, NO_COLOR, CHECK_MARK,
-	LOCK, SETTINGS, ARROW_RIGHT, ARROW_LEFT,
-	TABLE_HEADING_COLUMN, TABLE_HEADING_ROW,
-	X_2, X_SQUARE, BULLET_LIST, NUMBERED_LIST,
-	LINE_CHART, BAR_CHART, PIE_CHART,
-	CUT, COPY, PASTE, PLUS, DUPLICATE, RENAME, ARROW_BACK;
+public final class OpenAboutBoardActionMebis extends DefaultMenuAction<AppWFull> {
+	String BYCS_ABOUT_BOARD_URL
+			= "https://www.bycs.de/uebersicht-und-funktionen/board/index.html";
+
+	@Override
+	public void execute(AppWFull app) {
+		DomGlobal.window.open(BYCS_ABOUT_BOARD_URL, "_blank", "");
+	}
 }

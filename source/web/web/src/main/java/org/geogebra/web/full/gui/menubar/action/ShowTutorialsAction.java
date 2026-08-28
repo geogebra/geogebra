@@ -25,10 +25,16 @@ import elemental2.dom.DomGlobal;
  * Shows the tutorial.
  */
 public final class ShowTutorialsAction extends DefaultMenuAction<AppWFull> {
+	String BYCS_HELP_AND_TUTORIALS_URL
+			= "https://www.bycs.de/hilfe-und-tutorials/board/index.html";
 
 	@Override
 	public void execute(AppWFull app) {
-		String url = app.getLocalization().getTutorialURL(app.getConfig());
-		DomGlobal.window.open(url, "_blank", "");
+		if (app.isByCS()) {
+			DomGlobal.window.open(BYCS_HELP_AND_TUTORIALS_URL, "_blank", "");
+		} else {
+			String url = app.getLocalization().getTutorialURL(app.getConfig());
+			DomGlobal.window.open(url, "_blank", "");
+		}
 	}
 }
