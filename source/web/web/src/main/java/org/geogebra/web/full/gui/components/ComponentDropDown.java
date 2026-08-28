@@ -132,13 +132,19 @@ public final class ComponentDropDown extends FlowPanel implements SetLabels,
 		property.setVisibilityUpdateDelegate(this);
 	}
 
-	private void addKeyDownHandler() {
-		Dom.addEventListener(this.getElement(), "keydown", event -> {
+	@SuppressWarnings("PMD.LambdaCanBeMethodReference")
+	private void addKeyHandlers() {
+		addActionKeyHandler("keydown",
+				() -> controller.toggleAsDropDown(fullWidth, getElement(), false));
+		// Only move focus into the popup once this key's own press and release cycle has finished
+		addActionKeyHandler("keyup", () -> controller.focusOpenedPopup());
+	}
+
+	private void addActionKeyHandler(String eventType, Runnable action) {
+		Dom.addEventListener(this.getElement(), eventType, event -> {
 			KeyboardEvent e = (KeyboardEvent) event;
-			if ("Enter".equals(e.code) || "Space".equals(e.code)) {
-				if (!isDisabled) {
-					controller.toggleAsDropDown(fullWidth, getElement());
-				}
+			if (!isDisabled && !e.repeat && ("Enter".equals(e.code) || "Space".equals(e.code))) {
+				action.run();
 			}
 		});
 	}
@@ -164,7 +170,7 @@ public final class ComponentDropDown extends FlowPanel implements SetLabels,
 		setAccessibilityProperties();
 
 		addClickHandler();
-		addKeyDownHandler();
+		addKeyHandlers();
 
 		FlowPanel optionHolder = new FlowPanel();
 		optionHolder.addStyleName("optionLabelHolder");
