@@ -29,7 +29,7 @@ import jsinterop.base.Js;
  */
 public final class JavaScriptInjector {
 
-	private JavaScriptInjector() {}
+	private JavaScriptInjector() { }
 
 	/**
 	 * @param scriptResource

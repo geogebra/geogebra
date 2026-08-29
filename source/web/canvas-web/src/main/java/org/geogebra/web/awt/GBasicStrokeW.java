@@ -24,7 +24,7 @@ public final class GBasicStrokeW {
 	final private static String[] GWT_JOINS = { "miter", "round", "bevel" };
 	final private static String[] GWT_CAPS = { "butt", "round", "square" };
 
-	private GBasicStrokeW() {}
+	private GBasicStrokeW() { }
 
 	/**
 	 * @param join
