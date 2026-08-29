@@ -18,7 +18,9 @@ package org.geogebra.web.awt;
 
 import jsinterop.base.Js;
 
-public class JLMContextHelper {
+public final class JLMContextHelper {
+
+	private JLMContextHelper() { }
 
 	/**
 	 * Gets 2D context

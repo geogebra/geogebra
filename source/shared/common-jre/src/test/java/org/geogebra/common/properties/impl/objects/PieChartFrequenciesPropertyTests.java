@@ -24,14 +24,11 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PieChartFrequenciesPropertyTests extends BaseAppTestSetup {
-
-	private final GeoElementPropertiesFactory propertiesFactory = new GeoElementPropertiesFactory();
+class PieChartFrequenciesPropertyTests extends BaseAppTestSetup {
 
 	@BeforeEach
 	void setUpTest() {
@@ -53,8 +50,8 @@ public class PieChartFrequenciesPropertyTests extends BaseAppTestSetup {
 
 	@Test
 	void testPieChartFromNamedLists() {
-		GeoElement l1 = evaluateGeoElement("l1={1,2,3}");
-		GeoElement l2 = evaluateGeoElement("l2={3,1,2}");
+		evaluateGeoElement("l1={1,2,3}");
+		evaluateGeoElement("l2={3,1,2}");
 		GeoElement pieChart = evaluateGeoElement("PieChart(l1,(1,1),3)");
 
 		PieChartFrequenciesProperty frequencies = assertDoesNotThrow(
@@ -67,8 +64,8 @@ public class PieChartFrequenciesPropertyTests extends BaseAppTestSetup {
 
 	@Test
 	void testValidate() {
-		GeoElement l1 = evaluateGeoElement("l1={1,2,3}");
-		GeoElement l2 = evaluateGeoElement("l2={3,1,2}");
+		evaluateGeoElement("l1={1,2,3}");
+		evaluateGeoElement("l2={3,1,2}");
 		GeoElement pieChart = evaluateGeoElement("PieChart(l1,(1,1),3)");
 
 		PieChartFrequenciesProperty frequencies = assertDoesNotThrow(

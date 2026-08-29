@@ -26,7 +26,11 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  * Class to handle scrolling of the mathfield container.
  */
-public class MathFieldScroller {
+public final class MathFieldScroller {
+
+	private MathFieldScroller() {
+		// utility class
+	}
 
 	/**
 	 * Scrolls content horizontally, based on the cursor position.

@@ -18,7 +18,9 @@ package org.geogebra.web.awt;
 
 import elemental2.dom.DomGlobal;
 
-public class Log {
+public final class Log {
+
+	private Log() { }
 
 	/**
 	 * Print message to the console.

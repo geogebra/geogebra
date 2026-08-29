@@ -21,7 +21,9 @@ import org.geogebra.gwtutil.JsObject;
 import elemental2.core.Function;
 import elemental2.dom.DomGlobal;
 
-public class DocumentUtil {
+public final class DocumentUtil {
+
+	private DocumentUtil() { }
 
 	/**
 	 * Copy currently selected text

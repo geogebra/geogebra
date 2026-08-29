@@ -19,10 +19,12 @@ package org.geogebra.web.awt;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
 
-public class GBasicStrokeW {
+public final class GBasicStrokeW {
 	// Constants
 	final private static String[] GWT_JOINS = { "miter", "round", "bevel" };
 	final private static String[] GWT_CAPS = { "butt", "round", "square" };
+
+	private GBasicStrokeW() {}
 
 	/**
 	 * @param join

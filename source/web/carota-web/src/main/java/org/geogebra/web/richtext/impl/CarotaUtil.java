@@ -22,9 +22,11 @@ import org.murok.editor.MurokResources;
 /**
  * Utility class for the editor.
  */
-public class CarotaUtil {
+public final class CarotaUtil {
 
 	private static boolean isScriptInjected = false;
+
+	private CarotaUtil() { }
 
 	/**
 	 * Injects the javascript if necessary.

@@ -21,7 +21,9 @@ import java.util.Locale;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.URLSearchParams;
 
-public class NavigatorUtil {
+public final class NavigatorUtil {
+
+	private NavigatorUtil() { }
 
 	/**
 	 * @return whether app is running in a mobile browser

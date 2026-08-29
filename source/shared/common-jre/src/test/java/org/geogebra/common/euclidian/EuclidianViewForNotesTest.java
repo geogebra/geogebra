@@ -53,7 +53,7 @@ class EuclidianViewForNotesTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void lineThicknessScaledShouldBeSavedAndReloaded() {
+	void lineThicknessScaledShouldBeSavedAndReloaded() {
 		getApp().getSettings().getEuclidian(1).setLineThicknessScaled(true);
 		String xml = getApp().getXML();
 		assertTrue(xml.contains("lineThicknessScaled=\"true\""));
@@ -65,7 +65,7 @@ class EuclidianViewForNotesTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void lineThicknessScaledShouldDefaultToFalseAndNotBeSaved() {
+	void lineThicknessScaledShouldDefaultToFalseAndNotBeSaved() {
 		getApp().getSettings().getEuclidian(1).setLineThicknessScaled(false);
 		String xml = getApp().getXML();
 		assertFalse(xml.contains("lineThicknessScaled"));
@@ -75,7 +75,7 @@ class EuclidianViewForNotesTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void loadingFileWithoutLineThicknessScaledShouldResetIt() {
+	void loadingFileWithoutLineThicknessScaledShouldResetIt() {
 		getApp().getSettings().getEuclidian(1).setLineThicknessScaled(true);
 		String xml = getApp().getXML().replace(" lineThicknessScaled=\"true\"", "");
 		getApp().setXML(xml, true);

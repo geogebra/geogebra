@@ -31,7 +31,9 @@ import org.geogebra.keyboard.base.model.impl.RowImpl;
 import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
 import org.geogebra.keyboard.base.model.impl.factory.Characters;
 
-public class MathKeyUtil {
+public final class MathKeyUtil {
+
+	private MathKeyUtil() {}
 
 	/**
 	 * first row of math default inputbox math keyboard

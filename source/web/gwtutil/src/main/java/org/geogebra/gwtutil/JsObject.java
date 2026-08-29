@@ -21,7 +21,10 @@ import org.jspecify.annotations.NonNull;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
-public class JsObject {
+public final class JsObject {
+
+	private JsObject() { }
+
 	/**
 	 * @param object DOM object
 	 * @return DOM object as a property map

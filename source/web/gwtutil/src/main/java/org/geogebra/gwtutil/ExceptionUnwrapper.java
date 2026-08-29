@@ -19,7 +19,9 @@ package org.geogebra.gwtutil;
 import elemental2.dom.DomGlobal;
 import jsinterop.base.Js;
 
-public class ExceptionUnwrapper {
+public final class ExceptionUnwrapper {
+
+	private ExceptionUnwrapper() { }
 
 	/**
 	 * @param thrown exception

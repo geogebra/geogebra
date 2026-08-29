@@ -27,7 +27,9 @@ import jsinterop.base.Js;
 /**
  * Injects scripts into parent document
  */
-public class JavaScriptInjector {
+public final class JavaScriptInjector {
+
+	private JavaScriptInjector() {}
 
 	/**
 	 * @param scriptResource

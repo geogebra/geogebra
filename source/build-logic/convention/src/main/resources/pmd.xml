@@ -110,7 +110,7 @@
         <exclude name="TooManyFields"/>
         <exclude name="LawOfDemeter"/>
         <exclude name="SwitchDensity"/>
-        <exclude name="UseUtilityClass"/>
+        <exclude name="InstantiableUtilityClass"/>
         <exclude name="AbstractClassWithoutAnyMethod"/>
         <exclude name="DoNotExtendJavaLangError"/>
         <exclude name="AvoidUncheckedExceptionsInSignatures"/>

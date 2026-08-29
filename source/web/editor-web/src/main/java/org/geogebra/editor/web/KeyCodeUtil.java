@@ -20,7 +20,10 @@ import static org.geogebra.gwtutil.NavigatorUtil.isMacOS;
 
 import org.geogebra.editor.share.util.KeyCodes;
 
-public class KeyCodeUtil {
+public final class KeyCodeUtil {
+
+	private KeyCodeUtil() { }
+
 	/**
 	 * @param gwtKeyCode native key code
 	 * @return KeyCodes wrapper
