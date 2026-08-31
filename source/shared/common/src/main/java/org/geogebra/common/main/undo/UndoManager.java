@@ -590,6 +590,7 @@ public abstract class UndoManager implements UndoProvider {
 		app.getCompanion().recallViewCreators();
 		app.getSelectionManager().recallSelectedGeosNames(app.getKernel());
 		app.getActiveEuclidianView().restoreDynamicStylebar();
+		app.getActiveEuclidianView().getEuclidianController().clearMeasurementTools();
 		app.resetPen();
 	}
 

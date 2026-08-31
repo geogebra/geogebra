@@ -45,6 +45,7 @@ import elemental2.dom.DomGlobal;
 
 public final class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemListener,
 		ModeChangeListener {
+	private static final int TOP_BAR_HEIGHT = 48;
 	private final AppletParameters appletParams;
 	private final TopBarController controller;
 	private final List<IconButton> buttons = new ArrayList<>();
@@ -79,6 +80,19 @@ public final class NotesTopBar extends FlowPanel implements SetLabels, CoordSyst
 		return getElement().hasChildNodes();
 	}
 
+	/**
+	 * Heuristic for checking if the panel will be needed.
+	 * Used during file load to estimate EV size and prevent extra undo points.
+	 * @param app application
+	 * @return whether a top bar is needed
+	 */
+	public static int estimateHeight(AppW app) {
+		AppletParameters params = app.getAppletParameters();
+		return params.getDataParamEnableUndoRedo()
+				|| needsMenuButton(params)
+				|| ZoomPanel.needsZoomButtons(app) ? TOP_BAR_HEIGHT : 0;
+	}
+
 	private void buildGui() {
 		addMenuButton();
 		addUndoRedo();
@@ -90,11 +104,15 @@ public final class NotesTopBar extends FlowPanel implements SetLabels, CoordSyst
 	}
 
 	private void addMenuButton() {
-		if (!GlobalHeader.isInDOM() && appletParams.getDataParamShowMenuBar(false)) {
+		if (needsMenuButton(appletParams)) {
 			addSmallPressButton(TopBarIcon.MENU, "Menu", controller::onMenuToggle,
 					AccessibilityGroup.MENU);
 			addDivider();
 		}
+	}
+
+	private static boolean needsMenuButton(AppletParameters appletParams) {
+		return !GlobalHeader.isInDOM() && appletParams.getDataParamShowMenuBar(false);
 	}
 
 	private void addUndoRedo() {
@@ -240,5 +258,12 @@ public final class NotesTopBar extends FlowPanel implements SetLabels, CoordSyst
 		}
 
 		dragBtn.setActive(mode == MODE_TRANSLATE_VIEW);
+	}
+
+	/**
+	 * @return height based on DOM state
+	 */
+	public int getHeight() {
+		return wasAttached() ? TOP_BAR_HEIGHT : 0;
 	}
 }

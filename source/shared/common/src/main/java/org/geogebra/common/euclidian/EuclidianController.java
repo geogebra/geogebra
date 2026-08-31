@@ -195,6 +195,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.remembered.RememberedProperties;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.MulticastEvent;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Analytics;
@@ -10273,7 +10274,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void storeUndo() {
-		if (storeUndo.storeUndo()) {
+		if (!storeUndo.storeUndo()) {
 			storeUndoInfo();
 		}
 	}
@@ -10447,7 +10448,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					&& movedGeoElement.isLabelSet() && (moveMode != MoveMode.NONE)
 					&& modeTriggersUndoOnDragGeo(mode);
 			if (labeledGeoMoved) {
-				if (storeUndo.storeUndo()) {
+				if (!storeUndo.storeUndo()) {
 					changedKernel = true;
 				}
 			}
@@ -12723,6 +12724,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void removeMeasurementTool(Integer mode) {
 		measurementController.removeTool(mode);
+	}
+
+	/**
+	 * The listener will receive the related {@code EuclidianConstants.MODE_*} value if one of
+	 * the measurement modes is activated and -1 if measurement is off.
+	 * @param listener listener for active measurement mode changes
+	 */
+	public void addMeasurementToolListener(MulticastEvent.Listener<@NonNull Integer> listener) {
+		measurementController.addListener(listener);
 	}
 
 	public MyImage getRotationImage() {

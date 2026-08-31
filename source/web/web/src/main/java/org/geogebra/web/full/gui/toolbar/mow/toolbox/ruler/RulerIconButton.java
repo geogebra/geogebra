@@ -40,6 +40,7 @@ public final class RulerIconButton extends ToolIconButton {
 		super(appW, icon, ariaLabel, dataTitle, dataTest, null);
 		this.appW = appW;
 		ec = appW.getActiveEuclidianView().getEuclidianController();
+		ec.addMeasurementToolListener(mode -> setActive(mode > 0));
 		addFastClickHandler((event) -> {
 			appW.closePopups();
 			setActive(!isActive());
@@ -49,7 +50,7 @@ public final class RulerIconButton extends ToolIconButton {
 			} else {
 				showRulerTypePopup();
 			}
-			handleRuler();
+			handleRuler(isActive());
 		});
 	}
 
@@ -65,10 +66,11 @@ public final class RulerIconButton extends ToolIconButton {
 	}
 
 	/**
-	 * set active ruler, or remove it in switch ruler off
+	 * Set active ruler, or remove it in switch ruler off.
+	 * @param active whether to activate the ruler.
 	 */
-	public void handleRuler() {
-		if (isActive()) {
+	public void handleRuler(boolean active) {
+		if (active) {
 			appW.setMode(rulerPopup.getActiveRulerType());
 		} else {
 			removeTool();

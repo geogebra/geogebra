@@ -81,7 +81,7 @@ public final class RulerPopup extends GPopupMenuW implements SetLabels {
 				: GColor.BLACK.toString();
 		rulerButton.removeTool();
 		rulerButton.updateImgAndTxt(iconSpec.withFill(fillColor), mode, getApp());
-		rulerButton.handleRuler();
+		rulerButton.handleRuler(true);
 	}
 
 	private void setHighlight(AriaMenuItem highlighted) {

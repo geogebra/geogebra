@@ -1020,6 +1020,7 @@ public final class GeoGebraFrameFull
 	 * @return height of Notes top bar (0 if not attached)
 	 */
 	public int getNotesTopBarHeight() {
-		return notesLayout == null ? 0 : notesLayout.getTopBarHeight();
+		return notesLayout == null ? NotesTopBar.estimateHeight(app)
+				: notesLayout.getTopBarHeight();
 	}
 }

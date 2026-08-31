@@ -30,8 +30,6 @@ public final class NotesLayout implements SetLabels, ModeChangeListener {
 	private final @Nullable NotesToolbox toolbar;
 	private final @Nullable NotesTopBar topBar;
 
-	private static final int TOP_BAR_HEIGHT = 48;
-
 	/**
 	 * @param appW application
 	 */
@@ -82,7 +80,7 @@ public final class NotesLayout implements SetLabels, ModeChangeListener {
 	}
 
 	public int getTopBarHeight() {
-		return topBar != null && topBar.wasAttached() ? TOP_BAR_HEIGHT : 0;
+		return topBar == null ? 0 : topBar.getHeight();
 	}
 
 	/**

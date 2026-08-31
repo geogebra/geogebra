@@ -282,7 +282,6 @@ public class LoadFilePresenter {
 		app.updateToolBar();
 		app.set1rstMode();
 
-		app.setUndoActive(true);
 		app.setActivePerspective(p);
 
 		// no Feature.ADJUST_VIEWS: returns false.
@@ -296,6 +295,8 @@ public class LoadFilePresenter {
 		app.showPerspectivesPopupIfNeeded();
 
 		app.updateRounding();
+		// run after e.g. line scaling flag is set so that extra undo points are avoided
+		app.setUndoActive(true);
 		preloadParser(app);
 		FragmentPrefetcher.fetchAllIfStandalone();
 	}

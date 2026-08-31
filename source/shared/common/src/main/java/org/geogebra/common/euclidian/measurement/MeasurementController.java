@@ -24,6 +24,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.util.MulticastEvent;
 
 /**
  * Class to handle the various measurement tools.
@@ -31,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 public final class MeasurementController {
 	private final CreateToolImage toolImageFactory;
 	private final Map<Integer, MeasurementTool> tools = new HashMap<>();
+	private final MulticastEvent<Integer> listeners = new MulticastEvent<>();
 	private int selectedMode = -1;
 
 	/**
@@ -87,7 +89,7 @@ public final class MeasurementController {
 	}
 
 	/**
-	 * Shows/hides the the measurement tool specified by the mode.
+	 * Shows/hides the measurement tool specified by the mode.
 	 * @param mode of the measurement tool
 	 */
 	public void toggleActiveTool(int mode) {
@@ -123,6 +125,7 @@ public final class MeasurementController {
 	 */
 	public void selectTool(int mode) {
 		this.selectedMode = mode;
+		listeners.notifyListeners(mode);
 	}
 
 	/**
@@ -166,14 +169,6 @@ public final class MeasurementController {
 	}
 
 	/**
-	 *
-	 * @return if has an active tool with image.
-	 */
-	public boolean hasActiveToolImage() {
-		return getActiveToolImage() != null;
-	}
-
-	/**
 	 * Removes tool specified by mode.
 	 * @param mode of tool to remove
 	 */
@@ -197,5 +192,12 @@ public final class MeasurementController {
 	 */
 	public MeasurementTool getTool(MeasurementToolId measurementToolId) {
 		return tools.get(measurementToolId.getMode());
+	}
+
+	/**
+	 * @param listener listener for active mode changes
+	 */
+	public void addListener(MulticastEvent.Listener<Integer> listener) {
+		listeners.addListener(listener);
 	}
 }

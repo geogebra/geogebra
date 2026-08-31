@@ -37,9 +37,11 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.jre.headless.EuclidianController3DNoGui;
 import org.geogebra.common.jre.headless.EuclidianView3DNoGui;
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -392,6 +394,26 @@ class UndoManagerTest extends BaseEuclidianControllerTest {
 		assertEquals(0, view.getXZero(), 0);
 		getUndoManager().redo();
 		assertEquals(100, view.getXZero(), 0);
+	}
+
+	@Test
+	@Issue("MOW-1908")
+	void undoUpdatingRuler() throws CircularDefinitionException {
+		activateUndo();
+		UpdateActionStore actionStore = new UpdateActionStore(getApp().getSelectionManager(),
+				getUndoManager());
+		final GeoPoint corner = add("(0,0)");
+		corner.remove(); // corner is unlabeled so that it does not trigger an own undo point
+		GeoImage ruler = new GeoImage(getKernel().getConstruction());
+		ruler.setMeasurementTool(true);
+		ruler.setStartPoint(corner);
+		getApp().getSelectionManager().addSelectedGeo(ruler);
+		actionStore.storeSelection(MoveMode.POINT);
+		corner.setCoords(1, 2, 3);
+		corner.updateRepaint();
+		assertFalse(getUndoManager().undoPossible());
+		actionStore.storeUndo();
+		assertFalse(getUndoManager().undoPossible());
 	}
 
 	private EuclidianView3D get3Dview() {
