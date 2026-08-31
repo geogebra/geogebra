@@ -26,6 +26,7 @@ public final class ShowSettingsAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
 	public void execute(AppWFull app) {
+		app.getSelectionManager().clearSelectedGeos();
 		app.getActivity().showSettingsView(app);
 	}
 }

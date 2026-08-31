@@ -34,6 +34,7 @@ import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.components.sideSheet.ComponentSideSheet;
 import org.geogebra.web.full.gui.components.sideSheet.SheetTitlePanel;
 import org.geogebra.web.full.gui.components.sideSheet.SideSheetData;
@@ -68,7 +69,6 @@ public final class PropertiesViewW extends PropertiesView
 	private boolean floatingAttached = false;
 
 	private ComponentTab settingsTab;
-	private PropertiesPanelAdapter adapter;
 	private boolean objectPropertiesVisible;
 
 	/**
@@ -173,7 +173,7 @@ public final class PropertiesViewW extends PropertiesView
 		List<GeoElement> showableElements = getShowableElements();
 		if (!showableElements.isEmpty() && optionType != OptionType.OBJECTS) {
 			setOptionPanel(OptionType.OBJECTS);
-		} else if (showableElements.isEmpty()) {
+		} else if (showableElements.isEmpty() && optionType == OptionType.OBJECTS) {
 			if (app.getActiveEuclidianView().isEuclidianView3D()) {
 				setOptionPanel(OptionType.EUCLIDIAN3D);
 			} else if (app.getActiveEuclidianView().isDefault2D()) {
@@ -213,6 +213,7 @@ public final class PropertiesViewW extends PropertiesView
 
 	@Override
 	public void setOptionPanel(OptionType type, int subType) {
+		Log.warn("set " + optionType + "->" + type);
 		optionType = type;
 		onResize();
 		if (settingsTab != null) {
@@ -237,11 +238,6 @@ public final class PropertiesViewW extends PropertiesView
 		if (!geos.isEmpty() && optionType != OptionType.OBJECTS) {
 			setOptionPanel(OptionType.OBJECTS);
 		}
-		rebuildContent();
-	}
-
-	@Override
-	protected void updateTitleBar() {
 		rebuildContent();
 	}
 
@@ -278,13 +274,6 @@ public final class PropertiesViewW extends PropertiesView
 	 */
 	public Widget getWrappedPanel() {
 		return wrappedPanel;
-	}
-
-	/**
-	 * Rebuild GUI for the new font size
-	 */
-	public void updateFonts() {
-		rebuildContent();
 	}
 
 	@Override
@@ -430,7 +419,7 @@ public final class PropertiesViewW extends PropertiesView
 	}
 
 	private void rebuildTabs(List<PropertiesArray> propLists, boolean showObjectProperties) {
-		adapter = new PropertiesPanelAdapter(app.getLocalization(),
+		PropertiesPanelAdapter adapter = new PropertiesPanelAdapter(app.getLocalization(),
 				(AppW) app);
 		ArrayList<TabData> tabs = new ArrayList<>();
 		for (PropertiesArray props : propLists) {
@@ -438,12 +427,24 @@ public final class PropertiesViewW extends PropertiesView
 			tabs.add(new TabData(props.getRawName(), propertiesPanel));
 		}
 		int oldTab = -1;
-		if (settingsTab != null && objectPropertiesVisible == showObjectProperties) {
+		if (settingsTab != null && objectPropertiesVisible && showObjectProperties) {
 			oldTab = settingsTab.getSelectedTabIdx();
+		} else if (optionType != OptionType.OBJECTS) {
+			oldTab = ComponentTab.indexOf(tabs, optionType.getName());
 		}
 		settingsTab = new ComponentTab((AppW) app, "Settings",
 				oldTab != -1 && oldTab < tabs.size() ? oldTab : 0,
-				optionType.getName(), tabs.toArray(new TabData[0]));
+				tabs.toArray(new TabData[0]));
+		if (!showObjectProperties) {
+			settingsTab.addTabChangedListener(idx -> {
+				if (optionType != OptionType.OBJECTS) {
+					OptionType byName = OptionType.getByName(tabs.get(idx).getTabTitle());
+					Log.warn("set " + optionType + "->" + byName);
+
+					optionType = byName;
+				}
+			});
+		}
 	}
 
 	private List<GeoElement> getShowableElements() {

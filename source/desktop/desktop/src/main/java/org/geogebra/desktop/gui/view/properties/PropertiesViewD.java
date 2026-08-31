@@ -450,7 +450,6 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		}
 	}
 
-	@Override
 	protected void updateTitleBar() {
 		((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 				.getPanel(App.VIEW_PROPERTIES).updateTitleBar();
@@ -483,7 +482,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	@Override
 	public void add(GeoElement geo) {
 		getObjectPanel().add(geo);
-		((OptionsObjectD) getObjectPanel()).getTree().add(geo);
+		getObjectPanel().getTree().add(geo);
 		styleBar.setObjectButtonEnable(true);
 
 	}
@@ -491,7 +490,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	@Override
 	public void remove(GeoElement geo) {
 		// ((OptionsObjectD) objectPanel).updateIfInSelection(geo);
-		((OptionsObjectD) getObjectPanel()).getTree().remove(geo);
+		getObjectPanel().getTree().remove(geo);
 		if (app.getKernel().isEmpty()) {
 			styleBar.setObjectButtonEnable(false);
 		}
@@ -504,8 +503,8 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 			return;
 		}
 
-		((OptionsObjectD) getObjectPanel()).rename(geo);
-		((OptionsObjectD) getObjectPanel()).getTree().rename(geo);
+		getObjectPanel().rename(geo);
+		getObjectPanel().getTree().rename(geo);
 		updateTitleBar();
 
 	}
@@ -519,8 +518,8 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 		// updateSelection();
 		// propPanel.updateSelection(new GeoElement[] {geo});
-		((OptionsObjectD) getObjectPanel()).updateIfInSelection(geo);
-		((OptionsObjectD) getObjectPanel()).getTree().update(geo);
+		getObjectPanel().updateIfInSelection(geo);
+		getObjectPanel().getTree().update(geo);
 
 	}
 
@@ -531,9 +530,9 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 			return;
 		}
 
-		((OptionsObjectD) getObjectPanel()).updateSelection(
+		getObjectPanel().updateSelection(
 				app.getSelectionManager().getSelectedGeos());
-		((OptionsObjectD) getObjectPanel()).getTree().updateVisualStyle(geo, prop);
+		getObjectPanel().getTree().updateVisualStyle(geo, prop);
 
 	}
 
@@ -544,8 +543,8 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 			return;
 		}
 
-		((OptionsObjectD) getObjectPanel()).updateIfInSelection(geo);
-		((OptionsObjectD) getObjectPanel()).getTree().updateAuxiliaryObject(geo);
+		getObjectPanel().updateIfInSelection(geo);
+		getObjectPanel().getTree().updateAuxiliaryObject(geo);
 
 	}
 
@@ -557,20 +556,20 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		}
 
 		if (getObjectPanel() != null) {
-			((OptionsObjectD) getObjectPanel()).getTree().repaint();
+			getObjectPanel().getTree().repaint();
 		}
 
 	}
 
 	@Override
 	public void reset() {
-		((OptionsObjectD) getObjectPanel()).getTree().repaint();
+		getObjectPanel().getTree().repaint();
 
 	}
 
 	@Override
 	public void clearView() {
-		((OptionsObjectD) getObjectPanel()).getTree().clearView();
+		getObjectPanel().getTree().clearView();
 
 	}
 
@@ -633,7 +632,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		ArrayList<GeoElement> geos = app.getSelectionManager()
 				.getSelectedGeos();
 
-		if (geos.size() > 0) {
+		if (!geos.isEmpty()) {
 			updateSelection(removeAllConstants(geos));
 		}
 	}
@@ -641,7 +640,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	@Override
 	public void updateSelection(ArrayList<GeoElement> geos) {
 
-		if (geos.size() > 0) {
+		if (!geos.isEmpty()) {
 			if (!stayInCurrentPanel()) {
 				setObjectPanel(geos);
 			}
@@ -653,7 +652,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 	private void setObjectPanel(ArrayList<GeoElement> geos) {
 
-		if (geos.size() == 0) {
+		if (geos.isEmpty()) {
 			app.getSelectionManager().setFirstGeoSelectedForPropertiesView();
 
 			GeoElement geo = app.getSelectionManager()
@@ -679,7 +678,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 	@Override
 	protected void updateObjectPanelSelection(ArrayList<GeoElement> geos) {
-		((OptionsObjectD) getObjectPanel()).updateSelection(geos);
+		getObjectPanel().updateSelection(geos);
 		updateTitleBar();
 		styleBar.setObjectsToolTip();
 	}
@@ -704,7 +703,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	 */
 	public void windowPanel() {
 		applyModifications();
-		((OptionsObjectD) getObjectPanel()).setGeoTreeVisible();
+		getObjectPanel().setGeoTreeVisible();
 	}
 
 	/**
@@ -712,7 +711,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	 */
 	public void unwindowPanel() {
 		applyModifications();
-		((OptionsObjectD) getObjectPanel()).setGeoTreeNotVisible();
+		getObjectPanel().setGeoTreeNotVisible();
 	}
 
 	/**
@@ -731,7 +730,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	public void showSliderTab() {
 		selectedOptionType = OptionType.EUCLIDIAN;
 		setOptionPanel(OptionType.OBJECTS);
-		((OptionsObjectD) getObjectPanel()).showSliderTab();
+		getObjectPanel().showSliderTab();
 		styleBar.updateGUI();
 		updateGUI();
 	}
@@ -809,7 +808,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 			advancedPanel.updateFont();
 		}
 		if (getObjectPanel() != null) {
-			((OptionsObjectD) getObjectPanel()).updateFont(); // tree
+			getObjectPanel().updateFont(); // tree
 		}
 		if (layoutPanel != null) {
 			layoutPanel.updateFont();

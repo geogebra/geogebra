@@ -33,6 +33,19 @@ public enum OptionType {
 		this.transKey = transKey;
 	}
 
+	/**
+	 * @param name option name (translation key)
+	 * @return option with given name
+	 */
+	public static OptionType getByName(String name) {
+		for (OptionType option: values()) {
+			if (name.equals(option.transKey)) {
+				return option;
+			}
+		}
+		return GLOBAL;
+	}
+
 	public String getName() {
 		return transKey;
 	}

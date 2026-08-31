@@ -16,6 +16,7 @@
 
 package org.geogebra.web.full.gui.layout;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
@@ -69,7 +70,11 @@ public final class GraphicsControlsPanel extends FlowPanel implements DockContro
 	/** Graphics Settings button handler */
 	private void onGraphicsSettingsPressed() {
 		app.closeMenuHideKeyboard();
-		app.getDialogManager().showPropertiesDialog(OptionType.GLOBAL, null);
+		EuclidianView view = app.getActiveEuclidianView();
+		OptionType type = view != null && view.isEuclidianView3D()
+				? OptionType.EUCLIDIAN3D : OptionType.EUCLIDIAN;
+		app.getSelectionManager().clearSelectedGeos();
+		app.getDialogManager().showPropertiesDialog(type, null);
 	}
 
 	@Override

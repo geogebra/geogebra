@@ -42,6 +42,9 @@ public final class TabData {
 		AriaHelper.setRole(tabPanel, "tabpanel");
 	}
 
+	/**
+	 * @return translation key for title
+	 */
 	public String getTabTitle() {
 		return tabTitle;
 	}

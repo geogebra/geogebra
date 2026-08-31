@@ -822,7 +822,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		private void initMenu() {
 
 			for (final OptionType type : OptionType.values()) {
-				String menuText = PropertiesView.getTypeStringSimple(loc, type);
+				String menuText = loc.getMenu(type.getName());
 				Icon ic = PropertiesViewD.getTypeIcon(app, type);
 				JMenuItem item = new JMenuItem(menuText, ic);
 
@@ -835,8 +835,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 				item.addActionListener(arg0 -> openPropertiesView(type));
 				add(item);
 
-				item.setVisible(
-						PropertiesView.isOptionPanelAvailable(app, type));
+				item.setVisible(isOptionPanelAvailable(app, type));
 			}
 
 		}
@@ -849,6 +848,44 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 					false);
 		}
 
+	}
+
+	/**
+	 * @param app
+	 *            application
+	 * @param type
+	 *            Option panel type
+	 * @return true if given Option panel is showing (or is instantiated but
+	 *         hidden)
+	 */
+	private static boolean isOptionPanelAvailable(App app, OptionType type) {
+
+		boolean isAvailable = true;
+
+		switch (type) {
+		case EUCLIDIAN:
+			isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN);
+			break;
+		case EUCLIDIAN2:
+			isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN2);
+			break;
+		case EUCLIDIAN_FOR_PLANE:
+			isAvailable = app.hasEuclidianViewForPlaneVisible();
+			break;
+		case EUCLIDIAN3D:
+			isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN3D);
+			break;
+		case SPREADSHEET:
+			isAvailable = app.getGuiManager().showView(App.VIEW_SPREADSHEET);
+			break;
+		case CAS:
+			isAvailable = app.getGuiManager().showView(App.VIEW_CAS);
+			break;
+		case OBJECTS:
+			// always available
+			break;
+		}
+		return isAvailable;
 	}
 
 }

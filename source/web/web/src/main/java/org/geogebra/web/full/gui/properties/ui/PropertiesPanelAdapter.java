@@ -216,7 +216,7 @@ public final class PropertiesPanelAdapter {
 				tabData[index] = new TabData(tabTitles.get(index), tabContent);
 			}
 			int selectedTabIndex = tabList.getSelectedTabIndex();
-			ComponentTab componentTab = new ComponentTab(app, "Scripting", selectedTabIndex, null,
+			ComponentTab componentTab = new ComponentTab(app, "Scripting", selectedTabIndex,
 					tabData);
 			componentTab.addTabChangedListener(index -> {
 				if (tabList.getSelectedTabIndex() != index) {

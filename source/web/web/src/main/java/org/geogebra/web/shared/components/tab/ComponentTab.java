@@ -36,7 +36,6 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.ScrollPanel;
 import org.gwtproject.user.client.ui.Widget;
-import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.KeyboardEvent;
 
@@ -60,12 +59,11 @@ public final class ComponentTab extends FlowPanel implements RequiresResize, Set
 	 * @param appW {@link org.geogebra.web.html5.main.AppW}
 	 * @param ariaLabel aria-label trans key (title of parent element)
 	 * @param initialTab index of initial tab
-	 * @param optionTypeName The name (trans key) of the
 	 * {@link org.geogebra.common.main.OptionType} that should be selected
 	 * @param tabData {@link TabData} including title and panel widget
 	 */
 	public ComponentTab(AppW appW, String ariaLabel, int initialTab,
-			@Nullable String optionTypeName, TabData... tabData) {
+			TabData... tabData) {
 		this.appW = appW;
 		this.loc = appW.getLocalization();
 		this.ariaLabel = ariaLabel;
@@ -74,9 +72,6 @@ public final class ComponentTab extends FlowPanel implements RequiresResize, Set
 		buildTab(tabData);
 
 		boolean switchedTab = false;
-		if (optionTypeName != null) {
-			switchedTab = switchToTab(optionTypeName);
-		}
 		if (!switchedTab && initialTab < tabData.length) {
 			switchToTab(initialTab);
 		}
@@ -97,7 +92,7 @@ public final class ComponentTab extends FlowPanel implements RequiresResize, Set
 	 * @param tabData {@link TabData} including title and panel widget
 	 */
 	public ComponentTab(AppW appW, String ariaLabel, TabData... tabData) {
-		this(appW, ariaLabel, 0, null, tabData);
+		this(appW, ariaLabel, 0, tabData);
 	}
 
 	private void buildTab(TabData... tabData) {
@@ -237,16 +232,23 @@ public final class ComponentTab extends FlowPanel implements RequiresResize, Set
 	/**
 	 * Find tab with given title and switch to it
 	 * @param tabTransKey title of searched tab
-	 * @return Whether the tab was switched successfully
 	 */
-	public boolean switchToTab(String tabTransKey) {
+	public void switchToTab(String tabTransKey) {
+		switchToTab(Math.max(0, indexOf(tabData, tabTransKey)));
+	}
+
+	/**
+	 * @param tabData tab data
+	 * @param name tab name (translation key)
+	 * @return index of matching tab in data, -1 if not found
+	 */
+	public static int indexOf(List<TabData> tabData, String name) {
 		for (int i = 0; i < tabData.size(); i++) {
-			if (tabData.get(i).getTabTitle().equals(tabTransKey)) {
-				switchToTab(i);
-				return true;
+			if (tabData.get(i).getTabTitle().equals(name)) {
+				return i;
 			}
 		}
-		return false;
+		return -1;
 	}
 
 	private void updateSelection(StandardButton button, boolean selected) {

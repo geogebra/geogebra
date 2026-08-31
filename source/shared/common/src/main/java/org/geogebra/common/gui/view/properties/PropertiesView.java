@@ -17,7 +17,6 @@
 package org.geogebra.common.gui.view.properties;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -26,7 +25,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -45,18 +43,6 @@ public abstract class PropertiesView implements View {
 	protected OptionType selectedOptionType = OptionType.EUCLIDIAN;
 
 	protected int selectedTab = 0;
-	final private static HashMap<Integer, OptionType> viewMap = new HashMap<>();
-
-	// map to match view ID with OptionType
-	static {
-		viewMap.put(App.VIEW_CAS, OptionType.CAS);
-		viewMap.put(App.VIEW_SPREADSHEET, OptionType.SPREADSHEET);
-		viewMap.put(App.VIEW_EUCLIDIAN, OptionType.EUCLIDIAN);
-		viewMap.put(App.VIEW_EUCLIDIAN2, OptionType.EUCLIDIAN2);
-		viewMap.put(App.VIEW_EUCLIDIAN3D, OptionType.EUCLIDIAN3D);
-		viewMap.put(App.VIEW_EUCLIDIAN_FOR_PLANE_START,
-				OptionType.EUCLIDIAN_FOR_PLANE);
-	}
 
 	/**
 	 * @param app
@@ -187,93 +173,10 @@ public abstract class PropertiesView implements View {
 	public abstract void attachView();
 
 	/**
-	 * @param loc
-	 *            localization
-	 * @param type
-	 *            tab type
-	 * @return short version of Option type string
-	 */
-	public static String getTypeStringSimple(Localization loc,
-			OptionType type) {
-		switch (type) {
-		case DEFAULTS:
-			return loc.getMenu("Defaults");
-		case SPREADSHEET:
-			return loc.getMenu("Spreadsheet");
-		case EUCLIDIAN:
-			return loc.getMenu("DrawingPad");
-		case EUCLIDIAN2:
-			return loc.getMenu("DrawingPad2");
-		case CAS:
-			return loc.getMenu("CAS");
-		case GLOBAL:
-			return loc.getMenu("Advanced");
-		case OBJECTS:
-			return loc.getMenu("Objects");
-		// return objectPanel.getSelectionDescription();
-		case LAYOUT:
-			return loc.getMenu("Layout");
-		case EUCLIDIAN3D:
-			return loc.getMenu("GraphicsView3D");
-		case EUCLIDIAN_FOR_PLANE:
-			return loc.getMenu("ExtraViews");
-		case ALGEBRA:
-			return loc.getMenu("Algebra");
-		default:
-			Log.error("missing case in getTypeStringSimple():" + type);
-			return null;
-
-		}
-	}
-
-	/**
-	 * Updates the Title Bar
-	 */
-	protected abstract void updateTitleBar();
-
-	/**
 	 * @return type of option panel currently displayed
 	 */
 	public OptionType getSelectedOptionType() {
 		return selectedOptionType;
-	}
-
-	/**
-	 * @param app
-	 *            application
-	 * @param type
-	 *            Option panel type
-	 * @return true if given Option panel is showing (or is instantiated but
-	 *         hidden)
-	 */
-	public static boolean isOptionPanelAvailable(App app, OptionType type) {
-
-		boolean isAvailable = true;
-
-		switch (type) {
-		case EUCLIDIAN:
-			isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN);
-			break;
-		case EUCLIDIAN2:
-			isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN2);
-			break;
-		case EUCLIDIAN_FOR_PLANE:
-			isAvailable = app.hasEuclidianViewForPlaneVisible();
-			break;
-		case EUCLIDIAN3D:
-			isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN3D);
-			break;
-		case SPREADSHEET:
-			isAvailable = app.getGuiManager().showView(App.VIEW_SPREADSHEET);
-			break;
-		case CAS:
-			isAvailable = app.getGuiManager().showView(App.VIEW_CAS);
-			break;
-		case OBJECTS:
-			// always available
-			break;
-		}
-		return isAvailable;
 	}
 
 	/**
