@@ -24,6 +24,7 @@ import org.geogebra.common.gui.menu.Icon;
 import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.gui.menu.MenuItemGroup;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.localization.ByCSStrings;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 
 public class MebisDrawerMenuFactory extends DefaultDrawerMenuFactory {
@@ -60,7 +61,7 @@ public class MebisDrawerMenuFactory extends DefaultDrawerMenuFactory {
 				Action.DOWNLOAD_SVG);
 		ActionableItem pdf = new ActionableItemImpl(null,
 				"Download.PDFDocument", Action.DOWNLOAD_PDF);
-		return new SubmenuItemImpl(Icon.DOWNLOAD, "Exportieren als", null, downloadPng, svg, pdf);
+		return new SubmenuItemImpl(Icon.DOWNLOAD, ByCSStrings.EXPORT, null, downloadPng, svg, pdf);
 	}
 
 	private MenuItemGroup createSecondaryMenuItemGroup() {
@@ -69,19 +70,19 @@ public class MebisDrawerMenuFactory extends DefaultDrawerMenuFactory {
 	}
 
 	private ActionableItem showAboutBoard() {
-		return new ActionableItemImpl(Icon.ABOUT_BOARD, "\u00DCber Board", Action.ABOUT_BOARD);
+		return new ActionableItemImpl(Icon.ABOUT_BOARD, ByCSStrings.ABOUT, Action.ABOUT_BOARD);
 	}
 
 	@Override
 	protected ActionableItem showHelpAndFeedback() {
-		return new ActionableItemImpl(Icon.HELP, "Hilfe und Tutorials", Action.SHOW_TUTORIALS);
+		return new ActionableItemImpl(Icon.HELP, ByCSStrings.TUTORIALS, Action.SHOW_TUTORIALS);
 	}
 
 	private ActionableItem showTemplates() {
-		return new ActionableItemImpl(Icon.TEMPLATES, "Vorlagen", Action.TEMPLATES);
+		return new ActionableItemImpl(Icon.TEMPLATES, ByCSStrings.TEMPLATES, Action.TEMPLATES);
 	}
 
 	private ActionableItem showLicence() {
-		return new ActionableItemImpl(Icon.INFO, "Impressum", Action.SHOW_LICENSE);
+		return new ActionableItemImpl(Icon.INFO, ByCSStrings.INFO, Action.SHOW_LICENSE);
 	}
 }
