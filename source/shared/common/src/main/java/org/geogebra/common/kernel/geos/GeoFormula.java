@@ -16,6 +16,8 @@
 
 package org.geogebra.common.kernel.geos;
 
+import static org.geogebra.common.main.GeoGebraColorConstants.NEUTRAL_900;
+
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
@@ -56,6 +58,7 @@ public class GeoFormula extends GeoInline {
 	public GeoFormula(Construction c, GPoint2D location) {
 		super(c);
 		setLocation(location);
+		setObjColor(NEUTRAL_900);
 		setContentWidth(DEFAULT_WIDTH);
 		setContentHeight(DEFAULT_HEIGHT);
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
