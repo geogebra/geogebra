@@ -183,12 +183,18 @@
 		}
 	}
 
+	.spreadsheetStyleBarParent {
+		height: 42px
+	}
+
 	.spreadsheetStyleBar {
 		position: relative;
 		display: flex;
 		gap: 8px;
 		height: 36px;
-		margin: 6px 8px;
+		margin: 6px 8px 0 8px;
+		padding-bottom: 16px;
+		overflow: scroll hidden;
 
 		&.portrait {
 			left: 0;

@@ -972,6 +972,7 @@ public final class ToolbarPanel extends FlowPanel
 		}
 		if (spreadsheetStyleBar != null) {
 			spreadsheetStyleBar.setVisible(tab == TabIds.SPREADSHEET);
+			spreadsheetStyleBar.getParent().setVisible(tab == TabIds.SPREADSHEET);
 		}
 	}
 
@@ -1501,6 +1502,7 @@ public final class ToolbarPanel extends FlowPanel
 			}
 			boolean undoRedoEnabled = app.getAppletParameters().getDataParamEnableUndoRedo();
 			spreadsheetStyleBar.setDividerVisible(headingVisible && undoRedoEnabled);
+			spreadsheetStyleBar.getParent().addStyleName("spreadsheetStyleBarParent");
 		}
 	}
 
