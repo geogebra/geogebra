@@ -21,11 +21,11 @@ package org.geogebra.common.main.localization;
  */
 @SuppressWarnings("SpellCheckingInspection")
 public final class ByCSStrings {
-	private ByCSStrings() { }
-
 	public static final String EXPORT = "Exportieren als";
 	public static final String TUTORIALS = "Hilfe und Tutorials";
 	public static final String TEMPLATES = "Vorlagen";
 	public static final String INFO = "Impressum";
 	public static final String ABOUT = "\u00DCber Board";
+
+	private ByCSStrings() { }
 }
