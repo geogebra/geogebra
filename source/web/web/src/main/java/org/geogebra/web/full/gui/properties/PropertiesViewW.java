@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.exam.ExamListener;
 import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.gui.SetLabels;
@@ -372,7 +373,9 @@ public final class PropertiesViewW extends PropertiesView
 				? getShowableElements() : List.of();
 		List<PropertiesArray> propLists;
 		String titleKey;
-		boolean showObjectProperties = !showableGeos.isEmpty();
+		boolean isScientific = app.getConfig().getVersion()
+				== GeoGebraConstants.Version.SCIENTIFIC;
+		boolean showObjectProperties = !showableGeos.isEmpty() && !isScientific;
 		if (showObjectProperties) {
 			GeoElementPropertiesFactory propertiesFactory =
 					((AppWFull) app).getGeoElementPropertiesFactory();
