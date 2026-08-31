@@ -271,7 +271,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			if (powerExp == null) {
 				partExp = coeffMyDouble;
 			} else {
-				if (coeff == -1 && powerExp.wrap().isOperation(Operation.MULTIPLY)) {
+				if (coeff == -1 && powerExp.isOperation(Operation.MULTIPLY)) {
 					partExp = multiplyFirstOperandOnly(powerExp, kernel, coeffMyDouble);
 				} else {
 					partExp = new ExpressionNode(kernel, coeffMyDouble,

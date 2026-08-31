@@ -3511,32 +3511,25 @@ public class MyXMLHandler implements DocHandler {
 			// attribute type
 			if (type != null) {
 				if (ve instanceof ExpressionNode expressionNode) {
-					if ("point".equals(type)) {
-						expressionNode.setForcePoint();
-					} else if ("vector".equals(type)) {
-						expressionNode.setForceVector();
-						// we must check that we have Equation here as xAxis
-						// has also type "line" but is parsed as ExpressionNode
-					} else if ("inequality".equals(type)) {
-						expressionNode.setForceInequality();
-					} else if ("surfacecartesian".equals(type)) {
-						expressionNode.setForceSurfaceCartesian();
+					switch (type) {
+					case "point" -> expressionNode.setForcePoint();
+					case "vector" -> expressionNode.setForceVector();
+					case "inequality" -> expressionNode.setForceInequality();
+					case "surfacecartesian" -> expressionNode.setForceSurfaceCartesian();
+					default -> { }
 					}
 				} else if (ve instanceof Equation equation) {
-					if ("line".equals(type)) {
-						equation.setForceLine();
-					} else if ("plane".equals(type)) {
-						equation.setForcePlane();
-					} else if ("conic".equals(type)) {
-						equation.setForceConic();
-					} else if ("quadric".equals(type)) {
-						equation.setForceQuadric();
-					} else if ("implicitpoly".equals(type) || "implicitPoly".equals(type)) {
-						equation.setForceImplicitPoly();
-					} else if ("implicitsurface".equals(type)) {
-						equation.setForceSurface();
-					} else if ("function".equals(type)) {
-						equation.setForceFunction();
+					// we must check that we have Equation here as xAxis
+					// has also type "line" but is parsed as ExpressionNode
+					switch (type) {
+					case "line" -> equation.setForceLine();
+					case "plane" -> equation.setForcePlane();
+					case "conic" -> equation.setForceConic();
+					case "quadric" -> equation.setForceQuadric();
+					case "implicitpoly", "implicitPoly" -> equation.setForceImplicitPoly();
+					case "implicitsurface" -> equation.setForceSurface();
+					case "function" -> equation.setForceFunction();
+					default -> { }
 					}
 				}
 			}

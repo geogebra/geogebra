@@ -96,6 +96,29 @@ public interface ExpressionValue extends Iterable<ExpressionValue> {
 	boolean isVariable();
 
 	/**
+	 * Checks whether this is a {@link Command} with given (internal) name
+	 * or a leaf {@link ExpressionNode} wrapping such command.
+	 * <p>
+	 * Example: isTopLevelCommand("Midpoint") is true for these
+	 * </p>
+	 * <ul>
+	 *   <li>Midpoint(A,B)</li>
+	 *   <li>(Midpoint(A,B)) -- parsed as ExpressionNode wrapping a Command</li>
+	 * </ul>
+	 * but not these
+	 * <ul>
+	 *   <li>Midpoint(A,B)*2 -- parsed as non-leaf ExpressionNode</li>
+	 *   <li>{Midpoint(A,B)} -- parsed as MyList</li>
+	 * </ul>
+	 * @param commandName
+	 *            command name
+	 * @return whether the top-level part of this expression is a command with matching name
+	 */
+	default boolean isTopLevelCommand(@NonNull String commandName) {
+		return false;
+	}
+
+	/**
 	 * @return whether this is part of some expression node tree
 	 */
 	boolean isInTree();

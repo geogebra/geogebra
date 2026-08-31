@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Helper class for XML export
@@ -471,5 +472,36 @@ public class XMLBuilder {
 		sb.startTag("incrementY")
 				.attr("val", verticalIncrement.getLabel(StringTemplate.xmlTemplate))
 				.endTag();
+	}
+
+	/**
+	 * Append element type for the &lt;expression&gt; element.
+	 * Unlike for &lt;element&gt;, this is only needed if evaluation of
+	 * expression could be ambiguous.
+	 * @param geo construction element
+	 * @param sb XML string builder
+	 */
+	public static void appendExpressionType(@NonNull GeoElement geo, @NonNull XMLStringBuilder sb) {
+		if (geo.isGeoPoint()) {
+			sb.attrRaw("type", "point");
+		} else if (geo.isGeoVector()) {
+			sb.attrRaw("type", "vector");
+		} else if (geo.isGeoLine()) {
+			sb.attrRaw("type", "line");
+		} else if (geo.isGeoPlane()) {
+			sb.attrRaw("type", "plane");
+		} else if (geo.isGeoConic()) {
+			sb.attrRaw("type", "conic");
+		} else if (geo.isGeoQuadric()) {
+			sb.attrRaw("type", "quadric");
+		} else if (geo.isGeoImplicitCurve()) {
+			sb.attrRaw("type", "implicitpoly");
+		} else if (geo.isGeoImplicitSurface()) {
+			sb.attrRaw("type", "implicitsurface");
+		} else if (geo.isGeoSurfaceCartesian()) {
+			sb.attrRaw("type", "surfacecartesian");
+		} else if (geo.isGeoList()) {
+			sb.attrRaw("type", "list");
+		}
 	}
 }

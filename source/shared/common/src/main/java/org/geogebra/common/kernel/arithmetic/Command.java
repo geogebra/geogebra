@@ -793,8 +793,8 @@ public class Command extends ValidExpression
 	}
 
 	@Override
-	public boolean isTopLevelCommand(String checkName) {
-		return name.equals(checkName);
+	public boolean isTopLevelCommand(@NonNull String commandName) {
+		return name.equals(commandName);
 	}
 
 	@Override

@@ -467,20 +467,20 @@ public abstract class CommandProcessor {
 		ExpressionNode def = c.getArgument(0)
 				.traverse(CommandReplacer.getReplacer(kernel, false)).wrap();
 		for (int i = 0; i < over.length; i++) {
-			if (vars[i].isGeoText()) {
+			if (vars[i] instanceof GeoText objectName) {
 				final int fi = i;
-				def.any(node -> updateObject(node, vars[fi], over[fi]));
+				def.any(node -> updateObject(node, objectName, over[fi]));
 			}
 		}
 		return resArg(def, argInfo);
 	}
 
-	private boolean updateObject(ExpressionValue ev, GeoElement var, GeoList list) {
-		if (ev.isExpressionNode() && ev.wrap().isTopLevelCommand("Object")) {
+	private boolean updateObject(ExpressionValue ev, GeoText objectName, GeoList list) {
+		if (ev.isExpressionNode() && ev.isTopLevelCommand("Object")) {
 			list.elements().forEach(el -> {
 				String label = el.toValueString(StringTemplate.defaultTemplate);
 				if (kernel.lookupLabel(label) != null) {
-					((GeoText) var).setTextString(label);
+					objectName.setTextString(label);
 				}
 			});
 			return true;

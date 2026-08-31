@@ -46,6 +46,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoScriptAction;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.LabelManager;
+import org.geogebra.common.kernel.geos.XMLBuilder;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
@@ -1422,25 +1423,7 @@ public abstract class AlgoElement extends ConstructionElement
 		// make sure that a vector remains a vector and a point remains a point
 		if (getOutputLength() > 0) {
 			GeoElement output1 = getOutput(0);
-			if (output1.isGeoPoint()) {
-				sb.attrRaw("type", "point");
-			} else if (output1.isGeoVector()) {
-				sb.attrRaw("type", "vector");
-			} else if (output1.isGeoLine()) {
-				sb.attrRaw("type", "line");
-			} else if (output1.isGeoPlane()) {
-				sb.attrRaw("type", "plane");
-			} else if (output1.isGeoConic()) {
-				sb.attrRaw("type", "conic");
-			} else if (output1.isGeoQuadric()) {
-				sb.attrRaw("type", "quadric");
-			} else if (output1.isGeoImplicitCurve()) {
-				sb.attrRaw("type", "implicitpoly");
-			} else if (output1.isGeoSurfaceCartesian()) {
-				sb.attrRaw("type", "surfacecartesian");
-			} else if (output1.isGeoList()) {
-				sb.attrRaw("type", "list");
-			}
+			XMLBuilder.appendExpressionType(output1, sb);
 		}
 
 		// expression

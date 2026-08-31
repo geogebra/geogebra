@@ -48,6 +48,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
@@ -1689,9 +1690,9 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	@Override
-	public boolean isTopLevelCommand(String checkName) {
+	public boolean isTopLevelCommand(@NonNull String commandName) {
 		return isLeaf() && (left instanceof ValidExpression unwrapped)
-				&& unwrapped.isTopLevelCommand(checkName);
+				&& unwrapped.isTopLevelCommand(commandName);
 	}
 
 	@Override

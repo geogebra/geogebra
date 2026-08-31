@@ -1531,7 +1531,7 @@ public class GeoSymbolic extends GeoElement
 		// the structural assumptions before we start unwrapping conditional outputs.
 		ensureInvariant("getFormulaString");
 		if (substituteNumbers && tpl.isLatex()) {
-			if (value != null && value.wrap().isTopLevelCommand("If")
+			if (value != null && value.isTopLevelCommand("If")
 					&& !fVars.isEmpty()) {
 				FunctionVariable fv = fVars.get(0);
 				ArrayList<ExpressionNode> cases = new ArrayList<>();

@@ -4435,23 +4435,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 					.attr("exp", getDefinitionXML());
 
 			// add type (e.g. for plane/line)
-			if (isGeoPoint()) {
-				sb.attrRaw("type", "point");
-			} else if (isGeoVector()) {
-				sb.attrRaw("type", "vector");
-			} else if (isGeoLine()) {
-				sb.attrRaw("type", "line");
-			} else if (isGeoPlane()) {
-				sb.attrRaw("type", "plane");
-			} else if (isGeoConic()) {
-				sb.attrRaw("type", "conic");
-			} else if (isGeoQuadric()) {
-				sb.attrRaw("type", "quadric");
-			} else if (isGeoImplicitCurve()) {
-				sb.attrRaw("type", "implicitpoly");
-			} else if (isGeoImplicitSurface()) {
-				sb.attrRaw("type", "implicitsurface");
-			}
+			XMLBuilder.appendExpressionType(this, sb);
 			sb.endTag();
 		}
 	}
