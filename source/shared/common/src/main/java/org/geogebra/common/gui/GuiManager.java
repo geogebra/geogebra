@@ -154,6 +154,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 		// save AlgebraView settings
 		if (hasAlgebraView()) {
 			getAlgebraViewXML(sb, asPreference);
+		} else if (app.getConfig().hasAlgebraView()) {
+			app.getSettings().getAlgebra().getXML(sb, app.showAuxiliaryObjects());
 		}
 	}
 
