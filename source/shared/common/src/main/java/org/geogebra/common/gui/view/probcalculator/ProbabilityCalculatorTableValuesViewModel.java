@@ -16,6 +16,9 @@
 
 package org.geogebra.common.gui.view.probcalculator;
 
+import org.geogebra.common.states.DerivedState;
+import org.geogebra.common.states.MutableState;
+import org.geogebra.common.states.State;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -23,14 +26,9 @@ import org.jspecify.annotations.Nullable;
 public final class ProbabilityCalculatorTableValuesViewModel
 		implements ProbabilityCalculatorView.Listener {
 	private final @NonNull ProbabilityCalculatorView probabilityCalculatorView;
-	private @Nullable ProbabilityCalculatorTableValues tableValues;
-	private @Nullable Delegate delegate;
-
-	/** Receives notifications when the content or button state changes. */
-	public interface Delegate {
-		/** Updates the UI using the current content and button state. */
-		void update();
-	}
+	private final @NonNull MutableState<@Nullable ProbabilityCalculatorTableValues> tableValues;
+	private final @NonNull MutableState<@NonNull Boolean> buttonVisible;
+	private final @NonNull State<@NonNull ButtonState> buttonState;
 
 	/** Describes the state of the table values button. */
 	public enum ButtonState {
@@ -39,7 +37,7 @@ public final class ProbabilityCalculatorTableValuesViewModel
 		/** Visible and inactive table values button (table not shown) */
 		INACTIVE,
 		/** Unavailable/invisible table values button. */
-		HIDDEN;
+		HIDDEN
 	}
 
 	/**
@@ -49,62 +47,49 @@ public final class ProbabilityCalculatorTableValuesViewModel
 	public ProbabilityCalculatorTableValuesViewModel(
 			@NonNull ProbabilityCalculatorView probabilityCalculatorView) {
 		this.probabilityCalculatorView = probabilityCalculatorView;
+		this.tableValues = new MutableState<>(null);
+		this.buttonVisible = new MutableState<>(probabilityCalculatorView.isDiscreteProbability());
+		this.buttonState = DerivedState.of(tableValues, buttonVisible,
+				(tableValues, buttonVisible) -> buttonVisible ? tableValues != null
+						? ButtonState.ACTIVE : ButtonState.INACTIVE : ButtonState.HIDDEN);
 		probabilityCalculatorView.addListener(this);
-	}
-
-	/**
-	 * Sets the delegate notified when this view's content or button state changes.
-	 * @param delegate delegate to notify, or {@code null} to stop notifications
-	 */
-	public void setDelegate(@Nullable Delegate delegate) {
-		this.delegate = delegate;
 	}
 
 	/**
 	 * @return table values content, or {@code null} when closed
 	 */
-	public @Nullable ProbabilityCalculatorTableValues getContent() {
+	public @NonNull State<@Nullable ProbabilityCalculatorTableValues> getContent() {
 		return tableValues;
 	}
 
 	/**
 	 * @return current button state
 	 */
-	public @NonNull ButtonState getButtonState() {
-		return probabilityCalculatorView.isDiscreteProbability() ? tableValues != null
-				? ButtonState.ACTIVE : ButtonState.INACTIVE : ButtonState.HIDDEN;
+	public @NonNull State<ButtonState> getButtonState() {
+		return buttonState;
 	}
 
 	/** Handles tapping on the table values button. */
 	public void onButtonTapped() {
-		tableValues = tableValues == null
-				? ProbabilityCalculatorTableValues.from(probabilityCalculatorView) : null;
-		if (delegate != null) {
-			delegate.update();
-		}
+		tableValues.set(tableValues.get() == null
+				? ProbabilityCalculatorTableValues.from(probabilityCalculatorView) : null);
 	}
 
 	/** Handles closing the view, called when the view is collapsed or closed via the x button. */
 	public void onClosed() {
-		tableValues = null;
-		if (delegate != null) {
-			delegate.update();
-		}
+		tableValues.set(null);
 	}
 
 	/** Detaches the view from listening to probability view changes and sending notifications. */
 	public void detach() {
-		delegate = null;
 		probabilityCalculatorView.removeListener(this);
 	}
 
 	@Override
 	public void probabilityCalculatorViewChanged() {
-		if (tableValues != null) {
-			tableValues = ProbabilityCalculatorTableValues.from(probabilityCalculatorView);
+		if (tableValues.get() != null) {
+			tableValues.set(ProbabilityCalculatorTableValues.from(probabilityCalculatorView));
 		}
-		if (delegate != null) {
-			delegate.update();
-		}
+		buttonVisible.set(probabilityCalculatorView.isDiscreteProbability());
 	}
 }

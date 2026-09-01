@@ -122,6 +122,6 @@ public class QuickStyleBar implements EuclidianStyleBar {
 
 	@Override
 	public boolean isVisible() {
-		return model.getButtons() != null;
+		return model.getButtons().get() != null;
 	}
 }

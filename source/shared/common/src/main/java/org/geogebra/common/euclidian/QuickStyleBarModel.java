@@ -43,6 +43,8 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.DefaultColorValues;
+import org.geogebra.common.states.MutableState;
+import org.geogebra.common.states.State;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -63,10 +65,10 @@ public class QuickStyleBarModel {
 
 	private List<GeoElement> elements;
 	private BooleanProperty isFixedProperty;
-	private @Nullable List<Button> buttons;
-	private @Nullable Integer selectedButtonIndex;
+	private final MutableState<@Nullable List<Button>> buttons = new MutableState<>(null);
+	private final MutableState<@Nullable Integer> selectedButtonIndex = new MutableState<>(null);
 	private PropertiesArray submenuProperties;
-	private @Nullable List<PropertyView> submenuItems;
+	private final MutableState<@Nullable List<PropertyView>> submenuItems = new MutableState<>(null);
 
 	private final PropertyValueObserver<?> hideSubmenuOnValueChange = property -> hideSubmenu();
 
@@ -91,24 +93,6 @@ public class QuickStyleBarModel {
 
 	/** Receives notifications about state changes of the quick style bar. */
 	public interface Delegate {
-		/** 
-		 * Called when the displayed buttons change.
-		 * @param buttons the displayed buttons, or {@code null} when the bar is hidden
-		 */
-		void onButtonsChanged(@Nullable List<Button> buttons);
-
-		/** 
-		 * Called when the submenu items change. 
-		 * @param items the property view items, or {@code null} when the submenu is hidden
-		 */
-		void onSubmenuItemsChanged(@Nullable List<PropertyView> items);
-
-		/** 
-		 * Called when the selected button changes.
-		 * @param selectedButton selected button index, or {code null} when the submenu is hidden.
-		 */
-		void onSelectedButtonChanged(@Nullable Integer selectedButton);
-
 		/**
 		 * Called to request opening the object settings.
 		 * @param elements elements
@@ -143,21 +127,21 @@ public class QuickStyleBarModel {
 	/**
 	 * @return the current state, or {@code null} if the quick style bar is hidden
 	 */
-	public @Nullable List<Button> getButtons() {
+	public @NonNull State<@Nullable List<Button>> getButtons() {
 		return buttons;
 	}
 
 	/**
 	 * @return the current submenu state, or {@code null} if the submenu is closed
 	 */
-	public @Nullable List<PropertyView> getSubmenuItems() {
+	public @NonNull State<@Nullable List<PropertyView>> getSubmenuItems() {
 		return submenuItems;
 	}
 
 	/**
 	 * @return index of the button whose submenu is open, or {@code null} if none is selected
 	 */
-	public @Nullable Integer getSelectedButtonIndex() {
+	public @NonNull State<@Nullable Integer> getSelectedButtonIndex() {
 		return selectedButtonIndex;
 	}
 
@@ -206,7 +190,7 @@ public class QuickStyleBarModel {
 	 * @param button the pressed button
 	 */
 	public void onButtonPressed(Button button) {
-		List<Button> currentButtons = buttons;
+		List<Button> currentButtons = buttons.get();
 		if (currentButtons == null) {
 			return;
 		}
@@ -217,7 +201,7 @@ public class QuickStyleBarModel {
 			}
 		} else {
 			int selectedButtonIndex = currentButtons.indexOf(button);
-			if (Objects.equals(this.selectedButtonIndex, selectedButtonIndex)) {
+			if (Objects.equals(this.selectedButtonIndex.get(), selectedButtonIndex)) {
 				hideSubmenu();
 			} else {
 				PropertiesArray array = createPropertiesArray(button);
@@ -237,34 +221,25 @@ public class QuickStyleBarModel {
 		return positioner.getPositionOnCanvas(popupSize);
 	}
 
-	private void setButtons(List<Button> buttons) {
-		if (Objects.equals(this.buttons, buttons)) {
+	private void setButtons(@Nullable List<Button> buttons) {
+		if (Objects.equals(this.buttons.get(), buttons)) {
 			return;
 		}
-		this.buttons = buttons;
-		if (delegate != null) {
-			delegate.onButtonsChanged(buttons);
-		}
+		this.buttons.set(buttons);
 	}
 
-	private void setSubmenuItems(List<PropertyView> submenuItems) {
-		if (this.submenuItems == submenuItems) {
+	private void setSubmenuItems(@Nullable List<PropertyView> submenuItems) {
+		if (this.submenuItems.get() == submenuItems) {
 			return;
 		}
-		this.submenuItems = submenuItems;
-		if (delegate != null) {
-			delegate.onSubmenuItemsChanged(submenuItems);
-		}
+		this.submenuItems.set(submenuItems);
 	}
 
 	private void setSelectedButtonIndex(@Nullable Integer selectedButtonIndex) {
-		if (Objects.equals(this.selectedButtonIndex, selectedButtonIndex)) {
+		if (Objects.equals(this.selectedButtonIndex.get(), selectedButtonIndex)) {
 			return;
 		}
-		this.selectedButtonIndex = selectedButtonIndex;
-		if (delegate != null) {
-			delegate.onSelectedButtonChanged(selectedButtonIndex);
-		}
+		this.selectedButtonIndex.set(selectedButtonIndex);
 	}
 
 	private void showSubmenu(PropertiesArray array, @NonNull Integer selectedButtonIndex) {

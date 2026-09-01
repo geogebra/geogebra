@@ -19,6 +19,7 @@ package org.geogebra.web.full.gui.view.probcalculator;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorTableValuesViewModel;
+import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorTableValuesViewModel.ButtonState;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityTable;
@@ -64,6 +65,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	protected FlowPanel plotPanelOptions;
 	private ComponentSideSheet sideSheet;
 	private ProbabilityCalculatorTableValuesViewModel tableModel;
+
+	private void updateTableButton(ButtonState buttonState) {
+		tableIconButton.setVisible(buttonState != ButtonState.HIDDEN);
+		tableIconButton.setActive(buttonState == ButtonState.ACTIVE);
+	}
 
 	/**
 	 * @param app creates new probability calculator view
@@ -140,7 +146,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 
 		if (tableIconButton != null) {
 			plotPanelOptions.add(tableIconButton);
-			tableIconButton.setVisible(false);
 		}
 		plotPanelOptions.add(overlayIconButton);
 		if (!app.getConfig().hasDistributionView()) {
@@ -193,6 +198,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		btnBarGraph.addFastClickHandler(event -> setGraphType(GRAPH_BAR));
 	}
 
+	// TODO APPS-7848: Cancel subscription in Web State integration
+	@SuppressWarnings("CheckReturnValue")
 	private void createTableButtonAndSideSheet() {
 		tableIconButton = new IconButton((AppW) app, null,
 				new ImageIconSpec(MaterialDesignResources.INSTANCE.toolbar_table_view_black()),
@@ -204,10 +211,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		new FocusableWidget(AccessibilityGroup.PROBABILITY_TABLE, null, tableIconButton)
 				.attachTo((AppW) app);
 		tableModel = new ProbabilityCalculatorTableValuesViewModel(this);
+		updateTableButton(tableModel.getButtonState().get());
+		tableModel.getButtonState().subscribe(this::updateTableButton);
 		sideSheet = new ComponentSideSheet((AppW) app, new SideSheetData("Table"));
 		sideSheet.addStyleName("probabilityTableSideSheet");
 		sideSheet.addAttachHandler(e -> {
-			tableIconButton.setActive(e.isAttached());
 			if (!e.isAttached()) {
 				tableModel.onClosed();
 			}
@@ -265,10 +273,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	@Override
 	protected void onDistributionUpdate() {
 		overlayIconButton.setVisible(isOverlayDefined());
-		if (tableIconButton != null) {
-			tableIconButton.setVisible(tableModel.getButtonState()
-					!= ProbabilityCalculatorTableValuesViewModel.ButtonState.HIDDEN);
-		}
 		getPlotPanel().repaintView();
 		if (sideSheet != null && sideSheet.isAttached() && !isDiscreteProbability()) {
 			sideSheet.close();

@@ -22,17 +22,25 @@ import java.util.function.Function;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorTableValues;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorTableValues.Row;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorTableValuesViewModel;
+import org.geogebra.common.states.State.Subscription;
 import org.geogebra.web.full.util.StickyTable;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.gwtproject.cell.client.SafeHtmlCell;
 import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.user.cellview.client.Column;
+import org.jspecify.annotations.Nullable;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import elemental2.dom.HTMLElement;
 
 public final class StickyProbabilityTable extends StickyTable<Row> {
 
 	private ProbabilityCalculatorTableValuesViewModel model;
+	// TODO APPS-7848: Cancel when the probability table is permanently disposed.
+	// onUnload() cannot be used because the same table is unloaded and reloaded
+	// whenever the side sheet is closed and reopened.
+	@SuppressFBWarnings("URF_UNREAD_FIELD")
+	private @Nullable Subscription contentSubscription;
 	private ProbabilityCalculatorTableValues values;
 
 	/**
@@ -70,7 +78,7 @@ public final class StickyProbabilityTable extends StickyTable<Row> {
 
 	@Override
 	protected void fillValues(List<Row> data) {
-		values = model.getContent();
+		values = model.getContent().get();
 		data.clear();
 		if (values != null) {
 			data.addAll(values.rows());
@@ -83,7 +91,7 @@ public final class StickyProbabilityTable extends StickyTable<Row> {
 	 */
 	public void setModel(ProbabilityCalculatorTableValuesViewModel model) {
 		this.model = model;
-		model.setDelegate(this::refresh);
+		contentSubscription = model.getContent().subscribe(ignored -> refresh());
 		addColumn(Row::k);
 		addColumn(Row::probability);
 	}

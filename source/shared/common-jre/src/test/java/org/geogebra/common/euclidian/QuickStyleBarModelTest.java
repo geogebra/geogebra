@@ -20,9 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
@@ -62,7 +59,7 @@ class QuickStyleBarModelTest extends BaseAppTestSetup {
 				new Button.Color(),
 				new Button.PointStyle(PropertyResource.ICON_POINT_STYLE_DOT)
 		);
-		assertButtonEqual(expectedButtons);
+		assertEquals(expectedButtons, model.getButtons().get());
 	}
 
 	@Test
@@ -73,14 +70,14 @@ class QuickStyleBarModelTest extends BaseAppTestSetup {
 				new Button.LineStyle(PropertyResource.ICON_LINE_TYPE_FULL),
 				new Button.Fixing(true)
 		);
-		assertButtonEqual(expectedButtons);
+		assertEquals(expectedButtons, model.getButtons().get());
 	}
 
 	@Test
 	void showCreatesOpacityButtonForImage() {
 		model.show(List.of(new GeoImage(getKernel().getConstruction())));
 		List<Button> expectedButtons = List.of(new Button.Opacity());
-		assertButtonEqual(expectedButtons);
+		assertEquals(expectedButtons, model.getButtons().get());
 	}
 
 	@Test
@@ -88,16 +85,8 @@ class QuickStyleBarModelTest extends BaseAppTestSetup {
 		model.show(List.of(evaluateGeoElement("(1,2)")));
 		model.onButtonPressed(new Button.Color());
 		model.hide();
-		assertButtonEqual(null);
+		assertNull(model.getButtons().get());
 		assertSubmenuIsEmpty();
-	}
-
-	@Test
-	void hideWhenAlreadyHiddenDoesNotNotify() {
-		model.hide();
-		verify(delegate, never()).onButtonsChanged(anyList());
-		verify(delegate, never()).onSubmenuItemsChanged(anyList());
-		verify(delegate, never()).onSelectedButtonChanged(anyInt());
 	}
 
 	@Test
@@ -105,11 +94,9 @@ class QuickStyleBarModelTest extends BaseAppTestSetup {
 		model.show(List.of(evaluateGeoElement("(1,2)")));
 		model.onButtonPressed(new Button.Color());
 
-		List<PropertyView> propertyViews = model.getSubmenuItems();
+		List<PropertyView> propertyViews = model.getSubmenuItems().get();
 		assertNotNull(propertyViews);
-		assertEquals(0, model.getSelectedButtonIndex());
-		verify(delegate).onSelectedButtonChanged(0);
-		verify(delegate).onSubmenuItemsChanged(propertyViews);
+		assertEquals(0, model.getSelectedButtonIndex().get());
 		assertEquals(1, propertyViews.size());
 		assertInstanceOf(PropertyView.ColorSelectorRow.class, propertyViews.get(0));
 	}
@@ -125,8 +112,7 @@ class QuickStyleBarModelTest extends BaseAppTestSetup {
 	@Test
 	void pressingButtonWhenHiddenDoesNothing() {
 		model.onButtonPressed(new Button.Color());
-		assertNull(model.getSubmenuItems());
-		verify(delegate, never()).onSubmenuItemsChanged(anyList());
+		assertNull(model.getSubmenuItems().get());
 	}
 
 	@Test
@@ -134,7 +120,7 @@ class QuickStyleBarModelTest extends BaseAppTestSetup {
 		model.show(List.of(evaluateGeoElement("(1,2)")));
 		model.onButtonPressed(new Button.Color());
 		PropertyView.ColorSelectorRow colorSelectorRow =
-				(PropertyView.ColorSelectorRow) model.getSubmenuItems().get(0);
+				(PropertyView.ColorSelectorRow) model.getSubmenuItems().get().get(0);
 		colorSelectorRow.setCustomColor(GColor.WHITE);
 		assertSubmenuIsEmpty();
 	}
@@ -143,12 +129,12 @@ class QuickStyleBarModelTest extends BaseAppTestSetup {
 	void settingRangeSubmenuPropertyKeepsSubmenuOpen() {
 		model.show(List.of(evaluateGeoElement("f(x)=x")));
 		model.onButtonPressed(new Button.LineStyle(PropertyResource.ICON_LINE_TYPE_FULL));
-		PropertyView.Slider thicknessSlider = model.getSubmenuItems().stream()
+		PropertyView.Slider thicknessSlider = model.getSubmenuItems().get().stream()
 				.filter(propertyView -> propertyView instanceof PropertyView.Slider)
 				.map(propertyView -> (PropertyView.Slider) propertyView)
 				.findFirst().orElseThrow();
 		thicknessSlider.setValue(7);
-		assertNotNull(model.getSubmenuItems());
+		assertNotNull(model.getSubmenuItems().get());
 	}
 
 	@Test
@@ -160,7 +146,7 @@ class QuickStyleBarModelTest extends BaseAppTestSetup {
 
 		model.onButtonPressed(findButton(Button.Fixing.class));
 		assertEquals(!initiallyLocked, function.isLocked());
-		assertNull(model.getSubmenuItems());
+		assertNull(model.getSubmenuItems().get());
 		assertEquals(function.isLocked(), findButton(Button.Fixing.class).isFixed());
 		model.onButtonPressed(findButton(Button.Fixing.class));
 		assertEquals(initiallyLocked, function.isLocked());
@@ -173,8 +159,8 @@ class QuickStyleBarModelTest extends BaseAppTestSetup {
 		model.onButtonPressed(new Button.Color());
 		model.onMorePressed();
 		verify(delegate).openObjectSettings(elements);
-		assertNull(model.getSubmenuItems());
-		assertNotNull(model.getButtons());
+		assertNull(model.getSubmenuItems().get());
+		assertNotNull(model.getButtons().get());
 	}
 
 	@Test
@@ -184,7 +170,7 @@ class QuickStyleBarModelTest extends BaseAppTestSetup {
 		model.show(List.of(point));
 		model.onDeletePressed();
 		verify(delegate).closeObjectSettings();
-		assertNull(model.getButtons());
+		assertNull(model.getButtons().get());
 		assertNull(lookup(point.getLabelSimple()));
 	}
 
@@ -193,29 +179,24 @@ class QuickStyleBarModelTest extends BaseAppTestSetup {
 		model.show(List.of(evaluateGeoElement("(1,2)")));
 		model.onButtonPressed(new Button.Color());
 		PropertyView.ColorSelectorRow staleColorSelectorRow =
-				(PropertyView.ColorSelectorRow) model.getSubmenuItems().get(0);
+				(PropertyView.ColorSelectorRow) model.getSubmenuItems().get().get(0);
 		model.hide();
 		model.show(List.of(evaluateGeoElement("(1,2)")));
 		model.onButtonPressed(new Button.Color());
 		// A value change on the previous submenu's property must not close the new submenu
 		staleColorSelectorRow.setCustomColor(GColor.WHITE);
-		assertNotNull(model.getSubmenuItems());
+		assertNotNull(model.getSubmenuItems().get());
 	}
 
 	private <T extends Button> T findButton(Class<T> buttonType) {
-		return model.getButtons().stream()
+		return model.getButtons().get().stream()
 				.filter(buttonType::isInstance)
 				.map(buttonType::cast)
 				.findFirst().orElseThrow();
 	}
 
-	private void assertButtonEqual(List<Button> buttons) {
-		assertEquals(buttons, model.getButtons());
-		verify(delegate).onButtonsChanged(buttons);
-	}
-
 	private void assertSubmenuIsEmpty() {
-		assertNull(model.getSubmenuItems());
-		verify(delegate).onSubmenuItemsChanged(null);
+		assertNull(model.getSubmenuItems().get());
+		assertNull(model.getSelectedButtonIndex().get());
 	}
 }

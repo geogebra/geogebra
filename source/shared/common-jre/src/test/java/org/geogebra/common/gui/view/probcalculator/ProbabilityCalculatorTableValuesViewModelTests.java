@@ -43,15 +43,15 @@ class ProbabilityCalculatorTableValuesViewModelTests extends BaseAppTestSetup {
 
 	@Test
 	void testInitialUnavailableState() {
-		assertEquals(ButtonState.HIDDEN, tableValuesView.getButtonState());
-		assertNull(tableValuesView.getContent());
+		assertEquals(ButtonState.HIDDEN, tableValuesView.getButtonState().get());
+		assertNull(tableValuesView.getContent().get());
 	}
 
 	@Test
 	void testInitialAvailableState() {
 		setDistribution(Dist.BINOMIAL);
-		assertEquals(ButtonState.INACTIVE, tableValuesView.getButtonState());
-		assertNull(tableValuesView.getContent());
+		assertEquals(ButtonState.INACTIVE, tableValuesView.getButtonState().get());
+		assertNull(tableValuesView.getContent().get());
 	}
 
 	@Test
@@ -59,8 +59,8 @@ class ProbabilityCalculatorTableValuesViewModelTests extends BaseAppTestSetup {
 		setDistribution(Dist.BINOMIAL);
 		tableValuesView.onButtonTapped();
 
-		assertEquals(ButtonState.ACTIVE, tableValuesView.getButtonState());
-		assertNotNull(tableValuesView.getContent());
+		assertEquals(ButtonState.ACTIVE, tableValuesView.getButtonState().get());
+		assertNotNull(tableValuesView.getContent().get());
 	}
 
 	@Test
@@ -69,8 +69,8 @@ class ProbabilityCalculatorTableValuesViewModelTests extends BaseAppTestSetup {
 		tableValuesView.onButtonTapped();
 		tableValuesView.onButtonTapped();
 
-		assertEquals(ButtonState.INACTIVE, tableValuesView.getButtonState());
-		assertNull(tableValuesView.getContent());
+		assertEquals(ButtonState.INACTIVE, tableValuesView.getButtonState().get());
+		assertNull(tableValuesView.getContent().get());
 	}
 
 	@Test
@@ -79,8 +79,8 @@ class ProbabilityCalculatorTableValuesViewModelTests extends BaseAppTestSetup {
 		tableValuesView.onButtonTapped();
 		tableValuesView.onClosed();
 
-		assertEquals(ButtonState.INACTIVE, tableValuesView.getButtonState());
-		assertNull(tableValuesView.getContent());
+		assertEquals(ButtonState.INACTIVE, tableValuesView.getButtonState().get());
+		assertNull(tableValuesView.getContent().get());
 	}
 
 	@Test
@@ -92,8 +92,8 @@ class ProbabilityCalculatorTableValuesViewModelTests extends BaseAppTestSetup {
 				new GeoNumeric(getKernel().getConstruction(), 1)
 		}, false);
 
-		assertEquals(ButtonState.HIDDEN, tableValuesView.getButtonState());
-		assertNull(tableValuesView.getContent());
+		assertEquals(ButtonState.HIDDEN, tableValuesView.getButtonState().get());
+		assertNull(tableValuesView.getContent().get());
 	}
 
 	private void setDistribution(Dist distribution) {
