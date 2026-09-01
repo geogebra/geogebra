@@ -33,17 +33,17 @@ public final class IntegralHelper {
 
 	/** Possible formats of an Integral command. */
 	public enum IntegralForm {
-		/** Integral|NIntegral|IntegralSymbolic(<Function>). */
+		/** Integral|NIntegral|IntegralSymbolic([Function]). */
 		INTEGRAND_ONLY,
-		/** Integral|IntegralSymbolic(<Function>, <Variable>). */
+		/** Integral|IntegralSymbolic([Function], [Variable]). */
 		INTEGRAND_VARIABLE,
-		/** Integral|NIntegral(<Function>, <Start x-value>, <End x-value>). */
+		/** Integral|NIntegral([Function], [Start x-value], [End x-value]). */
 		INTEGRAND_LIMITS,
-		/** Integral|NIntegral(<Function>, <Variable>, <Start value>, <End value>). */
+		/** Integral|NIntegral([Function], [Variable], [Start value], [End value]). */
 		INTEGRAND_VARIABLE_LIMITS,
-		/** Integral(<Function>, <Start x-value>, <End x-value>, <Boolean evaluate>). */
+		/** Integral([Function], [Start x-value], [End x-value], [Boolean evaluate]). */
 		INTEGRAND_LIMITS_EVALUATE,
-		/** NIntegral(<Function>, <Start x-value>, <Start y-value>, <End x-value>). */
+		/** NIntegral([Function], [Start x-value], [Start y-value>, [End x-value]). */
 		INTEGRAND_LIMITS_CURVE,
 	}
 

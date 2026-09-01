@@ -34,13 +34,13 @@ import org.gwtproject.user.client.ui.UIObject;
  * Supplies accessible content text and role descriptions for an algebra view item.
  *
  * <p>This class provides two accessibility resources based on a geo element
- * and its {@link AlgebraStyle}:
+ * and its {@link AlgebraStyle}:</p>
  * <ul>
  *   <li>a supplier of localized content text suitable for screen readers</li>
  *   <li>a localized role description that describes the type of content</li>
  * </ul>
  * The content supplier returns either a combined definition/value representation
- * or a single representation, depending on the algebra style.</p>
+ * or a single representation, depending on the algebra style.
  */
 public final class AccessibleContentProvider {
 	private final GeoElement geo;
