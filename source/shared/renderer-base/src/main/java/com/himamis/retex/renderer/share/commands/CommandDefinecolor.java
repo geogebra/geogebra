@@ -152,7 +152,7 @@ public class CommandDefinecolor extends Command {
 			put("hsla", new Converter() {
 				@Override
 				public GColor to(TeXParser tp) {
-					tp.getArgAsDecimals(doubles, 3);
+					tp.getArgAsDecimals(doubles, 4);
 					doubles[1] = Colors.clamp(doubles[1]);
 					doubles[2] = Colors.clamp(doubles[2]);
 					doubles[3] = Colors.clamp(doubles[3]);

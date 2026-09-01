@@ -46,32 +46,10 @@ package com.himamis.retex.renderer.share.platform.graphics;
 import org.geogebra.common.awt.GColor;
 
 public abstract class GraphicsFactory {
-	// old
-	/*
-	 * static public int CURSOR_RED = 96; static public int CURSOR_GREEN = 96;
-	 * static public int CURSOR_BLUE = 255;
-	 */
-	// teal default
-	/*
-	 * static public int CURSOR_RED = 0; static public int CURSOR_GREEN = 168;
-	 * static public int CURSOR_BLUE = 168;
-	 */
-	// teal dark
-	/*
-	 * static public int CURSOR_RED = 0; static public int CURSOR_GREEN = 141;
-	 * static public int CURSOR_BLUE = 141;
-	 */
-	// purple default
-	/*
-	 * static public int CURSOR_RED = 101; static public int CURSOR_GREEN = 87;
-	 * static public int CURSOR_BLUE = 210;
-	 */
 	// purple dark
 	static public final int CURSOR_RED = 76;
 	static public final int CURSOR_GREEN = 66;
 	static public final int CURSOR_BLUE = 161;
-
-	public abstract GColor createColor(int r, int g, int b, int alpha);
 
 	public abstract Image createImage(int width, int height, int type);
 
@@ -93,8 +71,12 @@ public abstract class GraphicsFactory {
 	}
 
 	public GColor createColor(double r, double g, double b, double a) {
-		return createColor((int) r * 255, (int) g * 255, (int) b * 255,
-				(int) a * 255);
+		return createColor((int) (r * 255), (int) (g * 255), (int) (b * 255),
+				(int) (a * 255));
+	}
+
+	public GColor createColor(int r, int g, int b, int alpha) {
+		return GColor.newColor(r, g, b, alpha);
 	}
 
 	public GColor createColorAlpha(int rgba) {

@@ -47,8 +47,6 @@ package com.himamis.retex.renderer.web.graphics;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.geogebra.common.awt.GColor;
-
 import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 
@@ -61,11 +59,6 @@ public class GraphicsFactoryGWT extends GraphicsFactory {
 
 	private static final int MAX_CACHED_IMAGES = 50;
 	private Map<String, HTMLImageElement> cache;
-
-	@Override
-	public GColor createColor(int red, int green, int blue, int alpha) {
-		return GColor.newColor(red, green, blue).deriveWithAlpha(alpha);
-	}
 
 	@Override
 	public Image createImage(int width, int height, int type) {
