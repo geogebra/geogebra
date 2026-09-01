@@ -1497,12 +1497,15 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	/**
-	 * Cache all drawables
+	 * Cache all drawables.
 	 */
 	@Override
 	public void cacheGraphics() {
-		cacheGraphics = true;
-		initOverlayGraphics();
+		DomGlobal.requestAnimationFrame((stamp) -> {
+			doRepaint2();
+			cacheGraphics = true;
+			initOverlayGraphics();
+		});
 	}
 
 	private void initOverlayGraphics() {
