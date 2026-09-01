@@ -16,15 +16,20 @@
 
 package org.geogebra.common.gui.view.table;
 
+import java.util.List;
+
+import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
+import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Interface for the table of values view.
  */
-public interface TableValues extends View, StatisticsView {
+public interface TableValues extends View {
 
 	/**
 	 * Show the column for the Evaluatable object.
@@ -122,6 +127,44 @@ public interface TableValues extends View, StatisticsView {
 	 * @return the table values model
 	 */
 	TableValuesModel getTableValuesModel();
+
+	/**
+	 * @return the shared coordinator for Table Values statistics sheets
+	 */
+	@NonNull TableValuesStatisticsViewModel getStatisticsViewModel();
+
+	/**
+	 * @param column column
+	 * @return one variable stats. The list if empty, if there is not enough data.
+	 */
+	List<StatisticGroup> getStatistics1Var(int column);
+
+	/**
+	 * @param column column
+	 * @return two variable stats for first and given column. The list if empty, if there is not
+	 * enough data.
+	 */
+	List<StatisticGroup> getStatistics2Var(int column);
+
+	/**
+	 * @param column column
+	 * @return list of regression specifications. The list if empty, if there is not enough data.
+	 */
+	List<RegressionSpecification> getRegressionSpecifications(int column);
+
+	/**
+	 * @param column column
+	 * @param regression regression type + degree
+	 * @return regression parameters for first and given column
+	 */
+	List<StatisticGroup> getRegression(int column, RegressionSpecification regression);
+
+	/**
+	 * @param column column
+	 * @param regression regression type + degree
+	 * @return plot element
+	 */
+	GeoElement plotRegression(int column, RegressionSpecification regression);
 
 	/**
 	 * Get the dimensions. This object gives information about cell

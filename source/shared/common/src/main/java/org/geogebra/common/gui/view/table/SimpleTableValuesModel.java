@@ -431,7 +431,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	private void forEachListener(Consumer<? super TableValuesListener> action) {
-		listenerStream().forEachOrdered(action);
+		listenerStream().toList().forEach(action);
 	}
 
 	@Override

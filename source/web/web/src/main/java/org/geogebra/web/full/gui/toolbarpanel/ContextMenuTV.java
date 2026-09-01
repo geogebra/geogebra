@@ -102,8 +102,7 @@ public final class ContextMenuTV implements TableValuesContextMenuActionHandler.
 				app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC,
 						isExamActive, contextMenuFilters);
 		TableValuesContextMenuActionHandler tableValuesContextMenuActionHandler =
-				new TableValuesContextMenuActionHandler(columnIdx, view, app,
-						app.getLocalization(), this);
+				new TableValuesContextMenuActionHandler(columnIdx, view, app, this);
 		for (TableValuesContextMenuItem item: items) {
 			if (item.getItem() == TableValuesContextMenuItem.Item.Separator) {
 				wrappedPopup.addVerticalSeparator();

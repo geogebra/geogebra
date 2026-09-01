@@ -50,6 +50,7 @@ import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
@@ -76,6 +77,7 @@ public final class TableValuesView implements TableValues, SettingListener {
 	private boolean algebraLabelVisibleCheck = true;
 	private final StatisticGroupsBuilder statisticGroupsBuilder;
 	private final RegressionSpecificationBuilder regressionSpecificationBuilder;
+	private final TableValuesStatisticsViewModel statisticsViewModel;
 	private TableValuesPoints points;
 	private @Nullable List<GeoEvaluatable> batchAdditions;
 
@@ -94,6 +96,7 @@ public final class TableValuesView implements TableValues, SettingListener {
 		processor = new TableValuesInputProcessor(kernel.getConstruction(), this);
 		statisticGroupsBuilder = kernel.getStatisticGroupsBuilder();
 		regressionSpecificationBuilder = app.getRegressionSpecBuilder();
+		statisticsViewModel = new TableValuesStatisticsViewModel(this, app.getLocalization());
 		createTableDimensions();
 		settings.addListener(this);
 	}
@@ -251,6 +254,11 @@ public final class TableValuesView implements TableValues, SettingListener {
 	@Override
 	public TableValuesModel getTableValuesModel() {
 		return model;
+	}
+
+	@Override
+	public @NonNull TableValuesStatisticsViewModel getStatisticsViewModel() {
+		return statisticsViewModel;
 	}
 
 	@Override

@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 import org.geogebra.common.gui.view.table.TableUtil;
 import org.geogebra.common.gui.view.table.TableValues;
+import org.geogebra.common.gui.view.table.TableValuesStatisticsViewModel.Mode;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -65,6 +66,7 @@ public final class TableValuesContextMenuActionHandler {
 		 * @param header column label
 		 * @param statisticGroups list of statistic groups to display
 		 */
+		@Deprecated // TODO Remove in APPS-7848
 		void showStatisticsDialog(@NonNull String title, @NonNull AttributedString header,
 				@NonNull List<StatisticGroup> statisticGroups);
 
@@ -78,6 +80,7 @@ public final class TableValuesContextMenuActionHandler {
 		 * @param plotActionHandler callback to plot the selected regression curve when the
 		 * "Plot" button is pressed or {@code null} when no "Plot" button is shown
 		 */
+		@Deprecated // TODO Remove in APPS-7848
 		void showRegressionDialog(@NonNull String title, @NonNull AttributedString header,
 				@NonNull Map<RegressionSpecification, List<StatisticGroup>> regressionGroups,
 				@Nullable PlotActionHandler plotActionHandler);
@@ -88,12 +91,14 @@ public final class TableValuesContextMenuActionHandler {
 		 * @param header column label
 		 * @param errorMessage human-readable error description
 		 */
+		@Deprecated // TODO Remove in APPS-7848
 		void showErrorDialog(@NonNull String title, @NonNull AttributedString header,
 				@NonNull String errorMessage);
 	}
 
 	/** Callback to be invoked when the user presses the "Plot" button in the regression view. */
 	@FunctionalInterface
+	@Deprecated // TODO Remove in APPS-7848
 	public interface PlotActionHandler {
 		/**
 		 * Called when the user presses the "Plot" button.
@@ -110,11 +115,11 @@ public final class TableValuesContextMenuActionHandler {
 	 * @param delegate the delegate for the platform-specific operations
 	 */
 	public TableValuesContextMenuActionHandler(int columnIndex, @NonNull TableValues tableValues,
-			@NonNull App app, @NonNull Localization localization, @NonNull Delegate delegate) {
+			@NonNull App app, @NonNull Delegate delegate) {
 		this.columnIndex = columnIndex;
 		this.tableValues = tableValues;
 		this.app = app;
-		this.localization = localization;
+		this.localization = app.getLocalization();
 		this.delegate = delegate;
 	}
 
@@ -130,9 +135,10 @@ public final class TableValuesContextMenuActionHandler {
 			case ShowPoints -> setPointsVisibility(true);
 			case HidePoints -> setPointsVisibility(false);
 			case ImportData -> delegate.startDataImport();
-			case Statistics1 -> oneVariableStatistics();
-			case Statistics2 -> twoVariableStatistics();
-			case Regression -> app.getAsyncManager().scheduleCallback(this::regression);
+			case Statistics1 -> showStatistics(Mode.ONE_VARIABLE);
+			case Statistics2 -> showStatistics(Mode.TWO_VARIABLE);
+			case Regression -> app.getAsyncManager().scheduleCallback(
+					() -> showStatistics(Mode.REGRESSION));
 			case Separator -> {
 			}
 		}
@@ -167,6 +173,19 @@ public final class TableValuesContextMenuActionHandler {
 				Map.of("column", columnIndex, "show", visible)));
 	}
 
+	private void showStatistics(Mode mode) {
+		if (app.getPlatform().isMobile()) {
+			tableValues.getStatisticsViewModel().show(mode, columnIndex);
+			return;
+		}
+		switch (mode) {
+			case ONE_VARIABLE -> oneVariableStatistics();
+			case TWO_VARIABLE -> twoVariableStatistics();
+			case REGRESSION -> regression();
+		}
+	}
+
+	@Deprecated // TODO Remove in APPS-7848
 	private void oneVariableStatistics() {
 		AttributedString header = TableUtil.getLabeledColumnHeader(
 				tableValues.getTableValuesModel(), columnIndex, false, localization);
@@ -180,6 +199,7 @@ public final class TableValuesContextMenuActionHandler {
 		}
 	}
 
+	@Deprecated // TODO Remove in APPS-7848
 	private void twoVariableStatistics() {
 		AttributedString header = TableUtil.getLabeledColumnHeader(
 				tableValues.getTableValuesModel(), columnIndex, true, localization);
@@ -193,6 +213,7 @@ public final class TableValuesContextMenuActionHandler {
 		}
 	}
 
+	@Deprecated // TODO Remove in APPS-7848
 	private void regression() {
 		List<RegressionSpecification> regressionSpecifications =
 				tableValues.getRegressionSpecifications(columnIndex);
