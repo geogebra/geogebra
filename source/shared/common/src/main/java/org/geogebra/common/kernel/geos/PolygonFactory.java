@@ -204,10 +204,9 @@ public class PolygonFactory {
 		cons.setSuppressLabelCreation(true);
 		GeoConicND circle = kernel.getAlgoDispatcher().circle(null, points[0],
 				new GeoNumeric(cons, points[0].distance(points[1])));
-		cons.setSuppressLabelCreation(oldMacroMode);
-
+		// keep p without label, will be updated during replace
 		GeoPointND p = kernel.rigidPolygonPointOnCircle(circle, points[1]);
-
+		cons.setSuppressLabelCreation(oldMacroMode);
 		try {
 			cons.replace((GeoElement) points[1], (GeoElement) p);
 			points[1] = p;
@@ -237,7 +236,7 @@ public class PolygonFactory {
 
 		a.makeUnitVector();
 		b.makeUnitVector();
-		StringTemplate tpl = StringTemplate.maxPrecision;
+		StringTemplate tpl = StringTemplate.maxDecimals;
 		boolean is3D = points[0].isGeoElement3D() || points[1].isGeoElement3D();
 		for (int i = 2; i < points.length; i++) {
 
@@ -274,8 +273,6 @@ public class PolygonFactory {
 			try {
 				cons.replace((GeoElement) points[i], (GeoElement) pp);
 				points[i] = pp;
-				points[i].setEuclidianVisible(false);
-				points[i].update();
 			} catch (Exception e) {
 				Log.debug(e);
 				return null;
@@ -283,8 +280,16 @@ public class PolygonFactory {
 		}
 
 		kernel.setCommandLookupStrategy(oldVal);
-
-		points[0].update();
+		for (int i = 0; i < points.length; i++) {
+			String label = points[i].getLabelSimple();
+			if (label != null) {
+				points[i] = cons.lookupLabel(label) instanceof GeoPointND pt ? pt : points[i];
+			}
+			if (i > 1) {
+				points[i].setEuclidianVisible(false);
+			}
+			points[i].update();
+		}
 
 		return kernel.getAlgoDispatcher().polygon(labels, points);
 

@@ -54,7 +54,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	private ErrorHandler validation;
 	private int maxLength = DEFAULT_MAX_LENGTH;
 	private boolean notFirstInput;
-	private GeoElement[] previewGeos;
+	private GeoElement @Nullable[] previewGeos;
 	private String[] sliders;
 
 	private final Set<GeoElementSetup> geoElementSetups = new HashSet<>();
@@ -162,6 +162,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	@Override
 	public void run() {
 		cleanOldSliders();
+		removeAlgosFromPreviousEvaluation();
 		if (StringUtil.emptyTrim(input)) {
 			if (validation != null) {
 				validation.resetError();
@@ -293,6 +294,21 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 												.hasSlidersInAV()));
 	}
 
+	/**
+	 * Removes the algos (and their outputs) created for the previous preview from
+	 * the construction, so that they no longer get updated with their inputs.
+	 */
+	private void removeAlgosFromPreviousEvaluation() {
+		if (previewGeos != null) {
+			for (GeoElementND geo : previewGeos) {
+				geo.remove();
+				if (geo.getParentAlgorithm() != null) {
+					geo.getParentAlgorithm().remove();
+				}
+			}
+		}
+	}
+
 	private static boolean isCASeval(ValidExpression ve) {
 		String label = ve.getLabel();
 		if (label != null && label.startsWith("$")) {
@@ -384,6 +400,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	public void clear() {
 		input = "";
 		validInput = "";
+		removeAlgosFromPreviousEvaluation();
 		previewGeos = null;
 		setInput("", null);
 	}

@@ -19,6 +19,7 @@ package org.geogebra.common.kernel;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.test.commands.ErrorAccumulator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,6 +47,19 @@ class ScheduledPreviewFromInputBarTest extends BaseUnitTest {
 		preview.updatePreviewFromInputBar("a=1/(1,1,1)", errorHandler);
 		assertEquals("Illegal division \n"
 				+ "1 / (1, 1, 1) ", errorHandler.getErrorsSinceReset());
+	}
+
+	@Test
+	void shouldRemovePreviousPreviewFromConstruction() {
+		GeoElement r = add("R=(1,1)");
+		assertEquals(0, getConstruction().getAlgoList().size());
+		preview.updatePreviewFromInputBar("2R", errorHandler);
+		preview.updatePreviewFromInputBar("Ri", errorHandler);
+		assertEquals(1, getConstruction().getAlgoList().size());
+		assertEquals(1, r.getAlgorithmList().size());
+		preview.clear();
+		assertEquals(0, getConstruction().getAlgoList().size());
+		assertEquals(0, r.getAlgorithmList().size());
 	}
 
 	@Test
