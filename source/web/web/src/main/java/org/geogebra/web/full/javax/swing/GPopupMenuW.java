@@ -646,8 +646,11 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 		Scheduler.get().scheduleDeferred(popupMenu::focus);
 	}
 
-	public void setAnchor(Element inputElement) {
-		this.focusAnchor = inputElement;
+	/**
+	 * @param focusAnchor focus anchor
+	 */
+	public void setAnchor(Element focusAnchor) {
+		this.focusAnchor = focusAnchor;
 	}
 
 	private class PopupMenuBar extends GMenuBar {

@@ -25,6 +25,10 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 public class BotanaCircle {
 	private PVariable[] botanaVars;
 
+	/**
+	 * @return Botana variables
+	 * @throws NoSymbolicParametersException if it is not possible to obtain suitable polynomials
+	 */
 	public PVariable[] getBotanaVars(GeoElementND P, GeoElementND M)
 			throws NoSymbolicParametersException {
 		if (botanaVars == null) {

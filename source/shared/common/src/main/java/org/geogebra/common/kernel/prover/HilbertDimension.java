@@ -72,6 +72,12 @@ public class HilbertDimension {
 		return false;
 	}
 
+	/**
+	 * @param as statement
+	 * @param substitutions substitutions
+	 * @param minDim minimal dimension
+	 * @return whether dimension of given statement is greater than {@code minDim}
+	 */
 	public static boolean isDimGreaterThan(AlgebraicStatement as,
 			HashMap<PVariable, BigInteger> substitutions, int minDim) {
 
@@ -206,6 +212,12 @@ public class HilbertDimension {
 		return dim - 1;
 	}
 
+	/**
+	 * @param as statement
+	 * @param substitutions substitutions
+	 * @param minDim minimal dimension
+	 * @return whether dimension of the statement is greater than minDim
+	 */
 	public static boolean isDimGreaterThan2(AlgebraicStatement as,
 			HashMap<PVariable, BigInteger> substitutions, int minDim) {
 

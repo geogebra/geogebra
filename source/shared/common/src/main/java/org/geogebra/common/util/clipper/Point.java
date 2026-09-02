@@ -30,6 +30,11 @@ public class Point<T extends Number & Comparable<T>> {
 	protected T z;
 
 	public static class DoublePoint extends Point<Double> {
+		/**
+		 * @param pt1 first point
+		 * @param pt2 second point
+		 * @return inverted segment slope (dx/dy)
+		 */
 		public static double getDeltaX(DoublePoint pt1, DoublePoint pt2) {
 			if (pt1.getY() == pt2.getY()) {
 				return Edge.HORIZONTAL;
@@ -207,6 +212,10 @@ public class Point<T extends Number & Comparable<T>> {
 		return x.hashCode() + y.hashCode() * 37 + z.hashCode() * 41;
 	}
 
+	/**
+	 * Copy coordinates from other point.
+	 * @param other other point
+	 */
 	public void set(Point<T> other) {
 		x = other.x;
 		y = other.y;

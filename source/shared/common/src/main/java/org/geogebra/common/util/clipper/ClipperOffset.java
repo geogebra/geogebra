@@ -131,6 +131,12 @@ public class ClipperOffset {
 		}
 	}
 
+	/**
+	 * Add paths.
+	 * @param paths paths to add
+	 * @param joinType join type
+	 * @param endType end type
+	 */
 	public void addPaths(Paths paths, JoinType joinType, EndType endType) {
 		for (final Path p : paths) {
 			addPath(p, joinType, endType);

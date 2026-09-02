@@ -494,8 +494,11 @@ public class AriaMenuBar extends FlowPanel {
 				: item.getElement().getAbsoluteRight() + 8;
 	}
 
-	public void setSelectionListener(MenuHoverListener gPopupMenuW) {
-		this.selectListener = gPopupMenuW;
+	/**
+	 * @param selectionListener selection listener
+	 */
+	public void setSelectionListener(MenuHoverListener selectionListener) {
+		this.selectListener = selectionListener;
 	}
 
 	/**

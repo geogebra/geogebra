@@ -1421,6 +1421,9 @@ public class GeoImage extends GeoElement implements
 		return isMeasurementTool;
 	}
 
+	/**
+	 * @param measurementTool whether this is a measurement tool
+	 */
 	public void setMeasurementTool(boolean measurementTool) {
 		isMeasurementTool = measurementTool;
 	}
@@ -1456,6 +1459,9 @@ public class GeoImage extends GeoElement implements
 		return needBoundingBoxUpdate;
 	}
 
+	/**
+	 * @param needsUpdate whether bounding box needs to be kept up to date
+	 */
 	public void setNeedsBoundingBoxUpdate(boolean needsUpdate) {
 		needBoundingBoxUpdate = needsUpdate;
 	}

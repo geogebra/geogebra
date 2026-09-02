@@ -157,6 +157,9 @@ public class FunctionNode extends InternalNode {
 		return this.preventNestedFractions;
 	}
 
+	/**
+	 * @param prevent whether to prevent nested fractions
+	 */
 	public void setPreventingNestedFractions(boolean prevent) {
 		this.preventNestedFractions = prevent;
 	}

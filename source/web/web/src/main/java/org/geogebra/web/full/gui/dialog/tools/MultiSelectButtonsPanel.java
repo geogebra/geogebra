@@ -24,9 +24,14 @@ import org.gwtproject.user.client.ui.FlowPanel;
 
 class MultiSelectButtonsPanel extends FlowPanel {
 	interface ButtonsListener {
+		/**
+		 * @param up whether to move selection up
+		 */
+		void moveSelection(boolean up);
 
-		void moveSelection(boolean b);
-
+		/**
+		 * Delete selected item.
+		 */
 		void deleteSelection();
 	}
 

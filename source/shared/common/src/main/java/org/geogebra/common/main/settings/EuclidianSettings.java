@@ -961,6 +961,10 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 		return false;
 	}
 
+	/**
+	 * Does not fire update.
+	 * @param dimension preferred view size in pixels
+	 */
 	public void setPreferredSizeNoFire(GDimension dimension) {
 		preferredSize = dimension;
 	}
@@ -1030,6 +1034,10 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 		return true;
 	}
 
+	/**
+	 * Does not fire update.
+	 * @param show whether to show grid
+	 */
 	public void setShowGridSetting(boolean show) {
 		showGrid = show;
 	}

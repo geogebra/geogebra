@@ -34,7 +34,7 @@ import jsinterop.base.JsPropertyMap;
  * Maps GeoGebra functions to exported JS api
  */
 @JsType
-@SuppressWarnings("Javadoc")
+@SuppressWarnings({"Javadoc", "PMD.CommentRequired"})
 public class DefaultExportedApi implements ExportedApi {
 
 	private GgbAPIW ggbAPI;

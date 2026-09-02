@@ -247,11 +247,17 @@ public class JLMContext2D extends CanvasRenderingContext2D {
 		this.transform(m00, m10, m01, m11, m02, m12);
 	}
 
+	/**
+	 * @param colorStr fill style as string, pattern or gradient
+	 */
 	@JsOverlay
 	public final void setFillStyle(Object colorStr) {
 		fillStyle = FillStyleUnionType.of(colorStr);
 	}
 
+	/**
+	 * @param colorStr stroke style as string, pattern or gradient
+	 */
 	@JsOverlay
 	public final void setStrokeStyle(String colorStr) {
 		strokeStyle = StrokeStyleUnionType.of(colorStr);

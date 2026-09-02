@@ -124,14 +124,17 @@ public class CharacterNode extends Node {
 				|| template.getUnicode() == Unicode.MULTIPLY;
 	}
 
+	/**
+	 * @return Unicode representation of this character
+	 */
 	public String getUnicodeString() {
 		return template.getUnicodeString();
 	}
 
 	/**
-	 * Try to merge unicode characters
+	 * Try to merge Unicode characters
 	 * @param s string to append
-	 * @return whether result is a single unicode character
+	 * @return whether result is a single Unicode character
 	 */
 	public boolean mergeUnicode(String s) {
 		if (ZERO_WIDTH_JOINER.equals(s) // zero width joiner

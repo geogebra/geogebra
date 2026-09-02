@@ -243,6 +243,9 @@ public class CursorOverlayController implements TextFieldController,
 		}
 	}
 
+	/**
+	 * @return whether the selection widget is present
+	 */
 	public boolean isSelected() {
 		return cursorOverlay.hasFakeSelection();
 	}

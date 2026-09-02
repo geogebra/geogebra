@@ -141,12 +141,8 @@ public class TwoVarStatModel {
 		return selectedDataIndex;
 	}
 
-	public void setSelectedDataIndex(Integer[] selectedDataIndex) {
-		this.selectedDataIndex = selectedDataIndex;
-	}
-
 	/**
-	 * Update and notify the the UI
+	 * Update and notify the UI
 	 */
 	public void update() {
 		updateStat();
@@ -276,10 +272,16 @@ public class TwoVarStatModel {
 		return true;
 	}
 
+	/**
+	 * @param idx selected data index for the first dropdown
+	 */
 	public void setSelectedDataIndex0(int idx) {
 		selectedDataIndex[0] = idx;
 	}
 
+	/**
+	 * @param idx selected data index for the second dropdown
+	 */
 	public void setSelectedDataIndex1(int idx) {
 		selectedDataIndex[1] = idx;
 	}

@@ -37,10 +37,16 @@ public enum Shades {
 		this.name = name;
 	}
 
+	/**
+	 * @return CSS class name that applies this as background color
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * @return CSS class name that applies this as foreground (text) color
+	 */
 	public String getFgColName() {
 		return "fg-" + getName();
 	}

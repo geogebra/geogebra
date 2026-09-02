@@ -728,6 +728,9 @@ public class AppCommon extends App {
 		setConfig(new AppConfigNotes());
 	}
 
+	/**
+	 * @param scriptManager script manager
+	 */
 	public void setScriptManager(ScriptManager scriptManager) {
 		this.scriptManager = scriptManager;
 	}

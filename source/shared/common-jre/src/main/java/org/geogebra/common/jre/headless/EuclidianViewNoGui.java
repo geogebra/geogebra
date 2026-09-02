@@ -263,6 +263,9 @@ public class EuclidianViewNoGui extends EuclidianView {
 		return new EuclidianViewFor3DCompanion(this);
 	}
 
+	/**
+	 * @param editor symbolic editor
+	 */
 	public void setSymbolicEditor(SymbolicEditor editor) {
 		this.symbolicEditor = editor;
 	}

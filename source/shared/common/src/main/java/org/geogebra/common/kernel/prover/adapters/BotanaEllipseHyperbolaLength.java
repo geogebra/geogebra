@@ -28,6 +28,10 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 public class BotanaEllipseHyperbolaLength extends ProverAdapter {
 
+	/**
+	 * @return Botana polynomials
+	 * @throws NoSymbolicParametersException if it is not possible to obtain suitable polynomials
+	 */
 	public PPolynomial[] getBotanaPolynomials(GeoPointND focus1,
 			GeoPointND focus2, GeoNumberValue length)
 			throws NoSymbolicParametersException {

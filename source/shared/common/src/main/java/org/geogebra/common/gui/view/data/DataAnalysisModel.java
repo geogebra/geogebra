@@ -594,6 +594,9 @@ public class DataAnalysisModel {
 		return isIniting;
 	}
 
+	/**
+	 * @param isIniting whether this is initializing
+	 */
 	public void setIniting(boolean isIniting) {
 		this.isIniting = isIniting;
 	}

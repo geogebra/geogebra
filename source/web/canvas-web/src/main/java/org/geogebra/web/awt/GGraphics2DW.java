@@ -872,8 +872,11 @@ public class GGraphics2DW implements GGraphics2DWI {
 		context.restoreTransform();
 	}
 
+	/**
+	 * @return device pixel ratio
+	 */
 	public double getScale() {
-		return getDevicePixelRatio();
+		return devicePixelRatio;
 	}
 
 	@Override

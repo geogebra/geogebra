@@ -512,89 +512,6 @@ public class DefaultClipper extends ClipperBase {
 		}
 	}
 
-	/**
-	 * modified to be compatible with double
-	 */
-	private static Paths minkowski(Path pattern, Path path, boolean IsSum,
-			boolean IsClosed) {
-		final int delta = IsClosed ? 1 : 0;
-		final int polyCnt = pattern.size();
-		final int pathCnt = path.size();
-		final Paths result = new Paths(pathCnt);
-		if (IsSum) {
-			for (int i = 0; i < pathCnt; i++) {
-				final Path p = new Path(polyCnt);
-				for (final DoublePoint ip : pattern) {
-					p.add(new DoublePoint(path.get(i).getX() + ip.getX(),
-							path.get(i).getY() + ip.getY(), 0));
-				}
-				result.add(p);
-			}
-		} else {
-			for (int i = 0; i < pathCnt; i++) {
-				final Path p = new Path(polyCnt);
-				for (final DoublePoint ip : pattern) {
-					p.add(new DoublePoint(path.get(i).getX() - ip.getX(),
-							path.get(i).getY() - ip.getY(), 0));
-				}
-				result.add(p);
-			}
-		}
-
-		final Paths quads = new Paths((pathCnt + delta) * (polyCnt + 1));
-		for (int i = 0; i < pathCnt - 1 + delta; i++) {
-			for (int j = 0; j < polyCnt; j++) {
-				final Path quad = new Path(4);
-				quad.add(result.get(i % pathCnt).get(j % polyCnt));
-				quad.add(result.get((i + 1) % pathCnt).get(j % polyCnt));
-				quad.add(result.get((i + 1) % pathCnt).get((j + 1) % polyCnt));
-				quad.add(result.get(i % pathCnt).get((j + 1) % polyCnt));
-				if (!quad.orientation()) {
-					Collections.reverse(quad);
-				}
-				quads.add(quad);
-			}
-		}
-		return quads;
-	}
-
-	public static Paths minkowskiDiff(Path poly1, Path poly2) {
-		final Paths paths = minkowski(poly1, poly2, false, true);
-		final DefaultClipper c = new DefaultClipper();
-		c.addPaths(paths, PolyType.SUBJECT, true);
-		c.execute(ClipType.UNION, paths, PolyFillType.NON_ZERO,
-				PolyFillType.NON_ZERO);
-		return paths;
-	}
-
-	public static Paths minkowskiSum(Path pattern, Path path,
-			boolean pathIsClosed) {
-		final Paths paths = minkowski(pattern, path, true, pathIsClosed);
-		final DefaultClipper c = new DefaultClipper();
-		c.addPaths(paths, PolyType.SUBJECT, true);
-		c.execute(ClipType.UNION, paths, PolyFillType.NON_ZERO,
-				PolyFillType.NON_ZERO);
-		return paths;
-	}
-
-	public static Paths minkowskiSum(Path pattern, Paths paths,
-			boolean pathIsClosed) {
-		final Paths solution = new Paths();
-		final DefaultClipper c = new DefaultClipper();
-		for (int i = 0; i < paths.size(); ++i) {
-			final Paths tmp = minkowski(pattern, paths.get(i), true,
-					pathIsClosed);
-			c.addPaths(tmp, PolyType.SUBJECT, true);
-			if (pathIsClosed) {
-				final Path path = paths.get(i).translatePath(pattern.get(0));
-				c.addPath(path, PolyType.CLIP, true);
-			}
-		}
-		c.execute(ClipType.UNION, solution, PolyFillType.NON_ZERO,
-				PolyFillType.NON_ZERO);
-		return solution;
-	}
-
 	private static boolean poly2ContainsPoly1(OutPt outPt1, OutPt outPt2) {
 		OutPt op = outPt1;
 		do {
@@ -613,10 +530,18 @@ public class DefaultClipper extends ClipperBase {
 	// SimplifyPolygon functions ...
 	// Convert self-intersecting polygons into simple polygons
 	// ------------------------------------------------------------------------------
+	/**
+	 * Simplify polygon.
+	 * @return polygon
+	 */
 	public static Paths simplifyPolygon(Path poly) {
 		return simplifyPolygon(poly, PolyFillType.EVEN_ODD);
 	}
 
+	/**
+	 * Simplify polygons.
+	 * @return polygons
+	 */
 	public static Paths simplifyPolygon(Path poly, PolyFillType fillType) {
 		final Paths result = new Paths();
 		final DefaultClipper c = new DefaultClipper(STRICTLY_SIMPLE);
@@ -626,10 +551,18 @@ public class DefaultClipper extends ClipperBase {
 		return result;
 	}
 
+	/**
+	 * Simplify polygons.
+	 * @return polygons
+	 */
 	public static Paths simplifyPolygons(Paths polys) {
 		return simplifyPolygons(polys, PolyFillType.EVEN_ODD);
 	}
 
+	/**
+	 * Simplify polygons.
+	 * @return polygons
+	 */
 	public static Paths simplifyPolygons(Paths polys, PolyFillType fillType) {
 		final Paths result = new Paths();
 		final DefaultClipper c = new DefaultClipper(STRICTLY_SIMPLE);
@@ -643,9 +576,11 @@ public class DefaultClipper extends ClipperBase {
 		this(0);
 	}
 
-	public DefaultClipper(int InitOptions) // constructor
-	{
-		super((PRESERVE_COLLINEAR & InitOptions) != 0);
+	/**
+	 * @param initOptions initialization options (bit mask)
+	 */
+	public DefaultClipper(int initOptions) {
+		super((PRESERVE_COLLINEAR & initOptions) != 0);
 		scanbeam = null;
 		activeEdges = null;
 		sortedEdges = null;
@@ -655,8 +590,8 @@ public class DefaultClipper extends ClipperBase {
 		polyOuts = new ArrayList<>();
 		joins = new ArrayList<>();
 		ghostJoins = new ArrayList<>();
-		reverseSolution = (REVERSE_SOLUTION & InitOptions) != 0;
-		strictlySimple = (STRICTLY_SIMPLE & InitOptions) != 0;
+		reverseSolution = (REVERSE_SOLUTION & initOptions) != 0;
+		strictlySimple = (STRICTLY_SIMPLE & initOptions) != 0;
 
 		// zFillFunction = null;
 

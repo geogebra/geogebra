@@ -41,6 +41,9 @@ public class ScientificDefaultKeyboardFactory implements KeyboardModelFactory {
 
     private final boolean showAnsButton;
 
+    /**
+     * @param showAnsButton whether to show the ANS button
+     */
     public ScientificDefaultKeyboardFactory(boolean showAnsButton) {
         this.showAnsButton = showAnsButton;
     }

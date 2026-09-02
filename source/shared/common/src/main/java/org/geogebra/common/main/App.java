@@ -2003,6 +2003,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return exportType;
 	}
 
+	/**
+	 * @param toolbarHelp whether to show toolbar help
+	 */
 	public void setShowToolBarHelpNoUpdate(boolean toolbarHelp) {
 		showToolBarHelp = toolbarHelp;
 	}
@@ -3451,6 +3454,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return isErrorDialogsActive;
 	}
 
+	/**
+	 * @param isErrorDialogsActive whether error dialogs are active
+	 */
 	public final void setErrorDialogsActive(boolean isErrorDialogsActive) {
 		this.isErrorDialogsActive = isErrorDialogsActive;
 	}

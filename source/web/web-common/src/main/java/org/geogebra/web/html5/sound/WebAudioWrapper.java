@@ -35,6 +35,10 @@ public final class WebAudioWrapper {
 	private ScriptProcessorNode processor;
 
 	interface FunctionAudioListener {
+		/**
+		 * @param t time
+		 * @return amplitude
+		 */
 		double getValueAt(double t);
 	}
 

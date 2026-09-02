@@ -53,6 +53,10 @@ public class DependentNumberAdapter extends ProverAdapter {
 	private ArrayList<Entry<GeoElement, PVariable>> segVarPairs = new ArrayList<>();
 	private int nrOfMaxDecimals = 0;
 
+	/**
+	 * @return Botana polynomials
+	 * @throws NoSymbolicParametersException if suitable polynomials cannot be obtained
+	 */
 	public PPolynomial[] getBotanaPolynomials(AlgoDependentNumber algoDepNumber, GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {

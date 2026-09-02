@@ -29,6 +29,9 @@ public final class FileSystemAPI {
 
 	public static native Promise<FileSystemFileHandle> showSaveFilePicker(JsPropertyMap<?> options);
 
+	/**
+	 * @return whether {@code showSaveFilePicker} is available in the browser
+	 */
 	@JsOverlay
 	public static boolean isSupported() {
 		return JsObject.of(DomGlobal.window).has("showSaveFilePicker");

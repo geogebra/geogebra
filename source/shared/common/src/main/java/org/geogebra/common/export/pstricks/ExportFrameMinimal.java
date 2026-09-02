@@ -36,7 +36,7 @@ public class ExportFrameMinimal implements ExportSettings {
 	private int format = 0;
 	private double yMax;
 	private double yMin;
-	private GeoNumeric cbitem;
+	private GeoNumeric slider;
 
 	/**
 	 * @param ymin2
@@ -145,11 +145,14 @@ public class ExportFrameMinimal implements ExportSettings {
 
 	@Override
 	public GeoNumeric getcbSlidersItem() {
-		return cbitem;
+		return slider;
 	}
 
+	/**
+	 * @param slider slider
+	 */
 	public void setSlider(GeoNumeric slider) {
-		cbitem = slider;
+		this.slider = slider;
 	}
 
 	/**

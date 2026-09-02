@@ -120,6 +120,9 @@ public class StatPanelSettings extends PlotSettings {
 		return isCumulative;
 	}
 
+	/**
+	 * @param isCumulative whether to use cumulative chart
+	 */
 	public void setCumulative(boolean isCumulative) {
 		this.isCumulative = isCumulative;
 	}
@@ -156,6 +159,9 @@ public class StatPanelSettings extends PlotSettings {
 		return isAutomaticWindow;
 	}
 
+	/**
+	 * @param isAutomaticWindow whether window zoom is automatic
+	 */
 	public void setAutomaticWindow(boolean isAutomaticWindow) {
 		this.isAutomaticWindow = isAutomaticWindow;
 	}
@@ -180,6 +186,9 @@ public class StatPanelSettings extends PlotSettings {
 		return isLeftRule;
 	}
 
+	/**
+	 * @param isLeftRule left class rule
+	 */
 	public void setLeftRule(boolean isLeftRule) {
 		this.isLeftRule = isLeftRule;
 	}
@@ -204,6 +213,9 @@ public class StatPanelSettings extends PlotSettings {
 		return isAutomaticBarWidth;
 	}
 
+	/**
+	 * @param isAutomaticBarWidth whether bar width is automatic
+	 */
 	public void setAutomaticBarWidth(boolean isAutomaticBarWidth) {
 		this.isAutomaticBarWidth = isAutomaticBarWidth;
 	}

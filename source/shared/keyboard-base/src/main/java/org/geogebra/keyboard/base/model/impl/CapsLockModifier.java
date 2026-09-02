@@ -29,12 +29,16 @@ import org.geogebra.keyboard.base.model.KeyModifier;
 public class CapsLockModifier implements KeyModifier {
 
 	private boolean capsLock = false;
-	private Map<String, String> upperKeys;
+	private final Map<String, String> upperKeys;
 
+	/** Default constructor. */
 	public CapsLockModifier() {
 		this(null);
 	}
 
+	/**
+	 * @param upperKeys mapping from lower to upper keys
+	 */
 	public CapsLockModifier(Map<String, String> upperKeys) {
 		this.upperKeys = upperKeys;
 	}

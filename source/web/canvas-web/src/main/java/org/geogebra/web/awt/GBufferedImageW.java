@@ -283,6 +283,9 @@ public class GBufferedImageW implements GBufferedImage {
 		return pixelRatio;
 	}
 
+	/**
+	 * @return canvas element
+	 */
 	public HTMLCanvasElement getCanvasElement() {
 		return Js.uncheckedCast(getCanvas().getElement());
 	}

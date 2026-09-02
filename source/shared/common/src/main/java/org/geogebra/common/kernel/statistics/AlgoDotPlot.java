@@ -216,6 +216,9 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 		return toolTipText;
 	}
 
+	/**
+	 * @param text tooltip text (for classic 5)
+	 */
 	public void setToolTipPointText(String text) {
 		toolTipText = text;
 	}

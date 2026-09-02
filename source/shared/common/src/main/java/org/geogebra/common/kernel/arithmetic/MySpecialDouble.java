@@ -272,10 +272,6 @@ public class MySpecialDouble extends MyDouble {
 		return isAngle() || Unicode.PI_STRING.equals(strToString);
 	}
 
-	public void setString(String toString) {
-		this.strToString = toString;
-	}
-
 	@Override
 	public @Nullable BigDecimal toDecimal() {
 		if (!Double.isFinite(getDouble())) {

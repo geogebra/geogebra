@@ -32,6 +32,9 @@ public class TextStyle {
 		return isItalic;
 	}
 
+	/**
+	 * @param italic whether the text is italic
+	 */
 	public void setItalic(boolean italic) {
 		isItalic = italic;
 	}
@@ -40,6 +43,9 @@ public class TextStyle {
 		return isBold;
 	}
 
+	/**
+	 * @param bold whether the text is bold
+	 */
 	public void setBold(boolean bold) {
 		isBold = bold;
 	}
@@ -48,6 +54,9 @@ public class TextStyle {
 		return isSerif;
 	}
 
+	/**
+	 * @param serif whether the text is serif
+	 */
 	public void setSerif(boolean serif) {
 		isSerif = serif;
 	}
@@ -56,6 +65,9 @@ public class TextStyle {
 		return isLatex;
 	}
 
+	/**
+	 * @param latex whether the text is LaTeX
+	 */
 	public void setLatex(boolean latex) {
 		isLatex = latex;
 	}

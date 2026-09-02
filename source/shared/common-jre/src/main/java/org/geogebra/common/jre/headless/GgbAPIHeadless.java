@@ -74,6 +74,9 @@ public class GgbAPIHeadless extends GgbAPIJre {
 		return "";
 	}
 
+	/**
+	 * @param exporter image exporter
+	 */
 	public void setImageExporter(ApiDelegate exporter) {
 		this.delegate = exporter;
 	}

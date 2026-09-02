@@ -105,7 +105,10 @@ public class GeoTabber implements FocusableComponent {
 		return null;
 	}
 
-	public void setFocused(boolean b) {
-		this.selected = b;
+	/**
+	 * @param focused whether geos are focused
+	 */
+	public void setFocused(boolean focused) {
+		this.selected = focused;
 	}
 }

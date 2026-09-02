@@ -25,6 +25,11 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.util.debug.Log;
 
 public class OrthoLinePointLineAdapter extends ProverAdapter {
+
+	/**
+	 * @return Botana polynomials
+	 * @throws NoSymbolicParametersException if suitable polynomials cannot be obtained
+	 */
 	public PPolynomial[] getBotanaPolynomials(GeoLine l, GeoPoint P)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {

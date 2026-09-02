@@ -416,6 +416,9 @@ public final class ToolBarW extends FlowPanel
 		setMouseDown(false);
 	}
 
+	/**
+	 * @param down whether mouse is pressed
+	 */
 	public void setMouseDown(boolean down) {
 		isMouseDown = down;
 	}

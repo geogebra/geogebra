@@ -476,6 +476,9 @@ public class Browser {
 		});
 	}
 
+	/**
+	 * @return whether this is a browser running on Android
+	 */
 	public static boolean isAndroid() {
 		return DomGlobal.navigator.userAgent.contains("Android");
 	}
@@ -501,10 +504,16 @@ public class Browser {
 		return isAndroid() || NavigatorUtil.isiOS();
 	}
 
+	/**
+	 * @return screen width in pixels
+	 */
 	public static int getScreenWidth() {
 		return DomGlobal.screen.width;
 	}
 
+	/**
+	 * @return screen height in pixels
+	 */
 	public static int getScreenHeight() {
 		return DomGlobal.screen.height;
 	}

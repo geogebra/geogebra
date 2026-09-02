@@ -80,6 +80,9 @@ public abstract class DataAnalysisController {
 		return isValidData;
 	}
 
+	/**
+	 * @param isValidData whether data is valid
+	 */
 	public void setValidData(boolean isValidData) {
 		this.isValidData = isValidData;
 	}
@@ -96,6 +99,9 @@ public abstract class DataAnalysisController {
 		return geoRegression;
 	}
 
+	/**
+	 * @param regressionModel regression model
+	 */
 	public void setRegressionModel(GeoFunction regressionModel) {
 		this.geoRegression = regressionModel;
 	}

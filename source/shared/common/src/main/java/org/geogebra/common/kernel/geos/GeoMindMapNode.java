@@ -262,6 +262,9 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 		return nodeAlignment;
 	}
 
+	/**
+	 * @param alignment node alignment
+	 */
 	public void setAlignment(NodeAlignment alignment) {
 		this.nodeAlignment = alignment;
 	}

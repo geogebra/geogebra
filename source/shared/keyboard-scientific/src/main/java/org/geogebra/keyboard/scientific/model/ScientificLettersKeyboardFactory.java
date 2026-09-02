@@ -23,8 +23,11 @@ import org.geogebra.keyboard.base.model.impl.factory.LetterKeyboardFactory;
 public class ScientificLettersKeyboardFactory extends LetterKeyboardFactory {
 
 	private static final String DEFAULT_CONTROL_ROW = "=,'";
-	private ScientificLetterRowsBuilder rowsBuilder;
+	private final ScientificLetterRowsBuilder rowsBuilder;
 
+	/**
+	 * Letter keyboard factory for scientific calc.
+	 */
 	public ScientificLettersKeyboardFactory() {
 		rowsBuilder = new ScientificLetterRowsBuilder();
 	}

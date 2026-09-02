@@ -95,6 +95,9 @@ public class VectorNodeStringifier {
         return printVector(activePrinter, valueExpressionPrinter, vector, tpl);
     }
 
+    /**
+     * @param printingMode printing mode
+     */
     public void setPrintingMode(VectorPrintingMode printingMode) {
         activePrinter = printerMap.get(printingMode);
     }

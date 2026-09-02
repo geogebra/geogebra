@@ -209,6 +209,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		}
 	}
 
+	/**
+	 * Sets a checker for global events - those will not be stopped in propagation by math fields.
+	 * @param globalEvent global event checker
+	 */
 	public static void setGlobalEventCheck(Predicate<NativeEvent> globalEvent) {
 		MathFieldW.isGlobalEvent = globalEvent;
 	}
@@ -352,6 +356,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		adapter.listenTo(canvas);
 	}
 
+	/**
+	 * @param ratio device pixel ratio
+	 */
 	public void setPixelRatio(double ratio) {
 		this.ratio = ratio;
 	}
@@ -705,6 +712,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		return Math.max(getHeightWithMargin(), minHeight);
 	}
 
+	/**
+	 * @return height of the icon plus margin (for rendering touch selection)
+	 */
 	public double getHeightWithMargin() {
 		return lastIcon.getIconHeight() + getMargin(lastIcon) + bottomOffset;
 	}
@@ -717,14 +727,23 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		this.bottomOffset = bottomOffset;
 	}
 
+	/**
+	 * @return total height of the icon, with insets
+	 */
 	public int getIconHeight() {
 		return lastIcon.getIconHeight();
 	}
 
+	/**
+	 * @return total width of the icon, with insets
+	 */
 	public int getIconWidth() {
 		return lastIcon.getIconWidth();
 	}
 
+	/**
+	 * @return depth of the icon, with insets
+	 */
 	public int getIconDepth() {
 		return lastIcon.getIconDepth();
 	}
@@ -988,10 +1007,16 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		powerHappened = false;
 	}
 
+	/**
+	 * @param run blur handler
+	 */
 	public void setOnBlur(BlurHandler run) {
 		this.onTextfieldBlur = run;
 	}
 
+	/**
+	 * @param run focus handler
+	 */
 	public void setOnFocus(FocusHandler run) {
 		this.onTextfieldFocus = run;
 	}
@@ -1325,6 +1350,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		setKeyListener(inputTextArea, keyListener);
 	}
 
+	/**
+	 * @param description description of the formula to be read by screen reader (as value)
+	 */
 	public void setAriaValue(String description) {
 		Js.<HTMLTextAreaElement>uncheckedCast(getHiddenTextArea()).value = description;
 	}

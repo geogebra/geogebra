@@ -20,8 +20,8 @@ package org.geogebra.web.full.gui.layout.animation;
  * In- and out-animation.
  */
 public final class Animation {
-	private String animateInStyle;
-	private String animateOutStyle;
+	private final String animateInStyle;
+	private final String animateOutStyle;
 	private boolean isFadeAnimation;
 
 	/**
@@ -42,6 +42,9 @@ public final class Animation {
 		return animateOutStyle;
 	}
 
+	/**
+	 * @param fadeAnimation whether to this is a fase animation
+	 */
 	public void setFadeAnimation(boolean fadeAnimation) {
 		isFadeAnimation = fadeAnimation;
 	}

@@ -50,10 +50,16 @@ public class Coordinate {
 		this.y = y;
 	}
 
+	/**
+	 * @return whether this represents a touch end point
+	 */
 	public boolean isTouchEnd() {
 		return isTouchEnd;
 	}
 
+	/**
+	 * @param touchEnd whether this represents a touch end point
+	 */
 	public void setTouchEnd(boolean touchEnd) {
 		isTouchEnd = touchEnd;
 	}

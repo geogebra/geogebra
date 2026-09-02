@@ -35,9 +35,14 @@ public final class ChromeLookAndFeel extends GLookAndFeel {
 	// https://developer.chrome.com/docs/extensions/reference/api/storage#type-StorageArea
 	@JsType(isNative = true)
 	private interface ChromeStorage {
-
+		/**
+		 * @param val properties to store
+		 */
 		void set(JsPropertyMap<String> val);
 
+		/**
+		 * @param callback receives stored properties
+		 */
 		void get(JsConsumer<JsPropertyMap<String>> callback);
 	}
 

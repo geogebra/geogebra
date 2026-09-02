@@ -580,6 +580,9 @@ public class LayerManager {
 		sortByOrder(drawingOrder);
 	}
 
+	/**
+	 * @param renaming whether element rename is running
+	 */
 	public void setRenameRunning(boolean renaming) {
 		this.renaming = renaming;
 	}

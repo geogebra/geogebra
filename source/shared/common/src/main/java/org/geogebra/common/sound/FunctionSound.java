@@ -150,6 +150,9 @@ public abstract class FunctionSound {
 		return mBitDepth;
 	}
 
+	/**
+	 * @param bitDepth depth in bits
+	 */
 	public void setBitDepth(int bitDepth) {
 		this.mBitDepth = bitDepth;
 	}
@@ -158,6 +161,9 @@ public abstract class FunctionSound {
 		return mSampleRate;
 	}
 
+	/**
+	 * @param sampleRate sample rate
+	 */
 	public void setSampleRate(int sampleRate) {
 		this.mSampleRate = sampleRate;
 	}
@@ -281,6 +287,9 @@ public abstract class FunctionSound {
 		return tMin;
 	}
 
+	/**
+	 * @param min minimum time
+	 */
 	public void setMin(double min) {
 		this.tMin = min;
 	}

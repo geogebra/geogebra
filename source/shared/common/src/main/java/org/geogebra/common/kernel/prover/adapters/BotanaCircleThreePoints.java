@@ -24,6 +24,10 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 public class BotanaCircleThreePoints extends ProverAdapter {
 
+	/**
+	 * @return Botana polynomials
+	 * @throws NoSymbolicParametersException if it is not possible to obtain suitable polynomials
+	 */
 	public PPolynomial[] getPolynomials(GeoElement[] input)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {

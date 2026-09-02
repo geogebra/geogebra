@@ -166,6 +166,9 @@ public class AlgebraSettings extends AbstractSettings<AlgebraSettings> {
 		settingChanged();
 	}
 
+	/**
+	 * @param collapsedNodes list of collapsed nodes
+	 */
 	public void setCollapsedNodesNoFire(List<Integer> collapsedNodes) {
 		this.collapsedNodes = collapsedNodes;
 	}

@@ -86,6 +86,9 @@ public class ClientInfo {
 		return isAssign;
 	}
 
+	/**
+	 * @param isAssign whether this is for assignment
+	 */
 	public void setAssign(boolean isAssign) {
 		this.isAssign = isAssign;
 	}

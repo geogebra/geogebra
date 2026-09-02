@@ -69,6 +69,9 @@ public class DefinitionProperty extends AbstractValuedProperty<String> implement
 		return element.getRedefineString(false, true);
 	}
 
+	/**
+	 * @param handler error handler
+	 */
 	public void setErrorHandler(ErrorHandler handler) {
 		this.handler = handler;
 	}

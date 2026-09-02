@@ -93,18 +93,30 @@ public final class NavigatorUtil {
 		return new URLSearchParams(DomGlobal.location.search).get(name);
 	}
 
+	/**
+	 * @return window width in pixels
+	 */
 	public static int getWindowWidth() {
 		return DomGlobal.document.documentElement.clientWidth;
 	}
 
+	/**
+	 * @return window height in pixels
+	 */
 	public static int getWindowHeight() {
 		return DomGlobal.document.documentElement.clientHeight;
 	}
 
+	/**
+	 * @return left scroll offset in pixels
+	 */
 	public static int getWindowScrollLeft() {
 		return (int) DomGlobal.document.documentElement.scrollLeft;
 	}
 
+	/**
+	 * @return top scroll offset in pixels
+	 */
 	public static int getWindowScrollTop() {
 		return (int) DomGlobal.document.documentElement.scrollTop;
 	}

@@ -212,6 +212,9 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 		}
 	}
 
+	/**
+	 * @param height preferred height
+	 */
 	public void setPreferredRowHeightNoFire(int height) {
 		preferredRowHeight = height;
 	}
@@ -819,10 +822,16 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 				Math.min(Math.max(columns, minColumns), Spreadsheet.MAX_COLUMNS));
 	}
 
+	/**
+	 * @param rows number of rows
+	 */
 	public void setRowsNoFire(int rows) {
 		this.rows  = rows;
 	}
 
+	/**
+	 * @param columns number of columns
+	 */
 	public void setColumnsNoFire(int columns) {
 		this.columns  = columns;
 	}
@@ -849,6 +858,9 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 		return cellFormat;
 	}
 
+	/**
+	 * @param xml cell format XML
+	 */
 	public void setCellFormatXml(@Nullable String xml) {
 		cellFormat = xml;
 	}

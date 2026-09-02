@@ -128,6 +128,10 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 		return origGeoNode;
 	}
 
+	/**
+	 * @apiNote may only be called when there are no transitive dependencies
+	 * @param expression defining expression
+	 */
 	public void setExpression(ExpressionNode expression) {
 		origGeoNode = expression;
 	}

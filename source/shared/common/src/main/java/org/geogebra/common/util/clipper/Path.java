@@ -44,10 +44,16 @@ public class Path extends ArrayList<DoublePoint> {
 
 	}
 
+	/**
+	 * @param cnt capacity
+	 */
 	public Path(int cnt) {
 		super(cnt);
 	}
 
+	/**
+	 * @return area
+	 */
 	public double area() {
 		final int cnt = size();
 		if (cnt < 3) {
@@ -62,67 +68,6 @@ public class Path extends ArrayList<DoublePoint> {
 			j = i;
 		}
 		return -a * 0.5;
-	}
-
-	public Path cleanPolygon() {
-		return cleanPolygon(1.415);
-	}
-
-	public Path cleanPolygon(double distance) {
-		// distance = proximity in units/pixels below which vertices will be
-		// stripped.
-		// Default ~= sqrt(2) so when adjacent vertices or semi-adjacent
-		// vertices have
-		// both x & y coords within 1 unit, then the second vertex will be
-		// stripped.
-
-		int cnt = size();
-
-		if (cnt == 0) {
-			return new Path();
-		}
-
-		OutPt[] outPts = new OutPt[cnt];
-		for (int i = 0; i < cnt; ++i) {
-			outPts[i] = new OutPt();
-		}
-
-		for (int i = 0; i < cnt; ++i) {
-			outPts[i].pt = get(i);
-			outPts[i].next = outPts[(i + 1) % cnt];
-			outPts[i].next.prev = outPts[i];
-			outPts[i].idx = 0;
-		}
-
-		final double distSqrd = distance * distance;
-		OutPt op = outPts[0];
-		while (op.idx == 0 && op.next != op.prev) {
-			if (Point.arePointsClose(op.pt, op.prev.pt, distSqrd)) {
-				op = excludeOp(op);
-				cnt--;
-			} else if (Point.arePointsClose(op.prev.pt, op.next.pt, distSqrd)) {
-				excludeOp(op.next);
-				op = excludeOp(op);
-				cnt -= 2;
-			} else if (Point.slopesNearCollinear(op.prev.pt, op.pt, op.next.pt,
-					distSqrd)) {
-				op = excludeOp(op);
-				cnt--;
-			} else {
-				op.idx = 1;
-				op = op.next;
-			}
-		}
-
-		if (cnt < 3) {
-			cnt = 0;
-		}
-		final Path result = new Path(cnt);
-		for (int i = 0; i < cnt; ++i) {
-			result.add(op.pt);
-			op = op.next;
-		}
-		return result;
 	}
 
 	/**
@@ -186,6 +131,9 @@ public class Path extends ArrayList<DoublePoint> {
 		return area() >= 0;
 	}
 
+	/**
+	 * Reverse the path.
+	 */
 	public void reverse() {
 		Collections.reverse(this);
 	}

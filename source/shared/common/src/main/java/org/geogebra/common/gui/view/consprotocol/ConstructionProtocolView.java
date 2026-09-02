@@ -386,8 +386,11 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			return initShow;
 		}
 
-		public void setVisible(boolean isVisible) {
-			this.isVisible = isVisible;
+		/**
+		 * @param visible whether the column is visible
+		 */
+		public void setVisible(boolean visible) {
+			this.isVisible = visible;
 		}
 
 		public boolean isVisible() {

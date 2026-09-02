@@ -21,10 +21,15 @@ public class GPoint2D {
 	public double x;
 	public double y;
 
+	/**
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 */
 	public GPoint2D(double x, double y) {
 		setLocation(x, y);
 	}
 
+	/** Creates point (0,0). */
 	public GPoint2D() {
 		setLocation(0, 0);
 	}

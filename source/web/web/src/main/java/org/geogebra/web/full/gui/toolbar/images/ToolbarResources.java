@@ -19,7 +19,7 @@ package org.geogebra.web.full.gui.toolbar.images;
 import org.geogebra.web.resources.SVGResource;
 
 /** Toolbar resource bundle */
-@SuppressWarnings("checkstyle:MissingJavadocMethod")
+@SuppressWarnings({"checkstyle:MissingJavadocMethod", "PMD.CommentRequired"})
 public interface ToolbarResources {
 
 	SVGResource mode_select_32();

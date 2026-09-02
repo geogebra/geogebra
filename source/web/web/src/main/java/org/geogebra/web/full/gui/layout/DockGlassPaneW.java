@@ -87,7 +87,10 @@ public final class DockGlassPaneW extends AbsolutePanel
 
 		this.getElement().getStyle().setZIndex(5000);
 	}
-	
+
+	/**
+	 * @param element parent element of the applet
+	 */
 	public void setGeoGebraElement(GeoGebraElement element) {
 		this.ae = element;
 	}

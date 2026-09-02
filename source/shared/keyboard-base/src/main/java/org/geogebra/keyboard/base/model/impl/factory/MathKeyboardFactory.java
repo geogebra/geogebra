@@ -36,8 +36,11 @@ import org.geogebra.keyboard.base.model.impl.RowImpl;
 
 public class MathKeyboardFactory implements KeyboardModelFactory {
 
-    private CharacterProvider charProvider;
+    private final CharacterProvider charProvider;
 
+    /**
+     * @param characterProvider character provider
+     */
     public MathKeyboardFactory(CharacterProvider characterProvider) {
         charProvider = characterProvider;
     }

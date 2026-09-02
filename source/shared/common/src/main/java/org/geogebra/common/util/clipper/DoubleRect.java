@@ -26,13 +26,23 @@ public class DoubleRect {
 
 	}
 
-	public DoubleRect(double l, double t, double r, double b) {
-		left = l;
-		top = t;
-		right = r;
-		bottom = b;
+	/**
+	 * @param left left
+	 * @param top top
+	 * @param right right
+	 * @param bottom bottom
+	 */
+	public DoubleRect(double left, double top, double right, double bottom) {
+		this.left = left;
+		this.top = top;
+		this.right = right;
+		this.bottom = bottom;
 	}
 
+	/**
+	 * Copy constructor.
+	 * @param ir source rectangle
+	 */
 	public DoubleRect(DoubleRect ir) {
 		left = ir.left;
 		top = ir.top;

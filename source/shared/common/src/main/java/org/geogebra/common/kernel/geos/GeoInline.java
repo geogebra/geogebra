@@ -263,6 +263,9 @@ public abstract class GeoInline extends GeoElement implements Translateable, Rot
 		return isLockedForMultiuser;
 	}
 
+	/**
+	 * @param locked whether editing is locked (because of other user)
+	 */
 	public void setLockedForMultiuser(boolean locked) {
 		isLockedForMultiuser = locked;
 	}

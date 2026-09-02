@@ -31,6 +31,10 @@ import org.geogebra.common.util.debug.Log;
 
 public class MirrorAdapter extends ProverAdapter {
 
+	/**
+	 * @return Botana polynomials
+	 * @throws NoSymbolicParametersException if suitable polynomials cannot be obtained
+	 */
 	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public PPolynomial[] getBotanaPolynomials(GeoElementND geo, GeoElement inGeo,
 			GeoLineND mirrorLine, GeoPointND mirrorPoint,

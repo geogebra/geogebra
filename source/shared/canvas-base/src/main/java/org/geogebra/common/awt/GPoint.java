@@ -74,6 +74,9 @@ public class GPoint {
 		return x;
 	}
 
+	/**
+	 * @return z-coordinate (0 for 2D points)
+	 */
 	public int getZ() {
 		return 0;
 	}

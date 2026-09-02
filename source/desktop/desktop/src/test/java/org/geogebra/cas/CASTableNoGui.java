@@ -23,8 +23,8 @@ import org.geogebra.common.main.App;
 
 public class CASTableNoGui implements CASTable {
 
-	private String[] inputs;
-	private GeoCasCell[] cells;
+	private final String[] inputs;
+	private final GeoCasCell[] cells;
 	private int selectedRow = 0;
 
 	/**
@@ -130,6 +130,9 @@ public class CASTableNoGui implements CASTable {
 		return false;
 	}
 
+	/**
+	 * @param row selected row index
+	 */
 	public void setSelected(int row) {
 		this.selectedRow = row;
 	}

@@ -71,6 +71,10 @@ public class DependentBooleanAdapter extends ProverAdapter {
 	// substitution list of segments with variables
 	private ArrayList<Map.Entry<GeoElement, PVariable>> varSubstListOfSegs;
 
+	/**
+	 * @return Botana polynomials
+	 * @throws NoSymbolicParametersException if suitable polynomials cannot be obtained
+	 */
 	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public PPolynomial[][] getBotanaPolynomials(GeoBoolean bool,
 			Construction cons) throws NoSymbolicParametersException {

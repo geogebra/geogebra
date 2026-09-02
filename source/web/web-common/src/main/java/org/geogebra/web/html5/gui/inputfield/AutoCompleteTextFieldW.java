@@ -432,6 +432,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		// only for desktop
 	}
 
+	/**
+	 * @param autoClose whether to automatically add matching parenthesis
+	 */
 	public void setAutoCloseParentheses(boolean autoClose) {
 		autoCompleteParentheses = autoClose;
 	}

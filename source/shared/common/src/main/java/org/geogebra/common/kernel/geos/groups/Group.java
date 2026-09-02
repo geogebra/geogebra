@@ -90,6 +90,9 @@ public class Group {
         updateLead();
     }
 
+    /**
+     * @param fixed whether the group is fixed
+     */
     public void setFixed(boolean fixed) {
         isFixed = fixed;
     }

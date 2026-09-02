@@ -33,6 +33,10 @@ public class IntersectConicsAdapter {
 	private HashMap<GeoElementND, PPolynomial[]> botanaPolynomials;
 	private HashMap<GeoElementND, PVariable[]> botanaVars;
 
+	/**
+	 * @return Botana polynomials
+	 * @throws NoSymbolicParametersException if suitable polynomials cannot be obtained
+	 */
 	public PPolynomial[] getBotanaPolynomials(GeoElementND geo, GeoConic a, GeoConic b,
 			AlgoIntersectConics algo) throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
@@ -193,6 +197,9 @@ public class IntersectConicsAdapter {
 		throw new NoSymbolicParametersException();
 	}
 
+	/**
+	 * @return Botana variables
+	 */
 	public PVariable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars.get(geo);
 	}

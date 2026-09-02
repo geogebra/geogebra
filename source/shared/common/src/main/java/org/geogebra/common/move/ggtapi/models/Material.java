@@ -838,6 +838,9 @@ public class Material implements Serializable {
 		this.showZoomButtons = showZoomButtons;
 	}
 
+	/**
+	 * @param fileContent file content (e.g. JS object in Web)
+	 */
 	public void setContent(Object fileContent) {
 		this.fileContent = fileContent;
 	}

@@ -39,6 +39,14 @@ public class AlgoKimberlingWeights {
 		return Math.sqrt(a);
 	}
 
+	/**
+	 * Get weight of first vertex in given triangle for given center.
+	 * @param k center index
+	 * @param a first triangle side
+	 * @param b second triangle side
+	 * @param c third triangle side
+	 * @return weight
+	 */
 	public double weight(int k, double a, double b, double c) {
 		a2 = a * a;
 		a3 = a * a2;

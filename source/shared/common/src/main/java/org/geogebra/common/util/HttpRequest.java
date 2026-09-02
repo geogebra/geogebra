@@ -124,6 +124,9 @@ public abstract class HttpRequest implements Cancelable {
 		return null;
 	}
 
+	/**
+	 * @param csrfToken CSRF token
+	 */
 	public void setRequestCSRFHeader(String csrfToken) {
 		this.csrfToken = csrfToken;
 	}

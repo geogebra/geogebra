@@ -67,6 +67,9 @@ public class ScrollableSuggestBox extends GSuggestBox {
 		getDefaultSuggestionDisplay().hideSuggestions();
 	}
 
+	/**
+	 * @return whether suggestion popup is visible
+	 */
 	public boolean isSuggestionListVisible() {
 		return getDefaultSuggestionDisplay().isSuggestionListShowing();
 	}

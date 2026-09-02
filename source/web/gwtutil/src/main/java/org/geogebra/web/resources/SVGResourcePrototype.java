@@ -87,6 +87,9 @@ public class SVGResourcePrototype implements SVGResource {
 		return svg;
 	}
 
+	/**
+	 * @return data URL of this image
+	 */
 	public String getUrl() {
 		return "data:image/svg+xml;base64," + DomGlobal.btoa(svg);
 	}

@@ -163,6 +163,10 @@ public class QuickJS {
 
 	@JsFunction
 	interface MethodWrapper {
+		/**
+		 * @param arguments sandboxed arguments
+		 * @return sandboxed result
+		 */
 		Object call(Object... arguments);
 	}
 }

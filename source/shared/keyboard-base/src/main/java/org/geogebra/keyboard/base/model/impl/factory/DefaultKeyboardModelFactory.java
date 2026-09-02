@@ -36,6 +36,9 @@ public class DefaultKeyboardModelFactory implements KeyboardModelFactory {
 
     private CharacterProvider charProvider;
 
+    /**
+     * @param characterProvider character provider
+     */
     public DefaultKeyboardModelFactory(CharacterProvider characterProvider) {
         charProvider = characterProvider;
     }

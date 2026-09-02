@@ -22,18 +22,29 @@ import org.geogebra.common.cas.giac.binding.CASGiacBinding;
 import org.geogebra.common.cas.giac.binding.Gen;
 import org.geogebra.common.util.debug.crashlytics.CrashlyticsLogger;
 
+/**
+ * Task representing Giac expression evaluation.
+ */
 public class EvalFunction implements Runnable {
 	private final CASgiacB casGiac;
 	protected boolean canceled;
 	private final String exp;
 	private final long timeoutMillis;
 
+	/**
+	 * @param casGiac Giac CAS
+	 * @param exp expression
+	 * @param timeoutMillis timeout
+	 */
 	public EvalFunction(CASgiacB casGiac, String exp, long timeoutMillis) {
 		this.casGiac = casGiac;
 		this.exp = exp;
 		this.timeoutMillis = timeoutMillis;
 	}
 
+	/**
+	 * Cancel evaluation.
+	 */
 	public void cancel() {
 		canceled = true;
 	}

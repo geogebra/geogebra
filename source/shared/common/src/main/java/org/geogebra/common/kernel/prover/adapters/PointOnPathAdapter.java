@@ -28,6 +28,10 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 public class PointOnPathAdapter extends ProverAdapter {
 
+	/**
+	 * @return Botana polynomials
+	 * @throws NoSymbolicParametersException if suitable polynomials cannot be obtained
+	 */
 	public PPolynomial[] getBotanaPolynomials(GeoElement path)
 			throws NoSymbolicParametersException {
 		Kernel kernel = path.getKernel();

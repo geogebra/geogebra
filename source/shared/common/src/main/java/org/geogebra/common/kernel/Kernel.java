@@ -5030,6 +5030,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return algProcessor != null;
 	}
 
+	/**
+	 * @param algebraProcessor algebra processor
+	 */
 	public void setAlgebraProcessor(AlgebraProcessor algebraProcessor) {
 		algProcessor = algebraProcessor;
 	}
