@@ -16,8 +16,10 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
@@ -40,10 +42,26 @@ public class ListAsComboBoxProperty extends AbstractValuedProperty<Boolean> impl
 		this.element = (GeoList) element;
 	}
 
+	/**
+	 * Initialize related properties for a list that just became a dropdown.
+	 * @param element changed list
+	 */
+	public static void initializeVisualProperties(GeoList element) {
+		// Set default object and background color if needed
+		if (!element.isBackgroundColorSet() && element.isDefaultObjectColorSet()) {
+			element.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
+			element.setBackgroundColor(element.getBackgroundColor());
+		}
+		element.setEuclidianVisible(true);
+	}
+
 	@Override
 	protected void doSetValue(Boolean value) {
 		element.setDrawAsComboBox(value);
-		element.updateRepaint();
+		if (value) {
+			initializeVisualProperties(element);
+		}
+		element.updateVisualStyleRepaint(GProperty.COMBINED);
 	}
 
 	@Override

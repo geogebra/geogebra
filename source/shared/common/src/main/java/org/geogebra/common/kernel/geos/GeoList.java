@@ -3582,4 +3582,13 @@ public class GeoList extends GeoElement
 		return !isSelectionAllowed(ev) && objColor == GeoGebraColorConstants.NEUTRAL_900
 				&& (bgColor == null || bgColor == GColor.WHITE);
 	}
+
+	@Override
+	public void setAllVisualPropertiesExceptEuclidianVisible(
+			final GeoElement geo, final boolean keepAdvanced, boolean setAuxiliaryProperty) {
+		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced, setAuxiliaryProperty);
+		if (geo instanceof GeoList list) {
+			drawAsComboBox = list.drawAsComboBox;
+		}
+	}
 }

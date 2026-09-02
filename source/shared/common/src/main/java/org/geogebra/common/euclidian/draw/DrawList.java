@@ -226,6 +226,11 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		return result;
 	}
 
+	@Override
+	public boolean isCompatibleWithGeo() {
+		return !geoList.drawAsComboBox();
+	}
+
 	/**
 	 * @param geoItem
 	 *            geo

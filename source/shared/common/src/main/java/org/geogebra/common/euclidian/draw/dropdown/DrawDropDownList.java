@@ -591,4 +591,9 @@ public final class DrawDropDownList extends CanvasDrawable
 	public boolean isHighlighted() {
 		return view.getApplication().getSelectionManager().isKeyboardFocused(geo);
 	}
+
+	@Override
+	public boolean isCompatibleWithGeo() {
+		return geoList.drawAsComboBox();
+	}
 }
