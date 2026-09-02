@@ -31,17 +31,8 @@ public class Path extends ArrayList<DoublePoint> {
 	/** random */
 	private static final long serialVersionUID = -7120161578077546673L;
 
-	private static OutPt excludeOp(OutPt op) {
-		final OutPt result = op.prev;
-		result.next = op.next;
-		op.next.prev = result;
-		result.idx = 0;
-		return result;
-	}
-
 	public Path() {
 		super();
-
 	}
 
 	/**
