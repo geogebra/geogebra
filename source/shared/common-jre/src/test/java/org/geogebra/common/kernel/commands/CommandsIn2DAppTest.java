@@ -23,7 +23,7 @@ import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class CommandsTest2D {
+class CommandsIn2DAppTest {
 
 	private AlgebraProcessor ap;
 

@@ -14,18 +14,17 @@
  * See https://www.geogebra.org/license for full licensing details
  */
  
-package org.geogebra.common.kernel.geos;
+package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.junit.jupiter.api.Test;
 
-class GeoPointTest3D extends BaseUnitTest {
+class GeoPoint3DTest extends BaseUnitTest {
 
     @Override
     public AppCommon createAppCommon() {

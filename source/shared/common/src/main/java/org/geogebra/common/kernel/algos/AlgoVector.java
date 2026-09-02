@@ -86,7 +86,7 @@ public class AlgoVector extends AlgoElement
 				startPoint.set(P);
 				v.setStartPoint(startPoint);
 			}
-		} catch (CircularDefinitionException e) {
+		} catch (CircularDefinitionException ignored) {
 			// just formal; v is new, so can't really cause this
 		}
 

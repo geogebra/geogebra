@@ -27,7 +27,6 @@ import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.kernel.geos.GProperty;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.Test;

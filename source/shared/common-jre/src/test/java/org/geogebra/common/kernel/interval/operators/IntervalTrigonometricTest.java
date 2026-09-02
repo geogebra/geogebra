@@ -58,8 +58,8 @@ class IntervalTrigonometricTest {
 		assertEquals(IntervalConstants.one(), cos(interval(0, 0)));
 		assertEquals(interval(0, 1), cos(interval(0, PI / 2)));
 		assertEquals(interval(-1, 1), cos(interval(-PI, PI)));
-		assertEquals(interval(-1, 1), cos(interval(0, (3 * PI) / 2)));
-		assertEquals(interval(-1, 0), cos(interval(PI, (3 * PI) / 2)));
+		assertEquals(interval(-1, 1), cos(interval(0, 3 * PI / 2)));
+		assertEquals(interval(-1, 0), cos(interval(PI, 3 * PI / 2)));
 		assertEquals(interval(-1, -1), cos(interval(-PI, -PI)));
 		assertEquals(interval(-1, 1), cos(interval(-PI, PI)));
 		assertEquals(zero(), cos(interval(PI / 2, PI / 2)));
@@ -105,7 +105,7 @@ class IntervalTrigonometricTest {
 		assertEquals(interval(0, 1), evaluator.sin(interval(-2 * PI, -3 * PI / 2)));
 		double p = 2 * PI;
 		assertEquals(interval(0, 1), evaluator.sin(interval(-5 * p - 2 * PI,
-				-5 * p - (3 * PI) / 2)));
+				-5 * p - 3 * PI / 2)));
 	}
 
 	@Test

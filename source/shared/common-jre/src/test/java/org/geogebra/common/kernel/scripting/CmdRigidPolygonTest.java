@@ -24,7 +24,7 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class CmdRigidPolygonTest extends BaseAppTestSetup {
+class CmdRigidPolygonTest extends BaseAppTestSetup {
 
 	@BeforeEach
 	void setup() {

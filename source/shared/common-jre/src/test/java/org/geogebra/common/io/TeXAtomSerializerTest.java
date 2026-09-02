@@ -49,7 +49,7 @@ class TeXAtomSerializerTest {
 				if ("?".equals(s)) {
 					missing.add(clazz.getSimpleName());
 				}
-			} catch (RuntimeException ex) {
+			} catch (RuntimeException expected) {
 				// mock not serializable, OK
 			}
 		}

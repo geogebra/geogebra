@@ -103,7 +103,7 @@ public class AbsoluteScreenPositionPropertyCollection
 			if (Inspecting.isDynamicGeoElement(newPositionPoint)) {
 				try {
 					absoluteScreenLocateable.setStartPoint(newPositionPoint);
-				} catch (CircularDefinitionException circularDefinitionException) { }
+				} catch (CircularDefinitionException ignored) { }
 			} else {
 				absoluteScreenLocateable.setAbsoluteScreenLoc(
 						(int) newPositionPoint.getInhomX(), (int) newPositionPoint.getInhomY());

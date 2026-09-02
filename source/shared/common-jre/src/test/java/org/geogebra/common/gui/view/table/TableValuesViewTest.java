@@ -95,7 +95,7 @@ class TableValuesViewTest extends BaseUnitTest {
 		try {
 			view.setValues(valuesMin, valuesMax, valuesStep);
 		} catch (InvalidValuesException exception) {
-			// ignore
+			throw new AssertionError(exception);
 		}
 	}
 

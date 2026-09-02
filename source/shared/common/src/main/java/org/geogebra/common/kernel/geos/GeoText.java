@@ -824,7 +824,7 @@ public class GeoText extends GeoElement
 			locPoint = new GeoPoint(cons);
 			try {
 				setStartPoint(locPoint);
-			} catch (Exception e) {
+			} catch (Exception ignored) {
 				// circular definition, do nothing
 			}
 		}

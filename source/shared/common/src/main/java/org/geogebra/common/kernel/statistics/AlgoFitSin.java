@@ -206,13 +206,13 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	/** Does the math part of the regression */
 	public final void doReg() {
 		findParameters(); // Find initial parameters a,b,c,d
-		sinus_Reg(); // Run LM nonlinear iteration
+		sinusReg(); // Run LM nonlinear iteration
 	}
 
 	/** Tries to find good initial values for a,b,c,d */
 	public final void findParameters() {
 		double y;
-		int xmax_abs = 0, xmin_abs = 0; // Update in case changes=0 later
+		int xMaxAbs = 0, xMinAbs = 0; // Update in case changes=0 later
 										// (few-data-case)
 		size = xd.length;
 		double sum = 0.0d, max = -Double.MAX_VALUE, min = Double.MAX_VALUE;
@@ -222,11 +222,11 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			sum += y;
 			if (y > max) {
 				max = y;
-				xmax_abs = i;
+				xMaxAbs = i;
 			}
 			if (y < min) {
 				min = y;
-				xmin_abs = i;
+				xMinAbs = i;
 			}
 		} // for
 		a = sum / size;
@@ -236,7 +236,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		// This time first and second local max/min, between rise and fall and
 		// vv
 		// Last y in a rise or decrease *is* the local extremum!
-		int xmax = xmax_abs, xmin = xmin_abs; // Keep absolute xmax/xmin in case
+		int xmax = xMaxAbs, xmin = xMinAbs; // Keep absolute xmax/xmin in case
 												// changes=0 or 1 later
 		int state = 0; // undecided so far...
 		int current;
@@ -273,12 +273,12 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		}
 		// Distance between x-values of found(?)
 		// Checking half-period:
-		double min_max_distance = Math.abs(xd[xmax] - xd[xmin]);
+		double minMaxDistance = Math.abs(xd[xmax] - xd[xmin]);
 		int numberofhalfperiods = 1; // Between the extrema
 		if (changes <= 1) { // Did not succeed, abs extrema probably best
-			xmin = xmin_abs;
-			xmax = xmax_abs;
-			min_max_distance = Math.abs(xd[xmin] - xd[xmax]); // Update for
+			xmin = xMinAbs;
+			xmax = xMaxAbs;
+			minMaxDistance = Math.abs(xd[xmin] - xd[xmax]); // Update for
 																// final c
 																// further down
 			// min_max_distance might be 1,3,5,... halfperiods...find the one
@@ -293,7 +293,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 																					// period,
 																					// hopefully
 		} // if too few extrema
-		c = PI * numberofhalfperiods / min_max_distance;
+		c = PI * numberofhalfperiods / minMaxDistance;
 		double c2 = 2 * Math.PI / ((xd[size - 1] - xd[0]) * 2 / changes);
 		if (changes > 2) {
 			c = (c + c2) / 2; // compromise?
@@ -309,12 +309,12 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		double deltad = Math.PI * 2 * 0.01;
 		double err;
 		double bestd = 0.0d;
-		double old_err = beta(xd, yd, a, b, c, d);
+		double oldErr = beta(xd, yd, a, b, c, d);
 		for (int i = 0; i < 100; i++) {
 			d += deltad;
 			err = beta(xd, yd, a, b, c, d); // Without squaring is ok...
-			if (err < old_err) {
-				old_err = err;
+			if (err < oldErr) {
+				oldErr = err;
 				bestd = d;
 			}
 		}
@@ -322,8 +322,8 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	}
 
 	/** Doing LM iteration */
-	public final void sinus_Reg() {
-		double old_residual = beta2(xd, yd, a, b, c, d);
+	public final void sinusReg() {
+		double oldResidual = beta2(xd, yd, a, b, c, d);
 		double b1, b2, b3, b4; // At*beta
 		double m11, m22, m33, m44; // At*A
 		double x, y;
@@ -335,10 +335,10 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			x = xd[i];
 			y = yd[i];
 			double beta = beta(x, y, a, b, c, d);
-			double dfa = df_a();
-			double dfb = df_b(x, c, d);
-			double dfc = df_c(x, b, c, d);
-			double dfd = df_d(x, b, c, d);
+			double dfa = dfA();
+			double dfb = dfB(x, c, d);
+			double dfc = dfC(x, b, c, d);
+			double dfd = dfD(x, b, c, d);
 			// b=At*beta
 			b1 += beta * dfa;
 			b2 += beta * dfb;
@@ -374,10 +374,10 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 				x = xd[i];
 				y = yd[i];
 				double beta = beta(x, y, a, b, c, d);
-				double dfa = df_a();
-				double dfb = df_b(x, c, d);
-				double dfc = df_c(x, b, c, d);
-				double dfd = df_d(x, b, c, d);
+				double dfa = dfA();
+				double dfb = dfB(x, c, d);
+				double dfc = dfC(x, b, c, d);
+				double dfd = dfD(x, b, c, d);
 				// b=At*beta
 				b1 += beta * dfa;
 				b2 += beta * dfb;
@@ -429,10 +429,10 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 																	// +"+residual);
 				// diff=residual-old_residual;
 				// //debug("Residual difference: "+diff+" lambda: "+lambda);
-				if (residual < old_residual) {
+				if (residual < oldResidual) {
 					lambda = lambda / LMFACTORDIV; // going well :-) But don't
 													// overdo it...
-					old_residual = residual;
+					oldResidual = residual;
 					multfaktor = LMFACTORMULT; // Reset this!
 					a = newa;
 					b = newb;
@@ -482,22 +482,22 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	}
 
 	/* Partial derivative of f to a */
-	private static double df_a() {
+	private static double dfA() {
 		return 1.0d;
 	}
 
 	/* Partial derivative of f to b: sin(cx+d) */
-	private static double df_b(double x, double c, double d) {
+	private static double dfB(double x, double c, double d) {
 		return sin(x, c, d);
 	}
 
 	/* Partial derivative of f to c: cos(cx+d)*B*x */
-	private static double df_c(double x, double b, double c, double d) {
+	private static double dfC(double x, double b, double c, double d) {
 		return cos(x, c, d) * b * x;
 	}
 
 	/* Partial derivative of f to d: Bcos(cx+d) */
-	private static double df_d(double x, double b, double c, double d) {
+	private static double dfD(double x, double b, double c, double d) {
 		return cos(x, c, d) * b;
 	}
 
@@ -593,7 +593,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	// Finds the number of halfperiods between abs max and abs min that gives
 	// the least SSE
 	private int findNumberOfHalfPeriods(int k, int xmin, int xmax) {
-		double min_error = Double.MAX_VALUE;
+		double minError = Double.MAX_VALUE;
 		double error1;
 		double period, c1;
 		int n, best = 0;
@@ -602,8 +602,8 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			period = Math.abs(xd[xmax] - xd[xmin]) * 2.0 / n;
 			c1 = TWO_PI / period;
 			error1 = beta2(xd, yd, a, b, c1, PI / 2.0d - c1 * xd[xmax]);
-			if (error1 < min_error) {
-				min_error = error1;
+			if (error1 < minError) {
+				minError = error1;
 				best = n;
 			}
 		}

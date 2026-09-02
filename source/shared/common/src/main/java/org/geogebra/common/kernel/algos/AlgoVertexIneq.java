@@ -327,9 +327,7 @@ public class AlgoVertexIneq extends AlgoElement {
 			if (a.getFunBorder().isPolynomialFunction(false)) {
 				setHelper(i, j, new AlgoIntersectPolynomialConic(cons,
 						a.getFunBorder(), b.getConicBorder()));
-			} else {
-				// TODO
-			}
+			} // else TODO
 		} else {
 			helpers[i][j].compute();
 		}

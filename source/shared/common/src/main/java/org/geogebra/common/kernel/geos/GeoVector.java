@@ -275,7 +275,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 		if (startPoint == p) {
 			try {
 				setStartPoint(null);
-			} catch (Exception e) {
+			} catch (Exception ignored) {
 				// ignore circular definition here
 			}
 		}

@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-class SyntaxHintCheck {
+class SyntaxHintTest {
 
 	private MathFieldCommon mathField;
 	private SyntaxController controller;

@@ -455,7 +455,7 @@ public class TabbedKeyboard extends FlowPanel
 		Resource resource = Resource.EMPTY_IMAGE;
 		try {
 			resource = Resource.valueOf(resourceName);
-		} catch (RuntimeException re) {
+		} catch (RuntimeException ignored) {
 			// not in enum
 		}
 		switch (resource) {

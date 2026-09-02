@@ -229,7 +229,7 @@ class ModeDeleteTest extends BaseEuclidianControllerTest {
 	private void dragInside(int x1, int y1, int x2, int y2) {
 		int steps = 20;
 		for (int i = 0; i < 20; i++) {
-			drag(x1 + (i * (x2 - x1)) / steps, y1 + (i * (y2 - y1)) / steps);
+			drag(x1 + i * (x2 - x1) / steps, y1 + i * (y2 - y1) / steps);
 		}
 	}
 

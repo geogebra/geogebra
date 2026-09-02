@@ -57,7 +57,7 @@ class FunctionSamplerTest extends BaseUnitTest {
 	}
 
 	private List<Integer> getX(IntervalTupleList tuples) {
-		return tuples.stream().map(t -> (int) (connectedInterval(t.xSet()).getLow()))
+		return tuples.stream().map(t -> (int) connectedInterval(t.xSet()).getLow())
 				.collect(Collectors.toList());
 	}
 }

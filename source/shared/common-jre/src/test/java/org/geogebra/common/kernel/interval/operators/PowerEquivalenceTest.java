@@ -68,9 +68,8 @@ class PowerEquivalenceTest extends SamplerTest {
 		for (int i = 0; i < samples.count(); i++) {
 			IntervalTuple tuple1 = samples.get(i);
 			IntervalTuple tuple2 = other.get(i);
-			ok = ok && (tuple1.xSet().equals(tuple2.xSet())
-					&& toLegacy(tuple1.ySet())
-					.almostEqual(toLegacy(tuple2.ySet()), 1E-7));
+			ok = ok && tuple1.xSet().equals(tuple2.xSet())
+					&& toLegacy(tuple1.ySet()).almostEqual(toLegacy(tuple2.ySet()), 1E-7);
 		}
 		assertTrue(ok);
 	}

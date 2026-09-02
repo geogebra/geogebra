@@ -48,7 +48,7 @@ public class AlgoUnitOrthoVectorLine extends AlgoElement {
 		if (possStartPoint != null && possStartPoint.isLabelSet()) {
 			try {
 				n.setStartPoint(possStartPoint);
-			} catch (CircularDefinitionException e) {
+			} catch (CircularDefinitionException ignored) {
 				// can't happen for new vector n
 			}
 		}

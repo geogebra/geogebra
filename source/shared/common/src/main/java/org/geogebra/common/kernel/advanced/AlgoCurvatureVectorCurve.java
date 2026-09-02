@@ -70,7 +70,7 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 		v = new GeoVector(cons);
 		try {
 			v.setStartPoint(A);
-		} catch (CircularDefinitionException e) {
+		} catch (CircularDefinitionException ignored) {
 			// can't happen with new vectors
 		}
 
@@ -110,7 +110,7 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 		v = new GeoVector(cons);
 		try {
 			v.setStartPoint(A);
-		} catch (CircularDefinitionException e) {
+		} catch (CircularDefinitionException ignored) {
 			// can't happen with new vectors
 		}
 

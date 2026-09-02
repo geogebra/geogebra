@@ -230,26 +230,25 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 			// "+allneg);
 
 		// / Iterate for best k: ///
-		double err_old = beta2(k);
+		double errOld = beta2(k);
 		double lambda = 0.01d;
 		k = k + sign * lambda;
-		double err = err_old + 1; // to start off the while:
-		while (Math.abs(err - err_old) > EPSILONFIND) {
+		double err = errOld + 1; // to start off the while:
+		while (Math.abs(err - errOld) > EPSILONFIND) {
 			err = beta2(k);
 			// negerr=beta2(xd,yd,-k);
 			// if(Math.abs(negerr)<Math.abs(err)){//change to neg k
 			// k=-k;sign=-1*sign;err=negerr;
 			// }
-			if (err < err_old) {
+			if (err < errOld) {
 				lambda = lambda * 5; // going right way:-)
-				err_old = err;
+				errOld = err;
 				err = err + 1; // to keep going...
 			} else {
 				k = k - sign * lambda; // go back and try again
 				lambda = lambda / 5;
 			} // if progress
 			k += sign * lambda;
-			// debug("b, error-error_old: "+k+" , "+diff);
 		} // while reduction in error
 			// Set params for final iteration:
 		b = k; // next routine uses c,a,b...
@@ -263,7 +262,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 	private void logisticReg() {
 		iterations = 0;
-		double old_residual = beta2(xd, yd, a, b, c);
+		double oldResidual = beta2(xd, yd, a, b, c);
 		double x, y;
 		// ****checked up to here
 		// LM: optimal startlambda
@@ -273,9 +272,9 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 			x = xd[i];
 			y = yd[i];
 			double beta = beta(x, y, a, b, c);
-			double dfa = df_a(x, a, b, c);
-			double dfb = df_b(x, a, b, c);
-			double dfc = df_c(x, a, b);
+			double dfa = dfA(x, a, b, c);
+			double dfb = dfB(x, a, b, c);
+			double dfc = dfC(x, a, b);
 			// b=At*beta
 			b1 += beta * dfa;
 			b2 += beta * dfb;
@@ -307,9 +306,9 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 				x = xd[i];
 				y = yd[i];
 				double beta = beta(x, y, a, b, c);
-				double dfa = df_a(x, a, b, c);
-				double dfb = df_b(x, a, b, c);
-				double dfc = df_c(x, a, b);
+				double dfa = dfA(x, a, b, c);
+				double dfb = dfB(x, a, b, c);
+				double dfc = dfC(x, a, b);
 				// b=At*beta
 				b1 += beta * dfa;
 				b2 += beta * dfb;
@@ -346,13 +345,13 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 				double newb = b + db;
 				double newc = c + dc; // remember this and update later if ok
 				double residual = beta2(xd, yd, newa, newb, newc);
-				// diff=residual-old_residual;
+				// diff=residual-oldResidual;
 				// //debug("Residual difference: "+diff+" lambda: "+lambda);
 
-				if (residual < old_residual) { // (Set to true if no LM)
+				if (residual < oldResidual) { // (Set to true if no LM)
 					lambda = lambda / LMFACTORDIV; // going well :-) but don't
 													// overdo it...
-					old_residual = residual;
+					oldResidual = residual;
 					multfaktor = LMFACTORMULT; // reset this!
 					a = newa;
 					b = newb;
@@ -375,7 +374,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 	/** Logistic function f(x)=c/(1+ae^(-bx)) */
 	private static double f(double x, double a1, double b1, double c1) {
-		return df_c(x, a1, b1) * c1;
+		return dfC(x, a1, b1) * c1;
 	}
 
 	// Adjusted f, used in findParameters(), when a and c are calculated from
@@ -388,22 +387,22 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	}
 
 	// df/dc=1/(1+ae^(-bx))
-	private static double df_c(double x, double a1, double b1) {
+	private static double dfC(double x, double a1, double b1) {
 		return 1.0d / (1.0d + a1 * Math.exp(-b1 * x));
 	}
 
 	// df/da
-	private static double df_a(double x, double a1, double b1,
+	private static double dfA(double x, double a1, double b1,
 			double c1) {
-		double df_c = df_c(x, a1, b1);
-		return df_c * df_c * Math.exp(-b1 * x) * (-c1);
+		double dfC = dfC(x, a1, b1);
+		return dfC * dfC * Math.exp(-b1 * x) * (-c1);
 	}
 
 	// df/db
-	private static double df_b(double x, double a1, double b1,
+	private static double dfB(double x, double a1, double b1,
 			double c1) {
-		double df_c = df_c(x, a1, b1);
-		return df_c * df_c * Math.exp(-b1 * x) * x * a1 * c1;
+		double dfC = dfC(x, a1, b1);
+		return dfC * dfC * Math.exp(-b1 * x) * x * a1 * c1;
 	}
 
 	// / --- Error calculations --- ///

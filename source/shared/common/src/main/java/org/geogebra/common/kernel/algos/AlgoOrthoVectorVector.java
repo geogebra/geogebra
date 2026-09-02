@@ -45,7 +45,7 @@ public class AlgoOrthoVectorVector extends AlgoElement {
 			if (possStartPoint != null && possStartPoint.isLabelSet()) {
 				try {
 					n.setStartPoint(possStartPoint);
-				} catch (CircularDefinitionException e) {
+				} catch (CircularDefinitionException ignored) {
 					// vector just created, no cycle possible
 				}
 			}

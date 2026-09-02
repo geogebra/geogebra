@@ -47,7 +47,7 @@ public abstract class AlgoUnitVector extends AlgoElement {
 		if (possStartPoint != null && possStartPoint.isLabelSet()) {
 			try {
 				u.setStartPoint(possStartPoint);
-			} catch (CircularDefinitionException e) {
+			} catch (CircularDefinitionException ignored) {
 				// can't happen for new vector v
 			}
 		}

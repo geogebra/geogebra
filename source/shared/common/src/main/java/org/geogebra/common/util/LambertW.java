@@ -44,7 +44,7 @@ public class LambertW {
 			-18.100697012472442755, 27.029044799010561650 };
 	
 	/* Halley iteration (eqn. 5.12, Corless et al) */
-	private static double halley_iteration(double x, double w_initial,
+	private static double halleyIteration(double x, double w_initial,
 			int max_iters) {
 		double w = w_initial;
 		int i;
@@ -80,7 +80,7 @@ public class LambertW {
 	 * series which appears for q near zero; only the argument is different for
 	 * the different branches
 	 */
-	private static double series_eval(double r) {
+	private static double seriesEval(double r) {
 		final double t_8 = c[8] + r * (c[9] + r * (c[10] + r * c[11]));
 		final double t_5 = c[5] + r * (c[6] + r * (c[7] + r * t_8));
 		final double t_1 = c[1]
@@ -89,7 +89,7 @@ public class LambertW {
 	}
 
 	/* --------- Functions with Error Codes */
-	private static double gsl_sf_lambert_W0_e(double x) {
+	private static double gslSfLambertW0E(double x) {
 		final double one_over_E = 1.0 / Math.E;
 		final double q = x + one_over_E;
 
@@ -108,7 +108,7 @@ public class LambertW {
 		} else if (q < 1.0e-03) {
 			/* series near -1/E in sqrt(q) */
 			final double r = Math.sqrt(q);
-			return series_eval(r);
+			return seriesEval(r);
 		} else {
 			final int MAX_ITERS = 10;
 			double w;
@@ -129,13 +129,13 @@ public class LambertW {
 				}
 			}
 
-			return halley_iteration(x, w, MAX_ITERS);
+			return halleyIteration(x, w, MAX_ITERS);
 		}
 	}
 
-	private static double gsl_sf_lambert_Wm1_e(double x) {
+	private static double gslSfLambertWm1E(double x) {
 		if (x > 0.0) {
-			return gsl_sf_lambert_W0_e(x);
+			return gslSfLambertW0E(x);
 		} else if (x == 0.0) {
 			return 0.0;
 		} else {
@@ -161,7 +161,7 @@ public class LambertW {
 				 * small, because the increment alternates and p is near zero.
 				 */
 				final double r = -Math.sqrt(q);
-				w = series_eval(r);
+				w = seriesEval(r);
 				if (q < 3.0e-3) {
 					/* this approximation is good enough */
 					return w;
@@ -173,7 +173,7 @@ public class LambertW {
 				w = L_1 - L_2 + L_2 / L_1;
 			}
 
-			return halley_iteration(x, w, MAX_ITERS);
+			return halleyIteration(x, w, MAX_ITERS);
 		}
 	}
 
@@ -189,7 +189,7 @@ public class LambertW {
 			return Double.NaN;
 		}
 
-		return gsl_sf_lambert_W0_e(x);
+		return gslSfLambertW0E(x);
 	}
 
 	/**
@@ -202,7 +202,7 @@ public class LambertW {
 			return Double.NaN;
 		}
 
-		return gsl_sf_lambert_Wm1_e(x);
+		return gslSfLambertWm1E(x);
 	}
 
 }
