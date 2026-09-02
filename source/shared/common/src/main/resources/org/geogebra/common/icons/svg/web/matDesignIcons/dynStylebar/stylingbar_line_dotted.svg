@@ -1,8 +1,1 @@
-<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M1 11H3V13H1V11Z"/>
-<path d="M5 11H7V13H5V11Z"/>
-<path d="M9 11H11V13H9V11Z"/>
-<path d="M13 11H15V13H13V11Z"/>
-<path d="M21 11H23V13H21V11Z"/>
-<path d="M17 11H19V13H17V11Z"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M1 11h2v2H1zm4 0h2v2H5zm4 0h2v2H9zm4 0h2v2h-2zm8 0h2v2h-2zm-4 0h2v2h-2z"/></svg>
