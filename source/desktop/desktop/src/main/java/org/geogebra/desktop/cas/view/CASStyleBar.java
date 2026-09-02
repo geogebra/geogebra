@@ -166,7 +166,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 			((CASTableCellEditorD) casView.getConsoleTable().getCellEditor(i,
 					CASTableD.COL_CAS_CELLS)).setCaretPosition(pos);
 		} else if (source == btnShowKeyboard) {
-			if ((app.getGuiManager()) != null) {
+			if (app.getGuiManager() != null) {
 				if (AppD.isVirtualKeyboardActive()
 						&& !((GuiManagerD) app.getGuiManager())
 								.showVirtualKeyboard()) {
@@ -198,7 +198,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		for (int i = 0; i < popupBtnList.length; i++) {
 			try {
 				popupBtnList[i].update(selectedRows);
-			} catch (Exception e) {
+			} catch (Exception ignored) {
 				// TODO: find problem
 			}
 		}

@@ -393,28 +393,28 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 					double value = textXUnit.getValue();
 					ggb.setXunit(value);
 					textwidth.setValue(value * width);
-				} catch (NumberFormatException e1) {
+				} catch (NumberFormatException ignored) {
 				}
 			} else if (cmd.equals(TEXT_YUNIT)) {
 				try {
 					double value = textYUnit.getValue();
 					ggb.setYunit(value);
 					textheight.setValue(value * height);
-				} catch (NumberFormatException e1) {
+				} catch (NumberFormatException ignored) {
 				}
 			} else if (cmd.equals(TEXT_WIDTH)) {
 				try {
 					double value = textwidth.getValue() / width;
 					ggb.setXunit(value);
 					textXUnit.setValue(value);
-				} catch (NumberFormatException e1) {
+				} catch (NumberFormatException ignored) {
 				}
 			} else if (cmd.equals(TEXT_HEIGHT)) {
 				try {
 					double value = textheight.getValue() / height;
 					ggb.setYunit(value);
 					textYUnit.setValue(value);
-				} catch (NumberFormatException e1) {
+				} catch (NumberFormatException ignored) {
 				}
 			} else if (cmd.equals(TEXT_XMIN)) {
 				try {
@@ -435,7 +435,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 					}
 					textwidth.setValue(width * ggb.getXunit());
 					ggb.refreshSelectionRectangle();
-				} catch (NumberFormatException e1) {
+				} catch (NumberFormatException ignored) {
 				}
 			} else if (cmd.equals(TEXT_XMAX)) {
 				try {
@@ -456,7 +456,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 					}
 					textwidth.setValue(width * ggb.getXunit());
 					ggb.refreshSelectionRectangle();
-				} catch (NumberFormatException e1) {
+				} catch (NumberFormatException ignored) {
 				}
 			} else if (cmd.equals(TEXT_YMIN)) {
 				try {
@@ -478,7 +478,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 					}
 					textheight.setValue(height * ggb.getYunit());
 					ggb.refreshSelectionRectangle();
-				} catch (NumberFormatException e1) {
+				} catch (NumberFormatException ignored) {
 				}
 			} else if (cmd.equals(TEXT_YMAX)) {
 				try {
@@ -499,7 +499,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 					}
 					textheight.setValue(height * ggb.getYunit());
 					ggb.refreshSelectionRectangle();
-				} catch (NumberFormatException e1) {
+				} catch (NumberFormatException ignored) {
 				}
 
 			}

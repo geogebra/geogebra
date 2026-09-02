@@ -169,9 +169,9 @@ class NeuQuant {
 		int k = 0;
 		for (int i = 0; i < netsize; i++) {
 			int j = index[i];
-			map[k++] = (byte) (network[j][0]);
-			map[k++] = (byte) (network[j][1]);
-			map[k++] = (byte) (network[j][2]);
+			map[k++] = (byte) network[j][0];
+			map[k++] = (byte) network[j][1];
+			map[k++] = (byte) network[j][2];
 		}
 		return map;
 	}
@@ -262,7 +262,7 @@ class NeuQuant {
 		int i;
 		for (i = 0; i < rad; i++) {
 			radpower[i] = alpha
-					* (((rad * rad - i * i) * radbias) / (rad * rad));
+					* ((rad * rad - i * i) * radbias / (rad * rad));
 		}
 
 		// fprintf(stderr,"beginning 1D learning: initial radius=%d\n", rad);
@@ -314,7 +314,7 @@ class NeuQuant {
 				}
 				for (j = 0; j < rad; j++) {
 					radpower[j] = alpha
-							* (((rad * rad - j * j) * radbias) / (rad * rad));
+							* ((rad * rad - j * j) * radbias / (rad * rad));
 				}
 			}
 		}
@@ -453,9 +453,9 @@ class NeuQuant {
 			if (j < hi) {
 				p = network[j++];
 				try {
-					p[0] -= (a * (p[0] - b)) / alpharadbias;
-					p[1] -= (a * (p[1] - g)) / alpharadbias;
-					p[2] -= (a * (p[2] - r)) / alpharadbias;
+					p[0] -= a * (p[0] - b) / alpharadbias;
+					p[1] -= a * (p[1] - g) / alpharadbias;
+					p[2] -= a * (p[2] - r) / alpharadbias;
 				} catch (Exception e) {
 					e.printStackTrace();
 				} // prevents 1.3 miscompilation
@@ -463,9 +463,9 @@ class NeuQuant {
 			if (k > lo) {
 				p = network[k--];
 				try {
-					p[0] -= (a * (p[0] - b)) / alpharadbias;
-					p[1] -= (a * (p[1] - g)) / alpharadbias;
-					p[2] -= (a * (p[2] - r)) / alpharadbias;
+					p[0] -= a * (p[0] - b) / alpharadbias;
+					p[1] -= a * (p[1] - g) / alpharadbias;
+					p[2] -= a * (p[2] - r) / alpharadbias;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -481,9 +481,9 @@ class NeuQuant {
 
 		/* alter hit neuron */
 		int[] n = network[i];
-		n[0] -= (alpha * (n[0] - b)) / initalpha;
-		n[1] -= (alpha * (n[1] - g)) / initalpha;
-		n[2] -= (alpha * (n[2] - r)) / initalpha;
+		n[0] -= alpha * (n[0] - b) / initalpha;
+		n[1] -= alpha * (n[1] - g) / initalpha;
+		n[2] -= alpha * (n[2] - r) / initalpha;
 	}
 
 	/*
@@ -528,7 +528,7 @@ class NeuQuant {
 				bestd = dist;
 				bestpos = i;
 			}
-			biasdist = dist - ((bias[i]) >> (intbiasshift - netbiasshift));
+			biasdist = dist - (bias[i] >> (intbiasshift - netbiasshift));
 			if (biasdist < bestbiasd) {
 				bestbiasd = biasdist;
 				bestbiaspos = i;

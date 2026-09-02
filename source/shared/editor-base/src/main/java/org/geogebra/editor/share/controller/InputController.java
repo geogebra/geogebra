@@ -1486,7 +1486,7 @@ public class InputController {
 	private boolean needsSpaceDisambiguation(EditorState state) {
 		return getPreviousNode(state) instanceof CharacterNode charNode
 				&& !charNode.isWordBreak()
-				&& (syntaxAdapter != null && !syntaxAdapter.isFunction(getCurrentWord(state)));
+				&& syntaxAdapter != null && !syntaxAdapter.isFunction(getCurrentWord(state));
 	}
 
 	private boolean shouldCharBeIgnored(EditorState editorState, char ch) {

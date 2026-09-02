@@ -2348,7 +2348,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			boolean geosOK = true;
 			for (int i = 0; i < geos1.length; i++) {
 				GeoElement geo = (GeoElement) geos1[i];
-				if (!(geo.showLineProperties())) {
+				if (!geo.showLineProperties()) {
 					geosOK = false;
 					break;
 				}
@@ -2440,7 +2440,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			boolean geosOK = true;
 			for (int i = 0; i < selGeos.length; i++) {
 				GeoElement geo = (GeoElement) selGeos[i];
-				if (!(geo.isGeoPlane())) {
+				if (!geo.isGeoPlane()) {
 					geosOK = false;
 					break;
 				}

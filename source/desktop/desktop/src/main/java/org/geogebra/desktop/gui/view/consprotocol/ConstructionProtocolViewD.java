@@ -544,7 +544,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				setConstructionStep(-1);
 				table.repaint();
 			} else {
-				if ((e.getClickCount() == 1) && (MouseEventUtil.isRightClick(e))
+				if ((e.getClickCount() == 1) && MouseEventUtil.isRightClick(e)
 						&& ((ob == table.getTableHeader()) || (ob == scrollPane))) {
 					ConstructionProtocolContextMenu contextMenu =
 							new ConstructionProtocolContextMenu(
@@ -1038,7 +1038,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		 * @param col column
 		 */
 		public void setValueAt(Object value, int row, int col) {
-			if ((this.columns[col].getTitle()).equals("Caption")) {
+			if (this.columns[col].getTitle().equals("Caption")) {
 				data.getRow(row).getGeo().setCaption(value.toString());
 				data.getRow(row).getGeo().update();
 				// updateAll();

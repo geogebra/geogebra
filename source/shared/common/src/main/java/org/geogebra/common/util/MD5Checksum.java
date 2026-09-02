@@ -181,13 +181,13 @@ public class MD5Checksum {
 		int lWordCount;
 		while (lByteCount < lMessageLength) {
 			lWordCount = (lByteCount - (lByteCount % 4)) / 4;
-			lBytePosition = (lByteCount % 4) * 8;
+			lBytePosition = lByteCount % 4 * 8;
 			lWordArray[lWordCount] = lWordArray[lWordCount]
 					| (string.charAt(lByteCount) << lBytePosition);
 			lByteCount++;
 		}
 		lWordCount = (lByteCount - (lByteCount % 4)) / 4;
-		lBytePosition = (lByteCount % 4) * 8;
+		lBytePosition = lByteCount % 4 * 8;
 		lWordArray[lWordCount] = lWordArray[lWordCount]
 				| (0x80 << lBytePosition);
 		lWordArray[lNumberOfWords - 2] = lMessageLength << 3;

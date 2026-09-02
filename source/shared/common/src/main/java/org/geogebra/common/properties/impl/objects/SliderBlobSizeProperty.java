@@ -50,6 +50,6 @@ public class SliderBlobSizeProperty extends AbstractRangeProperty<Integer> {
 
 	@Override
 	public Integer getValue() {
-		return (int) (delegate.getElement().getSliderBlobSize());
+		return (int) delegate.getElement().getSliderBlobSize();
 	}
 }

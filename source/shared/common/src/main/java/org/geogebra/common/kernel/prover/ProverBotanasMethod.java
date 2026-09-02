@@ -530,7 +530,7 @@ public class ProverBotanasMethod {
 			}
 			polynomials.add(p);
 			int size = polynomials.size();
-			Log.debug("Adding poly #" + (size) + ": " + p.toTeX());
+			Log.debug("Adding poly #" + size + ": " + p.toTeX());
 		}
 
 		/**
@@ -780,7 +780,7 @@ public class ProverBotanasMethod {
 						}
 						String command = geo
 								.getDefinition(StringTemplate.noLocalDefault);
-						if (!("".equals(command))) {
+						if (!"".equals(command)) {
 							Log.debug(geo.getLabelSimple() + " = "
 									+ geo.getDefinition(
 									StringTemplate.noLocalDefault)
@@ -1149,7 +1149,7 @@ public class ProverBotanasMethod {
 						 */
 						if (geoProver
 								.getProverEngine() != ProverEngine.LOCUS_IMPLICIT
-								&& !("{}".equals(casResult))) {
+								&& !"{}".equals(casResult)) {
 							// skip { and }
 							casResult = casResult.substring(1,
 									casResult.length() - 1);
@@ -1184,8 +1184,8 @@ public class ProverBotanasMethod {
 							if (!polyIsConst) {
 								for (String factor : factors) {
 									// parse factors into expression
-									ValidExpression resultVE = (geoStatement
-											.getKernel().getGeoGebraCAS())
+									ValidExpression resultVE = geoStatement
+											.getKernel().getGeoGebraCAS()
 											.getCASparser()
 											.parseGeoGebraCASInputAndResolveDummyVars(
 													factor,
@@ -1233,9 +1233,9 @@ public class ProverBotanasMethod {
 
 						}
 						/* giac output is not empty */
-						if (!("{}".equals(output))) {
-							ValidExpression validExpression = (geoStatement
-									.getKernel().getGeoGebraCAS())
+						if (!"{}".equals(output)) {
+							ValidExpression validExpression = geoStatement
+									.getKernel().getGeoGebraCAS()
 									.getCASparser()
 									.parseGeoGebraCASInputAndResolveDummyVars(
 											output,
@@ -1320,8 +1320,8 @@ public class ProverBotanasMethod {
 							interpretTrueAsUndefined = true;
 						}
 					} else if (operation == Operation.EQUAL_BOOLEAN) {
-						if ((algo.input[0] instanceof GeoAngle
-								&& algo.input[1] instanceof GeoAngle)) {
+						if (algo.input[0] instanceof GeoAngle
+								&& algo.input[1] instanceof GeoAngle) {
 							interpretTrueAsUndefined = true;
 							// FIXME: this should be removed, and an essential
 							// condition added
@@ -1379,7 +1379,7 @@ public class ProverBotanasMethod {
 				thesisFactors = new PPolynomial[statements.length];
 				int i = 0;
 				for (PPolynomial[] statement : statements) {
-					PPolynomial factor = (statement[statement.length - 1]);
+					PPolynomial factor = statement[statement.length - 1];
 					thesisFactors[i] = factor;
 					Log.debug("(" + factor + ")*" + z + "-1");
 					factor = factor.multiply(new PPolynomial(z))
@@ -1444,7 +1444,7 @@ public class ProverBotanasMethod {
 			if (prover.getProverEngine() != ProverEngine.RECIOS_PROVER
 					&& proverSettings.freePointsNeverCollinear != null
 					&& proverSettings.freePointsNeverCollinear
-					&& !(prover.isReturnExtraNDGs())) {
+					&& !prover.isReturnExtraNDGs()) {
 				try {
 					Collections.addAll(polynomials,
 							create3FreePointsNeverCollinearNDG(prover));
@@ -1813,7 +1813,7 @@ public class ProverBotanasMethod {
 
 		/* axis and fixed slope line support */
 		Kernel k = mover.getKernel();
-		for (GeoElement geo : (tracer).getAllPredecessors()) {
+		for (GeoElement geo : tracer.getAllPredecessors()) {
 			if (geo instanceof GeoLine && ((GeoLine) geo).hasFixedSlope()) {
 
 				PVariable[] vars;

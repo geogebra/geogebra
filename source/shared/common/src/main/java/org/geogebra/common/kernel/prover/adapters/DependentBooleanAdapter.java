@@ -81,7 +81,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 		ExpressionNode root = bool.getDefinition();
 		Kernel kernel = cons.getKernel();
 		// replace Distance[A,B] with geoSegment
-		if (!(root.getLeft().isExpressionNode())
+		if (!root.getLeft().isExpressionNode()
 				&& root.getLeft() instanceof GeoNumeric) {
 			AlgoElement algo = ((GeoElement) root.getLeft())
 					.getParentAlgorithm();
@@ -100,7 +100,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 				}
 			}
 		}
-		if (!(root.getRight().isExpressionNode())
+		if (!root.getRight().isExpressionNode()
 				&& root.getRight() instanceof GeoNumeric) {
 			AlgoElement algo = ((GeoElement) root.getRight())
 					.getParentAlgorithm();
@@ -191,7 +191,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 		}
 
 		// handle special case, when left expression is given by another algo
-		if (!(root.getLeft().isExpressionNode())
+		if (!root.getLeft().isExpressionNode()
 				&& !(root.getLeft() instanceof MyDouble)) {
 			AlgoElement algo = ((GeoElement) root.getLeft())
 					.getParentAlgorithm();
@@ -200,7 +200,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 			}
 		}
 		// handle special case, when right expression is given by another algo
-		if (!(root.getRight().isExpressionNode())
+		if (!root.getRight().isExpressionNode()
 				&& !(root.getRight() instanceof MyDouble)) {
 			AlgoElement algo = ((GeoElement) root.getRight())
 					.getParentAlgorithm();
@@ -266,7 +266,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 				if (!expandGiacOutput.contains("?")
 						&& !"{}".equals(expandGiacOutput)) {
 					// parse expanded string into expression
-					ValidExpression expandValidExp = (kernel.getGeoGebraCAS())
+					ValidExpression expandValidExp = kernel.getGeoGebraCAS()
 							.getCASparser()
 							.parseGeoGebraCASInputAndResolveDummyVars(
 									expandGiacOutput, kernel, null);
@@ -659,9 +659,9 @@ public class DependentBooleanAdapter extends ProverAdapter {
 					if (nrOfMaxDecimals != 0
 							&& expNode.getOperation() != Operation.POWER) {
 						i = new BigInteger(Long.toString(
-								((long) (d * Math.pow(10, nrOfMaxDecimals)))));
+								(long) (d * Math.pow(10, nrOfMaxDecimals))));
 					} else {
-						i = new BigInteger(Long.toString(((long) d)));
+						i = new BigInteger(Long.toString((long) d));
 					}
 					polyNode.getRight().setPoly(new PPolynomial(i));
 				}

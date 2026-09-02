@@ -370,7 +370,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		doTextFieldActionPerformed((JTextField) (e.getSource()));
+		doTextFieldActionPerformed((JTextField) e.getSource());
 	}
 
 	private Integer[] selectedDataIndex() {

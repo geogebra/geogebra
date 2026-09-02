@@ -309,10 +309,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	private GDimension preferredSize;
 
 	/** Horizontal page margin in cm */
-	public static final double PAGE_MARGIN_X = (1.8 * 72) / 2.54;
+	public static final double PAGE_MARGIN_X = 1.8 * 72 / 2.54;
 
 	/** Vertical page margin in cm */
-	public static final double PAGE_MARGIN_Y = (1.8 * 72) / 2.54;
+	public static final double PAGE_MARGIN_Y = 1.8 * 72 / 2.54;
 
 	/**
 	 * made a little darker in ggb40 (problem showing on some projectors)
@@ -2334,7 +2334,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			if (applicationSplitPane.getLastDividerLocation() <= 0) {
 				applicationSplitPane
 						.setLastDividerLocation(applicationSplitPane.getWidth()
-								- (((GuiManagerD) getGuiManager()))
+								- ((GuiManagerD) getGuiManager())
 										.getInputHelpPanelMinimumWidth());
 			}
 			applicationSplitPane.setDividerLocation(
@@ -3489,7 +3489,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 */
 	public static boolean isRightClickForceMetaDown(MouseEvent e) {
 		return (MAC_OS && e.isControlDown()) // Mac: ctrl click = right click
-						|| (e.isMetaDown()); // non-Mac: right click = meta click
+						|| e.isMetaDown(); // non-Mac: right click = meta click
 	}
 
 	/**

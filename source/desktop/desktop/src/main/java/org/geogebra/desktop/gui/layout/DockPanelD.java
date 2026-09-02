@@ -664,9 +664,9 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		});
 
 		if (isDialog) {
-			(((JDialog) frame).getContentPane()).add(this);
+			((JDialog) frame).getContentPane().add(this);
 		} else {
-			(((JFrame) frame).getContentPane()).add(this);
+			((JFrame) frame).getContentPane().add(this);
 			menubar = loadMenuBar();
 			if (menubar != null) {
 				((JFrame) frame).setJMenuBar(menubar);
@@ -826,11 +826,6 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 					toolbarContainer.setActiveToolbar(getViewId());
 					toolbarPanel.add(toolbarContainer, BorderLayout.CENTER);
 				}
-			}
-
-			// euclidian view uses the general toolbar
-			if (this instanceof EuclidianDockPanelAbstract) {
-				// TODO implement..
 			}
 		}
 
@@ -1619,7 +1614,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 			if (e.getSource() != titlePanel) {
 				e.consume();
 			} else if (!windowButton.isVisible()
-					&& (!isAlone() && !isInFrame() && !isMaximized())) {
+					&& !isAlone() && !isInFrame() && !isMaximized()) {
 				windowButton.setVisible(true);
 			}
 

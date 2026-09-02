@@ -99,7 +99,7 @@ public class GlassPaneListener
 		Component component = SwingUtilities.getDeepestComponentAt(container,
 				containerPoint.x, containerPoint.y);
 
-		if ((component != null) && (component.equals(destComp))) {
+		if (component != null && component.equals(destComp)) {
 			// Forward events to the destination comp
 			Point componentPoint = SwingUtilities.convertPoint(glassPane,
 					glassPanePoint, component);

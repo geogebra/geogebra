@@ -1032,8 +1032,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			int row2, boolean includeSpacing) {
 		Rectangle r1 = getCellRect(row1, column1, includeSpacing);
 		Rectangle r2 = getCellRect(row2, column2, includeSpacing);
-		r1.setBounds(r1.x, r1.y, (r2.x - r1.x) + r2.width,
-				(r2.y - r1.y) + r2.height);
+		r1.setBounds(r1.x, r1.y, r2.x - r1.x + r2.width,
+				r2.y - r1.y + r2.height);
 		return r1;
 	}
 

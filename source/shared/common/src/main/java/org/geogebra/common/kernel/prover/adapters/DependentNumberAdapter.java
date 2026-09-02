@@ -105,7 +105,7 @@ public class DependentNumberAdapter extends ProverAdapter {
 					.replaceAll(Kernel.TMP_VARIABLE_PREFIX2, "");
 			// also decrypting variable names
 
-			ValidExpression resultVE = (algoDepNumber.getKernel().getGeoGebraCAS()).getCASparser()
+			ValidExpression resultVE = algoDepNumber.getKernel().getGeoGebraCAS().getCASparser()
 					.parseGeoGebraCASInputAndResolveDummyVars(giacOutput, algoDepNumber.getKernel(), null);
 
 			polyNode = new PolynomialNode();
@@ -372,9 +372,9 @@ public class DependentNumberAdapter extends ProverAdapter {
 					// than multiply the coefficient with 10^n
 					if (nrOfMaxDecimals != 0 && expNode.getOperation() != Operation.POWER) {
 						i = new BigInteger(
-								Long.toString(((long) (d * Math.pow(10, nrOfMaxDecimals)))));
+								Long.toString((long) (d * Math.pow(10, nrOfMaxDecimals))));
 					} else {
-						i = new BigInteger(Long.toString(((long) d)));
+						i = new BigInteger(Long.toString((long) d));
 					}
 					polyNode.getRight().setPoly(new PPolynomial(i));
 				}

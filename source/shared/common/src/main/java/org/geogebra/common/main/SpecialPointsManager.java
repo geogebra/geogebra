@@ -339,7 +339,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		return geo.isEuclidianShowable()
 				&& (geoTwin instanceof GeoFunction || geoTwin instanceof EquationValue
 				|| geoTwin instanceof GeoSymbolic || isPointList(geoTwin))
-				&& !(geoTwin.isGeoSegment())
+				&& !geoTwin.isGeoSegment()
 				&& geoTwin.isVisible() && geoTwin.isDefined()
 				&& geoTwin.isEuclidianVisible() && !geoTwin.isGeoElement3D();
 	}

@@ -238,7 +238,7 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 		ActionListener al = e -> {
 			try {
 				zoom(Double.parseDouble(e.getActionCommand()));
-			} catch (Exception ex) {
+			} catch (Exception ignored) {
 			}
 		};
 
@@ -270,7 +270,7 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 		ActionListener al = e -> {
 			try {
 				zoomYaxis(Double.parseDouble(e.getActionCommand()));
-			} catch (Exception ex) {
+			} catch (Exception ignored) {
 			}
 		};
 

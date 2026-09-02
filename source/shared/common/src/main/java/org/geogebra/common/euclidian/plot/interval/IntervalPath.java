@@ -97,7 +97,7 @@ public class IntervalPath {
 	}
 
 	private boolean isJoinNeeded() {
-		return !(lastY.isEmpty());
+		return !lastY.isEmpty();
 	}
 
 	private void drawTupleJoined(int index) {

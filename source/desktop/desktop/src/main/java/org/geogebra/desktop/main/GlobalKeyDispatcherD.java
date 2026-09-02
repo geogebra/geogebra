@@ -251,20 +251,20 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 
 	@Override
 	protected void handleCopyCut(boolean cut) {
-		if (!(((GuiManagerD) app.getGuiManager()).getSpreadsheetView()
-				.hasFocus())
-				&& !(((AlgebraInputD) ((GuiManagerD) app.getGuiManager())
-						.getAlgebraInput()).getTextField().hasFocus())) {
+		if (!((GuiManagerD) app.getGuiManager()).getSpreadsheetView()
+				.hasFocus()
+				&& !((AlgebraInputD) ((GuiManagerD) app.getGuiManager())
+						.getAlgebraInput()).getTextField().hasFocus()) {
 			CopyPaste.handleCutCopy(app, cut);
 		}
 	}
 
 	@Override
 	protected void handleCtrlV() {
-		if (!(((GuiManagerD) app.getGuiManager()).getSpreadsheetView()
-				.hasFocus())
-				&& !(((AlgebraInputD) ((GuiManagerD) app.getGuiManager())
-						.getAlgebraInput()).getTextField().hasFocus())) {
+		if (!((GuiManagerD) app.getGuiManager()).getSpreadsheetView()
+				.hasFocus()
+				&& !((AlgebraInputD) ((GuiManagerD) app.getGuiManager())
+						.getAlgebraInput()).getTextField().hasFocus()) {
 
 			app.setWaitCursor();
 			app.getCopyPaste().pasteFromXML(app);

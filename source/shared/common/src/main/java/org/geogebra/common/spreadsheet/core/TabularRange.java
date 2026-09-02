@@ -316,13 +316,14 @@ public final class TabularRange {
 	 * @return true if the cell range has valid coordinates for this table
 	 */
 	public boolean isValid() {
-		return (minRow >= -1 && minRow < Spreadsheet.MAX_ROWS)
-				&& (maxRow >= -1
-				&& maxRow < Spreadsheet.MAX_ROWS)
-				&& (minColumn >= -1
-				&& minColumn < Spreadsheet.MAX_COLUMNS)
-				&& (maxColumn >= -1
-				&& maxColumn < Spreadsheet.MAX_COLUMNS);
+		return minRow >= -1
+				&& minRow < Spreadsheet.MAX_ROWS
+				&& maxRow >= -1
+				&& maxRow < Spreadsheet.MAX_ROWS
+				&& minColumn >= -1
+				&& minColumn < Spreadsheet.MAX_COLUMNS
+				&& maxColumn >= -1
+				&& maxColumn < Spreadsheet.MAX_COLUMNS;
 	}
 
 	/**

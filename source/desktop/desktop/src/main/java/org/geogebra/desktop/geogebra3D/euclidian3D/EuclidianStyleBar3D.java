@@ -100,14 +100,14 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 															// showing, start
 															// rotation
 				getView().setRotContinueAnimation(0,
-						(btnRotateView.getSliderValue()) * 0.01);
+						btnRotateView.getSliderValue() * 0.01);
 			} else { // if button has been clicked, toggle rotation
 				if (getView().isRotAnimatedContinue()) {
 					getView().stopAnimation();
 					btnRotateView.setSelected(false);
 				} else {
 					getView().setRotContinueAnimation(0,
-							(btnRotateView.getSliderValue()) * 0.01);
+							btnRotateView.getSliderValue() * 0.01);
 					btnRotateView.setSelected(true);
 				}
 			}

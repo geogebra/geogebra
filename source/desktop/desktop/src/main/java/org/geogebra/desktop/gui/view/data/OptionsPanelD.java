@@ -864,7 +864,7 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 	@Override
 	public void focusLost(FocusEvent e) {
 		if (e.getSource() instanceof JTextField) {
-			doTextFieldActionPerformed((JTextField) (e.getSource()));
+			doTextFieldActionPerformed((JTextField) e.getSource());
 		}
 	}
 

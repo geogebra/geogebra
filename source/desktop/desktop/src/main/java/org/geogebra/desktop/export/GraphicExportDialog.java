@@ -541,8 +541,8 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 		case SIZEINPX:
 			pixelWidth = psp.getPixelWidth();
 			pixelHeight = psp.getPixelHeight();
-			cmWidth = (pixelWidth * 2.54) / getDPI();
-			cmHeight = (pixelHeight * 2.54) / getDPI();
+			cmWidth = pixelWidth * 2.54 / getDPI();
+			cmHeight = pixelHeight * 2.54 / getDPI();
 			exportScale = pixelWidth / ((double) ev.getExportWidth());
 			break;
 
@@ -569,7 +569,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 			break;
 
 		case SIZEINCM:
-			exportScale = (printingScale * getDPI()) / 2.54 / ev.getXscale();
+			exportScale = printingScale * getDPI() / 2.54 / ev.getXscale();
 			// cm size
 			cmWidth = printingScale * (ev.getExportWidth() / ev.getXscale());
 

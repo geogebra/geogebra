@@ -231,7 +231,7 @@ public class GeoGebraTubeExportD {
 					StringBuffer output = new StringBuffer();
 
 					String line;
-					while (null != ((line = input.readLine()))) {
+					while (null != (line = input.readLine())) {
 						output.append(line);
 					}
 
@@ -282,7 +282,7 @@ public class GeoGebraTubeExportD {
 					StringBuffer errorBuffer = new StringBuffer();
 
 					String line;
-					while (null != ((line = errors.readLine()))) {
+					while (null != (line = errors.readLine())) {
 						errorBuffer.append(line);
 					}
 					errors.close();

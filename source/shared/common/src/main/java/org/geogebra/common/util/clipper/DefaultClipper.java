@@ -1141,7 +1141,7 @@ public class DefaultClipper extends ClipperBase {
 
 	// ------------------------------------------------------------------------------
 
-	private static boolean EdgesAdjacent(IntersectNode inode) {
+	private static boolean edgesAdjacent(IntersectNode inode) {
 		return inode.edge1.nextInSEL == inode.Edge2
 				|| inode.edge1.prevInSEL == inode.Edge2;
 	}
@@ -1318,9 +1318,9 @@ public class DefaultClipper extends ClipperBase {
 		copyAELToSEL();
 		final int cnt = intersectList.size();
 		for (int i = 0; i < cnt; i++) {
-			if (!EdgesAdjacent(intersectList.get(i))) {
+			if (!edgesAdjacent(intersectList.get(i))) {
 				int j = i + 1;
-				while (j < cnt && !EdgesAdjacent(intersectList.get(j))) {
+				while (j < cnt && !edgesAdjacent(intersectList.get(j))) {
 					j++;
 				}
 				if (j == cnt) {

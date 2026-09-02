@@ -201,8 +201,8 @@ public class ModeToggleMenuD extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JMenuItem item = (JMenuItem) e.getSource();
-			if (!(Integer.toString(EuclidianConstants.MODE_IMAGE)
-					.equals(item.getActionCommand()))) {
+			if (!Integer.toString(EuclidianConstants.MODE_IMAGE)
+					.equals(item.getActionCommand())) {
 				selectItem(item, ModeSetter.TOOLBAR);
 				tbutton.doClick();
 			} else {

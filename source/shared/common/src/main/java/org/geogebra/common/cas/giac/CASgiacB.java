@@ -95,8 +95,7 @@ public abstract class CASgiacB extends CASgiac {
 			 * in Giac. TODO: find a better a way.
 			 */
 			if (function.functionName == null
-					|| (foundInInput = (exp
-					.indexOf(function.functionName) > -1))) {
+					|| (foundInInput = exp.contains(function.functionName))) {
 				g = binding.createGen(function.definitionString, context);
 				g.eval(1, context);
 				/* Some commands may require additional commands to load. */

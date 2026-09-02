@@ -289,7 +289,7 @@ public class PrintScalePanel extends JPanel {
 				ev.setPrintingScale(scale);
 				viewChanged = true;
 			}
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 			// invalid numbers, continue editing
 		}
 
@@ -303,7 +303,7 @@ public class PrintScalePanel extends JPanel {
 	void fireWidthTextFieldUpdate() {
 		try {
 			int width = Integer.parseInt(tfSize1.getText());
-			int height = (width * ev.getExportHeight()) / ev.getExportWidth();
+			int height = width * ev.getExportHeight() / ev.getExportWidth();
 			updateSizeTextFields(width, height);
 			notifyListeners();
 		} catch (Exception e) {
@@ -315,7 +315,7 @@ public class PrintScalePanel extends JPanel {
 	void fireHeightTextFieldUpdate() {
 		try {
 			int height = Integer.parseInt(tfSize2.getText());
-			int width = (height * ev.getExportWidth()) / ev.getExportHeight();
+			int width = height * ev.getExportWidth() / ev.getExportHeight();
 			updateSizeTextFields(width, height);
 			notifyListeners();
 		} catch (Exception e) {

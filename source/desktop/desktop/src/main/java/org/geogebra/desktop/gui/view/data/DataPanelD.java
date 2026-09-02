@@ -257,9 +257,9 @@ public class DataPanelD extends JPanel
 			dataModel = new DefaultTableModel(dataArray.size(), 2);
 			for (int row = 0; row < dataArray.size(); ++row) {
 				dataModel.setValueAt(
-						((GeoPoint) (dataArray.get(row))).getInhomX(), row, 0);
+						((GeoPoint) dataArray.get(row)).getInhomX(), row, 0);
 				dataModel.setValueAt(
-						((GeoPoint) (dataArray.get(row))).getInhomY(), row, 1);
+						((GeoPoint) dataArray.get(row)).getInhomY(), row, 1);
 			}
 
 			dataTable.setModel(dataModel);

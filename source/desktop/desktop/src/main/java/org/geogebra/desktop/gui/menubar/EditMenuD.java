@@ -366,8 +366,8 @@ public class EditMenuD extends BaseMenu {
 		 * selected
 		 */
 
-		boolean justCreated = !(app.getActiveEuclidianView()
-				.getEuclidianController().getJustCreatedGeos().isEmpty());
+		boolean justCreated = !app.getActiveEuclidianView()
+				.getEuclidianController().getJustCreatedGeos().isEmpty();
 
 		copyAction.setEnabled(!selection.getSelectedGeos().isEmpty());
 		pasteAction.setEnabled(!app.getCopyPaste().isEmpty());

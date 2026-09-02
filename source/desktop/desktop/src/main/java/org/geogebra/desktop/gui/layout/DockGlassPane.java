@@ -334,8 +334,8 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 				color = COLOR_SAME_PLACE;
 			}
 
-			previewRect.x += (int) (Math.ceil(stroke.getLineWidth() / 2));
-			previewRect.y += (int) (Math.ceil(stroke.getLineWidth() / 2));
+			previewRect.x += (int) Math.ceil(stroke.getLineWidth() / 2);
+			previewRect.y += (int) Math.ceil(stroke.getLineWidth() / 2);
 			previewRect.width -= stroke.getLineWidth();
 			previewRect.height -= stroke.getLineWidth();
 		} else {

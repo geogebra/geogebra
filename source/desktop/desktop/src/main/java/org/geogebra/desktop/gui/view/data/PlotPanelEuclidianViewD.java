@@ -581,7 +581,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 
 	@Override
 	public double getPixelOffset() {
-		return (30 * getApplication().getSmallFont().getSize()) / 12.0;
+		return 30 * getApplication().getSmallFont().getSize() / 12.0;
 	}
 
 	@Override

@@ -436,7 +436,7 @@ public class OneVarInferencePanelD extends JPanel
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		doTextFieldActionPerformed((JTextField) (e.getSource()));
+		doTextFieldActionPerformed((JTextField) e.getSource());
 	}
 
 	/**

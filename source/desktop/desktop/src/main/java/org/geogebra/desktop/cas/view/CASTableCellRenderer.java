@@ -54,7 +54,7 @@ public class CASTableCellRenderer extends CASTableCell
 			if (cell.isUseAsText()) {
 				setFont(casFont.deriveFont(cell.getFontStyle(),
 						(float) (casFont.getSize()
-								* (cell.getFontSizeMultiplier()))));
+								* cell.getFontSizeMultiplier())));
 
 				setForeground(GColorD.getAwtColor(cell.getFontColor()));
 				dummyField.setForeground(

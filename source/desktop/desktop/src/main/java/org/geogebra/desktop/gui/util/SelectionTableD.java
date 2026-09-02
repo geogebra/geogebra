@@ -141,12 +141,12 @@ public class SelectionTableD extends JTable {
 
 		// rows = -1 ==> fixed cols, rows added to fit data
 		else if (rows == -1) {
-			rows = (int) (Math.ceil(data.length / (double) columns));
+			rows = (int) Math.ceil(data.length / (double) columns);
 		}
 
 		// cols = -1 ==> fixed rows, cols added to fit data
 		else if (columns == -1) {
-			columns = (int) (Math.ceil(data.length / (double) rows));
+			columns = (int) Math.ceil(data.length / (double) rows);
 		}
 
 		numRows = rows;

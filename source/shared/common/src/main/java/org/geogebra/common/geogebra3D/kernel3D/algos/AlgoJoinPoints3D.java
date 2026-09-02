@@ -246,7 +246,7 @@ public class AlgoJoinPoints3D extends AlgoElement3D
 			GeoPointND B) {
 
 		// same points : return
-		if (p == poly && (P == A && Q == B) || (Q == A && P == B)) {
+		if ((p == poly && P == A && Q == B) || (Q == A && P == B)) {
 			return;
 		}
 

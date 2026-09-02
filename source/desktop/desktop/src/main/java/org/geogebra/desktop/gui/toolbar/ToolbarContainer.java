@@ -607,7 +607,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			return;
 		}
 		final String modeName = EuclidianConstants.getModeText(mode);
-		if (!("".equals(modeName))) {
+		if (!modeName.isEmpty()) {
 			helpMouseAdapter = new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {

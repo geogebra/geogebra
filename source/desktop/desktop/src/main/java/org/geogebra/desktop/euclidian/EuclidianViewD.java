@@ -368,7 +368,7 @@ public class EuclidianViewD extends EuclidianView
 		if (h > 0) {
 			g2d.translate(0, h + 20);
 		}
-		double scale = (PRINTER_PIXEL_PER_CM / getXscale()) * printingScale;
+		double scale = PRINTER_PIXEL_PER_CM / getXscale() * printingScale;
 		exportPaint(g2d, scale, ExportType.PRINTING);
 
 		// clear page margins at bottom and right
@@ -908,8 +908,7 @@ public class EuclidianViewD extends EuclidianView
 			// add yAxis scale too?
 			if (!DoubleUtil.isEqual(getScaleRatio(), 1.0)) {
 				sb.append(" (x), ");
-				double yPrintScale = (printingScale * getYscale())
-						/ getXscale();
+				double yPrintScale = printingScale * getYscale() / getXscale();
 				if (yPrintScale < 1) {
 					sb.append("1:");
 					sb.append(printScaleNF.format(1 / yPrintScale));

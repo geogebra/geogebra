@@ -110,7 +110,7 @@ public class SplashWindow extends Window {
 		mt.addImage(splashImage, 0);
 		try {
 			mt.waitForID(0);
-		} catch (InterruptedException ie) {
+		} catch (InterruptedException ignored) {
 		}
 
 		// Center the window on the screen.
@@ -205,7 +205,7 @@ public class SplashWindow extends Window {
 				while (!w.paintCalled) {
 					try {
 						w.wait();
-					} catch (InterruptedException e) {
+					} catch (InterruptedException ignored) {
 					}
 				}
 			}

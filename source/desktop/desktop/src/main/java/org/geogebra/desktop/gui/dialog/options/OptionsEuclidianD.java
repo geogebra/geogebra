@@ -816,7 +816,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 		} else if (source == btGridColor) {
 			model.applyGridColor(
-					GColorD.newColor(((GuiManagerD) (app.getGuiManager()))
+					GColorD.newColor(((GuiManagerD) app.getGuiManager())
 							.showColorChooser(view.getGridColor())));
 
 		} else if (source == cbTooltips) {
@@ -1148,7 +1148,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	};
 
 	protected GColor getEuclidianBackground(int viewNumber) {
-		return GColorD.newColor(((GuiManagerD) (app.getGuiManager()))
+		return GColorD.newColor(((GuiManagerD) app.getGuiManager())
 				.showColorChooser(app.getSettings().getEuclidian(viewNumber)
 						.getBackground()));
 	}

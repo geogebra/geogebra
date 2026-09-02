@@ -867,7 +867,7 @@ public class TraceDialog extends Dialog
 				tr = new TabularRange(-1, -1, -1, -1);
 			} else {
 				tr = new TabularRange(getSettings().traceRow1, getSettings().traceColumn1,
-						(getSettings().doRowLimit) ? getSettings().traceRow2
+						getSettings().doRowLimit ? getSettings().traceRow2
 								: app.getMaxSpreadsheetRowsVisible(), getSettings().traceColumn2
 				);
 			}
@@ -884,7 +884,7 @@ public class TraceDialog extends Dialog
 		case MODE_LOCATE:
 
 			int w = getSettings().traceColumn2 - getSettings().traceColumn1;
-			int h = ((getSettings().doRowLimit) ? getSettings().traceRow2
+			int h = (getSettings().doRowLimit ? getSettings().traceRow2
 					: app.getMaxSpreadsheetRowsVisible())
 					- getSettings().traceRow1;
 
@@ -903,8 +903,7 @@ public class TraceDialog extends Dialog
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		// doActionPerformed(e.getSource());
-		doTextFieldActionPerformed((JTextField) (e.getSource()));
+		doTextFieldActionPerformed((JTextField) e.getSource());
 		updateGUI();
 	}
 

@@ -1017,20 +1017,20 @@ public class MirrorAdapter extends ProverAdapter {
 					PPolynomial b_2 = new PPolynomial(botanaVars[1]);
 
 					// r^2
-					PPolynomial oa = (a1.subtract(o1)).multiply(a1.subtract(o1))
-							.add((a2.subtract(o2)).multiply(a2.subtract(o2)));
+					PPolynomial oa = a1.subtract(o1).multiply(a1.subtract(o1))
+							.add(a2.subtract(o2).multiply(a2.subtract(o2)));
 					// (x-x_0)^2 + (y-y_0)^2
-					PPolynomial denominator = (b1.subtract(o1))
+					PPolynomial denominator = b1.subtract(o1)
 							.multiply(b1.subtract(o1))
-							.add((b2.subtract(o2)).multiply(b2.subtract(o2)));
+							.add(b2.subtract(o2).multiply(b2.subtract(o2)));
 
 					// formula for the coordinates of inverse point
 					// from: http://mathworld.wolfram.com/Inversion.html
 					botanaPolynomials[0] = oa.multiply(b1.subtract(o1))
-							.add((o1.subtract(b_1)).multiply(denominator));
+							.add(o1.subtract(b_1).multiply(denominator));
 
 					botanaPolynomials[1] = oa.multiply(b2.subtract(o2))
-							.add((o2.subtract(b_2)).multiply(denominator));
+							.add(o2.subtract(b_2).multiply(denominator));
 
 					return botanaPolynomials;
 			}
@@ -1080,37 +1080,37 @@ public class MirrorAdapter extends ProverAdapter {
 					PPolynomial b_2 = new PPolynomial(botanaVars[3]);
 
 					// k^2 - circle power of (O,C) circle
-					PPolynomial oc = (c1.subtract(o1)).multiply(c1.subtract(o1))
-							.add((c2.subtract(o2)).multiply(c2.subtract(o2)));
+					PPolynomial oc = c1.subtract(o1).multiply(c1.subtract(o1))
+							.add(c2.subtract(o2).multiply(c2.subtract(o2)));
 
 					// a^2 - circle power of (A,B) circle
-					PPolynomial ab = (b1.subtract(a1)).multiply(b1.subtract(a1))
-							.add((b2.subtract(a2)).multiply(b2.subtract(a2)));
+					PPolynomial ab = b1.subtract(a1).multiply(b1.subtract(a1))
+							.add(b2.subtract(a2).multiply(b2.subtract(a2)));
 
 					// (x-x_0)^2 + (y-y_0)^2 - a^2
-					PPolynomial denominator1 = (a1.subtract(o1))
+					PPolynomial denominator1 = a1.subtract(o1)
 							.multiply(a1.subtract(o1))
-							.add((a2.subtract(o2)).multiply(a2.subtract(o2)))
+							.add(a2.subtract(o2).multiply(a2.subtract(o2)))
 							.subtract(ab);
 
 					// formula for the coordinates of the center of inverse
 					// circle
 					// from: http://mathworld.wolfram.com/Inversion.html
 					botanaPolynomials[0] = oc.multiply(a1.subtract(o1))
-							.add((o1.subtract(a_1)).multiply(denominator1));
+							.add(o1.subtract(a_1).multiply(denominator1));
 					botanaPolynomials[1] = oc.multiply(a2.subtract(o2))
-							.add((o2.subtract(a_2)).multiply(denominator1));
+							.add(o2.subtract(a_2).multiply(denominator1));
 
-					PPolynomial denominator2 = (b1.subtract(o1))
+					PPolynomial denominator2 = b1.subtract(o1)
 							.multiply(b1.subtract(o1))
-							.add((b2.subtract(o2)).multiply(b2.subtract(o2)));
+							.add(b2.subtract(o2).multiply(b2.subtract(o2)));
 
 					// formula for the coordinates of inverse point
 					// from: http://mathworld.wolfram.com/Inversion.html
 					botanaPolynomials[2] = oc.multiply(b1.subtract(o1))
-							.add((o1.subtract(b_1)).multiply(denominator2));
+							.add(o1.subtract(b_1).multiply(denominator2));
 					botanaPolynomials[3] = oc.multiply(b2.subtract(o2))
-							.add((o2.subtract(b_2)).multiply(denominator2));
+							.add(o2.subtract(b_2).multiply(denominator2));
 
 					return botanaPolynomials;
 

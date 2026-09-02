@@ -518,10 +518,10 @@ public class GeoGebraFileChooser extends JFileChooser
 							|| oldHeight > ImagePanel.SIZE) {
 						if (oldWidth > oldHeight) {
 							newWidth = ImagePanel.SIZE;
-							newHeight = (ImagePanel.SIZE * oldHeight)
+							newHeight = ImagePanel.SIZE * oldHeight
 									/ oldWidth;
 						} else {
-							newWidth = (ImagePanel.SIZE * oldWidth) / oldHeight;
+							newWidth = ImagePanel.SIZE * oldWidth / oldHeight;
 							newHeight = ImagePanel.SIZE;
 						}
 						// Create a new image for the scaled preview image

@@ -509,7 +509,7 @@ public class FunctionInspectorD extends FunctionInspector
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		doTextFieldActionPerformed((JTextField) (e.getSource()));
+		doTextFieldActionPerformed((JTextField) e.getSource());
 	}
 
 	/**

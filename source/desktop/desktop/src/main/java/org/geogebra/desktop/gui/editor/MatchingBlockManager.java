@@ -505,7 +505,7 @@ public class MatchingBlockManager {
 										alloc.width - 1,
 										p1.y - (p0.y + p0.height) - 1);
 							}
-							g.drawRect(alloc.x, p1.y, (p1.x - alloc.x) - 1,
+							g.drawRect(alloc.x, p1.y, p1.x - alloc.x - 1,
 									p1.height - 1);
 						}
 					}

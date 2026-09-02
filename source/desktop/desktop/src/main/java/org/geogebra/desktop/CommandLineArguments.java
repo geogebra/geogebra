@@ -196,10 +196,10 @@ public class CommandLineArguments {
 		}
 		ret.args.put(newKey, newValue);
 		if (newKey.startsWith("file")) {
-			++(ret.noOfFiles);
+			++ret.noOfFiles;
 		}
 		if (newValue.endsWith(".ggt")) {
-			++(ret.noOfTools);
+			++ret.noOfTools;
 		}
 
 		return ret;

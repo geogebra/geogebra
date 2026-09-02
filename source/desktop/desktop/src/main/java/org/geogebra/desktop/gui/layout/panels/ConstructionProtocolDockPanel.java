@@ -46,8 +46,8 @@ public class ConstructionProtocolDockPanel extends NavigableDockPanel {
 
 	@Override
 	protected JComponent getViewPanel() {
-		return ((ConstructionProtocolViewD) (app.getGuiManager()
-				.getConstructionProtocolView())).getCpPanel();
+		return ((ConstructionProtocolViewD) app.getGuiManager()
+				.getConstructionProtocolView()).getCpPanel();
 	}
 
 	@Override

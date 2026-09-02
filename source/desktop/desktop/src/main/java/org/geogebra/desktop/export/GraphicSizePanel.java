@@ -119,7 +119,7 @@ public class GraphicSizePanel extends JPanel
 				if (MIN <= newValue && newValue <= MAX) {
 					width = newValue;
 				}
-			} catch (Exception e) {
+			} catch (Exception ignored) {
 			}
 			tfWidth.setText("" + width);
 			if (keepRatio) {
@@ -132,7 +132,7 @@ public class GraphicSizePanel extends JPanel
 				if (MIN <= newValue && newValue <= MAX) {
 					height = newValue;
 				}
-			} catch (Exception e) {
+			} catch (Exception ignored) {
 			}
 			tfHeight.setText("" + height);
 			if (keepRatio) {

@@ -180,7 +180,7 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 		public boolean equals(Object obj) {
 			if (obj instanceof KeyValue) {
 				KeyValue kv = (KeyValue) obj;
-				return (kv.value.equals(this.value)) && (kv.key == this.key);
+				return kv.value.equals(this.value) && (kv.key == this.key);
 			}
 			return false;
 		}

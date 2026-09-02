@@ -57,7 +57,7 @@ public class CallJavaScript {
 				cx.evaluateString(scope,
 						app.getKernel().getLibraryJavaScript(),
 						app.getLocalization().getMenu("ErrorAtLine"), 1, null);
-			} catch (Throwable t) {
+			} catch (Throwable ignored) {
 				// ignore
 			}
 			return scope;

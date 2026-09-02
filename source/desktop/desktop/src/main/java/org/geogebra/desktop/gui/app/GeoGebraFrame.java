@@ -972,7 +972,7 @@ public class GeoGebraFrame extends JFrame
 				}
 
 				double printingScale = ev.getPrintingScale();
-				double exportScale = (printingScale * dpi) / 2.54
+				double exportScale = printingScale * dpi / 2.54
 						/ ev.getXscale();
 				boolean textAsShapes = true;
 				boolean transparent = true;
@@ -1050,7 +1050,7 @@ public class GeoGebraFrame extends JFrame
 					}
 
 					double printingScale = ev.getPrintingScale();
-					double exportScale = (printingScale * dpi) / 2.54
+					double exportScale = printingScale * dpi / 2.54
 							/ ev.getXscale();
 					final boolean transparent = true;
 					final boolean textAsShapes = true;

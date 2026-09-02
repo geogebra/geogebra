@@ -295,13 +295,11 @@ public class RegressionPanelD extends JPanel
 	}
 
 	private void updateGUI() {
-
 		cbPolyOrder.setVisible(
 				daModel.getRegressionMode().equals(Regression.POLY));
 		predictionPanel.setVisible(
-				!(daModel.getRegressionMode().equals(Regression.NONE)));
+				!daModel.getRegressionMode().equals(Regression.NONE));
 		repaint();
-
 	}
 
 	@Override

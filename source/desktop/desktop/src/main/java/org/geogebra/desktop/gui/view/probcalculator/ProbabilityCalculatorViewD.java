@@ -541,7 +541,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		doTextFieldActionPerformed((JTextField) (e.getSource()));
+		doTextFieldActionPerformed((JTextField) e.getSource());
 		updateGUI();
 	}
 

@@ -2850,7 +2850,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				double x1 = point1.inhomX;
 				double x2 = point2.inhomX;
 				double xmax = ev
-						.toRealWorldCoordX((double) (ev.getWidth()) + 1);
+						.toRealWorldCoordX((double) ev.getWidth() + 1);
 				if (x2 > xmax) {
 					point2.setCoords((x1 + 9 * xmax) / 10, point2.inhomY, 1);
 					point2.update();

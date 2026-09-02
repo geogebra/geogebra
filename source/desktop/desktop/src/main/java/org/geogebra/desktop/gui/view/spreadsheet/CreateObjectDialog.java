@@ -309,7 +309,7 @@ public class CreateObjectDialog extends InputDialogD
 
 		int idx = coModel.getOptionType();
 
-		CardLayout cl = (CardLayout) (cards.getLayout());
+		CardLayout cl = (CardLayout) cards.getLayout();
 		cl.show(cards, "c" + idx);
 
 	}
@@ -436,7 +436,7 @@ public class CreateObjectDialog extends InputDialogD
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		doTextFieldActionPerformed((JTextField) (e.getSource()));
+		doTextFieldActionPerformed((JTextField) e.getSource());
 	}
 
 	@Override
