@@ -214,7 +214,6 @@ public final class PropertiesViewW extends PropertiesView
 
 	@Override
 	public void setOptionPanel(OptionType type, int subType) {
-		Log.warn("set " + optionType + "->" + type);
 		optionType = type;
 		onResize();
 		if (settingsTab != null) {
