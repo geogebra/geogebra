@@ -82,7 +82,7 @@
 	top: 0;
 	right: 12px;
 	display: flex;
-	min-height: 64px;
+	height: 100%;
 	align-items: center;
 }
 
@@ -211,6 +211,10 @@ img.profileImage {
 	border: 1px solid neutral(500);
 	cursor: pointer;
 	transition: background-color 100ms ease-in-out;
+}
+
+.GeoGebraHeader.compact .suiteAppPickerButton {
+	margin: 6px 0px;
 }
 
 .GeoGebraHeader .suiteAppPickerButton:hover,
