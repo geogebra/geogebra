@@ -1461,7 +1461,7 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public boolean needsAnimationAttributes() {
-		return isIndependent()
+		return !isLocked() && isIndependent()
 				&& (definition == null || isSliderable() || getAnimationSpeedObject() != null);
 	}
 

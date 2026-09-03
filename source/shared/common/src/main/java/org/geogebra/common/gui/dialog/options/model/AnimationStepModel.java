@@ -94,7 +94,8 @@ public class AnimationStepModel extends TextPropertyModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-		return AnimationStepProperty.isValid(getGeoAt(index), partOfSlider);
+		GeoElement geo = getGeoAt(index);
+		return AnimationStepProperty.isValid(geo, partOfSlider);
 	}
 
 	@Override

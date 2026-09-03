@@ -77,7 +77,7 @@ public class AnimationStepProperty extends AbstractNumericProperty
 	 * @return whether this property is applicable to geo
 	 */
 	public static boolean isValid(GeoElement geo, boolean acceptNumbers) {
-		return geo.isIndependent()
+		return geo.isPointerChangeable()
 				&& !geo.isGeoText()
 				&& !geo.isGeoImage()
 				&& !geo.isGeoList()
