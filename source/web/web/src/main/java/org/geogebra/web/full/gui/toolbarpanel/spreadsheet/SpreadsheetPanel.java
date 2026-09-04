@@ -23,6 +23,7 @@ import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetDelegate;
+import org.geogebra.common.spreadsheet.core.SpreadsheetStatisticsView;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStyleBarModel;
 import org.geogebra.common.spreadsheet.core.ViewportAdjusterDelegate;
 import org.geogebra.common.spreadsheet.kernel.KernelSpreadsheetStatistics;
@@ -82,6 +83,7 @@ public final class SpreadsheetPanel extends FlowPanel implements RequiresResize,
 	double moveTimeout;
 	int viewportChanges;
 	boolean isPointerDown = false;
+	private boolean focusSpreadsheetOnPointerUp;
 	private FocusCommand focusCommand;
 	private boolean isTouchDragging;
 
@@ -130,6 +132,9 @@ public final class SpreadsheetPanel extends FlowPanel implements RequiresResize,
 		registry.addEventListener(spreadsheetElement, "pointerdown", event -> {
 			PointerEvent ptr = Js.uncheckedCast(event);
 			Modifiers modifiers = getModifiers(ptr);
+			SpreadsheetStatisticsView<?> statisticsView = spreadsheet.getStatisticsView();
+			focusSpreadsheetOnPointerUp = statisticsView != null
+					&& statisticsView.getFocusedDataRange() != null;
 			spreadsheet.handlePointerDown(getEventX(ptr), getEventY(ptr),
 					modifiers);
 			setPointerCapture(event);
@@ -137,11 +142,11 @@ public final class SpreadsheetPanel extends FlowPanel implements RequiresResize,
 				app.getGuiManager()
 						.setActivePanelAndToolbar(App.VIEW_SPREADSHEET);
 			}
-			if (modifiers.secondaryButton || spreadsheet.isEditorActive()) {
+			if (modifiers.secondaryButton || spreadsheet.isEditorActive()
+					|| focusSpreadsheetOnPointerUp) {
 				event.preventDefault();
 			}
 			isPointerDown = true;
-			repaint();
 		});
 		registry.addEventListener(spreadsheetElement, "pointerup", event -> {
 			PointerEvent ptr = Js.uncheckedCast(event);
@@ -149,6 +154,10 @@ public final class SpreadsheetPanel extends FlowPanel implements RequiresResize,
 					getModifiers(ptr));
 			if (!spreadsheet.isEditorActive()) {
 				app.hideKeyboard();
+			}
+
+			if (focusSpreadsheetOnPointerUp) {
+				focusSpreadsheetOnPointerUp = false;
 			}
 			isPointerDown = false;
 			repaint();

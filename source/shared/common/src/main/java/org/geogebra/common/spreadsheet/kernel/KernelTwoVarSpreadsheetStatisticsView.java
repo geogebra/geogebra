@@ -60,7 +60,9 @@ public final class KernelTwoVarSpreadsheetStatisticsView
 					SpreadsheetStatistics.DataRange.X);
 		}
 		SpreadsheetReference inputRangeY = input.cellRangeY();
-		if (inputRangeY == null || inputRangeY.isSingleCell()) {
+
+		if (inputRangeY == null || inputRangeY.isSingleCell()
+				|| inputRangeX.cellCount() != inputRangeY.cellCount()) {
 			return newInvalidResult(
 					SpreadsheetStatistics.Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED,
 					SpreadsheetStatistics.DataRange.Y);

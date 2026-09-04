@@ -89,6 +89,8 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 		yRange = null;
 		xRange.addInputHandler(update);
 		addEnterHandlers(statisticsView);
+		statisticsView.setInputChangeListener(input ->
+				updateRangeInput(xRange, input.cellRange()));
 		showSideSheet(statisticsView, null);
 	}
 
@@ -111,6 +113,10 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 		xRange.addInputHandler(update);
 		yRange.addInputHandler(update);
 		addEnterHandlers(twoVarStatistics);
+		twoVarStatistics.setInputChangeListener(input -> {
+			updateRangeInput(xRange, input.cellRangeX());
+			updateRangeInput(yRange, input.cellRangeY());
+		});
 		showSideSheet(twoVarStatistics, null);
 	}
 
@@ -145,6 +151,10 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 		xRange.addInputHandler(update);
 		yRange.addInputHandler(update);
 		addEnterHandlers(regression);
+		regression.setInputChangeListener(input -> {
+			updateRangeInput(xRange, input.cellRangeX());
+			updateRangeInput(yRange, input.cellRangeY());
+		});
 		inputPanel.add(regressionChooser);
 		showSideSheet(regression, "Plot");
 		sideSheet.addPositiveButtonRunnable(regression::plotResult);
@@ -172,14 +182,18 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 	private void validateInputs() {
 		for (ComponentInputField inputField: Arrays.asList(xRange, yRange)) {
 			if (inputField != null) {
-				SpreadsheetReference parsed = SpreadsheetReferenceParsing.parseReference(
-								inputField.getText());
-				String message = parsed == null || parsed.isSingleCell()
-						? app.getLocalization().getMenu("Statistics.Error.EnterValidRange")
-						: null;
-				inputField.setError(message);
+					SpreadsheetReference parsed = SpreadsheetReferenceParsing.parseReference(
+							inputField.getText());
+					String message = isValidStatisticReference(parsed)
+							? null
+							: app.getLocalization().getMenu("Statistics.Error.EnterValidRange");
+					inputField.setError(message);
+				}
 			}
-		}
+	}
+
+	private static boolean isValidStatisticReference(SpreadsheetReference parsed) {
+		return !(parsed == null || parsed.isSingleCell());
 	}
 
 	private ComponentInputField getFirstInvalidRange(Result.Invalid invalid) {
@@ -226,6 +240,14 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 			outputPanel.add(new ComponentInfoErrorPanel(app.getLocalization(),
 					new InfoErrorData("Error.InvalidInput",
 							invalid.error().localizationKey), null));
+		}
+	}
+
+	private void updateRangeInput(@Nullable ComponentInputField inputField,
+			@Nullable SpreadsheetReference reference) {
+		if (inputField != null && reference != null
+				&& !reference.toString().equals(inputField.getText())) {
+			inputField.setInputText(reference.toString());
 		}
 	}
 

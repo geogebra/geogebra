@@ -94,4 +94,15 @@ public final class SpreadsheetReference {
 	public int hashCode() {
 		return Objects.hash(fromCell, toCell);
 	}
+
+	/**
+	 * @return row count, or -1 if toCell is null
+	 */
+	public long cellCount() {
+		if (toCell == null) {
+			return -1;
+		}
+		return toCell.rowIndex - fromCell.rowIndex;
+	}
+
 }
