@@ -69,7 +69,7 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 		if (p.isLabelSet()) {
 			try {
 				text.setStartPoint(p, 0);
-			} catch (CircularDefinitionException igored) {
+			} catch (CircularDefinitionException ignored) {
 				// should never happen
 			}
 		}
