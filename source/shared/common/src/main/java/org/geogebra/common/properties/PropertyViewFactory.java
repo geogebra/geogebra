@@ -127,18 +127,17 @@ public class PropertyViewFactory {
 	 * @param app the current app for which to create the settings
 	 * @param propertiesRegistry the {@link PropertiesRegistry}
 	 * to be used for registering the newly constructed properties
-	 * @param objectPropertiesAreShown whether the properties of an object are shown,
-	 * determining the initially selected tab index of the app settings
-	 * (see: <a href="https://geogebra-jira.atlassian.net/browse/APPS-7052">APPS-7052</a>)
+	 * @param openedFromBurgerMenu whether the app settings were opened from the burger menu's
+	 * settings item or from the top bar's gear icon, determining the initially open tab
 	 * @return the {@code PropertyView} containing the app settings
 	 */
 	public static PropertyView.@NonNull TabbedPageSelector propertyViewOfAppSettings(
 			@NonNull App app, @NonNull PropertiesRegistry propertiesRegistry,
-			boolean objectPropertiesAreShown) {
+			boolean openedFromBurgerMenu) {
 		List<PropertiesArray> propertyArrayList = app.getConfig().createPropertiesFactory()
 				.createProperties(app, app.getLocalization(), propertiesRegistry);
 		int initialSelectedTabIndex = calculateInitialSelectedTabIndex(
-				propertyArrayList, objectPropertiesAreShown);
+				propertyArrayList, openedFromBurgerMenu);
 		return new PropertyView.TabbedPageSelector(app.getLocalization().getMenu("Settings"),
 				propertyArrayList, initialSelectedTabIndex);
 	}
@@ -232,8 +231,8 @@ public class PropertyViewFactory {
 	}
 
 	private static int calculateInitialSelectedTabIndex(
-			List<PropertiesArray> propertiesArrayList, boolean objectPropertiesWereShown) {
-		if (!objectPropertiesWereShown) {
+			List<PropertiesArray> propertiesArrayList, boolean openedFromBurgerMenu) {
+		if (openedFromBurgerMenu) {
 			return 0;
 		}
 		for (int index = 0; index < propertiesArrayList.size(); index++) {

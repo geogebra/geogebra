@@ -450,6 +450,23 @@ class PropertyViewTests extends BaseAppTestSetup {
 				tabbedPageSelector.getTitle());
 	}
 
+	@ParameterizedTest
+	@CsvSource({
+			"GRAPHING,		false,	2",
+			"GRAPHING,		true,	0",
+			"G3D,			false,	2",
+			"G3D,			true,	0",
+			"SCIENTIFIC,	false,	0",
+			"SCIENTIFIC,	true,	0",
+	})
+	void testInitialTabIndexOfAppSettings(SuiteSubApp subApp, boolean openedFromBurgerMenu,
+			int expectedInitialTabIndex) {
+		setupApp(subApp);
+		assertEquals(expectedInitialTabIndex, PropertyViewFactory.propertyViewOfAppSettings(
+				getApp(), getApp().appScope.propertiesRegistry, openedFromBurgerMenu)
+						.getSelectedTabIndex());
+	}
+
 	@Issue("APPS-7765")
 	@Test
 	void testReturnsNullOnEmptyList() {
