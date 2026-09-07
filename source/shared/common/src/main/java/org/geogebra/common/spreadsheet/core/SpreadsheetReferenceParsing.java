@@ -55,7 +55,7 @@ public final class SpreadsheetReferenceParsing {
 		if (candidate.isBlank()) { // this includes empty strings
 			return null;
 		}
-		String[] parts = candidate.split(":");
+		String[] parts = candidate.split(":", -1);
 		if (parts.length > 2 || parts.length < 1) {
 			return null; // must be "A1" or "A1:A10"
 		}

@@ -62,15 +62,12 @@ class SpreadsheetReferenceParsingTests {
 				new SpreadsheetCellReference(1, 26),
 				new SpreadsheetCellReference(9, 26)),
 				SpreadsheetReferenceParsing.parseReference("AA2:AA10"));
-		assertEquals(new SpreadsheetReference(
-						new SpreadsheetCellReference(1, 1), null),
-				SpreadsheetReferenceParsing.parseReference("B2:"));
 	}
 
 	@ParameterizedTest
 	@ValueSource(strings = {
 			"A-B", "A1B3", "ASDF$A1", "A111111111111111111111", "AAAAAACNMKRDJ1",
-			"", ":", ":A1", "::"
+			"", ":", ":A1", "A1:", "::"
 	})
 	void invalidReferenceParsingTest(String ref) {
 		assertNull(SpreadsheetReferenceParsing.parseReference(ref));

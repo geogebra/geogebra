@@ -46,6 +46,7 @@ import org.geogebra.common.spreadsheet.kernel.KernelSpreadsheetStatistics;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.common.util.shape.Point;
+import org.geogebra.test.annotation.Issue;
 import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -156,6 +157,28 @@ class SpreadsheetStatisticsTest {
 				oneVarStatisticsView().getResult());
 
 		assertNotEquals(result1.statisticGroups(), result2.statisticGroups());
+	}
+
+	@Test
+	@Issue("APPS-7888")
+	void testStatisticsInputCanBeRemovedOneCharacterAtATime() {
+		setupTestData(new TabularRange(0, 0, 2, 0), Content.NUMBERS);
+		kernelBackedController.select(new TabularRange(0, 0, 2, 0), false, false);
+		kernelBackedController.showOneVarStatistics();
+		assertEquals(new OneVarInput(parseReference("A1:A3")),
+				oneVarStatisticsView().getInput());
+
+		oneVarStatisticsView().setInput(new OneVarInput(parseReference("A1:A")));
+		assertEquals(new OneVarInput((SpreadsheetReference) null),
+				oneVarStatisticsView().getInput());
+
+		oneVarStatisticsView().setInput(new OneVarInput(parseReference("A1:")));
+		assertEquals(new OneVarInput((SpreadsheetReference) null),
+				oneVarStatisticsView().getInput());
+
+		oneVarStatisticsView().setInput(new OneVarInput(parseReference("A1")));
+		assertEquals(new OneVarInput(parseReference("A1")),
+				oneVarStatisticsView().getInput());
 	}
 
 	@Test
