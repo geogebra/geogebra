@@ -19,6 +19,7 @@ package org.geogebra.common.spreadsheet.kernel;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -232,6 +233,14 @@ class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 		GeoElement b3 = lookup("B3");
 		assertEquals(GeoClass.NUMERIC, b3.getGeoClassType());
 		assertEquals(Commands.ParseToNumber, getCommand(b3));
+	}
+
+	@Test
+	@Issue("APPS-7880")
+	void emptyFunctionCallShouldHaveError() {
+		add("f(x)=x");
+		assertDoesNotThrow(() -> processor.process("=f()", "A1"));
+		assertEquals(Commands.ParseToNumber, getCommand(lookup("A1")));
 	}
 
 	@Test

@@ -280,6 +280,9 @@ public class FunctionParser {
 			if (geo instanceof ParametricCurve) {
 				registerFunctionVars((ParametricCurve) geo);
 			}
+			if (myList.size() == 0) {
+				throw new MyParseError(kernel.getLocalization(), Errors.FunctionExpected, funcName);
+			}
 			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION, myList.get(0));
 		} else if (geo != null
 				&& (geo.isGeoCurveCartesian() || (geo.isGeoLine() && geo.isGeoElement3D()))) {
