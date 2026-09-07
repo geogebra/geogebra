@@ -139,6 +139,7 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 				new TableValuesKeyboardNavigationControllerDelegate() {
 					@Override
 					public void focusCell(int row, int column) {
+						app.closePopups();
 						lastEdit = new GPoint(column, row);
 						editor.startEditing(row, column, false);
 					}
@@ -161,6 +162,19 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 					@Override
 					public void invalidCellContentDetected(int row, int column) {
 						// not needed
+					}
+
+					@Override
+					public void showContextMenu(int column) {
+						if (tableModel.getColumnCount() > column) {
+							int selRow = controller.getSelectedRow();
+							int selCol = controller.getSelectedColumn();
+							contextMenu = new ContextMenuTV(app, view, column,
+									() -> controller.select(selRow, selCol));
+							Element source = getCell(selRow, selCol);
+							contextMenu.show(source, 0, source.getClientHeight()
+									+ CONTEXT_MENU_OFFSET);
+						}
 					}
 				});
 		editor.controller = controller;
@@ -225,7 +239,7 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 	}
 
 	private void onHeaderClick(Element source, int column) {
-		contextMenu = new ContextMenuTV(app, view, column);
+		contextMenu = new ContextMenuTV(app, view, column, null);
 		contextMenu.show(source, 0, source.getClientHeight() + CONTEXT_MENU_OFFSET);
 	}
 

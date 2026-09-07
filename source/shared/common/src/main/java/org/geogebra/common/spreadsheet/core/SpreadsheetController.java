@@ -1893,7 +1893,7 @@ public final class SpreadsheetController<T> {
 			mathField.addMathFieldListener(mathFieldAdapter);
 			mathField.registerMathFieldInternalListener(mathFieldAdapter);
 
-			mathField.setUnhandledArrowListener(mathFieldAdapter);
+			mathField.setUnhandledKeyListener(mathFieldAdapter);
 
 			bounds = layout.getBounds(new TabularRange(row, column), viewport);
 			if (bounds != null) {

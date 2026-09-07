@@ -67,12 +67,20 @@ public final class ContextMenuTV implements TableValuesContextMenuActionHandler.
 	 * @param app see {@link AppW}
 	 * @param view {@link TableValuesView}
 	 * @param column index of column
+	 * @param closeHandler should run when popup is closed
 	 */
-	public ContextMenuTV(AppWFull app, TableValuesView view, int column) {
+	public ContextMenuTV(AppWFull app, TableValuesView view, int column, Runnable closeHandler) {
 		this.app = app;
 		this.view = view;
 		this.columnIdx = column;
 		buildGui();
+		app.registerPopup(wrappedPopup.getPopupPanel());
+		wrappedPopup.getPopupPanel().addCloseHandler(event -> {
+			if (closeHandler != null) {
+				closeHandler.run();
+			}
+			app.unregisterPopup(wrappedPopup.getPopupPanel());
+		});
 	}
 
 	/**

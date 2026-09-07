@@ -18,7 +18,7 @@ package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.table.keyboard.TableValuesKeyboardNavigationController;
-import org.geogebra.editor.share.editor.UnhandledArrowListener;
+import org.geogebra.editor.share.editor.UnhandledKeyListener;
 import org.geogebra.editor.share.event.KeyEvent;
 import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
@@ -33,7 +33,7 @@ import org.gwtproject.user.client.DOM;
 import elemental2.dom.Event;
 import elemental2.dom.MouseEvent;
 
-public final class TableEditor implements UnhandledArrowListener {
+public final class TableEditor implements UnhandledKeyListener {
 	private final StickyValuesTable table;
 	private final AppW app;
 	public TableValuesKeyboardNavigationController controller;
@@ -130,7 +130,7 @@ public final class TableEditor implements UnhandledArrowListener {
 			});
 			mathTextField.setTextMode(true);
 			mathTextField.asWidget().setStyleName("tableEditor");
-			mathTextField.setUnhandledArrowListener(this);
+			mathTextField.setUnhandledKeyListener(this);
 			ClickStartHandler.init(mathTextField.asWidget(), new ClickStartHandler() {
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
@@ -161,6 +161,18 @@ public final class TableEditor implements UnhandledArrowListener {
 			controller.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_DOWN);
 			break;
 		}
+	}
+
+	@Override
+	public boolean onUnhandledKey(int keyCode, KeyEvent.KeyboardType keyboardType,
+			int keyModifiers) {
+		boolean shiftPressed = (keyModifiers & KeyEvent.SHIFT_MASK) > 0;
+		if ((shiftPressed && keyCode == JavaKeyCodes.VK_F10)
+				|| keyCode == JavaKeyCodes.VK_CONTEXT_MENU) {
+			controller.keyPressed(TableValuesKeyboardNavigationController.Key.CONTEXT_MENU);
+			return true;
+		}
+		return false;
 	}
 
 	public String getText() {

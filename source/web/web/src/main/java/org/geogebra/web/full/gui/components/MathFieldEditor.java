@@ -25,7 +25,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.util.CommandSyntaxLookupImpl;
 import org.geogebra.editor.share.catalog.TemplateCatalog;
-import org.geogebra.editor.share.editor.UnhandledArrowListener;
+import org.geogebra.editor.share.editor.UnhandledKeyListener;
 import org.geogebra.editor.share.event.MathFieldListener;
 import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
@@ -464,11 +464,11 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	}
 
 	/**
-	 * Set unhandled arrow listener to the editor.
-	 * @param listener unhandled arrow listener
+	 * Set unhandled key listener to the editor.
+	 * @param listener unhandled key listener
 	 */
-	public void setUnhandledArrowListener(UnhandledArrowListener listener) {
-		mathField.getInternal().setUnhandledArrowListener(listener);
+	public void setUnhandledKeyListener(UnhandledKeyListener listener) {
+		mathField.getInternal().setUnhandledKeyListener(listener);
 	}
 
 	/**

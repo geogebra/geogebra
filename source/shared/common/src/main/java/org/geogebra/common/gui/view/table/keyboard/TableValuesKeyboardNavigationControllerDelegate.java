@@ -73,4 +73,12 @@ public interface TableValuesKeyboardNavigationControllerDelegate {
 	 * @param column The column index of the invalid cell.
 	 */
 	void invalidCellContentDetected(int row, int column);
+
+	/**
+	 * Show context menu for column.
+	 * @param column the column index of the selected cell.
+	 */
+	default void showContextMenu(int column) {
+		// nothing to do here
+	}
 }

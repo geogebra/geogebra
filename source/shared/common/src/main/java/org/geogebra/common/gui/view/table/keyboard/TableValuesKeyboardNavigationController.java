@@ -53,7 +53,7 @@ public final class TableValuesKeyboardNavigationController {
 	 * Keys handled by navigation controller.
 	 */
 	public enum Key {
-		ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ARROW_DOWN, RETURN;
+		ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ARROW_DOWN, RETURN, CONTEXT_MENU;
 	}
 
 	@NonOwning
@@ -241,6 +241,8 @@ public final class TableValuesKeyboardNavigationController {
 		case RETURN:
 			handleArrowDown();
 			break;
+		case CONTEXT_MENU:
+			handleContextMenu();
 		}
 	}
 
@@ -297,6 +299,10 @@ public final class TableValuesKeyboardNavigationController {
 			return;
 		}
 		select(selectedRow + 1, selectedColumn);
+	}
+
+	private void handleContextMenu() {
+		delegate.showContextMenu(selectedColumn);
 	}
 
 	private boolean isFirstRow(int row) {

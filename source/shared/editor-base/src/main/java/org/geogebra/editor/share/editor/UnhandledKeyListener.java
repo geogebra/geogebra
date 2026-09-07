@@ -22,11 +22,23 @@ import org.geogebra.editor.share.event.KeyEvent;
  * Listener for arrow keys that were not handled by editor.
  */
 @FunctionalInterface
-public interface UnhandledArrowListener {
+public interface UnhandledKeyListener {
 	/**
 	 * Runs when arrow key is pressed and not handled by the editor.
 	 * @param keyCode key code from {@link org.geogebra.editor.share.util.JavaKeyCodes}
 	 * @param keyboardType keyboard type
 	 */
 	void onArrow(int keyCode, KeyEvent.KeyboardType keyboardType);
+
+	/**
+	 * Handle special keys, if not handled by the editor.
+	 * @param keyCode key code from {@link org.geogebra.editor.share.util.JavaKeyCodes}
+	 * @param keyboardType keyboard type
+	 * @return whether the keyCode was handled
+	 */
+	default boolean onUnhandledKey(int keyCode, KeyEvent.KeyboardType keyboardType,
+			int keyModifiers) {
+		// nothing to do by default
+		return false;
+	}
 }

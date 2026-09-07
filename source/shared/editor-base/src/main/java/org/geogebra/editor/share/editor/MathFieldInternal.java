@@ -86,7 +86,7 @@ public class MathFieldInternal
 
 	private final List<MathFieldListener> listeners = new ArrayList<>();
 	@Weak
-	private UnhandledArrowListener unhandledArrowListener;
+	private UnhandledKeyListener unhandledKeyListener;
 
 	private boolean scrollOccurred = false;
 
@@ -340,10 +340,16 @@ public class MathFieldInternal
 				}
 			}
 		}
-		if (arrow && !handled && unhandledArrowListener != null) {
-			unhandledArrowListener.onArrow(keyEvent.getKeyCode(),
-					keyEvent.getSourceKeyboard());
-			return true;
+		if (!handled && unhandledKeyListener != null) {
+			if (arrow) {
+				unhandledKeyListener.onArrow(keyEvent.getKeyCode(),
+						keyEvent.getSourceKeyboard());
+				return true;
+			} else {
+				return unhandledKeyListener.onUnhandledKey(keyEvent.getKeyCode(),
+						keyEvent.getSourceKeyboard(), keyEvent.getKeyModifiers());
+
+			}
 		}
 
 		return handled;
@@ -1027,8 +1033,8 @@ public class MathFieldInternal
 		return s.serialize(getFormula());
 	}
 
-	public void setUnhandledArrowListener(UnhandledArrowListener arrowListener) {
-		this.unhandledArrowListener = arrowListener;
+	public void setUnhandledKeyListener(UnhandledKeyListener unhandledKeyListener) {
+		this.unhandledKeyListener = unhandledKeyListener;
 	}
 
 	/**

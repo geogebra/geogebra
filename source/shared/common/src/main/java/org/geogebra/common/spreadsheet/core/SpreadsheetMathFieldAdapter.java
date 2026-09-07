@@ -18,7 +18,7 @@ package org.geogebra.common.spreadsheet.core;
 
 import org.geogebra.editor.share.editor.MathFieldInternal;
 import org.geogebra.editor.share.editor.MathFieldInternalListener;
-import org.geogebra.editor.share.editor.UnhandledArrowListener;
+import org.geogebra.editor.share.editor.UnhandledKeyListener;
 import org.geogebra.editor.share.event.KeyEvent;
 import org.geogebra.editor.share.event.MathFieldListener;
 import org.geogebra.editor.share.util.JavaKeyCodes;
@@ -27,7 +27,7 @@ import org.jspecify.annotations.NonNull;
 /**
  * Adapts between a MathFieldInternal, spreadsheet input processing, and the SpreadsheetController.
  */
-final class SpreadsheetMathFieldAdapter implements MathFieldListener, UnhandledArrowListener,
+final class SpreadsheetMathFieldAdapter implements MathFieldListener, UnhandledKeyListener,
 		MathFieldInternalListener {
 
 	private final MathFieldInternal mathField;
