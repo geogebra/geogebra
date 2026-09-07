@@ -16,14 +16,17 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.Test;
 
 class ShowConditionPropertyTests extends BaseAppTestSetup {
@@ -67,5 +70,15 @@ class ShowConditionPropertyTests extends BaseAppTestSetup {
 		slider.updateRepaint();
 		assertFalse(point.isEuclidianVisible());
 
+	}
+
+	@Test
+	@Issue("APPS-7881")
+	void testShowConditionWithUnbalancedBracketsIsInvalid() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoPoint point = evaluateGeoElement("A = (0, 0)");
+		ShowConditionProperty showConditionProperty =
+				new ShowConditionProperty(getLocalization(), point);
+		assertNotNull(assertDoesNotThrow(() -> showConditionProperty.validateValue("(")));
 	}
 }

@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.jspecify.annotations.Nullable;
@@ -171,8 +172,8 @@ public final class DynamicColorComponentProperty extends AbstractValuedProperty<
 				return getLocalization().getError("NumberExpected");
 			}
 			return null;
-		} catch (ParseException parseException) {
-			return parseException.getLocalizedMessage();
+		} catch (ParseException | MyError validationError) {
+			return validationError.getLocalizedMessage();
 		}
 	}
 

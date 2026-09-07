@@ -18,6 +18,7 @@ package org.geogebra.common.properties.impl.objects;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
@@ -79,6 +80,19 @@ class AbsoluteScreenPositionPropertyCollectionTests extends BaseAppTestSetup {
 		assertEquals("500", absoluteScreenPositionPropertyCollection.getProperties()[1].getValue());
 		assertEquals(100, geoText.getAbsoluteScreenLocX());
 		assertEquals(500, geoText.getAbsoluteScreenLocY());
+	}
+
+	@Test
+	void testAbsoluteScreenPositionWithUnbalancedBracketsIsInvalid() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoText geoText = evaluateGeoElement("\"abc\"");
+		geoText.setAbsoluteScreenLocActive(true);
+		AbsoluteScreenPositionPropertyCollection absoluteScreenPositionPropertyCollection =
+				assertDoesNotThrow(() -> new AbsoluteScreenPositionPropertyCollection(
+						propertiesFactory, getLocalization(), List.of(geoText)));
+
+		assertNotNull(assertDoesNotThrow(() -> absoluteScreenPositionPropertyCollection
+				.getProperties()[0].validateValue("(")));
 	}
 
 	@Test

@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
@@ -81,8 +82,8 @@ public class AbsoluteScreenPositionPropertyCollection
 					return "";
 				}
 				return null;
-			} catch (ParseException parseException) {
-				return parseException.getLocalizedMessage();
+			} catch (ParseException | MyError validationError) {
+				return validationError.getLocalizedMessage();
 			}
 		}
 

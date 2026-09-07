@@ -17,8 +17,10 @@
 package org.geogebra.common.properties.impl.objects;
 
 import static org.geogebra.common.main.GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.SuiteSubApp;
@@ -26,6 +28,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.Test;
 
 class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
@@ -85,6 +88,17 @@ class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
 				DynamicColorComponentProperty.forGreen(getLocalization(), geoElement);
 		String error = greenColorComponentProperty.validateValue("x(a)");
 		assertEquals("Number expected", error);
+	}
+
+	@Test
+	@Issue("APPS-7881")
+	void testDynamicColorComponentValueWithUnbalancedBracketsIsInvalid() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement geoElement = evaluateGeoElement("(1, 2)");
+		DynamicColorModeProperty.activateDynamicColorMode(geoElement);
+		DynamicColorComponentProperty redColorComponentProperty =
+				DynamicColorComponentProperty.forRed(getLocalization(), geoElement);
+		assertNotNull(assertDoesNotThrow(() -> redColorComponentProperty.validateValue("(")));
 	}
 
 	@Test
