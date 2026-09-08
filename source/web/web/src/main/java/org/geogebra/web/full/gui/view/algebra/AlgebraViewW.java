@@ -1290,19 +1290,18 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	@Override
 	public void doRemove(GeoElement geo) {
 		addOnRepaint.remove(geo);
-		cancelEditItem();
 		TreeItem node = nodeTable.get(geo);
 		if (node != null) {
+			cancelEditItem();
 			int firstUpdateIndex = indexOf(node);
 			removeFromModel(node);
 			if (firstUpdateIndex >= 0) {
 				updateIndices(firstUpdateIndex);
 			}
-		}
-
-		if (inputPanelLatex != null) {
-			inputPanelLatex.updateButtonPanelPosition();
-			inputPanelLatex.setIndexLast();
+			if (inputPanelLatex != null) {
+				inputPanelLatex.updateButtonPanelPosition();
+				inputPanelLatex.setIndexLast();
+			}
 		}
 	}
 
