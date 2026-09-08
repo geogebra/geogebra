@@ -40,6 +40,7 @@ import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.cell.client.Cell;
@@ -175,6 +176,12 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 							contextMenu.show(source, 0, source.getClientHeight()
 									+ CONTEXT_MENU_OFFSET);
 						}
+					}
+
+					@Override
+					public void copyContent(int row, int column) {
+						CopyPasteW.writeToExternalClipboardWithFallback(
+								getCellEditorContent(row, column), null);
 					}
 				});
 		editor.controller = controller;

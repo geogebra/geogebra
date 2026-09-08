@@ -81,4 +81,13 @@ public interface TableValuesKeyboardNavigationControllerDelegate {
 	default void showContextMenu(int column) {
 		// nothing to do here
 	}
+
+	/**
+	 * Copy content of cell to the clipboard.
+	 * @param row The row index of selected cell.
+	 * @param column The column index of selected cell.
+	 */
+	default void copyContent(int row, int column) {
+		// nothing to do here
+	}
 }

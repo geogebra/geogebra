@@ -66,11 +66,7 @@ public class KeyListenerImpl {
 			}
 			return false;
 		case JavaKeyCodes.VK_C:
-			if (ctrlPressed) {
-				inputController.copy();
-				return true;
-			}
-			return false;
+			return ctrlPressed && inputController.copy();
 		case JavaKeyCodes.VK_O:
 			if (ctrlPressed) {
 				if (!editorState.isInRecurringDecimal()) {

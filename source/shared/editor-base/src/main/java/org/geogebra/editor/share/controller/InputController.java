@@ -1626,11 +1626,14 @@ public class InputController {
 
 	/**
 	 * Copy selection from editor to clipboard.
+	 * @return whether there was something to copy
 	 */
-	public void copy() {
-		if (mathField != null) {
+	public boolean copy() {
+		if (mathField != null && mathField.getInternal().getEditorState().hasSelection()) {
 			mathField.copy();
+			return true;
 		}
+		return false;
 	}
 
 	/**

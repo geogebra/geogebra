@@ -167,9 +167,13 @@ public final class TableEditor implements UnhandledKeyListener {
 	public boolean onUnhandledKey(int keyCode, KeyEvent.KeyboardType keyboardType,
 			int keyModifiers) {
 		boolean shiftPressed = (keyModifiers & KeyEvent.SHIFT_MASK) > 0;
+		boolean ctrlOrCmdPressed = (keyModifiers & KeyEvent.CTRL_MASK) > 0;
 		if ((shiftPressed && keyCode == JavaKeyCodes.VK_F10)
 				|| keyCode == JavaKeyCodes.VK_CONTEXT_MENU) {
 			controller.keyPressed(TableValuesKeyboardNavigationController.Key.CONTEXT_MENU);
+			return true;
+		} else if (ctrlOrCmdPressed && keyCode == JavaKeyCodes.VK_C) {
+			controller.keyPressed(TableValuesKeyboardNavigationController.Key.COPY);
 			return true;
 		}
 		return false;
