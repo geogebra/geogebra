@@ -347,7 +347,7 @@ public class StandardButton extends Widget implements HasResource {
 	 * @param activateAction action to run when the button is activated by keyboard input
 	 */
 	public void addKeyActivateHandler(Runnable activateAction) {
-		Dom.addEventListener(this.getElement(), "keyup", (event) -> {
+		Dom.addEventListener(this.getElement(), "keypress", (event) -> {
 			KeyboardEvent e = (KeyboardEvent) event;
 			if (" ".equals(e.key) || "Enter".equals(e.key)) {
 				activateAction.run();
