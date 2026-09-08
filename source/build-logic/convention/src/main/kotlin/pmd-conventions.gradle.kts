@@ -10,3 +10,8 @@ pmd {
     ruleSets = emptyList()
     ruleSetConfig = resources.text.fromString(Resources.getString("pmd.xml"))
 }
+
+tasks.register("lintPmd") {
+	description = "Runs PMD in all applicable Java projects."
+	dependsOn("pmdMain")
+}

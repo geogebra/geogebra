@@ -24,6 +24,11 @@ tasks.withType<JavaCompile> {
    options.encoding = "UTF-8"
 }
 
+tasks.register("unitTest") {
+	description = "Runs unit tests."
+	dependsOn("test")
+}
+
 tasks.register("ciCheck") {
     description = "Run CI tests and checks"
     dependsOn("test")

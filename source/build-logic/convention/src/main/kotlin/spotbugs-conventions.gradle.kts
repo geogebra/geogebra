@@ -27,3 +27,8 @@ tasks.withType<SpotBugsTask> {
         }
     }
 }
+
+tasks.register("lintSpotBugs") {
+	description = "Runs SpotBugs in all applicable Java projects."
+	dependsOn("spotbugsMain")
+}
