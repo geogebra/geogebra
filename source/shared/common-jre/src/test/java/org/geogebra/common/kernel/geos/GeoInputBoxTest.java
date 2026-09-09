@@ -80,7 +80,7 @@ class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox2 = add("InputBox(g)");
 		inputBox2.setSymbolicMode(true, false);
 		assertEquals("x + 1", inputBox1.getText());
-		assertEquals("2 f(x+2)+1", inputBox2.getTextForEditor());
+		assertEquals("2*f(x+2)+1", inputBox2.getTextForEditor());
 	}
 
 	@Test
@@ -90,9 +90,9 @@ class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox1 = add("InputBox(f)");
 		GeoInputBox inputBox2 = add("InputBox(g)");
 		inputBox2.setSymbolicMode(true, false);
-		assertEquals("x y+1", inputBox1.getTextForEditor());
-		assertEquals("2 f(x+2,y)+1", inputBox2.getTextForEditor());
-		assertEquals("2 \\; f\\left(x + 2,\\;y \\right) + 1",
+		assertEquals("x*y+1", inputBox1.getTextForEditor());
+		assertEquals("2*f(x+2,y)+1", inputBox2.getTextForEditor());
+		assertEquals("2 \\cdot f\\left(x + 2,\\;y \\right) + 1",
 				inputBox2.getText());
 	}
 
@@ -102,7 +102,7 @@ class GeoInputBoxTest extends BaseUnitTest {
         add("g = 2f(x + 1) + 2");
         GeoInputBox inputBox2 = add("InputBox(g)");
         inputBox2.setSymbolicMode(true, false);
-        assertEquals("2 \\; f\\left(x + 1 \\right) + 2", inputBox2.getText());
+        assertEquals("2 \\cdot f\\left(x + 1 \\right) + 2", inputBox2.getText());
     }
 
 	@Test
@@ -275,8 +275,8 @@ class GeoInputBoxTest extends BaseUnitTest {
 
 		GeoInputBox inputBox = add("InputBox(b)");
 		inputBox.setSymbolicMode(true, false);
-		assertEquals("? \\; a", inputBox.getText());
-		assertEquals("? a", inputBox.getTextForEditor());
+		assertEquals("?a", inputBox.getText());
+		assertEquals("?a", inputBox.getTextForEditor());
 
 		inputBox.setSymbolicMode(false, false);
 		assertEquals("?a", inputBox.getText());
@@ -517,7 +517,7 @@ class GeoInputBoxTest extends BaseUnitTest {
 		addAvInput("g(k) = ?");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(g)");
 		inputBox.updateLinkedGeo("aakkaa");
-		assertEquals(unicode("a a k^2 a a"), inputBox.getTextForEditor());
+		assertEquals(unicode("a*a*k^2*a*a"), inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -526,7 +526,7 @@ class GeoInputBoxTest extends BaseUnitTest {
 		addAvInput("g(x) = ?");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(g)");
 		inputBox.updateLinkedGeo("a sinx");
-		assertEquals("a sin(x)", inputBox.getTextForEditor());
+		assertEquals("a*sin(x)", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -690,10 +690,10 @@ class GeoInputBoxTest extends BaseUnitTest {
 		add("f(g, L) = ?");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(f)");
 		inputBox.updateLinkedGeo("gL(L+1)");
-		assertEquals("g L (L+1)", inputBox.getTextForEditor());
+		assertEquals("g*L (L+1)", inputBox.getTextForEditor());
 
 		inputBox.updateLinkedGeo("gL(L+1)^3");
-		assertEquals("g L (L+1)³", inputBox.getTextForEditor());
+		assertEquals("g*L*(L+1)³", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -746,7 +746,7 @@ class GeoInputBoxTest extends BaseUnitTest {
 				+ Unicode.SUPERSCRIPT_0 + "+t", inputBox.getTextForEditor());
 
 		inputBox.updateLinkedGeo("-3/4t + 2*3/2");
-		assertEquals("(-3)/(4) t+2*(3)/(2)", inputBox.getTextForEditor());
+		assertEquals("(-3)/(4)*t+2*(3)/(2)", inputBox.getTextForEditor());
 	}
 
 	@Test

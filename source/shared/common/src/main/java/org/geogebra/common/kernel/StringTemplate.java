@@ -97,6 +97,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	private boolean shouldPrintMethodsWithParenthesis;
 	private boolean forEditorParser = false;
+	private boolean omitSpaceInCoefficientProducts = false;
 	private boolean allowShortLhs = true;
 	private boolean allowPiHack = true;
 	private boolean supportsFractions = true;
@@ -379,6 +380,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		editorTemplate.pointCoordBar = ',';
 		initForEditing(inputBoxTemplate);
 		inputBoxTemplate.forEditorParser = true;
+		inputBoxTemplate.omitSpaceInCoefficientProducts = true;
 		inputBoxTemplate.usePointTemplate = false;
 		inputBoxTemplate.pointCoordBar = Unicode.verticalLine;
 	}
@@ -955,6 +957,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		result.printsUnicodeSqrt = printsUnicodeSqrt;
 		result.shouldPrintMethodsWithParenthesis = shouldPrintMethodsWithParenthesis;
 		result.forEditorParser = forEditorParser;
+		result.omitSpaceInCoefficientProducts = omitSpaceInCoefficientProducts;
 		result.allowShortLhs = allowShortLhs;
 		result.displayEngineeringNotation = displayEngineeringNotation;
 		result.usePointTemplate = usePointTemplate;
@@ -1882,7 +1885,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 											|| lastLeft == '}')
 											&& rightStr
 											.startsWith("\\frac");
-							multiplicationSpaceNeeded = !isDegree(right);
+							boolean leftEndsInNumber = endsInNumberForProductSpacing(
+									left, valueForm)
+									|| (omitSpaceInCoefficientProducts
+									&& requiresBrackets(left, valueForm));
+							multiplicationSpaceNeeded = !isDegree(right) && (!leftEndsInNumber
+									|| !omitSpaceInCoefficientProducts
+									|| isFunctionCall(right));
 						}
 						break;
 
@@ -1907,17 +1916,21 @@ public class StringTemplate implements ExpressionNodeConstants {
 								// it's needed except for number * character,
 								// e.g. 23x
 								// need to check start and end for eg A1 * A2
-								boolean leftIsNumber = left.wrap()
-										.endsInNumber(valueForm);
+								boolean leftEndsInNumber = endsInNumberForProductSpacing(
+										left, valueForm)
+										|| (omitSpaceInCoefficientProducts
+										&& requiresBrackets(left, valueForm));
 
 								// check if we need a multiplication space:
 								// all cases except number * character, e.g. 3x
 								// pi*x DOES need a multiply
 								multiplicationSpaceNeeded =
-										!leftIsNumber
+										!leftEndsInNumber
 												|| Character.isDigit(firstRight)
 												|| rightStr.equals(RAD)
-												|| (forEditorParser && !isDegree(right));
+												|| (forEditorParser
+												&& (!omitSpaceInCoefficientProducts
+												|| isFunctionCall(right)));
 							}
 						}
 					}
@@ -1927,7 +1940,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 						sb.append("\\-");
 					}
 
-					if (showMultiplicationSign) {
+					if (showMultiplicationSign
+							|| (multiplicationSpaceNeeded && omitSpaceInCoefficientProducts)) {
 						sb.append(multiplicationSign(loc));
 					} else if (multiplicationSpaceNeeded) {
 						// space instead of multiplication sign
@@ -1966,8 +1980,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 						break;
 
 					default:
-						// space instead of multiplication sign
-						sb.append(multiplicationSpace());
+						if (!omitSpaceInCoefficientProducts
+								|| !canOmitSpaceBeforeBracket(left, valueForm)) {
+							// space instead of multiplication sign
+							sb.append(multiplicationSpace());
+						}
 					}
 				}
 				appendWithBrackets(sb, rightStr, loc);
@@ -1988,6 +2005,43 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return right instanceof MySpecialDouble
 				&& Unicode.DEGREE_STRING.equals(
 				right.toString(defaultTemplate));
+	}
+
+	/**
+	 * Whether the space before a bracketed factor (eg "(x-2)" in "3(x-1)(x-2)") can be
+	 * omitted, based on the factor immediately to its left being numeric or already bracketed.
+	 */
+	private boolean canOmitSpaceBeforeBracket(ExpressionValue left, boolean valueForm) {
+		ExpressionValue lastFactor = left;
+		if (left.isOperation(Operation.MULTIPLY)
+				|| left.isOperation(Operation.MULTIPLY_OR_FUNCTION)) {
+			lastFactor = left.wrap().getRight();
+		}
+		return isNumericFactor(lastFactor, valueForm) || requiresBrackets(lastFactor, valueForm);
+	}
+
+	private boolean isNumericFactor(ExpressionValue value, boolean valueForm) {
+		if (value.isOperation(Operation.POWER)) {
+			ExpressionNode power = value.wrap();
+			return endsInNumberForProductSpacing(power.getLeft(), valueForm)
+					&& endsInNumberForProductSpacing(power.getRight(), valueForm);
+		}
+		return endsInNumberForProductSpacing(value, valueForm);
+	}
+
+	private static boolean isFunctionCall(ExpressionValue right) {
+		Operation operation = right.wrap().getOperation();
+		return operation == Operation.FUNCTION
+				|| operation == Operation.FUNCTION_NVAR
+				|| (Operation.isSimpleFunction(operation) && operation != Operation.FACTORIAL);
+	}
+
+	private boolean endsInNumberForProductSpacing(ExpressionValue value, boolean valueForm) {
+		if (omitSpaceInCoefficientProducts && value instanceof MySpecialDouble
+				&& StringUtil.isNumber(value.toString(StringTemplate.defaultTemplate))) {
+			return true;
+		}
+		return value.wrap().endsInNumber(valueForm);
 	}
 
 	private void appendGiacMultiplication(StringBuilder sb, ExpressionValue left,
@@ -3921,6 +3975,18 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public StringTemplate deriveWithoutPointTemplate() {
 		StringTemplate copy = copy();
 		copy.usePointTemplate = false;
+		return copy;
+	}
+
+	/**
+	 * @return Copy of this with {@code omitSpaceInCoefficientProducts} turned on.
+	 */
+	public StringTemplate deriveWithOmittedSpaceInCoefficientProducts() {
+		if (omitSpaceInCoefficientProducts) {
+			return this;
+		}
+		StringTemplate copy = copy();
+		copy.omitSpaceInCoefficientProducts = true;
 		return copy;
 	}
 

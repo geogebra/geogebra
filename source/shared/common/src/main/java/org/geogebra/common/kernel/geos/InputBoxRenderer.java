@@ -35,7 +35,7 @@ class InputBoxRenderer {
 	InputBoxRenderer(GeoInputBox inputBox) {
 		this.inputBox = inputBox;
 		this.linkedGeo = inputBox.getLinkedGeo();
-		this.stringTemplateForLaTeX = inputBox.tpl.derivePrecisionPreservingLaTeXTemplate();
+		updateLatexTemplate();
 		TeXSerializer serializer = new TeXSerializer();
 		serializer.useSimpleMatrixPlaceholders(true);
 		formulaConverter = new FormulaConverter(new TemplateCatalog(), serializer);
@@ -147,7 +147,9 @@ class InputBoxRenderer {
 	}
 
 	void updateLatexTemplate() {
-		stringTemplateForLaTeX = inputBox.tpl.derivePrecisionPreservingLaTeXTemplate();
+		stringTemplateForLaTeX = inputBox.tpl
+				.derivePrecisionPreservingLaTeXTemplate()
+				.deriveWithOmittedSpaceInCoefficientProducts();
 	}
 
 	void setLinkedGeo(GeoElementND linkedGeo) {

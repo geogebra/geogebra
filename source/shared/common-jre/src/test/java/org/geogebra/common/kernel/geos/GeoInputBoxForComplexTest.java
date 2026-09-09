@@ -37,7 +37,7 @@ class GeoInputBoxForComplexTest extends BaseUnitTest {
 	void imaginaryUnitShouldOverrideUserDefinedVarForPoints() {
 		add("z_1 = 3 + 2i");
 		add("i = 7");
-		shouldBeUpdatedAs("2i", "2 i");
+		shouldBeUpdatedAs("2i", "2i");
 		assertEquals("2i",
 				lookup("z_1").toValueString(StringTemplate.latexTemplate));
 	}
@@ -46,7 +46,7 @@ class GeoInputBoxForComplexTest extends BaseUnitTest {
 	void userDefinedVarShouldOverrideImaginaryUnitForNumbers() {
 		add("i = 7");
 		add("z_1 = 3 + 2i");
-		shouldBeUpdatedAs("2i", "2 i");
+		shouldBeUpdatedAs("2i", "2i");
 		assertEquals("14",
 				lookup("z_1").toValueString(StringTemplate.latexTemplate));
 	}
@@ -54,7 +54,7 @@ class GeoInputBoxForComplexTest extends BaseUnitTest {
 	@Test
 	void rootOfMinusOneShouldBeUsedInExpression() {
 		add("z_1 = 1 + 6i");
-		shouldBeUpdatedAs("2 + 3sqrt(-1)", "2+3 i");
+		shouldBeUpdatedAs("2 + 3sqrt(-1)", "2+3i");
 	}
 
 	@Test
@@ -72,8 +72,8 @@ class GeoInputBoxForComplexTest extends BaseUnitTest {
 	@Test
 	void testImaginaryShouldRenderedAsRegularI() {
 		GeoInputBox inputBox = withComplexLinkedGeo();
-		assertEquals("3 + 2 \\; i", inputBox.getText());
-		assertEquals("3+2 i", inputBox.getTextForEditor());
+		assertEquals("3 + 2i", inputBox.getText());
+		assertEquals("3+2i", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -101,29 +101,29 @@ class GeoInputBoxForComplexTest extends BaseUnitTest {
 	@Test
 	void testImaginaryShouldEditedAsRegularI() {
 		GeoInputBox inputBox = withComplexLinkedGeo();
-		assertEquals("3+2 i", inputBox.getTextForEditor());
+		assertEquals("3+2i", inputBox.getTextForEditor());
 	}
 
 	@Test
 	void testOnUpdateImaginaryShouldBeUsed() {
 		GeoInputBox inputBox = withComplexLinkedGeo();
 		inputBox.updateLinkedGeo("4 + 5" + Unicode.IMAGINARY);
-		assertEquals("4 + 5 \\; i", inputBox.getText());
-		assertEquals("4+5 i", inputBox.getTextForEditor());
+		assertEquals("4 + 5i", inputBox.getText());
+		assertEquals("4+5i", inputBox.getTextForEditor());
 	}
 
 	@Test
 	void capitalIShouldBeSmallIWhenComplex() {
 		GeoInputBox inputBox = withComplexLinkedGeo();
 		inputBox.updateLinkedGeo("4+5I");
-		assertEquals("4 + 5 \\; i", inputBox.getText());
+		assertEquals("4 + 5i", inputBox.getText());
 	}
 
 	@Test
 	void formulaTextShouldUseRegularIWhenComplex() {
 		withComplexLinkedGeo();
 		GeoText text = add("FormulaText[InputBox1]");
-		assertEquals("3 + 2 \\; i", text.getTextString());
+		assertEquals("3 + 2i", text.getTextString());
 	}
 
 	@Test

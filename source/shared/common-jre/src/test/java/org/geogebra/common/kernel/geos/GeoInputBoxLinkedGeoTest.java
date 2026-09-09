@@ -246,7 +246,7 @@ class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	void argumentsForFunctionCopyShouldBeVisible() {
 		add("f:x");
 		setupInput("g", "3f");
-		assertEquals("3 f(x)", inputBox.getTextForEditor());
+		assertEquals("3*f(x)", inputBox.getTextForEditor());
 		updateInput("f(x)");
 		assertEquals("f(x)", inputBox.getTextForEditor());
 	}
@@ -510,8 +510,8 @@ class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("f", "x");
 		inputBox.setSymbolicMode(true, false);
 		updateInput("(-1)/4 x");
-		assertEquals("(-1)/(4) x", inputBox.getTextForEditor());
-		assertEquals("\\frac{-1}{4} \\; x", inputBox.getText());
+		assertEquals("(-1)/(4)*x", inputBox.getTextForEditor());
+		assertEquals("\\frac{-1}{4} \\cdot x", inputBox.getText());
 	}
 
 	@Test
@@ -519,8 +519,53 @@ class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("f", "x");
 		inputBox.setSymbolicMode(true, false);
 		updateInput("-(1/4) x");
-		assertEquals("-((1)/(4)) x", inputBox.getTextForEditor());
-		assertEquals("-\\frac{1}{4} \\; x", inputBox.getText());
+		assertEquals("-((1)/(4))*x", inputBox.getTextForEditor());
+		assertEquals("-\\frac{1}{4} \\cdot x", inputBox.getText());
+	}
+
+	@Test
+	@Issue("APPS-7719")
+	void inputBoxShouldNotInsertSpaceAfterNegativeCoefficient() {
+		setupInput("f", "-2x");
+		inputBox.setSymbolicMode(true, false);
+		assertEquals("-2x", inputBox.getTextForEditor());
+		assertEquals("-2x", inputBox.getText());
+	}
+
+	@Test
+	@Issue("APPS-7719")
+	void inputBoxShouldNotInsertSpaceBeforePower() {
+		setupInput("f", "2+3x^2");
+		inputBox.setSymbolicMode(true, false);
+		assertEquals("2+3x" + Unicode.SUPERSCRIPT_2, inputBox.getTextForEditor());
+		assertEquals("2 + 3x^{2}", inputBox.getText());
+	}
+
+	@Test
+	@Issue("APPS-7719")
+	void inputBoxShouldNotInsertSpaceBeforeBracket() {
+		setupInput("f", "3(x-4)");
+		inputBox.setSymbolicMode(true, false);
+		assertEquals("3(x-4)", inputBox.getTextForEditor());
+		assertEquals("3\\left(x - 4 \\right)", inputBox.getText());
+	}
+
+	@Test
+	@Issue("APPS-7719")
+	void inputBoxShouldNotInsertSpaceAfterBracket() {
+		setupInput("f", "(x+2)x");
+		inputBox.setSymbolicMode(true, false);
+		assertEquals("(x+2)x", inputBox.getTextForEditor());
+		assertEquals("\\left(x + 2 \\right)x", inputBox.getText());
+	}
+
+	@Test
+	@Issue("APPS-7719")
+	void inputBoxShouldNotInsertSpaceBetweenBrackets() {
+		setupInput("f", "3(x-1)(x-2)");
+		inputBox.setSymbolicMode(true, false);
+		assertEquals("3(x-1)(x-2)", inputBox.getTextForEditor());
+		assertEquals("3\\left(x - 1 \\right)\\left(x - 2 \\right)", inputBox.getText());
 	}
 
 	@Test
@@ -529,7 +574,7 @@ class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("a = c + 2");
 		setupInput("a", "2");
 		updateInput("cc(2)");
-		assertEquals("c c*2", inputBox.getTextForEditor());
+		assertEquals("c*c*2", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -537,7 +582,7 @@ class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("f: y = 2 * x + 3");
 		setupInput("g", "x");
 		updateInput("xf(x) + 4");
-		assertEquals("x f(x)+4", inputBox.getTextForEditor());
+		assertEquals("x*f(x)+4", inputBox.getTextForEditor());
 	}
 
 	@Test

@@ -30,7 +30,7 @@ class GeoInputBoxForProductTest extends BaseUnitTest {
 	void testPiRSquare() {
 		add("g = ?");
 		add("r = ?");
-		shouldBeUpdatedAs("g", "pir^(2)", Unicode.PI_STRING + " r" + Unicode.SUPERSCRIPT_2);
+		shouldBeUpdatedAs("g", "pir^(2)", Unicode.PI_STRING + "*r" + Unicode.SUPERSCRIPT_2);
 	}
 
 	@Test
@@ -38,30 +38,30 @@ class GeoInputBoxForProductTest extends BaseUnitTest {
 		add("a=1");
 		add("f(var)=?");
 		add("b=2");
-		shouldBeUpdatedAs("f", "avarb", "a var b");
+		shouldBeUpdatedAs("f", "avarb", "a*var*b");
 	}
 
 	@Test
 	void testVarVar() {
 		add("f(var)=?");
-		shouldBeUpdatedAs("f", "var var", "var var");
+		shouldBeUpdatedAs("f", "var var", "var*var");
 	}
 
 	@Test
 	void testMultiVarProduct() {
 		addAvInput("f(u, v)=?");
-		shouldBeUpdatedAs("f", "uv", "u v");
-		shouldBeUpdatedAs("f", "vu", "v u");
+		shouldBeUpdatedAs("f", "uv", "u*v");
+		shouldBeUpdatedAs("f", "vu", "v*u");
 	}
 
 	@Test
 	void testXPlusBs() {
 		add("f(x)=?");
 		add("b=1");
-		shouldBeUpdatedAs("f", "x+bb", "x+b b");
-		shouldBeUpdatedAs("f", "x+bbb", "x+b b b");
-		shouldBeUpdatedAs("f", "x+bbbb", "x+b b b b");
-		shouldBeUpdatedAs("f", "x+bbbbbx", "x+b b b b b x");
+		shouldBeUpdatedAs("f", "x+bb", "x+b*b");
+		shouldBeUpdatedAs("f", "x+bbb", "x+b*b*b");
+		shouldBeUpdatedAs("f", "x+bbbb", "x+b*b*b*b");
+		shouldBeUpdatedAs("f", "x+bbbbbx", "x+b*b*b*b*b*x");
 	}
 
 	@Test
@@ -69,12 +69,12 @@ class GeoInputBoxForProductTest extends BaseUnitTest {
 		add("f(x)=?");
 		add("a=?");
 		add("b=?");
-		shouldBeUpdatedAs("f", "xab", "x a b");
-		shouldBeUpdatedAs("f", "x + ab", "x+a b");
+		shouldBeUpdatedAs("f", "xab", "x*a*b");
+		shouldBeUpdatedAs("f", "x + ab", "x+a*b");
 		shouldBeUpdatedAs("f", "xxxxxxxxxx", "x" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0);
 		shouldBeUpdatedAs("f", "axxxxxxxxxx",
-				"a x" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0);
-		shouldBeUpdatedAs("f", "axaxaxaxax", "a x a x a x a x a x");
+				"a*x" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0);
+		shouldBeUpdatedAs("f", "axaxaxaxax", "a*x*a*x*a*x*a*x*a*x");
 	}
 
 	@Test
@@ -85,67 +85,67 @@ class GeoInputBoxForProductTest extends BaseUnitTest {
 		shouldBeUpdatedAs("g", "kk", unicode("k^2"));
 		shouldBeUpdatedAs("g", "kkk", unicode("k^3"));
 		shouldBeUpdatedAs("g", "kkkk", unicode("k^4"));
-		shouldBeUpdatedAs("g", "akakak", "a k a k a k");
-		shouldBeUpdatedAs("g", "akka", unicode("a k^2 a"));
-		shouldBeUpdatedAs("g", "kkaa", unicode("k^2 a a"));
+		shouldBeUpdatedAs("g", "akakak", "a*k*a*k*a*k");
+		shouldBeUpdatedAs("g", "akka", unicode("a*k^2*a"));
+		shouldBeUpdatedAs("g", "kkaa", unicode("k^2*a*a"));
 	}
 
 	@Test
 	void testArctanIntegral() {
 		add("f(x)=?");
-		shouldBeUpdatedAs("f", "21xarctanx", "21 x tan"
+		shouldBeUpdatedAs("f", "21xarctanx", "21x*tan"
 				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
-		shouldBeUpdatedAs("f", "22xarctan(x)", "22 x tan"
+		shouldBeUpdatedAs("f", "22xarctan(x)", "22x*tan"
 				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
 	}
 
 	@Test
 	void testSinPower() {
 		add("f(x)=?");
-		shouldBeUpdatedAs("f", "xsin^2(x)", unicode("x sin^2(x)"));
-		shouldBeUpdatedAs("f", "xsin^(-1)(x)", "x sin"
+		shouldBeUpdatedAs("f", "xsin^2(x)", unicode("x*sin^2(x)"));
+		shouldBeUpdatedAs("f", "xsin^(-1)(x)", "x*sin"
 				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
 	}
 
 	@Test
 	void functionPowerShouldNotBeUsedForProduct() {
 		add("f(r,t)=?");
-		shouldBeUpdatedAs("f", "t^2 r^(11t)", unicode("t^2 r^(11 t)"));
+		shouldBeUpdatedAs("f", "t^2 r^(11t)", unicode("t^2*r^(11t)"));
 	}
 
 	@Test
 	void testCost7() {
 		add("g(t)=?");
-		shouldBeUpdatedAs("g", "-tcos7t/7", "(-(t cos(7 t)))/(7)");
-		shouldBeUpdatedAs("g", "-tcos(8t)/7", "(-(t cos(8 t)))/(7)");
+		shouldBeUpdatedAs("g", "-tcos7t/7", "(-(t*cos(7t)))/(7)");
+		shouldBeUpdatedAs("g", "-tcos(8t)/7", "(-(t*cos(8t)))/(7)");
 	}
 
 	@Test
 	void testNpi7() {
 		add("f(x)=?");
 		add("n=6");
-		shouldBeUpdatedAs("f", "npi/7", "(n " + Unicode.PI_STRING + ")/(7)");
+		shouldBeUpdatedAs("f", "npi/7", "(n*" + Unicode.PI_STRING + ")/(7)");
 	}
 
 	@Test
 	void testLnX() {
 		add("f(x)=?");
-		shouldBeUpdatedAs("f", "xlnx", "x ln(x)");
-		shouldBeUpdatedAs("f", "xln2x", "x ln(2 x)");
+		shouldBeUpdatedAs("f", "xlnx", "x*ln(x)");
+		shouldBeUpdatedAs("f", "xln2x", "x*ln(2x)");
 	}
 
 	@Test
 	void testC_2Index() {
 		add("c_2=3");
 		add("f(x)=?");
-		shouldBeUpdatedAs("f", "c_2e^(7x)", "c_2 " + Unicode.EULER_STRING + "^(7 x)");
+		shouldBeUpdatedAs("f", "c_2e^(7x)", "c_2*" + Unicode.EULER_STRING + "^(7x)");
 	}
 
 	@Test
 	void testsina() {
 		add("f(x)=?");
 		add("a=4");
-		shouldBeUpdatedAs("f", "sinax", "sin(a x)");
+		shouldBeUpdatedAs("f", "sinax", "sin(a*x)");
 	}
 
 	@Test
@@ -164,7 +164,7 @@ class GeoInputBoxForProductTest extends BaseUnitTest {
 	void testAkakakaaa() {
 		add("a=7");
 		add("g(k)=?");
-		shouldBeUpdatedAs("g", "akakakaaa", "a k a k a k a a a");
+		shouldBeUpdatedAs("g", "akakakaaa", "a*k*a*k*a*k*a*a*a");
 	}
 
 	@Test
@@ -176,7 +176,7 @@ class GeoInputBoxForProductTest extends BaseUnitTest {
 	@Test
 	void testPiSqrt() {
 		add("f(x)=?");
-		shouldBeUpdatedAs("f", "18pisqrt5", "18 " + Unicode.PI_STRING + " sqrt(5)");
+		shouldBeUpdatedAs("f", "18pisqrt5", "18" + Unicode.PI_STRING + "*sqrt(5)");
 	}
 
 	@Test
@@ -184,13 +184,13 @@ class GeoInputBoxForProductTest extends BaseUnitTest {
 		add("f(x)=?");
 		add("B_{0}=7");
 		shouldBeUpdatedAs("f", "B_{0}e^(2)",
-				"B_{0} " + Unicode.EULER_STRING + Unicode.SUPERSCRIPT_2);
+				"B_{0}*" + Unicode.EULER_STRING + Unicode.SUPERSCRIPT_2);
 	}
 
 	@Test
 	void testTangent() {
 		add("f(x)=?");
-		shouldBeUpdatedAs("f", "2xtan8x", "2 x tan(8 x)");
+		shouldBeUpdatedAs("f", "2xtan8x", "2x*tan(8x)");
 	}
 
 	@Test
@@ -198,7 +198,7 @@ class GeoInputBoxForProductTest extends BaseUnitTest {
 		add("θ=45");
 		add("F=5");
 		add("f(x, y)=?");
-		shouldBeUpdatedAs("f", "Fcosθx+Fsinθy", "F cos(θ x)+F sin(θ y)");
+		shouldBeUpdatedAs("f", "Fcosθx+Fsinθy", "F*cos(θ*x)+F*sin(θ*y)");
 	}
 
 	private void numberBeUpdatedAs(String updatedText, String expected) {
