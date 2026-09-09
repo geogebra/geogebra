@@ -231,7 +231,7 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 	public void openDefineFunctions() {
 		if (defFuncDialog == null) {
 			DialogData data = new DialogData("DefineFunctions", "Cancel", "OK");
-			defFuncDialog = new DefineFunctionsDialogTV(app, data);
+			defFuncDialog = new DefineFunctionsDialogTV(app, data, () -> controller.select(0, 0));
 		}
 		defFuncDialog.setLabels();
 		defFuncDialog.show();

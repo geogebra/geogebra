@@ -17,68 +17,78 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.gui.view.table.ScientificDataTableController;
-import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
+import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
-import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.core.client.Scheduler;
-import org.gwtproject.user.client.ui.FlowPanel;
-import org.gwtproject.user.client.ui.Label;
 
 public final class DefineFunctionsDialogTV extends ComponentDialog {
-	private MathTextFieldW fieldF;
-	private MathTextFieldW fieldG;
+	private ComponentInputField fieldF;
+	private ComponentInputField fieldG;
 	ScientificDataTableController controller;
 
 	/**
-	 * dialog constructor
-	 * @param app - see {@link AppW}
-	 * @param dialogData - contains trans keys for title and buttons
+	 * Creates a dialog to define functions for table values.
+	 * @param app see {@link AppW}
+	 * @param dialogData contains trans keys for title and buttons
+	 * @param selectFirstCell selects the first cell in the table values after closing the dialog
 	 */
-	public DefineFunctionsDialogTV(AppW app, DialogData dialogData) {
+	public DefineFunctionsDialogTV(AppW app, DialogData dialogData, Runnable selectFirstCell) {
 		super(app, dialogData, false, true);
 
 		GeoGebraActivity activity = ((AppWFull) app).getCurrentActivity();
 		controller = activity.getTableController();
 
-		addStyleName("defineFunctionsDialog");
 		buildGUI();
-		if (!app.isWhiteboardActive()) {
-			app.registerPopup(this);
-		}
-		this.addCloseHandler(event -> {
+		addCloseHandler(event -> {
 			app.unregisterPopup(this);
 			app.hideKeyboard();
+			selectFirstCell.run();
 		});
 	}
 
 	private void buildGUI() {
 		fieldF = addFunctionRow("f(x) =");
+		fieldF.addEnterHandler(input -> onEnter(fieldF), false);
+		fieldF.addBlurHandler(ignore -> onBlur(fieldF, false));
+
 		fieldG = addFunctionRow("g(x) =");
+		fieldG.addEnterHandler(input -> onEnter(fieldG), false);
+		fieldG.addBlurHandler(ignore -> onBlur(fieldG, false));
 	}
 
-	private MathTextFieldW addFunctionRow(String functionLbl) {
-		FlowPanel functionPanel = new FlowPanel();
-		functionPanel.addStyleName("functionPanel");
+	private boolean onBlur(ComponentInputField field, boolean enter) {
+		field.resetInputField();
+		boolean success = controller.defineFunctions(fieldF.getText(), fieldG.getText());
+		setErrorState(field, field.equals(fieldF) ? controller.hasFDefinitionErrorOccurred()
+				: controller.hasGDefinitionErrorOccurred(), enter);
+		return success;
+	}
 
-		Label funcLbl = new Label(functionLbl);
-		functionPanel.add(funcLbl);
+	private void onEnter(ComponentInputField field) {
+		boolean success = onBlur(field, true);
+		if (success) {
+			hide();
+			app.storeUndoInfo();
+		}
+	}
 
-		MathTextFieldW funcField = new MathTextFieldW(app);
-		functionPanel.add(funcField);
-		addDialogContent(functionPanel);
+	private ComponentInputField addFunctionRow(String functionLbl) {
+		ComponentInputField inputField = new ComponentInputField((AppW) app, null, functionLbl,
+				null, null, null, false, true);
+		addDialogContent(inputField);
 
-		return funcField;
+		return inputField;
 	}
 
 	@Override
 	public void onPositiveAction() {
 		boolean success = controller.defineFunctions(fieldF.getText(), fieldG.getText());
-		setErrorState(fieldF, controller.hasFDefinitionErrorOccurred());
-		setErrorState(fieldG, controller.hasGDefinitionErrorOccurred());
+		setErrorState(fieldF, controller.hasFDefinitionErrorOccurred(), true);
+		setErrorState(fieldG, controller.hasGDefinitionErrorOccurred(), true);
 		if (success) {
 			hide();
 			app.storeUndoInfo();
@@ -93,11 +103,14 @@ public final class DefineFunctionsDialogTV extends ComponentDialog {
 
 	@Override
 	public void show() {
+		if (!app.isWhiteboardActive()) {
+			((AppW) app).registerPopup(this);
+		}
 		resetFields();
-		showDirectly();
-		fieldF.requestFocus();
+		super.show();
 		Scheduler.get().scheduleDeferred(() -> {
-			super.centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
+			fieldF.focusDeferred();
+			updateFocusIndex(fieldF);
 		});
 	}
 
@@ -109,8 +122,16 @@ public final class DefineFunctionsDialogTV extends ComponentDialog {
 		fieldG.setText(text(controller.getDefinitionOfG()));
 	}
 
-	private void setErrorState(MathTextFieldW field, boolean error) {
-		Dom.toggleClass(field.asWidget().getParent(), "error", error);
+	private void setErrorState(ComponentInputField field, boolean error, boolean enter) {
+		if (error) {
+			field.showError(app.getLocalization().getMenu("Error.InvalidInput"));
+			if (enter) {
+				field.focusDeferred();
+				updateFocusIndex(field);
+			}
+		} else {
+			field.setErrorResolved();
+		}
 	}
 
 	private static String text(String string) {

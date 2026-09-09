@@ -452,7 +452,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 					|| isLeftAltDown()) {
 				event.preventDefault();
 			}
-			if (!isGlobalEvent.test(event.getNativeEvent())) {
+			if (!isGlobalEvent.test(event.getNativeEvent()) && code != JavaKeyCodes.VK_TAB) {
 				event.stopPropagation();
 			}
 

@@ -290,7 +290,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 	 */
 	public ComponentInputField(AppW app, String placeholder, String labelTxt,
 			String errorTxt, String defaultValue, String suffixTxt) {
-		this(app, placeholder, labelTxt, errorTxt, defaultValue, suffixTxt, true);
+		this(app, placeholder, labelTxt, errorTxt, defaultValue, suffixTxt, true, false);
 	}
 
 	/**
@@ -302,15 +302,17 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 	 * @param suffixTxt suffix at end of text field
 	 * @param hasKeyboardBtn whether to show keyboard button or not
 	 * (disabled in {@link org.geogebra.web.full.gui.dialog.Export3dDialog})
+	 * @param isMathMode whether it is math mode or not
 	 */
 	public ComponentInputField(AppW app, String placeholder, String labelTxt,
-			String errorTxt, String defaultValue, String suffixTxt, boolean hasKeyboardBtn) {
+			String errorTxt, String defaultValue, String suffixTxt, boolean hasKeyboardBtn,
+			boolean isMathMode) {
 		this.loc = app.getLocalization();
 		this.labelTextKey = labelTxt;
 		this.errorTextKey = errorTxt;
 		this.placeholderTextKey = placeholder;
 		this.suffixTextKey = suffixTxt;
-		buildGui(app, hasKeyboardBtn, false);
+		buildGui(app, hasKeyboardBtn, isMathMode);
 		if (!StringUtil.empty(defaultValue)) {
 			setInputText(defaultValue);
 		}
@@ -349,7 +351,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 		}
 		addClickHandler();
 		adapter.addFocusBlurHandlers();
-		addEnterHandler(property::setValue);
+		addEnterHandler(property::setValue, true);
 		adapter.addHoverHandlers();
 		property.setConfigurationUpdateDelegate(() -> this.configurationUpdated(property));
 		property.setVisibilityUpdateDelegate(() -> setVisible(property.isVisible()));
@@ -404,6 +406,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 
 	private void createInputMathField(AppW app) {
 		MathTextFieldW inputMathField = new MathTextFieldW(app);
+		inputMathField.setTabEnabled(false);
 		adapter = new MathInputAdapter(inputMathField);
 	}
 
@@ -453,11 +456,14 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 	 * pressing Enter or by moving focus away from the field.
 	 * Note: if Enter is pressed and focus subsequently leaves the field,
 	 * the handler will be called twice.
-	 * @param enterHandler handler invoked on Enter key or blur
+	 * @param enterHandler handler invoked on Enter key
+	 * @param invokeOnBlur whether it should invoke handler on blur too
 	 */
-	public void addEnterHandler(Consumer<String> enterHandler) {
+	public void addEnterHandler(Consumer<String> enterHandler, boolean invokeOnBlur) {
 		adapter.addEnterHandler(enterHandler);
-		onBlur.addListener(evt -> enterHandler.accept(getText()));
+		if (invokeOnBlur) {
+			onBlur.addListener(evt -> enterHandler.accept(getText()));
+		}
 	}
 
 	/**

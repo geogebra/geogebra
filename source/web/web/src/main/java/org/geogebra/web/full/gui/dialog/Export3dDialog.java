@@ -74,7 +74,7 @@ public final class Export3dDialog extends ComponentDialog
 
 		ParsableComponentInputField(AppW app, String placeholder,
 				String labelTxt, String errorTxt, String defaultValue, String suffixTxt) {
-			super(app, placeholder, labelTxt, errorTxt, defaultValue, suffixTxt, false);
+			super(app, placeholder, labelTxt, errorTxt, defaultValue, suffixTxt, false, false);
 			numberValidator = new NumberValidator(
 					app.getKernel().getAlgebraProcessor());
 			localization = app.getLocalization();

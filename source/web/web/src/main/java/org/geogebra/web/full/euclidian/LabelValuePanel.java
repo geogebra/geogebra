@@ -54,11 +54,11 @@ public final class LabelValuePanel extends FlowPanel
 
 	private void createDialog() {
 		tfName = new ComponentInputField(appW, null, nameProperty.getRawName(),
-				null, nameProperty.getValue(), null, false);
+				null, nameProperty.getValue(), null, false, false);
 		if (geos.size() == 1) {
 			tfName.getTextWidget().setAutoComplete(false);
 			tfName.getTextWidget().enableGGBKeyboard();
-			tfName.addEnterHandler(text -> onEnter());
+			tfName.addEnterHandler(text -> onEnter(), true);
 			add(tfName);
 			init();
 		}

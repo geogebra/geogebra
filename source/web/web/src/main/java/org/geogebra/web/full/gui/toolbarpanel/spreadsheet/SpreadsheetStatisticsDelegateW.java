@@ -163,7 +163,7 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 	private void addEnterHandlers(SpreadsheetStatisticsView<?> view) {
 		for (ComponentInputField inputField: Arrays.asList(xRange, yRange)) {
 			if (inputField != null) {
-				inputField.addEnterHandler(ignore -> commit(view));
+				inputField.addEnterHandler(ignore -> commit(view), true);
 				inputField.addFocusHandler(ignore -> view.setFocusedDataRange(
 						inputField == xRange ? SpreadsheetStatistics.DataRange.X
 								: SpreadsheetStatistics.DataRange.Y

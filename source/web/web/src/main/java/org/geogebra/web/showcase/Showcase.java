@@ -88,8 +88,7 @@ public final class Showcase implements EntryPoint {
 		ComponentInputField inputField = new ComponentInputField(app, "Write here",
 				"Name", null, null, null);
 		inputField.addEnterHandler((text) ->
-				inputField.setError(text.length() < 2 ? "Too short" : null)
-		);
+				inputField.setError(text.length() < 2 ? "Too short" : null), true);
 		ComponentProgressBar progressBar = new ComponentProgressBar(false, true);
 		progressBar.setIndicatorWidth(42);
 		RadioButtonPanel<Integer> radioButtonPanel = new RadioButtonPanel<>(
