@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
 import org.geogebra.common.kernel.algos.AlgoConicPartConicPoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -876,6 +877,13 @@ public class GeoConicPart3D extends GeoConic3D
 	public void toGeoCurveCartesian(GeoCurveCartesianND curve) {
 		super.toGeoCurveCartesian(curve);
 		parameters.updateCurve(curve);
+	}
+
+	@Override
+	public void dilate(NumberValue rval, Coords S) {
+		super.dilate(rval, S);
+		parameters.setValueDefined(super.isDefined());
+		parameters.update();
 	}
 
 }
