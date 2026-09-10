@@ -25,6 +25,7 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -58,5 +59,13 @@ class AnimationStepPropertyTest extends BaseAppTestSetup {
 		assertFalse(animationStepProperty.isEnabled());
 		point.setFixed(false);
 		assertTrue(animationStepProperty.isEnabled());
+	}
+
+	@Test
+	@Issue("APPS-7729")
+	void testShowingForLockedObject() {
+		GeoElement point = evaluateGeoElement("(6, 7)");
+		point.setFixed(true);
+		assertTrue(AnimationStepProperty.isValid(point, false));
 	}
 }

@@ -26,6 +26,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSpace;
 import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
@@ -39,8 +40,10 @@ import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.UtilD;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.annotation.Issue;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class XmlTest {
 
@@ -48,7 +51,7 @@ public class XmlTest {
 	private static AlgebraProcessor ap;
 
 	/** Set up app */
-	@BeforeClass
+	@BeforeAll
 	public static void setup() {
 		app = new AppDNoGui(new LocalizationD(3), false);
 		ap = app.getKernel().getAlgebraProcessor();
@@ -182,6 +185,19 @@ public class XmlTest {
 				.toValueString(StringTemplate.defaultTemplate);
 		assertEquals("9.00719925474099 " + Unicode.CENTER_DOT + " 10"
 				+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_5, largestInteger);
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"(6,7)", "Point(x=y)"})
+	@Issue({"APPS-7729", "APPS-7875"})
+	public void horizontalIncrementShouldBeSavedForFixedPoint(String definition) {
+		GeoPoint point = (GeoPoint) processAlgebraCommand("A = " + definition);
+		point.setAnimationStep(2.2);
+		point.setVerticalIncrement(new MyDouble(app.getKernel(), 3.3));
+		point.setFixed(true);
+		String xml = app.getXML();
+		assertTrue(xml.contains("<animation step=\"2.2\" type=\"1\" playing=\"false\"/>")
+				&& xml.contains("<incrementY val=\"3.3\"/>"));
 	}
 
 	private GeoElementND processAlgebraCommand(String input) {

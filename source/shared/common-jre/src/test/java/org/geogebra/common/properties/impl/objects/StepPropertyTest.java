@@ -16,18 +16,30 @@
  
 package org.geogebra.common.properties.impl.objects;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.annotation.Issue;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-class StepPropertyTest extends BaseUnitTest {
+class StepPropertyTest extends BaseAppTestSetup {
+
+	@BeforeEach
+	void setUp() {
+		setupApp(SuiteSubApp.GRAPHING);
+	}
 
 	@Test
 	void testConstructorSucceeds() {
-		GeoNumeric slider = addAvInput("1");
+		GeoNumeric slider = evaluateGeoElement("1");
 		slider.setEuclidianVisible(true);
 		try {
 			new AnimationStepProperty(getKernel().getAlgebraProcessor(),
@@ -35,5 +47,14 @@ class StepPropertyTest extends BaseUnitTest {
 		} catch (NotApplicablePropertyException e) {
 			fail(e.getMessage());
 		}
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"(1,1)", "Point(x=y)"})
+	@Issue("APPS-7875")
+	void testApplicable(String definition) {
+		GeoElement point = evaluateGeoElement(definition);
+		assertDoesNotThrow(() ->
+				new AnimationStepProperty(getAlgebraProcessor(), getLocalization(), point, false));
 	}
 }

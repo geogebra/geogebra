@@ -2265,7 +2265,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return whether animation attributes should be saved to XML
 	 */
 	public boolean needsAnimationAttributes() {
-		return isPointerChangeable();
+		return isInherentlyMoveable();
 	}
 
 	@Override
@@ -4613,8 +4613,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * @param sb
-	 *            string builder
+	 * @param sb XMLStringBuilder
 	 */
 	protected void getXMLAnimationTags(final XMLStringBuilder sb) {
 		StringTemplate tpl = StringTemplate.xmlTemplate;

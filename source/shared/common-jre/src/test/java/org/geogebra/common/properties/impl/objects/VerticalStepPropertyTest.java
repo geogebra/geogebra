@@ -25,8 +25,11 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class VerticalStepPropertyTest extends BaseAppTestSetup {
 
@@ -35,9 +38,10 @@ class VerticalStepPropertyTest extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 	}
 
-	@Test
-	void testApplicable() {
-		GeoElement point = evaluateGeoElement("(1, 1)");
+	@ParameterizedTest
+	@ValueSource(strings = {"(1,1)", "Point(x=y)"})
+	void testApplicable(String definition) {
+		GeoElement point = evaluateGeoElement(definition);
 		assertDoesNotThrow(() ->
 				new VerticalStepProperty(getAlgebraProcessor(), getLocalization(), point));
 	}
@@ -67,5 +71,13 @@ class VerticalStepPropertyTest extends BaseAppTestSetup {
 		assertFalse(VerticalStepProperty.isEnabled());
 		point.setFixed(false);
 		assertTrue(VerticalStepProperty.isEnabled());
+	}
+
+	@Test
+	@Issue("APPS-7729")
+	void testShowingForLockedObject() {
+		GeoElement point = evaluateGeoElement("(6, 7)");
+		point.setFixed(true);
+		assertTrue(VerticalStepProperty.isValid(point));
 	}
 }

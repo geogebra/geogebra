@@ -16,6 +16,7 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.BooleanProperty;
@@ -47,7 +48,9 @@ public class FixObjectProperty extends AbstractValuedProperty<Boolean> implement
 
 	@Override
 	public void doSetValue(Boolean fixObject) {
-		delegate.getElement().setFixed(fixObject);
+		GeoElement element = delegate.getElement();
+		element.setFixed(fixObject);
+		element.updateVisualStyleRepaint(GProperty.COMBINED);
 	}
 
 	@Override

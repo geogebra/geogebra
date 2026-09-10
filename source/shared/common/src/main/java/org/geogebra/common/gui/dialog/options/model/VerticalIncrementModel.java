@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.properties.impl.objects.VerticalStepProperty;
 
 public class VerticalIncrementModel extends TextPropertyModel{
 
@@ -31,7 +32,7 @@ public class VerticalIncrementModel extends TextPropertyModel{
 
 	@Override
 	protected boolean isValidAt(int index) {
-		return getGeoAt(index) != null && getGeoAt(index).isGeoPoint();
+		return VerticalStepProperty.isValid(getGeoAt(index));
 	}
 
 	@Override
