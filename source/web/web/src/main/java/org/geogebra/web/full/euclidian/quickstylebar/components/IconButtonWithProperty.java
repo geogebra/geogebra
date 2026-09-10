@@ -52,6 +52,7 @@ import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.general.GeneralIcon;
+import org.gwtproject.dom.style.shared.Overflow;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
@@ -257,7 +258,7 @@ public final class IconButtonWithProperty extends IconButton {
 		propertyPopup.setPopupPosition(getLeft(), popupTop);
 
 		if (popupHeight > spaceTop) {
-			propertyPopup.setHeight(spaceTop + "px");
+			setPopupHeight(spaceTop + "px");
 		}
 	}
 
@@ -265,8 +266,13 @@ public final class IconButtonWithProperty extends IconButton {
 		propertyPopup.setPopupPosition(getLeft(), bottomPos);
 		int spaceBottom = (int) (appW.getHeight() - bottomPos);
 		if (popupHeight > spaceBottom) {
-			propertyPopup.setHeight((spaceBottom - (MARGIN_FROM_SCREEN + 8)) + "px");
+			setPopupHeight(spaceBottom - (MARGIN_FROM_SCREEN + 8) + "px");
 		}
+	}
+
+	private void setPopupHeight(String height) {
+		propertyPopup.setHeight(height);
+		propertyPopup.getElement().getStyle().setOverflowY(Overflow.AUTO);
 	}
 
 	private int getLeft() {
