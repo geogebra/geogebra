@@ -266,6 +266,21 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_expand_less_black_24px.svg")
 	SVGResource collapse_black();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/delete_outline.svg")
+	SVGResource delete_outline();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/add_column_left.svg")
+	SVGResource add_column_left();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/add_column_right.svg")
+	SVGResource add_column_right();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/add_row_above.svg")
+	SVGResource add_row_above();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/add_row_below.svg")
+	SVGResource add_row_below();
+
 	// LINES
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_line_dash_dot.svg")

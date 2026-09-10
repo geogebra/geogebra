@@ -98,10 +98,13 @@ public final class SpreadsheetMenuBuilder {
 			case BOX_PLOT -> res.table_boxplot();
 			case PIE_CHART -> res.table_pie_chart();
 			case STATISTICS -> res.statistics();
-			case SUM, SD, MIN, Q1, MEDIAN, SAMPLE_SD, MEAN, Q3, MAX,
-			     STATISTICS_ONE_VARIABLE, STATISTICS_TWO_VARIABLES, STATISTICS_REGRESSION,
-			     INSERT_ROW_ABOVE, INSERT_ROW_BELOW, DELETE_ROW, INSERT_COLUMN_LEFT,
-			     INSERT_COLUMN_RIGHT, DELETE_COLUMN, DIVIDER -> null;
+			case INSERT_ROW_ABOVE -> res.add_row_above();
+			case INSERT_ROW_BELOW -> res.add_row_below();
+			case DELETE_COLUMN, DELETE_ROW -> res.delete_outline();
+			case INSERT_COLUMN_LEFT -> res.add_column_left();
+			case INSERT_COLUMN_RIGHT -> res.add_column_right();
+			case SUM, SD, MIN, Q1, MEDIAN, SAMPLE_SD, MEAN, Q3, MAX, STATISTICS_ONE_VARIABLE,
+				 STATISTICS_TWO_VARIABLES, STATISTICS_REGRESSION, DIVIDER -> null;
 		};
 	}
 }
