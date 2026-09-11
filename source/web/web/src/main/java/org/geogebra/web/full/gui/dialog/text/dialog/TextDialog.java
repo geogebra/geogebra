@@ -144,6 +144,12 @@ public final class TextDialog extends ComponentDialog implements TextInputDialog
 		});
 	}
 
+	@Override
+	public void hide() {
+		appW.hideKeyboard();
+		super.hide();
+	}
+
 	/**
 	 * Shows the keyboard.
 	 */
