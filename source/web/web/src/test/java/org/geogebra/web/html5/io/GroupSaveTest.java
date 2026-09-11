@@ -50,7 +50,6 @@ public class GroupSaveTest {
 
     @Before
     public void initTest() {
-        this.getClass().getClassLoader().setDefaultAssertionStatus(false);
         AppletParameters articleElement = new AppletParameters("notes");
         app = AppMocker.mockApplet(articleElement);
         cons = app.getKernel().getConstruction();

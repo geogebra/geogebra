@@ -20,19 +20,19 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.BaseSymbolicTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.scientific.LabelController;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AlgoDependentSymbolicTest extends BaseSymbolicTest {
+class AlgoDependentSymbolicTest extends BaseSymbolicTest {
 
 	@Test
-	public void testDependentMultivariateFunction() {
+	void testDependentMultivariateFunction() {
 		t("a = 5", "5");
 		t("f(a, x) = sqrt(a - x)", "sqrt(-x + 5)");
 		String xml = app.getXML();
@@ -43,7 +43,7 @@ public class AlgoDependentSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testUndoRedoWorks() {
+	void testUndoRedoWorks() {
 		LabelController controller = new LabelController();
 		add("f(x, a) = x - a");
 		GeoElement element = add("f(1, 2)");
@@ -54,7 +54,7 @@ public class AlgoDependentSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testRedefinitionKeepsConstant() {
+	void testRedefinitionKeepsConstant() {
 		add("f(x) = Integral(Integral(x))");
 		// redefine geo
 		add("f(x) = Integral(Integral(x))");
@@ -63,7 +63,7 @@ public class AlgoDependentSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testUndoRedoConstant() {
+	void testUndoRedoConstant() {
 		add("Invert(sin(x))");
 		GeoElement constant = lookup("k_1");
 		assertThat(constant, is(notNullValue()));

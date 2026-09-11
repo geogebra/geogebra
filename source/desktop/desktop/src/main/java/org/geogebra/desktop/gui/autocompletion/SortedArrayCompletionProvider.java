@@ -54,6 +54,7 @@ public abstract class SortedArrayCompletionProvider<T extends Comparable<T>>
 	}
 
 	@Override
+	@SuppressWarnings("PMD.UseLocaleWithCaseConversions")
 	public List<T> getCompletionOptions(String prefix) {
 		// Proper case for prefix
 		final String prefixWithProperCase = caseInsensitiveCompletion
@@ -77,6 +78,7 @@ public abstract class SortedArrayCompletionProvider<T extends Comparable<T>>
 		return options;
 	}
 
+	@SuppressWarnings("PMD.UseLocaleWithCaseConversions")
 	private boolean isValidCompletionOption(String prefixWithProperCase, String option) {
 		return (caseInsensitiveCompletion ? option.toLowerCase() : option)
 				.startsWith(prefixWithProperCase);

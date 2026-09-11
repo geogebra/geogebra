@@ -16,8 +16,8 @@
  
 package org.geogebra.cloud;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +62,7 @@ public class TestMaterialCallback implements MaterialCallbackI {
 
 	protected void verifyError(String errorPattern) {
 		String errorsS = StringUtil.join(",", errors);
-		assertTrue(errorsS, errorsS.matches(errorPattern));
+		assertTrue(errorsS.matches(errorPattern), errorsS);
 	}
 
 	/**

@@ -21,18 +21,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 
-import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.metadata.IIOMetadataNode;
 import javax.imageio.stream.FileImageOutputStream;
 
-import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.desktop.awt.GBufferedImageD;
-import org.w3c.dom.NodeList;
 
 /**
  * Extends ImageIO.write() in order to specify the DPI (dots per inch) of the

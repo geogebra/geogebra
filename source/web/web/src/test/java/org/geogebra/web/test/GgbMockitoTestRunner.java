@@ -210,7 +210,9 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
     }
 
     @Override
+    @SuppressWarnings("PMD.UseProperClassLoader")
     public void run(final RunNotifier notifier) {
+        // we want to change assertions in the test class classloader, not the thread one
         getTestClass().getJavaClass().getClassLoader().setDefaultAssertionStatus(false);
         super.run(notifier);
     }

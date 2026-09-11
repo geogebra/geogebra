@@ -50,6 +50,7 @@ public class LoggerD extends Log {
 		LoggerD.timeShown = timeShown;
 	}
 
+	@SuppressWarnings({"PMD.AvoidPrintStackTrace", "CallToPrintStackTrace"})
 	@Override
 	public void print(Level level, Object logMessage) {
 		String message = logMessage + "";
@@ -85,6 +86,7 @@ public class LoggerD extends Log {
 		memoryLog.append("\n");
 	}
 
+	@SuppressWarnings("PMD.ReplaceJavaUtilCalendar")
 	private String getTimeInfo() {
 		Calendar calendar = new GregorianCalendar();
 		int min = calendar.get(Calendar.MINUTE);
@@ -143,6 +145,7 @@ public class LoggerD extends Log {
 		}
 	}
 
+	@SuppressWarnings("PMD.SystemPrintln")
 	private void print(String logEntry, Level level) {
 		if (getLogDestination() == LogDestination.FILE) {
 			if (logFileWriter != null) {

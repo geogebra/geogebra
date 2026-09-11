@@ -94,6 +94,17 @@ public class MyTextFieldD extends JTextField
 	// class for distinguishing graphically existing object
 	private ColorProvider ip;
 
+	// fields for custom painting
+	private float pos = 0; // start position of text (not pixel location)
+	private int scrollOffset = 0;
+	private int width = 0;
+	private int textBottom;
+	private int fontHeight;
+	private Font font;
+	private Graphics2D g2;
+	private Insets insets;
+	boolean selectAllOnFocus = false;
+
 	/************************************
 	 * Construct an instance of MyTextField without a fixed column width
 	 */
@@ -209,8 +220,6 @@ public class MyTextFieldD extends JTextField
 	// ====================================================
 	// Event Handlers, Listeners
 	// ====================================================
-
-	boolean selectAllOnFocus = false;
 
 	/**
 	 * Sets a flag to force all text to be selected on focus (helpful for tabbed
@@ -356,16 +365,6 @@ public class MyTextFieldD extends JTextField
 	public void setOrientation() {
 		app.setComponentOrientation(this);
 	}
-
-	// fields for custom painting
-	private float pos = 0; // start position of text (not pixel location)
-	private int scrollOffset = 0;
-	private int width = 0;
-	private int textBottom;
-	private int fontHeight;
-	private Font font;
-	private Graphics2D g2;
-	private Insets insets;
 
 	@Override
 	public void paintComponent(Graphics gr) {

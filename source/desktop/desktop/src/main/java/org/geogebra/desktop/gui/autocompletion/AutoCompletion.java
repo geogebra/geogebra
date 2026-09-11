@@ -21,6 +21,7 @@ import java.awt.Container;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JFileChooser;
@@ -48,7 +49,7 @@ public class AutoCompletion {
 
 	private static boolean initCaseInsenitvePaths() {
 		try {
-			return System.getProperty("os.name").toLowerCase()
+			return System.getProperty("os.name").toLowerCase(Locale.ROOT)
 					.contains("windows");
 		} catch (SecurityException ex) {
 			Log.debug("Could not determine underlying os: " + ex);
@@ -88,7 +89,7 @@ public class AutoCompletion {
 			return;
 		}
 
-		CompletionProvider<File> fileChooserCompletionProvider = new CompletionProvider<File>() {
+		CompletionProvider<File> fileChooserCompletionProvider = new CompletionProvider<>() {
 			@Override
 			public List<File> getCompletionOptions(String prefix) {
 				// Create adapter: javax.swing.filechooser.FileFilter -->
@@ -105,7 +106,7 @@ public class AutoCompletion {
 					return null;
 				}
 				CompletionProvider<File> completionProvider
-						= new SortedArrayCompletionProvider<File>(
+						= new SortedArrayCompletionProvider<>(
 						options, caseInsensitiveCompletion) {
 					@Override
 					public String toString(File option) {
@@ -169,7 +170,7 @@ public class AutoCompletion {
 	 *            The completion options, will be searched linearly for
 	 *            completion matches
 	 * @param caseInsensitiveCompletion
-	 *            <code>true</code> for case insensitive completion
+	 *            <code>true</code> for case-insensitive completion
 	 * @param maxPopupRowCount
 	 *            The maximum number of rows (height) of the completion popup,
 	 *            that is the number of options the user can see without
@@ -182,7 +183,7 @@ public class AutoCompletion {
 		System.arraycopy(completionOptions, 0, optionsCopy, 0,
 				completionOptions.length);
 		// Wrap array in provider and install
-		CompletionProvider<String> arrayProvider = new SortedArrayCompletionProvider<String>(
+		CompletionProvider<String> arrayProvider = new SortedArrayCompletionProvider<>(
 				optionsCopy, caseInsensitiveCompletion) {
 			@Override
 			public String toString(String option) {

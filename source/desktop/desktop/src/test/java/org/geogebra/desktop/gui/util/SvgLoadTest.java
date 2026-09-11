@@ -16,11 +16,11 @@
  
 package org.geogebra.desktop.gui.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,19 +33,19 @@ import org.geogebra.common.io.file.ByteArrayZipFile;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.UtilD;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class SvgLoadTest extends BaseUnitTest {
+class SvgLoadTest extends BaseUnitTest {
 
-	public static final String RESOURCES = "src/test/resources/svg/";
+	private static final String RESOURCES = "src/test/resources/svg/";
 	static AppDNoGui app;
 	private static SVGImage image;
 	private int allSvgCount = 0;
 	private final List<String> unsupportedSvgNames = new ArrayList<>();
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		allSvgCount = 0;
 		unsupportedSvgNames.clear();
 		app = new AppDNoGui(new LocalizationD(3), false) {
@@ -64,7 +64,7 @@ public class SvgLoadTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testLoadSvgsGGB() {
+	void testLoadSvgsGGB() {
 		inMaterial("svgs.ggb")
 				.shouldSupportAllBut("issue134.svg")
 				.ofSvgs(142);
@@ -72,7 +72,7 @@ public class SvgLoadTest extends BaseUnitTest {
 
 	private SvgLoadTest inMaterial(String fileName) {
 		byte[] array = UtilD.loadFileIntoByteArray(RESOURCES + fileName);
-		assertNotNull("File error: " + fileName, array);
+		assertNotNull(array, "File error: " + fileName);
 		assertTrue(app.loadXML(new ByteArrayZipFile(array)));
 		return this;
 	}
@@ -88,14 +88,14 @@ public class SvgLoadTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testLoadVrTGGB() {
+	void testLoadVrTGGB() {
 		inMaterial("material-VrT75QCK.ggb")
 				.shouldSupportAllBut("plot (1).svg")
 				.ofSvgs(5);
 	}
 
 	@Test
-	public void testLoadWhiteListIssue() {
+	void testLoadWhiteListIssue() {
 		checkSupported("issue41.svg");
 	}
 
@@ -114,19 +114,19 @@ public class SvgLoadTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testLoad2() {
+	void testLoad2() {
 		checkSupported("2.svg");
 	}
 
 	@Test
-	public void imageReloadTest() {
+	void imageReloadTest() {
 		createSvg("2.svg");
 		SVGImage image2 = JSVGImageBuilder.fromContent(image.getContent());
 		assertEquals(image.getContent(), image2.getContent());
 	}
 
 	@Test
-	public void loadBadLink() {
+	void loadBadLink() {
 		checkNotSupported("badLink.svg");
 	}
 

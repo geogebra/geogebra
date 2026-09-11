@@ -108,11 +108,6 @@ public class DataSourceDialog extends Dialog
 	}
 
 	@Override
-	public void setVisible(boolean isVisible) {
-		super.setVisible(isVisible);
-	}
-
-	@Override
 	public void windowGainedFocus(WindowEvent e) {
 		// ignored
 	}

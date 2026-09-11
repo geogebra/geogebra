@@ -129,8 +129,8 @@ public class CreateObjectDialog extends InputDialogD
 	@SuppressWarnings("unchecked")
 	private void createAdditionalGUI() {
 
-		model = new DefaultListModel();
-		typeList = new JList(model);
+		model = new DefaultListModel<>();
+		typeList = new JList<>(model);
 		typeList.addListSelectionListener(this);
 
 		lblName = new JLabel();
@@ -138,10 +138,10 @@ public class CreateObjectDialog extends InputDialogD
 		fldName.setShowSymbolTableIcon(true);
 		fldName.addFocusListener(this);
 
-		cbScanOrder = new JComboBox();
+		cbScanOrder = new JComboBox<>();
 		cbScanOrder.addActionListener(this);
 
-		cbLeftRightOrder = new JComboBox();
+		cbLeftRightOrder = new JComboBox<>();
 		cbLeftRightOrder.addActionListener(this);
 
 		btnObject = new JRadioButton();

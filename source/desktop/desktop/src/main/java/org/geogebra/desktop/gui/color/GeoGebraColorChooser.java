@@ -41,6 +41,7 @@ public class GeoGebraColorChooser extends JColorChooser implements SetLabels {
 	private static final long serialVersionUID = 1L;
 
 	private final AppD app;
+	private boolean isNullSelection = false;
 
 	/**
 	 * @param app application
@@ -59,8 +60,6 @@ public class GeoGebraColorChooser extends JColorChooser implements SetLabels {
 
 		setLabels();
 	}
-
-	private boolean isNullSelection = false;
 
 	/**
 	 * @return true is the current color selection should be treated as a null

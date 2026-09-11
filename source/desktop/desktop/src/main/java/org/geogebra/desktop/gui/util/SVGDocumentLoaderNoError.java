@@ -28,7 +28,7 @@ import io.sf.carte.echosvg.bridge.DocumentLoader;
 import io.sf.carte.echosvg.bridge.UserAgent;
 
 class SVGDocumentLoaderNoError extends DocumentLoader {
-	public SVGDocumentLoaderNoError(UserAgent userAgent) {
+	SVGDocumentLoaderNoError(UserAgent userAgent) {
 		super(userAgent);
 	}
 

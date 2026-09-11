@@ -56,6 +56,8 @@ import org.geogebra.desktop.main.LocalizationD;
 
 public class GeoGebraMenuBar extends JMenuBar {
 	private static final long serialVersionUID = 1736020764918189176L;
+	private static String glVersion = null;
+	private static String glCard = null;
 
 	private BaseMenu fileMenu;
 	private BaseMenu editMenu;
@@ -262,7 +264,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 
 				pre.setVisible(true);
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 				Log.debug("Print preview not available");
 			} finally {
 				app.setDefaultCursor();
@@ -270,9 +272,6 @@ public class GeoGebraMenuBar extends JMenuBar {
 		});
 		runner.start();
 	}
-
-	private static String glVersion = null;
-	private static String glCard = null;
 
 	/**
 	 * Show the "About" dialog.

@@ -55,7 +55,7 @@ public class HttpRequestD extends HttpRequest {
 		}
 
 		else {
-			SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+			SwingWorker<Void, Void> worker = new SwingWorker<>() {
 
 				@Override
 				protected Void doInBackground() {
@@ -129,7 +129,7 @@ public class HttpRequestD extends HttpRequest {
 						"Connection error: " + ex.getMessage());
 
 			}
-			ex.printStackTrace();
+			Log.debug(ex);
 			Log.error(ex.getMessage());
 		}
 	}
@@ -139,6 +139,7 @@ public class HttpRequestD extends HttpRequest {
 	 * @return content of stream as string
 	 * @throws IOException if an I/O error occurs
 	 */
+	@SuppressWarnings("PMD.UseTryWithResources") // stream managed by the wrapped connection
 	public static String readOutput(InputStream inputStream)
 			throws IOException {
 		BufferedReader in = null;
@@ -227,6 +228,7 @@ public class HttpRequestD extends HttpRequest {
 	 *            HTTP requests Warning: the desktop version currently ignores
 	 *            this setting
 	 */
+	@Override
 	public void setTimeout(Integer timeout_secs) {
 		timeout = timeout_secs;
 	}

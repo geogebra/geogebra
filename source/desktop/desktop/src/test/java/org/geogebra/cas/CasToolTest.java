@@ -16,16 +16,16 @@
 
 package org.geogebra.cas;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.cas.view.CASInputHandler;
 import org.geogebra.common.kernel.StringTemplate;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CasToolTest extends BaseCASIntegrationTest {
+class CasToolTest extends BaseCASIntegrationTest {
 
 	@Test
-	public void checkNsolveExpansion() {
+	void checkNsolveExpansion() {
 		CASViewNoGui view = new CASViewNoGui(getApp(), "Sum(T/2^n,n,3,10)=1500000", "$1");
 		CASInputHandler cih = new CASInputHandler(view);
 		cih.processCurrentRow("NSolve", false, null);
@@ -35,7 +35,7 @@ public class CasToolTest extends BaseCASIntegrationTest {
 	}
 
 	@Test
-	public void nsolveToolTest() {
+	void nsolveToolTest() {
 		CASViewNoGui view = new CASViewNoGui(getApp(), "x^2+1", "$1", "$2");
 		CASInputHandler cih = new CASInputHandler(view);
 

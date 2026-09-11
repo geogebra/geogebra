@@ -62,14 +62,17 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 	private boolean errorOnStopEditing = false;
 
 	private boolean allowProcessGeo = false;
+	private boolean enableAutoComplete = false;
+	private final SpreadsheetTableController controller;
+	/**
+	 * keep track of when &lt;tab&gt; was first pressed so we can return to that
+	 * column when &lt;enter&gt; pressed
+	 */
+	public int tabReturnCol = -1;
 
 	public void setAllowProcessGeo(boolean allowProcessGeo) {
 		this.allowProcessGeo = allowProcessGeo;
 	}
-
-	private boolean enableAutoComplete = false;
-
-	private SpreadsheetTableController controller;
 
 	/**
 	 * @param kernel kernel
@@ -98,15 +101,15 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 
 			@Override
 			public void insertUpdate(DocumentEvent documentEvent) {
-				updateFormulaBar(documentEvent);
+				updateFormulaBar();
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent documentEvent) {
-				updateFormulaBar(documentEvent);
+				updateFormulaBar();
 			}
 
-			private void updateFormulaBar(DocumentEvent documentEvent) {
+			private void updateFormulaBar() {
 				if (table.view.getShowFormulaBar()
 						&& (textField.hasFocus() || table.isDragging2)) {
 					table.view.getFormulaBar()
@@ -322,7 +325,7 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 		} catch (Exception ex) {
 			// show GeoGebra error dialog
 			// kernel.getApplication().showError(ex.getMessage());
-			ex.printStackTrace();
+			Log.debug(ex);
 			super.stopCellEditing();
 			editing = false;
 			return false;
@@ -333,12 +336,6 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 	// =======================================================
 	// Key and Focus Listeners
 	// =======================================================
-
-	/**
-	 * keep track of when &lt;tab&gt; was first pressed so we can return to that
-	 * column when &lt;enter&gt; pressed
-	 */
-	public int tabReturnCol = -1;
 
 	public class SpreadsheetCellEditorKeyListener implements KeyListener {
 

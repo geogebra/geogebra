@@ -34,6 +34,8 @@ import org.geogebra.desktop.euclidian.EuclidianViewD;
 public class EuclidianViewForPlaneD extends EuclidianViewD
 		implements EuclidianViewForPlaneInterface {
 
+	private int panelID;
+
 	/**
 	 * 
 	 * @param ec
@@ -72,8 +74,6 @@ public class EuclidianViewForPlaneD extends EuclidianViewD
 	public int getViewID() {
 		return panelID;
 	}
-
-	private int panelID;
 
 	/**
 	 * set panel id

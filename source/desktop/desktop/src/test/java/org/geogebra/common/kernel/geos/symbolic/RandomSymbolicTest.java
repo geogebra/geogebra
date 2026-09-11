@@ -16,18 +16,18 @@
 
 package org.geogebra.common.kernel.geos.symbolic;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.BaseSymbolicTest;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class RandomSymbolicTest extends BaseSymbolicTest {
+class RandomSymbolicTest extends BaseSymbolicTest {
 	@Test
-	public void testRandomOutputChanges() {
+	void testRandomOutputChanges() {
 		List<String> changeable = List.of(
 				"RandomBetween(1,1000000)",
 				"RandomUniform(0,1)",
@@ -50,7 +50,7 @@ public class RandomSymbolicTest extends BaseSymbolicTest {
 			s.getConstruction().updateConstruction(true);
 			changed = !oldValue.equals(s.toValueString(StringTemplate.maxDecimals));
 		}
-		assertTrue("Value of " + command + " should have changed from " + oldValue,
-				changed);
+		assertTrue(changed,
+				"Value of " + command + " should have changed from " + oldValue);
 	}
 }

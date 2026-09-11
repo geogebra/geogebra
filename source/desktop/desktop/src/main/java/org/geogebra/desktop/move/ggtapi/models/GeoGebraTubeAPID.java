@@ -23,6 +23,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.util.HttpRequest;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.util.HttpRequestD;
 
 /**
@@ -39,7 +40,7 @@ public class GeoGebraTubeAPID extends GeoGebraTubeAPI {
 	}
 
 	/**
-	 * Get Singleton GeogebraTubeAPI
+	 * Create new GeoGebra Resources API
 	 * 
 	 * @param beta
 	 *            use beta server?
@@ -78,7 +79,7 @@ public class GeoGebraTubeAPID extends GeoGebraTubeAPI {
 			// user.setGroup(userinfo.getString("group"));
 			// user.setDateCreated(userinfo.getString("date_created"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 

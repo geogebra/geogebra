@@ -206,7 +206,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 			try {
 				toggleBtnList[i].update(selectedRows);
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 				// TODO: find problem
 			}
 		}
@@ -373,7 +373,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 				setVisible(geosOK);
 
 				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos.get(0))
+					GeoElement geo = geos.get(0)
 							.getGeoElementForPropertiesDialog();
 					geoColor = ((GeoCasCell) geo).getFontColor();
 					updateColorTable();
@@ -441,7 +441,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 				boolean geosOK = checkGeoText(geos);
 				setVisible(geosOK);
 				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos.get(0))
+					GeoElement geo = geos.get(0)
 							.getGeoElementForPropertiesDialog();
 					int style = ((GeoCasCell) geo).getGeoText().getFontStyle();
 					btnBold.setSelected(style == Font.BOLD
@@ -468,7 +468,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 				setVisible(geosOK);
 				this.setVisible(geosOK);
 				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos.get(0))
+					GeoElement geo = geos.get(0)
 							.getGeoElementForPropertiesDialog();
 					int style = ((GeoCasCell) geo).getGeoText().getFontStyle();
 					btnItalic.setSelected(style == Font.ITALIC

@@ -82,12 +82,13 @@ class ColorFunctionPanel extends JPanel
 
 	private Kernel kernel;
 	private PropertiesPanelD propPanel;
+	private boolean processed = false;
 
 	/**
 	 * @param app app
 	 * @param propPanel properties panel
 	 */
-	public ColorFunctionPanel(AppD app, PropertiesPanelD propPanel) {
+	ColorFunctionPanel(AppD app, PropertiesPanelD propPanel) {
 		kernel = app.getKernel();
 		this.propPanel = propPanel;
 		model = new ColorFunctionModel(app, this);
@@ -122,7 +123,7 @@ class ColorFunctionPanel extends JPanel
 		btRemove = new JButton("\u2718");
 		btRemove.addActionListener(e -> model.removeAll());
 
-		cbColorSpace = new JComboBox();
+		cbColorSpace = new JComboBox<>();
 		cbColorSpace.addActionListener(this);
 
 		setLayout(new BorderLayout());
@@ -274,8 +275,6 @@ class ColorFunctionPanel extends JPanel
 	public void focusGained(FocusEvent arg0) {
 		processed = false;
 	}
-
-	private boolean processed = false;
 
 	@Override
 	public void focusLost(FocusEvent e) {

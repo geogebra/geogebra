@@ -16,21 +16,21 @@
 
 package org.geogebra.cas;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.AppD;
-import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.Test;
 
-public class CustomFunctionsTest {
+class CustomFunctionsTest {
 
 	private AppDNoGui app = new AppDNoGui(new LocalizationCommon(3), false);
 
 	@Test
-	public void testCheckDerivative() throws Throwable {
-		Assume.assumeFalse(AppD.MAC_OS);
+	void testCheckDerivative() throws Throwable {
+		Assumptions.assumeFalse(AppD.MAC_OS);
 		String raw = evaluateRaw("check_derivative({(-1/5*√110+1/2*x^2)^2,(1/5*√110+1/2*x^2)^2},"
 				+ "point(0,(44/10)))");
 		assertEquals("(1/5*√110+1/2*x^2)^2", raw);

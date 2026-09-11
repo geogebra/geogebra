@@ -81,11 +81,6 @@ public class GuiManager3D extends GuiManagerD {
 		dialogManagerFactory = new DialogManager3D.Factory();
 	}
 
-	@Override
-	public void initialize() {
-		super.initialize();
-	}
-
 	/**
 	 * Add 3D euclidian view to layout.
 	 */

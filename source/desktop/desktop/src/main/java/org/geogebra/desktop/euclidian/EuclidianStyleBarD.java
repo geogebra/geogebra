@@ -22,6 +22,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,7 +54,6 @@ import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
@@ -136,6 +136,7 @@ public class EuclidianStyleBarD extends JToolBar
 	protected final LocalizationD loc;
 	protected ArrayList<GeoElement> activeGeoList;
 	protected String specialJustification;
+	private boolean firstPaint = true;
 
 	/**
 	 * Class for buttons visible only when no geo is selected and no geo is to
@@ -144,11 +145,9 @@ public class EuclidianStyleBarD extends JToolBar
 	 * @author mathieu
 	 * 
 	 */
-	protected class ToggleButtonDforEV extends ToggleButtonD {
+	private final class ToggleButtonDforEV extends ToggleButtonD {
 
-		/**
-		 * 
-		 */
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		/**
@@ -159,7 +158,7 @@ public class EuclidianStyleBarD extends JToolBar
 		 * @param height
 		 *            height of the button
 		 */
-		public ToggleButtonDforEV(ScaledIcon icon, int height) {
+		private ToggleButtonDforEV(ScaledIcon icon, int height) {
 			super(icon, height);
 
 		}
@@ -170,6 +169,10 @@ public class EuclidianStyleBarD extends JToolBar
 					&& mode != EuclidianConstants.MODE_DELETE
 					&& mode != EuclidianConstants.MODE_ERASER);
 		}
+	}
+
+	protected ToggleButtonD createToggleButtonForEV(ScaledIcon icon, int height) {
+		return new ToggleButtonDforEV(icon, height);
 	}
 
 	/*************************************************
@@ -224,8 +227,6 @@ public class EuclidianStyleBarD extends JToolBar
 		setPreferredSize(d);
 
 	}
-
-	private boolean firstPaint = true;
 
 	@Override
 	public void resetFirstPaint() {
@@ -604,10 +605,10 @@ public class EuclidianStyleBarD extends JToolBar
 					setFgColor(GColor.BLACK);
 					getMySlider().setMinimum(maxMinimumThickness);
 					setSliderValue(
-							((GeoElement) geos.get(0)).getLineThickness());
+							geos.get(0).getLineThickness());
 
 					setSelectedIndex(lineStyleMap
-							.get(((GeoElement) geos.get(0)).getLineType()));
+							.get(geos.get(0).getLineType()));
 					addThisActionListenerTo(this);
 					this.setKeepVisible(EuclidianConstants.isMoveOrSelectionMode(mode));
 				}
@@ -681,7 +682,7 @@ public class EuclidianStyleBarD extends JToolBar
 					setFgColor(GColor.BLACK);
 
 					// if geo is a matrix, this will return a GeoNumeric...
-					geo = ((GeoElement) geos.get(0))
+					geo = geos.get(0)
 							.getGeoElementForPropertiesDialog();
 
 					// ... so need to check
@@ -966,7 +967,7 @@ public class EuclidianStyleBarD extends JToolBar
 				if (geosOK) {
 					// get color from first geo
 					GColor geoColor;
-					geoColor = ((GeoElement) geos.get(0)).getObjectColor();
+					geoColor = geos.get(0).getObjectColor();
 
 					// check if selection contains a fillable geo
 					// if true, then set slider to first fillable's alpha
@@ -1119,7 +1120,7 @@ public class EuclidianStyleBarD extends JToolBar
 				setVisible(geosOK);
 
 				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos.get(0))
+					GeoElement geo = geos.get(0)
 							.getGeoElementForPropertiesDialog();
 					geoColor = geo.getObjectColor();
 					updateColorTable();
@@ -1203,11 +1204,11 @@ public class EuclidianStyleBarD extends JToolBar
 			public void update(List<GeoElement> geos) {
 
 				boolean geosOK = checkGeoText(geos)
-						&& !((GeoElement) geos.get(0)).isGeoInputBox();
+						&& !geos.get(0).isGeoInputBox();
 				setVisible(geosOK);
 				this.setVisible(geosOK);
 				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos.get(0))
+					GeoElement geo = geos.get(0)
 							.getGeoElementForPropertiesDialog();
 					int style = ((TextProperties) geo).getFontStyle();
 					btnItalic.setSelected(style == Font.ITALIC
@@ -1240,7 +1241,7 @@ public class EuclidianStyleBarD extends JToolBar
 				setVisible(geosOK);
 
 				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos.get(0))
+					GeoElement geo = geos.get(0)
 							.getGeoElementForPropertiesDialog();
 					setSelectedIndex(GeoText.getFontSizeIndex(
 							((TextProperties) geo).getFontSizeMultiplier())); // font

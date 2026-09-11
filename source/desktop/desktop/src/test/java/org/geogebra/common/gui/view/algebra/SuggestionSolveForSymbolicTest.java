@@ -20,7 +20,7 @@ import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.oneOf;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,12 +29,12 @@ import java.util.stream.Collectors;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.BaseSymbolicTest;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class SuggestionSolveForSymbolicTest extends BaseSymbolicTest {
+class SuggestionSolveForSymbolicTest extends BaseSymbolicTest {
 
 	@Test
-	public void testMultiVariableSolveOnFirstEquation() {
+	void testMultiVariableSolveOnFirstEquation() {
 		GeoElement first = add("x + y = 0");
 		add("y + 1 = 0");
 		SuggestionSolveForSymbolic.get(first).execute(first);
@@ -49,7 +49,7 @@ public class SuggestionSolveForSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void incompleteVariableSets() {
+	void incompleteVariableSets() {
 		GeoElement first = add("x + y = 1");
 		add("y + z = 2");
 		add("z + x = 3");
@@ -60,7 +60,7 @@ public class SuggestionSolveForSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void incompleteVariableSetsInvalid() {
+	void incompleteVariableSetsInvalid() {
 		GeoElement first = add("x + y = 1");
 		add("y + z = 2");
 		add("z + x + a = 3");
@@ -68,7 +68,7 @@ public class SuggestionSolveForSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void incompleteVariableSetsShouldPreferPrevious() {
+	void incompleteVariableSetsShouldPreferPrevious() {
 		add("y + z = 2");
 		add("x + y = 3");
 		GeoElement first = add("x + z = 1");
@@ -81,7 +81,7 @@ public class SuggestionSolveForSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void incompleteVariableSetsShouldTakeBothPreviousAndNext() {
+	void incompleteVariableSetsShouldTakeBothPreviousAndNext() {
 		add("a + b = 2");
 		add("x + y = 3");
 		GeoElement first = add("x + z = 1");

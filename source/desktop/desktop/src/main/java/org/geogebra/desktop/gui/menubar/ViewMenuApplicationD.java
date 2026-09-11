@@ -200,13 +200,13 @@ public class ViewMenuApplicationD extends ViewMenuD {
 		private final int viewId;
 		private JCheckBoxMenuItem cb;
 
-		public ShowViewAction(DockPanelD panel) {
+		ShowViewAction(DockPanelD panel) {
 			super(app.getLocalization().getMenu(panel.getViewTitle()));
 			this.panel = panel;
 			viewId = panel.getViewId();
 		}
 
-		public void setCheckBox(JCheckBoxMenuItem cb) {
+		void setCheckBox(JCheckBoxMenuItem cb) {
 			this.cb = cb;
 		}
 
@@ -224,7 +224,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 	}
 
 	@Override
-	public void update() {
+	void update() {
 		if (!initialized) {
 			return;
 		}

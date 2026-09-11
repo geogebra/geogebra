@@ -207,7 +207,7 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 							editor.getCellEditorValue().toString());
 				}
 				data.add(new Vector<>(
-						Arrays.asList(new String[] { "", "" })));
+						Arrays.asList("", "")));
 				replaceTable.revalidate();
 				dialog.pack();
 				Rectangle r = replaceTable.getCellRect(
@@ -266,14 +266,14 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 		return app;
 	}
 
-	private class MathTextCellEditor extends AbstractCellEditor
+	private final class MathTextCellEditor extends AbstractCellEditor
 			implements TableCellEditor {
 
 		private static final long serialVersionUID = 1L;
 		boolean editing;
 		MathTextField delegate;
 
-		public MathTextCellEditor() {
+		private MathTextCellEditor() {
 			super();
 			delegate = new MathTextField(getApp());
 			editing = false;
@@ -315,10 +315,6 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 			delegate.setFont(getApp().getPlainFont());
 			editing = true;
 			return delegate;
-		}
-
-		public void insertString(String text) {
-			delegate.insertString(text);
 		}
 	}
 

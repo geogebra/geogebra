@@ -141,6 +141,9 @@ public class GeoGebraFrame extends JFrame
 		return app;
 	}
 
+	/**
+	 * @param app application
+	 */
 	public void setApplication(AppD app) {
 		this.app = app;
 	}
@@ -479,7 +482,7 @@ public class GeoGebraFrame extends JFrame
 		app.getScriptManager().ggbOnInit();
 
 		// init some things in the background
-		Thread runner = GeoGebraFrame.createAppThread(app);
+		Thread runner = new Thread(GeoGebraFrame.createStartupTask(app));
 		runner.start();
 
 		checkCommandLineExport(app);
@@ -497,15 +500,15 @@ public class GeoGebraFrame extends JFrame
 		return wnd;
 	}
 
-	private static AppThread createAppThread(AppD app) {
-		return new AppThread(app);
+	private static StartupTask createStartupTask(AppD app) {
+		return new StartupTask(app);
 	}
 
-	private static class AppThread extends Thread {
+	private static final class StartupTask implements Runnable {
 
 		AppD app;
 
-		public AppThread(AppD app) {
+		private StartupTask(AppD app) {
 			this.app = app;
 		}
 
@@ -527,7 +530,6 @@ public class GeoGebraFrame extends JFrame
 		 * @throws IOException for I/O errors
 		 */
 		private static void downloadGeoGebraJars() throws IOException {
-			ZipInputStream zis = null;
 			try {
 				// Creating working directory:
 				String updateDir = System.getenv("APPDATA")
@@ -547,21 +549,22 @@ public class GeoGebraFrame extends JFrame
 				// Unzipping:
 				// Borrowed from
 				// http://www.concretepage.com/java/read_zip_file_java.php:
-				InputStream is = new FileInputStream(filename);
-				zis = new ZipInputStream(is);
-				ZipEntry ze;
-				byte[] buff = new byte[1024];
-				while ((ze = zis.getNextEntry()) != null) {
-					// get file name
-					String name = ze.getName();
-					try (FileOutputStream fos = new FileOutputStream(
-							updateDir + File.separator + name)) {
-						Log.debug("Extracting " + name);
+				try (InputStream is = new FileInputStream(filename);
+						ZipInputStream zis = new ZipInputStream(is)) {
+					ZipEntry ze;
+					byte[] buff = new byte[1024];
+					while ((ze = zis.getNextEntry()) != null) {
+						// get file name
+						String name = ze.getName();
+						try (FileOutputStream fos = new FileOutputStream(
+								updateDir + File.separator + name)) {
+							Log.debug("Extracting " + name);
 
-						int l = 0;
-						// write buffer to file
-						while ((l = zis.read(buff)) > 0) {
-							fos.write(buff, 0, l);
+							int l;
+							// write buffer to file
+							while ((l = zis.read(buff)) > 0) {
+								fos.write(buff, 0, l);
+							}
 						}
 					}
 				}
@@ -569,10 +572,6 @@ public class GeoGebraFrame extends JFrame
 
 			} catch (RuntimeException e) {
 				Log.error("Unsuccessful update");
-			} finally {
-				if (zis != null) {
-					zis.close();
-				}
 			}
 		}
 
@@ -615,7 +614,7 @@ public class GeoGebraFrame extends JFrame
 
 			String myVersion = GeoGebraConstants.VERSION_STRING;
 			HttpRequestD httpr = new HttpRequestD();
-			String newestVersion = null;
+			String newestVersion;
 			StringBuilder sb = new StringBuilder();
 			Long newestVersionL;
 			Long currentVersionL = versionToLong(myVersion);
@@ -707,7 +706,7 @@ public class GeoGebraFrame extends JFrame
 				}
 
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				Log.debug(ex);
 			}
 
 		}
@@ -794,7 +793,7 @@ public class GeoGebraFrame extends JFrame
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		return null;
 	}
@@ -1074,8 +1073,8 @@ public class GeoGebraFrame extends JFrame
 						Log.debug("size = " + size);
 
 						exportScale = Math.min(
-								maxSize / (double) ev.getExportWidth(),
-								maxSize / (double) ev.getExportHeight());
+								maxSize / ev.getExportWidth(),
+								maxSize / ev.getExportHeight());
 						Log.debug("exportScale = " + exportScale);
 						pixelWidth = (int) Math
 								.floor(ev.getExportWidth() * exportScale);
@@ -1108,7 +1107,7 @@ public class GeoGebraFrame extends JFrame
 							+ file.getAbsolutePath());
 
 				} catch (Throwable t) {
-					t.printStackTrace();
+					Log.debug(t);
 				}
 				AppD.exit(0);
 			});

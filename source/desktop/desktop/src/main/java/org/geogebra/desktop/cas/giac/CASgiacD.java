@@ -26,6 +26,7 @@ import org.geogebra.desktop.main.AppD;
  * @author michael
  * 
  */
+@SuppressWarnings("PMD.AvoidUsingNativeCode")
 public class CASgiacD extends CASgiacJre {
 
 	private static boolean giacLoaded = false;

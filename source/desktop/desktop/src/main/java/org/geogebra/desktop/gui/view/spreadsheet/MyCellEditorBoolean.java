@@ -24,6 +24,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.desktop.awt.Log;
 
 /**
  * Cell editor for GeoBoolean.
@@ -77,7 +78,7 @@ public class MyCellEditorBoolean extends DefaultCellEditor {
 			// app.storeUndoInfo();
 
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			Log.debug(ex);
 			super.stopCellEditing();
 			editing = false;
 			return false;

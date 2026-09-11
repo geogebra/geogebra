@@ -47,7 +47,7 @@ class HelpMenuD extends BaseMenu {
 	 * 
 	 * @param app application
 	 */
-	public HelpMenuD(AppD app) {
+	HelpMenuD(AppD app) {
 		super(app, "Help");
 
 		// items are added to the menu when it's opened, see BaseMenu:
@@ -140,7 +140,7 @@ class HelpMenuD extends BaseMenu {
 	}
 
 	@Override
-	public void update() {
+	void update() {
 		if (helpAction == null) {
 			return;
 		}

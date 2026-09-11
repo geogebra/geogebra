@@ -51,6 +51,7 @@ public class DockBar extends JPanel implements SetLabels, DockBarInterface {
 
 	private boolean isEastOrientation = true;
 	private boolean showButtonBar = false;
+	private boolean sideBarHasMouse = false;
 
 	/**
 	 * Constructor
@@ -209,8 +210,6 @@ public class DockBar extends JPanel implements SetLabels, DockBarInterface {
 		// updateViewButtons();
 
 	}
-
-	private boolean sideBarHasMouse = false;
 
 	void setSideBarHasMouse(boolean flag) {
 		sideBarHasMouse = flag;

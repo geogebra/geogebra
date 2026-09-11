@@ -33,7 +33,7 @@ final class ExportGraphicsD extends GGraphics2DD {
 	private final Inequality ineq;
 	private final FunctionalNVar geo;
 
-	public ExportGraphicsD(FunctionalNVar geo, Inequality ineq, GeoGebraExport export) {
+	ExportGraphicsD(FunctionalNVar geo, Inequality ineq, GeoGebraExport export) {
 
 		// dummy canvas
 		super(new BufferedImage(5, 5, BufferedImage.TYPE_INT_RGB)

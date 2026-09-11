@@ -565,7 +565,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 	/*
 	 * PropertyChangeListener implementation to handle file filter changes
 	 */
-	private class FileFilterChangedListener implements PropertyChangeListener {
+	private final class FileFilterChangedListener implements PropertyChangeListener {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			if (getFileChooser().getFileFilter() instanceof FileExtensionFilter) {
@@ -573,7 +573,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 				if (selectedFile != null && getFileChooser().getFileFilter().accept(selectedFile)) {
 					return;
 				}
-				String fileName = null;
+				String fileName;
 				if (selectedFile != null) {
 					fileName = selectedFile.getName();
 				} else {

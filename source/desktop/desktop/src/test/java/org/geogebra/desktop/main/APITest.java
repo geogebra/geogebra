@@ -16,30 +16,30 @@
  
 package org.geogebra.desktop.main;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.editor.share.util.Unicode;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class APITest {
+class APITest {
 	private AppDNoGui app;
 	private GgbAPI api;
 
 	/**
 	 * Initialize app.
 	 */
-	@Before
-	public void setupApp() {
+	@BeforeEach
+	void setupApp() {
 		app = AlgebraTest.createApp();
 		api = app.getGgbApi();
 	}
 
 	@Test
-	public void casEvalTest() {
+	void casEvalTest() {
 		String assignResult = api.evalCommandCAS("$1:=a+a", null);
 		assertEquals("2a", assignResult);
 		String solveResult = api.evalGeoGebraCAS(
@@ -54,7 +54,7 @@ public class APITest {
 	}
 
 	@Test
-	public void casAssignmentTest() {
+	void casAssignmentTest() {
 		api.evalCommand("$1:f(x)=x");
 		assertEquals("f(x)=x", casInput(0));
 		api.evalCommand("$2:g(x):=x");
@@ -69,7 +69,7 @@ public class APITest {
 	}
 
 	@Test
-	public void getValueStringTest() {
+	void getValueStringTest() {
 		api.evalCommand("txt=\"foo\"");
 		api.evalCommand("input=InputBox(txt)");
 		api.evalCommand("a=4");
@@ -79,13 +79,13 @@ public class APITest {
 	}
 
 	@Test
-	public void casCellComparisonShouldNotCreateCASCell() {
+	void casCellComparisonShouldNotCreateCASCell() {
 		api.evalCommand("$1==8");
 		assertEquals(0, app.getKernel().getConstruction().getCASObjectNumber());
 	}
 
 	@Test
-	public void casCellComparisonShouldCheckEquality() {
+	void casCellComparisonShouldCheckEquality() {
 		api.evalCommand("$1=7");
 		// create a bool in AV
 		assertEquals("a", api.evalCommandGetLabels("$1==8"));
@@ -95,7 +95,7 @@ public class APITest {
 	}
 
 	@Test
-	public void casCellAssignmentCommandCAS() {
+	void casCellAssignmentCommandCAS() {
 		api.evalCommand("$1:=7");
 		assertEquals("7", casInput(0));
 		String evalEquation = api.evalCommandCAS("$1=8", null);

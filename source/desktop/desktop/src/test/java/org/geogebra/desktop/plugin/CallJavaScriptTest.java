@@ -18,17 +18,17 @@ package org.geogebra.desktop.plugin;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.test.LocalizationCommonUTF;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CallJavaScriptTest {
+class CallJavaScriptTest {
 
 	@Test
-	public void testAlert() {
+	void testAlert() {
 		AppDNoGui app = new AppDNoGui(new LocalizationCommonUTF(3), true);
 		CallJavaScript.evalGlobalScript(app);
 		((ScriptManagerD) app.getScriptManager()).evalJavaScript(
@@ -37,7 +37,7 @@ public class CallJavaScriptTest {
 	}
 
 	@Test
-	public void testEval() {
+	void testEval() {
 		AppDNoGui app = new AppDNoGui(new LocalizationCommonUTF(3), true);
 		CallJavaScript.evalGlobalScript(app);
 		RuntimeException ex = assertThrows(RuntimeException.class, () ->

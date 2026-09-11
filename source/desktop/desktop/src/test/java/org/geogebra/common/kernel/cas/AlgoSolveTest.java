@@ -17,7 +17,7 @@
 package org.geogebra.common.kernel.cas;
 
 import static org.geogebra.test.TestStringUtil.unicode;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -25,12 +25,12 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.suite.BaseSuiteTest;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AlgoSolveTest extends BaseSuiteTest {
+class AlgoSolveTest extends BaseSuiteTest {
 
 	@Test
-	public void testSolveResultsAreInDegrees() {
+	void testSolveResultsAreInDegrees() {
 		t("l1=Solve(sin(x)=0.5)", unicode("{x = 30*deg, x = 150*deg}"));
 		t("l4=Solve(sin(30deg)=sin(x))", unicode("{x = 30*deg, x = 150*deg}"));
 		t("l1=Solve(sin(x+5deg)=0.5)", unicode("{x = 25*deg, x = 145*deg}"));
@@ -46,7 +46,7 @@ public class AlgoSolveTest extends BaseSuiteTest {
 
 	@Test
 	@Issue("APPS-6278")
-	public void shouldNotSendTooManyZerosToCas() {
+	void shouldNotSendTooManyZerosToCas() {
 		add("f(x)=5.4 sin(((2 π)/(365)) (x-75))+12");
 		GeoElementND solve = add("NSolve(f(x)=17.4)");
 		assertEquals("{x = 166.25, x = 166.25}",
@@ -55,7 +55,7 @@ public class AlgoSolveTest extends BaseSuiteTest {
 
 	@Test
 	@Issue("APPS-6615")
-	public void shouldSendEnoughBracketsToCas() {
+	void shouldSendEnoughBracketsToCas() {
 		GeoNumeric number = add("a=0.3");
 		number.setSymbolicMode(true, false);
 		assertEquals("{x = 0.09}",
@@ -67,7 +67,7 @@ public class AlgoSolveTest extends BaseSuiteTest {
 
 	@Test
 	@Issue("APPS-6583")
-	public void testCSolutionsZ() {
+	void testCSolutionsZ() {
 		add("w=1+0i");
 		GeoList list = add("CSolutions(z^3=w)");
 		list.setSymbolicMode(true, false);
@@ -79,7 +79,7 @@ public class AlgoSolveTest extends BaseSuiteTest {
 
 	@Test
 	@Issue("APPS-6583")
-	public void testCSolveX() {
+	void testCSolveX() {
 		add("w=1+0i");
 		GeoList list = add("CSolve(x^3=w)");
 		list.setSymbolicMode(true, false);
@@ -92,7 +92,7 @@ public class AlgoSolveTest extends BaseSuiteTest {
 
 	@Test
 	@Issue("APPS-6583")
-	public void testCSolveZ() {
+	void testCSolveZ() {
 		add("w=1+0i");
 		GeoList list = add("CSolve(z^3=w)");
 		list.setSymbolicMode(true, false);

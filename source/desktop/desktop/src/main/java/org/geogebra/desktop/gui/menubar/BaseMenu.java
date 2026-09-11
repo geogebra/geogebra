@@ -53,7 +53,7 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 	 * @param key
 	 *            The title of this menu
 	 */
-	public BaseMenu(AppD app, String key) {
+	BaseMenu(AppD app, String key) {
 		super(app.getLocalization().getMenu(key));
 
 		this.app = app;
@@ -67,7 +67,7 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 	/**
 	 * Update this menu.
 	 */
-	public abstract void update();
+	abstract void update();
 
 	/**
 	 * Set the shortcut for a menu item.
@@ -133,8 +133,8 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 		}
 	}
 
-	protected abstract void initActions();
+	abstract void initActions();
 
-	protected abstract void initItems();
+	abstract void initItems();
 
 }

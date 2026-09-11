@@ -45,10 +45,8 @@ public class PropertiesStyleBar3DD extends PropertiesStyleBarD {
 	}
 
 	@Override
-	protected PropertiesButton newPropertiesButton(OptionType type) {
-
-		return new PropertiesButton();
-
+	protected boolean supportsPropertyType(OptionType type) {
+		return true;
 	}
 
 	@Override

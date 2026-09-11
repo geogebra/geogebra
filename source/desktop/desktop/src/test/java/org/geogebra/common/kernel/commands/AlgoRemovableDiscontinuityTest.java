@@ -22,12 +22,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.geogebra.common.kernel.algos.AlgoRemovableDiscontinuity;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.suite.BaseSuiteTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AlgoRemovableDiscontinuityTest extends BaseSuiteTest {
+class AlgoRemovableDiscontinuityTest extends BaseSuiteTest {
 
 	@Test
-	public void testRegressionApps2348() {
+	void testRegressionApps2348() {
 		add("a = 1");
 		GeoFunction function = add("1/(x+a)");
 		AlgoRemovableDiscontinuity algo

@@ -91,7 +91,7 @@ public class OptionsPopup<T> {
 
 		// Initialize components
 		listModel = new DelegatingListModel();
-		list = new JList(listModel);
+		list = new JList<>(listModel);
 		list.setCellRenderer(listCellRenderer);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setFocusable(false);

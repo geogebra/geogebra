@@ -102,6 +102,9 @@ public class AlgebraViewD extends AlgebraTree
 	private DefaultMutableTreeNode selectedNode;
 
 	private AlgebraHelperBar helperBar;
+	boolean attached = false;
+	private boolean showAuxiliaryObjectsSettings = false;
+	private boolean settingsChanged = false;
 
 	/** Creates new AlgebraView */
 	public AlgebraViewD(AlgebraControllerD algCtrl) {
@@ -214,8 +217,6 @@ public class AlgebraViewD extends AlgebraTree
 			model.removeNodeFromParent(auxiliaryNode);
 		}
 	}
-
-	boolean attached = false;
 
 	/**
 	 * Attach the view
@@ -664,14 +665,14 @@ public class AlgebraViewD extends AlgebraTree
 	}
 
 	/**
-	 * inner class MyEditor handles editing of tree nodes
+	 * Handles editing of tree nodes.
 	 * 
 	 * Created on 28. September 2001, 12:36
 	 */
-	private class AlgebraDefaultTreeCellEditor extends DefaultTreeCellEditor
+	private final class AlgebraDefaultTreeCellEditor extends DefaultTreeCellEditor
 			implements CellEditorListener {
 
-		public AlgebraDefaultTreeCellEditor(AlgebraViewD tree,
+		private AlgebraDefaultTreeCellEditor(AlgebraViewD tree,
 				DefaultTreeCellRenderer renderer, DefaultCellEditor editor) {
 			super(tree, renderer, editor);
 			// editor container that expands to fill the width of the tree's
@@ -991,10 +992,6 @@ public class AlgebraViewD extends AlgebraTree
 		}
 
 	}
-
-	private boolean showAuxiliaryObjectsSettings = false;
-
-	private boolean settingsChanged = false;
 
 	@Override
 	public void settingsChanged(AlgebraSettings settings) {

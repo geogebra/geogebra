@@ -41,10 +41,8 @@ import io.sf.carte.echosvg.bridge.UserAgentAdapter;
 import io.sf.carte.echosvg.gvt.GraphicsNode;
 
 public class JSVGModel implements SVGModel {
-	public static final int MAX_TRIES = 2;
 	SVGDocument doc;
 	String content;
-	private int tries = 0;
 	GraphicsNode node;
 	private int width;
 	private int height;
@@ -60,13 +58,6 @@ public class JSVGModel implements SVGModel {
 
 	public JSVGModel(SVGDocument doc) {
 		this.doc = doc;
-	}
-
-	/**
-	 * Notify about next attempt to load.
-	 */
-	public void nextTry() {
-		tries++;
 	}
 
 	public void setDoc(SVGDocument doc) {
@@ -152,10 +143,12 @@ public class JSVGModel implements SVGModel {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof JSVGModel)) return false;
-		JSVGModel jsvgModel = (JSVGModel) o;
-		return  width == jsvgModel.width && height == jsvgModel.height
+		if (this == o)  {
+			return true;
+		}
+		return (o instanceof JSVGModel jsvgModel)
+				&& width == jsvgModel.width
+				&& height == jsvgModel.height
 				&& Objects.equals(content, jsvgModel.content);
 	}
 

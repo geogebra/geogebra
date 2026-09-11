@@ -41,7 +41,7 @@ class ToolsMenuD extends BaseMenu {
 	 * @param app
 	 *            application
 	 */
-	public ToolsMenuD(AppD app) {
+	ToolsMenuD(AppD app) {
 		super(app, "Tools");
 
 		// items are added to the menu when it's opened, see BaseMenu:
@@ -110,12 +110,12 @@ class ToolsMenuD extends BaseMenu {
 	}
 
 	@Override
-	public void update() {
+	void update() {
 		updateItems();
 	}
 
 	@Override
-	protected void initItems() {
+	void initItems() {
 		//
 	}
 }

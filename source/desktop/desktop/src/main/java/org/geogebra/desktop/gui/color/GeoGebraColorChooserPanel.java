@@ -372,8 +372,9 @@ public final class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		protected Dimension prevHoverSwatch = new Dimension(-1, -1);
 
 		protected int swatchCount = 0;
+		Dimension cell = new Dimension();
 
-		public SwatchPanel() {
+		SwatchPanel() {
 
 			initValues();
 			initColors();
@@ -427,7 +428,7 @@ public final class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		}
 
 		@Override
-		public void paintComponent(Graphics g) {
+		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			Graphics2D g2d = (Graphics2D) g;
 
@@ -513,7 +514,7 @@ public final class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 			return rgbStr;
 		}
 
-		public Color getColorForLocation(int x, int y) {
+		Color getColorForLocation(int x, int y) {
 			int column;
 			if (!this.getComponentOrientation().isLeftToRight()
 					&& (this instanceof RecentSwatchPanel)) {
@@ -527,7 +528,7 @@ public final class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 			return getColorForCell(column, row);
 		}
 
-		public void setCellFromLocation(int x, int y, Dimension p) {
+		void setCellFromLocation(int x, int y, Dimension p) {
 			if (x == -1 || y == -1) {
 				p.width = -1;
 				p.height = -1;
@@ -572,7 +573,7 @@ public final class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 			return false;
 		}
 
-		protected boolean setSelectionFromColor(Color color) {
+		boolean setSelectionFromColor(Color color) {
 			if (selectedSwatch == null) {
 				selectedSwatch = new Dimension();
 			}
@@ -591,20 +592,18 @@ public final class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 			return success;
 		}
 
-		protected void setSelectionFromLocation() {
+		void setSelectionFromLocation() {
 			selectedSwatch.width = -1;
 			selectedSwatch.height = -1;
 			this.repaint();
 		}
 
-		Dimension cell = new Dimension();
-
-		protected boolean isSwatchLocation(int xLoc, int yLoc) {
+		boolean isSwatchLocation(int xLoc, int yLoc) {
 			setCellFromLocation(xLoc, yLoc, cell);
 			return isSwatchCell(cell.width, cell.height);
 		}
 
-		protected boolean isSwatchCell(int column, int row) {
+		boolean isSwatchCell(int column, int row) {
 			int count = row * numSwatches.width + column + 1;
 			return count <= swatchCount;
 		}
@@ -642,7 +641,7 @@ public final class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 			swatchCount = 0;
 		}
 
-		public void setMostRecentColor(Color c) {
+		private void setMostRecentColor(Color c) {
 
 			System.arraycopy(colors, 0, colors, 1, colors.length - 1);
 			colors[0] = GColorD.newColor(c);
@@ -686,7 +685,7 @@ public final class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 			}
 		}
 
-		public void addCustomColor(Color color) {
+		private void addCustomColor(Color color) {
 
 			if (color == null) {
 				selectedSwatch.width = -1;

@@ -49,12 +49,12 @@ class ComboPanel extends JPanel implements ActionListener,
 	private String title;
 	private AppD app;
 
-	public ComboPanel(AppD app, final String title) {
+	ComboPanel(AppD app, final String title) {
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.title = title;
 		label = new JLabel();
-		comboBox = new JComboBox();
+		comboBox = new JComboBox<>();
 
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		if (hasLabel()) {
@@ -64,7 +64,7 @@ class ComboPanel extends JPanel implements ActionListener,
 		add(comboBox);
 	}
 
-	public ComboPanel(MultipleOptionsModel model, AppD app) {
+	ComboPanel(MultipleOptionsModel model, AppD app) {
 		this(app, model.getTitle());
 		setModel(model);
 		model.setListener(this);
@@ -82,7 +82,7 @@ class ComboPanel extends JPanel implements ActionListener,
 	/**
 	 * Rebuild combo items.
 	 */
-	public void rebuildItems() {
+	void rebuildItems() {
 		int selectedIndex = comboBox.getSelectedIndex();
 		comboBox.removeActionListener(this);
 		comboBox.removeAllItems();
@@ -153,23 +153,23 @@ class ComboPanel extends JPanel implements ActionListener,
 		}
 	}
 
-	protected boolean isCommonOptionsModel() {
+	private boolean isCommonOptionsModel() {
 		return model instanceof CommonOptionsModel;
 	}
 
-	public JLabel getLabel() {
+	JLabel getLabel() {
 		return label;
 	}
 
-	public MultipleOptionsModel getMultipleModel() {
+	MultipleOptionsModel getMultipleModel() {
 		return (MultipleOptionsModel) model;
 	}
 
-	public void setModel(OptionsModel model) {
+	void setModel(OptionsModel model) {
 		this.model = model;
 	}
 
-	public String getTitle() {
+	String getTitle() {
 		return loc.getMenu(title);
 	}
 

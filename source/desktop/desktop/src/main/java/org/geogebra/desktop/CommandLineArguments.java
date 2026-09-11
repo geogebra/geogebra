@@ -161,8 +161,7 @@ public class CommandLineArguments {
 		if (strValue == null) {
 			return false;
 		}
-		strValue = strValue.toLowerCase();
-		return "true".equals(strValue) || "false".equals(strValue);
+		return "true".equalsIgnoreCase(strValue) || "false".equalsIgnoreCase(strValue);
 	}
 
 	/**

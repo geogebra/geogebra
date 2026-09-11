@@ -64,7 +64,7 @@ public class EuclidianViewTransferHandler extends TransferHandler
 			textReaderFlavor = new DataFlavor(
 					"text/plain;class=java.io.Reader");
 		} catch (ClassNotFoundException cnfe) {
-			cnfe.printStackTrace();
+			Log.debug(cnfe);
 		}
 	}
 
@@ -159,11 +159,8 @@ public class EuclidianViewTransferHandler extends TransferHandler
 						PlotPanelEuclidianViewD.plotPanelFlavor);
 				act.putValue("euclidianViewID", ev.getViewID());
 				act.actionPerformed(new ActionEvent(act, 0, null));
-			} catch (UnsupportedFlavorException e) {
-				e.printStackTrace();
-				return false;
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (UnsupportedFlavorException | IOException e) {
+				Log.debug(e);
 				return false;
 			}
 
@@ -218,7 +215,7 @@ public class EuclidianViewTransferHandler extends TransferHandler
 
 				return true;
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 				return false;
 			}
 		}
@@ -264,11 +261,10 @@ public class EuclidianViewTransferHandler extends TransferHandler
 						Reader r = textReaderFlavor.getReaderForText(t);
 						if (r != null) {
 							StringBuilder sb = new StringBuilder();
-							String line = null;
 							BufferedReader br = new BufferedReader(r);
-							line = br.readLine();
+							String line = br.readLine();
 							while (line != null) {
-								sb.append(line + "\n");
+								sb.append(line).append("\n");
 								line = br.readLine();
 							}
 							br.close();
@@ -320,10 +316,8 @@ public class EuclidianViewTransferHandler extends TransferHandler
 
 				return true;
 
-			} catch (UnsupportedFlavorException ignored) {
-				// TODO
-			} catch (IOException ignored) {
-				// TODO
+			} catch (UnsupportedFlavorException | IOException ignored) {
+				// ignore failed transfer
 			}
 		}
 		return false;

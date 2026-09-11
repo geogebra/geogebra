@@ -63,7 +63,7 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 		setTitle(loc.getMenu("Toolbar.Customize"));
 
 		// list with panels
-		JComboBox switcher = new JComboBox();
+		JComboBox<KeyValue> switcher = new JComboBox<>();
 		switcher.addItem(new KeyValue(-1, loc.getMenu("General")));
 
 		DockPanelD[] panels = ((GuiManagerD) app.getGuiManager())
@@ -115,14 +115,6 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 		btPanel.setLayout(new BoxLayout(btPanel, BoxLayout.X_AXIS));
 		btPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
-		/*
-		 * DefaultComboBoxModel model = new DefaultComboBoxModel();
-		 * model.addElement(loc.getMenu("Toolbar.Default"));
-		 * //model.addElement(loc.getMenu("Basic"));
-		 * model.addElement(loc.getMenu("Toolbar.UserDefined")); JComboBox
-		 * cbToolbar = new JComboBox(model);
-		 */
-
 		final JButton btDefaultToolbar = new JButton();
 		btPanel.add(btDefaultToolbar);
 		btDefaultToolbar.setText(loc.getMenu("Toolbar.ResetDefault"));
@@ -158,16 +150,16 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 	/**
 	 * Key value pairs.
 	 */
-	private static class KeyValue {
+	private static final class KeyValue {
 		int key;
 		String value;
 
-		public KeyValue(int key, String value) {
+		private KeyValue(int key, String value) {
 			this.key = key;
 			this.value = value;
 		}
 
-		public int getKey() {
+		private int getKey() {
 			return key;
 		}
 
@@ -178,8 +170,7 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 
 		@Override
 		public boolean equals(Object obj) {
-			if (obj instanceof KeyValue) {
-				KeyValue kv = (KeyValue) obj;
+			if (obj instanceof KeyValue kv) {
 				return kv.value.equals(this.value) && (kv.key == this.key);
 			}
 			return false;
@@ -202,7 +193,7 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 
 		if (id == -1) {
 			confPanel.setToolbar(null,
-					((GuiManagerD) app.getGuiManager()).getToolbarDefinition());
+					app.getGuiManager().getToolbarDefinition());
 		} else {
 			DockPanelD panel = ((GuiManagerD) app.getGuiManager()).getLayout()
 					.getDockManager().getPanel(id);

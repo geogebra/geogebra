@@ -129,7 +129,7 @@ public class StatTable extends JScrollPane {
 
 	}
 
-	private static class Corner extends JPanel {
+	private static final class Corner extends JPanel {
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -387,11 +387,10 @@ public class StatTable extends JScrollPane {
 
 		// iterate through the rows and find the preferred height
 		int prefHeight = table.getRowHeight();
-		int tempHeight = -1;
 		for (int row = 0; row < table.getRowCount(); row++) {
 			for (int column = 0; column < table.getColumnCount(); column++) {
 				if (table.getValueAt(row, column) != null) {
-					tempHeight = (int) table.getCellRenderer(row, column)
+					int tempHeight = (int) table.getCellRenderer(row, column)
 							.getTableCellRendererComponent(table,
 									table.getValueAt(row, column), false, false,
 									row, column)
@@ -425,11 +424,11 @@ public class StatTable extends JScrollPane {
 	// Table Cell Renderer
 	// ======================================================
 
-	private static class StatCellRenderer extends DefaultTableCellRenderer {
+	private static final class StatCellRenderer extends DefaultTableCellRenderer {
 		private static final long serialVersionUID = 1L;
 		private StatTable statTable;
 
-		public StatCellRenderer(StatTable statTable) {
+		private StatCellRenderer(StatTable statTable) {
 			// cell padding
 			setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
 			this.statTable = statTable;
@@ -473,7 +472,7 @@ public class StatTable extends JScrollPane {
 		class RowHeaderRenderer extends JLabel implements ListCellRenderer<String> {
 			private static final long serialVersionUID = 1L;
 
-			public RowHeaderRenderer(JTable table) {
+			RowHeaderRenderer(JTable table) {
 
 				if (isRowHeaderPainted) {
 					setOpaque(true);
@@ -522,7 +521,7 @@ public class StatTable extends JScrollPane {
 		protected ComboBoxCellRenderer(String text, String[] items) {
 
 			setLayout(new BorderLayout());
-			comboBox = new JComboBox(items);
+			comboBox = new JComboBox<>(items);
 			add(comboBox, loc.borderEast());
 			if (text != null) {
 				label = new JLabel(text);
@@ -557,7 +556,7 @@ public class StatTable extends JScrollPane {
 		int column;
 
 		protected ComboBoxCellEditor(String[] items) {
-			super(new JComboBox(items));
+			super(new JComboBox<>(items));
 			comboBox = (JComboBox) editorComponent;
 			comboBox.addItemListener(this);
 		}

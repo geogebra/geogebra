@@ -16,20 +16,20 @@
 
 package org.geogebra.common.gui.view.algebra.contextmenu.impl;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.gui.view.algebra.Suggestion;
 import org.geogebra.common.gui.view.algebra.SuggestionStatistics;
 import org.geogebra.common.kernel.geos.BaseSymbolicTest;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class StatisticsTest extends BaseSymbolicTest {
+class StatisticsTest extends BaseSymbolicTest {
 
 	@Test
-	public void testIsAvailable() {
+	void testIsAvailable() {
 		GeoElement list1 = add("l1={1,2,3}");
 		assertNotNull(SuggestionStatistics.get(list1));
 
@@ -48,7 +48,7 @@ public class StatisticsTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testLabelAdded() {
+	void testLabelAdded() {
 		GeoElement list1 = add("{1,2,3}");
 		Suggestion suggestion = SuggestionStatistics.get(list1);
 

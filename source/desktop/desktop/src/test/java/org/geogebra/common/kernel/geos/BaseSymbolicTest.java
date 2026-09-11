@@ -32,7 +32,7 @@ import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.Matcher;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 public class BaseSymbolicTest {
     protected AppCommon app;
@@ -40,11 +40,11 @@ public class BaseSymbolicTest {
     protected Kernel kernel;
     private UndoManager undoManager;
 
-    /**
-     * Create the app
-     */
-    @Before
-    public void setup() {
+	/**
+	 * Create the app
+	 */
+	@BeforeEach
+	void setup() {
         app = AlgebraTest.createApp(new AppConfigCas());
         kernel = app.getKernel();
         ap = kernel.getAlgebraProcessor();

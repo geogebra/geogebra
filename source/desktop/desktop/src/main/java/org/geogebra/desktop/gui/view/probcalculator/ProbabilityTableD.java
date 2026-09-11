@@ -32,6 +32,7 @@ import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityTable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.view.data.StatTable;
 import org.geogebra.desktop.main.AppD;
 
@@ -208,8 +209,7 @@ public class ProbabilityTableD extends ProbabilityTable
 			statTable.getTable().getSelectionModel()
 					.addListSelectionListener(this);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

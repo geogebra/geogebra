@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.statistics.Regression;
+import org.geogebra.desktop.awt.Log;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
@@ -74,6 +75,7 @@ public class RegressionPanelD extends JPanel
 	private JPanel predictionPanel;
 
 	private DataAnalysisModel daModel;
+	private JPanel regressionPanel;
 
 	/**
 	 * Construct a regression panel
@@ -96,8 +98,6 @@ public class RegressionPanelD extends JPanel
 		updateGUI();
 		isIniting = false;
 	}
-
-	private JPanel regressionPanel;
 
 	private JPanel createRegressionPanel() {
 
@@ -269,7 +269,7 @@ public class RegressionPanelD extends JPanel
 						.getFormulaString(highPrecision, true);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			eqn = "\\text{" + loc.getMenu("NotAvailable") + "}";
 		}
 
@@ -351,10 +351,8 @@ public class RegressionPanelD extends JPanel
 
 				fldOutputY.setText(statDialog.format(output));
 
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 	}

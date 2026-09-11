@@ -45,6 +45,8 @@ import com.jogamp.opengl.fixedfunc.GLLightingFunc;
 public class RendererImplShadersD extends RendererImplShaders {
 
 	private RendererJogl jogl;
+	private int[] vboHandles;
+	private final int[] tmp = new int[1];
 
 	/**
 	 * Constructor
@@ -71,8 +73,6 @@ public class RendererImplShadersD extends RendererImplShaders {
 	}
 
 	// private int normalMatrixLocation;
-
-	private int[] vboHandles;
 
 	@Override
 	final protected void compileShadersProgram() {
@@ -489,8 +489,6 @@ public class RendererImplShadersD extends RendererImplShaders {
 		getGL().glRenderbufferStorage(GL.GL_RENDERBUFFER,
 				GL2ES2.GL_DEPTH_COMPONENT, width, height);
 	}
-
-	private int[] tmp = new int[1];
 
 	@Override
 	protected Object genRenderbuffer() {

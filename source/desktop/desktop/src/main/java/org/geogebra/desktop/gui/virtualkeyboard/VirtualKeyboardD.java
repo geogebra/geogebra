@@ -134,6 +134,8 @@ public class VirtualKeyboardD extends JFrame
 	private final HashMap<String, KeyboardKeys> myKeys = new HashMap<>();
 
 	private Locale kbLocale = null;
+	private Timer timer;
+	private String timerInsertStr = "";
 
 	/**
 	 * This is the default constructor
@@ -265,8 +267,8 @@ public class VirtualKeyboardD extends JFrame
 			int buttonRowsNum = 4;
 			buttonSizeY = 0.25 + cpHeight / (buttonRowsNum + 1.0);
 		} else {
-			buttonSizeX = 0.15 + (double) cpWidth / (double) buttonCols;
-			buttonSizeY = 0.25 + (double) cpHeight / (double) (buttonRows + 1);
+			buttonSizeX = 0.15 + (double) cpWidth / buttonCols;
+			buttonSizeY = 0.25 + (double) cpHeight / (buttonRows + 1);
 		}
 		// if (buttonSize < 20) buttonSize = 20;
 
@@ -772,7 +774,8 @@ public class VirtualKeyboardD extends JFrame
 					return;
 
 				} // else pass on as normal
-
+			default:
+				break;
 			}
 		}
 
@@ -1281,9 +1284,6 @@ public class VirtualKeyboardD extends JFrame
 		setKEYBOARD_MODE(KEYBOARD_NORMAL);
 		updateButtons();
 	}
-
-	private Timer timer;
-	private String timerInsertStr = "";
 
 	final void startAutoRepeat(String str) {
 		if (timer == null) {

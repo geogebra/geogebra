@@ -105,6 +105,12 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	protected int orientation = SwingConstants.NORTH;
 
 	private JPanel gluePanel;
+	/**
+	 * Old width of this container.
+	 */
+	private int oldWidth;
+
+	private MouseAdapter helpMouseAdapter;
 
 	/**
 	 * @return help panel
@@ -538,11 +544,6 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	}
 
 	/**
-	 * Old width of this container.
-	 */
-	private int oldWidth;
-
-	/**
 	 * Check if we still can display a help text.
 	 */
 	@Override
@@ -556,8 +557,6 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			}
 		}
 	}
-
-	private MouseAdapter helpMouseAdapter;
 
 	/**
 	 * Update the help text.
@@ -590,7 +589,6 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		// tooltip
 		modeNameLabel.setToolTipText(app.getToolTooltipHTML(mode));
 		toolbarHelpPanel.revalidate();
-
 	}
 
 	/**
@@ -636,6 +634,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * Returns mode text and toolbar help as html text with line breaks to fit
 	 * in the given panel.
 	 */
+	@SuppressWarnings("PMD.UnusedAssignment") // possibly a bug in PMD
 	private String wrappedModeText(String modeName, String helpText,
 			JPanel panel) {
 		FontMetrics fm = getFontMetrics(app.getBoldFont());
@@ -764,13 +763,13 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * ToolbarPanel::add(Component, String) to add components, use
 	 * ToolbarPanel::show(String) to show a component.
 	 */
-	private static class ToolbarPanel extends JPanel {
+	private static final class ToolbarPanel extends JPanel {
 		private static final long serialVersionUID = 1L;
 
 		/**
 		 * Just sets the layout of this panel.
 		 */
-		public ToolbarPanel() {
+		private ToolbarPanel() {
 			super(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		}
 
@@ -780,7 +779,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		 * @param name
 		 *            view ID as string
 		 */
-		public void show(String name) {
+		private void show(String name) {
 			for (int i = 0; i < getComponentCount(); ++i) {
 				Component comp = getComponent(i);
 
@@ -804,18 +803,18 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		 * @param name
 		 *            name for the component
 		 */
-		public void add(Component comp, String name) {
+		private void add(Component comp, String name) {
 			super.add(comp);
 			comp.setName(name);
 			comp.setVisible(false);
 		}
 	}
 
-	private class PropertiesMenu extends JPopupMenu {
+	private final class PropertiesMenu extends JPopupMenu {
 
 		private static final long serialVersionUID = 1L;
 
-		public PropertiesMenu() {
+		private PropertiesMenu() {
 			initMenu();
 		}
 
@@ -840,7 +839,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		}
 
-		protected void openPropertiesView(OptionType type) {
+		private void openPropertiesView(OptionType type) {
 			int viewId = App.VIEW_PROPERTIES;
 			((PropertiesView) app.getGuiManager()
 					.getPropertiesView()).setOptionPanel(type);

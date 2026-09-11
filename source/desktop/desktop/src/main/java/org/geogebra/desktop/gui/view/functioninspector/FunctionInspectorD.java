@@ -304,13 +304,8 @@ public class FunctionInspectorD extends FunctionInspector
 
 		btnHelp = new JButton();
 		btnHelp.addActionListener(e -> {
-			Thread runner = new Thread() {
-				@Override
-				public void run() {
-					((GuiManagerD) app.getGuiManager())
-							.openHelp(ManualPage.FUNCTION_INSPECTOR_TOOL, null);
-				}
-			};
+			Thread runner = new Thread(() -> ((GuiManagerD) app.getGuiManager())
+					.openHelp(ManualPage.FUNCTION_INSPECTOR_TOOL, null));
 			runner.start();
 		});
 		btnHelp.setFocusable(false);
@@ -495,7 +490,7 @@ public class FunctionInspectorD extends FunctionInspector
 			}
 
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}

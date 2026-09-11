@@ -16,9 +16,9 @@
  
 package org.geogebra.io;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Locale;
 
@@ -45,26 +45,26 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class XmlTest {
+class XmlTest {
 
 	static AppDNoGui app;
 	private static AlgebraProcessor ap;
 
 	/** Set up app */
 	@BeforeAll
-	public static void setup() {
+	static void setup() {
 		app = new AppDNoGui(new LocalizationD(3), false);
 		ap = app.getKernel().getAlgebraProcessor();
 		app.setLanguage(Locale.US);
 	}
 
 	@Test
-	public void emptyAppTest() {
+	void emptyAppTest() {
 		XmlTestUtil.checkCurrentXML(app);
 	}
 
 	@Test
-	public void pointReloadTest() {
+	void pointReloadTest() {
 		GeoElementND p = processAlgebraCommand("P=(1,1)");
 		((GeoPoint) p).setAnimationStep(0.01);
 		app.setXML(app.getXML(), true);
@@ -72,14 +72,14 @@ public class XmlTest {
 	}
 
 	@Test
-	public void specialPointsLoadTest() {
+	void specialPointsLoadTest() {
 		app.setXML(UtilD.loadFileIntoString("src/test/resources/specialpoints.xml"), true);
 		assertEquals(20, app.getGgbApi().getAllObjectNames().length);
 	}
 
 	@Test
 	@Issue("APPS-6072")
-	public void checkAnimationSpeedsOnFileSaveAndLoad() {
+	void checkAnimationSpeedsOnFileSaveAndLoad() {
 		// Some random input
 		processAlgebraCommand("A = (1, 2)");
 		processAlgebraCommand("l = {A, (3, 4)}");
@@ -116,7 +116,7 @@ public class XmlTest {
 
 	@Test
 	@Issue("APPS-1470")
-	public void elementShouldNotBeReloadedAsVectorIfLocalVariableExists() {
+	void elementShouldNotBeReloadedAsVectorIfLocalVariableExists() {
 		processAlgebraCommand("l1 = {(1, 2), (3, 4)}");
 		processAlgebraCommand("l2 = {(0, 2), (1, 0)}");
 		processAlgebraCommand("l3 = Zip(Vector(aa, bb), aa, l1, bb, l2)");
@@ -131,7 +131,7 @@ public class XmlTest {
 
 	@Test
 	@Issue("APPS-7032")
-	public void constantElementsShouldBeOverwrittenWhenLoadingXML() {
+	void constantElementsShouldBeOverwrittenWhenLoadingXML() {
 		app.setXML("<geogebra><construction>"
 				+ "<element type=\"boolean\" label=\"zAxis\"></element>"
 				+ "<element type=\"conic\" label=\"xOyPlane\"></element>"
@@ -151,7 +151,7 @@ public class XmlTest {
 
 	@Test
 	@Issue("APPS-7282")
-	public void functionShouldNotSimplifyCoefficientsWhenLoadingOldFile() {
+	void functionShouldNotSimplifyCoefficientsWhenLoadingOldFile() {
 		processAlgebraCommand("f(x)=1x+0x+1");
 		String xml = app.getXML();
 		xml = xml.replace("<simplifyCoefficients val=\"true\"/>", "");
@@ -162,7 +162,7 @@ public class XmlTest {
 
 	@Test
 	@Issue("APPS-7345")
-	public void oldFilesShouldNotDisplayLargeNumbersUsingScientificNotation() {
+	void oldFilesShouldNotDisplayLargeNumbersUsingScientificNotation() {
 		processAlgebraCommand("a = " + MyMath.LARGEST_INTEGER);
 
 		String xml = app.getXML();
@@ -177,7 +177,7 @@ public class XmlTest {
 
 	@Test
 	@Issue("APPS-7345")
-	public void newFilesShouldDisplayLargeNumbersUsingScientificNotation() {
+	void newFilesShouldDisplayLargeNumbersUsingScientificNotation() {
 		processAlgebraCommand("a = " + MyMath.LARGEST_INTEGER);
 		app.setXML(app.getXML(), true);
 
@@ -190,7 +190,7 @@ public class XmlTest {
 	@ParameterizedTest
 	@ValueSource(strings = {"(6,7)", "Point(x=y)"})
 	@Issue({"APPS-7729", "APPS-7875"})
-	public void horizontalIncrementShouldBeSavedForFixedPoint(String definition) {
+	void horizontalIncrementShouldBeSavedForFixedPoint(String definition) {
 		GeoPoint point = (GeoPoint) processAlgebraCommand("A = " + definition);
 		point.setAnimationStep(2.2);
 		point.setVerticalIncrement(new MyDouble(app.getKernel(), 3.3));

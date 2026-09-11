@@ -176,8 +176,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	private final JPanel wrappedPanel;
 
 	protected LocalizationD loc;
-
-	// private JButton restoreDefaultsButton;
+	private boolean isSelected = false;
 
 	/***********************************************
 	 * Creates a new dialog for the properties of the Euclidian view.
@@ -1064,8 +1063,6 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		ckOpenConsProtocol.setFont(font);
 
 	}
-
-	private boolean isSelected = false;
 
 	@Override
 	public void setSelected(boolean flag) {

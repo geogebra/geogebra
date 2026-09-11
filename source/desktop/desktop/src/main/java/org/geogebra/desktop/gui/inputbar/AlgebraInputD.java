@@ -110,7 +110,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 						preview();
 					}
 
-					public void preview() {
+					private void preview() {
 						if (!inputField.isPreviewActive()) {
 							return;
 						}
@@ -521,7 +521,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		this.autoInput = string;
 	}
 
-	private class AlgebraInputErrorLogger implements ErrorLogger {
+	private final class AlgebraInputErrorLogger implements ErrorLogger {
 		@Override
 		public void resetError() {
 			showError(null);

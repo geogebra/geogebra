@@ -37,5 +37,5 @@ public interface EuclidianControllerListeners extends MouseListener,
 	 * @param evjpanel
 	 *            panel
 	 */
-	public void addListenersTo(Component evjpanel);
+	void addListenersTo(Component evjpanel);
 }

@@ -59,6 +59,7 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 	private GPoint loc;
 
 	private JMenu selectAnotherMenu;
+	private boolean geoAddedForSelectAnother = false;
 
 	/**
 	 * 
@@ -147,8 +148,6 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 
 	}
 
-	private boolean geoAddedForSelectAnother = false;
-
 	/**
 	 * 
 	 */
@@ -177,7 +176,7 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 	 * @author mathieu
 	 *
 	 */
-	private class GeoAction extends AbstractAction {
+	private final class GeoAction extends AbstractAction {
 
 		/**
 		 *
@@ -192,10 +191,9 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 		 * @param geo
 		 *            geo to choose
 		 */
-		public GeoAction(GeoElement geo) {
+		private GeoAction(GeoElement geo) {
 			super();
 			this.geo = geo;
-
 		}
 
 		@Override
@@ -205,11 +203,11 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 
 	}
 
-	private class HighlightingMouseAdapter extends MouseAdapter {
+	private final class HighlightingMouseAdapter extends MouseAdapter {
 
-		private GeoElement geo;
+		private final GeoElement geo;
 
-		public HighlightingMouseAdapter(GeoElement geo) {
+		private HighlightingMouseAdapter(GeoElement geo) {
 			this.geo = geo;
 		}
 

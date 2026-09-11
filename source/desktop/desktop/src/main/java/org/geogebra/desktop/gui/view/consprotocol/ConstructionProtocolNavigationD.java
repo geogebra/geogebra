@@ -138,9 +138,9 @@ public class ConstructionProtocolNavigationD
 		playDelay = delay;
 
 		try {
-			spDelay.setValue(Double.valueOf(playDelay));
+			spDelay.setValue(playDelay);
 		} catch (Exception e) {
-			spDelay.setValue(Integer.valueOf((int) Math.round(playDelay)));
+			spDelay.setValue((int) Math.round(playDelay));
 
 		}
 	}
@@ -320,7 +320,7 @@ public class ConstructionProtocolNavigationD
 	/**
 	 * Steps through the construction automatically.
 	 */
-	private class AutomaticPlayer implements ActionListener {
+	private final class AutomaticPlayer implements ActionListener {
 		private final Timer timer; // for animation
 
 		/**
@@ -329,11 +329,11 @@ public class ConstructionProtocolNavigationD
 		 * @param delay
 		 *            in seconds between steps
 		 */
-		public AutomaticPlayer(double delay) {
+		private AutomaticPlayer(double delay) {
 			timer = new Timer((int) (delay * 1000), this);
 		}
 
-		public synchronized void startAnimation() {
+		private synchronized void startAnimation() {
 			// dispatch events to play button
 			((AppD) app).startDispatchingEventsTo(btPlay);
 			setPlaying(true);
@@ -348,7 +348,7 @@ public class ConstructionProtocolNavigationD
 			timer.start();
 		}
 
-		public synchronized void stopAnimation() {
+		synchronized void stopAnimation() {
 			timer.stop();
 
 			// unblock application events

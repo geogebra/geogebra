@@ -1556,8 +1556,7 @@ public class ExpandConic {
 	}
 
 	private static void exp(String name, String s) {
-		String cycloCheck = "", symhomCheck = "";
-		// System.setOut(new PrintStream(new NullOutputStream()));
+		String cycloCheck = "";
 		try {
 
 			app.getKernel().getGeoGebraCAS()
@@ -1569,7 +1568,7 @@ public class ExpandConic {
 							+ "normal(g[3][2][1]-cyc(g[2][1][3])),normal(g[3][2][1]-cyc(cyc(g[1][3][2]))),"
 							+ "normal(g[3][1][2]-cyc(g[1][2][3])),normal(g[3][1][2]-cyc(cyc(g[2][3][1]))),"
 							+ "normal(g[2][2][2]-cyc(g[2][2][2]))}");
-			symhomCheck = app.getKernel().getGeoGebraCAS().evaluateRaw(
+			app.getKernel().getGeoGebraCAS().evaluateRaw(
 
 					"normal(g[2][2][2]-swapab(g[2][2][2]))");
 

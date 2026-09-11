@@ -269,7 +269,7 @@ public class SelectionTableD extends JTable {
 	// Listeners
 	// ==============================================
 
-	private class RollOverListener extends MouseInputAdapter {
+	private final class RollOverListener extends MouseInputAdapter {
 
 		@Override
 		public void mouseExited(MouseEvent e) {
@@ -389,11 +389,7 @@ public class SelectionTableD extends JTable {
 		private final Color selectionColor;
 		private final Color rollOverColor;
 
-		public SelectionCellRenderer() {
-
-			// TODO --- selection color should be centralized, not from
-			// spreadsheet
-
+		SelectionCellRenderer() {
 			selectionColor = org.geogebra.desktop.awt.GColorD.getAwtColor(
 					GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
 			rollOverColor = Color.LIGHT_GRAY;
@@ -467,7 +463,7 @@ public class SelectionTableD extends JTable {
 
 		// iterate through the rows and find the preferred width
 		int maxPrefWidth = 0;
-		int colPrefWidth = 0;
+		int colPrefWidth;
 		for (int row = 0; row < table.getRowCount(); row++) {
 			if (table.getValueAt(row, column) != null) {
 				Component component = table.getCellRenderer(row, column)
@@ -491,7 +487,7 @@ public class SelectionTableD extends JTable {
 
 		// iterate through all cells
 		int maxPrefHeight = 0;
-		int cellPrefHeight = 0;
+		int cellPrefHeight;
 		for (int r = 0; r < table.getRowCount(); r++) {
 			for (int c = 0; c < table.getColumnCount(); c++) {
 				if (table.getValueAt(r, c) != null) {

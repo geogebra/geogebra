@@ -88,7 +88,6 @@ public final class JSVGImageBuilder {
 	}
 
 	private static SVGImage newImage(JSVGModel model) {
-		model.nextTry();
 		try {
 			model.build();
 			return new SVGImage(model);

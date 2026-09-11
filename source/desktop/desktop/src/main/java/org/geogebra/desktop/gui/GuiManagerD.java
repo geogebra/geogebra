@@ -22,7 +22,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -200,6 +199,12 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	ContextMenuGeoElementD popupMenu;
 	VirtualKeyboardListener currentKeyboardListener = null;
 	private InputBarHelpPanelD inputHelpPanel;
+	private PropertiesDockPanel propertiesDockPanel = null;
+	private PropertiesViewD propertiesView;
+	VirtualKeyboardD virtualKeyboard = null;
+
+	// TextInputDialog recent symbol list
+	private ArrayList<String> recentSymbolList;
 
 	/**
 	 * Returns last filename that was used in save dialog (may be for .png,
@@ -316,8 +321,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	}
 
-	private PropertiesDockPanel propertiesDockPanel = null;
-
 	/**
 	 * 
 	 * @return the properties dock panel
@@ -370,8 +373,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			algebraView.applySettings();
 		}
 	}
-
-	private PropertiesViewD propertiesView;
 
 	@Override
 	public View getPropertiesView() {
@@ -1193,7 +1194,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public String[] getImageFromTransferable(Transferable transfer0) {
 		Transferable transfer = transfer0;
 		BufferedImage img;
-		String fileName;
 		ArrayList<String> nameList = new ArrayList<>();
 		boolean imageFound = false;
 
@@ -1205,7 +1205,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				Clipboard clip = Toolkit.getDefaultToolkit()
 						.getSystemClipboard();
 				transfer = clip.getContents(null);
-				fileName = "clipboard.png"; // extension determines what format
+				// extension determines what format
 				// it will be in ggb file
 
 			} catch (RuntimeException e) {
@@ -1218,8 +1218,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		// load image from transfer
 		try {
-
-			transfer.getTransferDataFlavors();
+			String fileName;
 
 			DataFlavor htmlFlavor = new DataFlavor(
 					"text/html; document=all; class=java.lang.String; charset=Unicode");
@@ -1390,8 +1389,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 				} else { // not running on Mac
 
-					((DialogManagerD) getDialogManager()).initFileChooser();
-					GeoGebraFileChooser fileChooser = ((DialogManagerD) getDialogManager())
+					getDialogManager().initFileChooser();
+					GeoGebraFileChooser fileChooser = getDialogManager()
 							.getFileChooser();
 
 					fileChooser.setMode(GeoGebraFileChooser.MODE_IMAGES);
@@ -1490,8 +1489,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				return dataFile;
 			}
 
-			((DialogManagerD) getDialogManager()).initFileChooser();
-			GeoGebraFileChooser fileChooser = ((DialogManagerD) getDialogManager())
+			getDialogManager().initFileChooser();
+			GeoGebraFileChooser fileChooser = getDialogManager()
 					.getFileChooser();
 
 			fileChooser.setMode(GeoGebraFileChooser.MODE_DATA);
@@ -1671,8 +1670,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			return file;
 		}
 
-		((DialogManagerD) getDialogManager()).initFileChooser();
-		GeoGebraFileChooser fileChooser = ((DialogManagerD) getDialogManager())
+		getDialogManager().initFileChooser();
+		GeoGebraFileChooser fileChooser = getDialogManager()
 				.getFileChooser();
 
 		fileChooser.setMode(GeoGebraFileChooser.MODE_GEOGEBRA_SAVE);
@@ -1864,7 +1863,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				// 'standard' case: url with GeoGebra applet (Java or HTML5)
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			Log.debug(ex);
 		}
 
 		if (!success && !suppressErrorMsg) {
@@ -1939,8 +1938,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			}
 
 			File oldCurrentFile = getApp().getCurrentFile();
-			((DialogManagerD) getDialogManager()).initFileChooser();
-			GeoGebraFileChooser fileChooser = ((DialogManagerD) getDialogManager())
+			getDialogManager().initFileChooser();
+			GeoGebraFileChooser fileChooser = getDialogManager()
 					.getFileChooser();
 
 			fileChooser.setMode(GeoGebraFileChooser.MODE_GEOGEBRA);
@@ -2043,7 +2042,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 					File file0 = files[i];
 
 					if (!file0.exists()) {
-						file0 = addExtension(file0, FileExtensions.OFF);
+						files[i] = addExtension(file0, FileExtensions.OFF);
 					}
 
 				}
@@ -2168,9 +2167,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	@Override
 	public void allowGUIToRefresh() {
-		if (!SwingUtilities.isEventDispatchThread()) {
-			return;
-		}
+		// effectively void since https://github.com/geogebra/geogebra-archive/commit/7012645d779b9331e9e60362b0046980679f5d17
 	}
 
 	/**
@@ -2579,8 +2576,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		}
 	}
 
-	VirtualKeyboardD virtualKeyboard = null;
-
 	/**
 	 * Show or hide virtual keyboard.
 	 * @param show whether to show
@@ -2619,9 +2614,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return drawingPadpopupMenu == null
 				|| !drawingPadpopupMenu.getWrappedPopup().isVisible();
 	}
-
-	// TextInputDialog recent symbol list
-	private ArrayList<String> recentSymbolList;
 
 	/**
 	 * @return list of recently used symbols

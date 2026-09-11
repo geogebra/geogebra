@@ -98,8 +98,8 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 	private void createGUIElements() {
 
 		// components
-		cbTitle1 = new JComboBox();
-		cbTitle2 = new JComboBox();
+		cbTitle1 = new JComboBox<>();
+		cbTitle2 = new JComboBox<>();
 		cbTitle1.addActionListener(this);
 		cbTitle2.addActionListener(this);
 
@@ -111,7 +111,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 		ckEqualVariances = new JCheckBox();
 
-		cbAltHyp = new JComboBox();
+		cbAltHyp = new JComboBox<>();
 		cbAltHyp.addActionListener(this);
 
 		lblNull = new JLabel();
@@ -366,6 +366,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 	@Override
 	public void focusGained(FocusEvent e) {
+		// only handle focus lost
 	}
 
 	@Override

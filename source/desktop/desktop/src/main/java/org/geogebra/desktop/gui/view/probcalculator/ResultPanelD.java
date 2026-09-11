@@ -55,7 +55,7 @@ class ResultPanelD extends JPanel implements ResultPanel {
 	 * @param vGap vertical gap
 	 * @param tab left padding
 	 */
-	public ResultPanelD(AppD app, int hGap, int vGap, int tab) {
+	ResultPanelD(AppD app, int hGap, int vGap, int tab) {
 		super(new FlowLayout(FlowLayout.LEFT, hGap, vGap));
 		this.app = app;
 		loc = app.getLocalization();
@@ -159,7 +159,7 @@ class ResultPanelD extends JPanel implements ResultPanel {
 
 	}
 
-	public void setLabels() {
+	void setLabels() {
 		lblProb.setText(loc.getMenu("Probability") + ": ");
 
 		lblEndProbOf.setText(loc.getMenu("EndProbabilityOf") + " = ");
@@ -226,7 +226,7 @@ class ResultPanelD extends JPanel implements ResultPanel {
 	 * Remove listener from all fields
 	 * @param listener listener
 	 */
-	public void removeActionListener(ActionListener listener) {
+	void removeActionListener(ActionListener listener) {
 		fldLow.removeActionListener(listener);
 		fldHigh.removeActionListener(listener);
 		fldResult.removeActionListener(listener);
@@ -236,7 +236,7 @@ class ResultPanelD extends JPanel implements ResultPanel {
 	 * Add listener to all fields
 	 * @param listener listener
 	 */
-	public void addActionListener(ActionListener listener) {
+	void addActionListener(ActionListener listener) {
 		fldLow.addActionListener(listener);
 		fldHigh.addActionListener(listener);
 		fldResult.addActionListener(listener);

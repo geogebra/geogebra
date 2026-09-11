@@ -23,19 +23,19 @@ import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class ProveCommandTest {
+class ProveCommandTest {
 	private static AppDNoGui app;
 	private static AlgebraProcessor proc;
 
 	/**
 	 * Creates the app
 	 */
-	@BeforeClass
-	public static void setup() {
+	@BeforeAll
+	static void setup() {
 		app = new AppDNoGui(new LocalizationD(3), false);
 		proc = app.getKernel().getAlgebraProcessor();
 	}
@@ -45,27 +45,27 @@ public class ProveCommandTest {
 				proc, StringTemplate.defaultTemplate);
 	}
 
-	@Before
-	public void clean() {
+	@BeforeEach
+	void clean() {
 		app.getKernel().clearConstruction(true);
 	}
 
 	@Test
-	public void cmdProveDetails() {
+	void cmdProveDetails() {
 		t("P=(1,1)", "(1, 1)");
 		t("ProveDetails[ (1,1)==(1,1) ]", "{true}");
 		t("ProveDetails[ (1,1)==P ]", "{}");
 	}
 
 	@Test
-	public void cmdProve() {
+	void cmdProve() {
 		t("P=(1,1)", "(1, 1)");
 		t("Prove[ (1,1)==(1,1) ]", "true");
 		t("Prove[ (1,1)==P ]", "?");
 	}
 
 	@Test
-	public void cmdLocusEquation() {
+	void cmdLocusEquation() {
 		t("c=Circle((0,0), 2)", TestStringUtil.unicode("x^2 + y^2 = 4"));
 		t("A=Point(c)", "(2, 0)");
 		t("O=(0, 0)", "(0, 0)");
@@ -81,7 +81,7 @@ public class ProveCommandTest {
 	}
 
 	@Test
-	public void cmdEnvelope() {
+	void cmdEnvelope() {
 		t("circ: x^2+y^2=1", unicode("x^2 + y^2 = 1"));
 		t("P=Point[circ]", "(1, 0)");
 		t("tgt=Tangent[P,circ]", "x = 1", "?");

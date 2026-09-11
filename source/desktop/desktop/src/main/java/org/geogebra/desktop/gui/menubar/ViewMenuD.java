@@ -102,7 +102,7 @@ public class ViewMenuD extends BaseMenu {
 	}
 
 	@Override
-	public void update() {
+	void update() {
 		// do nothing
 	}
 

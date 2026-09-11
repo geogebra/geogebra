@@ -105,8 +105,10 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface, ComponentList
 	SpreadsheetToolbarManager toolbarManager;
 	private FormulaBar formulaBar;
 	private JPanel spreadsheetPanel;
+	private boolean scrollToShow = false;
+	boolean allowSettingUpdate = true;
 
-	/******************************************************
+	/**
 	 * Construct spreadsheet view.
 	 */
 	public SpreadsheetViewD(AppD app) {
@@ -191,7 +193,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface, ComponentList
 	// Corners
 	// ===============================================================
 
-	private static class Corner extends JComponent {
+	private static final class Corner extends JComponent {
 		private static final long serialVersionUID = -4426785169061557674L;
 
 		@Override
@@ -484,8 +486,6 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface, ComponentList
 		return spreadsheetWrapper.isShowing();
 	}
 
-	private boolean scrollToShow = false;
-
 	public void setScrollToShow(boolean scrollToShow) {
 		this.scrollToShow = scrollToShow;
 	}
@@ -593,14 +593,13 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface, ComponentList
 		MyTextFieldD dummy = new MyTextFieldD(app);
 		dummy.setFont(font);
 		dummy.setText("9999"); // for row header width
-		int h = dummy.getPreferredSize().height;
 		int w = dummy.getPreferredSize().width;
 		rowHeader.setFixedCellWidth(w);
 
 		// TODO: column widths are not set from here
 		// need to revise updateColumnWidths() to do this correctly
 		dummy.setText("MMMMMMMMMM"); // for column width
-		h = dummy.getPreferredSize().height;
+		int h = dummy.getPreferredSize().height;
 		w = dummy.getPreferredSize().width;
 		settings().setPreferredRowHeightNoFire(h);
 		table.setPreferredColumnWidth(w);
@@ -758,12 +757,12 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface, ComponentList
 	public boolean loadSpreadsheetFromURL(File f) {
 		boolean succ = false;
 
-		URL url = null;
+		URL url;
 		try {
 			url = f.toURI().toURL();
 			succ = loadSpreadsheetFromURL(url);
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			Log.debug(ex);
 		}
 
 		return succ;
@@ -877,8 +876,6 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface, ComponentList
 	public void setEqualsRequired(boolean isEqualsRequired) {
 		table.setEqualsRequired(isEqualsRequired);
 	}
-
-	boolean allowSettingUpdate = true;
 
 	@Override
 	public void updateCellFormat(String cellFormat) {

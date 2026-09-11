@@ -62,8 +62,10 @@ class ToolToggleButton extends JToggleButton
 	private static final BasicStroke selStroke = new BasicStroke(3f);
 
 	private Timer showMenuTimer;
-	private ToolbarD toolbar;
-	private App app;
+	private final ToolbarD toolbar;
+	private final App app;
+	int defaultInitialDelay;
+	private JToolTip tip;
 
 	ToolToggleButton(ModeToggleMenuD menu, ToolbarD toolbar, App app) {
 		super();
@@ -187,7 +189,7 @@ class ToolToggleButton extends JToggleButton
 		gp.closePath();
 	}
 
-	private boolean popupTriangleClicked(int x, int y) {
+	private boolean popupTriangleClicked(int y) {
 		popupTriangleClicked = menu.size > 1 && y > iconHeight - 4;
 		return popupTriangleClicked;
 	}
@@ -198,8 +200,6 @@ class ToolToggleButton extends JToggleButton
 			menu.setPopupVisible(true);
 		}
 	}
-
-	int defaultInitialDelay;
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
@@ -214,7 +214,7 @@ class ToolToggleButton extends JToggleButton
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (!menu.isPopupShowing()
-				&& popupTriangleClicked(e.getX(), e.getY())) {
+				&& popupTriangleClicked(e.getY())) {
 			menu.setPopupVisible(true);
 			this.getModel().setArmed(false);
 		} else {
@@ -267,7 +267,7 @@ class ToolToggleButton extends JToggleButton
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if (popupTriangleClicked(e.getX(), e.getY())) {
+		if (popupTriangleClicked(e.getY())) {
 			menu.setPopupVisible(true);
 		}
 	}
@@ -279,14 +279,11 @@ class ToolToggleButton extends JToggleButton
 
 		// highlight popup menu triangle
 		if (menu.size > 1
-				&& popupTriangleHighlighting != popupTriangleClicked(e.getX(),
-				e.getY())) {
+				&& popupTriangleHighlighting != popupTriangleClicked(e.getY())) {
 			popupTriangleHighlighting = !popupTriangleHighlighting;
 			repaint();
 		}
 	}
-
-	private JToolTip tip;
 
 	@Override
 	public JToolTip createToolTip() {

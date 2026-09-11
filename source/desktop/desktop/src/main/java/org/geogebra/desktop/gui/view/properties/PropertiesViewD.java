@@ -256,7 +256,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 			layoutPanel.updateGUI();
 		}
 		if (getObjectPanel() != null) {
-			((OptionsObjectD) getObjectPanel())
+			getObjectPanel()
 					.setVisible(selectedOptionType == OptionType.OBJECTS);
 		}
 
@@ -430,7 +430,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 			advancedPanel.setLabels();
 		}
 		if (getObjectPanel() != null) {
-			((SetLabels) getObjectPanel()).setLabels();
+			getObjectPanel().setLabels();
 		}
 		if (layoutPanel != null) {
 			layoutPanel.setLabels();
@@ -538,27 +538,22 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
-
 		if (!isShowing()) {
 			return;
 		}
 
 		getObjectPanel().updateIfInSelection(geo);
 		getObjectPanel().getTree().updateAuxiliaryObject(geo);
-
 	}
 
 	@Override
 	public void repaintView() {
-
 		if (!isShowing()) {
 			return;
 		}
-
 		if (getObjectPanel() != null) {
 			getObjectPanel().getTree().repaint();
 		}
-
 	}
 
 	@Override

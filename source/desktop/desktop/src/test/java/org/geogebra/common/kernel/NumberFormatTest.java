@@ -16,7 +16,7 @@
  
 package org.geogebra.common.kernel;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -33,12 +33,12 @@ import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class NumberFormatTest {
+class NumberFormatTest {
 
 	@Test
-	public void testRounding() throws IOException, JSONException {
+	void testRounding() throws IOException, JSONException {
 		String path = "../../shared/common/src/main/resources/testData/rounding.json";
 		String content = Files.readString(Paths.get(path));
 		JSONArray cases = new JSONArray(new JSONTokener(content));
@@ -65,7 +65,7 @@ public class NumberFormatTest {
 	}
 
 	@Test
-	public void bigDecimalRounding() {
+	void bigDecimalRounding() {
 		AppCommon app = AppCommonFactory.create();
 		app.setRounding("3s");
 		assertEquals("123000", app.getKernel().format(new BigDecimal("123456"),

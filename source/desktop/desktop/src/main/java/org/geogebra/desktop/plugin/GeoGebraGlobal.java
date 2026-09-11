@@ -35,6 +35,14 @@ import org.mozilla.javascript.ScriptableObject;
 
 public class GeoGebraGlobal implements IdFunctionCall {
 
+	private static final Object FTAG = "Global";
+	private static final int Id_alert = 1;
+	private static final int Id_prompt = 2;
+	private static final int Id_setTimeout = 3;
+	private static final int Id_setInterval = 4;
+	private static final int Id_clearTimeout = 5;
+	private static final int Id_clearInterval = 6;
+	private static final int LAST_SCOPE_FUNCTION_ID = 6;
 	final App app;
 	final Localization loc;
 
@@ -108,14 +116,4 @@ public class GeoGebraGlobal implements IdFunctionCall {
 		// add geogebra methods as top level js methods
 		init(app, scope);
 	}
-
-	private static final Object FTAG = "Global";
-
-	private static final int Id_alert = 1;
-	private static final int Id_prompt = 2;
-	private static final int Id_setTimeout = 3;
-	private static final int Id_setInterval = 4;
-	private static final int Id_clearTimeout = 5;
-	private static final int Id_clearInterval = 6;
-	private static final int LAST_SCOPE_FUNCTION_ID = 6;
 }

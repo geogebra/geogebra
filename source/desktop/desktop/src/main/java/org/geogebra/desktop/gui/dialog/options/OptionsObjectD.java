@@ -51,7 +51,10 @@ public class OptionsObjectD extends OptionsObject
 	private JSplitPane splitPane;
 	private JScrollPane listScroller;
 	private JPanel wrappedPanel;
-	private AppD app;
+	private final AppD app;
+	private boolean viewActive = false;
+
+	private int dividerLocation = MIN_LIST_WIDTH;
 
 	/**
 	 * Creates new PropertiesDialog.
@@ -186,10 +189,6 @@ public class OptionsObjectD extends OptionsObject
 		viewActive = flag;
 
 	}
-
-	private boolean viewActive = false;
-
-	private int dividerLocation = MIN_LIST_WIDTH;
 
 	/**
 	 * show the geo list

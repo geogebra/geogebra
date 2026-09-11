@@ -66,6 +66,7 @@ public class SpreadsheetColumnControllerD
 	private int overTraceButtonColumn = -1;
 	/** localization */
 	final LocalizationD loc;
+	private final Rectangle rect = new Rectangle();
 
 	/**
 	 * @param app application
@@ -196,7 +197,7 @@ public class SpreadsheetColumnControllerD
 	public void mouseReleased(MouseEvent e) {
 		boolean rightClick = MouseEventUtil.isRightClick(e);
 
-		if (!((AppD) kernel.getApplication()).letShowPopupMenu()) {
+		if (!kernel.getApplication().letShowPopupMenu()) {
 			return;
 		}
 
@@ -250,8 +251,8 @@ public class SpreadsheetColumnControllerD
 				--column;
 			}
 
-			if (x <= 0) {
-				x = 0; // G.Sturr 2010-4-10 prevent x=-1 with very small row
+			if (column <= 0) {
+				column = 0; // G.Sturr 2010-4-10 prevent x=-1 with very small row
 						// size
 			}
 
@@ -479,7 +480,7 @@ public class SpreadsheetColumnControllerD
 		private Icon recordIcon = app
 				.getScaledIcon(GuiResourcesD.SPREADSHEETTRACE_RECORD);
 
-		public ColumnHeaderRenderer() {
+		ColumnHeaderRenderer() {
 			super(new BorderLayout());
 
 			lblHeader = new JLabel();
@@ -564,8 +565,6 @@ public class SpreadsheetColumnControllerD
 
 			return this;
 		}
-
-		private Rectangle rect = new Rectangle();
 
 		/**
 		 * @return true if the given mouse location (in local coordinates of the

@@ -79,7 +79,7 @@ public class CASDragGestureListener
 		table.stopEditing();
 
 		if (geoLabelList == null) {
-			geoLabelList = new ArrayList<String>();
+			geoLabelList = new ArrayList<>();
 		} else {
 			geoLabelList.clear();
 		}
@@ -134,7 +134,7 @@ public class CASDragGestureListener
 		 * @param tableRef
 		 *            table reference
 		 */
-		public TransferableCAS(ArrayList<String> geoLabelList, int tableRef) {
+		TransferableCAS(ArrayList<String> geoLabelList, int tableRef) {
 			this.geoLabels = geoLabelList;
 			this.tableRef = tableRef;
 			isAssignment = false;
@@ -173,11 +173,11 @@ public class CASDragGestureListener
 		}
 
 		/**
-		 * @param ass
+		 * @param isAssignment
 		 *            whether the cell contains assignment
 		 */
-		public void setIsAssignment(boolean ass) {
-			isAssignment = ass;
+		void setIsAssignment(boolean isAssignment) {
+			this.isAssignment = isAssignment;
 		}
 
 	}

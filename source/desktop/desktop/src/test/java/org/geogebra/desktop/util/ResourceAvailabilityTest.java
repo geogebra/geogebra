@@ -16,8 +16,8 @@
  
 package org.geogebra.desktop.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
 import java.net.URL;
@@ -29,36 +29,36 @@ import javax.swing.JPanel;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.geogebra3D.gui.GuiResources3D;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ResourceAvailabilityTest {
+class ResourceAvailabilityTest {
 
 	@Test
-	public void checkGuiResources() {
+	void checkGuiResources() {
 		for (GuiResourcesD res : GuiResourcesD.values()) {
 			String fn = res.getFilename();
 			if (!fn.startsWith("/org")) {
 				fn = "/org/geogebra/desktop/" + fn;
 			}
 			URL url = ResourceAvailabilityTest.class.getResource(fn);
-			assertNotNull("" + res, url);
+			assertNotNull(url, "" + res);
 		}
 	}
 
 	@Test
-	public void checkGuiResources3D() {
+	void checkGuiResources3D() {
 		for (GuiResources3D res : GuiResources3D.values()) {
 			String fn = res.getFilename();
 			if (!fn.startsWith("/org")) {
 				fn = "/org/geogebra/desktop/geogebra3D" + fn;
 			}
 			URL url = ResourceAvailabilityTest.class.getResource(fn);
-			assertNotNull("" + res, url);
+			assertNotNull(url, "" + res);
 		}
 	}
 
 	@Test
-	public void checkToolIcons() {
+	void checkToolIcons() {
 		StringUtil.setPrototypeIfNull(new StringUtilD());
 		ImageManagerD man = new ImageManagerD(new JPanel());
 		StringBuilder missing = new StringBuilder();
@@ -84,11 +84,11 @@ public class ResourceAvailabilityTest {
 
 		}
 
-		assertEquals(missing.toString(), 0, missing.length());
+		assertEquals(0, missing.length(), missing.toString());
 	}
 
 	@Test
-	public void imageSetsShouldBeIdentical() {
+	void imageSetsShouldBeIdentical() {
 		String commonSrc = "../../shared/common/src";
 		String lowRes = Arrays.stream(new File(
 				commonSrc + "/main/resources/org/geogebra/common/icons_toolbar/p32/")
@@ -97,6 +97,6 @@ public class ResourceAvailabilityTest {
 		String hiResFolder = commonSrc + "/main/resources/org/geogebra/common/icons_toolbar/p64/";
 		String hiRes = Arrays.stream(new File(hiResFolder).list()).sorted().collect(
 				Collectors.joining("\n"));
-		assertEquals(hiResFolder, lowRes, hiRes);
+		assertEquals(lowRes, hiRes, hiResFolder);
 	}
 }

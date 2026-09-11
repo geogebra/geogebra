@@ -38,6 +38,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PushbackInputStream;
 
+import org.geogebra.desktop.awt.Log;
+
 /**
  * This class is responsible for parsing an MPEG audio bitstream.
  */
@@ -123,10 +125,8 @@ public final class Bitstream {
 	/**
 	 * Parse ID3v2 tag header to find out size of ID3v2 frames.
 	 * 
-	 * @param in
-	 *            MP3 InputStream
 	 * @return size of ID3v2 frames + header
-	 * @throws IOException
+	 * @throws IOException if stream was closed or I/O error happened
 	 * @author JavaZOOM
 	 */
 	private int readID3v2Header() throws IOException {
@@ -239,7 +239,7 @@ public final class Bitstream {
 	}
 
 	private boolean isSyncMark(int headerString, int syncMode, int word) {
-		boolean sync = false;
+		boolean sync;
 		if (syncMode == INITIAL_SYNC) {
 			sync = ((headerString & 0xFFE00000) == 0xFFE00000); // SZD: MPEG 2.5
 		} else {
@@ -266,8 +266,7 @@ public final class Bitstream {
 	 * frame is called.
 	 */
 	int readFrameData(int byteSize) throws IOException {
-		int numread = 0;
-		numread = readFully(frameBytes, 0, byteSize);
+		int numread = readFully(frameBytes, 0, byteSize);
 		frameSize = byteSize;
 		wordPointer = -1;
 		bitIndex = -1;
@@ -283,11 +282,10 @@ public final class Bitstream {
 		byte[] byteRead = frameBytes;
 		int byteSize = frameSize;
 		for (int k = 0; k < byteSize; k = k + 4) {
-			byte b0 = 0;
+			byte b0 = byteRead[k];
 			byte b1 = 0;
 			byte b2 = 0;
 			byte b3 = 0;
-			b0 = byteRead[k];
 			if (k + 1 < byteSize) {
 				b1 = byteRead[k + 1];
 			}
@@ -310,11 +308,11 @@ public final class Bitstream {
 	 * contains the latest read bit of the stream. (1 <= numberOfBits <= 16)
 	 */
 	int getBits(int numberOfBits) {
-		int returnValue = 0;
+		int returnValue;
 		int sum = bitIndex + numberOfBits;
 		// TODO There is a problem here, wordpointer could be -1 ?!
 		if (wordPointer < 0) {
-			System.out.println("wordPointer < 0");
+			Log.debug("wordPointer < 0");
 			wordPointer = 0;
 		}
 		if (sum <= 32) {
@@ -353,20 +351,22 @@ public final class Bitstream {
 	 * 
 	 * @param b
 	 *            The byte array to read the specified number of bytes into.
-	 * @param offs
+	 * @param offset
 	 *            The index in the array where the first byte read should be
 	 *            stored.
-	 * @param len
+	 * @param length
 	 *            the number of bytes to read.
 	 * 
-	 * @exception Exception
+	 * @exception IOException
 	 *                is thrown if the specified number of bytes could not be
 	 *                read from the stream.
 	 */
-	private int readFully(byte[] b, int offs, int len) throws IOException {
+	private int readFully(byte[] b, int offset, int length) throws IOException {
 		// TODO does not in fact throw an exception, probably return not
 		// required
 		int read = 0;
+		int len = length;
+		int offs = offset;
 		while (len > 0) {
 			int bytesRead = source.read(b, offs, len);
 			if (bytesRead == -1) {
@@ -385,8 +385,10 @@ public final class Bitstream {
 	/**
 	 * Similar to readFully, but doesn't throw exception when EOF is reached.
 	 */
-	private int readBytes(byte[] b, int offs, int len) throws IOException {
+	private int readBytes(byte[] b, int offset, int length) throws IOException {
 		int totalBytesRead = 0;
+		int len = length;
+		int offs = offset;
 		while (len > 0) {
 			int bytesRead = source.read(b, offs, len);
 			if (bytesRead == -1) {

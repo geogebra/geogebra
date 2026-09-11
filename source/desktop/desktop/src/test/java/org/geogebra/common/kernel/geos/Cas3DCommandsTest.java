@@ -19,7 +19,7 @@ package org.geogebra.common.kernel.geos;
 import static org.geogebra.common.BaseUnitTest.hasValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,20 +28,20 @@ import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class Cas3DCommandsTest extends BaseSymbolicTest {
+class Cas3DCommandsTest extends BaseSymbolicTest {
 
 	private GeoGebraCAS geoGebraCAS;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		geoGebraCAS = new GeoGebraCAS(kernel);
 	}
 
 	@Test
-	public void testDistancePointAndLine3D() {
+	void testDistancePointAndLine3D() {
 		GeoSymbolic point3D = add("A := (6, 7, -3)");
 		GeoSymbolic line3D = add("g(t):=(2,1,4) + t*(3,0,-2)");
 		add("a:=Distance(A, g)");
@@ -63,7 +63,7 @@ public class Cas3DCommandsTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testDistanceWithVector() {
+	void testDistanceWithVector() {
 		GeoSymbolic vec1 = add("Vector(1, 2)");
 		GeoSymbolic vec2 = add("Vector(1, 2)");
 		ArrayList<ExpressionNode> args =

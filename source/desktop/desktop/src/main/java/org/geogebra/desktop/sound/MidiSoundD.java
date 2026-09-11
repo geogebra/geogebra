@@ -283,12 +283,9 @@ public class MidiSoundD implements MetaEventListener {
 				playSequence(seq, tickPos);
 			}
 
-		} catch (IOException e) {
-			Log.debug(e);
-		} catch (InvalidMidiDataException e) {
+		} catch (IOException | InvalidMidiDataException e) {
 			Log.debug(e);
 		}
-
 	}
 
 	private void loadSoundBank(File soundbankFile, URL soundbankURL) {
@@ -334,7 +331,7 @@ public class MidiSoundD implements MetaEventListener {
 		String noteString = "I[" + instrument + "] " + noteString0;
 		player = new Player(sequencer);
 		Pattern pattern = new Pattern(noteString);
-		PlayerThread thread = new PlayerThread(player, pattern);
+		Thread thread = new Thread(new PlayerThread(player, pattern));
 		thread.start();
 	}
 
@@ -345,7 +342,7 @@ public class MidiSoundD implements MetaEventListener {
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(
 				file == null ? url.openStream() : new FileInputStream(file),
 				StandardCharsets.UTF_8))) {
-			String text = null;
+			String text;
 			while ((text = reader.readLine()) != null) {
 				contents.append(text);
 			}
@@ -366,12 +363,12 @@ public class MidiSoundD implements MetaEventListener {
 	/**********************************************************
 	 * Class PlayerThread Thread extension that runs a JFugue MIDI player
 	 */
-	private static class PlayerThread extends Thread {
+	private static final class PlayerThread implements Runnable {
 
 		private final Pattern pattern;
 		private final Player player;
 
-		public PlayerThread(Player player, Pattern pattern) {
+		private PlayerThread(Player player, Pattern pattern) {
 			this.player = player;
 			this.pattern = pattern;
 		}

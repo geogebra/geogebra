@@ -51,6 +51,7 @@ public class TypescriptGenerator {
 	}
 
 	@Test
+	@SuppressWarnings("PMD.SystemPrintln")
 	public void generate() {
 		Method[] methods = DefaultExportedApi.class.getMethods();
 		Arrays.sort(methods, Comparator.comparing(Method::getName));

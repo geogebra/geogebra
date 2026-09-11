@@ -24,7 +24,6 @@ import javax.swing.JComponent;
 
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.layout.DockPanelD;
-import org.geogebra.desktop.gui.view.properties.PropertiesStyleBarD;
 import org.geogebra.desktop.gui.view.properties.PropertiesViewD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -78,7 +77,7 @@ public class PropertiesDockPanel extends DockPanelD
 	@Override
 	protected JComponent loadStyleBar() {
 		getPropertiesView();
-		return ((PropertiesStyleBarD) view.getStyleBar()).getWrappedPanel();
+		return view.getStyleBar().getWrappedPanel();
 	}
 
 	@Override

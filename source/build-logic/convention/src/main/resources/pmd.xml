@@ -14,6 +14,7 @@
     <exclude-pattern>.*/org/geogebra/common/kernel/parser/.*</exclude-pattern>
     <exclude-pattern>.*/org/geogebra/common/kernel/prover/polynomial/.*</exclude-pattern>
     <exclude-pattern>.*/org/geogebra/editor/share/io/latex.*</exclude-pattern>
+    <exclude-pattern>.*/org/geogebra/desktop/gui/editor/.*</exclude-pattern>
     <!-- We'll use the entire 'strings' ruleset -->
     <rule ref="category/java/bestpractices.xml">
         <exclude name="AccessorMethodGeneration"/>
@@ -84,6 +85,11 @@
             <property name="reportStaticMethods" value="false"/>
         </properties>
     </rule>
+    <rule ref="category/java/codestyle.xml/VariableDeclarationUsageDistance">
+        <properties>
+            <property name="violationSuppressXPath" value="//PackageDeclaration[matches(@Name, 'org.geogebra.desktop.*')]"/>
+        </properties>
+    </rule>
     <rule ref="category/java/design.xml">
         <exclude name="ImmutableField"/>
         <exclude name="UseObjectForClearerAPI"/>
@@ -125,6 +131,7 @@
     <rule ref="category/java/design.xml/AvoidDeeplyNestedIfStmts">
         <properties>
             <property name="problemDepth" value="4"/>
+            <property name="violationSuppressXPath" value="//PackageDeclaration[matches(@Name, 'org.geogebra.desktop.*')]"/>
         </properties>
     </rule>
     <rule ref="category/java/documentation.xml">
@@ -156,6 +163,12 @@
     <rule ref="category/java/errorprone.xml/AvoidCatchingGenericException">
         <properties>
             <property name="typesThatShouldNotBeCaught" value="java.lang.NullPointerException,java.lang.ClassCastException" />
+        </properties>
+    </rule>
+    <rule ref="category/java/errorprone.xml/WrongTestAnnotation">
+        <properties>
+            <!-- migrating web tests to Jupiter TBD -->
+            <property name="violationSuppressXPath" value="//PackageDeclaration[matches(@Name, 'org\.geogebra\.(keyboard\.)?web\.*')]"/>
         </properties>
     </rule>
 

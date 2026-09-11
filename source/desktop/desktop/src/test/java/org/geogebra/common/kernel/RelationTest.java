@@ -28,10 +28,10 @@ import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.factories.CASFactoryD;
 import org.geogebra.desktop.factories.UtilFactoryD;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class RelationTest extends BaseUnitTest {
+class RelationTest extends BaseUnitTest {
 
 	private GeoElement A;
 	private GeoElement B;
@@ -43,8 +43,8 @@ public class RelationTest extends BaseUnitTest {
 	/**
 	 * Initialize objects
 	 */
-	@Before
-	public void setupObjects() {
+	@BeforeEach
+	void setupObjects() {
 		UtilFactory.setPrototypeIfNull(new UtilFactoryD());
 		getApp().setCASFactory(new CASFactoryD());
 		A = add("A=(0,0)");
@@ -59,7 +59,7 @@ public class RelationTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void moreButtonShouldShowNDGS() {
+	void moreButtonShouldShowNDGS() {
 		Relation rel = new Relation(getApp(), A, B, C, null);
 		assertThat(rel.getRows()[0].getInfo(),
 				containsString("collinear"));
@@ -69,7 +69,7 @@ public class RelationTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void moreButtonShouldShowNDGSPath() {
+	void moreButtonShouldShowNDGSPath() {
 		Relation rel = new Relation(getApp(), f, C, null, null);
 		assertThat(rel.getRows()[0].getInfo(),
 				containsString("lies on"));
@@ -79,7 +79,7 @@ public class RelationTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void relationOrdering() {
+	void relationOrdering() {
 		Relation rel = new Relation(getApp(), a, b, null, null);
 		RelationPane.RelationRow[] rows = rel.getRows();
 		assertThat(rows[0].getInfo(),

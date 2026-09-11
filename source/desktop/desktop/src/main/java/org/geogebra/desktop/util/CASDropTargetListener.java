@@ -195,14 +195,12 @@ public class CASDropTargetListener implements DropTargetListener {
 				table.updateAllRows();
 				table.repaint();
 				dropEvent.dropComplete(false);
-				return;
 			}
 
 		} catch (Exception e) {
 			Log.debug("CASDropTargetListener: exception in drop");
-			e.printStackTrace();
+			Log.debug(e);
 		}
-
 	}
 
 	@Override

@@ -17,7 +17,6 @@
 package org.geogebra.web.full.main;
 
 import org.geogebra.web.full.main.activity.EvaluatorActivity;
-import org.geogebra.web.full.main.activity.EvaluatorExportedApi;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;

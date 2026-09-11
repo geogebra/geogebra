@@ -19,7 +19,6 @@ package org.geogebra.desktop.gui.dialog;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
-import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.DynamicCaptionModel;
 import org.geogebra.common.gui.dialog.options.model.EnableDynamicCaptionModel;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
@@ -27,7 +26,7 @@ import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.util.SpringUtilities;
 import org.geogebra.desktop.main.AppD;
 
-public class DynamicCaptionPanelD extends OptionPanel implements SetLabels, IComboListener {
+public class DynamicCaptionPanelD extends OptionPanel implements IComboListener {
 	private final EnableDynamicCaptionPanel enableDynamicCaption;
 	private final ComboPanel captions;
 	private final SpringLayout springLayout;

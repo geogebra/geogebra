@@ -78,10 +78,10 @@ public class NativeLibClassPathLoader {
 	}
 
 	/**
-	 * Write the content of the inputstream into a tempfile with the given
-	 * filename
+	 * Write the content of the input stream into a temporary file with the given
+	 * filename.
 	 * 
-	 * @param ins input stream
+	 * @param ins input stream: caller is responsible for closing it
 	 * @param filename filename
 	 * @throws FileNotFoundException when file not found
 	 * @throws IOException when other I/O problem occurs
@@ -91,28 +91,12 @@ public class NativeLibClassPathLoader {
 
 		File tmpFile = new File(System.getProperty("java.io.tmpdir"), filename);
 		UtilD.delete(tmpFile);
-		FileOutputStream fos = null;
-		try {
-			fos = new FileOutputStream(tmpFile);
-
+		try (FileOutputStream fos = new FileOutputStream(tmpFile)) {
 			byte[] buffer = new byte[1024];
 			int len;
 			while ((len = ins.read(buffer)) != -1) {
 
 				fos.write(buffer, 0, len);
-			}
-		} finally {
-			if (ins != null) {
-
-				// need try/catch to be sure fos gets closed
-				try {
-					ins.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			if (fos != null) {
-				fos.close();
 			}
 		}
 		return tmpFile;

@@ -116,11 +116,11 @@ public class ToolCreationDialogD extends Dialog
 		}
 	}
 
-	private static class OutputListModel extends DefaultListModel {
+	private static final class OutputListModel extends DefaultListModel {
 		private static final long serialVersionUID = 1L;
 		private DefaultComboBoxModel cbOutputAddList;
 
-		public OutputListModel(DefaultComboBoxModel cbOutputAddList) {
+		private OutputListModel(DefaultComboBoxModel cbOutputAddList) {
 			this.cbOutputAddList = cbOutputAddList;
 		}
 
@@ -156,11 +156,11 @@ public class ToolCreationDialogD extends Dialog
 
 	}
 
-	private static class InputListModel extends DefaultListModel {
+	private static final class InputListModel extends DefaultListModel {
 		private static final long serialVersionUID = 1L;
 		private DefaultComboBoxModel cbInputAddList;
 
-		public InputListModel(DefaultComboBoxModel cbInputAddList) {
+		private InputListModel(DefaultComboBoxModel cbInputAddList) {
 			this.cbInputAddList = cbInputAddList;
 		}
 
@@ -365,8 +365,8 @@ public class ToolCreationDialogD extends Dialog
 
 	private void initLists() {
 		// input and output objects combobox
-		cbOutputAddList = new DefaultComboBoxModel();
-		cbInputAddList = new DefaultComboBoxModel() {
+		cbOutputAddList = new DefaultComboBoxModel<>();
+		cbInputAddList = new DefaultComboBoxModel<>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -566,7 +566,7 @@ public class ToolCreationDialogD extends Dialog
 
 		// CENTER: combobox, list and some buttons on the right
 		// combobox to add geos
-		final JComboBox cbAdd = new JComboBox(cbModel);
+		final JComboBox<GeoElement> cbAdd = new JComboBox<>(cbModel);
 		// listener for the combobox
 		MyComboBoxListener ac = new MyComboBoxListener() {
 			@Override
@@ -592,7 +592,7 @@ public class ToolCreationDialogD extends Dialog
 		cbAdd.addMouseListener(ac);
 
 		// list to show selected geos
-		JList list = new JList(listModel);
+		JList list = new JList<>(listModel);
 		panel.add(
 				createListUpDownRemovePanel(loc, list, cbAdd, true,
 						showUpDownButtons, allowMultiple, listener),

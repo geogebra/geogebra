@@ -81,7 +81,7 @@ class FileMenuD extends BaseMenu {
 	 * @param app
 	 *            application
 	 */
-	public FileMenuD(AppD app) {
+	FileMenuD(AppD app) {
 		super(app, "File");
 
 		// items are added to the menu when it's opened, see BaseMenu:
@@ -92,7 +92,7 @@ class FileMenuD extends BaseMenu {
 	 * Initialize all items.
 	 */
 	@Override
-	public void initItems() {
+	protected void initItems() {
 		if (!initialized) {
 			return;
 		}
@@ -447,7 +447,7 @@ class FileMenuD extends BaseMenu {
 						d.setVisible(true);
 					} catch (Exception e1) {
 						Log.debug("WorksheetExportDialog not available");
-						e1.printStackTrace();
+						Log.debug(e1);
 					}
 					app.setDefaultCursor();
 				});
@@ -477,7 +477,7 @@ class FileMenuD extends BaseMenu {
 
 					} catch (Exception e1) {
 						Log.debug("Uploading failed");
-						e1.printStackTrace();
+						Log.debug(e1);
 					}
 					app.setDefaultCursor();
 				});
@@ -495,7 +495,7 @@ class FileMenuD extends BaseMenu {
 				try {
 					app.setExport3D(new FormatSTL());
 				} catch (Exception ex) {
-					ex.printStackTrace();
+					Log.debug(ex);
 					Log.debug("Problem exporting to STL");
 				}
 			}
@@ -535,7 +535,7 @@ class FileMenuD extends BaseMenu {
 	}
 
 	@Override
-	public void update() {
+	protected void update() {
 		// not needed
 	}
 

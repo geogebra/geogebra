@@ -854,38 +854,29 @@ public class CASTableD extends JTable implements CASTable {
 
 		}
 
-		CASTableCell rollOverCell = null;
+		// shade the all rows except the editing row
 
-		{
+		g2.setColor(new Color(0, 100, 100, 15));
+		if (rollOverRow >= 0 && highlight) {
+			CASTableCell rollOverCell = (CASTableCell) getCellRenderer(rollOverRow,
+					COL_CAS_CELLS).getTableCellRendererComponent(this, null,
+							false, false, rollOverRow, COL_CAS_CELLS);
 
-			// shade the all rows except the editing row
+			int offset = rollOverCell.outputPanel.getY();
 
-			g2.setColor(new Color(0, 100, 100, 15));
+			Rectangle r = getCellRect(rollOverRow, COL_CAS_CELLS, true);
 
-			if (rollOverRow >= 0 && highlight) {
-
-				rollOverCell = (CASTableCell) getCellRenderer(rollOverRow,
-						COL_CAS_CELLS).getTableCellRendererComponent(this, null,
-								false, false, rollOverRow, COL_CAS_CELLS);
-
-				int offset = rollOverCell.outputPanel.getY();
-
-				Rectangle r = getCellRect(rollOverRow, COL_CAS_CELLS, true);
-
-				if (!isAltDown) {
-					r.y = r.y + offset;
-					r.height = r.height - offset;
-				}
-
-				g2.setColor(new Color(0, 0, 200, 40));
-				g2.fillRect(r.x + 2, r.y + 2, r.width - 6, r.height - 6);
-				g2.setColor(Color.GRAY);
-				g2.setStroke(dashed);
-				g2.drawRect(r.x + 1, r.y + 1, r.width - 4, r.height - 4);
+			if (!isAltDown) {
+				r.y = r.y + offset;
+				r.height = r.height - offset;
 			}
 
+			g2.setColor(new Color(0, 0, 200, 40));
+			g2.fillRect(r.x + 2, r.y + 2, r.width - 6, r.height - 6);
+			g2.setColor(Color.GRAY);
+			g2.setStroke(dashed);
+			g2.drawRect(r.x + 1, r.y + 1, r.width - 4, r.height - 4);
 		}
-
 	}
 
 	@Override

@@ -244,7 +244,7 @@ public class EuclidianViewD extends EuclidianView
 	 * Switch to default cursor
 	 */
 	public void setDefaultCursor() {
-
+		// TODO either remove or replace with app.setDefaultCursor()
 	}
 
 	@Override
@@ -538,6 +538,7 @@ public class EuclidianViewD extends EuclidianView
 		g2d.scale(getPixelRatio(), getPixelRatio());
 	}
 
+	@Override
 	protected void drawBackgroundImage(GGraphics2D g2d) {
 		paintBackground(g2d);
 	}
@@ -560,6 +561,7 @@ public class EuclidianViewD extends EuclidianView
 		}
 	}
 
+	@Override
 	public double getPixelRatio() {
 		return pixelRatio;
 	}
@@ -981,6 +983,7 @@ public class EuclidianViewD extends EuclidianView
 	/**
 	 * @return cursor used when no object hit or selected
 	 */
+	@Override
 	public EuclidianCursor getDefaultCursor() {
 		return EuclidianCursor.CROSSHAIR;
 	}

@@ -59,7 +59,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
-import org.geogebra.desktop.gui.layout.panels.EuclidianDockPanelAbstract;
 import org.geogebra.desktop.gui.toolbar.ToolbarContainer;
 import org.geogebra.desktop.gui.toolbar.ToolbarD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
@@ -1137,7 +1136,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 
 		Container parent = getParent();
 
-		if (parent == null || !(parent instanceof DockSplitPane)) {
+		if (!(parent instanceof DockSplitPane)) {
 			return null;
 		}
 		return (DockSplitPane) parent;
@@ -1154,7 +1153,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		DockSplitPane parentDSP;
 
 		while (parent instanceof DockSplitPane) {
-			int defType = -1;
+			int defType;
 
 			parentDSP = (DockSplitPane) parent;
 
@@ -1174,10 +1173,10 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 				}
 			}
 
-			if (def.length() == 0) {
+			if (def.isEmpty()) {
 				def.append(defType);
 			} else {
-				def.append("," + defType);
+				def.append(",").append(defType);
 			}
 
 			current = parent;

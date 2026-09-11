@@ -20,6 +20,8 @@ import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 
+import org.geogebra.desktop.awt.Log;
+
 //
 /**
  * adapted from
@@ -61,7 +63,7 @@ public class WindowsUnicodeKeyboard extends Keyboard {
 				typeNumPad(digit);
 				typeNumPad(unicodeDigits);
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				Log.debug(ex);
 			}
 
 			windowsRobot.keyRelease(KeyEvent.VK_ALT);

@@ -72,18 +72,17 @@ class TextOptionsPanelD extends JPanel
 	private JPanel secondLine;
 	private TextEditPanel editPanel;
 
-	public TextOptionsPanelD(PropertiesPanelD propertiesPanelD) {
-
+	TextOptionsPanelD(PropertiesPanelD propertiesPanelD) {
 		this.propertiesPanelD = propertiesPanelD;
 		model = new TextOptionsModel(this.propertiesPanelD.app);
 		model.setListener(this);
 
-		cbFont = new JComboBox(model.getFonts());
+		cbFont = new JComboBox<>(model.getFonts());
 		cbFont.addActionListener(this);
 
 		// font size
 		// TODO require font phrases F.S.
-		cbSize = new JComboBox(model.getFontSizes());
+		cbSize = new JComboBox<>(model.getFontSizes());
 		cbSize.addActionListener(this);
 		cbFont.addFocusListener(this);
 		// toggle buttons for bold and italic
@@ -97,7 +96,7 @@ class TextOptionsPanelD extends JPanel
 
 		// decimal places
 		ComboBoxRenderer renderer = new ComboBoxRenderer();
-		cbDecimalPlaces = new JComboBox(
+		cbDecimalPlaces = new JComboBox<>(
 				this.propertiesPanelD.loc.getRoundingMenu());
 		cbDecimalPlaces.setRenderer(renderer);
 		cbDecimalPlaces.addActionListener(this);
@@ -123,7 +122,7 @@ class TextOptionsPanelD extends JPanel
 		add(secondLine, BorderLayout.SOUTH);
 	}
 
-	public void setEditPanel(TextEditPanel tep) {
+	void setEditPanel(TextEditPanel tep) {
 		this.editPanel = tep;
 	}
 
@@ -158,7 +157,7 @@ class TextOptionsPanelD extends JPanel
 		private static final long serialVersionUID = 1L;
 		JSeparator separator;
 
-		public ComboBoxRenderer() {
+		ComboBoxRenderer() {
 			setOpaque(true);
 			setBorder(new EmptyBorder(1, 1, 1, 1));
 			separator = new JSeparator(SwingConstants.HORIZONTAL);
@@ -190,7 +189,7 @@ class TextOptionsPanelD extends JPanel
 		return update();
 	}
 
-	public JPanel update() {
+	JPanel update() {
 		// check geos
 		if (!model.checkGeos()) {
 			model.cancelEditGeo();

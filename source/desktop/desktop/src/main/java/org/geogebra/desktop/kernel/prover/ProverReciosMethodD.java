@@ -128,9 +128,7 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 		BigInteger[][] cache = new BigInteger[n][n];
 		BigInteger[] coordinates = new BigInteger[n];
 
-		Runtime runtime = Runtime.getRuntime();
-		int useProcessors = runtime.availableProcessors() - 1;
-		useProcessors = 0; // do not use threads until #3399 is fixed
+		int useProcessors = 0; // do not use threads until #3399 is fixed
 
 		pointTesters = new PointTester[useProcessors];
 		threads = new Thread[useProcessors];
@@ -245,7 +243,6 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 						ProverSettings.get().transcext, as.getFreeVariables());
 				Log.debug("Recio meets Botana (threaded): " + substitutions);
 				if (solvable.boolVal()) {
-					wrong = true;
 					break;
 				}
 			} else {
@@ -299,9 +296,9 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 		PVariable[] variables;
 		ProverReciosMethodD prover;
 		SymbolicParameters s;
-		public int nrOfTests;
+		private int nrOfTests;
 
-		public PointTester(final ProverReciosMethodD prover,
+		private PointTester(final ProverReciosMethodD prover,
 				final HashMap<PVariable, BigInteger> values,
 				final PVariable[] variables, final SymbolicParameters s) {
 			this.prover = prover;

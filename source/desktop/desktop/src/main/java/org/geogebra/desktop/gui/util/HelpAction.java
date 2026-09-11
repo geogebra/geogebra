@@ -52,12 +52,7 @@ public class HelpAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Thread runner = new Thread() {
-			@Override
-			public void run() {
-				app.getGuiManager().openHelp(articleName, null);
-			}
-		};
+		Thread runner = new Thread(() -> app.getGuiManager().openHelp(articleName, null));
 		runner.start();
 	}
 

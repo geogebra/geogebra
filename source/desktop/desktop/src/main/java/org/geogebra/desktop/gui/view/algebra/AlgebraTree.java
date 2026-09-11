@@ -393,7 +393,7 @@ public class AlgebraTree extends JTree {
 			try {
 				((DefaultTreeModel) getModel()).nodeChanged(node);
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 			/*
 			 * Cancel editing if the updated geo element has been edited, but
@@ -665,17 +665,17 @@ public class AlgebraTree extends JTree {
 			SortMode mode) {
 		// alphabetical
 		if (mode == SortMode.ORDER) {
-			int geo1Index = -1;
-			int geo2index = -1;
+			int geo1Index;
+			int geo2index;
 			// use index of twinGeo instead of corresponding geoCasCell
-			if (geo1.getParentAlgorithm() != null && geo1
+			if (geo1
 					.getParentAlgorithm() instanceof AlgoDependentCasCell) {
 				geo1Index = geo1.getAlgoDepCasCellGeoConstIndex();
 			} else {
 				geo1Index = geo1.getConstructionIndex();
 			}
 			// use index of twinGeo instead of corresponding geoCasCell
-			if (geo2.getParentAlgorithm() != null && geo2
+			if (geo2
 					.getParentAlgorithm() instanceof AlgoDependentCasCell) {
 				geo2index = geo2.getAlgoDepCasCellGeoConstIndex();
 			} else {

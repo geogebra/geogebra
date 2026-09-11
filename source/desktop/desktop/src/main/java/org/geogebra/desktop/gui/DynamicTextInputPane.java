@@ -403,11 +403,11 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 			this.mode = mode;
 		}
 
-		private class ArrowKeyListener extends KeyAdapter {
+		private final class ArrowKeyListener extends KeyAdapter {
 
 			private final DynamicTextField tf;
 
-			public ArrowKeyListener(DynamicTextField tf) {
+			private ArrowKeyListener(DynamicTextField tf) {
 				this.tf = tf;
 			}
 

@@ -46,7 +46,7 @@ public class MyCellEditorList extends DefaultCellEditor
 	 * Creates the editor
 	 */
 	public MyCellEditorList() {
-		super(new JComboBox());
+		super(new JComboBox<>());
 		comboBox = (JComboBox) editorComponent;
 		comboBox.setRenderer(new SpreadsheetCellRendererD.GeoElementListCellRenderer());
 		model = new DefaultComboBoxModel<>();

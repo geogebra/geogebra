@@ -290,17 +290,15 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 
 	}
 
-	private class ProjectionButtons {
+	private final class ProjectionButtons {
 
-		private JButton[] buttons;
+		private final JButton[] buttons;
 
 		private int buttonSelected;
 
-		private EuclidianView3D view;
-
 		private ProjectionButtons(OptionsEuclidian3DD options) {
 
-			view = options.view;
+			EuclidianView3D view = options.view;
 
 			buttons = new JButton[4];
 
@@ -332,7 +330,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 
 		}
 
-		public void updateIcons() {
+		private void updateIcons() {
 			if (buttons == null) {
 				return;
 			}
@@ -624,11 +622,11 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 		zAxisPanel.updateFont();
 	}
 
-	private static class AxisPanel3D extends AxisPanel {
+	private static final class AxisPanel3D extends AxisPanel {
 		private static final long serialVersionUID = 1L;
-		final static protected int AXIS_Z = 2;
+		private static final int AXIS_Z = 2;
 
-		public AxisPanel3D(AppD app, EuclidianView view, int axis) {
+		private AxisPanel3D(AppD app, EuclidianView view, int axis) {
 			super(app, view, axis);
 		}
 

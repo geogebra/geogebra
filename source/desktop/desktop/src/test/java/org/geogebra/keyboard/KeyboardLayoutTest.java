@@ -20,7 +20,7 @@ import static org.geogebra.test.OrderingComparison.greaterThanOrEqualTo;
 import static org.geogebra.test.OrderingComparison.lessThanOrEqualTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,11 +35,11 @@ import org.geogebra.keyboard.base.impl.DefaultKeyboardFactory;
 import org.geogebra.keyboard.base.model.KeyboardModel;
 import org.geogebra.keyboard.base.model.Row;
 import org.geogebra.keyboard.base.model.WeightedButton;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class KeyboardLayoutTest {
+class KeyboardLayoutTest {
 	@Test
-	public void testSpecialTab() {
+	void testSpecialTab() {
 		KeyboardFactory kbf = new DefaultKeyboardFactory();
 		KeyboardModel kb = kbf.createSpecialSymbolsKeyboard().getModel();
 		StringBuilder actions = new StringBuilder();
@@ -61,7 +61,7 @@ public class KeyboardLayoutTest {
 	}
 
 	@Test
-	public void testSpecialTabWithTemplateButtons() {
+	void testSpecialTabWithTemplateButtons() {
 		KeyboardFactory kbf = new DefaultKeyboardFactory(
 				new DefaultKeyboardFactory.BaseTemplateKeyProvider());
 		KeyboardModel kb = kbf.createSpecialSymbolsKeyboard().getModel();
@@ -87,7 +87,7 @@ public class KeyboardLayoutTest {
 	}
 
 	@Test
-	public void letterTabTest() {
+	void letterTabTest() {
 		LocalizationCommon localization =
 				(LocalizationCommon) AppCommonFactory.create().getLocalization();
 		KeyboardRowDefinitionProvider latinProvider = new KeyboardRowDefinitionProvider(

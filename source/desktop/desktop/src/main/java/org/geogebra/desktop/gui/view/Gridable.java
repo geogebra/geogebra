@@ -32,24 +32,24 @@ public interface Gridable {
 	 * @return the widths of all the columns in the grid (in order from left to
 	 *         right)
 	 */
-	public int[] getGridColwidths();
+	int[] getGridColwidths();
 
 	/**
 	 * @return the heights of all the rows in the grid (in order from top to
 	 *         bottom)
 	 */
-	public int[] getGridRowHeights();
+	int[] getGridRowHeights();
 
 	/**
 	 * @return application
 	 */
-	public AppD getApplication();
+	AppD getApplication();
 
 	/**
 	 * 
 	 * @return the components on which the print method is used, they will be
 	 *         put together according to the placement in the 2D-array
 	 */
-	public Component[][] getPrintComponents();
+	Component[][] getPrintComponents();
 
 }

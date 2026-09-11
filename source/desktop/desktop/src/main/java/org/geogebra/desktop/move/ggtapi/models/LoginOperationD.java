@@ -24,7 +24,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.move.events.GenericEvent;
-import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
@@ -38,6 +37,7 @@ import org.geogebra.common.move.views.EventRenderable;
  * @author stefan
  */
 public class LoginOperationD extends LogInOperation {
+	private GeoGebraTubeAPID api;
 
 	/**
 	 * Initializes the LoginOperation for Desktop by creating the corresponding
@@ -55,13 +55,11 @@ public class LoginOperationD extends LogInOperation {
 		doPerformTokenLogin(new GeoGebraTubeUser(token), automatic);
 	}
 
-	private GeoGebraTubeAPID api;
-
 	@Override
 	public GeoGebraTubeAPID getGeoGebraTubeAPI() {
 		if (api == null) {
 			ClientInfo client = new ClientInfo();
-			client.setModel((AuthenticationModel) this.model);
+			client.setModel(this.model);
 			client.setType("desktop");
 			client.setWidth(1024);
 			client.setWidth(768);

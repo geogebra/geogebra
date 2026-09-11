@@ -163,7 +163,7 @@ public final class Header {
 				vbr = true;
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
-			throw new IOException("Corrupt Xing VBR header");
+			throw new IOException("Corrupt Xing VBR header", e);
 		}
 		offset = 36 - 4;
 		try {
@@ -172,7 +172,7 @@ public final class Header {
 				vbr = true;
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
-			throw new IOException("Corrupt VBRI VBR header");
+			throw new IOException("Corrupt VBRI VBR header", e);
 		}
 	}
 

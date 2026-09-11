@@ -42,7 +42,7 @@ class LoggingOutputStream extends ByteArrayOutputStream {
 	 * @param level
 	 *            Level at which to write the log message
 	 */
-	public LoggingOutputStream(Logger logger, Level level) {
+	LoggingOutputStream(Logger logger, Level level) {
 		super();
 		this.logger = logger;
 		this.level = level;

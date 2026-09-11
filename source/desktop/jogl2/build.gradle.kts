@@ -8,3 +8,8 @@ dependencies {
     api(libs.gluegen.rt)
     api(libs.jogl)
 }
+
+// project has a test directory, but has no executable tests
+tasks.named("test") {
+    enabled = false
+}

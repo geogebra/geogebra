@@ -106,6 +106,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 	private boolean popupSymbolDisabled = false;
 
 	private boolean forCAS;
+	boolean ctrlC = false;
+	private GeoInputBox geoUsedForInputBox;
+	private boolean previewActive = true;
 
 	/**
 	 * Pattern to find an argument description as found in the syntax
@@ -310,16 +313,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 		this.isEqualsRequired = isEqualsRequired;
 	}
 
-	// ----------------------------------------------------------------------------
-	// Protected methods
-	// ----------------------------------------------------------------------------
-
-	boolean ctrlC = false;
-
-	private GeoInputBox geoUsedForInputBox;
-
-	private boolean previewActive = true;
-
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
@@ -463,8 +456,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 						pos--;
 					}
 					String word = TextFieldUtil.getWordAtPos(getText(), pos);
-					String lowerCurWord = word.toLowerCase();
-					String closest = getDictionary().lookup(lowerCurWord);
+					// the dictionary is case-insensitive, no string manipulation needed here
+					String closest = getDictionary().lookup(word);
 
 					if (closest != null) {
 						showCommandHelp(app.getInternalCommand(closest),
@@ -553,16 +546,14 @@ public class AutoCompleteTextFieldD extends MathTextField
 		int end = getSelectionEnd();
 		// clear selection if there is one
 		if (start != end) {
-			int pos = getCaretPosition();
 			String oldText = getText();
 			StringBuilder sb = new StringBuilder();
 			sb.append(oldText.substring(0, start));
 			sb.append(oldText.substring(end));
 			setText(sb.toString());
 			// set caret position to start
-			pos = start;
-			if (pos < sb.length()) {
-				setCaretPosition(pos);
+			if (start < sb.length()) {
+				setCaretPosition(start);
 			}
 		}
 	}

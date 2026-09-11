@@ -177,19 +177,19 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 			R.setValue(red);
 		}
 		if (RSpinner != null) {
-			RSpinner.setValue(Integer.valueOf(red));
+			RSpinner.setValue(red);
 		}
 		if (G != null) {
 			G.setValue(green);
 		}
 		if (GSpinner != null) {
-			GSpinner.setValue(Integer.valueOf(green));
+			GSpinner.setValue(green);
 		}
 		if (B != null) {
 			B.setValue(blue);
 		}
 		if (BSpinner != null) {
-			BSpinner.setValue(Integer.valueOf(blue));
+			BSpinner.setValue(blue);
 		}
 
 		internalChange = false;
@@ -375,17 +375,6 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 	}
 
 	/**
-	 * This method paints the default RGB chooser panel.
-	 *
-	 * @param g
-	 *            The Graphics object to paint with.
-	 */
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-	}
-
-	/**
 	 * Sets the labels for the current locale.
 	 */
 	public void setLabels() {
@@ -403,7 +392,7 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 	static class ColorPreviewPanel extends JPanel {
 		private static final long serialVersionUID = 1L;
 
-		public ColorPreviewPanel() {
+		ColorPreviewPanel() {
 			this.setPreferredSize(new Dimension(140, 25));
 			// Border border = BorderFactory.createCompoundBorder(
 			// BorderFactory.createLineBorder(Color.DARK_GRAY, 1),
@@ -412,7 +401,7 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 		}
 
 		@Override
-		public void paintComponent(Graphics g) {
+		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			g.setColor(this.getForeground());
 			g.fillRect(0, 0, getWidth() - 1, getHeight() - 1);

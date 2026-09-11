@@ -83,11 +83,24 @@ public class GeoGebraPreferencesD {
 	// user data
 	public static final String USER_LOGIN_TOKEN = "user_login_token";
 
+	// Ulven: changed to make available to subclass GeoGebraPortablePreferences
+	protected String factoryDefaultXml; // see loadPreferences()
+
+	protected static final String XML_FACTORY_DEFAULT = "xml_factory_default";
+	protected static final String TOOLS_FILE_GGT = "tools_file_ggt";
+	protected static final String APP_LOCALE = "app_locale";
+	protected static final String APP_CURRENT_IMAGE_PATH = "app_current_image_path";
+	protected static final String APP_FILE_ = "app_file_";
+
+	private static String PROPERTY_FILEPATH = null; // full path, null: no
+
+	private static GeoGebraPreferencesInstalled singleton;
+
 	// preferences node name for GeoGebra
 	private Preferences ggbPrefs;
 	private Preferences ggbPrefsSystem;
 
-	private static class GeoGebraPreferencesInstalled extends GeoGebraPreferencesD {
+	private static final class GeoGebraPreferencesInstalled extends GeoGebraPreferencesD {
 
 	}
 
@@ -117,22 +130,6 @@ public class GeoGebraPreferencesD {
 		}
 
 	}
-
-	// Ulven: changed to make available to subclass GeoGebraPortablePreferences
-	protected String factoryDefaultXml; // see loadPreferences()
-
-	protected static final String XML_FACTORY_DEFAULT = "xml_factory_default";
-	protected static final String TOOLS_FILE_GGT = "tools_file_ggt";
-	protected static final String APP_LOCALE = "app_locale";
-	protected static final String APP_CURRENT_IMAGE_PATH = "app_current_image_path";
-	protected static final String APP_FILE_ = "app_file_";
-
-	/* Ulven 06.03.10 */
-
-	private static String PROPERTY_FILEPATH = null; // full path, null: no
-														// property file set
-
-	private static GeoGebraPreferencesInstalled singleton;
 
 	/** Set in geogebra.gui.app.GeoGebraFrame before first call to getPref() */
 	public static void setPropertyFileName(String pfname) {
@@ -322,7 +319,7 @@ public class GeoGebraPreferencesD {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -396,7 +393,7 @@ public class GeoGebraPreferencesD {
 			getPref().savePreference(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES,
 					objectPrefsXML);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			Log.error("object defaults too long");
 		}
 
@@ -470,7 +467,7 @@ public class GeoGebraPreferencesD {
 		try {
 			ggbPrefs.flush();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -502,7 +499,7 @@ public class GeoGebraPreferencesD {
 				ret = bos.toByteArray();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			ret = null;
 		}
 
@@ -584,7 +581,7 @@ public class GeoGebraPreferencesD {
 			}
 			app.updateToolBar();
 		} catch (Throwable e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 		app.setDefaultCursor();

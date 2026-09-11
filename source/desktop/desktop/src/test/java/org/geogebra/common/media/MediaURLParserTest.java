@@ -17,16 +17,16 @@
 package org.geogebra.common.media;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.util.AsyncOperation;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class MediaURLParserTest {
+class MediaURLParserTest {
 	protected static final String MEBIS_REGEX = "https://mediathek.mebis.bayern.de/\\?doc=provideVideo&identifier=[BYWS\\-0-9]+&type=video(&)?(#t=[0-9,]+)?";
 	private static AsyncOperation<VideoURL> INVALID = obj -> assertFalse(obj.isValid());
 
@@ -71,7 +71,7 @@ public class MediaURLParserTest {
 	}
 
 	@Test
-	public void checkYoutubeUrls() {
+	void checkYoutubeUrls() {
 		checkVideo("https://youtu.be/bdRUiXUrYIs",
 				validYT("bdRUiXUrYIs"));
 		checkVideo(
@@ -86,7 +86,7 @@ public class MediaURLParserTest {
 	}
 
 	@Test
-	public void checkMp4Urls() {
+	void checkMp4Urls() {
 		checkVideo("https://www.w3schools.com/htmL/mov_bbb.mp4",
 				validMP4());
 		checkVideo("file.mp4", validMP4());
@@ -96,7 +96,7 @@ public class MediaURLParserTest {
 	}
 
 	@Test
-	public void checkMebisUrls() {
+	void checkMebisUrls() {
 		checkVideo(
 				"https://mediathek.mebis.bayern.de/?doc=embeddedObject&id=BWS-04985070&type=video&start=178&title=Wetter",
 				validMebis());
@@ -134,7 +134,7 @@ public class MediaURLParserTest {
 	}
 
 	@Test
-	public void testEmbeddableUrls() {
+	void testEmbeddableUrls() {
 		assertEquals("https://en.wikipedia.org/wiki/%2B", // this actually exists
 				MediaURLParser.toEmbeddableUrl("https://en.wikipedia.org/wiki/+"));
 		assertEquals("https://www.bavarikon.de/object/bav:foo?lang=de&mebisembedding=true",

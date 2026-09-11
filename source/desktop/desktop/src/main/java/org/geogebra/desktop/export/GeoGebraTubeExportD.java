@@ -26,6 +26,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -100,15 +101,14 @@ public class GeoGebraTubeExportD {
 			}
 			for (String line : string.split(",")) {
 				int delimiterPos = line.indexOf(':');
-				String key = line.substring(0, delimiterPos).toLowerCase();
-				String value = line.substring(delimiterPos + 1).toLowerCase();
+				String key = line.substring(0, delimiterPos).toLowerCase(Locale.ROOT);
+				String value = line.substring(delimiterPos + 1).toLowerCase(Locale.ROOT);
 
-				if ("status".equals(key)) {
-					status = value;
-				} else if ("uid".equals(key)) {
-					uid = value;
-				} else if ("error".equals(key)) {
-					errorMessage = value;
+				switch (key) {
+				case "status" -> status = value;
+				case "uid" -> uid = value;
+				case "error" -> errorMessage = value;
+				default -> { }
 				}
 			}
 		}
@@ -148,16 +148,13 @@ public class GeoGebraTubeExportD {
 		showDialog();
 
 		try {
-			URL url;
-			HttpURLConnection urlConn;
-			DataOutputStream printout;
 			BufferedReader input;
 
 			progressBar.setIndeterminate(true);
 
-			url = new URL(getUploadURL());
+			URL url = new URL(getUploadURL());
 
-			urlConn = (HttpURLConnection) url.openConnection();
+			HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
 			urlConn.setDoInput(true);
 			urlConn.setDoOutput(true);
 			urlConn.setUseCaches(false);
@@ -169,6 +166,7 @@ public class GeoGebraTubeExportD {
 					app.getLocalization().getLanguageTag());
 
 			// send output
+			DataOutputStream printout;
 			try {
 				printout = new DataOutputStream(urlConn.getOutputStream());
 
@@ -185,7 +183,7 @@ public class GeoGebraTubeExportD {
 				progressBar.setMaximum(requestLength);
 
 				// send data in chunks
-				int start = 0;
+				int start;
 				int end = 0;
 
 				// chunking is senseless at the moment as input buffering is
@@ -206,8 +204,6 @@ public class GeoGebraTubeExportD {
 				}
 
 				printout.close();
-
-				postData = null;
 
 				int responseCode;
 				String responseMessage;
@@ -246,7 +242,7 @@ public class GeoGebraTubeExportD {
 						progressBar.setEnabled(false);
 
 						Log.debug("Upload failed. Response: "
-								+ output.toString());
+								+ output);
 					} else {
 
 						String createMaterialURL = getUploadURL() + "/"

@@ -26,15 +26,15 @@ import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.Matcher;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 public class AlgebraTest {
 
 	protected AlgebraProcessor ap;
 	protected AppDNoGui app;
 
-	@Before
-	public void setup() {
+	@BeforeEach
+	void setup() {
 		app = AlgebraTest.createApp();
 		ap = app.getKernel().getAlgebraProcessor();
 	}

@@ -60,9 +60,8 @@ public class ModeCellRenderer extends DefaultTreeCellRenderer
 		// mode number
 		if (leaf) {
 			Object ob = node.getUserObject();
-			if (ob instanceof Integer) {
+			if (ob instanceof Integer mode) {
 				// mode node
-				int mode = ((Integer) ob).intValue();
 				handleModeNode(mode);
 			} else {
 				// root node
@@ -77,7 +76,7 @@ public class ModeCellRenderer extends DefaultTreeCellRenderer
 				DefaultMutableTreeNode childNode = (DefaultMutableTreeNode) node
 						.getFirstChild();
 				Object ob = childNode.getUserObject();
-				handleModeNode(((Integer) ob).intValue());
+				handleModeNode((Integer) ob);
 			}
 		}
 
@@ -89,7 +88,7 @@ public class ModeCellRenderer extends DefaultTreeCellRenderer
 	@Override
 	public Component getListCellRendererComponent(JList list, Integer value,
 			int index, boolean isSelected, boolean cellHasFocus) {
-		handleModeNode(value.intValue());
+		handleModeNode(value);
 		handleSelection(isSelected);
 		return this;
 	}

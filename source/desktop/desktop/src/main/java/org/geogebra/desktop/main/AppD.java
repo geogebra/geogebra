@@ -154,7 +154,6 @@ import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
-import org.geogebra.common.main.settings.FontSettings;
 import org.geogebra.common.main.settings.SettingsBuilder;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.media.VideoManager;
@@ -251,6 +250,22 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * Names for geogebra.jar.
 	 */
 	public final static String GEOGEBRA_JAR = "geogebra.jar";
+	private final static int MEMORY_CRITICAL = 100 * 1024;
+
+	/*
+	 * current possible values https://www.mindprod.com/jgloss/properties.html AIX
+	 * Digital Unix FreeBSD HP UX Irix Linux Mac OS Mac OS X MPE/iX Netware 4.11
+	 * OS/2 Solaris Windows 2000 Windows 7 Windows 95 Windows 98 Windows NT
+	 * Windows Vista Windows XP
+	 */
+	private static final String OS = StringUtil
+			.toLowerCaseUS(System.getProperty("os.name"));
+	private static final String VERSION = StringUtil
+			.toLowerCaseUS(System.getProperty("os.version"));
+
+	public static final boolean MAC_OS = OS.startsWith("mac");
+	public static final boolean WINDOWS = OS.startsWith("windows");
+	public static final boolean LINUX = OS.startsWith("linux");
 
 	// ==============================================================
 	// LOCALE fields
@@ -261,6 +276,21 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	// ==============================================================
 
 	private static final LinkedList<File> fileList = new LinkedList<>();
+
+	static Runtime runtime = Runtime.getRuntime();
+	private static Rectangle screenSize = null;
+	@SuppressWarnings("PMD.AvoidMessageDigestField")
+	private static volatile MessageDigest md5Encryptor;
+	private static boolean versionCheckAllowed = true;
+	private static boolean virtualKeyboardActive = false;
+
+	private final ScheduledExecutorService scheduler = Executors
+			.newScheduledThreadPool(1);
+
+	private ScheduledFuture<?> handler;
+
+	private PrintPreviewD printPreview;
+
 	protected File currentPath;
 	protected File currentImagePath;
 	protected File currentFile = null;
@@ -300,6 +330,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	private JSplitPane applicationSplitPane;
 
 	private DockBarInterface dockBar;
+	private Cursor transparentCursor = null;
+
 	private boolean showDockBar = true;
 	private boolean isDockBarEast = true;
 
@@ -307,6 +339,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * Preferred application frame size. Used in case frame size needs updating.
 	 */
 	private GDimension preferredSize;
+	private OFFHandler offHandler;
 
 	/** Horizontal page margin in cm */
 	public static final double PAGE_MARGIN_X = 1.8 * 72 / 2.54;
@@ -327,6 +360,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/** GUI manager */
 	protected GuiManagerInterfaceD guiManager;
+	private DialogManager dialogManager;
 
 	private GlobalKeyDispatcherD globalKeyDispatcher;
 
@@ -346,6 +380,19 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	private CopyPasteD copyPaste;
 	private int centerX;
 	private int centerY;
+	private static URL codebase;
+	private static boolean runningFromJar = false;
+	final private static String packgz = ".pack.gz";
+	private GlassPaneListener glassPaneListener;
+	private ErrorHandler defaultErrorHandler;
+	private boolean controlDown = false;
+	private boolean shiftDown = false;
+	// String logFile = DownloadManager.getTempDir()+"GeoGebraLog.txt";
+	// public String logFile = "c:\\GeoGebraLog.txt";
+	public StringBuilder logFile = null;
+	private SoundManagerD soundManager = null;
+	private DrawEquationD drawEquation;
+	private boolean popupsDone = false;
 
 	/*************************************************************
 	 * Construct application within JFrame
@@ -432,8 +479,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// init settings
 		initSettings();
 		getSettings().getFontSettings().addListener(settings ->
-				getFontManager().setFontSize(((FontSettings) settings)
-						.getGuiFontSizeSafe()));
+				getFontManager().setFontSize(settings.getGuiFontSizeSafe()));
 
 		// init euclidian view
 		initEuclidianViews();
@@ -586,7 +632,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			UIManager.put("Table.intercellSpacing", new Dimension(1, 1));
 			return;
 		} catch (Exception ex) {
-			System.err.println("Failed to initialize LaF");
+			Log.warn("Failed to initialize LaF");
 		}
 		try {
 			if (isSystemLAF) {
@@ -635,6 +681,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	}
 
+	@SuppressWarnings("PMD.SystemPrintln")
 	private static void handleHelpVersionArgs(CommandLineArguments args) {
 
 		System.out.println("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
@@ -648,15 +695,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 					+ "  --help\t\tprint this message\n"
 					+ "  --v\t\tprint version\n"
 					+ "  --language=LANGUAGE_CODE"
-					// here "auto" is also accepted
 					+ "\t\tset language using locale strings, e.g. en, de, de_AT, ...\n"
 					+ "  --showAlgebraInput=BOOLEAN\tshow/hide algebra input field\n"
 					+ "  --showAlgebraInputTop=BOOLEAN\tshow algebra input at top/bottom\n"
 					+ "  --showAlgebraWindow=BOOLEAN\tshow/hide algebra window\n"
 					+ "  --showSpreadsheet=BOOLEAN\tshow/hide spreadsheet\n"
-					// here "disable" is also accepted
 					+ "  --showCAS=BOOLEAN\tshow/hide CAS window\n"
-					// here "disable" is also accepted
 					+ "  --show3D=BOOLEAN\tshow/hide 3D window\n"
 					+ "  --showSplash=BOOLEAN\tenable/disable the splash screen\n"
 					+ "  --enableUndo=BOOLEAN\tenable/disable Undo\n"
@@ -835,11 +879,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * Exit the process.
 	 * @param code exit code
 	 */
+	@SuppressWarnings("PMD.DoNotTerminateVM")
 	public static void exit(int code) {
 		System.exit(code);
 	}
-
-	private static boolean versionCheckAllowed = true;
 
 	private void setVersionCheckAllowed(String versionCheckAllow) {
 		if (versionCheckAllow != null) {
@@ -880,7 +923,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 					|| "alternativeBotana".equalsIgnoreCase(str[1])
 					|| "PureSymbolic".equalsIgnoreCase(str[1])
 					|| "Auto".equalsIgnoreCase(str[1])) {
-				proverSettings.proverEngine = str[1].toLowerCase();
+				proverSettings.proverEngine = str[1].toLowerCase(Locale.ROOT);
 				return;
 			}
 			Log.warn("Option not recognized: ".concat(option));
@@ -898,7 +941,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			if ("Groebner".equalsIgnoreCase(str[1])
 					|| "Wu".equalsIgnoreCase(str[1])
 					|| "Area".equalsIgnoreCase(str[1])) {
-				proverSettings.proverMethod = str[1].toLowerCase();
+				proverSettings.proverMethod = str[1].toLowerCase(Locale.ROOT);
 				return;
 			}
 			Log.warn("Method parameter not recognized: ".concat(option));
@@ -1000,9 +1043,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return false;
 	}
 
-	final static int MEMORY_CRITICAL = 100 * 1024;
-	static Runtime runtime = Runtime.getRuntime();
-
 	@Override
 	public boolean freeMemoryIsCritical() {
 
@@ -1017,8 +1057,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public long getHeapSize() {
 		return runtime.maxMemory();
 	}
-
-	private static boolean virtualKeyboardActive = false;
 
 	public static boolean isVirtualKeyboardActive() {
 		return virtualKeyboardActive;
@@ -1233,7 +1271,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 					successRet = successRet && success;
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.debug(e);
 					successRet = false;
 				}
 			}
@@ -1275,7 +1313,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		} catch (Exception e) {
 			setDefaultCursor();
 			showError(Errors.LoadFileFailed, file.getName());
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 
 		}
@@ -1846,39 +1884,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		this.currentImagePath = currentImagePath;
 	}
 
-	/**
-	 * Loads text file and returns content as String.
-	 * @return file content
-	 */
-	public String loadTextFile(String s) {
-		StringBuilder sb = new StringBuilder();
-		BufferedReader br = null;
-		try {
-			InputStream is = AppD.class.getResourceAsStream(s);
-			br = new BufferedReader(
-					new InputStreamReader(is, StandardCharsets.UTF_8));
-			String thisLine;
-			while ((thisLine = br.readLine()) != null) {
-				sb.append(thisLine);
-				sb.append('\n');
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return sb.toString();
-	}
-
 	@Override
 	public void copyGraphicsViewToClipboard() {
-
 		copyGraphicsViewToClipboard(getActiveEuclidianView());
 	}
 
@@ -1950,8 +1957,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 		handleImageExport(base64Image);
 	}
-
-	private static Rectangle screenSize = null;
 
 	/***
 	 * gets the screensize (taking into account toolbars etc)
@@ -2524,6 +2529,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return mainComp;
 	}
 
+	@Override
 	public GDimension getPreferredSize() {
 		return preferredSize;
 	}
@@ -2755,8 +2761,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	}
 
-	Cursor transparentCursor = null;
-
 	/**
 	 * If cursor is null, create a cursor using a 16x16 image with all pixels set to transparent.
 	 * @return returns a transparent cursor, which is a cursor that is not visible on the screen.
@@ -2856,8 +2860,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	}
 
-	private OFFHandler offHandler;
-
 	/**
 	 * This is a method that loads an OFF file (Object File Format) into the application.
 	 * @param file file
@@ -2879,7 +2881,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			}
 		} catch (Exception ex) {
 			status = false;
-			ex.printStackTrace();
+			Log.debug(ex);
 			showError(Errors.LoadFileFailed, file.getName());
 		}
 
@@ -2929,10 +2931,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @return true if successful
 	 */
 	final public boolean loadXML(File file, boolean isMacroFile) {
-		FileInputStream fis = null;
-		try {
-			fis = new FileInputStream(file);
-
+		try (FileInputStream fis = new FileInputStream(file)) {
 			boolean success;
 
 			// pretend we're initializing the application to prevent unnecessary
@@ -2957,13 +2956,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			return false;
 		} finally {
 			initing = false;
-			if (fis != null) {
-				try {
-					fis.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
 		}
 	}
 
@@ -3076,7 +3068,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		} catch (Exception e) {
 			setDefaultCursor();
 			showError(Errors.SaveFileFailed);
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 	}
@@ -3126,7 +3118,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			os.flush();
 			return os.toByteArray();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return null;
 		}
 	}
@@ -3149,7 +3141,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				is.close();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -3237,10 +3229,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return codebase;
 	}
 
-	private static URL codebase;
-	private static boolean runningFromJar = false;
-	final private static String packgz = ".pack.gz";
-
 	private static void initCodeBase() {
 		try {
 			// application codebase
@@ -3278,10 +3266,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	// **************************************************************************
 	// EVENT DISPATCHING
 	// **************************************************************************
-
-	private GlassPaneListener glassPaneListener;
-
-	private ErrorHandler defaultErrorHandler;
 
 	/**
 	 * startDispatchingEventsTo
@@ -3437,12 +3421,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		return MAC_OS ? e.isControlDown() : e.isAltDown();
 	}
-
-	// global controlDown, shiftDown flags
-	// Application.dispatchKeyEvent sets these on every keyEvent.
-
-	private boolean controlDown = false;
-	private boolean shiftDown = false;
 
 	public boolean getControlDown() {
 		return controlDown;
@@ -3671,11 +3649,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	// LOGGING
 	// **************************************************************************
 
-	LogManager logManager;
-	// String logFile = DownloadManager.getTempDir()+"GeoGebraLog.txt";
-	// public String logFile = "c:\\GeoGebraLog.txt";
-	public StringBuilder logFile = null;
-
 	/*
 	 * code from
 	 * http://blogs.sun.com/nickstephen/entry/java_redirecting_system_out_and
@@ -3689,7 +3662,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			return;
 		}
 		// initialize logging to go to rolling log file
-		logManager = LogManager.getLogManager();
+		LogManager logManager = LogManager.getLogManager();
 		logManager.reset();
 
 		logFile = new StringBuilder(30);
@@ -3733,23 +3706,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		logger = Logger.getLogger("stderr");
 		los = new LoggingOutputStream(logger, StdOutErrLevel.STDERR);
 		System.setErr(new PrintStream(los, true, StandardCharsets.UTF_8));
-
-		// show stdout going to logger
-		// System.out.println("Hello world!");
-
-		// now log a message using a normal logger
-		// logger = Logger.getLogger("test");
-		// logger.info("This is a test log message");
-
-		// now show stderr stack trace going to logger
-		// try {
-		// throw new RuntimeException("Test");
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-
-		// and output on the original stdout
-		// stdout.println("Hello on old stdout");
 	}
 
 	/**
@@ -3768,7 +3724,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				Log.debug(contents.getTransferDataFlavors()[0]);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		return str;
 	}
@@ -3776,8 +3732,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	// **************************************************************************
 	// SOUNDS
 	// **************************************************************************
-
-	private SoundManagerD soundManager = null;
 
 	@Override
 	public SoundManagerD getSoundManager() {
@@ -3792,21 +3746,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// not implemented here.
 		return null;
 	}
-
-	/*
-	 * public void checkCommands(HashMap<String, CommandProcessor> map) {
-	 * initTranslatedCommands();
-	 * 
-	 * if (rbcommand == null) { return; // eg applet with no properties jar }
-	 * 
-	 * Enumeration<String> e = rbcommand.getKeys(); while (e.hasMoreElements())
-	 * { String s = e.nextElement(); if (!s.contains(syntaxStr) && (map.get(s)
-	 * == null)) { boolean write = true; try { rbcommand.getString(s +
-	 * syntaxStr); } catch (Exception ex) { write = false; } if (write) { debug(
-	 * "checkCommands: " + s); } } } }
-	 */
-
-	DrawEquationD drawEquation;
 
 	@Override
 	public DrawEquationD getDrawEquation() {
@@ -3828,8 +3767,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	// //////////////////////////////////
 	// FILE VERSION HANDLING
 	// //////////////////////////////////
-
-	private DialogManager dialogManager;
 
 	@Override
 	public void callAppletJavaScript(String string, String args) {
@@ -3957,21 +3894,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public boolean isWindows() {
 		return WINDOWS;
 	}
-
-	/*
-	 * current possible values http://mindprod.com/jgloss/properties.html AIX
-	 * Digital Unix FreeBSD HP UX Irix Linux Mac OS Mac OS X MPE/iX Netware 4.11
-	 * OS/2 Solaris Windows 2000 Windows 7 Windows 95 Windows 98 Windows NT
-	 * Windows Vista Windows XP
-	 */
-	private static final String OS = StringUtil
-			.toLowerCaseUS(System.getProperty("os.name"));
-	private static final String VERSION = StringUtil
-			.toLowerCaseUS(System.getProperty("os.version"));
-
-	public static final boolean MAC_OS = OS.startsWith("mac");
-	public static final boolean WINDOWS = OS.startsWith("windows");
-	public static final boolean LINUX = OS.startsWith("linux");
 
 	/**
 	 * @return true if running on Mac OS Big Sur or later versions.
@@ -4304,7 +4226,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			// ad.getKernel().getAllMacros()));
 		} catch (Exception ex) {
 			Log.debug("Could not load any macros at \"Insert File\"");
-			ex.printStackTrace();
+			Log.debug(ex);
 		}
 
 		Set<String> existingLabels = getKernel().getConstruction().getAllLabels();
@@ -4365,8 +4287,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		ad.getFrame().dispose();
 
 	}
-
-	private boolean popupsDone = false;
 
 	/**
 	 * shows pop up
@@ -4443,17 +4363,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// nothing to do here
 	}
 
-	/**
-	 * huge size for undo/redo/etc. buttons when huge GUI is needed for some 3D
-	 * inputs
-	 * 
-	 */
-	public static final int HUGE_UNDO_BUTTON_SIZE = 36;
-
 	@Override
 	public void closePopups() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -4469,18 +4381,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return new GTimerD(listener, delay);
 	}
 
-	private final ScheduledExecutorService scheduler = Executors
-			.newScheduledThreadPool(1);
-
-	private ScheduledFuture<?> handler;
-
-	private PrintPreviewD printPreview;
-
-	private static volatile MessageDigest md5Encryptor;
-
 	@Override
 	public void schedulePreview(final Runnable scheduledPreview) {
-
 		cancelPreview();
 
 		Runnable threadSafeCallback = () -> SwingUtilities.invokeLater(scheduledPreview);
@@ -4717,7 +4619,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			BufferedImage image = ImageIO.read(bis);
 			copyImageToClipboard(image);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -4768,7 +4670,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			try {
 				md5Encryptor = MessageDigest.getInstance("MD5");
 			} catch (NoSuchAlgorithmException e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 
@@ -4838,8 +4740,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
-		getSettings().getFontSettings().addListener(settings -> {
-			FontSettings fontSettings = (FontSettings) settings;
+		getSettings().getFontSettings().addListener(fontSettings -> {
 			if (fontSettings.getGuiFontSize() == -1) {
 				setMaxIconSize(fontSettings.getAppFontSize());
 			}

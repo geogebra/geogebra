@@ -96,9 +96,6 @@ public abstract class CASTableCell extends JPanel {
 
 		add(northPanel, BorderLayout.NORTH);
 		add(outputPanel, BorderLayout.CENTER);
-		// add(showHideControl, app.borderEast());
-
-		return;
 	}
 
 	/**

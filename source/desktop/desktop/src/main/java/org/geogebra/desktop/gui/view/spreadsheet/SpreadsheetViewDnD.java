@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.view.algebra.AlgebraViewD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.AlgebraViewTransferHandler;
@@ -70,7 +71,7 @@ public class SpreadsheetViewDnD
 		try {
 			HTMLflavor = new DataFlavor("text/html;class=java.lang.String");
 		} catch (ClassNotFoundException cnfe) {
-			cnfe.printStackTrace();
+			Log.debug(cnfe);
 		}
 	}
 
@@ -106,6 +107,9 @@ public class SpreadsheetViewDnD
 		return isTranspose;
 	}
 
+	/**
+	 * @param isTranspose whether to transpose the table
+	 */
 	public void setTranspose(boolean isTranspose) {
 		this.isTranspose = isTranspose;
 	}
@@ -114,6 +118,9 @@ public class SpreadsheetViewDnD
 		return isCopyByValue;
 	}
 
+	/**
+	 * @param isCopyByValue whether to copy by value
+	 */
 	public void setCopyByValue(boolean isCopyByValue) {
 		this.isCopyByValue = isCopyByValue;
 	}
@@ -124,10 +131,6 @@ public class SpreadsheetViewDnD
 
 	@Override
 	public void dragGestureRecognized(DragGestureEvent dge) {
-
-		if (!table.isOverDnDRegion) {
-			return;
-		}
 
 		/*
 		 * ----- code from AlgebraView Dnd, to be adapted later
@@ -252,7 +255,6 @@ public class SpreadsheetViewDnD
 
 			boolean success = handleHtmlFlavorDrop(dte);
 			handleDropComplete(dte, success);
-			return;
 		}
 
 		// case(2) String or HTML flavor
@@ -262,7 +264,6 @@ public class SpreadsheetViewDnD
 			boolean success = table.copyPasteCut.paste(currentCell.column,
 					currentCell.row, currentCell.column, currentCell.row, t);
 			handleDropComplete(dte, success);
-			return;
 		}
 
 	}
@@ -406,9 +407,7 @@ public class SpreadsheetViewDnD
 
 			return true;
 
-		} catch (UnsupportedFlavorException e) {
-			// e.printStackTrace();
-		} catch (IOException e) {
+		} catch (UnsupportedFlavorException | IOException ignored) {
 			// e.printStackTrace();
 		}
 
@@ -432,13 +431,13 @@ public class SpreadsheetViewDnD
 	 */
 	static class TransferableAlgebraView implements Transferable {
 
-		public final DataFlavor algebraViewFlavor = new DataFlavor(
+		final DataFlavor algebraViewFlavor = new DataFlavor(
 				AlgebraViewD.class, "geoLabel list");
 		private final DataFlavor[] supportedFlavors = { algebraViewFlavor };
 
 		private ArrayList<String> geoLabelList;
 
-		public TransferableAlgebraView(ArrayList<String> geoLabelList) {
+		TransferableAlgebraView(ArrayList<String> geoLabelList) {
 			this.geoLabelList = geoLabelList;
 		}
 

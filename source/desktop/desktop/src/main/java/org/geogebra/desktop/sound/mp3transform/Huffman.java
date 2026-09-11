@@ -41,7 +41,8 @@ package org.geogebra.desktop.sound.mp3transform;
 final class Huffman {
 	private static final int MX_OFF = 250;
 	private static final int HUFFMAN_COUNT = 34;
-	public static final Huffman[] HUFFMAN;
+	@SuppressWarnings("PMD.AvoidFieldNameMatchingTypeName")
+	static final Huffman[] HUFFMAN;
 	private final char tableName0;
 	private final char tableName1;
 	private final int xlen; // max. x-index+
@@ -71,7 +72,7 @@ final class Huffman {
 	 * Do the huffman-decoding. For counta, countb - the 4 bit value is returned
 	 * in y, discard x.
 	 */
-	public int decode(Layer3Decoder decoder, BitReservoir br) {
+	int decode(Layer3Decoder decoder, BitReservoir br) {
 		// array of all huffcodtable headers
 		// 0..31 Huffman code table 0..31
 		// 32,33 count1-tables

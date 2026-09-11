@@ -98,7 +98,7 @@ public class MyImageD implements ImageD {
 			return StringUtil.convertToHex(md5hash);
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 		Log.error("MD5 Error");
@@ -127,7 +127,8 @@ public class MyImageD implements ImageD {
 				}
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug("Failed loading for " + url);
+			Log.debug(e);
 		}
 
 		svgSb = new StringBuilder(ImageManager.fixSVG(svgSb.toString()));
@@ -147,6 +148,7 @@ public class MyImageD implements ImageD {
 		}
 	}
 
+	@Override
 	public Image getImage() {
 		return img;
 	}
@@ -210,7 +212,7 @@ public class MyImageD implements ImageD {
 						+ "}{" + StringUtil.pngMarker
 						+ Base64.encodeToString(os.toByteArray(), false) + "}";
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 
 		}
@@ -252,6 +254,7 @@ public class MyImageD implements ImageD {
 	 * @param x x-coordinate
 	 * @param y y-coordinate
 	 */
+	@Override
 	public void render(Graphics2D impl, int x, int y) {
 		if (isSVG()) {
 			renderSvg(impl, x, y);
@@ -282,6 +285,7 @@ public class MyImageD implements ImageD {
 	 * @param dy
 	 *            dest rect min y
 	 */
+	@Override
 	public void render(Graphics2D impl, int sx, int sy, int sw, int sh, int dx, int dy, int dw,
 			int dh) {
 		if (isSVG()) {

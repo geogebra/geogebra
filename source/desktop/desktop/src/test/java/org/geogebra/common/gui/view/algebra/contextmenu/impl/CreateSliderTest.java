@@ -18,8 +18,8 @@ package org.geogebra.common.gui.view.algebra.contextmenu.impl;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.TreeSet;
 
@@ -33,21 +33,21 @@ import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.editor.share.util.Unicode;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class CreateSliderTest extends BaseSymbolicTest {
+class CreateSliderTest extends BaseSymbolicTest {
 
 	private CreateSlider createSlider;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		LabelController controller = new LabelController();
 		createSlider = new CreateSlider(ap, controller);
 	}
 
 	@Test
-	public void testExecute() {
+	void testExecute() {
 		GeoSymbolic symbolic = add("4.669");
 
 		createSlider.execute(symbolic);
@@ -58,7 +58,7 @@ public class CreateSliderTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testIsAvailable() {
+	void testIsAvailable() {
 		GeoSymbolic numeric = add("4.669");
 		assertThat(createSlider.isAvailable(numeric), is(true));
 		GeoSymbolic angle = add("4.669" + Unicode.DEGREE_STRING);
@@ -66,7 +66,7 @@ public class CreateSliderTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testAngleSetSlider() {
+	void testAngleSetSlider() {
 		GeoSymbolic symbolic = add("45°");
 		createSlider.execute(symbolic);
 		GeoAngle angle = (GeoAngle) lookup(Unicode.alpha + "");
@@ -75,19 +75,19 @@ public class CreateSliderTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testUndefinedVariableCannotBecomeSlider() {
+	void testUndefinedVariableCannotBecomeSlider() {
 		GeoElement element = add("undefa");
 		assertThat(createSlider.isAvailable(element), is(false));
 	}
 
 	@Test
-	public void testFunctionCannotBecomeSlider() {
+	void testFunctionCannotBecomeSlider() {
 		GeoElement element = add("x^2");
 		assertThat(createSlider.isAvailable(element), is(false));
 	}
 
 	@Test
-	public void testExpressionCannotBecomeSlider() {
+	void testExpressionCannotBecomeSlider() {
 		String[] expressions = {"1+2", "2*9", "1/4", "5^6"};
 		for (String expression : expressions) {
 			GeoElement element = add(expression);
@@ -96,7 +96,7 @@ public class CreateSliderTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testCommandsCannotBecomeSlider() {
+	void testCommandsCannotBecomeSlider() {
 		String[] expressions = {"Cross((1,2),(3,4))", "Dot((1,2),(3,4))", "Degree(x^2)"};
 		for (String expression : expressions) {
 			GeoElement element = add(expression);
@@ -105,7 +105,7 @@ public class CreateSliderTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testShowAlgebraIsStoredInXML() {
+	void testShowAlgebraIsStoredInXML() {
 		GeoElement symbolic = add("a = 5");
 		createSlider.execute(symbolic);
 		GeoNumeric element = (GeoNumeric) lookup("a");
@@ -115,7 +115,7 @@ public class CreateSliderTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testUndoRedoKeepsShowingExtendedAV() {
+	void testUndoRedoKeepsShowingExtendedAV() {
 		GeoElement symbolic = add("a = 5");
 		createSlider.execute(symbolic);
 
@@ -125,7 +125,7 @@ public class CreateSliderTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testWithSubstitute() {
+	void testWithSubstitute() {
 		add("f(x) = xa + 3");
 		GeoSymbolic symbolic = add("b = 1");
 		add("Substitute(f,a,b)");
@@ -137,7 +137,7 @@ public class CreateSliderTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testAutoCreateSlider() {
+	void testAutoCreateSlider() {
 		Variable var = new Variable(kernel, "n");
 		Traversing.ReplaceUndefinedVariables replacer = new Traversing.ReplaceUndefinedVariables(
 				this.kernel, new TreeSet<>(), null);

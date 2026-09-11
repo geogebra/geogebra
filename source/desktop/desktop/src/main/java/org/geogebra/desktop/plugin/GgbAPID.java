@@ -91,14 +91,14 @@ public class GgbAPID extends GgbAPIJre {
 	 */
 	@Override
 	public synchronized void setErrorDialogsActive(boolean flag) {
-		((AppD) app).setErrorDialogsActive(flag);
+		app.setErrorDialogsActive(flag);
 	}
 
 	/**
 	 * Clears the construction and resets all views.
 	 */
 	public synchronized void fileNew() {
-		((AppD) app).fileNew();
+		app.fileNew();
 	}
 
 	/**

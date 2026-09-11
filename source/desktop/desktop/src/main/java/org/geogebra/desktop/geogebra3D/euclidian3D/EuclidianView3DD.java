@@ -84,6 +84,10 @@ public class EuclidianView3DD extends EuclidianView3D
 	private File exportFile;
 	private int exportDPI;
 
+	// temp image
+	private final Graphics2D g2Dtemp = new BufferedImage(5, 5,
+			BufferedImage.TYPE_INT_RGB).createGraphics();
+
 	/**
 	 * constructor
 	 * 
@@ -99,7 +103,7 @@ public class EuclidianView3DD extends EuclidianView3D
 
 		initView(false);
 
-		EuclidianSettings es = null;
+		EuclidianSettings es;
 		if (settings != null) {
 			es = settings;
 		} else {
@@ -396,10 +400,6 @@ public class EuclidianView3DD extends EuclidianView3D
 		// not needed for 3D
 	}
 
-	// temp image
-	private final Graphics2D g2Dtemp = new BufferedImage(5, 5,
-			BufferedImage.TYPE_INT_RGB).createGraphics();
-
 	@Override
 	final public GGraphics2D getTempGraphics2D(GFont font) {
 		g2Dtemp.setFont(GFontD.getAwtFont(font));
@@ -477,7 +477,7 @@ public class EuclidianView3DD extends EuclidianView3D
 				GraphicExportDialog.sendToClipboard(exportFile);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}

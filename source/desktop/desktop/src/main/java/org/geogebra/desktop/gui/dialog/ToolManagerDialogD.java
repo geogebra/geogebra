@@ -300,7 +300,7 @@ public class ToolManagerDialogD extends Dialog
 		}
 	}
 
-	private class MacroCellRenderer extends DefaultListCellRenderer {
+	private final class MacroCellRenderer extends DefaultListCellRenderer {
 
 		private static final long serialVersionUID = 1L;
 

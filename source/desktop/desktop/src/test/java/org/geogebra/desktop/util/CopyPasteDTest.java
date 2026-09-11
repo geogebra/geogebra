@@ -18,9 +18,9 @@ package org.geogebra.desktop.util;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -36,17 +36,17 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class CopyPasteDTest {
+class CopyPasteDTest {
 
 	private AppCommon fromApp;
 	private AppCommon toApp;
 	private CopyPasteD copy;
 
-	@Before
-	public void setup() {
+	@BeforeEach
+	void setup() {
 		fromApp = AppCommonFactory.create3D();
 		fromApp.setUndoRedoMode(UndoRedoMode.GUI);
 		fromApp.setUndoActive(true);
@@ -57,7 +57,7 @@ public class CopyPasteDTest {
 	}
 
 	@Test
-	public void clipboardStringShouldDisappearOnInsert() {
+	void clipboardStringShouldDisappearOnInsert() {
 		processCommand(fromApp, "s:Sequence(2k,k,1,3)", true);
 		processCommand(fromApp, "c:Curve(sin(t),cos(t),t,0,2)", true);
 		copy.insertFrom(fromApp, toApp, Collections.emptySet(), false);
@@ -73,7 +73,7 @@ public class CopyPasteDTest {
 
 	@Test
 	@Issue("APPS-6479")
-	public void testInsertingFileDoesNotRenameObjects() {
+	void testInsertingFileDoesNotRenameObjects() {
 		processCommand(fromApp, "C = (1, 2)", false);
 		processCommand(fromApp, "b = 1 / 3", false);
 		processCommand(toApp, "B = (4, 5)", false);
@@ -85,7 +85,7 @@ public class CopyPasteDTest {
 
 	@Test
 	@Issue("APPS-6479")
-	public void testInsertingFileDoesRenameDuplicateObjects() {
+	void testInsertingFileDoesRenameDuplicateObjects() {
 		processCommand(fromApp, "C = (1, 2)", false);
 		processCommand(fromApp, "b = 1 / 3", false);
 		processCommand(toApp, "B = (4, 5)", false);
@@ -97,7 +97,7 @@ public class CopyPasteDTest {
 
 	@Test
 	@Issue("APPS-6479")
-	public void testInsertingFileDoesOverwriteDuplicateObjects() {
+	void testInsertingFileDoesOverwriteDuplicateObjects() {
 		processCommand(fromApp, "C = (1, 2)", false);
 		processCommand(fromApp, "b = 1 / 3", false);
 		processCommand(toApp, "B = (4, 5)", false);
@@ -107,15 +107,15 @@ public class CopyPasteDTest {
 		assertThat(getLabeledGeosSize(toApp), equalTo(3));
 		assertThat(toApp.getKernel().lookupLabel("C").getDefinitionForEditor(),
 				equalTo("C=$point(1,2)"));
-		assertTrue("The element labeled <C> should exist!",
-				getLabels().contains("C"));
-		assertFalse("There should be no indexed label <C_{1]>!",
-				getLabels().contains("C_{1}"));
+		assertTrue(getLabels().contains("C"),
+				"The element labeled <C> should exist!");
+		assertFalse(getLabels().contains("C_{1}"),
+				"There should be no indexed label <C_{1]>!");
 	}
 
 	@Test
 	@Issue("APPS-6665")
-	public void insertIntoShouldNotCreateDuplicateLabels() {
+	void insertIntoShouldNotCreateDuplicateLabels() {
 		processCommand(fromApp, "A = (1, 1)", false);
 		processCommand(fromApp, "A_1 = (1, 2)", false);
 		processCommand(toApp, "A = (1, 3)", false);
@@ -127,7 +127,7 @@ public class CopyPasteDTest {
 
 	@Test
 	@Issue("APPS-6665")
-	public void insertIntoShouldKeepDependentObjects() {
+	void insertIntoShouldKeepDependentObjects() {
 		processCommand(toApp, "A = (1, 1)", false);
 		processCommand(fromApp, "A = (1, 2)", false);
 		processCommand(fromApp, "B = (1, 3)", false);

@@ -28,24 +28,24 @@ import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.hamcrest.CoreMatchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class SymbolicVectorTest extends BaseSymbolicTest {
+class SymbolicVectorTest extends BaseSymbolicTest {
 
 	@Test
-	public void testDotProduct() {
+	void testDotProduct() {
 		t("Dot[Vector[(1,2)],Vector[(3,4)]]", "11");
 		t("Dot[Vector[(p,q)],Vector[(r,s)]]", "p * r + q * s");
 	}
 
 	@Test
-	public void testCrossProduct() {
+	void testCrossProduct() {
 		t("Cross[Vector[(1,2)],Vector[(3,4)]]", "-2");
 		t("Cross[Vector[(p,q)], Vector[(r,s)]]", "p * s - q * r");
 	}
 
 	@Test
-	public void testVectors() {
+	void testVectors() {
 		// these should give Vector not point
 		t("u=(1,2)", "(1, 2)");
 		t("u=(1,2,3)", "(1, 2, 3)");
@@ -69,13 +69,13 @@ public class SymbolicVectorTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testCreationWithLabel() {
+	void testCreationWithLabel() {
 		GeoSymbolic vector = add("v=(1,1)");
 		assertThat(vector.getTwinGeo(), CoreMatchers.<GeoElementND>instanceOf(GeoVector.class));
 	}
 
 	@Test
-	public void testVectorDefinitionForIndependent() {
+	void testVectorDefinitionForIndependent() {
 		GeoSymbolic vector = add("v = (1, 2)");
 		assertThat(
 				vector.getDefinition(StringTemplate.editorTemplate),
@@ -86,7 +86,7 @@ public class SymbolicVectorTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testVectorDefinitionForDependent() {
+	void testVectorDefinitionForDependent() {
 		add("a = 1");
 		GeoSymbolic vector = add("v = (a, 2)");
 		assertThat(
@@ -98,13 +98,13 @@ public class SymbolicVectorTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testIsGeoVector() {
+	void testIsGeoVector() {
 		GeoSymbolic vector = add("v = (a, 2)");
 		assertThat(vector.isGeoVector(), is(true));
 	}
 
 	@Test
-	public void testVectorLatexStringForDependent() {
+	void testVectorLatexStringForDependent() {
 		GeoSymbolic vector = add("v = (a, 2)");
 		assertThat(
 				vector.toLaTeXString(false, StringTemplate.latexTemplate),
@@ -112,7 +112,7 @@ public class SymbolicVectorTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testIsCasVectorAfterRedefinition() {
+	void testIsCasVectorAfterRedefinition() {
 		GeoSymbolic vector = add("v = (1, 2)");
 		vector.getTwinGeo();
 		vector = add("v = (2, 1)");
@@ -123,7 +123,7 @@ public class SymbolicVectorTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testAdditionAndRedefinition() {
+	void testAdditionAndRedefinition() {
 		add("u = (1, 2)");
 		add("v = (2, 1)");
 		GeoSymbolic sum = add("sum = u + v");

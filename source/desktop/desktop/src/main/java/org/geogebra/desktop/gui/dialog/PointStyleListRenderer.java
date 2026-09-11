@@ -66,7 +66,7 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 
 		// get the selected point style
 		pointStyle = value == null ? EuclidianStyleConstants.POINT_STYLE_DOT
-				: ((Integer) value).intValue();
+				: (Integer) value;
 
 		if (isSelected) {
 			setBackground(Color.LIGHT_GRAY);

@@ -23,23 +23,23 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.test.UndoRedoTester;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class CommandsSuiteTest extends BaseSuiteTest {
+class CommandsSuiteTest extends BaseSuiteTest {
 
 	private AppCommon app;
 	private UndoRedoTester undoRedo;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		app = getApp();
 		undoRedo = new UndoRedoTester(app);
 		undoRedo.setupUndoRedo();
 	}
 
 	@Test
-	public void testSolveEnabled() {
+	void testSolveEnabled() {
 		GeoElement element = add("Solve(x)");
 		outputShouldBe(element, "l1 = {x = 0}");
 	}
@@ -49,13 +49,13 @@ public class CommandsSuiteTest extends BaseSuiteTest {
 	}
 
 	@Test
-	public void testIntegralEnabled() {
+	void testIntegralEnabled() {
 		GeoElement element = add("Integral(x)");
 		outputShouldBe(element, "f(x) = 1 / 2 x²");
 	}
 
 	@Test
-	public void testNSolveShouldBeDefined() {
+	void testNSolveShouldBeDefined() {
 		add("V(h) = 4h^3 - 102h^2 +630h");
 		add("l1 = NSolve(V(h))");
 		app.storeUndoInfo();
@@ -65,7 +65,7 @@ public class CommandsSuiteTest extends BaseSuiteTest {
 	}
 
 	@Test
-	public void testNSolveWithFunctionShouldBeDefined() {
+	void testNSolveWithFunctionShouldBeDefined() {
 		add("g(h) = h");
 		GeoElement l1 = add("l1 = NSolve(g(h) + h = 2)");
 		outputShouldBe(l1, "l1 = {h = 1}");

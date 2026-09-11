@@ -70,6 +70,9 @@ import org.geogebra.desktop.main.LocalizationD;
 @SuppressWarnings("javadoc")
 public class OptionsAdvancedD implements OptionPanelD,
 		ActionListener, ChangeListener, FocusListener, SetLabels {
+	/** available tooltip timeouts (will be reused in OptionsAdvanced) */
+	final private static String[] TOOLTIP_TIMEOUTS = new String[] { "1", "3",
+			"5", "10", "20", "30", "60", "0" };
 
 	/**
 	 * Application object.
@@ -999,9 +1002,5 @@ public class OptionsAdvancedD implements OptionPanelD,
 	public void setSelected(boolean flag) {
 		// see OptionsEuclidianD for possible implementation
 	}
-
-	/** available tooltip timeouts (will be reused in OptionsAdvanced) */
-	final private static String[] TOOLTIP_TIMEOUTS = new String[] { "1", "3",
-			"5", "10", "20", "30", "60", "0" };
 
 }

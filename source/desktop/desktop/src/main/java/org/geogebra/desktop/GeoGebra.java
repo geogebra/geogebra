@@ -75,8 +75,6 @@ public class GeoGebra {
 			if (imageURL != null) {
 				splashFrame = SplashWindow.splash(
 						Toolkit.getDefaultToolkit().createImage(imageURL));
-			} else {
-				System.err.println("Splash image not found");
 			}
 		}
 

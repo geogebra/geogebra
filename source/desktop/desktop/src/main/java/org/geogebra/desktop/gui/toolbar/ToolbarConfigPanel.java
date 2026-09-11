@@ -25,6 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -236,21 +237,16 @@ public class ToolbarConfigPanel extends JPanel
 			if (selRow > 0) { // not root
 				if (selNode.isLeaf()) {
 					Object userOb = selNode.getUserObject();
-					if (userOb == null) {
-						userOb = ((DefaultMutableTreeNode) selNode
-								.getFirstChild()).getUserObject();
-					} else {
+					if (userOb != null) {
 						toolListModel.addElement((Integer) userOb);
 					}
 				} else {
 					for (int i = 0; i < selNode.getChildCount(); i++) {
 						Integer mode = (Integer) ((DefaultMutableTreeNode) selNode
 								.getChildAt(i)).getUserObject();
-						if (mode != null
-								&& mode.intValue() != ToolBar.SEPARATOR) {
+						if (!Objects.equals(mode, ToolBar.SEPARATOR)) {
 							toolListModel.addElement(mode);
 						}
-
 					}
 				}
 				// not move mode: delete node
@@ -282,14 +278,14 @@ public class ToolbarConfigPanel extends JPanel
 			for (int i = 0; i < tools.length; i++) {
 				// check if too is already there
 				Integer modeInt = tools[i];
-				if (modeInt.intValue() > -1
+				if (modeInt > -1
 						&& containsTool(root, tools[i])) {
 					continue;
 				}
 
 				DefaultMutableTreeNode newNode;
 				if (parentNode == root) {
-					if (modeInt.intValue() > -1) {
+					if (modeInt > -1) {
 						// parent is root: create new submenu
 						newNode = new DefaultMutableTreeNode();
 						newNode.add(new DefaultMutableTreeNode(modeInt));
@@ -305,7 +301,7 @@ public class ToolbarConfigPanel extends JPanel
 
 				// remove node from list of unused tools if the node is not a
 				// separator
-				if (modeInt.intValue() > -1) {
+				if (modeInt > -1) {
 					toolListModel.removeElement(modeInt);
 				}
 			}
@@ -470,7 +466,7 @@ public class ToolbarConfigPanel extends JPanel
 			for (int j = 0; j < menu.getChildCount(); j++) {
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) menu
 						.getChildAt(j);
-				int mode = ((Integer) node.getUserObject()).intValue();
+				int mode = (Integer) node.getUserObject();
 
 				if (mode < 0) {
 					sb.append(", ");

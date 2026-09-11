@@ -137,8 +137,7 @@ public class AlgebraInputTransferHandler extends TransferHandler
 				ta.setText(text);
 				return true;
 
-			} catch (UnsupportedFlavorException ignored) {
-			} catch (IOException ignored) {
+			} catch (UnsupportedFlavorException | IOException ignored) {
 			}
 		}
 

@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.desktop.awt.Log;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.inputfield.KeyNavigation;
 import org.geogebra.desktop.gui.layout.LayoutD;
@@ -245,10 +246,9 @@ public class FormulaBar extends JToolBar
 				update();
 			}
 		}
-
 	}
 
-	private class BarButtonListener extends MouseAdapter {
+	private final class BarButtonListener extends MouseAdapter {
 		@Override
 		public void mouseClicked(MouseEvent event) {
 			Object source = event.getSource();
@@ -259,7 +259,7 @@ public class FormulaBar extends JToolBar
 					robot = new Robot();
 					robot.keyPress(KeyEvent.VK_ESCAPE);
 				} catch (AWTException e) {
-					e.printStackTrace();
+					Log.debug(e);
 				}
 			} else if (source == btnAcceptFormula) {
 				if (fldFormula.hasFocus()) {

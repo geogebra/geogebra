@@ -22,6 +22,8 @@
 
 package org.geogebra.desktop.gui.util;
 
+import org.geogebra.desktop.awt.Log;
+
 // Ported to Java 12/00 K Weiner
 class NeuQuant {
 
@@ -141,7 +143,7 @@ class NeuQuant {
 	 * Initialise network in range (0,0,0) to (255,255,255) and set parameters
 	 * -----------------------------------------------------------------------
 	 */
-	public NeuQuant(byte[] thepic, int len, int sample) {
+	NeuQuant(byte[] thepic, int len, int sample) {
 
 		int i;
 		int[] p;
@@ -160,7 +162,7 @@ class NeuQuant {
 		}
 	}
 
-	public byte[] colorMap() {
+	byte[] colorMap() {
 		byte[] map = new byte[3 * netsize];
 		int[] index = new int[netsize];
 		for (int i = 0; i < netsize; i++) {
@@ -182,7 +184,7 @@ class NeuQuant {
 	 * ------------------------------------------------------------------
 	 * -------------
 	 */
-	public void inxbuild() {
+	void inxbuild() {
 
 		int i, j, smallpos, smallval;
 		int[] p;
@@ -238,7 +240,7 @@ class NeuQuant {
 	/*
 	 * Main Learning Loop ------------------
 	 */
-	public void learn() {
+	void learn() {
 		int delta, samplepixels;
 		byte[] p;
 		int pix, lim;
@@ -328,7 +330,7 @@ class NeuQuant {
 	 * --------------------------------------------------------------------
 	 * --------
 	 */
-	public int map(int b, int g, int r) {
+	int map(int b, int g, int r) {
 
 		int i, j, dist, a, bestd;
 		int[] p;
@@ -400,7 +402,7 @@ class NeuQuant {
 		return best;
 	}
 
-	public byte[] process() {
+	byte[] process() {
 		learn();
 		unbiasnet();
 		inxbuild();
@@ -413,7 +415,7 @@ class NeuQuant {
 	 * ----------------------------------------------------------
 	 * -------------------------
 	 */
-	public void unbiasnet() {
+	void unbiasnet() {
 
 		int i;
 
@@ -457,7 +459,7 @@ class NeuQuant {
 					p[1] -= a * (p[1] - g) / alpharadbias;
 					p[2] -= a * (p[2] - r) / alpharadbias;
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.debug(e);
 				} // prevents 1.3 miscompilation
 			}
 			if (k > lo) {
@@ -467,7 +469,7 @@ class NeuQuant {
 					p[1] -= a * (p[1] - g) / alpharadbias;
 					p[2] -= a * (p[2] - r) / alpharadbias;
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.debug(e);
 				}
 			}
 		}

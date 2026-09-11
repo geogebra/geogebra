@@ -20,7 +20,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.SystemColor;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -129,7 +129,7 @@ public class OptionsDefaultsD
 	 * A dictionary which assigns a constant of the ConstructionsDefaults class
 	 * to the tree nodes.
 	 */
-	private static Hashtable<DefaultMutableTreeNode, Integer> typeToNode;
+	private static HashMap<DefaultMutableTreeNode, Integer> typeToNode;
 
 	/**
 	 * Construct an panel where the user can assign new values to the default
@@ -284,7 +284,7 @@ public class OptionsDefaultsD
 	 */
 	private void createDefaultMap() {
 
-		typeToNode = new Hashtable<>(15);
+		typeToNode = new HashMap<>(15);
 		typeToNode.put(pointsFreeNode, ConstructionDefaults.DEFAULT_POINT_FREE);
 		typeToNode.put(pointsDepNode,
 				ConstructionDefaults.DEFAULT_POINT_DEPENDENT);

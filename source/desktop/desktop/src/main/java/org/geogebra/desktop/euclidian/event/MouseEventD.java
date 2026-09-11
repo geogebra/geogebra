@@ -24,7 +24,7 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.util.debug.Log;
 
-public class MouseEventD extends AbstractEvent implements MouseEventND {
+public final class MouseEventD extends AbstractEvent implements MouseEventND {
 
 	private static final LinkedList<MouseEventD> pool = new LinkedList<>();
 	private MouseEvent event;

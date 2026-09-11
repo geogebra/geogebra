@@ -16,25 +16,25 @@
 
 package org.geogebra.common.gui.view.algebra;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.kernel.geos.BaseSymbolicTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.scientific.LabelController;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class AlgebraItemLaTeXPreviewTest extends BaseSymbolicTest {
+class AlgebraItemLaTeXPreviewTest extends BaseSymbolicTest {
 
-	@Before
-	public void clean() {
+	@BeforeEach
+	void clean() {
 		app.getKernel().clearConstruction(true);
 		app.setCasConfig();
 		app.getKernel().setAngleUnit(app.getConfig().getDefaultAngleUnit());
 	}
 
 	@Test
-	public void testCommandLatexPreview() {
+	void testCommandLatexPreview() {
 		GeoElement integral = add("a(x) = Integral(x*x,1,2)");
 		assertEquals("a\\left(x \\right)\\, = \\,\\int\\limits_{1}^{2}x \\; x\\,\\mathrm{d}x",
 				AlgebraItem.getPreviewLatexForGeoElement(integral));
@@ -45,7 +45,7 @@ public class AlgebraItemLaTeXPreviewTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testSimpleLatexPreview() {
+	void testSimpleLatexPreview() {
 		GeoElement geo = add("a = c + c");
 		assertEquals("a\\, = \\,c + c", AlgebraItem.getPreviewLatexForGeoElement(geo));
 
@@ -55,7 +55,7 @@ public class AlgebraItemLaTeXPreviewTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testTextLatexPreview() {
+	void testTextLatexPreview() {
 		GeoElement geo = add("t = \"text\"");
 		new LabelController().hideLabel(geo);
 		assertEquals("text", AlgebraItem.getPreviewLatexForGeoElement(geo));

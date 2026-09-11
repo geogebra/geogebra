@@ -172,7 +172,6 @@ public class Decoder {
 		if (line1 != null) {
 			line1.stop();
 			line1.close();
-			line1 = null;
 		}
 	}
 

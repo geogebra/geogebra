@@ -58,6 +58,13 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 	private static final long serialVersionUID = 1L;
 	/** name model */
 	ObjectNameModel model;
+	/**
+	 * current geo on which focus lost should apply (might be different to current
+	 * geo, due to threads)
+	 */
+	private GeoElementND currentGeoForFocusLost = null;
+	private String redefinitionForFocusLost = "";
+
 	private final AutoCompleteTextFieldD tfName;
 	private final AutoCompleteTextFieldD tfDefinition;
 	private final AutoCompleteTextFieldD tfCaption;
@@ -80,7 +87,7 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 	 * @param app
 	 *            application
 	 */
-	public NamePanelD(AppD app, UpdateTabs tabs) {
+	NamePanelD(AppD app, UpdateTabs tabs) {
 		this.app = app;
 		this.loc = app.getLocalization();
 		model = new ObjectNameModel(app, this);
@@ -188,12 +195,6 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 				5, 5); // xPad, yPad
 	}
 
-	/**
-	 * current geo on which focus lost should apply (might be different to current
-	 * geo, due to threads)
-	 */
-	private GeoElementND currentGeoForFocusLost = null;
-
 	@Override
 	public JPanel updatePanel(Object[] geos) {
 
@@ -234,13 +235,11 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 		return this;
 	}
 
-	private String redefinitionForFocusLost = "";
-
 	/**
 	 * Updates the definition of an element and clears the error label if visible.
 	 * @param geo Element whose definition should be updated.
 	 */
-	public void updateDefinition(GeoElementND geo) {
+	void updateDefinition(GeoElementND geo) {
 		// do nothing if called by doActionPerformed
 		if (model.isBusy()) {
 			return;
@@ -269,7 +268,7 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 	 * @param geo
 	 *            element
 	 */
-	public void updateName(GeoElement geo) {
+	void updateName(GeoElement geo) {
 		// do nothing if called by doActionPerformed
 		if (model.isBusy()) {
 			return;
@@ -425,7 +424,7 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 
 	}
 
-	public DynamicCaptionPanelD getDynamicCaptionPanel() {
+	DynamicCaptionPanelD getDynamicCaptionPanel() {
 		return dynamicCaptionPanel;
 	}
 

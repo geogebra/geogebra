@@ -40,6 +40,9 @@ import org.geogebra.desktop.main.AppD;
  */
 public class App3DCompanionD extends App3DCompanion {
 
+	private EuclidianDockPanelForPlaneD panel;
+	private ArrayList<EuclidianDockPanelForPlaneD> panelForPlaneList;
+
 	/**
 	 * constructor
 	 * 
@@ -78,14 +81,10 @@ public class App3DCompanionD extends App3DCompanion {
 		return view.getCompanion();
 	}
 
-	private EuclidianDockPanelForPlaneD panel;
-
 	@Override
 	public DockPanelD getPanelForPlane() {
 		return panel;
 	}
-
-	private ArrayList<EuclidianDockPanelForPlaneD> panelForPlaneList;
 
 	@Override
 	public void storeViewCreators() {
@@ -116,8 +115,7 @@ public class App3DCompanionD extends App3DCompanion {
 			GeoElement geo = app.getKernel()
 					.lookupLabel(((GeoElement) view.getCompanion().getPlane())
 							.getLabelSimple());
-			if (geo != null && (geo instanceof ViewCreator)) {
-				ViewCreator plane = (ViewCreator) geo;
+			if (geo instanceof ViewCreator plane) {
 				view.getCompanion().setPlane(plane);
 				plane.setEuclidianViewForPlane(view.getCompanion());
 				view.getCompanion().updateForPlane();

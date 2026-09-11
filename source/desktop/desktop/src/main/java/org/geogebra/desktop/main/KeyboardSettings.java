@@ -166,7 +166,7 @@ public class KeyboardSettings extends AbstractSettings {
 			return;
 		}
 		for (int i = 0; i < supportedLocales.size(); i++) {
-			if (supportedLocales.get(i).toString().equals(string)) {
+			if (supportedLocales.get(i).equals(string)) {
 				keyboardLocale = supportedLocales.get(i);
 				settingChanged();
 				return;

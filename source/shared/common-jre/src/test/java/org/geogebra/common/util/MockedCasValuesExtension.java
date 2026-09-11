@@ -19,7 +19,6 @@ package org.geogebra.common.util;
 import static java.util.Map.entry;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -35,8 +34,10 @@ import org.junit.jupiter.api.extension.ExtensionContext;
  * either in the current class or in a superclass.
  */
 public final class MockedCasValuesExtension implements BeforeEachCallback {
+
 	@Override
-	public void beforeEach(ExtensionContext context) throws Exception {
+	@SuppressWarnings("PMD.AvoidAccessibilityAlteration")
+	public void beforeEach(ExtensionContext context) throws IllegalAccessException {
 		// Check for test methods annotated with @MockedCasValues
 		MockedCasValues mockedCasValuesAnnotation = context.getTestMethod().get()
 				.getAnnotation(MockedCasValues.class);
@@ -60,14 +61,12 @@ public final class MockedCasValuesExtension implements BeforeEachCallback {
 		// Search for MockedCasGiac mockedCasGiac field and its memorize method
 		Object testInstance = context.getRequiredTestInstance();
 		Field mockedCasGiacField = findMockedCasGiacField(testInstance.getClass());
+		// the field likely belongs to a non-public class and should not be public itself
 		mockedCasGiacField.setAccessible(true);
-		Object mockedCasGiacInstance = mockedCasGiacField.get(testInstance);
-		Method memorizeMethod = mockedCasGiacInstance.getClass()
-				.getMethod("memorize", String.class, String.class);
-
+		MockedCasGiac mockedCasGiacInstance = (MockedCasGiac) mockedCasGiacField.get(testInstance);
 		// Call MockedCasGiac::memorize on the parsed input-output pairs
 		for (Map.Entry<String, String> casValue : inputOutputPairs) {
-			memorizeMethod.invoke(mockedCasGiacInstance, casValue.getKey(), casValue.getValue());
+			mockedCasGiacInstance.memorize(casValue.getKey(), casValue.getValue());
 		}
 	}
 

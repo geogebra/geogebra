@@ -18,6 +18,7 @@ package org.geogebra.desktop.main;
 
 import java.io.InvalidObjectException;
 import java.io.ObjectStreamException;
+import java.io.Serial;
 import java.util.logging.Level;
 
 /**
@@ -27,15 +28,8 @@ import java.util.logging.Level;
  * 
  * http://blogs.sun.com/nickstephen/entry/java_redirecting_system_out_and
  */
-public class StdOutErrLevel extends Level {
+public final class StdOutErrLevel extends Level {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Private constructor
-	 */
-	private StdOutErrLevel(String name, int value) {
-		super(name, value);
-	}
 
 	/**
 	 * Level for STDOUT activity.
@@ -49,6 +43,13 @@ public class StdOutErrLevel extends Level {
 			Level.INFO.intValue() + 54);
 
 	/**
+	 * Private constructor
+	 */
+	private StdOutErrLevel(String name, int value) {
+		super(name, value);
+	}
+
+	/**
 	 * Method to avoid creating duplicate instances when deserializing the
 	 * object.
 	 * 
@@ -57,7 +58,8 @@ public class StdOutErrLevel extends Level {
 	 * @throws ObjectStreamException
 	 *             If unable to deserialize
 	 */
-	protected Object readResolve() throws ObjectStreamException {
+	@Serial
+	private Object readResolve() throws ObjectStreamException {
 		if (this.intValue() == STDOUT.intValue()) {
 			return STDOUT;
 		}

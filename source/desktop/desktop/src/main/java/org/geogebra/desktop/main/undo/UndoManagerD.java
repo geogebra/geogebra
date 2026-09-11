@@ -149,7 +149,7 @@ public class UndoManagerD extends UndoManager {
 			Log.error("Problem setting undo info");
 			Log.debug(e);
 			restoreCurrentUndoInfo();
-		} catch (java.lang.OutOfMemoryError err) {
+		} catch (OutOfMemoryError err) {
 			Log.error("UndoManager.loadUndoInfo: " + err);
 		}
 

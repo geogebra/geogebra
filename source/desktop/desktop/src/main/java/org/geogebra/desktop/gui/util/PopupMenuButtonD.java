@@ -78,6 +78,7 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 
 	private boolean isIniting = true;
 	protected boolean popupIsVisible;
+	private boolean isStandardButton = false;
 
 	/**
 	 * @param fgColor color
@@ -97,12 +98,18 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		this.iconSize = iconSize;
 	}
 
+	/**
+	 *
+	 * @param isDownwardPopup whether the popup opens downwards
+	 */
 	public void setDownwardPopup(boolean isDownwardPopup) {
 		this.isDownwardPopup = isDownwardPopup;
 	}
 
-	private boolean isStandardButton = false;
-
+	/**
+	 * @param isStandardButton whether this is a standard button
+	 * (clickable area spans the whole button)
+	 */
 	public void setStandardButton(boolean isStandardButton) {
 		this.isStandardButton = isStandardButton;
 	}
@@ -285,6 +292,9 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		myPopup.removeAll();
 	}
 
+	/**
+	 * @param menu popup menu
+	 */
 	public void setPopupMenu(JPopupMenu menu) {
 		myPopup = menu;
 	}
@@ -415,7 +425,7 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		if (selectedIndex0 == null) {
 			selectedIndex = -1;
 		} else {
-			selectedIndex = selectedIndex0.intValue();
+			selectedIndex = selectedIndex0;
 		}
 
 		myTable.setSelectedIndex(selectedIndex);

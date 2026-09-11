@@ -31,7 +31,11 @@ import org.geogebra.common.util.debug.Log;
 import org.junit.Test;
 
 public class ArticleTest {
+	/**
+	 * TODO turn this into an actual test, check that all parameters are documented
+	 */
 	@Test
+	@SuppressWarnings("PMD.SystemPrintln")
 	public void documentedParameters() {
 		Method[] mtds = AppletParameters.class.getMethods();
 		TreeSet<String> documented = new TreeSet<>();
@@ -51,10 +55,10 @@ public class ArticleTest {
 			huc.setConnectTimeout(10000);
 			huc.setRequestMethod("GET");
 			huc.connect();
-			String answer = "", s;
+			String s;
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					huc.getInputStream(), StandardCharsets.UTF_8));
-			answer = in.readLine(); // the last line will never get a "\n" on
+			String answer = in.readLine(); // the last line will never get a "\n" on
 			// its end
 			while ((s = in.readLine()) != null) {
 				if (!("".equals(answer))) {

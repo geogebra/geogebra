@@ -72,7 +72,7 @@ public class AnimationSpeedPanel extends JPanel
 		model.setListener(this);
 
 		// combo box for
-		animationModeCB = new JComboBox();
+		animationModeCB = new JComboBox<>();
 		modeLabel = new JLabel();
 
 		// text field for animation step

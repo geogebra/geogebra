@@ -50,7 +50,6 @@ import org.geogebra.desktop.gui.TitlePanel;
 import org.geogebra.desktop.gui.dialog.Dialog;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD;
 import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.util.UtilD;
 
 public class ConstructionProtocolExportDialogD extends Dialog
@@ -142,18 +141,15 @@ public class ConstructionProtocolExportDialogD extends Dialog
 		cancelButton.addActionListener(e -> dispose());
 		JButton exportButton = new JButton(loc.getMenu("Export"));
 		exportButton.addActionListener(e -> {
-			Thread runner = new Thread() {
-				@Override
-				public void run() {
-					dispose();
-					if (kernelChanged) {
-						app.storeUndoInfo();
-					}
-					exportHTML(cbDrawingPadPicture.isSelected(),
-							cbScreenshotPicture.isSelected(),
-							cbColor.isSelected());
+			Thread runner = new Thread(() -> {
+				dispose();
+				if (kernelChanged) {
+					app.storeUndoInfo();
 				}
-			};
+				exportHTML(cbDrawingPadPicture.isSelected(),
+						cbScreenshotPicture.isSelected(),
+						cbColor.isSelected());
+			});
 			runner.start();
 		});
 
@@ -175,9 +171,8 @@ public class ConstructionProtocolExportDialogD extends Dialog
 									prot.getUseColors()));
 					clipboard.setContents(stringSelection, null);
 				} catch (Exception ex) {
-					ex.printStackTrace();
+					Log.debug(ex);
 					app.showError(Errors.SaveFileFailed);
-					Log.debug(ex.toString());
 				}
 			});
 			runner.start();

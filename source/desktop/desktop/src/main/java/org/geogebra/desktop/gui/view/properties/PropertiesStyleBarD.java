@@ -38,7 +38,6 @@ import javax.swing.JToolTip;
 import javax.swing.SwingConstants;
 import javax.swing.ToolTipManager;
 
-import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.debug.Log;
@@ -95,7 +94,7 @@ public class PropertiesStyleBarD {
 		toolbar = new JToolBar();
 		toolbar.setFloatable(false);
 
-		buttonMap = new HashMap<OptionType, AbstractButton>();
+		buttonMap = new HashMap<>();
 
 		ButtonGroup btnGroup = new ButtonGroup();
 		for (final OptionType type : OptionType.values()) {
@@ -149,16 +148,14 @@ public class PropertiesStyleBarD {
 	 * @return new properties button
 	 */
 	protected PropertiesButton newPropertiesButton(OptionType type) {
-
-		if (type == OptionType.EUCLIDIAN3D) { // used only for 3D
-			return null;
+		if (supportsPropertyType(type)) {
+			return new PropertiesButton();
 		}
+		return null;
+	}
 
-		if (type == OptionType.EUCLIDIAN_FOR_PLANE) { // used only for 3D
-			return null;
-		}
-
-		return new PropertiesButton();
+	protected boolean supportsPropertyType(OptionType type) {
+		return type != OptionType.EUCLIDIAN3D && type != OptionType.EUCLIDIAN_FOR_PLANE;
 	}
 
 	public PopupMenuButtonD getBtnOption() {
@@ -280,14 +277,13 @@ public class PropertiesStyleBarD {
 		objectButton.setEnabled(flag);
 	}
 
-	protected static class PropertiesButton extends JToggleButton {
+	protected static final class PropertiesButton extends JToggleButton {
 
-		// add(Box.createVerticalStrut(2
 		private static final long serialVersionUID = 1L;
 
 		private JToolTip tip;
 
-		public PropertiesButton() {
+		private PropertiesButton() {
 			super();
 			this.addMouseListener(new ToolTipMouseAdapter());
 		}

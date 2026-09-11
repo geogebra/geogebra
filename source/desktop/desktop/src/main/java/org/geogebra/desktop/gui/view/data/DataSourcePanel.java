@@ -31,6 +31,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,12 +113,11 @@ public class DataSourcePanel extends JPanel
 	/** current mode */
 	int mode;
 	protected int btnHoverColumn = -1;
+	private String[] columnDataTitles;
 
 	private int selectedVarIndex() {
 		return dataSource.getSelectedIndex();
 	}
-
-	private String[] columnDataTitles;
 
 	public String[] getColumnDataTitles() {
 		return columnDataTitles;
@@ -834,14 +834,12 @@ public class DataSourcePanel extends JPanel
 		return menu;
 	}
 
-	private static class ImageButton extends JButton {
+	private static final class ImageButton extends JButton {
 
-		/**
-		 * 
-		 */
+		@Serial
 		private static final long serialVersionUID = 1L;
 
-		public ImageButton(Icon imageIcon) {
+		private ImageButton(Icon imageIcon) {
 			super(imageIcon);
 			setMargin(new Insets(0, 0, 0, 0));
 			setBorderPainted(false);

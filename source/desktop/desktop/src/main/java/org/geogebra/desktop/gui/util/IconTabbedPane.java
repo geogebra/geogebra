@@ -128,7 +128,7 @@ public class IconTabbedPane extends JTabbedPane {
 		/**
 		 * Update the font.
 		 */
-		public void updateFont() {
+		void updateFont() {
 			LookAndFeel.installColorsAndFont(tabPane, "TabbedPane.background",
 					"TabbedPane.foreground", "TabbedPane.font");
 		}

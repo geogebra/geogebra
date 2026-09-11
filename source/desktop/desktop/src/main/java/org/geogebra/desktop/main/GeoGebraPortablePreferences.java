@@ -63,7 +63,7 @@ import org.geogebra.common.util.debug.Log;
  * @author Hans-Petter Ulven
  * @version 2010-03-07
  */
-public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
+public final class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 
 	private final static String ERROR = "Error?"; // For debugging
 	private final static String COMMENT = "GeoGebra Portable preferences (GeoGebra settings file)";
@@ -101,7 +101,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 			}
 		} catch (Exception e) {
 			Log.debug("Problem loading settings file...");
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -164,7 +164,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 				set(APP_CURRENT_IMAGE_PATH, imgPath.getCanonicalPath());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -220,7 +220,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		// If this is the last call to the pref system and is always done on
 		// exit
@@ -294,7 +294,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 		app.setDefaultCursor();

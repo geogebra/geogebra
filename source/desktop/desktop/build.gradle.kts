@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.geogebra.checkstyle)
     alias(libs.plugins.geogebra.spotbugs)
     alias(libs.plugins.geogebra.variants)
+    alias(libs.plugins.geogebra.pmd)
 }
 
 description = "Parts of GeoGebra related to desktop platforms"

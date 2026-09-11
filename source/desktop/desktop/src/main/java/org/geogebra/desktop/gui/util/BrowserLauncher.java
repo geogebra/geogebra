@@ -23,17 +23,6 @@ import java.net.URI;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 
-/////////////////////////////////////////////////////////
-// Bare Bones Browser Launch                          //
-// Version 1.5                                        //
-// December 10, 2005                                  //
-// Supports: Mac OS X, GNU/Linux, Unix, Windows XP    //
-// Example Usage:                                     //
-//  String url = "http://www.centerkey.com/";       //
-//  BareBonesBrowserLaunch.openURL(url);            //
-// Public Domain Software -- Free to Use as You Like  //
-/////////////////////////////////////////////////////////
-
 /**
  * Utility for launching browser
  *
@@ -55,16 +44,15 @@ public class BrowserLauncher {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 		// fallback
 		try {
 			if (AppD.MAC_OS) {
 				Class<?> fileMgr = Class.forName("com.apple.eio.FileManager");
-				Method openURL = fileMgr.getDeclaredMethod("openURL",
-						new Class[] { String.class });
-				openURL.invoke(null, new Object[] { url });
+				Method openURL = fileMgr.getDeclaredMethod("openURL", String.class);
+				openURL.invoke(null, url);
 			} else if (AppD.WINDOWS) {
 				// replace file:/c:/Program Files/etc
 				// by file:///c:\Program Files\etc
@@ -83,7 +71,7 @@ public class BrowserLauncher {
 					// with
 					// backslashes
 
-					fixedURL = "file:///" + url; // put "file:///" back in
+					fixedURL = "file:///" + fixedURL; // put "file:///" back in
 				}
 
 				Runtime.getRuntime().exec(
@@ -110,7 +98,7 @@ public class BrowserLauncher {
 				Runtime.getRuntime().exec(new String[] { browser, url });
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

@@ -59,6 +59,7 @@ import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.SpreadsheetTraceManager;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
+import org.geogebra.desktop.awt.Log;
 import org.geogebra.desktop.gui.dialog.Dialog;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
@@ -124,6 +125,7 @@ public class TraceDialog extends Dialog
 	private boolean isIniting = false;
 	private JLabel lblStartRow;
 	private final LocalizationD loc;
+	private final StringBuilder sb = new StringBuilder();
 
 	/**
 	 * Constructor
@@ -143,7 +145,7 @@ public class TraceDialog extends Dialog
 		this.view = (SpreadsheetViewD) app.getGuiManager().getSpreadsheetView();
 		geo = selectedGeo;
 		traceManager = app.getTraceManager();
-		traceGeoList = new JList();
+		traceGeoList = new JList<>();
 
 		initGUI();
 		setTraceDialogSelection(selectedGeo, traceCell);
@@ -280,7 +282,7 @@ public class TraceDialog extends Dialog
 			setLocationRelativeTo(app.getFrame());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -292,8 +294,8 @@ public class TraceDialog extends Dialog
 		listPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1,
 				SystemColor.controlShadow));
 
-		traceGeoListModel = new DefaultListModel();
-		traceGeoList = new JList(traceGeoListModel);
+		traceGeoListModel = new DefaultListModel<>();
+		traceGeoList = new JList<>(traceGeoListModel);
 
 		traceGeoList
 				.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -475,8 +477,6 @@ public class TraceDialog extends Dialog
 		optionsTitle.setTitle(loc.getMenu("Options"));
 
 	}
-
-	private StringBuilder sb = new StringBuilder();
 
 	private void setTraceModeLabels() {
 
@@ -737,7 +737,7 @@ public class TraceDialog extends Dialog
 	private void doTextFieldActionPerformed(JTextField source) {
 
 		try {
-			Integer value = Integer.parseInt(source.getText());
+			int value = Integer.parseInt(source.getText());
 
 			if (value > 0
 					&& value < app.getMaxSpreadsheetRowsVisible()) {
@@ -754,7 +754,7 @@ public class TraceDialog extends Dialog
 				}
 			}
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}

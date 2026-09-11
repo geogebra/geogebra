@@ -265,7 +265,7 @@ public class GeoGebraFileChooser extends JFileChooser
 	 * @author Florian Sonner
 	 */
 
-	private class PreviewPanel extends JPanel
+	private final class PreviewPanel extends JPanel
 			implements PropertyChangeListener {
 		private static final long serialVersionUID = 1L;
 
@@ -301,7 +301,7 @@ public class GeoGebraFileChooser extends JFileChooser
 		 */
 		private final Label fileLabel;
 
-		public PreviewPanel(GeoGebraFileChooser fileChooser) {
+		private PreviewPanel(GeoGebraFileChooser fileChooser) {
 			this.fileChooser = fileChooser;
 
 			setLayout(new BorderLayout());
@@ -320,7 +320,7 @@ public class GeoGebraFileChooser extends JFileChooser
 			add(BorderLayout.SOUTH, fileLabel);
 		}
 
-		public void setPreviewPanelType(int mode) {
+		private void setPreviewPanelType(int mode) {
 			CardLayout layout = (CardLayout) cards.getLayout();
 			if (mode == GeoGebraFileChooser.MODE_DATA) {
 				layout.show(cards, "dataPanel");
@@ -333,7 +333,7 @@ public class GeoGebraFileChooser extends JFileChooser
 			fileLabel.setText(null);
 		}
 
-		public JScrollPane buildDataPanel() {
+		private JScrollPane buildDataPanel() {
 			dataPreviewPanel = new JTextArea();
 			dataPreviewPanel.setEditable(false);
 			dataPreviewPanel.setWrapStyleWord(false);
@@ -368,7 +368,7 @@ public class GeoGebraFileChooser extends JFileChooser
 					}
 				}
 			} catch (IOException ioe) {
-				ioe.printStackTrace();
+				Log.debug(ioe);
 			}
 		}
 
@@ -384,49 +384,44 @@ public class GeoGebraFileChooser extends JFileChooser
 			String fileName = file.getName();
 
 			StringBuilder contents = new StringBuilder();
-			BufferedReader reader = null;
 
-			try {
-				reader = new BufferedReader(new InputStreamReader(
-						new FileInputStream(file), StandardCharsets.UTF_8));
-				String text;
-				int lineCount = 0;
-				// read at most 20 lines
-				while ((text = reader.readLine()) != null && lineCount < 20) {
-					contents.append(text)
-							.append(System.getProperty("line.separator"));
-					lineCount++;
-				}
-
-				StringBuilder fileInfo = new StringBuilder();
-
-				if (fileName.length() > 20) {
-					fileInfo.append(fileName.substring(0, 20));
-					fileInfo.append("..");
-				} else {
-					fileInfo.append(fileName);
-				}
-
-				fileLabel.setText(fileInfo.toString());
-
-				if (contents.length() == 0) {
-					contents.append(app.getLocalization()
-							.getMenu("PreviewUnavailable"));
-				}
-
-				dataPreviewPanel.setText(contents.toString());
-				dataPreviewPanel.setCaretPosition(0);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-
-			} finally {
+			try (FileInputStream fis = new FileInputStream(file);
+					BufferedReader reader = new BufferedReader(new InputStreamReader(
+							fis, StandardCharsets.UTF_8))) {
 				try {
-					if (reader != null) {
-						reader.close();
+					String text;
+					int lineCount = 0;
+					// read at most 20 lines
+					while ((text = reader.readLine()) != null && lineCount < 20) {
+						contents.append(text)
+								.append(System.getProperty("line.separator"));
+						lineCount++;
 					}
-				} catch (IOException e) {
-					e.printStackTrace();
+
+					StringBuilder fileInfo = new StringBuilder();
+
+					if (fileName.length() > 20) {
+						fileInfo.append(fileName.substring(0, 20));
+						fileInfo.append("..");
+					} else {
+						fileInfo.append(fileName);
+					}
+
+					fileLabel.setText(fileInfo.toString());
+
+					if (contents.length() == 0) {
+						contents.append(app.getLocalization()
+								.getMenu("PreviewUnavailable"));
+					}
+
+					dataPreviewPanel.setText(contents.toString());
+					dataPreviewPanel.setCaretPosition(0);
+				} catch (FileNotFoundException e) {
+					Log.debug(e);
+
 				}
+			} catch (IOException e) {
+				Log.debug(e);
 			}
 
 		}
@@ -548,8 +543,8 @@ public class GeoGebraFileChooser extends JFileChooser
 				// This is thrown if you select .ico files
 				setImg(null);
 			} catch (Throwable t) {
-				t.printStackTrace();
-				Log.debug(t.getClass() + "");
+				Log.debug(t);
+				Log.debug(t.getClass());
 				setImg(null);
 			}
 		}
@@ -567,15 +562,15 @@ public class GeoGebraFileChooser extends JFileChooser
 		 * 
 		 * @author Florian Sonner
 		 */
-		private class ImagePanel extends JPanel {
+		private final class ImagePanel extends JPanel {
 			private static final long serialVersionUID = 1L;
 
 			/**
 			 * The size of the image panel.
 			 */
-			public final static int SIZE = 200;
+			private final static int SIZE = 200;
 
-			public ImagePanel() {
+			private ImagePanel() {
 				setPreferredSize(new Dimension(SIZE, SIZE));
 				setBorder(BorderFactory.createEtchedBorder());
 			}
@@ -584,7 +579,7 @@ public class GeoGebraFileChooser extends JFileChooser
 			 * Paint the preview area.
 			 */
 			@Override
-			public void paintComponent(Graphics g) {
+			protected void paintComponent(Graphics g) {
 				Graphics2D g2 = (Graphics2D) g;
 
 				// fill background

@@ -760,16 +760,6 @@ public class Constants {
 					0 } };
 	static final int[][] REORDER_TABLE;
 
-	public static class SBI {
-		public int[] l;
-		public int[] s;
-
-		public SBI(int[] theL, int[] theS) {
-			l = theL;
-			s = theS;
-		}
-	}
-
 	static final SBI[] SF_BAND_INDEX = new SBI[9];
 	static {
 		int[] l0 = { 0, 6, 12, 18, 24, 30, 36, 44, 54, 66, 80, 96, 116, 140,
@@ -815,6 +805,25 @@ public class Constants {
 		}
 	}
 
+	/**
+	 * d[] split into subarrays of length 16. This provides for more faster
+	 * access by allowing a block of 16 to be addressed with constant offset.
+	 */
+	static final double[][] D16;
+	static {
+		D16 = splitArray(D, 16);
+	}
+
+	public static class SBI {
+		public int[] l;
+		public int[] s;
+
+		public SBI(int[] theL, int[] theS) {
+			l = theL;
+			s = theS;
+		}
+	}
+
 	private static int[] reorder(int[] scaleFactorBand) {
 		int j = 0;
 		int[] ix = new int[576];
@@ -828,15 +837,6 @@ public class Constants {
 			}
 		}
 		return ix;
-	}
-
-	/**
-	 * d[] split into subarrays of length 16. This provides for more faster
-	 * access by allowing a block of 16 to be addressed with constant offset.
-	 */
-	static final double[][] D16;
-	static {
-		D16 = splitArray(D, 16);
 	}
 
 	/**
@@ -868,16 +868,17 @@ public class Constants {
 	 * Returns a subarray of an existing array.
 	 * 
 	 * @param array
-	 *            The array to retrieve a subarra from.
+	 *            The array to retrieve a subarray from.
 	 * @param offs
 	 *            The offset in the array that corresponds to the first index of
 	 *            the subarray.
-	 * @param len
+	 * @param length
 	 *            The number of indices in the subarray.
 	 * @return The subarray, which may be of length 0.
 	 */
 	private static double[] subArray(final double[] array, final int offs,
-			int len) {
+			int length) {
+		int len = length;
 		if (offs + len > array.length) {
 			len = array.length - offs;
 		}

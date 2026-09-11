@@ -42,7 +42,6 @@ public class TemplateLoadTest {
 
 	@Before
 	public void init() {
-		this.getClass().getClassLoader().setDefaultAssertionStatus(false);
 		AppletParameters articleElement = new AppletParameters("notes");
 		app = AppMocker.mockApplet(articleElement);
 		app.setXML("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<geogebra format=\"5.0\" "

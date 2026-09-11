@@ -22,7 +22,6 @@ import java.util.Set;
 
 import javax.swing.ListCellRenderer;
 
-import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.GuiManagerInterface;

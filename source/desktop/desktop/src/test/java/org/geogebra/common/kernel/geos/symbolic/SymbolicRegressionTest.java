@@ -18,7 +18,7 @@ package org.geogebra.common.kernel.geos.symbolic;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
@@ -36,10 +36,10 @@ import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.ErrorAccumulator;
 import org.hamcrest.CoreMatchers;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class SymbolicRegressionTest extends BaseUnitTest {
+class SymbolicRegressionTest extends BaseUnitTest {
 
 	private TableValuesView view;
 
@@ -48,8 +48,8 @@ public class SymbolicRegressionTest extends BaseUnitTest {
 		return new AppDNoGui(new LocalizationD(3), false);
 	}
 
-	@Before
-	public void setupTable() {
+	@BeforeEach
+	void setupTable() {
 		GeoList list = add("x_1={1,2,3,4}");
 		GeoList listY = add("y_1={1,8,27,64}");
 		getApp().setCasConfig();
@@ -63,7 +63,7 @@ public class SymbolicRegressionTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-3360")
-	public void columnsShouldNotBeSymbolic() {
+	void columnsShouldNotBeSymbolic() {
 		reload();
 		assertThat(lookup("x_1").getGeoClassType(), equalTo(GeoClass.LIST));
 		assertThat(lookup("y_1").getGeoClassType(), equalTo(GeoClass.LIST));
@@ -71,7 +71,7 @@ public class SymbolicRegressionTest extends BaseUnitTest {
 
 	@Test
 	@Issue("APPS-4104")
-	public void regressionShouldNotBeSymbolic() {
+	void regressionShouldNotBeSymbolic() {
 		GeoElement regression = view.plotRegression(1,
 				new RegressionSpecificationBuilder().getForListSize(3).get(0));
 		assertThat(regression.getGeoClassType(), CoreMatchers.is(GeoClass.FUNCTION));

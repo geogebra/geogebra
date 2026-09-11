@@ -54,10 +54,10 @@ public class AsymptoteFrame extends ExportFrame {
 	 * 
 	 */
 	protected void initGui() {
-		comboFormat = new JComboBox(format); // prevent break with extended
+		comboFormat = new JComboBox<>(format); // prevent break with extended
 												// class
 
-		comboFontSizeMore = new JComboBox(fontsizelist);
+		comboFontSizeMore = new JComboBox<>(fontsizelist);
 		comboFontSizeMore
 				.setSelectedIndex(10 - Integer.parseInt(fontsizelist[0]));
 

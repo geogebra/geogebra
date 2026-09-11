@@ -29,12 +29,12 @@ public interface OptionPanelD {
 	/**
 	 * Update the GUI to take care of new settings which were applied.
 	 */
-	public void updateGUI();
+	void updateGUI();
 
 	/**
 	 * JPanel method
 	 */
-	public void revalidate();
+	void revalidate();
 
 	/**
 	 * JPanel method
@@ -42,22 +42,22 @@ public interface OptionPanelD {
 	 * @param border
 	 *            border
 	 */
-	public void setBorder(Border border);
+	void setBorder(Border border);
 
 	/**
 	 * @return the wrapped JPanel for Desktop
 	 */
-	public JPanel getWrappedPanel();
+	JPanel getWrappedPanel();
 
 	/**
 	 * apply modifications. should be called when the panel is hidden.
 	 */
-	public void applyModifications();
+	void applyModifications();
 
 	/**
 	 * update the font
 	 */
-	public void updateFont();
+	void updateFont();
 
 	/**
 	 * set if this panel is selected or not (used for update)
@@ -65,6 +65,6 @@ public interface OptionPanelD {
 	 * @param flag
 	 *            selected or not
 	 */
-	public void setSelected(boolean flag);
+	void setSelected(boolean flag);
 
 }

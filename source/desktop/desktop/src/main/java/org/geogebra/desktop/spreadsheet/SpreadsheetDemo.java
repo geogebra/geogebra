@@ -166,23 +166,24 @@ public class SpreadsheetDemo {
 		});
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
+			@SuppressWarnings("PMD.DoNotTerminateVM")
 			public void windowClosing(WindowEvent e) {
 				System.exit(0);
 			}
 		});
 	}
 
-	private static class SpreadsheetPanel extends JPanel {
+	private static final class SpreadsheetPanel extends JPanel {
 		private final Spreadsheet spreadsheet;
 		private final MathFieldD mathField;
 		private final Box editorBox = Box.createHorizontalBox();
 		private final JPopupMenu contextMenu = new JPopupMenu();
-		public JPanel editorOverlay;
+		private JPanel editorOverlay;
 
 		private int scrollX;
 		private int scrollY;
 
-		public SpreadsheetPanel(Spreadsheet spreadsheet, AppCommon app, JFrame frame) {
+		private SpreadsheetPanel(Spreadsheet spreadsheet, AppCommon app, JFrame frame) {
 			this.spreadsheet = spreadsheet;
 			this.mathField = new MathFieldD(new SyntaxAdapterImpl(app.getKernel()),
 					editorBox::repaint);
@@ -327,7 +328,7 @@ public class SpreadsheetDemo {
 					event.isShiftDown(), false);
 		}
 
-		public Rectangle getViewport() {
+		private Rectangle getViewport() {
 			return new Rectangle(scrollX, scrollX + 500, scrollY, scrollY + 400);
 		}
 

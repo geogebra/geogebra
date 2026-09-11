@@ -196,7 +196,7 @@ public class ModeToggleMenuD extends JPanel {
 	}
 
 	// sets new mode when item in popup menu is selected
-	private class MenuItemListener implements ActionListener {
+	private final class MenuItemListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -214,7 +214,6 @@ public class ModeToggleMenuD extends JPanel {
 				tbutton.doClick();
 				tbutton.setActionCommand(oldCmd);
 			}
-
 		}
 	}
 

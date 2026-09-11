@@ -172,7 +172,7 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 	}
 
 	void toggleShowConstructionProtocolNavigation() {
-		((AppD) app).toggleShowConstructionProtocolNavigation(
+		app.toggleShowConstructionProtocolNavigation(
 				app.getActiveEuclidianView().getViewID());
 	}
 

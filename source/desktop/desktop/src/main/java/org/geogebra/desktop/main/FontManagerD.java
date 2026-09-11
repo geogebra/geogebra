@@ -398,7 +398,7 @@ public class FontManagerD extends FontManager {
 		UIManager.put("Table.font", font);
 		UIManager.put("TableHeader.font", font);
 		UIManager.put("Tree.font", font);
-		UIManager.put("Tree.rowHeight", Integer.valueOf(font.getSize() + 5));
+		UIManager.put("Tree.rowHeight", font.getSize() + 5);
 		UIManager.put("List.font", font);
 		UIManager.put("TextField.font", font);
 		UIManager.put("PasswordField.font", font);

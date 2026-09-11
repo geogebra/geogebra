@@ -38,6 +38,22 @@ import org.geogebra.desktop.main.AppD;
 public class DockSplitPane extends JSplitPane implements DockComponent {
 	private static final long serialVersionUID = 1L;
 	private boolean dividerVisible;
+	private int savedDividerLocation;
+	private int savedSize;
+
+	/**
+	 * Listener for split pane resizing. Transfers focus to the split pane after
+	 * a resize event, thus removing focus and sending a focus lost event to the
+	 * DockSplitPane components.
+	 */
+	private final PropertyChangeListener paneResizeListener = changeEvent -> {
+		JSplitPane splitPane = (JSplitPane) changeEvent.getSource();
+		String propertyName = changeEvent.getPropertyName();
+		if (propertyName
+				.equals(JSplitPane.LAST_DIVIDER_LOCATION_PROPERTY)) {
+			splitPane.requestFocus();
+		}
+	};
 
 	/**
 	 * new split pane
@@ -61,20 +77,6 @@ public class DockSplitPane extends JSplitPane implements DockComponent {
 		dividerVisible = false;
 		this.addPropertyChangeListener(paneResizeListener);
 	}
-
-	/**
-	 * Listener for split pane resizing. Transfers focus to the split pane after
-	 * a resize event, thus removing focus and sending a focus lost event to the
-	 * DockSplitPane components.
-	 */
-	PropertyChangeListener paneResizeListener = changeEvent -> {
-		JSplitPane splitPane = (JSplitPane) changeEvent.getSource();
-		String propertyName = changeEvent.getPropertyName();
-		if (propertyName
-				.equals(JSplitPane.LAST_DIVIDER_LOCATION_PROPERTY)) {
-			splitPane.requestFocus();
-		}
-	};
 
 	/**
 	 * Return the component which is opposite to the parameter.
@@ -205,7 +207,7 @@ public class DockSplitPane extends JSplitPane implements DockComponent {
 		public TreeReader(AppD app) {
 			this.app = app;
 
-			splitPaneInfo = new ArrayList<DockSplitPaneData>();
+			splitPaneInfo = new ArrayList<>();
 		}
 
 		/**
@@ -235,7 +237,7 @@ public class DockSplitPane extends JSplitPane implements DockComponent {
 		 */
 		private void saveSplitPane(String parentLocation0,
 				DockSplitPane parent) {
-			double dividerLocation = 0.2;
+			double dividerLocation;
 			String parentLocation = parentLocation0;
 			// get relative divider location depending on the current
 			// orientation
@@ -250,7 +252,7 @@ public class DockSplitPane extends JSplitPane implements DockComponent {
 			splitPaneInfo.add(new DockSplitPaneData(parentLocation,
 					dividerLocation, parent.getOrientation()));
 
-			if (parentLocation.length() > 0) {
+			if (!parentLocation.isEmpty()) {
 				parentLocation += ",";
 			}
 
@@ -265,9 +267,6 @@ public class DockSplitPane extends JSplitPane implements DockComponent {
 			}
 		}
 	}
-
-	private int savedDividerLocation;
-	private int savedSize;
 
 	@Override
 	public void saveDividerLocation() {

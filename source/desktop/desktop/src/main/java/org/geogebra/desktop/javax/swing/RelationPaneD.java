@@ -305,12 +305,12 @@ public class RelationPaneD implements RelationPane, ActionListener {
 	 * This code is mostly copied from http://stackoverflow.com/a/10348919
 	 * shared by "Bitmap". Button column settings.
 	 */
-	private class ClientsTableButtonRenderer extends JButton
+	private final class ClientsTableButtonRenderer extends JButton
 			implements TableCellRenderer {
 
 		private static final long serialVersionUID = 5188521324132632032L;
 
-		public ClientsTableButtonRenderer() {
+		private ClientsTableButtonRenderer() {
 			setOpaque(true);
 		}
 
@@ -329,12 +329,12 @@ public class RelationPaneD implements RelationPane, ActionListener {
 	}
 
 	/* Text column settings. */
-	private static class ClientsTableTextRenderer extends JLabel
+	private static final class ClientsTableTextRenderer extends JLabel
 			implements TableCellRenderer {
 
 		private static final long serialVersionUID = 5188521324132632032L;
 
-		public ClientsTableTextRenderer() {
+		private ClientsTableTextRenderer() {
 			setOpaque(true);
 		}
 
@@ -350,7 +350,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		}
 	}
 
-	private class ClientsTableRenderer extends DefaultCellEditor {
+	private final class ClientsTableRenderer extends DefaultCellEditor {
 		private static final long serialVersionUID = -4426618730428867967L;
 		private final JButton button;
 		private String label;
@@ -359,7 +359,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		private int col;
 		private final RelationPaneD pane;
 
-		public ClientsTableRenderer(RelationPaneD p, JCheckBox checkBox) {
+		private ClientsTableRenderer(RelationPaneD p, JCheckBox checkBox) {
 			super(checkBox);
 			pane = p;
 			button = new JButton();

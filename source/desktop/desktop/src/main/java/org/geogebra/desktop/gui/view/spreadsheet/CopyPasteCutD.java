@@ -33,10 +33,9 @@ import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.main.App;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.desktop.awt.Log;
 
 public class CopyPasteCutD extends CopyPasteCut {
-
-	private final MyTableD table;
 
 	/**
 	 * @param app application
@@ -44,7 +43,6 @@ public class CopyPasteCutD extends CopyPasteCut {
 	 */
 	public CopyPasteCutD(App app, MyTableD table) {
 		super(app, table);
-		this.table = table;
 	}
 
 	@Override
@@ -106,9 +104,9 @@ public class CopyPasteCutD extends CopyPasteCut {
 	public boolean paste(int column1, int row1, int column2, int row2,
 			Transferable contents) {
 
-		boolean succ = false;
-		boolean isCSV = false;
-		String transferString = null;
+		boolean succ;
+		boolean isCSV;
+		String transferString;
 
 		// extract a String from the Transferable contents
 		transferString = DataImportD.convertTransferableToString(contents);
@@ -168,24 +166,20 @@ public class CopyPasteCutD extends CopyPasteCut {
 
 		try {
 			InputStream is = url.openStream();
-			BufferedReader input = new BufferedReader(
-					new InputStreamReader(is, StandardCharsets.UTF_8));
-			try {
-				String line = null;
+			try (BufferedReader input = new BufferedReader(
+					new InputStreamReader(is, StandardCharsets.UTF_8))) {
+				String line;
 				while ((line = input.readLine()) != null) {
 					contents.append(line);
 					contents.append(System.getProperty("line.separator"));
 				}
-			} finally {
-				input.close();
-
 			}
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			Log.debug(ex);
 			return false;
 		}
 
-		boolean succ = true;
+		boolean succ;
 
 		String[][] data = DataImport.parseExternalData(app,
 				contents.toString(), isCSV);

@@ -78,7 +78,7 @@ public class ToolNameIconPanelD extends JPanel {
 	 */
 	public ToolNameIconPanelD(final AppD app, boolean edithappens) {
 		this.app = app;
-		Localization loc = app.getLocalization();
+		final Localization loc = app.getLocalization();
 		this.editHappens = edithappens;
 		GridBagLayout namePanelLayout = new GridBagLayout();
 		namePanelLayout.rowWeights = new double[] { 0.1, 0.1, 0.1, 0.1, 0.0 };
@@ -95,30 +95,27 @@ public class ToolNameIconPanelD extends JPanel {
 		namePanelLayout.columnWidths = new int[] { 7, 7, 7 };
 		setLayout(namePanelLayout);
 		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		{
-			JLabel labelToolName = new JLabel();
-			add(labelToolName,
-					new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-							GridBagConstraints.EAST, GridBagConstraints.NONE,
-							new Insets(0, 0, 0, 10), 0, 0));
-			labelToolName.setText(loc.getMenu("ToolName"));
-		}
-		{
-			JLabel labelCmdName = new JLabel();
-			add(labelCmdName,
-					new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-							GridBagConstraints.EAST, GridBagConstraints.NONE,
-							new Insets(0, 0, 0, 10), 0, 0));
-			labelCmdName.setText(loc.getMenu("CommandName"));
-		}
-		{
-			JLabel labelToolHelp = new JLabel();
-			add(labelToolHelp,
-					new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-							GridBagConstraints.EAST, GridBagConstraints.NONE,
-							new Insets(0, 0, 0, 10), 0, 0));
-			labelToolHelp.setText(loc.getMenu("ToolHelp"));
-		}
+
+		JLabel labelToolName = new JLabel();
+		add(labelToolName,
+				new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+						GridBagConstraints.EAST, GridBagConstraints.NONE,
+						new Insets(0, 0, 0, 10), 0, 0));
+		labelToolName.setText(loc.getMenu("ToolName"));
+
+		JLabel labelCmdName = new JLabel();
+		add(labelCmdName,
+				new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+						GridBagConstraints.EAST, GridBagConstraints.NONE,
+						new Insets(0, 0, 0, 10), 0, 0));
+		labelCmdName.setText(loc.getMenu("CommandName"));
+
+		JLabel labelToolHelp = new JLabel();
+		add(labelToolHelp,
+				new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+						GridBagConstraints.EAST, GridBagConstraints.NONE,
+						new Insets(0, 0, 0, 10), 0, 0));
+		labelToolHelp.setText(loc.getMenu("ToolHelp"));
 		KeyListener kl = new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -135,48 +132,43 @@ public class ToolNameIconPanelD extends JPanel {
 				// only handles release
 			}
 		};
-		{
-			tfToolName = new MyTextFieldD(app);
-			int n = app.getKernel().getMacroNumber() + 1;
-			tfToolName.setText(loc.getMenu("Tool") + n);
-			add(tfToolName, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-					GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-					new Insets(0, 0, 0, 0), 0, 0));
-			tfToolName.addKeyListener(kl);
-		}
-		{
-			tfCmdName = new MyTextFieldD(app);
-			tfCmdName.setText(tfToolName.getText());
-			add(tfCmdName, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-					GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-					new Insets(0, 0, 0, 0), 0, 0));
-			FocusListener fl = new FocusListener() {
-				@Override
-				public void focusGained(FocusEvent arg0) {
-					// only handles blur
-				}
+		tfToolName = new MyTextFieldD(app);
+		int n = app.getKernel().getMacroNumber() + 1;
+		tfToolName.setText(loc.getMenu("Tool") + n);
+		add(tfToolName, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+				GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+				new Insets(0, 0, 0, 0), 0, 0));
+		tfToolName.addKeyListener(kl);
 
-				@Override
-				public void focusLost(FocusEvent e) {
-					updateCmdName(e.getSource());
-				}
-			};
-			tfCmdName.addFocusListener(fl);
-		}
-		{
-			tfToolHelp = new MyTextFieldD(app);
-			add(tfToolHelp, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
-					GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-					new Insets(0, 0, 0, 0), 0, 0));
-		}
-		{
-			labelIcon = new JLabel();
-			labelIcon.setIcon(new ImageIcon(app.getToolIconImage(null)));
-			add(labelIcon,
-					new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
-							GridBagConstraints.CENTER, GridBagConstraints.NONE,
-							new Insets(0, 0, 0, 0), 0, 0));
-		}
+		tfCmdName = new MyTextFieldD(app);
+		tfCmdName.setText(tfToolName.getText());
+		add(tfCmdName, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+				GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+				new Insets(0, 0, 0, 0), 0, 0));
+		FocusListener fl = new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				// only handles blur
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				updateCmdName(e.getSource());
+			}
+		};
+		tfCmdName.addFocusListener(fl);
+
+		tfToolHelp = new MyTextFieldD(app);
+		add(tfToolHelp, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+				GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+				new Insets(0, 0, 0, 0), 0, 0));
+
+		labelIcon = new JLabel();
+		labelIcon.setIcon(new ImageIcon(app.getToolIconImage(null)));
+		add(labelIcon,
+				new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.NONE,
+						new Insets(0, 0, 0, 0), 0, 0));
 
 		btIconFile = new JButton();
 		add(btIconFile,

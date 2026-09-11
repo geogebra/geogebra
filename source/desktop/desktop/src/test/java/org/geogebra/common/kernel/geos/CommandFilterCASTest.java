@@ -20,12 +20,12 @@ import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.Matchers.oneOf;
 
 import org.hamcrest.Matcher;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CommandFilterCASTest extends BaseSymbolicTest {
+class CommandFilterCASTest extends BaseSymbolicTest {
 
 	@Test
-	public void cmdInvert() {
+	void cmdInvert() {
 		t("Invert({{1, 2}, {3, 4}})", "{{-2, 1}, {3 / 2, -1 / 2}}");
 		t("Invert({{a, b}, {c, d}})", "{{d / (a * d - b * c), (-b) / (a * d - b * c)},"
 				+ " {(-c) / (a * d - b * c), a / (a * d - b * c)}}");
@@ -37,7 +37,7 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void cmdNSolutions() {
+	void cmdNSolutions() {
 		t("NSolutions(x^6 - 2x + 1 = 0)", "{0.508660391642, 1}");
 		t("NSolutions(a^4 + 34a^3 = 34, a)", "{-34.00086498588, 0.9904738885574}");
 		t("NSolutions(cos(x) = x, x = 0)", "{0.7390851332152}");
@@ -47,7 +47,7 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void cmdSequence() {
+	void cmdSequence() {
 		t("Sequence((2, k), k, 1, 5)", "{(2, 1), (2, 2), (2, 3), (2, 4), (2, 5)}");
 		t("Sequence(x^k, k, 1, 10)",
 				"{x, x^(2), x^(3), x^(4), x^(5), x^(6), x^(7), x^(8), x^(9), x^(10)}");
@@ -61,7 +61,7 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void cmdReducedRowEchelonForm() {
+	void cmdReducedRowEchelonForm() {
 		t("ReducedRowEchelonForm({{1, 6, 4}, {2, 8, 9}, {4, 5, 6}})",
 				"{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}");
 		t("ReducedRowEchelonForm({{2, 10, 11, 4}, {2, -5, -6, 12}, {2, 5, 3, 2}})",
@@ -73,7 +73,7 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void cmdSubstitute() {
+	void cmdSubstitute() {
 		t("Substitute((3 m - 3)^2 - (m + 3)^2, m, a)",
 				"-(a + 3)^(2) + (3 * a - 3)^(2)");
 		t("Substitute(2x + 3y - z, {x = a, y = 2, z = d})",
@@ -82,7 +82,7 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void cmdSUM() {
+	void cmdSUM() {
 		t("Sum(n^2, n, 1, 3)",
 				"14");
 		t("Sum(r^k, k, 0, n)",
@@ -92,7 +92,7 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void cmdTranspose() {
+	void cmdTranspose() {
 		t("Transpose({{1, 2, 3}, {4, 5, 6}, {7, 8, 9}})",
 				"{{1, 4, 7}, {2, 5, 8}, {3, 6, 9}}");
 		t("Transpose({{a, b}, {c, d}})",
@@ -100,13 +100,13 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void cmdRemoveUndefined() {
+	void cmdRemoveUndefined() {
 		t("RemoveUndefined(Sequence((-1)^j, j, -3, -1, 0.5))",
 				"{-1, -ί, 1, ί, -1}");
 	}
 
 	@Test
-	public void cmdTangent() {
+	void cmdTangent() {
 		t("Tangent((5, 4), 4x^2 - 5y^2 = 20)",
 				"{y = x - 1}");
 		t("Tangent((1, 0), x^2)",
@@ -121,7 +121,7 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void cmdFit() {
+	void cmdFit() {
 		t("Fit[ {(0,1),(1,2),(2,5)}, {x^2,x,1} ]",
 				unicode("x^(2) + 1"));
 
@@ -131,7 +131,7 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void cmdDistance() {
+	void cmdDistance() {
 		t("Distance[(0,0),(1,1)]", "sqrt(2)");
 		t("Distance[(0,0,0),(1,1,1)]", "sqrt(3)");
 		t("Distance[y=x, (0,1)]", "sqrt(2) / 2");
@@ -142,7 +142,7 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void cmdPoint() {
+	void cmdPoint() {
 		t("Point[(3, 2), Vector[(11, 15)]]", "(14, 17)");
 		t("Point[(3, 2, 4), Vector[(11, 15, -2)]]", "(14, 17, 2)");
 		t("Point[(3, 2), (11, 15)]", "?");

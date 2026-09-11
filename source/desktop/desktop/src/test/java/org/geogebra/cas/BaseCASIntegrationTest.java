@@ -36,9 +36,9 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.test.CASTestLogger;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 public class BaseCASIntegrationTest {
 	static public boolean silent = false;
@@ -57,8 +57,8 @@ public class BaseCASIntegrationTest {
 	/**
 	 * Create app and CAS.
 	 */
-	@Before
-	public void setupCas() {
+	@BeforeEach
+	void setupCas() {
 		suiteScope = GlobalScope.registerNewSuiteScope();
 
 		app = new AppDNoGui(new LocalizationD(3), false);
@@ -83,16 +83,16 @@ public class BaseCASIntegrationTest {
 				.setTimeoutMilliseconds(9000);
 	}
 
-	@After
-	public void unregister() {
+	@AfterEach
+	void unregister() {
 		GlobalScope.unregisterSuiteScope(suiteScope);
 	}
 
 	/**
 	 * Handles the logs about test warnings.
 	 */
-	@AfterClass
-	public static void handleLogs() {
+	@AfterAll
+	static void handleLogs() {
 		if (!silent) {
 			logger.handleLogs();
 		}

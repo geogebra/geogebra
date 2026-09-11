@@ -107,8 +107,9 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	private final JLabel titleLabel;
 	private JLabel syntaxLabel;
 	private JButton btnPaste;
-	private JScrollPane scroller;
-	private LocalizationD loc;
+	private final JScrollPane scroller;
+	private final LocalizationD loc;
+	private JScrollPane syntaxScroller;
 
 	/***************************************************
 	 * Constructor
@@ -170,9 +171,6 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		return (int) (1.2 * cmdTree.getPreferredSize().width);
 	}
 
-	private JScrollPane syntaxScroller;
-
-	// private JLabel errorLabel;
 	private void createSyntaxPanel() {
 		JPanel p = new JPanel(new BorderLayout());
 		try {
@@ -489,7 +487,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		Collator collator = Collator.getInstance(app.getLocale());
 		collator.setStrength(Collator.SECONDARY);
 		collator.setDecomposition(Collator.CANONICAL_DECOMPOSITION);
-		DefaultMutableTreeNode node = null;
+		DefaultMutableTreeNode node;
 
 		for (int i = 0; i < n; i++) {
 			node = (DefaultMutableTreeNode) parent.getChildAt(i);
@@ -523,7 +521,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		}
 	}
 
-	private class RollOverListener extends MouseInputAdapter {
+	private final class RollOverListener extends MouseInputAdapter {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
@@ -606,7 +604,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 			doc.remove(0, doc.getLength());
 		} catch (BadLocationException e1) {
 			// this should never occur
-			e1.printStackTrace();
+			Log.debug(e1);
 		}
 
 		// define the regular and italic style
@@ -642,7 +640,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 							doc.getStyle("regular"));
 				} catch (BadLocationException e) {
 					// should never occur
-					e.printStackTrace();
+					Log.debug(e);
 				}
 			}
 			try {
@@ -652,7 +650,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 						doc.getStyle("regular"));
 			} catch (BadLocationException e) {
 				// should never occur
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		} else {
 			try {
@@ -660,7 +658,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 						doc.getStyle("regular"));
 			} catch (BadLocationException e) {
 				// should never occur
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 		// helpTextArea.setText(app.getCommandSyntax(cmd));
@@ -672,14 +670,14 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	// Tree Cell Renderer
 	// =============================================
 
-	private class CommandTreeRenderer extends DefaultTreeCellRenderer {
+	private final class CommandTreeRenderer extends DefaultTreeCellRenderer {
 
 		private static final long serialVersionUID = 1L;
 
 		private final Color selectionColor;
 		private final Color rollOverColor;
 
-		public CommandTreeRenderer() {
+		private CommandTreeRenderer() {
 			update();
 			selectionColor = GColorD.getAwtColor(
 					GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
@@ -693,7 +691,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 		}
 
-		public void update() {
+		private void update() {
 			setOpenIcon(app.getScaledIcon(GuiResourcesD.TREE_CLOSE));
 			setClosedIcon(app.getScaledIcon(GuiResourcesD.TREE_OPEN));
 			setLeafIcon(GeoGebraIconD.createEmptyIcon(5, 1));
@@ -812,13 +810,13 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		// TODO Auto-generated method stub
 	}
 
-	private static class CommandTree extends JTree {
+	private static final class CommandTree extends JTree {
 
 		private static final long serialVersionUID = 1L;
 
-		public int rollOverRow = -1;
+		private int rollOverRow = -1;
 
-		public CommandTree(TreeModel tm) {
+		private CommandTree(TreeModel tm) {
 			super(tm);
 		}
 	}

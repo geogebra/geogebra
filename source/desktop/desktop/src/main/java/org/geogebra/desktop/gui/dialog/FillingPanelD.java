@@ -26,8 +26,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.List;
+import java.util.Properties;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -119,7 +119,7 @@ class FillingPanelD extends JPanel
 	 * New filling panel
 	 * @param app application
 	 */
-	public FillingPanelD(AppD app) {
+	FillingPanelD(AppD app) {
 		this.app = app;
 		this.loc = app.getLocalization();
 		// For filling whit unicode char
@@ -152,7 +152,7 @@ class FillingPanelD extends JPanel
 		angleSlider.setSnapToTicks(true);
 
 		// Create the label table
-		Hashtable<Integer, JLabel> labelHash = new Hashtable<>();
+		Properties labelHash = new Properties();
 		labelHash.put(0, new JLabel("0" + Unicode.DEGREE_STRING));
 		labelHash.put(45,
 				new JLabel(Unicode.FORTY_FIVE_DEGREES_STRING));
@@ -202,7 +202,7 @@ class FillingPanelD extends JPanel
 		// create sub panels
 
 		// panel for the fill type combobox
-		cbFillType = new JComboBox();
+		cbFillType = new JComboBox<>();
 		JPanel cbPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		lblFillType = new JLabel(loc.getMenu("Filling") + ":");
 		cbFillInverse = new JCheckBox();
@@ -485,7 +485,7 @@ class FillingPanelD extends JPanel
 	 * @param geos selected geos
 	 * @return this or null (if geos can't be edited via this panel)
 	 */
-	public JPanel update(Object[] geos) {
+	private JPanel update(Object[] geos) {
 		// check geos
 		model.setGeos(geos);
 		if (!model.checkGeos()) {

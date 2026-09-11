@@ -97,7 +97,7 @@ public class HistoryPopupD implements ListSelectionListener {
 		historyList.setFont(font);
 	}
 
-	private class PopupListener implements PopupMenuListener {
+	private final class PopupListener implements PopupMenuListener {
 
 		@Override
 		public void popupMenuCanceled(PopupMenuEvent e) {
@@ -220,6 +220,9 @@ public class HistoryPopupD implements ListSelectionListener {
 		return isDownPopup;
 	}
 
+	/**
+	 * @param isDownPopup whether this popup opens downwards
+	 */
 	public void setDownPopup(boolean isDownPopup) {
 		this.isDownPopup = isDownPopup;
 	}
@@ -319,7 +322,7 @@ public class HistoryPopupD implements ListSelectionListener {
 	 * custom cell renderer for the history list, draws grid lines
 	 *
 	 */
-	private static class HistoryListCellRenderer
+	private static final class HistoryListCellRenderer
 			extends DefaultListCellRenderer {
 
 		private static final long serialVersionUID = 1L;

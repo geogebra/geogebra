@@ -25,16 +25,16 @@ import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.editor.share.util.Unicode;
 import org.hamcrest.CoreMatchers;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class RemoveSliderTest extends BaseSymbolicTest {
+class RemoveSliderTest extends BaseSymbolicTest {
 
 	private RemoveSlider removeSlider;
 	private CreateSlider createSlider;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		removeSlider = new RemoveSlider(ap);
 
 		LabelController controller = new LabelController();
@@ -42,7 +42,7 @@ public class RemoveSliderTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testExecute() {
+	void testExecute() {
 		GeoElement symbolic = add("a = 4.669");
 		createSlider.execute(symbolic);
 		GeoElement slider = lookup("a");
@@ -55,7 +55,7 @@ public class RemoveSliderTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void isAvailable() {
+	void isAvailable() {
 		GeoElement numeric = add("a = 4.669");
 		checkIsAvailableFor(numeric, "a");
 		GeoElement angle = add("b = 4.669" + Unicode.alpha);

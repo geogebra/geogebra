@@ -155,9 +155,4 @@ public class DialogCopyToSpreadsheet extends Dialog implements ActionListener, S
 		}
 	}
 
-	@Override
-	public void setVisible(boolean isVisible) {
-		super.setVisible(isVisible);
-	}
-
 }

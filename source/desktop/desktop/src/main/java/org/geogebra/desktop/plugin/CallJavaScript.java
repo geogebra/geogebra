@@ -23,8 +23,6 @@ import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.ClassShutter;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Context.ClassShutterSetter;
-import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.NativeFunction;
 import org.mozilla.javascript.Scriptable;
 
 public class CallJavaScript {

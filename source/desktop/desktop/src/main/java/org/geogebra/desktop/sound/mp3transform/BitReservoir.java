@@ -42,7 +42,8 @@ public class BitReservoir {
 		return bitCount;
 	}
 
-	int getBits(int n) {
+	int getBits(int count) {
+		int n = count;
 		bitCount += n;
 		int val = 0;
 		int pos = bufferIndex;

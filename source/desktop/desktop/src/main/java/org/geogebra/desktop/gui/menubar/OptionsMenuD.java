@@ -20,6 +20,7 @@ import static org.geogebra.common.main.PreviewFeature.ALL_LANGUAGES;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.io.Serial;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -129,7 +130,7 @@ public class OptionsMenuD extends BaseMenu
 	 * @param listener
 	 *            language change listener
 	 */
-	public static void addLanguageMenuItems(AppD app, JComponent menu,
+	private static void addLanguageMenuItems(AppD app, JComponent menu,
 			LanguageActionListener listener) {
 		JRadioButtonMenuItem mi;
 		ButtonGroup bg = new ButtonGroup();
@@ -216,8 +217,8 @@ public class OptionsMenuD extends BaseMenu
 		// save settings
 		saveSettings = new AbstractAction(loc.getMenu("Settings.Save"),
 				app.getMenuIcon(GuiResourcesD.DOCUMENT_SAVE)) {
-			@SuppressWarnings("hiding")
-			public static final long serialVersionUID = 1L;
+			@Serial
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {

@@ -51,7 +51,7 @@ public class SpreadsheetBorders {
 				.getFormatMap(CellFormat.FORMAT_BORDER);
 		Set<SpreadsheetCoords> formatCell = map.keySet();
 
-		int column = 0, row = 0;
+		int column, row;
 		for (SpreadsheetCoords cell : formatCell) {
 
 			Byte b = (Byte) table.getCellFormatHandler().getCellFormat(cell.column,

@@ -127,7 +127,7 @@ public class OneVarInferencePanelD extends JPanel
 		btnTwo.addActionListener(this);
 		btnTwo.setSelected(true);
 
-		cbAltHyp = new JComboBox();
+		cbAltHyp = new JComboBox<>();
 		cbAltHyp.addActionListener(this);
 
 		lblNull = new JLabel();
@@ -362,9 +362,9 @@ public class OneVarInferencePanelD extends JPanel
 				+ OneVarModel.tail_two
 				+ " " + statDialog.format(model.hypMean));
 
-		if (model.tail == OneVarModel.tail_right) {
+		if (OneVarModel.tail_right.equals(model.tail)) {
 			cbAltHyp.setSelectedIndex(0);
-		} else if (model.tail == OneVarModel.tail_left) {
+		} else if (OneVarModel.tail_left.equals(model.tail)) {
 			cbAltHyp.setSelectedIndex(1);
 		} else {
 			cbAltHyp.setSelectedIndex(2);

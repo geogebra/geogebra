@@ -47,19 +47,23 @@ import com.jogamp.opengl.glu.GLU;
 public class RendererImplGL2 extends RendererImpl
 		implements JoglAndGluProvider {
 
+	private static final int[] GL_CLIP_PLANE = { GL2ES1.GL_CLIP_PLANE0,
+			GL2ES1.GL_CLIP_PLANE1, GL2ES1.GL_CLIP_PLANE2, GL2ES1.GL_CLIP_PLANE3,
+			GL2ES1.GL_CLIP_PLANE4, GL2ES1.GL_CLIP_PLANE5 };
 	private RendererJogl jogl;
 
 	private GLU glu = new GLU();
 
 	private double[][] clipPlaneEquations;
 	private boolean clipPlanesNeedUpdate;
+	private int currentDash = Textures.DASH_INIT;
 
 	/** distance camera-near plane */
 	private final static double PERSP_NEAR_MIN = 10;
 	/** perspective near distance */
-	private double[] perspNear = { PERSP_NEAR_MIN, PERSP_NEAR_MIN };
+	private final double[] perspNear = { PERSP_NEAR_MIN, PERSP_NEAR_MIN };
 	/** perspective left position */
-	private double[] perspLeft = new double[2];
+	private final double[] perspLeft = new double[2];
 	/** perspective right position */
 	private double[] perspRight = new double[2];
 	/** perspective bottom position */
@@ -74,6 +78,14 @@ public class RendererImplGL2 extends RendererImpl
 	private double[] glassesEyeX1 = new double[2];
 	/** eye position for frustum */
 	private double[] glassesEyeY1 = new double[2];
+	private int orthoLeft;
+	private int orthoRight;
+	private int orthoBottom;
+	private int orthoTop;
+	private double orthoFar;
+	private double orthoNear;
+	private final double[] tmpDouble16 = new double[16];
+	private final int[] tmp = new int[1];
 
 	/**
 	 * Constructor
@@ -153,8 +165,6 @@ public class RendererImplGL2 extends RendererImpl
 	public void setColor(float r, float g, float b, float a) {
 		jogl.getGL2().glColor4f(r, g, b, a);
 	}
-
-	private double[] tmpDouble16 = new double[16];
 
 	@Override
 	public void initMatrix() {
@@ -264,13 +274,6 @@ public class RendererImplGL2 extends RendererImpl
 		jogl.getGL2().glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
 	}
 
-	private int orthoLeft;
-	private int orthoRight;
-	private int orthoBottom;
-	private int orthoTop;
-	private double orthoFar;
-	private double orthoNear;
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -355,8 +358,6 @@ public class RendererImplGL2 extends RendererImpl
 		renderer.getTextures().loadTextureLinear(Textures.FADING);
 	}
 
-	private int currentDash = Textures.DASH_INIT;
-
 	@Override
 	public void enableDash() {
 		currentDash = Textures.DASH_INIT;
@@ -415,10 +416,6 @@ public class RendererImplGL2 extends RendererImpl
 		jogl.getGL2().glPolygonMode(GL.GL_BACK, GL2GL3.GL_FILL);
 
 	}
-
-	private static final int[] GL_CLIP_PLANE = { GL2ES1.GL_CLIP_PLANE0,
-			GL2ES1.GL_CLIP_PLANE1, GL2ES1.GL_CLIP_PLANE2, GL2ES1.GL_CLIP_PLANE3,
-			GL2ES1.GL_CLIP_PLANE4, GL2ES1.GL_CLIP_PLANE5 };
 
 	@Override
 	public void enableClipPlanes() {
@@ -821,8 +818,6 @@ public class RendererImplGL2 extends RendererImpl
 		getGL().glRenderbufferStorage(GL.GL_RENDERBUFFER,
 				GL2ES2.GL_DEPTH_COMPONENT, width, height);
 	}
-
-	private int[] tmp = new int[1];
 
 	@Override
 	protected Object genRenderbuffer() {

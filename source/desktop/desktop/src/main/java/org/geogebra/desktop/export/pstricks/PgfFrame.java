@@ -47,7 +47,7 @@ public class PgfFrame extends ExportFrame {
 	protected void initGui() {
 		forceGnuplot = new JCheckBox(loc.getMenu("ForceGnuplotPgf"));
 		forceGnuplot.setSelected(false);
-		comboFormat = new JComboBox(format);
+		comboFormat = new JComboBox<>(format);
 		labelFormat = new JLabel(loc.getMenu("Format"));
 		js.getViewport().add(textarea);
 		setTitle(loc.getMenu("TitleExportPgf"));

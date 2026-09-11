@@ -82,7 +82,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 	protected JLabel labelFill;
 
 	// added by Hosszu Henrietta, for Animated PDF
-	protected DefaultComboBoxModel comboModel;
+	protected DefaultComboBoxModel<GeoElement> comboModel;
 
 	// end changes
 	protected JPanel panel;
@@ -193,14 +193,14 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 				loc.getMenu("OnlyOpaqueFills"), loc.getMenu("WithOpacityPen"),
 				loc.getMenu("ByLayering") };
 
-		comboFill = new JComboBox(comboFillText);
+		comboFill = new JComboBox<>(comboFillText);
 		labelFill = new JLabel(loc.getMenu("FillType") + ":");
 		// end changes
-		comboFontSize = new JComboBox(msg);
+		comboFontSize = new JComboBox<>(msg);
 		jcbPointSymbol.setSelected(true);
 		jcbGrayscale.setSelected(false);
 		// combo box with all sliders, added by Hoszu Henrietta
-		comboModel = new DefaultComboBoxModel();
+		comboModel = new DefaultComboBoxModel<>();
 		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction()
 				.getGeoSetNameDescriptionOrder();
 		Iterator<GeoElement> it = sortedSet.iterator();
@@ -211,7 +211,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 				comboModel.addElement(geo);
 			}
 		}
-		cbSliders = new JComboBox(comboModel);
+		cbSliders = new JComboBox<>(comboModel);
 		button.addActionListener(e -> {
 			ggb.setBeamer(isBeamer());
 			ggb.generateAllCode();

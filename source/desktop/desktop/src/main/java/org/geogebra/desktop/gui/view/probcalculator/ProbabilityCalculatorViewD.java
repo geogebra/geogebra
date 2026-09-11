@@ -55,14 +55,13 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import org.geogebra.common.properties.impl.distribution.DistributionTypeProperty;
-import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.gui.util.ListSeparatorRenderer;
 import org.geogebra.desktop.gui.view.data.PlotPanelEuclidianViewD;
 import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
@@ -203,7 +202,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 					exportToEVAction));
 			getPlotPanel().setMouseEnabled(true, true);
 			getPlotPanel().setMouseMotionEnabled(true);
-			((EuclidianViewInterfaceD) getPlotPanel())
+			getPlotPanel()
 					.setBorder(BorderFactory.createEmptyBorder());
 
 			// plot label panel
@@ -214,7 +213,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			plotLabelPanel.setBackground(Color.white);
 			// plot panel with label field below
 			plotPanelPlus = new JPanel(new BorderLayout());
-			plotPanelPlus.add(((EuclidianViewInterfaceD) getPlotPanel()).getJPanel(),
+			plotPanelPlus.add(getPlotPanel().getJPanel(),
 					BorderLayout.CENTER);
 			plotPanelPlus.add(plotLabelPanel, BorderLayout.SOUTH);
 
@@ -228,7 +227,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 					BorderLayout.CENTER);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -336,7 +335,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 		// distribution combo box panel
 		JPanel cbPanel = new JPanel(new BorderLayout());
-		cbPanel.add(comboDistribution, ((LocalizationD) loc).borderWest());
+		cbPanel.add(comboDistribution, loc.borderWest());
 
 		// parameter panel
 		JPanel parameterPanel = new JPanel(
@@ -359,10 +358,10 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 		JPanel p = new JPanel(new BorderLayout(0, 0));
 		p.add(LayoutUtil.flowPanel(2, 0, 0, btnCumulative, cbPanel),
-				((LocalizationD) loc).borderWest());
+				loc.borderWest());
 		p.add(LayoutUtil.flowPanelRight(0, 0, 0, lblMeanSigma,
 				Box.createHorizontalStrut(10)),
-				((LocalizationD) loc).borderEast());
+				loc.borderEast());
 		controlPanel = new JPanel();
 		controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
 		controlPanel.add(LayoutUtil.flowPanel(0, 0, 0, btnCumulative, cbPanel));
@@ -527,7 +526,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			updateGUI();
 
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}

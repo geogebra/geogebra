@@ -98,20 +98,15 @@ public class WorksheetExportDialog extends Dialog {
 
 		uploadButton = new JButton(loc.getMenu("Upload"));
 		uploadButton.addActionListener(e -> {
-			Thread runner = new Thread() {
-				@Override
-				public void run() {
-					setVisible(false);
-					if (kernelChanged) {
-						app.storeUndoInfo();
-					}
-
-					GeoGebraTubeExportD ggtExport = new GeoGebraTubeExportD(
-							app);
-					ggtExport.uploadWorksheet();
-
+			Thread runner = new Thread(() -> {
+				setVisible(false);
+				if (kernelChanged) {
+					app.storeUndoInfo();
 				}
-			};
+				GeoGebraTubeExportD ggtExport = new GeoGebraTubeExportD(
+						app);
+				ggtExport.uploadWorksheet();
+			});
 			runner.start();
 		});
 

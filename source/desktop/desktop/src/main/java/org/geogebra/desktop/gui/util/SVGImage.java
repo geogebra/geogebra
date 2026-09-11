@@ -90,10 +90,10 @@ public final class SVGImage {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof SVGImage)) return false;
-		SVGImage SVGImage = (SVGImage) o;
-		return Objects.equals(model, SVGImage.model);
+		if (this == o) {
+			return true;
+		}
+		return o instanceof SVGImage svgImage && Objects.equals(model, svgImage.model);
 	}
 
 	@Override

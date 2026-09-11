@@ -29,7 +29,6 @@ import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.geogebra.web.util.file.FileIO;
 import org.gwtproject.user.client.ui.RootPanel;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -38,11 +37,6 @@ import com.google.gwtmockito.WithClassesToStub;
 @RunWith(GgbMockitoTestRunner.class)
 @WithClassesToStub({JLMContext2D.class, RootPanel.class})
 public class TemplateSaveTest {
-
-	@Before
-	public void initAssertions() {
-		this.getClass().getClassLoader().setDefaultAssertionStatus(false);
-	}
 
 	@Test
 	public void testSaveTemplate() {

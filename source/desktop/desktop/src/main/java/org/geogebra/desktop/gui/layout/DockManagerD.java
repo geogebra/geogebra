@@ -93,6 +93,18 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	private List<ShowDockPanelListener> showDockPanelListener;
 
 	/**
+	 * Perspective that stores the configuration just before a dock panel is
+	 * maximized.
+	 */
+	private Perspective restorePerspective;
+
+	/**
+	 * Flag to determine if the layout has been maximized, i.e. the layout
+	 * temporarily displays a single dock panel.
+	 */
+	private boolean isMaximized = false;
+
+	/**
 	 * @param layout layout
 	 */
 	public DockManagerD(LayoutD layout) {
@@ -472,7 +484,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 
 		app.updateCenterPanel(true);
 
-		double dividerLocation = 0;
+		double dividerLocation;
 
 		if (dndRegion == DnDState.LEFT || dndRegion == DnDState.LEFT_OUT
 				|| dndRegion == DnDState.TOP || dndRegion == DnDState.TOP_OUT) {
@@ -836,7 +848,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 				((DockComponent) opposite).saveDividerLocation();
 			}
 			int orientation = parent.getOrientation();
-			int size = 0;
+			int size;
 			if (orientation == JSplitPane.VERTICAL_SPLIT) {
 				size = parent.getHeight();
 			} else {
@@ -1096,10 +1108,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 					foundFocused = true;
 				}
 
-				else {
-					// we have not reached the focused dock panel, therefore
-					// we do nothing
-				}
+				// else: we have not reached the focused dock panel, therefore we do nothing
 			}
 		}
 
@@ -1122,7 +1131,6 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 						break;
 					}
 					setFocusedPanel(panel);
-					changedFocus = true;
 					break;
 				}
 			}
@@ -1139,7 +1147,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 		if (rootPane.getRightComponent() == null) {
 			Component leftComponent = rootPane.getLeftComponent();
 
-			if (leftComponent != null && leftComponent instanceof DockPanelD) {
+			if (leftComponent instanceof DockPanelD) {
 				singlePanel = (DockPanelD) leftComponent;
 			}
 		}
@@ -1147,8 +1155,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 		if (rootPane.getLeftComponent() == null) {
 			Component rightComponent = rootPane.getRightComponent();
 
-			if (rightComponent != null
-					&& rightComponent instanceof DockPanelD) {
+			if (rightComponent instanceof DockPanelD) {
 				singlePanel = (DockPanelD) rightComponent;
 			}
 		}
@@ -1187,7 +1194,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 
 		// we create our own iterator which iterates through our list in
 		// reversed order
-		return new Iterator<DockPanelD>() {
+		return new Iterator<>() {
 			@Override
 			public void remove() {
 				original.remove();
@@ -1302,13 +1309,11 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 				* (splitPane.getOrientation() == JSplitPane.VERTICAL_SPLIT
 						? scaleX : scaleY)));
 
-		if (splitPane.getLeftComponent() != null
-				&& splitPane.getLeftComponent() instanceof DockSplitPane) {
+		if (splitPane.getLeftComponent() instanceof DockSplitPane) {
 			scale(scaleX, scaleY, (DockSplitPane) splitPane.getLeftComponent());
 		}
 
-		if (splitPane.getRightComponent() != null
-				&& splitPane.getRightComponent() instanceof DockSplitPane) {
+		if (splitPane.getRightComponent() instanceof DockSplitPane) {
 			scale(scaleX, scaleY,
 					(DockSplitPane) splitPane.getRightComponent());
 		}
@@ -1399,18 +1404,6 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	public boolean hasFullFocusSystem() {
 		return hasFullFocusSystem;
 	}
-
-	/**
-	 * Perspective that stores the configuration just before a dock panel is
-	 * maximized.
-	 */
-	private Perspective restorePerspective;
-
-	/**
-	 * Flag to determine if the layout has been maximized, i.e. the layout
-	 * temporarily displays a single dock panel
-	 */
-	private boolean isMaximized = false;
 
 	/**
 	 * @return true if the dock panel layout has been maximized

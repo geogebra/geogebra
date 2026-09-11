@@ -119,7 +119,7 @@ public class AnimationExportDialogD extends Dialog {
 		panel.add(new JLabel(loc.getMenu("Slider") + ":"));
 
 		// combo box with all sliders
-		DefaultComboBoxModel comboModel = new DefaultComboBoxModel();
+		DefaultComboBoxModel comboModel = new DefaultComboBoxModel<>();
 		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction()
 				.getGeoSetNameDescriptionOrder();
 
@@ -138,7 +138,7 @@ public class AnimationExportDialogD extends Dialog {
 				comboModel.addElement(geo);
 			}
 		}
-		cbSliders = new JComboBox(comboModel);
+		cbSliders = new JComboBox<>(comboModel);
 		panel.add(cbSliders);
 
 		contentPane.add(panel, gbc(1));
@@ -199,7 +199,7 @@ public class AnimationExportDialogD extends Dialog {
 				new Insets(5, 5, 5, 5), 0, 0);
 	}
 
-	private static class RotOzSlider implements AnimationExportSlider {
+	private final static class RotOzSlider implements AnimationExportSlider {
 
 		private String description;
 
@@ -214,7 +214,7 @@ public class AnimationExportDialogD extends Dialog {
 		// 1 degree step )
 		static final private double step = Math.PI / 180;
 
-		public RotOzSlider(EuclidianView3DInterface view3D) {
+		private RotOzSlider(EuclidianView3DInterface view3D) {
 			this.view3D = view3D;
 		}
 
@@ -224,7 +224,7 @@ public class AnimationExportDialogD extends Dialog {
 		 * @param description
 		 *            description
 		 */
-		public void setDescription(String description) {
+		private void setDescription(String description) {
 			this.description = description;
 		}
 
@@ -280,7 +280,7 @@ public class AnimationExportDialogD extends Dialog {
 	 * Logic for exporting the selected slider as animation.
 	 */
 	public void export() {
-		int timeBetweenFrames = 500;
+		int timeBetweenFrames;
 
 		// try to parse textfield value (and check that it is > 0)
 		try {
@@ -288,7 +288,8 @@ public class AnimationExportDialogD extends Dialog {
 
 			// negative values or zero are bad too
 			if (timeBetweenFrames <= 0) {
-				throw new NumberFormatException();
+				app.showError(Errors.InvalidInput, tfTimeBetweenFrames.getText());
+				return;
 			}
 		} catch (NumberFormatException e) {
 			app.showError(Errors.InvalidInput, tfTimeBetweenFrames.getText());

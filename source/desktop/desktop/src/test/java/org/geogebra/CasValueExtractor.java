@@ -57,7 +57,7 @@ import org.junit.jupiter.params.provider.ValueSource;
  * {@link CasValueExtractor#printFormat}.
  */
 @Disabled
-public class CasValueExtractor {
+class CasValueExtractor {
 	private static final Format printFormat = Format.MOCKED_CAS_VALUES_ANNOTATION;
 	private final AppCommon app = AppCommonFactory.create(
 			new AppConfigCas(GeoGebraConstants.SUITE_APPCODE));
@@ -67,49 +67,49 @@ public class CasValueExtractor {
 
 	@ParameterizedTest
 	@ValueSource(strings = {
-			// Restricted inequalities
-			"x > 0",
-			"y <= 1",
-			"x < y",
-			"x - y > 2",
-			"x^2 + 2y^2 < 1",
-			"f: x > 0",
-			"f(x) = x > 2",
-			// Restricted integrals
-			"Integral(g, -5, 5)",
-			"Integral(g, x, -5, 5)",
-			"NIntegral(g, -5, 5)",
-			// Restricted vectors
-			"a = (1, 2)",
-			"b = (1, 2) + 0",
-			// Restricted implicit curves
-			"x^2 = 1",
-			"2^x = 2",
-			"sin(x) = 0",
-			"y - x^2 = 0",
-			"x^2 = y",
-			"x^2 + y^2 = 4",
-			"x^2 / 9 + y^2 / 4 = 1",
-			"x^2 - y^2 = 4",
-			"x^3 + y^2 = 2",
-			"y^3 = x",
-			// Restricted lines
-			"x = 0",
-			"x + y = 0",
-			"2x - 3y = 4",
+	// Restricted inequalities
+	"x > 0",
+	"y <= 1",
+	"x < y",
+	"x - y > 2",
+	"x^2 + 2y^2 < 1",
+	"f: x > 0",
+	"f(x) = x > 2",
+	// Restricted integrals
+	"Integral(g, -5, 5)",
+	"Integral(g, x, -5, 5)",
+	"NIntegral(g, -5, 5)",
+	// Restricted vectors
+	"a = (1, 2)",
+	"b = (1, 2) + 0",
+	// Restricted implicit curves
+	"x^2 = 1",
+	"2^x = 2",
+	"sin(x) = 0",
+	"y - x^2 = 0",
+	"x^2 = y",
+	"x^2 + y^2 = 4",
+	"x^2 / 9 + y^2 / 4 = 1",
+	"x^2 - y^2 = 4",
+	"x^3 + y^2 = 2",
+	"y^3 = x",
+	// Restricted lines
+	"x = 0",
+	"x + y = 0",
+	"2x - 3y = 4",
 	})
-	public void extractMockValues(String input) {
+	void extractMockValues(String input) {
 		evaluate("g(x) = x");
 		evaluate(input);
 	}
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		app.getSettingsUpdater().resetSettingsOnAppStart();
 	}
 
 	@AfterAll
-	public static void printValues() {
+	static void printValues() {
 		printValues(CasGiacMock.getValues(), printFormat);
 	}
 
@@ -131,6 +131,7 @@ public class CasValueExtractor {
 		RAW,
 	}
 
+	@SuppressWarnings("PMD.SystemPrintln")
 	private static void printValues(List<Map.Entry<String, String>> values, Format format) {
 		switch (format) {
 		case MOCKED_CAS_VALUES_ANNOTATION:
@@ -172,7 +173,7 @@ public class CasValueExtractor {
 		private static final List<String> inputOrder = new ArrayList<>();
 		private static final Map<String, String> inputOutputPairs = new HashMap<>();
 
-		public CasGiacMock(AppCommon app) {
+		CasGiacMock(AppCommon app) {
 			super((CASparser) app.getKernel().getGeoGebraCAS().getCASparser());
 			app.setCASFactory(new CASFactory() {
 				@Override
@@ -193,7 +194,7 @@ public class CasValueExtractor {
 			return output;
 		}
 
-		public static List<Map.Entry<String, String>> getValues() {
+		private static List<Map.Entry<String, String>> getValues() {
 			return inputOrder.stream()
 					.map(input -> entry(input, inputOutputPairs.get(input)))
 					.collect(Collectors.toList());

@@ -30,18 +30,18 @@ import org.geogebra.common.main.SpecialPointsManager;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class SpecialPointsTest extends BaseSuiteTest {
+class SpecialPointsTest extends BaseSuiteTest {
 
-	@Before
-	public void setRounding() {
+	@BeforeEach
+	void setRounding() {
 		getKernel().setPrintDecimals(2);
 	}
 
 	@Test
-	public void testRemovableDiscontinuity1() {
+	void testRemovableDiscontinuity1() {
 		SpecialPointsManager manager = getApp().getSpecialPointsManager();
 
 		GeoElement element = add("f(x)=(3-x)/(2x^2-6x)");
@@ -52,7 +52,7 @@ public class SpecialPointsTest extends BaseSuiteTest {
 	}
 
 	@Test
-	public void testRemovableDiscontinuityPointStyle() {
+	void testRemovableDiscontinuityPointStyle() {
 		SpecialPointsManager manager = getApp().getSpecialPointsManager();
 
 		GeoElement element = add("f(x)=(3-x)/(2x^2-6x)");
@@ -65,7 +65,7 @@ public class SpecialPointsTest extends BaseSuiteTest {
 	}
 
 	@Test
-	public void testRegressionApps2777() {
+	void testRegressionApps2777() {
 		GeoElement element = add("f(x)=tan^(-1)((1+x)/(1-x))",
 				EvalInfoFactory.getEvalInfoForAV(getApp()));
 		SpecialPointsManager manager = getApp().getSpecialPointsManager();
@@ -76,7 +76,7 @@ public class SpecialPointsTest extends BaseSuiteTest {
 	 * Avoid suite crash - APPS-5273
 	 */
 	@Test
-	public void testRemovableDiscontinuity2() {
+	void testRemovableDiscontinuity2() {
 		long time = System.currentTimeMillis();
 		GeoElement element =
 				add("f(x)=nroot(((8-2 x)/(x^(2)-5 x+6)),3)-((ln(4-2 x))/(nroot(x^(2)-x,6)))");
@@ -86,7 +86,7 @@ public class SpecialPointsTest extends BaseSuiteTest {
 	}
 
 	@Test
-	public void testRemovableDiscontinuity3() {
+	void testRemovableDiscontinuity3() {
 		SpecialPointsManager manager = getApp().getSpecialPointsManager();
 		GeoElement element = add("f(x)=((x^2-4)/(x-2))");
 		manager.updateSpecialPoints(element);
@@ -96,7 +96,7 @@ public class SpecialPointsTest extends BaseSuiteTest {
 	}
 
 	@Test
-	public void testRemovableDiscontinuity4() {
+	void testRemovableDiscontinuity4() {
 		SpecialPointsManager manager = getApp().getSpecialPointsManager();
 		GeoElement element = add("f(x)=((sin(x))/(x))");
 		manager.updateSpecialPoints(element);
@@ -106,7 +106,7 @@ public class SpecialPointsTest extends BaseSuiteTest {
 	}
 
 	@Test
-	public void testNoRemovableDiscontinuity1() {
+	void testNoRemovableDiscontinuity1() {
 		SpecialPointsManager manager = getApp().getSpecialPointsManager();
 		GeoElement element = add("f(x)=((abs(x-3))/(x-3))");
 		manager.updateSpecialPoints(element);

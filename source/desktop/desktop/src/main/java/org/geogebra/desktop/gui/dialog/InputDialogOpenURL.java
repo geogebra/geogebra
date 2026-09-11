@@ -20,6 +20,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 
 import org.geogebra.common.gui.view.algebra.DialogType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 
 public class InputDialogOpenURL extends InputDialogD {
@@ -77,7 +78,7 @@ public class InputDialogOpenURL extends InputDialogD {
 			}
 		} catch (Exception ex) {
 			// do nothing on uninitializedValue
-			ex.printStackTrace();
+			Log.debug(ex);
 			setVisible(false);
 			app.setDefaultCursor();
 		}

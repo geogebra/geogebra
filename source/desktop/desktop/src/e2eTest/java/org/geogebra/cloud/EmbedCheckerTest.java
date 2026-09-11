@@ -16,31 +16,31 @@
  
 package org.geogebra.cloud;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.media.EmbedURLChecker;
 import org.geogebra.common.move.ggtapi.operations.URLStatus;
 import org.geogebra.desktop.factories.UtilFactoryD;
-import org.junit.Assume;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-public class EmbedCheckerTest {
+class EmbedCheckerTest {
 
 	private static EmbedURLChecker checker;
 
-	@BeforeClass
-	public static void setup() {
+	@BeforeAll
+	static void setup() {
 		UtilFactory.setPrototypeIfNull(new UtilFactoryD());
 		checker = new EmbedURLChecker(
 				"http://notes.dlb-dev01.alp-dlg.net/notes/api");
 	}
 
 	@Test
-	public void echeck() {
-		Assume.assumeNotNull(System.getProperty("marvl.auth.basic"));
+	void echeck() {
+		Assumptions.assumeFalse(System.getProperty("marvl.auth.basic") == null);
 		TestAsyncOperation<URLStatus> check = new TestAsyncOperation<>();
 		checker.check("https://news.orf.at", check);
 		assertNull(check.await(5).getErrorKey());

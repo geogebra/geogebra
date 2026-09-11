@@ -18,6 +18,7 @@ package org.geogebra.desktop.util;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.util.LaTeXCache;
+import org.geogebra.desktop.awt.Log;
 
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.cache.JLaTeXMathCache;
@@ -42,7 +43,7 @@ public class GeoLaTeXCache implements LaTeXCache {
 				try {
 					JLaTeXMathCache.removeCachedTeXFormula(keyLaTeX);
 				} catch (Exception ee) {
-					ee.printStackTrace();
+					Log.debug(ee);
 				}
 			}
 			throw e;
@@ -52,7 +53,7 @@ public class GeoLaTeXCache implements LaTeXCache {
 			try {
 				JLaTeXMathCache.removeCachedTeXFormula(keyLaTeX);
 			} catch (Exception ee) {
-				ee.printStackTrace();
+				Log.debug(ee);
 			}
 		}
 
@@ -67,7 +68,7 @@ public class GeoLaTeXCache implements LaTeXCache {
 			try {
 				JLaTeXMathCache.removeCachedTeXFormula(keyLaTeX);
 			} catch (Exception ee) {
-				ee.printStackTrace();
+				Log.debug(ee);
 			}
 		}
 

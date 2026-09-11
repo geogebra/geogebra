@@ -89,7 +89,7 @@ public class CompletionsPopup {
 
 		// Initialize components
 		listModel = new DelegatingListModel();
-		list = new JList(listModel);
+		list = new JList<>(listModel);
 		list.setCellRenderer(listCellRenderer);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setFocusable(false);
@@ -111,7 +111,7 @@ public class CompletionsPopup {
 		list.setFont(font);
 	}
 
-	private class PopupListener implements PopupMenuListener {
+	private final class PopupListener implements PopupMenuListener {
 
 		@Override
 		public void popupMenuCanceled(PopupMenuEvent e) {

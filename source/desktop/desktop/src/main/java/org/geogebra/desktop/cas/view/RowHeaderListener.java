@@ -20,7 +20,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
@@ -37,7 +36,7 @@ import org.geogebra.desktop.main.AppD;
  *
  */
 public class RowHeaderListener extends MouseAdapter
-		implements KeyListener, ListSelectionListener, MouseMotionListener {
+		implements KeyListener, ListSelectionListener {
 
 	private final CASTableD table;
 	private final JList rowHeader;

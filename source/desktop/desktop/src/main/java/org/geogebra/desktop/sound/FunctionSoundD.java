@@ -37,7 +37,8 @@ public final class FunctionSoundD extends FunctionSound
 		implements LineListener {
 
 	// threaded class to play function
-	private SoundThread soundThread;
+	private Thread soundThread;
+	private SoundThread soundRunnable;
 
 	// streaming audio fields
 	private AudioFormat af;
@@ -79,7 +80,7 @@ public final class FunctionSoundD extends FunctionSound
 			// add listener when debugging
 			// sdl.addLineListener(this);
 		} catch (LineUnavailableException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			success = false;
 		}
 		return success;
@@ -112,7 +113,8 @@ public final class FunctionSoundD extends FunctionSound
 		}
 
 		// spawn a new SoundThread to play the function sound
-		soundThread = new SoundThread();
+		soundRunnable = new SoundThread();
+		soundThread = new Thread(soundRunnable);
 		soundThread.start();
 
 	}
@@ -124,10 +126,9 @@ public final class FunctionSoundD extends FunctionSound
 	 */
 	@Override
 	public void pause(boolean doPause) {
-
 		if (doPause) {
 			setMin(getT());
-			soundThread.stopSound();
+			soundRunnable.stopSound();
 		} else {
 			playFunction(getF(), getMin(), getMax(), getSampleRate(),
 					getBitDepth());
@@ -158,7 +159,7 @@ public final class FunctionSoundD extends FunctionSound
 	 * 
 	 * Plays sounds from time-valued functions.
 	 *********************************************************/
-	private class SoundThread extends Thread {
+	private class SoundThread implements Runnable {
 
 		private volatile boolean stopped = false;
 
@@ -237,7 +238,7 @@ public final class FunctionSoundD extends FunctionSound
 				sdl.close();
 
 			} catch (LineUnavailableException e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 
 		}
@@ -257,7 +258,7 @@ public final class FunctionSoundD extends FunctionSound
 		/**
 		 * Stops function sound
 		 */
-		public void stopSound() {
+		private void stopSound() {
 			stopped = true;
 		}
 	}

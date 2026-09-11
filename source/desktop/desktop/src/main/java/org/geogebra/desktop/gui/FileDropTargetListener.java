@@ -44,7 +44,7 @@ public class FileDropTargetListener implements DropTargetListener {
 			urlFlavor = new DataFlavor(
 					"application/x-java-url; class=java.net.URL");
 		} catch (ClassNotFoundException cnfe) {
-			cnfe.printStackTrace();
+			Log.debug(cnfe);
 		}
 	}
 
@@ -199,7 +199,7 @@ public class FileDropTargetListener implements DropTargetListener {
 				Log.debug("flavor not supported: " + transferable);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 		return al;

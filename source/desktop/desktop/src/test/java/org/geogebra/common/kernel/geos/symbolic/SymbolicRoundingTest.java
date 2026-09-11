@@ -23,30 +23,30 @@ import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.geos.BaseSymbolicTest;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.util.SymbolicUtil;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class SymbolicRoundingTest extends BaseSymbolicTest {
+class SymbolicRoundingTest extends BaseSymbolicTest {
 
 	private int printDecimals;
 	private int printFigures;
 
-	@Before
-	public void storeInitialRounding() {
+	@BeforeEach
+	void storeInitialRounding() {
 		printDecimals = kernel.getPrintDecimals();
 		printFigures = kernel.getPrintFigures();
 	}
 
 	/** Reset rounding **/
-	@After
-	public void resetRounding() {
+	@AfterEach
+	void resetRounding() {
 		kernel.setPrintFigures(printFigures);
 		kernel.setPrintDecimals(printDecimals);
 	}
 
 	@Test
-	public void testRounding() {
+	void testRounding() {
 		kernel.setPrintFigures(20);
 		GeoSymbolic number = add("11.3 * 1.5");
 		SymbolicUtil.toggleSymbolic(number);
@@ -55,7 +55,7 @@ public class SymbolicRoundingTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testNumericSolve2Rounding() {
+	void testNumericSolve2Rounding() {
 		GeoSymbolic number = add("NSolve(x^2=6, x)");
 		kernel.setPrintDecimals(3);
 		String output = AlgebraItem.getOutputTextForGeoElement(number);

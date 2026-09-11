@@ -34,14 +34,14 @@ public interface CompressedView extends View {
 	 * @param geo
 	 *            the GeoElement which has changed
 	 */
-	public void updateNow(GeoElement geo);
+	void updateNow(GeoElement geo);
 
 	/**
 	 * Calls the original repaint() function You need to overwrite the repaint
 	 * function with an empty one to get the desired effect
 	 * 
 	 */
-	public void repaintNow();
+	void repaintNow();
 
 	/**
 	 * e.g.:
@@ -49,5 +49,5 @@ public interface CompressedView extends View {
 	 * &#x40;Override final public void repaint() { if (!repaintTimer.isRunning()) {
 	 *           repaintNow(); }else{ repaintTimer.start(); } }
 	 */
-	public void repaint();
+	void repaint();
 }

@@ -19,9 +19,9 @@ package org.geogebra.common.kernel.commands;
 import static org.geogebra.common.BaseUnitTest.hasValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Map;
 import java.util.Objects;
@@ -41,10 +41,10 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.geogebra.desktop.cas.giac.CASgiacD;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class DelayedCasLoadingTest {
+class DelayedCasLoadingTest {
 
 	private AppCommon app;
 	private static boolean active = false;
@@ -53,8 +53,8 @@ public class DelayedCasLoadingTest {
 	/**
 	 * Init app and the delayed CAS
 	 */
-	@Before
-	public void init() {
+	@BeforeEach
+	void init() {
 		active = false;
 		casInitialized = false;
 		app = AppCommonFactory.create3D();
@@ -69,7 +69,7 @@ public class DelayedCasLoadingTest {
 	}
 
 	@Test
-	public void derivativeShouldUpdateAfterLoad() {
+	void derivativeShouldUpdateAfterLoad() {
 		GeoElementND derivative = add("Derivative(sin(x))");
 		assertEquals("?", derivative.toValueString(StringTemplate.testTemplate));
 		active = true;
@@ -79,7 +79,7 @@ public class DelayedCasLoadingTest {
 
 	@Test
 	@Issue("APPS-6541")
-	public void finiteIntegralShouldUpdateAfterLoad() {
+	void finiteIntegralShouldUpdateAfterLoad() {
 		GeoElementND integral = add("Integral(exp(-x),1,inf)");
 		assertEquals("?", integral.toValueString(StringTemplate.testTemplate));
 		active = true;
@@ -88,7 +88,7 @@ public class DelayedCasLoadingTest {
 	}
 
 	@Test
-	public void fPrimeShouldUpdateAfterLoad() {
+	void fPrimeShouldUpdateAfterLoad() {
 		add("f(x)=sin(x)");
 		GeoElementND derivative = add("f'(x)");
 		assertEquals("?", derivative.toValueString(StringTemplate.testTemplate));
@@ -98,7 +98,7 @@ public class DelayedCasLoadingTest {
 	}
 
 	@Test
-	public void equalsShouldUpdateAfterLoad() {
+	void equalsShouldUpdateAfterLoad() {
 		add("f(x)=sin(x)+1+sin(x)");
 		add("g(x)=2sin(x)+1");
 		GeoElementND equalCheck = add("f==g");
@@ -112,7 +112,7 @@ public class DelayedCasLoadingTest {
 	}
 
 	@Test
-	public void casCellsShouldUpdateAfterLoad() {
+	void casCellsShouldUpdateAfterLoad() {
 		GeoCasCell f = new GeoCasCell(app.getKernel().getConstruction());
 		app.getKernel().getConstruction().addToConstructionList(f, false);
 		add("m=1");
@@ -127,7 +127,7 @@ public class DelayedCasLoadingTest {
 	}
 
 	@Test
-	public void symbolicShouldNotSwitchSymbolicFlag() {
+	void symbolicShouldNotSwitchSymbolicFlag() {
 		app.setConfig(new AppConfigCas());
 		app.getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
 		GeoSymbolic sym = (GeoSymbolic) add("p=IsPrime(4)");
@@ -141,7 +141,7 @@ public class DelayedCasLoadingTest {
 	}
 
 	@Test
-	public void symbolicShouldNotChangeCoordToMultiplication() {
+	void symbolicShouldNotChangeCoordToMultiplication() {
 		app.setConfig(new AppConfigCas());
 		app.getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
 		add("A=(1,2,3)");
@@ -156,7 +156,7 @@ public class DelayedCasLoadingTest {
 	}
 
 	@Test
-	public void asymptoteOfAnonymousFnShouldUpdate() {
+	void asymptoteOfAnonymousFnShouldUpdate() {
 		add("f(x)=x+1/x");
 		GeoElementND asymptotes = add("Asymptote(f(x))");
 		active = true;
@@ -165,7 +165,7 @@ public class DelayedCasLoadingTest {
 	}
 
 	@Test
-	public void zipSolveShouldWorkAfterLoad() {
+	void zipSolveShouldWorkAfterLoad() {
 		add("l1=Solve(x^2=1)");
 		add("l2=NSolve(x^2=1)");
 		add("l3=PlotSolve(x^2=1)");
@@ -180,14 +180,14 @@ public class DelayedCasLoadingTest {
 	}
 
 	@Test
-	public void simplifyShouldTriggerLoad() {
+	void simplifyShouldTriggerLoad() {
 		GeoFunction f = (GeoFunction) add("f(x)=x+x");
 		Objects.requireNonNull(f.getFunction()).updateCASEvalMap(
 				Map.of("Simplify[x + x]", "(3 * x)"));
 		GeoElementND simplified = add("Simplify(f)");
 		assertEquals("3x",
 				simplified.toValueString(StringTemplate.defaultTemplate));
-		assertTrue("CAS should be loaded", casInitialized);
+		assertTrue(casInitialized, "CAS should be loaded");
 		active = true;
 		app.getKernel().refreshCASCommands();
 		assertEquals("2x",
@@ -196,7 +196,7 @@ public class DelayedCasLoadingTest {
 
 	@Test
 	@Issue("APPS-6872")
-	public void savedArbitraryConstantShouldBeStoredWithinConstruction() {
+	void savedArbitraryConstantShouldBeStoredWithinConstruction() {
 		app.setConfig(new AppConfigCas());
 		app.getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
 		app.setXML("<geogebra><construction>"

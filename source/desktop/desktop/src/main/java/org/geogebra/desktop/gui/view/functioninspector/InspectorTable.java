@@ -33,6 +33,7 @@ import javax.swing.table.TableColumn;
 
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.awt.Log;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
 
@@ -71,10 +72,10 @@ public class InspectorTable extends JTable {
 		// this.addKeyListener(this);
 
 		// set renderer and editor
-		setDefaultRenderer(Object.class, new InspectorCellRenderer(this));
+		setDefaultRenderer(Object.class, new InspectorCellRenderer());
 		setDefaultEditor(Object.class, new NumericInputCellEditor());
 
-		editableCell = new HashSet<Point>();
+		editableCell = new HashSet<>();
 	}
 
 	/**
@@ -141,10 +142,9 @@ public class InspectorTable extends JTable {
 
 		// iterate through the rows and find the preferred width
 		int maxPrefWidth = tableColumn.getPreferredWidth();
-		int colPrefWidth = 0;
 		for (int row = 0; row < table.getRowCount(); row++) {
 			if (table.getValueAt(row, column) != null) {
-				colPrefWidth = (int) table.getCellRenderer(row, column)
+				int colPrefWidth = (int) table.getCellRenderer(row, column)
 						.getTableCellRendererComponent(table,
 								table.getValueAt(row, column), false, false,
 								row, column)
@@ -168,17 +168,15 @@ public class InspectorTable extends JTable {
 	// Cell Renderer
 	// ====================================================
 
-	private class InspectorCellRenderer extends DefaultTableCellRenderer {
+	private final class InspectorCellRenderer extends DefaultTableCellRenderer {
 
 		private static final long serialVersionUID = 1L;
 
 		private JTextField tf;
 		private Border editCellBorder;
-		private JTable table;
 		private Border paddingBorder;
 
-		private InspectorCellRenderer(InspectorTable table) {
-			this.table = table;
+		private InspectorCellRenderer() {
 			tf = new JTextField();
 			paddingBorder = BorderFactory.createEmptyBorder(2, 2, 2, 2);
 			// paddingBorder =
@@ -221,11 +219,11 @@ public class InspectorTable extends JTable {
 	// Cell Editor
 	// ====================================================
 
-	private class NumericInputCellEditor extends DefaultCellEditor {
+	private final class NumericInputCellEditor extends DefaultCellEditor {
 
 		private static final long serialVersionUID = 1L;
 
-		public NumericInputCellEditor() {
+		private NumericInputCellEditor() {
 			super(new MyTextFieldD(app));
 			this.setClickCountToStart(1);
 		}
@@ -252,7 +250,7 @@ public class InspectorTable extends JTable {
 					inspector.changeStart(val);
 				}
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 
 			return isStopped;

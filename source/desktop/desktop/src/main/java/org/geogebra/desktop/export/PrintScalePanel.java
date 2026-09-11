@@ -119,7 +119,7 @@ public class PrintScalePanel extends JPanel {
 		jcbItemFixedSize = loc.getMenu("FixedSize") + ":";
 		jcbItemSizeInPixels = loc.getMenu("SizeInPixels") + ":";
 
-		exportMode = new JComboBox();
+		exportMode = new JComboBox<>();
 
 		exportMode.addItem(jcbItemScaleInCentimeter);
 		exportMode.addItem(jcbItemFixedSize);

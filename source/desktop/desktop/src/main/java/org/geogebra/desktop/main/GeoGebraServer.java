@@ -127,8 +127,7 @@ public class GeoGebraServer {
 				}
 				result = results.toString();
 			} catch (Throwable e) {
-
-				e.printStackTrace();
+				Log.debug(e);
 				Log.debug(inputJSON);
 				writeError(t, e.getMessage());
 				return;
@@ -158,8 +157,7 @@ public class GeoGebraServer {
 			out.write(responseBody);
 			out.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -170,9 +168,9 @@ public class GeoGebraServer {
 	public static void writeError(HttpExchange httpExchange, String message) {
 		JSONObject error = new JSONObject();
 		try {
-			error.put("error", message + "");
+			error.put("error", message);
 		} catch (JSONException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		Log.error("error = " + error);
 		writeOutput(httpExchange, error.toString());

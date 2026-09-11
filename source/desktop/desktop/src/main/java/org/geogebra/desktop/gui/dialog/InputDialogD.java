@@ -84,6 +84,7 @@ public class InputDialogD extends InputDialog
 
 	protected JDialog wrappedDialog;
 	private JPanel errorPanel;
+	private boolean showingError = false;
 
 	/**
 	 * @param app application
@@ -535,8 +536,6 @@ public class InputDialogD extends InputDialog
 			app.setSelectionListenerMode(null);
 		}
 	}
-
-	private boolean showingError = false;
 
 	@Override
 	public void showError(String msg) {

@@ -59,7 +59,7 @@ public class InputBarCallback implements AsyncOperation<GeoElementND[]> {
 		// set first outputs (same geo class) as selected geos (for
 		// properties view)
 		if (geos != null && geos.length > 0 && geos[0] != null) {
-			ArrayList<GeoElement> list = new ArrayList<GeoElement>();
+			ArrayList<GeoElement> list = new ArrayList<>();
 			// add first output
 			GeoElementND geo = geos[0];
 			list.add(geo.toGeoElement());

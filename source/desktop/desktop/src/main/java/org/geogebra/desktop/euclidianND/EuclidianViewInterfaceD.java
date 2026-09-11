@@ -24,7 +24,6 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import org.geogebra.common.awt.GBufferedImage;
-import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.main.App.ExportType;
 
@@ -39,39 +38,32 @@ public interface EuclidianViewInterfaceD extends EuclidianViewInterfaceCommon {
 	/**
 	 * @return mouse position
 	 */
-	public java.awt.Point getMousePosition();
+	java.awt.Point getMousePosition();
 
 	/**
 	 * @return underlying component
 	 */
-	public JPanel getJPanel();
+	JPanel getJPanel();
 
 	/**
 	 * @see JPanel#setBorder(Border)
 	 * @param border
 	 *            new border
 	 */
-	public void setBorder(Border border);
+	void setBorder(Border border);
 
 	/**
 	 * @param cursor
 	 *            new cursor
 	 */
-	public void setCursor(Cursor cursor);
-
-	/**
-	 * 
-	 * @return euclidian controller
-	 */
-	@Override
-	public EuclidianController getEuclidianController();
+	void setCursor(Cursor cursor);
 
 	/**
 	 * @param scale
 	 *            image scale
 	 * @return image
 	 */
-	public GBufferedImage getExportImage(double scale);
+	GBufferedImage getExportImage(double scale);
 
 	/**
 	 * @param scale
@@ -82,7 +74,7 @@ public interface EuclidianViewInterfaceD extends EuclidianViewInterfaceCommon {
 	 * @throws OutOfMemoryError
 	 *             if the requested image is too big
 	 */
-	public GBufferedImage getExportImage(double scale, boolean transparency,
+	GBufferedImage getExportImage(double scale, boolean transparency,
 			ExportType exportType)
 			throws OutOfMemoryError;
 
@@ -100,33 +92,23 @@ public interface EuclidianViewInterfaceD extends EuclidianViewInterfaceCommon {
 	 * @param exportToClipboard
 	 *            if we want to export to clipboard
 	 */
-	public void exportImagePNG(double scale, boolean transparency, int dpi,
+	void exportImagePNG(double scale, boolean transparency, int dpi,
 			File file, boolean exportToClipboard, ExportType exportType);
 
 	/**
 	 * @return printing scale
 	 */
-	public double getPrintingScale();
+	double getPrintingScale();
 
 	/**
 	 * Update fonts
 	 */
-	public void updateFonts();
-
-	/**
-	 * @return export width in pixels
-	 */
-	public int getExportWidth();
-
-	/**
-	 * @return export height in pixels
-	 */
-	public int getExportHeight();
+	void updateFonts();
 
 	/**
 	 * @param box
 	 *            box to be added
 	 */
-	public void add(Box box);
+	void add(Box box);
 
 }

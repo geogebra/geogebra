@@ -42,7 +42,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.settings.AlgebraStyle;
@@ -111,10 +110,10 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 		// Rendering for booleans, buttons and lists
 		checkBox = new JCheckBox();
 		button = new JButton();
-		comboBox = new JComboBox();
+		comboBox = new JComboBox<>();
 		comboBox.setRenderer(new GeoElementListCellRenderer());
 
-		cbModel = new DefaultComboBoxModel();
+		cbModel = new DefaultComboBoxModel<>();
 		comboBox.setModel(cbModel);
 	}
 
@@ -294,12 +293,12 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 		// ===============================================
 		if (geo.isGeoImage()) {
 
-			if (((MyImageD) ((GeoImage) geo).getFillImage()).isSVG()) {
+			if (geo.getFillImage().isSVG()) {
 				Log.error(
 						"SVG not supported in the spreadsheet in desktop yet");
 			} else {
 
-				Image im = ((MyImageD) ((GeoImage) geo).getFillImage())
+				Image im = ((MyImageD) geo.getFillImage())
 						.getImage();
 
 				latexIcon.setImage(im);

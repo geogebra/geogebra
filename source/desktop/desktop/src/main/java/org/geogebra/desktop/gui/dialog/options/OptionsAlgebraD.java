@@ -51,7 +51,7 @@ public class OptionsAlgebraD
 	private final LocalizationD loc;
 	private final List<AlgebraStyle> algebraStyles;
 
-	private JPanel wrappedPanel;
+	private final JPanel wrappedPanel;
 	private JCheckBox auxiliary;
 	private JComboBox<String> sortMode;
 	private JComboBox<String> description;
@@ -134,12 +134,7 @@ public class OptionsAlgebraD
 		panel.setLayout(new GridLayout(10, 1));
 		app.setComponentOrientation(panel);
 		this.auxiliary = new JCheckBox();
-		this.sortMode = new JComboBox<String>() {
-			@Override
-			public void setSelectedIndex(int i) {
-				super.setSelectedIndex(i);
-			}
-		};
+		this.sortMode = new JComboBox<>();
 		this.description = new JComboBox<>();
 
 		panel.add(auxiliary);

@@ -35,6 +35,7 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.Serial;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
@@ -75,7 +76,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
-import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.FileExtensions;
@@ -378,44 +378,23 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
 
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
+				Thread runner = new Thread(() -> {
 
-						try {
-							Construction cons = app.getKernel()
-									.getConstruction();
-							getTable().print(JTable.PrintMode.FIT_WIDTH,
-									new MessageFormat(tableHeader(cons)),
-									new MessageFormat("{0}"), // page numbering
-									/* showPrintDialog */true, /* attr */null,
-									/* interactive */true /* , */
-							/* service *//* null */);
-							// service must be omitted for Java version 1.5.0
-						} catch (HeadlessException | PrinterException ex) {
-							Log.debug(ex);
-						}
-
+					try {
+						Construction cons = app.getKernel()
+								.getConstruction();
+						getTable().print(PrintMode.FIT_WIDTH,
+								new MessageFormat(tableHeader(cons)),
+								new MessageFormat("{0}"), // page numbering
+								/* showPrintDialog */true, /* attr */null,
+								/* interactive */true /* , */
+						/* service *//* null */);
+						// service must be omitted for Java version 1.5.0
+					} catch (HeadlessException | PrinterException ex) {
+						Log.debug(ex);
 					}
 
-					// This may be too long. FIXME
-					private String tableHeader(Construction cons) {
-
-						TitlePanel tp = new TitlePanel((AppD) app);
-						String author = tp.loadAuthor();
-						String title = cons.getTitle();
-						String date = tp.configureDate(cons.getDate());
-
-						if ("".equals(title)) {
-							title = loc.getMenu("UntitledConstruction");
-						}
-						if ("".equals(author)) {
-							return title + " (" + date + ")";
-						}
-						return author + ": " + title + " (" + date + ")";
-
-					}
-				};
+				});
 				runner.start();
 
 				app.setDefaultCursor();
@@ -740,7 +719,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 		private JCheckBox cbTemp = new JCheckBox();
 
-		public ConstructionTableCellRenderer() {
+		ConstructionTableCellRenderer() {
 			setOpaque(true);
 			setVerticalAlignment(TOP);
 		}
@@ -810,12 +789,10 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	}
 
 	class HeaderRenderer extends JLabel implements TableCellRenderer {
-		/**
-		 * 
-		 */
+		@Serial
 		private static final long serialVersionUID = 8149210120003929698L;
 
-		public HeaderRenderer() {
+		HeaderRenderer() {
 			setOpaque(true);
 			// setForeground(UIManager.getColor("TableHeader.foreground"));
 			// setBackground(UIManager.getColor("TableHeader.background"));
@@ -998,7 +975,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			// update(geo);
 		}
 
-		private class ColumnMovementListener
+		private final class ColumnMovementListener
 				implements TableColumnModelListener {
 
 			@Override
@@ -1094,6 +1071,23 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		public void fireTableRowsInserted(int firstRow, int lastRow) {
 			ctDataImpl.fireTableRowsInserted(firstRow, lastRow);
 		}
+	}
+
+	// This may be too long. FIXME
+	private String tableHeader(Construction cons) {
+
+		TitlePanel tp = new TitlePanel((AppD) app);
+		String author = tp.loadAuthor();
+		String title = cons.getTitle();
+		String date = tp.configureDate(cons.getDate());
+
+		if ("".equals(title)) {
+			title = loc.getMenu("UntitledConstruction");
+		}
+		if ("".equals(author)) {
+			return title + " (" + date + ")";
+		}
+		return author + ": " + title + " (" + date + ")";
 
 	}
 

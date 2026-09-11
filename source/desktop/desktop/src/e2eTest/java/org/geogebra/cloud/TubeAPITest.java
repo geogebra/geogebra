@@ -16,8 +16,8 @@
  
 package org.geogebra.cloud;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,10 +41,10 @@ import org.geogebra.desktop.move.ggtapi.models.AuthenticationModelD;
 import org.geogebra.desktop.move.ggtapi.models.GeoGebraTubeAPID;
 import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.UtilD;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TubeAPITest {
 	public static final String circleBase64 = Base64.encodeToString(
@@ -52,13 +52,13 @@ public class TubeAPITest {
 			false);
 	private AppDNoGui app;
 
-	@Before
-	public void setup() {
+	@BeforeEach
+	void setup() {
 		app = new AppDNoGui(new LocalizationD(3), false);
 	}
 
-	@BeforeClass()
-	public static void startLogging() {
+	@BeforeAll()
+	static void startLogging() {
 		Log.setLogger(new LoggerD());
 	}
 
@@ -73,7 +73,7 @@ public class TubeAPITest {
 	 * Upload a simple file as new file
 	 */
 	@Test
-	public void testUpload() {
+	void testUpload() {
 
 		GeoGebraTubeAPID api = getAuthAPI();
 		final ArrayList<String> titles = new ArrayList<>();
@@ -84,7 +84,7 @@ public class TubeAPITest {
 	}
 
 	@Test
-	public void testReupload() {
+	void testReupload() {
 		final GeoGebraTubeAPID api = getAuthAPI();
 		final ArrayList<String> titles = new ArrayList<>();
 
@@ -129,8 +129,8 @@ public class TubeAPITest {
 	private static void awaitValidTitlesExact(String description,
 			ArrayList<String> titles, int len) {
 		awaitValidTitles(description, titles, len);
-		assertEquals("Wrong number of " + description + " results", len,
-				titles.size());
+		assertEquals(len, titles.size(),
+				"Wrong number of " + description + " results");
 	}
 
 	private static void awaitValidTitles(String description, ArrayList<String> titles, int len) {
@@ -142,8 +142,8 @@ public class TubeAPITest {
 			}
 		}
 		for (String title : titles) {
-			assertFalse("Wrong " + description + " result: " + title,
-					title.contains("FAIL"));
+			assertFalse(title.contains("FAIL"),
+					"Wrong " + description + " result: " + title);
 		}
 	}
 
@@ -152,7 +152,7 @@ public class TubeAPITest {
 	}
 
 	private static String getToken() {
-		Assume.assumeNotNull(System.getProperty("materials.token"));
+		Assumptions.assumeFalse(System.getProperty("materials.token") == null);
 		return System.getProperty("materials.token").trim();
 	}
 

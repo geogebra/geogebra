@@ -298,7 +298,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	 * Right click events are consumed to prevent the EuclidianController from
 	 * handling right-clicks as well.
 	 */
-	private class PlotPanelMouseListener implements MouseListener {
+	private final class PlotPanelMouseListener implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
@@ -375,10 +375,10 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	 * Popup menu with menu items for exporting either the GeoElements or an
 	 * image of the view.
 	 */
-	private class ContextMenu extends JPopupMenu {
+	private final class ContextMenu extends JPopupMenu {
 		private static final long serialVersionUID = 1L;
 
-		public ContextMenu() {
+		private ContextMenu() {
 			this.setOpaque(true);
 			setFont(getApplication().getPlainFont());
 
@@ -409,7 +409,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	public ArrayList<AbstractAction> getActionList() {
 
 		if (actionList == null) {
-			actionList = new ArrayList<AbstractAction>();
+			actionList = new ArrayList<>();
 			Localization loc = getApplication().getLocalization();
 			if (exportToEVAction != null) {
 				exportToEVAction.putValue(Action.NAME,
@@ -435,26 +435,23 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Thread runner = new Thread() {
-				@Override
-				public void run() {
-					getApplication().setWaitCursor();
-					try {
-						getApplication().getSelectionManager()
-								.clearSelectedGeos(true, false);
-						getApplication().updateSelection(false);
+			Thread runner = new Thread(() -> {
+				getApplication().setWaitCursor();
+				try {
+					getApplication().getSelectionManager()
+							.clearSelectedGeos(true, false);
+					getApplication().updateSelection(false);
 
-						// use reflection for
-						JDialog d = new GraphicExportDialog(getApplication(),
-								plotPanelEV);
-						d.setVisible(true);
+					// use reflection for
+					JDialog d = new GraphicExportDialog(getApplication(),
+							plotPanelEV);
+					d.setVisible(true);
 
-					} catch (Exception ex) {
-						Log.debug("GraphicExportDialog not available");
-					}
-					getApplication().setDefaultCursor();
+				} catch (Exception ex) {
+					Log.debug("GraphicExportDialog not available");
 				}
-			};
+				getApplication().setDefaultCursor();
+			});
 			runner.start();
 
 		}
@@ -474,14 +471,11 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 					false);
 			getApplication().updateSelection(false);
 
-			Thread runner = new Thread() {
-				@Override
-				public void run() {
-					getApplication().setWaitCursor();
-					getApplication().copyGraphicsViewToClipboard(plotPanelEV);
-					getApplication().setDefaultCursor();
-				}
-			};
+			Thread runner = new Thread(() -> {
+				getApplication().setWaitCursor();
+				getApplication().copyGraphicsViewToClipboard(plotPanelEV);
+				getApplication().setDefaultCursor();
+			});
 			runner.start();
 		}
 	};

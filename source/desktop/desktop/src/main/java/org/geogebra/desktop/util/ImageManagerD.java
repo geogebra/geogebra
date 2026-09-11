@@ -33,7 +33,7 @@ import java.awt.image.PixelGrabber;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -65,11 +65,11 @@ import com.himamis.retex.renderer.desktop.graphics.Base64;
  */
 public class ImageManagerD extends ImageManager {
 
-	private final Hashtable<String, Image> iconTable = new Hashtable<>();
-	private final Hashtable<String, MyImageD> internalImageTable = new Hashtable<>();
-	private static final Hashtable<String, MyImageD> externalImageTable = new Hashtable<>();
+	private final HashMap<String, Image> iconTable = new HashMap<>();
+	private final HashMap<String, MyImageD> internalImageTable = new HashMap<>();
+	private static final HashMap<String, MyImageD> externalImageTable = new HashMap<>();
 
-	private final Hashtable<String, ImageResourceD> fillableImgs = new Hashtable<>();
+	private final HashMap<String, ImageResourceD> fillableImgs = new HashMap<>();
 
 	private final Toolkit toolKit;
 	private MediaTracker tracker;
@@ -467,6 +467,7 @@ public class ImageManagerD extends ImageManager {
 	 * @param app application
 	 * @return full path (md5 folder + filename)
 	 */
+	@SuppressWarnings("PMD.DoNotCallGarbageCollectionExplicitly")
 	public String createImage(MyImageD image, String imageFileName, App app) {
 		String fileName = imageFileName;
 		try {
@@ -516,7 +517,7 @@ public class ImageManagerD extends ImageManager {
 			Log.debug(e);
 			app.showError(Errors.LoadFileFailed);
 			return null;
-		} catch (java.lang.OutOfMemoryError t) {
+		} catch (OutOfMemoryError t) {
 			Log.debug("Out of memory");
 			System.gc();
 			app.setDefaultCursor();

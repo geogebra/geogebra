@@ -121,10 +121,11 @@ public class SymbolTablePopupD {
 		createSymbolTable();
 	}
 
-	private class PopupListener implements PopupMenuListener {
+	private final class PopupListener implements PopupMenuListener {
 
 		@Override
 		public void popupMenuCanceled(PopupMenuEvent e) {
+			// not needed
 		}
 
 		@Override

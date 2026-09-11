@@ -533,7 +533,7 @@ public class TextInputDialogD extends InputDialogD
 	private void buildInsertGeoButton() {
 
 		// create a JList to hold the geo labels for the object popup menu
-		geoList = new JList(getGeoObjectList());
+		geoList = new JList<>(getGeoObjectList());
 		geoList.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
 		JScrollPane scroller = new JScrollPane(geoList);
 		scroller.setBorder(BorderFactory.createEmptyBorder());
@@ -840,7 +840,7 @@ public class TextInputDialogD extends InputDialogD
 		}
 	}
 
-	private class TextInputKeyListener extends KeyAdapter {
+	private final class TextInputKeyListener extends KeyAdapter {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			if ((e.isControlDown() || AppD.isControlDown(e))

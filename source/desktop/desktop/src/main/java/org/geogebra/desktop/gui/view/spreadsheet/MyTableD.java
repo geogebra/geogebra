@@ -924,6 +924,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		return isSelectAll;
 	}
 
+	/**
+	 * @param isSelectAll whether all cells are selected
+	 */
 	public void setSelectAll(boolean isSelectAll) {
 		this.isSelectAll = isSelectAll;
 	}

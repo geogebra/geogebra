@@ -144,9 +144,9 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	}
 
 	@SuppressWarnings("serial")
-	private class PopupMenuButtonForView3D extends PopupMenuButtonD {
+	private final class PopupMenuButtonForView3D extends PopupMenuButtonD {
 
-		public PopupMenuButtonForView3D(AppD app1) {
+		private PopupMenuButtonForView3D(AppD app1) {
 			super(app1, null, -1, -1,
 					new Dimension(app1.getScaledIconSize(),
 							app1.getScaledIconSize()),
@@ -174,7 +174,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		getBtnPointStyle().getMyTable().setVisible(false);
 		// ========================================
 		// show grid button
-		btnShowPlane = new ToggleButtonDforEV(
+		btnShowPlane = createToggleButtonForEV(
 				app.getScaledIcon(GuiResources3D.STYLINGBAR_GRAPHICS3D_PLANE),
 				iconHeight);
 		btnShowPlane.addActionListener(this);
@@ -241,10 +241,10 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 
 	}
 
-	private class ProjectionPopup extends PopupMenuButtonD {
+	private final class ProjectionPopup extends PopupMenuButtonD {
 		private static final long serialVersionUID = 1L;
 
-		public ProjectionPopup(AppD app, Icon[] projectionIcons) {
+		private ProjectionPopup(AppD app, Icon[] projectionIcons) {
 			super(app, projectionIcons, 1, projectionIcons.length,
 					new Dimension(app.getScaledIconSize(),
 							app.getScaledIconSize()),
@@ -348,7 +348,6 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 
 		int index = superList.length;
 		ret[index] = btnShowPlane;
-		index++;
 		return ret;
 	}
 

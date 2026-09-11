@@ -86,7 +86,7 @@ public class DataImportD extends DataImport {
 			}
 
 		} catch (UnsupportedFlavorException | IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 		// no HTML found, try plain text

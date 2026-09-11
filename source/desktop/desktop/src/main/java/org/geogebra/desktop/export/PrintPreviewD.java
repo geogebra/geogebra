@@ -178,30 +178,27 @@ public class PrintPreviewD extends JDialog {
 		JButton btnPrint = new JButton(loc.getMenu("Print"),
 				app.getScaledIcon(GuiResourcesD.DOCUMENT_PRINT));
 		lst = e -> {
-			Thread runner = new Thread() {
-				@Override
-				public void run() {
-					try {
-						PrinterJob prnJob = PrinterJob.getPrinterJob();
-						prnJob.setPageable(book);
+			Thread runner = new Thread(() -> {
+				try {
+					PrinterJob prnJob = PrinterJob.getPrinterJob();
+					prnJob.setPageable(book);
 
-						if (!prnJob.printDialog()) {
-							return;
-						}
-						setCursor(Cursor
-								.getPredefinedCursor(Cursor.WAIT_CURSOR));
-						justPreview = false;
-						prnJob.print();
-						justPreview = true;
-						setCursor(Cursor.getPredefinedCursor(
-								Cursor.DEFAULT_CURSOR));
-						setVisible(false);
-					} catch (PrinterException ex) {
-						Log.debug("Printing error: ");
-						Log.debug(ex);
+					if (!prnJob.printDialog()) {
+						return;
 					}
+					setCursor(Cursor
+							.getPredefinedCursor(Cursor.WAIT_CURSOR));
+					justPreview = false;
+					prnJob.print();
+					justPreview = true;
+					setCursor(Cursor.getPredefinedCursor(
+							Cursor.DEFAULT_CURSOR));
+					setVisible(false);
+				} catch (PrinterException ex) {
+					Log.debug("Printing error: ");
+					Log.debug(ex);
 				}
-			};
+			});
 			runner.start();
 		};
 		btnPrint.addActionListener(lst);
@@ -211,29 +208,26 @@ public class PrintPreviewD extends JDialog {
 		// scale comboBox
 		String[] scales = { "10%", "25%", "50%", "75%", "100%", "150%",
 				"200%" };
-		m_cbScale = new JComboBox(scales);
+		m_cbScale = new JComboBox<>(scales);
 		m_cbScale.setSelectedItem(m_scale + "%");
 		lst = e -> {
-			Thread runner = new Thread() {
-				@Override
-				public void run() {
-					setCursor(
-							Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-					String str = m_cbScale.getSelectedItem().toString();
-					if (str.endsWith("%")) {
-						str = str.substring(0, str.length() - 1);
-					}
-					str = str.trim();
-					int scale = 0;
-					try {
-						scale = Integer.parseInt(str);
-					} catch (NumberFormatException ex) {
-						return;
-					}
-					setScale(scale);
-					setCursor(Cursor.getDefaultCursor());
+			Thread runner = new Thread(() -> {
+				setCursor(
+						Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				String str = m_cbScale.getSelectedItem().toString();
+				if (str.endsWith("%")) {
+					str = str.substring(0, str.length() - 1);
 				}
-			};
+				str = str.trim();
+				int scale;
+				try {
+					scale = Integer.parseInt(str);
+				} catch (NumberFormatException ex) {
+					return;
+				}
+				setScale(scale);
+				setCursor(Cursor.getDefaultCursor());
+			});
 			runner.start();
 		};
 		m_cbScale.addActionListener(lst);
@@ -243,30 +237,26 @@ public class PrintPreviewD extends JDialog {
 		// ORIENTATION combo box
 		String[] orients = { loc.getMenu("Portrait"),
 				loc.getMenu("Landscape") };
-		m_cbOrientation = new JComboBox(orients);
+		m_cbOrientation = new JComboBox<>(orients);
 		m_cbOrientation.setSelectedIndex(
 				(m_orientation == PageFormat.PORTRAIT) ? 0 : 1);
 
 		lst = e -> {
-			Thread runner = new Thread() {
-				@Override
-				public void run() {
-					setCursor(
-							Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-					int pageOrientation = (m_cbOrientation
-							.getSelectedIndex() == 0) ? PageFormat.PORTRAIT
-									: PageFormat.LANDSCAPE;
+			Thread runner = new Thread(() -> {
+				setCursor(
+						Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				int pageOrientation = (m_cbOrientation
+						.getSelectedIndex() == 0) ? PageFormat.PORTRAIT
+								: PageFormat.LANDSCAPE;
 
-					setOrientation(pageOrientation);
+				setOrientation(pageOrientation);
 
-					PrintPreviewD prev = PrintPreviewD.this;
-					int width = prev.getPreferredSize().width;
-					if (width > prev.getWidth()) {
-						setSize(width, prev.getHeight());
-					}
-					setCursor(Cursor.getDefaultCursor());
+				int width = getPreferredSize().width;
+				if (width > getWidth()) {
+					setSize(width, getHeight());
 				}
-			};
+				setCursor(Cursor.getDefaultCursor());
+			});
 			runner.start();
 		};
 		m_cbOrientation.addActionListener(lst);
@@ -274,7 +264,7 @@ public class PrintPreviewD extends JDialog {
 		m_cbOrientation.setEditable(false);
 
 		// VIEW combo box
-		m_cbView = new JComboBox(getAvailableViews());
+		m_cbView = new JComboBox<>(getAvailableViews());
 
 		DockPanelD focusedPanel = ((GuiManagerD) app.getGuiManager())
 				.getLayout().getDockManager().getFocusedPanel();
@@ -285,59 +275,55 @@ public class PrintPreviewD extends JDialog {
 		}
 
 		ActionListener lst_view = e -> {
-			Thread runner = new Thread() {
-				@Override
-				public void run() {
-					setCursor(
-							Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-					m_preview.removeAll();
+			Thread runner = new Thread(() -> {
+				setCursor(
+						Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				m_preview.removeAll();
 
-					final String selItem = m_cbView.getSelectedItem()
-							.toString();
-					// change view
-					if (selItem.equals(loc.getMenu("AllViews"))) {
-						final List<Printable> l = new ArrayList<>();
-						app.forEachView((viewID, viewName) -> {
-							l.addAll(getPrintables(viewID, app)); // TODO
-						});
+				final String selItem = m_cbView.getSelectedItem()
+						.toString();
+				// change view
+				if (selItem.equals(loc.getMenu("AllViews"))) {
+					final List<Printable> l = new ArrayList<>();
+					app.forEachView((viewID, viewName) -> {
+						l.addAll(getPrintables(viewID, app)); // TODO
+					});
 
-						m_target = l;
-					} else {
-						m_target = new ArrayList<>();
-						app.forEachView((viewID, viewName) -> {
+					m_target = l;
+				} else {
+					m_target = new ArrayList<>();
+					app.forEachView((viewID, viewName) -> {
 
-							if (selItem.equals(loc.getMenu(viewName))) {
-								m_target.addAll(
-										getPrintables(viewID, app));
-							}
+						if (selItem.equals(loc.getMenu(viewName))) {
+							m_target.addAll(
+									getPrintables(viewID, app));
+						}
 
-						});
-					}
-					tempPanel.removeAll();
-					if (selItem.equals(loc.getMenu("DrawingPad"))
-							|| selItem.equals(loc.getMenu("AllViews"))) {
-						tempPanel.add(createPanelForScaling(
-								app.getEuclidianView1()));
-					}
-					if (selItem.equals(loc.getMenu("DrawingPad2"))
-							|| (selItem.equals(loc.getMenu("AllViews"))
-									&& app.hasEuclidianView2(1))) {
-						tempPanel.add(createPanelForScaling(
-								app.getEuclidianView2(1)));
-					}
-					panelForTitleAndScaling.revalidate();
-
-					initPages();
-					updateFormat();
-
-					m_preview.doLayout();
-					m_preview.getParent().getParent().validate();
-
-					setCursor(Cursor.getDefaultCursor());
-
+					});
 				}
+				tempPanel.removeAll();
+				if (selItem.equals(loc.getMenu("DrawingPad"))
+						|| selItem.equals(loc.getMenu("AllViews"))) {
+					tempPanel.add(createPanelForScaling(
+							app.getEuclidianView1()));
+				}
+				if (selItem.equals(loc.getMenu("DrawingPad2"))
+						|| (selItem.equals(loc.getMenu("AllViews"))
+								&& app.hasEuclidianView2(1))) {
+					tempPanel.add(createPanelForScaling(
+							app.getEuclidianView2(1)));
+				}
+				panelForTitleAndScaling.revalidate();
 
-			};
+				initPages();
+				updateFormat();
+
+				m_preview.doLayout();
+				m_preview.getParent().getParent().validate();
+
+				setCursor(Cursor.getDefaultCursor());
+
+			});
 			runner.start();
 		};
 		m_cbView.addActionListener(lst_view);
@@ -361,19 +347,13 @@ public class PrintPreviewD extends JDialog {
 		TitlePanel titlePanel = new TitlePanel(app);
 		lst = e -> {
 			kernelChanged = true;
-			Thread runner = new Thread() {
-				@Override
-				public void run() {
-					SwingUtilities.invokeLater(() -> {
-						setCursor(Cursor.getPredefinedCursor(
-								Cursor.WAIT_CURSOR));
-						updatePages();
-						setCursor(Cursor.getDefaultCursor());
+			Thread runner = new Thread(() -> SwingUtilities.invokeLater(() -> {
+				setCursor(Cursor.getPredefinedCursor(
+						Cursor.WAIT_CURSOR));
+				updatePages();
+				setCursor(Cursor.getDefaultCursor());
 
-					});
-
-				}
-			};
+			}));
 			runner.start();
 		};
 		titlePanel.addActionListener(lst);
@@ -472,17 +452,15 @@ public class PrintPreviewD extends JDialog {
 
 			// show printing scale in cm
 			app.getEuclidianView1().setPrintScaleString(Boolean
-					.valueOf(GeoGebraPreferencesD.getPref().loadPreference(
-							GeoGebraPreferencesD.PRINT_SHOW_SCALE, "false"))
-					.booleanValue());
+					.parseBoolean(GeoGebraPreferencesD.getPref().loadPreference(
+							GeoGebraPreferencesD.PRINT_SHOW_SCALE, "false")));
 			if (app.hasEuclidianView2EitherShowingOrNot(1)) {
 				app.getEuclidianView2(1)
 						.setPrintScaleString(Boolean
-								.valueOf(GeoGebraPreferencesD.getPref()
+								.parseBoolean(GeoGebraPreferencesD.getPref()
 										.loadPreference(
 												GeoGebraPreferencesD.PRINT_SHOW_SCALE2,
-												"false"))
-								.booleanValue());
+												"false")));
 			}
 		} catch (Exception e) {
 			Log.debug(e);
@@ -794,7 +772,9 @@ public class PrintPreviewD extends JDialog {
 			try {
 				return ((PagePreview) getComponent(pageIndex)).getPageFormat();
 			} catch (Exception e) {
-				throw new IndexOutOfBoundsException();
+				IndexOutOfBoundsException ex = new IndexOutOfBoundsException();
+				ex.addSuppressed(e);
+				throw ex;
 			}
 		}
 

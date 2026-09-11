@@ -23,7 +23,6 @@ import org.geogebra.common.main.App;
 import org.jspecify.annotations.Nullable;
 import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.NativeFunction;
 import org.mozilla.javascript.Scriptable;
 
 public class ScriptManagerD extends ScriptManagerJre {

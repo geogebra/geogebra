@@ -294,6 +294,7 @@ public class OptionsSpreadsheetD
 
 	@Override
 	public void focusGained(FocusEvent arg0) {
+		// only handle focus lost
 	}
 
 	@Override

@@ -136,17 +136,14 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 
 		updateFonts();
 
-		Thread initCAS = new Thread() {
-			@Override
-			public void run() {
-				getCAS().initCurrentCAS();
-				GuiManagerD gm = (GuiManagerD) app.getGuiManager();
-				if (gm != null) {
-					gm.reInitHelpPanel(true);
-				}
-
+		Thread initCAS = new Thread(() -> {
+			getCAS().initCurrentCAS();
+			GuiManagerD gm = (GuiManagerD) app.getGuiManager();
+			if (gm != null) {
+				gm.reInitHelpPanel(true);
 			}
-		};
+
+		});
 		initCAS.start();
 	}
 

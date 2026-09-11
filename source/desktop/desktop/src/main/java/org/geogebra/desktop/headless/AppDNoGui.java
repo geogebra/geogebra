@@ -59,7 +59,6 @@ import org.geogebra.desktop.factories.UtilFactoryD;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
-import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.plugin.ScriptManagerD;
 import org.geogebra.desktop.sound.SoundManagerD;
 import org.geogebra.desktop.util.GTimerD;
@@ -224,7 +223,7 @@ public class AppDNoGui extends AppCommon implements AppDI {
 		return new ScriptManagerD(this);
 	}
 
-	private class GgbApiDelegateHeadless implements ApiDelegate {
+	private final class GgbApiDelegateHeadless implements ApiDelegate {
 
 		@Override
 		public void openFile(String strURL) {

@@ -49,6 +49,8 @@ public class AlgebraTreeController extends AlgebraController
 	private AlgebraTree tree;
 	private boolean skipSelection;
 	private GeoElement lastSelectedGeo = null;
+	private long lastMousePressedTime;
+	private boolean draggingOccurred = false;
 
 	/**
 	 * Creator
@@ -223,8 +225,6 @@ public class AlgebraTreeController extends AlgebraController
 		leftPress(e);
 		setMousePressed();
 	}
-
-	private long lastMousePressedTime;
 
 	/**
 	 * set values (dragging, mouse pressed time)
@@ -409,8 +409,6 @@ public class AlgebraTreeController extends AlgebraController
 	public void mouseExited(MouseEvent p1) {
 		highlight(app.getActiveEuclidianView(), (GeoElement) null);
 	}
-
-	private boolean draggingOccurred = false;
 
 	// MOUSE MOTION LISTENER
 	@Override

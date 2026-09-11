@@ -16,10 +16,10 @@
  
 package org.geogebra.cloud;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -50,22 +50,22 @@ import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.move.ggtapi.models.AuthenticationModelD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.util.UtilD;
-import org.junit.Assume;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-public class MaterialRestAPITest {
+class MaterialRestAPITest {
 
 	private static final String BASE_URL = "http://api-beta.geogebra.org/";
 
 	@Test
-	public void testAuth() {
+	void testAuth() {
 		needsAuth();
 		GeoGebraTubeUser usr = new GeoGebraTubeUser("");
 		LoginOperationD loginOp = buildLoginOperation();
 		authorise(usr, loginOp);
 		assertEquals("GGBTest-Student", usr.getUserName());
-		assertEquals("GGBTest-Student", 0, usr.getGroups().size());
+		assertEquals(0, usr.getGroups().size(), "GGBTest-Student");
 	}
 
 	private LoginOperationD buildLoginOperation() {
@@ -98,14 +98,14 @@ public class MaterialRestAPITest {
 	}
 
 	@Test
-	public void testUpload() {
+	void testUpload() {
 		needsAuth();
 		MaterialRestAPI api = authAPI();
 		doUpload(api, "Test material", new TestMaterialCallback());
 	}
 
 	@Test
-	public void testUploadLoggout() {
+	void testUploadLoggout() {
 		needsAuth();
 		MaterialRestAPI api = new MaterialRestAPI(BASE_URL, new MarvlService());
 		UtilFactory.setPrototypeIfNull(new UtilFactoryD());
@@ -122,8 +122,8 @@ public class MaterialRestAPITest {
 	 * TODO groups are shibboleth feature and can't be tested with simple login
 	 */
 	@Test
-	@Ignore
-	public void testmaterialGroup() {
+	@Disabled
+	void testmaterialGroup() {
 		needsAuth();
 		final MaterialRestAPI api = authAPI();
 		final String[] success = new String[1];
@@ -159,7 +159,7 @@ public class MaterialRestAPITest {
 	}
 
 	@Test
-	public void testOpen() {
+	void testOpen() {
 		needsAuth();
 		final MaterialRestAPI api = authAPI();
 		final AppDNoGui appd = new AppDNoGui(new LocalizationD(3), false);
@@ -224,7 +224,7 @@ public class MaterialRestAPITest {
 	}
 
 	@Test
-	public void testCopy() {
+	void testCopy() {
 		needsAuth();
 		allowMethods("PATCH");
 		final MaterialRestAPI api = authAPI();
@@ -245,7 +245,7 @@ public class MaterialRestAPITest {
 	}
 
 	@Test
-	public void testDelete() {
+	void testDelete() {
 		needsAuth();
 		allowMethods("PATCH");
 		final MaterialRestAPI api = authAPI();
@@ -318,7 +318,7 @@ public class MaterialRestAPITest {
 	}
 
 	@Test
-	public void copyTitles() {
+	void copyTitles() {
 		LocalizationD loc = new LocalizationD(3);
 		assertEquals("Copy of A", MaterialRestAPI.getCopyTitle(loc, "A"));
 		assertEquals("Copy of A (2)",
@@ -328,7 +328,7 @@ public class MaterialRestAPITest {
 	}
 
 	@Test
-	public void testRename() {
+	void testRename() {
 		needsAuth();
 		final MaterialRestAPI api = authAPI();
 		final TestMaterialCallback renameCallback = new TestMaterialCallback();
@@ -347,7 +347,7 @@ public class MaterialRestAPITest {
 	}
 
 	@Test
-	public void testReupload() {
+	void testReupload() {
 		needsAuth();
 		final AppDNoGui appd = new AppDNoGui(new LocalizationD(3), false);
 		final MaterialRestAPI api = authAPI();
@@ -385,7 +385,7 @@ public class MaterialRestAPITest {
 	}
 
 	@Test
-	public void writePermissionsTest() {
+	void writePermissionsTest() {
 		needsAuth();
 
 		Material mat = new Material(MaterialType.ggs);
@@ -393,22 +393,22 @@ public class MaterialRestAPITest {
 		GeoGebraTubeUser usr = new GeoGebraTubeUser("");
 		LoginOperationD loginOp = buildLoginOperation();
 
-		assertTrue("Should overwrite anonymous materials",
-				loginOp.owns(mat));
+		assertTrue(loginOp.owns(mat),
+				"Should overwrite anonymous materials");
 		authorise(usr, loginOp);
 		mat.setCreator(new UserPublic(42, "Bart"));
-		assertFalse("Should not overwrite foreign materials",
-				loginOp.owns(mat));
-		assertTrue("User ID should be set", usr.getUserId() > 0);
+		assertFalse(loginOp.owns(mat),
+				"Should not overwrite foreign materials");
+		assertTrue(usr.getUserId() > 0, "User ID should be set");
 		mat.setCreator(new UserPublic(loginOp.getModel().getUserId(),
 				loginOp.getUserName()));
-		assertTrue("Should overwrite own materials",
-				loginOp.owns(mat));
+		assertTrue(loginOp.owns(mat),
+				"Should overwrite own materials");
 
 	}
 
 	private static void needsAuth() {
-		Assume.assumeNotNull(System.getProperty("marvl.auth.basic"));
+		Assumptions.assumeFalse(System.getProperty("marvl.auth.basic") == null);
 	}
 
 }

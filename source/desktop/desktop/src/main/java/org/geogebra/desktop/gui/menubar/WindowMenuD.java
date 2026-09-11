@@ -38,7 +38,7 @@ class WindowMenuD extends BaseMenu {
 
 	private AbstractAction newWindowAction;
 
-	public WindowMenuD(AppD app) {
+	WindowMenuD(AppD app) {
 		super(app, "Window");
 
 		// items are added to the menu when it's opened, see BaseMenu:
@@ -49,7 +49,7 @@ class WindowMenuD extends BaseMenu {
 	 * Initialize and update the items.
 	 */
 	@Override
-	public void initItems() {
+	void initItems() {
 		if (!initialized) {
 			return;
 		}
@@ -123,21 +123,18 @@ class WindowMenuD extends BaseMenu {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						app.setWaitCursor();
-						app.createNewWindow();
-						app.setDefaultCursor();
-					}
-				};
+				Thread runner = new Thread(() -> {
+					app.setWaitCursor();
+					app.createNewWindow();
+					app.setDefaultCursor();
+				});
 				runner.start();
 			}
 		};
 	}
 
 	@Override
-	public void update() {
+	void update() {
 		UIManager.put("MenuItem.acceleratorFont", app.getPlainFont());
 		initItems();
 		if (newWindowAction != null) {

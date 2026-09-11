@@ -65,7 +65,7 @@ public class OOMLConverter {
 			String xml = writer.toString();
 			return xml.substring(xml.indexOf('>') + 1).replace("mml:", "");
 		} catch (Throwable e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		return null;
 	}

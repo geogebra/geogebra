@@ -23,9 +23,9 @@ import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThan;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -46,10 +46,10 @@ import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.annotation.Issue;
 import org.hamcrest.Matcher;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class CommandsUsingCASTest extends AlgebraTest {
+class CommandsUsingCASTest extends AlgebraTest {
 
 	private GeoElementND add(String string) {
 		GeoElementND[] geos = ap.processAlgebraCommand(string, false);
@@ -93,8 +93,8 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		return app.getKernel().lookupLabel(label);
 	}
 
-	@Before
-	public void resetSyntaxes() {
+	@BeforeEach
+	void resetSyntaxes() {
 		app.getKernel().clearConstruction(true);
 		app.getKernel().setPrintDecimals(2);
 		app.setActiveView(App.VIEW_EUCLIDIAN);
@@ -102,7 +102,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void conditionalDerivativeTest() {
+	void conditionalDerivativeTest() {
 		t("f(x)=If[x>0,x^2]", "If[x > 0, x^(2)]");
 		t("f'(x)=Derivative[f]", "If[x > 0, (2 * x)]");
 		t("f'(3)", "6");
@@ -112,7 +112,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdSimplify() {
+	void cmdSimplify() {
 		t("Simplify[ sin^2(x)+cos^2(x) ]", "1");
 		t("Simplify[ 2/sqrt(2) ]", "sqrt(2)");
 		t("sa=1", "1");
@@ -122,7 +122,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdIntegral() {
+	void cmdIntegral() {
 		t("Integral[ sin(x) ]", "(-cos(x))");
 		t("Integral[ x^2, x ]", "(1 / 3 * x^(3))");
 		t("Integral[ sin(x),0,pi ]", "2");
@@ -154,7 +154,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdIntegralInfinite() {
+	void cmdIntegralInfinite() {
 		t("f=Normal(50,3,x,false)",
 				"exp(((-(x - 5E+1)^(2))) / ((3^(2) * 2))) / ((abs(3) * sqrt((2 * pi))))");
 		tRound("norm:=Integral[f,-inf,50 ]", "0.5");
@@ -162,7 +162,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdNSolve() {
+	void cmdNSolve() {
 		tRound("NSolve[ x^2=3 ]", "{x = -1.73205, x = 1.73205}");
 		t("NSolve[ x^2=-1 ]", "{}");
 		tRound("NSolve[ erf(x)=0.5 ]", "{x = 0.47694}");
@@ -176,17 +176,17 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdSolveODECas() {
+	void cmdSolveODECas() {
 		t("SolveODE(-x/y)", "sqrt((-2 * 1) - x^(2))");
 	}
 
 	@Test
-	public void cmdSolveODETidyCas() {
+	void cmdSolveODETidyCas() {
 		t("SolveODE(2 x sqrt(y),(0,1))", "((1 / 2 * x^(2)) + 1)^(2)");
 	}
 
 	@Test
-	public void cmdSolveODEUpdate() {
+	void cmdSolveODEUpdate() {
 		t("t=SolveODE(2x)", "x^(2)");
 		t("v=t(2)", "4");
 		t("SetValue(c_1,1)");
@@ -194,7 +194,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdDerivative() {
+	void cmdDerivative() {
 		t("Derivative[ Curve[sin(t),cos(t),t,0,1] ]",
 				"(cos(t), (sin(t) * (-1)))");
 		t("Derivative[ Curve[sin(t),cos(t),t,0,1],2 ]",
@@ -217,7 +217,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdDerivativeDegenerate() {
+	void cmdDerivativeDegenerate() {
 		t("Derivative(x^3-3x, 0)", "x^(3) - (3 * x)");
 		t("Derivative(x^3-3x, -1)", "?");
 		t("Derivative(sin(x), 0)", "sin(x)");
@@ -225,7 +225,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void randomDerivatives() {
+	void randomDerivatives() {
 		add("f(x)=1/(x+RandomBetween(1,100))");
 		add("g=Derivative(2*f)");
 		add("h=Derivative(2*f)");
@@ -245,7 +245,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdAsymptote() {
+	void cmdAsymptote() {
 		t("Asymptote(ln(x)-ln(1-x))", "{x = 0}");
 		t("Asymptote(ln(x)+ln(1/(1-x)))", "{x = 0}");
 		t("Asymptote(ln(x/(1-x)))", "{x = 0}");
@@ -308,7 +308,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void asymptoteVertical() {
+	void asymptoteVertical() {
 		add("f:(0.581550952232088x)/(0.03544522x+0.1996238)");
 		// discontinuity not removable
 		t("Asymptote(f)", "{y = 16.40703463632298, x = -5.631896204904357}");
@@ -318,7 +318,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	/** Test for MOB-1667 */
 	@Test
-	public void cmdSolveSystem() {
+	void cmdSolveSystem() {
 		t("a:abs(x)/9+abs(y)/4=1", "abs(x) / 9 + abs(y) / 4 = 1");
 		t("f:y=2x", "y = (2 * x)");
 		t("Solve[ {a,f} ]",
@@ -326,7 +326,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdExpand() {
+	void cmdExpand() {
 		t("Expand[ (x+1)(x-1) ]", "x^(2) - 1");
 		t("f(x)=(x+i)*(x-i)",
 				"((x + " + Unicode.IMAGINARY + ") * (x - " + Unicode.IMAGINARY + "))");
@@ -335,14 +335,14 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void expandShouldNotChangeWithRounding() {
+	void expandShouldNotChangeWithRounding() {
 		t("Expand[ 0.5 (x+1)^2 ]", "(1 / 2 * x^(2)) + x + 1 / 2");
 		app.getKernel().setPrintDecimals(10);
 		t("Expand[ 0.5 (x+1)^2 ]", "(1 / 2 * x^(2)) + x + 1 / 2");
 	}
 
 	@Test
-	public void cmdSolutions() {
+	void cmdSolutions() {
 		tRound("Solutions[ x^2=3 ]", "{-1.73205, 1.73205}");
 		t("Solutions[ 5x=4 ]", "{4 / 5}");
 		tRound("Solutions[ sin(x)=1/2 ]", "{30" + Unicode.DEGREE_CHAR + ", 150"
@@ -350,7 +350,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdNSolutions() {
+	void cmdNSolutions() {
 		tRound("NSolutions[ x^2=3 ]", "{-1.73205, 1.73205}");
 		t("NSolutions[ 5x=4 ]", "{0.8}");
 		tRound("NSolutions[ sin(x)=1/2 ]", "{30" + Unicode.DEGREE_CHAR + ", 150"
@@ -363,12 +363,12 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdImplicitDerivative() {
+	void cmdImplicitDerivative() {
 		t("ImplicitDerivative[x^2+y^2]", "((-x)) / y");
 	}
 
 	@Test
-	public void testIntersectCurves() {
+	void testIntersectCurves() {
 		t("Intersect[Curve[t, t^3 - t, t, -2, 2], Curve[t, t, t, -4, 4]]",
 				"(0, 0)",
 				"(1.4142135623730951, 1.4142135623730951)",
@@ -380,7 +380,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdSolve() {
+	void cmdSolve() {
 		runSolveTests();
 		app.getKernel().clearConstruction(true);
 		app.setActiveView(App.VIEW_EUCLIDIAN3D);
@@ -395,12 +395,12 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdCASLoaded() {
+	void cmdCASLoaded() {
 		t("CASLoaded[]", "true");
 	}
 
 	@Test
-	public void imgCorner() {
+	void imgCorner() {
 		// TODO not really CAS
 		GeoImage img = new GeoImage(app.getKernel().getConstruction());
 		String fn = ((ImageManagerD) app.getImageManager())
@@ -425,13 +425,13 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void testDerivativeDegrees() {
+	void testDerivativeDegrees() {
 		deg("Derivative(sin(30)*x+sin(x))",
 				anyOf(equalTo("1 / 2 + cos(x)"), equalTo("cos(x) + 1 / 2")));
 	}
 
 	@Test
-	public void symbolicFractionsCAS() {
+	void symbolicFractionsCAS() {
 		frac("a=2/3-1/3", "1 / 3");
 		frac("Simplify(x/3/a)", "x");
 		frac("Simplify(x^a)", "cbrt(x)");
@@ -439,12 +439,12 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdIntegralSymbolic() {
+	void cmdIntegralSymbolic() {
 		// Tested in giacTests.js
 	}
 
 	@Test
-	public void cmdRemovableDiscontinuity() {
+	void cmdRemovableDiscontinuity() {
 		t("RemovableDiscontinuity((3-x)/(2x^2-6x))", "(3, -0.16666666666666666)");
 		t("RemovableDiscontinuity(x/x)", "(0, 1)");
 		t("RemovableDiscontinuity((x^2 - 4)/(x - 2))", "(2, 4)");
@@ -453,28 +453,28 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdPlotSolve() {
+	void cmdPlotSolve() {
 		t("PlotSolve(x^2-2)", "{(-1.4142135623730951, 0), (1.4142135623730951, 0)}");
 		GeoElement element = get("l1");
 		assertThat(element.isEuclidianVisible(), is(true));
 	}
 
 	@Test
-	public void functionComparisonShouldConsiderJustFiniteValues() {
+	void functionComparisonShouldConsiderJustFiniteValues() {
 		t("f(x)=x^2/x", "x^(2) / x");
 		t("g(x)=x", "x");
 		t("f==g", "true");
 	}
 
 	@Test
-	public void functionComparisonShouldWorkForTrig() {
+	void functionComparisonShouldWorkForTrig() {
 		t("f(x)=sin(x)^2", "(sin(x))^(2)");
 		t("g(x)=1-cos(x)^2", "1 - (cos(x))^(2)");
 		t("f==g", "true");
 	}
 
 	@Test
-	public void simpleFunctionComparisonShouldNotNeedCAS() {
+	void simpleFunctionComparisonShouldNotNeedCAS() {
 		app = createApp();
 		ap = app.getKernel().getAlgebraProcessor();
 		app.setCASFactory(new CASFactory() {
@@ -506,54 +506,54 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdLimitAbove() {
+	void cmdLimitAbove() {
 		t("LimitAbove[ 1/x, 0 ]", "Infinity");
 	}
 
 	@Test
-	public void cmdLimitBelow() {
+	void cmdLimitBelow() {
 		t("LimitBelow[ 1/x, 0 ]", "-Infinity");
 	}
 
 	@Test
-	public void cmdLimit() {
+	void cmdLimit() {
 		t("Limit[ (x^2 + x) / x^2, " + INFINITY + " ]", "1");
 	}
 
 	@Test
-	public void cmdNextPrime() {
+	void cmdNextPrime() {
 		t("NextPrime[10000]", "10007");
 	}
 
 	@Test
-	public void cmdPartialFractions() {
+	void cmdPartialFractions() {
 		t("PartialFractions[ x^2 / (x^2 - 2x + 1) ]", "1 + 1 / (x - 1)^(2) + 2 / (x - 1)");
 	}
 
 	@Test
-	public void cmdPreviousPrime() {
+	void cmdPreviousPrime() {
 		t("PreviousPrime[ 22 ]", "19");
 	}
 
 	@Test
-	public void cmdTrigCombine() {
+	void cmdTrigCombine() {
 		t("TrigCombine[sin(x) cos(3x)]", "(1 / 2 * sin((4 * x))) - (1 / 2 * sin((2 * x)))");
 		t("TrigCombine[sin(x) + cos(x), sin(x)]", "(sqrt(2) * sin(x + (1 / 4 * pi)))");
 	}
 
 	@Test
-	public void cmdTrigExpand() {
+	void cmdTrigExpand() {
 		t("TrigExpand[sin(x+y)]", "(sin(x) * cos(y)) + (cos(x) * sin(y))");
 		t("TrigExpand[tan(x + y), tan(x)]", "(tan(x) + tan(y)) / (1 - (tan(x) * tan(y)))");
 	}
 
 	@Test
-	public void cmdTrigSimplify() {
+	void cmdTrigSimplify() {
 		t("TrigSimplify[1 - sin(x)^2]", "(cos(x))^(2)");
 	}
 
 	@Test
-	public void speedForInequalitySolve() {
+	void speedForInequalitySolve() {
 		double time = System.currentTimeMillis();
 		t("Solve(0.05>=(1-x)^50)",
 				"{(-nroot(1 / 20,50)) + 1 ≤ x ≤ nroot(1 / 20,50) + 1}");
@@ -567,7 +567,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	 * is sent to Giac as a symbol, see TRAC-3865, TRAC-5532, APPS-4943
 	 */
 	@Test
-	public void useApproxBoundsForDefiniteIntegral() {
+	void useApproxBoundsForDefiniteIntegral() {
 		t("a=1", "1");
 		t("Integral[sin(x) / (1 + a² - 2a cos(x)), 0, pi]", "NaN");
 	}
@@ -579,7 +579,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	 */
 	@Test
 	@Issue("APPS-5465")
-	public void testCmdSolveODE2() {
+	void testCmdSolveODE2() {
 		t("SolveODE((x / y) - x y, (1.71, -2))", anyOf(equalTo(
 				"(((-3 * sqrt(1 / 9)) * ℯ^(29241 / 10000)) * sqrt((3 * ℯ^(x^(2)) / ℯ^(29241 /"
 						+ " 10000)) + (ℯ^(x^(2)))^(2) / (ℯ^(29241 / 10000))^(2)) / ℯ^(x^(2)))"),
@@ -590,14 +590,14 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	@Test
 	@Issue("APPS-5496")
-	public void testCmdInvert() {
+	void testCmdInvert() {
 		t("Invert((x + 4) / (2x - 5))", "((5 * x) + 4) / ((2 * x) - 1)");
 		t("Invert(sqrt(x)/x)", "(1 / x)^(2)");
 	}
 
 	@Test
 	@Issue("APPS-5829")
-	public void cmdCSolve() {
+	void cmdCSolve() {
 		t("CSolve(x^2 = -1)", "{x = ί, x = (-ί)}");
 		t("CSolve(x^2 = 4)", "{x = -2 + (0 * ί), x = 2 + (0 * ί)}");
 		t("CSolve(x^2 = -3, x)", "{x = (ί * sqrt(3)), x = ((-ί) * sqrt(3))}");
@@ -606,7 +606,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	@Test
 	@Issue("APPS-5829")
-	public void cmdCSolutions() {
+	void cmdCSolutions() {
 		t("CSolutions(x^2 = -4)", "{(2 * ί), (-2 * ί)}");
 		t("CSolutions(x^2 = -18, x)", "{((3 * ί) * sqrt(2)), ((-3 * ί) * sqrt(2))}");
 		t("CSolutions({x^2 = -4}, {x})", "{{(-2 * ί)}, {(2 * ί)}}");
@@ -614,7 +614,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	@Test
 	@Issue("APPS-2967")
-	public void cmdFactor() {
+	void cmdFactor() {
 		t("eq:Factor(x^6 - 4*y^3 + 3*x^4*y=0)",
 				anyOf(equalTo("((x^(2) - y) * (x^(2) + (2 * y))^(2)) = 0"),
 						equalTo("((x^(2) + (2 * y))^(2) * (x^(2) - y)) = 0")));
@@ -624,7 +624,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	@Test
 	@Issue("APPS-2967")
-	public void cmdIFactor() {
+	void cmdIFactor() {
 		t("eq:IFactor(x^4 - 2x^2=0)",
 				anyOf(equalTo("((x^(2) * (x - sqrt(2))) * (x + sqrt(2))) = 0"),
 						equalTo("((x^(2) * (x + sqrt(2))) * (x - sqrt(2))) = 0")));

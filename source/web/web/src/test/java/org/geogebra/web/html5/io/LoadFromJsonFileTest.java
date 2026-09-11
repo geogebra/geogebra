@@ -34,7 +34,6 @@ import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.geogebra.web.util.file.FileIO;
 import org.gwtproject.user.client.ui.ResizeComposite;
 import org.gwtproject.user.client.ui.RootPanel;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -50,11 +49,6 @@ public class LoadFromJsonFileTest {
 			"src/test/resources/org/geogebra/web/html5/io/inRegion.json";
 
 	private AppWFull app;
-
-	@Before
-	public void initAssertions() {
-		this.getClass().getClassLoader().setDefaultAssertionStatus(false);
-	}
 
 	@Test
 	public void checkPanelIsClosed() {

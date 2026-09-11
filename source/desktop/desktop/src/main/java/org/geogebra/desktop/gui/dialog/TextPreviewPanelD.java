@@ -144,9 +144,9 @@ public class TextPreviewPanelD extends TextPreviewer {
 	 * text editor.
 	 * 
 	 */
-	private static class EuclidianViewTextPreview extends EuclidianViewD {
+	private static final class EuclidianViewTextPreview extends EuclidianViewD {
 
-		public EuclidianViewTextPreview(EuclidianController ec,
+		private EuclidianViewTextPreview(EuclidianController ec,
 				boolean[] showAxes, boolean showGrid, int evno,
 				EuclidianSettings settings) {
 			super(ec, showAxes, showGrid, evno, settings);

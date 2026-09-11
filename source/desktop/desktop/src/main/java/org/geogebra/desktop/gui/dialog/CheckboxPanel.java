@@ -38,14 +38,14 @@ class CheckboxPanel extends OptionPanel
 	private String title;
 	private UpdateTabs tabs;
 
-	public CheckboxPanel(AppD app, UpdateTabs tabs, BooleanOptionModel model) {
+	CheckboxPanel(AppD app, UpdateTabs tabs, BooleanOptionModel model) {
 		this(app, model.getTitle(), tabs);
 		this.model = model;
 		model.setListener(this);
 		app.setFlowLayoutOrientation(this);
 	}
 
-	public CheckboxPanel(AppD app, final String title, UpdateTabs tabs) {
+	CheckboxPanel(AppD app, final String title, UpdateTabs tabs) {
 		super();
 		this.app = app;
 		loc = app.getLocalization();
@@ -93,7 +93,7 @@ class CheckboxPanel extends OptionPanel
 		}
 	}
 
-	public void apply(boolean value) {
+	void apply(boolean value) {
 		model.applyChanges(value);
 		tabs.updateTabs(model.getGeos());
 	}
@@ -103,11 +103,11 @@ class CheckboxPanel extends OptionPanel
 		checkbox.setSelected(value);
 	}
 
-	public void setModel(BooleanOptionModel model) {
+	void setModel(BooleanOptionModel model) {
 		this.model = model;
 	}
 
-	public JCheckBox getCheckbox() {
+	JCheckBox getCheckbox() {
 		return checkbox;
 	}
 }

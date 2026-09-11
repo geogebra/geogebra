@@ -27,12 +27,12 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class GeoSymbolicVectorTest extends BaseSymbolicTest {
+class GeoSymbolicVectorTest extends BaseSymbolicTest {
 
 	@Test
-	public void testLowercaseIsVector() {
+	void testLowercaseIsVector() {
 		String[] inputs = {"u = (1, 2)", "v = (3, 4, 5)", "w = (a, b, 5)",
 				"a = (r+ 3, t + 2, f + 1)"};
 		for (String input: inputs) {
@@ -43,7 +43,7 @@ public class GeoSymbolicVectorTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testAdditionSubtractionResultsInVector() {
+	void testAdditionSubtractionResultsInVector() {
 		add("a = (1, 2)");
 		add("b = (v, w)");
 		add("c = (2, 4, u)");
@@ -60,7 +60,7 @@ public class GeoSymbolicVectorTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testCrossProductResultsInVector() {
+	void testCrossProductResultsInVector() {
 		String crossProduct = "\u2297";
 		add("a = (f, g)");
 		add("b = (h, q, z)");
@@ -73,7 +73,7 @@ public class GeoSymbolicVectorTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testScalarMultiplicationResultsInVector() {
+	void testScalarMultiplicationResultsInVector() {
 		add("a = (1, 2)");
 		add("b = (v, w)");
 		add("c = (2, 4, u)");
@@ -88,7 +88,7 @@ public class GeoSymbolicVectorTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testVectorOfListsToListOfVectors() {
+	void testVectorOfListsToListOfVectors() {
 		add("l1 = {1,2,pi}");
 		add("l2 = {3,4,5}");
 		GeoSymbolic list = add("L3 = (l1, l2)");
@@ -104,7 +104,7 @@ public class GeoSymbolicVectorTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testVectorOfListsToListOfVectorsWithLowercaseLabel() {
+	void testVectorOfListsToListOfVectorsWithLowercaseLabel() {
 		add("l1 = {1,2,pi}");
 		add("l2 = {3,4,5}");
 		GeoSymbolic list = add("l3 = (l1, l2)");
@@ -120,19 +120,19 @@ public class GeoSymbolicVectorTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testDotProduct() {
+	void testDotProduct() {
 		t("Dot[Vector[(1,2)],Vector[(3,4)]]", "11");
 		t("Dot[Vector[(p,q)],Vector[(r,s)]]", "p * r + q * s");
 	}
 
 	@Test
-	public void testCrossProduct() {
+	void testCrossProduct() {
 		t("Cross[Vector[(1,2)],Vector[(3,4)]]", "-2");
 		t("Cross[Vector[(p,q)], Vector[(r,s)]]", "p * s - q * r");
 	}
 
 	@Test
-	public void testVectors() {
+	void testVectors() {
 		// these should give Vector not point
 		t("Length(Vector((3,4)))", "5");
 		t("x(Vector((3,4)))", "3");

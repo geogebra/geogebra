@@ -17,7 +17,7 @@
 package org.geogebra.common.kernel.commands;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 
@@ -30,25 +30,25 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.hamcrest.core.StringStartsWith;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class SymbolicProcessorTest {
+class SymbolicProcessorTest {
 
 	private static SymbolicProcessor processor;
 	private static Kernel kernel;
 
 	/** Set up the app */
-	@BeforeClass
-	public static void setUp() {
+	@BeforeAll
+	static void setUp() {
 		AppDNoGui app = AlgebraTest.createApp();
 		kernel = app.getKernel();
 		processor = new SymbolicProcessor(kernel);
 	}
 
 	@Test
-	public void symbolicExpressionTest() {
+	void symbolicExpressionTest() {
 		Variable a = new Variable(kernel, "a");
 		GeoElement aPlusA = processor.evalSymbolicNoLabel(a.wrap().plus(a));
 		assertEquals("2 * a",
@@ -56,7 +56,7 @@ public class SymbolicProcessorTest {
 	}
 
 	@Test
-	public void symbolicCommandTest() {
+	void symbolicCommandTest() {
 		Variable a = new Variable(kernel, "a");
 		Command integral = new Command(kernel, "Integral", false);
 		integral.addArgument(a.wrap().multiply(a));
@@ -68,7 +68,7 @@ public class SymbolicProcessorTest {
 	}
 
 	@Test
-	public void testFailedNestedCommandReevaluatesInContext() {
+	void testFailedNestedCommandReevaluatesInContext() {
 		SymbolicProcessor spy = Mockito.spy(processor);
 
 		// Internal command should return ? from Giac

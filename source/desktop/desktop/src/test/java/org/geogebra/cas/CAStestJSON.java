@@ -17,14 +17,11 @@
 package org.geogebra.cas;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assume.assumeFalse;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import org.geogebra.common.kernel.cas.CasTestJsonCommon;
@@ -36,6 +33,7 @@ import org.geogebra.desktop.main.LocalizationD;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
+@SuppressWarnings("PMD.WrongTestAnnotation")
 public class CAStestJSON extends CasTestJsonCommon {
 
 	/**

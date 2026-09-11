@@ -442,7 +442,7 @@ public class SpreadsheetMouseListenerD
 
 		// handle right click
 		if (rightClick) {
-			if (!((AppD) kernel.getApplication()).letShowPopupMenu()) {
+			if (!kernel.getApplication().letShowPopupMenu()) {
 				return;
 			}
 

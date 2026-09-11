@@ -35,7 +35,7 @@ public final class JSVGIcon implements Icon {
 	private Object oldInterpolationHint;
 	private Dimension preferredSize = null;
 	private boolean antiAlias;
-	private final JSCGInterpolation interpolation = JSCGInterpolation.NEAREST_NEIGHBOR;
+	private static final JSCGInterpolation interpolation = JSCGInterpolation.NEAREST_NEIGHBOR;
 
 	/**
 	 * Method to fetch the SVG icon from an url

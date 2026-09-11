@@ -65,13 +65,12 @@ public class FullWidthLayout implements LayoutManager {
 		minWidth = 0;
 		minHeight = 0;
 
-		Dimension pref = null, min = null;
 		for (int i = 0; i < parent.getComponentCount(); i++) {
 			Component c = parent.getComponent(i);
 
 			if (c.isVisible()) {
-				pref = c.getPreferredSize();
-				min = c.getMinimumSize();
+				Dimension pref = c.getPreferredSize();
+				Dimension min = c.getMinimumSize();
 				if (fullHeight && i == parent.getComponentCount() - 1) {
 					pref.height = Math.max(min.height,
 							parent.getParent().getHeight() - preferredHeight - 16);

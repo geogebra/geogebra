@@ -26,18 +26,18 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.hamcrest.CoreMatchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class SymbolicMatrixTest extends BaseSymbolicTest {
+class SymbolicMatrixTest extends BaseSymbolicTest {
 
 	@Test
-	public void testCreationWithLabel() {
+	void testCreationWithLabel() {
 		GeoSymbolic matrix = add("m={{1,2},{3,4}}");
 		assertThat(matrix.getTwinGeo(), CoreMatchers.<GeoElementND>instanceOf(GeoList.class));
 	}
 
 	@Test
-	public void testMatrixDefinitionForIndependent() {
+	void testMatrixDefinitionForIndependent() {
 		GeoSymbolic matrix = add("m={{1,2},{3,4}}");
 		assertThat(
 				matrix.getDefinition(StringTemplate.editTemplate),
@@ -48,7 +48,7 @@ public class SymbolicMatrixTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testMatrixDefinitionForDependent() {
+	void testMatrixDefinitionForDependent() {
 		add("a = 1");
 		GeoSymbolic matrix = add("m={{a,2},{3,4}}");
 		assertThat(
@@ -60,13 +60,13 @@ public class SymbolicMatrixTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testIsMatrix() {
+	void testIsMatrix() {
 		GeoSymbolic matrix = add("m={{a,b},{c,d}}");
 		assertThat(matrix.isMatrix(), is(true));
 	}
 
 	@Test
-	public void testMatrixLatexStringForDependent() {
+	void testMatrixLatexStringForDependent() {
 		GeoSymbolic vector = add("m={{a,b},{c,d}}");
 		assertThat(
 				vector.toLaTeXString(false, StringTemplate.latexTemplate),
@@ -74,7 +74,7 @@ public class SymbolicMatrixTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testMatrixLatexStringForDependentWithTwin() {
+	void testMatrixLatexStringForDependentWithTwin() {
 		add("b=3");
 		GeoSymbolic vector = add("m={{b,b}}");
 		assertThat(
@@ -86,7 +86,7 @@ public class SymbolicMatrixTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testEigenvectorsAsSymbolic() {
+	void testEigenvectorsAsSymbolic() {
 		GeoSymbolic eigenvectors = add("e = Eigenvectors({{1,2},{3,4}})");
 		StringTemplate template = app.getConfig().getOutputStringTemplate();
 		assertThat(
@@ -96,7 +96,7 @@ public class SymbolicMatrixTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testEigenvectorsAsNonSymbolic() {
+	void testEigenvectorsAsNonSymbolic() {
 		GeoSymbolic eigenvectors = add("e = Eigenvectors({{1,2},{3,4}})");
 		eigenvectors.setSymbolicMode(false, false);
 		StringTemplate template = app.getConfig().getOutputStringTemplate();
@@ -107,7 +107,7 @@ public class SymbolicMatrixTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testIsMatrixNested() {
+	void testIsMatrixNested() {
 		GeoSymbolic geo = add("SVD({{1,0},{0,4}})");
 		assertThat(geo.isMatrix(), is(false));
 		assertThat(geo.toValueString(StringTemplate.latexTemplate),
@@ -131,7 +131,7 @@ public class SymbolicMatrixTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testIsMatrixNumeric() {
+	void testIsMatrixNumeric() {
 		GeoSymbolic matrixList = add("{{{1/3}}}");
 		matrixList.setSymbolicMode(false, false);
 		String input = matrixList.getLaTeXAlgebraDescription(false, StringTemplate.latexTemplate);

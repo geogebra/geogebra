@@ -98,7 +98,7 @@ class ColorPanel extends JPanel
 	private JPanel barsPanel;
 	private boolean isBarChart = false;
 
-	public ColorPanel(PropertiesPanelD propertiesPanelD,
+	ColorPanel(PropertiesPanelD propertiesPanelD,
 			GeoGebraColorChooser colChooser) {
 		this.propertiesPanelD = propertiesPanelD;
 		model = new ColorObjectModel(this.propertiesPanelD.app);
@@ -183,13 +183,13 @@ class ColorPanel extends JPanel
 	 * pixel border is drawn around the transparent interior.
 	 * 
 	 */
-	protected class PreviewPanel extends JPanel {
+	private final class PreviewPanel extends JPanel {
 
 		private static final long serialVersionUID = 1L;
 
 		private Color alphaFillColor;
 
-		public PreviewPanel() {
+		private PreviewPanel() {
 			setPreferredSize(new Dimension(80,
 					ColorPanel.this.propertiesPanelD.app.getGUIFontSize()
 							+ 16));
@@ -205,7 +205,7 @@ class ColorPanel extends JPanel
 		 * @param color color
 		 * @param alpha opacity between 0 and 1
 		 */
-		public void setPreview(Color color, double alpha) {
+		private void setPreview(Color color, double alpha) {
 			if (color == null) {
 				alphaFillColor = getBackground();
 				setForeground(getBackground());
@@ -220,7 +220,7 @@ class ColorPanel extends JPanel
 		}
 
 		@Override
-		public void paintComponent(Graphics g) {
+		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
 
 			Graphics2D g2 = (Graphics2D) g;
@@ -272,7 +272,7 @@ class ColorPanel extends JPanel
 		return update();
 	}
 
-	public JPanel update() {
+	private JPanel update() {
 
 		if (!model.checkGeos()) {
 			return null;
@@ -353,7 +353,7 @@ class ColorPanel extends JPanel
 	 *            color
 	 * @return tooltip
 	 */
-	public String getToolTipText(App app, Color color) {
+	private String getToolTipText(App app, Color color) {
 		return ColorObjectModel.getColorAsString(app, GColorD.newColor(color));
 	}
 
@@ -412,7 +412,7 @@ class ColorPanel extends JPanel
 					selectedBarButton = Integer
 							.parseInt(((JToggleButton) arg0.getSource())
 									.getActionCommand());
-					ColorPanel.this.update();
+					this.update();
 				});
 				barsPanel.add(selectionBarButtons[i]);
 				group.add(selectionBarButtons[i]);

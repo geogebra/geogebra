@@ -36,7 +36,7 @@ tasks.register("ciCheck") {
         dependsOn("spotbugsMain")
     }
     pluginManager.withPlugin("pmd") {
-        dependsOn("pmdMain")
+        dependsOn("pmdMain", "pmdTest")
     }
     pluginManager.withPlugin("checkstyle") {
         dependsOn("checkstyleMain", "checkstyleTest")

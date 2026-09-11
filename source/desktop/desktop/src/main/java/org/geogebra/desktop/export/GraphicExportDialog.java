@@ -108,6 +108,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 	boolean transparent = true;
 	/** set true if Braille font installed */
 	boolean braille = false;
+	private Font brailleFont = null;
 	/** whether EMF+ is used or EMF */
 	boolean EMFPlus = true;
 
@@ -157,8 +158,6 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 
 		initGUI();
 	}
-
-	private Font brailleFont = null;
 
 	/**
 	 * check if a Braille font is installed
@@ -233,7 +232,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 					loc.getMenu("emf") + " (" + FileExtensions.EMF + ")" };
 		}
 
-		cbFormat = new JComboBox(formats);
+		cbFormat = new JComboBox<>(formats);
 		formatPanel.add(new JLabel(loc.getMenu("Format") + ":"));
 		formatPanel.add(cbFormat);
 		cp.add(formatPanel, BorderLayout.NORTH);
@@ -255,7 +254,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 		final JPanel dpiPanel = new JPanel(new FlowLayout(5));
 
 		String[] dpiStr = { "72", "96", "150", "300", "600" };
-		cbDPI = new JComboBox(dpiStr);
+		cbDPI = new JComboBox<>(dpiStr);
 		cbDPI.setSelectedItem("300");
 		final JLabel resolutionInDPILabel = new JLabel(
 				loc.getMenu("ResolutionInDPI") + ":");

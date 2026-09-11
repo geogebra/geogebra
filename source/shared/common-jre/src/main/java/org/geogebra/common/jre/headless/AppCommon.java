@@ -127,13 +127,15 @@ public class AppCommon extends App {
 		Log.setLogger(new Log() {
 
 			@Override
+			@SuppressWarnings({"PMD.SystemPrintln", "PMD.AvoidPrintStackTrace",
+					"CallToPrintStackTrace"})
 			public void print(Level level, Object logEntry) {
 				if (logEntry instanceof RuntimeException) {
 					throw new AssertionError(logEntry);
 				} else if (logEntry instanceof Throwable) {
-					((Throwable) logEntry).printStackTrace(); // NOPMD
+					((Throwable) logEntry).printStackTrace();
 				} else {
-					System.out.println(logEntry); // NOPMD
+					System.out.println(logEntry);
 				}
 			}
 		});

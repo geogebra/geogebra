@@ -223,7 +223,7 @@ public class DataPanelD extends JPanel
 			return;
 		}
 
-		TableModel dataModel = null;
+		TableModel dataModel;
 		String[] titles = daView.getDataTitles();
 
 		switch (daView.getModel().getMode()) {
@@ -321,7 +321,7 @@ public class DataPanelD extends JPanel
 		rowHeader.repaint();
 	}
 
-	private static class Corner extends JPanel {
+	private static final class Corner extends JPanel {
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -394,11 +394,11 @@ public class DataPanelD extends JPanel
 	// Column Header Renderer
 	// =================================================
 
-	protected class ColumnHeaderRenderer extends JLabel
+	private final class ColumnHeaderRenderer extends JLabel
 			implements TableCellRenderer {
 		private static final long serialVersionUID = 1L;
 
-		public ColumnHeaderRenderer() {
+		private ColumnHeaderRenderer() {
 			super("", SwingConstants.CENTER);
 			setOpaque(true);
 			setBackground(TABLE_HEADER_COLOR);
@@ -423,10 +423,10 @@ public class DataPanelD extends JPanel
 	// Table Cell Renderer
 	// ======================================================
 
-	class DataPanelCellRenderer extends DefaultTableCellRenderer {
+	private final class DataPanelCellRenderer extends DefaultTableCellRenderer {
 		private static final long serialVersionUID = 1L;
 
-		public DataPanelCellRenderer() {
+		private DataPanelCellRenderer() {
 			setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
 		}
 

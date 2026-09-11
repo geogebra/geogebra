@@ -27,7 +27,6 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.StringUtil;
 
 /**
  * Adds support for grouping objects in SVG files.
@@ -96,10 +95,16 @@ public class SVGExtensions extends org.freehep.graphicsio.svg.SVGGraphics2D {
 
 	}
 
+	/**
+	 * @param title element title
+	 */
 	public void setElementTitle(String title) {
 		this.title = title;
 	}
 
+	/**
+	 * @param desc element description
+	 */
 	public void setElementDesc(String desc) {
 		this.desc = desc;
 	}

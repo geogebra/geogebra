@@ -16,19 +16,19 @@
 
 package org.geogebra.cas;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import org.geogebra.common.cas.view.CASInputHandler;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.desktop.main.AppD;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CASRegressionTest extends BaseCASIntegrationTest {
+class CASRegressionTest extends BaseCASIntegrationTest {
 
 	@Test
-	public void ticket_TRAC_2343() {
+	void ticket_TRAC_2343() {
 		assumeTrue(AppD.WINDOWS);
 		// https://jira.geogebra.org/browse/TRAC-2343
 		setupCas();
@@ -102,7 +102,7 @@ public class CASRegressionTest extends BaseCASIntegrationTest {
 	}
 
 	@Test
-	public void redefineShouldKeepTwinGeo() {
+	void redefineShouldKeepTwinGeo() {
 		CASViewNoGui view = new CASViewNoGui(getApp(), "plane(p,q):=(p,q,p+q)");
 		CASInputHandler cih = new CASInputHandler(view);
 

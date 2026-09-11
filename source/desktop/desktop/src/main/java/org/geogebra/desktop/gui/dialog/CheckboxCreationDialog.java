@@ -87,7 +87,7 @@ public class CheckboxCreationDialog extends Dialog implements
 
 	private void initLists() {
 		// fill combo box with all geos
-		comboModel = new DefaultComboBoxModel();
+		comboModel = new DefaultComboBoxModel<>();
 		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction()
 				.getGeoSetNameDescriptionOrder();
 

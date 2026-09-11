@@ -50,6 +50,7 @@ public class AlgebraControllerD extends AlgebraTreeController
 		implements DragGestureListener, DragSourceListener {
 
 	private DragSource ds;
+	private ArrayList<String> geoLabelList;
 
 	/**
 	 * Creates new Algebra controller
@@ -143,13 +144,11 @@ public class AlgebraControllerD extends AlgebraTreeController
 		// only handle dragGestureRecognized
 	}
 
-	private ArrayList<String> geoLabelList;
-
 	@Override
 	public void dragGestureRecognized(DragGestureEvent dge) {
 
 		if (geoLabelList == null) {
-			geoLabelList = new ArrayList<String>();
+			geoLabelList = new ArrayList<>();
 		} else {
 			geoLabelList.clear();
 		}
@@ -178,17 +177,17 @@ public class AlgebraControllerD extends AlgebraTreeController
 		/**
 		 * For dragging from AV
 		 */
-		public final DataFlavor algebraViewFlavor = new DataFlavor(
+		final DataFlavor algebraViewFlavor = new DataFlavor(
 				AlgebraViewD.class, "geoLabel list");
 		private final DataFlavor[] supportedFlavors = { algebraViewFlavor };
 
-		private ArrayList<String> geoLabelList;
+		private final ArrayList<String> geoLabelList;
 
 		/**
 		 * @param geoLabelList
 		 *            list of dragged geos
 		 */
-		public TransferableAlgebraView(ArrayList<String> geoLabelList) {
+		TransferableAlgebraView(ArrayList<String> geoLabelList) {
 			this.geoLabelList = geoLabelList;
 		}
 
@@ -199,10 +198,7 @@ public class AlgebraControllerD extends AlgebraTreeController
 
 		@Override
 		public boolean isDataFlavorSupported(DataFlavor flavor) {
-			if (flavor.equals(algebraViewFlavor)) {
-				return true;
-			}
-			return false;
+			return flavor.equals(algebraViewFlavor);
 		}
 
 		@Override

@@ -325,7 +325,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 	private void createDisplayTypeComboBox() {
 
 		if (cbDisplayType == null) {
-			cbDisplayType = new JComboBox();
+			cbDisplayType = new JComboBox<>();
 			cbDisplayType.setRenderer(new PlotTypeRenderer(app));
 
 		} else {
@@ -627,15 +627,15 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 	// ComboBox Renderer with SEPARATOR
 	// ============================================================
 
-	private static class PlotTypeRenderer extends JLabel implements ListCellRenderer {
+	private static final class PlotTypeRenderer extends JLabel implements ListCellRenderer {
 		private static final long serialVersionUID = 1L;
 
-		public static final String SEPARATOR = "SEPARATOR";
+		private static final String SEPARATOR = "SEPARATOR";
 		JSeparator separator;
 
 		private AppD app;
 
-		public PlotTypeRenderer(AppD app) {
+		private PlotTypeRenderer(AppD app) {
 			this.app = app;
 			setOpaque(true);
 			setBorder(new EmptyBorder(1, 1, 1, 1));

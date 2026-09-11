@@ -216,7 +216,7 @@ public class ToolbarD extends JToolBar {
 
 			for (int k = 0; k < menu.size(); k++) {
 				// separator
-				int addMode = menu.get(k).intValue();
+				int addMode = menu.get(k);
 				if (addMode < 0) {
 					// separator within menu:
 					tm.addSeparator();

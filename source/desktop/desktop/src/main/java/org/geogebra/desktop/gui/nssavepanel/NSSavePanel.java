@@ -16,6 +16,7 @@
 
 package org.geogebra.desktop.gui.nssavepanel;
 
+@SuppressWarnings("PMD.AvoidUsingNativeCode")
 public class NSSavePanel {
 	public static boolean loaded = false;
 

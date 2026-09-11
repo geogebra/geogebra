@@ -45,38 +45,6 @@ import org.geogebra.desktop.sound.mp3transform.Constants.SBI;
  * granules (sub-frames)
  */
 final class Layer3Decoder {
-	static class GrInfo {
-		int part23Length;
-		int bigValues;
-		int globalGain;
-		int scaleFactorCompress;
-		boolean windowSwitching;
-		int blockType;
-		boolean mixedBlock;
-		int[] tableSelect = new int[3];
-		int[] subblockGain = new int[3];
-		int region0Count;
-		int region1Count;
-		int preflag;
-		int scaleFactorScale;
-		int count1TableSelect;
-	}
-
-	static class Channel {
-		int[] scfsi = new int[4];
-		GrInfo[] gr = new GrInfo[] { new GrInfo(), new GrInfo() };
-	}
-
-	static class SideInfo {
-		int mainDataBegin = 0;
-		Channel[] ch = new Channel[] { new Channel(), new Channel() };
-	}
-
-	static class ScaleFactor {
-		int[] l = new int[23]; /* [cb] */
-		int[][] s = new int[3][13]; /* [window][cb] */
-	}
-
 	private static final int SSLIMIT = 18;
 	private static final int SBLIMIT = 32;
 	// DOUBLE
@@ -119,7 +87,39 @@ final class Layer3Decoder {
 	private final int[] newSlen = new int[4];
 	int x, y, v, w;
 
-	public Layer3Decoder(Bitstream stream, Header header,
+	static class GrInfo {
+		int part23Length;
+		int bigValues;
+		int globalGain;
+		int scaleFactorCompress;
+		boolean windowSwitching;
+		int blockType;
+		boolean mixedBlock;
+		int[] tableSelect = new int[3];
+		int[] subblockGain = new int[3];
+		int region0Count;
+		int region1Count;
+		int preflag;
+		int scaleFactorScale;
+		int count1TableSelect;
+	}
+
+	static class Channel {
+		int[] scfsi = new int[4];
+		GrInfo[] gr = new GrInfo[] { new GrInfo(), new GrInfo() };
+	}
+
+	static class SideInfo {
+		int mainDataBegin = 0;
+		Channel[] ch = new Channel[] { new Channel(), new Channel() };
+	}
+
+	static class ScaleFactor {
+		int[] l = new int[23]; /* [cb] */
+		int[][] s = new int[3][13]; /* [window][cb] */
+	}
+
+	Layer3Decoder(Bitstream stream, Header header,
 			SynthesisFilter filter1, SynthesisFilter filter2, Decoder player) {
 		this.stream = stream;
 		this.header = header;
@@ -139,7 +139,7 @@ final class Layer3Decoder {
 		nonzero[0] = nonzero[1] = 576;
 	}
 
-	public void decodeFrame() throws IOException {
+	void decodeFrame() throws IOException {
 		int slots = header.slots();
 		getSideInfo();
 		int flushMain = br.getBitCount() & 7;
@@ -749,7 +749,6 @@ final class Layer3Decoder {
 			int ss = j - sb * SSLIMIT; // % SSLIMIT
 			xr[sb][ss] = 0.0f;
 		}
-		return;
 	}
 
 	private void reorder(double[][] xr, int ch, int gr) {
@@ -801,7 +800,8 @@ final class Layer3Decoder {
 			}
 		} else {
 			// long blocks
-			for (int i = 0, sb = 0; sb < SBLIMIT; sb++) {
+			int i = 0;
+			for (int sb = 0; sb < SBLIMIT; sb++) {
 				for (int ss = 0; ss < SSLIMIT; ss++, i++) {
 					out1d[i] = xr[sb][ss];
 				}
