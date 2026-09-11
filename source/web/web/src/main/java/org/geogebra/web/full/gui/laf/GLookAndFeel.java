@@ -51,7 +51,6 @@ public class GLookAndFeel implements GLookAndFeelI {
 	/** toolbar height */
 	public static final int TOOLBAR_HEIGHT = 53;
 	private EventListener windowClosingHandler;
-	private EventListener windowCloseHandler;
 
 	@Override
 	public boolean undoRedoSupported() {
@@ -80,21 +79,16 @@ public class GLookAndFeel implements GLookAndFeelI {
 		}
 		// popup when the user wants to exit accidentally
 		if (windowClosingHandler == null) {
-			this.windowClosingHandler = this::askForSave;
+			this.windowClosingHandler = (evt) -> askForSave(evt, app);
 			app.getGlobalHandlers().addEventListener(DomGlobal.window,
 					"beforeunload", windowClosingHandler);
 		}
-
-		if (this.windowCloseHandler == null) {
-			// onClose is called, if user leaves the page correct
-			// not called if browser crashes
-			this.windowCloseHandler = event -> app.getFileManager().deleteAutoSavedFile();
-			app.getGlobalHandlers().addEventListener(DomGlobal.window, "unload",
-					windowCloseHandler);
-		}
 	}
 
-	private void askForSave(Event evt) {
+	private void askForSave(Event evt, AppW app) {
+		// delete file now: if cancel is pressed, new autosave file will be created;
+		// on OK we need to clean up
+		app.getFileManager().deleteAutoSavedFile();
 		// Message set by browser https://developer.chrome.com/blog/chrome-51-deprecations/
 		JsObject.of(evt).set("returnValue", 1);
 		evt.preventDefault();

@@ -25,7 +25,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.awt.GBufferedImageW;
-import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.client.Element;
 
@@ -68,10 +67,6 @@ public class RendererWithImplW extends Renderer implements
 		setRendererImpl(new RendererImplShadersW(this, view3D));
 
 		createGLContext(false);
-
-		// when window is unload, dispose openGL stuff
-		((AppW) view.getApplication()).getGlobalHandlers().addEventListener(DomGlobal.window,
-				"unload", event -> dispose());
 	}
 
 	@Override
