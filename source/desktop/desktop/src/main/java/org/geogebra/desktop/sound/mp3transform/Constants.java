@@ -20,7 +20,7 @@ public class Constants {
 	static final double[] POW2 = new double[256];
 	static {
 		for (int i = 0; i < POW2.length; i++) {
-			POW2[i] = Math.pow(2.0, (0.25 * (i - 210.0)));
+			POW2[i] = Math.pow(2.0, 0.25 * (i - 210.0));
 		}
 	}
 	private static final double[] D = { 0.0f, -4.42505E-4f, 0.003250122f,
@@ -163,7 +163,7 @@ public class Constants {
 	static final double[] T43 = new double[T43_SIZE];
 	static {
 		// DOUBLE
-		double d43 = (4.0 / 3.0);
+		double d43 = 4.0 / 3.0;
 		for (int i = 0; i < T43_SIZE; i++) {
 			T43[i] = Math.pow(i, d43);
 		}
@@ -814,11 +814,11 @@ public class Constants {
 		D16 = splitArray(D, 16);
 	}
 
-	public static class SBI {
-		public int[] l;
-		public int[] s;
+	public static final class SBI {
+		public final int[] l;
+		public final int[] s;
 
-		public SBI(int[] theL, int[] theS) {
+		private SBI(int[] theL, int[] theS) {
 			l = theL;
 			s = theS;
 		}

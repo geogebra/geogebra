@@ -62,7 +62,7 @@ public final class Header {
 		while (true) {
 			int headerString = stream.syncHeader(syncMode);
 			if (syncMode == Bitstream.INITIAL_SYNC) {
-				version = ((headerString >>> 19) & 1);
+				version = (headerString >>> 19) & 1;
 				if (((headerString >>> 20) & 1) == 0) {
 					if (version == VERSION_MPEG2_LSF) {
 						version = VERSION_MPEG25_LSF;
@@ -71,7 +71,7 @@ public final class Header {
 								"Unsupported version: " + version);
 					}
 				}
-				sampleFrequency = ((headerString >>> 10) & 3);
+				sampleFrequency = (headerString >>> 10) & 3;
 				if (sampleFrequency == 3) {
 					throw new IOException(
 							"Unsupported sampleFrequency: " + sampleFrequency);
@@ -84,7 +84,7 @@ public final class Header {
 			protectionBit = ((headerString >>> 16) & 1) != 0;
 			bitrateIndex = (headerString >>> 12) & 0xF;
 			paddingBit = ((headerString >>> 9) & 1) != 0;
-			mode = ((headerString >>> 6) & 3);
+			mode = (headerString >>> 6) & 3;
 			modeExtension = (headerString >>> 4) & 3;
 			if (mode == MODE_JOINT_STEREO) {
 				intensityStereoBound = (modeExtension << 2) + 4;
@@ -205,7 +205,7 @@ public final class Header {
 	}
 
 	private void calculateFramesize() {
-		frameSize = (144 * Constants.BITRATES[version][bitrateIndex])
+		frameSize = 144 * Constants.BITRATES[version][bitrateIndex]
 				/ frequency();
 		if (version == VERSION_MPEG2_LSF || version == VERSION_MPEG25_LSF) {
 			frameSize >>= 1;

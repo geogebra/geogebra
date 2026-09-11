@@ -42,7 +42,7 @@ public class Decoder {
 	private SourceDataLine line;
 	private final byte[] buffer = new byte[BUFFER_SIZE * 2];
 
-	public void decodeFrame(Header header, Bitstream stream)
+	private void decodeFrame(Header header, Bitstream stream)
 			throws IOException {
 		if (!initialized) {
 			double scaleFactor = 32700.0f;
@@ -71,7 +71,7 @@ public class Decoder {
 		}
 	}
 
-	public void appendSamples(int channel, double[] f) {
+	void appendSamples(int channel, double[] f) {
 		int p = bufferPointer[channel];
 		for (int i = 0; i < 32; i++) {
 			double sample = f[i];
@@ -93,6 +93,12 @@ public class Decoder {
 		}
 	}
 
+	/**
+	 * @param name name
+	 * @param in input stream
+	 * @param control pause control
+	 * @throws IOException on I/O error
+	 */
 	public void play(String name, InputStream in, PauseControl control) throws IOException {
 		int frameCount = Integer.MAX_VALUE;
 
@@ -108,7 +114,7 @@ public class Decoder {
 					while (control.pause) {
 						try {
 							Thread.sleep(100);
-						} catch (InterruptedException e) {
+						} catch (InterruptedException ignored) {
 							// ignore
 						}
 					}

@@ -48,7 +48,7 @@ final class Layer3Decoder {
 	private static final int SSLIMIT = 18;
 	private static final int SBLIMIT = 32;
 	// DOUBLE
-	private static final double D43 = (4.0 / 3.0);
+	private static final double D43 = 4.0 / 3.0;
 	private final int[] scaleFactorBuffer = new int[54];
 	// TODO why +4?
 	private final int[] is1d = new int[SBLIMIT * SSLIMIT + 4];
@@ -437,7 +437,7 @@ final class Layer3Decoder {
 				newSlen[0] = (scaleFactorComp >>> 4) / 5;
 				newSlen[1] = (scaleFactorComp >>> 4) % 5;
 				newSlen[2] = (scaleFactorComp & 0xF) >>> 2;
-				newSlen[3] = (scaleFactorComp & 3);
+				newSlen[3] = scaleFactorComp & 3;
 				si.ch[ch].gr[gr].preflag = 0;
 				blockNumber = 0;
 			} else if (scaleFactorComp < 500) {
@@ -456,12 +456,12 @@ final class Layer3Decoder {
 				blockNumber = 2;
 			}
 		}
-		if ((((modeExt == 1) || (modeExt == 3)) && (ch == 1))) {
+		if (((modeExt == 1) || (modeExt == 3)) && (ch == 1)) {
 			intScalefacComp = scaleFactorComp >>> 1;
 			if (intScalefacComp < 180) {
 				newSlen[0] = intScalefacComp / 36;
-				newSlen[1] = (intScalefacComp % 36) / 6;
-				newSlen[2] = (intScalefacComp % 36) % 6;
+				newSlen[1] = intScalefacComp % 36 / 6;
+				newSlen[2] = intScalefacComp % 36 % 6;
 				newSlen[3] = 0;
 				si.ch[ch].gr[gr].preflag = 0;
 				blockNumber = 3;
@@ -732,7 +732,7 @@ final class Layer3Decoder {
 					&& (!gi.mixedBlock || j >= 36)) {
 				int ti = (index - cbBegin) / cbWidth;
 				idx = scaleFactors[ch].s[ti][cb] << gi.scaleFactorScale;
-				idx += (gi.subblockGain[ti] << 2);
+				idx += gi.subblockGain[ti] << 2;
 			} else {
 				// LONG block types 0,1,3 & 1st 2 subbands of switched blocks
 				idx = scaleFactors[ch].l[cb];
@@ -824,13 +824,13 @@ final class Layer3Decoder {
 		int modeExt = header.modeExtension();
 		int sfb;
 		int temp, temp2;
-		boolean msStereo = ((header.mode() == Header.MODE_JOINT_STEREO)
-				&& ((modeExt & 0x2) != 0));
-		boolean iStereo = ((header.mode() == Header.MODE_JOINT_STEREO)
-				&& ((modeExt & 0x1) != 0));
-		boolean lsf = ((header.version() == Header.VERSION_MPEG2_LSF
-				|| header.version() == Header.VERSION_MPEG25_LSF));
-		int ioType = (gi.scaleFactorCompress & 1);
+		boolean msStereo = (header.mode() == Header.MODE_JOINT_STEREO)
+				&& ((modeExt & 0x2) != 0);
+		boolean iStereo = (header.mode() == Header.MODE_JOINT_STEREO)
+				&& ((modeExt & 0x1) != 0);
+		boolean lsf = header.version() == Header.VERSION_MPEG2_LSF
+				|| header.version() == Header.VERSION_MPEG25_LSF;
+		int ioType = gi.scaleFactorCompress & 1;
 		for (int i = 0; i < 576; i++) {
 			isPos[i] = 7;
 			isRatio[i] = 0.0f;

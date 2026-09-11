@@ -89,6 +89,9 @@ public final class Bitstream {
 	private byte[] rawID3v2 = null;
 	private boolean firstFrame = true;
 
+	/**
+	 * @param in input stream
+	 */
 	public Bitstream(InputStream in) {
 		source = new PushbackInputStream(in, BUFFER_INT_SIZE * 4);
 		loadID3v2();
@@ -101,13 +104,13 @@ public final class Bitstream {
 			// read ID3v2 header
 			source.mark(10);
 			size = readID3v2Header();
-		} catch (IOException e) {
+		} catch (IOException ignored) {
 			// ignore
 		} finally {
 			try {
 				// unread ID3v2 header
 				source.reset();
-			} catch (IOException e) {
+			} catch (IOException ignored) {
 				// ignore
 			}
 		}
@@ -117,7 +120,7 @@ public final class Bitstream {
 				rawID3v2 = new byte[size];
 				this.readBytes(rawID3v2, 0, rawID3v2.length);
 			}
-		} catch (IOException e) {
+		} catch (IOException ignored) {
 			// ignore
 		}
 	}
@@ -180,7 +183,7 @@ public final class Bitstream {
 		}
 	}
 
-	public void closeFrame() {
+	void closeFrame() {
 		frameSize = -1;
 		wordPointer = -1;
 		bitIndex = -1;
@@ -194,10 +197,10 @@ public final class Bitstream {
 		int headerString = ((syncBuffer[0] << 24) & 0xFF000000)
 				| ((syncBuffer[1] << 16) & 0x00FF0000)
 				| ((syncBuffer[2] << 8) & 0x0000FF00)
-				| ((syncBuffer[3] << 0) & 0x000000FF);
+				| (syncBuffer[3] & 0x000000FF);
 		try {
 			source.unread(syncBuffer, 0, read);
-		} catch (IOException ex) {
+		} catch (IOException ignored) {
 			// ignore
 		}
 		if (read == 0) {
@@ -232,7 +235,7 @@ public final class Bitstream {
 			if (readBytes(syncBuffer, 3, 1) != 1) {
 				throw new EOFException();
 			}
-			headerString |= (syncBuffer[3] & 0x000000FF);
+			headerString |= syncBuffer[3] & 0x000000FF;
 			sync = isSyncMark(headerString, syncMode, syncWord);
 		} while (!sync);
 		return headerString;
@@ -241,22 +244,22 @@ public final class Bitstream {
 	private boolean isSyncMark(int headerString, int syncMode, int word) {
 		boolean sync;
 		if (syncMode == INITIAL_SYNC) {
-			sync = ((headerString & 0xFFE00000) == 0xFFE00000); // SZD: MPEG 2.5
+			sync = (headerString & 0xFFE00000) == 0xFFE00000; // SZD: MPEG 2.5
 		} else {
-			sync = ((headerString & 0xFFF80C00) == word) && (((headerString
-					& 0x000000C0) == 0x000000C0) == singleChMode);
+			sync = ((headerString & 0xFFF80C00) == word) && ((headerString
+					& 0x000000C0) == 0x000000C0 == singleChMode);
 		}
 		// filter out invalid sample rate
 		if (sync) {
-			sync = (((headerString >>> 10) & 3) != 3);
+			sync = ((headerString >>> 10) & 3) != 3;
 		}
 		// filter out invalid layer
 		if (sync) {
-			sync = (((headerString >>> 17) & 3) != 0);
+			sync = ((headerString >>> 17) & 3) != 0;
 		}
 		// filter out invalid version
 		if (sync) {
-			sync = (((headerString >>> 19) & 3) != 1);
+			sync = ((headerString >>> 19) & 3) != 1;
 		}
 		return sync;
 	}
@@ -326,9 +329,9 @@ public final class Bitstream {
 			}
 			return returnValue;
 		}
-		int right = (frameBuffer[wordPointer] & 0x0000FFFF);
+		int right = frameBuffer[wordPointer] & 0x0000FFFF;
 		wordPointer++;
-		int left = (frameBuffer[wordPointer] & 0xFFFF0000);
+		int left = frameBuffer[wordPointer] & 0xFFFF0000;
 		returnValue = ((right << 16) & 0xFFFF0000)
 				| ((left >>> 16) & 0x0000FFFF);
 		returnValue >>>= 48 - sum;
@@ -342,7 +345,7 @@ public final class Bitstream {
 	 */
 	void setSyncWord(int s) {
 		syncWord = s & 0xFFFFFF3F;
-		singleChMode = ((s & 0x000000C0) == 0x000000C0);
+		singleChMode = (s & 0x000000C0) == 0x000000C0;
 	}
 
 	/**

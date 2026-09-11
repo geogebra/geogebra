@@ -97,7 +97,7 @@ public class BitReservoir {
 	}
 
 	void rewindBytes(int n) {
-		int bits = (n << 3);
+		int bits = n << 3;
 		bitCount -= bits;
 		bufferIndex -= bits;
 		if (bufferIndex < 0) {
