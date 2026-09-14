@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -53,6 +54,7 @@ class StylePropertiesTests extends BaseAppTestSetup {
 
 	@Test
 	void testButtonStyleProperties() {
+		getApp().setPlatform(GeoGebraConstants.Platform.WEB);
 		GeoButton button = evaluateGeoElement("Button[]");
 		PropertiesArray propertiesArray = propertiesFactory.createStyleProperties(
 				getAlgebraProcessor(), getApp().getImageManager(), getLocalization(),

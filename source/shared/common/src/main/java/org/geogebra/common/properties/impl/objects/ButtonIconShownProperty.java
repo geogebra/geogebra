@@ -16,37 +16,51 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
+import org.geogebra.common.util.ImageManager;
 
+/** {@code Property} responsible for controlling whether to show an icon for the button. */
 public class ButtonIconShownProperty extends AbstractValuedProperty<Boolean>
-		implements BooleanProperty {
+		implements BooleanProperty, GeoElementDependentProperty {
+	private final ImageManager imageManager;
 	private final GeoElement geoElement;
-	private boolean iconShown;
 
 	/**
-	 * Constructs the property for the given element with the provided localization.
-	 * @param localization {@link Localization}
-	 * @param geoElement geo element
+	 * Constructs the property for the given element.
+	 * @param localization localization for property labels
+	 * @param imageManager image manager for resolving preset button icons
+	 * @param geoElement button element to configure
 	 */
-	public ButtonIconShownProperty(Localization localization, GeoElement geoElement) {
+	public ButtonIconShownProperty(Localization localization, ImageManager imageManager,
+			GeoElement geoElement) {
 		super(localization, "");
+		this.imageManager = imageManager;
 		this.geoElement = geoElement;
-		iconShown = !"".equals(geoElement.getImageFileName());
 	}
 
 	@Override
-	protected void doSetValue(Boolean hasIcon) {
-		if (!hasIcon) {
-			geoElement.setImageFileName("");
+	protected void doSetValue(Boolean showIcon) {
+		if (showIcon && geoElement.getImageFileName().isEmpty()) {
+			String imagePath = imageManager.applyButtonIcon(
+					ButtonIconProperty.ButtonIcon.PLAY.fileName, geoElement.getKernel());
+			geoElement.setFillImage(imagePath);
+		} else if (!showIcon) {
+			geoElement.setFillImage("");
 		}
-		iconShown = hasIcon;
+		geoElement.updateVisualStyleRepaint(GProperty.COMBINED);
 	}
 
 	@Override
 	public Boolean getValue() {
-		return iconShown;
+		return !geoElement.getImageFileName().isEmpty();
+	}
+
+	@Override
+	public GeoElement getGeoElement() {
+		return geoElement;
 	}
 }

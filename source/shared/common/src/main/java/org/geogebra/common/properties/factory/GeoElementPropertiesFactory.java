@@ -371,6 +371,7 @@ public final class GeoElementPropertiesFactory {
 			AlgebraProcessor processor, ImageManager imageManager,
 			Localization localization, List<GeoElement> elements) {
 		boolean isWhiteboard = processor.getKernel().getApplication().isWhiteboardActive();
+		boolean isMobile = processor.getKernel().getApplication().getPlatform().isMobile();
 		return createPropsArray("Properties.Style", localization, Stream.of(
 				// New style properties come below, in order
 				createOptionalProperty(() -> new StylePropertyCollection(
@@ -381,8 +382,8 @@ public final class GeoElementPropertiesFactory {
 						this, processor, localization, elements)),
 				createOptionalProperty(() -> new TextStylePropertyCollection(
 						this, localization, elements)),
-				tryOrNull(() -> new ButtonIconPropertyCollection(
-						this, localization, imageManager, elements)),
+				isMobile ? null : tryOrNull(() -> new ButtonIconPropertyCollection(
+						this, localization, imageManager, processor.getKernel(), elements)),
 				createOptionalProperty(isWhiteboard
 						? () -> new BackgroundAndBorderPropertyCollection(
 								this, localization, elements)

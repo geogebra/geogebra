@@ -18,7 +18,6 @@ package org.geogebra.web.full.gui.properties.ui;
 
 import static org.geogebra.common.main.GeoGebraColorConstants.NEUTRAL_700;
 import static org.geogebra.common.properties.PropertyView.ActionableButtonRow;
-import static org.geogebra.common.properties.PropertyView.ButtonIconEditor;
 import static org.geogebra.common.properties.PropertyView.ButtonWithIcon;
 import static org.geogebra.common.properties.PropertyView.Checkbox;
 import static org.geogebra.common.properties.PropertyView.ColorSelectorRow;
@@ -58,7 +57,6 @@ import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.components.ComponentSlider;
 import org.geogebra.web.full.gui.components.ComponentTextArea;
 import org.geogebra.web.full.gui.properties.ui.panel.ActionableButtonPanel;
-import org.geogebra.web.full.gui.properties.ui.panel.ButtonIconEditorPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.DimensionRatioPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.IconButtonPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.ImagePickerPanel;
@@ -187,9 +185,6 @@ public final class PropertiesPanelAdapter {
 			panel.add(leading);
 			panel.add(trailing);
 			return panel;
-		}
-		if (propertyView instanceof ButtonIconEditor buttonIconEditor) {
-			return new ButtonIconEditorPanel(app, buttonIconEditor);
 		}
 		if (propertyView instanceof RelatedPropertyViewCollection relatedPropertyView) {
 			FlowPanel panel = new FlowPanel();

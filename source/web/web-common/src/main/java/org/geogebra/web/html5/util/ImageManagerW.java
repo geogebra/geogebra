@@ -147,6 +147,27 @@ public class ImageManagerW extends ImageManager {
 		return fileName;
 	}
 
+	@Override
+	public @NonNull String applyButtonIcon(@NonNull String fileName, @NonNull Kernel kernel) {
+		SVGResource image = getButtonIconResource(fileName);
+		return image == null ? fileName
+				: applyImage(fileName, image.getSafeUri().asString(), kernel);
+	}
+
+	@Override
+	public @NonNull String getButtonIconPath(@NonNull String fileName) {
+		SVGResource image = getButtonIconResource(fileName);
+		return image == null ? fileName
+				: getMD5FileName(fileName, image.getSafeUri().asString());
+	}
+
+	private @Nullable SVGResource getButtonIconResource(String fileName) {
+		GuiResourcesSimpleImpl resources = (GuiResourcesSimpleImpl) GuiResourcesSimple.INSTANCE;
+		ResourcePrototype resource = resources.getResource(
+				StringUtil.removeFileExtension(fileName));
+		return resource instanceof SVGResource ? (SVGResource) resource : null;
+	}
+
 	private ArchiveEntry getExternalImageData(String fileName) {
 		return externalImageSrcs.get(StringUtil.removeLeadingSlash(fileName));
 	}

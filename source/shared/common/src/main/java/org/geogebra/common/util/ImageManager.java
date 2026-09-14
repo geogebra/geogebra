@@ -42,6 +42,26 @@ abstract public class ImageManager implements ExamListener {
 	private boolean enabled = true;
 
 	/**
+	 * Makes a built-in button icon available as a fill image.
+	 * Platforms that need to register or rename bundled images should override this method.
+	 * @param fileName logical icon file name
+	 * @param kernel kernel owning the image
+	 * @return path to store on the GeoElement
+	 */
+	public @NonNull String applyButtonIcon(@NonNull String fileName, @NonNull Kernel kernel) {
+		return getButtonIconPath(fileName);
+	}
+
+	/**
+	 * Gets the path used to store a built-in button icon.
+	 * @param fileName logical icon file name
+	 * @return path stored on the GeoElement
+	 */
+	public @NonNull String getButtonIconPath(@NonNull String fileName) {
+		return fileName;
+	}
+
+	/**
 	 * Set image corners; use selected points if any.
 	 * 
 	 * @param geoImage

@@ -16,10 +16,9 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.PropertyCollectionWithLead;
@@ -27,39 +26,34 @@ import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.facade.BooleanPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.IconsEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.ImagePropertyListFacade;
-import org.geogebra.common.properties.impl.objects.delegate.IconStylePropertyDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.util.ImageManager;
 
+/** Properties for enabling a button icon and choosing a preset or custom image/icon. */
 public class ButtonIconPropertyCollection extends PropertyCollectionWithLead {
 
 	/**
-	 * Creates a property collection for button icon properties.
-	 *
+	 * Constructs the property collection.
 	 * @param propertiesFactory factory for creating properties
 	 * @param localization localization for property names
-	 * @param imageManager image manager
+	 * @param imageManager image manager for resolving preset button icons
+	 * @param kernel kernel for registering the default button icon
 	 * @param elements list of GeoElements to create properties for
 	 * @throws NotApplicablePropertyException if the elements do not support icon
 	 */
 	public ButtonIconPropertyCollection(GeoElementPropertiesFactory propertiesFactory, Localization
-			localization, ImageManager imageManager, List<GeoElement> elements)
+			localization, ImageManager imageManager, Kernel kernel, List<GeoElement> elements)
 			throws NotApplicablePropertyException {
 		super(localization, "Icon",
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new ButtonIconShownProperty(localization, element),
+				propertiesFactory.createPropertyFacadeThrowing(elements,
+						element -> new ButtonIconShownProperty(localization, imageManager, element),
 						BooleanPropertyListFacade::new),
-					propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new ButtonIconProperty(localization, element),
+				propertiesFactory.createPropertyFacadeThrowing(elements,
+						element -> new ButtonIconProperty(localization, imageManager, element),
 						IconsEnumeratedPropertyListFacade::new),
-					propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new FillImageProperty(localization, imageManager, element,
-								new IconStylePropertyDelegate(element)),
-						ImagePropertyListFacade::new)
-		);
-		if (getProperties().length == 0 || Arrays.stream(getProperties())
-				.anyMatch(Objects::isNull)) {
-			throw new NotApplicablePropertyException(elements.get(0));
-		}
+				propertiesFactory.createPropertyFacadeThrowing(elements,
+						element -> new CustomButtonImageProperty(localization, imageManager,
+								kernel, element),
+						ImagePropertyListFacade::new));
 	}
 }

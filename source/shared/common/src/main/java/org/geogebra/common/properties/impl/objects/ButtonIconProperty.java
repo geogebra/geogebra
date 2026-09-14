@@ -42,7 +42,7 @@ import static org.geogebra.common.properties.PropertyResource.ICON_BUTTON_ZOOM_I
 import static org.geogebra.common.properties.PropertyResource.ICON_BUTTON_ZOOM_OUT;
 import static org.geogebra.common.properties.PropertyResource.ICON_BUTTON_ZOOM_TO_FIT;
 
-import java.util.List;
+import java.util.Arrays;
 
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -53,45 +53,78 @@ import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.AbstractGeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.IconStylePropertyDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.geogebra.common.util.ImageManager;
 import org.jspecify.annotations.Nullable;
 
-/**
- * Icon style
- */
-public class ButtonIconProperty extends AbstractEnumeratedProperty<String>
-		implements IconsEnumeratedProperty<String> {
-	private static final PropertyResource[] icons = {
-			ICON_BUTTON_PLAY, ICON_BUTTON_PAUSE, ICON_BUTTON_STOP, ICON_BUTTON_FAST_REWIND,
-			ICON_BUTTON_FAST_FORWARD, ICON_BUTTON_SKIP_PREVIOUS, ICON_BUTTON_SKIP_NEXT,
-			ICON_BUTTON_LOOP, ICON_BUTTON_REPLAY, ICON_BUTTON_UNDO, ICON_BUTTON_REDO,
-			ICON_BUTTON_ARROW_UP, ICON_BUTTON_ARROW_DOWN, ICON_BUTTON_ARROW_BACK,
-			ICON_BUTTON_ARROW_FORWARD, ICON_BUTTON_REMOVE, ICON_BUTTON_ADD, ICON_BUTTON_CHECK_MARK,
-			ICON_BUTTON_CLOSE, ICON_BUTTON_ZOOM_OUT, ICON_BUTTON_ZOOM_IN, ICON_BUTTON_ZOOM_TO_FIT,
-			ICON_BUTTON_CENTER_VIEW, ICON_BUTTON_HELP, ICON_BUTTON_SETTINGS};
-	private static final List<String> iconNames = List.of("play.svg", "pause.svg", "stop.svg",
-			"fast_rewind.svg", "fast_forward.svg", "skip_previous.svg", "skip_next.svg",
-			"loop.svg", "replay.svg", "undo.svg", "redo.svg", "arrow_up.svg", "arrow_down.svg",
-			"arrow_back.svg", "arrow_forward.svg", "remove.svg", "add.svg", "check_mark.svg",
-			"close.svg", "zoom_out.svg", "zoom_in.svg", "zoom_to_fit.svg", "center_view.svg",
-			"help.svg", "settings.svg");
+/** {@code Property} responsible for choosing a preset icon for a button. */
+public class ButtonIconProperty extends AbstractEnumeratedProperty<ButtonIconProperty.ButtonIcon>
+		implements IconsEnumeratedProperty<ButtonIconProperty.ButtonIcon>,
+		GeoElementDependentProperty {
+	/** Preset icons that can be displayed on a button. */
+	public enum ButtonIcon {
+		PLAY(ICON_BUTTON_PLAY, "play.svg"),
+		PAUSE(ICON_BUTTON_PAUSE, "pause.svg"),
+		STOP(ICON_BUTTON_STOP, "stop.svg"),
+		FAST_REWIND(ICON_BUTTON_FAST_REWIND, "fast_rewind.svg"),
+		FAST_FORWARD(ICON_BUTTON_FAST_FORWARD, "fast_forward.svg"),
+		SKIP_PREVIOUS(ICON_BUTTON_SKIP_PREVIOUS, "skip_previous.svg"),
+		SKIP_NEXT(ICON_BUTTON_SKIP_NEXT, "skip_next.svg"),
+		LOOP(ICON_BUTTON_LOOP, "loop.svg"),
+		REPLAY(ICON_BUTTON_REPLAY, "replay.svg"),
+		UNDO(ICON_BUTTON_UNDO, "undo.svg"),
+		REDO(ICON_BUTTON_REDO, "redo.svg"),
+		ARROW_UP(ICON_BUTTON_ARROW_UP, "arrow_up.svg"),
+		ARROW_DOWN(ICON_BUTTON_ARROW_DOWN, "arrow_down.svg"),
+		ARROW_BACK(ICON_BUTTON_ARROW_BACK, "arrow_back.svg"),
+		ARROW_FORWARD(ICON_BUTTON_ARROW_FORWARD, "arrow_forward.svg"),
+		REMOVE(ICON_BUTTON_REMOVE, "remove.svg"),
+		ADD(ICON_BUTTON_ADD, "add.svg"),
+		CHECK_MARK(ICON_BUTTON_CHECK_MARK, "check_mark.svg"),
+		CLOSE(ICON_BUTTON_CLOSE, "close.svg"),
+		ZOOM_OUT(ICON_BUTTON_ZOOM_OUT, "zoom_out.svg"),
+		ZOOM_IN(ICON_BUTTON_ZOOM_IN, "zoom_in.svg"),
+		ZOOM_TO_FIT(ICON_BUTTON_ZOOM_TO_FIT, "zoom_to_fit.svg"),
+		CENTER_VIEW(ICON_BUTTON_CENTER_VIEW, "center_view.svg"),
+		HELP(ICON_BUTTON_HELP, "help.svg"),
+		SETTINGS(ICON_BUTTON_SETTINGS, "settings.svg");
+
+		private final PropertyResource resource;
+		final String fileName;
+
+		ButtonIcon(PropertyResource resource, String fileName) {
+			this.resource = resource;
+			this.fileName = fileName;
+		}
+
+		private static ButtonIcon fromImagePath(String imagePath, ImageManager imageManager) {
+			return Arrays.stream(values())
+					.filter(icon -> imagePath.equals(imageManager.getButtonIconPath(icon.fileName)))
+					.findFirst().orElse(null);
+		}
+	}
+
 	private final AbstractGeoElementDelegate delegate;
+	private final ImageManager imageManager;
 
 	/**
-	 * List of default icons for buttons.
-	 * @param localization {@link Localization}
-	 * @param element button
+	 * Constructs the property.
+	 * @param localization localization for property labels
+	 * @param imageManager image manager for resolving preset button icons
+	 * @param element button element to configure
 	 * @throws NotApplicablePropertyException if not filled by image
 	 */
-	public ButtonIconProperty(Localization localization, GeoElement element)
-			throws NotApplicablePropertyException {
+	public ButtonIconProperty(Localization localization, ImageManager imageManager,
+			GeoElement element) throws NotApplicablePropertyException {
 		super(localization, null);
+		this.imageManager = imageManager;
 		delegate = new IconStylePropertyDelegate(element);
-		setValues(iconNames);
+		setValues(Arrays.asList(ButtonIcon.values()));
 	}
 
 	@Override
 	public PropertyResource[] getValueIcons() {
-		return icons;
+		return Arrays.stream(ButtonIcon.values()).map(icon -> icon.resource)
+				.toArray(PropertyResource[]::new);
 	}
 
 	@Override
@@ -100,13 +133,24 @@ public class ButtonIconProperty extends AbstractEnumeratedProperty<String>
 	}
 
 	@Override
-	public String getValue() {
-		return delegate.getElement().getImageFileName();
+	public @Nullable ButtonIcon getValue() {
+		return ButtonIcon.fromImagePath(delegate.getElement().getImageFileName(), imageManager);
 	}
 
 	@Override
-	protected void doSetValue(String value) {
-		delegate.getElement().setFillImage(value);
+	protected void doSetValue(ButtonIcon value) {
+		String imagePath = imageManager.applyButtonIcon(value.fileName,
+				delegate.getElement().getKernel());
+		delegate.getElement().setFillImage(imagePath);
 		delegate.getElement().updateVisualStyleRepaint(GProperty.COMBINED);
+	}
+
+	static boolean isButtonIconPath(String imagePath, ImageManager imageManager) {
+		return ButtonIcon.fromImagePath(imagePath, imageManager) != null;
+	}
+
+	@Override
+	public GeoElement getGeoElement() {
+		return delegate.getElement();
 	}
 }

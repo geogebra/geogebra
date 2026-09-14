@@ -73,11 +73,11 @@ import org.geogebra.common.properties.impl.objects.AlgebraViewVisibilityProperty
 import org.geogebra.common.properties.impl.objects.AlignmentPropertyCollection;
 import org.geogebra.common.properties.impl.objects.BackgroundColorPropertyCollection;
 import org.geogebra.common.properties.impl.objects.BorderStylePropertyCollection;
-import org.geogebra.common.properties.impl.objects.ButtonIconPropertyCollection;
 import org.geogebra.common.properties.impl.objects.ChartDataPropertyCollection;
 import org.geogebra.common.properties.impl.objects.ChartSegmentFillCategoryProperty;
 import org.geogebra.common.properties.impl.objects.ChartSegmentSelection;
 import org.geogebra.common.properties.impl.objects.ChartSegmentSelectionDependentProperty;
+import org.geogebra.common.properties.impl.objects.CustomButtonImageProperty;
 import org.geogebra.common.properties.impl.objects.DynamicColorSpaceProperty;
 import org.geogebra.common.properties.impl.objects.ElementColorProperty;
 import org.geogebra.common.properties.impl.objects.FillCategoryProperty;
@@ -696,10 +696,11 @@ public abstract class PropertyView {
 		}
 
 		/**
-		 * @return the label above the icons
+		 * @return the label above the icons or {@code null} when there is no label
 		 */
-		public @NonNull String getLabel() {
-			return property.getName();
+		public @Nullable String getLabel() {
+			String name = property.getName();
+			return name.isEmpty() ? null : name;
 		}
 
 		/**
@@ -1155,81 +1156,6 @@ public abstract class PropertyView {
 	}
 
 	/**
-	 * Editor for all button icon related property: row of icon with default icons,
-	 * file chooser for custom icon.
-	 */
-	public static final class ButtonIconEditor extends PropertyBackedView<BooleanProperty> {
-		private final BooleanProperty leadProperty;
-		private final IconsEnumeratedProperty<String> iconsEnumeratedProperty;
-		private final SingleSelectionIconRow leadingIconButtonRow;
-		private final ImagePicker trailingImagePicker;
-
-		/**
-		 * Editor for button icon property.
-		 * @param buttonIconProperty {@link ButtonIconPropertyCollection}
-		 */
-		ButtonIconEditor(ButtonIconPropertyCollection buttonIconProperty) {
-			super(buttonIconProperty.leadProperty);
-			leadProperty = buttonIconProperty.leadProperty;
-			iconsEnumeratedProperty = (IconsEnumeratedProperty<String>) buttonIconProperty
-					.getProperties()[0];
-			leadingIconButtonRow = new PropertyView.SingleSelectionIconRow(
-					iconsEnumeratedProperty);
-			trailingImagePicker = new PropertyView.ImagePicker((ImageProperty) buttonIconProperty
-					.getProperties()[1]);
-		}
-
-		/**
-		 * @return lead {@link BooleanProperty}
-		 */
-		public BooleanProperty getLeadProperty() {
-			return leadProperty;
-		}
-
-		/**
-		 * @return {@link SingleSelectionIconRow} of default icons
-		 */
-		public SingleSelectionIconRow getLeadingIconButtonRow() {
-			return leadingIconButtonRow;
-		}
-
-		public ImagePicker getTrailingImagePicker() {
-			return trailingImagePicker;
-		}
-
-		/**
-		 * @param fileName file name of icon with extension
-		 */
-		public void setDefaultIcon(String fileName) {
-			iconsEnumeratedProperty.setValue(fileName);
-		}
-
-		/**
-		 * @return index of selected default icon.
-		 */
-		public Integer getSelectedIndex() {
-			return iconsEnumeratedProperty.getIndex();
-		}
-
-		/**
-		 * Sets the new selected index.
-		 * @param index selected index
-		 */
-		public void setSelectedIndex(int index) {
-			iconsEnumeratedProperty.setIndex(index);
-		}
-
-		/**
-		 * Returns one of the default icons at given index.
-		 * @param index given index
-		 * @return icon at index
-		 */
-		public PropertyResource getIconAt(int index) {
-			return iconsEnumeratedProperty.getValueIcons()[index];
-		}
-	}
-
-	/**
 	 * Representation of a property-specific view, displaying two text fields separated by a colon
 	 * in a row with a trailing lock icon that can be either open or closed, and a label above.
 	 */
@@ -1492,11 +1418,12 @@ public abstract class PropertyView {
 		}
 	}
 
+	/** Representation of multiple single-selection icon rows displayed as one group. */
 	public static final class GroupedIconButtonRow extends PropertyView {
-		private final AbstractPropertyCollection propertyCollection;
+		private final AbstractPropertyCollection<?> propertyCollection;
 		private final List<SingleSelectionIconRow> iconRowList = new ArrayList<>();
 
-		GroupedIconButtonRow(AbstractPropertyCollection propertyCollection) {
+		GroupedIconButtonRow(AbstractPropertyCollection<?> propertyCollection) {
 			this.propertyCollection = propertyCollection;
 			for (Property property : propertyCollection.getProperties()) {
 				if (property instanceof IconsEnumeratedProperty<?> iconsEnumeratedProperty) {
@@ -1505,10 +1432,16 @@ public abstract class PropertyView {
 			}
 		}
 
+		/**
+		 * @return the label above the grouped icon rows
+		 */
 		public String getLabel() {
 			return propertyCollection.getName();
 		}
 
+		/**
+		 * @return the grouped icon-selection rows
+		 */
 		public List<SingleSelectionIconRow> getIconRowList() {
 			return iconRowList;
 		}
@@ -1519,9 +1452,24 @@ public abstract class PropertyView {
 	 * or a preview of the selected image with its name and actions to change or remove it.
 	 */
 	public static final class ImagePicker extends PropertyBackedView<ImageProperty> {
+		/** Horizontal alignment for the image picker button. */
+		public enum ButtonAlignment {
+			CENTER, START
+		}
 
 		ImagePicker(@NonNull ImageProperty property) {
 			super(property);
+		}
+
+		/**
+		 * @return horizontal alignment for the image picker button
+		 */
+		public @NonNull ButtonAlignment getButtonAlignment() {
+			if (property instanceof AbstractPropertyListFacade<?> facade
+					&& facade.getFirstProperty() instanceof CustomButtonImageProperty) {
+				return ButtonAlignment.START;
+			}
+			return ButtonAlignment.CENTER;
 		}
 
 		/**
@@ -1683,7 +1631,7 @@ public abstract class PropertyView {
 		} else if (property instanceof AlignmentPropertyCollection
 				|| property instanceof LayoutPropertyCollection
 				|| property instanceof BorderStylePropertyCollection) {
-			return new GroupedIconButtonRow((AbstractPropertyCollection) property);
+			return new GroupedIconButtonRow((AbstractPropertyCollection<?>) property);
 		} else if (property instanceof DynamicColorSpaceProperty
 				|| (property instanceof NamedEnumeratedPropertyListFacade<?, ?> facade
 				&& (facade.getFirstProperty() instanceof DynamicColorSpaceProperty
@@ -1728,9 +1676,6 @@ public abstract class PropertyView {
 				|| property instanceof ARRatioPropertyCollection) {
 			return new RelatedPropertyViewCollection(null,
 					propertyViewListOf((PropertyCollection<?>) property), 8);
-		} else if (property instanceof ButtonIconPropertyCollection buttonIconPropertyCollection) {
-			return new ExpandableList(buttonIconPropertyCollection,
-					List.of(new ButtonIconEditor(buttonIconPropertyCollection)));
 		} else if (property instanceof ActionableIconPropertyCollection actionableIconProperty) {
 			return new IconButtonRow(actionableIconProperty);
 		} else if (property instanceof ColorProperty colorProperty) {

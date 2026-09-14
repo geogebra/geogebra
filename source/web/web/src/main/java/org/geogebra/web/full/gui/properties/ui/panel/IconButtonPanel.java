@@ -34,6 +34,7 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.KeyboardEvent;
 
@@ -41,7 +42,7 @@ public final class IconButtonPanel extends FlowPanel implements
 		SetLabels, ConfigurationUpdateDelegate, VisibilityUpdateDelegate, HasFocus {
 	private final AppW appW;
 	private Label label;
-	private final String labelKey;
+	private final @Nullable String labelKey;
 	private List<List<IconButton>> iconButtonList;
 	private Runnable callback;
 	private final List<SingleSelectionIconRow> propertyList;
@@ -93,8 +94,8 @@ public final class IconButtonPanel extends FlowPanel implements
 
 	private void buildGUI(boolean addTitle) {
 		addStyleName("iconButtonPanel");
-		String localizedLabel = appW.getLocalization().getMenu(labelKey);
-		if (addTitle) {
+		String localizedLabel = labelKey == null ? "" : appW.getLocalization().getMenu(labelKey);
+		if (addTitle && labelKey != null) {
 			label = new Label(localizedLabel);
 			add(label);
 		}
@@ -112,17 +113,13 @@ public final class IconButtonPanel extends FlowPanel implements
 			PropertyResource[] icons = property.getIcons().toArray(new PropertyResource[0]);
 			String[] labels = property.getToolTipLabels();
 			int idx = 0;
-			Integer selectedIdx = property.getSelectedIconIndex();
-			if (selectedIdx == null) {
-				selectedIdx = 0;
-			}
 
 			for (PropertyResource icon : icons) {
 				String label = labels != null && labels[idx] != null ? labels[idx] : "";
 				IconButton btn = new IconButton(appW, null,
 						((AppWFull) appW).getPropertiesIconResource().getImageResource(icon),
 						label);
-				updateButton(property, btn, idx, selectedIdx);
+				updateButton(property, btn, idx);
 				iconPanel.add(btn);
 				buttons.add(btn);
 				final int index = idx;
@@ -130,8 +127,6 @@ public final class IconButtonPanel extends FlowPanel implements
 				btn.addClickHandler(appW.getGlobalHandlers(),
 						(w) -> {
 							property.setSelectedIconIndex(index);
-							buttons.forEach(iconButton -> iconButton.setActive(false));
-							btn.setActive(true);
 							if (callback != null) {
 								callback.run();
 							}
@@ -157,21 +152,9 @@ public final class IconButtonPanel extends FlowPanel implements
 		iconButtonList.get(index).forEach(button -> button.setDisabled(disabled));
 	}
 
-	/**
-	 * Deselect all buttons, but button at index for given property, if available.
-	 * @param propertyIndex index of property
-	 * @param selectedIndex index of button in property button list
-	 */
-	public void deselectAllBut(int propertyIndex, int selectedIndex) {
-		iconButtonList.get(propertyIndex).forEach(button -> button.setActive(false));
-		if (selectedIndex > -1 && selectedIndex < iconButtonList.size()) {
-			iconButtonList.get(propertyIndex).get(selectedIndex).setActive(true);
-		}
-	}
-
 	@Override
 	public void setLabels() {
-		if (label != null) {
+		if (label != null && labelKey != null) {
 			label.setText(appW.getLocalization().getMenu(labelKey));
 		}
 		iconButtonList.forEach(buttonList -> buttonList.forEach(IconButton::setLabels));
@@ -233,17 +216,17 @@ public final class IconButtonPanel extends FlowPanel implements
 
 	private void updateButtons(int propertyIndex, SingleSelectionIconRow property) {
 		List<IconButton> iconButtons = iconButtonList.get(propertyIndex);
-		Integer selectedIndex = property.getSelectedIconIndex();
-		int focusIndex = selectedIndex == null ? 0 : selectedIndex;
 		for (int i = 0; i < iconButtons.size(); i++) {
-			updateButton(property, iconButtons.get(i), i, focusIndex);
+			updateButton(property, iconButtons.get(i), i);
 		}
 	}
 
 	private void updateButton(SingleSelectionIconRow property, IconButton iconButton,
-			int buttonIndex, int focusIndex) {
+			int buttonIndex) {
+		Integer selectedIndex = property.getSelectedIconIndex();
+		boolean selected = selectedIndex != null && selectedIndex == buttonIndex;
 		iconButton.setDisabled(!property.isEnabled());
-		setChecked(iconButton, focusIndex == buttonIndex);
-		iconButton.setTabIndex(focusIndex == buttonIndex ? 0 : -1);
+		setChecked(iconButton, selected);
+		iconButton.setTabIndex(selected || selectedIndex == null && buttonIndex == 0 ? 0 : -1);
 	}
 }

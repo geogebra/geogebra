@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractImageProperty;
-import org.geogebra.common.properties.impl.objects.delegate.AbstractGeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.FillableDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.util.ImageManager;
@@ -32,7 +31,7 @@ import org.geogebra.common.util.ImageManager;
 public final class FillImageProperty extends AbstractImageProperty
 		implements GeoElementDependentProperty {
 
-	private final AbstractGeoElementDelegate delegate;
+	private final FillableDelegate delegate;
 
 	/**
 	 * @param loc localization
@@ -44,20 +43,6 @@ public final class FillImageProperty extends AbstractImageProperty
 			NotApplicablePropertyException {
 		super(loc, imageManager, "Image");
 		delegate = new FillableDelegate(element);
-	}
-
-	/**
-	 * @param loc localization
-	 * @param imageManager image manager
-	 * @param element element
-	 * @param delegate delegate
-	 * @throws NotApplicablePropertyException if not filled by image
-	 */
-	public FillImageProperty(Localization loc, ImageManager imageManager, GeoElement element,
-			AbstractGeoElementDelegate delegate) throws
-			NotApplicablePropertyException {
-		super(loc, imageManager, "Image");
-		this.delegate = delegate;
 	}
 
 	@Override

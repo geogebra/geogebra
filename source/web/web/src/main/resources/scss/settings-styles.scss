@@ -286,15 +286,8 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 				margin: auto;
 			}
 		}
-		.buttonIconEditor {
-			display: flex;
-			flex-direction: column;
-			gap: 16px;
-
-			.materialOutlinedButton {
-				width: fit-content;
-				margin: 0;
-			}
+		.materialOutlinedButton.buttonAlignmentStart {
+			margin: 0;
 		}
 		.materialOutlinedButton {
 			margin: 0 auto;
