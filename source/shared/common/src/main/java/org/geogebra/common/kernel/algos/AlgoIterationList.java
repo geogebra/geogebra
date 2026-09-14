@@ -59,6 +59,7 @@ public class AlgoIterationList extends AlgoElement {
 	private boolean isEmpty;
 	private AlgoElement expressionParentAlgo;
 
+	/** Iteration type, shared with Iteration algo. */
 	enum IterationType {
 		/** u(n+1)=f(u(n)) */
 		SIMPLE,

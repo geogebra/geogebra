@@ -22,6 +22,9 @@ import java.util.Map;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 
+/**
+ * Type of square in the quad tree.
+ */
 public enum QuadTreeEdgeConfig implements MarchingConfig {
 	/**
 	 * All corners are inside / outside

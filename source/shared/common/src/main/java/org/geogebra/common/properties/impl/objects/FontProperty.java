@@ -55,6 +55,9 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 		}
 	}
 
+	/**
+	 * Font family.
+	 */
 	public enum FontFamily {
 		ARIAL("Arial", "Arial, sans-serif"),
 		BY_DS_SCHREIBEN_1_2_GRAY("ByDS Schreiben 1+2", "ByDSSchreiben-1-2gray, sans-serif",

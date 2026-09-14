@@ -933,13 +933,13 @@ public class PolygonTriangulation {
 	// CONVEX POLYGON ?
 	// ////////////////////////////////////
 
+	/** Convexity and orientation. */
 	public enum Convexity {
 		CLOCKWISE, ANTI_CLOCKWISE, NOT
 	}
 
 	/**
-	 * 
-	 * @return true if the polygon is convex after simplification
+	 * @return convexity and orientation of the polygon after simplification
 	 */
 	public Convexity checkIsConvex() {
 

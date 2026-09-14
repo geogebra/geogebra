@@ -36,10 +36,12 @@ public final class SpreadsheetStyling {
 	/** Fallback alignment when {@link CellFormat} has no information regarding alignment. */
 	public static final Integer DEFAULT_CELL_ALIGNMENT = CellFormat.ALIGN_RIGHT;
 
+	/** Font trait.*/
 	public enum FontTrait {
 		BOLD, ITALIC
 	}
 
+	/** Horizontal text alignment. */
 	public enum TextAlignment {
 		LEFT, CENTERED, RIGHT
 	}

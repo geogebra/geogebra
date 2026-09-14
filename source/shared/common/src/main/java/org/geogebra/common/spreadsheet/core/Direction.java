@@ -16,6 +16,9 @@
 
 package org.geogebra.common.spreadsheet.core;
 
+/**
+ * Direction of movement in spreadsheet.
+ */
 public enum Direction {
 	/** left */
 	Left,

@@ -228,7 +228,7 @@ public final class AlgebraViewItem {
 	}
 
 	// Nested Types
-
+	/** Marble state. */
 	public enum MarbleState {
 		/** disabled (grayed out) */
 		DISABLED,
@@ -238,6 +238,7 @@ public final class AlgebraViewItem {
 		ACTIVE
 	}
 
+	/** Marble icon. */
 	public enum MarbleIcon {
 		/** No icon */
 		NONE,

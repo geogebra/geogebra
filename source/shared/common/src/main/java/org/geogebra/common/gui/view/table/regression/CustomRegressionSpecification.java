@@ -35,6 +35,7 @@ public class CustomRegressionSpecification implements RegressionSpecification {
 	private final Type type;
 	private final String coeffOrdering;
 
+	/** Regression model type. */
 	public enum Type {
 		LINEAR, EXPONENTIAL, EXP_PLUS_CONSTANT
 	}

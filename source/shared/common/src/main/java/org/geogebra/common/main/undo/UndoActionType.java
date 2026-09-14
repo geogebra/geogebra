@@ -16,6 +16,9 @@
 
 package org.geogebra.common.main.undo;
 
+/**
+ * Undo action type, decides what information needs to be stored in undo command.
+ */
 public enum UndoActionType {
 	/** Action affects the style XML of all objects */
 	STYLE,

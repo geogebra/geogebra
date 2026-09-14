@@ -16,6 +16,9 @@
 
 package org.geogebra.common.restrictions;
 
+/**
+ * Restriction on a feature that's not covered by command/tool/expression filtering.
+ */
 public enum FeatureRestriction {
 
 	/** APPS_5751 */

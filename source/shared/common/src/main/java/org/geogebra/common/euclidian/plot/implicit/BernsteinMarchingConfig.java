@@ -27,6 +27,9 @@ import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.implicit.MarchingConfig;
 import org.geogebra.common.kernel.implicit.MarchingRect;
 
+/**
+ * Cell configuration for marching squares in Bernstein algo.
+ */
 public enum BernsteinMarchingConfig implements MarchingConfig {
 	/**
 	 * All corners are inside / outside

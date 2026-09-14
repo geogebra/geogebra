@@ -16,6 +16,9 @@
 
 package org.geogebra.common.euclidian.draw.dropdown;
 
+/**
+ * Scrolling mode.
+ */
 enum DropDownScrollMode {
 	NONE(0), UP(-1), DOWN(1);
 

@@ -27,26 +27,32 @@ public interface Clipper {
 
 	int PRESERVE_COLLINEAR = 4;
 
+	/** Clip type. */
 	enum ClipType {
 		INTERSECTION, UNION, DIFFERENCE, XOR
 	}
 
+	/** Clip direction. */
 	enum Direction {
 		RIGHT_TO_LEFT, LEFT_TO_RIGHT
 	}
 
+	/** End type. */
 	enum EndType {
 		CLOSED_POLYGON, CLOSED_LINE, OPEN_BUTT, OPEN_SQUARE, OPEN_ROUND
 	}
 
+	/** Join type. */
 	enum JoinType {
 		SQUARE, ROUND, MITER
 	}
 
+	/** Winding rule. */
 	enum PolyFillType {
 		EVEN_ODD, NON_ZERO, POSITIVE, NEGATIVE
 	}
 
+	/** Polygon type. */
 	enum PolyType {
 		SUBJECT, CLIP
 	}

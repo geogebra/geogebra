@@ -25,6 +25,7 @@ import org.geogebra.common.util.clipper.Clipper.JoinType;
 import org.geogebra.common.util.clipper.Point.DoublePoint;
 
 class PolyNode {
+	/** Node type. */
 	enum NodeType {
 		ANY, OPEN, CLOSED
 	}

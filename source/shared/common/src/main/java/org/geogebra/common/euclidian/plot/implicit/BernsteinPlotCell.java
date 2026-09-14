@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.implicit.MarchingConfig;
  *
  */
 public class BernsteinPlotCell implements Splittable<BernsteinPlotCell> {
+	/** Cell kind. */
 	enum BernsteinPlotCellKind {
 		CELL0,
 		CELL1,

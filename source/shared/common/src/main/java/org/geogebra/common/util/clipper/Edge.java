@@ -62,6 +62,7 @@ class Edge {
 
 	protected final static double HORIZONTAL = -3.4E+38;
 
+	/** Edge endpoint. */
 	enum Side {
 		LEFT, RIGHT
 	}

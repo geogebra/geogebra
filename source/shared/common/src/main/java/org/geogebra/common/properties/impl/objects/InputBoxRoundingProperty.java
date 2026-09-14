@@ -41,6 +41,7 @@ public class InputBoxRoundingProperty extends AbstractNamedEnumeratedProperty<Ro
 	private final int[] decimalPlaces;
 	private final int[] significantFigures;
 
+	/** Rounding type */
 	enum RoundingType {
 		DECIMAL_PLACES, SIGNIFICANT_FIGURES
 	}

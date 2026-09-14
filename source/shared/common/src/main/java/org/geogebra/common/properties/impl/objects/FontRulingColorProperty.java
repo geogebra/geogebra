@@ -32,6 +32,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 public class FontRulingColorProperty extends ElementColorProperty {
 	private final HasTextFormatter element;
 
+	/** Font stripe color. */
 	public enum FontStyle {
 		GRAY("gray", GColor.newColorRGB(0x5C5C5C)),
 		BLUE("blue", GColor.newColorRGB(0x3a6dac)),
