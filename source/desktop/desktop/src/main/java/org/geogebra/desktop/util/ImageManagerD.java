@@ -457,6 +457,9 @@ public class ImageManagerD extends ImageManager {
 		return maxIconSize;
 	}
 
+	/**
+	 * @return maximum scaled icon size
+	 */
 	public int getMaxScaledIconSize() {
 		return (int) (maxIconSize * pixelRatio);
 	}

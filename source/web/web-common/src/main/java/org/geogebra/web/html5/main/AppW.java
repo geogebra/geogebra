@@ -3499,6 +3499,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	}
 
+	/**
+	 * @return sign-in controller
+	 */
 	public SignInControllerI getSignInController() {
 		return getLAF().getSignInController(this);
 	}

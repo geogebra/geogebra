@@ -91,7 +91,7 @@ public final class GeoGebraElement {
 		if (paramID.equals(el.getId())) {
 			return;
 		}
-		if (paramID.length() > 0) {
+		if (!paramID.isEmpty()) {
 			int suffix = 0;
 			while (DOM.getElementById(paramID) != null) {
 				paramID = params.getDataParamId() + suffix;
@@ -246,6 +246,9 @@ public final class GeoGebraElement {
 		el.setAttribute("data-scaley", "" + envScale("y"));
 	}
 
+	/**
+	 * @return element ID
+	 */
 	public String getId() {
 		return el.getId();
 	}
@@ -254,10 +257,16 @@ public final class GeoGebraElement {
 		return el;
 	}
 
+	/**
+	 * @return parent DOM element
+	 */
 	public Element getParentElement() {
 		return el.getParentElement();
 	}
 
+	/**
+	 * @return CSS style
+	 */
 	public Style getStyle() {
 		return el.getStyle();
 	}

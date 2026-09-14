@@ -67,6 +67,9 @@ public class ToolTip {
 		this.role = role;
 	}
 
+	/**
+	 * @return whether this is an alert
+	 */
 	public boolean isAlert() {
 		return role == Role.ALERT;
 	}

@@ -748,6 +748,9 @@ public class GeoGebraFrame extends JFrame
 		return n;
 	}
 
+	/**
+	 * @return number of open instances
+	 */
 	public static int getInstanceCount() {
 		return instances.size();
 	}
@@ -798,6 +801,9 @@ public class GeoGebraFrame extends JFrame
 		return null;
 	}
 
+	/**
+	 * @return whether the frame is in icnofied/minimized state
+	 */
 	public boolean isIconified() {
 		return getExtendedState() == Frame.ICONIFIED;
 	}

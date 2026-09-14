@@ -351,7 +351,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		return ret;
 	}
 
-	public EuclidianView3D getView() {
+	EuclidianView3D getView() {
 		return (EuclidianView3D) ev;
 	}
 

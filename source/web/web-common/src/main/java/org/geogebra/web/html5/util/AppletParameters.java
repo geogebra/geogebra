@@ -32,7 +32,7 @@ import org.geogebra.web.html5.bridge.AttributeProvider;
 import org.geogebra.web.html5.bridge.MapAttributeProvider;
 
 /**
- *
+ * Applet parameters as provided through "data-" attributes or a string map.
  */
 public class AppletParameters {
 	/** default applet ID */
@@ -201,6 +201,9 @@ public class AppletParameters {
 		return getStringDataParam("featureSet", null);
 	}
 
+	/**
+	 * @return exam mode ID (same as featureSet)
+	 */
 	public boolean getParamExamMode() {
 		return getBoolDataParam("examMode", false);
 	}
@@ -651,6 +654,9 @@ public class AppletParameters {
 		return getBoolDataParam("disableAutoScale", false);
 	}
 
+	/**
+	 * @return whether to allow randomization on load
+	 */
 	public boolean getParamRandomize() {
 		return getBoolDataParam("randomize", true);
 	}
@@ -795,6 +801,9 @@ public class AppletParameters {
 		}
 	}
 
+	/**
+	 * @return maximum image size in KiB, ignored if set to 0.
+	 */
 	public int getParamMaxImageSize() {
 		return getIntDataParam("maxImageSize", 0);
 	}
@@ -803,10 +812,16 @@ public class AppletParameters {
 		return getStringDataParam("multiplayerUrl", "");
 	}
 
+	/**
+	 * @return whether to allow checkpoint-based undo points
+	 */
 	public boolean getParamAllowUndoCheckpoints() {
 		return getBoolDataParam("allowUndoCheckpoints", true);
 	}
 
+	/**
+	 * @return border radius in pixels
+	 */
 	public double getBorderRadius() {
 		return getIntDataParam("borderRadius", 0);
 	}
@@ -852,6 +867,9 @@ public class AppletParameters {
 				.map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
 	}
 
+	/**
+	 * @return maximum height for evaluator app
+	 */
 	public double getMaxHeight() {
 		return getIntDataParam("maxHeight", -1);
 	}
@@ -871,6 +889,9 @@ public class AppletParameters {
 		return getStringDataParam("examLaunchURL", "");
 	}
 
+	/**
+	 * @return parameter for external controls (selectors to tab through)
+	 */
 	public String getParamExternalControls() {
 		return getStringDataParam("externalControls", "");
 	}

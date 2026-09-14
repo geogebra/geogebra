@@ -411,6 +411,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		this.textField.setEnabled(enable);
 	}
 
+	/**
+	 * @return whether the text field is not in disabled state
+	 */
 	public boolean isEnabled() {
 		return this.textField.isEnabled();
 	}
@@ -515,6 +518,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		main.setWidth(emWidth + "em");
 	}
 
+	/**
+	 * @return current word
+	 */
 	private String getCurrentWord() {
 		return curWord.toString();
 	}

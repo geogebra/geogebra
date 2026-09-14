@@ -4418,10 +4418,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		GuiManagerD guiManager = getGuiManager(app);
 		LocalizationD loc = app.getLocalization();
 		// initialize toolbar panel even if it's not used (hack)
-		guiManager.getToolbarPanelContainer();
+		guiManager.getToolbarPanel();
 
-		ToolbarContainer toolBarContainer = (ToolbarContainer) guiManager
-				.getToolbarPanelContainer();
+		ToolbarContainer toolBarContainer = guiManager
+				.getToolbarPanel();
 		JComponent helpPanel = toolBarContainer.getToolbarHelpPanel();
 		toolBarContainer.setOrientation(toolbarPosition);
 		app.setShowToolBarHelpNoUpdate(showToolBarHelp);

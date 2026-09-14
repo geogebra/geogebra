@@ -719,10 +719,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return layout;
 	}
 
-	public Container getToolbarPanelContainer() {
-		return getToolbarPanel();
-	}
-
 	/**
 	 * @return toolbar panel
 	 */

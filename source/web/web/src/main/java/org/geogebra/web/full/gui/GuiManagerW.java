@@ -1354,6 +1354,9 @@ public class GuiManagerW extends GuiManager
 		return euclidianView2DockPanel;
 	}
 
+	/**
+	 * @return the 3D view panel
+	 */
 	public DockPanelW getEuclidian3DPanel() {
 		return null;
 	}
@@ -1760,6 +1763,9 @@ public class GuiManagerW extends GuiManager
 		.updateNavigationBar();
 	}
 
+	/**
+	 * @return root component of the dock split pane tree
+	 */
 	public DockSplitPaneW getRootComponent() {
 		return getLayout().getRootComponent();
 	}
@@ -2236,6 +2242,9 @@ public class GuiManagerW extends GuiManager
 		return false;
 	}
 
+	/**
+	 * @return whether the floating properties view is showing
+	 */
 	public boolean isPropertiesViewShowing() {
 		return propertiesView != null && propertiesView.isFloatingAttached();
 	}

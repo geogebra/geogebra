@@ -1461,6 +1461,9 @@ public class GgbAPIW extends GgbAPI {
 		}
 	}
 
+	/**
+	 * @return whether the app is in fullscreen state
+	 */
 	public boolean isFullScreenActive() {
 		return ((AppW) app).getFullscreenState().isFullScreenActive();
 	}

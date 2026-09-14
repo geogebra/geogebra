@@ -266,6 +266,9 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		app.getActiveEuclidianView().getEuclidianController().resetLastMowHit();
 	}
 
+	/**
+	 * @return new global shortcut handler
+	 */
 	public EventListener getGlobalShortcutHandler() {
 		return new GlobalShortcutHandler();
 	}

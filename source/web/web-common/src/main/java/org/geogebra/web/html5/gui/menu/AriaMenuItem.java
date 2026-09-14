@@ -245,6 +245,9 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 		return submenu;
 	}
 
+	/**
+	 * @return text content
+	 */
 	public String getText() {
 		return getElement().getInnerText();
 	}

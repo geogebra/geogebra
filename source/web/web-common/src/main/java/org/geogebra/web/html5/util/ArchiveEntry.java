@@ -84,6 +84,9 @@ public class ArchiveEntry {
 				options));
 	}
 
+	/**
+	 * @return whether this entry is empty
+	 */
 	public boolean isEmpty() {
 		return StringUtil.empty(string) && data == null;
 	}
@@ -103,6 +106,9 @@ public class ArchiveEntry {
 		return extension;
 	}
 
+	/**
+	 * @return whether this represents a thumbnail
+	 */
 	public boolean isThumbnail() {
 		return MyXMLio.XML_FILE_THUMBNAIL.equalsIgnoreCase(fileName);
 	}
