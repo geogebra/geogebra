@@ -152,7 +152,8 @@ public class WtrExamRestrictions extends Restrictions {
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
-		return Set.of(new CommandNameFilter(false, BinomialCoefficient, nCr, BinomialDist, Normal));
+			return Set.of(new CommandNameFilter(false, BinomialCoefficient, nCr,
+					BinomialDist, Normal));
 	}
 
 	private static OperationFilter createOperationFilter() {

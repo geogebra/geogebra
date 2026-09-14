@@ -56,6 +56,7 @@ public class ClipAlgoSutherlandHodogman {
 	public List<MyPoint> process(List<MyPoint> input, double[][] clipPoints) {
 		List<MyPoint> output = input;
 		limitYValues(output);
+
 		for (int i = 0; i < EDGE_COUNT; i++) {
 			output = clipWithEdge(createEdge(clipPoints, i), output);
 		}

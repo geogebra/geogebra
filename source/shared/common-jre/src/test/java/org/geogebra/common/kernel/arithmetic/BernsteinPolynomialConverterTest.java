@@ -16,11 +16,12 @@
 
 package org.geogebra.common.kernel.arithmetic;
 
-import static org.geogebra.common.kernel.arithmetic.bernstein.BernsteinPolynomialConverter.iSupported;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.kernel.arithmetic.bernstein.BernsteinPolynomialConverter;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.junit.jupiter.api.Test;
 
 class BernsteinPolynomialConverterTest extends BaseUnitTest {
@@ -43,6 +44,7 @@ class BernsteinPolynomialConverterTest extends BaseUnitTest {
 	}
 
 	private boolean isSupported(String command) {
-		return iSupported(add(command));
+		GeoElementND geo = add(command);
+		return BernsteinPolynomialConverter.isSupported(geo);
 	}
 }

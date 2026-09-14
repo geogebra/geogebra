@@ -21,12 +21,14 @@ import org.geogebra.common.kernel.arithmetic.bernstein.BernsteinPolynomial2D;
 import org.geogebra.common.kernel.implicit.MarchingConfig;
 
 /**
- * BernsteinPlotCell is the basic building block of the algorithm.
- * A cell consists of a bounding box, a Bernstein polynomial limited to that bounding box.
- * The algo splits the screen into these cells, decides if there might be a solution in
- * that cell, and if there might be, splits it further until a given box size. If that minimal size
- * is reached, we declare that there is a solution in that cell.
+ * Represents a cell in the Bernstein-plot implicit-curve algorithm.
  *
+ * <p>A cell combines a bounding box with the corresponding Bernstein
+ * polynomial restricted to that region. The algorithm recursively
+ * subdivides cells until the box size falls below a given threshold.</p>
+ *
+ * <p>Once the minimum size is reached, the cell is considered to contain
+ * a solution of the implicit curve equation.</p>
  */
 public class BernsteinPlotCell implements Splittable<BernsteinPlotCell> {
 	/** Cell kind. */
@@ -65,7 +67,7 @@ public class BernsteinPlotCell implements Splittable<BernsteinPlotCell> {
 			return BernsteinPlotCellKind.CELL2;
 		}
 
-		if (polynomial.onlyOnePartialDerivateHasSolution()) {
+		if (polynomial.onlyOnePartialDerivativeHasSolution()) {
 			return BernsteinPlotCellKind.CELL1;
 		}
 

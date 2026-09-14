@@ -18,8 +18,29 @@ package org.geogebra.common.kernel.arithmetic.bernstein;
 
 import java.util.Arrays;
 
+import org.geogebra.common.kernel.arithmetic.BoundsRectangle;
 import org.geogebra.common.kernel.arithmetic.Splittable;
 
+/**
+ * Bivariate polynomial in Bernstein form on {@code [0,1] x [0,1]} with
+ * operations used by plotting/marching and clipping.
+ * <p>
+ * Coefficients are stored as an array of {@link BernsteinPolynomial1D} in
+ * {@code y}, one for each Bernstein index in {@code x}. Supports evaluation,
+ * subdivision (into quadrants), partial derivatives, and substitution.
+ * </p>
+ *
+ * <h2>Mutability & performance</h2>
+ * This implementation is <strong>mutable</strong> and reuses internal caches
+ * to minimize allocations in hot paths.
+ *
+ * @apiNote Not thread-safe. Evaluation and subdivision reuse process-wide
+ *          caches/work buffers; assume single-threaded use while calling those
+ *          operations.
+ * @implNote Degree in {@code x} is {@code degreeX}; degree in {@code y} is the
+ *           degree of each element in {@link #bernsteinCoeffs}. Subdivision
+ *           preserves degrees in both variables.
+ */
 public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomial2D>
 		implements Splittable<BernsteinPolynomial2D[]> {
 	private final double minX;
@@ -31,10 +52,15 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 	private static BernsteinCoefficientsCache2Var bMinus = null;
 
 	/**
-	 * @param bernsteinCoeffs coefficients in x
-	 * @param minX min value for original x
-	 * @param maxX max value for original x
-	 * @param degreeX degree in x
+	 * Creates a 2D Bernstein polynomial from its 1D-in-{@code y} coefficient array
+	 * along {@code x}.
+	 *
+	 * @param bernsteinCoeffs array of {@code y}-polynomials for each Bernstein index in {@code x}
+	 * @param minX            original (pre-normalized) domain minimum in {@code x}
+	 * @param maxX            original (pre-normalized) domain maximum in {@code x}
+	 * @param degreeX         degree in {@code x} (typically {@code bernsteinCoeffs.length - 1})
+	 *
+	 * @apiNote The instance is mutable to support in-place operations during marching.
 	 */
 	public BernsteinPolynomial2D(BernsteinPolynomial1D[] bernsteinCoeffs, double minX, double maxX,
 			int degreeX) {
@@ -53,15 +79,38 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 	}
 
 	/**
-	 * Creates a 2D Bernstein polynomial from 1D coeffs iff it would have a solution, it returns
-	 * null otherwise.
-	 * Notice that we only interested in 2D Bernstein polynomials that might have a solution in
-	 * case of plotting implicit polynomials.
-	 * @param bernsteinCoeffs 1D Bernstein polynomials as coefficients for 2D.
-	 * @param minX domain minimum of x variable
-	 * @param maxX domain maximum of x variable
-	 * @param maxDegreeX maximum degree of x variable
-	 * @return the new {@link BernsteinPolynomial2D} if it may has a solution, null otherwise.
+	 * Copy constructor.
+	 * @param poly source polynomial to copy
+	 */
+	public BernsteinPolynomial2D(BernsteinPolynomial2D poly) {
+		this(poly.bernsteinCoeffs, poly.minX, poly.maxX, poly.degreeX);
+	}
+
+	/**
+	 * Creates a 2D Bernstein polynomial over the supplied bounds rectangle.
+	 *
+	 * @param bernsteinCoeffs array of {@code y}-polynomials for each Bernstein index in {@code x}
+	 * @param limits bounds used for normalized evaluation
+	 * @param degreeX degree in {@code x}
+	 */
+	public BernsteinPolynomial2D(BernsteinPolynomial1D[] bernsteinCoeffs, BoundsRectangle limits,
+			int degreeX) {
+		this(bernsteinCoeffs, limits.getXmin(), limits.getXmax(), degreeX);
+	}
+
+	/**
+	 * Factory that returns a 2D Bernstein polynomial only if it is a plausible
+	 * candidate for having roots (useful for implicit-curve plotting).
+	 *
+	 * @param bernsteinCoeffs array of {@code y}-polynomials for each Bernstein index in {@code x}
+	 * @param minX            domain minimum in {@code x}
+	 * @param maxX            domain maximum in {@code x}
+	 * @param maxDegreeX      degree in {@code x}
+	 * @return a new {@link BernsteinPolynomial2D} when sign analysis indicates a
+	 *         potential solution; {@code null} otherwise
+	 *
+	 * @apiNote This is a fast prefilter (sign/monotonic test). It may conservatively
+	 *          return {@code null} even when extreme edge cases exist.
 	 */
 	public static BernsteinPolynomial2D create(BernsteinPolynomial1D[] bernsteinCoeffs,
 			double minX, double maxX,
@@ -95,10 +144,14 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 	}
 
 	/**
-	 * Evaluates the polynomial.
-	 * @param x to evaluate at.
-	 * @param y to evaluate at.
-	 * @return the value at (x, y)
+	 * Returns the value {@code p(x,y)}.
+	 *
+	 * @param x parameter in {@code x} (typically {@code [0,1]})
+	 * @param y parameter in {@code y} (typically {@code [0,1]})
+	 * @return polynomial value at {@code (x,y)}
+	 *
+	 * @apiNote Endpoints use the appropriate control rows/columns. Inputs outside
+	 *          {@code [0,1]} evaluate algebraically but may be less stable.
 	 */
 	public double evaluate(double x, double y) {
 		createLazyDivideCoeffs();
@@ -113,8 +166,7 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 
 		double[] partialEval = BernsteinCache.tmpPartialEval2Var;
 		double[] lastPartialEval = BernsteinCache.tmpLastPartialEval2Var;
-		double scaledX = x;
-		double scaledOneMinusX = 1 - scaledX;
+		double scaledOneMinusX = 1 - x;
 
 		for (int i = 0; i < degreeX + 1; i++) {
 			lastPartialEval[i] = dividedCoeffs[i].evaluate(y);
@@ -123,7 +175,7 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 		for (int i = 1; i <= degreeX + 1; i++) {
 			for (int j = degreeX - i; j >= 0; j--) {
 				partialEval[j] = scaledOneMinusX * lastPartialEval[j]
-						+ scaledX * lastPartialEval[j + 1];
+						+ x * lastPartialEval[j + 1];
 			}
 			double[] temp = lastPartialEval;
 			lastPartialEval = partialEval;
@@ -132,7 +184,13 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 		return partialEval[0];
 	}
 
-	private BernsteinPolynomial substituteX(double value) {
+	/**
+	 * Substitutes {@code x = value} to obtain a 1D Bernstein polynomial in {@code y}.
+	 *
+	 * @param value x-parameter (typically in {@code [0,1]})
+	 * @return {@code p(value, y)} as a 1D Bernstein polynomial
+	 */
+	private BernsteinPolynomial1D substituteX(double value) {
 		BernsteinPolynomial1D result = bernsteinCoeffs[0].multiply(Math.pow(1 - value, degreeX));
 
 		double powX = value;
@@ -147,7 +205,13 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 		return result;
 	}
 
-	private BernsteinPolynomial substituteY(double value) {
+	/**
+	 * Substitutes {@code y = value} to obtain a 1D Bernstein polynomial in {@code x}.
+	 *
+	 * @param value y-parameter (typically in {@code [0,1]})
+	 * @return {@code p(x, value)} as a 1D Bernstein polynomial
+	 */
+	private BernsteinPolynomial1D substituteY(double value) {
 		double[] coeffs = new double[degreeX + 1];
 
 		for (int i = 0; i < degreeX + 1; i++) {
@@ -205,10 +269,21 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 	}
 
 	/**
-	 * Splits polynomial into two:
-	 * b(x) &#8594; b1(x1), b2(x2) where x is element of [a, b],
-	 * and x1, x2 are elements of [a, (b-a)/ 2], ((b-a)/2, b] respectively.
-	 * @return the two polynomials
+	 * Subdivides along {@code x} and then along {@code y}, returning four
+	 * sub-polynomials that cover the original domain as quadrants. Each
+	 * sub-polynomial is re-parameterized to {@code [0,1] x [0,1]}.
+	 *
+	 * <p>Result layout:</p>
+	 * <pre>
+	 *   [[ x-left, y-left ],  [ x-left, y-right ],
+	 *    [ x-right, y-left ], [ x-right, y-right ]]
+	 * </pre>
+	 *
+	 * @return a {@code 2x2} array of sub-polynomials covering the original domain
+	 *
+	 * @apiNote Designed for recursive marching/clipping; uses cached buffers to
+	 *          reduce allocations.
+	 * @implNote Subdivision preserves degrees in both variables.
 	 */
 	@Override
 	public BernsteinPolynomial2D[][] split() {
@@ -240,8 +315,12 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 	}
 
 	/**
-	 * Splits the coefficients which are also Bernstein polynomials
-	 * @return the split parts.
+	 * Splits each coefficient polynomial (in {@code y}) of this instance and
+	 * replaces it with its lower-half; returns a new polynomial built from the
+	 * upper-halves.
+	 *
+	 * @return the polynomial corresponding to the complementary half in {@code y}
+	 * @apiNote Mutates this instance (keeps one half); the returned value is the other half.
 	 */
 	public BernsteinPolynomial2D splitCoefficients() {
 		int length = degreeX + 1;
@@ -254,18 +333,20 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 
 		setSign(BinomialCoefficientsSign.from2Var(bernsteinCoeffs));
 
-		BernsteinPolynomial2D bMinusInY =
-				create(bMinusCoeffs, minX, maxX, degreeX);
-
-		return bMinusInY;
+		return create(bMinusCoeffs, minX, maxX, degreeX);
 	}
 
 	/**
-	 * @return true iff only dx or dy has a solution, but not both.
+	 * Heuristically reports whether exactly one partial derivative indicates
+	 * a solution (early-out check).
+	 *
+	 * @return {@code true} iff only {@code dp/dx} or only {@code dp/dy} suggests a root
+	 *
+	 * @apiNote Heuristic, based on sign/monotonic tests; may be conservative.
 	 */
-	public boolean onlyOnePartialDerivateHasSolution() {
+	public boolean onlyOnePartialDerivativeHasSolution() {
 		for (int i = 0; i < degreeX; i++) {
-			BernsteinPolynomial dx = bernsteinCoeffs[i].linearCombination(-degreeX + i,
+			BernsteinPolynomial1D dx = bernsteinCoeffs[i].linearCombination(-degreeX + i,
 					bernsteinCoeffs[i + 1], i + 1);
 
 			if (dx.hasNoSolution() != bernsteinCoeffs[i].hasDerivativeNoSolution()) {
@@ -274,6 +355,34 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 
 		}
 		return false;
+	}
+
+	/**
+	 * Returns the partial derivative {@code dp/dx} in Bernstein form.
+	 *
+	 * @return a new polynomial of degree {@code degreeX - 1} in {@code x}
+	 */
+	public BernsteinPolynomial2D derivativeX() {
+		BernsteinPolynomial1D[] derivedCoeffs = new BernsteinPolynomial1D[degreeX];
+			for (int i = 0; i < degreeX; i++) {
+				derivedCoeffs[i] = bernsteinCoeffs[i].linearCombination(-degreeX + i,
+						bernsteinCoeffs[i + 1], i + 1);
+			}
+		return new BernsteinPolynomial2D(derivedCoeffs, minX, maxX, degreeX - 1);
+	}
+
+	/**
+	 * Returns the partial derivative {@code dp/dy} in Bernstein form.
+	 *
+	 * @return a new polynomial with {@code y}-degree reduced by one
+	 */
+	public BernsteinPolynomial2D derivativeY() {
+		BernsteinPolynomial1D[] derivedCoeffs = new BernsteinPolynomial1D[degreeX + 1];
+		for (int i = 0; i <= degreeX; i++) {
+			BernsteinPolynomial1D b2 = bernsteinCoeffs[i];
+			derivedCoeffs[i] = b2.derivative();
+		}
+		return new BernsteinPolynomial2D(derivedCoeffs, minX, maxX, degreeX);
 	}
 
 	@Override
@@ -287,12 +396,15 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 	}
 
 	/**
-	 * Substitutes the given variable with the specified value.
-	 * @param variable to substitute.
-	 * @param value to substitute with.
-	 * @return the polynomial replaced variable by the given value.
+	 * Substitutes one variable with a fixed value and returns the resulting 1D polynomial.
+	 *
+	 * @param variable either {@code "x"} or {@code "y"}
+	 * @param value    parameter value to substitute (typically in {@code [0,1]})
+	 * @return {@code p(value, y)} when {@code "x"}, or {@code p(x, value)} when {@code "y"}
+	 *
+	 * @apiNote For other names, {@code "y"} is assumed.
 	 */
-	public BernsteinPolynomial substitute(String variable, double value) {
+	public BernsteinPolynomial1D substitute(String variable, double value) {
 		if ("x".equals(variable)) {
 			return substituteX(value);
 		}

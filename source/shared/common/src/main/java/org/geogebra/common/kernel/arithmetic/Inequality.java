@@ -22,15 +22,18 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoRootsPolynomial;
+import org.geogebra.common.kernel.arithmetic.bernstein.BernsteinPolynomialConverter;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -39,9 +42,6 @@ import com.google.j2objc.annotations.Weak;
  */
 public class Inequality {
 
-	/**
-	 * Inequality type
-	 */
 	public enum IneqType {
 		/** can be used e.g. by PointIn, but cannot be drawn */
 		INEQUALITY_INVALID,
@@ -64,29 +64,30 @@ public class Inequality {
 		INEQUALITY_1VAR_Y
 	}
 
-	private Operation op = Operation.LESS;
+	private final Operation op;
 	private IneqType type;
 	/* private GeoImplicitPoly impBorder; */
 	private GeoConic conicBorder;
 	private GeoLine lineBorder;
 	private GeoFunction funBorder;
+	private GeoImplicitCurve implicitCurveBorder;
 	private GeoElement border;
 	@Weak
-	private Kernel kernel;
+	private final Kernel kernel;
 	private boolean isAboveBorder;
-	private ExpressionNode normal;
-	private FunctionVariable[] fv;
+	private final ExpressionNode normal;
+	private final FunctionVariable[] fv;
 	private MyDouble coef;
 	private ArrayList<Double> zeros;
 	// if variable x or y appears with 0 coef, we want to replace the
 	// variable by 0 itself to avoid errors on computation
-	private MyDouble[] zeroDummy = new MyDouble[2];
+	private final MyDouble[] zeroDummy = new MyDouble[2];
 	private AlgoRootsPolynomial rootAlgo;
 
 	/**
 	 * check whether ExpressionNodes are evaluable to instances of Polynomial or
 	 * NumberValue and build an Inequality out of them
-	 * 
+	 *
 	 * @param kernel
 	 *            Kernel
 	 * @param lhs
@@ -211,16 +212,17 @@ public class Inequality {
 				type = IneqType.INEQUALITY_CONIC;
 				border = conicBorder;
 				setAboveBorderFromConic();
+			} else if (BernsteinPolynomialConverter.isSupported(newBorder)) {
+				type = IneqType.INEQUALITY_IMPLICIT;
+				if (implicitCurveBorder == null) {
+					implicitCurveBorder = new GeoImplicitCurve(kernel.getConstruction(), equ);
+				}
+				setBorderStyle(implicitCurveBorder);
+				border = implicitCurveBorder;
 			} else {
 				type = IneqType.INEQUALITY_INVALID;
 				return;
 			}
-			// TODO implicit ineq
-			/*
-			 * if (newBorder.isGeoLine()) { type = IneqType.INEQUALITY_CONIC; if
-			 * (conicBorder == null) conicBorder = new
-			 * GeoConic(kernel.getConstruction()); border = conicBorder; }}
-			 */
 		}
 		if (type == IneqType.INEQUALITY_PARAMETRIC_X
 				|| type == IneqType.INEQUALITY_PARAMETRIC_Y) {
@@ -231,6 +233,7 @@ public class Inequality {
 			}
 		}
 		if (funBorder != null) {
+			setBorderStyle(funBorder);
 			border = funBorder;
 		}
 		if (isStrict()) {
@@ -253,6 +256,7 @@ public class Inequality {
 		} else {
 			isAboveBorder = coefY < 0 || coefY == 0.0 && coefX > 0;
 		}
+		setBorderStyle(lineBorder);
 	}
 
 	private ExpressionNode replaceDummy(ExpressionNode expression, int i) {
@@ -281,18 +285,18 @@ public class Inequality {
 		funBorder.setFunction(new Function(normal, fv[varIndex]));
 		zeros = null;
 
-		// for (int i = 0; i < zeros.length; i++) {
-		// Log.debug(i + ":" + zeros[i]);
-		// }
-
 		cons.setSuppressLabelCreation(suppress);
+		setBorderStyle(funBorder);
 		border = funBorder;
-		if (isStrict()) {
-			border.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
-		} else {
-			border.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
-		}
 
+	}
+
+	private void setBorderStyle(GeoElement aBorder) {
+		if (isStrict()) {
+			aBorder.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
+		} else {
+			aBorder.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
+		}
 	}
 
 	private ArrayList<Double> rootMultiple(GeoFunction f) {
@@ -353,14 +357,6 @@ public class Inequality {
 
 	}
 
-	// TODO remove?
-	/**
-	 * @return implicit border
-	 */
-	/*
-	 * public GeoImplicitPoly getImpBorder() { return impBorder; }
-	 */
-
 	@Override
 	final public String toString() {
 		return "inequality";
@@ -383,10 +379,10 @@ public class Inequality {
 	/**
 	 * Returns true for parametric ineqs like y &gt; border(x), false for y &lt;
 	 * border(x) (for PARAMETRIC_X vars are swapped)
-	 * 
+	 *
 	 * @return true for parametric ineqs like y &gt; border(x), false for y &lt;
 	 *         border(x)
-	 * 
+	 *
 	 */
 	public boolean isAboveBorder() {
 		return isAboveBorder;
@@ -394,7 +390,7 @@ public class Inequality {
 
 	/**
 	 * Returns border, which can be function, conic or implicit polynomial
-	 * 
+	 *
 	 * @return border
 	 */
 	public GeoElement getBorder() {
@@ -403,7 +399,7 @@ public class Inequality {
 
 	/**
 	 * Returns type of ineq
-	 * 
+	 *
 	 * @return inequality type
 	 */
 	public IneqType getType() {
@@ -415,6 +411,10 @@ public class Inequality {
 	 */
 	public GeoConic getConicBorder() {
 		return conicBorder;
+	}
+
+	public @Nullable GeoImplicitCurve getImplicitCurveBorder() {
+		return implicitCurveBorder;
 	}
 
 	/**

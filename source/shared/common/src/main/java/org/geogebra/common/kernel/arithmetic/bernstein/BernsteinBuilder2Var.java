@@ -43,8 +43,7 @@ public class BernsteinBuilder2Var {
 		BernsteinPolynomial1D[] bernsteinCoeffs =
 				createBernsteinCoeffs2Var(degreeX, limits.getXmin(), limits.getXmax());
 
-		return new BernsteinPolynomial2D(bernsteinCoeffs, limits.getXmin(), limits.getXmax(),
-				degreeX);
+		return new BernsteinPolynomial2D(bernsteinCoeffs, limits, degreeX);
 	}
 
 	double[][] powerCoeffsFromTwoVarPolynomial(Polynomial polynomial, int degreeX, int degreeY) {

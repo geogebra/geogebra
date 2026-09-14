@@ -16,12 +16,22 @@
 
 package org.geogebra.common.euclidian.plot.implicit;
 
-import org.geogebra.common.annotation.MissingDoc;
+import org.geogebra.common.kernel.implicit.RegionPredicate;
 
 /**
- * Plotter algorithm.
+ * Contract for implicit-curve plotters used by the Euclidian renderer.
+ * <p>
+ * Implementations compute contour segments for the current configuration and
+ * provide region-membership queries used for filling.
+ * </p>
  */
-public interface PlotterAlgo {
-	@MissingDoc
+public interface PlotterAlgo extends RegionPredicate {
+	/**
+	 * Executes the plotting step for the current configuration.
+	 *
+	 * <p>Implementations should generate/refresh contour segments and any
+	 * associated state needed for rendering or filling.</p>
+	 */
 	void compute();
+
 }

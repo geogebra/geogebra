@@ -227,4 +227,26 @@ class BernsteinPolynomial1DTest extends BaseUnitTest {
 		}
 		return coeffs;
 	}
+
+	@Test
+	void fromBernsteinCoeffsAndEvaluateTest() {
+		double[] bcoeffs = new double[]{-1.249537290002337, 1309.3947866399963, -4486.193381840081,
+				-3484.6701577602, -24953.272458240237};
+		BernsteinPolynomial1D b1var =
+				new BernsteinPolynomial1D(bcoeffs, 'y', -1.109999999999992,
+						24.590000000000035);
+		assertEquals(35.34367034905276, b1var.evaluate(0.03572502751646012), 0);
+
+	}
+
+	@Test
+	void fromBernsteinCoeffsAndEvaluateTest2() {
+		double[] bcoeffs = new double[]{875587.7265609629, 3385621.343408652, 6254666.393772185,
+				5854819.663562266, 2110186.88663777};
+		BernsteinPolynomial1D b1var =
+				new BernsteinPolynomial1D(bcoeffs, 'y', -1.109999999999992,
+						24.590000000000035);
+		assertEquals(874834.279891417, b1var.evaluate(0.07935519337284117), 0);
+
+	}
 }

@@ -21,46 +21,77 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
-import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.kernel.MyPoint;
 
 /**
- * Draws visual debug on EV, cell bounds, kinds, possible solutions, edges, etc.
- * with colors.
- * This class should not be used in release!
+ * Renders a debugging overlay of Bernstein cells and marching-config
+ * information onto a EuclidianView.
+ *
+ * <p><strong>NOTE:</strong> this class is intended for development only
+ * and must not be included in production releases.</p>
  */
+
 final class BernsteinPlotterVisualDebug implements VisualDebug {
 	private final EuclidianViewBounds bounds;
 	private List<BernsteinPlotCell> cells;
+	private List<MyPoint> edgePoints = null;
 
+	/**
+	 * Creates a new visual debugger for the given view bounds, cells, and contour.
+	 * @param bounds the {@link EuclidianViewBounds} used to convert model to screen coords
+	 * @param cells the list of {@link BernsteinPlotCell}s to render
+	 */
 	BernsteinPlotterVisualDebug(EuclidianViewBounds bounds, List<BernsteinPlotCell> cells) {
 		this.bounds = bounds;
 		this.cells = cells;
 	}
 
+	/**
+	 * Draws the debug overlay for every cell that meets the debug criteria.
+	 *
+	 * @param g2 the graphics context onto which cells are drawn
+	 */
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (cells == null) {
 			return;
 		}
 
-		for (BernsteinPlotCell cell : cells) {
-			if (found(cell.boundingBox)) {
-				drawCell(g2, cell);
-				if (cell.getMarchingConfig() == BernsteinMarchingConfig.T1111) {
-					Log.debug(cell.polynomial);
-				}
-			}
+		if (edgePoints != null) {
+			drawEdgePoints(g2);
 		}
-
 	}
 
-	private boolean found(BernsteinBoundingBox box) {
-		return box.x1() > 0.15 && box.x2() < 0.16
-				&& box.y1() < -0.01;
+	private void drawEdgePoints(GGraphics2D g2) {
+		g2.setColor(GColor.BLUE);
+		for (MyPoint p: edgePoints) {
+			double sx = bounds.toScreenCoordXd(p.x);
+			double sy = bounds.toScreenCoordYd(p.y);
+			int r = 5;
+			g2.fillRect((int) (sx - r), (int) (sy + r), r, r);
+		}
 	}
 
+	@Override
+	public void fill(GGraphics2D g2) {
+		draw(g2);
+	}
+
+	@Override
+	public void setEdgePoints(List<MyPoint> edgePoints) {
+		this.edgePoints = edgePoints;
+	}
+
+	@SuppressWarnings("unused")
+	private boolean found(BernsteinPlotCell cell) {
+		BernsteinBoundingBox box = cell.boundingBox;
+		return  box.y2() > 0.86 && box.y1() < 0.95
+		 && cell.getMarchingConfig() == BernsteinMarchingConfig.T0110;
+	}
+
+	@SuppressWarnings("unused")
 	private void drawCell(GGraphics2D g2, BernsteinPlotCell cell) {
-		GColor color = getCellColor(cell);
+		GColor color = ContourDebugColorScheme.of(cell.getKind());
 
 		int x = (int) bounds.toScreenCoordXd(cell.boundingBox.x1());
 		int y = (int) bounds.toScreenCoordYd(cell.boundingBox.y1());
@@ -76,18 +107,5 @@ final class BernsteinPlotterVisualDebug implements VisualDebug {
 		BernsteinMarchingConfig config = (BernsteinMarchingConfig) cell.getMarchingConfig();
 		g2.setColor(config.color());
 		g2.drawString(config.toString(), x, y);
-	}
-
-	private static GColor getCellColor(BernsteinPlotCell cell) {
-		switch (cell.getKind()) {
-		case CELL0:
-			return GColor.GREEN;
-		case CELL1:
-			return GColor.YELLOW;
-		case CELL2:
-			return GColor.GRAY;
-		default:
-			return GColor.BLACK;
-		}
 	}
 }

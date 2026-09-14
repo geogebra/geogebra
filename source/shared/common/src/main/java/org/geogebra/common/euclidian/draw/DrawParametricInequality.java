@@ -29,12 +29,13 @@ import org.geogebra.common.kernel.arithmetic.Inequality;
 import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Drawable for drawing inequalities like x &lt; sin(y) or y &lt; x^3. Never
  * stands on its own, always part of DrawInequality tree
  */
-class DrawParametricInequality extends SetDrawable {
+class DrawParametricInequality extends SetDrawable implements MatchBorder {
 
 	private Inequality paramIneq;
 	private GeneralPathClippedForCurvePlotter gp;
@@ -161,10 +162,12 @@ class DrawParametricInequality extends SetDrawable {
 		}
 	}
 
-	/**
-	 * @return true when x is the parameter (false for y)
-	 */
-	boolean isXparametric() {
-		return paramIneq.getType() == IneqType.INEQUALITY_PARAMETRIC_X;
+	@Override
+	public boolean matchBorder(@NonNull GeoElement border) {
+		GeoElement ineqBorder = getBorder();
+		if (ineqBorder != null && ineqBorder.equals(border)) {
+			return paramIneq.getType() == IneqType.INEQUALITY_PARAMETRIC_X;
+		}
+		return false;
 	}
 }

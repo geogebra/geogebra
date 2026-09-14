@@ -24,6 +24,19 @@ import static org.geogebra.common.kernel.arithmetic.bernstein.BinomialCoefficien
 
 import org.geogebra.common.kernel.arithmetic.Splittable;
 
+/**
+ * Single-variable polynomial in the Bernstein basis on {@code [0,1]}, with
+ * utilities for evaluation, subdivision, linear combinations, and basic algebra.
+ *
+ * <p>The instance is <strong>mutable</strong> and optimised for plotting/ marching
+ * hot paths where object reuse matters.</p>
+ *
+ * @apiNote Not thread-safe. Uses process-wide caches/work buffers; assume
+ * single-threaded use during evaluation/split.
+ * @implNote Coefficients {@code bernsteinCoeffs[k]} are the unnormalised
+ * numerators for {@code x^k (1-x)^{n-k}}; {@code dividedCoeffs} hold the
+ * control points (normalised by {@code C(n,k)}).
+ */
 public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPolynomial1D>
 		implements Splittable<BernsteinPolynomial1D> {
 	private final double min;
@@ -38,10 +51,15 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 	public static final DoubleArrayPool pool = new DoubleArrayPool();
 
 	/**
-	 * @param bernsteinCoeffs coeffs for x^k (1-x)^(degree - k), NOT divided by binomial coeffs
-	 * @param variableName variable name
-	 * @param min min value for original variable
-	 * @param max max value for original variable
+	 * Creates a 1D Bernstein polynomial over an original variable range.
+	 *
+	 * @param bernsteinCoeffs coefficients of {@code x^k(1-x)^{n-k}} (length {@code n+1})
+	 * @param variableName    source variable name (e.g., {@code 'x'})
+	 * @param min             original variable minimum (pre-normalisation)
+	 * @param max             original variable maximum (pre-normalisation)
+	 *
+	 * @apiNote {@code bernsteinCoeffs.length - 1} defines the degree. The instance
+	 * remains mutable for in-place ops like {@link #plus(BernsteinPolynomial1D)}.
 	 */
 	public BernsteinPolynomial1D(double[] bernsteinCoeffs,
 			char variableName, double min, double max) {
@@ -70,10 +88,14 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 	}
 
 	/**
-	 * Evaluates the polynomial at a given value
+	 * Returns the value at a parameter in {@code [0,1]}.
 	 *
-	 * @param value to evaluate at.
-	 * @return the result of the evaluation.
+	 * @param value parameter at which to evaluate
+	 * @return {@code p(value)}
+	 *
+	 * @apiNote Endpoints return the first/last control point. For best numerical
+	 * stability, pass values in {@code [0,1]}; behavior for inputs outside
+	 * {@code [0,1]} follows the Bernstein form algebraically.
 	 */
 	public double evaluate(double value) {
 		createLazyDivideCoeffs();
@@ -87,15 +109,15 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 
 		double[] partialEval = tmpPartialEval;
 		double[] lastPartialEval = tmpLastPartialEval;
-		double scaledValue = value;
-		double oneMinusScaledValue = 1 - scaledValue;
+		double oneMinusValue = 1 - value;
 
 		System.arraycopy(dividedCoeffs, 0, lastPartialEval, 0, lastPartialEval.length);
 
 		for (int i = 1; i <= degree + 1; i++) {
 			for (int j = degree - i; j >= 0; j--) {
-				partialEval[j] = oneMinusScaledValue * lastPartialEval[j]
-						+ scaledValue * lastPartialEval[j + 1];
+				double v = lastPartialEval[j + 1];
+				partialEval[j] = oneMinusValue * lastPartialEval[j]
+						+ value * (Double.isNaN(v) ? 0 : v);
 			}
 			double[] temp = lastPartialEval;
 			lastPartialEval = partialEval;
@@ -104,6 +126,18 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 		return partialEval[0];
 	}
 
+	/**
+	 * Subdivides this polynomial at {@code t = 1/2} and returns two halves.
+	 * <p>The current instance is updated to the first half; the second half is
+	 * returned as a new instance. Both halves represent the original polynomial
+	 * restricted and re-parameterized to {@code [0,1]}.</p>
+	 *
+	 * @return an array {@code { leftHalf, rightHalf }}
+	 *
+	 * @apiNote Designed for recursive marching/clipping; avoids per-call
+	 * allocations by reusing internal buffers.
+	 * @implNote Degree is preserved by subdivision.
+	 */
 	@Override
 	public BernsteinPolynomial1D[] split() {
 		createLazyDivideCoeffs();
@@ -182,8 +216,13 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 	}
 
 	/**
+	 * Reports whether the derivative is detected as root-free by a control-sequence test.
 	 *
-	 * @return true iff the derivate of this polynomial has no solution.
+	 * @return {@code true} if the internal sign-pattern test finds no root indicators;
+	 * {@code false} otherwise
+	 *
+	 * @apiNote This is a fast heuristic based on coefficient differences in the
+	 * Bernstein basis; it may return false negatives/positives near degenerate cases.
 	 */
 	public boolean hasDerivativeNoSolution() {
 		double coeff = bernsteinCoeffs[0];
@@ -206,10 +245,30 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 	}
 
 	/**
-	 * Multiply polynomial with a value
+	 * Returns the first derivative in Bernstein form.
 	 *
-	 * @param value to multiply with.
-	 * @return the new, multiplied polynomial.
+	 * @return {@code p'(x)} as a new Bernstein polynomial of degree {@code n-1}
+	 */
+	public BernsteinPolynomial1D derivative() {
+		if (bernsteinCoeffs == null) {
+			return this;
+		}
+
+		double[] derivedCoeffs = new double[degree];
+		for (int i = 0; i < degree; i++) {
+			double b1 = (degree - i) * bernsteinCoeffs[i];
+			double b2 = (i + 1) * bernsteinCoeffs[i + 1];
+			derivedCoeffs[i] = b2 - b1;
+		}
+
+		return new BernsteinPolynomial1D(derivedCoeffs, variableName, min, max);
+	}
+
+	/**
+	 * Returns {@code this * value}.
+	 *
+	 * @param value scalar multiplier
+	 * @return new scaled polynomial
 	 */
 	public BernsteinPolynomial1D multiply(double value) {
 		double[] coeffs = new double[degree + 1];
@@ -222,9 +281,13 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 	}
 
 	/**
-	 * Adds a Bernstein polynomial to this one.
-	 * @param bernsteinPolynomial to add.
-	 * @return the result polynomial.
+	 * Adds {@code bernsteinPolynomial} to this polynomial in place.
+	 *
+	 * @param bernsteinPolynomial addend (same degree; {@code null} is a no-op)
+	 * @return {@code this}, after addition
+	 *
+	 * @apiNote For non-mutating style, create a copy first or use
+	 * {@link #linearCombination(double, BernsteinPolynomial1D, double)}.
 	 */
 	public BernsteinPolynomial1D plus(BernsteinPolynomial1D bernsteinPolynomial) {
 		if (bernsteinPolynomial == null) {
@@ -237,24 +300,31 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 		return this;
 	}
 
+	/**
+	 * @return {@code true} if the degree is zero; {@code false} otherwise.
+	 */
 	@Override
 	public boolean isConstant() {
 		return bernsteinCoeffs.length == 1;
 	}
 
+	/**
+	 * Returns a human-readable Bernstein-basis representation for debugging.
+	 */
 	@Override
 	public String toString() {
 		return BernsteinToString.toString1Var(this);
 	}
 
 	/**
-	 * Linear combination two coeffs and another polynomial.
+	 * Returns {@code coeff * this + otherCoeff * otherPoly} as a new polynomial.
 	 *
-	 * @param coeff to multiply original with
-	 * @param otherPoly to add
-	 * @param otherCoeff to multiply other with
+	 * @param coeff      multiplier for {@code this}
+	 * @param otherPoly  second addend (may be {@code null})
+	 * @param otherCoeff multiplier for {@code otherPoly}
+	 * @return linear combination as a new instance
 	 *
-	 * @return the linear combination as a new polynomial.
+	 * @apiNote Degrees must match when {@code otherPoly != null}.
 	 */
 	public BernsteinPolynomial1D linearCombination(double coeff, BernsteinPolynomial1D otherPoly,
 			double otherCoeff) {
@@ -269,11 +339,13 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 	}
 
 	/**
-	 * Linear combination two coeffs and another polynomial, stored in this polynomial
+	 * Replaces this polynomial with {@code coeff * this + otherCoeff * otherPoly}.
 	 *
-	 * @param coeff to multiply original with
-	 * @param otherPoly to add
-	 * @param otherCoeff to multiply other with
+	 * @param coeff      multiplier for {@code this}
+	 * @param otherPoly  second addend (no-op when {@code null})
+	 * @param otherCoeff multiplier for {@code otherPoly}
+	 *
+	 * @apiNote Mutates this instance; degrees must match when {@code otherPoly != null}.
 	 */
 	public void linearCombinationInPlace(double coeff, BernsteinPolynomial1D otherPoly,
 			double otherCoeff) {
@@ -288,9 +360,11 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 	}
 
 	/**
-	 * Divide polynomial by a constant
-	 * @param v divisor
-	 * @return resulting polynomial (new instance)
+	 * Returns {@code this / v}.
+	 *
+	 * @param v non-zero divisor
+	 * @return new scaled polynomial
+	 * @throws ArithmeticException if {@code v == 0}
 	 */
 	public BernsteinPolynomial1D divide(double v) {
 		return multiply(1.0 / v);

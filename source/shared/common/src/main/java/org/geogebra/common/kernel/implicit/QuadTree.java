@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * Base class for quadtree algorithms
  */
 abstract class QuadTree {
+	private final SimpleContourLinker linker;
 	protected double x;
 	protected double y;
 	protected double w;
@@ -33,10 +34,13 @@ abstract class QuadTree {
 	protected double scaleX;
 	protected double scaleY;
 	protected ArrayList<MyPoint> locusPoints;
-	private LinkSegments segments;
+	private ContourAssembler contour;
+	static final int LIST_THRESHOLD = 400;
 
 	QuadTree() {
-		segments = new LinkSegments();
+		linker = new SimpleContourLinker(LIST_THRESHOLD);
+		contour = new ContourAssembler(linker);
+		linker.setContour(contour);
 	}
 
 	/**
@@ -58,9 +62,9 @@ abstract class QuadTree {
 		this.scaleX = slX;
 		this.scaleY = slY;
 		this.locusPoints = locus.getPoints();
-		segments.updatePoints(locusPoints);
+		contour.updatePoints(locusPoints);
 		this.updatePath();
-		segments.flush();
+		contour.flush();
 	}
 
 	/**
@@ -96,11 +100,11 @@ abstract class QuadTree {
 
 	abstract void updatePath();
 
-	LinkSegments segments() {
-		return segments;
+	ContourAssembler contour() {
+		return contour;
 	}
 
 	void setListThreshold(int threshold) {
-		segments.setListThreshold(threshold);
+		linker.setThreshold(threshold);
 	}
 }

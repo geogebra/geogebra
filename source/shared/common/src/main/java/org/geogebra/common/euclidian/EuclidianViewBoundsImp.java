@@ -16,6 +16,7 @@
 
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
 import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.kernel.interval.Interval;
@@ -141,6 +142,11 @@ public class EuclidianViewBoundsImp implements EuclidianViewBounds {
 	}
 
 	@Override
+	public double getInvXscale() {
+		return view.getInvXscale();
+	}
+
+	@Override
 	public double getInvYscale() {
 		return view.getInvYscale();
 	}
@@ -155,5 +161,30 @@ public class EuclidianViewBoundsImp implements EuclidianViewBounds {
 				+ ", width=" + getWidth()
 				+ ", height=" + getHeight()
 				+ '}';
+	}
+
+	@Override
+	public double getXZero() {
+		return view.xZero;
+	}
+
+	@Override
+	public double getYZero() {
+		return view.yZero;
+	}
+
+	@Override
+	public GShape getBoundingPath() {
+		return view.getBoundingPath();
+	}
+
+	@Override
+	public double getXScale() {
+		return view.getXscale();
+	}
+
+	@Override
+	public double getYScale() {
+		return view.getYscale();
 	}
 }

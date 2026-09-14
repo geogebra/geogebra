@@ -45,7 +45,7 @@ public class BernsteinMarchingConfigProvider extends MarchingConfigProvider {
 
 	@Override
 	public int listThreshold() {
-		return 1;
+		return 1000;
 	}
 
 	@Override

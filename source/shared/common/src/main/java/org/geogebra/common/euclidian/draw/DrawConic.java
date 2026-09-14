@@ -59,12 +59,13 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
 
 /**
  * 
  * @author Markus
  */
-public class DrawConic extends SetDrawable implements Previewable {
+public class DrawConic extends SetDrawable implements Previewable, MatchBorder {
 
 	/** plotpoints per quadrant for hyperbola */
 	protected static final int PLOT_POINTS = 32;
@@ -1894,4 +1895,8 @@ public class DrawConic extends SetDrawable implements Previewable {
 		conic.diameterLine(0, 1, diameter);
 	}
 
+	@Override
+	public boolean matchBorder(@NonNull GeoElement border) {
+		return conic != null && conic.equals(border);
+	}
 }

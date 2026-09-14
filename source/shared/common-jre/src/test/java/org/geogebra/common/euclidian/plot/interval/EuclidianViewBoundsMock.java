@@ -16,6 +16,7 @@
 
 package org.geogebra.common.euclidian.plot.interval;
 
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.kernel.interval.Interval;
 
 public class EuclidianViewBoundsMock implements EuclidianViewBounds {
@@ -136,6 +137,11 @@ public class EuclidianViewBoundsMock implements EuclidianViewBounds {
 	}
 
 	@Override
+	public double getInvXscale() {
+		return 1;
+	}
+
+	@Override
 	public double getInvYscale() {
 		return 1;
 	}
@@ -150,5 +156,30 @@ public class EuclidianViewBoundsMock implements EuclidianViewBounds {
 				+ ", width=" + width
 				+ ", height=" + height
 				+ '}';
+	}
+
+	@Override
+	public double getXZero() {
+		return 0;
+	}
+
+	@Override
+	public double getYZero() {
+		return 0;
+	}
+
+	@Override
+	public GShape getBoundingPath() {
+		return null;
+	}
+
+	@Override
+	public double getXScale() {
+		return 1;
+	}
+
+	@Override
+	public double getYScale() {
+		return 1;
 	}
 }

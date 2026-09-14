@@ -4379,7 +4379,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return shapePath;
 	}
 
-	private GGeneralPath getBoundingPath() {
+	/**
+	 * @return path along border of this view
+	 */
+	public GGeneralPath getBoundingPath() {
 		GeneralPathClipped gs = new GeneralPathClipped(this);
 		gs.resetWithThickness(1);
 		gs.moveTo(getMinXScreen(), getMinYScreen());

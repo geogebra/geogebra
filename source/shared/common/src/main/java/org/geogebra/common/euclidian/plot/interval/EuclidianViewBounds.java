@@ -16,6 +16,7 @@
 
 package org.geogebra.common.euclidian.plot.interval;
 
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.kernel.interval.Interval;
 
 /**
@@ -131,7 +132,61 @@ public interface EuclidianViewBounds {
 	boolean isOnView(Interval y);
 
 	/**
+	 * @return 1/getXScale()
+	 */
+	double getInvXscale();
+
+	/**
 	 * @return 1/getYScale()
 	 */
 	double getInvYscale();
+
+	/**
+	 *
+	 * @return the x coordinate of real world zero as screen coordinate.
+	 */
+	double getXZero();
+
+	/**
+	 *
+	 * @return the y coordinate of real world zero as screen coordinate.
+	 */
+	double getYZero();
+
+	/**
+	 *
+	 * @return x coordinate of te center as real world coordinate.
+	 */
+	default double getCenterX() {
+		return toRealWorldCoordX(getWidth() / 2.0);
+	}
+
+	/**
+	 *
+	 * @return y coordinate of the center as real world coordinate.
+	 */
+	default double getCenterY() {
+		return toRealWorldCoordY(getHeight() / 2.0);
+	}
+
+	/**
+	 *
+	 * @return path of the whole bounds as a {@link GShape}.
+	 */
+	GShape getBoundingPath();
+
+	/**
+	 * Horizontal scale factor: screen pixels per one world unit along the x-axis.
+	 *
+	 * @return x-axis scale (pixels per world unit)
+	 */
+	double getXScale();
+
+	/**
+	 * Vertical scale factor: screen pixels per one world unit along the y-axis.
+	 *
+	 * @return y-axis scale (pixels per world unit)
+	 */
+	double getYScale();
+
 }

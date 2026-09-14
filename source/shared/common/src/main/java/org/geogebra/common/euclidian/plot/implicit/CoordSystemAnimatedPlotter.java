@@ -26,7 +26,7 @@ import org.geogebra.common.euclidian.CoordSystemInfo;
  */
 public abstract class CoordSystemAnimatedPlotter implements CoordSystemAnimationListener {
 
-	private boolean updateEnabled = true;
+	private boolean updateEnabled = false;
 
 	@Override
 	public void onZoomStop(CoordSystemInfo info) {
@@ -44,18 +44,19 @@ public abstract class CoordSystemAnimatedPlotter implements CoordSystemAnimation
 	}
 
 	/**
-	 * Updates the plotter if update is enabled.
+	 * Updates the plotter on demand.
 	 */
-	public void updateOnDemand() {
-		if (updateEnabled) {
-			update();
+	public final void update() {
+		if (isUpdateEnabled()) {
+			doUpdate();
+			updateEnabled = false;
 		}
 	}
 
 	/**
 	 * Actually update the state.
 	 */
-	public abstract void update();
+	protected abstract void doUpdate();
 
 	protected void enableUpdate() {
 		updateEnabled = true;
@@ -66,8 +67,12 @@ public abstract class CoordSystemAnimatedPlotter implements CoordSystemAnimation
 	}
 
 	/**
-	 * Draw the results of this plotter.
+	 * Draw the path of this plotter.
 	 * @param g2 {@link GGraphics2D}
 	 */
 	public abstract void draw(GGraphics2D g2);
+
+	public boolean isUpdateEnabled() {
+		return updateEnabled;
+	}
 }

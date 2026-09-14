@@ -77,6 +77,7 @@ class BernsteinPolynomial2DTest extends BaseUnitTest {
 		shouldEvaluateTheSame("x^3 + 2x*y^2 + 2x + y=0");
 		shouldEvaluateTheSame("4x^3 + x*y^2 + 5x + y=0");
 		shouldEvaluateTheSame("x^6 - 4*y^3 + 3*x^4*y=0 ");
+		shouldEvaluateTheSame("-x^3 * y^3 + x^3 * y + x*y^3 - x*y = -0.01");
 	}
 
 	private void shouldEvaluateTheSame(String definition) {

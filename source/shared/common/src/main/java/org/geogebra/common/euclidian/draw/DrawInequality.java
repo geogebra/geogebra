@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Graphical representation of inequality
@@ -46,8 +47,8 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public class DrawInequality extends Drawable {
-
 	private boolean isVisible;
+
 	/** true if label is visible */
 	boolean labelVisible;
 
@@ -65,7 +66,7 @@ public class DrawInequality extends Drawable {
 
 	/**
 	 * Creates new drawable linear inequality
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 * @param function
@@ -83,6 +84,7 @@ public class DrawInequality extends Drawable {
 		if (function.getIneqs().getRight() != null) {
 			right = new DrawInequality(function.getIneqs().getRight(), view, geo, this);
 		}
+
 		if (function.getIneqs().getIneq() != null) {
 			ineq = function.getIneqs().getIneq();
 		}
@@ -175,7 +177,7 @@ public class DrawInequality extends Drawable {
 		}
 
 		if (ineq != null) {
-			if (drawable == null || !matchBorder(ineq.getBorder(), drawable)) {
+			if (!matchBorder(ineq.getBorder(), drawable)) {
 				createDrawable();
 			} else if (ineq.getType() == IneqType.INEQUALITY_CONIC) {
 				ineq.getConicBorder().setInverseFill(ineq.isAboveBorder());
@@ -189,7 +191,10 @@ public class DrawInequality extends Drawable {
 			xLabel = drawable.xLabel;
 			yLabel = drawable.yLabel;
 		}
-		if (geo.isInverseFill() && !isForceNoFill()) {
+		// Implicit inequalities now provide their final filled region directly,
+		// so applying the legacy inverse-fill complement here would flip them again.
+		if (geo.isInverseFill() && !isForceNoFill()
+				&& (ineq == null || ineq.getType() != IneqType.INEQUALITY_IMPLICIT)) {
 			GArea b = view.getBoundsArea();
 			b.subtract(getShape());
 			setShape(b);
@@ -218,13 +223,14 @@ public class DrawInequality extends Drawable {
 			drawable = new DrawLine(view, ineq.getLineBorder());
 			ineq.getLineBorder().setInverseFill(ineq.isAboveBorder());
 			break;
-		/*
-		 * case IneqType.INEQUALITY_IMPLICIT: drawable = new
-		 * DrawImplicitPoly(view, ineq.getImpBorder()); break; TODO put this
-		 * back when implicit polynomial can be shaded
-		 */
+		case INEQUALITY_IMPLICIT:
+			drawable = new DrawImplicitPoly(ineq, view, geo);
+			// preserve label position
+			drawable.xLabel = xLabel;
+			drawable.yLabel = yLabel;
+			break;
 		default:
-			Log.debug("Unhandled inequality type");
+			Log.debug("Unhandled inequality type: " + ineq.getType());
 			return;
 		}
 		drawable.setGeoElement(geo);
@@ -270,18 +276,10 @@ public class DrawInequality extends Drawable {
 		}
 	}
 
-	private static boolean matchBorder(GeoElement border, Drawable d) {
-		if (d instanceof DrawConic && ((DrawConic) d).getConic().equals(border)) {
-			return true;
-		}
-		/*
-		 * if (d instanceof DrawImplicitPoly && ((DrawImplicitPoly)
-		 * d).getPoly().equals(border)) return true;
-		 */
-		if (d instanceof DrawParametricInequality
-				&& ((DrawParametricInequality) d).getBorder().equals(border)) {
-			return ((DrawParametricInequality) d).isXparametric();
-		}
+	private static boolean matchBorder(GeoElement border, @Nullable Drawable d) {
+		 if (d instanceof MatchBorder matchBorder) {
+			 return matchBorder.matchBorder(border);
+		 }
 
 		return false;
 	}
@@ -296,6 +294,12 @@ public class DrawInequality extends Drawable {
 				drawable.updateStrokesJustLineThickness(geo);
 				if (geo.getLineThickness() > 0 && getRoot().bordersToDraw.contains(ineq)) {
 					drawable.draw(g2);
+				}
+				if (ineq != null && ineq.getType() == IneqType.INEQUALITY_IMPLICIT) {
+					// Keep the parent fill shape synchronized with the reused implicit drawable.
+					setShape(drawable.getShape());
+					xLabel = drawable.xLabel;
+					yLabel = drawable.yLabel;
 				}
 			}
 		} else {

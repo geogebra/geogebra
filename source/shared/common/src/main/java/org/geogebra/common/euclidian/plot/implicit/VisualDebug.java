@@ -16,7 +16,10 @@
 
 package org.geogebra.common.euclidian.plot.implicit;
 
+import java.util.List;
+
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.kernel.MyPoint;
 
 /**
  * Visual debug aid for Bernstein poly plotter.
@@ -27,4 +30,18 @@ public interface VisualDebug {
 	 * @param g2 graphics
 	 */
 	void draw(GGraphics2D g2);
+
+	/**
+	 * Fills the debug overlay into the given graphics context.
+	 *
+	 * @param g2 graphics target
+	 */
+	void fill(GGraphics2D g2);
+
+	/**
+	 * Supplies edge-intersection points to visualize.
+	 *
+	 * @param edgePoints boundary points collected during clipping
+	 */
+	void setEdgePoints(List<MyPoint> edgePoints);
 }

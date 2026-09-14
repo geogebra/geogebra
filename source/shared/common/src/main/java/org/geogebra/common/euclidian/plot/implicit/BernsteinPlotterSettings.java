@@ -20,9 +20,10 @@ package org.geogebra.common.euclidian.plot.implicit;
  * Bernstein polynomial plotter settings.
  */
 public final class BernsteinPlotterSettings {
-	private boolean visualDebug;
-	private boolean updateEnabled;
-	private int minCellSizeInPixels;
+	public static final int MARGIN_IN_PX = 100;
+	private final boolean visualDebug;
+	private final boolean updateEnabled;
+	private final int minCellSizeInPixels;
 
 	/**
 	 * Constructor with default settings.
