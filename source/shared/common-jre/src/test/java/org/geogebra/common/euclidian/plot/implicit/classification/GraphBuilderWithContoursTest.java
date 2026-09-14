@@ -55,9 +55,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-@SuppressWarnings({
-		"PMD.UnusedPrivateMethod"
-})
 class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 	@BeforeEach
 	void setUp() {
@@ -1005,30 +1002,6 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		return sb.toString();
 	}
 
-	private String describeRegions(GeoFunctionNVar function, List<ClassifiedRegion> regions,
-			EuclidianViewBounds bounds) {
-		StringBuilder sb = new StringBuilder("[");
-		for (int i = 0; i < regions.size(); i++) {
-			ClassifiedRegion region = regions.get(i);
-			if (i > 0) {
-				sb.append(", ");
-			}
-			GPoint2D sample = region.getSamplePoint();
-			Boolean predicate = sample == null ? null : function.isInRegion(sample.x, sample.y);
-			sb.append("{index=").append(i)
-					.append(", filled=").append(region.isFilled())
-					.append(", predicate=").append(predicate)
-					.append(", holes=").append(region.getHoles().size())
-					.append(", viewport=").append(isViewportRegion(region, bounds))
-					.append(", screenBbox=").append(formatScreenBounds(region))
-					.append(", worldBbox=").append(formatWorldBounds(region, bounds))
-					.append(", sample=").append(sample)
-					.append('}');
-		}
-		sb.append(']');
-		return sb.toString();
-	}
-
 	private List<CycleDiagnostic> cycleDiagnostics(PlanarGraph graph,
 			List<BoundaryCycle> cycles) {
 		return cycles.stream()
@@ -1353,31 +1326,6 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 				&& Math.abs(regionBounds.getHeight() - bounds.getHeight()) <= 1
 				&& Math.abs(regionBounds.getX()) <= 1
 				&& Math.abs(regionBounds.getY()) <= 1;
-	}
-
-	private String describeFaces(PlanarGraph graph) {
-		StringBuilder sb = new StringBuilder("[");
-		for (int i = 0; i < graph.getFaces().size(); i++) {
-			Face face = graph.getFaces().get(i);
-			if (i > 0) {
-				sb.append(", ");
-			}
-			List<Integer> outerBoundary = face.getOuterHalfEdgeId() < 0
-					? List.of() : graph.outerBoundaryOf(face);
-			sb.append("{id=").append(face.getId())
-					.append(", exterior=").append(face.isExterior())
-					.append(", outer=").append(face.getOuterHalfEdgeId())
-					.append(", outerCycle=").append(cycleIdOfBoundary(graph, outerBoundary))
-					.append(", holes=").append(face.getHoleHalfEdgeIds().size())
-					.append(", holeCycles=").append(holeCycleIds(graph, face))
-					.append(", sample=").append(face.getSamplePoint());
-			if (face.getOuterHalfEdgeId() >= 0) {
-				sb.append(", bbox=").append(boundaryBounds(graph, outerBoundary));
-			}
-			sb.append('}');
-		}
-		sb.append(']');
-		return sb.toString();
 	}
 
 	private int nonViewportCanonicalCycleCount(PlanarGraph graph) {

@@ -38,10 +38,11 @@ import org.jspecify.annotations.Nullable;
 import com.google.j2objc.annotations.Weak;
 
 /**
- * stores left and right hand side of an inequality as Expressions
+ * Stores left and right hand side of an inequality as expressions.
  */
 public class Inequality {
 
+	/** Inequality type. */
 	public enum IneqType {
 		/** can be used e.g. by PointIn, but cannot be drawn */
 		INEQUALITY_INVALID,

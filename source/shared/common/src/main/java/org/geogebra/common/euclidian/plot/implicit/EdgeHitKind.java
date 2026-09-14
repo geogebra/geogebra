@@ -16,6 +16,9 @@
 
 package org.geogebra.common.euclidian.plot.implicit;
 
+/**
+ * Type of edge hit.
+ */
 public enum EdgeHitKind {
 	ENTER, EXIT, NONE, TANGENT;
 
