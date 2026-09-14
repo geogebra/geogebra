@@ -56,6 +56,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.jspecify.annotations.Nullable;
 
+import elemental2.dom.KeyboardEvent;
 import elemental2.dom.NodeList;
 import jsinterop.base.Js;
 
@@ -80,6 +81,7 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 	private final boolean shadedColumns;
 	DefineFunctionsDialogTV defFuncDialog;
 	private final TableValuesKeyboardNavigationController controller;
+	private Element focusedNonEditableCell;
 	GPoint lastEdit = null;
 
 	public MathKeyboardListener getKeyboardListener() {
@@ -141,23 +143,23 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 					@Override
 					public void focusCell(int row, int column) {
 						app.closePopups();
-						lastEdit = new GPoint(column, row);
-						editor.startEditing(row, column, false);
+						StickyValuesTable.this.focusCell(row, column, false);
 					}
 
 					@Override
 					public void refocusCell(int row, int column) {
-						editor.startEditing(row, column, true);
+						StickyValuesTable.this.focusCell(row, column, true);
 					}
 
 					@Override
 					public void unfocusCell(int row, int column, boolean isTransferringFocus) {
 						editor.stopEditing();
+						unfocusNonEditableCell();
 					}
 
 					@Override
 					public @Nullable String getCellEditorContent(int row, int column) {
-						return editor.getText();
+						return editor.getText(row, column);
 					}
 
 					@Override
@@ -170,9 +172,12 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 						if (tableModel.getColumnCount() > column) {
 							int selRow = controller.getSelectedRow();
 							int selCol = controller.getSelectedColumn();
+							Element source = getCellIfExists(selRow, selCol);
+							if (source == null) {
+								return;
+							}
 							contextMenu = new ContextMenuTV(app, view, column,
 									() -> controller.select(selRow, selCol));
-							Element source = getCell(selRow, selCol);
 							contextMenu.show(source, 0, source.getClientHeight()
 									+ CONTEXT_MENU_OFFSET);
 						}
@@ -202,8 +207,25 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 					editor.adjustCursor(evt);
 					return true;
 				}
+				if (row < tableModel.getRowCount() && column < tableModel.getColumnCount()) {
+					controller.deselect();
+				}
 			}
 			return false;
+		});
+		addBodyKeyDownHandler((row, column, evt) -> {
+			Element cell = getCell(row, column);
+			if (!cell.hasClassName("keyboardFocusedCell")) {
+				return false;
+			}
+			TableValuesKeyboardNavigationController.Key key = getNavigationKey(
+					Js.<KeyboardEvent>uncheckedCast(evt).key);
+			if (key == null) {
+				return false;
+			}
+			evt.stopPropagation();
+			controller.keyPressed(key);
+			return true;
 		});
 		addMouseOverHandler((row, column, evt) -> {
 			Element el = Js.uncheckedCast(evt.target);
@@ -225,6 +247,82 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 			}
 			return false;
 		});
+	}
+
+	private void focusCell(int row, int column, boolean refocus) {
+		if (!isSelectedCell(row, column)) {
+			return;
+		}
+		if (controller.isColumnEditable(column)) {
+			unfocusNonEditableCell();
+			lastEdit = new GPoint(column, row);
+			editor.startEditing(row, column, refocus);
+		} else {
+			editor.stopEditing();
+			focusNonEditableCell(row, column);
+		}
+	}
+
+	private void focusNonEditableCell(int row, int column) {
+		app.invokeLater(() -> {
+			if (!isSelectedCell(row, column)) {
+				return;
+			}
+			if (row < 0 || column < 0 || row >= tableModel.getRowCount()
+					|| column >= tableModel.getColumnCount()) {
+				controller.deselect();
+				return;
+			}
+			if (controller.isColumnEditable(column)) {
+				controller.select(row, column);
+				return;
+			}
+			Element cell = getCellIfExists(row, column);
+			if (cell == null) {
+				return;
+			}
+			unfocusNonEditableCell();
+			focusedNonEditableCell = cell;
+			focusedNonEditableCell.setTabIndex(-1);
+			focusedNonEditableCell.addClassName("keyboardFocusedCell");
+			scrollIntoView(focusedNonEditableCell);
+			focusedNonEditableCell.focus();
+		});
+	}
+
+	private boolean isSelectedCell(int row, int column) {
+		return row == controller.getSelectedRow() && column == controller.getSelectedColumn();
+	}
+
+	@Nullable Element getCellIfExists(int row, int column) {
+		if (row < 0 || column < 0 || row >= getTable().getRowCount()
+				|| column >= getTable().getColumnCount()) {
+			return null;
+		}
+		return getCell(row, column);
+	}
+
+	private void unfocusNonEditableCell() {
+		if (focusedNonEditableCell != null) {
+			focusedNonEditableCell.removeClassName("keyboardFocusedCell");
+			focusedNonEditableCell.removeAttribute("tabindex");
+			focusedNonEditableCell = null;
+		}
+	}
+
+	private TableValuesKeyboardNavigationController.Key getNavigationKey(String key) {
+		switch (key) {
+		case "ArrowLeft":
+			return TableValuesKeyboardNavigationController.Key.ARROW_LEFT;
+		case "ArrowRight":
+			return TableValuesKeyboardNavigationController.Key.ARROW_RIGHT;
+		case "ArrowUp":
+			return TableValuesKeyboardNavigationController.Key.ARROW_UP;
+		case "ArrowDown":
+			return TableValuesKeyboardNavigationController.Key.ARROW_DOWN;
+		default:
+			return null;
+		}
 	}
 
 	@Override
@@ -439,6 +537,8 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 	protected void reset() {
 		super.reset();
 		transitioning = false;
+		app.invokeLater(() -> controller.select(controller.getSelectedRow(),
+				controller.getSelectedColumn()));
 	}
 
 	/**

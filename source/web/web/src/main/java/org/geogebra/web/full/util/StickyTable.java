@@ -72,6 +72,11 @@ public abstract class StickyTable<T> extends FlowPanel {
 				getDomEventHandler(clickHandler));
 	}
 
+	protected void addBodyKeyDownHandler(CellClickHandler keyHandler) {
+		Dom.addEventListener(cellTable.getTableBodyElement(), "keydown",
+				getDomEventHandler(keyHandler));
+	}
+
 	protected void addHeadClickHandler(CellClickHandler clickHandler) {
 		Dom.addEventListener(cellTable.getTableHeadElement(), "click",
 				getDomEventHandler(clickHandler));

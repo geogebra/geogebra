@@ -38,6 +38,8 @@ public final class TableEditor implements UnhandledKeyListener {
 	private final AppW app;
 	public TableValuesKeyboardNavigationController controller;
 	private MathTextFieldW mathTextField;
+	private int editingRow = -1;
+	private int editingColumn = -1;
 	Element wrapper;
 	private Event event;
 	private boolean wasError;
@@ -59,10 +61,19 @@ public final class TableEditor implements UnhandledKeyListener {
 	public void startEditing(int row, int column, boolean keepFocusIfEditing) {
 		ensureMathTextFieldExists();
 		app.invokeLater(() -> {
-			if (mathTextField.asWidget().isAttached() && keepFocusIfEditing) {
+			if (row != controller.getSelectedRow() || column != controller.getSelectedColumn()) {
 				return;
 			}
-			if (row > table.tableModel.getRowCount() + 1) {
+			if (!controller.isColumnEditable(column)) {
+				controller.select(row, column);
+				return;
+			}
+			Element cell = table.getCellIfExists(row, column);
+			if (cell == null) {
+				return;
+			}
+			if (mathTextField.asWidget().isAttached() && keepFocusIfEditing
+					&& wrapper != null && wrapper.getParentElement() == cell) {
 				return;
 			}
 			boolean newColumnAndRow = table.tableModel.getColumnCount() > column
@@ -70,7 +81,6 @@ public final class TableEditor implements UnhandledKeyListener {
 			mathTextField.setText(newColumnAndRow
 					? table.tableModel.getCellAt(row, column).getInput()
 					: ""); // make sure we don't load content of previously edited cell
-			Element cell = table.getCell(row, column);
 			table.scrollIntoView(cell);
 			table.getTableWrapper().add(mathTextField); // first add to GWT tree
 			setChildrenDisplay(cell, "none");
@@ -84,6 +94,8 @@ public final class TableEditor implements UnhandledKeyListener {
 			}
 			wrapper.appendChild(element);
 			cell.appendChild(wrapper); // then move in DOM
+			editingRow = row;
+			editingColumn = column;
 
 			mathTextField.editorClicked();
 			if (event != null) {
@@ -114,6 +126,8 @@ public final class TableEditor implements UnhandledKeyListener {
 				}
 			}
 		}
+		editingRow = -1;
+		editingColumn = -1;
 		table.flush();
 	}
 
@@ -179,8 +193,23 @@ public final class TableEditor implements UnhandledKeyListener {
 		return false;
 	}
 
-	public String getText() {
-		return mathTextField.getText();
+	/**
+	 * Returns pending editor content, or the current model content if this cell is not
+	 * being edited.
+	 * @param row row index
+	 * @param column column index
+	 * @return cell input
+	 */
+	public String getText(int row, int column) {
+		if (mathTextField != null && editingRow == row && editingColumn == column
+				&& mathTextField.asWidget().isAttached()) {
+			return mathTextField.getText();
+		}
+		if (row >= 0 && row < table.tableModel.getRowCount()
+				&& column >= 0 && column < table.tableModel.getColumnCount()) {
+			return table.tableModel.getCellAt(row, column).getInput();
+		}
+		return "";
 	}
 
 	/**

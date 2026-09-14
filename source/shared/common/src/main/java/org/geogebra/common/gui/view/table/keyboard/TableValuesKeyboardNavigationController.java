@@ -85,21 +85,21 @@ public final class TableValuesKeyboardNavigationController {
 	}
 
 	/**
-	 * Prevent selection and navigation.
+	 * Prevent editing while keeping existing cells available for keyboard navigation.
 	 */
 	public void setReadonly(boolean readonly) {
 		isReadonly = readonly;
 	}
 
 	/**
-	 * @return The selected column index, or -1 if no cell is selected.
+	 * @return The selected row index, or -1 if no cell is selected.
 	 */
 	public int getSelectedRow() {
 		return selectedRow;
 	}
 
 	/**
-	 * @return The selected row index, or -1 if no cell is selected.
+	 * @return The selected column index, or -1 if no cell is selected.
 	 */
 	public int getSelectedColumn() {
 		return selectedColumn;
@@ -137,9 +137,9 @@ public final class TableValuesKeyboardNavigationController {
 	 * different color in the UI, for example.
 	 */
 	public boolean isColumnEditable(int column) {
-		return tableValuesModel.isColumnEditable(column)
+		return !isReadonly && (tableValuesModel.isColumnEditable(column)
 				|| (tableValuesModel.allowsAddingColumns()
-				&& column == tableValuesModel.getColumnCount());
+				&& column == tableValuesModel.getColumnCount()));
 	}
 	
 	/**
@@ -148,9 +148,6 @@ public final class TableValuesKeyboardNavigationController {
 	 * @param column the column index to select, or -1 to clear any selection.
 	 */
 	public void select(int row, int column) {
-		if (isReadonly) {
-			return;
-		}
 		boolean changed = selectedRow != row || selectedColumn != column;
 		if (!changed) {
 			if (delegate != null && selectedRow != -1 && selectedColumn != -1) {
@@ -184,8 +181,7 @@ public final class TableValuesKeyboardNavigationController {
 				selectedRow = tableValuesModel.getRowCount();
 			}
 		}
-		// are we trying to focus a cell that has become non-editable after committing changes?
-		if (!isColumnEditable(selectedColumn)) {
+		if (!isCellNavigable(selectedRow, selectedColumn)) {
 			selectedRow = -1;
 			selectedColumn = -1;
 		}
@@ -255,7 +251,10 @@ public final class TableValuesKeyboardNavigationController {
 			// arrow left in first column -> no change in selection
 			return;
 		}
-		select(selectedRow, findFirstFocusableColumnLeftOf(selectedColumn));
+		int previousColumn = findNavigableColumn(selectedColumn, -1);
+		if (previousColumn >= 0) {
+			select(selectedRow, previousColumn);
+		}
 	}
 
 	private void handleArrowRight() {
@@ -268,7 +267,7 @@ public final class TableValuesKeyboardNavigationController {
 			select(selectedRow, selectedColumn + 1);
 			return;
 		}
-		int nextColumn = findFirstFocusableColumnRightOf(selectedColumn);
+		int nextColumn = findNavigableColumn(selectedColumn, 1);
 		if (nextColumn == -1) {
 			if (tableValuesModel.allowsAddingColumns() && !addedPlaceholderColumn) {
 				addedPlaceholderColumn = true;
@@ -288,6 +287,10 @@ public final class TableValuesKeyboardNavigationController {
 	}
 
 	private void handleArrowDown() {
+		if (!isColumnEditable(selectedColumn)
+				&& selectedRow == tableValuesModel.getRowCount() - 1) {
+			return;
+		}
 		if (isEditingPlaceholderColumn()) {
 			if (selectedRow == tableValuesModel.getRowCount()
 					&& isCellEmpty(selectedRow, selectedColumn)) {
@@ -321,18 +324,10 @@ public final class TableValuesKeyboardNavigationController {
 		return column == 0;
 	}
 
-	private int findFirstFocusableColumnLeftOf(int column) {
-		for (int index = column - 1; index >= 0; index--) {
-			if (tableValuesModel.isColumnEditable(index)) {
-				return index;
-			}
-		}
-		return -1;
-	}
-
-	private int findFirstFocusableColumnRightOf(int column) {
-		for (int index = column + 1; index < getMaxColumnIndex(); index++) {
-			if (tableValuesModel.isColumnEditable(index)) {
+	private int findNavigableColumn(int column, int direction) {
+		for (int index = column + direction; index >= 0 && index < getMaxColumnIndex();
+				index += direction) {
+			if (isCellNavigable(selectedRow, index)) {
 				return index;
 			}
 		}
@@ -341,7 +336,10 @@ public final class TableValuesKeyboardNavigationController {
 
 	// note: the returned end index is exclusive!
 	private int getMaxRowIndex(int column) {
-		if (!tableValuesModel.isColumnEditable(column)) {
+		if (addedPlaceholderColumn && column == getMaxColumnIndex() - 1) {
+			return tableValuesModel.getRowCount() + 1;
+		}
+		if (!isColumnEditable(column)) {
 			return tableValuesModel.getRowCount();
 		}
 		return tableValuesModel.getRowCount() + (addedPlaceholderRow ? 1 : 0);
@@ -350,6 +348,13 @@ public final class TableValuesKeyboardNavigationController {
 	// note: the returned end index is exclusive!
 	private int getMaxColumnIndex() {
 		return tableValuesModel.getColumnCount() + (addedPlaceholderColumn ? 1 : 0);
+	}
+
+	private boolean isCellNavigable(int row, int column) {
+		if (row < 0 || column < 0 || column >= getMaxColumnIndex()) {
+			return false;
+		}
+		return row < getMaxRowIndex(column);
 	}
 
 	private boolean isCellEmpty(int row, int column) {
@@ -361,7 +366,7 @@ public final class TableValuesKeyboardNavigationController {
 		if (selectedRow == -1 || selectedColumn == -1) {
 			return;
 		}
-		if (isEditingPlaceholderColumn() || tableValuesModel.isColumnEditable(selectedColumn)) {
+		if (isEditingPlaceholderColumn() || isColumnEditable(selectedColumn)) {
 			String cellContent = delegate.getCellEditorContent(selectedRow, selectedColumn);
 			if (cellContent == null) {
 				cellContent = "";

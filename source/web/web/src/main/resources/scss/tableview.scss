@@ -37,7 +37,7 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 		align-items: center;
 		min-height: 51px;
 		box-sizing: border-box;
-		border: 1px colors.$purple-default solid;
+		border: 2px colors.$purple-default solid;
 	}
 
 	.tableEditor {
@@ -97,6 +97,11 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 
 			&.notEditable {
 				cursor: default;
+			}
+
+			&.keyboardFocusedCell {
+				box-shadow: inset 0 0 0 2px colors.$purple-default;
+				outline: none;
 			}
 
 			&.addColumnAut {

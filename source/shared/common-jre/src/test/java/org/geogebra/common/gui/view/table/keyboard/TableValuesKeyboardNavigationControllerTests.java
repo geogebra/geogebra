@@ -42,6 +42,7 @@ class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
 	private TableValuesView tableValuesView;
 	private TableValuesKeyboardNavigationController keyboardController;
 	private CellIndex focusedCell;
+	private boolean focusedCellEditable;
 	private String cellContent;
 	private boolean didReportInvalidCellContent;
 	private boolean didReportModelChanged;
@@ -58,6 +59,7 @@ class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
 		keyboardController = new TableValuesKeyboardNavigationController(tableValuesView, this);
 
 		focusedCell = null;
+		focusedCellEditable = false;
 		cellContent = "";
 		didReportInvalidCellContent = false;
 		didReportModelChanged = false;
@@ -763,9 +765,14 @@ class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
 		keyboardController.select(0, 0);
 		assertEquals(new CellIndex(0, 0), focusedCell);
 
-		// arrow right
-		// -> skip f(x) column, editing placeholder column
+		// arrow right -> focus f(x) without editing
 		cellContent = getFocusedCellContent();
+		focusedCell = null;
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
+		assertEquals(new CellIndex(0, 1), focusedCell);
+		assertFalse(focusedCellEditable);
+
+		// arrow right -> editing placeholder column
 		focusedCell = null;
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
 		assertTrue(keyboardController.isEditingPlaceholderColumn());
@@ -780,12 +787,17 @@ class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
 		assertEquals(new CellIndex(1, 2), focusedCell);
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
 
-		// arrow left
-		// -> back in x column, no new data
+		// arrow left -> focus f(x) without editing
 		cellContent = "";
 		focusedCell = null;
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_LEFT);
 		assertFalse(keyboardController.isEditingPlaceholderColumn());
+		assertEquals(new CellIndex(1, 1), focusedCell);
+		assertFalse(focusedCellEditable);
+
+		// arrow left -> back in x column, no new data
+		focusedCell = null;
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_LEFT);
 		assertEquals(new CellIndex(1, 0), focusedCell);
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
 	}
@@ -799,9 +811,14 @@ class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
 		keyboardController.select(0, 0);
 		assertEquals(new CellIndex(0, 0), focusedCell);
 
-		// arrow right
-		// -> skip f(x) column, editing placeholder column
+		// arrow right -> focus f(x) without editing
 		cellContent = getFocusedCellContent();
+		focusedCell = null;
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
+		assertEquals(new CellIndex(0, 1), focusedCell);
+		assertFalse(focusedCellEditable);
+
+		// arrow right -> editing placeholder column
 		focusedCell = null;
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
 		assertTrue(keyboardController.isEditingPlaceholderColumn());
@@ -815,6 +832,24 @@ class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
 		assertFalse(keyboardController.isEditingPlaceholderColumn());
 		assertEquals(3, tableValuesView.getTableValuesModel().getColumnCount());
 		assertEquals(new CellIndex(1, 2), focusedCell);
+	}
+
+	@Test
+	void testFunctionColumn_ArrowDownStopsAtLastDataRow() throws Exception {
+		tableValuesView.setValues(-2, 2, 1);
+		addFunction("f", "x");
+		keyboardController.select(0, 0);
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
+
+		for (int row = 1; row < tableValuesView.getTableValuesModel().getRowCount(); row++) {
+			keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_DOWN);
+		}
+		assertEquals(new CellIndex(4, 1), focusedCell);
+
+		focusedCell = null;
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_DOWN);
+		assertEquals(4, keyboardController.getSelectedRow());
+		assertNull(focusedCell);
 	}
 
 	// Scenario 3 (SciCalc):
@@ -842,12 +877,12 @@ class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
 		// select (0, 0)
 		keyboardController.select(0, 0);
 
-		// arrow right
-		// -> selection should not change
+		// arrow right -> first function column
 		cellContent = getFocusedCellContent();
 		focusedCell = null;
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
-		assertEquals(new CellIndex(0, 0), focusedCell);
+		assertEquals(new CellIndex(0, 1), focusedCell);
+		assertFalse(focusedCellEditable);
 	}
 
 	@Test
@@ -901,7 +936,12 @@ class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
 		assertEquals(4, keyboardController.getNavigableRowsCount());
 
 		keyboardController.select(0, 0);
-		assertNull(focusedCell);
+		assertEquals(new CellIndex(0, 0), focusedCell);
+		assertFalse(focusedCellEditable);
+
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_DOWN);
+		assertEquals(new CellIndex(1, 0), focusedCell);
+		assertFalse(focusedCellEditable);
 	}
 
 	// see https://geogebra-jira.atlassian.net/browse/APPS-5585?focusedCommentId=211833
@@ -928,8 +968,9 @@ class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
 		assertTrue(tableValuesView.getEvaluatable(1) instanceof GeoFunction);
 		assertFalse(keyboardController.isColumnEditable(1));
 
-		// since column 1 is now non-editable, there should be no focused cell
-		assertNull(focusedCell);
+		// column 1 is now non-editable, but remains focused for navigation
+		assertEquals(new CellIndex(1, 1), focusedCell);
+		assertFalse(focusedCellEditable);
 	}
 
 	// https://geogebra-jira.atlassian.net/browse/APPS-5585?focusedCommentId=212824
@@ -956,7 +997,12 @@ class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
 		cellContent = "";
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
 
-		// y2 (now at column 2) should be selected
+		// f(x) (now at column 1) should be selected first
+		assertEquals(new CellIndex(0, 1), focusedCell);
+		assertFalse(focusedCellEditable);
+
+		// next arrow right selects y2 (now at column 2)
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
 		assertEquals(new CellIndex(0, 2), focusedCell);
 	}
 
@@ -965,11 +1011,13 @@ class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
 	@Override
 	public void focusCell(int row, int column) {
 		focusedCell = row >= 0 && column >= 0 ? new CellIndex(row, column) : null;
+		focusedCellEditable = keyboardController.isColumnEditable(column);
 	}
 
 	@Override
 	public void refocusCell(int row, int column) {
 		focusedCell = row >= 0 && column >= 0 ? new CellIndex(row, column) : null;
+		focusedCellEditable = keyboardController.isColumnEditable(column);
 	}
 
 	@Override
