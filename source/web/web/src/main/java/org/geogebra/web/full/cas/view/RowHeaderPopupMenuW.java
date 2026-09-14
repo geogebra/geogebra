@@ -54,7 +54,9 @@ public final class RowHeaderPopupMenuW extends
 		initMenu();
 	}
 
-	@SuppressWarnings("javadoc")
+	/**
+	 * Available actions for CAS cells.
+	 */
 	enum CellAction {
 		COPY_INPUT, PASTE, INSERT_ABOVE, INSERT_BELOW, DELETE, TEXT, COPY, COPY_LATEX
 	}

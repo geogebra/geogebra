@@ -47,6 +47,9 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_VIDEO;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Tool category for Notes toolbox.
+ */
 public enum ToolboxCategory {
 	SELECT("select"),
 	PEN("pen", MODE_PEN, MODE_HIGHLIGHTER, MODE_ERASER),

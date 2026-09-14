@@ -18,6 +18,9 @@ package org.geogebra.web.html5.util;
 
 import org.gwtproject.user.client.ui.Widget;
 
+/**
+ * Indexable values for the data-test attribute.
+ */
 public enum DataTest {
 	MARBLE("marble"),
 	ALGEBRA_OUTPUT_ROW("algebraOutputRow"),

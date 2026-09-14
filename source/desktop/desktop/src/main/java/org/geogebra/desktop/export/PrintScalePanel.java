@@ -68,6 +68,9 @@ public class PrintScalePanel extends JPanel {
 	private final JPanel cmModePanel;
 	private final JPanel fixedSizeModePanel;
 
+	/**
+	 * Print scaling mode.
+	 */
 	public enum PrintScaleModes {
 		SIZEINCM, SIZEINPX, FIXED_SIZE
 	}

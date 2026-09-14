@@ -18,6 +18,9 @@ package org.geogebra.desktop.geogebra3D.gui;
 
 import org.geogebra.desktop.util.ImageResourceD;
 
+/**
+ * Image resources only relevant for 3D.
+ */
 public enum GuiResources3D implements ImageResourceD {
 	PLANE("/gui/images/64px/plane.gif"),
 

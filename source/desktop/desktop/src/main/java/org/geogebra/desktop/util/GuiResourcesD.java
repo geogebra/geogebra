@@ -16,7 +16,10 @@
 
 package org.geogebra.desktop.util;
 
-@SuppressWarnings("javadoc")
+/**
+ * Image resources for the desktop app, available for both 2D and 3D.
+ * Does not include tool icons.
+ */
 public enum GuiResourcesD implements ImageResourceD {
 	EMPTY("/gui/images/empty.gif"),
 

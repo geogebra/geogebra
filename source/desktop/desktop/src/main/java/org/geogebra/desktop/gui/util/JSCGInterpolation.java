@@ -19,6 +19,9 @@ package org.geogebra.desktop.gui.util;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
+/**
+ * Interpolation type.
+ */
 enum JSCGInterpolation {
 	NEAREST_NEIGHBOR,
 	BILINEAR,

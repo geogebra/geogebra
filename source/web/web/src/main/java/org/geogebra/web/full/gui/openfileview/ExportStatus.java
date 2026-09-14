@@ -21,6 +21,9 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.resources.SVGResource;
 
+/**
+ * Export status.
+ */
 public enum ExportStatus {
 	NOT_STARTED("not_started"),
 	PENDING("pending"),

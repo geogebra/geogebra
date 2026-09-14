@@ -69,6 +69,9 @@ public final class SpecialSymbolProperty
 		return groupName;
 	}
 
+	/**
+	 * Special symbols, each represented by Unicode codepoint.
+	 */
 	public enum SpecialSymbol {
 		BASIC1("[", "Haus links"),
 		BASIC2("]", "Haus rechts"),

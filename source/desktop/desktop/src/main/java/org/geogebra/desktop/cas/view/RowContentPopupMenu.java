@@ -53,6 +53,9 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 	private final CASTableD table;
 	private final AppD app;
 
+	/**
+	 * Panel type.
+	 */
 	public enum Panel {
 		OUTPUT, INPUT
 	}
