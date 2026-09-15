@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -36,19 +36,20 @@ public abstract class BaseSimplifyTestSetup extends BaseAppTestSetup {
 	protected SimplifyUtils utils;
 
 	protected final SimplifyNode getSimplifier() {
-        try {
+		try {
 			Class<? extends SimplifyNode> simplifierClass = getSimplifierClass();
 			Constructor<?> const1 = simplifierClass.getConstructor(SimplifyUtils.class);
 			return (SimplifyNode) const1.newInstance(utils);
-        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException
+		} catch (NoSuchMethodException
+				| InstantiationException
+				| IllegalAccessException
 				| InvocationTargetException e) {
 			throw new RuntimeException(e);
 		}
-
 	}
 
 	@BeforeEach
-	public void setUpUtils() {
+	void setUpUtils() {
 		setupApp(SuiteSubApp.GRAPHING);
 		utils = new SimplifyUtils(getKernel());
 	}
@@ -57,26 +58,29 @@ public abstract class BaseSimplifyTestSetup extends BaseAppTestSetup {
 		shouldSimplify(from, to, getSimplifier());
 	}
 
-	protected final void shouldSimplify(String actualDef, String expectedDef,
-			SimplifyNode... simplifiers) {
+	protected final void shouldSimplify(
+			String actualDef, String expectedDef, SimplifyNode... simplifiers) {
 		GeoNumeric actual = newSymbolicNumeric(actualDef);
 		GeoNumeric expected = newSymbolicNumeric(expectedDef);
 		ExpressionNode applied = actual.getDefinition();
-		for (SimplifyNode simplifier: simplifiers) {
-			assertTrue(simplifier.isAccepted(applied),
-					applied + " is not accepted by " + simplifier.name());
+		for (SimplifyNode simplifier : simplifiers) {
+			assertTrue(
+					simplifier.isAccepted(applied), applied + " is not accepted by " + simplifier.name());
 			applied = simplifier.apply(applied);
 		}
-		assertEquals(expected.getDefinition().evaluateDouble(), applied.evaluateDouble(),
-				Kernel.MAX_PRECISION, "Values do not equal! \n\nDefinitions:\n Expected: "
-								+ expectedDef + "\n Actual: " + applied);
+		assertEquals(
+				expected.getDefinition().evaluateDouble(),
+				applied.evaluateDouble(),
+				Kernel.MAX_PRECISION,
+				"Values do not equal! \n\nDefinitions:\n Expected: " + expectedDef + "\n Actual: "
+						+ applied);
 		shouldSerialize(expected.getDefinition(), applied);
 	}
 
 	protected static void shouldSerialize(ExpressionValue expected, ExpressionValue actual) {
-		assertEquals(expected.toString(StringTemplate.defaultTemplate)
-						.replaceAll("\\s+", ""), actual.toString(StringTemplate.defaultTemplate)
-								.replaceAll("\\s+", ""));
+		assertEquals(
+				expected.toString(StringTemplate.defaultTemplate).replaceAll("\\s+", ""),
+				actual.toString(StringTemplate.defaultTemplate).replaceAll("\\s+", ""));
 	}
 
 	protected final GeoNumeric newSymbolicNumeric(String actualDef) {
@@ -99,4 +103,3 @@ public abstract class BaseSimplifyTestSetup extends BaseAppTestSetup {
 
 	protected abstract Class<? extends SimplifyNode> getSimplifierClass();
 }
-

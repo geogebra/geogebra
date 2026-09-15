@@ -22,6 +22,7 @@ package org.geogebra.common.euclidian.plot.interval;
  */
 public record IntervalPathMockEntry(PathOperation operation, double x, double y) {
 
+	/** Path operation */
 	public enum PathOperation {
 		MOVE_TO("MOVE_TO"),
 		LINE_TO("LINE_TO"),
@@ -57,8 +58,6 @@ public record IntervalPathMockEntry(PathOperation operation, double x, double y)
 
 	@Override
 	public String toString() {
-		return  operation == PathOperation.RESET
-				? operation.toString()
-				: operation + " " + x + ", "  + y;
+		return operation == PathOperation.RESET ? operation.toString() : operation + " " + x + ", " + y;
 	}
 }

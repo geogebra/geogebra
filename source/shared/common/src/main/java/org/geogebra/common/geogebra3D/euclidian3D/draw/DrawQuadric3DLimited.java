@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Class for drawing quadrics.
- * 
+ *
  * @author mathieu
  *
  */
@@ -40,14 +40,13 @@ public class DrawQuadric3DLimited extends Drawable3D {
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param view3d
 	 *            3D view
 	 * @param geo
 	 *            limited quadric
 	 */
-	public DrawQuadric3DLimited(EuclidianView3D view3d,
-			GeoQuadric3DLimited geo) {
+	public DrawQuadric3DLimited(EuclidianView3D view3d, GeoQuadric3DLimited geo) {
 		super(view3d, geo);
 
 		drawBottom = new DrawConic3D(view3d, geo.getBottom());
@@ -60,7 +59,6 @@ public class DrawQuadric3DLimited extends Drawable3D {
 		drawSide.setCreatedByDrawList(this);
 
 		setPickingType(PickingType.POINT_OR_CURVE);
-
 	}
 
 	// drawing
@@ -76,7 +74,6 @@ public class DrawQuadric3DLimited extends Drawable3D {
 
 		drawBottom.drawOutline(renderer);
 		drawTop.drawOutline(renderer);
-
 	}
 
 	@Override
@@ -89,7 +86,6 @@ public class DrawQuadric3DLimited extends Drawable3D {
 	public void drawHidden(Renderer renderer) {
 		drawBottom.drawHidden(renderer);
 		drawTop.drawHidden(renderer);
-
 	}
 
 	@Override
@@ -109,7 +105,6 @@ public class DrawQuadric3DLimited extends Drawable3D {
 
 		addToDrawable3DLists(lists, DRAW_TYPE_SURFACES);
 		addToDrawable3DLists(lists, DRAW_TYPE_CURVES);
-
 	}
 
 	@Override
@@ -234,15 +229,13 @@ public class DrawQuadric3DLimited extends Drawable3D {
 					positionOnHitting = drawTop.getPositionOnHitting();
 				}
 			} else { // pickingType == PickingType.POINT_OR_CURVE
-				if (pickingTypeTop == PickingType.SURFACE) {
-					// TODO: opaque top
-				} else { // pickingTypeTop == PickingType.POINT_OR_CURVE
+				if (pickingTypeTop != PickingType.SURFACE) {
 					double dTop = drawTop.getZPickNear();
 					if (Double.isNaN(d) || dTop > d) {
 						d = dTop;
 						positionOnHitting = drawTop.getPositionOnHitting();
 					}
-				}
+				} // else TODO: opaque top
 			}
 		}
 
@@ -276,7 +269,7 @@ public class DrawQuadric3DLimited extends Drawable3D {
 	}
 
 	@Override
-	final protected void setGeometriesVisibility(boolean visible) {
+	protected final void setGeometriesVisibility(boolean visible) {
 		if (shouldBePackedForManager()) {
 			drawBottom.setGeometriesVisibility(visible);
 			drawTop.setGeometriesVisibility(visible);
@@ -285,7 +278,7 @@ public class DrawQuadric3DLimited extends Drawable3D {
 	}
 
 	@Override
-	final protected void updateGeometriesColor() {
+	protected final void updateGeometriesColor() {
 		if (shouldBePackedForManager()) {
 			drawBottom.updateGeometriesColor();
 			drawTop.updateGeometriesColor();
@@ -301,7 +294,7 @@ public class DrawQuadric3DLimited extends Drawable3D {
 	}
 
 	@Override
-	final protected void updateForViewNotVisible() {
+	protected final void updateForViewNotVisible() {
 		if (shouldBePackedForManager()) {
 			drawBottom.updateForViewNotVisible();
 			drawTop.updateForViewNotVisible();
@@ -325,8 +318,7 @@ public class DrawQuadric3DLimited extends Drawable3D {
 	}
 
 	@Override
-	public void enlargeBounds(Coords min, Coords max,
-			boolean dontExtend) {
+	public void enlargeBounds(Coords min, Coords max, boolean dontExtend) {
 		drawBottom.enlargeBounds(min, max, dontExtend);
 		drawTop.enlargeBounds(min, max, dontExtend);
 		drawSide.enlargeBounds(min, max, dontExtend);
@@ -340,5 +332,4 @@ public class DrawQuadric3DLimited extends Drawable3D {
 			drawSide.exportToPrinter3D(exportToPrinter3D, exportSurface);
 		}
 	}
-
 }

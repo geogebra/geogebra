@@ -22,8 +22,12 @@ package org.geogebra.common.awt;
  */
 public class VectorPatternPaint implements GPaint {
 
+	/**
+	 * Vector graphics format.
+	 */
 	public enum VectorType {
-		PDF, SVG
+		PDF,
+		SVG
 	}
 
 	public final VectorType type;
@@ -41,8 +45,8 @@ public class VectorPatternPaint implements GPaint {
 	 * @param startX horizontal position of sub-image
 	 * @param startY vertical position of sub-image
 	 */
-	public VectorPatternPaint(GGraphics2D path0, int width, int height, int startX, int startY,
-			VectorType type) {
+	public VectorPatternPaint(
+			GGraphics2D path0, int width, int height, int startX, int startY, VectorType type) {
 		this.patternGraphics = path0;
 		this.width = width;
 		this.height = height;
@@ -85,5 +89,4 @@ public class VectorPatternPaint implements GPaint {
 	public GGraphics2D getPatternGraphics() {
 		return patternGraphics;
 	}
-
 }

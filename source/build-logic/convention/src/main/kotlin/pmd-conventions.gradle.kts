@@ -13,5 +13,5 @@ pmd {
 
 tasks.register("lintPmd") {
 	description = "Runs PMD in all applicable Java projects."
-	dependsOn("pmdMain")
+	dependsOn("pmdMain", "pmdTest")
 }

@@ -41,11 +41,9 @@ public class ArticleTest {
 		TreeSet<String> documented = new TreeSet<>();
 		for (Method mtd : mtds) {
 			if (mtd.getName().contains("Data")) {
-				documented.add(uncapitalize(
-						mtd.getName().replace("getDataParam", "")));
-				System.out.println("\"" + uncapitalize(
-								mtd.getName().replace("getDataParam", ""))
-						+ "\":\"boolean\",");
+				documented.add(uncapitalize(mtd.getName().replace("getDataParam", "")));
+				System.out.println(
+						"\"" + uncapitalize(mtd.getName().replace("getDataParam", "")) + "\":\"boolean\",");
 			}
 		}
 		try {
@@ -56,12 +54,12 @@ public class ArticleTest {
 			huc.setRequestMethod("GET");
 			huc.connect();
 			String s;
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					huc.getInputStream(), StandardCharsets.UTF_8));
+			BufferedReader in =
+					new BufferedReader(new InputStreamReader(huc.getInputStream(), StandardCharsets.UTF_8));
 			String answer = in.readLine(); // the last line will never get a "\n" on
 			// its end
 			while ((s = in.readLine()) != null) {
-				if (!("".equals(answer))) {
+				if (!"".equals(answer)) {
 					// ignore them
 					answer += "\n";
 				}
@@ -69,11 +67,13 @@ public class ArticleTest {
 			}
 			JSONTokener tokener = new JSONTokener(answer);
 			JSONObject response = new JSONObject(tokener);
-			String wiki =
-					response.getJSONObject("query").getJSONObject("pages")
-							.getJSONObject("51").getJSONArray("revisions")
-							.getJSONObject(0)
-							.getString("*");
+			String wiki = response
+					.getJSONObject("query")
+					.getJSONObject("pages")
+					.getJSONObject("51")
+					.getJSONArray("revisions")
+					.getJSONObject(0)
+					.getString("*");
 			String[] rows = wiki.split("\\|-");
 			for (String row : rows) {
 				String[] cells = row.split("\\n");

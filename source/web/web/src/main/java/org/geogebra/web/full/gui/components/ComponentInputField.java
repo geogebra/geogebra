@@ -51,8 +51,8 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  * Input field material design component, supports plain text field and math text field.
  */
-public class ComponentInputField extends FlowPanel implements SetLabels, Input,
-		HasFocus, TextObject {
+public class ComponentInputField extends FlowPanel
+		implements SetLabels, Input, HasFocus, TextObject {
 	private final Localization loc;
 	private String errorTextKey;
 	private String labelTextKey;
@@ -66,6 +66,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 	private final MulticastEvent<BlurEvent> onBlur = new MulticastEvent<>();
 	private final MulticastEvent<FocusEvent> onFocus = new MulticastEvent<>();
 
+	@SuppressWarnings("PMD.CommentRequired")
 	private interface InputAdapter extends IsWidget {
 
 		void focus();
@@ -124,10 +125,8 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 		@Override
 		public void addHoverHandlers() {
 			FocusWidget inputFocusWidget = inputTextField.getTextComponent().getTextBox();
-			inputFocusWidget.addMouseOverHandler(event -> getContentPanel()
-					.addStyleName("hoverState"));
-			inputFocusWidget.addMouseOutHandler(event -> getContentPanel()
-					.removeStyleName("hoverState"));
+			inputFocusWidget.addMouseOverHandler(event -> getContentPanel().addStyleName("hoverState"));
+			inputFocusWidget.addMouseOutHandler(event -> getContentPanel().removeStyleName("hoverState"));
 		}
 
 		@Override
@@ -140,8 +139,10 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 
 		@Override
 		public void addInputHandler(ProcessInput inputHandler) {
-			Dom.addEventListener(inputTextField.getTextComponent().getTextBox().getElement(),
-					"input", event -> inputHandler.onInput());
+			Dom.addEventListener(
+					inputTextField.getTextComponent().getTextBox().getElement(),
+					"input",
+					event -> inputHandler.onInput());
 		}
 
 		@Override
@@ -166,7 +167,10 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 
 		@Override
 		public void setPlaceholder(String localizedPlaceholder) {
-			inputTextField.getTextComponent().getTextBox().getElement()
+			inputTextField
+					.getTextComponent()
+					.getTextBox()
+					.getElement()
 					.setAttribute("placeholder", localizedPlaceholder);
 		}
 
@@ -216,9 +220,13 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 		@Override
 		public void addHoverHandlers() {
 			Widget inputMathFieldWidget = inputMathField.asWidget();
-			Dom.addEventListener(inputMathFieldWidget.getElement(), "mouseover",
+			Dom.addEventListener(
+					inputMathFieldWidget.getElement(),
+					"mouseover",
 					event -> getContentPanel().addStyleName("hoverState"));
-			Dom.addEventListener(inputMathFieldWidget.getElement(), "mouseout",
+			Dom.addEventListener(
+					inputMathFieldWidget.getElement(),
+					"mouseout",
 					event -> getContentPanel().removeStyleName("hoverState"));
 		}
 
@@ -234,7 +242,9 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 
 		@Override
 		public void addInputHandler(ProcessInput inputHandler) {
-			inputMathField.getMathField().getInternal()
+			inputMathField
+					.getMathField()
+					.getInternal()
 					.registerMathFieldInternalListener(ignore -> inputHandler.onInput());
 		}
 
@@ -288,8 +298,13 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 	 * @param defaultValue default text of input text field
 	 * @param suffixTxt suffix at end of text field
 	 */
-	public ComponentInputField(AppW app, String placeholder, String labelTxt,
-			String errorTxt, String defaultValue, String suffixTxt) {
+	public ComponentInputField(
+			AppW app,
+			String placeholder,
+			String labelTxt,
+			String errorTxt,
+			String defaultValue,
+			String suffixTxt) {
 		this(app, placeholder, labelTxt, errorTxt, defaultValue, suffixTxt, true, false);
 	}
 
@@ -304,8 +319,14 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 	 * (disabled in {@link org.geogebra.web.full.gui.dialog.Export3dDialog})
 	 * @param isMathMode whether it is math mode or not
 	 */
-	public ComponentInputField(AppW app, String placeholder, String labelTxt,
-			String errorTxt, String defaultValue, String suffixTxt, boolean hasKeyboardBtn,
+	public ComponentInputField(
+			AppW app,
+			String placeholder,
+			String labelTxt,
+			String errorTxt,
+			String defaultValue,
+			String suffixTxt,
+			boolean hasKeyboardBtn,
 			boolean isMathMode) {
 		this.loc = app.getLocalization();
 		this.labelTextKey = labelTxt;
@@ -328,8 +349,8 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 	 * @param errorTxt error label of input field
 	 * @param defaultValue default text of input text field
 	 */
-	public ComponentInputField(AppW app, String placeholder, String labelTxt,
-			String errorTxt, String defaultValue) {
+	public ComponentInputField(
+			AppW app, String placeholder, String labelTxt, String errorTxt, String defaultValue) {
 		this(app, placeholder, labelTxt, errorTxt, defaultValue, null);
 	}
 
@@ -375,8 +396,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 		}
 		if (labelTextKey != null && !labelTextKey.isBlank()) {
 			String localizedLabel = app.getLocalization().getMenu(labelTextKey);
-			labelText = BaseWidgetFactory.INSTANCE.newSecondaryText(
-					localizedLabel, "label");
+			labelText = BaseWidgetFactory.INSTANCE.newSecondaryText(localizedLabel, "label");
 			adapter.setAriaLabel(localizedLabel);
 		}
 		if (placeholderTextKey != null && !placeholderTextKey.isEmpty()) {
@@ -634,6 +654,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 
 	public AutoCompleteTextFieldW getTextWidget() {
 		return adapter instanceof TextInputAdapter textInputAdapter
-				? textInputAdapter.inputTextField.getTextComponent() : null;
+				? textInputAdapter.inputTextField.getTextComponent()
+				: null;
 	}
 }

@@ -16,6 +16,9 @@
 
 package org.geogebra.editor.share.controller;
 
+/**
+ * Positional relation between two expressions, used by screen reader.
+ */
 public enum ExpRelation {
 	EMPTY("ABlank", "%0 blank"),
 	END_OF("EndOfA", "end of %0"),

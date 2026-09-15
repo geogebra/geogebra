@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -33,11 +33,11 @@ import org.geogebra.desktop.main.AppD;
  * Utility class to support non-default number formatting in a component.
  * Includes methods to store a user-selected number format, to apply the format
  * and to create a "Rounding" menu.
- * 
+ *
  * Code is adapted from gui.menubar.OptionsMenu
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public class SpecialNumberFormat implements ActionListener {
 
@@ -51,11 +51,12 @@ public class SpecialNumberFormat implements ActionListener {
 	 * Default number format
 	 */
 	private int printFigures = -1;
+
 	private int printDecimals = 4;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param app application
 	 * @param invoker
 	 *            : the component utilizing this number format class
@@ -77,7 +78,7 @@ public class SpecialNumberFormat implements ActionListener {
 
 	/**
 	 * Converts number to string using the currently selected format
-	 * 
+	 *
 	 * @param x
 	 *            number
 	 * @return formatted string
@@ -86,11 +87,9 @@ public class SpecialNumberFormat implements ActionListener {
 		StringTemplate highPrecision;
 		// override the default decimal place setting
 		if (printDecimals >= 0) {
-			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA,
-					printDecimals, false);
+			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, printDecimals, false);
 		} else {
-			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA,
-					printFigures, false);
+			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, printFigures, false);
 		}
 
 		// get the formatted string
@@ -101,16 +100,15 @@ public class SpecialNumberFormat implements ActionListener {
 
 	/**
 	 * Creates a menu with number format options Note: this menu is derived from
-	 * 
+	 *
 	 * @return decimal places menu
 	 */
 	public JMenu createMenuDecimalPlaces() {
-		menuDecimalPlaces = new JMenu(
-				app.getLocalization().getMenu("Rounding"));
+		menuDecimalPlaces = new JMenu(app.getLocalization().getMenu("Rounding"));
 		String[] strDecimalSpaces = app.getLocalization().getRoundingMenu();
 
-		addRadioButtonMenuItems(menuDecimalPlaces, this, strDecimalSpaces,
-				App.getStrDecimalSpacesAC(), 0);
+		addRadioButtonMenuItems(
+				menuDecimalPlaces, this, strDecimalSpaces, App.getStrDecimalSpacesAC(), 0);
 
 		updateMenuDecimalPlaces();
 
@@ -127,32 +125,28 @@ public class SpecialNumberFormat implements ActionListener {
 		int pos = -1;
 
 		if (printFigures >= 0) {
-			if (printFigures > 0
-					&& printFigures < roundingOptions.figuresLookupLength()) {
+			if (printFigures > 0 && printFigures < roundingOptions.figuresLookupLength()) {
 				pos = roundingOptions.figuresLookup(printFigures);
 			}
 		} else {
-			if (printDecimals > 0
-					&& printDecimals < roundingOptions.decimalsLookupLength()) {
+			if (printDecimals > 0 && printDecimals < roundingOptions.decimalsLookupLength()) {
 				pos = roundingOptions.decimalsLookup(printDecimals);
 			}
 		}
 
 		try {
-			((JRadioButtonMenuItem) menuDecimalPlaces.getMenuComponent(pos))
-					.setSelected(true);
-		} catch (Exception e) {
+			((JRadioButtonMenuItem) menuDecimalPlaces.getMenuComponent(pos)).setSelected(true);
+		} catch (Exception ignored) {
 		}
 
 		app.setComponentOrientation(menuDecimalPlaces);
-
 	}
 
 	/**
 	 * Create a set of radio buttons automatically.
 	 */
-	private void addRadioButtonMenuItems(JMenu menu, ActionListener al,
-			String[] items, String[] actionCommands, int selectedPos) {
+	private void addRadioButtonMenuItems(
+			JMenu menu, ActionListener al, String[] items, String[] actionCommands, int selectedPos) {
 		JRadioButtonMenuItem mi;
 		ButtonGroup bg = new ButtonGroup();
 		// String label;
@@ -212,5 +206,4 @@ public class SpecialNumberFormat implements ActionListener {
 			}
 		}
 	}
-
 }

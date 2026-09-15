@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -119,14 +119,14 @@ public class AutoCompleteTextFieldD extends MathTextField
 	// *(?=[,\\]])");
 	// Simplified to this as there are too many non-alphabetic character in
 	// parameter descriptions:
-	private static Pattern syntaxArgPattern = Pattern
-			.compile("[,\\[\\(] *(?:<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]\\)])");
+	private static Pattern syntaxArgPattern =
+			Pattern.compile("[,\\[\\(] *(?:<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]\\)])");
 
 	/**
 	 * Constructs a new AutoCompleteTextField that uses the dictionary of the
 	 * given Application for autocomplete look up. A default model is created
 	 * and the number of columns is 0.
-	 * 
+	 *
 	 */
 	public AutoCompleteTextFieldD(int columns, App app) {
 		this(columns, (AppD) app, KeyNavigation.BLUR);
@@ -142,8 +142,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 * @param forCAS
 	 *            dictionary
 	 */
-	public AutoCompleteTextFieldD(int columns, AppD app,
-			KeyNavigation handleEscapeKey, boolean forCAS) {
+	public AutoCompleteTextFieldD(
+			int columns, AppD app, KeyNavigation handleEscapeKey, boolean forCAS) {
 		super(app);
 		// allow dynamic width with columns = -1
 		if (columns > 0) {
@@ -168,8 +168,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 		enableLabelColoring(isCASInput);
 	}
 
-	public AutoCompleteTextFieldD(int columns, AppD app,
-			KeyNavigation handleEscapeKey) {
+	public AutoCompleteTextFieldD(int columns, AppD app, KeyNavigation handleEscapeKey) {
 		this(columns, app, handleEscapeKey, true);
 	}
 
@@ -178,8 +177,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 * @param app application
 	 * @param drawTextField associated input box drawable
 	 */
-	public AutoCompleteTextFieldD(int columns, App app,
-			Drawable drawTextField) {
+	public AutoCompleteTextFieldD(int columns, App app, Drawable drawTextField) {
 		this(columns, app);
 		this.drawTextField = (DrawInputBox) drawTextField;
 	}
@@ -214,8 +212,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 				historyPopup.showPopup();
 			}
 		};
-		ScaledIcon upDownTriangleIcon = GeoGebraIconD.createUpDownTriangleIcon(false, true,
-				app.getImageManager().getPixelRatio());
+		ScaledIcon upDownTriangleIcon = GeoGebraIconD.createUpDownTriangleIcon(
+				false, true, app.getImageManager().getPixelRatio());
 		setBorderButton(1, upDownTriangleIcon, al);
 		this.setBorderButtonVisible(1, false);
 	}
@@ -240,7 +238,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	/**
 	 * Set the dictionary that autocomplete lookup should be performed by.
-	 * 
+	 *
 	 * @param forCAS
 	 *            whether this is for CAS
 	 */
@@ -251,14 +249,13 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	/**
 	 * Gets the dictionary currently used for lookups.
-	 * 
+	 *
 	 * @return dict The dictionary that will be used for the autocomplete
 	 *         lookups.
 	 */
 	private AutoCompleteDictionary getDictionary() {
 		if (this.dict == null) {
-			this.dict = this.forCAS ? app.getCommandDictionaryCAS()
-					: app.getCommandDictionary();
+			this.dict = this.forCAS ? app.getCommandDictionaryCAS() : app.getCommandDictionary();
 		}
 		return this.dict;
 	}
@@ -266,7 +263,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	/**
 	 * Sets whether the component is currently performing autocomplete lookups
 	 * as keystrokes are performed.
-	 * 
+	 *
 	 * @param val
 	 *            True or false.
 	 */
@@ -277,7 +274,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 		if (autoComplete) {
 			app.initTranslatedCommands();
 		}
-
 	}
 
 	public List<String> getCompletions() {
@@ -287,7 +283,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	/**
 	 * Gets whether the component is currently performing autocomplete lookups
 	 * as keystrokes are performed.
-	 * 
+	 *
 	 * @return True or false.
 	 */
 	@Override
@@ -332,165 +328,156 @@ public class AutoCompleteTextFieldD extends MathTextField
 		ctrlC = false;
 
 		switch (keyCode) {
-
-		case KeyEvent.VK_Z:
-		case KeyEvent.VK_Y:
-			if (AppD.isControlDown(e)) {
-				app.getGlobalKeyDispatcher().handleGeneralKeys(e);
-				e.consume();
-			}
-			break;
-		case KeyEvent.VK_C:
-			if (AppD.isControlDown(e)) { // workaround for MAC_OS
-				ctrlC = true;
-			}
-			break;
-
-		case KeyEvent.VK_0:
-		case KeyEvent.VK_1:
-		case KeyEvent.VK_2:
-		case KeyEvent.VK_3:
-		case KeyEvent.VK_4:
-		case KeyEvent.VK_5:
-		case KeyEvent.VK_6:
-		case KeyEvent.VK_7:
-		case KeyEvent.VK_8:
-		case KeyEvent.VK_9:
-			if (AppD.isControlDown(e) && e.isShiftDown()) {
-				app.getGlobalKeyDispatcher().handleGeneralKeys(e);
-			}
-			break;
-
-		// process input
-
-		case KeyEvent.VK_ESCAPE:
-			if (handleEscapeKey == KeyNavigation.IGNORE) {
-				break;
-			}
-			if (handleEscapeKey == KeyNavigation.HISTORY) {
-				setText("");
-			}
-
-			Component comp = SwingUtilities.getRoot(this);
-			if (comp instanceof JDialog) {
-				((JDialog) comp).setVisible(false);
-				return;
-			}
-
-			// loose focus
-			app.getActiveEuclidianView().requestFocusInWindow();
-			break;
-
-		// removed - what is this for?
-		// case KeyEvent.VK_LEFT_PARENTHESIS:
-		// break;
-
-		case KeyEvent.VK_UP:
-			if (handleEscapeKey == KeyNavigation.IGNORE) {
-				break;
-			}
-			if (historyPopup == null) {
-				String text = getPreviousInput();
-				if (text != null) {
-					setText(text);
+			case KeyEvent.VK_Z:
+			case KeyEvent.VK_Y:
+				if (AppD.isControlDown(e)) {
+					app.getGlobalKeyDispatcher().handleGeneralKeys(e);
+					e.consume();
 				}
-			} else if (!historyPopup.isDownPopup()) {
-				historyPopup.showPopup();
-			}
-			break;
-
-		case KeyEvent.VK_DOWN:
-			if (handleEscapeKey == KeyNavigation.IGNORE) {
 				break;
-			}
-			if (historyPopup != null && historyPopup.isDownPopup()) {
-				historyPopup.showPopup();
-			} else {
-				// Fix for Ticket #463
-				if (getNextInput() != null) {
-					setText(getNextInput());
+			case KeyEvent.VK_C:
+				if (AppD.isControlDown(e)) { // workaround for MAC_OS
+					ctrlC = true;
 				}
-			}
-			break;
+				break;
 
-		case KeyEvent.VK_RIGHT:
-			if (moveToNextArgument(false)) {
-				e.consume();
-			}
-			break;
-
-		case KeyEvent.VK_TAB:
-			if (usedForInputBox()) {
-				AutoCompleteTextField tf = app.getActiveEuclidianView()
-						.getTextField();
-				if (tf != null) {
-					geoUsedForInputBox.updateLinkedGeo(tf.getText());
+			case KeyEvent.VK_0:
+			case KeyEvent.VK_1:
+			case KeyEvent.VK_2:
+			case KeyEvent.VK_3:
+			case KeyEvent.VK_4:
+			case KeyEvent.VK_5:
+			case KeyEvent.VK_6:
+			case KeyEvent.VK_7:
+			case KeyEvent.VK_8:
+			case KeyEvent.VK_9:
+				if (AppD.isControlDown(e) && e.isShiftDown()) {
+					app.getGlobalKeyDispatcher().handleGeneralKeys(e);
 				}
-				//
-				// app.getGlobalKeyDispatcher().handleTab(e.isControlDown(),
-				// e.isShiftDown(), true);
-				app.getGlobalKeyDispatcher().handleGeneralKeys(e);
+				break;
 
-				GeoElement next = app.getSelectionManager().getSelectedGeos()
-						.get(0);
-				Log.debug("next is " + next);
-				if (next instanceof GeoInputBox) {
-					GeoInputBox input = (GeoInputBox) next;
-					app.getActiveEuclidianView().focusTextField(input);
+			// process input
+
+			case KeyEvent.VK_ESCAPE:
+				if (handleEscapeKey == KeyNavigation.IGNORE) {
+					break;
+				}
+				if (handleEscapeKey == KeyNavigation.HISTORY) {
+					setText("");
+				}
+
+				Component comp = SwingUtilities.getRoot(this);
+				if (comp instanceof JDialog) {
+					((JDialog) comp).setVisible(false);
+					return;
+				}
+
+				// loose focus
+				app.getActiveEuclidianView().requestFocusInWindow();
+				break;
+
+			// removed - what is this for?
+			// case KeyEvent.VK_LEFT_PARENTHESIS:
+			// break;
+
+			case KeyEvent.VK_UP:
+				if (handleEscapeKey == KeyNavigation.IGNORE) {
+					break;
+				}
+				if (historyPopup == null) {
+					String text = getPreviousInput();
+					if (text != null) {
+						setText(text);
+					}
+				} else if (!historyPopup.isDownPopup()) {
+					historyPopup.showPopup();
+				}
+				break;
+
+			case KeyEvent.VK_DOWN:
+				if (handleEscapeKey == KeyNavigation.IGNORE) {
+					break;
+				}
+				if (historyPopup != null && historyPopup.isDownPopup()) {
+					historyPopup.showPopup();
 				} else {
-					// app.getActiveEuclidianView().requestFocus();
+					// Fix for Ticket #463
+					if (getNextInput() != null) {
+						setText(getNextInput());
+					}
 				}
-				//
-			} else if (moveToNextArgument(true)) {
+				break;
+
+			case KeyEvent.VK_RIGHT:
+				if (moveToNextArgument(false)) {
+					e.consume();
+				}
+				break;
+
+			case KeyEvent.VK_TAB:
+				if (usedForInputBox()) {
+					AutoCompleteTextField tf = app.getActiveEuclidianView().getTextField();
+					if (tf != null) {
+						geoUsedForInputBox.updateLinkedGeo(tf.getText());
+					}
+					//
+					// app.getGlobalKeyDispatcher().handleTab(e.isControlDown(),
+					// e.isShiftDown(), true);
+					app.getGlobalKeyDispatcher().handleGeneralKeys(e);
+
+					GeoElement next = app.getSelectionManager().getSelectedGeos().get(0);
+					Log.debug("next is " + next);
+					if (next instanceof GeoInputBox) {
+						GeoInputBox input = (GeoInputBox) next;
+						app.getActiveEuclidianView().focusTextField(input);
+					}
+				} else if (moveToNextArgument(true)) {
+					e.consume();
+				}
+				break;
+
+			case KeyEvent.VK_F1:
+				final ManualPage helpURL = isCASInput ? ManualPage.CAS_VIEW : ManualPage.MAIN_PAGE;
+				if (autoComplete) {
+					boolean commandFound = false;
+					if (!getText().equals("")) {
+						int pos = getCaretPosition();
+						while (pos > 0 && getText().charAt(pos - 1) == '[') {
+							pos--;
+						}
+						String word = TextFieldUtil.getWordAtPos(getText(), pos);
+						// the dictionary is case-insensitive, no string manipulation needed here
+						String closest = getDictionary().lookup(word);
+
+						if (closest != null) {
+							showCommandHelp(app.getInternalCommand(closest), isCASInput);
+							commandFound = true;
+						}
+					}
+					if (!commandFound) {
+						Object[] options = {loc.getMenu("OK"), loc.getMenu("ShowOnlineHelp")};
+						int n = JOptionPane.showOptionDialog(
+								app.getMainComponent(),
+								loc.getMenu(isCASInput ? "CASFieldHelp" : "InputFieldHelp"),
+								GeoGebraConstants.APPLICATION_NAME + " - " + loc.getMenu("Help"),
+								JOptionPane.YES_NO_OPTION,
+								JOptionPane.QUESTION_MESSAGE,
+								null, // do not use a
+								// custom Icon
+								options, // the titles of buttons
+								options[0]); // default button title
+
+						if (n == 1) {
+							app.getGuiManager().openHelp(helpURL, null);
+						}
+					}
+				} else {
+					app.getGuiManager().openHelp(helpURL, null);
+				}
+
 				e.consume();
-			}
-			break;
-
-		case KeyEvent.VK_F1:
-			final ManualPage helpURL = isCASInput ? ManualPage.CAS_VIEW : ManualPage.MAIN_PAGE;
-			if (autoComplete) {
-				boolean commandFound = false;
-				if (!getText().equals("")) {
-					int pos = getCaretPosition();
-					while (pos > 0 && getText().charAt(pos - 1) == '[') {
-						pos--;
-					}
-					String word = TextFieldUtil.getWordAtPos(getText(), pos);
-					// the dictionary is case-insensitive, no string manipulation needed here
-					String closest = getDictionary().lookup(word);
-
-					if (closest != null) {
-						showCommandHelp(app.getInternalCommand(closest),
-								isCASInput);
-						commandFound = true;
-					}
-				}
-				if (!commandFound) {
-					Object[] options = { loc.getMenu("OK"),
-							loc.getMenu("ShowOnlineHelp") };
-					int n = JOptionPane.showOptionDialog(app.getMainComponent(),
-							loc.getMenu(isCASInput ? "CASFieldHelp"
-									: "InputFieldHelp"),
-							GeoGebraConstants.APPLICATION_NAME + " - "
-									+ loc.getMenu("Help"),
-							JOptionPane.YES_NO_OPTION,
-							JOptionPane.QUESTION_MESSAGE, null, // do not use a
-							// custom Icon
-							options, // the titles of buttons
-							options[0]); // default button title
-
-					if (n == 1) {
-						app.getGuiManager().openHelp(helpURL, null);
-					}
-
-				}
-			} else {
-				app.getGuiManager().openHelp(helpURL, null);
-			}
-
-			e.consume();
-			break;
-		default:
+				break;
+			default:
 		}
 	}
 
@@ -508,8 +495,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 		// ctrl pressed on Mac
 		// or alt on Windows
-		boolean modifierKeyPressed = AppD.MAC_OS ? e.isControlDown()
-				: e.isAltDown();
+		boolean modifierKeyPressed = AppD.MAC_OS ? e.isControlDown() : e.isAltDown();
 
 		// we don't want to act when AltGr is down
 		// as it is used eg for entering {[}] is some locales
@@ -520,8 +506,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 		char charPressed = e.getKeyChar();
 
-		if ((StringUtil.isLetterOrDigitOrUnderscore(charPressed)
-				|| modifierKeyPressed)
+		if ((StringUtil.isLetterOrDigitOrUnderscore(charPressed) || modifierKeyPressed)
 				&& !(ctrlC && (AppD.MAC_OS || AppD.LINUX))
 				&& !(e.getKeyCode() == KeyEvent.VK_A && AppD.MAC_OS)) {
 			clearSelection();
@@ -593,8 +578,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 			}
 		}
 
-		if (!(ch == '(' || ch == '{' || ch == '[' || ch == '}' || ch == ')'
-				|| ch == ']')) {
+		if (!(ch == '(' || ch == '{' || ch == '[' || ch == '}' || ch == ')' || ch == ']')) {
 			super.keyTyped(e);
 			return;
 		}
@@ -630,32 +614,31 @@ public class AutoCompleteTextFieldD extends MathTextField
 					caretPos++;
 				}
 			}
-
 		}
 
 		// auto-close parentheses
-		if (!e.isAltDown() && (caretPos == text.length()
-				|| TextFieldUtil
-						.isCloseBracketOrWhitespace(text.charAt(caretPos)))) {
+		if (!e.isAltDown()
+				&& (caretPos == text.length()
+						|| TextFieldUtil.isCloseBracketOrWhitespace(text.charAt(caretPos)))) {
 			this.setPreviewActive(false);
 			switch (ch) {
-			default:
-				// do nothing
-				break;
-			case '(':
-				// opening parentheses: insert closing parenthesis automatically
-				insertString(")");
-				break;
+				default:
+					// do nothing
+					break;
+				case '(':
+					// opening parentheses: insert closing parenthesis automatically
+					insertString(")");
+					break;
 
-			case '{':
-				// opening braces: insert closing parenthesis automatically
-				insertString("}");
-				break;
+				case '{':
+					// opening braces: insert closing parenthesis automatically
+					insertString("}");
+					break;
 
-			case '[':
-				// opening bracket: insert closing parenthesis automatically
-				insertString("]");
-				break;
+				case '[':
+					// opening bracket: insert closing parenthesis automatically
+					insertString("]");
+					break;
 			}
 			this.setPreviewActive(true);
 		}
@@ -666,7 +649,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	private void setPreviewActive(boolean b) {
 		previewActive = b;
-
 	}
 
 	/**
@@ -674,8 +656,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 * curWordEnd are set to this word's start and end position
 	 */
 	public void updateCurrentWord(boolean searchRight) {
-		int next = InputHelper.updateCurrentWord(searchRight, this.curWord,
-				getText(), getCaretPosition(), true);
+		int next = InputHelper.updateCurrentWord(
+				searchRight, this.curWord, getText(), getCaretPosition(), true);
 		if (next > -1) {
 			this.curWordStart = next;
 		}
@@ -817,7 +799,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	/**
 	 * Ticket #1167 Auto-completes input; <br>
-	 * 
+	 *
 	 * @param index
 	 *            index of the chosen command in the completions list
 	 * @param completions completions
@@ -839,8 +821,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 		if (bracketIndex == -1) {
 			bracketIndex = command.indexOf('(');
 		}
-		if (bracketIndex > -1
-				&& (after.startsWith("[") || after.startsWith("("))) {
+		if (bracketIndex > -1 && (after.startsWith("[") || after.startsWith("("))) {
 			// probably already have some arguments
 			// eg user is just changing the command name
 			command = command.substring(0, bracketIndex);
@@ -874,7 +855,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	/**
 	 * Adds string to input textfield's history
-	 * 
+	 *
 	 * @param str input string
 	 */
 	public void addToHistory(String str) {
@@ -926,19 +907,17 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	/**
 	 * shows dialog with syntax info
-	 * 
+	 *
 	 * @param cmd
 	 *            is the internal command name
 	 */
 	private void showCommandHelp(String cmd, boolean cas) {
 		// show help for current command (current word)
-		String help = cas ? loc.getCommandSyntaxCAS(cmd)
-				: loc.getCommandSyntax(cmd);
+		String help = cas ? loc.getCommandSyntaxCAS(cmd) : loc.getCommandSyntax(cmd);
 
 		// show help if available
 		if (help != null) {
-			app.showError(MyError.forCommand(loc,
-					loc.getMenu("Syntax") + ":\n" + help, cmd, null));
+			app.showError(MyError.forCommand(loc, loc.getMenu("Syntax") + ":\n" + help, cmd, null));
 		} else {
 			app.getGuiManager().openHelp(ManualPage.COMMAND, null);
 		}
@@ -947,7 +926,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	/**
 	 * just show syntax error (already correctly formulated by
 	 * CommandProcessor.argErr())
-	 * 
+	 *
 	 * @param e
 	 *            error
 	 */
@@ -962,7 +941,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	/**
 	 * Set the font of completions and history commands
-	 * 
+	 *
 	 * @param font
 	 *            the new font
 	 */
@@ -978,7 +957,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 	@Override
 	public void setForeground(GColor color) {
 		super.setForeground(GColorD.getAwtColor(color));
-
 	}
 
 	@Override
@@ -1022,12 +1000,13 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	private void styleTextField() {
 		if (getDrawTextField().hasError()) {
-			setBorder(BorderFactory.createDashedBorder(GColorD.getAwtColor(GColor.ERROR_RED_BORDER),
-					2, 2, 2, true));
+			setBorder(BorderFactory.createDashedBorder(
+					GColorD.getAwtColor(GColor.ERROR_RED_BORDER), 2, 2, 2, true));
 			setBackground(GColor.ERROR_RED_BACKGROUND);
 		} else if (drawTextField != null) {
-			GColor borderColor = drawTextField.getGeoElement().getBackgroundColor()
-					== GColor.WHITE ? GColor.DEFAULT_PURPLE : drawTextField.getBorderColor();
+			GColor borderColor = drawTextField.getGeoElement().getBackgroundColor() == GColor.WHITE
+					? GColor.DEFAULT_PURPLE
+					: drawTextField.getBorderColor();
 			setBorder(BorderFactory.createLineBorder(GColorD.getAwtColor(borderColor)));
 			setBackground(drawTextField.getGeoElement().getBackgroundColor());
 		}
@@ -1036,7 +1015,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 	@Override
 	public void addKeyHandler(KeyHandler handler) {
 		addKeyListener(new KeyListenerD(handler));
-
 	}
 
 	@Override
@@ -1057,13 +1035,12 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	@Override
 	public void drawBounds(GGraphics2D g2, GColor bgColor, GRectangle bounds) {
-		drawBounds(g2, bgColor, (int) bounds.getX(), (int) bounds.getY(),
-				(int) bounds.getWidth(), (int) bounds.getHeight());
+		drawBounds(g2, bgColor, (int) bounds.getX(), (int) bounds.getY(), (int) bounds.getWidth(), (int)
+				bounds.getHeight());
 	}
 
 	@Override
-	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
-			int width, int height) {
+	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top, int width, int height) {
 		drawBounds(g2, bgColor, left, top, width, height, drawTextField);
 	}
 
@@ -1076,8 +1053,14 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 * @param height height in pixels
 	 * @param drawInputBox associated inputbox
 	 */
-	public static void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
-			int width, int height, DrawInputBox drawInputBox) {
+	public static void drawBounds(
+			GGraphics2D g2,
+			GColor bgColor,
+			int left,
+			int top,
+			int width,
+			int height,
+			DrawInputBox drawInputBox) {
 		GColor backgroundColor = drawInputBox.hasError() ? GColor.ERROR_RED_BACKGROUND : bgColor;
 		g2.setPaint(backgroundColor);
 		g2.fillRect(left, top, width, height);
@@ -1092,7 +1075,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	private static void setStrokeStyle(GGraphics2D g2, DrawInputBox drawInputBox) {
 		int lineWidth = drawInputBox.isEditing() ? 2 : 1;
-		int lineStyle = drawInputBox.hasError() ? EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT
+		int lineStyle = drawInputBox.hasError()
+				? EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT
 				: EuclidianStyleConstants.LINE_TYPE_FULL;
 
 		g2.setStroke(EuclidianStatic.getStroke(lineWidth, lineStyle, GBasicStroke.JOIN_ROUND));
@@ -1102,7 +1086,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 		if (drawInputBox.usesDisabledStyle()) {
 			return GeoGebraColorConstants.NEUTRAL_300;
 		} else if (backgroundColor == GColor.WHITE) {
-			return drawInputBox.isEditing() ? GeoGebraColorConstants.PURPLE_600
+			return drawInputBox.isEditing()
+					? GeoGebraColorConstants.PURPLE_600
 					: GeoGebraColorConstants.NEUTRAL_500;
 		}
 		return GColor.getBorderColorFrom(backgroundColor);
@@ -1147,13 +1132,13 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	private static int toSwingAlignment(HorizontalAlignment alignment) {
 		switch (alignment) {
-		case LEFT:
-		default:
-			return SwingConstants.LEFT;
-		case CENTER:
-			return SwingConstants.CENTER;
-		case RIGHT:
-			return SwingConstants.RIGHT;
+			case LEFT:
+			default:
+				return SwingConstants.LEFT;
+			case CENTER:
+				return SwingConstants.CENTER;
+			case RIGHT:
+				return SwingConstants.RIGHT;
 		}
 	}
 

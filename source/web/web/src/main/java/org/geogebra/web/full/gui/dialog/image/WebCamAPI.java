@@ -37,7 +37,7 @@ import jsinterop.base.Js;
 public final class WebCamAPI {
 	private static final int MAX_CANVAS_WIDTH = 640;
 	private static final int MAX_CANVAS_HEIGHT = (int) Math.round(0.75 * MAX_CANVAS_WIDTH);
-	
+
 	private WebCamInputPanel webCamInputPanel;
 	private MediaStream stream;
 	private HTMLVideoElement videoElement;
@@ -88,12 +88,11 @@ public final class WebCamAPI {
 		try {
 			w = Integer.parseInt(video.getAttribute("width"));
 			h = Integer.parseInt(video.getAttribute("height"));
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException ignored) {
 			// w, h = 0
 		} finally {
 			int width = Math.max(w, MAX_CANVAS_WIDTH);
-			int height = h != 0 ? (int) Math.round(width * h / ((double) w))
-					: MAX_CANVAS_HEIGHT;
+			int height = h != 0 ? (int) Math.round(width * h / ((double) w)) : MAX_CANVAS_HEIGHT;
 			c.setPixelSize(width, height);
 			c.setCoordinateSpaceHeight(height);
 			c.setCoordinateSpaceWidth(width);
@@ -136,22 +135,28 @@ public final class WebCamAPI {
 		MediaStreamConstraints constraints = MediaStreamConstraints.create();
 		constraints.setVideo(trackConstraints);
 
-		DomGlobal.window.navigator.mediaDevices.getUserMedia(constraints)
-			.then((mediaStream) -> {
-				browserAlreadyAllowed = true;
-				onCameraSuccess(mediaStream);
-				return null;
-			}).catch_((err) -> {
-				accessDenied = true;
-				onCameraError((String) JsObject.of(err).get("name"));
-				return null;
-			});
+		DomGlobal.window
+				.navigator
+				.mediaDevices
+				.getUserMedia(constraints)
+				.then((mediaStream) -> {
+					browserAlreadyAllowed = true;
+					onCameraSuccess(mediaStream);
+					return null;
+				})
+				.catch_((err) -> {
+					accessDenied = true;
+					onCameraError((String) JsObject.of(err).get("name"));
+					return null;
+				});
 
-		DomGlobal.setTimeout((x) -> {
-			if (!browserAlreadyAllowed && !accessDenied) {
-				onRequest();
-			}
-		}, 400);
+		DomGlobal.setTimeout(
+				(x) -> {
+					if (!browserAlreadyAllowed && !accessDenied) {
+						onRequest();
+					}
+				},
+				400);
 	}
 
 	private void stopVideo() {

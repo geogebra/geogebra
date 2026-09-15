@@ -74,7 +74,7 @@ public final class EditorParams {
 		if (!"".equals(attribute)) {
 			try {
 				return Double.parseDouble(attribute);
-			} catch (NumberFormatException ex) {
+			} catch (NumberFormatException expected) {
 				// fallback
 			}
 		}

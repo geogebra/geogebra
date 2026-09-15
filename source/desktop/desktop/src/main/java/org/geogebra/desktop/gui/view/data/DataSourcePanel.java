@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -75,12 +75,11 @@ import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Panel to manage data sources for the DataAnalysisView
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
-public class DataSourcePanel extends JPanel
-		implements ActionListener, FocusListener, SetLabels {
+public class DataSourcePanel extends JPanel implements ActionListener, FocusListener, SetLabels {
 
 	private static final long serialVersionUID = 1L;
 
@@ -89,6 +88,7 @@ public class DataSourcePanel extends JPanel
 	final AppD app;
 	/** localization */
 	final LocalizationD loc;
+
 	private DataAnalysisViewD dataView;
 
 	// data source and table
@@ -112,6 +112,7 @@ public class DataSourcePanel extends JPanel
 	// flags and other fields
 	/** current mode */
 	int mode;
+
 	protected int btnHoverColumn = -1;
 	private String[] columnDataTitles;
 
@@ -125,7 +126,7 @@ public class DataSourcePanel extends JPanel
 
 	/*************************************************
 	 * Constructor
-	 * 
+	 *
 	 * @param app application
 	 * @param mode mode
 	 */
@@ -136,7 +137,8 @@ public class DataSourcePanel extends JPanel
 		this.mode = mode;
 		dataSource = new DataSource(app, () -> {
 			SpreadsheetViewInterface spreadsheetView = app.getGuiManager().getSpreadsheetView();
-			return spreadsheetView == null ? List.of()
+			return spreadsheetView == null
+					? List.of()
 					: spreadsheetView.getSpreadsheetTable().getSelectedRanges();
 		});
 
@@ -178,7 +180,6 @@ public class DataSourcePanel extends JPanel
 		setLayout(new BorderLayout(2, 2));
 		setBorder(BorderFactory.createEmptyBorder(0, 10, 20, 10));
 		add(mainPanel, BorderLayout.CENTER);
-
 	}
 
 	private void createGUIElements() {
@@ -194,8 +195,7 @@ public class DataSourcePanel extends JPanel
 		btnDelete = new ImageButton(app.getScaledIcon(GuiResourcesD.LIST_REMOVE));
 		btnDelete.addActionListener(this);
 
-		btnOptions = new ImageButton(
-				app.getScaledIcon(GuiResourcesD.VIEW_PROPERTIES_16));
+		btnOptions = new ImageButton(app.getScaledIcon(GuiResourcesD.VIEW_PROPERTIES_16));
 		btnOptions.addActionListener(this);
 
 		lblStart = new JLabel();
@@ -216,7 +216,6 @@ public class DataSourcePanel extends JPanel
 		fldWidth.addActionListener(this);
 		fldWidth.setText("" + 1.0);
 		fldWidth.addFocusListener(this);
-
 	}
 
 	private void updateIcons() {
@@ -241,7 +240,6 @@ public class DataSourcePanel extends JPanel
 		mainPanel.add(controlPanel, BorderLayout.NORTH);
 		mainPanel.add(sourceTable, BorderLayout.CENTER);
 		mainPanel.add(classesPanel, BorderLayout.SOUTH);
-
 	}
 
 	private void buildControlPanel() {
@@ -253,18 +251,14 @@ public class DataSourcePanel extends JPanel
 
 		controlPanel.removeAll();
 		if (mode == DataAnalysisModel.MODE_MULTIVAR) {
-			controlPanel.add(LayoutUtil.flowPanel(0, 0, 0, btnAdd, btnDelete),
-					loc.borderWest());
+			controlPanel.add(LayoutUtil.flowPanel(0, 0, 0, btnAdd, btnDelete), loc.borderWest());
 		}
 
-		controlPanel.add(LayoutUtil.flowPanel(0, 0, 0, btnOptions),
-				loc.borderEast());
-
+		controlPanel.add(LayoutUtil.flowPanel(0, 0, 0, btnOptions), loc.borderEast());
 	}
 
 	private void buildClassesPanel() {
-		classesPanel = LayoutUtil.flowPanel(4, 2, 0, lblStart, fldStart,
-				lblWidth, fldWidth);
+		classesPanel = LayoutUtil.flowPanel(4, 2, 0, lblStart, fldStart, lblWidth, fldWidth);
 	}
 
 	// ====================================================
@@ -281,7 +275,6 @@ public class DataSourcePanel extends JPanel
 		btnClear.setToolTipText(loc.getMenu("ClearColumns"));
 		btnDelete.setToolTipText(loc.getMenu("fncInspector.removeColumn"));
 		btnAdd.setToolTipText(loc.getMenu("fncInspector.addColumn"));
-
 	}
 
 	protected void updateGUI() {
@@ -307,19 +300,17 @@ public class DataSourcePanel extends JPanel
 		sourceTable.setStatTable(rowCount, null, columnCount, columnDataTitles);
 		sourceTable.getTable().setColumnSelectionAllowed(false);
 		sourceTable.getTable().setRowSelectionAllowed(false);
-		sourceTable.getTable()
-				.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		sourceTable.getTable().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		sourceTable.setAllowCellEdit(false);
 		sourceTable.getTable().getTableHeader().setReorderingAllowed(false);
 
 		sourceTable.clear();
 		setColumnHeaders(sourceTable.getTable());
 
-		sourceTable.getTable().getColumnModel().getSelectionModel()
-				.addListSelectionListener(e -> {
-					sourceTable.revalidate();
-					sourceTable.repaint();
-				});
+		sourceTable.getTable().getColumnModel().getSelectionModel().addListSelectionListener(e -> {
+			sourceTable.revalidate();
+			sourceTable.repaint();
+		});
 	}
 
 	private static void setTableDimension(JTable table) {
@@ -331,16 +322,14 @@ public class DataSourcePanel extends JPanel
 		// width determined by preferred size within min and max bounds
 		int minWidth = 250;
 		int maxWidth = 400;
-		int width = Math.min(maxWidth,
-				Math.max(minWidth, table.getPreferredSize().width));
+		int width = Math.min(maxWidth, Math.max(minWidth, table.getPreferredSize().width));
 
 		table.setPreferredScrollableViewportSize(new Dimension(width, height));
 	}
 
 	private void loadSourceTableFromDataSource() {
 
-		DefaultTableModel model = (DefaultTableModel) sourceTable.getTable()
-				.getModel();
+		DefaultTableModel model = (DefaultTableModel) sourceTable.getTable().getModel();
 
 		if (dataSource.isEmpty()) {
 			// create an empty table (should not happen)
@@ -351,8 +340,7 @@ public class DataSourcePanel extends JPanel
 
 		} else {
 			columnDataTitles = dataSource.getTitles();
-			model.setDataVector(dataSource.getTableData(),
-					dataSource.getDescriptions());
+			model.setDataVector(dataSource.getTableData(), dataSource.getDescriptions());
 		}
 
 		if (model.getRowCount() < MINIMUM_ROW) {
@@ -360,9 +348,10 @@ public class DataSourcePanel extends JPanel
 		}
 
 		setColumnHeaders(sourceTable.getTable());
-		sourceTable.getTable().getTableHeader()
-				.addMouseListener(new ColumnHeaderMouseListener());
-		sourceTable.getTable().getTableHeader()
+		sourceTable.getTable().getTableHeader().addMouseListener(new ColumnHeaderMouseListener());
+		sourceTable
+				.getTable()
+				.getTableHeader()
 				.addMouseMotionListener(new ColumnHeaderMouseMotionListener());
 
 		sourceTable.updateFonts(app.getPlainFont());
@@ -375,7 +364,7 @@ public class DataSourcePanel extends JPanel
 	 * Sets the dataSource field at the given index to refer to the currently
 	 * selected geos and fills the corresponding column in the data table with
 	 * data from these geos.
-	 * 
+	 *
 	 */
 	void addDataToColumn(int colIndex) {
 		dataSource.setDataItemToGeoSelection(selectedVarIndex(), colIndex);
@@ -424,13 +413,11 @@ public class DataSourcePanel extends JPanel
 		((JTextField) source).setText(((JTextField) source).getText().trim());
 
 		if (source == fldStart) {
-			dataSource.setClassStart(Validation.validateDouble(fldStart,
-					dataSource.getClassStart()));
+			dataSource.setClassStart(Validation.validateDouble(fldStart, dataSource.getClassStart()));
 			updatePanel(mode);
 
 		} else if (source == fldWidth) {
-			dataSource.setClassWidth(Validation.validateDouble(fldWidth,
-					dataSource.getClassWidth()));
+			dataSource.setClassWidth(Validation.validateDouble(fldWidth, dataSource.getClassWidth()));
 			updatePanel(mode);
 		}
 	}
@@ -459,8 +446,7 @@ public class DataSourcePanel extends JPanel
 	 */
 	public void applySettings() {
 		if (dataView == null) {
-			dataView = (DataAnalysisViewD) app.getGuiManager()
-					.getDataAnalysisView();
+			dataView = (DataAnalysisViewD) app.getGuiManager().getDataAnalysisView();
 		}
 
 		dataView.setView(dataSource, mode, true);
@@ -474,16 +460,13 @@ public class DataSourcePanel extends JPanel
 
 		HeaderTableCellRenderer headerRenderer = new HeaderTableCellRenderer();
 
-		for (int vColIndex = 0; vColIndex < table.getColumnModel()
-				.getColumnCount(); vColIndex++) {
+		for (int vColIndex = 0; vColIndex < table.getColumnModel().getColumnCount(); vColIndex++) {
 			TableColumn col = table.getColumnModel().getColumn(vColIndex);
 			col.setHeaderRenderer(headerRenderer);
 		}
-
 	}
 
-	public class ColumnHeaderMouseMotionListener
-			implements MouseMotionListener {
+	public class ColumnHeaderMouseMotionListener implements MouseMotionListener {
 
 		@Override
 		public void mouseDragged(MouseEvent arg0) {
@@ -499,9 +482,9 @@ public class DataSourcePanel extends JPanel
 			// adjust mouseLoc to the coordinate space of this column header
 			mouseLoc.x = mouseLoc.x - table().getCellRect(0, column, true).x;
 
-			boolean isOver = ((HeaderTableCellRenderer) table().getColumnModel()
-					.getColumn(column).getHeaderRenderer()).isOverTraceButton(
-					mouseLoc);
+			boolean isOver = ((HeaderTableCellRenderer)
+							table().getColumnModel().getColumn(column).getHeaderRenderer())
+					.isOverTraceButton(mouseLoc);
 
 			if (isOver && (btnHoverColumn != column)) {
 				btnHoverColumn = column;
@@ -518,9 +501,7 @@ public class DataSourcePanel extends JPanel
 					table().getTableHeader().resizeAndRepaint();
 				}
 			}
-
 		}
-
 	}
 
 	public class ColumnHeaderMouseListener extends MouseAdapter {
@@ -536,8 +517,7 @@ public class DataSourcePanel extends JPanel
 			table.convertColumnIndexToModel(vColIndex);
 
 			// Determine if mouse was clicked between column heads
-			Rectangle headerRect = table.getTableHeader()
-					.getHeaderRect(vColIndex);
+			Rectangle headerRect = table.getTableHeader().getHeaderRect(vColIndex);
 			if (vColIndex == 0) {
 				headerRect.width -= 3; // Hard-coded constant
 			} else {
@@ -551,11 +531,9 @@ public class DataSourcePanel extends JPanel
 			if (vColIndex == btnHoverColumn) {
 				int selectedColumn = table.getSelectedColumn();
 				addDataToColumn(vColIndex);
-				table.setColumnSelectionInterval(selectedColumn,
-						selectedColumn);
+				table.setColumnSelectionInterval(selectedColumn, selectedColumn);
 				btnHoverColumn = -1;
 			}
-
 		}
 
 		@Override
@@ -568,7 +546,6 @@ public class DataSourcePanel extends JPanel
 				}
 			}
 		}
-
 	}
 
 	protected JTable table() {
@@ -577,13 +554,12 @@ public class DataSourcePanel extends JPanel
 
 	/*************************************************
 	 * Custom table header render.
-	 * 
+	 *
 	 * Displays title and source labels for data columns. Supports a data import
 	 * button for a selected column.
-	 * 
+	 *
 	 */
-	public class HeaderTableCellRenderer extends JPanel
-			implements TableCellRenderer {
+	public class HeaderTableCellRenderer extends JPanel implements TableCellRenderer {
 
 		private static final long serialVersionUID = 1L;
 
@@ -591,8 +567,7 @@ public class DataSourcePanel extends JPanel
 		private final JLabel lblDataTitle;
 		private final JLabel lblImportBtn;
 
-		protected Border headerBorder = UIManager
-				.getBorder("TableHeader.cellBorder");
+		protected Border headerBorder = UIManager.getBorder("TableHeader.cellBorder");
 
 		protected Font font = UIManager.getFont("TableHeader.font");
 		private final Icon importIcon;
@@ -607,15 +582,13 @@ public class DataSourcePanel extends JPanel
 			lblDataDescription.setForeground(Color.WHITE);
 			lblDataDescription.setBackground(Color.LIGHT_GRAY);
 			lblDataDescription.setOpaque(true);
-			lblDataDescription
-					.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 2));
+			lblDataDescription.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 2));
 
 			lblImportBtn = new JLabel("", SwingConstants.LEFT);
 			lblImportBtn.setForeground(Color.WHITE);
 			lblImportBtn.setBackground(Color.LIGHT_GRAY);
 			lblImportBtn.setOpaque(true);
-			lblImportBtn
-					.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 10));
+			lblImportBtn.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 10));
 			lblImportBtn.setPreferredSize(new Dimension(20, 20));
 
 			lblDataTitle = new JLabel("", SwingConstants.CENTER);
@@ -623,15 +596,17 @@ public class DataSourcePanel extends JPanel
 			lblDataTitle.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 
 			importIcon = app.getScaledIcon(GuiResourcesD.ARROW_CURSOR_GRABBING);
-			importIconRollover = app.getScaledIcon(
-					GuiResourcesD.ARROW_CURSOR_GRABBING_ROLLOVER);
-
+			importIconRollover = app.getScaledIcon(GuiResourcesD.ARROW_CURSOR_GRABBING_ROLLOVER);
 		}
 
 		@Override
-		public Component getTableCellRendererComponent(JTable table,
-				Object value, boolean isSelected, boolean hasFocus,
-				int rowIndex, int vColIndex) {
+		public Component getTableCellRendererComponent(
+				JTable table,
+				Object value,
+				boolean isSelected,
+				boolean hasFocus,
+				int rowIndex,
+				int vColIndex) {
 
 			removeAll();
 			invalidate();
@@ -670,11 +645,10 @@ public class DataSourcePanel extends JPanel
 			add(headerPanel, BorderLayout.CENTER);
 
 			if (vColIndex == table.getSelectedColumn()) {
-				setBackground(GColorD.getAwtColor(
-						GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER));
+				setBackground(
+						GColorD.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER));
 			} else {
-				setBackground(GColorD.getAwtColor(
-						GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
+				setBackground(GColorD.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 			}
 			return this;
 		}
@@ -682,16 +656,11 @@ public class DataSourcePanel extends JPanel
 		/**
 		 * @return true if the given mouse location (in local coordinates of the
 		 * header component) is over a trace button.
-		 * 
+		 *
 		 * @param locPt mouse location
 		 */
 		public boolean isOverTraceButton(Point locPt) {
-			try {
-				return locPt.x < 24;
-			} catch (Exception e) {
-				// e.printStackTrace();
-			}
-			return false;
+			return locPt != null && locPt.x < 24;
 		}
 	}
 
@@ -705,16 +674,14 @@ public class DataSourcePanel extends JPanel
 			// ==========================
 			// one var data type
 
-			final JCheckBoxMenuItem itmNumeric = new JCheckBoxMenuItem(
-					loc.getMenu("Number"));
+			final JCheckBoxMenuItem itmNumeric = new JCheckBoxMenuItem(loc.getMenu("Number"));
 			itmNumeric.setSelected(var.getGeoClass() == GeoClass.NUMERIC);
 			itmNumeric.addActionListener(arg0 -> {
 				var.setGeoClass(GeoClass.NUMERIC);
 				updatePanel(mode);
 			});
 
-			final JCheckBoxMenuItem itemTypeText = new JCheckBoxMenuItem(
-					loc.getMenu("Type.Text"));
+			final JCheckBoxMenuItem itemTypeText = new JCheckBoxMenuItem(loc.getMenu("Type.Text"));
 			itemTypeText.setSelected(var.getGeoClass() == GeoClass.TEXT);
 			itemTypeText.addActionListener(arg0 -> {
 				var.setGeoClass(GeoClass.TEXT);
@@ -731,34 +698,29 @@ public class DataSourcePanel extends JPanel
 			// ==========================
 			// source type
 
-			final JCheckBoxMenuItem itmRawData = new JCheckBoxMenuItem(
-					loc.getMenu("RawData"));
+			final JCheckBoxMenuItem itmRawData = new JCheckBoxMenuItem(loc.getMenu("RawData"));
 			itmRawData.setSelected(var.getGroupType() == GroupType.RAWDATA);
 			itmRawData.addActionListener(arg0 -> {
-				if (itmRawData.isSelected()
-						&& var.getGroupType() != GroupType.RAWDATA) {
+				if (itmRawData.isSelected() && var.getGroupType() != GroupType.RAWDATA) {
 					var.setGroupType(GroupType.RAWDATA);
 					updatePanel(mode);
 				}
 			});
 
-			final JCheckBoxMenuItem itmFrequency = new JCheckBoxMenuItem(
-					loc.getMenu("DataWithFrequency"));
+			final JCheckBoxMenuItem itmFrequency =
+					new JCheckBoxMenuItem(loc.getMenu("DataWithFrequency"));
 			itmFrequency.setSelected(var.getGroupType() == GroupType.FREQUENCY);
 			itmFrequency.addActionListener(arg0 -> {
-				if (itmFrequency.isSelected()
-						&& var.getGroupType() != GroupType.FREQUENCY) {
+				if (itmFrequency.isSelected() && var.getGroupType() != GroupType.FREQUENCY) {
 					var.setGroupType(GroupType.FREQUENCY);
 					updatePanel(mode);
 				}
 			});
 
-			final JCheckBoxMenuItem itmClass = new JCheckBoxMenuItem(
-					loc.getMenu("ClassWithFrequency"));
+			final JCheckBoxMenuItem itmClass = new JCheckBoxMenuItem(loc.getMenu("ClassWithFrequency"));
 			itmClass.setSelected(var.getGroupType() == GroupType.CLASS);
 			itmClass.addActionListener(arg0 -> {
-				if (itmClass.isSelected()
-						&& var.getGroupType() != GroupType.CLASS) {
+				if (itmClass.isSelected() && var.getGroupType() != GroupType.CLASS) {
 					var.setGroupType(GroupType.CLASS);
 					updatePanel(mode);
 				}
@@ -773,7 +735,6 @@ public class DataSourcePanel extends JPanel
 			menu.add(itmRawData);
 			menu.add(itmFrequency);
 			menu.add(itmClass);
-
 		}
 
 		if (mode == DataAnalysisModel.MODE_REGRESSION) {
@@ -781,8 +742,7 @@ public class DataSourcePanel extends JPanel
 			// ==========================
 			// two var data type
 			SpreadsheetTableModel tableModel = app.getSpreadsheetTableModel();
-			final JCheckBoxMenuItem itmNumeric = new JCheckBoxMenuItem(
-					loc.getMenu("Number"));
+			final JCheckBoxMenuItem itmNumeric = new JCheckBoxMenuItem(loc.getMenu("Number"));
 			itmNumeric.setSelected(var.getGeoClass() == GeoClass.NUMERIC);
 			itmNumeric.addActionListener(arg0 -> {
 				ArrayList<DataItem> itemList = new ArrayList<>();
@@ -792,8 +752,8 @@ public class DataSourcePanel extends JPanel
 				updatePanel(mode);
 			});
 
-			final JCheckBoxMenuItem itmPoint = new JCheckBoxMenuItem(
-					app.getLocalization().getMenu("Point"));
+			final JCheckBoxMenuItem itmPoint =
+					new JCheckBoxMenuItem(app.getLocalization().getMenu("Point"));
 			itmPoint.setSelected(var.getGeoClass() == GeoClass.POINT);
 			itmPoint.addActionListener(arg0 -> {
 				ArrayList<DataItem> itemList = new ArrayList<>();
@@ -810,14 +770,12 @@ public class DataSourcePanel extends JPanel
 			menu.add(subMenu);
 			subMenu.add(itmNumeric);
 			subMenu.add(itmPoint);
-
 		}
 
 		// ==========================
 		// header as title
 
-		final JCheckBoxMenuItem itmHeader = new JCheckBoxMenuItem(
-				loc.getMenu("UseHeaderAsTitle"));
+		final JCheckBoxMenuItem itmHeader = new JCheckBoxMenuItem(loc.getMenu("UseHeaderAsTitle"));
 		itmHeader.setSelected(dataSource.enableHeader());
 		itmHeader.addActionListener(arg0 -> {
 			if (dataSource.enableHeader() != itmHeader.isSelected()) {
@@ -847,5 +805,4 @@ public class DataSourcePanel extends JPanel
 			setFocusable(false);
 		}
 	}
-
 }

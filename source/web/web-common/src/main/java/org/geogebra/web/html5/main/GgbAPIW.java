@@ -110,7 +110,7 @@ public class GgbAPIW extends GgbAPI {
 
 	/**
 	 * Register equation editor for the get/setEditorState methods.
-	 * 
+	 *
 	 * @param editor
 	 *            equation editor API
 	 */
@@ -120,8 +120,7 @@ public class GgbAPIW extends GgbAPI {
 
 	@Override
 	public byte[] getGGBfile() {
-		throw new IllegalArgumentException(
-				"In HTML5 getGGBfile needs at least 1 argument");
+		throw new IllegalArgumentException("In HTML5 getGGBfile needs at least 1 argument");
 	}
 
 	@Override
@@ -192,7 +191,7 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param exportScale
 	 *            scale
 	 * @param transparent
@@ -201,19 +200,16 @@ public class GgbAPIW extends GgbAPI {
 	 *            dots per inch eg. for paste to Word
 	 * @return png as String with "data:image/png;base64," header
 	 */
-	private String getPNG(double exportScale, boolean transparent, double dpi,
-			boolean greyscale) {
+	private String getPNG(double exportScale, boolean transparent, double dpi, boolean greyscale) {
 		String url;
 
-		EuclidianViewWInterface ev = (EuclidianViewWInterface) app
-				.getActiveEuclidianView();
+		EuclidianViewWInterface ev = (EuclidianViewWInterface) app.getActiveEuclidianView();
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().getLayout().getDockManager().ensureFocus();
 
-			if (app.getGuiManager().getLayout().getDockManager()
-					.getFocusedViewId() == App.VIEW_PROBABILITY_CALCULATOR) {
-				ev = (EuclidianViewWInterface) app.getGuiManager()
-						.getPlotPanelEuclidianView();
+			if (app.getGuiManager().getLayout().getDockManager().getFocusedViewId()
+					== App.VIEW_PROBABILITY_CALCULATOR) {
+				ev = (EuclidianViewWInterface) app.getGuiManager().getPlotPanelEuclidianView();
 			}
 		}
 
@@ -223,28 +219,29 @@ public class GgbAPIW extends GgbAPI {
 
 		if (Double.isFinite(dpi) && dpi > 0 && ev instanceof EuclidianViewW) {
 
-			JavaScriptInjector
-					.inject(GuiResourcesSimple.INSTANCE.rewritePHYS());
+			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.rewritePHYS());
 
 			url = addDPI(url, dpi);
-
 		}
 
 		return url;
 	}
 
 	@Override
-	public boolean writePNGtoFile(String filename, double exportScale,
-			boolean transparent, double dpi, boolean greyscale) {
+	public boolean writePNGtoFile(
+			String filename, double exportScale, boolean transparent, double dpi, boolean greyscale) {
 		// make browser save/download PNG file
-		Browser.exportImage(getPNG(exportScale, transparent, dpi, greyscale),
-				filename);
+		Browser.exportImage(getPNG(exportScale, transparent, dpi, greyscale), filename);
 		return true;
 	}
 
 	@Override
-	public String getPNGBase64(double exportScale, boolean transparent,
-			double dpi, boolean copyToClipboard, boolean greyscale) {
+	public String getPNGBase64(
+			double exportScale,
+			boolean transparent,
+			double dpi,
+			boolean copyToClipboard,
+			boolean greyscale) {
 		String dataUri = getPNG(exportScale, transparent, dpi, greyscale);
 		if (copyToClipboard) {
 			app.copyImageToClipboard(dataUri);
@@ -268,12 +265,11 @@ public class GgbAPIW extends GgbAPI {
 		String str;
 		if (value) {
 			str = geo.toValueString(StringTemplate.latexTemplate);
-		} else if (geo instanceof  GeoCasCell) {
+		} else if (geo instanceof GeoCasCell) {
 			str = ((GeoCasCell) geo).getLaTeXInput();
 			if (str == null) {
 				// regexp should be good enough in most cases, avoids dependency on ReTeX
-				str = ((GeoCasCell) geo).getLocalizedInput()
-						.replaceAll("([{}$])", "\\\\$1");
+				str = ((GeoCasCell) geo).getLocalizedInput().replaceAll("([{}$])", "\\\\$1");
 			}
 		} else {
 			str = geo.toString(StringTemplate.latexTemplate);
@@ -294,14 +290,13 @@ public class GgbAPIW extends GgbAPI {
 
 	/**
 	 * Base64 for ggt file
-	 * 
+	 *
 	 * @param includeThumbnail
 	 *            whether to add thumbnail
 	 * @param callback
 	 *            callback
 	 */
-	public void getAllMacrosBase64(boolean includeThumbnail,
-			StringConsumer callback) {
+	public void getAllMacrosBase64(boolean includeThumbnail, StringConsumer callback) {
 		GgbFile archiveContent = createAllMacrosArchive();
 		getZippedBase64Async(archiveContent, callback);
 	}
@@ -313,8 +308,7 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public GgbFile getFile(boolean includeThumbnail) {
 
-		PageListControllerInterface pageController = ((AppW) app)
-				.getPageController();
+		PageListControllerInterface pageController = ((AppW) app).getPageController();
 		if (pageController != null) {
 			GgbFile jso = new GgbFile();
 			HashMap<String, Integer> usage = new HashMap<>();
@@ -325,8 +319,7 @@ public class GgbAPIW extends GgbAPI {
 			}
 			for (int i = 0; i < pageController.getSlideCount(); i++) {
 				GgbFile f = pageController.getSlide(i);
-				mergeFiles(f, jso, GgbFile.SLIDE_PREFIX + i + "/",
-						usage);
+				mergeFiles(f, jso, GgbFile.SLIDE_PREFIX + i + "/", usage);
 			}
 			jso.put(GgbFile.STRUCTURE_JSON, pageController.getStructureJSON());
 			mergeFiles(shared, jso, GgbFile.SHARED_PREFIX, null);
@@ -348,23 +341,19 @@ public class GgbAPIW extends GgbAPI {
 	private JsPropertyMap<Object> export(GgbFile file) {
 		JsPropertyMap<Object> jso = JsPropertyMap.of();
 		JsArray<Object> archive = JsArray.of();
-		for (Entry<String, ArchiveEntry> entry: file.entrySet()) {
+		for (Entry<String, ArchiveEntry> entry : file.entrySet()) {
 			ArchiveEntry value = entry.getValue();
 			if (value.string != null) {
-				pushNativeEntryToArchive(entry.getKey(),
-						value.string, archive);
+				pushNativeEntryToArchive(entry.getKey(), value.string, archive);
 			} else {
-				pushNativeEntryToArchive(entry.getKey(),
-						value.export(), archive);
+				pushNativeEntryToArchive(entry.getKey(), value.export(), archive);
 			}
 		}
 		jso.set("archive", archive);
 		return jso;
 	}
 
-	private static void countShared(GgbFile slide,
-			HashMap<String, Integer> usage,
-			GgbFile shared) {
+	private static void countShared(GgbFile slide, HashMap<String, Integer> usage, GgbFile shared) {
 		for (Entry<String, ArchiveEntry> entry : slide.entrySet()) {
 			String filename = entry.getKey();
 			if (filename.contains("/")) {
@@ -381,7 +370,7 @@ public class GgbAPIW extends GgbAPI {
 
 	/**
 	 * Load construction and images from JSON
-	 * 
+	 *
 	 * @param obj
 	 *            JSON archive
 	 */
@@ -403,7 +392,6 @@ public class GgbAPIW extends GgbAPI {
 	public String getBase64(boolean includeThumbnail) {
 		GgbFile jso = getFile(includeThumbnail);
 		return getZippedBase64Sync(jso);
-
 	}
 
 	/**
@@ -448,22 +436,19 @@ public class GgbAPIW extends GgbAPI {
 	 *            zip archive
 	 * @return zip archive (as a map)
 	 */
-	public GgbFile createArchiveContent(boolean includeThumbnail,
-			GgbFile archiveContent) {
+	public GgbFile createArchiveContent(boolean includeThumbnail, GgbFile archiveContent) {
 		archiveContent.clear();
 		final boolean isSaving = getKernel().isSaving();
 		// return getNativeBase64(includeThumbnail);
 		getKernel().setSaving(true);
-		((ImageManagerW) app.getImageManager())
-				.adjustConstructionImages(getConstruction());
+		((ImageManagerW) app.getImageManager()).adjustConstructionImages(getConstruction());
 		String allMacrosXml = getApplication().getAllMacrosXMLOrEmpty();
 		XMLStringBuilder defaults2d = new XMLStringBuilder();
 		XMLStringBuilder defaults3d = null;
 		if (app.is3D()) {
 			defaults3d = new XMLStringBuilder();
 		}
-		getKernel().getConstruction().getConstructionDefaults()
-				.getDefaultsXML(defaults2d, defaults3d);
+		getKernel().getConstruction().getConstructionDefaults().getDefaultsXML(defaults2d, defaults3d);
 		String geogebraJavascript = getKernel().getLibraryJavaScript();
 
 		if (!"".equals(allMacrosXml)) {
@@ -472,13 +457,11 @@ public class GgbAPIW extends GgbAPI {
 		}
 
 		if (!defaults2d.isEmpty()) {
-			archiveContent.put(MyXMLio.XML_FILE_DEFAULTS_2D,
-					defaults2d.toString());
+			archiveContent.put(MyXMLio.XML_FILE_DEFAULTS_2D, defaults2d.toString());
 		}
 
 		if (defaults3d != null && !defaults3d.isEmpty()) {
-			archiveContent.put(MyXMLio.XML_FILE_DEFAULTS_3D,
-					defaults3d.toString());
+			archiveContent.put(MyXMLio.XML_FILE_DEFAULTS_3D, defaults3d.toString());
 		}
 
 		if (!StringUtil.emptyTrim(geogebraJavascript)) {
@@ -492,13 +475,11 @@ public class GgbAPIW extends GgbAPI {
 				.writeConstructionImages(getConstruction(), "", archiveContent);
 		EmbedManager embedManager = app.getEmbedManager();
 		if (embedManager != null) {
-			embedManager.writeEmbeds(getConstruction(),
-					archiveContent);
+			embedManager.writeEmbeds(getConstruction(), archiveContent);
 		}
 		// write construction thumbnails
 		if (includeThumbnail) {
-			ArchiveEntry thumb = new ArchiveEntry(MyXMLio.XML_FILE_THUMBNAIL,
-					getThumbnailDataURL());
+			ArchiveEntry thumb = new ArchiveEntry(MyXMLio.XML_FILE_THUMBNAIL, getThumbnailDataURL());
 			archiveContent.put(MyXMLio.XML_FILE_THUMBNAIL, thumb);
 		}
 
@@ -519,8 +500,7 @@ public class GgbAPIW extends GgbAPI {
 	public String getThumbnailDataURL() {
 		View viewForThumbnail = getViewForThumbnail();
 		if (viewForThumbnail instanceof HasThumbnailURL) {
-			return ((HasThumbnailURL) viewForThumbnail)
-					.getCanvasBase64WithTypeString();
+			return ((HasThumbnailURL) viewForThumbnail).getCanvasBase64WithTypeString();
 		}
 		return "";
 	}
@@ -542,19 +522,18 @@ public class GgbAPIW extends GgbAPI {
 		return ret;
 	}
 
-	private EuclidianViewInterfaceCommon getViewForThumbnail(
-			boolean needsObjects) {
-		if (app.isEuclidianView3Dinited() && app.showView(App.VIEW_EUCLIDIAN3D)
-				&& (!needsObjects
-						|| app.getEuclidianView3D().hasVisibleObjects())) {
+	private EuclidianViewInterfaceCommon getViewForThumbnail(boolean needsObjects) {
+		if (app.isEuclidianView3Dinited()
+				&& app.showView(App.VIEW_EUCLIDIAN3D)
+				&& (!needsObjects || app.getEuclidianView3D().hasVisibleObjects())) {
 			return app.getEuclidianView3D();
 		}
-		if (app.showView(App.VIEW_EUCLIDIAN) && (!needsObjects
-				|| app.getEuclidianView1().hasVisibleObjects())) {
+		if (app.showView(App.VIEW_EUCLIDIAN)
+				&& (!needsObjects || app.getEuclidianView1().hasVisibleObjects())) {
 			return app.getEuclidianView1();
 		}
-		if (app.showView(App.VIEW_EUCLIDIAN2) && (!needsObjects
-				|| app.getEuclidianView2(1).hasVisibleObjects())) {
+		if (app.showView(App.VIEW_EUCLIDIAN2)
+				&& (!needsObjects || app.getEuclidianView2(1).hasVisibleObjects())) {
 			return app.getEuclidianView2(1);
 		}
 		if (app.showView(App.VIEW_PROBABILITY_CALCULATOR)) {
@@ -594,20 +573,17 @@ public class GgbAPIW extends GgbAPI {
 		return archiveContent;
 	}
 
-	private static GgbFile mergeFiles(GgbFile archive,
-			GgbFile top, String prefix,
-			HashMap<String, Integer> usage) {
+	private static GgbFile mergeFiles(
+			GgbFile archive, GgbFile top, String prefix, HashMap<String, Integer> usage) {
 		for (Entry<String, ArchiveEntry> entry : archive.entrySet()) {
-			if (usage == null || usage.get(entry.getKey()) == null
-					|| usage.get(entry.getKey()) < 2) {
+			if (usage == null || usage.get(entry.getKey()) == null || usage.get(entry.getKey()) < 2) {
 				top.put(prefix + entry.getKey(), entry.getValue());
 			}
 		}
 		return top;
 	}
 
-	private static void pushNativeEntryToArchive(String key, String value,
-			JsArray<Object> archive) {
+	private static void pushNativeEntryToArchive(String key, String value, JsArray<Object> archive) {
 		JsPropertyMap<Object> obj = JsPropertyMap.of();
 		obj.set("fileName", key);
 		obj.set("fileContent", value);
@@ -619,13 +595,12 @@ public class GgbAPIW extends GgbAPI {
 
 		JsPropertyMap<Object> fflatePrepared = JsPropertyMap.of();
 
-		for (Entry<String, ArchiveEntry> entry: arch.entrySet()) {
+		for (Entry<String, ArchiveEntry> entry : arch.entrySet()) {
 			String fileName = entry.getKey();
 			ArchiveEntry fileContentObject = entry.getValue();
 			JsArray<Object> archiveEntry = new JsArray<>();
 			int ind = fileName.lastIndexOf('.');
-			String extension = ind > -1 ? fileName.substring(ind + 1)
-					.toLowerCase(Locale.ROOT) : "";
+			String extension = ind > -1 ? fileName.substring(ind + 1).toLowerCase(Locale.ROOT) : "";
 			if (fileContentObject.string != null) {
 				String fileContent = fileContentObject.string;
 				if (imgExtensions.contains(extension)) {
@@ -638,7 +613,7 @@ public class GgbAPIW extends GgbAPI {
 			} else {
 				archiveEntry.push(fileContentObject.data);
 			}
-			if (imgExtensions.contains(extension) && ! "bmp".equals(extension)) {
+			if (imgExtensions.contains(extension) && !"bmp".equals(extension)) {
 				JsPropertyMap<?> options = JsPropertyMap.of("level", 0);
 				archiveEntry.push(options);
 			}
@@ -676,11 +651,10 @@ public class GgbAPIW extends GgbAPI {
 				Log.error(err);
 
 				Uint8Array syncZipped = FFlate.get().zipSync(fflatePrepared);
-				clb.consume(new Blob(
-						new JsArray<>(Blob.ConstructorBlobPartsArrayUnionType.of(syncZipped))));
-			} else {
 				clb.consume(
-						new Blob(new JsArray<>(Blob.ConstructorBlobPartsArrayUnionType.of(data))));
+						new Blob(new JsArray<>(Blob.ConstructorBlobPartsArrayUnionType.of(syncZipped))));
+			} else {
+				clb.consume(new Blob(new JsArray<>(Blob.ConstructorBlobPartsArrayUnionType.of(data))));
 			}
 		});
 	}
@@ -702,8 +676,7 @@ public class GgbAPIW extends GgbAPI {
 	public String zipXML(String plain) {
 		JsArray<Uint8Array> entry = new JsArray<>();
 		entry.push(FFlate.get().strToU8(plain));
-		return Base64.bytesToBase64(FFlate.get().zipSync(
-				JsPropertyMap.of("geogebra.xml", entry)));
+		return Base64.bytesToBase64(FFlate.get().zipSync(JsPropertyMap.of("geogebra.xml", entry)));
 	}
 
 	private String unzipXML(String xml) {
@@ -742,8 +715,7 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	private void writeMacroImage(GgbFile archive, Macro macro) {
-		((ImageManagerW) app.getImageManager())
-				.writeMacroImages(Arrays.asList(macro), archive);
+		((ImageManagerW) app.getImageManager()).writeMacroImages(Arrays.asList(macro), archive);
 	}
 
 	/**
@@ -751,8 +723,8 @@ public class GgbAPIW extends GgbAPI {
 	 *            material ID
 	 */
 	public void openMaterial(final String material) {
-		((AppW) app).openMaterial(material,
-				err -> Log.debug("Loading failed for id" + material + ": " + err));
+		((AppW) app)
+				.openMaterial(material, err -> Log.debug("Loading failed for id" + material + ": " + err));
 	}
 
 	/**
@@ -778,7 +750,7 @@ public class GgbAPIW extends GgbAPI {
 	 *            height
 	 * @param height
 	 *            width
-	 * 
+	 *
 	 *            Sets the size of the applet
 	 */
 	public void setSize(int width, int height) {
@@ -789,12 +761,11 @@ public class GgbAPIW extends GgbAPI {
 
 	private void setArticleParam(String name, int value) {
 		((AppW) app).getAppletParameters().setAttribute(name, value + "");
-
 	}
 
 	/**
 	 * @param show
-	 * 
+	 *
 	 *            whether to show the toolbar in geogebra-web applets or not
 	 */
 	public void showToolBar(boolean show) {
@@ -805,7 +776,7 @@ public class GgbAPIW extends GgbAPI {
 
 	/**
 	 * @param show
-	 * 
+	 *
 	 *            whether to show the menubar in geogebra-web applets or not
 	 */
 	public void showMenuBar(boolean show) {
@@ -828,21 +799,20 @@ public class GgbAPIW extends GgbAPI {
 		appW.setShowAlgebraInput(show, false);
 		appW.setInputPosition(
 				appW.getInputPosition() == InputPosition.algebraView
-						? InputPosition.bottom : InputPosition.algebraView,
+						? InputPosition.bottom
+						: InputPosition.algebraView,
 				true);
 		appW.updateSplitPanelHeight();
 
 		appW.updateCenterPanelAndViews();
-		if (appW.getGuiManager() != null
-				&& appW.getGuiManager().getLayout() != null) {
+		if (appW.getGuiManager() != null && appW.getGuiManager().getLayout() != null) {
 			appW.getGuiManager().getLayout().getDockManager().resizePanels();
 		}
-
 	}
 
 	/**
 	 * @param show
-	 * 
+	 *
 	 *            whether to show the reseticon in geogebra-web applets or not
 	 */
 	public void showResetIcon(boolean show) {
@@ -860,12 +830,10 @@ public class GgbAPIW extends GgbAPI {
 	 *            top left corner
 	 * @return image label
 	 */
-	public String insertImage(String url, String corner1, String corner2,
-			String corner4) {
-		
-		GeoImage geoImage = ((AppW) app).urlDropHappened(url,
-				checkCorner(corner1), checkCorner(corner2),
-				checkCorner(corner4));
+	public String insertImage(String url, String corner1, String corner2, String corner4) {
+
+		GeoImage geoImage = ((AppW) app)
+				.urlDropHappened(url, checkCorner(corner1), checkCorner(corner2), checkCorner(corner4));
 
 		return geoImage.getLabelSimple();
 	}
@@ -887,8 +855,7 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	private static String checkCorner(String cornerExp) {
-		return StringUtil.isNaN(cornerExp) || StringUtil.empty(cornerExp) ? null
-				: cornerExp;
+		return StringUtil.isNaN(cornerExp) || StringUtil.empty(cornerExp) ? null : cornerExp;
 	}
 
 	/**
@@ -923,10 +890,10 @@ public class GgbAPIW extends GgbAPI {
 	 * @param color color CSS string
 	 * @param implicit whether the geo was interacted with (add, update) without explicit selection
 	 */
-	public void addMultiuserSelection(String clientId, String userName, String color,
-			String label, boolean implicit) {
-		MultiuserManager.INSTANCE.addSelection(app, clientId, userName, GColor.parseHexColor(color),
-				label, implicit);
+	public void addMultiuserSelection(
+			String clientId, String userName, String color, String label, boolean implicit) {
+		MultiuserManager.INSTANCE.addSelection(
+				app, clientId, userName, GColor.parseHexColor(color), label, implicit);
 	}
 
 	/**
@@ -960,8 +927,8 @@ public class GgbAPIW extends GgbAPI {
 	 * @param onSuccess success callback
 	 * @param onFailure failure callback
 	 */
-	public void asyncEvalCommand(String command, ResolveCallbackFn<String> onSuccess,
-			RejectCallbackFn onFailure) {
+	public void asyncEvalCommand(
+			String command, ResolveCallbackFn<String> onSuccess, RejectCallbackFn onFailure) {
 		((AppW) app).getAsyncManager().asyncEvalCommand(command, onSuccess, onFailure);
 	}
 
@@ -971,8 +938,8 @@ public class GgbAPIW extends GgbAPI {
 	 * @param onSuccess success callback, takes comma separated labels
 	 * @param onFailure failure callback
 	 */
-	public void asyncEvalCommandGetLabels(String command, ResolveCallbackFn<String> onSuccess,
-			RejectCallbackFn onFailure) {
+	public void asyncEvalCommandGetLabels(
+			String command, ResolveCallbackFn<String> onSuccess, RejectCallbackFn onFailure) {
 		((AppW) app).getAsyncManager().asyncEvalCommandGetLabels(command, onSuccess, onFailure);
 	}
 
@@ -985,8 +952,7 @@ public class GgbAPIW extends GgbAPI {
 		try {
 			return super.evalCommand(cmdString);
 		} catch (CommandNotLoadedError e) {
-			Log.debug("Command not loaded yet. "
-					+ "Please try asyncEvalCommand(cmdString)");
+			Log.debug("Command not loaded yet. " + "Please try asyncEvalCommand(cmdString)");
 			throw e;
 		}
 	}
@@ -1000,8 +966,8 @@ public class GgbAPIW extends GgbAPI {
 		try {
 			return super.evalCommandGetLabels(cmdString);
 		} catch (CommandNotLoadedError e) {
-			Log.debug("Command not loaded yet. "
-					+ "Please try asyncEvalCommandGetLabels(cmdString, callback)");
+			Log.debug(
+					"Command not loaded yet. " + "Please try asyncEvalCommandGetLabels(cmdString, callback)");
 			throw e;
 		}
 	}
@@ -1009,7 +975,7 @@ public class GgbAPIW extends GgbAPI {
 	/**
 	 * If all content is saved, run immediately, otherwise wait until user
 	 * saves.
-	 * 
+	 *
 	 * @param callback
 	 *            callback after file is saved
 	 */
@@ -1039,7 +1005,7 @@ public class GgbAPIW extends GgbAPI {
 
 	/**
 	 * Make screenshot of the whole app as PNG.
-	 * 
+	 *
 	 * @param callback
 	 *            callback
 	 */
@@ -1048,7 +1014,7 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	@Override
-	final public void exportSVG(String filename, Consumer<String> callback) {
+	public final void exportSVG(String filename, Consumer<String> callback) {
 		EuclidianView ev = app.getActiveEuclidianView();
 
 		if (ev instanceof EuclidianViewW) {
@@ -1068,11 +1034,11 @@ public class GgbAPIW extends GgbAPI {
 
 	/**
 	 * Experimental GGB-2150
-	 * 
+	 *
 	 */
 	@Override
-	final public void exportPDF(double scale, String filename,
-			Consumer<String> callback, String sliderLabel, double dpi) {
+	public final void exportPDF(
+			double scale, String filename, Consumer<String> callback, String sliderLabel, double dpi) {
 		ExportLoader.onCanvas2PdfLoaded(() -> {
 			StringConsumer pdfConsumer = pdf -> {
 				if (filename != null) {
@@ -1097,9 +1063,14 @@ public class GgbAPIW extends GgbAPI {
 						if (sliderLabel == null) {
 							pdfConsumer.consume(evw.getExportPDF(scale, dpi));
 						} else {
-							AnimationExporter.export(kernel.getApplication(), 0,
+							AnimationExporter.export(
+									kernel.getApplication(),
+									0,
 									(GeoNumeric) kernel.lookupLabel(sliderLabel),
-									pdfConsumer, scale, Double.NaN, ExportType.PDF_HTML5);
+									pdfConsumer,
+									scale,
+									Double.NaN,
+									ExportType.PDF_HTML5);
 						}
 					}
 				});
@@ -1108,27 +1079,42 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	@Override
-	public void exportGIF(String sliderLabel, double scale,
-			double timeBetweenFrames, boolean isLoop, String filename,
+	public void exportGIF(
+			String sliderLabel,
+			double scale,
+			double timeBetweenFrames,
+			boolean isLoop,
+			String filename,
 			double rotate) {
 
 		// each frame as ExportType.PNG
-		AnimationExporter.export(kernel.getApplication(), (int) timeBetweenFrames,
+		AnimationExporter.export(
+				kernel.getApplication(),
+				(int) timeBetweenFrames,
 				(GeoNumeric) kernel.lookupLabel(sliderLabel),
 				url -> Browser.exportImage(url, filename),
-				scale, rotate, ExportType.PNG);
-
+				scale,
+				rotate,
+				ExportType.PNG);
 	}
 
 	@Override
-	public void exportWebM(String sliderLabel, double scale,
-			double timeBetweenFrames, boolean isLoop, String filename,
+	public void exportWebM(
+			String sliderLabel,
+			double scale,
+			double timeBetweenFrames,
+			boolean isLoop,
+			String filename,
 			double rotate) {
 		// each frame as ExportType.WEBP
-		AnimationExporter.export(kernel.getApplication(), (int) timeBetweenFrames,
+		AnimationExporter.export(
+				kernel.getApplication(),
+				(int) timeBetweenFrames,
 				(GeoNumeric) kernel.lookupLabel(sliderLabel),
 				url -> Browser.downloadURL(url, filename),
-				scale, rotate, ExportType.WEBP);
+				scale,
+				rotate,
+				ExportType.WEBP);
 	}
 
 	/**
@@ -1162,18 +1148,15 @@ public class GgbAPIW extends GgbAPI {
 	 *            callback to run when properties loaded
 	 * @return return value
 	 */
-	final public String translate(final String key,
-			final StringConsumer callback) {
+	public final String translate(final String key, final StringConsumer callback) {
 		final Localization loc = app.getLocalization();
 		if (callback != null) {
-			((AppW) app).afterLocalizationLoaded(
-					() -> callback.consume(loc.getMenu(key)));
+			((AppW) app).afterLocalizationLoaded(() -> callback.consume(loc.getMenu(key)));
 		}
 		return loc.getMenu(key);
 	}
 
-	private static AsyncOperation<String> asyncOperation(
-			final StringConsumer callback) {
+	private static AsyncOperation<String> asyncOperation(final StringConsumer callback) {
 		return callback::consume;
 	}
 
@@ -1200,8 +1183,7 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public void setEditorState(String text, String label) {
 		if (editor != null) {
-			GeoElement geo = StringUtil.empty(label) ? null
-					: kernel.lookupLabel(label);
+			GeoElement geo = StringUtil.empty(label) ? null : kernel.lookupLabel(label);
 			editor.setState(text, geo);
 		}
 	}
@@ -1218,8 +1200,7 @@ public class GgbAPIW extends GgbAPI {
 	 * @return content of the inputbox
 	 */
 	public String getInputBoxState(String label) {
-		GeoElement geo = StringUtil.empty(label) ? null
-				: kernel.lookupLabel(label);
+		GeoElement geo = StringUtil.empty(label) ? null : kernel.lookupLabel(label);
 		if (geo instanceof GeoInputBox) {
 			return ((GeoInputBox) geo).getInputBoxState();
 		}
@@ -1231,8 +1212,7 @@ public class GgbAPIW extends GgbAPI {
 	 * @param label - label of inputbox
 	 */
 	public void setInputBoxState(String state, String label) {
-		GeoElement geo = StringUtil.empty(label) ? null
-				: kernel.lookupLabel(label);
+		GeoElement geo = StringUtil.empty(label) ? null : kernel.lookupLabel(label);
 		if (geo instanceof GeoInputBox) {
 			((GeoInputBox) geo).setInputBoxState(state);
 		}
@@ -1244,8 +1224,7 @@ public class GgbAPIW extends GgbAPI {
 	 * @return true, if object is interactive
 	 */
 	public boolean isInteractive(String label) {
-		GeoElement geo = StringUtil.empty(label) ? null
-				: kernel.lookupLabel(label);
+		GeoElement geo = StringUtil.empty(label) ? null : kernel.lookupLabel(label);
 		return geo != null && app.getSelectionManager().isSelectableForEV(geo);
 	}
 
@@ -1301,7 +1280,8 @@ public class GgbAPIW extends GgbAPI {
 	 * @return ID of selected page
 	 */
 	public String getActivePage() {
-		return ((AppW) app).getPageController() == null ? ""
+		return ((AppW) app).getPageController() == null
+				? ""
 				: ((AppW) app).getPageController().getActivePage();
 	}
 
@@ -1318,7 +1298,7 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public String[] getPages() {
 		PageListControllerInterface pageController = ((AppW) app).getPageController();
-		return pageController != null ? pageController.getPages() : new String[]{""};
+		return pageController != null ? pageController.getPages() : new String[] {""};
 	}
 
 	/**
@@ -1326,7 +1306,8 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public PageContent getPageContent(String pageId) {
 		PageListControllerInterface pageController = ((AppW) app).getPageController();
-		PageContent ret = pageController != null ? pageController.getPageContent(pageId)
+		PageContent ret = pageController != null
+				? pageController.getPageContent(pageId)
 				: PageContent.of(getXML(), getAllObjectNames(), null, null, 0);
 		ret.xml = zipXML(ret.xml);
 		return ret;
@@ -1362,8 +1343,10 @@ public class GgbAPIW extends GgbAPI {
 		if (guiManagerW != null && !values.isEmpty()) {
 			String[] valueArray = values.split(",");
 			if (valueArray.length == 3) {
-				guiManagerW.setValues(Double.parseDouble(valueArray[0]),
-						Double.parseDouble(valueArray[1]), Double.parseDouble(valueArray[2]));
+				guiManagerW.setValues(
+						Double.parseDouble(valueArray[0]),
+						Double.parseDouble(valueArray[1]),
+						Double.parseDouble(valueArray[2]));
 			}
 		}
 	}
@@ -1397,14 +1380,10 @@ public class GgbAPIW extends GgbAPI {
 				if ("clearAll".equals(callbackAction)) {
 					((AppW) app).tryLoadTemplatesOnFileNew();
 				}
-				if ("openOfflineFile".equals(callbackAction)) {
-					// TODO handle open offline file after login
-				}
 			} else {
 				app.showError(MyError.Errors.SaveFileFailed);
 			}
 		});
-
 	}
 
 	@Override
@@ -1478,7 +1457,7 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public void addCustomTool(String iconUrl, String name, Object category, Object callback) {
 		GuiManagerInterfaceW guiManagerW = (GuiManagerInterfaceW) app.getGuiManager();
-        if (guiManagerW == null) {
+		if (guiManagerW == null) {
 			return;
 		}
 

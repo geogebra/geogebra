@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -21,7 +21,6 @@ import java.util.Vector;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
@@ -56,8 +55,13 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
 
 public class ModeToggleMenuW extends ListItem
-		implements MouseDownHandler, MouseUpHandler, TouchStartHandler,
-		TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHandler {
+		implements MouseDownHandler,
+				MouseUpHandler,
+				TouchStartHandler,
+				TouchEndHandler,
+				MouseOutHandler,
+				MouseOverHandler,
+				KeyUpHandler {
 
 	protected FlowPanel tbutton;
 	protected ToolbarSubmenuW submenu;
@@ -82,8 +86,7 @@ public class ModeToggleMenuW extends ListItem
 	 * @param order
 	 *            tool order
 	 */
-	public ModeToggleMenuW(AppW appl, Vector<Integer> menu1, ToolBarW tb,
-			int order) {
+	public ModeToggleMenuW(AppW appl, Vector<Integer> menu1, ToolBarW tb, int order) {
 		super();
 		this.order = order;
 		this.app = appl;
@@ -99,8 +102,7 @@ public class ModeToggleMenuW extends ListItem
 	protected void buildButton() {
 		tbutton = new FlowPanel();
 		tbutton.addStyleName("toolbar_button");
-		NoDragImage toolbarImg = new NoDragImage(AppResources.INSTANCE.empty(),
-				32);
+		NoDragImage toolbarImg = new NoDragImage(AppResources.INSTANCE.empty(), 32);
 		GGWToolBar.getImageResource(menu.get(0), app, toolbarImg);
 		toolbarImg.addStyleName("toolbar_icon");
 		tbutton.add(toolbarImg);
@@ -119,15 +121,9 @@ public class ModeToggleMenuW extends ListItem
 
 		for (int k = 0; k < menu.size(); k++) {
 			final int addMode = menu.get(k);
-			if (addMode < 0) { // TODO
-				// // separator within menu:
-				// tm.addSeparator();
-			} else { // standard case: add mode
-				// check mode
-				if (!"".equals(app.getToolName(addMode))) {
-					ListItem subLi = submenu.addItem(addMode);
-					addDomHandlers(subLi);
-				}
+			if (addMode >= 0 && !"".equals(app.getToolName(addMode))) {
+				ListItem subLi = submenu.addItem(addMode);
+				addDomHandlers(subLi);
 			}
 		}
 		hideMenu();
@@ -164,7 +160,7 @@ public class ModeToggleMenuW extends ListItem
 
 	/**
 	 * Add event handlers for the widget.
-	 * 
+	 *
 	 * @param w
 	 *            widget
 	 */
@@ -234,9 +230,9 @@ public class ModeToggleMenuW extends ListItem
 				showToolTipBottom(mode, m);
 				this.setCssToSelected();
 				toolbar.update(); // TODO! needed to regenerate the toolbar, if
-									// we want to see the border.
-									// remove, if it will be updated without
-									// this.
+				// we want to see the border.
+				// remove, if it will be updated without
+				// this.
 				return true;
 			}
 			return false;
@@ -247,9 +243,9 @@ public class ModeToggleMenuW extends ListItem
 
 				this.setCssToSelected();
 				toolbar.update(); // TODO! needed to regenerate the toolbar, if
-									// we want to see the border.
-									// remove, if it will be updated without
-									// this.
+				// we want to see the border.
+				// remove, if it will be updated without
+				// this.
 				return true;
 			}
 			for (Integer i : this.menu) {
@@ -302,10 +298,8 @@ public class ModeToggleMenuW extends ListItem
 		tbutton.getElement().setAttribute("mode", miMode);
 		//
 		tbutton.clear();
-		NoDragImage buttonImage = new NoDragImage(AppResources.INSTANCE.empty(),
-				32);
-		GGWToolBar
-				.getImageResource(Integer.parseInt(miMode), app, buttonImage);
+		NoDragImage buttonImage = new NoDragImage(AppResources.INSTANCE.empty(), 32);
+		GGWToolBar.getImageResource(Integer.parseInt(miMode), app, buttonImage);
 		buttonImage.addStyleName("toolbar_icon");
 		if (Integer.parseInt(miMode) == EuclidianConstants.MODE_DELETE) {
 			buttonImage.addStyleName("plusPadding");
@@ -314,37 +308,31 @@ public class ModeToggleMenuW extends ListItem
 
 		toolbar.update();
 		setCssToSelected();
-
 	}
 
 	private void setCssToSelected() {
-		ArrayList<ModeToggleMenuW> modeToggleMenus = toolbar
-				.getModeToggleMenus();
+		ArrayList<ModeToggleMenuW> modeToggleMenus = toolbar.getModeToggleMenus();
 		for (int i = 0; i < modeToggleMenus.size(); i++) {
 			ModeToggleMenuW mtm = modeToggleMenus.get(i);
 			if (mtm != this) {
-				mtm.getToolbarButtonPanel().getElement().getStyle()
-						.setBorderWidth(1, Unit.PX);
-				mtm.getToolbarButtonPanel().getElement()
-						.setAttribute("isSelected", "false");
+				mtm.getToolbarButtonPanel().getElement().getStyle().setBorderWidth(1, Unit.PX);
+				mtm.getToolbarButtonPanel().getElement().setAttribute("isSelected", "false");
 			}
 		}
 		// Set border width explicitly to make sure browser actually does that
 		// (otherwise the thicker border applies on next browser event)
 		getToolbarButtonPanel().getElement().setAttribute("isSelected", "true");
-		getToolbarButtonPanel().getElement().getStyle().setBorderWidth(2,
-				Unit.PX);
+		getToolbarButtonPanel().getElement().getStyle().setBorderWidth(2, Unit.PX);
 	}
 
 	/**
 	 * Handle pointer up: set app mode.
-	 * 
+	 *
 	 * @param event
 	 *            mouse up / touch end event
 	 */
 	public void onEnd(DomEvent<?> event) {
-		int mode = Integer
-				.parseInt(event.getRelativeElement().getAttribute("mode"));
+		int mode = Integer.parseInt(event.getRelativeElement().getAttribute("mode"));
 		if (mode < 999 || mode > 2000) {
 			app.hideKeyboard();
 		}
@@ -352,13 +340,13 @@ public class ModeToggleMenuW extends ListItem
 		event.stopPropagation();
 		if (event.getSource() == tbutton) { // if click ended on the button
 			// if enter was pressed
-			if ((event instanceof KeyUpEvent) && ((KeyUpEvent) event)
-					.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+			if ((event instanceof KeyUpEvent)
+					&& ((KeyUpEvent) event).getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 				setMenuVisibility(!isMenuShown());
 			}
 			// if submenu was open
-			if (wasMenuShownOnMouseDown && !(event instanceof TouchEndEvent
-					&& app.getLAF().isSmart())) {
+			if (wasMenuShownOnMouseDown
+					&& !(event instanceof TouchEndEvent && app.getLAF().isSmart())) {
 				hideMenu();
 			}
 		} else { // click ended on menu item
@@ -378,8 +366,11 @@ public class ModeToggleMenuW extends ListItem
 		if (app.getActiveEuclidianView() != null) {
 			app.getActiveEuclidianView().requestFocus();
 		}
-		app.setMode(mode, event.getSource() == tbutton && menu.size() > 1
-				? ModeSetter.DOCK_PANEL : ModeSetter.TOOLBAR);
+		app.setMode(
+				mode,
+				event.getSource() == tbutton && menu.size() > 1
+						? ModeSetter.DOCK_PANEL
+						: ModeSetter.TOOLBAR);
 		app.getToolTipManager().setBlockToolTip(true);
 	}
 
@@ -390,7 +381,7 @@ public class ModeToggleMenuW extends ListItem
 			CancelEventTimer.touchEventOccurred();
 		} else { // clicked on a submenu list item
 			event.stopPropagation(); // the submenu doesn't close as a popup,
-										// see GeoGebraAppFrame init()
+			// see GeoGebraAppFrame init()
 		}
 		event.preventDefault();
 	}
@@ -409,30 +400,27 @@ public class ModeToggleMenuW extends ListItem
 		onEnd(event);
 		if (event.getSource() == tbutton) {
 			if (this.app.getActiveEuclidianView() != null
-					&& this.app.getActiveEuclidianView()
-							.getEuclidianController() != null) {
-				((IsEuclidianController) this.app.getActiveEuclidianView()
-						.getEuclidianController()).setActualSticky(event
-								.getNativeButton() == NativeEvent.BUTTON_RIGHT);
+					&& this.app.getActiveEuclidianView().getEuclidianController() != null) {
+				((IsEuclidianController) this.app.getActiveEuclidianView().getEuclidianController())
+						.setActualSticky(event.getNativeButton() == NativeEvent.BUTTON_RIGHT);
 			}
 		}
 	}
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
-		if (event.getSource() == tbutton
-				&& !CancelEventTimer.cancelMouseEvent()) {
+		if (event.getSource() == tbutton && !CancelEventTimer.cancelMouseEvent()) {
 			onStart(event);
 		} else {
 			event.stopPropagation(); // the submenu doesn't close as a popup,
-										// see GeoGebraAppFrame init()
+			// see GeoGebraAppFrame init()
 		}
 		event.preventDefault();
 	}
 
 	/**
 	 * Handles the touchstart and mousedown events on main tools.
-	 * 
+	 *
 	 * @param event
 	 *            mouse or touch event
 	 */
@@ -454,7 +442,7 @@ public class ModeToggleMenuW extends ListItem
 
 	/**
 	 * Show tooltip after tool taped.
-	 * 
+	 *
 	 * @param event
 	 *            tap event
 	 */
@@ -464,8 +452,7 @@ public class ModeToggleMenuW extends ListItem
 		if (event.getSource() == tbutton) {
 			mode = menu.get(0);
 		} else {
-			mode = Integer
-					.parseInt(event.getRelativeElement().getAttribute("mode"));
+			mode = Integer.parseInt(event.getRelativeElement().getAttribute("mode"));
 		}
 		if (mode >= 0) {
 			// if we click the toolbar button, only interpret it as real
@@ -473,7 +460,6 @@ public class ModeToggleMenuW extends ListItem
 			showToolTipBottom(mode, ModeSetter.TOOLBAR);
 		}
 		app.getToolTipManager().setBlockToolTip(true);
-
 	}
 
 	/**
@@ -484,10 +470,15 @@ public class ModeToggleMenuW extends ListItem
 	 */
 	public void showToolTipBottom(int mode, ModeSetter m) {
 		if (m != ModeSetter.CAS_VIEW && app.showToolBarHelp()) {
-			app.getToolTipManager().showBottomInfoToolTip(new ToolTip(app.getToolName(mode),
-					app.getToolHelp(mode), "Help",
-					app.getGuiManager().getTooltipURL(mode)), app,
-					ComponentSnackbar.TOOL_TOOLTIP_DURATION);
+			app.getToolTipManager()
+					.showBottomInfoToolTip(
+							new ToolTip(
+									app.getToolName(mode),
+									app.getToolHelp(mode),
+									"Help",
+									app.getGuiManager().getTooltipURL(mode)),
+							app,
+							ComponentSnackbar.TOOL_TOOLTIP_DURATION);
 		}
 	}
 
@@ -538,62 +529,55 @@ public class ModeToggleMenuW extends ListItem
 		int keyCode = event.getNativeKeyCode();
 
 		switch (keyCode) {
-		default:
-			// do nothing
-			break;
-		case KeyCodes.KEY_ENTER:
-			onEnd(event);
-			break;
-		case KeyCodes.KEY_RIGHT:
-		case KeyCodes.KEY_LEFT:
-			int indexOfButton = toolbar.getModeToggleMenus().indexOf(this);
-			if (keyCode == KeyCodes.KEY_RIGHT) {
-				indexOfButton++;
-			} else {
-				indexOfButton--;
-			}
-
-			if (indexOfButton >= 0
-					&& indexOfButton < toolbar.getModeToggleMenus().size()) {
-				selectMenu(indexOfButton);
-			} else {
-				toolbar.selectMenuButton(indexOfButton < 0 ? -1 : 0);
-			}
-			break;
-		case KeyCodes.KEY_DOWN:
-			if (event.getSource() == tbutton) {
-				if (isMenuShown()) {
-					this.getItemList().getWidget(0).getElement().focus();
+			default:
+				// do nothing
+				break;
+			case KeyCodes.KEY_ENTER:
+				onEnd(event);
+				break;
+			case KeyCodes.KEY_RIGHT:
+			case KeyCodes.KEY_LEFT:
+				int indexOfButton = toolbar.getModeToggleMenus().indexOf(this);
+				if (keyCode == KeyCodes.KEY_RIGHT) {
+					indexOfButton++;
 				} else {
-					showMenu();
-					this.getItemList().getWidget(0).getElement().focus();
-				}
-			} else {
-				Element nextSiblingElement = event.getRelativeElement()
-						.getNextSiblingElement();
-				if (nextSiblingElement != null) {
-					nextSiblingElement.focus();
-				} else {
-					event.getRelativeElement().getParentElement()
-							.getFirstChildElement().focus();
-				}
-			}
-			break;
-		case KeyCodes.KEY_UP:
-			if (event.getSource() instanceof ListItem) {
-				Element previousSiblingElement = event.getRelativeElement()
-						.getPreviousSiblingElement();
-				if (previousSiblingElement != null) {
-					previousSiblingElement.focus();
-				} else {
-					UnorderedList parentUL = (UnorderedList) ((ListItem) event
-							.getSource()).getParent();
-					parentUL.getWidget(parentUL.getWidgetCount() - 1)
-							.getElement().focus();
+					indexOfButton--;
 				}
 
-			}
-			break;
+				if (indexOfButton >= 0 && indexOfButton < toolbar.getModeToggleMenus().size()) {
+					selectMenu(indexOfButton);
+				} else {
+					toolbar.selectMenuButton(indexOfButton < 0 ? -1 : 0);
+				}
+				break;
+			case KeyCodes.KEY_DOWN:
+				if (event.getSource() == tbutton) {
+					if (isMenuShown()) {
+						this.getItemList().getWidget(0).getElement().focus();
+					} else {
+						showMenu();
+						this.getItemList().getWidget(0).getElement().focus();
+					}
+				} else {
+					Element nextSiblingElement = event.getRelativeElement().getNextSiblingElement();
+					if (nextSiblingElement != null) {
+						nextSiblingElement.focus();
+					} else {
+						event.getRelativeElement().getParentElement().getFirstChildElement().focus();
+					}
+				}
+				break;
+			case KeyCodes.KEY_UP:
+				if (event.getSource() instanceof ListItem) {
+					Element previousSiblingElement = event.getRelativeElement().getPreviousSiblingElement();
+					if (previousSiblingElement != null) {
+						previousSiblingElement.focus();
+					} else {
+						UnorderedList parentUL = (UnorderedList) ((ListItem) event.getSource()).getParent();
+						parentUL.getWidget(parentUL.getWidgetCount() - 1).getElement().focus();
+					}
+				}
+				break;
 		}
 	}
 
@@ -615,37 +599,8 @@ public class ModeToggleMenuW extends ListItem
 	}
 
 	/**
-	 * Add modes to the menu, ignore horizontal separators.
-	 * 
-	 * @param menu2
-	 *            list of modes
-	 */
-	public void addModes(Vector<Integer> menu2) {
-		if (this.submenu == null) {
-			this.buildGui();
-		}
-		for (int k = 0; k < menu2.size(); k++) {
-			final int addMode = menu2.get(k);
-			if (addMode < 0) { // TODO
-				// // separator within menu:
-				// tm.addSeparator();
-			} else { // standard case: add mode
-				// check mode
-
-				if (app.isModeValid(addMode)) {
-					ListItem subLi = submenu.addItem(addMode);
-					addDomHandlers(subLi);
-				} else {
-					Log.debug("Invalid toolbar mode: " + addMode);
-				}
-			}
-		}
-
-	}
-
-	/**
 	 * Set submenu max height (to force scrolling in small applets)
-	 * 
+	 *
 	 * @param maxHeight
 	 *            max height in px
 	 */

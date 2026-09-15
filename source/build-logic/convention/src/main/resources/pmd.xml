@@ -56,11 +56,9 @@
         <exclude name="OnlyOneReturn"/>
         <exclude name="CallSuperInConstructor"/>
         <exclude name="ConfusingTernary"/>
-        <exclude name="ClassNamingConventions"/>
         <exclude name="FieldNamingConventions"/>
         <exclude name="LocalVariableNamingConventions"/>
         <exclude name="FormalParameterNamingConventions"/>
-        <exclude name="MethodNamingConventions"/>
         <exclude name="CommentDefaultAccessModifier"/>
         <exclude name="PackageCase"/>
         <exclude name="ShortVariable"/>
@@ -72,12 +70,10 @@
         <exclude name="VariableCanBeInlined"/>
         <exclude name="UnnecessaryLocalBeforeReturn"/>
         <exclude name="EmptyMethodInAbstractClassShouldBeAbstract"/>
-        <exclude name="UselessParentheses"/>
         <exclude name="PrematureDeclaration"/>
         <exclude name="LinguisticNaming"/>
         <exclude name="UseUnderscoresInNumericLiterals"/>
         <exclude name="UseShortArrayInitializer"/>
-        <exclude name="EmptyControlStatement"/> <!-- handled by checkstyle -->
     </rule>
     <rule ref="category/java/codestyle.xml/UnnecessaryFullyQualifiedName">
         <properties>
@@ -88,6 +84,13 @@
     <rule ref="category/java/codestyle.xml/VariableDeclarationUsageDistance">
         <properties>
             <property name="violationSuppressXPath" value="//PackageDeclaration[matches(@Name, 'org.geogebra.desktop.*')]"/>
+        </properties>
+    </rule>
+    <rule ref="category/java/codestyle.xml/MethodNamingConventions ">
+        <properties>
+            <property name="methodPattern" value="[a-z][a-zA-Z0-9_]*"/>
+            <property name="staticPattern" value="[a-z][a-zA-Z0-9_]*"/>
+            <property name="junitJupiterTestPattern" value="[a-z][a-zA-Z0-9_]*"/>
         </properties>
     </rule>
     <rule ref="category/java/design.xml">
@@ -135,9 +138,16 @@
         </properties>
     </rule>
     <rule ref="category/java/documentation.xml">
-        <exclude name="CommentRequired"/>
         <exclude name="CommentSize"/>
         <exclude name="UncommentedEmptyConstructor"/>
+    </rule>
+    <rule ref="category/java/documentation.xml/CommentRequired">
+        <properties>
+            <property name="classCommentRequirement" value="ignored" />
+            <property name="fieldCommentRequirement" value="ignored" />
+            <property name="protectedMethodCommentRequirement" value="ignored" />
+            <property name="violationSuppressXPath" value="./self::ConstructorDeclaration[count(Block/*)&lt;2]|.[@EffectiveVisibility='private' or @EffectiveVisibility='package']|.[not(FormalParameters/FormalParameter) and count(Block/*)=1 and Block/ReturnStatement]|.[pmd-java:hasAnnotation('org.geogebra.common.annotation.MissingDoc') or pmd-java:hasAnnotation('org.junit.Test') or pmd-java:hasAnnotation('org.junit.Before') or pmd-java:hasAnnotation('org.gwtproject.resources.client.ClientBundle.Source')]|.[pmd-java:modifiers() = 'native']|.[//PackageDeclaration[matches(@Name, '.*gui.dialog.options.*')]]"/>
+        </properties>
     </rule>
     <rule ref="category/java/errorprone.xml">
         <exclude name="MissingSerialVersionUID"/>
@@ -151,7 +161,6 @@
         <exclude name="NullAssignment"/>
         <exclude name="AvoidDecimalLiteralsInBigDecimalConstructor"/>
         <exclude name="ProperLogger"/>
-        <exclude name="EmptyCatchBlock"/>
         <exclude name="AssignmentInOperand"/>
         <exclude name="AvoidFieldNameMatchingMethodName"/>
         <exclude name="CloseResource"/>
@@ -217,6 +226,73 @@
 //ImportDeclaration[matches(@ImportedSimpleName, "^(Nullable|Nonnull|NonNull|NotNull|CheckForNull)$") and @PackageName != "org.jspecify.annotations"]
 ]]>
                 </value>
+            </property>
+        </properties>
+    </rule>
+
+    <rule name="UseOrgGwtproject"
+          language="java"
+          class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
+          typeResolution="true"
+          message="Use imports from org.gwtproject instead of com.google.">
+        <priority>1</priority>
+        <properties>
+            <property name="xpath">
+                <value>
+                    <![CDATA[
+//ImportDeclaration[matches(@ImportedName, "^com.google.gwt.(core.client.JavaScriptObject|user|dom)$")]
+]]>
+                </value>
+            </property>
+        </properties>
+    </rule>
+
+    <rule name="UseBitlessEventHandler"
+          language="java"
+          class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
+          typeResolution="true"
+          message="Use addBitlessDomHandler instead of addDomHandler for touch events.">
+        <priority>1</priority>
+        <properties>
+            <property name="xpath">
+                <value>//MethodCall[@MethodName="addDomHandler" and ArgumentList/MethodCall/TypeExpression/ClassType[matches(@SimpleName, "Touch.*")]]</value>
+            </property>
+        </properties>
+    </rule>
+    <rule name="ArrayDimensionInType"
+          language="java"
+          class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
+          typeResolution="true"
+          message="Array dimension is part of type, use `int[] x` instead of `int x[]`">
+        <priority>1</priority>
+        <properties>
+            <property name="xpath">
+                <value>//VariableId/ArrayDimensions</value>
+            </property>
+        </properties>
+    </rule>
+    <rule name="CapitalLForLong"
+          language="java"
+          class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
+          typeResolution="true"
+          message="To avoid confusion, use L instead of l to indicate long variables">
+        <priority>1</priority>
+        <properties>
+            <property name="xpath">
+                <value>//NumericLiteral[matches(@Image,'.*l')]</value>
+            </property>
+        </properties>
+    </rule>
+
+    <rule name="ImportOnDemand"
+          language="java"
+          class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
+          typeResolution="true"
+          message="On-demand import should be replaced by explicit imports.">
+        <priority>1</priority>
+        <properties>
+            <property name="xpath">
+                <value>//ImportDeclaration[@ImportOnDemand=true() and @Static=false()]</value>
             </property>
         </properties>
     </rule>

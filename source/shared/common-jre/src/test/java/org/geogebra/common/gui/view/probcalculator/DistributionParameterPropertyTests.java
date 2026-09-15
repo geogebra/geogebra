@@ -61,7 +61,6 @@ class DistributionParameterPropertyTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	@SuppressWarnings("checkstyle:VariableDeclarationUsageDistance")
 	void testChangingDistributionChangesParameterNames() {
 		DistributionParameterProperty parameterProperty1 = parameterPropertyWithIndex(0);
 		DistributionParameterProperty parameterProperty2 = parameterPropertyWithIndex(1);
@@ -82,7 +81,7 @@ class DistributionParameterPropertyTests extends BaseAppTestSetup {
 	}
 
 	private DistributionParameterProperty parameterPropertyWithIndex(int parameterIndex) {
-		return new DistributionParameterProperty(getAlgebraProcessor(), probabilityCalculatorView,
-				getLocalization(), parameterIndex);
+		return new DistributionParameterProperty(
+				getAlgebraProcessor(), probabilityCalculatorView, getLocalization(), parameterIndex);
 	}
 }

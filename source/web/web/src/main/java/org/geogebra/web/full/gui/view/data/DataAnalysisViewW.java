@@ -45,9 +45,8 @@ import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.SplitLayoutPanel;
 import org.gwtproject.user.client.ui.Widget;
 
-public final class DataAnalysisViewW extends FlowPanel implements View,
-		ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener,
-		PrintableW {
+public final class DataAnalysisViewW extends FlowPanel
+		implements View, ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener, PrintableW {
 	private final AppW app;
 	private final Kernel kernel;
 	private DataAnalysisModel model;
@@ -55,8 +54,7 @@ public final class DataAnalysisViewW extends FlowPanel implements View,
 	private DataAnalysisStyleBarW stylebar;
 
 	public static final GColor TABLE_GRID_COLOR = GeoGebraColorConstants.TABLE_GRID_COLOR;
-	public static final GColor TABLE_HEADER_COLOR = GColor.newColor(240, 240,
-			240);
+	public static final GColor TABLE_HEADER_COLOR = GColor.newColor(240, 240, 240);
 	public static final GColor HISTOGRAM_COLOR = GColor.BLUE;
 	public static final GColor BOXPLOT_COLOR = GeoGebraColorConstants.GGB_RED;
 	public static final GColor BARCHART_COLOR = GeoGebraColorConstants.GGB_GREEN;
@@ -66,10 +64,19 @@ public final class DataAnalysisViewW extends FlowPanel implements View,
 	public static final GColor REGRESSION_COLOR = GColor.RED;
 	public static final GColor OVERLAY_COLOR = GeoGebraColorConstants.DARKBLUE;
 
-	private final GColor[] colors = { TABLE_GRID_COLOR, TABLE_HEADER_COLOR,
-			HISTOGRAM_COLOR, BOXPLOT_COLOR, BARCHART_COLOR, DOTPLOT_COLOR,
-			NQPLOT_COLOR, REGRESSION_COLOR, OVERLAY_COLOR, GColor.BLACK,
-			GColor.WHITE };
+	private final GColor[] colors = {
+		TABLE_GRID_COLOR,
+		TABLE_HEADER_COLOR,
+		HISTOGRAM_COLOR,
+		BOXPLOT_COLOR,
+		BARCHART_COLOR,
+		DOTPLOT_COLOR,
+		NQPLOT_COLOR,
+		REGRESSION_COLOR,
+		OVERLAY_COLOR,
+		GColor.BLACK,
+		GColor.WHITE
+	};
 	// main GUI panels
 	private DataPanelW dataPanel;
 	private StatisticsPanelW statisticsPanel;
@@ -91,7 +98,7 @@ public final class DataAnalysisViewW extends FlowPanel implements View,
 
 	/*************************************************
 	 * Constructs the view.
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param mode
@@ -104,8 +111,8 @@ public final class DataAnalysisViewW extends FlowPanel implements View,
 		daCtrl = new DataAnalysisControllerW(app, this);
 		model = new DataAnalysisModel(app, this, daCtrl);
 
-		dataSource = new DataSource(app,
-				() -> Objects.requireNonNull(app.getSpreadsheet()).getSelections());
+		dataSource =
+				new DataSource(app, () -> Objects.requireNonNull(app.getSpreadsheet()).getSelections());
 
 		daCtrl.loadDataLists(true);
 
@@ -119,9 +126,8 @@ public final class DataAnalysisViewW extends FlowPanel implements View,
 	private void resizeDataPanels() {
 		if (model.isMultiVar() && model.showStatPanel()) {
 			Log.debug("Showing MultiVar stat panel");
-			dataDisplayPanel1.resize(getOffsetWidth(),
-					getOffsetHeight() - statisticsPanel.getOffsetHeight(),
-					true);
+			dataDisplayPanel1.resize(
+					getOffsetWidth(), getOffsetHeight() - statisticsPanel.getOffsetHeight(), true);
 		} else {
 			dataDisplayPanel1.onResize();
 			dataDisplayPanel2.onResize();
@@ -149,9 +155,8 @@ public final class DataAnalysisViewW extends FlowPanel implements View,
 	 * @param forceModeUpdate
 	 *            whether to force mode change
 	 */
-	private void setView(DataSource dataSource, int mode,
-			boolean forceModeUpdate) {
-		
+	private void setView(DataSource dataSource, int mode, boolean forceModeUpdate) {
+
 		dataSource.setFrequencyFromColumn(true);
 
 		dataSource.setDataListFromSelection(mode);
@@ -168,9 +173,7 @@ public final class DataAnalysisViewW extends FlowPanel implements View,
 		mainSplit.setStyleName("daMainSplit");
 		add(mainSplit);
 		app.getAsyncManager().runOrSchedule(() -> {
-			model.setView(dataSource, mode,
-					app.getSettings().getDataAnalysis(),
-					forceModeUpdate);
+			model.setView(dataSource, mode, app.getSettings().getDataAnalysis(), forceModeUpdate);
 			setLabels();
 			updateGUI();
 		});
@@ -187,23 +190,17 @@ public final class DataAnalysisViewW extends FlowPanel implements View,
 	}
 
 	private void buildStatisticsPanel() {
-		if (statisticsPanel != null) {
-			// TODO handle any orphaned geo children of stat panel
-		}
 		statisticsPanel = new StatisticsPanelW(app, this);
 	}
 
 	@Override
-	public void setPlotPanelOVNotNumeric(int mode, PlotType plotType1,
-			PlotType plotType2) {
+	public void setPlotPanelOVNotNumeric(int mode, PlotType plotType1, PlotType plotType2) {
 		dataDisplayPanel1.setPanel(plotType1, mode);
 		dataDisplayPanel2.setPanel(plotType2, mode);
-
 	}
 
 	@Override
-	public void setPlotPanelOVRawData(int mode, PlotType plotType1,
-			PlotType plotType2) {
+	public void setPlotPanelOVRawData(int mode, PlotType plotType1, PlotType plotType2) {
 		dataDisplayPanel1.setPanel(plotType1, mode);
 		dataDisplayPanel2.setPanel(plotType2, mode);
 	}
@@ -268,7 +265,8 @@ public final class DataAnalysisViewW extends FlowPanel implements View,
 	private void updateLayout() {
 		clear();
 		int regressiodIdx = model.isRegressionMode() && regressionPanel != null
-				? regressionPanel.getRegressionIdx() : -1;
+				? regressionPanel.getRegressionIdx()
+				: -1;
 
 		mainSplit.clear();
 		boolean stat = model.showStatPanel();
@@ -280,11 +278,11 @@ public final class DataAnalysisViewW extends FlowPanel implements View,
 
 		if (model.isMultiVar()) {
 			comboPanelSplit.clear();
-		
+
 			if (stat) {
 				// set the size of
-				comboPanelSplit.addSouth(statisticsPanel, statisticsPanel
-						.estimateHeight(model.getDataTitles().length));
+				comboPanelSplit.addSouth(
+						statisticsPanel, statisticsPanel.estimateHeight(model.getDataTitles().length));
 				comboPanelSplit.add(dataDisplayPanel1);
 			} else {
 				comboPanelSplit.add(dataDisplayPanel1);
@@ -460,8 +458,7 @@ public final class DataAnalysisViewW extends FlowPanel implements View,
 	 * Attach this and helper views to kernel.
 	 */
 	public void attachView() {
-		model.updateFromSettings(
-				() -> Objects.requireNonNull(app.getSpreadsheet()).getSelections());
+		model.updateFromSettings(() -> Objects.requireNonNull(app.getSpreadsheet()).getSelections());
 		kernel.attach(this);
 
 		// attachView to plot panels
@@ -561,8 +558,8 @@ public final class DataAnalysisViewW extends FlowPanel implements View,
 	}
 
 	@Override
-	public void onResize()  {
-		for (Widget w: getChildren()) {
+	public void onResize() {
+		for (Widget w : getChildren()) {
 			if (w instanceof RequiresResize) {
 				((RequiresResize) w).onResize();
 			}
@@ -585,7 +582,7 @@ public final class DataAnalysisViewW extends FlowPanel implements View,
 
 	/**
 	 * Update a display other than the given one.
-	 * 
+	 *
 	 * @param display
 	 *            display NOT to be updated
 	 */
@@ -607,7 +604,6 @@ public final class DataAnalysisViewW extends FlowPanel implements View,
 
 	@Override
 	public DataDisplayModel getDisplayModel(int index) {
-		return index == 0 ? this.dataDisplayPanel1.getModel()
-				: this.dataDisplayPanel2.getModel();
+		return index == 0 ? this.dataDisplayPanel1.getModel() : this.dataDisplayPanel2.getModel();
 	}
 }

@@ -34,7 +34,7 @@ import jsinterop.base.JsPropertyMap;
  * Maps GeoGebra functions to exported JS api
  */
 @JsType
-@SuppressWarnings("Javadoc")
+@SuppressWarnings({"Javadoc", "PMD.CommentRequired"})
 public class DefaultExportedApi implements ExportedApi {
 
 	private GgbAPIW ggbAPI;
@@ -149,8 +149,7 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public String evalCommandCAS(String cmdString, String rounding) {
-		return getGgbAPI().evalCommandCAS(cmdString + "",
-				Js.isTruthy(rounding) ? rounding : null);
+		return getGgbAPI().evalCommandCAS(cmdString + "", Js.isTruthy(rounding) ? rounding : null);
 	}
 
 	public String evalGeoGebraCAS(String cmdString) {
@@ -370,8 +369,7 @@ public class DefaultExportedApi implements ExportedApi {
 		return getGgbAPI().getFrameRate();
 	}
 
-	public boolean renameObject(String oldName, String newName,
-								@TS(TS.OPTIONAL_BOOL) Object force) {
+	public boolean renameObject(String oldName, String newName, @TS(TS.OPTIONAL_BOOL) Object force) {
 		return getGgbAPI().renameObject(oldName + "", newName + "", Js.isTruthy(force));
 	}
 
@@ -510,13 +508,26 @@ public class DefaultExportedApi implements ExportedApi {
 		getGgbAPI().setRepaintingActive(Js.isTruthy(flag));
 	}
 
-	public void setCoordSystem(double xmin, double xmax, double ymin, double ymax, Object zmin,
-							   Object zmax, Object verticalY) {
+	public void setCoordSystem(
+			double xmin,
+			double xmax,
+			double ymin,
+			double ymax,
+			Object zmin,
+			Object zmax,
+			Object verticalY) {
 		if (!"number".equals(Js.typeof(zmin))) {
 			getGgbAPI().setCoordSystem(xmin, xmax, ymin, ymax);
 		} else {
-			getGgbAPI().setCoordSystem(xmin, xmax, ymin, ymax, Js.coerceToDouble(zmin),
-					Js.coerceToDouble(zmax), Js.isTruthy(verticalY));
+			getGgbAPI()
+					.setCoordSystem(
+							xmin,
+							xmax,
+							ymin,
+							ymax,
+							Js.coerceToDouble(zmin),
+							Js.coerceToDouble(zmax),
+							Js.isTruthy(verticalY));
 		}
 	}
 
@@ -524,8 +535,9 @@ public class DefaultExportedApi implements ExportedApi {
 		if (JsEval.isUndefined(arg3)) {
 			getGgbAPI().setAxesVisible(Js.isTruthy(arg1), Js.isTruthy(arg2));
 		} else {
-			getGgbAPI().setAxesVisible(Js.coerceToInt(arg1), Js.isTruthy(arg2), Js.isTruthy(arg3),
-					Js.isTruthy(arg4));
+			getGgbAPI()
+					.setAxesVisible(
+							Js.coerceToInt(arg1), Js.isTruthy(arg2), Js.isTruthy(arg3), Js.isTruthy(arg4));
 		}
 	}
 
@@ -678,8 +690,8 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public void setFont(String label, int size, Object bold, Object italic, Object serif) {
-		getGgbAPI().setFont(label + "", size, Js.isTruthy(bold), Js.isTruthy(italic),
-				Js.isTruthy(serif));
+		getGgbAPI()
+				.setFont(label + "", size, Js.isTruthy(bold), Js.isTruthy(italic), Js.isTruthy(serif));
 	}
 
 	public String insertImage(String url, String corner1, String corner2, String corner4) {
@@ -714,16 +726,36 @@ public class DefaultExportedApi implements ExportedApi {
 		getGgbAPI().enable3D(Js.isTruthy(enable));
 	}
 
-	public String getPNGBase64(double exportScale, Object transparent, double dpi,
-							   Object copyToClipboard, Object greyscale) {
-		return getGgbAPI().getPNGBase64(exportScale, Js.isTruthy(transparent), dpi,
-				Js.isTruthy(copyToClipboard), Js.isTruthy(greyscale));
+	public String getPNGBase64(
+			double exportScale,
+			Object transparent,
+			double dpi,
+			Object copyToClipboard,
+			Object greyscale) {
+		return getGgbAPI()
+				.getPNGBase64(
+						exportScale,
+						Js.isTruthy(transparent),
+						dpi,
+						Js.isTruthy(copyToClipboard),
+						Js.isTruthy(greyscale));
 	}
 
-	public void exportGIF(String sliderLabel, double scale, double timeBetweenFrames,
-						  Object isLoop, String filename, Object rotate) {
-		getGgbAPI().exportGIF(sliderLabel, scale, timeBetweenFrames, Js.isTruthy(isLoop),
-				filename, Js.coerceToInt(rotate));
+	public void exportGIF(
+			String sliderLabel,
+			double scale,
+			double timeBetweenFrames,
+			Object isLoop,
+			String filename,
+			Object rotate) {
+		getGgbAPI()
+				.exportGIF(
+						sliderLabel,
+						scale,
+						timeBetweenFrames,
+						Js.isTruthy(isLoop),
+						filename,
+						Js.coerceToInt(rotate));
 	}
 
 	public Object getFileJSON(Object thumbnail) {
@@ -742,7 +774,8 @@ public class DefaultExportedApi implements ExportedApi {
 		getGgbAPI().showTooltip(tooltip + "");
 	}
 
-	public void addMultiuserSelection(String clientId, String user, String color, String label, boolean implicit) {
+	public void addMultiuserSelection(
+			String clientId, String user, String color, String label, boolean implicit) {
 		getGgbAPI().addMultiuserSelection(clientId, user, color, label, implicit);
 	}
 
@@ -764,7 +797,6 @@ public class DefaultExportedApi implements ExportedApi {
 		return false;
 	}
 
-
 	public void checkSaved(JsRunnable path) {
 		getGgbAPI().checkSaved(path);
 	}
@@ -773,10 +805,11 @@ public class DefaultExportedApi implements ExportedApi {
 		return getGgbAPI().getCASObjectNumber();
 	}
 
-	public boolean writePNGtoFile(String filename, double exportScale, Object transparent,
-								  double DPI, Object greyscale) {
-		return getGgbAPI().writePNGtoFile(filename + "", exportScale, Js.isTruthy(transparent),
-				DPI, Js.isTruthy(greyscale));
+	public boolean writePNGtoFile(
+			String filename, double exportScale, Object transparent, double DPI, Object greyscale) {
+		return getGgbAPI()
+				.writePNGtoFile(
+						filename + "", exportScale, Js.isTruthy(transparent), DPI, Js.isTruthy(greyscale));
 	}
 
 	public void exportPGF(StringConsumer callback) {
@@ -796,14 +829,20 @@ public class DefaultExportedApi implements ExportedApi {
 	public void exportPDF(Object scale, Object filenameOrCallback, String sliderLabel, Object dpi) {
 		double realDPI = Js.isTruthy(dpi) ? Js.coerceToDouble(dpi) : 72;
 		if ("string".equals(Js.typeof(filenameOrCallback))) {
-			getGgbAPI().exportPDF(Js.coerceToDouble(scale), (String) filenameOrCallback,
-					null, sliderLabel, realDPI);
+			getGgbAPI()
+					.exportPDF(
+							Js.coerceToDouble(scale), (String) filenameOrCallback, null, sliderLabel, realDPI);
 		} else if ("function".equals(Js.typeof(filenameOrCallback))) {
-			getGgbAPI().exportPDF(Js.coerceToDouble(scale), null,
-					((StringConsumer) filenameOrCallback)::consume, sliderLabel, realDPI);
+			getGgbAPI()
+					.exportPDF(
+							Js.coerceToDouble(scale),
+							null,
+							((StringConsumer) filenameOrCallback)::consume,
+							sliderLabel,
+							realDPI);
 		} else {
-			DomGlobal.console.warn("exportPDF requires either a filename or "
-					+ "a callback as the second parameter.");
+			DomGlobal.console.warn(
+					"exportPDF requires either a filename or " + "a callback as the second parameter.");
 		}
 	}
 
@@ -844,8 +883,8 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public void setEditorState(Object state, String label) {
-		String stateString = JsEval.isJSString(state) ? Js.asString(state)
-				: Global.JSON.stringify(state);
+		String stateString =
+				JsEval.isJSString(state) ? Js.asString(state) : Global.JSON.stringify(state);
 		getGgbAPI().setEditorState(stateString, label);
 	}
 
@@ -861,23 +900,60 @@ public class DefaultExportedApi implements ExportedApi {
 		return getGgbAPI().isInteractive(label);
 	}
 
-	public String exportCollada(Object xmin, Object xmax, Object ymin, Object ymax, Object zmin,
-								Object zmax, Object xyScale, Object xzScale, Object xTickDistance,
-								Object yTickDistance, Object zTickDistance) {
-		return getGgbAPI().exportCollada(doubleOrDefault(xmin, -5), doubleOrDefault(xmax, 5),
-				doubleOrDefault(ymin, -5), doubleOrDefault(ymax, 5),
-				doubleOrDefault(zmin, -5), doubleOrDefault(zmax, 5),
-				doubleOrDefault(xyScale, 1), doubleOrDefault(xzScale, 1),
-				doubleOrDefault(xTickDistance, -1), doubleOrDefault(yTickDistance, -1),
-				doubleOrDefault(zTickDistance, -1));
+	public String exportCollada(
+			Object xmin,
+			Object xmax,
+			Object ymin,
+			Object ymax,
+			Object zmin,
+			Object zmax,
+			Object xyScale,
+			Object xzScale,
+			Object xTickDistance,
+			Object yTickDistance,
+			Object zTickDistance) {
+		return getGgbAPI()
+				.exportCollada(
+						doubleOrDefault(xmin, -5),
+						doubleOrDefault(xmax, 5),
+						doubleOrDefault(ymin, -5),
+						doubleOrDefault(ymax, 5),
+						doubleOrDefault(zmin, -5),
+						doubleOrDefault(zmax, 5),
+						doubleOrDefault(xyScale, 1),
+						doubleOrDefault(xzScale, 1),
+						doubleOrDefault(xTickDistance, -1),
+						doubleOrDefault(yTickDistance, -1),
+						doubleOrDefault(zTickDistance, -1));
 	}
 
-	public String exportSimple3d(String name, double xmin, double xmax, double ymin, double ymax,
-								 double zmin, double zmax, double xyScale, double xzScale, double xTickDistance,
-								 double yTickDistance, double zTickDistance) {
-		return getGgbAPI().exportSimple3d(
-				name + "", xmin, xmax, ymin, ymax, zmin, zmax, xyScale,
-				xzScale, xTickDistance, yTickDistance, zTickDistance);
+	public String exportSimple3d(
+			String name,
+			double xmin,
+			double xmax,
+			double ymin,
+			double ymax,
+			double zmin,
+			double zmax,
+			double xyScale,
+			double xzScale,
+			double xTickDistance,
+			double yTickDistance,
+			double zTickDistance) {
+		return getGgbAPI()
+				.exportSimple3d(
+						name + "",
+						xmin,
+						xmax,
+						ymin,
+						ymax,
+						zmin,
+						zmax,
+						xyScale,
+						xzScale,
+						xTickDistance,
+						yTickDistance,
+						zTickDistance);
 	}
 
 	public String translate(String arg1, StringConsumer callback) {
@@ -997,8 +1073,8 @@ public class DefaultExportedApi implements ExportedApi {
 		getGgbAPI().unregisterClientListener(JSFunctionName);
 	}
 
-	public void registerObjectUpdateListener(String objName,
-											 @TS(TS.OBJECT_LISTENER) Object JSFunctionName) {
+	public void registerObjectUpdateListener(
+			String objName, @TS(TS.OBJECT_LISTENER) Object JSFunctionName) {
 		getGgbAPI().registerObjectUpdateListener(objName + "", JSFunctionName);
 	}
 
@@ -1006,8 +1082,8 @@ public class DefaultExportedApi implements ExportedApi {
 		getGgbAPI().unregisterObjectUpdateListener(label);
 	}
 
-	public void registerObjectClickListener(String objName,
-											@TS(TS.OBJECT_LISTENER) Object JSFunctionName) {
+	public void registerObjectClickListener(
+			String objName, @TS(TS.OBJECT_LISTENER) Object JSFunctionName) {
 		getGgbAPI().registerObjectClickListener(objName + "", JSFunctionName);
 	}
 

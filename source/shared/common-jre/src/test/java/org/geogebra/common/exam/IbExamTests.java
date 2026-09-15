@@ -43,7 +43,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 // Tabs in CsvSources
-@SuppressWarnings("checkstyle:RegexpSinglelineCheck")
 class IbExamTests extends BaseExamTestSetup {
 
 	@BeforeEach
@@ -53,10 +52,7 @@ class IbExamTests extends BaseExamTestSetup {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"f'(1)",
-			"f'(p)"
-	})
+	@ValueSource(strings = {"f'(1)", "f'(p)"})
 	void testUnrestrictedDerivatives(String expression) {
 		evaluate("f(x) = x^2");
 		evaluate("p = 2");
@@ -65,13 +61,7 @@ class IbExamTests extends BaseExamTestSetup {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"f'",
-			"f'(x)",
-			"g = f'",
-			"g(x) = f'",
-			"g(x) = f'(x)"
-	})
+	@ValueSource(strings = {"f'", "f'(x)", "g = f'", "g(x) = f'", "g(x) = f'(x)"})
 	void testRestrictedDerivatives(String expression) {
 		evaluate("f(x) = x^2");
 
@@ -84,8 +74,7 @@ class IbExamTests extends BaseExamTestSetup {
 				() -> assertNotNull(evaluate("f(x) = x^3")),
 				() -> assertNotNull(evaluate("l1 = {x}")),
 				() -> assertNull(evaluate("SetValue(l1, 1, f')")),
-				() -> assertEquals("l1 = {x}", lookup("l1")
-						.toString(StringTemplate.defaultTemplate)));
+				() -> assertEquals("l1 = {x}", lookup("l1").toString(StringTemplate.defaultTemplate)));
 	}
 
 	@Test
@@ -94,27 +83,29 @@ class IbExamTests extends BaseExamTestSetup {
 	}
 
 	@ParameterizedTest
-	@CsvSource(delimiter = ';', value = {
-			// Integral
-			"Integral(x^2, 3, 5);",
-			"Integral(x^2); 									Illegal number of arguments",
-			"Integral(x^3, x); 									Illegal number of arguments",
-			"Integral(x^3, 1, 3, true); 						Illegal number of arguments",
-			// Invert
-			"Invert({{1,2},{3,4}});",
-			"Invert(sqrt(x)); 									Illegal argument",
-			// Tangent
-			"Tangent((1, 0), x^2);",
-			"Tangent(1, x^2);",
-			"Tangent((6, 3), x^2+y^2=1); 						Illegal argument",
-			"Tangent(x^2+y^2=1, (6, 3)); 						Illegal argument",
-			"Tangent(x^2+y^2=1, (x-4)^2+y^2=1); 				Illegal argument",
-			"Tangent(x+y=1, x^2+y^2=1); 						Illegal argument",
-			"Tangent((1,2), Curve(t,t^2,t,1,2));				Illegal argument",
-			"Tangent(Curve(t,t^2,t,1,2),(1,2)); 				Illegal argument",
-			"Tangent((1,2), x^4+y^4=1); 						Illegal argument",
-			"Tangent(x^4+y^4=1, (1,2)); 						Illegal argument",
-	})
+	@CsvSource(
+			delimiter = ';',
+			value = {
+				// Integral
+				"Integral(x^2, 3, 5);",
+				"Integral(x^2); 									Illegal number of arguments",
+				"Integral(x^3, x); 									Illegal number of arguments",
+				"Integral(x^3, 1, 3, true); 						Illegal number of arguments",
+				// Invert
+				"Invert({{1,2},{3,4}});",
+				"Invert(sqrt(x)); 									Illegal argument",
+				// Tangent
+				"Tangent((1, 0), x^2);",
+				"Tangent(1, x^2);",
+				"Tangent((6, 3), x^2+y^2=1); 						Illegal argument",
+				"Tangent(x^2+y^2=1, (6, 3)); 						Illegal argument",
+				"Tangent(x^2+y^2=1, (x-4)^2+y^2=1); 				Illegal argument",
+				"Tangent(x+y=1, x^2+y^2=1); 						Illegal argument",
+				"Tangent((1,2), Curve(t,t^2,t,1,2));				Illegal argument",
+				"Tangent(Curve(t,t^2,t,1,2),(1,2)); 				Illegal argument",
+				"Tangent((1,2), x^4+y^4=1); 						Illegal argument",
+				"Tangent(x^4+y^4=1, (1,2)); 						Illegal argument",
+			})
 	void testCommandArgumentFilter(String command, String expectedError) {
 		if (expectedError == null) {
 			assertNotNull(evaluate(command));
@@ -135,32 +126,35 @@ class IbExamTests extends BaseExamTestSetup {
 	@Test
 	void testOneVariableStatistics() throws InvalidValuesException {
 		TableValuesView tableValuesView = setupTableValues();
-		assertEquals(List.of(
-				"Mean",
-				"Sum",
-				"Sample Standard Deviation",
-				"Population Standard Deviation",
-				"Minimum",
-				"Lower quartile",
-				"Median",
-				"Upper quartile",
-				"Maximum"
-		), tableValuesView.getStatistics1Var(1).stream()
-				.map(StatisticGroup::heading).collect(Collectors.toList()));
+		assertEquals(
+				List.of(
+						"Mean",
+						"Sum",
+						"Sample Standard Deviation",
+						"Population Standard Deviation",
+						"Minimum",
+						"Lower quartile",
+						"Median",
+						"Upper quartile",
+						"Maximum"),
+				tableValuesView.getStatistics1Var(1).stream()
+						.map(StatisticGroup::heading)
+						.collect(Collectors.toList()));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"mean({1, 2, 3})",
-			"Sum({1, 2, 3})",
-			"SampleSD({1, 2, 3})",
-			"SD({1, 2, 3})",
-			"Min({1, 2, 3})",
-			"Quartile1({1, 2, 3})",
-			"Median({1, 2, 3})",
-			"Quartile3({1, 2, 3})",
-			"Max({1, 2, 3})",
-	})
+	@ValueSource(
+			strings = {
+				"mean({1, 2, 3})",
+				"Sum({1, 2, 3})",
+				"SampleSD({1, 2, 3})",
+				"SD({1, 2, 3})",
+				"Min({1, 2, 3})",
+				"Quartile1({1, 2, 3})",
+				"Median({1, 2, 3})",
+				"Quartile3({1, 2, 3})",
+				"Max({1, 2, 3})",
+			})
 	void testUnrestrictedCommandsNeededForOneVariableStatistics(String command) {
 		assertNotNull(evaluate(command));
 	}
@@ -168,42 +162,45 @@ class IbExamTests extends BaseExamTestSetup {
 	@Test
 	void testTwoVariableStatistics() throws InvalidValuesException {
 		TableValuesView tableValuesView = setupTableValues();
-		assertEquals(List.of(
-				// x
-				"Mean",
-				"Sum",
-				"Sample Standard Deviation",
-				"Population Standard Deviation",
-				// y
-				"Mean",
-				"Sum",
-				"Sample Standard Deviation",
-				"Population Standard Deviation",
-				// xy
-				"Correlation Coefficient",
-				// x
-				"Minimum",
-				"Maximum",
-				// y
-				"Minimum",
-				"Maximum"
-		), tableValuesView.getStatistics2Var(1).stream()
-				.map(StatisticGroup::heading).collect(Collectors.toList()));
+		assertEquals(
+				List.of(
+						// x
+						"Mean",
+						"Sum",
+						"Sample Standard Deviation",
+						"Population Standard Deviation",
+						// y
+						"Mean",
+						"Sum",
+						"Sample Standard Deviation",
+						"Population Standard Deviation",
+						// xy
+						"Correlation Coefficient",
+						// x
+						"Minimum",
+						"Maximum",
+						// y
+						"Minimum",
+						"Maximum"),
+				tableValuesView.getStatistics2Var(1).stream()
+						.map(StatisticGroup::heading)
+						.collect(Collectors.toList()));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"RemoveUndefined({1, 2, 3})",
-			"x((1, 2))",
-			"y((1, 2))",
-			"mean({1, 2, 3})",
-			"Sum({1, 2, 3})",
-			"SampleSD({1, 2, 3})",
-			"SD({1, 2, 3})",
-			"CorrelationCoefficient({1, 2, 3}, {4, 5, 6})",
-			"Min({1, 2, 3})",
-			"Max({1, 2, 3})",
-	})
+	@ValueSource(
+			strings = {
+				"RemoveUndefined({1, 2, 3})",
+				"x((1, 2))",
+				"y((1, 2))",
+				"mean({1, 2, 3})",
+				"Sum({1, 2, 3})",
+				"SampleSD({1, 2, 3})",
+				"SD({1, 2, 3})",
+				"CorrelationCoefficient({1, 2, 3}, {4, 5, 6})",
+				"Min({1, 2, 3})",
+				"Max({1, 2, 3})",
+			})
 	void testUnrestrictedCommandsNeededForTwoVariableStatistics(String command) {
 		assertNotNull(evaluate(command));
 	}

@@ -31,6 +31,7 @@ import org.junit.Test;
 
 import jsinterop.annotations.JsIgnore;
 
+@SuppressWarnings("PMD.ClassNamingConventions")
 public class TypescriptGenerator {
 
 	static HashMap<String, String> types = new HashMap<>();
@@ -55,21 +56,22 @@ public class TypescriptGenerator {
 	public void generate() {
 		Method[] methods = DefaultExportedApi.class.getMethods();
 		Arrays.sort(methods, Comparator.comparing(Method::getName));
-		for (Method mtd: methods) {
+		for (Method mtd : methods) {
 			if (mtd.getAnnotation(JsIgnore.class) == null
 					&& mtd.getDeclaringClass() == DefaultExportedApi.class) {
 				System.out.println(mtd.getName() + ": (" + mapTypes(mtd.getParameters()) + ") => "
-						+ getType(mtd.getGenericReturnType(),
-						mtd.getAnnotatedReturnType().getAnnotation(TS.class)) + ";");
+						+ getType(
+								mtd.getGenericReturnType(), mtd.getAnnotatedReturnType().getAnnotation(TS.class))
+						+ ";");
 			}
 		}
 	}
 
 	private String mapTypes(Parameter[] parameters) {
 		return Arrays.stream(parameters)
-				.map(p -> p.getName() + ":" + getType(p.getType(),
-						p.getAnnotation(TS.class)))
-				.collect(Collectors.joining(", ")).replace(":?", "?:");
+				.map(p -> p.getName() + ":" + getType(p.getType(), p.getAnnotation(TS.class)))
+				.collect(Collectors.joining(", "))
+				.replace(":?", "?:");
 	}
 
 	private String getType(Type returnType, TS annotation) {
@@ -82,8 +84,7 @@ public class TypescriptGenerator {
 		} else {
 			simpleName = returnType.getTypeName();
 		}
-		simpleName = simpleName.toLowerCase(Locale.ROOT)
-				.replaceAll("^[a-zA-Z0-9.]*\\.", "");
+		simpleName = simpleName.toLowerCase(Locale.ROOT).replaceAll("^[a-zA-Z0-9.]*\\.", "");
 		return types.getOrDefault(simpleName, simpleName);
 	}
 }

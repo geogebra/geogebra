@@ -26,7 +26,7 @@ import org.gwtproject.user.client.ui.Widget;
 
 /**
  * @author gabor
- * 
+ *
  *         Stattable for web
  *
  */
@@ -51,7 +51,7 @@ public class StatTableW extends FlowPanel {
 	/**
 	 * Sets the dimensions and header values for the table. This should only be
 	 * called once.
-	 * 
+	 *
 	 * @param rows
 	 *            number of rows
 	 * @param rowNames
@@ -63,8 +63,7 @@ public class StatTableW extends FlowPanel {
 	 *            array of column header strings, if null then a column header
 	 *            is not drawn
 	 */
-	public void setStatTable(int rows, String[] rowNames, int columns,
-			String[] columnNames) {
+	public void setStatTable(int rows, String[] rowNames, int columns, String[] columnNames) {
 
 		statDataTable.resize(rows, columns);
 		// set column names
@@ -78,15 +77,13 @@ public class StatTableW extends FlowPanel {
 			for (int i = 0; i < rowNames.length; i++) {
 				statDataTable.setWidget(i, 0, new Label(rowNames[i]));
 			}
-		} else {
-			// setRowHeaderView(null);
 		}
 	}
 
 	/**
 	 * Sets all cells values to the blank string " ". Does not change table
 	 * dimensions.
-	 * 
+	 *
 	 * AG: Why does this needed?
 	 */
 	@Override
@@ -116,8 +113,7 @@ public class StatTableW extends FlowPanel {
 	 * @param hasHeader
 	 *            whether to include header
 	 */
-	public void setLabels(String[] rowNames, String[] columnNames,
-			boolean hasHeader) {
+	public void setLabels(String[] rowNames, String[] columnNames, boolean hasHeader) {
 		// set column names
 		if (columnNames != null && rowNames != null) {
 			statDataTable.resize(rowNames.length + 1, columnNames.length + 1);
@@ -142,7 +138,7 @@ public class StatTableW extends FlowPanel {
 
 	/**
 	 * @author gabor
-	 * 
+	 *
 	 *         Table for StatTable
 	 *
 	 */
@@ -160,8 +156,7 @@ public class StatTableW extends FlowPanel {
 				resizeRows(getRowCount() + 1);
 				for (int i = 0; i < columnNames.length; i++) {
 					this.setWidget(0, i, new Label(columnNames[i]));
-					this.getCellFormatter().getElement(0, i)
-							.addClassName("headercell");
+					this.getCellFormatter().getElement(0, i).addClassName("headercell");
 				}
 				firstRow = 1;
 			}
@@ -169,7 +164,7 @@ public class StatTableW extends FlowPanel {
 
 		/**
 		 * Update selection after click
-		 * 
+		 *
 		 * @param event
 		 *            click event
 		 */
@@ -220,8 +215,7 @@ public class StatTableW extends FlowPanel {
 			for (int i = firstRow; i < this.getRowCount(); i++) {
 				if (c != null) {
 					if (c.getRowIndex() != i) {
-						getRowFormatter().getElement(i)
-								.removeClassName("selected");
+						getRowFormatter().getElement(i).removeClassName("selected");
 					}
 				} else {
 					getRowFormatter().getElement(i).removeClassName("selected");
@@ -237,8 +231,7 @@ public class StatTableW extends FlowPanel {
 			int end = 0;
 			int[] result;
 			for (int i = firstRow; i < this.getRowCount(); i++) {
-				if (this.getRowFormatter().getElement(i)
-						.hasClassName("selected")) {
+				if (this.getRowFormatter().getElement(i).hasClassName("selected")) {
 					if (end == 0) {
 						start = i;
 					}
@@ -256,19 +249,16 @@ public class StatTableW extends FlowPanel {
 		private int getFirstSelectedRow(int to) {
 			int t = to > -1 ? to : this.getRowCount();
 			for (int i = firstRow; i < this.getRowCount(); i++) {
-				if (this.getRowFormatter().getElement(i)
-						.hasClassName("selected") && i <= t) {
+				if (this.getRowFormatter().getElement(i).hasClassName("selected") && i <= t) {
 					return i;
 				}
 			}
 			return -1;
-
 		}
 
 		private void selectTableRows(int rowFrom, int rowTo) {
 			int maxRows = getRowCount() - 1;
-			int from = Math.min(rowFrom > -1 ? rowFrom : firstRow,
-					maxRows);
+			int from = Math.min(rowFrom > -1 ? rowFrom : firstRow, maxRows);
 			int to = Math.min(Math.max(0, rowTo), maxRows);
 
 			if (from > to) {
@@ -300,8 +290,7 @@ public class StatTableW extends FlowPanel {
 			if (r < getRowCount()) {
 				if (!toggle && !extend) {
 					clearSelection(null);
-					this.getRowFormatter().getElement(r)
-							.addClassName("selected");
+					this.getRowFormatter().getElement(r).addClassName("selected");
 				} else if (!toggle && extend) {
 					start = getFirstSelectedRow(r);
 					if (start > -1) {
@@ -326,7 +315,7 @@ public class StatTableW extends FlowPanel {
 
 		/**
 		 * Change cell content.
-		 * 
+		 *
 		 * @param value
 		 *            cell content
 		 * @param row
@@ -353,7 +342,7 @@ public class StatTableW extends FlowPanel {
 
 	/**
 	 * Change cell content.
-	 * 
+	 *
 	 * @param value
 	 *            cell content
 	 * @param row
@@ -371,5 +360,4 @@ public class StatTableW extends FlowPanel {
 	public StatDataTable getTable() {
 		return statDataTable;
 	}
-
 }

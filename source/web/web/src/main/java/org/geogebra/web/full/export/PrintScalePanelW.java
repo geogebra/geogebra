@@ -75,21 +75,19 @@ public final class PrintScalePanelW extends FlowPanel {
 		Runnable updateCm = this::fireTextFieldUpdate;
 
 		Runnable updateFixedSize = this::fireFixedSizeTextFieldUpdate;
-		
+
 		tfScale1 = getNumberField(updateCm);
 		tfScale2 = getNumberField(updateCm);
 		tfScaleFixed = getNumberField(updateFixedSize);
 
-		exportModeDropDown = new ComponentDropDown(app, null,
-				Arrays.asList(loc.getMenu("ScaleInCentimeter"), loc.getMenu("FixedSize")),
-				0);
+		exportModeDropDown = new ComponentDropDown(
+				app, null, Arrays.asList(loc.getMenu("ScaleInCentimeter"), loc.getMenu("FixedSize")), 0);
 		exportModeDropDown.setFullWidth(true);
 		add(exportModeDropDown);
 		exportModeDropDown.addChangeHandler(this::switchMode);
 
 		fixedSizeModePanel = new FlowPanel();
-		Label aPixelsOnScreen = new Label(" "
-				+ loc.getPlain("APixelsOnScreen", "100") + " = ");
+		Label aPixelsOnScreen = new Label(" " + loc.getPlain("APixelsOnScreen", "100") + " = ");
 		aPixelsOnScreen.addStyleName("aPixelsOnScreen");
 		fixedSizeModePanel.add(aPixelsOnScreen);
 		fixedSizeModePanel.add(tfScaleFixed);
@@ -128,8 +126,7 @@ public final class PrintScalePanelW extends FlowPanel {
 	}
 
 	private void updateFixedSizeTextFields() {
-		double relScale = DoubleUtil
-				.checkInteger(100 * ev.getPrintingScale() / ev.getXscale());
+		double relScale = DoubleUtil.checkInteger(100 * ev.getPrintingScale() / ev.getXscale());
 		setTextNoListener(tfScaleFixed, relScale + "");
 	}
 
@@ -177,7 +174,7 @@ public final class PrintScalePanelW extends FlowPanel {
 				Log.debug("printing scale set: " + scale);
 				ev.setPrintingScale(scale);
 			}
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 			// invalid numbers, continue editing
 		}
 
@@ -187,17 +184,18 @@ public final class PrintScalePanelW extends FlowPanel {
 	private TextBox getNumberField(final Runnable run) {
 		final TextBox ret = new TextBox();
 
-		ret.addDomHandler(event -> {
-			if (handlers.get(ret)) {
-				handlers.put(ret, false);
-				return;
-			}
-			run.run();
-		}, ChangeEvent.getType());
+		ret.addDomHandler(
+				event -> {
+					if (handlers.get(ret)) {
+						handlers.put(ret, false);
+						return;
+					}
+					run.run();
+				},
+				ChangeEvent.getType());
 
 		handlers.put(ret, false);
 
 		return ret;
 	}
-
 }

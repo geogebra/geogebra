@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -27,8 +27,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-@SuppressWarnings({"checkstyle:LineLengthCheck",
-		"checkstyle:variableDeclarationUsageDistanceCheck"})
 class AlgebraViewItemTest extends BaseAppTestSetup {
 
 	@Test
@@ -43,12 +41,8 @@ class AlgebraViewItemTest extends BaseAppTestSetup {
 		assertTrue(item.getInputRow().isVisible);
 		assertFalse(item.getInputRow().isTextCell);
 		assertTrue(item.getInputRow().isMoreButtonVisible);
-		assertEquals(
-				"A\\, = \\,\\left(1,\\;2 \\right)",
-				item.getInputRow().previewLaTex);
-		assertEquals(
-				"A=$point(1,2)",
-				item.getInputRow().editorLaTeX);
+		assertEquals("A\\, = \\,\\left(1,\\;2 \\right)", item.getInputRow().previewLaTex);
+		assertEquals("A=$point(1,2)", item.getInputRow().editorLaTeX);
 
 		assertFalse(item.getOutputRow().isVisible);
 	}
@@ -68,16 +62,12 @@ class AlgebraViewItemTest extends BaseAppTestSetup {
 		assertEquals(
 				"f\\mathpunct{:}\\,Line\\left(\\left(0,\\;0 \\right), \\left(1,\\;1 \\right) \\right)",
 				item.getInputRow().previewLaTex);
-		assertEquals(
-				"f: Line($point(0,0),$point(1,1))",
-				item.getInputRow().editorLaTeX);
+		assertEquals("f: Line($point(0,0),$point(1,1))", item.getInputRow().editorLaTeX);
 
 		assertTrue(item.getOutputRow().isVisible);
 		assertEquals(AlgebraOutputOperator.EQUALS, item.getOutputRow().outputFormat);
 		assertNull(item.getOutputRow().nextOutputFormat);
-		assertEquals(
-				"-x + y\\, = \\,0",
-				item.getOutputRow().laTeX);
+		assertEquals("-x + y\\, = \\,0", item.getOutputRow().laTeX);
 		assertFalse(item.getOutputRow().isMoreButtonVisible);
 	}
 
@@ -98,12 +88,8 @@ class AlgebraViewItemTest extends BaseAppTestSetup {
 		assertTrue(f.getInputRow().isVisible);
 		assertFalse(f.getInputRow().isTextCell);
 		assertTrue(f.getInputRow().isMoreButtonVisible);
-		assertEquals(
-				"Tangent\\left(A, c \\right)",
-				f.getInputRow().previewLaTex);
-		assertEquals(
-				"Tangent(A,c)",
-				f.getInputRow().editorLaTeX);
+		assertEquals("Tangent\\left(A, c \\right)", f.getInputRow().previewLaTex);
+		assertEquals("Tangent(A,c)", f.getInputRow().editorLaTeX);
 
 		assertTrue(f.getOutputRow().isVisible);
 		assertEquals(AlgebraOutputOperator.EQUALS, f.getOutputRow().outputFormat);
@@ -139,11 +125,8 @@ class AlgebraViewItemTest extends BaseAppTestSetup {
 		assertFalse(item.getInputRow().isTextCell);
 		assertTrue(item.getInputRow().isMoreButtonVisible);
 		assertEquals(
-				"eq1\\mathpunct{:}\\,\\frac{x^{2}}{\\sqrt{2}}\\, = \\,1",
-				item.getInputRow().previewLaTex);
-		assertEquals(
-				"eq1: (x²)/(sqrt(2))=1",
-				item.getInputRow().editorLaTeX);
+				"eq1\\mathpunct{:}\\,\\frac{x^{2}}{\\sqrt{2}}\\, = \\,1", item.getInputRow().previewLaTex);
+		assertEquals("eq1: (x²)/(sqrt(2))=1", item.getInputRow().editorLaTeX);
 
 		assertFalse(item.getOutputRow().isVisible);
 	}
@@ -162,12 +145,8 @@ class AlgebraViewItemTest extends BaseAppTestSetup {
 		assertTrue(item.getInputRow().isVisible);
 		assertTrue(item.getInputRow().isTextCell);
 		assertTrue(item.getInputRow().isMoreButtonVisible);
-		assertEquals(
-				"text1 = “text”",
-				item.getInputRow().previewLaTex);
-		assertEquals(
-				"text",
-				item.getInputRow().editorLaTeX);
+		assertEquals("text1 = “text”", item.getInputRow().previewLaTex);
+		assertEquals("text", item.getInputRow().editorLaTeX);
 
 		assertFalse(item.getOutputRow().isVisible);
 	}
@@ -184,12 +163,8 @@ class AlgebraViewItemTest extends BaseAppTestSetup {
 		assertTrue(item.getInputRow().isVisible);
 		assertFalse(item.getInputRow().isTextCell);
 		assertTrue(item.getInputRow().isMoreButtonVisible);
-		assertEquals(
-				"a\\, = \\,-1 \\cdot 9",
-				item.getInputRow().previewLaTex);
-		assertEquals(
-				"a=-1*9",
-				item.getInputRow().editorLaTeX);
+		assertEquals("a\\, = \\,-1 \\cdot 9", item.getInputRow().previewLaTex);
+		assertEquals("a=-1*9", item.getInputRow().editorLaTeX);
 
 		assertTrue(item.getOutputRow().isVisible);
 		assertEquals(AlgebraOutputOperator.EQUALS, item.getOutputRow().outputFormat);
@@ -210,19 +185,13 @@ class AlgebraViewItemTest extends BaseAppTestSetup {
 		assertTrue(item.getInputRow().isVisible);
 		assertFalse(item.getInputRow().isTextCell);
 		assertTrue(item.getInputRow().isMoreButtonVisible);
-		assertEquals(
-				"a\\, = \\,5\\% \\cdot 5 + 5",
-				item.getInputRow().previewLaTex);
-		assertEquals(
-				"a=5%*5+5",
-				item.getInputRow().editorLaTeX);
+		assertEquals("a\\, = \\,5\\% \\cdot 5 + 5", item.getInputRow().previewLaTex);
+		assertEquals("a=5%*5+5", item.getInputRow().editorLaTeX);
 
 		assertTrue(item.getOutputRow().isVisible);
 		assertEquals(AlgebraOutputOperator.EQUALS, item.getOutputRow().outputFormat);
 		assertEquals(AlgebraOutputFormat.APPROXIMATION, item.getOutputRow().nextOutputFormat);
-		assertEquals(
-				"\\frac{21}{4}",
-				item.getOutputRow().laTeX);
+		assertEquals("\\frac{21}{4}", item.getOutputRow().laTeX);
 		assertFalse(item.getOutputRow().isMoreButtonVisible);
 	}
 }

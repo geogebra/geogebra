@@ -26,6 +26,7 @@ public class DrawingRecorderTest {
 
 	private DrawingRecorder drawingRecorder = new DrawingRecorder();
 
+	/** Clean up after. */
 	@After
 	public void tearDown() {
 		drawingRecorder.reset();
@@ -33,9 +34,7 @@ public class DrawingRecorderTest {
 
 	@Test
 	public void testToString() {
-		assertThat(
-				drawingRecorder.toString(),
-				equalTo("{\"coords\":[]}"));
+		assertThat(drawingRecorder.toString(), equalTo("{\"coords\":[]}"));
 	}
 
 	@Test
@@ -43,17 +42,14 @@ public class DrawingRecorderTest {
 		drawingRecorder.recordCoordinate(0, 1, 2);
 		drawingRecorder.recordTouchEnd();
 		drawingRecorder.reset();
-		assertThat(
-				drawingRecorder.toString(),
-				equalTo("{\"coords\":[]}"));
+		assertThat(drawingRecorder.toString(), equalTo("{\"coords\":[]}"));
 	}
 
 	@Test
 	public void recordCoordinate() {
 		drawingRecorder.recordCoordinate(0, 1, 2);
 		assertThat(
-				drawingRecorder.toString(),
-				equalTo("{\"coords\":[{\"x\":0, \"y\":1, \"time\":2}]}"));
+				drawingRecorder.toString(), equalTo("{\"coords\":[{\"x\":0, \"y\":1, \"time\":2}]}"));
 	}
 
 	@Test

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -33,7 +33,7 @@ import org.geogebra.desktop.main.LocalizationD;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
-@SuppressWarnings("PMD.WrongTestAnnotation")
+@SuppressWarnings({"PMD.WrongTestAnnotation", "PMD.ClassNamingConventions"})
 public class CAStestJSON extends CasTestJsonCommon {
 
 	/**
@@ -50,8 +50,7 @@ public class CAStestJSON extends CasTestJsonCommon {
 		kernel = app.getKernel();
 		cas = kernel.getGeoGebraCAS();
 		// Setting the general timeout to 13 seconds. Feel free to change this.
-		kernel.getApplication().getSettings().getCasSettings()
-				.setTimeoutMilliseconds(13000);
+		kernel.getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(13000);
 		String json = "";
 		try {
 			Log.debug("CAS: loading testcases");
@@ -89,8 +88,7 @@ public class CAStestJSON extends CasTestJsonCommon {
 	}
 
 	private static String readJsonFileAsString() throws IOException {
-		return skipComments(Files.readAllLines(Paths.get(
-				"../../shared/common/src/main/resources/giac/giacTests.js")));
+		return skipComments(
+				Files.readAllLines(Paths.get("../../shared/common/src/main/resources/giac/giacTests.js")));
 	}
-
 }

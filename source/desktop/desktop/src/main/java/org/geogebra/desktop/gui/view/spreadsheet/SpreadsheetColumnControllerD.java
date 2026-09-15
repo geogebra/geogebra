@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -66,6 +66,7 @@ public class SpreadsheetColumnControllerD
 	private int overTraceButtonColumn = -1;
 	/** localization */
 	final LocalizationD loc;
+
 	private final Rectangle rect = new Rectangle();
 
 	/**
@@ -131,7 +132,8 @@ public class SpreadsheetColumnControllerD
 		boolean rightClick = MouseEventUtil.isRightClick(e);
 
 		if (!view.hasViewFocus()) {
-			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
+			((LayoutD) app.getGuiManager().getLayout())
+					.getDockManager()
 					.setFocusedPanel(App.VIEW_SPREADSHEET);
 		}
 
@@ -144,10 +146,8 @@ public class SpreadsheetColumnControllerD
 
 				// check if the cursor is within the resizing region (i.e.
 				// border +- 3pixels)
-				GPoint point2 = table.getPixel(point.column, point.row,
-						true);
-				GPoint point3 = table.getPixel(point.column, point.row,
-						false);
+				GPoint point2 = table.getPixel(point.column, point.row, true);
+				GPoint point3 = table.getPixel(point.column, point.row, false);
 				int x2 = point2.getX();
 				int x3 = point3.getX();
 				isResizing = !(x > x2 + 2 && x < x3 - 3);
@@ -164,8 +164,7 @@ public class SpreadsheetColumnControllerD
 					}
 
 					// otherwise handle column selection
-					if (table
-							.getSelectionType() != SelectionType.COLUMNS) {
+					if (table.getSelectionType() != SelectionType.COLUMNS) {
 						table.setSelectionType(SelectionType.COLUMNS);
 						if (table.getTableHeader() != null) {
 							table.getTableHeader().requestFocusInWindow();
@@ -189,7 +188,6 @@ public class SpreadsheetColumnControllerD
 					// repaint();
 				}
 			}
-
 		}
 	}
 
@@ -218,8 +216,7 @@ public class SpreadsheetColumnControllerD
 					|| p.column < table.minSelectionColumn
 					|| p.column > table.maxSelectionColumn) {
 				// switch to column selection mode and select column
-				if (table
-						.getSelectionType() != SelectionType.COLUMNS) {
+				if (table.getSelectionType() != SelectionType.COLUMNS) {
 					table.setSelectionType(SelectionType.COLUMNS);
 				}
 
@@ -228,8 +225,8 @@ public class SpreadsheetColumnControllerD
 			}
 
 			// show contextMenu
-			SpreadsheetContextMenuD contextMenu = new SpreadsheetContextMenuD(
-					table, table.getToolProcessor(app));
+			SpreadsheetContextMenuD contextMenu =
+					new SpreadsheetContextMenuD(table, table.getToolProcessor(app));
 			JPopupMenu popup = contextMenu.getMenuContainer();
 			popup.show(e.getComponent(), e.getX(), e.getY());
 
@@ -253,7 +250,7 @@ public class SpreadsheetColumnControllerD
 
 			if (column <= 0) {
 				column = 0; // G.Sturr 2010-4-10 prevent x=-1 with very small row
-						// size
+				// size
 			}
 
 			int width = table.getColumnModel().getColumn(column).getWidth();
@@ -269,14 +266,12 @@ public class SpreadsheetColumnControllerD
 				return;
 			}
 			for (int i = 0; i < selected.length; ++i) {
-				table.getColumnModel().getColumn(selected[i])
-						.setPreferredWidth(width);
+				table.getColumnModel().getColumn(selected[i]).setPreferredWidth(width);
 			}
 		}
 
 		// ensure that table header keeps the focus
 		table.getTableHeader().requestFocus();
-
 	}
 
 	// =========================================================
@@ -325,11 +320,10 @@ public class SpreadsheetColumnControllerD
 
 				// Point sceeenMouseLoc =
 				// MouseInfo.getPointerInfo().getLocation();
-				isOver = ((ColumnHeaderRenderer) table.getColumnModel()
-						.getColumn(column).getHeaderRenderer())
-								.isOverTraceButton(column, mouseLoc,
-										table.getColumnModel().getColumn(column)
-												.getHeaderValue());
+				isOver = ((ColumnHeaderRenderer)
+								table.getColumnModel().getColumn(column).getHeaderRenderer())
+						.isOverTraceButton(
+								column, mouseLoc, table.getColumnModel().getColumn(column).getHeaderValue());
 			}
 		}
 
@@ -365,95 +359,87 @@ public class SpreadsheetColumnControllerD
 		int keyCode = e.getKeyCode();
 
 		switch (keyCode) {
-
-		default:
-			// do nothing
-			break;
-		case KeyEvent.VK_LEFT:
-
-			if (shiftDown) {
-				// extend the column selection
-				int column = table.getColumnModel().getSelectionModel()
-						.getLeadSelectionIndex();
-				table.changeSelection(-1, column - 1, false, true);
-			} else {
-				// select topmost cell in first column to the left of the
-				// selection
-				if (table.minSelectionColumn > 0) {
-					table.setSelection(table.minSelectionColumn - 1, 0);
+			default:
+				// do nothing
+				break;
+			case KeyEvent.VK_LEFT:
+				if (shiftDown) {
+					// extend the column selection
+					int column = table.getColumnModel().getSelectionModel().getLeadSelectionIndex();
+					table.changeSelection(-1, column - 1, false, true);
 				} else {
-					table.setSelection(table.minSelectionColumn, 0);
+					// select topmost cell in first column to the left of the
+					// selection
+					if (table.minSelectionColumn > 0) {
+						table.setSelection(table.minSelectionColumn - 1, 0);
+					} else {
+						table.setSelection(table.minSelectionColumn, 0);
+					}
+					table.requestFocus();
 				}
-				table.requestFocus();
-			}
-			break;
+				break;
 
-		case KeyEvent.VK_RIGHT:
-
-			if (shiftDown) {
-				// extend the column selection
-				int column = table.getColumnModel().getSelectionModel()
-						.getLeadSelectionIndex();
-				table.changeSelection(-1, column + 1, false, true);
-			} else {
-				// select topmost cell in first column to the right of the
-				// selection
-				if (table.minSelectionColumn > 0) {
-					table.setSelection(table.minSelectionColumn + 1, 0);
+			case KeyEvent.VK_RIGHT:
+				if (shiftDown) {
+					// extend the column selection
+					int column = table.getColumnModel().getSelectionModel().getLeadSelectionIndex();
+					table.changeSelection(-1, column + 1, false, true);
 				} else {
-					table.setSelection(table.minSelectionColumn, 0);
+					// select topmost cell in first column to the right of the
+					// selection
+					if (table.minSelectionColumn > 0) {
+						table.setSelection(table.minSelectionColumn + 1, 0);
+					} else {
+						table.setSelection(table.minSelectionColumn, 0);
+					}
+					table.requestFocus();
 				}
-				table.requestFocus();
-			}
 
-			break;
+				break;
 
-		case KeyEvent.VK_C: // control + c
-			if (metaDown && table.minSelectionColumn != -1
-					&& table.maxSelectionColumn != -1) {
-				table.copyPasteCut.copy(table.minSelectionColumn, 0,
-						table.maxSelectionColumn, model.getRowCount() - 1,
-						altDown);
-				e.consume();
-			}
-			break;
+			case KeyEvent.VK_C: // control + c
+				if (metaDown && table.minSelectionColumn != -1 && table.maxSelectionColumn != -1) {
+					table.copyPasteCut.copy(
+							table.minSelectionColumn,
+							0,
+							table.maxSelectionColumn,
+							model.getRowCount() - 1,
+							altDown);
+					e.consume();
+				}
+				break;
 
-		case KeyEvent.VK_V: // control + v
-			if (metaDown && table.minSelectionColumn != -1
-					&& table.maxSelectionColumn != -1) {
-				boolean storeUndo = table.copyPasteCut.paste(
-						table.minSelectionColumn, 0, table.maxSelectionColumn,
-						model.getRowCount() - 1);
+			case KeyEvent.VK_V: // control + v
+				if (metaDown && table.minSelectionColumn != -1 && table.maxSelectionColumn != -1) {
+					boolean storeUndo = table.copyPasteCut.paste(
+							table.minSelectionColumn, 0, table.maxSelectionColumn, model.getRowCount() - 1);
+					if (storeUndo) {
+						app.storeUndoInfo();
+					}
+					view.getRowHeader().revalidate();
+					e.consume();
+				}
+				break;
+
+			case KeyEvent.VK_X: // control + x
+				if (metaDown && table.minSelectionColumn != -1 && table.maxSelectionColumn != -1) {
+					boolean storeUndo = table.copyPasteCut.cut(
+							table.minSelectionColumn, 0, table.maxSelectionColumn, model.getRowCount() - 1);
+					if (storeUndo) {
+						app.storeUndoInfo();
+					}
+					e.consume();
+				}
+				break;
+
+			case KeyEvent.VK_BACK_SPACE: // delete
+			case KeyEvent.VK_DELETE: // delete
+				boolean storeUndo = table.copyPasteCut.delete(
+						table.minSelectionColumn, 0, table.maxSelectionColumn, model.getRowCount() - 1);
 				if (storeUndo) {
 					app.storeUndoInfo();
 				}
-				view.getRowHeader().revalidate();
-				e.consume();
-			}
-			break;
-
-		case KeyEvent.VK_X: // control + x
-			if (metaDown && table.minSelectionColumn != -1
-					&& table.maxSelectionColumn != -1) {
-				boolean storeUndo = table.copyPasteCut.cut(
-						table.minSelectionColumn, 0, table.maxSelectionColumn,
-						model.getRowCount() - 1);
-				if (storeUndo) {
-					app.storeUndoInfo();
-				}
-				e.consume();
-			}
-			break;
-
-		case KeyEvent.VK_BACK_SPACE: // delete
-		case KeyEvent.VK_DELETE: // delete
-			boolean storeUndo = table.copyPasteCut.delete(
-					table.minSelectionColumn, 0, table.maxSelectionColumn,
-					model.getRowCount() - 1);
-			if (storeUndo) {
-				app.storeUndoInfo();
-			}
-			break;
+				break;
 		}
 	}
 
@@ -466,8 +452,7 @@ public class SpreadsheetColumnControllerD
 	// Renderer Class
 	// =========================================================
 
-	protected class ColumnHeaderRenderer extends JPanel
-			implements TableCellRenderer {
+	protected class ColumnHeaderRenderer extends JPanel implements TableCellRenderer {
 		private static final long serialVersionUID = 1L;
 
 		private Color defaultBackground;
@@ -475,10 +460,8 @@ public class SpreadsheetColumnControllerD
 		private JButton btnTrace;
 		private BorderLayout layout;
 
-		private Icon pauseIcon = app
-				.getScaledIcon(GuiResourcesD.SPREADSHEETTRACE_PAUSE);
-		private Icon recordIcon = app
-				.getScaledIcon(GuiResourcesD.SPREADSHEETTRACE_RECORD);
+		private Icon pauseIcon = app.getScaledIcon(GuiResourcesD.SPREADSHEETTRACE_PAUSE);
+		private Icon recordIcon = app.getScaledIcon(GuiResourcesD.SPREADSHEETTRACE_RECORD);
 
 		ColumnHeaderRenderer() {
 			super(new BorderLayout());
@@ -496,17 +479,20 @@ public class SpreadsheetColumnControllerD
 			defaultBackground = MyTableD.BACKGROUND_COLOR_HEADER;
 
 			setBorder(BorderFactory.createCompoundBorder(
-					BorderFactory.createMatteBorder(0, 0, 1, 1,
-							MyTableD.HEADER_GRID_COLOR),
+					BorderFactory.createMatteBorder(0, 0, 1, 1, MyTableD.HEADER_GRID_COLOR),
 					BorderFactory.createEmptyBorder(0, 5, 0, 0)));
 
 			layout = (BorderLayout) this.getLayout();
 		}
 
 		@Override
-		public Component getTableCellRendererComponent(JTable table0,
-				Object value, boolean isSelected, boolean hasFocus,
-				int rowIndex, int colIndex) {
+		public Component getTableCellRendererComponent(
+				JTable table0,
+				Object value,
+				boolean isSelected,
+				boolean hasFocus,
+				int rowIndex,
+				int colIndex) {
 
 			MyTableD table1;
 
@@ -524,8 +510,7 @@ public class SpreadsheetColumnControllerD
 				setBackground(defaultBackground);
 			} else {
 				if (table1.selectedColumnSet.contains(colIndex)
-						|| (colIndex >= table1.minSelectionColumn
-								&& colIndex <= table1.maxSelectionColumn)) {
+						|| (colIndex >= table1.minSelectionColumn && colIndex <= table1.maxSelectionColumn)) {
 					setBackground(MyTableD.SELECTED_BACKGROUND_COLOR_HEADER);
 				} else {
 					setBackground(defaultBackground);
@@ -534,33 +519,29 @@ public class SpreadsheetColumnControllerD
 
 			// add/remove trace button
 			if (app.hasTraceManager()) {
-				SpreadsheetTraceSettings t = app.getTraceManager()
-						.getTraceSettings(colIndex);
+				SpreadsheetTraceSettings t = app.getTraceManager().getTraceSettings(colIndex);
 				if (t == null) { // no geo traced in this column
 					if (layout.getLayoutComponent(loc.borderWest()) != null) {
-						this.remove(
-								layout.getLayoutComponent(loc.borderWest()));
+						this.remove(layout.getLayoutComponent(loc.borderWest()));
 					}
 				} else {
 					this.add(btnTrace, loc.borderWest());
 					// set icon
 					if (t.pause) {
 						btnTrace.setIcon(pauseIcon);
-						setToolTipText(
-								loc.getMenuTooltip("TraceToSpreadsheet")); // button
-																			// switches
-																			// back
-																			// to
-																			// record
+						setToolTipText(loc.getMenuTooltip("TraceToSpreadsheet")); // button
+						// switches
+						// back
+						// to
+						// record
 					} else {
 						btnTrace.setIcon(recordIcon);
 						setToolTipText(loc.getMenuTooltip("Pause")); // button
-																		// pauses
-																		// the
-																		// trace
+						// pauses
+						// the
+						// trace
 					}
 				}
-
 			}
 
 			return this;
@@ -570,26 +551,23 @@ public class SpreadsheetColumnControllerD
 		 * @return true if the given mouse location (in local coordinates of the
 		 * header component) is over a trace button.
 		 */
-		protected boolean isOverTraceButton(int colIndex, Point loc,
-				Object value) {
+		protected boolean isOverTraceButton(int colIndex, Point loc, Object value) {
 
 			if (!app.getTraceManager().isTraceColumn(colIndex)) {
 				return false;
 			}
 
 			try {
-				getTableCellRendererComponent(table, value, false,
-						false, -1, colIndex);
+				getTableCellRendererComponent(table, value, false, false, -1, colIndex);
 
 				// layout.getLayoutComponent(app.borderWest()).getBounds(rect);
 				btnTrace.getBounds(rect);
 
 				return rect.contains(loc);
-			} catch (Exception e) {
+			} catch (Exception ignored) {
 				// e.printStackTrace();
 			}
 			return false;
 		}
 	}
-
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -89,7 +89,7 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 
 	/*********************************************************
 	 * Constructor
-	 * 
+	 *
 	 * @param table spreadsheet table
 	 */
 	public SpreadsheetCellRendererD(MyTableInterface table) {
@@ -102,7 +102,7 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 		setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
 
 		// The cell renderer extends JLabel...its icon is used to display LaTeX.
-		latexIcon =  new ScaledIcon(this);
+		latexIcon = new ScaledIcon(this);
 		emptyIcon = new ImageIcon();
 
 		cellPoint = new GPoint(); // used for cell format calls
@@ -118,8 +118,8 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 	}
 
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value,
-			boolean isSelected, boolean hasFocus, int row, int column) {
+	public Component getTableCellRendererComponent(
+			JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 
 		setBorder(cellPadding);
 		cellPoint.setLocation(column, row);
@@ -130,8 +130,7 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 		// ==================================================
 		// set default background color (adjust later if geo exists)
 
-		Object c = formatHandler.getCellFormat(column, row,
-				CellFormat.FORMAT_BGCOLOR);
+		Object c = formatHandler.getCellFormat(column, row, CellFormat.FORMAT_BGCOLOR);
 
 		if (c instanceof GColor) {
 			GColor col = (GColor) c;
@@ -164,17 +163,12 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 		// use special rendering for buttons, booleans and lists
 		// =======================================================
 
-		if (myTable.allowSpecialEditor() && kernel
-				.getAlgebraStyleSpreadsheet() == AlgebraStyle.VALUE) {
+		if (myTable.allowSpecialEditor() && kernel.getAlgebraStyleSpreadsheet() == AlgebraStyle.VALUE) {
 
 			if (geo.isGeoBoolean()) {
 				checkBox.setBackground(table.getBackground());
 				checkBox.setHorizontalAlignment(CENTER);
 				checkBox.setEnabled(geo.isIndependent());
-
-				if (geo.isLabelVisible()) {
-					// checkBox.setText(geo.getCaption());
-				}
 				checkBox.setSelected(((GeoBoolean) geo).getBoolean());
 
 				return checkBox;
@@ -213,37 +207,31 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 			} else {
 
 				switch (kernel.getAlgebraStyleSpreadsheet()) {
-				default:
-				case VALUE:
-					text = geo.toValueString(template);
-					break;
+					default:
+					case VALUE:
+						text = geo.toValueString(template);
+						break;
 
-				case DESCRIPTION:
-					IndexHTMLBuilder builder = new IndexHTMLBuilder(true);
-					IndexHTMLBuilder
-							.convertIndicesToHTML(
-									geo.getDefinitionDescription(
-											template),
-									builder);
-					text = builder.toString();
-					break;
+					case DESCRIPTION:
+						IndexHTMLBuilder builder = new IndexHTMLBuilder(true);
+						IndexHTMLBuilder.convertIndicesToHTML(geo.getDefinitionDescription(template), builder);
+						text = builder.toString();
+						break;
 
-				case DEFINITION:
-					builder = new IndexHTMLBuilder(true);
-					IndexHTMLBuilder.convertIndicesToHTML(
-							geo.getDefinition(template),
-							builder);
-					text = builder.toString();
+					case DEFINITION:
+						builder = new IndexHTMLBuilder(true);
+						IndexHTMLBuilder.convertIndicesToHTML(geo.getDefinition(template), builder);
+						text = builder.toString();
 
-					break;
+						break;
 				}
 			}
 		}
 
 		// Set font
 		// ===============================================
-		fontStyle = (Integer) formatHandler.getCellFormat(cellPoint.x,
-				cellPoint.y, CellFormat.FORMAT_FONTSTYLE);
+		fontStyle = (Integer)
+				formatHandler.getCellFormat(cellPoint.x, cellPoint.y, CellFormat.FORMAT_FONTSTYLE);
 		if (fontStyle == null) {
 			fontStyle = Font.PLAIN;
 		}
@@ -279,8 +267,8 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 
 		// Set horizontal alignment
 		// ===============================================
-		alignment = (Integer) formatHandler.getCellFormat(cellPoint.x,
-				cellPoint.y, CellFormat.FORMAT_ALIGN);
+		alignment =
+				(Integer) formatHandler.getCellFormat(cellPoint.x, cellPoint.y, CellFormat.FORMAT_ALIGN);
 		if (alignment != null) {
 			setHorizontalAlignment(alignment);
 		} else if (geo.isGeoText()) {
@@ -294,12 +282,10 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 		if (geo.isGeoImage()) {
 
 			if (geo.getFillImage().isSVG()) {
-				Log.error(
-						"SVG not supported in the spreadsheet in desktop yet");
+				Log.error("SVG not supported in the spreadsheet in desktop yet");
 			} else {
 
-				Image im = ((MyImageD) geo.getFillImage())
-						.getImage();
+				Image im = ((MyImageD) geo.getFillImage()).getImage();
 
 				latexIcon.setImage(im);
 				setIcon(latexIcon);
@@ -312,17 +298,21 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 			boolean isSerif = false;
 			if (geo.isDefined() && app.getAlgebraStyle() == AlgebraStyle.VALUE) {
 
-				latexStr = geo.getFormulaString(StringTemplate.latexTemplate,
-						true);
+				latexStr = geo.getFormulaString(StringTemplate.latexTemplate, true);
 				if (geo.isLaTeXDrawableGeo()) {
 					try {
 						if (geo.isGeoText()) {
 							isSerif = ((GeoText) geo).isSerifFont();
 						}
-						app.getDrawEquation().drawLatexImageIcon(app, latexIcon,
-								latexStr, getFont(), isSerif,
-								GColorD.getAwtColor(geo.getAlgebraColor()),
-								bgColor);
+						app.getDrawEquation()
+								.drawLatexImageIcon(
+										app,
+										latexIcon,
+										latexStr,
+										getFont(),
+										isSerif,
+										GColorD.getAwtColor(geo.getAlgebraColor()),
+										bgColor);
 						setIcon(latexIcon);
 						setText("");
 
@@ -331,7 +321,6 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 					}
 				}
 			}
-
 		}
 
 		return this;
@@ -348,12 +337,12 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean hasFocus) {
+		public Component getListCellRendererComponent(
+				JList list, Object value, int index, boolean isSelected, boolean hasFocus) {
 
 			setBackground(Color.WHITE);
-			JLabel lbl = (JLabel) super.getListCellRendererComponent(list,
-					value, index, isSelected, hasFocus);
+			JLabel lbl =
+					(JLabel) super.getListCellRendererComponent(list, value, index, isSelected, hasFocus);
 			lbl.setHorizontalAlignment(LEFT);
 
 			if (value != null) {
@@ -369,16 +358,15 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 
 			return lbl;
 		}
-
 	}
 
 	/*
 	 * // Set border // (not finished ... border cell formats need coding) //
 	 * traceBorder = (Integer) formatHandler.getCellFormat(cellPoint, //
 	 * CellFormat.FORMAT_TRACING);
-	 * 
+	 *
 	 * if (traceBorder != null){
-	 * 
+	 *
 	 * switch (traceBorder){ case CellFormat.BORDER_STYLE_ALL:
 	 * setBorder(BorderFactory.createCompoundBorder(bAll, cellPadding)); break;
 	 * case CellFormat.BORDER_STYLE_TOP:
@@ -390,9 +378,9 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 	 * break; case CellFormat.BORDER_STYLE_RIGHT:
 	 * setBorder(BorderFactory.createCompoundBorder(bRight, cellPadding));
 	 * break;
-	 * 
+	 *
 	 * }
-	 * 
+	 *
 	 * }else{ setBorder(cellPadding); }
 	 */
 

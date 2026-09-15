@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -57,47 +57,49 @@ import org.junit.jupiter.params.provider.ValueSource;
  * {@link CasValueExtractor#printFormat}.
  */
 @Disabled
+@SuppressWarnings("PMD.ClassNamingConventions")
 class CasValueExtractor {
 	private static final Format printFormat = Format.MOCKED_CAS_VALUES_ANNOTATION;
-	private final AppCommon app = AppCommonFactory.create(
-			new AppConfigCas(GeoGebraConstants.SUITE_APPCODE));
+	private final AppCommon app =
+			AppCommonFactory.create(new AppConfigCas(GeoGebraConstants.SUITE_APPCODE));
 	private final CasGiacMock casGiacMock = new CasGiacMock(app);
 	private final AlgebraProcessor algebraProcessor = app.getKernel().getAlgebraProcessor();
 	private final ErrorAccumulator errorAccumulator = new ErrorAccumulator();
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-	// Restricted inequalities
-	"x > 0",
-	"y <= 1",
-	"x < y",
-	"x - y > 2",
-	"x^2 + 2y^2 < 1",
-	"f: x > 0",
-	"f(x) = x > 2",
-	// Restricted integrals
-	"Integral(g, -5, 5)",
-	"Integral(g, x, -5, 5)",
-	"NIntegral(g, -5, 5)",
-	// Restricted vectors
-	"a = (1, 2)",
-	"b = (1, 2) + 0",
-	// Restricted implicit curves
-	"x^2 = 1",
-	"2^x = 2",
-	"sin(x) = 0",
-	"y - x^2 = 0",
-	"x^2 = y",
-	"x^2 + y^2 = 4",
-	"x^2 / 9 + y^2 / 4 = 1",
-	"x^2 - y^2 = 4",
-	"x^3 + y^2 = 2",
-	"y^3 = x",
-	// Restricted lines
-	"x = 0",
-	"x + y = 0",
-	"2x - 3y = 4",
-	})
+	@ValueSource(
+			strings = {
+				// Restricted inequalities
+				"x > 0",
+				"y <= 1",
+				"x < y",
+				"x - y > 2",
+				"x^2 + 2y^2 < 1",
+				"f: x > 0",
+				"f(x) = x > 2",
+				// Restricted integrals
+				"Integral(g, -5, 5)",
+				"Integral(g, x, -5, 5)",
+				"NIntegral(g, -5, 5)",
+				// Restricted vectors
+				"a = (1, 2)",
+				"b = (1, 2) + 0",
+				// Restricted implicit curves
+				"x^2 = 1",
+				"2^x = 2",
+				"sin(x) = 0",
+				"y - x^2 = 0",
+				"x^2 = y",
+				"x^2 + y^2 = 4",
+				"x^2 / 9 + y^2 / 4 = 1",
+				"x^2 - y^2 = 4",
+				"x^3 + y^2 = 2",
+				"y^3 = x",
+				// Restricted lines
+				"x = 0",
+				"x + y = 0",
+				"2x - 3y = 4",
+			})
 	void extractMockValues(String input) {
 		evaluate("g(x) = x");
 		evaluate(input);
@@ -134,38 +136,37 @@ class CasValueExtractor {
 	@SuppressWarnings("PMD.SystemPrintln")
 	private static void printValues(List<Map.Entry<String, String>> values, Format format) {
 		switch (format) {
-		case MOCKED_CAS_VALUES_ANNOTATION:
-			String longestInput = values.stream()
-					.map(Map.Entry::getKey)
-					.max(Comparator.comparingInt(String::length))
-					.orElse("");
-			// Input value including starting " and closing space
-			int maxInputLength = longestInput.length() + 2;
-			// Input length rounded up to next multiple of 4 (default tab length)
-			int outputStart = (maxInputLength + 3) / 4 * 4;
+			case MOCKED_CAS_VALUES_ANNOTATION:
+				String longestInput = values.stream()
+						.map(Map.Entry::getKey)
+						.max(Comparator.comparingInt(String::length))
+						.orElse("");
+				// Input value including starting " and closing space
+				int maxInputLength = longestInput.length() + 2;
+				// Input length rounded up to next multiple of 4 (default tab length)
+				int outputStart = (maxInputLength + 3) / 4 * 4;
 
-			System.out.println("@MockedCasValues({");
-			values.forEach(value -> System.out.println(
-					// Input with default 2 tabs of indentation
-					"\t\t\"" + value.getKey() + " "
-					// A number of tabs to align all the "->" delimiters
-					+ "\t".repeat((outputStart - value.getKey().length() + 1) / 4) + "-> "
-					// Output
-					+ value.getValue() + "\","
-			));
-			System.out.println("})");
+				System.out.println("@MockedCasValues({");
+				values.forEach(value -> System.out.println(
+						// Input with default 2 tabs of indentation
+						"\t\t\"" + value.getKey() + " "
+								// A number of tabs to align all the "->" delimiters
+								+ "\t".repeat((outputStart - value.getKey().length() + 1) / 4) + "-> "
+								// Output
+								+ value.getValue() + "\","));
+				System.out.println("})");
 
-			break;
-		case MEMORIZE_METHOD_CALL:
-			for (Map.Entry<String, String> value : values) {
-				System.out.println("mockedCasGiac.memorize(\"" + value.getKey() + "\", "
-						+ "\"" + value.getValue() + "\");");
-			}
-			break;
-		case RAW:
-			for (Map.Entry<String, String> value : values) {
-				System.out.println(value.getKey() + " -> " + value.getValue());
-			}
+				break;
+			case MEMORIZE_METHOD_CALL:
+				for (Map.Entry<String, String> value : values) {
+					System.out.println("mockedCasGiac.memorize(\"" + value.getKey() + "\", " + "\""
+							+ value.getValue() + "\");");
+				}
+				break;
+			case RAW:
+				for (Map.Entry<String, String> value : values) {
+					System.out.println(value.getKey() + " -> " + value.getValue());
+				}
 		}
 	}
 

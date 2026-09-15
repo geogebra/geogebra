@@ -10,4 +10,5 @@ dependencies {
     implementation(libs.spotbugs.plugin)
     implementation(libs.javacc.plugin)
     implementation(libs.openrewrite.plugin)
+    implementation(libs.spotless.plugin)
 }

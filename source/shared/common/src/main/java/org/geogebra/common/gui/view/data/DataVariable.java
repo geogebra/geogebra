@@ -46,9 +46,9 @@ import org.geogebra.common.util.debug.Log;
  * A DataVariable is a collection of DataItems representing data as a list of
  * raw data values, data values with corresponding frequencies, or as classes
  * with corresponding frequencies.
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public class DataVariable {
 
@@ -58,7 +58,9 @@ public class DataVariable {
 	 * Identifier for the data grouping type
 	 */
 	public enum GroupType {
-		RAWDATA, FREQUENCY, CLASS
+		RAWDATA,
+		FREQUENCY,
+		CLASS
 	}
 
 	// private App app;
@@ -77,7 +79,7 @@ public class DataVariable {
 
 	/**
 	 * Constructs a DataVariable
-	 * 
+	 *
 	 * @param loc localization
 	 * @param tableModel table model
 	 */
@@ -95,10 +97,8 @@ public class DataVariable {
 	 * @param valueItemList
 	 *            data item list
 	 */
-	public void setDataVariableAsRawData(GeoClass geoClass,
-			ArrayList<DataItem> valueItemList) {
-		setDataVariable(GroupType.RAWDATA, geoClass, valueItemList, null, null,
-				null);
+	public void setDataVariableAsRawData(GeoClass geoClass, ArrayList<DataItem> valueItemList) {
+		setDataVariable(GroupType.RAWDATA, geoClass, valueItemList, null, null, null);
 	}
 
 	/**
@@ -115,8 +115,11 @@ public class DataVariable {
 	 * @param label
 	 *            labels
 	 */
-	public void setDataVariable(GroupType groupType, GeoClass geoClass,
-			ArrayList<DataItem> valueItemList, DataItem frequency,
+	public void setDataVariable(
+			GroupType groupType,
+			GeoClass geoClass,
+			ArrayList<DataItem> valueItemList,
+			DataItem frequency,
 			DataItem classes,
 			DataItem label) {
 
@@ -145,42 +148,41 @@ public class DataVariable {
 	public void setGroupType(GroupType groupType) {
 		this.groupType = groupType;
 		switch (groupType) {
-		case RAWDATA:
-			frequency = null;
-			classes = null;
-			if (values.size() == 0) {
-				values.add(new DataItem(tableModel));
-			}
-			break;
+			case RAWDATA:
+				frequency = null;
+				classes = null;
+				if (values.size() == 0) {
+					values.add(new DataItem(tableModel));
+				}
+				break;
 
-		case FREQUENCY:
-			if (frequency == null) {
-				frequency = new DataItem(tableModel);
-				frequency.setGeoClass(GeoClass.NUMERIC);
-				frequency.setDescription(loc.getMenu("Frequency"));
-			}
-			classes = null;
-			break;
+			case FREQUENCY:
+				if (frequency == null) {
+					frequency = new DataItem(tableModel);
+					frequency.setGeoClass(GeoClass.NUMERIC);
+					frequency.setDescription(loc.getMenu("Frequency"));
+				}
+				classes = null;
+				break;
 
-		case CLASS:
-			if (frequency == null) {
-				frequency = new DataItem(tableModel);
-				frequency.setGeoClass(GeoClass.NUMERIC);
-				frequency.setDescription(loc.getMenu("Frequency"));
-			}
-			if (classes == null) {
-				classes = new DataItem(new double[0], tableModel);
-				classes.setDescription(loc.getMenu("Classes"));
-			}
+			case CLASS:
+				if (frequency == null) {
+					frequency = new DataItem(tableModel);
+					frequency.setGeoClass(GeoClass.NUMERIC);
+					frequency.setDescription(loc.getMenu("Frequency"));
+				}
+				if (classes == null) {
+					classes = new DataItem(new double[0], tableModel);
+					classes.setDescription(loc.getMenu("Classes"));
+				}
 
-			for (DataItem item : values) {
-				item.clearItem();
-			}
-			values.clear();
+				for (DataItem item : values) {
+					item.clearItem();
+				}
+				values.clear();
 
-			break;
+				break;
 		}
-
 	}
 
 	public GroupType getGroupType() {
@@ -208,7 +210,7 @@ public class DataVariable {
 
 	/**
 	 * Change start and update automatic classes
-	 * 
+	 *
 	 * @param classStart
 	 *            start of fist class
 	 */
@@ -228,7 +230,7 @@ public class DataVariable {
 
 	/**
 	 * Change class width and update automatic classes
-	 * 
+	 *
 	 * @param classWidth
 	 *            class width
 	 */
@@ -395,8 +397,7 @@ public class DataVariable {
 	 *            whether to copy elements
 	 * @return GeoList containing elements corresponding to the DataItem
 	 */
-	public GeoList toGeoList(App app, DataItem item, int mode,
-			boolean leftToRight, boolean doCopy) {
+	public GeoList toGeoList(App app, DataItem item, int mode, boolean leftToRight, boolean doCopy) {
 		return item.toGeoList(app, enableHeader, leftToRight, doCopy);
 	}
 
@@ -412,8 +413,7 @@ public class DataVariable {
 	 * @return GeoList matrix with labels, values, classes and frequencies
 	 *         (unavailable categories are skipped)
 	 */
-	public ArrayList<GeoList> getGeoListData(App app, int mode,
-			boolean leftToRight, boolean doCopy) {
+	public ArrayList<GeoList> getGeoListData(App app, int mode, boolean leftToRight, boolean doCopy) {
 
 		ArrayList<GeoList> list = new ArrayList<>();
 
@@ -421,13 +421,11 @@ public class DataVariable {
 			list.add(label.toGeoList(app, enableHeader, leftToRight, doCopy));
 		}
 
-		if (mode == DataAnalysisModel.MODE_REGRESSION
-				&& geoClass == GeoClass.NUMERIC) {
+		if (mode == DataAnalysisModel.MODE_REGRESSION && geoClass == GeoClass.NUMERIC) {
 			list.add(getPointList(leftToRight, doCopy, app));
 		} else {
 			for (DataItem item : values) {
-				list.add(
-						item.toGeoList(app, enableHeader, leftToRight, doCopy));
+				list.add(item.toGeoList(app, enableHeader, leftToRight, doCopy));
 			}
 		}
 
@@ -436,12 +434,10 @@ public class DataVariable {
 		}
 
 		if (frequency != null) {
-			list.add(frequency.toGeoList(app, enableHeader, leftToRight,
-					doCopy));
+			list.add(frequency.toGeoList(app, enableHeader, leftToRight, doCopy));
 		}
 
 		return list;
-
 	}
 
 	private GeoList getPointList(boolean leftToRight, boolean doCopy, App app) {
@@ -450,16 +446,14 @@ public class DataVariable {
 			return null;
 		}
 
-		GeoList list0 = values.get(0).toGeoList(app, enableHeader, leftToRight,
-				doCopy);
-		GeoList list1 = values.get(1).toGeoList(app, enableHeader, leftToRight,
-				doCopy);
+		GeoList list0 = values.get(0).toGeoList(app, enableHeader, leftToRight, doCopy);
+		GeoList list1 = values.get(1).toGeoList(app, enableHeader, leftToRight, doCopy);
 
 		return createPointGeoList(list0, list1, doCopy, leftToRight);
 	}
 
-	private static GeoList createPointGeoList(GeoList xList, GeoList yList,
-			boolean byValue, boolean leftToRight) {
+	private static GeoList createPointGeoList(
+			GeoList xList, GeoList yList, boolean byValue, boolean leftToRight) {
 
 		Construction cons = xList.getKernel().getConstruction();
 
@@ -475,8 +469,7 @@ public class DataVariable {
 
 				// don't process the point if either coordinate is null or
 				// non-numeric,
-				if (xCoord == null || yCoord == null || !xCoord.isGeoNumeric()
-						|| !yCoord.isGeoNumeric()) {
+				if (xCoord == null || yCoord == null || !xCoord.isGeoNumeric() || !yCoord.isGeoNumeric()) {
 					continue;
 				}
 
@@ -485,22 +478,19 @@ public class DataVariable {
 
 				if (byValue) {
 					if (leftToRight) {
-						geoPoint = new GeoPoint(cons,
-								((GeoNumeric) xCoord).getDouble(),
-								((GeoNumeric) yCoord).getDouble(), 1.0);
+						geoPoint = new GeoPoint(
+								cons, ((GeoNumeric) xCoord).getDouble(), ((GeoNumeric) yCoord).getDouble(), 1.0);
 					} else {
-						geoPoint = new GeoPoint(cons,
-								((GeoNumeric) yCoord).getDouble(),
-								((GeoNumeric) xCoord).getDouble(), 1.0);
+						geoPoint = new GeoPoint(
+								cons, ((GeoNumeric) yCoord).getDouble(), ((GeoNumeric) xCoord).getDouble(), 1.0);
 					}
 
 				} else {
 
-					MyVecNode vec = new MyVecNode(xList.getKernel(),
-							leftToRight ? xCoord : yCoord,
-							leftToRight ? yCoord : xCoord);
-					ExpressionNode point = new ExpressionNode(xList.getKernel(),
-							vec, Operation.NO_OPERATION, null);
+					MyVecNode vec = new MyVecNode(
+							xList.getKernel(), leftToRight ? xCoord : yCoord, leftToRight ? yCoord : xCoord);
+					ExpressionNode point =
+							new ExpressionNode(xList.getKernel(), vec, Operation.NO_OPERATION, null);
 					point.setForcePoint();
 
 					pointAlgo = new AlgoDependentPoint(cons, point, false);
@@ -519,9 +509,7 @@ public class DataVariable {
 				}
 			}
 		} catch (Exception ex) {
-			Log.debug(
-					"Creating list of points expression failed with exception "
-							+ ex);
+			Log.debug("Creating list of points expression failed with exception " + ex);
 		}
 
 		AlgoDependentList dl = new AlgoDependentList(cons, list, false);
@@ -580,45 +568,42 @@ public class DataVariable {
 	 *            column index for multivar analysis
 	 * @return list of column names for ???
 	 */
-	public ArrayList<String> getTableColumnDescriptions(int mode,
-			int index) {
+	public ArrayList<String> getTableColumnDescriptions(int mode, int index) {
 		ArrayList<String> list = new ArrayList<>();
 
 		for (DataItem item : values) {
 
 			switch (mode) {
+				default:
+				case DataAnalysisModel.MODE_ONEVAR:
+					switch (groupType) {
+						case RAWDATA:
+							list.add(loc.getMenu("Data"));
+							break;
+						case FREQUENCY:
+							list.add(loc.getMenu("Data"));
+							list.add(loc.getMenu("Frequency"));
+							break;
+						case CLASS:
+							list.add(loc.getMenu("Classes"));
+							list.add(loc.getMenu("Frequency"));
+							break;
+					}
 
-			default:
-			case DataAnalysisModel.MODE_ONEVAR:
-				switch (groupType) {
-				case RAWDATA:
-					list.add(loc.getMenu("Data"));
 					break;
-				case FREQUENCY:
-					list.add(loc.getMenu("Data"));
-					list.add(loc.getMenu("Frequency"));
+
+				case DataAnalysisModel.MODE_REGRESSION:
+					if (item.getGeoClass() == GeoClass.POINT) {
+						list.add("(" + loc.getMenu("Column.X") + "," + loc.getMenu("Column.Y") + ")");
+					} else {
+						list.add(loc.getMenu("Column.X"));
+						list.add(loc.getMenu("Column.Y"));
+					}
 					break;
-				case CLASS:
-					list.add(loc.getMenu("Classes"));
-					list.add(loc.getMenu("Frequency"));
+
+				case DataAnalysisModel.MODE_MULTIVAR:
+					list.add("# " + index);
 					break;
-				}
-
-				break;
-
-			case DataAnalysisModel.MODE_REGRESSION:
-				if (item.getGeoClass() == GeoClass.POINT) {
-					list.add("(" + loc.getMenu("Column.X") + ","
-							+ loc.getMenu("Column.Y") + ")");
-				} else {
-					list.add(loc.getMenu("Column.X"));
-					list.add(loc.getMenu("Column.Y"));
-				}
-				break;
-
-			case DataAnalysisModel.MODE_MULTIVAR:
-				list.add("# " + index);
-				break;
 			}
 		}
 
@@ -627,7 +612,7 @@ public class DataVariable {
 
 	/**
 	 * Returns true if this contains the specified GeoElement
-	 * 
+	 *
 	 * @param geo
 	 *            element
 	 * @return whether geo is in data source
@@ -661,7 +646,6 @@ public class DataVariable {
 						if (dataItem.getRangeList() != null) {
 							return dataItem.getRangeList().stream()
 									.anyMatch(cr -> cr.contains(geo.getSpreadsheetCoords()));
-
 						}
 					} catch (Exception e) {
 						Log.debug(e.getMessage());
@@ -675,10 +659,11 @@ public class DataVariable {
 
 	/**
 	 * Serialize to XML
-	 * 
+	 *
 	 * @param sb
 	 *            XML builder
 	 */
+	@SuppressWarnings("PMD.EmptyControlStatement")
 	public void getXML(XMLStringBuilder sb) {
 		// save these fields to XML:
 		// groupType, enableHeader
@@ -720,5 +705,4 @@ public class DataVariable {
 		}
 		return sb.toString();
 	}
-
 }

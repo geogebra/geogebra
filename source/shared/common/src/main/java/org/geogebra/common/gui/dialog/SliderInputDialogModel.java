@@ -40,14 +40,21 @@ import org.jspecify.annotations.Nullable;
  * (a {@link GeoNumeric} and a {@link GeoAngle}), validates user input for each
  * field, and commits the slider to the construction on confirmation.
  */
-@SuppressWarnings("checkstyle:UnicodeRange")
 public final class SliderInputDialogModel {
 
 	/** Whether the slider represents a plain number or an angle. */
-	public enum SliderType { NUMBER, ANGLE }
+	public enum SliderType {
+		NUMBER,
+		ANGLE
+	}
 
 	/** Editable fields in the slider dialog. */
-	public enum Field { NAME, MIN, MAX, STEP }
+	public enum Field {
+		NAME,
+		MIN,
+		MAX,
+		STEP
+	}
 
 	private final App app;
 	private final EuclidianView view;
@@ -67,8 +74,13 @@ public final class SliderInputDialogModel {
 	 * @param x screen x-coordinate for the slider
 	 * @param y screen y-coordinate for the slider
 	 */
-	public SliderInputDialogModel(App app, EuclidianView euclidianView,
-			Localization localization, Kernel kernel, int x, int y) {
+	public SliderInputDialogModel(
+			App app,
+			EuclidianView euclidianView,
+			Localization localization,
+			Kernel kernel,
+			int x,
+			int y) {
 		this.app = app;
 		this.view = euclidianView;
 		this.localization = localization;
@@ -76,16 +88,18 @@ public final class SliderInputDialogModel {
 		this.number = createNumber(kernel.getConstruction(), x, y);
 		this.angle = createAngle(kernel.getConstruction(), x, y);
 		this.lastValidInputs = new HashMap<>(Map.of(
-				SliderType.NUMBER, new HashMap<>(Map.of(
-						Field.NAME, number.getDefaultLabel(),
-						Field.MIN, "-5",
-						Field.MAX, "5",
-						Field.STEP, "0.1")),
-				SliderType.ANGLE, new HashMap<>(Map.of(
-						Field.NAME, angle.getDefaultLabel(),
-						Field.MIN, "0°",
-						Field.MAX, "360°",
-						Field.STEP, "1°"))));
+				SliderType.NUMBER,
+						new HashMap<>(Map.of(
+								Field.NAME, number.getDefaultLabel(),
+								Field.MIN, "-5",
+								Field.MAX, "5",
+								Field.STEP, "0.1")),
+				SliderType.ANGLE,
+						new HashMap<>(Map.of(
+								Field.NAME, angle.getDefaultLabel(),
+								Field.MIN, "0°",
+								Field.MAX, "360°",
+								Field.STEP, "1°"))));
 	}
 
 	/**
@@ -123,8 +137,7 @@ public final class SliderInputDialogModel {
 	 * @param step string representation of the animation step
 	 * @return whether slider creation succeeded
 	 */
-	public boolean submit(SliderType sliderType, String name, String min,
-			String max, String step) {
+	public boolean submit(SliderType sliderType, String name, String min, String max, String step) {
 		if (validateField(sliderType, Field.NAME, name) != null
 				|| validateField(sliderType, Field.MIN, min) != null
 				|| validateField(sliderType, Field.MAX, max) != null
@@ -176,15 +189,16 @@ public final class SliderInputDialogModel {
 		}
 	}
 
-	private void createSlider(SliderType sliderType, String name, String min, String max,
-			String step) {
+	private void createSlider(
+			SliderType sliderType, String name, String min, String max, String step) {
 		NumberValue minNumber = evaluateNumber(sliderType, min);
 		NumberValue maxNumber = evaluateNumber(sliderType, max);
 		NumberValue stepNumber = evaluateNumber(sliderType, step);
-		GeoNumeric element = switch (sliderType) {
-			case NUMBER -> number;
-			case ANGLE -> angle;
-		};
+		GeoNumeric element =
+				switch (sliderType) {
+					case NUMBER -> number;
+					case ANGLE -> angle;
+				};
 		element.setLabel(name);
 		element.setIntervalMin(minNumber);
 		element.setIntervalMax(maxNumber);
@@ -206,8 +220,7 @@ public final class SliderInputDialogModel {
 		NumberValue value = null;
 		if (!inputText.isBlank()) {
 			String input = inputText.trim();
-			if (input.charAt(input.length() - 1) != '°'
-					&& sliderType == SliderType.ANGLE) {
+			if (input.charAt(input.length() - 1) != '°' && sliderType == SliderType.ANGLE) {
 				input = input + '°';
 			}
 			value = kernel.getAlgebraProcessor().evaluateToNumeric(input, errorHandler);

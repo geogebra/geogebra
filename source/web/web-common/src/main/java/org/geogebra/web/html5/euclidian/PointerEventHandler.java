@@ -36,7 +36,7 @@ import jsinterop.base.Js;
 
 /**
  * Handles pointer events in Euclidian view
- * 
+ *
  * @author Zbynek
  *
  */
@@ -117,8 +117,7 @@ public class PointerEventHandler {
 
 	private void startLongTouch(PointerState touchState) {
 		if (tc.getMode() == EuclidianConstants.MODE_MOVE) {
-			tc.getLongTouchManager().scheduleTimer(tc, (int) touchState.x,
-					(int) touchState.y);
+			tc.getLongTouchManager().scheduleTimer(tc, (int) touchState.x, (int) touchState.y);
 		}
 	}
 
@@ -150,8 +149,7 @@ public class PointerEventHandler {
 				first.x = e.offsetX / off.getZoomLevel();
 				first.y = e.offsetY / off.getZoomLevel();
 			}
-		} else if (match(first, e) || match(second, e)
-				|| "mouse".equals(e.pointerType)) {
+		} else if (match(first, e) || match(second, e) || "mouse".equals(e.pointerType)) {
 			this.tc.onPointerEventMove(convertEvent(e));
 		}
 		if (!"INPUT".equals(Js.<elemental2.dom.Element>uncheckedCast(e.target).tagName)) {
@@ -167,9 +165,12 @@ public class PointerEventHandler {
 	 * On Windows we can have hovering pen events => do not start a stroke
 	 */
 	private boolean isPenStrokeInterrupted(elemental2.dom.PointerEvent event) {
-		return first == null && second == null && third == null
+		return first == null
+				&& second == null
+				&& third == null
 				&& NavigatorUtil.isiOS()
-				&& lastOutId == event.pointerId && "pen".equals(event.pointerType);
+				&& lastOutId == event.pointerId
+				&& "pen".equals(event.pointerType);
 	}
 
 	private boolean match(PointerState pointerState, elemental2.dom.PointerEvent event) {
@@ -209,15 +210,15 @@ public class PointerEventHandler {
 	}
 
 	private PointerEvent convertEvent(elemental2.dom.PointerEvent e) {
-		PointerEvent ex = new PointerEvent(e.offsetX / off.getZoomLevel(),
-				e.offsetY / off.getZoomLevel(), getType(e), off);
+		PointerEvent ex = new PointerEvent(
+				e.offsetX / off.getZoomLevel(), e.offsetY / off.getZoomLevel(), getType(e), off);
 		adjust(ex, e);
 		return ex;
 	}
 
 	private PointerEvent convertWithCoords(elemental2.dom.PointerEvent e, GPoint2D coords) {
-		PointerEvent ex = new PointerEvent(coords.x / off.getZoomLevel(),
-				coords.y / off.getZoomLevel(), getType(e), off);
+		PointerEvent ex = new PointerEvent(
+				coords.x / off.getZoomLevel(), coords.y / off.getZoomLevel(), getType(e), off);
 		adjust(ex, e);
 		return ex;
 	}
@@ -269,14 +270,14 @@ public class PointerEventHandler {
 	public void attachTo(Element element, GlobalHandlerRegistry globalHandlers) {
 		reset();
 		// treat as global to avoid memory leak
-		globalHandlers.addEventListener(element, "pointermove",
-				evt -> onPointerMove(Js.uncheckedCast(evt), element));
+		globalHandlers.addEventListener(
+				element, "pointermove", evt -> onPointerMove(Js.uncheckedCast(evt), element));
 
-		globalHandlers.addEventListener(element, "pointerdown",
-				evt -> onPointerDown(Js.uncheckedCast(evt), element));
+		globalHandlers.addEventListener(
+				element, "pointerdown", evt -> onPointerDown(Js.uncheckedCast(evt), element));
 
-		globalHandlers.addEventListener(element, "pointerout",
-				evt -> onPointerOut(Js.uncheckedCast(evt)));
+		globalHandlers.addEventListener(
+				element, "pointerout", evt -> onPointerOut(Js.uncheckedCast(evt)));
 
 		globalHandlers.addEventListener(element, "pointercancel", evt -> {
 			onPointerOut(Js.uncheckedCast(evt));
@@ -284,12 +285,12 @@ public class PointerEventHandler {
 		});
 
 		// if pointer was released in the applet, process event coordinates like "pointerdown"
-		globalHandlers.addEventListener(element, "pointerup",
-				evt -> onPointerUp(Js.uncheckedCast(evt), element, true));
+		globalHandlers.addEventListener(
+				element, "pointerup", evt -> onPointerUp(Js.uncheckedCast(evt), element, true));
 		// if pointer was released outside, use coordinates of the last pointer leaving the applet
 		// stopPropagation makes sure only one "pointerup" handler runs
-		globalHandlers.addEventListener(DomGlobal.window, "pointerup",
-				evt -> onPointerUp(Js.uncheckedCast(evt), element, false));
+		globalHandlers.addEventListener(
+				DomGlobal.window, "pointerup", evt -> onPointerUp(Js.uncheckedCast(evt), element, false));
 	}
 
 	/**
@@ -311,10 +312,9 @@ public class PointerEventHandler {
 	public static PointerEventType getType(elemental2.dom.PointerEvent event) {
 		try {
 			return PointerEventType.valueOf(event.pointerType.toUpperCase(Locale.US));
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 			// no logging: too noisy
 		}
 		return PointerEventType.MOUSE;
 	}
-
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -47,8 +47,8 @@ public class OptionsMenuController {
 	}
 
 	private void processRounding(Integer index) {
-		roundingProperty.setIndex(index > app.getLocalization().getDecimalPlaces().length
-				? index - 1 : index);
+		roundingProperty.setIndex(
+				index > app.getLocalization().getDecimalPlaces().length ? index - 1 : index);
 	}
 
 	private void processFontSize(Integer index) {
@@ -81,8 +81,7 @@ public class OptionsMenuController {
 		menuDecimalPlaces = newSubmenu();
 		String[] strDecimalSpaces = app.getLocalization().getRoundingMenu();
 
-		menuDecimalPlaces.addRadioButtonMenuItems(this::processRounding,
-				strDecimalSpaces, 0, false);
+		menuDecimalPlaces.addRadioButtonMenuItems(this::processRounding, strDecimalSpaces, 0, false);
 
 		addMenuItem(menu, "Rounding", menuDecimalPlaces);
 
@@ -96,10 +95,8 @@ public class OptionsMenuController {
 	public void addLabelingMenu(OptionsMenuD menu) {
 		menuLabeling = newSubmenu();
 
-		String[] lstr = { "Labeling.automatic", "Labeling.on", "Labeling.off",
-				"Labeling.pointsOnly" };
-		menuLabeling.addRadioButtonMenuItems(this::processLabeling, lstr,
-				0, true);
+		String[] lstr = {"Labeling.automatic", "Labeling.on", "Labeling.off", "Labeling.pointsOnly"};
+		menuLabeling.addRadioButtonMenuItems(this::processLabeling, lstr, 0, true);
 
 		addMenuItem(menu, "Labeling", menuLabeling);
 
@@ -135,17 +132,14 @@ public class OptionsMenuController {
 			if (fontSize == Util.menuFontSizes(i)) {
 				pos = i;
 			}
-			fsfi[i] = app.getLocalization().getPlain("Apt",
-					Util.menuFontSizes(i) + "");
+			fsfi[i] = app.getLocalization().getPlain("Apt", Util.menuFontSizes(i) + "");
 		}
 
-		submenu.addRadioButtonMenuItems(this::processFontSize, fsfi,
-				pos, false);
+		submenu.addRadioButtonMenuItems(this::processFontSize, fsfi, pos, false);
 		addMenuItem(menu, "FontSize", submenu);
 	}
 
-	private void addMenuItem(MenuInterface parentMenu, String key,
-			MenuInterface subMenu) {
+	private void addMenuItem(MenuInterface parentMenu, String key, MenuInterface subMenu) {
 		ImageResourceD res = null;
 		if ("Labeling".equals(key)) {
 			res = GuiResourcesD.MODE_SHOWHIDELABEL;
@@ -158,7 +152,6 @@ public class OptionsMenuController {
 		}
 		((JMenuItem) subMenu).setText(app.getLocalization().getMenu(key));
 		((JMenu) parentMenu).add((JMenuItem) subMenu);
-
 	}
 
 	/**
@@ -182,9 +175,8 @@ public class OptionsMenuController {
 
 		try {
 			menuDecimalPlaces.setSelected(pos);
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 			//
 		}
-
 	}
 }

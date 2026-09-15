@@ -22,3 +22,7 @@ tasks.register<Delete>("cleanJavacc") {
     description = "Cleans the javacc generated files."
     delete(tasks.compileJavacc)
 }
+
+tasks.named("spotlessJava") {
+    dependsOn("compileJavacc")
+}

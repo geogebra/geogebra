@@ -86,19 +86,30 @@ import org.jspecify.annotations.Nullable;
  * Explicit function in one variable ("x"). This is actually a wrapper class for
  * Function in geogebra.kernel.arithmetic. In arithmetic trees (ExpressionNode)
  * it evaluates to a Function.
- * 
+ *
  * @author Markus Hohenwarter
  */
-public class GeoFunction extends GeoElement implements Translateable,
-		GeoEvaluatable, FunctionalNVar, GeoFunctionable, Region,
-		CasEvaluableFunction, ParametricCurve, Dilateable,
-		Transformable, InequalityProperties, SurfaceEvaluable, GeoLocusable,
-		Lineable2D, Functional {
+public class GeoFunction extends GeoElement
+		implements Translateable,
+				GeoEvaluatable,
+				FunctionalNVar,
+				GeoFunctionable,
+				Region,
+				CasEvaluableFunction,
+				ParametricCurve,
+				Dilateable,
+				Transformable,
+				InequalityProperties,
+				SurfaceEvaluable,
+				GeoLocusable,
+				Lineable2D,
+				Functional {
 
 	/** inner function representation */
 	protected @Nullable Function fun;
 	/** true if this function should be considered defined */
 	protected boolean isDefined = true;
+
 	private boolean trace;
 
 	// if the function includes a division by var, e.g. 1/x, 1/(2+x)
@@ -112,6 +123,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	protected double intervalMin;
 	/** upper interval bound */
 	protected double intervalMax;
+
 	private boolean evalSwapped;
 
 	private Boolean isInequality = null;
@@ -120,6 +132,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	GeoImplicit iPoly;
 	/** substitute functions for composite function */
 	GeoFunction[] substituteFunctions;
+
 	private GeoFunction derivGeoFun;
 	private HashSet<SurfaceEvaluable> surfaceEvaluables;
 	private Function includesFreehandOrDataFun = null;
@@ -144,7 +157,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * Creates new function
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 */
@@ -169,7 +182,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * Creates new function
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param f
@@ -201,7 +214,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	// The expression is not correct but it is not to be shown anyway.
 	/**
 	 * Creates composite function iPoly(f(x), g(x))
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param iPoly
@@ -211,8 +224,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 * @param g
 	 *            function for y
 	 */
-	public GeoFunction(Construction c, GeoImplicit iPoly, GeoFunction f,
-					   GeoFunction g) {
+	public GeoFunction(Construction c, GeoImplicit iPoly, GeoFunction f, GeoFunction g) {
 		this(c);
 		this.iPoly = iPoly;
 
@@ -226,8 +238,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 			fun = new Function(c.getKernel()) {
 				@Override
 				public double value(double x) {
-					return GeoFunction.this.iPoly.evaluateImplicitCurve(x,
-							substituteFunctions[1].value(x));
+					return GeoFunction.this.iPoly.evaluateImplicitCurve(x, substituteFunctions[1].value(x));
 				}
 			};
 
@@ -240,9 +251,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 			fun = new Function(c.getKernel()) {
 				@Override
 				public double value(double x) {
-					return GeoFunction.this.iPoly.evaluateImplicitCurve(
-							substituteFunctions[0].value(x),
-							x);
+					return GeoFunction.this.iPoly.evaluateImplicitCurve(substituteFunctions[0].value(x), x);
 				}
 			};
 			// TODO: set the correct expression
@@ -250,21 +259,18 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 		} else if (f != null && g != null) {
 
-			setInterval(Math.max(f.intervalMin, g.intervalMin),
-					Math.min(f.intervalMax, g.intervalMax));
+			setInterval(Math.max(f.intervalMin, g.intervalMin), Math.min(f.intervalMax, g.intervalMax));
 
 			fun = new Function(c.getKernel()) {
 				@Override
 				public double value(double x) {
 					return GeoFunction.this.iPoly.evaluateImplicitCurve(
-							substituteFunctions[0].value(x),
-							substituteFunctions[1].value(x));
+							substituteFunctions[0].value(x), substituteFunctions[1].value(x));
 				}
 			};
 
 			// TODO: set the correct expression
 			fun.setExpression(new ExpressionNode(kernel, new GeoNumeric(c, 0)));
-
 		} // else: error
 	}
 
@@ -286,8 +292,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 */
 	public boolean validate(boolean autoLabel, boolean suppressLabel) {
 		if (!cons.isFileLoading() && fun != null) {
-			if (fun.getExpression().containsFreeFunctionVariableOtherThan(
-					getFunctionVariables())) {
+			if (fun.getExpression().containsFreeFunctionVariableOtherThan(getFunctionVariables())) {
 				return false;
 			}
 		}
@@ -313,7 +318,8 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	@Override
 	public String getTypeString() {
-		return ((isInequality != null && isInequality) || isForceInequality()) ? "Inequality"
+		return ((isInequality != null && isInequality) || isForceInequality())
+				? "Inequality"
 				: "Function";
 	}
 
@@ -324,7 +330,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * copy constructor
-	 * 
+	 *
 	 * @param f
 	 *            Function to be copied
 	 */
@@ -341,8 +347,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 * @param fv
 	 *            variable
 	 */
-	public GeoFunction(Kernel kernel, ExpressionNode en,
-			FunctionVariable fv) {
+	public GeoFunction(Kernel kernel, ExpressionNode en, FunctionVariable fv) {
 		this(kernel.getConstruction(), new Function(en, fv));
 	}
 
@@ -361,8 +366,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 				return;
 			}
 			if (geo.isGeoNumeric() && fun != null) {
-				geoFun = new Function(geoFun.getExpression(),
-						fun.getFunctionVariable());
+				geoFun = new Function(geoFun.getExpression(), fun.getFunctionVariable());
 			}
 			isDefined = geo.isDefined();
 			setFunction(new Function(geoFun, kernel));
@@ -388,7 +392,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * Sets the inner function
-	 * 
+	 *
 	 * @param f
 	 *            function
 	 */
@@ -453,14 +457,14 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * Sets interval for the function
-	 * 
+	 *
 	 * @param a
 	 *            lower bound
 	 * @param b
 	 *            upper bound
 	 * @return true if the resulting interval is non-empty
 	 */
-	final public boolean setInterval(double a, double b) {
+	public final boolean setInterval(double a, double b) {
 		if (a <= b) {
 			interval = true;
 			this.intervalMin = a;
@@ -474,11 +478,11 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * Returns function expression
-	 * 
+	 *
 	 * @return function expression
 	 */
 	@Override
-	final public ExpressionNode getFunctionExpression() {
+	public final ExpressionNode getFunctionExpression() {
 		if (getFunction() == null) {
 			return null;
 		}
@@ -488,7 +492,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	/**
 	 * Replaces geo and all its dependent geos in this function's expression by
 	 * copies of their values.
-	 * 
+	 *
 	 * @param geo
 	 *            geo to be replaced
 	 */
@@ -501,7 +505,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * Set this function to the n-th derivative of f
-	 * 
+	 *
 	 * @param fd
 	 *            function to be differenced
 	 * @param n
@@ -532,12 +536,11 @@ public class GeoFunction extends GeoElement implements Translateable,
 		if (fun != null && !fun.getExpression().isDefined()) {
 			isDefined = false;
 		}
-
 	}
 
 	/**
 	 * Sets this function by applying a GeoGebraCAS command to a function.
-	 * 
+	 *
 	 * @param ggbCasCmd
 	 *            the GeoGebraCAS command needs to include % in all places where
 	 *            the function f should be substituted, e.g. "Derivative(%,x)"
@@ -545,13 +548,15 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 *            the function that the CAS command is applied to
 	 */
 	@Override
-	public void setUsingCasCommand(String ggbCasCmd, AlgebraicExpression f,
-			boolean symbolic, ArbitraryConstantRegistry arbconst) {
+	public void setUsingCasCommand(
+			String ggbCasCmd,
+			AlgebraicExpression f,
+			boolean symbolic,
+			ArbitraryConstantRegistry arbconst) {
 		GeoFunction ff = (GeoFunction) f;
 
 		if (ff.isDefined() && ff.fun != null) {
-			setFunction((Function) ff.fun.evalCasCommand(ggbCasCmd, symbolic,
-					arbconst));
+			setFunction((Function) ff.fun.evalCasCommand(ggbCasCmd, symbolic, arbconst));
 
 			checkDefined();
 
@@ -562,7 +567,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * Returns this function's value at position x.
-	 * 
+	 *
 	 * @param x
 	 *            point for evaluation
 	 * @return f(x)
@@ -578,7 +583,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * Returns this function's value at position x.
-	 * 
+	 *
 	 * @param vals
 	 *            array of length 1 containing x
 	 * @return f(val[0]) or f(val[1])
@@ -590,7 +595,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * If restricted to interval, returns its minimum
-	 * 
+	 *
 	 * @return interval minimum
 	 */
 	public final double getIntervalMin() {
@@ -599,7 +604,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * If restricted to interval, returns its maximum
-	 * 
+	 *
 	 * @return interval maximum
 	 */
 	public final double getIntervalMax() {
@@ -608,7 +613,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * Iff restricted to interval, returns true
-	 * 
+	 *
 	 * @return true iff restricted to interval
 	 */
 	public final boolean hasInterval() {
@@ -617,12 +622,12 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * Returns this boolean function's value at position x.
-	 * 
+	 *
 	 * @param x
 	 *            point for evaluation
 	 * @return f(x)
 	 */
-	final public boolean evaluateBoolean(double x) {
+	public final boolean evaluateBoolean(double x) {
 		if (fun == null || !isDefined) {
 			return false;
 		}
@@ -640,10 +645,8 @@ public class GeoFunction extends GeoElement implements Translateable,
 		// derivGeoFun.setUndefined();
 		// else
 		derivGeoFun.setDerivative(this, order, fast);
-		if (!kernel.getApplication().getSettings().getCasSettings()
-				.isEnabled()) {
-			derivGeoFun.setSecret(
-					new AlgoDerivative(cons, this, true, new EvalInfo(false)));
+		if (!kernel.getApplication().getSettings().getCasSettings().isEnabled()) {
+			derivGeoFun.setSecret(new AlgoDerivative(cons, this, true, new EvalInfo(false)));
 		}
 		return derivGeoFun;
 	}
@@ -652,18 +655,18 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 * translate function by vector v
 	 */
 	@Override
-	final public void translate(Coords v) {
+	public final void translate(Coords v) {
 		translate(v.getX(), v.getY());
 	}
 
 	@Override
-	final public boolean isTranslateable() {
+	public final boolean isTranslateable() {
 		return fun != null && !isBooleanFunction();
 	}
 
 	/**
 	 * Shifts the function by vx to right and by vy up
-	 * 
+	 *
 	 * @param vx
 	 *            horizontal shift
 	 * @param vy
@@ -674,16 +677,12 @@ public class GeoFunction extends GeoElement implements Translateable,
 			GeoList list = algo.getList();
 
 			// left/right boundaries
-			((GeoNumeric) list.get(0))
-					.setValue(((GeoNumeric) list.get(0)).getDouble() + vx);
-			((GeoNumeric) list.get(1))
-					.setValue(((GeoNumeric) list.get(1)).getDouble() + vx);
+			((GeoNumeric) list.get(0)).setValue(((GeoNumeric) list.get(0)).getDouble() + vx);
+			((GeoNumeric) list.get(1)).setValue(((GeoNumeric) list.get(1)).getDouble() + vx);
 
 			// heights
 			for (int i = 2; i < list.size(); i++) {
-				((GeoNumeric) list.get(i))
-						.setValue(((GeoNumeric) list.get(i)).getDouble() + vy);
-
+				((GeoNumeric) list.get(i)).setValue(((GeoNumeric) list.get(i)).getDouble() + vy);
 			}
 
 			algo.compute();
@@ -695,7 +694,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * Returns true if this function is a polynomial.
-	 * 
+	 *
 	 * @return true if this function is a polynomial.
 	 * @param forRootFinding
 	 *            set to true if you want to allow functions that can be
@@ -705,8 +704,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 *            function's symbolic expression must be a polynomial, e.g. x^2
 	 *            is ok but not x^a
 	 */
-	public boolean isPolynomialFunction(boolean forRootFinding,
-			boolean symbolic) {
+	public boolean isPolynomialFunction(boolean forRootFinding, boolean symbolic) {
 		// don't do root finding simplification here
 		// i.e. don't replace a factor "sqrt(x)" by "x"
 		if (!isDefined() || fun == null) {
@@ -727,7 +725,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * Returns true if this function is a polynomial.
-	 * 
+	 *
 	 * @return true if this function is a polynomial.
 	 * @param forRootFinding
 	 *            set to true if you want to allow functions that can be
@@ -756,28 +754,26 @@ public class GeoFunction extends GeoElement implements Translateable,
 	/**
 	 * Returns whether this function includes a division by variable, e.g. f(x)
 	 * = 1/x, 1/(2+x), sin(3/x), ...
-	 * 
+	 *
 	 * @return true iff this function includes a division by variable
 	 */
-	final public boolean includesDivisionByVar() {
+	public final boolean includesDivisionByVar() {
 		if (includesDivisionByVarFun != fun) {
 			includesDivisionByVarFun = fun;
-			includesDivisionByVar = fun != null
-					&& fun.includesDivisionByVariable();
+			includesDivisionByVar = fun != null && fun.includesDivisionByVariable();
 		}
 		return includesDivisionByVar;
 	}
 
 	/**
 	 * Returns whether this function includes eg Freehand, DataFunction
-	 * 
+	 *
 	 * @return true iff this function includes Freehand, DataFunction
 	 */
-	final public boolean includesFreehandOrData() {
+	public final boolean includesFreehandOrData() {
 		if (includesFreehandOrDataFun != fun) {
 			includesFreehandOrDataFun = fun;
-			includesFreehandOrDataFunction = fun != null
-					&& fun.includesFreehandOrDataFunction();
+			includesFreehandOrDataFunction = fun != null && fun.includesFreehandOrDataFunction();
 		}
 		return includesFreehandOrDataFunction;
 	}
@@ -785,14 +781,13 @@ public class GeoFunction extends GeoElement implements Translateable,
 	/**
 	 * Returns whether this function includes eg abs(), If[] etc
 	 * functions
-	 * 
+	 *
 	 * @return true iff this function includes abs(), If[] etc
 	 */
-	final public boolean includesNonContinuousIntegral() {
+	public final boolean includesNonContinuousIntegral() {
 		if (includesNonContinuousIntegralFun != fun) {
 			includesNonContinuousIntegralFun = fun;
-			includesNonContinuousIntegral = fun != null
-					&& fun.includesNonContinuousIntegral();
+			includesNonContinuousIntegral = fun != null && fun.includesNonContinuousIntegral();
 		}
 		return includesNonContinuousIntegral;
 	}
@@ -820,7 +815,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * Changes the defined state
-	 * 
+	 *
 	 * @param defined
 	 *            true iff the function should be considered defined
 	 */
@@ -865,9 +860,8 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 * @param fn
 	 *            function; to determine what kind of LHS we want
 	 */
-	public static void initStringBuilder(StringBuilder stringBuilder,
-			StringTemplate tpl, String label,
-			FunctionalNVar fn) {
+	public static void initStringBuilder(
+			StringBuilder stringBuilder, StringTemplate tpl, String label, FunctionalNVar fn) {
 		stringBuilder.append(label);
 		if (fn.getShortLHS() != null) {
 			stringBuilder.append(": ");
@@ -893,12 +887,13 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	private StringTemplate getTemplateWithSimplification(StringTemplate tpl) {
 		return simplifyCoefficients && tpl.allowsCoefficientSimplification()
-				? tpl.deriveWithSimplifiedCoefficients() : tpl;
+				? tpl.deriveWithSimplifiedCoefficients()
+				: tpl;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see geogebra.kernel.GeoElement#toOutputValueString() needed for eg
 	 * KeepIf[x!="h",{"h","k","o"}]
 	 */
@@ -963,8 +958,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 * @return type of function (inequality or function)
 	 */
 	public String getFunctionType() {
-		return isForceInequality() ? "inequality"
-				: "function";
+		return isForceInequality() ? "inequality" : "function";
 	}
 
 	/**
@@ -980,15 +974,13 @@ public class GeoFunction extends GeoElement implements Translateable,
 			sbxml.startTag("showOnAxis").attr("val", true).endTag();
 		}
 		// simplifyCoefficients tag should always be present so old files can be loaded correctly
-		sbxml.startTag("simplifyCoefficients")
-				.attr("val", simplifyCoefficients)
-				.endTag();
+		sbxml.startTag("simplifyCoefficients").attr("val", simplifyCoefficients).endTag();
 	}
 
 	/**
-	 * 
+	 *
 	 * assumes function in form If[ interval, simple function]
-	 * 
+	 *
 	 * @param bounds0
 	 *            contains {min, max} on exit
 	 */
@@ -997,50 +989,47 @@ public class GeoFunction extends GeoElement implements Translateable,
 		bounds0[1] = Double.POSITIVE_INFINITY;
 
 		double bound;
-		ExpressionNode inequalityEn = (ExpressionNode) getFunctionExpression()
-				.getLeft();
+		ExpressionNode inequalityEn = (ExpressionNode) getFunctionExpression().getLeft();
 		Operation op = inequalityEn.getOperation();
 
 		switch (op) {
-		default:
-			Log.error("problem in GeoFunction.getInterval()");
-			return;
+			default:
+				Log.error("problem in GeoFunction.getInterval()");
+				return;
 
-		case AND_INTERVAL:
-			GeoIntervalUtil.updateBoundaries(inequalityEn, bounds0);
-			break;
-
-		case LESS:
-		case LESS_EQUAL:
-		case GREATER:
-		case GREATER_EQUAL:
-
-			// make sure 2<x and x>2 both work
-			if (inequalityEn.getLeft() instanceof FunctionVariable) {
-				bound = inequalityEn.getRight().evaluateDouble();
-			} else if (inequalityEn.getRight() instanceof FunctionVariable) {
-				bound = inequalityEn.getLeft().evaluateDouble();
-				op = op.reverseLeftToRight();
-			} else {
-				// shouldn't happen
-				bound = Double.NaN;
-			}
-
-			switch (op) {
+			case AND_INTERVAL:
+				GeoIntervalUtil.updateBoundaries(inequalityEn, bounds0);
+				break;
 
 			case LESS:
 			case LESS_EQUAL:
-				bounds0[1] = bound;
-				break;
 			case GREATER:
 			case GREATER_EQUAL:
-				bounds0[0] = bound;
-				break;
-			default:
-				break;
-			}
-		}
 
+				// make sure 2<x and x>2 both work
+				if (inequalityEn.getLeft() instanceof FunctionVariable) {
+					bound = inequalityEn.getRight().evaluateDouble();
+				} else if (inequalityEn.getRight() instanceof FunctionVariable) {
+					bound = inequalityEn.getLeft().evaluateDouble();
+					op = op.reverseLeftToRight();
+				} else {
+					// shouldn't happen
+					bound = Double.NaN;
+				}
+
+				switch (op) {
+					case LESS:
+					case LESS_EQUAL:
+						bounds0[1] = bound;
+						break;
+					case GREATER:
+					case GREATER_EQUAL:
+						bounds0[0] = bound;
+						break;
+					default:
+						break;
+				}
+		}
 	}
 
 	/*
@@ -1084,62 +1073,58 @@ public class GeoFunction extends GeoElement implements Translateable,
 		Operation op = inequalityEn.getOperation();
 
 		switch (op) {
-		case AND_INTERVAL:
-			if (bounds == null) {
-				bounds = new double[2];
-			}
-			GeoIntervalUtil.updateBoundaries(inequalityEn, bounds);
+			case AND_INTERVAL:
+				if (bounds == null) {
+					bounds = new double[2];
+				}
+				GeoIntervalUtil.updateBoundaries(inequalityEn, bounds);
 
-			if (P.getX() < bounds[0]) {
-				P.setX(bounds[0]);
-			} else if (P.getX() > bounds[1]) {
-				P.setX(bounds[1]);
-			}
+				if (P.getX() < bounds[0]) {
+					P.setX(bounds[0]);
+				} else if (P.getX() > bounds[1]) {
+					P.setX(bounds[1]);
+				}
 
-			break;
-
-		case LESS:
-		case LESS_EQUAL:
-		case GREATER:
-		case GREATER_EQUAL:
-
-			// make sure 2<x and x>2 both work
-			if (inequalityEn
-					.getLeft() instanceof FunctionVariable) {
-				bound = inequalityEn.getRight()
-						.evaluateDouble();
-			} else if (inequalityEn
-					.getRight() instanceof FunctionVariable) {
-				bound = inequalityEn.getLeft().evaluateDouble();
-				op = op.reverseLeftToRight();
-			} else {
-				// shouldn't happen
-				bound = Double.NaN;
-			}
-
-			switch (op) {
+				break;
 
 			case LESS:
-				epsilon = Kernel.MIN_PRECISION;
-				// fall through
 			case LESS_EQUAL:
-				if (P.getX() >= bound) {
-					P.setX(bound - epsilon);
-				}
-				break;
 			case GREATER:
-				epsilon = Kernel.MIN_PRECISION;
-				// fall through
 			case GREATER_EQUAL:
-				if (P.getX() < bound) {
-					P.setX(bound + epsilon);
+
+				// make sure 2<x and x>2 both work
+				if (inequalityEn.getLeft() instanceof FunctionVariable) {
+					bound = inequalityEn.getRight().evaluateDouble();
+				} else if (inequalityEn.getRight() instanceof FunctionVariable) {
+					bound = inequalityEn.getLeft().evaluateDouble();
+					op = op.reverseLeftToRight();
+				} else {
+					// shouldn't happen
+					bound = Double.NaN;
 				}
-				break;
+
+				switch (op) {
+					case LESS:
+						epsilon = Kernel.MIN_PRECISION;
+					// fall through
+					case LESS_EQUAL:
+						if (P.getX() >= bound) {
+							P.setX(bound - epsilon);
+						}
+						break;
+					case GREATER:
+						epsilon = Kernel.MIN_PRECISION;
+					// fall through
+					case GREATER_EQUAL:
+						if (P.getX() < bound) {
+							P.setX(bound + epsilon);
+						}
+						break;
+					default:
+						break;
+				}
 			default:
 				break;
-			}
-		default:
-			break;
 		}
 	}
 
@@ -1148,8 +1133,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 				? fun.expandToPolyFunction(fun.getExpression(), false, true)
 				: null;
 		if (polyFunction != null) {
-			double val = AlgoDistancePointObject.closestValPoly(
-					polyFunction, P.getX(), P.getY(), kernel);
+			double val = AlgoDistancePointObject.closestValPoly(polyFunction, P.getX(), P.getY(), kernel);
 			P.setX(val);
 			P.setY(value(val));
 		} else {
@@ -1227,15 +1211,13 @@ public class GeoFunction extends GeoElement implements Translateable,
 		}
 
 		if (!isBooleanFunction()) {
-			return isDefined && fun != null && Math
-					.abs(fun.value(P.getInhomX()) - P.getInhomY()) <= eps;
+			return isDefined && fun != null && Math.abs(fun.value(P.getInhomX()) - P.getInhomY()) <= eps;
 		}
 		double px = isFunctionOfY() ? P.getY() : P.getX();
 		if (P.getZ() != 1.0) {
 			px = px / P.getZ();
 		}
 		return evaluateBoolean(px);
-
 	}
 
 	@Override
@@ -1300,7 +1282,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	}
 
 	@Override
-	final public boolean isCasEvaluableObject() {
+	public final boolean isCasEvaluableObject() {
 		return true;
 	}
 
@@ -1386,7 +1368,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * Evaluates curvature for function: k(x) = f''/T^3, T = sqrt(1+(f')^2)
-	 * 
+	 *
 	 * @author Victor Franco Espino, Markus Hohenwarter
 	 */
 	@Override
@@ -1407,24 +1389,22 @@ public class GeoFunction extends GeoElement implements Translateable,
 	}
 
 	@Override
-	final public UnivariateFunction getUnivariateFunctionX() {
+	public final UnivariateFunction getUnivariateFunctionX() {
 		return new UnivariateFunction() {
 			@Override
 			public double value(double t) {
 				return t;
 			}
-
 		};
 	}
 
 	@Override
-	final public UnivariateFunction getUnivariateFunctionY() {
+	public final UnivariateFunction getUnivariateFunctionY() {
 		return new UnivariateFunction() {
 			@Override
 			public double value(double t) {
 				return GeoFunction.this.value(t);
 			}
-
 		};
 	}
 
@@ -1442,7 +1422,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	}
 
 	@Override
-	final public boolean isFunctionInX() {
+	public final boolean isFunctionInX() {
 		return true;
 	}
 
@@ -1466,19 +1446,19 @@ public class GeoFunction extends GeoElement implements Translateable,
 			return isEqualBooleanFunction(geoFun);
 		}
 		// check equality in two points; avoid discontinuities of common functions (1/x, tan(x))
-		if (differAt(this, geoFun, 0.31) || differAt(this, geoFun, 10.89)
-				|| !isDefined() || !geoFun.isDefined()) {
+		if (differAt(this, geoFun, 0.31)
+				|| differAt(this, geoFun, 10.89)
+				|| !isDefined()
+				|| !geoFun.isDefined()) {
 			return ExtendedBoolean.FALSE;
 		}
-		PolyFunction poly1 = getFunction()
-				.expandToPolyFunction(getFunctionExpression(), false, true);
+		PolyFunction poly1 = getFunction().expandToPolyFunction(getFunctionExpression(), false, true);
 		if (poly1 != null && isDefined()) {
-			PolyFunction poly2 = geoFun.getFunction().expandToPolyFunction(
-					geoFun.getFunctionExpression(), false, true);
+			PolyFunction poly2 =
+					geoFun.getFunction().expandToPolyFunction(geoFun.getFunctionExpression(), false, true);
 
 			if (poly2 != null) {
-				return ExtendedBoolean.newExtendedBoolean(
-						geoFun.isDefined() && poly1.isEqual(poly2));
+				return ExtendedBoolean.newExtendedBoolean(geoFun.isDefined() && poly1.isEqual(poly2));
 			}
 		}
 
@@ -1502,7 +1482,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 			zeros.add(0d);
 		}
 		double last = Double.NaN;
-		for (double x: zeros) {
+		for (double x : zeros) {
 			if (Double.isNaN(last)) {
 				last = x - 1;
 			}
@@ -1513,8 +1493,8 @@ public class GeoFunction extends GeoElement implements Translateable,
 			}
 			last = x;
 		}
-		return ExtendedBoolean.newExtendedBoolean(evaluateBoolean(last + 1)
-				== geoFun.evaluateBoolean(last + 1));
+		return ExtendedBoolean.newExtendedBoolean(
+				evaluateBoolean(last + 1) == geoFun.evaluateBoolean(last + 1));
 	}
 
 	protected static boolean isFunctionDefined(FunctionNVar fun) {
@@ -1539,7 +1519,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * Sums two functions and stores the result to another
-	 * 
+	 *
 	 * @param resultFun
 	 *            resulting function
 	 * @param fun1
@@ -1550,8 +1530,8 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 *            operation
 	 * @return resultFun
 	 */
-	public static GeoFunction add(GeoFunction resultFun, GeoFunction fun1,
-			GeoFunctionable fun2, Operation op) {
+	public static GeoFunction add(
+			GeoFunction resultFun, GeoFunction fun1, GeoFunctionable fun2, Operation op) {
 
 		Kernel kernel = fun1.getKernel();
 
@@ -1561,23 +1541,19 @@ public class GeoFunction extends GeoElement implements Translateable,
 		FunctionVariable x = new FunctionVariable(kernel);
 
 		ExpressionNode left = fun1.getFunctionExpression().getCopy(kernel);
-		ExpressionNode right = function2.getFunctionExpression()
-				.getCopy(kernel);
+		ExpressionNode right = function2.getFunctionExpression().getCopy(kernel);
 
 		ExpressionNode sum;
 
 		// improvement for
 		// Sum(Shuffle({Polynomial(a x^2), Polynomial(b x), Polynomial(c)}))
 		// to give "x^2" not "0 + x^2"
-		if (left.isConstant()
-				&& MyDouble.exactEqual(left.evaluateDouble(), 0)) {
+		if (left.isConstant() && MyDouble.exactEqual(left.evaluateDouble(), 0)) {
 			sum = right.replace(x2, x).wrap();
-		} else if (right.isConstant()
-				&& MyDouble.exactEqual(right.evaluateDouble(), 0)) {
+		} else if (right.isConstant() && MyDouble.exactEqual(right.evaluateDouble(), 0)) {
 			sum = left.replace(x1, x).wrap();
 		} else {
-			sum = new ExpressionNode(fun1.getKernel(), left.replace(x1, x), op,
-					right.replace(x2, x));
+			sum = new ExpressionNode(fun1.getKernel(), left.replace(x1, x), op, right.replace(x2, x));
 		}
 
 		Function f = new Function(sum, x);
@@ -1590,7 +1566,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * Applies an operation on first and second function and returns the result
-	 * 
+	 *
 	 * @param op
 	 *            operation
 	 * @param lt
@@ -1599,8 +1575,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 *            right argument of op
 	 * @return resulting GeoFunction or GeFunctionNvar
 	 */
-	public static FunctionNVar operationSymb(Operation op, FunctionalNVar lt,
-			FunctionalNVar rt) {
+	public static FunctionNVar operationSymb(Operation op, FunctionalNVar lt, FunctionalNVar rt) {
 		// at least one of lt, rt should be defined so that we have a source of function variables
 		if (lt.getFunction() == null) {
 			return undefine(rt.getFunction().deepCopy(rt.getKernel()));
@@ -1611,12 +1586,10 @@ public class GeoFunction extends GeoElement implements Translateable,
 		Kernel kernel = lt.getFunction().getKernel();
 		TreeSet<String> varNames = new TreeSet<>();
 		for (int i = 0; i < lt.getFunction().getVarNumber(); i++) {
-			varNames.add(lt.getFunction().getVarString(i,
-					StringTemplate.defaultTemplate));
+			varNames.add(lt.getFunction().getVarString(i, StringTemplate.defaultTemplate));
 		}
 		for (int i = 0; i < rt.getFunction().getVarNumber(); i++) {
-			varNames.add(rt.getFunction().getVarString(i,
-					StringTemplate.defaultTemplate));
+			varNames.add(rt.getFunction().getVarString(i, StringTemplate.defaultTemplate));
 		}
 		HashMap<String, FunctionVariable> varmap = new HashMap<>();
 		for (String name : varNames) {
@@ -1644,21 +1617,17 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 *            curve
 	 * @return coord function for the curve
 	 */
-	public static FunctionNVar operationSymb(Operation op,
-			GeoCurveCartesianND lt) {
+	public static FunctionNVar operationSymb(Operation op, GeoCurveCartesianND lt) {
 		Kernel kernel = lt.getKernel();
 		FunctionVariable fv = new FunctionVariable(kernel, "t");
-		ExpressionNode ex = new ExpressionNode(kernel, lt,
-				Operation.VEC_FUNCTION,
-				fv).apply(op);
+		ExpressionNode ex = new ExpressionNode(kernel, lt, Operation.VEC_FUNCTION, fv).apply(op);
 		Function f = new Function(ex, fv);
 		f.initFunction();
 		return f;
 	}
 
-	private static FunctionNVar fromExpr(ExpressionNode sum,
-			HashMap<String, FunctionVariable> varmap,
-			TreeSet<String> varNames) {
+	private static FunctionNVar fromExpr(
+			ExpressionNode sum, HashMap<String, FunctionVariable> varmap, TreeSet<String> varNames) {
 		int size = varmap.size();
 		if (size > 1) {
 			FunctionVariable[] varArray = new FunctionVariable[size];
@@ -1677,23 +1646,25 @@ public class GeoFunction extends GeoElement implements Translateable,
 		return new Function(sum, var.next());
 	}
 
-	private static ExpressionNode toExpr(Evaluate2Var lt,
-			HashMap<String, FunctionVariable> varMap, Kernel kernel) {
+	private static ExpressionNode toExpr(
+			Evaluate2Var lt, HashMap<String, FunctionVariable> varMap, Kernel kernel) {
 		if (lt instanceof GeoFunction) {
-			return new ExpressionNode(kernel, lt, Operation.FUNCTION, varMap
-					.get(((GeoFunction) lt).getVarString(StringTemplate.defaultTemplate)));
+			return new ExpressionNode(
+					kernel,
+					lt,
+					Operation.FUNCTION,
+					varMap.get(((GeoFunction) lt).getVarString(StringTemplate.defaultTemplate)));
 		}
 		if (lt instanceof GeoFunctionNVar) {
 			MyList varList = new MyList(kernel);
 			FunctionNVar function = lt.getFunction();
 			if (function != null) {
 				for (int i = 0; i < function.getVarNumber(); i++) {
-					varList.addListElement(varMap.get(function
-							.getVarString(i, StringTemplate.defaultTemplate)));
+					varList.addListElement(
+							varMap.get(function.getVarString(i, StringTemplate.defaultTemplate)));
 				}
 			}
-			return new ExpressionNode(kernel, lt, Operation.FUNCTION_NVAR,
-					varList);
+			return new ExpressionNode(kernel, lt, Operation.FUNCTION_NVAR, varList);
 		}
 		if (lt instanceof GeoNumeric) {
 			return lt.wrap();
@@ -1701,10 +1672,9 @@ public class GeoFunction extends GeoElement implements Translateable,
 		if (lt instanceof FunctionNVar) {
 			ExpressionNode ret = ((FunctionNVar) lt).getExpression();
 			for (int i = 0; i < ((FunctionNVar) lt).getVarNumber(); i++) {
-				ret = ret
-						.replace(((FunctionNVar) lt).getFunctionVariables()[i],
-								varMap.get(((FunctionNVar) lt).getVarString(i,
-										StringTemplate.defaultTemplate)))
+				ret = ret.replace(
+								((FunctionNVar) lt).getFunctionVariables()[i],
+								varMap.get(((FunctionNVar) lt).getVarString(i, StringTemplate.defaultTemplate)))
 						.wrap();
 			}
 			return ret;
@@ -1714,7 +1684,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * Applies an operation on this function and number value
-	 * 
+	 *
 	 * @param op
 	 *            operation
 	 * @param fun1
@@ -1725,8 +1695,8 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 *            f op nv for true, nv op f for false
 	 * @return resulting function
 	 */
-	public static FunctionNVar applyNumberSymb(Operation op, Evaluate2Var fun1,
-			ExpressionValue ev, boolean right) {
+	public static FunctionNVar applyNumberSymb(
+			Operation op, Evaluate2Var fun1, ExpressionValue ev, boolean right) {
 		if (fun1.getFunction() == null) {
 			return null;
 		}
@@ -1734,8 +1704,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 		Kernel kernel = fun1.getFunction().getKernel();
 		TreeSet<String> varNames = new TreeSet<>();
 		for (int i = 0; i < fun1.getFunction().getVarNumber(); i++) {
-			varNames.add(fun1.getFunction().getVarString(i,
-					StringTemplate.defaultTemplate));
+			varNames.add(fun1.getFunction().getVarString(i, StringTemplate.defaultTemplate));
 		}
 		HashMap<String, FunctionVariable> varmap = new HashMap<>();
 		FunctionVariable fv1 = null;
@@ -1778,7 +1747,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 * Multiplication of number and function. Needed in Fit[&lt;List of
 	 * Points&gt; ,&lt;List of Functions&gt;] to make the result a linear
 	 * combination of existing functions; fit(x)=a*f(x)+b*g(x)+c*h(x)+..
-	 * 
+	 *
 	 * @author Hans-Petter Ulven
 	 * @param resultFun
 	 *            Resulting function
@@ -1787,10 +1756,9 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 * @param fun
 	 *            function
 	 * @return resultFun
-	 * 
+	 *
 	 */
-	public static GeoFunction mult(GeoFunction resultFun, double number,
-			GeoFunctionable fun) {
+	public static GeoFunction mult(GeoFunction resultFun, double number, GeoFunctionable fun) {
 
 		Kernel kernel = fun.getKernel();
 		MyDouble num = new MyDouble(kernel, number);
@@ -1799,11 +1767,10 @@ public class GeoFunction extends GeoElement implements Translateable,
 		FunctionVariable x = new FunctionVariable(kernel);
 
 		ExpressionNode left = new ExpressionNode(kernel, num);
-		ExpressionNode right = fun.getFunction().getFunctionExpression()
-				.getCopy(kernel);
+		ExpressionNode right = fun.getFunction().getFunctionExpression().getCopy(kernel);
 
-		ExpressionNode product = new ExpressionNode(kernel, left,
-				Operation.MULTIPLY, right.replace(xold, x).unwrap());
+		ExpressionNode product = new ExpressionNode(
+				kernel, left, Operation.MULTIPLY, right.replace(xold, x).unwrap());
 
 		Function f = new Function(product, x);
 
@@ -1816,7 +1783,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	/**
 	 * Returns true iff x is in the interval over-ridden in
 	 * GeoFunctionConditional
-	 * 
+	 *
 	 * @param x
 	 *            point for evaluation
 	 * @return true iff x is in the interval
@@ -1830,7 +1797,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * Returns the limit
-	 * 
+	 *
 	 * @param x
 	 *            point to evaluate the limit
 	 * @param direction
@@ -1894,7 +1861,6 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 * @param sb
 	 *            StringBuilder for the result
 	 */
-
 	public void getDiagonalPositiveAsymptote(StringBuilder sb) {
 		getDiagonalAsymptote(sb, true);
 	}
@@ -1910,15 +1876,14 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * Adds diagonal asymptotes to the string builder
-	 * 
+	 *
 	 * @param sb
 	 *            StringBuilder for the result
 	 * @param positiveInfinity
 	 *            if true, we look for limit at positive infinity, for false, we
 	 *            use negative infinity
 	 */
-	protected void getDiagonalAsymptote(StringBuilder sb,
-			boolean positiveInfinity) {
+	protected void getDiagonalAsymptote(StringBuilder sb, boolean positiveInfinity) {
 
 		try {
 			// get first derivative
@@ -1948,21 +1913,16 @@ public class GeoFunction extends GeoElement implements Translateable,
 			}
 			sbCasCommand.append(Unicode.INFINITY);
 			sbCasCommand.append(')');
-			String gradientStrMinus = kernel
-					.evaluateCachedGeoGebraCAS(
-					sbCasCommand.toString(),
-					null);
+			String gradientStrMinus = kernel.evaluateCachedGeoGebraCAS(sbCasCommand.toString(), null);
 
 			double grad;
 			try {
-				grad = kernel.getAlgebraProcessor()
-						.evaluateToDouble(gradientStrMinus, true, null);
+				grad = kernel.getAlgebraProcessor().evaluateToDouble(gradientStrMinus, true, null);
 			} catch (Exception e) {
 				grad = 0;
 			}
 
-			if (!GeoFunction.isInvalidForAsymptote(gradientStrMinus)
-					&& !DoubleUtil.isZero(grad)) {
+			if (!GeoFunction.isInvalidForAsymptote(gradientStrMinus) && !DoubleUtil.isZero(grad)) {
 				sbCasCommand.setLength(0);
 				sbCasCommand.append("Limit(");
 				sbCasCommand.append(funVarStr[0]); // function expression
@@ -1970,10 +1930,10 @@ public class GeoFunction extends GeoElement implements Translateable,
 				sbCasCommand.append(gradientStrMinus);
 				sbCasCommand.append(" * ");
 				sbCasCommand.append(derivVarStr[1]); // derivative function
-														// variable
+				// variable
 				sbCasCommand.append(',');
 				sbCasCommand.append(derivVarStr[1]); // derivative function
-														// variable
+				// variable
 				sbCasCommand.append(',');
 				if (!positiveInfinity) {
 					sbCasCommand.append('-'); // -Infinity
@@ -1981,9 +1941,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 				sbCasCommand.append(Unicode.INFINITY);
 				sbCasCommand.append(')');
 
-				String interceptStrMinus = kernel
-						.evaluateCachedGeoGebraCAS(sbCasCommand.toString(),
-								null);
+				String interceptStrMinus = kernel.evaluateCachedGeoGebraCAS(sbCasCommand.toString(), null);
 
 				if (!GeoFunction.isInvalidForAsymptote(interceptStrMinus)) {
 					sbCasCommand.setLength(0);
@@ -2019,9 +1977,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 *            use negative infinity
 	 * @return whether asymptote was found
 	 */
-	protected boolean getHorizontalAsymptote(
-			StringBuilder sb,
-			boolean positiveInfinity) {
+	protected boolean getHorizontalAsymptote(StringBuilder sb, boolean positiveInfinity) {
 		// get function and function variable string using temp variable
 		// prefixes,
 		// e.g. f(x) = a x^2 returns {"ggbtmpvara ggbtmpvarx^2", "ggbtmpvarx"}
@@ -2044,16 +2000,15 @@ public class GeoFunction extends GeoElement implements Translateable,
 		sbCasCommand.append(")");
 
 		try {
-			String limit = kernel
-					.evaluateCachedGeoGebraCAS(sbCasCommand.toString(), null)
-					.trim();
+			String limit =
+					kernel.evaluateCachedGeoGebraCAS(sbCasCommand.toString(), null).trim();
 
 			if (!GeoFunction.isInvalidForAsymptote(limit)) {
 
 				// check not duplicated
 				String current = "y=" + limit;
 				if (!sb.toString().endsWith(current)) { // not
-																		// duplicated
+					// duplicated
 					if (sb.length() > 1) {
 						sb.append(',');
 					}
@@ -2069,8 +2024,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	@Override
 	public char getLabelDelimiter() {
-		return isBooleanFunction() || shortLHS != null
-				|| isForceInequality() ? ':' : '=';
+		return isBooleanFunction() || shortLHS != null || isForceInequality() ? ':' : '=';
 	}
 
 	/**
@@ -2079,8 +2033,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 * @param verticalSB
 	 *            StringBuilder for the result
 	 */
-	public void getVerticalAsymptotes(
-			StringBuilder verticalSB) {
+	public void getVerticalAsymptotes(StringBuilder verticalSB) {
 		// get function and function variable string using temp variable
 		// prefixes,
 		// e.g. f(x) = a x^2 returns {"ggbtmpvara ggbtmpvarx^2", "ggbtmpvarx"}
@@ -2088,8 +2041,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 		ExpressionNode exp = getFunctionExpression();
 
 		exp = getSubexpForAsymptote(exp);
-		String[] funVarStr = { exp.getCASstring(tpl, false),
-				getVarString(tpl) };
+		String[] funVarStr = {exp.getCASstring(tpl, false), getVarString(tpl)};
 
 		// solve 1/f(x) == 0 to find vertical asymptotes
 		if (sbCasCommand == null) {
@@ -2097,17 +2049,15 @@ public class GeoFunction extends GeoElement implements Translateable,
 		}
 
 		try {
-			String verticalAsymptotes = transformedVerticalAsymptotes(
-					"Numerator(Simplify(1/(", ")))", funVarStr);
+			String verticalAsymptotes =
+					transformedVerticalAsymptotes("Numerator(Simplify(1/(", ")))", funVarStr);
 
 			// eg f(x):=2^x / (2^x - 3^x) gives "{?}"
 			if (GeoFunction.isInvalidForAsymptote(verticalAsymptotes)) {
-				verticalAsymptotes = transformedVerticalAsymptotes(
-						"Denominator(", ")", funVarStr);
+				verticalAsymptotes = transformedVerticalAsymptotes("Denominator(", ")", funVarStr);
 			}
-			String expAsymptotes = transformedVerticalAsymptotes(
-					"ExpSimplify(exp(Numerator(",
-					")))", funVarStr);
+			String expAsymptotes =
+					transformedVerticalAsymptotes("ExpSimplify(exp(Numerator(", ")))", funVarStr);
 			if (GeoFunction.isInvalidForAsymptote(verticalAsymptotes)
 					|| "{}".equals(verticalAsymptotes)) {
 				verticalAsymptotes = expAsymptotes;
@@ -2125,18 +2075,19 @@ public class GeoFunction extends GeoElement implements Translateable,
 				verticalAsymptotes = verticalAsymptotes.replaceAll("x==", "");
 				verticalAsymptotes = verticalAsymptotes.replaceAll("x =", "");
 
-				String[] verticalAsymptotesArray = verticalAsymptotes
-						.split(",");
+				String[] verticalAsymptotesArray = verticalAsymptotes.split(",");
 
 				// check they are really asymptotes
 				TreeMap<Double, String> unique = new TreeMap<>();
 				for (String asymptote : verticalAsymptotesArray) {
 					try {
 						if (!StringUtil.emptyTrim(asymptote)) {
-						unique.put(kernel.getAlgebraProcessor()
-								.evaluateToNumeric(asymptote,
-										ErrorHelper.silent())
-								.getDouble(), asymptote);
+							unique.put(
+									kernel
+											.getAlgebraProcessor()
+											.evaluateToNumeric(asymptote, ErrorHelper.silent())
+											.getDouble(),
+									asymptote);
 						}
 					} catch (Exception e) {
 						Log.warn("Error parsing: " + asymptote);
@@ -2151,7 +2102,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 						sbCasCommand.setLength(0);
 						sbCasCommand.append("Numeric(Limit(");
 						sbCasCommand.append(funVarStr[0]); // function
-															// expression with
+						// expression with
 						// "ggbtmpvarx" as function
 						// variable
 						sbCasCommand.append(',');
@@ -2162,8 +2113,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 						sbCasCommand.append("))");
 
 						try {
-							String limit = kernel.evaluateCachedGeoGebraCAS(
-									sbCasCommand.toString(), null);
+							String limit = kernel.evaluateCachedGeoGebraCAS(sbCasCommand.toString(), null);
 							if (GeoFunction.isUndefinedOrInf(limit)
 									|| isNearInfinity(limit, asymptoteX.getKey())) {
 								addCommaIfNeeded(verticalSB);
@@ -2174,7 +2124,6 @@ public class GeoFunction extends GeoElement implements Translateable,
 							Log.debug(e);
 						}
 					}
-
 				}
 			}
 
@@ -2185,12 +2134,11 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	private boolean isNearInfinity(String limit, double xValue) {
 		double closeByValue = Math.max(Math.abs(value(xValue + 1)), 1);
-		return Math.abs(kernel.getAlgebraProcessor().evaluateToDouble(limit)
-				/ closeByValue) > 1E8;
+		return Math.abs(kernel.getAlgebraProcessor().evaluateToDouble(limit) / closeByValue) > 1E8;
 	}
 
-	private String transformedVerticalAsymptotes(String transform, String suffix,
-			String[] funVarStr) {
+	private String transformedVerticalAsymptotes(
+			String transform, String suffix, String[] funVarStr) {
 		sbCasCommand.setLength(0);
 
 		sbCasCommand.append("Solve((");
@@ -2224,7 +2172,6 @@ public class GeoFunction extends GeoElement implements Translateable,
 		} else if (exp.getOperation() == Operation.POWER
 				&& !exp.getLeftTree().containsFreeFunctionVariable(null)) {
 			return getSubexpForAsymptote(exp.getRightTree());
-
 		}
 		return exp;
 	}
@@ -2241,8 +2188,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 		}
 		String str1 = StringUtil.toLowerCaseUS(str);
 		if (str1.length() > 6) {
-			return str1.startsWith("limit") || str1.startsWith("solve")
-					|| str1.startsWith("undefined");
+			return str1.startsWith("limit") || str1.startsWith("solve") || str1.startsWith("undefined");
 		}
 		return false;
 	}
@@ -2273,7 +2219,10 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 * @return whether output is undefined
 	 */
 	public static boolean isUndefined(String str) {
-		return "?".equals(str) || "{?}".equals(str) || "{}".equals(str) || "{x = ?}".equals(str)
+		return "?".equals(str)
+				|| "{?}".equals(str)
+				|| "{}".equals(str)
+				|| "{x = ?}".equals(str)
 				|| "(?, ?)".equals(str);
 	}
 
@@ -2290,20 +2239,20 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 * Returns geo and its function variable in currently set CAS print form
 	 * using temp variable prefixes. For example, f(x) = a x^2 returns {
 	 * "ggbtmpvara ggbtmpvarx^2", "ggbtmpvarx"}
-	 * 
+	 *
 	 * @param symbolic
 	 *            true to keep variable names
 	 * @return {function string,var string}
 	 */
-	final public String[] getTempVarCASString(boolean symbolic) {
+	public final String[] getTempVarCASString(boolean symbolic) {
 		StringTemplate tpl = StringTemplate.prefixedDefault;
-		return new String[]{ getCASString(tpl, symbolic), getVarString(tpl) };
+		return new String[] {getCASString(tpl, symbolic), getVarString(tpl)};
 	}
 
 	/**
 	 * Converts this function to cartesian curve and stores result to given
 	 * curve
-	 * 
+	 *
 	 * @param curve
 	 *            Curve to be stored to
 	 */
@@ -2314,8 +2263,8 @@ public class GeoFunction extends GeoElement implements Translateable,
 		}
 		FunctionVariable t = new FunctionVariable(kernel, "t");
 		FunctionVariable x = fun.getFunctionVariable();
-		ExpressionNode yExp = (ExpressionNode) getFunction().getExpression()
-				.deepCopy(kernel).replace(x, t);
+		ExpressionNode yExp =
+				(ExpressionNode) getFunction().getExpression().deepCopy(kernel).replace(x, t);
 		curve.setFunctionY(new Function(yExp, t));
 		Function varFun = new Function(new ExpressionNode(kernel, t), t);
 		curve.setFunctionX(varFun);
@@ -2332,7 +2281,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	/**
 	 * Creates a copy of this function with different function variable so that
 	 * both functions can be evaluated in separate threads
-	 * 
+	 *
 	 * @return copy of this function
 	 */
 	public GeoFunction threadSafeCopy() {
@@ -2341,18 +2290,17 @@ public class GeoFunction extends GeoElement implements Translateable,
 		}
 		FunctionVariable t = new FunctionVariable(kernel, "t");
 		FunctionVariable x = fun.getFunctionVariable();
-		ExpressionNode yExp = (ExpressionNode) fun.getExpression()
-				.deepCopy(kernel).replace(x, t);
+		ExpressionNode yExp = (ExpressionNode) fun.getExpression().deepCopy(kernel).replace(x, t);
 		return yExp.buildFunction(t);
 	}
 
 	/**
 	 * mirror at point P
-	 * 
+	 *
 	 * @param P
 	 *            point
 	 */
-	final public void mirror(Coords P) {
+	public final void mirror(Coords P) {
 		dilate(new MyDouble(kernel, -1.0), P);
 	}
 
@@ -2365,17 +2313,19 @@ public class GeoFunction extends GeoElement implements Translateable,
 		}
 		if (fun != null) {
 			FunctionVariable oldX = fun.getFunctionVariable();
-			ExpressionNode newX = new ExpressionNode(kernel,
-					new MyDouble(kernel, 1 / rd), Operation.MULTIPLY,
-					new ExpressionNode(kernel, oldX, Operation.PLUS,
-							new MyDouble(kernel, a * rd - a)));
-			ExpressionNode oldY = fun.getExpression().replace(oldX, newX)
-					.wrap();
+			ExpressionNode newX = new ExpressionNode(
+					kernel,
+					new MyDouble(kernel, 1 / rd),
+					Operation.MULTIPLY,
+					new ExpressionNode(kernel, oldX, Operation.PLUS, new MyDouble(kernel, a * rd - a)));
+			ExpressionNode oldY = fun.getExpression().replace(oldX, newX).wrap();
 			if (!isBooleanFunction()) {
 
-				fun.setExpression(new ExpressionNode(kernel,
+				fun.setExpression(new ExpressionNode(
+						kernel,
 						new ExpressionNode(kernel, oldY, Operation.MULTIPLY, r),
-						Operation.PLUS, new MyDouble(kernel, -b * rd + b)));
+						Operation.PLUS,
+						new MyDouble(kernel, -b * rd + b)));
 			} else {
 				fun.setExpression(oldY);
 			}
@@ -2422,9 +2372,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	public void pointChangedForRegion(GeoPointND PI) {
 		Coords P = PI.getCoordsInD2();
 
-		if (P.getZ() == 1.0) {
-			// P.x = P.x;
-		} else {
+		if (P.getZ() != 1.0) {
 			P.setX(P.getX() / P.getZ());
 		}
 
@@ -2441,7 +2389,6 @@ public class GeoFunction extends GeoElement implements Translateable,
 		pp.setT2(P.getY());
 
 		PI.updateCoordsFrom2D(false, null);
-
 	}
 
 	@Override
@@ -2476,7 +2423,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * For inequalities.
-	 * 
+	 *
 	 * @return true iff should be drawn on x-Axis only
 	 */
 	@Override
@@ -2486,7 +2433,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * For inequalities.
-	 * 
+	 *
 	 * @param showOnAxis
 	 *            true iff should be drawn on x-Axis only
 	 */
@@ -2521,8 +2468,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	}
 
 	@Override
-	public String getFormulaString(StringTemplate baseTemplate,
-			boolean substituteNumbers) {
+	public String getFormulaString(StringTemplate baseTemplate, boolean substituteNumbers) {
 		String ret = "";
 		StringTemplate tpl = getTemplateWithSimplification(baseTemplate);
 		if (getFunctionExpression() != null
@@ -2539,14 +2485,18 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 				if (!isDefined()) {
 					ret = "?";
-				} else if (interval && tpl.hasType(StringType.LATEX)
+				} else if (interval
+						&& tpl.hasType(StringType.LATEX)
 						&& getParentAlgorithm() instanceof AlgoFunctionInterval) {
-					ret = getConditionalSerializer().getSingleCondition(
-							((AlgoFunctionInterval) getParentAlgorithm()).getCondition(),
-							getFunctionExpression(), substituteNumbers).toString();
+					ret = getConditionalSerializer()
+							.getSingleCondition(
+									((AlgoFunctionInterval) getParentAlgorithm()).getCondition(),
+									getFunctionExpression(),
+									substituteNumbers)
+							.toString();
 				} else {
-					ret = substituteNumbers ? app.getGeoElementValueConverter()
-							.toOutputValueString(this, tpl)
+					ret = substituteNumbers
+							? app.getGeoElementValueConverter().toOutputValueString(this, tpl)
 							: getParentAlgorithm().getDefinition(tpl);
 				}
 			}
@@ -2563,7 +2513,6 @@ public class GeoFunction extends GeoElement implements Translateable,
 			return shortLHS + " = " + ret;
 		}
 		return ret;
-
 	}
 
 	@Override
@@ -2620,19 +2569,18 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 *            string template
 	 * @return LaTeX description of this function
 	 */
-	public String conditionalLaTeX(boolean substituteNumbers,
-			StringTemplate tpl) {
+	public String conditionalLaTeX(boolean substituteNumbers, StringTemplate tpl) {
 		String latex;
 		ExpressionNode expr = getFunctionExpression();
-		if (expr.getOperation().isIf()
-				&& !expr.getRight().wrap().isConditional()) {
-			latex = getConditionalSerializer().getSingleCondition(expr.getLeft(),
-					expr.getRight(), substituteNumbers).toString();
+		if (expr.getOperation().isIf() && !expr.getRight().wrap().isConditional()) {
+			latex = getConditionalSerializer()
+					.getSingleCondition(expr.getLeft(), expr.getRight(), substituteNumbers)
+					.toString();
 		} else {
 			ArrayList<ExpressionNode> cases = new ArrayList<>();
 			ArrayList<Bounds> conditions = new ArrayList<>();
-			boolean complete = Bounds.collectCases(expr, cases, conditions,
-					new Bounds(kernel, getFunctionVariables()[0]), false);
+			boolean complete = Bounds.collectCases(
+					expr, cases, conditions, new Bounds(kernel, getFunctionVariables()[0]), false);
 			latex = getConditionalSerializer()
 					.appendConditionalLaTeX(cases, conditions, complete, substituteNumbers, tpl);
 		}
@@ -2686,8 +2634,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	}
 
 	@Override
-	public boolean evaluateNormal(Coords3 p, double u, double v,
-			Coords3 normal) {
+	public boolean evaluateNormal(Coords3 p, double u, double v, Coords3 normal) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -2774,13 +2721,10 @@ public class GeoFunction extends GeoElement implements Translateable,
 		}
 		// z(f)=0
 		if (i > 1) {
-			return new Function(new ExpressionNode(kernel, 0),
-					fun.getFunctionVariable());
+			return new Function(new ExpressionNode(kernel, 0), fun.getFunctionVariable());
 		}
 		// y(f)=f, x(f)=identity
-		return i == 1 ? fun
-				: new Function(fun.getFunctionVariable().wrap(),
-						fun.getFunctionVariable());
+		return i == 1 ? fun : new Function(fun.getFunctionVariable().wrap(), fun.getFunctionVariable());
 	}
 
 	/**
@@ -2789,8 +2733,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 * @return whether to hide first row in AV
 	 */
 	static boolean hideDefinitionInAlgebra(ExpressionNode ex) {
-		return ex == null || Operation.includesFreehandOrData(ex.getOperation())
-				|| ex.isSecret();
+		return ex == null || Operation.includesFreehandOrData(ex.getOperation()) || ex.isSecret();
 	}
 
 	@Override
@@ -2830,7 +2773,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 
 	/**
 	 * Needed to keep strong reference to parent algo (iOS)
-	 * 
+	 *
 	 * @param dependentFunction
 	 *            dependent function
 	 */
@@ -2871,10 +2814,9 @@ public class GeoFunction extends GeoElement implements Translateable,
 	}
 
 	@Override
-	public void setAllVisualPropertiesExceptEuclidianVisible(GeoElement geo,
-			boolean keepAdvanced, boolean setAuxiliaryProperty) {
-		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced,
-				setAuxiliaryProperty);
+	public void setAllVisualPropertiesExceptEuclidianVisible(
+			GeoElement geo, boolean keepAdvanced, boolean setAuxiliaryProperty) {
+		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced, setAuxiliaryProperty);
 		if (geo instanceof GeoEvaluatable) {
 			TableProperties.transfer(geo, this);
 		}
@@ -2896,8 +2838,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 			return Double.NaN;
 		}
 		try {
-			PolyFunction poly = fun
-					.expandToPolyFunction(fun.getExpression(), false, true);
+			PolyFunction poly = fun.expandToPolyFunction(fun.getExpression(), false, true);
 			if (poly.getDegree() <= 1) {
 				// gradient of line
 				return poly.getCoeffs()[1];

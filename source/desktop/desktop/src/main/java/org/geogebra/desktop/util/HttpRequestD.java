@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -37,8 +37,8 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Implements HTTP requests and responses for desktop.
- *  
- * @author Zoltan Kovacs 
+ *
+ * @author Zoltan Kovacs
  */
 public class HttpRequestD extends HttpRequest {
 
@@ -48,13 +48,11 @@ public class HttpRequestD extends HttpRequest {
 	private int timeout = -1;
 
 	@Override
-	public void sendRequestPost(final String method, final String url,
-			final String post, final AjaxCallback callback) {
+	public void sendRequestPost(
+			final String method, final String url, final String post, final AjaxCallback callback) {
 		if (callback == null) {
 			sendRequestPostSync(method, url, post, null);
-		}
-
-		else {
+		} else {
 			SwingWorker<Void, Void> worker = new SwingWorker<>() {
 
 				@Override
@@ -65,7 +63,6 @@ public class HttpRequestD extends HttpRequest {
 			};
 			worker.execute();
 		}
-
 	}
 
 	/**
@@ -76,8 +73,7 @@ public class HttpRequestD extends HttpRequest {
 	 * @param callback
 	 *            callback
 	 */
-	private void sendRequestPostSync(String method, String url, String post,
-			AjaxCallback callback) {
+	private void sendRequestPostSync(String method, String url, String post, AjaxCallback callback) {
 		HttpURLConnection huc = null;
 		try {
 			URL u = new URL(url);
@@ -100,8 +96,8 @@ public class HttpRequestD extends HttpRequest {
 			// uc.setDoInput(true);
 			if (post != null) {
 				huc.setDoOutput(true);
-				OutputStreamWriter osw = new OutputStreamWriter(
-						huc.getOutputStream(), StandardCharsets.UTF_8);
+				OutputStreamWriter osw =
+						new OutputStreamWriter(huc.getOutputStream(), StandardCharsets.UTF_8);
 
 				osw.write(post);
 				osw.flush();
@@ -125,9 +121,7 @@ public class HttpRequestD extends HttpRequest {
 			}
 			if (callback != null) {
 				Log.error(err);
-				callback.onError(
-						"Connection error: " + ex.getMessage());
-
+				callback.onError("Connection error: " + ex.getMessage());
 			}
 			Log.debug(ex);
 			Log.error(ex.getMessage());
@@ -140,22 +134,19 @@ public class HttpRequestD extends HttpRequest {
 	 * @throws IOException if an I/O error occurs
 	 */
 	@SuppressWarnings("PMD.UseTryWithResources") // stream managed by the wrapped connection
-	public static String readOutput(InputStream inputStream)
-			throws IOException {
+	public static String readOutput(InputStream inputStream) throws IOException {
 		BufferedReader in = null;
 		StringBuilder ans;
 		try {
-			in = new BufferedReader(
-					new InputStreamReader(inputStream,
-							StandardCharsets.UTF_8));
+			in = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
 			String s = in.readLine();
 			if (s == null) {
 				return null;
 			}
 			ans = new StringBuilder(s); // the last line will
-															// never
-													// get a "\n"
-									// on
+			// never
+			// get a "\n"
+			// on
 			// its end
 			while ((s = in.readLine()) != null) {
 				if (!ans.isEmpty()) {
@@ -191,33 +182,31 @@ public class HttpRequestD extends HttpRequest {
 	public static void ignoreSSL() {
 		Log.error("****************************** ignoring SSL certificate");
 		TrustManager[] trustAllCerts = new TrustManager[] {
-				new X509TrustManager() {
-					@Override
-					public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-						return null;
-					}
+			new X509TrustManager() {
+				@Override
+				public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+					return null;
+				}
 
-					@Override
-					public void checkClientTrusted(
-							java.security.cert.X509Certificate[] certs,
-							String authType) {
-						// accept all
-					}
+				@Override
+				public void checkClientTrusted(
+						java.security.cert.X509Certificate[] certs, String authType) {
+					// accept all
+				}
 
-					@Override
-					public void checkServerTrusted(
-							java.security.cert.X509Certificate[] certs,
-							String authType) {
-						// truest everyyone
-					}
-				} };
+				@Override
+				public void checkServerTrusted(
+						java.security.cert.X509Certificate[] certs, String authType) {
+					// truest everyyone
+				}
+			}
+		};
 
 		try {
 			SSLContext sc = SSLContext.getInstance("SSL");
 			sc.init(null, trustAllCerts, new java.security.SecureRandom());
-			HttpsURLConnection
-					.setDefaultSSLSocketFactory(sc.getSocketFactory());
-		} catch (Exception e) {
+			HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+		} catch (Exception ignored) {
 			// and ignore exceptions
 		}
 	}

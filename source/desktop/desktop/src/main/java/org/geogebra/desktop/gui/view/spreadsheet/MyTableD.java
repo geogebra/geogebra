@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -86,17 +86,14 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	public static final int DOT_SIZE = 7;
 	public static final int LINE_THICKNESS1 = 3;
 	public static final int LINE_THICKNESS2 = 2;
-	public static final Color SELECTED_BACKGROUND_COLOR = GColorD.getAwtColor(
-			GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
-	public static final Color SELECTED_BACKGROUND_COLOR_HEADER = GColorD
-			.getAwtColor(
-					GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER);
-	public static final Color BACKGROUND_COLOR_HEADER = GColorD
-			.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER);
-	public static final Color TABLE_GRID_COLOR = GColorD
-			.getAwtColor(GeoGebraColorConstants.GRAY2);
-	public static final Color HEADER_GRID_COLOR = GColorD
-			.getAwtColor(GeoGebraColorConstants.GRAY4);
+	public static final Color SELECTED_BACKGROUND_COLOR =
+			GColorD.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
+	public static final Color SELECTED_BACKGROUND_COLOR_HEADER =
+			GColorD.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER);
+	public static final Color BACKGROUND_COLOR_HEADER =
+			GColorD.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER);
+	public static final Color TABLE_GRID_COLOR = GColorD.getAwtColor(GeoGebraColorConstants.GRAY2);
+	public static final Color HEADER_GRID_COLOR = GColorD.getAwtColor(GeoGebraColorConstants.GRAY4);
 	public static final Color SELECTED_RECTANGLE_COLOR = Color.BLUE;
 
 	protected Kernel kernel;
@@ -116,9 +113,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	private boolean isSelectAll = false;
 	private boolean isSelectNone = false;
 	private Rectangle targetcellFrame;
-	final static float[] dash1 = { 2.0f };
-	final static BasicStroke dashed = new BasicStroke(3.0f,
-			BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
+	static final float[] dash1 = {2.0f};
+	static final BasicStroke dashed =
+			new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
 
 	private boolean allowEditing = false;
 
@@ -181,10 +178,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	// cursors
 	protected Cursor defaultCursor = Cursor.getDefaultCursor();
-	protected Cursor crossHairCursor = Cursor
-			.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR);
-	protected Cursor handCursor = Cursor
-			.getPredefinedCursor(Cursor.HAND_CURSOR);
+	protected Cursor crossHairCursor = Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR);
+	protected Cursor handCursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
 	protected Cursor grabbingCursor;
 	protected Cursor grabCursor;
 
@@ -207,8 +202,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		return oneClickEditMap;
 	}
 
-	public void setOneClickEditMap(
-			HashMap<SpreadsheetCoords, GeoElement> oneClickEditMap) {
+	public void setOneClickEditMap(HashMap<SpreadsheetCoords, GeoElement> oneClickEditMap) {
 		this.oneClickEditMap = oneClickEditMap;
 	}
 
@@ -228,18 +222,14 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		this.tableModel = tableModel;
 		this.view = view;
 
-		grabCursor = createCursor(
-				app.getImage(GuiResourcesD.CURSOR_GRAB), true);
-		grabbingCursor = createCursor(
-				app.getImage(GuiResourcesD.CURSOR_GRABBING),
-				true);
+		grabCursor = createCursor(app.getImage(GuiResourcesD.CURSOR_GRAB), true);
+		grabbingCursor = createCursor(app.getImage(GuiResourcesD.CURSOR_GRABBING), true);
 
 		// set row height
 		super.setRowHeight(SpreadsheetSettings.TABLE_CELL_HEIGHT);
 
 		// prepare column headers
-		SpreadsheetColumnControllerD columnController = new SpreadsheetColumnControllerD(
-				app, this);
+		SpreadsheetColumnControllerD columnController = new SpreadsheetColumnControllerD(app, this);
 		headerRenderer = columnController.new ColumnHeaderRenderer();
 		getTableHeader().setFocusable(true);
 		getTableHeader().addMouseListener(columnController);
@@ -251,12 +241,11 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		// set columns and column headers
 		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-		headerRenderer.setPreferredSize(new Dimension(preferredColumnWidth,
-				SpreadsheetSettings.TABLE_CELL_HEIGHT));
+		headerRenderer.setPreferredSize(
+				new Dimension(preferredColumnWidth, SpreadsheetSettings.TABLE_CELL_HEIGHT));
 		for (int i = 0; i < getColumnCount(); ++i) {
 			getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
-			getColumnModel().getColumn(i)
-					.setPreferredWidth(preferredColumnWidth);
+			getColumnModel().getColumn(i).setPreferredWidth(preferredColumnWidth);
 		}
 
 		// set visual appearance
@@ -341,7 +330,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	/**
 	 * Simple getter method
-	 * 
+	 *
 	 * @return CopyPasteCut
 	 */
 	@Override
@@ -351,7 +340,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	/**
 	 * Simple getter method
-	 * 
+	 *
 	 * @return App
 	 */
 	@Override
@@ -361,7 +350,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	/**
 	 * Returns parent SpreadsheetView for this table
-	 * 
+	 *
 	 * @return SpreadsheetView
 	 */
 	@Override
@@ -439,8 +428,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		}
 
 		// add new columns to table
-		for (int i = this.getColumnCount(); i < tableModel
-				.getColumnCount(); ++i) {
+		for (int i = this.getColumnCount(); i < tableModel.getColumnCount(); ++i) {
 			TableColumn col = new TableColumn(i);
 			col.setHeaderRenderer(headerRenderer);
 			col.setPreferredWidth(preferredColumnWidth);
@@ -449,24 +437,23 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		// addColumn destroys custom row heights, so we must reset them
 		resetRowHeights();
-
 	}
 
 	@Override
 	public TableCellEditor getCellEditor(int row, int column) {
 
 		SpreadsheetCoords p = new SpreadsheetCoords(row, column);
-		if (view.allowSpecialEditor() && oneClickEditMap.containsKey(p)
-				&& kernel
-						.getAlgebraStyleSpreadsheet() == AlgebraStyle.VALUE) {
+		if (view.allowSpecialEditor()
+				&& oneClickEditMap.containsKey(p)
+				&& kernel.getAlgebraStyleSpreadsheet() == AlgebraStyle.VALUE) {
 
 			switch (oneClickEditMap.get(p).getGeoClassType()) {
-			case BOOLEAN:
-				return getEditorBoolean();
-			case BUTTON:
-				return getEditorButton();
-			case LIST:
-				return getEditorList();
+				case BOOLEAN:
+					return getEditorBoolean();
+				case BUTTON:
+					return getEditorButton();
+				case LIST:
+					return getEditorList();
 			}
 		}
 		return editor;
@@ -518,7 +505,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			if (e.getType() == TableModelEvent.UPDATE) {
 				updateColumnCount();
 			}
-
 		}
 	}
 
@@ -536,8 +522,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * behavior the JTable changeSelection method is overridden here.
 	 */
 	@Override
-	public void changeSelection(int rowIndex, int columnIndex, boolean toggle,
-			boolean extend) {
+	public void changeSelection(int rowIndex, int columnIndex, boolean toggle, boolean extend) {
 		// if(Application.getControlDown())
 		// super.changeSelection(rowIndex, columnIndex, false, false);
 		// else
@@ -586,71 +571,61 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		if (view.isTraceDialogVisible()) {
 
 			newSelection = view.getTraceSelectionRange(
-					getColumnModel().getSelectionModel()
-							.getAnchorSelectionIndex(),
+					getColumnModel().getSelectionModel().getAnchorSelectionIndex(),
 					getSelectionModel().getAnchorSelectionIndex());
 			if (newSelection == null) {
 				return;
 			}
-			scrollRectToVisible(getCellRect(newSelection.getMinRow(),
-					newSelection.getMaxColumn(), true));
+			scrollRectToVisible(getCellRect(newSelection.getMinRow(), newSelection.getMaxColumn(), true));
 
 		} else {
 
 			switch (selectionType) {
+				default:
+				case CELLS:
+					newSelection = new TabularRange(
+							getSelectionModel().getAnchorSelectionIndex(),
+							getColumnModel().getSelectionModel().getAnchorSelectionIndex(),
+							getSelectionModel().getLeadSelectionIndex(),
+							getColumnModel().getSelectionModel().getLeadSelectionIndex());
+					break;
 
-			default:
-			case CELLS:
-				newSelection = new TabularRange(
-						getSelectionModel().getAnchorSelectionIndex(),
-						getColumnModel().getSelectionModel().getAnchorSelectionIndex(),
-						getSelectionModel().getLeadSelectionIndex(),
-						getColumnModel().getSelectionModel().getLeadSelectionIndex()
-				);
-				break;
+				case ROWS:
+					newSelection = new TabularRange(
+							getSelectionModel().getAnchorSelectionIndex(),
+							-1,
+							getSelectionModel().getLeadSelectionIndex(),
+							-1);
+					break;
 
-			case ROWS:
-				newSelection = new TabularRange(getSelectionModel().getAnchorSelectionIndex(), -1,
-						getSelectionModel().getLeadSelectionIndex(), -1
-				);
-				break;
-
-			case COLUMNS:
-				newSelection = new TabularRange(
-						-1, getColumnModel().getSelectionModel()
-								.getAnchorSelectionIndex(),
-						-1, getColumnModel().getSelectionModel()
-								.getLeadSelectionIndex()
-				);
-				break;
-			case ALL:
-				newSelection = new TabularRange(-1, -1,
-						-1, -1);
-				break;
+				case COLUMNS:
+					newSelection = new TabularRange(
+							-1, getColumnModel().getSelectionModel().getAnchorSelectionIndex(),
+							-1, getColumnModel().getSelectionModel().getLeadSelectionIndex());
+					break;
+				case ALL:
+					newSelection = new TabularRange(-1, -1, -1, -1);
+					break;
 			}
-
 		}
 
 		// update sets of selected rows/columns (used for rendering in the
 		// headers)
 		if (selectionType == SelectionType.COLUMNS) {
-			for (int i = newSelection.getMinColumn(); i <= newSelection
-					.getMaxColumn(); i++) {
+			for (int i = newSelection.getMinColumn(); i <= newSelection.getMaxColumn(); i++) {
 				selectedColumnSet.add(i);
 			}
 		}
 
 		if (selectionType == SelectionType.ROWS) {
-			for (int i = newSelection.getMinRow(); i <= newSelection
-					.getMaxRow(); i++) {
+			for (int i = newSelection.getMinRow(); i <= newSelection.getMaxRow(); i++) {
 				selectedRowSet.add(i);
 			}
 		}
 
 		// check for change in anchor cell (for now this is minrow and mincol
 		// ...)
-		final boolean changedAnchor = minSelectionColumn
-				- newSelection.getMinColumn() != 0
+		final boolean changedAnchor = minSelectionColumn - newSelection.getMinColumn() != 0
 				|| minSelectionRow - newSelection.getMinRow() != 0;
 
 		// update selection list and internal variables
@@ -689,13 +664,12 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		// update the geo selection list
 		ArrayList<GeoElement> list = new ArrayList<>();
 		for (int i = 0; i < selectedRanges.size(); i++) {
-			list.addAll(0, CellRangeUtil.toGeoList(selectedRanges.get(i),
-					app.getSpreadsheetTableModel()));
+			list.addAll(
+					0, CellRangeUtil.toGeoList(selectedRanges.get(i), app.getSpreadsheetTableModel()));
 		}
 
 		// if the geo selection has changed, update selected geos
-		boolean changed = !list
-				.equals(app.getSelectionManager().getSelectedGeos());
+		boolean changed = !list.equals(app.getSelectionManager().getSelectedGeos());
 		if (changed) {
 
 			if (getTableMode() == MyTable.TABLE_MODE_AUTOFUNCTION) {
@@ -749,10 +723,10 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		maxSelectionColumn = minSelectionColumn;
 		maxSelectionRow = minSelectionRow;
 
-		getColumnModel().getSelectionModel().setSelectionInterval(
-				minSelectionColumn, maxSelectionColumn);
-		getSelectionModel().setSelectionInterval(minSelectionRow,
-				maxSelectionRow);
+		getColumnModel()
+				.getSelectionModel()
+				.setSelectionInterval(minSelectionColumn, maxSelectionColumn);
+		getSelectionModel().setSelectionInterval(minSelectionRow, maxSelectionRow);
 	}
 
 	/**
@@ -815,24 +789,20 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 					// column selection
 				} else if (tr.isContiguousColumns()) {
-					setColumnSelectionInterval(tr.getMinColumn(),
-							tr.getMaxColumn());
+					setColumnSelectionInterval(tr.getMinColumn(), tr.getMaxColumn());
 
 					// cell block selection
 				} else {
 					setSelectionType(SelectionType.CELLS);
-					changeSelection(tr.getMinRow(), tr.getMinColumn(), false,
-							false);
-					changeSelection(tr.getMaxRow(), tr.getMaxColumn(), false,
-							true);
+					changeSelection(tr.getMinRow(), tr.getMinColumn(), false, false);
+					changeSelection(tr.getMaxRow(), tr.getMaxColumn(), false, true);
 				}
 
 				selectionChanged();
 
 				// scroll to upper left corner of rectangle
 				this.setAutoscrolls(true);
-				scrollRectToVisible(
-						getCellRect(tr.getMinRow(), tr.getMinColumn(), true));
+				scrollRectToVisible(getCellRect(tr.getMinRow(), tr.getMinColumn(), true));
 				repaint();
 			}
 		} catch (Exception e) {
@@ -853,30 +823,27 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		}
 
 		switch (selType) {
+			default:
+			case CELLS:
+				setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+				setColumnSelectionAllowed(true);
+				setRowSelectionAllowed(true);
+				break;
 
-		default:
-		case CELLS:
-			setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-			setColumnSelectionAllowed(true);
-			setRowSelectionAllowed(true);
-			break;
+			case ROWS:
+				setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+				setColumnSelectionAllowed(false);
+				setRowSelectionAllowed(true);
+				break;
 
-		case ROWS:
-			setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-			setColumnSelectionAllowed(false);
-			setRowSelectionAllowed(true);
-			break;
-
-		case COLUMNS:
-			setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-			setColumnSelectionAllowed(true);
-			setRowSelectionAllowed(false);
-			break;
-
+			case COLUMNS:
+				setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+				setColumnSelectionAllowed(true);
+				setRowSelectionAllowed(false);
+				break;
 		}
 
 		this.selectionType = selType;
-
 	}
 
 	@Override
@@ -916,7 +883,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			setSelection(-1, -1, -1, -1);
 			view.updateFormulaBar();
 		}
-
 	}
 
 	@Override
@@ -976,8 +942,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		if (min) {
 			return new GPoint(cellRect.x, cellRect.y);
 		}
-		return new GPoint(cellRect.x + cellRect.width,
-				cellRect.y + cellRect.height);
+		return new GPoint(cellRect.x + cellRect.width, cellRect.y + cellRect.height);
 	}
 
 	protected GPoint getMinSelectionPixel() {
@@ -1031,12 +996,11 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * @param includeSpacing whether to include spacing
 	 * @return rectangle
 	 */
-	public Rectangle getCellBlockRect(int column1, int row1, int column2,
-			int row2, boolean includeSpacing) {
+	public Rectangle getCellBlockRect(
+			int column1, int row1, int column2, int row2, boolean includeSpacing) {
 		Rectangle r1 = getCellRect(row1, column1, includeSpacing);
 		Rectangle r2 = getCellRect(row2, column2, includeSpacing);
-		r1.setBounds(r1.x, r1.y, r2.x - r1.x + r2.width,
-				r2.y - r1.y + r2.height);
+		r1.setBounds(r1.x, r1.y, r2.x - r1.x + r2.width, r2.y - r1.y + r2.height);
 		return r1;
 	}
 
@@ -1044,8 +1008,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * @return selection rectangle
 	 */
 	public Rectangle getSelectionRect() {
-		return getCellBlockRect(minSelectionColumn, minSelectionRow,
-				maxSelectionColumn, maxSelectionRow, true);
+		return getCellBlockRect(
+				minSelectionColumn, minSelectionRow, maxSelectionColumn, maxSelectionRow, true);
 	}
 
 	// target selection frame
@@ -1064,19 +1028,19 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * @return whether dragging iis possible
 	 */
 	public boolean showCanDragBlueDot() {
-		boolean showBlueDot = !editor.isEditing()
-				&& !view.isTraceDialogVisible();
+		boolean showBlueDot = !editor.isEditing() && !view.isTraceDialogVisible();
 
-		if (minSelectionRow != -1 && maxSelectionRow != -1
-				&& minSelectionColumn != -1 && maxSelectionColumn != -1) {
+		if (minSelectionRow != -1
+				&& maxSelectionRow != -1
+				&& minSelectionColumn != -1
+				&& maxSelectionColumn != -1) {
 
 			if (showBlueDot) {
 				for (int i = minSelectionRow; i <= maxSelectionRow; i++) {
 					for (int j = minSelectionColumn; j <= maxSelectionColumn; j++) {
 						if (tableModel.getValueAt(i, j) instanceof GeoElement) {
-							showBlueDot &= !((GeoElement) tableModel
-									.getValueAt(i, j))
-											.isProtected(EventType.UPDATE);
+							showBlueDot &=
+									!((GeoElement) tableModel.getValueAt(i, j)).isProtected(EventType.UPDATE);
 						}
 					}
 				}
@@ -1131,10 +1095,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			graphics.setColor(Color.GRAY);
 			graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
 			graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
-			graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1,
-					LINE_THICKNESS1);
-			graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1,
-					y2 - y1);
+			graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1, LINE_THICKNESS1);
+			graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2 - y1);
 		}
 
 		// draw dragging frame
@@ -1144,58 +1106,44 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			// -|4|-
 			graphics.setColor(Color.gray);
 			if (draggingToColumn < minSelectionColumn) { // 2
-				GPoint point1 = getPixel(draggingToColumn, minSelectionRow,
-						true);
-				GPoint point2 = getPixel(minSelectionColumn - 1,
-						maxSelectionRow, false);
+				GPoint point1 = getPixel(draggingToColumn, minSelectionRow, true);
+				GPoint point2 = getPixel(minSelectionColumn - 1, maxSelectionRow, false);
 				int x1 = point1.getX();
 				int y1 = point1.getY();
 				int x2 = point2.getX();
 				int y2 = point2.getY();
 				graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
 				graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
-				graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1,
-						LINE_THICKNESS1);
+				graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1, LINE_THICKNESS1);
 			} else if (draggingToRow > maxSelectionRow) { // 4
-				GPoint point1 = getPixel(minSelectionColumn,
-						maxSelectionRow + 1, true);
-				GPoint point2 = getPixel(maxSelectionColumn, draggingToRow,
-						false);
+				GPoint point1 = getPixel(minSelectionColumn, maxSelectionRow + 1, true);
+				GPoint point2 = getPixel(maxSelectionColumn, draggingToRow, false);
 				int x1 = point1.getX();
 				int y1 = point1.getY();
 				int x2 = point2.getX();
 				int y2 = point2.getY();
 				graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
-				graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1,
-						LINE_THICKNESS1);
-				graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1,
-						y2 - y1);
+				graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1, LINE_THICKNESS1);
+				graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2 - y1);
 			} else if (draggingToRow < minSelectionRow) { // 1
-				GPoint point1 = getPixel(minSelectionColumn, draggingToRow,
-						true);
-				GPoint point2 = getPixel(maxSelectionColumn,
-						minSelectionRow - 1, false);
+				GPoint point1 = getPixel(minSelectionColumn, draggingToRow, true);
+				GPoint point2 = getPixel(maxSelectionColumn, minSelectionRow - 1, false);
 				int x1 = point1.getX();
 				int y1 = point1.getY();
 				int x2 = point2.getX();
 				int y2 = point2.getY();
 				graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
 				graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
-				graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1,
-						y2 - y1);
+				graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2 - y1);
 			} else if (draggingToColumn > maxSelectionColumn) { // 3
-				GPoint point1 = getPixel(maxSelectionColumn + 1,
-						minSelectionRow, true);
-				GPoint point2 = getPixel(draggingToColumn, maxSelectionRow,
-						false);
+				GPoint point1 = getPixel(maxSelectionColumn + 1, minSelectionRow, true);
+				GPoint point2 = getPixel(draggingToColumn, maxSelectionRow, false);
 				int x1 = point1.getX();
 				int y1 = point1.getY();
 				int x2 = point2.getX();
 				int y2 = point2.getY();
-				graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1,
-						y2 - y1);
-				graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1,
-						LINE_THICKNESS1);
+				graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2 - y1);
+				graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1, LINE_THICKNESS1);
 				graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
 			}
 		}
@@ -1218,8 +1166,10 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			}
 		}
 
-		if (minSelectionRow != -1 && maxSelectionRow != -1
-				&& minSelectionColumn != -1 && maxSelectionColumn != -1) {
+		if (minSelectionRow != -1
+				&& maxSelectionRow != -1
+				&& minSelectionColumn != -1
+				&& maxSelectionColumn != -1) {
 			GPoint min = this.getMinSelectionPixel();
 			GPoint max = this.getMaxSelectionPixel();
 			int x1 = min.getX();
@@ -1235,10 +1185,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			if (!editor.isEditing()) {
 				graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS2);
 				graphics.fillRect(x1, y1, LINE_THICKNESS2, y2 - y1);
-				graphics.fillRect(x2 - LINE_THICKNESS2, y1, LINE_THICKNESS2,
-						y2 - y1);
-				graphics.fillRect(x1, y2 - LINE_THICKNESS2, x2 - x1,
-						LINE_THICKNESS2);
+				graphics.fillRect(x2 - LINE_THICKNESS2, y1, LINE_THICKNESS2, y2 - y1);
+				graphics.fillRect(x1, y2 - LINE_THICKNESS2, x2 - x1, LINE_THICKNESS2);
 			}
 			// draw small frame around current editing cell
 			else {
@@ -1248,10 +1196,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				y2 += LINE_THICKNESS2 - 1;
 				graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS2);
 				graphics.fillRect(x1, y1, LINE_THICKNESS2, y2 - y1);
-				graphics.fillRect(x2 - LINE_THICKNESS2, y1, LINE_THICKNESS2,
-						y2 - y1);
-				graphics.fillRect(x1, y2 - LINE_THICKNESS2, x2 - x1,
-						LINE_THICKNESS2);
+				graphics.fillRect(x2 - LINE_THICKNESS2, y1, LINE_THICKNESS2, y2 - y1);
+				graphics.fillRect(x1, y2 - LINE_THICKNESS2, x2 - x1, LINE_THICKNESS2);
 			}
 		}
 
@@ -1270,16 +1216,14 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		Object ob = getValueAt(row, col);
 
 		// prepare editor to handle equals
-		editor.setEqualsRequired(
-				app.getSettings().getSpreadsheet().equalsRequired());
+		editor.setEqualsRequired(app.getSettings().getSpreadsheet().equalsRequired());
 
 		if (ob instanceof GeoElement) {
 			GeoElement geo = (GeoElement) ob;
 			if (geo.isGeoButton() || geo.isGeoImage()) {
 				ArrayList<GeoElement> sel = new ArrayList<>();
 				sel.add(geo);
-				app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS,
-						sel);
+				app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, sel);
 				return true;
 			}
 			if (!view.getShowFormulaBar()) {
@@ -1317,8 +1261,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		}
 
 		// adjust the selection if mouse has left the old selected cell
-		if (row != this.getSelectedRow()
-				|| column != this.getSelectedColumn()) {
+		if (row != this.getSelectedRow() || column != this.getSelectedColumn()) {
 			// boolean selected = true;
 			int colAnchor = cm.getAnchorSelectionIndex();
 			int rowAnchor = rm.getAnchorSelectionIndex();
@@ -1462,21 +1405,19 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * placing it in one of two hashSets: cellResizeHeightSet or
 	 * cellResizeWidthSet. Currently, this is only done after a geo is added to
 	 * a cell and the row needs to be widened to fit the LaTeX image.
-	 * 
+	 *
 	 */
 	public void resizeMarkedCells() {
 		if (!cellResizeHeightSet.isEmpty()) {
 			for (GPoint cellPoint : cellResizeHeightSet) {
-				setPreferredCellSize(cellPoint.getY(), cellPoint.getX(), false,
-						true);
+				setPreferredCellSize(cellPoint.getY(), cellPoint.getX(), false, true);
 			}
 			cellResizeHeightSet.clear();
 		}
 
 		if (!cellResizeWidthSet.isEmpty()) {
 			for (GPoint cellPoint : cellResizeWidthSet) {
-				setPreferredCellSize(cellPoint.getY(), cellPoint.getX(), true,
-						false);
+				setPreferredCellSize(cellPoint.getY(), cellPoint.getX(), true, false);
 			}
 			cellResizeWidthSet.clear();
 		}
@@ -1489,26 +1430,21 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * @param adjustWidth adjust width
 	 * @param adjustHeight adjust height
 	 */
-	public void setPreferredCellSize(int row, int col, boolean adjustWidth,
-			boolean adjustHeight) {
+	public void setPreferredCellSize(int row, int col, boolean adjustWidth, boolean adjustHeight) {
 
-		Dimension prefSize = this
-				.getCellRenderer(row, col).getTableCellRendererComponent(this,
-						this.getValueAt(row, col), false, false, row, col)
+		Dimension prefSize = this.getCellRenderer(row, col)
+				.getTableCellRendererComponent(this, this.getValueAt(row, col), false, false, row, col)
 				.getPreferredSize();
 
 		if (adjustWidth) {
 			TableColumn tableColumn = this.getColumnModel().getColumn(col);
 
-			int resultWidth = Math.max(tableColumn.getWidth(),
-					(int) prefSize.getWidth());
-			tableColumn
-					.setWidth(resultWidth + this.getIntercellSpacing().width);
+			int resultWidth = Math.max(tableColumn.getWidth(), (int) prefSize.getWidth());
+			tableColumn.setWidth(resultWidth + this.getIntercellSpacing().width);
 		}
 
 		if (adjustHeight) {
-			int resultHeight = Math.max(getRowHeight(row),
-					(int) prefSize.getHeight());
+			int resultHeight = Math.max(getRowHeight(row), (int) prefSize.getHeight());
 			setRowHeight(row, resultHeight);
 		}
 	}
@@ -1526,10 +1462,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		for (int row = 0; row < getRowCount(); row++) {
 			if (getValueAt(row, column) != null) {
 				tempWidth = (int) getCellRenderer(row, column)
-						.getTableCellRendererComponent(this,
-								getValueAt(row, column), false, false, row,
-								column)
-						.getPreferredSize().getWidth();
+						.getTableCellRendererComponent(this, getValueAt(row, column), false, false, row, column)
+						.getPreferredSize()
+						.getWidth();
 				prefWidth = Math.max(prefWidth, tempWidth);
 			}
 		}
@@ -1557,9 +1492,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		int prefHeight = this.getRowHeight();
 		for (int column = 0; column < this.getColumnCount(); column++) {
 			int tempHeight = (int) this.getCellRenderer(row, column)
-					.getTableCellRendererComponent(this,
-							getValueAt(row, column), false, false, row, column)
-					.getPreferredSize().getHeight();
+					.getTableCellRendererComponent(this, getValueAt(row, column), false, false, row, column)
+					.getPreferredSize()
+					.getHeight();
 
 			prefHeight = Math.max(prefHeight, tempHeight);
 		}
@@ -1573,7 +1508,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	/**
 	 * Adjust all rows/columns to fit the maximum preferred height/width of
 	 * their cell contents.
-	 * 
+	 *
 	 */
 	public void fitAllRows() {
 		for (int row = 0; row < getRowCount(); row++) {
@@ -1585,14 +1520,12 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * Column model listener --- used to reset the preferred column width when
 	 * all columns have been selected.
 	 */
-	public class MyTableColumnModelListener
-			implements TableColumnModelListener {
+	public class MyTableColumnModelListener implements TableColumnModelListener {
 
 		@Override
 		public void columnMarginChanged(ChangeEvent e) {
 			if (isSelectAll() && minSelectionColumn >= 0) {
-				preferredColumnWidth = getColumnModel()
-						.getColumn(minSelectionColumn).getPreferredWidth();
+				preferredColumnWidth = getColumnModel().getColumn(minSelectionColumn).getPreferredWidth();
 				// view.updatePreferredColumnWidth(preferredColumnWidth);
 			}
 			// TODO: find more efficient way to record column widths
@@ -1646,7 +1579,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	/**
 	 * Sets the table mode
-	 * 
+	 *
 	 * @param tableMode table mode
 	 */
 	@Override
@@ -1657,13 +1590,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			if (!initAutoFunction()) {
 				return;
 			}
-		}
-
-		else if (tableMode == MyTable.TABLE_MODE_DROP) {
-			// nothing to do (yet)
-		}
-
-		else {
+		} else if (tableMode != MyTable.TABLE_MODE_DROP) {
 			// Clear the targetcellFrame and ensure the selection rectangle
 			// color is standard
 			targetcellFrame = null;
@@ -1689,14 +1616,13 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		// selection for the
 		// autoFunction. The autoFunction values are previewed in the targetCell
 		// while dragging.
-		if (selectedRanges.size() == 1
-				&& selectedRanges.get(0).isSingleCell()) {
+		if (selectedRanges.size() == 1 && selectedRanges.get(0).isSingleCell()) {
 
 			// Clear the target cell, exit if this is not possible
-			if (RelativeCopy.getValue(app.getSpreadsheetTableModel(), minSelectionColumn,
-					minSelectionRow) != null) {
-				boolean isOK = copyPasteCut.delete(minSelectionColumn,
-						minSelectionRow, minSelectionColumn, minSelectionRow);
+			if (RelativeCopy.getValue(app.getSpreadsheetTableModel(), minSelectionColumn, minSelectionRow)
+					!= null) {
+				boolean isOK = copyPasteCut.delete(
+						minSelectionColumn, minSelectionRow, minSelectionColumn, minSelectionRow);
 				if (!isOK) {
 					return false;
 				}
@@ -1705,13 +1631,12 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			// Set targetCell as a GeoNumeric that can be used to preview the
 			// autofunction result
 			// (later it will be set as a GeoList)
-			getSpreadsheetModeProcessor().initTargetCell(minSelectionColumn,
-					minSelectionRow);
+			getSpreadsheetModeProcessor().initTargetCell(minSelectionColumn, minSelectionRow);
 
 			// Set the targetcellFrame so the Paint method can use it to draw a
 			// dashed frame
-			targetcellFrame = this.getCellBlockRect(minSelectionColumn,
-					minSelectionRow, minSelectionColumn, minSelectionRow, true);
+			targetcellFrame = this.getCellBlockRect(
+					minSelectionColumn, minSelectionRow, minSelectionColumn, minSelectionRow, true);
 
 			// Change the selection frame color to gray
 			// and clear the current selection
@@ -1728,8 +1653,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		else if (selectedRanges.size() == 1) {
 
 			try {
-				getSpreadsheetModeProcessor().performAutoFunctionCreation(
-						selectedRanges.get(0), app.getShiftDown());
+				getSpreadsheetModeProcessor()
+						.performAutoFunctionCreation(selectedRanges.get(0), app.getShiftDown());
 			} catch (Exception e) {
 				Log.debug(e);
 			}
@@ -1753,8 +1678,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * @param altDown whether alt is pressed (skips copy to internal buffer)
 	 */
 	public void copy(boolean altDown) {
-		copyPasteCut.copy(minSelectionColumn, minSelectionRow,
-				maxSelectionColumn, maxSelectionRow, altDown);
+		copyPasteCut.copy(
+				minSelectionColumn, minSelectionRow, maxSelectionColumn, maxSelectionRow, altDown);
 	}
 
 	/**
@@ -1762,8 +1687,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * @return success
 	 */
 	public boolean paste() {
-		return copyPasteCut.paste(minSelectionColumn, minSelectionRow,
-				maxSelectionColumn, maxSelectionRow);
+		return copyPasteCut.paste(
+				minSelectionColumn, minSelectionRow, maxSelectionColumn, maxSelectionRow);
 	}
 
 	/**
@@ -1771,8 +1696,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * @return success
 	 */
 	public boolean cut() {
-		return copyPasteCut.cut(minSelectionColumn, minSelectionRow,
-				maxSelectionColumn, maxSelectionRow);
+		return copyPasteCut.cut(
+				minSelectionColumn, minSelectionRow, maxSelectionColumn, maxSelectionRow);
 	}
 
 	/**
@@ -1780,28 +1705,25 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * @return success
 	 */
 	public boolean delete() {
-		return copyPasteCut.delete(minSelectionColumn, minSelectionRow,
-				maxSelectionColumn, maxSelectionRow);
+		return copyPasteCut.delete(
+				minSelectionColumn, minSelectionRow, maxSelectionColumn, maxSelectionRow);
 	}
 
 	private static Cursor createCursor(Image cursorImage, boolean center) {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Point cursorHotSpot;
 		if (center) {
-			cursorHotSpot = new Point(cursorImage.getWidth(null) / 2,
-					cursorImage.getHeight(null) / 2);
+			cursorHotSpot = new Point(cursorImage.getWidth(null) / 2, cursorImage.getHeight(null) / 2);
 		} else {
 			cursorHotSpot = new Point(0, 0);
 		}
-		Cursor cursor = toolkit.createCustomCursor(cursorImage, cursorHotSpot,
-				null);
+		Cursor cursor = toolkit.createCustomCursor(cursorImage, cursorHotSpot, null);
 		return cursor;
 	}
 
 	@Override
 	public void updateCellFormat(String cellFormat) {
 		view.updateCellFormat(cellFormat);
-
 	}
 
 	@Override
@@ -1819,10 +1741,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 */
 	public SpreadsheetModeProcessor getSpreadsheetModeProcessor() {
 		if (this.spreadsheetModeProcessor == null) {
-			this.spreadsheetModeProcessor = new SpreadsheetModeProcessor(app,
-					this);
+			this.spreadsheetModeProcessor = new SpreadsheetModeProcessor(app, this);
 		}
 		return this.spreadsheetModeProcessor;
 	}
-
 }

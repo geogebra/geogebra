@@ -50,7 +50,7 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Integral of a function (GeoFunction)
- * 
+ *
  * @author Markus Hohenwarter
  */
 @SuppressWarnings("deprecation")
@@ -84,8 +84,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	private static final int FREEHAND_MULTIPLIER = 10;
 
 	// approximate bounds for CAS, see TRAC-3865, TRAC-5532
-	private static final StringTemplate approxPiTemplate = StringTemplate.giacNumeric13
-			.deriveWithPi("3.141592653589793");
+	private static final StringTemplate approxPiTemplate =
+			StringTemplate.giacNumeric13.deriveWithPi("3.141592653589793");
 
 	/**
 	 * @param cons
@@ -101,8 +101,13 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	 * @param numeric
 	 *            true to use numeric method
 	 */
-	public AlgoIntegralDefinite(Construction cons, String label, GeoFunction f,
-			GeoNumberValue a, GeoNumberValue b, boolean numeric) {
+	public AlgoIntegralDefinite(
+			Construction cons,
+			String label,
+			GeoFunction f,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			boolean numeric) {
 		this(cons, f, a, b, null, numeric);
 		this.numeric = numeric;
 		n.setLabel(label);
@@ -122,8 +127,13 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	 * @param evaluate
 	 *            true to evaluate, false to shade only
 	 */
-	public AlgoIntegralDefinite(Construction cons, String label, GeoFunction f,
-			GeoNumberValue a, GeoNumberValue b, GeoBoolean evaluate) {
+	public AlgoIntegralDefinite(
+			Construction cons,
+			String label,
+			GeoFunction f,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoBoolean evaluate) {
 		this(cons, f, a, b, evaluate);
 		n.setLabel(label);
 	}
@@ -140,10 +150,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	 * @param evaluate
 	 *            true to evaluate, false to shade only
 	 */
-	public AlgoIntegralDefinite(Construction cons, GeoFunction f,
-			GeoNumberValue a, GeoNumberValue b, GeoBoolean evaluate) {
+	public AlgoIntegralDefinite(
+			Construction cons, GeoFunction f, GeoNumberValue a, GeoNumberValue b, GeoBoolean evaluate) {
 		this(cons, f, a, b, evaluate, false);
-
 	}
 
 	/**
@@ -160,8 +169,12 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	 * @param evaluate
 	 *            true to evaluate, false to shade only
 	 */
-	public AlgoIntegralDefinite(Construction cons, GeoFunction f,
-			GeoNumberValue a, GeoNumberValue b, GeoBoolean evaluate,
+	public AlgoIntegralDefinite(
+			Construction cons,
+			GeoFunction f,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoBoolean evaluate,
 			boolean num) {
 		super(cons);
 		evaluateNumerically = num;
@@ -184,8 +197,10 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		// don't use symbolic integral for conditional functions
 		// or if it should not be evaluated (i.e. a shade-only integral)
 		if ((evaluate == null || evaluate.getBoolean())
-				&& !f.isGeoFunctionConditional() && !f.isFreehandFunction()
-				&& !f.includesDivisionByVar() && !evaluateNumerically) {
+				&& !f.isGeoFunctionConditional()
+				&& !f.isFreehandFunction()
+				&& !f.includesDivisionByVar()
+				&& !evaluateNumerically) {
 			refreshCASResults();
 		}
 
@@ -204,8 +219,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	 * @param evaluate
 	 *            true to evaluate, false to shade only
 	 */
-	public AlgoIntegralDefinite(GeoFunction f, NumberValue a, NumberValue b,
-			GeoBoolean evaluate) {
+	public AlgoIntegralDefinite(GeoFunction f, NumberValue a, NumberValue b, GeoBoolean evaluate) {
 		super(f.getConstruction(), false);
 		this.f = f;
 		this.a = a;
@@ -221,8 +235,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	 * @param precision max allowed difference between methods
 	 * @return integral or NaN if it wasn't computed precisely
 	 */
-	public static double doGaussQuadSimple(Function fun, double a, double b,
-		double precision) {
+	public static double doGaussQuadSimple(Function fun, double a, double b, double precision) {
 		initGaussQuad();
 		try {
 			double firstSum = firstGauss.integrate(MAX_GAUSS_QUAD_CALLS, fun, a, b);
@@ -322,10 +335,13 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		// check if f(a) and f(b) are defined
 		double fa = f.value(lowerLimit);
 		double fb = f.value(upperLimit);
-		if (Double.isInfinite(lowerLimit) || Double.isInfinite(upperLimit) || Double.isNaN(fa)
-				|| Double.isInfinite(fa) || Double.isNaN(fb) || Double.isInfinite(fb)) {
-			if (!this.evaluateNumerically && !isShadeOnly()
-					&& !f.includesFreehandOrData()) {
+		if (Double.isInfinite(lowerLimit)
+				|| Double.isInfinite(upperLimit)
+				|| Double.isNaN(fa)
+				|| Double.isInfinite(fa)
+				|| Double.isNaN(fb)
+				|| Double.isInfinite(fb)) {
+			if (!this.evaluateNumerically && !isShadeOnly() && !f.includesFreehandOrData()) {
 				computeSpecial();
 			} else {
 				n.setUndefined();
@@ -348,23 +364,21 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		 * would be defined (-2)
 		 */
 		if (!f.includesFreehandOrData()) {
-			if (algoCAS instanceof AlgoIntegral
-					&& !((AlgoIntegral) algoCAS).isComputedSymbolically()) {
+			if (algoCAS instanceof AlgoIntegral && !((AlgoIntegral) algoCAS).isComputedSymbolically()) {
 				algoCAS.compute();
 			}
-			if (symbIntegral != null && symbIntegral.isDefined()
+			if (symbIntegral != null
+					&& symbIntegral.isDefined()
 					&& !f.includesDivisionByVar()
 					&& !f.includesNonContinuousIntegral()
 					// eg Integral( x sqrt( 1 + cos(2x) ) , 0 , pi / 2 )
 					&& !symbIntegral.includesNonContinuousIntegral()) {
-				double val = symbIntegral.value(upperLimit)
-						- symbIntegral.value(lowerLimit);
+				double val = symbIntegral.value(upperLimit) - symbIntegral.value(lowerLimit);
 				n.setValue(val);
 				if (n.isDefined()) {
 					return;
 				}
-			} else if (symbIntegral != null && symbIntegral.isDefined()
-					&& !this.evaluateNumerically) {
+			} else if (symbIntegral != null && symbIntegral.isDefined() && !this.evaluateNumerically) {
 				computeSpecial();
 				if (!n.isDefined()) { // giac failed
 					standardIntegral(lowerLimit, upperLimit);
@@ -391,8 +405,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			// it it is...
 			if (polyIntegral != null) {
 				// ... we can calculate the integral more accurately
-				n.setValue(polyIntegral.value(upperLimit)
-						- polyIntegral.value(lowerLimit));
+				n.setValue(polyIntegral.value(upperLimit) - polyIntegral.value(lowerLimit));
 
 			} else {
 				AlgoElement algo = f.getParentAlgorithm();
@@ -409,6 +422,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		}
 	}
 
+	@SuppressWarnings("PMD.EmptyControlStatement")
 	private void computeConditional(ExpressionNode exp, double lowerLimit, double upperLimit) {
 		double upperLimit0 = upperLimit;
 		double lowerLimit0 = lowerLimit;
@@ -418,18 +432,14 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			upperLimit0 = lowerLimit;
 			lowerLimit0 = upperLimit;
 			sign = -1;
-
 		}
 		ArrayList<ExpressionNode> nodesAl = new ArrayList<>();
 		ArrayList<Bounds> boundsAl = new ArrayList<>();
 
-		boolean complete = Bounds.collectCases(exp,
-				nodesAl, boundsAl, new Bounds(kernel,
-						f.getFunctionVariables()[0]),
-				true);
+		boolean complete = Bounds.collectCases(
+				exp, nodesAl, boundsAl, new Bounds(kernel, f.getFunctionVariables()[0]), true);
 
-		int size = complete ? (nodesAl.size() - 1)
-				: nodesAl.size();
+		int size = complete ? (nodesAl.size() - 1) : nodesAl.size();
 
 		double sum = 0;
 
@@ -449,9 +459,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 				if (!bound.isInterval()) {
 					// eg f(x) = If(-2 <= x < 2, x, 2 <= x <= 3,
 					// 4 - x, 3 < x <= 6, 1)
-					Log.debug(
-							"non-linear condition "
-									+ bound);
+					Log.debug("non-linear condition " + bound);
 					standardIntegral(lowerLimit, upperLimit);
 					return;
 				}
@@ -464,16 +472,13 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 					coveredMin = lower;
 				} else {
 					// regions are defined in a strange order
-					Log.debug(
-							"regions not sorted, can't use fast method for "
-									+ bound);
+					Log.debug("regions not sorted, can't use fast method for " + bound);
 					standardIntegral(lowerLimit, upperLimit);
 					return;
 				}
 
 				if (fun == null) {
-					fun = new Function(node,
-							f.getFunctionVariables()[0]);
+					fun = new Function(node, f.getFunctionVariables()[0]);
 				} else {
 					fun.setExpression(node);
 				}
@@ -481,52 +486,36 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 				if (Double.isInfinite(lower)) {
 
 					if (upper > lowerLimit0) {
-						sum += sign * numericIntegration(fun,
-								lowerLimit0,
-								Math.min(upper, upperLimit0),
-								STANDARD_MULTIPLIER);
+						sum += sign
+								* numericIntegration(
+										fun, lowerLimit0, Math.min(upper, upperLimit0), STANDARD_MULTIPLIER);
 					}
 
 				} else if (Double.isInfinite(upper)) {
 
 					if (lower < upperLimit0) {
-						sum += sign * numericIntegration(fun,
-								Math.max(lower, lowerLimit0),
-								upperLimit0,
-								STANDARD_MULTIPLIER);
+						sum += sign
+								* numericIntegration(
+										fun, Math.max(lower, lowerLimit0), upperLimit0, STANDARD_MULTIPLIER);
 					}
 
-				} else if (upper <= lowerLimit0
-						|| lower >= upperLimit0) {
+				} else if (upper <= lowerLimit0 || lower >= upperLimit0) {
 
 					// nothing to do
-				} else if (lower >= lowerLimit0
-						&& upper <= upperLimit0) {
+				} else if (lower >= lowerLimit0 && upper <= upperLimit0) {
 
 					// include all
-					sum += sign * numericIntegration(fun, lower,
-							upper,
-							STANDARD_MULTIPLIER);
-				} else if ((Double.isNaN(lower)
-						|| lower <= lowerLimit0)
-						&& upper <= upperLimit0) {
+					sum += sign * numericIntegration(fun, lower, upper, STANDARD_MULTIPLIER);
+				} else if ((Double.isNaN(lower) || lower <= lowerLimit0) && upper <= upperLimit0) {
 
-					sum += sign * numericIntegration(fun,
-							lowerLimit0,
-							upper, STANDARD_MULTIPLIER);
-				} else if ((Double.isNaN(upper)
-						|| upper >= upperLimit0)
-						&& lower >= lowerLimit0) {
+					sum += sign * numericIntegration(fun, lowerLimit0, upper, STANDARD_MULTIPLIER);
+				} else if ((Double.isNaN(upper) || upper >= upperLimit0) && lower >= lowerLimit0) {
 
-					sum += sign * numericIntegration(fun, lower,
-							upperLimit0, STANDARD_MULTIPLIER);
+					sum += sign * numericIntegration(fun, lower, upperLimit0, STANDARD_MULTIPLIER);
 
-				} else if (lower <= lowerLimit0
-						&& upper >= upperLimit0) {
+				} else if (lower <= lowerLimit0 && upper >= upperLimit0) {
 
-					sum += sign * numericIntegration(fun,
-							lowerLimit0, upperLimit0,
-							STANDARD_MULTIPLIER);
+					sum += sign * numericIntegration(fun, lowerLimit0, upperLimit0, STANDARD_MULTIPLIER);
 
 				} else {
 					Log.error("lower = " + lower);
@@ -534,9 +523,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 					Log.error("upper = " + upper);
 					Log.error("upperLimit0 = " + upperLimit0);
 				}
-
 			}
-
 		}
 
 		if (complete) {
@@ -546,31 +533,20 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			node = nodesAl.get(size);
 
 			if (fun == null) {
-				fun = new Function(node,
-						f.getFunctionVariables()[0]);
+				fun = new Function(node, f.getFunctionVariables()[0]);
 			} else {
 				fun.setExpression(node);
 			}
 
-			if (upperLimit0 <= coveredMin
-					|| lowerLimit0 >= coveredMax) {
+			if (upperLimit0 <= coveredMin || lowerLimit0 >= coveredMax) {
 				// all outside what's been covered already
-				sum += sign * numericIntegration(fun,
-						lowerLimit0, upperLimit0,
-						STANDARD_MULTIPLIER);
-			} else if (lowerLimit0 >= coveredMin
-					&& upperLimit0 <= coveredMax) {
+				sum += sign * numericIntegration(fun, lowerLimit0, upperLimit0, STANDARD_MULTIPLIER);
+			} else if (lowerLimit0 >= coveredMin && upperLimit0 <= coveredMax) {
 				// nothing to do
-			} else if (lowerLimit0 <= coveredMin
-					&& upperLimit0 <= coveredMax) {
-				sum += sign
-						* numericIntegration(fun, lowerLimit0,
-						coveredMin, STANDARD_MULTIPLIER);
-			} else if (lowerLimit0 >= coveredMin
-					&& upperLimit0 >= coveredMax) {
-				sum += sign * numericIntegration(fun,
-						coveredMax, upperLimit0,
-						STANDARD_MULTIPLIER);
+			} else if (lowerLimit0 <= coveredMin && upperLimit0 <= coveredMax) {
+				sum += sign * numericIntegration(fun, lowerLimit0, coveredMin, STANDARD_MULTIPLIER);
+			} else if (lowerLimit0 >= coveredMin && upperLimit0 >= coveredMax) {
+				sum += sign * numericIntegration(fun, coveredMax, upperLimit0, STANDARD_MULTIPLIER);
 			} else {
 				Log.error("GGB-2318 problem computing integral");
 			}
@@ -583,9 +559,11 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		// freehand functions aren't generally nice and smooth, so more
 		// iterations may be needed
 		// https://help.geogebra.org/topic/problem-mit-integral-unter-freihandskizze
-		n.setValue(numericIntegration(f, lowerLimit, upperLimit,
-				f.includesFreehandOrData() ? FREEHAND_MULTIPLIER
-						: STANDARD_MULTIPLIER));
+		n.setValue(numericIntegration(
+				f,
+				lowerLimit,
+				upperLimit,
+				f.includesFreehandOrData() ? FREEHAND_MULTIPLIER : STANDARD_MULTIPLIER));
 	}
 
 	// private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
@@ -633,11 +611,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			Log.debug(e);
 			n.setUndefined();
 		}
-
 	}
 
-	private double freehandIntegration(GeoFunction f2, double lowerLimitUser,
-			double upperLimitUser) {
+	private double freehandIntegration(GeoFunction f2, double lowerLimitUser, double upperLimitUser) {
 
 		int multiplier = 1;
 		double lowerLimit = lowerLimitUser;
@@ -650,8 +626,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			multiplier = -1;
 		}
 
-		AlgoFunctionFreehand algo = (AlgoFunctionFreehand) f2
-				.getParentAlgorithm();
+		AlgoFunctionFreehand algo = (AlgoFunctionFreehand) f2.getParentAlgorithm();
 
 		GeoList list = algo.getList();
 
@@ -675,8 +650,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		// int noOfSteps = (int) ((b - step * end - (a + step * start) )/step);
 		// int noOfSteps = (int) ((b - step * end - a - step * start) )/step)
 		// should be an integer, add Math.round in case of rounding error
-		int noOfSteps = (int) Math.round((b1 - a1) / step - endGap - startGap)
-				+ 1;
+		int noOfSteps = (int) Math.round((b1 - a1) / step - endGap - startGap) + 1;
 
 		double area;
 		double sum = 0;
@@ -698,29 +672,25 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 			if (!DoubleUtil.isZero(startx - lowerLimit)) {
 				// h (a+b) /2
-				area += (startx - lowerLimit)
-						* (f.value(startx) + f.value(lowerLimit)) / 2.0;
+				area += (startx - lowerLimit) * (f.value(startx) + f.value(lowerLimit)) / 2.0;
 			}
 
 			if (!DoubleUtil.isZero(endx - upperLimit)) {
 				// h (a+b) /2
-				area += (upperLimit - endx)
-						* (f.value(endx) + f.value(upperLimit)) / 2.0;
+				area += (upperLimit - endx) * (f.value(endx) + f.value(upperLimit)) / 2.0;
 			}
 		} else {
 			// just a trapezium from lowerLimit to upperLimit
 
-			area = (upperLimit - lowerLimit)
-					* (f.value(lowerLimit) + f.value(upperLimit)) / 2.0;
+			area = (upperLimit - lowerLimit) * (f.value(lowerLimit) + f.value(upperLimit)) / 2.0;
 		}
 
 		return DoubleUtil.checkDecimalFraction(area) * multiplier;
-
 	}
 
 	/**
 	 * split the DataFunction into trapeziums to calculate the area
-	 * 
+	 *
 	 * @param f2
 	 *            function
 	 * @param lowerLimitUser
@@ -729,8 +699,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	 *            upper limit from user input
 	 * @return integral
 	 */
-	private static double dataIntegration(GeoFunction f2, double lowerLimitUser,
-			double upperLimitUser) {
+	private static double dataIntegration(
+			GeoFunction f2, double lowerLimitUser, double upperLimitUser) {
 
 		int multiplier = 1;
 		double lowerLimit = lowerLimitUser;
@@ -752,8 +722,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		if (n < 1) {
 			return Double.NaN;
 		}
-		double max = keyList.get(keyList.size() - 1)
-				.evaluateDouble();
+		double max = keyList.get(keyList.size() - 1).evaluateDouble();
 		double min = keyList.get(0).evaluateDouble();
 		if (max < upperLimit || min > lowerLimit) {
 			return Double.NaN;
@@ -788,7 +757,6 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 			// area of trapezium
 			return multiplier * trapeziumArea(x1, x2, y1, y2);
-
 		}
 		ListValue valueList = (ListValue) ((MyNumberPair) rt).getY();
 		for (int i = start; i < end - 1; i++) {
@@ -801,7 +769,6 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			// + " y2 = " + y2 + " area = " + trapeziumArea(x1, x2, y1, y2));
 			// area of trapezium
 			area += trapeziumArea(x1, x2, y1, y2);
-
 		}
 
 		x1 = keyList.get(start - 1).evaluateDouble();
@@ -824,11 +791,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		area += trapeziumArea(x1, x2, y1, y2);
 
 		return area * multiplier;
-
 	}
 
-	private static double trapeziumArea(double x1, double x2, double y1,
-			double y2) {
+	private static double trapeziumArea(double x1, double x2, double y1, double y2) {
 		// not needed, gives the same answer!
 		// Substitute[(1 / 2 (y1 (p - x1) + y2 (-p + x2))),{p = (-x1 y2 + x2 y1)
 		// / (y1 - y2)}]-((x2 - x1) * (y1 + y2) / 2)
@@ -847,7 +812,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	/**
 	 * Computes integral of function fun in interval a, b using an adaptive
 	 * Gauss quadrature approach.
-	 * 
+	 *
 	 * @param fun
 	 *            function
 	 * @param a
@@ -856,17 +821,15 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	 *            upper bound
 	 * @return integral value
 	 */
-	public static double numericIntegration(UnivariateFunction fun, double a,
-			double b) {
+	public static double numericIntegration(UnivariateFunction fun, double a, double b) {
 
 		return numericIntegration(fun, a, b, STANDARD_MULTIPLIER);
-
 	}
 
 	/**
 	 * Computes integral of function fun in interval a, b using an adaptive
 	 * Gauss quadrature approach.
-	 * 
+	 *
 	 * @param ad
 	 *            function
 	 * @param a
@@ -877,9 +840,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	 *            multiplier (to allow more iterations for freehand functions)
 	 * @return integral value
 	 */
-	public static double numericIntegration(UnivariateFunction ad, double a,
-			double b, int maxMultiplier) {
-		
+	public static double numericIntegration(
+			UnivariateFunction ad, double a, double b, int maxMultiplier) {
+
 		// GGB-2318
 		// f(x) = If(x < 0, 0, x <= 2, x)
 		if (a == b) {
@@ -896,15 +859,13 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	private static void initGaussQuad() {
 		adaptiveGaussQuadCounter = 0;
 		if (firstGauss == null) {
-			firstGauss = new LegendreGaussIntegrator(FIRST_ORDER, MIN_ITER,
-					MAX_ITER);
-			secondGauss = new LegendreGaussIntegrator(SECOND_ORDER, MIN_ITER,
-					MAX_ITER);
+			firstGauss = new LegendreGaussIntegrator(FIRST_ORDER, MIN_ITER, MAX_ITER);
+			secondGauss = new LegendreGaussIntegrator(SECOND_ORDER, MIN_ITER, MAX_ITER);
 		}
 	}
 
-	private static double doAdaptiveGaussQuad(UnivariateFunction fun, double a,
-			double b, int maxMultiplier) {
+	private static double doAdaptiveGaussQuad(
+			UnivariateFunction fun, double a, double b, int maxMultiplier) {
 		if (++adaptiveGaussQuadCounter > MAX_GAUSS_QUAD_CALLS * maxMultiplier) {
 			return Double.NaN;
 		}
@@ -945,24 +906,29 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("IntegralOfAfromBtoC",
-				"Integral of %0 from %1 to %2", f.getLabel(tpl),
-				ageo.getLabel(tpl), bgeo.getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"IntegralOfAfromBtoC",
+						"Integral of %0 from %1 to %2",
+						f.getLabel(tpl),
+						ageo.getLabel(tpl),
+						bgeo.getLabel(tpl));
 	}
 
 	@Override
 	public DrawInformationAlgo copy() {
 		if (evaluate != null) {
-			return new AlgoIntegralDefinite(f.copy(),
+			return new AlgoIntegralDefinite(
+					f.copy(),
 					(NumberValue) a.deepCopy(kernel),
-					(NumberValue) b.deepCopy(kernel), evaluate.copy());
+					(NumberValue) b.deepCopy(kernel),
+					evaluate.copy());
 		}
-		return new AlgoIntegralDefinite(f.copy(),
-				(NumberValue) a.deepCopy(kernel),
-				(NumberValue) b.deepCopy(kernel), null);
+		return new AlgoIntegralDefinite(
+				f.copy(), (NumberValue) a.deepCopy(kernel), (NumberValue) b.deepCopy(kernel), null);
 	}
 
 	/*
@@ -980,8 +946,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	@Override
 	public void refreshCASResults() {
 		if (!evaluateNumerically) {
-			AlgoIntegral algoInt = new AlgoIntegral(cons, f, null, false,
-					new EvalInfo(false), false);
+			AlgoIntegral algoInt = new AlgoIntegral(cons, f, null, false, new EvalInfo(false), false);
 			symbIntegral = (GeoFunction) algoInt.getResult();
 			cons.removeFromConstructionList(algoInt);
 			// make sure algo is removed properly
@@ -992,7 +957,5 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	@Override
 	public void replaceChildrenByValues(GeoElement geo) {
 		f.replaceChildrenByValues(geo);
-
 	}
-
 }

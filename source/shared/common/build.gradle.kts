@@ -5,7 +5,6 @@ import java.util.*
 plugins {
     alias(libs.plugins.geogebra.java.library)
     alias(libs.plugins.geogebra.pmd)
-    alias(libs.plugins.geogebra.checkstyle)
     alias(libs.plugins.geogebra.spotbugs)
     alias(libs.plugins.geogebra.javacc)
 }

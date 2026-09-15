@@ -46,21 +46,22 @@ class WtrExamTests extends BaseExamTestSetup {
 		examController.startExam(ExamType.WTR, null);
 	}
 
-	@SuppressWarnings("checkstyle:RegexpSingleline")
 	@ParameterizedTest
-	@CsvSource(delimiter = ';', value = {
-			"BinomialDist(); 							Illegal number of arguments",
-			"Normal(2, 0.5, 1, true); 					Illegal argument: true",
-			"BinomialDist(5, 0.2, 1, false && true); 	Sorry, something went wrong",
-			"BinomialDist(5, 0.2); 						Illegal number of arguments",
-			"BinomialDist(5, 0.2, true); 				Illegal argument: true",
-			"Solve(x^2 = 0); 							Unknown command : Solve",
-			"Solutions(x^2 = 0); 						Unknown command : Solutions",
-			"CSolve(x^2 = 0); 							Unknown command : CSolve",
-			"CSolutions(x^2 = 0); 						Unknown command : CSolutions",
-			"NSolve(x^2 = 0); 							Unknown command : NSolve",
-			"NSolutions(x^2 = 0); 						Unknown command : NSolutions",
-	})
+	@CsvSource(
+			delimiter = ';',
+			value = {
+				"BinomialDist(); 							Illegal number of arguments",
+				"Normal(2, 0.5, 1, true); 					Illegal argument: true",
+				"BinomialDist(5, 0.2, 1, false && true); 	Sorry, something went wrong",
+				"BinomialDist(5, 0.2); 						Illegal number of arguments",
+				"BinomialDist(5, 0.2, true); 				Illegal argument: true",
+				"Solve(x^2 = 0); 							Unknown command : Solve",
+				"Solutions(x^2 = 0); 						Unknown command : Solutions",
+				"CSolve(x^2 = 0); 							Unknown command : CSolve",
+				"CSolutions(x^2 = 0); 						Unknown command : CSolutions",
+				"NSolve(x^2 = 0); 							Unknown command : NSolve",
+				"NSolutions(x^2 = 0); 						Unknown command : NSolutions",
+			})
 	void testRestrictedCommands(String expression, String expectedError) {
 		assertNull(evaluate(expression));
 		assertThat(errorAccumulator.getErrorsSinceReset(), containsString(expectedError));
@@ -68,46 +69,50 @@ class WtrExamTests extends BaseExamTestSetup {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"nCr(4, 2)",
-			"BinomialDist(5, 0.2, 1, false)",
-			"BinomialDist(5, 0.2, {1, 2, 3, 4, 5})",
-			"BinomialDist(5, 0.2, 1..5)",
-			"Normal(2, 0.5, 1)",
-			"Normal(2, 0.5, 1, 2)",
-	})
+	@ValueSource(
+			strings = {
+				"nCr(4, 2)",
+				"BinomialDist(5, 0.2, 1, false)",
+				"BinomialDist(5, 0.2, {1, 2, 3, 4, 5})",
+				"BinomialDist(5, 0.2, 1..5)",
+				"Normal(2, 0.5, 1)",
+				"Normal(2, 0.5, 1, 2)",
+			})
 	void testUnrestrictedCommands(String expression) {
 		assertNotNull(evaluate(expression));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"random()",
-			"atan2(sqrt(3), 1)",
-			"gamma(5)",
-	})
+	@ValueSource(
+			strings = {
+				"random()",
+				"atan2(sqrt(3), 1)",
+				"gamma(5)",
+			})
 	void testRestrictedOperations(String expression) {
 		assertNull(evaluate(expression));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"{}",
-			"{0}",
-			"{0,1}",
-			"{{0, 1}, {{1, 2}, 1}}",
-			"Sequence({1, 2, 3}, x, 1, 2)",
-			"{{0,1},{1,0}}",
-			"{{0},{1}}"
-	})
+	@ValueSource(
+			strings = {
+				"{}",
+				"{0}",
+				"{0,1}",
+				"{{0, 1}, {{1, 2}, 1}}",
+				"Sequence({1, 2, 3}, x, 1, 2)",
+				"{{0,1},{1,0}}",
+				"{{0},{1}}"
+			})
 	void testRestrictedListsInInput(String expression) {
 		assertNull(evaluate(expression));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"Sequence(n, n, 1, 10)",
-	})
+	@ValueSource(
+			strings = {
+				"Sequence(n, n, 1, 10)",
+			})
 	void testRestrictedListsInOutput(String expression) {
 		assertNull(evaluate(expression));
 		assertThat(errorAccumulator.getErrorsSinceReset(), containsString("Unknown command"));
@@ -115,19 +120,20 @@ class WtrExamTests extends BaseExamTestSetup {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"3i",
-			"1 / (1 - 2i)",
-			"i^2",
-	})
+	@ValueSource(
+			strings = {
+				"3i",
+				"1 / (1 - 2i)",
+				"i^2",
+			})
 	void testRestrictedComplexExpressions(String expression) {
 		assertNull(evaluate(expression));
 	}
 
 	@Test
 	void testMixedNumbers() {
-		assertFalse(getApp().getEditorFeatures().areMixedNumbersEnabled(),
-				"mixed numbers should be disabled");
+		assertFalse(
+				getApp().getEditorFeatures().areMixedNumbersEnabled(), "mixed numbers should be disabled");
 	}
 
 	@Test
@@ -157,13 +163,13 @@ class WtrExamTests extends BaseExamTestSetup {
 	void asindShouldEvaluateToDegrees() {
 		getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
 		GeoElementND angle = evaluate("asind(.5)")[0]; // Example 6
-		assertEquals("30" + Unicode.DEGREE_STRING,
-				angle.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("30" + Unicode.DEGREE_STRING, angle.toValueString(StringTemplate.defaultTemplate));
 	}
 
 	@Test
 	void checkSyntax() {
-		assertEquals("BinomialDist( <Number of Trials>, <Probability of Success>, "
+		assertEquals(
+				"BinomialDist( <Number of Trials>, <Probability of Success>, "
 						+ "<List of Values> )\n"
 						+ "BinomialDist( <Number of Trials>, <Probability of Success>, "
 						+ "<Variable Value>, <Boolean Cumulative> )",
@@ -171,21 +177,21 @@ class WtrExamTests extends BaseExamTestSetup {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"50%",
-			"7%",
-			"100%",
-	})
+	@ValueSource(
+			strings = {
+				"50%", "7%", "100%",
+			})
 	void testRestrictedOutputForSimplePercentages(String expression) {
 		GeoElement geoElement = evaluateGeoElement(expression);
 		assertFalse(AlgebraItem.shouldShowBothRows(geoElement, getAlgebraSettings()));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"50% + 0.8",
-			"20% + 1 / 2",
-	})
+	@ValueSource(
+			strings = {
+				"50% + 0.8",
+				"20% + 1 / 2",
+			})
 	void testUnrestrictedOutputForPercentageExpressions(String expression) {
 		GeoElement geoElement = evaluateGeoElement(expression);
 		assertTrue(AlgebraItem.shouldShowBothRows(geoElement, getAlgebraSettings()));

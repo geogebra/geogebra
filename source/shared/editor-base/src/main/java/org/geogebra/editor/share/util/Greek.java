@@ -16,6 +16,10 @@
 
 package org.geogebra.editor.share.util;
 
+/**
+ * Greek letters, lowercase and uppercase.
+ * Only one constant per letter, even if variants exist.
+ */
 public enum Greek {
 	alpha('\u03B1', false),
 
@@ -129,7 +133,7 @@ public enum Greek {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the LaTeX name WITHOUT the leading \
 	 */
 	public String getLaTeX() {
@@ -173,7 +177,6 @@ public enum Greek {
 		}
 
 		return greekLowerCaseNoPi;
-
 	}
 
 	public char getUnicodeNonCurly() {
@@ -198,7 +201,5 @@ public enum Greek {
 		}
 
 		return greekUpperCase;
-
 	}
-
 }

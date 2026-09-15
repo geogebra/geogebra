@@ -16,9 +16,10 @@
 
 package org.geogebra.editor.share.util;
 
-@SuppressWarnings("javadoc")
+/**
+ * Enumeration of all available keys. Provides mapping to integer codes used by JVM and JS/GWT.
+ */
 public enum KeyCodes {
-
 	A(JavaKeyCodes.VK_A, GWTKeycodes.KEY_A),
 
 	B(JavaKeyCodes.VK_B, GWTKeycodes.KEY_B),
@@ -147,11 +148,9 @@ public enum KeyCodes {
 
 	BACK_QUOTE(JavaKeyCodes.VK_BACK_QUOTE, GWTKeycodes.KEY_BACK_QUOTE),
 
-	LEFT_SQUARE_BRACKET(JavaKeyCodes.VK_OPEN_BRACKET,
-			GWTKeycodes.KEY_LEFT_SQUARE_BRACKET),
+	LEFT_SQUARE_BRACKET(JavaKeyCodes.VK_OPEN_BRACKET, GWTKeycodes.KEY_LEFT_SQUARE_BRACKET),
 
-	RIGHT_SQUARE_BRACKET(JavaKeyCodes.VK_CLOSE_BRACKET,
-			GWTKeycodes.KEY_RIGHT_SQUARE_BRACKET),
+	RIGHT_SQUARE_BRACKET(JavaKeyCodes.VK_CLOSE_BRACKET, GWTKeycodes.KEY_RIGHT_SQUARE_BRACKET),
 
 	ALT(JavaKeyCodes.VK_ALT, GWTKeycodes.KEY_ALT),
 
@@ -258,5 +257,4 @@ public enum KeyCodes {
 	public int getGWTKeyCode() {
 		return GWTKey;
 	}
-
 }

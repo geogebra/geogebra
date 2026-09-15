@@ -50,6 +50,9 @@ public class KeyEvent {
 
 	private final int action;
 
+	/**
+	 * Keyboard type.
+	 */
 	public enum KeyboardType {
 		/** External keyboard */
 		EXTERNAL,
@@ -76,8 +79,7 @@ public class KeyEvent {
 	 *            Unicode key
 	 * @param sourceKeyboard source keyboard type
 	 */
-	public KeyEvent(int keyCode, int keyModifiers, char unicodeKeyChar,
-			KeyboardType sourceKeyboard) {
+	public KeyEvent(int keyCode, int keyModifiers, char unicodeKeyChar, KeyboardType sourceKeyboard) {
 		this.keyCode = keyCode;
 		this.keyModifiers = keyModifiers;
 		this.unicodeKeyChar = unicodeKeyChar;
@@ -95,8 +97,8 @@ public class KeyEvent {
 	 * @param sourceKeyboard source keyboard type
 	 * @param action for Android only, one of the ACTION_* constants
 	 */
-	public KeyEvent(int keyCode, int keyModifiers, char unicodeKeyChar,
-			KeyboardType sourceKeyboard, int action) {
+	public KeyEvent(
+			int keyCode, int keyModifiers, char unicodeKeyChar, KeyboardType sourceKeyboard, int action) {
 		this.keyCode = keyCode;
 		this.keyModifiers = keyModifiers;
 		this.unicodeKeyChar = unicodeKeyChar;
@@ -111,7 +113,7 @@ public class KeyEvent {
 	public int getKeyModifiers() {
 		return keyModifiers;
 	}
-	
+
 	public char getUnicodeKeyChar() {
 		return unicodeKeyChar;
 	}
@@ -125,11 +127,10 @@ public class KeyEvent {
 
 	/**
 	 * Android only
-	 * 
+	 *
 	 * @return ACTION_UP / ACTION_DOWN / ACTION_MULTIPLE / ACTION_UNKNOWN
 	 */
 	public int getAction() {
 		return action;
 	}
-
 }

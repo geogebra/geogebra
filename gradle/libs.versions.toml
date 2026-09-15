@@ -81,6 +81,7 @@ spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", v
 javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "4.0.3"}
 openrewrite-plugin = {module = "org.openrewrite.rewrite:org.openrewrite.rewrite.gradle.plugin", version = "7.37.0"}
 idea-ext = { module = "org.jetbrains.gradle.plugin.idea-ext:org.jetbrains.gradle.plugin.idea-ext.gradle.plugin", version.ref = "ideaExt" }
+spotless-plugin =  {module = "com.diffplug.spotless:com.diffplug.spotless.gradle.plugin", version = "8.5.0" }
 
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "androidPlugin" }
 android-sdk-tools = { module = "com.android.tools:sdk-common", version.ref = "androidSdkTools" }
@@ -91,7 +92,6 @@ sass = "io.miret.etienne.sass:1.5.1"
 
 # Plugins defined by this project
 geogebra-gwt = { id = "gwt-conventions" }
-geogebra-checkstyle = { id = "checkstyle-conventions" }
 geogebra-spotbugs = { id = "spotbugs-conventions" }
 geogebra-pmd = { id = "pmd-conventions" }
 geogebra-variants = { id = "desktop-variants" }

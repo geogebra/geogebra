@@ -58,13 +58,18 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * 3D vector class
- * 
+ *
  * @author ggb3D
- * 
+ *
  */
 public class GeoVector3D extends GeoVec4D
-		implements GeoVectorND, RotatableND,
-		MirrorableAtPlane, Transformable, Dilateable, MatrixTransformable, HasHeadStyle {
+		implements GeoVectorND,
+				RotatableND,
+				MirrorableAtPlane,
+				Transformable,
+				Dilateable,
+				MatrixTransformable,
+				HasHeadStyle {
 
 	private GeoPointND startPoint;
 
@@ -82,7 +87,7 @@ public class GeoVector3D extends GeoVec4D
 
 	/**
 	 * simple constructor
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 */
@@ -94,7 +99,7 @@ public class GeoVector3D extends GeoVec4D
 
 	/**
 	 * simple constructor with (x,y,z) coords
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param x
@@ -120,7 +125,6 @@ public class GeoVector3D extends GeoVec4D
 
 		// sets the drawing matrix
 		matrix.set(getCoords(), 1);
-
 	}
 
 	/**
@@ -160,8 +164,10 @@ public class GeoVector3D extends GeoVec4D
 
 	@Override
 	public boolean isDefined() {
-		return !(Double.isNaN(getX()) || Double.isNaN(getY())
-				|| Double.isNaN(getZ()) || Double.isNaN(getW()));
+		return !(Double.isNaN(getX())
+				|| Double.isNaN(getY())
+				|| Double.isNaN(getZ())
+				|| Double.isNaN(getW()));
 	}
 
 	@Override
@@ -185,14 +191,15 @@ public class GeoVector3D extends GeoVec4D
 	}
 
 	@Override
-	final public boolean isInfinite() {
+	public final boolean isInfinite() {
 		Coords v1 = getCoords();
-		return Double.isInfinite(v1.getX()) || Double.isInfinite(v1.getY())
+		return Double.isInfinite(v1.getX())
+				|| Double.isInfinite(v1.getY())
 				|| Double.isInfinite(v1.getZ());
 	}
 
 	@Override
-	final public boolean isFinite() {
+	public final boolean isFinite() {
 		return !isInfinite();
 	}
 
@@ -260,22 +267,22 @@ public class GeoVector3D extends GeoVec4D
 	// /////////////////////////////////////////////
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(label);
 
 		switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
-		case Kernel.COORD_STYLE_FRENCH:
-			// no equal sign
-			sbToString.append(": ");
-			break;
+			case Kernel.COORD_STYLE_FRENCH:
+				// no equal sign
+				sbToString.append(": ");
+				break;
 
-		case Kernel.COORD_STYLE_AUSTRIAN:
-			// no equal sign
-			break;
+			case Kernel.COORD_STYLE_AUSTRIAN:
+				// no equal sign
+				break;
 
-		default:
-			sbToString.append(" = ");
+			default:
+				sbToString.append(" = ");
 		}
 
 		sbToString.append(buildValueString(tpl));
@@ -283,7 +290,7 @@ public class GeoVector3D extends GeoVec4D
 	}
 
 	@Override
-	final public String toValueString(StringTemplate tpl) {
+	public final String toValueString(StringTemplate tpl) {
 		if (tpl.isDisplayStyle()) {
 			return toLaTeXString(false, tpl);
 		}
@@ -310,25 +317,25 @@ public class GeoVector3D extends GeoVec4D
 
 		/*
 		 * switch (toStringMode) {
-		 * 
-		 * 
+		 *
+		 *
 		 * case AbstractKernel.COORD_POLAR: sbBuildValueString.append("(");
 		 * sbBuildValueString.append(kernel.format(GeoVec2D.length(x, y)));
 		 * sbBuildValueString.append("; ");
 		 * sbBuildValueString.append(kernel.formatAngle(Math.atan2(y, x)));
 		 * sbBuildValueString.append(")"); break;
-		 * 
+		 *
 		 * case AbstractKernel.COORD_COMPLEX:
 		 * sbBuildValueString.append(kernel.format(x));
 		 * sbBuildValueString.append(" ");
 		 * sbBuildValueString.append(kernel.formatSigned(y));
 		 * sbBuildValueString.append("i"); break;
-		 * 
+		 *
 		 * default: // CARTESIAN sbBuildValueString.append("(");
 		 * sbBuildValueString.append(kernel.format(x)); switch
 		 * (kernel.getCoordStyle()) { case AbstractKernel.COORD_STYLE_AUSTRIAN:
 		 * sbBuildValueString.append(" | "); break;
-		 * 
+		 *
 		 * default: sbBuildValueString.append(", "); }
 		 * sbBuildValueString.append(kernel.format(y));
 		 * sbBuildValueString.append(")"); break; }
@@ -358,33 +365,30 @@ public class GeoVector3D extends GeoVec4D
 		resetStringBuilder();
 
 		if (getToStringMode() == Kernel.COORD_CARTESIAN_3D) {
-			GeoVector.buildLatexValueStringCoordCartesian3D(kernel, tpl, getX(),
-					getY(), getZ(), sb, this, symbolic);
+			GeoVector.buildLatexValueStringCoordCartesian3D(
+					kernel, tpl, getX(), getY(), getZ(), sb, this, symbolic);
 			return sb.toString();
 		}
 
 		if (getToStringMode() == Kernel.COORD_SPHERICAL) {
-			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, getX(), getY(),
-					getZ(), sb);
+			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, getX(), getY(), getZ(), sb);
 			return sb.toString();
 		}
 
 		// cartesian 2D / polar / complex not possible
 		if (!DoubleUtil.isZero(getZ())) {
 			if (getToStringMode() == Kernel.COORD_POLAR) {
-				GeoPoint.buildValueStringCoordSpherical(kernel, tpl, getX(),
-						getY(), getZ(), sb);
+				GeoPoint.buildValueStringCoordSpherical(kernel, tpl, getX(), getY(), getZ(), sb);
 			} else {
-				GeoVector.buildLatexValueStringCoordCartesian3D(kernel, tpl,
-						getX(), getY(), getZ(), sb, this, symbolic);
+				GeoVector.buildLatexValueStringCoordCartesian3D(
+						kernel, tpl, getX(), getY(), getZ(), sb, this, symbolic);
 			}
 			return sb.toString();
 		}
 
 		// cartesian 2D / polar / complex are possible
-		return GeoVector.buildLatexString(kernel, sb, symbolic, tpl,
-				getToStringMode(), getX(), getY(), this);
-
+		return GeoVector.buildLatexString(
+				kernel, sb, symbolic, tpl, getToStringMode(), getX(), getY(), this);
 	}
 
 	private void resetStringBuilder() {
@@ -404,23 +408,23 @@ public class GeoVector3D extends GeoVec4D
 
 		// polar or cartesian coords
 		switch (getToStringMode()) {
-		case Kernel.COORD_POLAR:
-			coordStyle(sbXml, "polar");
-			break;
+			case Kernel.COORD_POLAR:
+				coordStyle(sbXml, "polar");
+				break;
 
-		case Kernel.COORD_COMPLEX:
-			coordStyle(sbXml, "complex");
-			break;
+			case Kernel.COORD_COMPLEX:
+				coordStyle(sbXml, "complex");
+				break;
 
-		case Kernel.COORD_CARTESIAN:
-			coordStyle(sbXml, "cartesian");
-			break;
+			case Kernel.COORD_CARTESIAN:
+				coordStyle(sbXml, "cartesian");
+				break;
 
-		case Kernel.COORD_SPHERICAL:
-			coordStyle(sbXml, "spherical");
-			break;
+			case Kernel.COORD_SPHERICAL:
+				coordStyle(sbXml, "spherical");
+				break;
 
-		default:
+			default:
 			// don't save default (Kernel.COORD_CARTESIAN_3D)
 		}
 
@@ -431,7 +435,6 @@ public class GeoVector3D extends GeoVec4D
 		if (startPoint != null) {
 			startPoint.appendStartPointXML(sbXml, false);
 		}
-
 	}
 
 	// /////////////////////////////////////////////
@@ -485,7 +488,6 @@ public class GeoVector3D extends GeoVec4D
 	@Override
 	public void initStartPoint(GeoPointND p, int number) {
 		startPoint = p;
-
 	}
 
 	@Override
@@ -502,14 +504,11 @@ public class GeoVector3D extends GeoVec4D
 				// ignore circular definition here
 			}
 		}
-
 	}
 
 	@Override
-	public void setStartPoint(GeoPointND p, int number)
-			throws CircularDefinitionException {
+	public void setStartPoint(GeoPointND p, int number) throws CircularDefinitionException {
 		setStartPoint(p);
-
 	}
 
 	@Override
@@ -525,7 +524,7 @@ public class GeoVector3D extends GeoVec4D
 
 	@Override
 	public double[] getPointAsDouble() {
-		return new double[] { v.getX(), v.getY(), v.getZ() };
+		return new double[] {v.getX(), v.getY(), v.getZ()};
 	}
 
 	@Override
@@ -586,24 +585,32 @@ public class GeoVector3D extends GeoVec4D
 		resetSpreadsheetColumnHeadings();
 
 		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
-				kernel, kernel.getAlgebraProcessor().getXBracket(), // "x("
+				kernel,
+				kernel.getAlgebraProcessor().getXBracket(), // "x("
 				Operation.PLUS,
-				new ExpressionNode(kernel, getNameGeo(), // Name[this]
+				new ExpressionNode(
+						kernel,
+						getNameGeo(), // Name[this]
 						Operation.PLUS,
 						kernel.getAlgebraProcessor().getCloseBracket())))); // ")"
 		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
-				kernel, kernel.getAlgebraProcessor().getYBracket(), // "y("
+				kernel,
+				kernel.getAlgebraProcessor().getYBracket(), // "y("
 				Operation.PLUS,
-				new ExpressionNode(kernel, getNameGeo(), // Name[this]
+				new ExpressionNode(
+						kernel,
+						getNameGeo(), // Name[this]
 						Operation.PLUS,
 						kernel.getAlgebraProcessor().getCloseBracket())))); // ")"
 		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
-				kernel, kernel.getAlgebraProcessor().getZBracket(), // "z("
+				kernel,
+				kernel.getAlgebraProcessor().getZBracket(), // "z("
 				Operation.PLUS,
-				new ExpressionNode(kernel, getNameGeo(), // Name[this]
+				new ExpressionNode(
+						kernel,
+						getNameGeo(), // Name[this]
 						Operation.PLUS,
 						kernel.getAlgebraProcessor().getCloseBracket())))); // ")"
-
 	}
 
 	@Override
@@ -618,8 +625,7 @@ public class GeoVector3D extends GeoVec4D
 	}
 
 	@Override
-	public void addToSpreadsheetTraceList(
-			ArrayList<GeoNumeric> spreadsheetTraceList) {
+	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
 		GeoNumeric xx = new GeoNumeric(cons, v.getX());
 		spreadsheetTraceList.add(xx);
 		GeoNumeric yy = new GeoNumeric(cons, v.getY());
@@ -629,7 +635,7 @@ public class GeoVector3D extends GeoVec4D
 	}
 
 	@Override
-	final public boolean isCasEvaluableObject() {
+	public final boolean isCasEvaluableObject() {
 		return true;
 	}
 
@@ -640,7 +646,7 @@ public class GeoVector3D extends GeoVec4D
 	}
 
 	@Override
-	final public void rotate(NumberValue phiValue) {
+	public final void rotate(NumberValue phiValue) {
 
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
@@ -654,19 +660,17 @@ public class GeoVector3D extends GeoVec4D
 	}
 
 	@Override
-	final public void rotate(NumberValue phiValue, GeoPointND Q) {
+	public final void rotate(NumberValue phiValue, GeoPointND Q) {
 		rotate(phiValue);
 	}
 
 	@Override
-	public void rotate(NumberValue phiValue, Coords S,
-			GeoDirectionND orientation) {
+	public void rotate(NumberValue phiValue, Coords S, GeoDirectionND orientation) {
 
 		// origin ignored
 		Coords vn = orientation.getDirectionInD3();
 
 		rotate(phiValue, vn);
-
 	}
 
 	private void rotate(NumberValue phiValue, Coords vn) {
@@ -686,14 +690,12 @@ public class GeoVector3D extends GeoVec4D
 		Coords v2 = vn2.crossProduct4(v);
 		Coords v1 = v2.crossProduct4(vn2);
 		setCoords(v1.mul(cos).add(v2.mul(sin)).add(vn2.mul(v.dotproduct(vn2))));
-
 	}
 
 	@Override
 	public void mirror(Coords Q) {
 
 		setCoords(v.mul(-1));
-
 	}
 
 	@Override
@@ -701,7 +703,6 @@ public class GeoVector3D extends GeoVec4D
 
 		Coords vn = line.getDirectionInD3().normalized();
 		setCoords(vn.mul(2 * v.dotproduct(vn)).add(v.mul(-1)));
-
 	}
 
 	@Override
@@ -709,7 +710,6 @@ public class GeoVector3D extends GeoVec4D
 
 		Coords vn = plane.getDirectionInD3().normalized();
 		setCoords(v.add(vn.mul(-2 * v.dotproduct(vn))));
-
 	}
 
 	// //////////////////////
@@ -739,8 +739,16 @@ public class GeoVector3D extends GeoVec4D
 	}
 
 	@Override
-	public void matrixTransform(double a00, double a01, double a02, double a10,
-			double a11, double a12, double a20, double a21, double a22) {
+	public void matrixTransform(
+			double a00,
+			double a01,
+			double a02,
+			double a10,
+			double a11,
+			double a12,
+			double a20,
+			double a21,
+			double a22) {
 
 		double x = getX();
 		double y = getY();
@@ -751,7 +759,6 @@ public class GeoVector3D extends GeoVec4D
 		double z1 = a20 * x + a21 * y + a22 * z;
 
 		setCoords(x1, y1, z1, getW());
-
 	}
 
 	@Override
@@ -784,14 +791,7 @@ public class GeoVector3D extends GeoVec4D
 
 		boolean movedGeo = false;
 
-		if (endPosition != null) {
-			// setCoords(endPosition.x, endPosition.y, 1);
-			// movedGeo = true;
-		}
-
-		// translate point
-		else {
-
+		if (endPosition == null) {
 			Coords coords;
 			Coords current = getCoords();
 

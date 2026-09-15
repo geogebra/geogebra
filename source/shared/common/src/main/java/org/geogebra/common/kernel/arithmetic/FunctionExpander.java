@@ -55,8 +55,10 @@ public class FunctionExpander implements Traversing {
 
 	private ExpressionValue expand(GeoElement geo) {
 		if (geo instanceof FunctionalNVar) {
-			return ((FunctionalNVar) geo).getFunctionExpression()
-					.deepCopy(geo.getKernel()).traverse(this);
+			return ((FunctionalNVar) geo)
+					.getFunctionExpression()
+					.deepCopy(geo.getKernel())
+					.traverse(this);
 		}
 		if (geo instanceof GeoCasCell) {
 			ExpressionValue geoCasCellValue = ((GeoCasCell) geo).getValue();
@@ -72,8 +74,9 @@ public class FunctionExpander implements Traversing {
 			return false;
 		}
 		for (FunctionVariable funvar : variables) {
-			if (funvar.toString(StringTemplate.defaultTemplate).equals(
-					gdv.toString(StringTemplate.defaultTemplate))) {
+			if (funvar
+					.toString(StringTemplate.defaultTemplate)
+					.equals(gdv.toString(StringTemplate.defaultTemplate))) {
 				return true;
 			}
 		}
@@ -93,8 +96,7 @@ public class FunctionExpander implements Traversing {
 				if (geo.isOperation(Operation.DERIVATIVE)) {
 					// template not important, right it is a constant
 					// MyDouble anyway
-					deriv = ((ExpressionNode) geo).getRight().evaluate(
-							StringTemplate.defaultTemplate);
+					deriv = ((ExpressionNode) geo).getRight().evaluate(StringTemplate.defaultTemplate);
 					geo = ((ExpressionNode) geo).getLeft().unwrap();
 				}
 				if (geo instanceof GeoDummyVariable) {
@@ -105,15 +107,21 @@ public class FunctionExpander implements Traversing {
 				if (geo instanceof GeoCurveCartesianND) {
 					Kernel kernel = ((GeoCurveCartesianND) geo).getKernel();
 					ExpressionValue en2x = ((GeoCurveCartesianND) geo)
-							.getFun(0).getFunctionExpression().getCopy(kernel)
+							.getFun(0)
+							.getFunctionExpression()
+							.getCopy(kernel)
 							.traverse(this);
 					ExpressionValue en2y = ((GeoCurveCartesianND) geo)
-							.getFun(1).getFunctionExpression()
-									.getCopy(kernel).traverse(this);
+							.getFun(1)
+							.getFunctionExpression()
+							.getCopy(kernel)
+							.traverse(this);
 					if (((GeoCurveCartesianND) geo).getDimension() > 2) {
 						ExpressionValue en2z = ((GeoCurveCartesianND) geo)
-								.getFun(2).getFunctionExpression()
-								.getCopy(kernel).traverse(this);
+								.getFun(2)
+								.getFunctionExpression()
+								.getCopy(kernel)
+								.traverse(this);
 						en2 = new MyVec3DNode(kernel, en2x, en2y, en2z).wrap();
 					} else {
 						en2 = new MyVecNode(kernel, en2x, en2y).wrap();
@@ -126,33 +134,30 @@ public class FunctionExpander implements Traversing {
 							.getFunctionExpression()
 							.getCopy(((FunctionalNVar) geo).getKernel())
 							.traverse(this);
-					fv = ((FunctionalNVar) geo).getFunction()
-							.getFunctionVariables();
+					fv = ((FunctionalNVar) geo).getFunction().getFunctionVariables();
 				} else if (geo instanceof GeoSymbolic symbolic) {
 					FunctionExpander expander = newFunctionExpander(symbolic);
 					ExpressionValue symbolicValue = symbolic.getValue();
 					if (symbolicValue != null) {
-						en2 = (ExpressionNode) symbolicValue.wrap()
-								.getCopy(symbolic.getKernel()).traverse(expander);
+						en2 = (ExpressionNode)
+								symbolicValue.wrap().getCopy(symbolic.getKernel()).traverse(expander);
 						fv = symbolic.getFunctionVariables();
 					}
 				}
 				if (geo instanceof GeoCasCell casCell) {
-					ValidExpression ve = casCell
-							.getValue();
+					ValidExpression ve = casCell.getValue();
 					// related to #4126 -- maybe not needed though
 					if (casCell.isKeepInputUsed()) {
 						ve = expand(casCell).wrap();
 					}
-					en2 = ve.unwrap() instanceof FunctionNVar ? ((FunctionNVar) ve
-							.unwrap()).getExpression() : ve.wrap();
+					en2 = ve.unwrap() instanceof FunctionNVar
+							? ((FunctionNVar) ve.unwrap()).getExpression()
+							: ve.wrap();
 
 					en2 = en2.traverse(this).wrap();
 					if (en2.getLeft() instanceof GeoSurfaceCartesianND) {
-						FunctionNVar[] fun = ((GeoSurfaceCartesianND) en2
-								.getLeft()).getFunctions();
-						MyVecNDNode vector = buildVector(fun, en.getKernel(),
-								UnaryOperator.identity());
+						FunctionNVar[] fun = ((GeoSurfaceCartesianND) en2.getLeft()).getFunctions();
+						MyVecNDNode vector = buildVector(fun, en.getKernel(), UnaryOperator.identity());
 						en2 = new ExpressionNode(en.getKernel(), vector);
 						if (en.getRight() instanceof MyList argList
 								&& argList.get(0).unwrap() instanceof MyList) {
@@ -165,13 +170,9 @@ public class FunctionExpander implements Traversing {
 				}
 				if (geo instanceof GeoSurfaceCartesianND geoSurface) {
 					if (en.getRight() instanceof MyList
-							&& ((MyList) en.getRight()).get(
-							0) instanceof ExpressionNode
-							&& ((ExpressionNode) ((MyList) en.getRight())
-							.get(0))
-							.getLeft() instanceof MyList) {
-						en.setRight(((ExpressionNode) ((MyList) en.getRight())
-								.get(0)).getLeft());
+							&& ((MyList) en.getRight()).get(0) instanceof ExpressionNode
+							&& ((ExpressionNode) ((MyList) en.getRight()).get(0)).getLeft() instanceof MyList) {
+						en.setRight(((ExpressionNode) ((MyList) en.getRight()).get(0)).getLeft());
 					}
 					Kernel kernel = geoSurface.kernel;
 					fv = geoSurface.getFunctionVariables();
@@ -180,24 +181,18 @@ public class FunctionExpander implements Traversing {
 					} else {
 						surfaceNoComplex = true;
 						FunctionNVar[] fun = geoSurface.getFunctions();
-						MyVecNDNode vector = buildVector(fun, en.getKernel(),
-								ex -> ex.deepCopy(kernel));
+						MyVecNDNode vector = buildVector(fun, en.getKernel(), ex -> ex.deepCopy(kernel));
 						en2 = new ExpressionNode(en.getKernel(), vector);
 					}
 				}
 				if (deriv != null) {
 					en2 = getDerivative(en2, deriv, en.getKernel(), fv);
-
 				}
 				if (fv != null) {
 					return replaceFunctionVariables(en, en2, fv, surfaceNoComplex);
 				}
-			} else if (en.getOperation() == Operation.DERIVATIVE) {
-				// should not get there
-
-			} else {
-				if (en.getLeft() instanceof GeoDummyVariable dummyVar
-						&& !contains(dummyVar)) {
+			} else if (en.getOperation() != Operation.DERIVATIVE) {
+				if (en.getLeft() instanceof GeoDummyVariable dummyVar && !contains(dummyVar)) {
 					GeoElement geo = dummyVar.getElementWithSameName();
 					if (geo != null && hasLowerConstructionIndex(geo)) {
 						en.setLeft(expand(geo));
@@ -207,9 +202,7 @@ public class FunctionExpander implements Traversing {
 					GeoElement geo = variable
 							.getKernel()
 							.getConstruction()
-							.lookupLabel(
-									en.getLeft().toString(
-											StringTemplate.defaultTemplate));
+							.lookupLabel(en.getLeft().toString(StringTemplate.defaultTemplate));
 					if (geo != null) {
 						return ((FunctionalNVar) geo)
 								.getFunctionExpression()
@@ -217,17 +210,14 @@ public class FunctionExpander implements Traversing {
 								.traverse(this);
 					}
 				}
-
 			}
-			if (en.getRight() instanceof GeoDummyVariable dummyVar
-						&& !contains(dummyVar)) {
+			if (en.getRight() instanceof GeoDummyVariable dummyVar && !contains(dummyVar)) {
 				GeoElement geo = dummyVar.getElementWithSameName();
 				if (geo != null && hasLowerConstructionIndex(geo)) {
 					en.setRight(expand(geo));
 				}
 			}
-		} else if (ev instanceof GeoDummyVariable dummyVar
-				&& !contains(dummyVar)) {
+		} else if (ev instanceof GeoDummyVariable dummyVar && !contains(dummyVar)) {
 			GeoElement geo = dummyVar.getElementWithSameName();
 			if (geo != null && hasLowerConstructionIndex(geo)) {
 				return expand(geo);
@@ -248,8 +238,8 @@ public class FunctionExpander implements Traversing {
 		return ev;
 	}
 
-	private MyVecNDNode buildVector(FunctionNVar[] fun, Kernel kernel,
-			UnaryOperator<ExpressionNode> transform) {
+	private MyVecNDNode buildVector(
+			FunctionNVar[] fun, Kernel kernel, UnaryOperator<ExpressionNode> transform) {
 		if (fun.length > 2) {
 			return new MyVec3DNode(
 					kernel,
@@ -258,14 +248,12 @@ public class FunctionExpander implements Traversing {
 					transform.apply(fun[2].getExpression()));
 		} else {
 			return new MyVecNode(
-					kernel,
-					transform.apply(fun[0].getExpression()),
-					transform.apply(fun[1].getExpression()));
+					kernel, transform.apply(fun[0].getExpression()), transform.apply(fun[1].getExpression()));
 		}
 	}
 
-	private ExpressionNode getDerivative(ExpressionNode en, ExpressionValue deriv,
-			Kernel kernel, FunctionVariable[] fv) {
+	private ExpressionNode getDerivative(
+			ExpressionNode en, ExpressionValue deriv, Kernel kernel, FunctionVariable[] fv) {
 		CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
 		Command derivCommand = new Command(kernel, "Derivative", false);
 		derivCommand.addArgument(en);
@@ -276,19 +264,19 @@ public class FunctionExpander implements Traversing {
 		return cas.evaluateToExpression(derivCommand, null, kernel).wrap();
 	}
 
-	private ExpressionValue replaceFunctionVariables(ExpressionNode en, ExpressionNode en2,
-			FunctionVariable[] fv, boolean surfaceNoComplex) {
-		ExpressionValue argument = en.getRight().wrap()
-				.getCopy(en.getKernel()).traverse(this).unwrap();
+	private ExpressionValue replaceFunctionVariables(
+			ExpressionNode en, ExpressionNode en2, FunctionVariable[] fv, boolean surfaceNoComplex) {
+		ExpressionValue argument =
+				en.getRight().wrap().getCopy(en.getKernel()).traverse(this).unwrap();
 		ExpressionValue ithArg = argument;
-		VariableReplacer vr = en
-				.getKernel().getVariableReplacer();
+		VariableReplacer vr = en.getKernel().getVariableReplacer();
 
 		// some heuristic to apply f(list) piecewise for simple functions, see APPS-4510
-		if (en.isOperation(Operation.FUNCTION) && isListNotMatrix(argument)
+		if (en.isOperation(Operation.FUNCTION)
+				&& isListNotMatrix(argument)
 				&& !en2.containsCommands()) {
-			return new ExpressionNode(en.getKernel(), new Function(en2, fv[0]),
-					Operation.FUNCTION, argument);
+			return new ExpressionNode(
+					en.getKernel(), new Function(en2, fv[0]), Operation.FUNCTION, argument);
 		}
 		// variables have to be replaced with one traversing
 		// or else replacing f(x,y) with f(y,x)
@@ -307,8 +295,7 @@ public class FunctionExpander implements Traversing {
 	}
 
 	private ExpressionValue getElement(ExpressionValue argument, int i, int argLength) {
-		if (argument instanceof MyList
-				&& ((MyList) argument).size() == argLength) {
+		if (argument instanceof MyList && ((MyList) argument).size() == argLength) {
 			return ((MyList) argument).get(i);
 		} else {
 			return VectorArithmetic.computeCoord(argument.wrap(), i);

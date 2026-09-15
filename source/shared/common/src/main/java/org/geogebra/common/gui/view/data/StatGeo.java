@@ -64,10 +64,10 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * 
+ *
  * Creates geos for use in plot panels and provides updates to plot panel
  * settings based on these geos.
- * 
+ *
  */
 public class StatGeo {
 
@@ -86,7 +86,7 @@ public class StatGeo {
 
 	/*************************************************
 	 * Constructs a StatGeo instance
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param listener
@@ -122,8 +122,7 @@ public class StatGeo {
 		getDataBounds(dataList, true, false);
 	}
 
-	private void getDataBounds(GeoList dataList, boolean isPointList,
-			boolean isMatrix) {
+	private void getDataBounds(GeoList dataList, boolean isPointList, boolean isMatrix) {
 		if (dataList == null) {
 			return;
 		}
@@ -168,7 +167,7 @@ public class StatGeo {
 			for (int i = 1; i < dataList.size(); i++) {
 
 				index.setValue(i + 1); // use i+1 because Element[] uses 1-based
-										// counting
+				// counting
 				index.updateCascade();
 				min = minGeo.getDouble();
 				max = maxGeo.getDouble();
@@ -176,29 +175,19 @@ public class StatGeo {
 				dataBounds[0] = Math.min(dataBounds[0], min);
 				dataBounds[1] = Math.max(dataBounds[1], max);
 			}
-		}
+		} else if (isPointList) {
+			ExpressionNode enX = new ExpressionNode(kernel, dataList, Operation.XCOORD, null);
+			ExpressionNode enY = new ExpressionNode(kernel, dataList, Operation.YCOORD, null);
+			AlgoDependentListExpression listX = new AlgoDependentListExpression(cons, enX);
+			AlgoDependentListExpression listY = new AlgoDependentListExpression(cons, enY);
 
-		else if (isPointList) {
-			ExpressionNode enX = new ExpressionNode(kernel, dataList,
-					Operation.XCOORD, null);
-			ExpressionNode enY = new ExpressionNode(kernel, dataList,
-					Operation.YCOORD, null);
-			AlgoDependentListExpression listX = new AlgoDependentListExpression(
-					cons, enX);
-			AlgoDependentListExpression listY = new AlgoDependentListExpression(
-					cons, enY);
-
-			AlgoListMinMax maxX = new AlgoListMinMax(cons,
-					(GeoList) listX.getOutput(0), false);
+			AlgoListMinMax maxX = new AlgoListMinMax(cons, (GeoList) listX.getOutput(0), false);
 			removeFromConstructionList(maxX);
-			AlgoListMinMax maxY = new AlgoListMinMax(cons,
-					(GeoList) listY.getOutput(0), false);
+			AlgoListMinMax maxY = new AlgoListMinMax(cons, (GeoList) listY.getOutput(0), false);
 			removeFromConstructionList(maxY);
-			AlgoListMinMax minX = new AlgoListMinMax(cons,
-					(GeoList) listX.getOutput(0), true);
+			AlgoListMinMax minX = new AlgoListMinMax(cons, (GeoList) listX.getOutput(0), true);
 			removeFromConstructionList(minX);
-			AlgoListMinMax minY = new AlgoListMinMax(cons,
-					(GeoList) listY.getOutput(0), true);
+			AlgoListMinMax minY = new AlgoListMinMax(cons, (GeoList) listY.getOutput(0), true);
 			removeFromConstructionList(minY);
 
 			listX.getOutput()[0].setSelectionAllowed(false);
@@ -220,7 +209,6 @@ public class StatGeo {
 
 			dataBounds[0] = ((GeoNumeric) min.getOutput(0)).getDouble();
 			dataBounds[1] = ((GeoNumeric) max.getOutput(0)).getDouble();
-
 		}
 
 		xMinData = dataBounds[0];
@@ -230,7 +218,6 @@ public class StatGeo {
 
 		// restore the removeFromConstruction flag
 		removeFromConstruction = currentRemoveFromConstructionStatus;
-
 	}
 
 	/**
@@ -244,36 +231,33 @@ public class StatGeo {
 	 * @throws StatException
 	 *             when grouping type is wrong
 	 */
-	public GeoElementND createHistogram(GeoList dataList,
-			StatPanelSettings settings, boolean isFrequencyPolygon)
+	public GeoElementND createHistogram(
+			GeoList dataList, StatPanelSettings settings, boolean isFrequencyPolygon)
 			throws StatException {
 		histogramRight = !settings.isLeftRule();
-		GeoList valueList = (GeoList) (settings.groupType() == GroupType.RAWDATA ? dataList
-				: dataList.get(0));
+		GeoList valueList =
+				(GeoList) (settings.groupType() == GroupType.RAWDATA ? dataList : dataList.get(0));
 		// determine min/max X values
-		if (settings.groupType() == GroupType.RAWDATA
-				|| settings.groupType() == GroupType.FREQUENCY) {
+		if (settings.groupType() == GroupType.RAWDATA || settings.groupType() == GroupType.FREQUENCY) {
 			getDataBounds(valueList);
-		} else if (settings.groupType() == GroupType.CLASS) {
-			// settings.numClasses = ((GeoList) dataList.get(0)).size();
 		}
 		AlgoElement al;
 		// determine class borders
-		if (settings.isUseManualClasses()
-				|| settings.groupType() == GroupType.CLASS) {
+		if (settings.isUseManualClasses() || settings.groupType() == GroupType.CLASS) {
 			// generate class borders using given start and width
-			al = new AlgoClasses(cons, valueList,
+			al = new AlgoClasses(
+					cons,
+					valueList,
 					new GeoNumeric(cons, settings.getClassStart()),
-					new GeoNumeric(cons, settings.getClassWidth()), null);
+					new GeoNumeric(cons, settings.getClassWidth()),
+					null);
 		} else {
 
 			// generate class borders from data using given number of classes
-			settings.setClassWidth(
-					(xMaxData - xMinData) / settings.getNumClasses());
+			settings.setClassWidth((xMaxData - xMinData) / settings.getNumClasses());
 
-			al = new AlgoClasses(cons, valueList, null, null,
-					new GeoNumeric(cons, settings.getNumClasses()));
-
+			al = new AlgoClasses(
+					cons, valueList, null, null, new GeoNumeric(cons, settings.getNumClasses()));
 		}
 		removeFromConstructionList(al);
 
@@ -282,8 +266,7 @@ public class StatGeo {
 
 		if (settings.getFrequencyType() == StatPanelSettings.TYPE_RELATIVE) {
 			density = 1.0 * settings.getClassWidth() / dataList.size();
-		} else if (settings
-				.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED) {
+		} else if (settings.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED) {
 			density = 1.0 / dataList.size();
 		}
 
@@ -292,45 +275,47 @@ public class StatGeo {
 		AlgoHistogram algoHistogram;
 		if (settings.groupType() == GroupType.RAWDATA) {
 			// histogram constructed from data values
-			algoHistogram = new AlgoHistogram(cons,
+			algoHistogram = new AlgoHistogram(
+					cons,
 					new GeoBoolean(cons, settings.isCumulative()),
-					(GeoList) al.getOutput(0), dataList, null,
-					new GeoBoolean(cons, true), new GeoNumeric(cons, density),
+					(GeoList) al.getOutput(0),
+					dataList,
+					null,
+					new GeoBoolean(cons, true),
+					new GeoNumeric(cons, density),
 					histogramRight);
 
 		} else if (settings.groupType() == GroupType.FREQUENCY) {
 
 			// histogram constructed from frequencies
-			algoHistogram = new AlgoHistogram(cons,
+			algoHistogram = new AlgoHistogram(
+					cons,
 					new GeoBoolean(cons, settings.isCumulative()),
-					(GeoList) al.getOutput(0), valueList,
-					(GeoList) dataList.get(1), new GeoBoolean(cons, true),
-					new GeoNumeric(cons, density), histogramRight);
+					(GeoList) al.getOutput(0),
+					valueList,
+					(GeoList) dataList.get(1),
+					new GeoBoolean(cons, true),
+					new GeoNumeric(cons, density),
+					histogramRight);
 		} else if (settings.groupType() == GroupType.CLASS) {
 
 			// histogram constructed from classes and frequencies
-			algoHistogram = new AlgoHistogram(cons, valueList,
-					(GeoList) dataList.get(1), histogramRight);
+			algoHistogram = new AlgoHistogram(cons, valueList, (GeoList) dataList.get(1), histogramRight);
 		} else {
-			throw new StatException(
-					"unexpected groupType: " + settings.groupType());
-
+			throw new StatException("unexpected groupType: " + settings.groupType());
 		}
 		GeoElement geo;
 		if (isFrequencyPolygon) {
-			AlgoPolyLine al3 = createFrequencyPolygon(
-					algoHistogram, settings.isCumulative());
+			AlgoPolyLine al3 = createFrequencyPolygon(algoHistogram, settings.isCumulative());
 			geo = al3.getOutput(0);
-			geo.setObjColor(
-					listener.createColor(DataAnalysisModel.OVERLAY_COLOR_IDX));
+			geo.setObjColor(listener.createColor(DataAnalysisModel.OVERLAY_COLOR_IDX));
 			geo.setLineThickness(DataAnalysisModel.THICKNESS_CURVE);
 			removeFromConstructionList(algoHistogram);
 			removeFromConstructionList(al3);
 
 		} else {
 			geo = algoHistogram.getOutput(0);
-			geo.setObjColor(listener
-					.createColor(DataAnalysisModel.HISTOGRAM_COLOR_IDX));
+			geo.setObjColor(listener.createColor(DataAnalysisModel.HISTOGRAM_COLOR_IDX));
 			geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
 			geo.setLineThickness(DataAnalysisModel.THICKNESS_BAR_CHART);
 			removeFromConstructionList(algoHistogram);
@@ -344,15 +329,14 @@ public class StatGeo {
 	 * Creates a FrequencyPolygon algo using AlgoPolyLine instead of
 	 * AlgoFrequencyPolygon This is needed until FrequencyPolygonRight is
 	 * implemented
-	 * 
+	 *
 	 * @param histogram
 	 *            histogram
 	 * @param doCumulative
 	 *            whether to make cumulative polygon
 	 * @return frequency polygon
 	 */
-	private AlgoPolyLine createFrequencyPolygon(AlgoHistogram histogram,
-			boolean doCumulative) {
+	private AlgoPolyLine createFrequencyPolygon(AlgoHistogram histogram, boolean doCumulative) {
 
 		double[] leftBorder = histogram.getLeftBorder();
 		double[] yValue = histogram.getValues();
@@ -365,22 +349,17 @@ public class StatGeo {
 		if (doCumulative) {
 			points[0] = new GeoPoint(cons, null, leftBorder[0], 0.0, 1.0);
 			for (int i = 0; i < yValue.length - 1; i++) {
-				points[i + 1] = new GeoPoint(cons, null, leftBorder[i + 1],
-						yValue[i], 1.0);
+				points[i + 1] = new GeoPoint(cons, null, leftBorder[i + 1], yValue[i], 1.0);
 			}
 		} else {
-			double midpoint = leftBorder[0]
-					- 0.5 * (leftBorder[1] - leftBorder[0]);
+			double midpoint = leftBorder[0] - 0.5 * (leftBorder[1] - leftBorder[0]);
 			points[0] = new GeoPoint(cons, null, midpoint, 0.0, 1.0);
 			for (int i = 0; i < yValue.length - 1; i++) {
 				midpoint = 0.5 * (leftBorder[i + 1] + leftBorder[i]);
-				points[i + 1] = new GeoPoint(cons, null, midpoint, yValue[i],
-						1.0);
+				points[i + 1] = new GeoPoint(cons, null, midpoint, yValue[i], 1.0);
 			}
-			midpoint = 1.5 * leftBorder[yValue.length - 1]
-					- .5 * leftBorder[yValue.length - 2];
-			points[yValue.length] = new GeoPoint(cons, null, midpoint, 0.0,
-					1.0);
+			midpoint = 1.5 * leftBorder[yValue.length - 1] - .5 * leftBorder[yValue.length - 2];
+			points[yValue.length] = new GeoPoint(cons, null, midpoint, 0.0, 1.0);
 		}
 
 		cons.setSuppressLabelCreation(suppressLabelCreation);
@@ -407,22 +386,18 @@ public class StatGeo {
 
 		FunctionVariable x = new FunctionVariable(kernel);
 
-		ExpressionNode normal = new ExpressionNode(kernel, x, Operation.MINUS,
-				meanGeo);
+		ExpressionNode normal = new ExpressionNode(kernel, x, Operation.MINUS, meanGeo);
 		normal = new ExpressionNode(kernel, normal, Operation.DIVIDE, sdGeo);
-		normal = new ExpressionNode(kernel, normal, Operation.POWER,
-				new MyDouble(kernel, 2.0));
-		normal = new ExpressionNode(kernel, normal, Operation.DIVIDE,
-				new MyDouble(kernel, -2.0));
+		normal = new ExpressionNode(kernel, normal, Operation.POWER, new MyDouble(kernel, 2.0));
+		normal = new ExpressionNode(kernel, normal, Operation.DIVIDE, new MyDouble(kernel, -2.0));
 		normal = new ExpressionNode(kernel, normal, Operation.EXP, null);
-		normal = new ExpressionNode(kernel, normal, Operation.DIVIDE,
-				new MyDouble(kernel, Math.sqrt(2 * Math.PI)));
+		normal = new ExpressionNode(
+				kernel, normal, Operation.DIVIDE, new MyDouble(kernel, Math.sqrt(2 * Math.PI)));
 		normal = new ExpressionNode(kernel, normal, Operation.DIVIDE, sdGeo);
 
 		GeoElement geo = normal.buildFunction(x);
 
-		geo.setObjColor(
-				listener.createColor(DataAnalysisModel.OVERLAY_COLOR_IDX));
+		geo.setObjColor(listener.createColor(DataAnalysisModel.OVERLAY_COLOR_IDX));
 		geo.setLineThickness(DataAnalysisModel.THICKNESS_CURVE);
 
 		return geo;
@@ -436,8 +411,8 @@ public class StatGeo {
 	 * @param settings
 	 *            stat settings
 	 */
-	public void getHistogramSettings(GeoList dataList, GeoElementND histogram,
-			StatPanelSettings settings) {
+	public void getHistogramSettings(
+			GeoList dataList, GeoElementND histogram, StatPanelSettings settings) {
 
 		// get the data bounds
 		if (settings.groupType() == GroupType.RAWDATA) {
@@ -448,12 +423,10 @@ public class StatGeo {
 			getDataBounds((GeoList) dataList.get(0));
 		}
 
-		double freqMax = ((AlgoFunctionAreaSums) histogram.getParentAlgorithm())
-				.getFreqMax();
+		double freqMax = ((AlgoFunctionAreaSums) histogram.getParentAlgorithm()).getFreqMax();
 
 		if (settings.isUseManualClasses()) {
-			double[] leftBorder = ((AlgoFunctionAreaSums) histogram
-					.getParentAlgorithm()).getLeftBorder();
+			double[] leftBorder = ((AlgoFunctionAreaSums) histogram.getParentAlgorithm()).getLeftBorder();
 			xMinData = leftBorder[0];
 			xMaxData = leftBorder[leftBorder.length - 1];
 		}
@@ -472,7 +445,7 @@ public class StatGeo {
 
 	/**
 	 * Creates a bar chart from a list of GeoText values
-	 * 
+	 *
 	 * @param dataList
 	 *            list of texts
 	 * @param settings
@@ -481,8 +454,8 @@ public class StatGeo {
 	 * @throws StatException
 	 *             when grouping mode is wrong
 	 */
-	public GeoElementND createBarChartText(GeoList dataList,
-			StatPanelSettings settings) throws StatException {
+	public GeoElementND createBarChartText(GeoList dataList, StatPanelSettings settings)
+			throws StatException {
 
 		AlgoBarChart algoBarChart;
 
@@ -491,20 +464,19 @@ public class StatGeo {
 		}
 
 		if (settings.groupType() == GroupType.RAWDATA) {
-			algoBarChart = new AlgoBarChart(cons, dataList,
-					new GeoNumeric(cons, settings.getBarWidth()));
+			algoBarChart = new AlgoBarChart(cons, dataList, new GeoNumeric(cons, settings.getBarWidth()));
 		} else if (settings.groupType() == GroupType.FREQUENCY) {
-			algoBarChart = new AlgoBarChart(cons, (GeoList) dataList.get(0),
+			algoBarChart = new AlgoBarChart(
+					cons,
+					(GeoList) dataList.get(0),
 					(GeoList) dataList.get(1),
 					new GeoNumeric(cons, settings.getBarWidth()));
 		} else {
-			throw new StatException(
-					"unexpected groupType: " + settings.groupType());
+			throw new StatException("unexpected groupType: " + settings.groupType());
 		}
 		removeFromConstructionList(algoBarChart);
 		GeoElement geo = algoBarChart.getOutput(0);
-		geo.setObjColor(
-				listener.createColor(DataAnalysisModel.BARCHART_COLOR_IDX));
+		geo.setObjColor(listener.createColor(DataAnalysisModel.BARCHART_COLOR_IDX));
 		geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
 
 		algoBarChart.setProtectedInput(true);
@@ -513,7 +485,7 @@ public class StatGeo {
 
 	/**
 	 * Creates a bar chart from a list of GeoNumeric values
-	 * 
+	 *
 	 * @param dataList
 	 *            data
 	 * @param settings
@@ -522,8 +494,8 @@ public class StatGeo {
 	 * @throws StatException
 	 *             when group mode is wrong
 	 */
-	public GeoElement createBarChartNumeric(GeoList dataList,
-			StatPanelSettings settings) throws StatException {
+	public GeoElement createBarChartNumeric(GeoList dataList, StatPanelSettings settings)
+			throws StatException {
 		AlgoBarChart algoBarChart;
 		if (settings.groupType() == GroupType.RAWDATA) {
 			if (settings.isAutomaticBarWidth()) {
@@ -532,27 +504,24 @@ public class StatGeo {
 				settings.setBarWidth(getPreferredBarWidth(algo.getResult()));
 			}
 
-			algoBarChart = new AlgoBarChart(cons, dataList,
-					new GeoNumeric(cons, settings.getBarWidth()));
+			algoBarChart = new AlgoBarChart(cons, dataList, new GeoNumeric(cons, settings.getBarWidth()));
 		} else if (settings.groupType() == GroupType.FREQUENCY) {
 			if (settings.isAutomaticBarWidth()) {
-				settings.setBarWidth(
-						getPreferredBarWidth((GeoList) dataList.get(0)));
+				settings.setBarWidth(getPreferredBarWidth((GeoList) dataList.get(0)));
 			}
 
-			algoBarChart = new AlgoBarChart(cons, (GeoList) dataList.get(0),
+			algoBarChart = new AlgoBarChart(
+					cons,
+					(GeoList) dataList.get(0),
 					(GeoList) dataList.get(1),
 					new GeoNumeric(cons, settings.getBarWidth()));
 		} else {
-			throw new StatException(
-					"unexpected groupType: " + settings.groupType());
-
+			throw new StatException("unexpected groupType: " + settings.groupType());
 		}
 
 		removeFromConstructionList(algoBarChart);
 		GeoElement geo = algoBarChart.getOutput(0);
-		geo.setObjColor(
-				listener.createColor(DataAnalysisModel.BARCHART_COLOR_IDX));
+		geo.setObjColor(listener.createColor(DataAnalysisModel.BARCHART_COLOR_IDX));
 		geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
 
 		algoBarChart.setProtectedInput(true);
@@ -570,8 +539,10 @@ public class StatGeo {
 		double w = 1;
 		for (int i = 0; i < list.size() - 1; i++) {
 			if (list.get(i).isDefined() && list.get(i + 1).isDefined()) {
-				w = Math.min(Math.abs(((GeoNumeric) list.get(i + 1)).getDouble()
-						- ((GeoNumeric) list.get(i)).getDouble()), w);
+				w = Math.min(
+						Math.abs(((GeoNumeric) list.get(i + 1)).getDouble()
+								- ((GeoNumeric) list.get(i)).getDouble()),
+						w);
 			}
 		}
 		return w / 2;
@@ -586,19 +557,19 @@ public class StatGeo {
 	 * @throws StatException
 	 *             for unsupported grouping
 	 */
-	public GeoElement createFrequencyTableGeo(GeoNumeric chart,
-			PlotType plotType) throws StatException {
+	public GeoElement createFrequencyTableGeo(GeoNumeric chart, PlotType plotType)
+			throws StatException {
 
 		AlgoFrequencyTable al = null;
 		switch (plotType) {
-		case HISTOGRAM:
-			al = new AlgoFrequencyTable(cons, chart);
-			break;
-		case BARCHART:
-			al = new AlgoFrequencyTable(cons, chart);
-			break;
-		default:
-			throw new StatException("unexpected plotType: " + plotType);
+			case HISTOGRAM:
+				al = new AlgoFrequencyTable(cons, chart);
+				break;
+			case BARCHART:
+				al = new AlgoFrequencyTable(cons, chart);
+				break;
+			default:
+				throw new StatException("unexpected plotType: " + plotType);
 		}
 
 		removeFromConstructionList(al);
@@ -613,17 +584,15 @@ public class StatGeo {
 	 * @param barChart
 	 *            barchart
 	 */
-	public void getBarChartSettings(GeoList dataList,
-			StatPanelSettings settings, GeoElementND barChart) {
+	public void getBarChartSettings(
+			GeoList dataList, StatPanelSettings settings, GeoElementND barChart) {
 
-		double[] leftBorder = ((AlgoBarChart) barChart.getParentAlgorithm())
-				.getLeftBorder();
+		double[] leftBorder = ((AlgoBarChart) barChart.getParentAlgorithm()).getLeftBorder();
 
 		xMinData = leftBorder[0] - settings.getBarWidth() / 2;
 		xMaxData = leftBorder[leftBorder.length - 1] + settings.getBarWidth();
 
-		double freqMax = ((AlgoBarChart) barChart.getParentAlgorithm())
-				.getFreqMax();
+		double freqMax = ((AlgoBarChart) barChart.getParentAlgorithm()).getFreqMax();
 
 		yMinData = 0.0;
 		yMaxData = freqMax;
@@ -651,27 +620,31 @@ public class StatGeo {
 	 * @throws StatException
 	 *             for unsupported grouping
 	 */
-	public GeoElement createBoxPlot(GeoList dataList,
-			StatPanelSettings settings) throws StatException {
+	public GeoElement createBoxPlot(GeoList dataList, StatPanelSettings settings)
+			throws StatException {
 		AlgoBoxPlot algoBoxPlot;
 		if (settings.groupType() == GroupType.RAWDATA) {
-			algoBoxPlot = new AlgoBoxPlot(cons, new GeoNumeric(cons, 1d),
-					new GeoNumeric(cons, 0.5), dataList,
+			algoBoxPlot = new AlgoBoxPlot(
+					cons,
+					new GeoNumeric(cons, 1d),
+					new GeoNumeric(cons, 0.5),
+					dataList,
 					new GeoBoolean(cons, settings.isShowOutliers()));
 		} else if (settings.groupType() == GroupType.FREQUENCY) {
-			algoBoxPlot = new AlgoBoxPlot(cons, new GeoNumeric(cons, 1d),
-					new GeoNumeric(cons, 0.5), (GeoList) dataList.get(0),
+			algoBoxPlot = new AlgoBoxPlot(
+					cons,
+					new GeoNumeric(cons, 1d),
+					new GeoNumeric(cons, 0.5),
+					(GeoList) dataList.get(0),
 					(GeoList) dataList.get(1),
 					new GeoBoolean(cons, settings.isShowOutliers()));
 		} else {
-			throw new StatException(
-					"unexpected groupType: " + settings.groupType());
+			throw new StatException("unexpected groupType: " + settings.groupType());
 		}
 
 		removeFromConstructionList(algoBoxPlot);
 		GeoElement geo = algoBoxPlot.getOutput(0);
-		geo.setObjColor(
-				listener.createColor(DataAnalysisModel.BOXPLOT_COLOR_IDX));
+		geo.setObjColor(listener.createColor(DataAnalysisModel.BOXPLOT_COLOR_IDX));
 		geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
 
 		algoBoxPlot.setProtectedInput(true);
@@ -693,8 +666,7 @@ public class StatGeo {
 		} else if (settings.groupType() == GroupType.FREQUENCY) {
 			getDataBounds((GeoList) dataList.get(0));
 		} else {
-			throw new StatException(
-					"unexpected groupType: " + settings.groupType());
+			throw new StatException("unexpected groupType: " + settings.groupType());
 		}
 
 		if (settings.isAutomaticWindow()) {
@@ -707,7 +679,6 @@ public class StatGeo {
 
 		settings.showYAxis = false;
 		settings.forceXAxisBuffer = true;
-
 	}
 
 	/**
@@ -717,21 +688,21 @@ public class StatGeo {
 	 *            settings
 	 * @return boxplots
 	 */
-	public GeoElement[] createMultipleBoxPlot(GeoList dataList,
-			StatPanelSettings settings) {
+	public GeoElement[] createMultipleBoxPlot(GeoList dataList, StatPanelSettings settings) {
 
 		int length = dataList.size();
 		GeoElement[] ret = new GeoElement[length];
 
 		for (int i = 0; i < length; i++) {
-			AlgoBoxPlot bp = new AlgoBoxPlot(cons, new GeoNumeric(cons, i + 1),
+			AlgoBoxPlot bp = new AlgoBoxPlot(
+					cons,
+					new GeoNumeric(cons, i + 1),
 					new GeoNumeric(cons, 1d / 3d),
 					(GeoList) dataList.get(length - 1 - i),
 					new GeoBoolean(cons, settings.isShowOutliers()));
 			cons.removeFromAlgorithmList(bp);
 			ret[i] = bp.getOutput(0);
-			ret[i].setObjColor(
-					listener.createColor(DataAnalysisModel.BOXPLOT_COLOR_IDX));
+			ret[i].setObjColor(listener.createColor(DataAnalysisModel.BOXPLOT_COLOR_IDX));
 			ret[i].setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
 		}
 
@@ -744,8 +715,7 @@ public class StatGeo {
 	 * @param settings
 	 *            settings
 	 */
-	public void getMultipleBoxPlotSettings(GeoList dataList,
-			StatPanelSettings settings) {
+	public void getMultipleBoxPlotSettings(GeoList dataList, StatPanelSettings settings) {
 		if (settings.isAutomaticWindow()) {
 			getDataBounds(dataList, false, true);
 			double buffer = .25 * (xMaxData - xMinData);
@@ -765,8 +735,7 @@ public class StatGeo {
 	 *            settings
 	 * @return list of text labels
 	 */
-	public GeoElement[] createBoxPlotTitles(DataAnalysisModel statModel,
-			StatPanelSettings settings) {
+	public GeoElement[] createBoxPlotTitles(DataAnalysisModel statModel, StatPanelSettings settings) {
 
 		String[] dataTitles = statModel.getDataTitles();
 
@@ -775,15 +744,12 @@ public class StatGeo {
 
 		for (int i = 0; i < dataTitles.length; i++) {
 			GeoPoint p = new GeoPoint(cons, settings.xMin, i + 1d, 1d);
-			GeoText t = new GeoText(cons,
-					"  " + dataTitles[dataTitles.length - i - 1]);
+			GeoText t = new GeoText(cons, "  " + dataTitles[dataTitles.length - i - 1]);
 			AlgoText text = new AlgoText(cons, t, p, null, null, null, null);
 			cons.removeFromAlgorithmList(text);
 			ret[i] = text.getOutput(0);
-			ret[i].setBackgroundColor(
-					listener.createColor(DataAnalysisModel.WHITE_COLOR_IDX));
-			ret[i].setObjColor(
-					listener.createColor(DataAnalysisModel.BLACK_COLOR_IDX));
+			ret[i].setBackgroundColor(listener.createColor(DataAnalysisModel.WHITE_COLOR_IDX));
+			ret[i].setObjColor(listener.createColor(DataAnalysisModel.BLACK_COLOR_IDX));
 		}
 		return ret;
 	}
@@ -805,8 +771,7 @@ public class StatGeo {
 		removeFromConstructionList(algoDotPlot);
 		GeoElement geo = algoDotPlot.getOutput(0);
 
-		geo.setObjColor(
-				listener.createColor(DataAnalysisModel.DOTPLOT_COLOR_IDX));
+		geo.setObjColor(listener.createColor(DataAnalysisModel.DOTPLOT_COLOR_IDX));
 		geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
 
 		algoDotPlot.setProtectedInput(true);
@@ -821,8 +786,7 @@ public class StatGeo {
 	 * @param settings
 	 *            settings
 	 */
-	public void updateDotPlot(GeoList dataList, GeoElement dotPlot,
-			StatPanelSettings settings) {
+	public void updateDotPlot(GeoList dataList, GeoElement dotPlot, StatPanelSettings settings) {
 
 		getDataBounds(dataList);
 
@@ -832,12 +796,9 @@ public class StatGeo {
 			settings.xMax = xMaxData + buffer;
 			settings.yMin = -1.0;
 
-			ExpressionNode en = new ExpressionNode(kernel, dotPlot,
-					Operation.YCOORD, null);
-			AlgoDependentListExpression list = new AlgoDependentListExpression(
-					cons, en);
-			AlgoListMinMax max = new AlgoListMinMax(cons,
-					(GeoList) list.getOutput(0), false);
+			ExpressionNode en = new ExpressionNode(kernel, dotPlot, Operation.YCOORD, null);
+			AlgoDependentListExpression list = new AlgoDependentListExpression(cons, en);
+			AlgoListMinMax max = new AlgoListMinMax(cons, (GeoList) list.getOutput(0), false);
 
 			removeFromConstructionList(list);
 			removeFromConstructionList(max);
@@ -847,7 +808,6 @@ public class StatGeo {
 
 		settings.showYAxis = false;
 		settings.forceXAxisBuffer = true;
-
 	}
 
 	/**
@@ -863,13 +823,11 @@ public class StatGeo {
 		// String text = "NormalQuantilePlot[" + label + "]";
 		// geo = createGeoFromString(text);
 
-		AlgoNormalQuantilePlot algoNormalQPlot = new AlgoNormalQuantilePlot(
-				cons, dataList);
+		AlgoNormalQuantilePlot algoNormalQPlot = new AlgoNormalQuantilePlot(cons, dataList);
 		removeFromConstructionList(algoNormalQPlot);
 		GeoElement geo = algoNormalQPlot.getOutput(0);
 
-		geo.setObjColor(
-				listener.createColor(DataAnalysisModel.NQPLOT_COLOR_IDX));
+		geo.setObjColor(listener.createColor(DataAnalysisModel.NQPLOT_COLOR_IDX));
 		geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
 		geo.setLineThickness(DataAnalysisModel.THICKNESS_CURVE);
 
@@ -883,8 +841,7 @@ public class StatGeo {
 	 * @param settings
 	 *            settings
 	 */
-	public void updateNormalQuantilePlot(GeoList dataList,
-			StatPanelSettings settings) {
+	public void updateNormalQuantilePlot(GeoList dataList, StatPanelSettings settings) {
 
 		getDataBounds(dataList);
 		if (settings.isAutomaticWindow()) {
@@ -916,8 +873,7 @@ public class StatGeo {
 		geo.setEuclidianVisible(true);
 		geo.setAuxiliaryObject(true);
 		geo.setLabelVisible(false);
-		geo.setObjColor(
-				listener.createColor(DataAnalysisModel.DOTPLOT_COLOR_IDX));
+		geo.setObjColor(listener.createColor(DataAnalysisModel.DOTPLOT_COLOR_IDX));
 		geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
 
 		return geo;
@@ -944,8 +900,7 @@ public class StatGeo {
 		geo.setAuxiliaryObject(true);
 		geo.setLabelVisible(false);
 		geo.setSelectionAllowed(false);
-		geo.setObjColor(
-				listener.createColor(DataAnalysisModel.DOTPLOT_COLOR_IDX));
+		geo.setObjColor(listener.createColor(DataAnalysisModel.DOTPLOT_COLOR_IDX));
 		geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
 
 		return geo;
@@ -957,8 +912,7 @@ public class StatGeo {
 	 * @param settings
 	 *            output settings
 	 */
-	public void getScatterPlotSettings(GeoList dataList,
-			StatPanelSettings settings) {
+	public void getScatterPlotSettings(GeoList dataList, StatPanelSettings settings) {
 
 		getDataBoundsForPointList(dataList);
 
@@ -983,8 +937,8 @@ public class StatGeo {
 	 *            whether to use residual plot
 	 * @return regression plot
 	 */
-	public GeoElement createRegressionPlot(GeoList dataList, Regression reg,
-			int order, boolean residual) {
+	public GeoElement createRegressionPlot(
+			GeoList dataList, Regression reg, int order, boolean residual) {
 
 		boolean regNone = reg == Regression.NONE;
 		Command cmd = reg.buildCommand(kernel, order, dataList);
@@ -997,18 +951,15 @@ public class StatGeo {
 		}
 
 		if (residual && geo != null) {
-			AlgoResidualPlot algoRP = new AlgoResidualPlot(cons, dataList,
-					(GeoFunctionable) geo);
+			AlgoResidualPlot algoRP = new AlgoResidualPlot(cons, dataList, (GeoFunctionable) geo);
 			geo = algoRP.getOutput(0);
-			geo.setObjColor(
-					listener.createColor(DataAnalysisModel.DOTPLOT_COLOR_IDX));
+			geo.setObjColor(listener.createColor(DataAnalysisModel.DOTPLOT_COLOR_IDX));
 			geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
 			geo.setLineThickness(DataAnalysisModel.THICKNESS_CURVE);
 		} else if (geo != null) {
 
 			// set geo options
-			geo.setObjColor(listener
-					.createColor(DataAnalysisModel.REGRESSION_COLOR_IDX));
+			geo.setObjColor(listener.createColor(DataAnalysisModel.REGRESSION_COLOR_IDX));
 
 			// hide the dummy geo
 			if (regNone) {
@@ -1025,8 +976,7 @@ public class StatGeo {
 	 * @param settings
 	 *            settings
 	 */
-	public void updateRegressionPlot(GeoList dataList,
-			StatPanelSettings settings) {
+	public void updateRegressionPlot(GeoList dataList, StatPanelSettings settings) {
 
 		if (settings.isAutomaticWindow()) {
 			getDataBoundsForPointList(dataList);
@@ -1045,15 +995,14 @@ public class StatGeo {
 	 * @param settings
 	 *            output settings
 	 */
-	public void getResidualPlotSettings(GeoList dataList,
-			GeoElement residualPlot, StatPanelSettings settings) {
+	public void getResidualPlotSettings(
+			GeoList dataList, GeoElement residualPlot, StatPanelSettings settings) {
 
 		getDataBoundsForPointList(dataList);
 
-		double[] residualBounds = ((AlgoResidualPlot) residualPlot
-				.getParentAlgorithm()).getResidualBounds();
-		yMaxData = Math.max(Math.abs(residualBounds[0]),
-				Math.abs(residualBounds[1]));
+		double[] residualBounds =
+				((AlgoResidualPlot) residualPlot.getParentAlgorithm()).getResidualBounds();
+		yMaxData = Math.max(Math.abs(residualBounds[0]), Math.abs(residualBounds[1]));
 		yMinData = -yMaxData;
 
 		setXYBounds(settings);
@@ -1072,7 +1021,7 @@ public class StatGeo {
 
 	/**
 	 * Sets the automatic window dimensions for the plot panel.
-	 * 
+	 *
 	 * @param settings
 	 *            settings
 	 * @param xBufferScale
@@ -1080,12 +1029,10 @@ public class StatGeo {
 	 * @param yBufferScale
 	 *            proportion of the y range to use for a top/bottom buffer
 	 */
-	private void setXYBounds(StatPanelSettings settings, double xBufferScale,
-			double yBufferScale) {
+	private void setXYBounds(StatPanelSettings settings, double xBufferScale, double yBufferScale) {
 
 		if (settings.isAutomaticWindow()) {
-			double xMin = xMinData, yMin = yMinData, xMax = xMaxData,
-					yMax = yMaxData;
+			double xMin = xMinData, yMin = yMinData, xMax = xMaxData, yMax = yMaxData;
 			// TODO #4952 following settings make the scaling right for points,
 			// but a wrong part of a curve is used
 			// if (settings.logXAxis) {
@@ -1096,13 +1043,13 @@ public class StatGeo {
 			// yMin = yMin < 0 ? 0 : Math.log10(yMin);
 			// yMax = yMax < 0 ? yMin : Math.log10(yMax);
 			// }
-			double xBuffer = DoubleUtil.isEqual(xMax, xMin) ? DEFAULT_BUFFER
-					: xBufferScale * (xMax - xMin);
+			double xBuffer =
+					DoubleUtil.isEqual(xMax, xMin) ? DEFAULT_BUFFER : xBufferScale * (xMax - xMin);
 			settings.xMin = xMin - xBuffer;
 			settings.xMax = xMax + xBuffer;
 
-			double yBuffer = DoubleUtil.isEqual(yMax, yMin) ? DEFAULT_BUFFER
-					: yBufferScale * (yMax - yMin);
+			double yBuffer =
+					DoubleUtil.isEqual(yMax, yMin) ? DEFAULT_BUFFER : yBufferScale * (yMax - yMin);
 
 			settings.yMin = yMin - yBuffer;
 			settings.yMax = yMax + yBuffer;
@@ -1123,8 +1070,7 @@ public class StatGeo {
 		// String text = "StemPlot[" + label + "," + adjustment + "]";
 		// tempGeo = createGeoFromString(text);
 
-		AlgoStemPlot algoStemPlot = new AlgoStemPlot(cons, dataList,
-				new GeoNumeric(cons, adjustment));
+		AlgoStemPlot algoStemPlot = new AlgoStemPlot(cons, dataList, new GeoNumeric(cons, adjustment));
 		GeoElement tempGeo = algoStemPlot.getOutput(0);
 		removeFromConstructionList(algoStemPlot);
 		algoStemPlot.setProtectedInput(true);
@@ -1155,5 +1101,4 @@ public class StatGeo {
 			cons.removeFromConstructionList(ce);
 		}
 	}
-
 }

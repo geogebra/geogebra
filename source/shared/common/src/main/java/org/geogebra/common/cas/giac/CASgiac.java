@@ -80,24 +80,24 @@ public abstract class CASgiac implements CASGenericInterface {
 	/**
 	 * String that will force an error when evaluated in GeoGebra
 	 */
-	final public static String FORCE_ERROR = "(";
+	public static final String FORCE_ERROR = "(";
 
 	/**
 	 * string to put Giac into GeoGebra mode (not affected by 'restart')
-	 * 
+	 *
 	 */
-	public final static String initString = "caseval(\"init geogebra\")";
+	public static final String initString = "caseval(\"init geogebra\")";
 	/**
 	 * In web we need to skip caseval because of emcscripten
 	 */
-	public final static String initStringWeb = "init geogebra";
+	public static final String initStringWeb = "init geogebra";
 
 	/**
 	 * Custom helper functions.
 	 */
 	public enum CustomFunctions {
 		/**
-		 * 
+		 *
 		 */
 		RESTART(null, "restart"),
 
@@ -107,14 +107,17 @@ public abstract class CASgiac implements CASGenericInterface {
 		DISABLE_WARNING(null, "warn_equal_in_prog(0)"),
 
 		/**
-		 * 
+		 *
 		 */
 		PROBA_EPSILON(null, "proba_epsilon:=0;"),
 
 		/**
 		 * NOTE: works for max 2 variable
 		 */
-		GGBIS_POLYNOMIAL("ggbisPolynomial", "ggbisPolynomial(a):= when (size(lname(a)) == 1, is_polynomial(a,lname(a)[0])," + "when (size(lname(a)) == 2, is_polynomial(a,lname(a)[0]) && is_polynomial(a,lname(a)[1]), ?))"),
+		GGBIS_POLYNOMIAL(
+				"ggbisPolynomial",
+				"ggbisPolynomial(a):= when (size(lname(a)) == 1, is_polynomial(a,lname(a)[0]),"
+						+ "when (size(lname(a)) == 2, is_polynomial(a,lname(a)[0]) && is_polynomial(a,lname(a)[1]), ?))"),
 
 		/**
 		 * test if "=" or "%=" - needed for eg
@@ -122,15 +125,19 @@ public abstract class CASgiac implements CASGenericInterface {
 		 */
 		GGB_IS_EQUALS("ggb_is_equals", "ggb_is_equals(a):=when(a==equal||a=='%=',true,false)"),
 
-		CHECK_DERIVATIVE("check_derivative", "check_derivative(a,b):="
-				+ "when(size(a)==1,a[0],flatten1([revlist(a),sort(remove(undef,map(a,r->"
-				+ "when(isAlmostZero(evalf(subst(r,x=xcoord(b))-ycoord(b))),r,undef))))])[-1])"),
+		CHECK_DERIVATIVE(
+				"check_derivative",
+				"check_derivative(a,b):="
+						+ "when(size(a)==1,a[0],flatten1([revlist(a),sort(remove(undef,map(a,r->"
+						+ "when(isAlmostZero(evalf(subst(r,x=xcoord(b))-ycoord(b))),r,undef))))])[-1])"),
 
 		/**
 		 * test if "=" or "%=" or "&gt;" or "&gt;=" - needed for eg
 		 * LeftSide({a,b}={1,2})
 		 */
-		GGB_IS_GREATER_OR_GREATER_THAN_OR_EQUALS("ggb_is_gt_or_ge_or_equals", "ggb_is_gt_or_ge_or_equals(a):=when(a=='>'||a=='>='||a==equal||a=='%=',true,false)"),
+		GGB_IS_GREATER_OR_GREATER_THAN_OR_EQUALS(
+				"ggb_is_gt_or_ge_or_equals",
+				"ggb_is_gt_or_ge_or_equals(a):=when(a=='>'||a=='>='||a==equal||a=='%=',true,false)"),
 
 		/**
 		 * wrap factor() in eg with_sqrt(0), with_sqrt(1)
@@ -140,8 +147,8 @@ public abstract class CASgiac implements CASGenericInterface {
 		/**
 		 * wrap cfactor() in eg with_sqrt(0), with_sqrt(1)
 		 */
-		GGB_CFACTOR("ggbcfactor",
-				"ggbcfactor(a, b, c, d):=[with_sqrt(c), cfactor(a, b), with_sqrt(d)][1]"),
+		GGB_CFACTOR(
+				"ggbcfactor", "ggbcfactor(a, b, c, d):=[with_sqrt(c), cfactor(a, b), with_sqrt(d)][1]"),
 
 		/**
 		 * returns "?" if expression has more than one variable otherwise
@@ -153,34 +160,41 @@ public abstract class CASgiac implements CASGenericInterface {
 		/**
 		 * Returns 1 if the parameter is a number (float, rational or integer). Returns 0 otherwise.
 		 */
-		GGB_IS_NUMBER("ggb_is_number", "ggb_is_number(a):=[[ggbtype:=type(a)], "
-				+ "when(ggbtype==DOM_INT||ggbtype==DOM_FLOAT||ggbtype==DOM_RAT,1,0)][1]"),
+		GGB_IS_NUMBER(
+				"ggb_is_number",
+				"ggb_is_number(a):=[[ggbtype:=type(a)], "
+						+ "when(ggbtype==DOM_INT||ggbtype==DOM_FLOAT||ggbtype==DOM_RAT,1,0)][1]"),
 
 		/**
 		 * Returns the set difference of two lists while keeping duplicates in the result."
 		 */
-		GGB_LIST_DIFFERENCE("ggbListDifference",
+		GGB_LIST_DIFFERENCE(
+				"ggbListDifference",
 				"ggbListDifference(x,y):=flatten1(map(x,e->when(member(e, y)==0,[e],[])))"),
 
 		/**
 		 * Used by Zip.N
-		 * 
+		 *
 		 * TODO check if it's easier to implement with giac's zip command
 		 */
-		GGBZIPANS("ggbzipans", "ggbzipans(l):=begin local len0,res,sbl,xpr,k,j;xpr:=l[0];len0:=length(l[2]);res:={};"
+		GGBZIPANS(
+				"ggbzipans",
+				"ggbzipans(l):=begin local len0,res,sbl,xpr,k,j;xpr:=l[0];len0:=length(l[2]);res:={};"
 						+ "for k from 4 to length(l)-1 step +2 do len0:=min(len0,length(l[k])); od;"
 						+ "for k from 0 to len0-1 do sbl:={};for j from 2 to length(l)-1 step +2 do"
 						+ " sbl:=append(sbl,l[j-1]=l[j][k]);od;res:=append(res,subst(xpr,sbl));od; res; end"),
 		/**
-		 * 
+		 *
 		 * need to use %0, %1 repeatedly (not using an intermediate variable)
 		 * see GGB-2184 eg Sum(If(Mod(k,2)==0,k,0),k,0,10)
-		 * 
+		 *
 		 * check if a,b are numbers or polynomials and use rem() / irem()
 		 * accordingly
 		 */
-		GGBMOD("ggbmod", "ggbmod(a,b):=when(typeof(a)=='?',?,when(type(a)!=DOM_INT||type(b)!=DOM_INT,rem(a,b,when(length(lname(b))>0,lname(b)[0],x)),irem(a,b)))"),
-		
+		GGBMOD(
+				"ggbmod",
+				"ggbmod(a,b):=when(typeof(a)=='?',?,when(type(a)!=DOM_INT||type(b)!=DOM_INT,rem(a,b,when(length(lname(b))>0,lname(b)[0],x)),irem(a,b)))"),
+
 		// for testing Zip(Mod(k, 2), k,{0, -2, -5, 1, -2, -4, 0, 4, 12})
 		// GGBMOD("ggbmod",
 		// "ggbmod(a,b):=when(((type((a))!=DOM_INT)&&(type((a))!=DOM_IDENT))||((type((b))!=DOM_INT)&&(type((b))!=DOM_IDENT)),rem(a,b,when(length(lname(b))>0,lname(b)[0],x)),irem(a,b))"),
@@ -201,21 +215,27 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		/**
 		 * xcoordsymb(A) converted back to x(A) in CommandDispatcherGiac
-		 * 
+		 *
 		 * check for type(evalf(a)) needed as type(exact(-2.24)+i*exact(-1.54))
 		 * gives DOM_RAT
-		 * 
+		 *
 		 */
-		XCOORD("xcoord", "xcoord(a):=when(type(evalf(a))==DOM_COMPLEX, real(a), when(type(a)==DOM_IDENT,xcoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][0],real(a[1])),when(a[0]==equal,coeff(a[1]-a[2],x,1),a[0]))))"),
+		XCOORD(
+				"xcoord",
+				"xcoord(a):=when(type(evalf(a))==DOM_COMPLEX, real(a), when(type(a)==DOM_IDENT,xcoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][0],real(a[1])),when(a[0]==equal,coeff(a[1]-a[2],x,1),a[0]))))"),
 		/**
 		 * altsymb(P) converted back to alt(P) in CommandDispatcherGiac
 		 */
-		YCOORD("ycoord", "ycoord(a):=when(type(evalf(a))==DOM_COMPLEX, im(a), when(type(a)==DOM_IDENT,ycoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][1],im(a[1])),when(a[0]==equal,coeff(a[1]-a[2],y,1),a[1]))))"),
+		YCOORD(
+				"ycoord",
+				"ycoord(a):=when(type(evalf(a))==DOM_COMPLEX, im(a), when(type(a)==DOM_IDENT,ycoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][1],im(a[1])),when(a[0]==equal,coeff(a[1]-a[2],y,1),a[1]))))"),
 
 		/**
 		 * make sure z((1,2)) = 0
 		 */
-		ZCOORD("zcoord", "zcoord(a):=when(type(a)==DOM_IDENT,zcoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][2],0),when(length(a)<3 && a[0] != equal,0,when(a[0]==equal,coeff(a[1]-a[2],z,1),a[2]))))"),
+		ZCOORD(
+				"zcoord",
+				"zcoord(a):=when(type(a)==DOM_IDENT,zcoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][2],0),when(length(a)<3 && a[0] != equal,0,when(a[0]==equal,coeff(a[1]-a[2],z,1),a[2]))))"),
 
 		/**
 		 * unicode0176u passes unaltered through Giac then gets decoded to
@@ -248,50 +268,63 @@ public abstract class CASgiac implements CASGenericInterface {
 		/**
 		 * Coefficient of Conic, same order as Algebra View command
 		 */
-		COEFFICIENT_CONIC("ggbcoeffconic",
+		COEFFICIENT_CONIC(
+				"ggbcoeffconic",
 				"ggbcoeffconic(coeffsarg):={coeffs(coeffsarg,[x,y],[2,0]),coeffs(coeffsarg,[x,y],[0,2]),coeffs(coeffsarg,[x,y],[0,0]),coeffs(coeffsarg,[x,y],[1,1]),coeffs(coeffsarg,[x,y],[1,0]),coeffs(coeffsarg,[x,y],[0,1])}"),
 
 		/**
 		 * Coefficient of Quadric, same order as Algebra View command
 		 */
-		COEFFICIENT_QUADRIC("ggbcoeffquadric", "ggbcoeffquadric(coeffsarg):={coeffs(coeffsarg,[x,y,z],[2,0,0]),coeffs(coeffsarg,[x,y,z],[0,2,0]),coeffs(coeffsarg,[x,y,z],[0,0,2]),coeffs(coeffsarg,[x,y,z],[0,0,0]),coeffs(coeffsarg,[x,y,z],[1,1,0]),coeffs(coeffsarg,[x,y,z],[1,0,1]),coeffs(coeffsarg,[x,y,z],[0,1,1]),coeffs(coeffsarg,[x,y,z],[1,0,0]),coeffs(coeffsarg,[x,y,z],[0,1,0]),coeffs(coeffsarg,[x,y,z],[0,0,1])}"),
+		COEFFICIENT_QUADRIC(
+				"ggbcoeffquadric",
+				"ggbcoeffquadric(coeffsarg):={coeffs(coeffsarg,[x,y,z],[2,0,0]),coeffs(coeffsarg,[x,y,z],[0,2,0]),coeffs(coeffsarg,[x,y,z],[0,0,2]),coeffs(coeffsarg,[x,y,z],[0,0,0]),coeffs(coeffsarg,[x,y,z],[1,1,0]),coeffs(coeffsarg,[x,y,z],[1,0,1]),coeffs(coeffsarg,[x,y,z],[0,1,1]),coeffs(coeffsarg,[x,y,z],[1,0,0]),coeffs(coeffsarg,[x,y,z],[0,1,0]),coeffs(coeffsarg,[x,y,z],[0,0,1])}"),
 
 		/**
 		 * check list before equation to avoid out of bounds. flatten helps for
 		 * {} and {{{0}}}
-		 * 
+		 *
 		 * used for EQUAL_BOOLEAN in ExpressionNode
 		 * sb.append("when(ggbIsZero(simplify(");
-		 * 
+		 *
 		 * eg sin(x)^2+cos(x)^2==1
 		 */
-		IS_ZERO("ggbIsZero", "ggbIsZero(ggbx):=when(ggbx==0 || simplify(texpand(ggbx))==0 || exp2pow(lin(pow2exp(ggbx)))==0,true,when(type(ggbx)=='DOM_LIST',max(flatten({ggbx,0}))==min(flatten({ggbx,0}))&&min(flatten({ggbx,0}))==0,when(ggbx[0]==equal,lhs(ggbx)==0&&rhs(ggbx)==0,ggbx[0]=='pnt' && ggbx[1] == ggbvect[0,0,0])))"),
+		IS_ZERO(
+				"ggbIsZero",
+				"ggbIsZero(ggbx):=when(ggbx==0 || simplify(texpand(ggbx))==0 || exp2pow(lin(pow2exp(ggbx)))==0,true,when(type(ggbx)=='DOM_LIST',max(flatten({ggbx,0}))==min(flatten({ggbx,0}))&&min(flatten({ggbx,0}))==0,when(ggbx[0]==equal,lhs(ggbx)==0&&rhs(ggbx)==0,ggbx[0]=='pnt' && ggbx[1] == ggbvect[0,0,0])))"),
 		IS_ALMOST_ZERO("isAlmostZero", "isAlmostZero(a):=len(lname(a))==0 && evalf(a) < 10^-8"),
 		/**
 		 * Convert the polys into primitive polys in the input list (contains
 		 * temporary fix for primpart also):
 		 */
-		PRIM_POLY("primpoly", "primpoly(x):=begin local pps,ii; if (x==[0]) return [0]; pps:=[]; for ii from 0 to size(x)-1 do pps[ii]:=primpart(x[ii],lvar(x[ii])); od return pps end"),
+		PRIM_POLY(
+				"primpoly",
+				"primpoly(x):=begin local pps,ii; if (x==[0]) return [0]; pps:=[]; for ii from 0 to size(x)-1 do pps[ii]:=primpart(x[ii],lvar(x[ii])); od return pps end"),
 
 		/** version of inString() but returns "undef" not "-1" when not found */
-		GGB_IN_STRING("ggbinString",
+		GGB_IN_STRING(
+				"ggbinString",
 				"ggbinString(x,y):=begin local ret; ret := inString(x,y); if (ret == -1) return undef; else return ret; end"),
 
 		/** index of object in list. Gives "undef" when not found */
-		INDEX_OF("indexOf",
+		INDEX_OF(
+				"indexOf",
 				"indexOf(x, mylist):=begin local ii; for ii from 0 to length(mylist)-1 do if (mylist[ii] == x) begin print(ii); return ii; end; od; return undef; end"),
 
 		/**
 		 * Compute squarefree factorization of the input poly p. Strange why
 		 * sommet(-x)!='-' (so we do an ugly hack here, FIXME)
 		 */
-		FACTOR_SQR_FREE("factorsqrfree", "factorsqrfree(p):=begin local pf,r,ii; pf:=factor(p); if (sommet(pf)!='*') begin if (sommet(pf)=='^') return op(pf)[0]; else begin if (sommet(pf)!=sommet(-x)) return pf; else return factorsqrfree(-pf); end; end; opPf:=op(pf); r:=1; for ii from 0 to size(opPf)-1 do r:=r*factorsqrfree(opPf[ii]); od return r end"),
+		FACTOR_SQR_FREE(
+				"factorsqrfree",
+				"factorsqrfree(p):=begin local pf,r,ii; pf:=factor(p); if (sommet(pf)!='*') begin if (sommet(pf)=='^') return op(pf)[0]; else begin if (sommet(pf)!=sommet(-x)) return pf; else return factorsqrfree(-pf); end; end; opPf:=op(pf); r:=1; for ii from 0 to size(opPf)-1 do r:=r*factorsqrfree(opPf[ii]); od return r end"),
 		/**
 		 * Eliminate variables from a polynomial ideal. If the result is a set
 		 * of discrete points, then convert the linear polynomials to a product
 		 * of circle definitions with zero radius.
 		 */
-		GEOM_ELIM("geomElim", "geomElim(polys,elimvars,precision):=begin local ee, ll, ff, gg, ii; ee:=eliminate(polys,revlist(elimvars)); /*print(ee);*/ ll:=lvar(ee); /*print(ll);*/ if (size(ee)>1) begin /*print(fsolve(ee,ll));*/ ff:=round(fsolve(ee,ll)*precision)/precision; /*print(ff);*/ gg:=1; for ii from 0 to size(ff)-1 do gg:=gg*(((ll[0]-ff[ii,0])^2+(ll[1]-ff[ii,1])^2)); /*print(gg);*/ od; ee:=[expand(lcm(denom(coeff(gg)))*gg)]; end; if (size(ee)==0) return 0; else return primpoly(ee)[0]; end;"),
+		GEOM_ELIM(
+				"geomElim",
+				"geomElim(polys,elimvars,precision):=begin local ee, ll, ff, gg, ii; ee:=eliminate(polys,revlist(elimvars)); /*print(ee);*/ ll:=lvar(ee); /*print(ll);*/ if (size(ee)>1) begin /*print(fsolve(ee,ll));*/ ff:=round(fsolve(ee,ll)*precision)/precision; /*print(ff);*/ gg:=1; for ii from 0 to size(ff)-1 do gg:=gg*(((ll[0]-ff[ii,0])^2+(ll[1]-ff[ii,1])^2)); /*print(gg);*/ od; ee:=[expand(lcm(denom(coeff(gg)))*gg)]; end; if (size(ee)==0) return 0; else return primpoly(ee)[0]; end;"),
 		/**
 		 * Help simplifying the input when computing the Jacobian matrix in the
 		 * Envelope command. Input: a list of polynomials and a list of
@@ -300,74 +333,94 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * ones and equivalent with the input. Note that
 		 * op(solve(polys[ii]=0,linvar)[0])[1] is required in GeoGebra mode, in
 		 * standard Giac here solve(polys[ii],linvar)[0] should be written.
-		 * 
+		 *
 		 * The algorithm finds the polys which have one variable and it is
 		 * linear. After solving such a poly=0 equation, the solution will be
 		 * substituted into all other polys. After doing this for all one
 		 * variable linear polys recursively, the resulted polys will be used in
 		 * the Jacobian matrix in jacobiDet().
-		 * 
+		 *
 		 * Used internally.
 		 */
-		JACOBI_PREPARE("jacobiPrepare", "jacobiPrepare(polys,excludevars):=begin local ii, degs, pos, vars, linvar; vars:=lvar(polys); ii:=0; while (ii<size(polys)-1) do degs:=degree(polys[ii],vars); if (sum(degs)=1) begin pos:=find(1,degs); linvar:=vars[pos[0]]; if (!is_element(linvar,excludevars)) begin substval:=op(solve(polys[ii]=0,linvar)[0])[1]; polys:=remove(0,expand(subs(polys,[linvar],[substval]))); /*print(polys);*/ ii:=-1; end; end; ii:=ii+1; od; return polys; end"),
+		JACOBI_PREPARE(
+				"jacobiPrepare",
+				"jacobiPrepare(polys,excludevars):=begin local ii, degs, pos, vars, linvar; vars:=lvar(polys); ii:=0; while (ii<size(polys)-1) do degs:=degree(polys[ii],vars); if (sum(degs)=1) begin pos:=find(1,degs); linvar:=vars[pos[0]]; if (!is_element(linvar,excludevars)) begin substval:=op(solve(polys[ii]=0,linvar)[0])[1]; polys:=remove(0,expand(subs(polys,[linvar],[substval]))); /*print(polys);*/ ii:=-1; end; end; ii:=ii+1; od; return polys; end"),
 		/**
 		 * Compute the Jacobian determinant of the polys with respect to
 		 * excludevars. Used internally.
 		 */
-		JACOBI_DET("jacobiDet", "jacobiDet(polys,excludevars):=begin local J, ii, vars, s, j, k; vars:=lvar(polys); for ii from 0 to size(excludevars)-1 do vars:=remove(excludevars[ii], vars); od; s:=size(vars); J:=matrix(s,s,(j,k)->diff(polys[j],vars[k])); return det_minor(J); end"),
+		JACOBI_DET(
+				"jacobiDet",
+				"jacobiDet(polys,excludevars):=begin local J, ii, vars, s, j, k; vars:=lvar(polys); for ii from 0 to size(excludevars)-1 do vars:=remove(excludevars[ii], vars); od; s:=size(vars); J:=matrix(s,s,(j,k)->diff(polys[j],vars[k])); return det_minor(J); end"),
 		/**
 		 * Compute the Jacobian determinant of the polys with respect to
 		 * excludevars, but first some geometrical preparations are performed to
 		 * simplify the result. Used internally.
 		 */
-		GEOM_JACOBI_DET("geomJacobiDet",
+		GEOM_JACOBI_DET(
+				"geomJacobiDet",
 				"geomJacobiDet(polys,excludevars):=begin local J; J:=jacobiPrepare(polys,excludevars); return jacobiDet(J,excludevars); end"),
 		/**
 		 * Compute the coefficients of the envelope equation for the input
 		 * polys, elimvars with given precision for the curve variables x and y.
 		 * Used publicly.
 		 */
-		ENVELOPE_EQU("envelopeEqu",
+		ENVELOPE_EQU(
+				"envelopeEqu",
 				"envelopeEqu(polys,elimvars,precision,curvevarx,curvevary):=begin local D; D:=geomJacobiDet(polys,[curvevarx,curvevary]); polys:=append(polys,D); return locusEqu(polys,elimvars,precision,curvevarx,curvevary); end"),
 		/**
 		 * Compute the coefficients of the locus equation for the input polys,
 		 * elimvars with given precision for the curve variables x and y. Used
 		 * publicly.
 		 */
-		LOCUS_EQU("locusEqu", "locusEqu(polys,elimvars,precision,curvevarx,curvevary):=implicitCurveCoeffs(subst(geomElim(jacobiPrepare(polys,[curvevarx,curvevary]),elimvars,precision),[curvevarx=x,curvevary=y]))"),
+		LOCUS_EQU(
+				"locusEqu",
+				"locusEqu(polys,elimvars,precision,curvevarx,curvevary):=implicitCurveCoeffs(subst(geomElim(jacobiPrepare(polys,[curvevarx,curvevary]),elimvars,precision),[curvevarx=x,curvevary=y]))"),
 		/**
 		 * Compute coefficient matrix of the input polynomial. The output is a
 		 * flattened variant of the matrix: the elements are returned row by
 		 * row, starting with the sizes of the matrix: height and width. Used
 		 * internally.
 		 */
-		COEFF_MATRIX("coeffMatrix", "coeffMatrix(aa):=begin local bb, sx, sy, ii, jj, ee, cc, kk; bb:=coeffs(aa,x); sx:=size(bb); sy:=size(coeffs(aa,y)); cc:=[sx,sy]; for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y); sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj]; cc:=append(cc,ee); od; for kk from sd to sy-1 do ee:=0; cc:=append(cc,ee); od; od; return cc; end"),
+		COEFF_MATRIX(
+				"coeffMatrix",
+				"coeffMatrix(aa):=begin local bb, sx, sy, ii, jj, ee, cc, kk; bb:=coeffs(aa,x); sx:=size(bb); sy:=size(coeffs(aa,y)); cc:=[sx,sy]; for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y); sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj]; cc:=append(cc,ee); od; for kk from sd to sy-1 do ee:=0; cc:=append(cc,ee); od; od; return cc; end"),
 		/**
 		 * Compute the coefficient matrices for the factors of the input
 		 * polynomial. The first number in the flattened output is the number of
 		 * the coefficient matrices, then each coefficient matrix is added. Used
 		 * internally.
 		 */
-		COEFF_MATRICES("coeffMatrices", "coeffMatrices(aa):=begin local ff, bb, ccf, ll, aaf; ff:=factors(aa); ccf:=[size(ff)/2]; for ll from 0 to size(ff)-1 by 2 do aaf:=ff[ll]; bb:=coeffMatrix(aaf); ccf:=append(ccf,bb); od; return flatten(ccf); end"),
+		COEFF_MATRICES(
+				"coeffMatrices",
+				"coeffMatrices(aa):=begin local ff, bb, ccf, ll, aaf; ff:=factors(aa); ccf:=[size(ff)/2]; for ll from 0 to size(ff)-1 by 2 do aaf:=ff[ll]; bb:=coeffMatrix(aaf); ccf:=append(ccf,bb); od; return flatten(ccf); end"),
 		/**
 		 * Compute the flattened coefficient matrix as it is directly used when
 		 * the algebraic curve is plotted as an implicit poly. Used publicly.
 		 */
-		IMPLICIT_CURVE_COEFFS("implicitCurveCoeffs", "implicitCurveCoeffs(aa):=begin local bb; bb:=factorsqrfree(aa); return [coeffMatrix(bb),coeffMatrices(bb)]; end"),
+		IMPLICIT_CURVE_COEFFS(
+				"implicitCurveCoeffs",
+				"implicitCurveCoeffs(aa):=begin local bb; bb:=factorsqrfree(aa); return [coeffMatrix(bb),coeffMatrices(bb)]; end"),
 		/**
 		 * Decide if a poly is irreducible.
 		 */
-		IRRED("irred", "irred(p,x):=begin local f; f:=factors(primpart(p,x)); return (size(f)==2 && f[1]==1); end"),
+		IRRED(
+				"irred",
+				"irred(p,x):=begin local f; f:=factors(primpart(p,x)); return (size(f)==2 && f[1]==1); end"),
 		/**
 		 * Absolute factorization of a poly in 2 vars: create the algebraic
 		 * number to extend Q. We assume that the poly is irreducible over Q.
 		 */
-		AFACTOR_ALG_NUM("afactorAlgNum", "afactorAlgNum(p):=begin local k,l,j,d,extdeg,xx,lv,px,lc,lv2,py,fy,lfy,yy,fydeg,deg,pm,pdeg; l:=lname(p); if (!irred(p,l[0])) return \"Not irreducible\"; if (size(l)<2) return p; d:=[]; for j in l do d:=append(d,degree(p,j)); od; extdeg:=lgcd(d); if (extdeg==1) return \"Absolutely irreducible\"; xx:=head(l); pdeg:=degree(p,xx); l:=tail(l); for j from 1 to 1000 do lv:=ranv(size(l),j); px:=primpart(subst(p,l,lv),xx); if (degree(px,xx)!=pdeg) continue; if (irred(px,xx)) break; od; lc:=lcoeff(px,xx); if (lc!=1) px:=primpart(subst(px,xx,xx/lc),xx); for j from j to 1000 do lv2:=ranv(size(l),extdeg+j); if (lv2==lv) continue; py:=primpart(subst(p,l,lv2),xx); if (degree(py,xx)!=pdeg || !irred(py,xx)) continue; fy:=factors(py,rootof(px)); fydeg:=map(fy,yy->degree(yy,xx)); deg:=gcd(fydeg); deg:=d[0]/deg; if (deg==extdeg && degree(px)==extdeg) break; extdeg:=gcd(deg,extdeg); if (extdeg==1) return \"Absolutely irreducible\"; if (deg>extdeg) continue; for k from 0 to size(fydeg)-1 do if (fydeg[k]*extdeg==d[0]) break; od; if (k==size(fydeg)) continue; lfy:=coeff(fy[k],xx); for k from 0 to size(lfy)-1 do pm:=pmin(lfy[k]); if (degree(pm)==extdeg) begin px:=pm; break; end; od; od; return px; end"),
+		AFACTOR_ALG_NUM(
+				"afactorAlgNum",
+				"afactorAlgNum(p):=begin local k,l,j,d,extdeg,xx,lv,px,lc,lv2,py,fy,lfy,yy,fydeg,deg,pm,pdeg; l:=lname(p); if (!irred(p,l[0])) return \"Not irreducible\"; if (size(l)<2) return p; d:=[]; for j in l do d:=append(d,degree(p,j)); od; extdeg:=lgcd(d); if (extdeg==1) return \"Absolutely irreducible\"; xx:=head(l); pdeg:=degree(p,xx); l:=tail(l); for j from 1 to 1000 do lv:=ranv(size(l),j); px:=primpart(subst(p,l,lv),xx); if (degree(px,xx)!=pdeg) continue; if (irred(px,xx)) break; od; lc:=lcoeff(px,xx); if (lc!=1) px:=primpart(subst(px,xx,xx/lc),xx); for j from j to 1000 do lv2:=ranv(size(l),extdeg+j); if (lv2==lv) continue; py:=primpart(subst(p,l,lv2),xx); if (degree(py,xx)!=pdeg || !irred(py,xx)) continue; fy:=factors(py,rootof(px)); fydeg:=map(fy,yy->degree(yy,xx)); deg:=gcd(fydeg); deg:=d[0]/deg; if (deg==extdeg && degree(px)==extdeg) break; extdeg:=gcd(deg,extdeg); if (extdeg==1) return \"Absolutely irreducible\"; if (deg>extdeg) continue; for k from 0 to size(fydeg)-1 do if (fydeg[k]*extdeg==d[0]) break; od; if (k==size(fydeg)) continue; lfy:=coeff(fy[k],xx); for k from 0 to size(lfy)-1 do pm:=pmin(lfy[k]); if (degree(pm)==extdeg) begin px:=pm; break; end; od; od; return px; end"),
 		/**
 		 * Absolute factorization of a poly in 2 vars: return the factorization
 		 * over the extension. We assume that the poly is irreducible over Q.
 		 */
-		ABSFACT("absfact", "absfact(p):=begin local algnum; algnum:=afactorAlgNum(p); /*print(algnum,type(algnum));*/ if (type(algnum)==DOM_LIST || type(algnum)==DOM_SYMBOLIC) return factor(p,rootof(algnum)); else return p; end"),
+		ABSFACT(
+				"absfact",
+				"absfact(p):=begin local algnum; algnum:=afactorAlgNum(p); /*print(algnum,type(algnum));*/ if (type(algnum)==DOM_LIST || type(algnum)==DOM_SYMBOLIC) return factor(p,rootof(algnum)); else return p; end"),
 		/*
 		 * Examples: absfact(y^4 +2*y^2*x+14*y^2-7*x^2 +6*x+47) should return
 		 * -7*(x+(-2*sqrt(2)-1)/7*y^2+(-13*sqrt(2)-3)/7)*(x+(2*sqrt(2)-1)/7*y^2+(13*sqrt(2)-3)/7).
@@ -381,23 +434,29 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * Giac uses round(x):=floor(x+0.5) but we want "round half up" to be
 		 * consistent with the Algebra View
 		 */
-		GGB_ROUND("ggbround",
-					"ggbround(x):=when(evalf(x)==?||evalf(x)=={?},?,when(type(evalf(x))==DOM_LIST,seq(ggbround(x[j]),j,0,length(x)-1),when(type(evalf(x))==DOM_COMPLEX,ggbround(real(x))+i*ggbround(im(x)),when(x<0,when(type(x)==DOM_LIST&&length(x)==2,-round(-x[0], x[1]),-round(-x)),round(x)))))"),
+		GGB_ROUND(
+				"ggbround",
+				"ggbround(x):=when(evalf(x)==?||evalf(x)=={?},?,when(type(evalf(x))==DOM_LIST,seq(ggbround(x[j]),j,0,length(x)-1),when(type(evalf(x))==DOM_COMPLEX,ggbround(real(x))+i*ggbround(im(x)),when(x<0,when(type(x)==DOM_LIST&&length(x)==2,-round(-x[0], x[1]),-round(-x)),round(x)))))"),
 
 		/**
 		 * Minimal polynomial of cos(2pi/n), see GGB-2137 for details.
 		 */
-		COS_2PI_OVER_N_MINPOLY("cos2piOverNMinpoly", "cos2piOverNMinpoly(n):=begin local j, p, q, r; p:=simplify((tchebyshev1(n)-1)/(x-1)); for j from 1 to n/2 do q:=tchebyshev1(j)-1; r:=gcd(p,q); p:=simplify(p/r); od; return factorsqrfree(primpart(p)); end"),
+		COS_2PI_OVER_N_MINPOLY(
+				"cos2piOverNMinpoly",
+				"cos2piOverNMinpoly(n):=begin local j, p, q, r; p:=simplify((tchebyshev1(n)-1)/(x-1)); for j from 1 to n/2 do q:=tchebyshev1(j)-1; r:=gcd(p,q); p:=simplify(p/r); od; return factorsqrfree(primpart(p)); end"),
 		/**
 		 * Checks equations for equality, see
 		 * <a href="https://geogebra-jira.atlassian.net/browse/APPS-6413">APPS-6413</a> for details
 		 */
-		IS_EQUAL_EQUATIONS("ggbIsEqualEquations", "ggbIsEqualEquations(eq1,eq2):=when(ggbIsZero(eq1)&&ggbIsZero(eq2),true,when(ggbIsZero(eq1)||ggbIsZero(eq2),false,type(normal(equal2diff(eq1)/equal2diff(eq2)))!=DOM_SYMBOLIC))");
+		IS_EQUAL_EQUATIONS(
+				"ggbIsEqualEquations",
+				"ggbIsEqualEquations(eq1,eq2):=when(ggbIsZero(eq1)&&ggbIsZero(eq2),true,when(ggbIsZero(eq1)||ggbIsZero(eq2),false,type(normal(equal2diff(eq1)/equal2diff(eq2)))!=DOM_SYMBOLIC))");
 
 		/** function name */
-		final public String functionName;
+		public final String functionName;
 		/** definition string */
-		final public String definitionString;
+		public final String definitionString;
+
 		private static List<Entry<CustomFunctions, CustomFunctions>> CustomFunctionsDependencies;
 
 		CustomFunctions(String functionName, String definitionString) {
@@ -410,10 +469,8 @@ public abstract class CASgiac implements CASGenericInterface {
 			return functionName;
 		}
 
-		private static void setDependency(CustomFunctions cf1,
-				CustomFunctions cf2) {
-			Entry<CustomFunctions, CustomFunctions> pair = new SimpleEntry<>(
-					cf1, cf2);
+		private static void setDependency(CustomFunctions cf1, CustomFunctions cf2) {
+			Entry<CustomFunctions, CustomFunctions> pair = new SimpleEntry<>(cf1, cf2);
 			CustomFunctionsDependencies.add(pair);
 		}
 
@@ -448,13 +505,12 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * Create the list of prerequisites of a custom command. TODO: Currently
 		 * we don't have a complex tree of dependencies. Later we may add a more
 		 * sophisticated algorithm here to remove duplicates, be faster etc.
-		 * 
+		 *
 		 * @param cf
 		 *            the custom command
 		 * @return the prerequisites
 		 */
-		public static ArrayList<CustomFunctions> prereqs(
-				CustomFunctions cf) {
+		public static ArrayList<CustomFunctions> prereqs(CustomFunctions cf) {
 			ArrayList<CustomFunctions> list = new ArrayList<>();
 			for (Entry<CustomFunctions, CustomFunctions> pair : CustomFunctionsDependencies) {
 				CustomFunctions key = pair.getKey();
@@ -476,23 +532,26 @@ public abstract class CASgiac implements CASGenericInterface {
 	 * Timeout for CAS in milliseconds. This can be changed in the CAS options.
 	 */
 	public long timeoutMillis = 5000;
-	final private static String EVALFA = "evalfa(";
+
+	private static final String EVALFA = "evalfa(";
 	private final StringBuilder expSB = new StringBuilder(EVALFA);
-	private final Map<String, String> casGiacCache
-			= new MaxSizeHashMap<>(Kernel.GEOGEBRA_CAS_CACHE_SIZE);
+	private final Map<String, String> casGiacCache =
+			new MaxSizeHashMap<>(Kernel.GEOGEBRA_CAS_CACHE_SIZE);
 
 	// eg {(ggbtmpvarx>(-sqrt(110)/5)) && ((sqrt(110)/5)>ggbtmpvarx)}
 	// eg {(ggbtmpvarx>=(-sqrt(110)/5)) && ((sqrt(110)/5)>=ggbtmpvarx)}
 	// eg (ggbtmpvarx>3) && (4>ggbtmpvarx)
 	/** expression with at most 3 levels of brackets */
-	public final static String expression = "(([^\\(\\)]|\\([^\\(\\)]+\\)|\\(([^\\(\\)]|\\([^\\(\\)]+\\))+\\))+)";
+	public static final String expression =
+			"(([^\\(\\)]|\\([^\\(\\)]+\\)|\\(([^\\(\\)]|\\([^\\(\\)]+\\))+\\))+)";
 	/**
 	 * inequality a &gt;=? ex1 &amp;&amp; ex2 &gt;=? b where a,b are literals and ex1, ex2 are
 	 * expressions with at most 3 brackets
 	 */
-	public final static RegExp inequality = RegExp
-			.compile("^(.*)\\(([A-Za-z]+)>(=*)" + expression + "\\) && \\("
-					+ expression + ">(=*)([A-Za-z]+)\\)(.*)$", "");
+	public static final RegExp inequality = RegExp.compile(
+			"^(.*)\\(([A-Za-z]+)>(=*)" + expression + "\\) && \\(" + expression
+					+ ">(=*)([A-Za-z]+)\\)(.*)$",
+			"");
 
 	// eg 3.7 > ggbtmpvarx
 	// eg (37/10) > ggbtmpvarx
@@ -501,16 +560,16 @@ public abstract class CASgiac implements CASGenericInterface {
 	// private final static RegExp inequalitySimple =
 	// RegExp.compile("([-0-9.E/\\(\\)]+)>(=*)(ggbtmpvar.+)");
 	// works only for variables in form [A-Za-z]+
-	private final static RegExp inequalitySimple = RegExp
-			.compile("^([-0-9.E/\\(\\)]+)>(=*)([A-Za-z]+)$");
+	private static final RegExp inequalitySimple =
+			RegExp.compile("^([-0-9.E/\\(\\)]+)>(=*)([A-Za-z]+)$");
 
 	// eg {3, 3>ggbtmpvarx, x^2}
 	// eg {3, 3>ggbtmpvarx}
 	// eg {3>ggbtmpvarx, x^2}
 	// eg {3>ggbtmpvarx}
 	// works only for variables in form [A-Za-z]+ and if it's a simple number
-	private final static RegExp inequalitySimpleInList = RegExp.compile(
-			"(.*)([,{])(\\(*)([-0-9.E]+)(\\)*)>(=*)([A-Za-z]+)([,}\\)])(.*)");
+	private static final RegExp inequalitySimpleInList =
+			RegExp.compile("(.*)([,{])(\\(*)([-0-9.E]+)(\\)*)>(=*)([A-Za-z]+)([,}\\)])(.*)");
 
 	// old version, causes problems with eg Solve[exp(x)<2]
 	// private final static RegExp inequalitySimpleInList =
@@ -518,7 +577,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	/**
 	 * Creates new Giac CAS
-	 * 
+	 *
 	 * @param casParser
 	 *            parser
 	 */
@@ -535,7 +594,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	public abstract String evaluateCAS(String exp);
 
 	@Override
-	final public String evaluateRaw(final String input) throws Throwable {
+	public final String evaluateRaw(final String input) throws Throwable {
 
 		Log.debug("input = " + input);
 
@@ -555,7 +614,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		String rtrimmed = result.trim();
 		if (rtrimmed.startsWith("\"") && rtrimmed.endsWith("\"")) {
-				result = result.substring(1, result.length() - 1); // removing
+			result = result.substring(1, result.length() - 1); // removing
 		}
 
 		if (result.length() > MAX_ALLOWED_STRING_LENGTH) {
@@ -570,8 +629,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	protected void addResultToCache(String input, String result) {
-		boolean inputContainsExcludedString =
-				EXCLUDE_FROM_CACHE.stream().anyMatch(input::contains);
+		boolean inputContainsExcludedString = EXCLUDE_FROM_CACHE.stream().anyMatch(input::contains);
 		if (!inputContainsExcludedString) {
 			casGiacCache.put(input, result);
 		}
@@ -590,13 +648,15 @@ public abstract class CASgiac implements CASGenericInterface {
 	 * @throws Throwable
 	 *             for CAS error
 	 */
-	protected abstract String evaluate(String exp, long timeoutMilliseconds)
-			throws Throwable;
+	protected abstract String evaluate(String exp, long timeoutMilliseconds) throws Throwable;
 
 	@Override
-	final public synchronized String evaluateGeoGebraCAS(
-			final ValidExpression inputExpression, ArbitraryConstantRegistry arbconst,
-			StringTemplate tpl, GeoCasCell cell, Kernel kernel)
+	public final synchronized String evaluateGeoGebraCAS(
+			final ValidExpression inputExpression,
+			ArbitraryConstantRegistry arbconst,
+			StringTemplate tpl,
+			GeoCasCell cell,
+			Kernel kernel)
 			throws CASException {
 
 		ValidExpression casInput = inputExpression;
@@ -619,8 +679,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		if (casInput instanceof FunctionNVar) {
 			// delayed function definition f(x)::= Derivative[x^2] should return
 			// Derivative[x^2]
-			if (cell != null
-					&& cell.getAssignmentType() == AssignmentType.DELAYED) {
+			if (cell != null && cell.getAssignmentType() == AssignmentType.DELAYED) {
 				return casInput.toString(StringTemplate.numericNoLocal);
 			}
 			// function definition f(x) := x^2 should return x^2
@@ -640,14 +699,11 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		if (keepInput && cell != null && cell.isSubstitute()) {
 			// assume keepinput was not treated in CAS
-			ExpressionValue substList = casInput.getTopLevelCommand()
-					.getArgument(1).unwrap();
-			ExpressionValue substArg = casInput.getTopLevelCommand()
-					.getArgument(0);
+			ExpressionValue substList = casInput.getTopLevelCommand().getArgument(1).unwrap();
+			ExpressionValue substArg = casInput.getTopLevelCommand().getArgument(0);
 			if (substList instanceof MyList) {
 				for (int i = 0; i < ((MyList) substList).size(); i++) {
-					substArg = subst(substArg, ((MyList) substList).getItem(i),
-							cell.getKernel());
+					substArg = subst(substArg, ((MyList) substList).getItem(i), cell.getKernel());
 				}
 			} else {
 				substArg = subst(substArg, substList, cell.getKernel());
@@ -662,11 +718,10 @@ public abstract class CASgiac implements CASGenericInterface {
 			return null;
 		}
 		return toGeoGebraString(plainResult, arbconst, tpl, kernel, inputExpression);
-
 	}
 
-	private static ExpressionValue subst(ExpressionValue substArg,
-			ExpressionValue item0, Kernel kernel) {
+	private static ExpressionValue subst(
+			ExpressionValue substArg, ExpressionValue item0, Kernel kernel) {
 		ExpressionValue item = item0.unwrap();
 		if (item instanceof Equation) {
 			ExpressionValue lhs = ((Equation) item).getLHS().unwrap();
@@ -674,8 +729,7 @@ public abstract class CASgiac implements CASGenericInterface {
 				ExpressionValue rhs = ((Equation) item).getRHS().unwrap();
 				ExpressionValue copy = substArg.deepCopy(kernel);
 				copy.traverse(VariableReplacer.getReplacer(
-						lhs.toString(StringTemplate.defaultTemplate), rhs,
-						kernel));
+						lhs.toString(StringTemplate.defaultTemplate), rhs, kernel));
 				return copy;
 			}
 		}
@@ -683,16 +737,15 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	@Override
-	final public synchronized ExpressionValue evaluateToExpression(
-			final ValidExpression inputExpression, ArbitraryConstantRegistry arbconst,
-			Kernel kernel) throws CASException {
+	public final synchronized ExpressionValue evaluateToExpression(
+			final ValidExpression inputExpression, ArbitraryConstantRegistry arbconst, Kernel kernel)
+			throws CASException {
 		String result = getPlainResult(inputExpression, kernel);
 		// standard case
 		if ("".equals(result)) {
 			return null;
 		}
 		return replaceRoots(casParser.parseGiac(result), arbconst, kernel);
-
 	}
 
 	private String getPlainResult(ValidExpression casInput, Kernel kernel) {
@@ -702,10 +755,9 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		if (cmd != null && "Delete".equals(cmd.getName())) {
 			ExpressionValue toDelete = cmd.getArgument(0).unwrap();
-			if (toDelete.isExpressionNode() && (((ExpressionNode) toDelete)
-					.getOperation() == Operation.FUNCTION
-					|| ((ExpressionNode) toDelete)
-							.getOperation() == Operation.FUNCTION_NVAR)) {
+			if (toDelete.isExpressionNode()
+					&& (((ExpressionNode) toDelete).getOperation() == Operation.FUNCTION
+							|| ((ExpressionNode) toDelete).getOperation() == Operation.FUNCTION_NVAR)) {
 				toDelete = ((ExpressionNode) toDelete).getLeft();
 			}
 			String label = toDelete.toString(StringTemplate.defaultTemplate);
@@ -767,20 +819,23 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param result
 	 *            result from Giac to check
 	 * @return true if result is undefined
 	 */
 	public static boolean isUndefined(String result) {
-		return "?".equals(result) || "".equals(result) || "undef".equals(result)
-				|| FORCE_ERROR.equals(result) || result == null;
+		return "?".equals(result)
+				|| "".equals(result)
+				|| "undef".equals(result)
+				|| FORCE_ERROR.equals(result)
+				|| result == null;
 	}
 
 	/**
 	 * Tries to parse a given Giac string and returns a String in GeoGebra
 	 * syntax.
-	 * 
+	 *
 	 * @param giacString
 	 *            String in Giac syntax
 	 * @param arbconst
@@ -794,23 +849,23 @@ public abstract class CASgiac implements CASGenericInterface {
 	 * @throws CASException
 	 *             Throws if the underlying CAS produces an error
 	 */
-	final public synchronized String toGeoGebraString(String giacString,
-			ArbitraryConstantRegistry arbconst,	final StringTemplate tpl,
-			final Kernel kernel, ValidExpression inputExpression) throws CASException {
+	public final synchronized String toGeoGebraString(
+			String giacString,
+			ArbitraryConstantRegistry arbconst,
+			final StringTemplate tpl,
+			final Kernel kernel,
+			ValidExpression inputExpression)
+			throws CASException {
 
-		ExpressionValue ve = replaceRoots(casParser.parseGiac(giacString),
-				arbconst, kernel);
+		ExpressionValue ve = replaceRoots(casParser.parseGiac(giacString), arbconst, kernel);
 		if (ve instanceof ExpressionNode veExp) {
 			ve = fixInequalitySign(veExp, inputExpression, kernel);
 		}
 		// replace rational exponents by roots or vice versa
 
 		ve = ve.traverse(ev -> {
-			if (ev instanceof MyVecNDNode
-					&& ((MyVecNDNode) ev).isCASVector()) {
-				return new ExpressionNode(kernel,
-						new Variable(kernel, "ggbvect"), Operation.FUNCTION,
-						ev);
+			if (ev instanceof MyVecNDNode && ((MyVecNDNode) ev).isCASVector()) {
+				return new ExpressionNode(kernel, new Variable(kernel, "ggbvect"), Operation.FUNCTION, ev);
 			}
 			return ev;
 		});
@@ -830,27 +885,27 @@ public abstract class CASgiac implements CASGenericInterface {
 		return casParser.toGeoGebraString(ve, tpl);
 	}
 
-	private ExpressionValue fixInequalitySign(ExpressionNode veExp,
-			ValidExpression inputExpression, Kernel kernel) {
+	private ExpressionValue fixInequalitySign(
+			ExpressionNode veExp, ValidExpression inputExpression, Kernel kernel) {
 		Operation outputOp = veExp.getOperation();
 		boolean wrappedInCommand = inputExpression.isTopLevelCommand("Evaluate")
 				|| inputExpression.isTopLevelCommand("Numeric");
-		ExpressionNode inputArg = wrappedInCommand
-				? ((Command) inputExpression.unwrap()).getArgument(0) : null;
-		if (inputArg != null && outputOp.isInequality()
+		ExpressionNode inputArg =
+				wrappedInCommand ? ((Command) inputExpression.unwrap()).getArgument(0) : null;
+		if (inputArg != null
+				&& outputOp.isInequality()
 				&& outputOp.reverseLeftToRight() == inputArg.getOperation()) {
-			return new ExpressionNode(kernel, veExp.getRight(),
-					veExp.getOperation().reverseLeftToRight(), veExp.getLeft());
+			return new ExpressionNode(
+					kernel, veExp.getRight(), veExp.getOperation().reverseLeftToRight(), veExp.getLeft());
 		}
 		return veExp;
 	}
 
-	private static ExpressionValue replaceRoots(ExpressionValue ve0,
-			ArbitraryConstantRegistry arbconst, Kernel kernel) {
+	private static ExpressionValue replaceRoots(
+			ExpressionValue ve0, ArbitraryConstantRegistry arbconst, Kernel kernel) {
 		ExpressionValue ve = ve0;
 		if (ve != null) {
-			boolean toRoot = kernel.getApplication().getSettings()
-					.getCasSettings().getShowExpAsRoots();
+			boolean toRoot = kernel.getApplication().getSettings().getCasSettings().getShowExpAsRoots();
 			ve = ve.traverse(DiffReplacer.INSTANCE);
 			ve = ve.traverse(PowerRootReplacer.getReplacer(toRoot));
 			if (arbconst != null) {
@@ -884,7 +939,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	 * This method is called when asynchronous CAS call is finished. It tells
 	 * the calling algo to update itself and adds the result to cache if
 	 * suitable.
-	 * 
+	 *
 	 * @param exp
 	 *            parsed CAS output
 	 * @param result2
@@ -899,8 +954,12 @@ public abstract class CASgiac implements CASGenericInterface {
 	 * @param cell
 	 *            cas cell
 	 */
-	public void CASAsyncFinished(ValidExpression exp, String result2,
-			Throwable exception, AsynchronousCommand c, String input,
+	public void casAsyncFinished(
+			ValidExpression exp,
+			String result2,
+			Throwable exception,
+			AsynchronousCommand c,
+			String input,
 			GeoCasCell cell) {
 		String result = result2;
 		// pass on exception
@@ -913,8 +972,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		// otherwise return input
 		if (cell.isKeepInputUsed() && "?".equals(result)) {
 			// return original input
-			c.handleCASoutput(exp.toString(StringTemplate.maxPrecision),
-					input.hashCode());
+			c.handleCASoutput(exp.toString(StringTemplate.maxPrecision), input.hashCode());
 		}
 
 		// success
@@ -943,11 +1001,10 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	@Override
-	public String createEliminateFactorizedScript(String polys,
-			String elimVars) {
+	public String createEliminateFactorizedScript(String polys, String elimVars) {
 		/*
 		 * Some examples to understand the code below:
-		 * 
+		 *
 		 * [[aa:=eliminate([-1*v1,-1*v11*v10+v12*v9+v11*v8+-1*v9*v8+-1*v12*v7+
 		 * v10 *v7,v13*v8+-1*v14*v7,-1*v13+v13*v10+v9+-1*v14*v9,
 		 * -1*v15*v10+v16*v9+v15
@@ -958,15 +1015,15 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * *v18*v15+v19*v17*v14+-1*v19*v15*v14+-1*v19*v18*v13+v19*v16*v13],
 		 * [v17,v16,v19,v1,v18,v8,v13,v14,v15])],[bb:=size(aa)],[for ii from 0
 		 * to bb-1 do cc[ii]:=factors(aa[ii]); od], cc][3]
-		 * 
+		 *
 		 * table( 1 = [v2-1,1,v7,1,v12-1,1], 2 = [v2,1,v9,1,v12,1], 3 =
 		 * [v7,1,v10-1,1], 4 = [v12,1,v12-1,1,-1,1,v2,1,v10-1,1,v10-v2,1], 5 =
 		 * [-v2+1,1,v7,1,v11,1], 6 = [v2,1,v9,1,v11,1], 7 =
 		 * [-v11*v10+v11*v2+v12*v9,1], 0 = [v7,1,v9,1] )
-		 * 
+		 *
 		 * But we need the same output as Singular does, so we use this code
 		 * instead:
-		 * 
+		 *
 		 * [[aa:=eliminate([-1*v1,-1*v11*v10+v12*v9+v11*v8+-1*v9*v8+-1*v12*v7+
 		 * v10 *v7,v13*v8+-1*v14*v7,-1*v13+v13*v10+v9+-1*v14*v9,
 		 * -1*v15*v10+v16*v9+v15
@@ -981,23 +1038,21 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * print("  _["+(jj/2+2)+"]="+(cc[jj])); od; print(" [2]:"); print("  "
 		 * +cc[1]);for kk from 1 to dd-1 by 2 do print("   ,"
 		 * +cc[kk]);od;od],0][3]
-		 * 
+		 *
 		 * which gives
-		 * 
+		 *
 		 * [1]: [1]: _[1]=1 _[2]=v7 _[3]=v9 [2]: 1 ,1 ,1 [2]: [1]: _[1]=1
 		 * _[2]=v7 _[3]=v10-1 [2]: 1 ,1 ,1 [3]: [1]: _[1]=1 _[2]=v9 _[3]=-1
 		 * _[4]=v11*v10-v9*v12 [2]: 1 ,1 ,1 ,1 [4]: [1]: _[1]=1 _[2]=v1 [2]: 1
 		 * ,1 0
-		 * 
+		 *
 		 * in giac with CoCoA support on command line and runs forever in
 		 * giac.js.
 		 */
 
-		String eliminateCommand = "eliminate([" + polys
-				+ "],revlist(["
-				+ elimVars + "]))";
+		String eliminateCommand = "eliminate([" + polys + "],revlist([" + elimVars + "]))";
 
-		return  "[[ff:=\"\"],[aa:=" + eliminateCommand
+		return "[[ff:=\"\"],[aa:=" + eliminateCommand
 				+ "],"
 				+ "[bb:=size(aa)],[for ii from 0 to bb-1 do ff+=(\"[\"+(ii+1)+\"]: [1]: "
 				+ " _[1]=1\");ee:=aa[ii]/gcd(coeffs(aa[ii]));cc:=factors(ee);dd:=size(cc);"
@@ -1009,7 +1064,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	/**
 	 * Create a script which eliminates variables from a set of polynomials.
-	 * 
+	 *
 	 * @param polys
 	 *            the input polynomials
 	 * @param elimVars
@@ -1021,11 +1076,10 @@ public abstract class CASgiac implements CASGenericInterface {
 	 * @return the Giac program which creates the output ideal
 	 */
 	@Override
-	public String createEliminateScript(String polys, String elimVars,
-			boolean oneCurve, Long precision) {
+	public String createEliminateScript(
+			String polys, String elimVars, boolean oneCurve, Long precision) {
 		if (!oneCurve) {
-			return CustomFunctions.PRIM_POLY + "(eliminate([" + polys
-					+ "],revlist([" + elimVars + "])))";
+			return CustomFunctions.PRIM_POLY + "(eliminate([" + polys + "],revlist([" + elimVars + "])))";
 		}
 
 		String PRECISION = Long.toString(precision);
@@ -1061,12 +1115,15 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	@Override
 	public String createGroebnerSolvableScript(
-			HashMap<PVariable, BigInteger> substitutions, String polys,
-			String freeVars, String dependantVars, boolean transcext) {
+			HashMap<PVariable, BigInteger> substitutions,
+			String polys,
+			String freeVars,
+			String dependantVars,
+			boolean transcext) {
 		/*
 		 * Example syntax (from Groebner basis tester; but in GeoGebra v1, v2,
 		 * ... are used for variables):
-		 * 
+		 *
 		 * [[ii:=gbasis(subst([2*d1-b1-c1, 2*d2-b2-c2,2*e1-a1-c1,
 		 * 2*e2-a2-c2,2*f1-a1-b1, 2*f2-a2-b2 ,
 		 * (d1-o1)*(b1-c1)+(d2-o2)*(b2-c2),(e1-o1)*(c1-a1)+(e2-o2)*(c2-a2),
@@ -1078,10 +1135,10 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * *(s1*m2+o1*(s2-m2)-m1*s2-o2*(s1-m1
 		 * ))-1],[d1=0,b1=3]),[a1,a2,b1,b2,c1,c2,d1,d2,e1,e2,f1,f2,o1,
 		 * o2,s1,s2,m1,m2,z1,z2],revlex)],(degree(ii[0])!=0)||(ii[0]==0)][1]
-		 * 
+		 *
 		 * In the last part we check if the Groebner basis is a constant neq 0,
 		 * i.e. its degree is 0 but it is not 0. If yes, there is no solution.
-		 * 
+		 *
 		 * The giac implementation does not handle the case for request for
 		 * polynomial ring with coefficients from a transcendental extension. We
 		 * silently use a polynomial ring instead.
@@ -1106,20 +1163,21 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		// ret += ",[" + vars + "],revlex)],(degree(" +
 		// idealVar + "[0])!=0)||(" + idealVar + "[0]==0)][2]";
-		ret += ",[" + vars + "],revlex)],(" + idealVar + "[0]!=1)&&(" + idealVar
-				+ "[0]!=-1)][1]";
+		ret += ",[" + vars + "],revlex)],(" + idealVar + "[0]!=1)&&(" + idealVar + "[0]!=-1)][1]";
 
 		return ret;
 	}
 
 	@Override
 	public String createGroebnerInitialsScript(
-			HashMap<PVariable, BigInteger> substitutions, String polys,
-			String freeVars, String dependantVars) {
+			HashMap<PVariable, BigInteger> substitutions,
+			String polys,
+			String freeVars,
+			String dependantVars) {
 		/*
 		 * Example syntax (from Groebner basis tester; but in GeoGebra v1, v2,
 		 * ... are used for variables):
-		 * 
+		 *
 		 * gbasis(subst([2*d1-b1-c1, 2*d2-b2-c2,2*e1-a1-c1,
 		 * 2*e2-a2-c2,2*f1-a1-b1, 2*f2-a2-b2 ,
 		 * (d1-o1)*(b1-c1)+(d2-o2)*(b2-c2),(e1-o1)*(c1-a1)+(e2-o2)*(c2-a2),
@@ -1148,22 +1206,22 @@ public abstract class CASgiac implements CASGenericInterface {
 			vars = vars.substring(1);
 		}
 		ret += ",[" + vars + "],revlex)";
-		ret += "],[s:=size(GB)],[out:=[]],[for ii from 0 to s-1 do if (size(GB[ii])==1) out[ii]:=lvar(GB[ii]); else out[ii]:=lvar(GB[ii][1]); od],out][4]";
+		ret +=
+				"],[s:=size(GB)],[out:=[]],[for ii from 0 to s-1 do if (size(GB[ii])==1) out[ii]:=lvar(GB[ii]); else out[ii]:=lvar(GB[ii][1]); od],out][4]";
 		return ret;
 	}
 
 	/**
 	 * Converts substitutions to giac strings
-	 * 
+	 *
 	 * @param substitutions
 	 *            input as a HashMap
 	 * @return the parameters for giac (e.g. "v1=0,v2=0,v3=0,v4=1")
-	 * 
+	 *
 	 *         Taken from prover.Polynomial, one character difference. Maybe
 	 *         commonize.
 	 */
-	static String substitutionsString(
-			HashMap<PVariable, BigInteger> substitutions) {
+	static String substitutionsString(HashMap<PVariable, BigInteger> substitutions) {
 		StringBuilder ret = new StringBuilder();
 		for (Entry<PVariable, BigInteger> v : substitutions.entrySet()) {
 			ret.append(",");
@@ -1205,8 +1263,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	@Override
 	public double[][][] getBivarPolyCoefficientsAll(String rawResult) {
 		double[][] coeff = getBivarPolyCoefficients(rawResult);
-		double[][][] coeffSquarefree = getBivarPolySquarefreeCoefficients(
-				rawResult);
+		double[][][] coeffSquarefree = getBivarPolySquarefreeCoefficients(rawResult);
 		double[][][] retval = new double[coeffSquarefree.length + 1][][];
 		retval[0] = coeff;
 		for (int i = 0; i < coeffSquarefree.length; ++i) {
@@ -1215,12 +1272,10 @@ public abstract class CASgiac implements CASGenericInterface {
 		return retval;
 	}
 
-	private static double[][][] getBivarPolySquarefreeCoefficients(
-			String rawResult) {
+	private static double[][][] getBivarPolySquarefreeCoefficients(String rawResult) {
 
 		int firstClosingBracket = rawResult.indexOf('}');
-		String numbers = rawResult.substring(firstClosingBracket + 3,
-				rawResult.length() - 2);
+		String numbers = rawResult.substring(firstClosingBracket + 3, rawResult.length() - 2);
 		String[] flatData = numbers.split(",");
 		int factors = Integer.parseInt(flatData[0]);
 		double[][][] result = new double[factors][][];
@@ -1234,17 +1289,15 @@ public abstract class CASgiac implements CASGenericInterface {
 
 			for (int x = 0; x < xLength; x++) {
 				for (int y = 0; y < yLength; y++) {
-					result[factor][x][y] = Double
-							.parseDouble(flatData[counter]);
-					Log.trace("[LocusEqu] result[" + factor + "][" + x + "," + y
-							+ "]=" + result[factor][x][y]);
+					result[factor][x][y] = Double.parseDouble(flatData[counter]);
+					Log.trace(
+							"[LocusEqu] result[" + factor + "][" + x + "," + y + "]=" + result[factor][x][y]);
 					++counter;
 				}
 			}
 		}
 
 		return result;
-
 	}
 
 	private static double[][] getBivarPolyCoefficients(String rawResult) {
@@ -1259,8 +1312,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		for (int x = 0; x < xLength; x++) {
 			for (int y = 0; y < yLength; y++) {
 				result[x][y] = Double.parseDouble(flatData[counter]);
-				Log.trace("[LocusEqu] result[" + x + "," + y + "]="
-						+ result[x][y]);
+				Log.trace("[LocusEqu] result[" + x + "," + y + "]=" + result[x][y]);
 				++counter;
 			}
 		}
@@ -1271,10 +1323,10 @@ public abstract class CASgiac implements CASGenericInterface {
 	/**
 	 * convert x&gt;3 &amp;&amp; x&lt;7 into 3&lt;x&lt;7, convert 3&gt;x into x&lt;3,
 	 * convert {3&gt;x} into {x&lt;3} eg output from Solve[x (x-1)(x-2)(x-3)(x-4)(x-5) &lt; 0]
-	 * 
+	 *
 	 * Giac's normal command converts inequalities to &gt; or &gt;= so we don't need
 	 * to check &lt;, &lt;=
-	 * 
+	 *
 	 * @param exp
 	 *            expression
 	 * @return converted expression if changed
@@ -1287,14 +1339,14 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		// swap 3>x into x<3
 		if (matcher != null && exp.startsWith(matcher.getGroup(1))) {
-			ret = matcher.getGroup(3) + "<" + matcher.getGroup(2)
-					+ matcher.getGroup(1);
+			ret = matcher.getGroup(3) + "<" + matcher.getGroup(2) + matcher.getGroup(1);
 			Log.debug("giac output (with simple inequality converted): " + ret);
 			return ret;
 		}
 
 		// swap 5 > x && x > 3 into 3<x<5
-		while ((matcher = inequality.exec(ret)) != null &&
+		while ((matcher = inequality.exec(ret)) != null
+				&&
 				// TODO: check not x<3 && x<4
 
 				// check variable the same
@@ -1329,12 +1381,11 @@ public abstract class CASgiac implements CASGenericInterface {
 		}
 
 		return ret;
-
 	}
 
 	/**
 	 * various improvements and hack for Giac's output
-	 * 
+	 *
 	 * @param s
 	 *            output from Giac
 	 * @return result that GeoGebra can parse
@@ -1360,8 +1411,7 @@ public abstract class CASgiac implements CASGenericInterface {
 				break;
 			}
 			// ((a')') -- delete brackets
-			if (primeClose == primeOpen + 2
-					&& ret.charAt(primeOpen + 1) == ')') {
+			if (primeClose == primeOpen + 2 && ret.charAt(primeOpen + 1) == ')') {
 				int bracketOpen = ret.lastIndexOf('(', primeOpen);
 
 				if (bracketOpen >= 0) {
@@ -1391,10 +1441,9 @@ public abstract class CASgiac implements CASGenericInterface {
 			// unique -- we should reset the lookup table for each computation
 			// instead (e.g. revert r19766)
 			nrOfReplacedConst += ret.length() * 3; // upper bound on number of
-													// constants in result
+			// constants in result
 			Log.debug("replacing arbitrary constants in " + ret);
-			ret = ret.replaceAll("\\bc_([0-9]*)",
-					"arbconst($1+" + nrOfReplacedConst + ")");
+			ret = ret.replaceAll("\\bc_([0-9]*)", "arbconst($1+" + nrOfReplacedConst + ")");
 		}
 
 		if (ret.contains("n_")) {
@@ -1408,7 +1457,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		// ret = parserTools.convertScientificFloatNotation(ret);
 
 		ret = casParser.insertSpecialChars(ret); // undo special character
-													// handling
+		// handling
 
 		// don't do check for long strings eg 7^99999
 		if (ret.length() < 200) {
@@ -1423,7 +1472,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	/**
 	 * evalfa makes sure rootof() converted to decimal
 	 * eg @rootof({{-4,10,-440,2025},{1,0,10,-200,375}})
-	 * 
+	 *
 	 * @param s
 	 *            input
 	 * @return "evalfa(" + s + ")"
@@ -1438,7 +1487,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	/**
 	 * Test if Giac is up and running. Overridden in CASGiacW
-	 * 
+	 *
 	 * @return true if Giac is already loaded
 	 */
 	@Override

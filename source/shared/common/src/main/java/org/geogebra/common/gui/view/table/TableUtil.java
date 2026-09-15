@@ -28,7 +28,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 /**
  * Table values related utility method collection.
  */
-@SuppressWarnings({"checkstyle:UnicodeRange"})
 public final class TableUtil {
 
 	/**
@@ -64,8 +63,8 @@ public final class TableUtil {
 	 * @param localization localization for the "Column %0" pattern
 	 * @return attributed string with subscript ranges
 	 */
-	public static AttributedString getLabeledColumnHeader(TableValuesModel model, int columnIndex,
-			boolean hasTwoVariable, Localization localization) {
+	public static AttributedString getLabeledColumnHeader(
+			TableValuesModel model, int columnIndex, boolean hasTwoVariable, Localization localization) {
 		String header = model.getHeaderAt(columnIndex);
 		if (header == null) {
 			header = "-";
@@ -93,8 +92,8 @@ public final class TableUtil {
 		String raw = attributedString.getRawValue();
 		StringBuilder html = new StringBuilder();
 		int pos = 0;
-		ArrayList<Range> ranges = new ArrayList<>(
-				attributedString.getAttribute(AttributedString.Attribute.Subscript));
+		ArrayList<Range> ranges =
+				new ArrayList<>(attributedString.getAttribute(AttributedString.Attribute.Subscript));
 		ranges.sort(Comparator.comparingInt(Range::getStart));
 		for (Range range : ranges) {
 			html.append(raw, pos, range.getStart())

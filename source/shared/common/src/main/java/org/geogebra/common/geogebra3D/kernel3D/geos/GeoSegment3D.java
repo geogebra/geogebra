@@ -40,15 +40,15 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 
 /**
- * 
+ *
  * Class for 3D segments.
  * <p>
  * See {@link GeoCoordSys1D} for 1D coord sys abilities (matrix description,
  * path for points).
- * 
- * 
+ *
+ *
  * @author ggb3d
- * 
+ *
  */
 public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
@@ -60,7 +60,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	/**
 	 * constructor with no points
-	 * 
+	 *
 	 * @param c
 	 *            the construction
 	 */
@@ -70,7 +70,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	/**
 	 * creates a segment linking p1 to p2
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param p1
@@ -84,7 +84,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	/**
 	 * creates a segment linking p1 to p2
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param p1
@@ -94,14 +94,13 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	 * @param isIntersection
 	 *            if this is an intersection curve
 	 */
-	public GeoSegment3D(Construction c, GeoPointND p1, GeoPointND p2,
-			boolean isIntersection) {
+	public GeoSegment3D(Construction c, GeoPointND p1, GeoPointND p2, boolean isIntersection) {
 		super(c, p1, p2, isIntersection);
 	}
 
 	/**
 	 * returns segment's length
-	 * 
+	 *
 	 * @return length
 	 */
 	@Override
@@ -115,7 +114,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	/**
 	 * return {@link GeoClass}
-	 * 
+	 *
 	 * @return {@link GeoClass}
 	 */
 	@Override
@@ -132,7 +131,6 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	 * Yields true iff startpoint and endpoint of s are equal to startpoint and
 	 * endpoint of this segment.
 	 */
-
 	@Override
 	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		if (!geo.isGeoSegment()) {
@@ -141,18 +139,17 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 		GeoSegmentND s = (GeoSegmentND) geo;
 
 		boolean ret = (getStartInhomCoords().equalsForKernel(s.getStartInhomCoords())
-				&& getEndInhomCoords().equalsForKernel(s.getEndInhomCoords()))
+						&& getEndInhomCoords().equalsForKernel(s.getEndInhomCoords()))
 				|| (getStartInhomCoords().equalsForKernel(s.getEndInhomCoords())
-						&& getEndInhomCoords()
-								.equalsForKernel(s.getStartInhomCoords()));
+						&& getEndInhomCoords().equalsForKernel(s.getStartInhomCoords()));
 		return ExtendedBoolean.newExtendedBoolean(ret);
 	}
 
 	/**
 	 * TODO say if this is to be shown in (3D) euclidian view
-	 * 
+	 *
 	 * @return if this is to be shown in (3D) euclidian view
-	 * 
+	 *
 	 */
 	@Override
 	protected boolean showInEuclidianView() {
@@ -168,12 +165,12 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	/**
 	 * return the length of the segment as a string
-	 * 
+	 *
 	 * @return the length of the segment as a string
-	 * 
+	 *
 	 */
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 
 		StringBuilder sbToString = getSbToString();
 		sbToString.setLength(0);
@@ -204,7 +201,6 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 		// then check position on segment
 		return respectLimitedPath(p, eps);
-
 	}
 
 	@Override
@@ -259,16 +255,15 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	/**
 	 * // TODO add to GeoSegmentND
-	 * 
+	 *
 	 * @param parameter
 	 *            path parameter
-	 * 
+	 *
 	 * @param point
 	 *            set to point on segment at parameter
 	 */
 	public void getPointCoords(double parameter, Coords point) {
-		point.setSub3(endPoint.getInhomCoordsInD3(),
-				startPoint.getInhomCoordsInD3());
+		point.setSub3(endPoint.getInhomCoordsInD3(), startPoint.getInhomCoordsInD3());
 		point.mulInside3(parameter);
 		point.setAdd3(startPoint.getInhomCoordsInD3(), point);
 		point.setW(1);
@@ -290,7 +285,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	}
 
 	@Override
-	final public boolean isGeoLine() {
+	public final boolean isGeoLine() {
 		return true;
 	}
 
@@ -301,7 +296,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	// rotation, ...
 
 	@Override
-	final public boolean isLimitedPath() {
+	public final boolean isLimitedPath() {
 		return true;
 	}
 
@@ -329,40 +324,37 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	 * creates new transformed segment
 	 */
 	@Override
-	public GeoElement[] createTransformedObject(Transform t,
-			String labelTrans) {
+	public GeoElement[] createTransformedObject(Transform t, String labelTrans) {
 
 		if (keepTypeOnGeometricTransform && t.isAffine()) {
 
 			// mirror endpoints
-			GeoPointND[] points = { getStartPoint(), getEndPoint() };
+			GeoPointND[] points = {getStartPoint(), getEndPoint()};
 			points = t.transformPoints(points);
 			// create SEGMENT
-			GeoElement segment = (GeoElement) kernel.getManager3D()
-					.segment3D(labelTrans, points[0], points[1]);
+			GeoElement segment =
+					(GeoElement) kernel.getManager3D().segment3D(labelTrans, points[0], points[1]);
 			segment.setVisualStyleForTransformations(this);
-			GeoElement[] geos = { segment, (GeoElement) points[0],
-					(GeoElement) points[1] };
+			GeoElement[] geos = {segment, (GeoElement) points[0], (GeoElement) points[1]};
 			return geos;
 		} else if (!t.isAffine()) {
 			// mirror endpoints
 			this.forceSimpleTransform = true;
-			GeoElement[] geos = { t.transform(this, labelTrans)[0] };
+			GeoElement[] geos = {t.transform(this, labelTrans)[0]};
 			return geos;
 		} else {
 			// create LINE
 			GeoElement transformedLine = t.getTransformedLine(this);
 			transformedLine.setLabel(labelTrans);
 			transformedLine.setVisualStyleForTransformations(this);
-			GeoElement[] geos = { transformedLine };
+			GeoElement[] geos = {transformedLine};
 			return geos;
 		}
 	}
 
 	@Override
 	public boolean isAllEndpointsLabelsSet() {
-		return !forceSimpleTransform && startPoint.isLabelSet()
-				&& endPoint.isLabelSet();
+		return !forceSimpleTransform && startPoint.isLabelSet() && endPoint.isLabelSet();
 	}
 
 	@Override
@@ -375,9 +367,9 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	@Override
 	public GeoElement copyInternal(Construction cons2) {
-		GeoSegment3D seg = new GeoSegment3D(cons2,
-				(GeoPointND) startPoint.copyInternal(cons2),
-				(GeoPointND) endPoint.copyInternal(cons2));
+		GeoSegment3D seg =
+				new GeoSegment3D(cons2, (GeoPointND) startPoint.copyInternal(cons2), (GeoPointND)
+						endPoint.copyInternal(cons2));
 		seg.set(this);
 		return seg;
 	}
@@ -396,7 +388,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	/**
 	 * set the segment to this
-	 * 
+	 *
 	 * @param seg
 	 *            segment
 	 */
@@ -415,24 +407,22 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	protected void getStyleXML(XMLStringBuilder sb) {
 		super.getStyleXML(sb);
 
-		sb.startTag("outlyingIntersections")
-				.attr("val", allowOutlyingIntersections).endTag();
-		sb.startTag("keepTypeOnTransform")
-				.attr("val", keepTypeOnGeometricTransform).endTag();
+		sb.startTag("outlyingIntersections").attr("val", allowOutlyingIntersections).endTag();
+		sb.startTag("keepTypeOnTransform").attr("val", keepTypeOnGeometricTransform).endTag();
 	}
 
 	@Override
-	final public MyDouble getNumber() {
+	public final MyDouble getNumber() {
 		return new MyDouble(kernel, getLength());
 	}
 
 	@Override
-	final public double getDouble() {
+	public final double getDouble() {
 		return getLength();
 	}
 
 	@Override
-	final public boolean isNumberValue() {
+	public final boolean isNumberValue() {
 		return true;
 	}
 
@@ -447,7 +437,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	@Override
 	public GeoElement[] getMetas() {
-		return new GeoElement[] { meta };
+		return new GeoElement[] {meta};
 	}
 
 	/**
@@ -466,7 +456,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	/**
 	 * modify inputs for segment joining points in a polygon/polyhedron
-	 * 
+	 *
 	 * @param poly
 	 *            polygon/polyhedron
 	 * @param P
@@ -474,8 +464,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	 * @param Q
 	 *            second vertex
 	 */
-	public void modifyInputPolyAndPoints(GeoElement poly, GeoPointND P,
-			GeoPointND Q) {
+	public void modifyInputPolyAndPoints(GeoElement poly, GeoPointND P, GeoPointND Q) {
 		AlgoJoinPoints3D algo = (AlgoJoinPoints3D) getParentAlgorithm();
 		algo.modifyInputPolyAndPoints(poly, P, Q);
 	}
@@ -487,13 +476,12 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	@Override
 	public boolean respectLimitedPath(double parameter) {
-		return DoubleUtil.isGreaterEqual(parameter, 0)
-				&& DoubleUtil.isGreaterEqual(1, parameter);
+		return DoubleUtil.isGreaterEqual(parameter, 0) && DoubleUtil.isGreaterEqual(1, parameter);
 	}
 
 	/**
 	 * set start and end points
-	 * 
+	 *
 	 * @param start
 	 *            start point
 	 * @param end
@@ -514,8 +502,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	public void setCoords(MyPoint locusPoint, MyPoint locusPoint2) {
 		setCoordFromPoints(
 				new Coords(locusPoint.x, locusPoint.y, locusPoint.getZ(), 1.0),
-				new Coords(locusPoint2.x, locusPoint2.y, locusPoint2.getZ(),
-						1.0));
+				new Coords(locusPoint2.x, locusPoint2.y, locusPoint2.getZ(), 1.0));
 	}
 
 	/*
@@ -525,11 +512,10 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	@Override
 	public GeoElement copyFreeSegment() {
-		GeoPointND startPoint1 = (GeoPointND) getStartPoint()
-				.copyInternal(cons);
+		GeoPointND startPoint1 = (GeoPointND) getStartPoint().copyInternal(cons);
 		GeoPointND endPoint1 = (GeoPointND) getEndPoint().copyInternal(cons);
-		AlgoJoinPoints3D algo = new AlgoJoinPoints3D(cons, startPoint1,
-				endPoint1, null, GeoClass.SEGMENT3D);
+		AlgoJoinPoints3D algo =
+				new AlgoJoinPoints3D(cons, startPoint1, endPoint1, null, GeoClass.SEGMENT3D);
 
 		return algo.getOutput(0);
 	}
@@ -557,8 +543,8 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	@Override
 	public ExtendedBoolean isCongruent(GeoElement geo) {
-		return ExtendedBoolean.newExtendedBoolean(geo.isGeoSegment() && DoubleUtil
-				.isEqual(getLength(), ((GeoSegmentND) geo).getLength()));
+		return ExtendedBoolean.newExtendedBoolean(
+				geo.isGeoSegment() && DoubleUtil.isEqual(getLength(), ((GeoSegmentND) geo).getLength()));
 	}
 
 	@Override
@@ -572,14 +558,13 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	/**
 	 * Used for polyhedron net: first polygon set it
-	 * 
+	 *
 	 * @param cp
 	 *            changeable parent
-	 * 
+	 *
 	 */
 	@Override
-	final public void setChangeableParentIfNull(
-			ChangeableParent cp) {
+	public final void setChangeableParentIfNull(ChangeableParent cp) {
 		if (changeableParent == null) {
 			changeableParent = cp;
 		}
@@ -603,19 +588,16 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	@Override
 	public void toGeoCurveCartesian(GeoCurveCartesianND curve) {
-		curve.setFromPolyLine(new GeoPointND[] { startPoint, endPoint }, false);
+		curve.setFromPolyLine(new GeoPointND[] {startPoint, endPoint}, false);
 	}
 
-    @Override
-    public boolean isDefined() {
-        return super.isDefined() || coordsys.hasZeroVx();
-    }
+	@Override
+	public boolean isDefined() {
+		return super.isDefined() || coordsys.hasZeroVx();
+	}
 
 	@Override
 	public void setToParametricForm(String parameter) {
 		setEquationForm(Form.PARAMETRIC);
-		if (parameter != null) {
-			//this.parameter = parameter;
-		}
 	}
 }

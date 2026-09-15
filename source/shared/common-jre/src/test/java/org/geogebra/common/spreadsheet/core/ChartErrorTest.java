@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -27,8 +27,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-// Tabs in CsvSources
-@SuppressWarnings("checkstyle:RegexpSinglelineCheck")
 class ChartErrorTest {
 
 	@BeforeAll
@@ -37,18 +35,20 @@ class ChartErrorTest {
 	}
 
 	@ParameterizedTest
-	@CsvSource(delimiterString = "->", value = {
-			"A1:A10         -> NONE",
-			"A1:A10,B1:B10  -> NONE",
-			"A1:A3,B1:D1    -> NONE",
-			"A1:B3          -> NONE",			// 3x2 rectangular range
-			"A1:C2          -> NONE",			// 2x3 rectangular range
-			"               -> NoData",
-			"A1             -> NoData",			// single cell
-			"A1:C3          -> InvalidData",	// 3x3 rectangular range
-			"A1:A10,B1:B11  -> InvalidData",	// different sizes
-			"A1:A3,B1:E1    -> InvalidData",	// different sizes
-	})
+	@CsvSource(
+			delimiterString = "->",
+			value = {
+				"A1:A10         -> NONE",
+				"A1:A10,B1:B10  -> NONE",
+				"A1:A3,B1:D1    -> NONE",
+				"A1:B3          -> NONE", // 3x2 rectangular range
+				"A1:C2          -> NONE", // 2x3 rectangular range
+				"               -> NoData",
+				"A1             -> NoData", // single cell
+				"A1:C3          -> InvalidData", // 3x3 rectangular range
+				"A1:A10,B1:B11  -> InvalidData", // different sizes
+				"A1:A3,B1:E1    -> InvalidData", // different sizes
+			})
 	void testValidateRangesForBoxPlot(String rangeSpec, String expectedResult) {
 		List<TabularRange> ranges = makeRanges(rangeSpec);
 		assertEquals(expectedResult, ChartError.validateRangesForBoxPlot(ranges).name());
@@ -64,16 +64,13 @@ class ChartErrorTest {
 			return List.of();
 		}
 		String[] rangeSpecs = rangeSpec.split(",");
-		return Arrays.stream(rangeSpecs)
-				.map(this::makeRange)
-				.collect(Collectors.toList());
+		return Arrays.stream(rangeSpecs).map(this::makeRange).collect(Collectors.toList());
 	}
 
 	private TabularRange makeRange(String spec) {
 		SpreadsheetReference reference = SpreadsheetReferenceParsing.parseReference(spec);
 		SpreadsheetCellReference fromCell = reference.fromCell;
-		SpreadsheetCellReference toCell =
-				reference.toCell != null ? reference.toCell : fromCell;
+		SpreadsheetCellReference toCell = reference.toCell != null ? reference.toCell : fromCell;
 		return new TabularRange(
 				fromCell.rowIndex, fromCell.columnIndex,
 				toCell.rowIndex, toCell.columnIndex);

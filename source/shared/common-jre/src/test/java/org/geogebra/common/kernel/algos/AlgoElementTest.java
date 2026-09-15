@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -48,7 +48,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 // Tabs in CsvSources/MockedCasValues
 @ExtendWith(MockedCasValuesExtension.class)
-@SuppressWarnings("checkstyle:RegexpSinglelineCheck")
 class AlgoElementTest extends BaseAppTestSetup {
 	@BeforeEach
 	void setupApp() {
@@ -56,17 +55,19 @@ class AlgoElementTest extends BaseAppTestSetup {
 	}
 
 	@ParameterizedTest
-	@CsvSource(delimiterString = "->", value = {
-			"Integral(x,1,2)				-> \\int\\limits_{1}^{2}x\\,\\mathrm{d}x",
-			"NIntegral(x,1,2)				-> \\int\\limits_{1}^{2}x\\,\\mathrm{d}x",
-			"Integral(x)					-> \\int x\\,\\mathrm{d}x",
-			"Integral(f,1,2)				-> \\int\\limits_{1}^{2}f\\,\\mathrm{d}n",
-			"NIntegral(f,1,2)				-> \\int\\limits_{1}^{2}f\\,\\mathrm{d}n",
-			"Integral(x, 1, 2, false)		-> \\int\\limits_{1}^{2}x\\,\\mathrm{d}x",
-			"Integral(f)					-> \\int f\\,\\mathrm{d}n",
-			"Sequence(Integral(x^k),k,1,2)	-> "
-					+ "Sequence\\left(\\int x^{k}\\,\\mathrm{d}x, k, 1, 2 \\right)",
-	})
+	@CsvSource(
+			delimiterString = "->",
+			value = {
+				"Integral(x,1,2)				-> \\int\\limits_{1}^{2}x\\,\\mathrm{d}x",
+				"NIntegral(x,1,2)				-> \\int\\limits_{1}^{2}x\\,\\mathrm{d}x",
+				"Integral(x)					-> \\int x\\,\\mathrm{d}x",
+				"Integral(f,1,2)				-> \\int\\limits_{1}^{2}f\\,\\mathrm{d}n",
+				"NIntegral(f,1,2)				-> \\int\\limits_{1}^{2}f\\,\\mathrm{d}n",
+				"Integral(x, 1, 2, false)		-> \\int\\limits_{1}^{2}x\\,\\mathrm{d}x",
+				"Integral(f)					-> \\int f\\,\\mathrm{d}n",
+				"Sequence(Integral(x^k),k,1,2)	-> "
+						+ "Sequence\\left(\\int x^{k}\\,\\mathrm{d}x, k, 1, 2 \\right)",
+			})
 	@Issue("APPS-4732")
 	void latexIntegral(String cmd, String latex) {
 		evaluate("f(n)=n^2");
@@ -74,14 +75,16 @@ class AlgoElementTest extends BaseAppTestSetup {
 	}
 
 	@ParameterizedTest
-	@CsvSource(delimiterString = "->", value = {
-			"IntegralSymbolic(x^2)		-> \\int x^{2}\\,\\mathrm{d}x",
-			"IntegralSymbolic(cos(t),t)	-> "
-					+ "\\int \\operatorname{cos} \\left( t \\right)\\,\\mathrm{d}t",
-	})
+	@CsvSource(
+			delimiterString = "->",
+			value = {
+				"IntegralSymbolic(x^2)		-> \\int x^{2}\\,\\mathrm{d}x",
+				"IntegralSymbolic(cos(t),t)	-> "
+						+ "\\int \\operatorname{cos} \\left( t \\right)\\,\\mathrm{d}t",
+			})
 	@MockedCasValues({
-			"IntegralSymbolic(x²)			-> x^3 / 3",
-			"IntegralSymbolic(cos(t), t)	-> sin(t)",
+		"IntegralSymbolic(x²)			-> x^3 / 3",
+		"IntegralSymbolic(cos(t), t)	-> sin(t)",
 	})
 	void latexIntegralSymbolic(String cmd, String latex) {
 		setupApp(SuiteSubApp.CAS);
@@ -89,12 +92,14 @@ class AlgoElementTest extends BaseAppTestSetup {
 	}
 
 	@ParameterizedTest
-	@CsvSource(delimiterString = "->", value = {
-			"Sum(n-k,n,1,3)		-> \\sum_{n=1}^{3}\\left(n - k \\right)",
-			"Sum(n,n,1,3)		-> \\sum_{n=1}^{3}n",
-			"Sum(n^k,n,1,3)		-> \\sum_{n=1}^{3}n^{k}",
-			"Sum(sin(n),n,1,3)	-> \\sum_{n=1}^{3}\\operatorname{sin} \\left( n \\right)",
-	})
+	@CsvSource(
+			delimiterString = "->",
+			value = {
+				"Sum(n-k,n,1,3)		-> \\sum_{n=1}^{3}\\left(n - k \\right)",
+				"Sum(n,n,1,3)		-> \\sum_{n=1}^{3}n",
+				"Sum(n^k,n,1,3)		-> \\sum_{n=1}^{3}n^{k}",
+				"Sum(sin(n),n,1,3)	-> \\sum_{n=1}^{3}\\operatorname{sin} \\left( n \\right)",
+			})
 	void latexSum(String cmd, String latex) {
 		getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
 		assertEquals(latex, evaluateGeoElement(cmd).getDefinition(StringTemplate.latexTemplate));
@@ -117,21 +122,25 @@ class AlgoElementTest extends BaseAppTestSetup {
 		GeoList sequence = evaluateGeoElement("Sequence(a(x+i,y),i,1,2)");
 		IneqTree inequalities1 = ((GeoFunctionNVar) sequence.get(0)).getIneqs();
 		IneqTree inequalities2 = ((GeoFunctionNVar) sequence.get(1)).getIneqs();
-		assertThat(inequalities1.getLeft().getLeft().getLeft().getIneq().getBorder(),
+		assertThat(
+				inequalities1.getLeft().getLeft().getLeft().getIneq().getBorder(),
 				hasValue(unicode("((x + 1)^2 - 0) / 1")));
-		assertThat(inequalities2.getLeft().getLeft().getLeft().getIneq().getBorder(),
+		assertThat(
+				inequalities2.getLeft().getLeft().getLeft().getIneq().getBorder(),
 				hasValue(unicode("((x + 2)^2 - 0) / 1")));
 	}
 
 	@ParameterizedTest
-	@CsvSource(delimiterString = "->", value = {
-			"Integral(x-d,a,b)	-> \\int\\limits_{a}^{b}x - d\\,\\mathrm{d}x",
-			"Integral(t-d,a,b)	-> \\int\\limits_{a}^{b}t - d\\,\\mathrm{d}d",
-			"Integral(s-d,a,b)	-> \\int\\limits_{a}^{b}s - d\\,\\mathrm{d}d",
-			"Integral(s-r,a,b)	-> \\int\\limits_{a}^{b}s - r\\,\\mathrm{d}r",
-			"Integral(t-x,a,b)	-> \\int\\limits_{a}^{b}t - x\\,\\mathrm{d}x",
-			"Integral(t,a,b)	-> \\int\\limits_{a}^{b}t\\,\\mathrm{d}t",
-	})
+	@CsvSource(
+			delimiterString = "->",
+			value = {
+				"Integral(x-d,a,b)	-> \\int\\limits_{a}^{b}x - d\\,\\mathrm{d}x",
+				"Integral(t-d,a,b)	-> \\int\\limits_{a}^{b}t - d\\,\\mathrm{d}d",
+				"Integral(s-d,a,b)	-> \\int\\limits_{a}^{b}s - d\\,\\mathrm{d}d",
+				"Integral(s-r,a,b)	-> \\int\\limits_{a}^{b}s - r\\,\\mathrm{d}r",
+				"Integral(t-x,a,b)	-> \\int\\limits_{a}^{b}t - x\\,\\mathrm{d}x",
+				"Integral(t,a,b)	-> \\int\\limits_{a}^{b}t\\,\\mathrm{d}t",
+			})
 	@Issue("APPS-5345")
 	void latexIntegralShouldHaveCorrectDerivativeVariable(String cmd, String latex) {
 		getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
@@ -142,11 +151,10 @@ class AlgoElementTest extends BaseAppTestSetup {
 	@Issue("APPS-5423")
 	void testAlgoDependentPointShouldNotUpdateEndlessly() {
 		GeoPoint p = evaluateGeoElement("(1, 1)");
-		AlgoDependentPoint algo = new AlgoDependentPoint(p.getConstruction(),
-				p.getDefinition(), false);
+		AlgoDependentPoint algo = new AlgoDependentPoint(p.getConstruction(), p.getDefinition(), false);
 		p.getLocateableList().add(new GeoNumeric(getKernel().getConstruction(), 0));
 		p.getLocateableList().get(0).getAlgoUpdateSet().add(algo);
-		algo.setOutput(new GeoElement[]{p});
+		algo.setOutput(new GeoElement[] {p});
 
 		try {
 			algo.update();
@@ -162,8 +170,8 @@ class AlgoElementTest extends BaseAppTestSetup {
 		evaluate("B = (2, 2)");
 		GeoElement poly = evaluateGeoElement("Polygon(A, B, 4)");
 		poly.setUpdateScript(new GgbScript(getApp(), "SetValue(A, (1,1))\nSetValue(B, (2, 2))"));
-		MoveGeos.moveObjects(List.of(pointA), new Coords(1, 1),
-				null, null, getApp().getActiveEuclidianView());
+		MoveGeos.moveObjects(
+				List.of(pointA), new Coords(1, 1), null, null, getApp().getActiveEuclidianView());
 		assertThat(poly, hasValue("2"));
 	}
 }

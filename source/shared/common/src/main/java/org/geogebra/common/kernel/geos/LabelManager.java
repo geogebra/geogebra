@@ -32,7 +32,7 @@ public class LabelManager {
 
 	/** Prefix for labels that are not shown in AV */
 	public static final String HIDDEN_PREFIX = "\u00A5\u00A6\u00A7\u00A8\u00A9\u00AA";
-	
+
 	private char[] angleLabels;
 	private final Construction cons;
 	private String multiuserSuffix = "";
@@ -49,7 +49,7 @@ public class LabelManager {
 	 * Checks whether name can be used as label Parser.parseLabel takes care of
 	 * checking Unicode ranges and indices; this only checks for reserved names
 	 * and CAS labels
-	 * 
+	 *
 	 * @param geo
 	 *            geo to be checked
 	 * @param nameToCheck
@@ -68,8 +68,7 @@ public class LabelManager {
 
 		name = StringUtil.toLowerCaseUS(name);
 		if (geo != null && geo.isGeoFunction()) {
-			if (geo.getKernel().getApplication().getParserFunctions()
-					.isReserved(name)) {
+			if (geo.getKernel().getApplication().getParserFunctions().isReserved(name)) {
 				return false;
 			}
 		}
@@ -88,8 +87,7 @@ public class LabelManager {
 	 * @return whether label can be parsed, is not reserved name and does not
 	 *         start with $
 	 */
-	public static boolean isValidLabel(String label, Kernel kernel,
-			@Nullable GeoElement geo) {
+	public static boolean isValidLabel(String label, Kernel kernel, @Nullable GeoElement geo) {
 
 		if (!checkName(geo, label)) {
 			return false;
@@ -97,8 +95,7 @@ public class LabelManager {
 
 		try {
 			// parseLabel for "A B" returns "A", check equality
-			return label.trim()
-					.equals(kernel.getAlgebraProcessor().parseLabel(label));
+			return label.trim().equals(kernel.getAlgebraProcessor().parseLabel(label));
 		} catch (Exception | Error e) {
 			// covers ParserException, TokenMgrException, BracketsError
 			return false;
@@ -110,6 +107,7 @@ public class LabelManager {
 	 *            variable name (for CAS cell)
 	 * @return whether position(s) od $ are valid in this name
 	 */
+	@SuppressWarnings("PMD.EmptyControlStatement")
 	public static boolean validVar(String var) {
 		// check for invalid assignment variables like $, $$, $1, $2, ...,
 		// $1$, $2$, ... which are dynamic references
@@ -119,12 +117,11 @@ public class LabelManager {
 			// entered
 			for (int i = 1; i < var.length(); i++) {
 				if (!Character.isDigit(var.charAt(i))) {
-					if (i == 1 && var
-							.charAt(1) == GeoCasCell.ROW_REFERENCE_DYNAMIC) {
+					if (i == 1 && var.charAt(1) == GeoCasCell.ROW_REFERENCE_DYNAMIC) {
 						// "$$" so far, so it can be valid (if var.length >
 						// 2) or invalid if "$$" is the whole var
-					} else if (i == var.length() - 1 && var.charAt(var.length()
-							- 1) == GeoCasCell.ROW_REFERENCE_DYNAMIC) {
+					} else if (i == var.length() - 1
+							&& var.charAt(var.length() - 1) == GeoCasCell.ROW_REFERENCE_DYNAMIC) {
 						// "$dd...dd$" where all d are digits -> invalid
 					} else {
 						// "$xx..xx" where not all x are numbers and the
@@ -143,14 +140,13 @@ public class LabelManager {
 	 * set labels for array of GeoElements with given label prefix. e.g.
 	 * labelPrefix = "F", geos.length = 2 sets geo[0].setLabel("F_1") and
 	 * geo[1].setLabel("F_2") all members in geos are assumed to be initialized.
-	 * 
+	 *
 	 * @param labelPrefix
 	 *            prefix
 	 * @param geos
 	 *            array of geos to be labeled
 	 */
-	public static void setLabels(final String labelPrefix,
-			final GeoElementND[] geos) {
+	public static void setLabels(final String labelPrefix, final GeoElementND[] geos) {
 		if (geos == null) {
 			return;
 		}
@@ -165,41 +161,40 @@ public class LabelManager {
 		}
 
 		switch (visible) {
-		case 0: // no visible geos: they all get the labelPrefix as suggestion
-			for (int i = 0; i < geos.length; i++) {
-				geos[i].setLabel(labelPrefix);
-			}
-			break;
-
-		case 1: // if there is only one visible geo, don't use indices
-			geos[firstVisible].setLabel(labelPrefix);
-			break;
-
-		default:
-			// is this a spreadsheet label?
-			final SpreadsheetCoords p = GeoElementSpreadsheet
-					.getSpreadsheetCoordsSafe(labelPrefix);
-			if ((p.column >= 0) && (p.row >= 0)) {
-				// more than one visible geo and it's a spreadsheet cell
-				// use D1, E1, F1, etc as names
-				final int col = p.column;
-				final int row = p.row;
+			case 0: // no visible geos: they all get the labelPrefix as suggestion
 				for (int i = 0; i < geos.length; i++) {
-					geos[i].setLabel(geos[i].getFreeLabel(GeoElementSpreadsheet
-							.getSpreadsheetCellName(col + i, row)));
+					geos[i].setLabel(labelPrefix);
 				}
-			} else { // more than one visible geo: use indices if we got a
-						// prefix
-				for (int i = 0; i < geos.length; i++) {
-					geos[i].setLabel(geos[i].getIndexLabel(labelPrefix));
+				break;
+
+			case 1: // if there is only one visible geo, don't use indices
+				geos[firstVisible].setLabel(labelPrefix);
+				break;
+
+			default:
+				// is this a spreadsheet label?
+				final SpreadsheetCoords p = GeoElementSpreadsheet.getSpreadsheetCoordsSafe(labelPrefix);
+				if ((p.column >= 0) && (p.row >= 0)) {
+					// more than one visible geo and it's a spreadsheet cell
+					// use D1, E1, F1, etc as names
+					final int col = p.column;
+					final int row = p.row;
+					for (int i = 0; i < geos.length; i++) {
+						geos[i].setLabel(
+								geos[i].getFreeLabel(GeoElementSpreadsheet.getSpreadsheetCellName(col + i, row)));
+					}
+				} else { // more than one visible geo: use indices if we got a
+					// prefix
+					for (int i = 0; i < geos.length; i++) {
+						geos[i].setLabel(geos[i].getIndexLabel(labelPrefix));
+					}
 				}
-			}
 		}
 	}
 
 	/**
 	 * Sets labels for given geos
-	 * 
+	 *
 	 * @param labels
 	 *            labels
 	 * @param geos
@@ -230,19 +225,19 @@ public class LabelManager {
 
 	/**
 	 * search through labels to find a free one, eg
-	 * 
+	 *
 	 * A, B, C, ...
-	 * 
+	 *
 	 * A_1, B_1, C_1, ...
-	 * 
+	 *
 	 * A_2, B_2, C_2, ...
-	 * 
+	 *
 	 * ...
-	 * 
+	 *
 	 * A_{10}, B_{10}, c_{10}, ...
-	 * 
+	 *
 	 * ...
-	 * 
+	 *
 	 * @param chars
 	 *            single character names for this type
 	 * @return next label
@@ -289,7 +284,6 @@ public class LabelManager {
 			// check both forms ie a_{1} and a_1
 			repeat = !cons.isFreeLabel(labelBase + index1, true, true)
 					|| !cons.isFreeLabel(labelBase + index2, true, true);
-
 		}
 
 		return labelToUse;
@@ -297,13 +291,12 @@ public class LabelManager {
 
 	/**
 	 * Sets the characters which will be used as the labels of the angles.
-	 * 
+	 *
 	 * @param greek
 	 *            whether the characters for the angle should be greek.
 	 */
 	public void setAngleLabels(boolean greek) {
-		this.angleLabels = greek ? LabelType.greekLowerCaseLabels
-				: LabelType.lowerCaseLabels;
+		this.angleLabels = greek ? LabelType.greekLowerCaseLabels : LabelType.lowerCaseLabels;
 	}
 
 	/**
@@ -330,8 +323,9 @@ public class LabelManager {
 		String str;
 		do {
 			counter++;
-			str = trans + cons.getKernel().internationalizeDigits(String.valueOf(counter),
-					StringTemplate.defaultTemplate);
+			str = trans
+					+ cons.getKernel()
+							.internationalizeDigits(String.valueOf(counter), StringTemplate.defaultTemplate);
 		} while (!cons.isFreeLabel(str));
 		return str;
 	}

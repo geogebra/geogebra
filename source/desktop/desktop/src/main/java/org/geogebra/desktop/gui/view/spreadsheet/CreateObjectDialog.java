@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -56,11 +56,11 @@ import org.geogebra.desktop.main.ScaledIcon;
 /**
  * Dialog to create GeoElements (lists, matrices, tabletext, etc.) from
  * spreadsheet cell selections
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
-@SuppressWarnings({ "javadoc", "rawtypes" })
+@SuppressWarnings({"javadoc", "rawtypes"})
 public class CreateObjectDialog extends InputDialogD
 		implements ListSelectionListener, FocusListener, ICreateObjectListener {
 
@@ -103,8 +103,17 @@ public class CreateObjectDialog extends InputDialogD
 		coModel.setToolProcessor(table.getToolProcessor(app));
 		coModel.setSelectedRanges(table.getSelectedRanges());
 		this.app = app;
-		createGUI(coModel.getTitle(), "", false, 16, 1, false, false, false,
-				showApply, DialogType.GeoGebraEditor);
+		createGUI(
+				coModel.getTitle(),
+				"",
+				false,
+				16,
+				1,
+				false,
+				false,
+				false,
+				showApply,
+				DialogType.GeoGebraEditor);
 
 		// this.btCancel.setVisible(false);
 
@@ -191,11 +200,9 @@ public class CreateObjectDialog extends InputDialogD
 		op.add(p, loc.borderWest());
 		op.add(previewPanel, BorderLayout.CENTER);
 
-		previewPanel.setPreferredSize(
-				new Dimension(200, p.getPreferredSize().height));
+		previewPanel.setPreferredSize(new Dimension(200, p.getPreferredSize().height));
 
 		optionPane.add(op, BorderLayout.CENTER);
-
 	}
 
 	private void buildOptionsPanel() {
@@ -294,14 +301,11 @@ public class CreateObjectDialog extends InputDialogD
 		namePanel.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createTitledBorder(loc.getMenu("Name")),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		previewPanel.setBorder(
-				BorderFactory.createTitledBorder(loc.getMenu("Preview")));
+		previewPanel.setBorder(BorderFactory.createTitledBorder(loc.getMenu("Preview")));
 
-		optionsPanel.setBorder(
-				BorderFactory.createTitledBorder(loc.getMenu("Options")));
+		optionsPanel.setBorder(BorderFactory.createTitledBorder(loc.getMenu("Options")));
 
 		wrappedDialog.setTitle(coModel.getTitle());
-
 	}
 
 	private void updateGUI() {
@@ -311,23 +315,22 @@ public class CreateObjectDialog extends InputDialogD
 
 		CardLayout cl = (CardLayout) cards.getLayout();
 		cl.show(cards, "c" + idx);
-
 	}
 
 	@Override
 	public void updatePreview(String latexStr, boolean isLatexDrawable) {
 		ScaledIcon latexIcon = new ScaledIcon(app.getFrame());
-		Font latexFont = new Font(app.getPlainFont().getName(),
+		Font latexFont = new Font(
+				app.getPlainFont().getName(),
 				app.getPlainFont().getStyle(),
 				app.getPlainFont().getSize() - 1);
 
 		if (latexStr != null && isLatexDrawable) {
-			app.getDrawEquation().drawLatexImageIcon(app, latexIcon, latexStr,
-					latexFont, false, Color.black, null);
+			app.getDrawEquation()
+					.drawLatexImageIcon(app, latexIcon, latexStr, latexFont, false, Color.black, null);
 			lblPreview.setText(" ");
 		} else {
-			lblPreview.setText(
-					coModel.getNonLatexText(new IndexHTMLBuilder(true)));
+			lblPreview.setText(coModel.getNonLatexText(new IndexHTMLBuilder(true)));
 		}
 		lblPreview.setIcon(latexIcon);
 
@@ -353,24 +356,15 @@ public class CreateObjectDialog extends InputDialogD
 			else if (source == btCancel) {
 				coModel.cancel();
 
-			} else if (source == btApply) {
-				// processInput();
-
-				// btOK acts as cancel for now
 			} else if (source == btOK) {
 				coModel.ok();
-			}
-
-			else if (source == btnObject) {
+			} else if (source == btnObject) {
 				btnValue.setSelected(!btnObject.isSelected());
 				coModel.createNewGeo(fldName.getText());
 			} else if (source == btnValue) {
 				btnObject.setSelected(!btnValue.isSelected());
 				coModel.createNewGeo(fldName.getText());
-			}
-
-			else if (source == cbScanOrder || source == cbLeftRightOrder
-					|| source == ckTranspose) {
+			} else if (source == cbScanOrder || source == cbLeftRightOrder || source == ckTranspose) {
 				coModel.createNewGeo(fldName.getText());
 			}
 
@@ -473,5 +467,4 @@ public class CreateObjectDialog extends InputDialogD
 	public boolean isTranspose() {
 		return ckTranspose.isSelected();
 	}
-
 }

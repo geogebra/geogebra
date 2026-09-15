@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -104,8 +104,7 @@ public interface Traversing {
 		 *            replacement
 		 * @return replacer
 		 */
-		public static Replacer getReplacer(ExpressionValue original,
-				ExpressionValue replacement) {
+		public static Replacer getReplacer(ExpressionValue original, ExpressionValue replacement) {
 			replacerInstance.oldObj = original;
 			replacerInstance.newObj = replacement;
 			return replacerInstance;
@@ -146,8 +145,8 @@ public interface Traversing {
 		 *            kernel for copies
 		 * @return replacer
 		 */
-		public static CopyReplacer getReplacer(ExpressionValue original,
-				ExpressionValue replacement, Kernel kernel) {
+		public static CopyReplacer getReplacer(
+				ExpressionValue original, ExpressionValue replacement, Kernel kernel) {
 			replacer.oldObj = original;
 			replacer.newObj = replacement;
 			replacer.kernel = kernel;
@@ -172,10 +171,8 @@ public interface Traversing {
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof Command) {
 				Command c = (Command) ev;
-				String cmdName = kernel.getApplication()
-						.getReverseCommand(c.getName());
-				if (CommandProcessor.isCmdName(cmdName)
-						|| kernel.getMacro(c.getName()) != null) {
+				String cmdName = kernel.getApplication().getReverseCommand(c.getName());
+				if (CommandProcessor.isCmdName(cmdName) || kernel.getMacro(c.getName()) != null) {
 					return ev;
 				}
 				MyList argList = new MyList(kernel);
@@ -183,16 +180,13 @@ public interface Traversing {
 					argList.addListElement(c.getItem(i).traverse(this));
 				}
 				ExpressionValue var = cas
-						? new GeoDummyVariable(kernel.getConstruction(),
-								c.getName())
+						? new GeoDummyVariable(kernel.getConstruction(), c.getName())
 						: new Variable(kernel, c.getName());
 				GeoElement fun = cas ? null : kernel.lookupLabel(c.getName());
 				if (fun instanceof GeoCurveCartesian && c.getArgumentNumber() == 1) {
-					return new ExpressionNode(kernel, var, Operation.VEC_FUNCTION,
-							argList.getItem(0));
+					return new ExpressionNode(kernel, var, Operation.VEC_FUNCTION, argList.getItem(0));
 				}
-				return new ExpressionNode(kernel, var, Operation.FUNCTION_NVAR,
-						argList);
+				return new ExpressionNode(kernel, var, Operation.FUNCTION_NVAR, argList);
 			}
 			return ev;
 		}
@@ -238,20 +232,16 @@ public interface Traversing {
 							// fix for
 							// Sequence(k deg, k, 0, 360, 30)
 							// Sequence(cos( Element( l1, k )), k, 1, 5 )
-							&& !(arg instanceof Command) && arg.isConstant()
+							&& !(arg instanceof Command)
+							&& arg.isConstant()
+							&& !DoubleUtil.isInteger(180 * arg.evaluateDouble() / Math.PI)) {
 
-							&& !DoubleUtil.isInteger(
-									180 * arg.evaluateDouble() / Math.PI)) {
-
-						ExpressionNode argDegrees = new ExpressionNode(kernel,
-								arg, Operation.MULTIPLY,
-								new AutomaticDegree(kernel));
+						ExpressionNode argDegrees =
+								new ExpressionNode(kernel, arg, Operation.MULTIPLY, new AutomaticDegree(kernel));
 
 						return new ExpressionNode(kernel, argDegrees, op, null);
 					}
-
 				}
-
 			}
 			return ev;
 		}
@@ -278,8 +268,7 @@ public interface Traversing {
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
-			if (ev.isGeoElement() && fn
-					.equalsIgnoreCase(((GeoElement) ev).getLabelSimple())) {
+			if (ev.isGeoElement() && fn.equalsIgnoreCase(((GeoElement) ev).getLabelSimple())) {
 				return function;
 			}
 			if (ev instanceof Command && fn.equals(((Command) ev).getName())) {
@@ -290,8 +279,7 @@ public interface Traversing {
 				for (int i = 0; i < c.getArgumentNumber(); i++) {
 					argList.addListElement(c.getItem(i).traverse(this));
 				}
-				return new ExpressionNode(c.getKernel(), function,
-						Operation.FUNCTION_NVAR, argList);
+				return new ExpressionNode(c.getKernel(), function, Operation.FUNCTION_NVAR, argList);
 			}
 			return ev;
 		}
@@ -305,8 +293,7 @@ public interface Traversing {
 		 *            function
 		 * @return replacer
 		 */
-		public static CommandFunctionReplacer getReplacer(App app, String fn,
-				GeoElement function) {
+		public static CommandFunctionReplacer getReplacer(App app, String fn, GeoElement function) {
 			CommandFunctionReplacer replacer = new CommandFunctionReplacer();
 			replacer.fn = fn;
 			replacer.function = function;
@@ -344,7 +331,6 @@ public interface Traversing {
 						return vec3DNode;
 					}
 				}
-
 			}
 			return ev;
 		}
@@ -372,10 +358,11 @@ public interface Traversing {
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
-			if ((ev instanceof Variable || ev instanceof FunctionVariable
-					|| ev instanceof GeoDummyVariable)
-					&& fv.toString(StringTemplate.defaultTemplate).equals(
-							ev.toString(StringTemplate.defaultTemplate))) {
+			if ((ev instanceof Variable
+							|| ev instanceof FunctionVariable
+							|| ev instanceof GeoDummyVariable)
+					&& fv.toString(StringTemplate.defaultTemplate)
+							.equals(ev.toString(StringTemplate.defaultTemplate))) {
 				replacements++;
 				return fv;
 			}
@@ -418,10 +405,9 @@ public interface Traversing {
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
-			boolean hitClass = ev instanceof GeoDummyVariable
-					|| (replaceFVs && ev instanceof FunctionVariable);
-			if (!hitClass || !var
-					.equals(ev.toString(StringTemplate.defaultTemplate))) {
+			boolean hitClass =
+					ev instanceof GeoDummyVariable || (replaceFVs && ev instanceof FunctionVariable);
+			if (!hitClass || !var.equals(ev.toString(StringTemplate.defaultTemplate))) {
 				return ev;
 			}
 			didReplacement = true;
@@ -437,8 +423,8 @@ public interface Traversing {
 		 *            whether function variables should be replaced also
 		 * @return replacer
 		 */
-		public static GeoDummyReplacer getReplacer(String varStr,
-				ExpressionValue replacement, boolean replaceFVs) {
+		public static GeoDummyReplacer getReplacer(
+				String varStr, ExpressionValue replacement, boolean replaceFVs) {
 			replacer.var = varStr;
 			replacer.newObj = replacement;
 			replacer.didReplacement = false;
@@ -476,12 +462,12 @@ public interface Traversing {
 			if ((val = contains(ev)) != null) {
 				return new ExpressionNode(kernel, val);
 			}
-			if (!(ev instanceof Variable || ev instanceof FunctionVariable
+			if (!(ev instanceof Variable
+					|| ev instanceof FunctionVariable
 					|| ev instanceof GeoDummyVariable)) {
 				return ev;
 			}
-			if ((val = getVar(
-					ev.toString(StringTemplate.defaultTemplate))) == null) {
+			if ((val = getVar(ev.toString(StringTemplate.defaultTemplate))) == null) {
 				return ev;
 			}
 			replacements++;
@@ -542,13 +528,12 @@ public interface Traversing {
 		 *            kernel
 		 * @return replacer
 		 */
-		public static VariableReplacer getReplacer(String varStr,
-				ExpressionValue replacement, Kernel kernel) {
+		public static VariableReplacer getReplacer(
+				String varStr, ExpressionValue replacement, Kernel kernel) {
 			VariableReplacer replacer = kernel.getVariableReplacer();
 			replacer.addVars(varStr, replacement);
 			return replacer;
 		}
-
 	}
 
 	/**
@@ -612,8 +597,7 @@ public interface Traversing {
 		 * @param replacement
 		 *            replacement object
 		 */
-		public static void addVars(GeoNumeric geoNum,
-				ExpressionValue replacement) {
+		public static void addVars(GeoNumeric geoNum, ExpressionValue replacement) {
 			replacer.geoNums.add(geoNum);
 			replacer.newExps.add(replacement);
 		}
@@ -627,8 +611,8 @@ public interface Traversing {
 		 *            kernel
 		 * @return replacer
 		 */
-		public static GeoNumericReplacer getReplacer(GeoNumeric geoNum,
-				ExpressionValue replacement, Kernel kernel) {
+		public static GeoNumericReplacer getReplacer(
+				GeoNumeric geoNum, ExpressionValue replacement, Kernel kernel) {
 			replacer.geoNums.clear();
 			replacer.newExps.clear();
 
@@ -698,8 +682,7 @@ public interface Traversing {
 				// Log.debug("found VARIABLE: "+name);
 				if (GeoElementSpreadsheet.spreadsheetPattern.test(name)) {
 
-					String newName = RelativeCopy.updateCellNameWithOffset(name,
-							dx, dy);
+					String newName = RelativeCopy.updateCellNameWithOffset(name, dx, dy);
 
 					// Log.debug("FOUND SPREADSHEET VARIABLE: "+name + " -> " +
 					// newName);
@@ -712,7 +695,6 @@ public interface Traversing {
 
 					v.setName(newName);
 					variables.add(v);
-
 				}
 			} else if (ev instanceof GeoElement) {
 
@@ -722,21 +704,17 @@ public interface Traversing {
 
 				if (GeoElementSpreadsheet.spreadsheetPattern.test(name)) {
 
-					String newName = RelativeCopy.updateCellNameWithOffset(name,
-							dx, dy);
+					String newName = RelativeCopy.updateCellNameWithOffset(name, dx, dy);
 
 					// make sure new cell is autocreated if it doesn't exist
 					// already
 					// and return it
-					return geo.getKernel().lookupLabel(newName, true,
-							SymbolicMode.NONE);
-
+					return geo.getKernel().lookupLabel(newName, true, SymbolicMode.NONE);
 				}
 			}
 
 			return ev;
 		}
-
 	}
 
 	/**
@@ -762,8 +740,7 @@ public interface Traversing {
 		 *            list of labels to skip
 		 *
 		 */
-		public ReplaceUndefinedVariables(Kernel kernel,
-				Set<GeoNumeric> undefined, String[] skip) {
+		public ReplaceUndefinedVariables(Kernel kernel, Set<GeoNumeric> undefined, String[] skip) {
 			this.kernel = kernel;
 			this.undefined = undefined;
 			this.except = skip;
@@ -783,15 +760,11 @@ public interface Traversing {
 			if (ev instanceof Variable) {
 				Variable v = (Variable) ev;
 				replaceVar(v, GeoClass.NUMERIC);
-			}
-			else if (ev instanceof Command) {
+			} else if (ev instanceof Command) {
 				int idx = getAngleIndex((Command) ev);
 
-				if (idx >= 0 && ((Command) ev).getArgument(idx)
-						.unwrap() instanceof Variable) {
-					replaceVar(
-							(Variable) ((Command) ev).getArgument(idx).unwrap(),
-							GeoClass.ANGLE);
+				if (idx >= 0 && ((Command) ev).getArgument(idx).unwrap() instanceof Variable) {
+					replaceVar((Variable) ((Command) ev).getArgument(idx).unwrap(), GeoClass.ANGLE);
 				}
 			}
 			return ev;
@@ -809,8 +782,7 @@ public interface Traversing {
 
 		private void replaceVar(Variable v, GeoClass geoClass) {
 			String name = v.getName(StringTemplate.defaultTemplate);
-			ExpressionValue replace = kernel.lookupLabel(name, true,
-					SymbolicMode.NONE);
+			ExpressionValue replace = kernel.lookupLabel(name, true, SymbolicMode.NONE);
 			if (replace == null) {
 				replace = variableReplacerAlgorithm.replace(name);
 				if (replace instanceof ExpressionNode) {
@@ -821,8 +793,7 @@ public interface Traversing {
 			if (replace instanceof Variable
 					&& !kernel.getConstruction().isRegisteredFunctionVariable(name)
 					&& !isException(name)) {
-				name = ((Variable) replace)
-						.getName(StringTemplate.defaultTemplate);
+				name = ((Variable) replace).getName(StringTemplate.defaultTemplate);
 				final boolean old = kernel.getConstruction().isSuppressLabelsActive();
 				kernel.getConstruction().setSuppressLabelCreation(false);
 				GeoNumeric slider = geoClass == GeoClass.ANGLE
@@ -830,15 +801,12 @@ public interface Traversing {
 						: new GeoNumeric(kernel.getConstruction(), 1);
 				slider.setAVSliderOrCheckboxVisible(true);
 				undefined.add(slider);
-				boolean visible = !kernel.getApplication()
-						.showView(App.VIEW_ALGEBRA)
+				boolean visible = !kernel.getApplication().showView(App.VIEW_ALGEBRA)
 						|| kernel.getApplication().showAutoCreatedSlidersInEV();
-				GeoNumeric.setSliderFromDefault(slider,
-						geoClass == GeoClass.ANGLE, visible);
+				GeoNumeric.setSliderFromDefault(slider, geoClass == GeoClass.ANGLE, visible);
 				slider.setLabel(name);
 				kernel.getConstruction().setSuppressLabelCreation(old);
 			}
-
 		}
 
 		private boolean isException(String name) {
@@ -852,7 +820,6 @@ public interface Traversing {
 			}
 			return false;
 		}
-
 	}
 
 	/**
@@ -890,12 +857,10 @@ public interface Traversing {
 			if (ev instanceof Variable) {
 				Variable variable = (Variable) ev;
 				String variableName = variable.getName(StringTemplate.defaultTemplate);
-				if (variable.getKernel().getApplication().getParserFunctions()
-						.isReserved(variableName)) {
+				if (variable.getKernel().getApplication().getParserFunctions().isReserved(variableName)) {
 					return false;
 				}
-				ExpressionValue expressionFromVariableName =
-						variable.getKernel().lookupLabel(variableName);
+				ExpressionValue expressionFromVariableName = variable.getKernel().lookupLabel(variableName);
 				if (expressionFromVariableName == null) {
 					VariableReplacerAlgorithm variableReplacerAlgo =
 							new VariableReplacerAlgorithm(variable.getKernel());
@@ -907,13 +872,9 @@ public interface Traversing {
 					tree.add(Unicode.IMAGINARY_STRING);
 				}
 				if (expressionFromVariableName instanceof Variable
-						&& !variable
-                            .getKernel()
-                            .getConstruction()
-                            .isRegisteredFunctionVariable(variableName)
+						&& !variable.getKernel().getConstruction().isRegisteredFunctionVariable(variableName)
 						&& LabelManager.checkName(null, variableName)) {
-					tree.add(((Variable) expressionFromVariableName)
-							.getName(StringTemplate.defaultTemplate));
+					tree.add(((Variable) expressionFromVariableName).getName(StringTemplate.defaultTemplate));
 				}
 				// a1.5 -> a*1.5: inspect subexpressions
 				if (expressionFromVariableName.isExpressionNode()) {
@@ -939,8 +900,7 @@ public interface Traversing {
 					if (len > 3) {
 						addLocalVar(com, len - 3);
 					}
-				} else if (("IterationList".equals(com.getName())
-						|| "Iteration".equals(com.getName()))
+				} else if (("IterationList".equals(com.getName()) || "Iteration".equals(com.getName()))
 						&& com.getArgumentNumber() > 3) {
 
 					for (int i = 1; i < com.getArgumentNumber() - 2; i++) {
@@ -960,8 +920,7 @@ public interface Traversing {
 		}
 
 		private void addLocalVar(Command com, int i) {
-			localTree.add(com.getArgument(i)
-					.toString(StringTemplate.defaultTemplate));
+			localTree.add(com.getArgument(i).toString(StringTemplate.defaultTemplate));
 		}
 	}
 
@@ -992,7 +951,6 @@ public interface Traversing {
 
 			return ev;
 		}
-
 	}
 
 	/**
@@ -1002,9 +960,10 @@ public interface Traversing {
 		private boolean toRoot;
 		/** functions with 100th root are numerically unstable */
 		private static int MAX_ROOT = 99;
+
 		private static PowerRootReplacer replacer = new PowerRootReplacer();
 
-		private PowerRootReplacer()  {
+		private PowerRootReplacer() {
 			// singleton constructor
 		}
 
@@ -1041,6 +1000,7 @@ public interface Traversing {
 		public static final DiffReplacer INSTANCE = new DiffReplacer();
 
 		@Override
+		@SuppressWarnings("PMD.EmptyControlStatement")
 		public ExpressionValue process(ExpressionValue ev) {
 			if (!ev.isExpressionNode()) {
 				return ev;
@@ -1065,25 +1025,22 @@ public interface Traversing {
 			String expStr = expr.toString(StringTemplate.defaultTemplate);
 			int nameEnd = expStr.indexOf('(');
 			if (expStr.indexOf('[') > 0) {
-				nameEnd = nameEnd > 0 ? Math.min(nameEnd, expStr.indexOf('['))
-						: expStr.indexOf('[');
+				nameEnd = nameEnd > 0 ? Math.min(nameEnd, expStr.indexOf('[')) : expStr.indexOf('[');
 			}
-			String funLabel = nameEnd > 0 ? expStr.substring(0, nameEnd)
-					: expStr;
+			String funLabel = nameEnd > 0 ? expStr.substring(0, nameEnd) : expStr;
 
 			ExpressionValue diffArg = new MyDouble(kernel, Double.NaN);
 			ExpressionValue mult = new MyDouble(kernel, 1);
 			if (expr.unwrap() instanceof Command) {
 				diffArg = ((Command) expr.unwrap()).getArgument(0);
-				if (diffArg.unwrap() instanceof FunctionVariable && diffArg
-						.toString(StringTemplate.defaultTemplate)
-						.equals(var.toString(StringTemplate.defaultTemplate))) {
+				if (diffArg.unwrap() instanceof FunctionVariable
+						&& diffArg
+								.toString(StringTemplate.defaultTemplate)
+								.equals(var.toString(StringTemplate.defaultTemplate))) {
 					// keep mult
 				} else if (DoubleUtil.isEqual(deg.evaluateDouble(), 1)) {
-					CASGenericInterface cas = kernel.getGeoGebraCAS()
-							.getCurrentCAS();
-					Command derivCommand = new Command(kernel, "Derivative",
-							false);
+					CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
+					Command derivCommand = new Command(kernel, "Derivative", false);
 					derivCommand.addArgument(diffArg.wrap());
 					derivCommand.addArgument(var.wrap());
 					derivCommand.addArgument(deg.wrap());
@@ -1094,14 +1051,15 @@ public interface Traversing {
 			}
 
 			// derivative of f gives f'
-			ExpressionNode derivative = new ExpressionNode(kernel,
+			ExpressionNode derivative = new ExpressionNode(
+					kernel,
 					new Variable(kernel, funLabel), // function label "f"
-					Operation.DERIVATIVE, deg);
+					Operation.DERIVATIVE,
+					deg);
 			// function of given variable gives f'(t)
-			return new ExpressionNode(kernel, derivative, Operation.FUNCTION,
-					diffArg).multiplyR(mult); // Variable
+			return new ExpressionNode(kernel, derivative, Operation.FUNCTION, diffArg)
+					.multiplyR(mult); // Variable
 		}
-
 	}
 
 	/**
@@ -1118,9 +1076,9 @@ public interface Traversing {
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof Variable) {
-				return new Variable(((Variable) ev).getKernel(),
-						ev.toString(StringTemplate.defaultTemplate)
-								.replace(Kernel.TMP_VARIABLE_PREFIX, ""));
+				return new Variable(
+						((Variable) ev).getKernel(),
+						ev.toString(StringTemplate.defaultTemplate).replace(Kernel.TMP_VARIABLE_PREFIX, ""));
 			}
 			return ev;
 		}
@@ -1133,7 +1091,6 @@ public interface Traversing {
 		public static PrefixRemover getCollector() {
 			return collector;
 		}
-
 	}
 
 	/**
@@ -1204,8 +1161,7 @@ public interface Traversing {
 		 *            set into which we want to collect the commands
 		 * @return derivative collector
 		 */
-		public static GeoCollector getCollector(
-				HashMap<GeoElement, Integer> commands) {
+		public static GeoCollector getCollector(HashMap<GeoElement, Integer> commands) {
 			collector.commands = commands;
 			return collector;
 		}
@@ -1245,12 +1201,10 @@ public interface Traversing {
 
 		private void add(GeoDummyVariable dummy) {
 			String str = dummy.toString(StringTemplate.defaultTemplate);
-			if (dummy.getKernel().getApplication().getParserFunctions()
-					.isReserved(str)) {
+			if (dummy.getKernel().getApplication().getParserFunctions().isReserved(str)) {
 				return;
 			}
 			commands.add(str);
-
 		}
 
 		/**
@@ -1314,7 +1268,6 @@ public interface Traversing {
 		private void add(ExpressionValue dummy) {
 			String str = dummy.toString(StringTemplate.defaultTemplate);
 			commands.add(str);
-
 		}
 
 		/**
@@ -1324,8 +1277,7 @@ public interface Traversing {
 		 *            set into which we want to collect the commands
 		 * @return derivative collector
 		 */
-		public static DummyVariableCollector getCollector(
-				Set<String> commands) {
+		public static DummyVariableCollector getCollector(Set<String> commands) {
 			collector.commands = commands;
 			return collector;
 		}
@@ -1361,7 +1313,6 @@ public interface Traversing {
 			if (str != null) {
 				labels.add(str);
 			}
-
 		}
 
 		/**
@@ -1371,8 +1322,7 @@ public interface Traversing {
 		 *            set into which we want to collect the geoNumeric labels
 		 * @return derivative collector
 		 */
-		public static GeoNumericLabelCollector getCollector(
-				Set<String> labels) {
+		public static GeoNumericLabelCollector getCollector(Set<String> labels) {
 			collector.labels = labels;
 			return collector;
 		}
@@ -1396,47 +1346,38 @@ public interface Traversing {
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof ExpressionNode) {
 				ExpressionNode en = (ExpressionNode) ev;
-				if (en.getOperation() == Operation.POWER
-						&& en.getLeft() instanceof Command) {
+				if (en.getOperation() == Operation.POWER && en.getLeft() instanceof Command) {
 					Command c = (Command) en.getLeft();
 					if (commands.contains(c.getName())) {
-						return new GeoDummyVariable(
-								c.getKernel().getConstruction(), c.getName())
-										.wrap()
-										.multiply(c.getArgument(0)
-												.traverse(this).wrap()
-												.power(en.getRight()));
+						return new GeoDummyVariable(c.getKernel().getConstruction(), c.getName())
+								.wrap()
+								.multiply(c.getArgument(0).traverse(this).wrap().power(en.getRight()));
 					}
 				}
-				if (en.getOperation() == Operation.FACTORIAL
-						&& en.getLeft() instanceof Command) {
+				if (en.getOperation() == Operation.FACTORIAL && en.getLeft() instanceof Command) {
 					Command c = (Command) en.getLeft();
 					if (commands.contains(c.getName())) {
-						return new GeoDummyVariable(
-								c.getKernel().getConstruction(), c.getName())
-										.wrap().multiply(
-												c.getArgument(0).traverse(this)
-														.wrap().factorial());
+						return new GeoDummyVariable(c.getKernel().getConstruction(), c.getName())
+								.wrap()
+								.multiply(c.getArgument(0).traverse(this).wrap().factorial());
 					}
 				}
-				if (en.getOperation() == Operation.SQRT_SHORT
-						&& en.getLeft() instanceof Command) {
+				if (en.getOperation() == Operation.SQRT_SHORT && en.getLeft() instanceof Command) {
 					Command c = (Command) en.getLeft();
 					if (commands.contains(c.getName())) {
-						return new GeoDummyVariable(
-								c.getKernel().getConstruction(), c.getName())
-										.wrap().sqrt().multiply(c.getArgument(0)
-												.traverse(this));
+						return new GeoDummyVariable(c.getKernel().getConstruction(), c.getName())
+								.wrap()
+								.sqrt()
+								.multiply(c.getArgument(0).traverse(this));
 					}
 				}
 			}
 			if (ev instanceof Command) {
 				Command c = (Command) ev;
-				if (commands.contains(c.getName())
-						&& c.getArgumentNumber() == 1) {
-					return new GeoDummyVariable(c.getKernel().getConstruction(),
-							c.getName()).wrap()
-									.multiply(c.getArgument(0).traverse(this));
+				if (commands.contains(c.getName()) && c.getArgumentNumber() == 1) {
+					return new GeoDummyVariable(c.getKernel().getConstruction(), c.getName())
+							.wrap()
+							.multiply(c.getArgument(0).traverse(this));
 				}
 			}
 			return ev;
@@ -1471,12 +1412,9 @@ public interface Traversing {
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof Equation) {
 				Equation eq = (Equation) ev;
-				if (eq.getLHS() != null
-						&& eq.getLHS().getLeft() instanceof GeoDummyVariable) {
-					GeoDummyVariable gdv = (GeoDummyVariable) eq.getLHS()
-							.getLeft();
-					if (gdv.toString(StringTemplate.defaultTemplate)
-							.equals("y")) {
+				if (eq.getLHS() != null && eq.getLHS().getLeft() instanceof GeoDummyVariable) {
+					GeoDummyVariable gdv = (GeoDummyVariable) eq.getLHS().getLeft();
+					if (gdv.toString(StringTemplate.defaultTemplate).equals("y")) {
 						return eq.getRHS().unwrap();
 					}
 				}
@@ -1540,26 +1478,21 @@ public interface Traversing {
 		/**
 		 * Replacer object
 		 */
-		public final static CASCommandReplacer replacer = new CASCommandReplacer();
+		public static final CASCommandReplacer replacer = new CASCommandReplacer();
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof Command) {
 				Command ec = (Command) ev;
 				if ("x".equals(ec.getName())) {
-					return new ExpressionNode(ec.getKernel(), ec.getArgument(0),
-							Operation.XCOORD, null);
+					return new ExpressionNode(ec.getKernel(), ec.getArgument(0), Operation.XCOORD, null);
 				} else if ("y".equals(ec.getName())) {
-					return new ExpressionNode(ec.getKernel(), ec.getArgument(0),
-							Operation.YCOORD, null);
+					return new ExpressionNode(ec.getKernel(), ec.getArgument(0), Operation.YCOORD, null);
 				} else if ("z".equals(ec.getName())) {
-					return new ExpressionNode(ec.getKernel(), ec.getArgument(0),
-							Operation.ZCOORD, null);
+					return new ExpressionNode(ec.getKernel(), ec.getArgument(0), Operation.ZCOORD, null);
 				}
-
 			}
 			return ev;
 		}
 	}
-
 }

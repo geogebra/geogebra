@@ -7,15 +7,15 @@
  * Copyright (c) 2009 by Jeremy Wood.
  * All rights reserved.
  *
- * The copyright of this software is owned by Jeremy Wood. 
- * You may not use, copy or modify this software, except in  
- * accordance with the license agreement you entered into with  
+ * The copyright of this software is owned by Jeremy Wood.
+ * You may not use, copy or modify this software, except in
+ * accordance with the license agreement you entered into with
  * Jeremy Wood. For details see accompanying license terms:
  * BSD License
- * 
+ *
  * This software is probably, but not necessarily, discussed here:
  * http://javagraphics.blogspot.com/
- * 
+ *
  * And the latest version should be available here:
  * https://javagraphics.dev.java.net/
  */
@@ -69,6 +69,7 @@ public class ClipShape {
 	static class ClippedPath {
 		/** path */
 		final GGeneralPath g;
+
 		private Stack<double[]> uncommittedPoints = new Stack<>();
 		private double initialX;
 		private double initialY;
@@ -98,7 +99,7 @@ public class ClipShape {
 		 * This makes a cubic curve to based on xf and yf that ranges from
 		 * [t0,t1]. So this takes a little subset of the curves if [t0,t1] is
 		 * smaller than [0,1].
-		 * 
+		 *
 		 * @param xf
 		 *            x-function
 		 * @param yf
@@ -127,8 +128,7 @@ public class ClipShape {
 			double y0 = yf.evaluate(t0);
 			double y1 = yf.evaluate(t1);
 
-			g.curveTo(x0 + dx0 / 3, y0 + dy0 / 3, x1 - dx1 / 3,
-					y1 - dy1 / 3, x1, y1);
+			g.curveTo(x0 + dx0 / 3, y0 + dy0 / 3, x1 - dx1 / 3, y1 - dy1 / 3, x1, y1);
 		}
 
 		/**
@@ -141,19 +141,18 @@ public class ClipShape {
 		 * <P>
 		 * However only horizontal/vertical lines are consolidated, because this
 		 * method is aimed at clipping to (non-rotated) rectangles.
-		 * 
+		 *
 		 * @param x
 		 *            x coordinate
 		 * @param y
 		 *            y coordinate
-		 * 
+		 *
 		 */
 		void lineTo(double x, double y) {
 			if (uncommittedPoints.size() > 0) {
 				double[] last = uncommittedPoints.peek();
 				// are we adding the same point?
-				if (Math.abs(last[0] - x) < TOLERANCE
-						&& Math.abs(last[1] - y) < TOLERANCE) {
+				if (Math.abs(last[0] - x) < TOLERANCE && Math.abs(last[1] - y) < TOLERANCE) {
 					return;
 				}
 			}
@@ -176,7 +175,8 @@ public class ClipShape {
 		/** Flush out the stack of uncommitted points. */
 		void flush() {
 			while (uncommittedPoints.size() > 0) {
-				identifyLines: while (uncommittedPoints.size() >= 3) {
+				identifyLines:
+				while (uncommittedPoints.size() >= 3) {
 					double[] first = uncommittedPoints.get(0);
 					double[] middle = uncommittedPoints.get(1);
 					double[] last = uncommittedPoints.get(2);
@@ -211,7 +211,7 @@ public class ClipShape {
 	interface Function {
 		/**
 		 * evaluates this function at a given value
-		 * 
+		 *
 		 * @param t
 		 *            parameter
 		 * @return function value
@@ -221,7 +221,7 @@ public class ClipShape {
 		/**
 		 * Calculates all the t-values which will yield the result "f" in this
 		 * function.
-		 * 
+		 *
 		 * @param f
 		 *            the function result you're searching for
 		 * @param dest
@@ -234,7 +234,7 @@ public class ClipShape {
 
 		/**
 		 * Return the derivative (df/dt) for a given value of t
-		 * 
+		 *
 		 * @param t
 		 *            parameter value
 		 * @return derivative
@@ -249,7 +249,7 @@ public class ClipShape {
 
 		/**
 		 * Defines this linear function.
-		 * 
+		 *
 		 * @param x1
 		 *            at t = 0, x1 is the output of this function
 		 * @param x2
@@ -295,7 +295,7 @@ public class ClipShape {
 
 		/**
 		 * Use the 3 control points of a bezier quadratic
-		 * 
+		 *
 		 * @param x0
 		 *            f(0)
 		 * @param x1
@@ -350,6 +350,7 @@ public class ClipShape {
 		 * that will be using these values.
 		 */
 		private double[] t2;
+
 		private double[] eqn;
 
 		@Override
@@ -420,7 +421,7 @@ public class ClipShape {
 	/**
 	 * This creates a <code>GeneralPath</code> representing <code>s</code> when
 	 * clipped to <code>r</code>
-	 * 
+	 *
 	 * @param s
 	 *            a shape that you want clipped
 	 * @param t
@@ -438,8 +439,8 @@ public class ClipShape {
 	 *            x0, y0, w, h define the rectangle to clip to
 	 * @return a <code>GeneralPath</code> enclosing the new shape.
 	 */
-	public static GGeneralPath clipToRect(GShape s, GAffineTransform t, int x0,
-			int y0, int w, int h) {
+	public static GGeneralPath clipToRect(
+			GShape s, GAffineTransform t, int x0, int y0, int w, int h) {
 		GPathIterator i = s.getPathIterator(t);
 		ClippedPath p = new ClippedPath(i.getWindingRule());
 
@@ -531,15 +532,12 @@ public class ClipShape {
 				// put them in ascending order:
 				Arrays.sort(interestingTimes, 0, tCtr);
 
-				lastValueWasCapped = !(lastX >= rLeft && lastX <= rRight
-						&& lastY >= rTop && lastY <= rBottom);
+				lastValueWasCapped =
+						!(lastX >= rLeft && lastX <= rRight && lastY >= rTop && lastY <= rBottom);
 
 				for (int a = 0; a < tCtr; a++) {
-					if (a > 0
-							&& interestingTimes[a] == interestingTimes[a - 1]) {
-						// do nothing
-					} else if (interestingTimes[a] > 0
-							&& interestingTimes[a] <= 1) {
+					boolean unchanged = a > 0 && interestingTimes[a] == interestingTimes[a - 1];
+					if (!unchanged && interestingTimes[a] > 0 && interestingTimes[a] <= 1) {
 						// this is the magic: take 2 t values and see what we
 						// need to
 						// do with them.
@@ -563,25 +561,20 @@ public class ClipShape {
 							cappedY = rBottom;
 						}
 
-						thisValueIsCapped = !(Math.abs(x - cappedX) < TOLERANCE
-								&& Math.abs(y - cappedY) < TOLERANCE);
+						thisValueIsCapped =
+								!(Math.abs(x - cappedX) < TOLERANCE && Math.abs(y - cappedY) < TOLERANCE);
 
-						x2 = xf.evaluate(
-								(interestingTimes[a] + interestingTimes[a - 1])
-										/ 2);
-						y2 = yf.evaluate(
-								(interestingTimes[a] + interestingTimes[a - 1])
-										/ 2);
-						midValueInvalid = !(rLeft <= x2 && x2 <= rRight
-								&& rTop <= y2 && y2 <= rBottom);
+						x2 = xf.evaluate((interestingTimes[a] + interestingTimes[a - 1]) / 2);
+						y2 = yf.evaluate((interestingTimes[a] + interestingTimes[a - 1]) / 2);
+						midValueInvalid = !(rLeft <= x2 && x2 <= rRight && rTop <= y2 && y2 <= rBottom);
 
-						if ((xf instanceof LFunction) || thisValueIsCapped
-								|| lastValueWasCapped || midValueInvalid) {
+						if ((xf instanceof LFunction)
+								|| thisValueIsCapped
+								|| lastValueWasCapped
+								|| midValueInvalid) {
 							p.lineTo(cappedX, cappedY);
-						} else if ((xf instanceof QFunction)
-								|| (xf instanceof CFunction)) {
-							p.curveTo(xf, yf, interestingTimes[a - 1],
-									interestingTimes[a]);
+						} else if ((xf instanceof QFunction) || (xf instanceof CFunction)) {
+							p.curveTo(xf, yf, interestingTimes[a - 1], interestingTimes[a]);
 						} else {
 							throw new RuntimeException("Unexpected condition.");
 						}
