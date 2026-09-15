@@ -604,10 +604,10 @@ public class RegionClassifier {
 		for (int gridSize : VISIBLE_SAMPLE_GRID_SIZES) {
 			double dx = (box.xmax - box.xmin) / gridSize;
 			double dy = (box.ymax - box.ymin) / gridSize;
-			for (int ix = 0; ix < gridSize; ix++) {
-				double x = box.xmin + (ix + 0.5) * dx;
-				for (int iy = 0; iy < gridSize; iy++) {
-					double y = box.ymin + (iy + 0.5) * dy;
+			for (int xIdx = 0; xIdx < gridSize; xIdx++) {
+				double x = box.xmin + (xIdx + 0.5) * dx;
+				for (int yIdx = 0; yIdx < gridSize; yIdx++) {
+					double y = box.ymin + (yIdx + 0.5) * dy;
 					GPoint2D candidate = new GPoint2D(x, y);
 					stats.gridCandidates++;
 					countInteriorCandidate();
@@ -796,9 +796,9 @@ public class RegionClassifier {
 			double dy = (ymax - ymin) / gridSize;
 
 			double x = xmin + 0.5 * dx;
-			for (int ix = 0; ix < gridSize; ix++, x += dx) {
+			for (int xIdx = 0; xIdx < gridSize; xIdx++, x += dx) {
 				double y = ymin + 0.5 * dy;
-				for (int iy = 0; iy < gridSize; iy++, y += dy) {
+				for (int yIdx = 0; yIdx < gridSize; yIdx++, y += dy) {
 					point.setLocation(x, y);
 
 					countExteriorCandidate();

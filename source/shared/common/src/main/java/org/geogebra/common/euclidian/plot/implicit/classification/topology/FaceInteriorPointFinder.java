@@ -895,10 +895,10 @@ final class FaceInteriorPointFinder {
 			int candidatesBeforeGrid = out.size();
 			double dx = (boundingBox.maxX - boundingBox.minX) / gridSize;
 			double dy = (boundingBox.maxY - boundingBox.minY) / gridSize;
-			for (int ix = 0; ix < gridSize; ix++) {
-				double x = boundingBox.minX + (ix + 0.5) * dx;
-				for (int iy = 0; iy < gridSize; iy++) {
-					double y = boundingBox.minY + (iy + 0.5) * dy;
+			for (int xIdx = 0; xIdx < gridSize; xIdx++) {
+				double x = boundingBox.minX + (xIdx + 0.5) * dx;
+				for (int yIdx = 0; yIdx < gridSize; yIdx++) {
+					double y = boundingBox.minY + (yIdx + 0.5) * dy;
 					GPoint2D candidate = new GPoint2D(x, y);
 					addCandidate(out, candidate, Strategy.valueOf("GRID_" + gridSize), 1,
 							boundingBoxScore(candidate, boundingBox), context);

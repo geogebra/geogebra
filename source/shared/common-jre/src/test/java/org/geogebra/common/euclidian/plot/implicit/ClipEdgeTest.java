@@ -133,7 +133,7 @@ class ClipEdgeTest {
 	}
 
 	@Test
-	void teestDotInward() {
+	void testDotInward() {
 		// Into TOP is downward (0,-1)
 		assertTrue(ClipEdge.TOP.dotInward(0, -1) > 0);
 		assertTrue(ClipEdge.TOP.dotInward(0, +1) < 0);
