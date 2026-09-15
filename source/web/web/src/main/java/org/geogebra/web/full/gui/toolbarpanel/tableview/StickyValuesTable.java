@@ -23,16 +23,20 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.table.TableUtil;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
+import org.geogebra.common.gui.view.table.TableValuesStatisticsViewModel.Content;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.keyboard.TableValuesKeyboardNavigationController;
 import org.geogebra.common.gui.view.table.keyboard.TableValuesKeyboardNavigationControllerDelegate;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.states.State;
 import org.geogebra.common.util.AttributedString;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.components.sideSheet.SideSheetData;
 import org.geogebra.web.full.gui.toolbarpanel.ContextMenuTV;
 import org.geogebra.web.full.gui.toolbarpanel.DefineFunctionsDialogTV;
+import org.geogebra.web.full.gui.toolbarpanel.StatsSideSheetTV;
 import org.geogebra.web.full.gui.toolbarpanel.TVRowData;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.util.StickyTable;
@@ -71,6 +75,7 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 	private final TableValuesView view;
 	private final AppWFull app;
 	private final HeaderCell headerCell = new HeaderCell();
+	private final State.@Nullable Subscription contentSubscription;
 	private boolean transitioning;
 	private ContextMenuTV contextMenu;
 	private final TableEditor editor;
@@ -83,9 +88,19 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 	private final TableValuesKeyboardNavigationController controller;
 	private Element focusedNonEditableCell;
 	GPoint lastEdit = null;
+	StatsSideSheetTV sideSheetTV;
 
 	public MathKeyboardListener getKeyboardListener() {
 		return editor.getKeyboardListener();
+	}
+
+	/**
+	 * Cancel existing subscriptions.
+	 */
+	public void dispose() {
+		if (contentSubscription != null) {
+			contentSubscription.cancel();
+		}
 	}
 
 	private static class HeaderCell {
@@ -134,6 +149,13 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 			if (evt.isAttached()) {
 				tableModel.registerListener(this);
 			}
+		});
+		State<Content> contentState = view.getStatisticsViewModel().getContent();
+		contentSubscription = contentState.subscribe(content -> {
+			if (sideSheetTV == null) {
+				sideSheetTV = new StatsSideSheetTV(app, new SideSheetData(""));
+			}
+			sideSheetTV.update(content, view.getStatisticsViewModel());
 		});
 		this.shadedColumns = shadedColumns;
 		editor = new TableEditor(this, app);
@@ -721,4 +743,5 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 	public void selectFirstCell() {
 		controller.select(0, 0);
 	}
+
 }

@@ -16,14 +16,15 @@
 
 package org.geogebra.web.full.gui.toolbarpanel;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.contextmenu.TableValuesContextMenuActionHandler.PlotActionHandler;
+import org.geogebra.common.gui.view.table.TableUtil;
+import org.geogebra.common.gui.view.table.TableValuesStatisticsViewModel;
+import org.geogebra.common.gui.view.table.TableValuesStatisticsViewModel.Content;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
-import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
+import org.geogebra.common.states.State;
+import org.geogebra.common.util.AttributedString;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.sideSheet.ComponentSideSheet;
@@ -37,23 +38,28 @@ import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Panel;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 public final class StatsSideSheetTV {
 	private final AppW app;
 	private FlowPanel statPanel;
 	private final ComponentSideSheet sideSheet;
+	private State.Subscription dataUpdateRegistration;
 
 	/**
 	 * @param app application
 	 * @param data side sheet data
-	 * @param subTitle sub-title
 	 */
-	public StatsSideSheetTV(AppW app, SideSheetData data, String subTitle) {
-		sideSheet = new ComponentSideSheet(app, data);
+	public StatsSideSheetTV(AppW app, SideSheetData data) {
 		this.app = app;
-		buildSideSheet(subTitle);
+		sideSheet = new ComponentSideSheet(app, data);
 		sideSheet.addStyleName("statistics");
+		sideSheet.addAttachHandler(evt -> {
+			if (!evt.isAttached()) {
+				cancelRegistration();
+			}
+		});
 	}
 
 	private void buildSideSheet(String subTitle) {
@@ -65,9 +71,17 @@ public final class StatsSideSheetTV {
 	/**
 	 * @param rowData row data
 	 */
-	public void setRowsAndShow(List<StatisticGroup> rowData) {
-		setRows(rowData);
+	public void setRowsAndShow(State<List<StatisticGroup>> rowData) {
+		cancelRegistration();
+		setRows(rowData.get());
+		this.dataUpdateRegistration = rowData.subscribe(this::setRows);
 		sideSheet.show();
+	}
+
+	private void cancelRegistration() {
+		if (dataUpdateRegistration != null) {
+			dataUpdateRegistration.cancel();
+		}
 	}
 
 	private void setRows(List<StatisticGroup> statistics) {
@@ -112,32 +126,28 @@ public final class StatsSideSheetTV {
 
 	/**
 	 * Add regression UI and show
-	 * @param regressionGroups map from regression specification to its statistic groups
 	 * @param plotActionHandler callback to plot the selected regression curve
 	 */
-	public void addRegressionChooser(
-			Map<RegressionSpecification, List<StatisticGroup>> regressionGroups,
-			@Nullable PlotActionHandler plotActionHandler) {
-		List<RegressionSpecification> available = new ArrayList<>(regressionGroups.keySet());
-		List<String> items = new ArrayList<>();
-		available.forEach(spec -> items.add(app.getLocalization().getMenu(spec.getLabel())));
+	public void addRegressionChooser(TableValuesStatisticsViewModel model,
+			@NonNull State<@NonNull List<StatisticGroup>> groups,
+			@NonNull State<@NonNull List<String>> models,
+			@Nullable Runnable plotActionHandler) {
+		List<String> items = models.get();
 
 		ComponentDropDown regressionChooser = new ComponentDropDown(app,
 				app.getLocalization().getMenu("RegressionModel"), items, 0);
 		regressionChooser.setFullWidth(true);
 		regressionChooser.addChangeHandler(() -> {
-			RegressionSpecification regression = available
-					.get(regressionChooser.getSelectedIndex());
-			setRows(regressionGroups.get(regression));
+			model.selectedRegressionIndexChanged(regressionChooser.getSelectedIndex());
+			setRows(groups.get());
 		});
 
 		sideSheet.addToContent(regressionChooser);
 
 		if (plotActionHandler != null) {
-			sideSheet.addPositiveButtonRunnable(() -> plotActionHandler.onPlotButtonPressed(
-					available.get(regressionChooser.getSelectedIndex())));
+			sideSheet.addPositiveButtonRunnable(plotActionHandler);
 		}
-		setRowsAndShow(regressionGroups.get(available.get(0)));
+		setRowsAndShow(groups);
 	}
 
 	/**
@@ -145,6 +155,7 @@ public final class StatsSideSheetTV {
 	 * @param errorMessage error message to show
 	 */
 	public void showError(String errorMessage) {
+		cancelRegistration();
 		sideSheet.addStyleName("error");
 		InfoErrorData errorData = new InfoErrorData(
 				app.getLocalization().getMenu("StatsDialog.NoData"),
@@ -153,5 +164,52 @@ public final class StatsSideSheetTV {
 				errorData, null);
 		sideSheet.addToContent(infoPanel);
 		sideSheet.show();
+	}
+
+	/**
+	 * @param content view content; if null, view will be closed
+	 * @param model table stats model
+	 */
+	public void update(Content content, TableValuesStatisticsViewModel model) {
+		if (content instanceof Content.Statistics stats) {
+			showStatisticsDialog(content.title(), content.header(), stats.groups());
+		} else if (content instanceof Content.Regression regression) {
+			showRegressionDialog(content.title(), content.header(),
+					model,
+					regression.groups(),
+					regression.regressionModels(), regression.plotAction());
+		} else if (content instanceof Content.Error err) {
+			showErrorDialog(err.title(), err.header(), err.message());
+		} else { // null or invalid
+			sideSheet.close();
+		}
+	}
+
+	private void showStatisticsDialog(@NonNull String title, @NonNull AttributedString header,
+			@NonNull State<List<StatisticGroup>> statisticGroups) {
+		SideSheetData sideSheetData = new SideSheetData(title, null, null);
+		sideSheet.update(sideSheetData);
+		buildSideSheet(TableUtil.toHtml(header));
+		setRowsAndShow(statisticGroups);
+	}
+
+	private void showRegressionDialog(@NonNull String title,
+			@NonNull AttributedString header,
+			TableValuesStatisticsViewModel model,
+			@NonNull State<@NonNull List<StatisticGroup>> groups,
+			@NonNull State<@NonNull List<String>> models, @Nullable Runnable plotActionHandler) {
+		SideSheetData sideSheetData = new SideSheetData(title, null,
+				plotActionHandler != null ? "Plot" : null);
+		sideSheet.update(sideSheetData);
+		buildSideSheet(TableUtil.toHtml(header));
+		addRegressionChooser(model, groups, models, plotActionHandler);
+	}
+
+	private void showErrorDialog(@NonNull String title, @NonNull AttributedString header,
+			@NonNull String errorMessage) {
+		SideSheetData sideSheetData = new SideSheetData(title, null, null);
+		sideSheet.update(sideSheetData);
+		buildSideSheet(TableUtil.toHtml(header));
+		showError(errorMessage);
 	}
 }

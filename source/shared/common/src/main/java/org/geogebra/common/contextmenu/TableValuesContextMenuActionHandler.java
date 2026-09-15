@@ -16,25 +16,17 @@
 
 package org.geogebra.common.contextmenu;
 
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import org.geogebra.common.gui.view.table.TableUtil;
 import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.gui.view.table.TableValuesStatisticsViewModel.Mode;
-import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.AttributedString;
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -43,7 +35,6 @@ public final class TableValuesContextMenuActionHandler {
 	private final int columnIndex;
 	private final TableValues tableValues;
 	private final App app;
-	private final Localization localization;
 	private final @Weak Delegate delegate;
 
 	/** Delegate interface to perform UI-related and platform-specific operations. */
@@ -59,41 +50,6 @@ public final class TableValuesContextMenuActionHandler {
 
 		/** Starts the process of importing data into the table values. */
 		void startDataImport();
-
-		/**
-		 * Opens the statistics dialog with the computed 1- or 2-variable statistics.
-		 * @param title dialog title
-		 * @param header column label
-		 * @param statisticGroups list of statistic groups to display
-		 */
-		@Deprecated // TODO Remove in APPS-7848
-		void showStatisticsDialog(@NonNull String title, @NonNull AttributedString header,
-				@NonNull List<StatisticGroup> statisticGroups);
-
-		/**
-		 * Opens the regression dialog. {@code plotActionHandler} is a callback invoked when the
-		 * user plots the selected regression curve on the graph.
-		 * @param title dialog title
-		 * @param header column label
-		 * @param regressionGroups map from regression specification to its statistic groups;
-		 * keys populate a dropdown, and selecting one shows the corresponding statistic groups
-		 * @param plotActionHandler callback to plot the selected regression curve when the
-		 * "Plot" button is pressed or {@code null} when no "Plot" button is shown
-		 */
-		@Deprecated // TODO Remove in APPS-7848
-		void showRegressionDialog(@NonNull String title, @NonNull AttributedString header,
-				@NonNull Map<RegressionSpecification, List<StatisticGroup>> regressionGroups,
-				@Nullable PlotActionHandler plotActionHandler);
-
-		/**
-		 * Opens an error dialog when statistics or regression cannot be computed.
-		 * @param title dialog title
-		 * @param header column label
-		 * @param errorMessage human-readable error description
-		 */
-		@Deprecated // TODO Remove in APPS-7848
-		void showErrorDialog(@NonNull String title, @NonNull AttributedString header,
-				@NonNull String errorMessage);
 	}
 
 	/** Callback to be invoked when the user presses the "Plot" button in the regression view. */
@@ -119,7 +75,6 @@ public final class TableValuesContextMenuActionHandler {
 		this.columnIndex = columnIndex;
 		this.tableValues = tableValues;
 		this.app = app;
-		this.localization = app.getLocalization();
 		this.delegate = delegate;
 	}
 
@@ -137,8 +92,7 @@ public final class TableValuesContextMenuActionHandler {
 			case ImportData -> delegate.startDataImport();
 			case Statistics1 -> showStatistics(Mode.ONE_VARIABLE);
 			case Statistics2 -> showStatistics(Mode.TWO_VARIABLE);
-			case Regression -> app.getAsyncManager().scheduleCallback(
-					() -> showStatistics(Mode.REGRESSION));
+			case Regression -> showStatistics(Mode.REGRESSION);
 			case Separator -> {
 			}
 		}
@@ -174,66 +128,8 @@ public final class TableValuesContextMenuActionHandler {
 	}
 
 	private void showStatistics(Mode mode) {
-		if (app.getPlatform().isMobile()) {
-			tableValues.getStatisticsViewModel().show(mode, columnIndex);
-			return;
-		}
-		switch (mode) {
-			case ONE_VARIABLE -> oneVariableStatistics();
-			case TWO_VARIABLE -> twoVariableStatistics();
-			case REGRESSION -> regression();
-		}
-	}
-
-	@Deprecated // TODO Remove in APPS-7848
-	private void oneVariableStatistics() {
-		AttributedString header = TableUtil.getLabeledColumnHeader(
-				tableValues.getTableValuesModel(), columnIndex, false, localization);
-		List<StatisticGroup> statisticGroups = tableValues.getStatistics1Var(columnIndex);
-		String title = localization.getMenu("1VariableStatistics");
-		if (statisticGroups.isEmpty()) {
-			delegate.showErrorDialog(title, header, localization
-					.getMenu("StatsDialog.NoDataMsg1VarStats"));
-		} else {
-			delegate.showStatisticsDialog(title, header, statisticGroups);
-		}
-	}
-
-	@Deprecated // TODO Remove in APPS-7848
-	private void twoVariableStatistics() {
-		AttributedString header = TableUtil.getLabeledColumnHeader(
-				tableValues.getTableValuesModel(), columnIndex, true, localization);
-		List<StatisticGroup> groups = tableValues.getStatistics2Var(columnIndex);
-		String title = localization.getMenu("2VariableStatistics");
-		if (groups.isEmpty()) {
-			delegate.showErrorDialog(title, header, localization
-					.getMenu("StatsDialog.NoDataMsg2VarStats"));
-		} else {
-			delegate.showStatisticsDialog(title, header, groups);
-		}
-	}
-
-	@Deprecated // TODO Remove in APPS-7848
-	private void regression() {
-		List<RegressionSpecification> regressionSpecifications =
-				tableValues.getRegressionSpecifications(columnIndex);
-		AttributedString header = TableUtil.getLabeledColumnHeader(
-				tableValues.getTableValuesModel(), columnIndex, false, localization);
-		if (regressionSpecifications.isEmpty()) {
-			delegate.showErrorDialog(localization.getMenu("Regression"), header,
-					localization.getMenu("StatsDialog.NoDataMsgRegression"));
-			return;
-		}
-		Map<RegressionSpecification, List<StatisticGroup>> statisticGroups =
-				regressionSpecifications.stream().collect(Collectors.toMap(
-						regressionSpecification -> regressionSpecification,
-						regressionSpecification -> tableValues.getRegression(
-								columnIndex, regressionSpecification),
-						(existing, replacement) -> existing, LinkedHashMap::new));
-		boolean canPlot = regressionSpecifications.stream()
-				.allMatch(RegressionSpecification::canPlot);
-		delegate.showRegressionDialog(localization.getMenu("Regression"), header, statisticGroups,
-				canPlot ? selectedRegressionSpecification -> tableValues.plotRegression(
-						columnIndex, selectedRegressionSpecification) : null);
+		app.getAsyncManager().scheduleCallback(() ->
+			tableValues.getStatisticsViewModel().show(mode, columnIndex)
+		);
 	}
 }

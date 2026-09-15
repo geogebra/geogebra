@@ -17,26 +17,20 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.contextmenu.TableValuesContextMenuActionHandler;
-import org.geogebra.common.contextmenu.TableValuesContextMenuActionHandler.PlotActionHandler;
 import org.geogebra.common.contextmenu.TableValuesContextMenuItem;
-import org.geogebra.common.gui.view.table.TableUtil;
 import org.geogebra.common.gui.view.table.TableValuesView;
-import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
-import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.ownership.SuiteScope;
 import org.geogebra.common.util.AttributedString;
-import org.geogebra.web.full.gui.components.sideSheet.SideSheetData;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -45,8 +39,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.Command;
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 
 /**
  * Context menu which is opened with the table of values header 3dot button
@@ -198,32 +190,4 @@ public final class ContextMenuTV implements TableValuesContextMenuActionHandler.
 		app.getCsvHandler().execute();
 	}
 
-	@Override
-	public void showStatisticsDialog(@NonNull String title, @NonNull AttributedString header,
-			@NonNull List<StatisticGroup> statisticGroups) {
-		SideSheetData sideSheetData = new SideSheetData(title, null, null);
-		StatsSideSheetTV sideSheet = new StatsSideSheetTV(app, sideSheetData,
-				TableUtil.toHtml(header));
-		sideSheet.setRowsAndShow(statisticGroups);
-	}
-
-	@Override
-	public void showRegressionDialog(@NonNull String title, @NonNull AttributedString header,
-			@NonNull Map<RegressionSpecification, List<StatisticGroup>> regressionGroups,
-			@Nullable PlotActionHandler plotActionHandler) {
-		SideSheetData sideSheetData = new SideSheetData(title, null,
-				plotActionHandler != null ? "Plot" : null);
-		StatsSideSheetTV sideSheet = new StatsSideSheetTV(app, sideSheetData,
-				TableUtil.toHtml(header));
-		sideSheet.addRegressionChooser(regressionGroups, plotActionHandler);
-	}
-
-	@Override
-	public void showErrorDialog(@NonNull String title, @NonNull AttributedString header,
-			@NonNull String errorMessage) {
-		SideSheetData sideSheetData = new SideSheetData(title, null, null);
-		StatsSideSheetTV sideSheet = new StatsSideSheetTV(app, sideSheetData,
-				TableUtil.toHtml(header));
-		sideSheet.showError(errorMessage);
-	}
 }

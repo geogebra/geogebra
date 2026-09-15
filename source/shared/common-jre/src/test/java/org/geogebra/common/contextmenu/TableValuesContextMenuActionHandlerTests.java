@@ -22,21 +22,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.List;
-import java.util.Map;
-
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.contextmenu.TableValuesContextMenuActionHandler.PlotActionHandler;
 import org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item;
 import org.geogebra.common.gui.view.table.TableValues;
-import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
-import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.util.AttributedString;
 import org.geogebra.test.BaseAppTestSetup;
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
 class TableValuesContextMenuActionHandlerTests extends BaseAppTestSetup
@@ -146,25 +137,6 @@ class TableValuesContextMenuActionHandlerTests extends BaseAppTestSetup
 
 	@Override
 	public void startDataImport() {
-		// not needed for tests
-	}
-
-	@Override
-	public void showStatisticsDialog(@NonNull String title, @NonNull AttributedString header,
-			@NonNull List<StatisticGroup> statisticGroups) {
-		// not needed for tests
-	}
-
-	@Override
-	public void showRegressionDialog(@NonNull String title, @NonNull AttributedString header,
-			@NonNull Map<RegressionSpecification, List<StatisticGroup>> regressionGroups,
-			@Nullable PlotActionHandler plotActionHandler) {
-		// not needed for tests
-	}
-
-	@Override
-	public void showErrorDialog(@NonNull String title, @NonNull AttributedString header,
-			@NonNull String errorMessage) {
 		// not needed for tests
 	}
 }

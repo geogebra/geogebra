@@ -136,15 +136,15 @@ public final class TableTab extends ToolbarTab {
 	 *            to scroll.
 	 */
 	public void scrollTo(GeoEvaluatable geo) {
-		if (table instanceof StickyValuesTable) {
-			((StickyValuesTable) table).scrollTo(geo);
+		if (table instanceof StickyValuesTable valuesTable) {
+			valuesTable.scrollTo(geo);
 		}
 	}
 
 	@Override
 	public MathKeyboardListener getKeyboardListener() {
-		if (table instanceof StickyValuesTable) {
-			return ((StickyValuesTable) table).getKeyboardListener();
+		if (table instanceof StickyValuesTable valuesTable) {
+			return valuesTable.getKeyboardListener();
 		}
 		return null;
 	}
@@ -155,6 +155,15 @@ public final class TableTab extends ToolbarTab {
 	public void openDialogIfEmpty() {
 		if (((TableValuesView) app.getGuiManager().getTableValuesView()).hasNoDefinedFunctions()) {
 			ensureTableExists().openDefineFunctions();
+		}
+	}
+
+	/**
+	 * Cancel existing subscriptions.
+	 */
+	public void dispose() {
+		if (table instanceof StickyValuesTable valuesTable) {
+			valuesTable.dispose();
 		}
 	}
 }

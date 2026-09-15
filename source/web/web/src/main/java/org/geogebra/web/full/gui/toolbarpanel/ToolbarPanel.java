@@ -365,6 +365,9 @@ public final class ToolbarPanel extends FlowPanel
 		} else {
 			table = null;
 		}
+		if (tabTable != null) {
+			tabTable.dispose();
+		}
 		if (isTableTabExpected()) {
 			tabTable = new TableTab(this,
 					table == null ? () -> new StickyValuesTable(app,
