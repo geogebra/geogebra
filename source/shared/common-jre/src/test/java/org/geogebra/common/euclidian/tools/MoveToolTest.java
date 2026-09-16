@@ -14,48 +14,187 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.common.euclidian;
+package org.geogebra.common.euclidian.tools;
 
 import static org.geogebra.common.BaseUnitTest.hasValue;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.geogebra.common.cas.MockedCasGiac;
-import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenPositionModel;
+import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSegment;
-import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.EventListener;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.test.EventAccumulator;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class MoveToolTest extends BaseEuclidianControllerTest {
+class MoveToolTest extends BaseToolTest {
 
 	@BeforeEach
-	void setUp() {
-		setUpController();
+	void setmode() {
+		setMode(EuclidianConstants.MODE_MOVE);
+	}
+
+	@Test
+	void smallDragShouldNotMovePointOnListOrDispatchUpdate() {
+		add("l={(0, 0), (2, -2)}");
+		add("A=Point(l)");
+		ArrayList<String> updates = new ArrayList<>();
+		EventListener accumulator = event -> {
+			if (event.getType() == EventType.UPDATE) {
+				updates.add(event.target.getLabelSimple());
+			}
+		};
+		getApp().getEventDispatcher().addEventListener(accumulator);
+
+		dragStart(0, 0);
+		dragEnd(40, 40);
+		assertEquals(Collections.emptyList(), updates);
+
+		dragStart(0, 0);
+		dragEnd(100, 100);
+		checkContent("A = (2, -2)");
+		assertEquals(Collections.singletonList("A"), updates);
+	}
+
+	@Test
+	void moveFreeLineWithMouse() {
+		GeoLine line = new GeoLine(getKernel().getConstruction());
+		line.setCoords(0, 1, 1);
+		line.setLabel("g");
+		line.setEuclidianVisible(true);
+		line.updateRepaint();
+
+		dragStart(200, 50);
+		dragEnd(200, 100);
+
+		checkContent("g: y = -2");
+	}
+
+	@Test
+	void moveMultipleSelectedPointsWithMouse() {
+		GeoElement pointA = add("A = (1, -1)");
+		GeoElement pointB = add("B = (3, -1)");
+		getApp().getSelectionManager().setSelectedGeos(Arrays.asList(pointA, pointB));
+
+		dragStart(50, 50);
+		dragEnd(100, 100);
+
+		checkContent("A = (2, -2)", "B = (4, -2)");
+	}
+
+	@Test
+	void clickingEmptySpaceShouldClearSelection() {
+		GeoElement point = add("A = (1, -1)");
+		click(50, 50);
+		assertTrue(point.isSelected());
+
+		click(200, 200);
+
+		assertFalse(point.isSelected());
+	}
+
+	@Test
+	void moveBoxPlotWithMouse() {
+		GeoNumeric numeric = add("BoxPlot(0, 1, {1, 2, 3, 4})");
+		numeric.setFixed(false);
+
+		dragStart(50, 50);
+		dragEnd(50, 200);
+
+		assertEquals(
+				"BoxPlot(-4, 1, {1, 2, 3, 4})", numeric.getDefinition(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	void fixedBoxPlotShouldNotMove() {
+		GeoNumeric numeric = add("BoxPlot(0, 1, {1, 2, 3, 4})");
+		numeric.setFixed(true);
+
+		dragStart(50, 50);
+		dragEnd(50, 200);
+
+		assertEquals(
+				"BoxPlot(0, 1, {1, 2, 3, 4})", numeric.getDefinition(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	void movingBoxPlotShouldSupportUndoAndRedo() {
+		getApp().setUndoRedoMode(UndoRedoMode.GUI);
+		getApp().setUndoActive(true);
+		GeoNumeric numeric = add("BoxPlot(0, 1, {1, 2, 3, 4})");
+		numeric.setFixed(false);
+
+		dragStart(50, 50);
+		dragEnd(50, 200);
+		getApp().getKernel().undo();
+
+		assertEquals(
+				"BoxPlot(0, 1, {1, 2, 3, 4})", numeric.getDefinition(StringTemplate.defaultTemplate));
+
+		getApp().getKernel().redo();
+		assertEquals(
+				"BoxPlot(-4, 1, {1, 2, 3, 4})", numeric.getDefinition(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	void movingSliderValueShouldSupportUndo() {
+		getApp().getKernel().setUndoActive(true);
+		getApp().getKernel().initUndoInfo();
+		GeoNumeric slider = add("Slider(-5,5,.1)");
+		slider.setSliderFixed(true);
+		assertEquals(0, slider.evaluateDouble(), .001);
+
+		dragStart(148, 58);
+		assertEquals(0.1, slider.evaluateDouble(), .001);
+		dragEnd(160, 58);
+		assertEquals(1.1, slider.evaluateDouble(), .001);
+
+		getApp().getKernel().undo();
+		assertEquals(0, slider.evaluateDouble(), .001);
+	}
+
+	@Test
+	@Issue({"APPS-7317", "APPS-7429"})
+	void dependentListExpressionShouldNotMove() {
+		add("y_1={0,1,2}");
+		add("y_2={0,2,3}");
+		GeoElement element = add("(y_1, y_2)");
+
+		dragStart(0, 0);
+		dragEnd(50, 50);
+
+		assertEquals("(y_1, y_2)", element.getDefinition(StringTemplate.defaultTemplate));
+		assertEquals("{(0, 0), (1, 2), (2, 3)}", element.toValueString(StringTemplate.defaultTemplate));
 	}
 
 	@Test
@@ -68,25 +207,10 @@ class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void moveWithArrowKeyShouldChangeSegment1() {
-		add("A = (0,0)");
-		GeoElement segment = add("f = Segment(A, (1,-1))");
-		moveObjectWithArrowKey(segment, 1, -2);
-		checkContent("A = (1, -2)", "f = 1.41421");
-	}
-
-	@Test
 	void moveWithMouseShouldChangeVector1() {
 		add("v = Vector((1,-1))");
 		dragStart(50, 50);
 		dragEnd(100, 150);
-		checkContent("v = (2, -3)");
-	}
-
-	@Test
-	void moveWithArrowKeyShouldChangeVector1() {
-		GeoElement geo = add("v = Vector((1,-1))");
-		moveObjectWithArrowKey(geo, 1, -2);
 		checkContent("v = (2, -3)");
 	}
 
@@ -96,28 +220,6 @@ class MoveToolTest extends BaseEuclidianControllerTest {
 		dragStart(50, 50);
 		dragEnd(100, 150);
 		checkContent("list = {(2, -3)}");
-	}
-
-	@Test
-	void moveWithArrowKeyShouldChangeVector2() {
-		GeoElement list = add("list = {Vector((1,-1))}");
-		moveObjectWithArrowKey(list, 1, -2);
-		checkContent("list = {(2, -3)}");
-	}
-
-	@Test
-	void casListShouldNotBeMoveable() {
-		MockedCasGiac mockGiac = setupGiac();
-		mockGiac.memorize("Intersect(x² + y² = 2, (x - 2)² + y² = 2)", "{(1,1),(1,-1)}");
-		GeoCasCell f = new GeoCasCell(getKernel().getConstruction());
-		getKernel().getConstruction().addToConstructionList(f, false);
-		f.setInput("l5:=Intersect(x^2+y^2=2,(x-2)^2+y^2=2)");
-		f.computeOutput();
-		GeoList list = (GeoList) f.getTwinGeo();
-		list.setLabel("l5");
-		assertThat(list, hasValue("{(1, 1), (1, -1)}"));
-		moveObjectWithArrowKey(list, 1, -2);
-		assertThat(list, hasValue("{(1, 1), (1, -1)}"));
 	}
 
 	@Test
@@ -131,8 +233,6 @@ class MoveToolTest extends BaseEuclidianControllerTest {
 		GeoList list = (GeoList) f.getTwinGeo();
 		list.setLabel("l5");
 		assertThat(list, hasValue("{(1, -1), (1, 1)}"));
-		moveObjectWithArrowKey(list, 1, -2);
-		assertThat(list, hasValue("{(1, -1), (1, 1)}"));
 		dragStart(50, 50);
 		assertThat(list.isSelected(), equalTo(true));
 		dragEnd(100, 50);
@@ -141,7 +241,7 @@ class MoveToolTest extends BaseEuclidianControllerTest {
 
 	@Test
 	void freeListShouldBeDraggable() {
-		GeoList list  = add("{(1, -1), (1, 1)}");
+		GeoList list = add("{(1, -1), (1, 1)}");
 		list.setEuclidianVisible(true);
 		list.updateRepaint();
 		EventAccumulator accumulator = new EventAccumulator();
@@ -165,17 +265,8 @@ class MoveToolTest extends BaseEuclidianControllerTest {
 		add("SetVisibleInView(B,1,false)");
 		dragStart(50, 50);
 		dragEnd(100, 150);
-		checkContent("A = (1, -2)", "q = 1", "f = 1", "g = 1", "B = (2, -3)",
-				"C = (2, -2)", "h = 1", "i = 1");
-	}
-
-	@Test
-	void moveWithArrowKeyShouldChangePolygon1() {
-		add("A = (0,0)");
-		GeoElement geo = add("q = Polygon(A, (0,-1), 4)");
-		moveObjectWithArrowKey(geo, 1, -2);
-		checkContent("A = (1, -2)", "q = 1", "f = 1", "g = 1", "B = (2, -3)",
-				"C = (2, -2)", "h = 1", "i = 1");
+		checkContent(
+				"A = (1, -2)", "q = 1", "f = 1", "g = 1", "B = (2, -3)", "C = (2, -2)", "h = 1", "i = 1");
 	}
 
 	@Test
@@ -184,15 +275,6 @@ class MoveToolTest extends BaseEuclidianControllerTest {
 		GeoElement q = add("q = Polygon((x(A), y(A)), (2, 0), (2, -2), (0, -2))");
 		dragStart(50, 50);
 		dragEnd(100, 100);
-		assertThat(A, hasValue("(0, 0)"));
-		assertThat(q, hasValue("6"));
-	}
-
-	@Test
-	void moveWithArrowKeyShouldChangePolygon2() {
-		GeoElement A = add("A = (0,0)");
-		GeoElement q = add("q = Polygon((x(A), y(A)), (2, 0), (2, -2), (0, -2))");
-		moveObjectWithArrowKey(q, 1, -1);
 		assertThat(A, hasValue("(0, 0)"));
 		assertThat(q, hasValue("6"));
 	}
@@ -208,15 +290,6 @@ class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void moveWithArrowKeyShouldChangePolygon3() {
-		GeoElement A = add("A = (0,0)");
-		GeoElement q = add("q = Polygon(A, A + (2, 0), A + (2, -2), A + (0, -2))");
-		moveObjectWithArrowKey(q, 1, -1);
-		assertThat(A, hasValue("(1, -1)"));
-		assertThat(q, hasValue("4"));
-	}
-
-	@Test
 	void moveWithMouseShouldNotChangeFixedSegment() {
 		add("A = (0,0)");
 		add("f = Segment(A, (1,-1))");
@@ -227,33 +300,14 @@ class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void moveWithArrowKeyShouldNotChangeFixedSegment() {
-		add("A = (0,0)");
-		GeoElement geo = add("f = Segment(A, (1,-1))");
-		add("SetFixed(f,true)");
-		moveObjectWithArrowKey(geo, 1, -2);
-		checkContent("A = (0, 0)", "f = 1.41421");
-	}
-
-	@Test
 	void moveWithMouseShouldNotChangeFixedPolygon() {
 		add("A = (0,0)");
 		add("q = Polygon(A, (0,-1), 4)");
 		add("SetFixed(q,true)");
 		dragStart(50, 50);
 		dragEnd(100, 150);
-		checkContent("A = (0, 0)", "q = 1", "f = 1", "g = 1", "B = (1, -1)",
-				"C = (1, 0)", "h = 1", "i = 1");
-	}
-
-	@Test
-	void moveWithArrowKeyShouldNotChangeFixedPolygon() {
-		add("A = (0,0)");
-		GeoElement geo = add("q = Polygon(A, (0,-1), 4)");
-		add("SetFixed(q,true)");
-		moveObjectWithArrowKey(geo, 1, -2);
-		checkContent("A = (0, 0)", "q = 1", "f = 1", "g = 1", "B = (1, -1)",
-				"C = (1, 0)", "h = 1", "i = 1");
+		checkContent(
+				"A = (0, 0)", "q = 1", "f = 1", "g = 1", "B = (1, -1)", "C = (1, 0)", "h = 1", "i = 1");
 	}
 
 	@Test
@@ -265,17 +319,6 @@ class MoveToolTest extends BaseEuclidianControllerTest {
 		assertThat(circle, hasValue("(-0.71x - 0.71y) (∞) = 0"));
 		dragStart(0, 0);
 		dragEnd(50, 50);
-		assertThat(circle, hasValue("(-0.71x - 0.71y) (∞) = 0"));
-	}
-
-	@Test
-	void moveWithArrowKeyShouldNotChangeValueOfInfiniteCircle() {
-		add("A=(1,-1)");
-		add("B=(2,-2)");
-		add("C=(3,-3)");
-		GeoElement circle = add("Circle(A,B,C)");
-		assertThat(circle, hasValue("(-0.71x - 0.71y) (∞) = 0"));
-		moveObjectWithArrowKey(circle, 1, -1);
 		assertThat(circle, hasValue("(-0.71x - 0.71y) (∞) = 0"));
 	}
 
@@ -297,34 +340,11 @@ class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void moveWithArrowKeyShouldChangeCircle1() {
-		add("A=(1, -1)");
-		GeoElement circle = add("Circle(A, 2)");
-		moveObjectWithArrowKey(circle, 1, -1);
-		assertThat(circle, hasValue("(x - 2)² + (y + 2)² = 4"));
-	}
-
-	@Test
-	void moveWithArrowKeyShouldChangeCircle2() {
-		GeoElement circle = add("c = Circle((1, -1), 2)");
-		moveObjectWithArrowKey(circle, 1, -1);
-		checkContent("c: (x - 2)² + (y + 2)² = 4");
-	}
-
-	@Test
 	void moveWithMouseShouldChangeEllipse() {
 		add("e = Ellipse((1, 1), (2, 2), (3, 3))");
 		checkContent("e: 17x² - 2x y + 17y² - 48x - 48y = 0");
 		dragStart(0, 0);
 		dragEnd(50, 50);
-		checkContent("e: 17x² - 2x y + 17y² - 84x - 12y = -36");
-	}
-
-	@Test
-	void moveWithArrowKeyShouldChangeEllipse() {
-		GeoElement ellipse = add("e = Ellipse((1, 1), (2, 2), (3, 3))");
-		checkContent("e: 17x² - 2x y + 17y² - 48x - 48y = 0");
-		moveObjectWithArrowKey(ellipse, 1, -1);
 		checkContent("e: 17x² - 2x y + 17y² - 84x - 12y = -36");
 	}
 
@@ -338,25 +358,10 @@ class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void moveWithArrowKeyShouldNotChangeEllipse() {
-		GeoElement ellipse = add("e = Ellipse((2, 2), (1, 0.6), 2)");
-		checkContent("e: 60x² - 11.2x y + 56.16y² - 165.44x - 129.216y = 0.5696");
-		moveObjectWithArrowKey(ellipse, 1, -1);
-		checkContent("e: 60x² - 11.2x y + 56.16y² - 165.44x - 129.216y = 0.5696");
-	}
-
-	@Test
 	void moveWithMouseShouldChangeRay() {
 		add("r = Ray((0, 0), (1, -1))");
 		dragStart(0, 0);
 		dragEnd(100, 50);
-		checkContent("r: x + y = 1");
-	}
-
-	@Test
-	void moveWithArrowKeyShouldChangeRay() {
-		GeoElement ray = add("r = Ray((0, 0), (1, -1))");
-		moveObjectWithArrowKey(ray, 2, -1);
 		checkContent("r: x + y = 1");
 	}
 
@@ -371,41 +376,12 @@ class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void moveWithArrowKeyShouldChangeDependentPoint() {
-		add("a = 1");
-		add("b = -1");
-		GeoElement point = add("A = (a, b)");
-		moveObjectWithArrowKey(point, 1, -1);
-		checkContent("A = (2, -2)");
-	}
-
-	@Test
-	void moveWithArrowKeyShouldChange3DPolygon() {
-		GeoElement pointA = add("A = (1, -1, 0)");
-		add("B = (2, -1, 0)");
-		add("C = (2, -2, 0)");
-		add("D = (1, -2, 0)");
-		GeoElement poly = add("Polygon(A, B, C, D)");
-		moveObjectWithArrowKey(poly, 1, -1);
-		assertThat(pointA, hasValue("(2, -2, 0)"));
-	}
-
-	@Test
 	void moveWithMouseShouldChangeOutputOfTranslate1() {
 		add("A = (2, 2)");
 		add("v = Vector((-1, -3))");
 		GeoElement point = add("Translate(A, v)");
 		dragStart(50, 50);
 		dragEnd(100, 100);
-		assertThat(point, hasValue("(2, -2)"));
-	}
-
-	@Test
-	void moveWithArrowKeyShouldChangeOutputOfTranslate1() {
-		add("A = (2, 2)");
-		add("v = Vector((-1, -3))");
-		GeoElement point = add("Translate(A, v)");
-		moveObjectWithArrowKey(point, 1, -1);
 		assertThat(point, hasValue("(2, -2)"));
 	}
 
@@ -417,51 +393,6 @@ class MoveToolTest extends BaseEuclidianControllerTest {
 		dragStart(50, 50);
 		dragEnd(100, 100);
 		assertThat(list, hasValue("{(2, -2)}"));
-	}
-
-	@Test
-	void moveWithArrowKeyShouldChangeOutputOfTranslate2() {
-		add("A = (2, 2)");
-		add("v = Vector((-1, -3))");
-		GeoElement list = add("{Translate(A, v)}");
-		moveObjectWithArrowKey(list, 1, -1);
-		assertThat(list, hasValue("{(2, -2)}"));
-	}
-
-	@Test
-	void moveWithArrowsShouldNotChangeAnchoredText() {
-		GeoText text = add("t=Text(\"T\",(1, 2))");
-		moveObjectWithArrowKey(text, 1, -1);
-		assertThat(text.getStartPoint(), hasValue("(1, 2)"));
-	}
-
-	@Test
-	void moveWithArrowsShouldChangeFreeText() {
-		GeoText text = add("t=Text(\"T\")");
-		add("SetCoords(t,3,5)");
-		assertThat(text.getStartPoint(), hasValue("(3, 5)"));
-		moveObjectWithArrowKey(text, 1, -1);
-		assertThat(text.getStartPoint(), hasValue("(4, 4)"));
-	}
-
-	@Test
-	void moveWithArrowKeyShouldNotChangeTextWithDependentAbsolutePosition() {
-		add("posX = 100");
-		add("posY = 100");
-		GeoText text = add("Text(\"Try me\")");
-		text.setAbsoluteScreenLocActive(true);
-
-		AbsoluteScreenPositionModel modelForX = new AbsoluteScreenPositionModel.ForX(getApp());
-		modelForX.setGeos(new GeoElement[]{text});
-		modelForX.applyChanges("posX");
-
-		AbsoluteScreenPositionModel modelForY = new AbsoluteScreenPositionModel.ForY(getApp());
-		modelForY.setGeos(new GeoElement[]{text});
-		modelForY.applyChanges("posY");
-
-		moveObjectWithArrowKey(text, 1, -1);
-		assertEquals(100, text.getAbsoluteScreenLocX());
-		assertEquals(100, text.getAbsoluteScreenLocY());
 	}
 
 	@Test
@@ -541,7 +472,7 @@ class MoveToolTest extends BaseEuclidianControllerTest {
 	@Test
 	void moveDropdown() {
 		GeoElement furniture = add("furniture={1,2,3}");
-		assertArrayEquals(new String[]{"furniture"}, getApp().getGgbApi().getAllObjectNames());
+		assertArrayEquals(new String[] {"furniture"}, getApp().getGgbApi().getAllObjectNames());
 		((GeoList) furniture).setDrawAsComboBox(true);
 		furniture.setEuclidianVisible(true);
 		furniture.setLabelVisible(true);
@@ -603,9 +534,7 @@ class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	private void snapToGrid() {
-		getApp().getActiveEuclidianView().setPointCapturing(
-				EuclidianStyleConstants.POINT_CAPTURING_ON
-		);
+		getApp().getActiveEuclidianView().setPointCapturing(EuclidianStyleConstants.POINT_CAPTURING_ON);
 	}
 
 	@Test
@@ -617,14 +546,6 @@ class MoveToolTest extends BaseEuclidianControllerTest {
 		assertThat(segment.startPoint, hasValue("(4, 0)"));
 	}
 
-	@Test
-	void moveSegmentShouldRunOnUpdateForEndPoints() {
-		add("A = (0,0)");
-		GeoElement segment = add("f = Segment(A, (1,-1))");
-		moveObjectWithArrowKey(segment, 1, -2);
-		checkContent("A = (1, -2)", "f = 1.41421");
-	}
-
 	private void assertFurnitureDragBehavior(GeoElement furniture) {
 		add("SetFixed(furniture,true)");
 		assertCannotDrag(furniture);
@@ -634,13 +555,13 @@ class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	private void assertCannotDrag(GeoElementND furniture) {
-		assertEquals(new DragResult(0, 0, ""),
-				getDragResult(furniture, false));
+		assertEquals(new DragResult(0, 0, ""), getDragResult(furniture, false));
 	}
 
 	private void assertCanDrag(GeoElementND furniture, boolean right) {
-		assertEquals(new DragResult(100, 50, "UPDATE_STYLE "
-						+ furniture.getLabelSimple()), getDragResult(furniture, right));
+		assertEquals(
+				new DragResult(100, 50, "UPDATE_STYLE " + furniture.getLabelSimple()),
+				getDragResult(furniture, right));
 	}
 
 	private DragResult getDragResult(GeoElementND geo, boolean rightClick) {
@@ -651,27 +572,22 @@ class MoveToolTest extends BaseEuclidianControllerTest {
 		EventAccumulator listener = new EventAccumulator();
 		getApp().getEventDispatcher().addEventListener(listener);
 		dragEnd(200 + offX, 150 + offY, rightClick);
-		return new DragResult(((AbsoluteScreenLocateable) geo).getAbsoluteScreenLocX() - 100,
+		return new DragResult(
+				((AbsoluteScreenLocateable) geo).getAbsoluteScreenLocX() - 100,
 				((AbsoluteScreenLocateable) geo).getAbsoluteScreenLocY() - 100,
 				listener.getEvents().toArray(new String[0]));
 	}
 
-	/**
-	 * Moves an object with arrow keys (Translation Vector (x, y, 0))
-	 * @param geo GeoElement
-	 * @param x x-Axis
-	 * @param y y-Axis
-	 */
-	private void moveObjectWithArrowKey(GeoElement geo, int x, int y) {
-		MoveGeos.moveObjects(Collections.singletonList(geo), new Coords(x, y, 0, 0),
-				null, null, getApp().getActiveEuclidianView());
-	}
-
 	private record DragResult(int x, int y, String events) {
 		private DragResult(int x, int y, String... events) {
-			this(x, y, String.join(",",
-					Arrays.stream(events).filter(event -> event.startsWith("UPDATE"))
-							.collect(Collectors.toSet())));
+			this(
+					x,
+					y,
+					String.join(
+							",",
+							Arrays.stream(events)
+									.filter(event -> event.startsWith("UPDATE"))
+									.collect(Collectors.toSet())));
 		}
 
 		@Override

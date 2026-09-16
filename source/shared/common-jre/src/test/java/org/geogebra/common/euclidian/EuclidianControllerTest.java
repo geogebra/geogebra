@@ -22,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.jre.headless.AppCommon;
@@ -32,11 +31,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
-import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.plugin.EventListener;
-import org.geogebra.common.plugin.EventType;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.TestEvent;
 import org.geogebra.test.annotation.Issue;
@@ -62,7 +57,9 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		setUpController();
 		events.clear();
 		getApp().setAppletFlag(false);
-		getApp().getSettings().getEuclidian(1)
+		getApp()
+				.getSettings()
+				.getEuclidian(1)
 				.setPointCapturing(EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);
 	}
 
@@ -78,52 +75,17 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 				if (evt.getInputs() != null) {
 					app.initDialogManager(false, evt.getInputs());
 				} else if (evt.getCommand() != null) {
-					app.getKernel().getAlgebraProcessor()
-							.processAlgebraCommand(evt.getCommand(), false);
+					app.getKernel().getAlgebraProcessor().processAlgebraCommand(evt.getCommand(), false);
 				} else {
 					resetMouseLocation();
-					app.getActiveEuclidianView().getEuclidianController()
-							.wrapMouseMoved(evt);
-					app.getActiveEuclidianView().getEuclidianController()
-							.wrapMousePressed(evt);
-					app.getActiveEuclidianView().getEuclidianController()
-							.wrapMouseReleased(evt);
+					app.getActiveEuclidianView().getEuclidianController().wrapMouseMoved(evt);
+					app.getActiveEuclidianView().getEuclidianController().wrapMousePressed(evt);
+					app.getActiveEuclidianView().getEuclidianController().wrapMouseReleased(evt);
 				}
 			}
 
 			checkContentWithVisibility(lastVisibility, lastCheck);
 		}
-	}
-
-	@Test
-	void moveTool() {
-		// Covers APPS-4296; more move tool related cases may require separate test class later
-		setMode(EuclidianConstants.MODE_MOVE);
-		String listDef = "l={(0, 0), (2, -2)}";
-		add(listDef);
-		add("A=Point(l)");
-		ArrayList<String> updates = new ArrayList<>();
-		EventListener acc = evt -> {
-			if (evt.getType() == EventType.UPDATE) {
-				updates.add(evt.target.getLabelSimple());
-			}
-		};
-		getApp().getEventDispatcher().addEventListener(acc);
-		dragStart(0, 0);
-		dragEnd(40, 40); // small drag: no update
-		assertEquals(Collections.emptyList(), updates, "no update after small drag");
-		dragStart(0, 0);
-		dragEnd(100, 100); // big drag: 1 event
-		checkContent("A = (2, -2)");
-		assertEquals(Collections.singletonList("A"), updates, "update after big drag");
-	}
-
-	@Test
-	void pointTool() {
-		setMode(EuclidianConstants.MODE_POINT);
-		click(0, 0);
-		click(100, 100);
-		checkContent("A = (0, 0)", "B = (2, -2)");
 	}
 
 	@Test
@@ -150,52 +112,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(100, 100);
 		click(50, 100);
 		checkContent("a: x = 1", "A = (2, -2)", "f: y = -2");
-	}
-
-	@Test
-	void intersectTool() {
-		setMode(EuclidianConstants.MODE_INTERSECT);
-		t("a:x=1");
-		t("b:y=-1");
-		click(50, 50);
-		checkContent("a: x = 1", "b: y = -1", "A = (1, -1)");
-	}
-
-	@Test
-	void intersectToolDoubleHit() {
-		setMode(EuclidianConstants.MODE_INTERSECT);
-		t("a:x=1");
-		t("b:Ray((1,-1),(-1,-1))");
-		t("c:Circle((1,-1),3)");
-		click(200, 50); // hit circle
-		click(50, 50); // hit both ray and line
-		checkContent("a: x = 1", "b: y = -1", unicode("c: (x - 1)^2 + (y + 1)^2 = 9"),
-				"A = (1, 2)", "B = (1, -4)");
-		checkHiddenContent();
-	}
-
-	@Test
-	void intersectToolIncident() {
-		setMode(EuclidianConstants.MODE_INTERSECT);
-		t("a:x=1");
-		t("b:Segment((1,-2),(1,5))");
-		t("c:Circle((1,-1),3)");
-		click(50, 50); // hit both incident lines
-		click(200, 50); // hit circle
-		checkContent("a: x = 1", "b = 7", unicode("c: (x - 1)^2 + (y + 1)^2 = 9"),
-				"A = (1, 2)");
-		checkHiddenContent();
-	}
-
-	@Test
-	void intersectToolAbs() {
-		setMode(EuclidianConstants.MODE_INTERSECT);
-		// TODO AlgebraTest.enableCAS(app, false);
-		t("f:abs(x-2)-2");
-		t("g:1-2x");
-		click(100, 100);
-		click(150, 250);
-		checkContent("f(x) = abs(x - 2) - 2", "g(x) = 1 - 2x", "A = (1, -1)");
 	}
 
 	@Test
@@ -231,15 +147,14 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	@Test
 	void angularBisectorTool() {
 		setMode(EuclidianConstants.MODE_ANGULAR_BISECTOR); // TODO: on the
-																// fly?
+		// fly?
 		t("A = (0, 0)");
 		t("B = (0, -2)");
 		t("C = (2, -2)");
 		click(0, 0);
 		click(0, 100);
 		click(100, 100);
-		checkContent("A = (0, 0)", "B = (0, -2)", "C = (2, -2)",
-				"f: -0.70711x + 0.70711y = -1.41421");
+		checkContent("A = (0, 0)", "B = (0, -2)", "C = (2, -2)", "f: -0.70711x + 0.70711y = -1.41421");
 	}
 
 	@Test
@@ -247,8 +162,7 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		setMode(EuclidianConstants.MODE_CIRCLE_TWO_POINTS);
 		click(50, 50);
 		click(100, 100);
-		checkContent("A = (1, -1)", "B = (2, -2)",
-				unicode("c: (x - 1)^2 + (y + 1)^2 = 2"));
+		checkContent("A = (1, -1)", "B = (2, -2)", unicode("c: (x - 1)^2 + (y + 1)^2 = 2"));
 	}
 
 	@Test
@@ -257,8 +171,8 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(0, 0);
 		click(100, 100);
 		click(100, 0);
-		checkContent("A = (0, 0)", "B = (2, -2)", "C = (2, 0)",
-				unicode("c: (x - 1)^2 + (y + 1)^2 = 2"));
+		checkContent(
+				"A = (0, 0)", "B = (2, -2)", "C = (2, 0)", unicode("c: (x - 1)^2 + (y + 1)^2 = 2"));
 	}
 
 	@Test
@@ -269,8 +183,13 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(50, 100);
 		click(50, 0);
 		click(0, 50);
-		checkContent("A = (1, -1)", "B = (2, -1)", "C = (1, -2)", "D = (1, 0)",
-				"E = (0, -1)", "c: x y + x - y = 1");
+		checkContent(
+				"A = (1, -1)",
+				"B = (2, -1)",
+				"C = (1, -2)",
+				"D = (1, 0)",
+				"E = (0, -1)",
+				"c: x y + x - y = 1");
 	}
 
 	@Test
@@ -281,8 +200,7 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(150, 200);
 		resetMouseLocation();
 		click(200, 150);
-		checkContent(unicode("c: x^2 + y^2 = 25"), "A = (3, -4)",
-				"f: 3x - 4y = 25");
+		checkContent(unicode("c: x^2 + y^2 = 25"), "A = (3, -4)", "f: 3x - 4y = 25");
 	}
 
 	@Test
@@ -312,8 +230,10 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	@Test
 	@Issue("APPS-5779")
 	void segmentWithDrag3PointsFixed() {
-		getApp().getSettings().getEuclidian(1).setPointCapturing(
-				EuclidianStyleConstants.POINT_CAPTURING_ON_GRID);
+		getApp()
+				.getSettings()
+				.getEuclidian(1)
+				.setPointCapturing(EuclidianStyleConstants.POINT_CAPTURING_ON_GRID);
 		setMode(EuclidianConstants.MODE_SEGMENT);
 		click(10, 10);
 		dragStart(110, 110);
@@ -330,7 +250,7 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(0, 0);
 		dragStart(100, 100);
 		pointerRelease(200, 150);
-		checkContent("B = (4, -3)", "A = (0, 0)",  "f = 5");
+		checkContent("B = (4, -3)", "A = (0, 0)", "f = 5");
 		events.clear();
 	}
 
@@ -353,8 +273,16 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(100, 100);
 		click(0, 100);
 		click(0, 0);
-		checkContent("A = (0, 0)", "B = (2, 0)", "C = (2, -2)", "D = (0, -2)",
-				"q1 = 4", "a = 2", "b = 2", "c = 2", "d = 2");
+		checkContent(
+				"A = (0, 0)",
+				"B = (2, 0)",
+				"C = (2, -2)",
+				"D = (0, -2)",
+				"q1 = 4",
+				"a = 2",
+				"b = 2",
+				"c = 2",
+				"d = 2");
 	}
 
 	@Test
@@ -379,8 +307,7 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		String circle = "c: x^2 + y^2 = 25";
 		t(circle);
 		click(150, 200);
-		checkContent("A = (0, 0)", "B = (2, -2)", "C = (1, -1)",
-				unicode(circle), "D = (0, 0)");
+		checkContent("A = (0, 0)", "B = (2, -2)", "C = (1, -1)", unicode(circle), "D = (0, 0)");
 	}
 
 	@Test
@@ -408,8 +335,7 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(0, 0);
 		click(50, 50);
 		click(100, 0);
-		checkContent("A = (0, 0)", "B = (1, -1)", "C = (2, 0)",
-				"c = " + Unicode.pi);
+		checkContent("A = (0, 0)", "B = (1, -1)", "C = (2, 0)", "c = " + Unicode.pi);
 	}
 
 	@Test
@@ -419,7 +345,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(100, 100);
 		click(200, 0);
 		checkContent("A = (0, 0)", "B = (2, -2)", "C = (4, 0)", "c = 6.28319");
-
 	}
 
 	@Test
@@ -428,11 +353,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(100, 100);
 		click(100, 0);
 		checkContent("A = (2, -2)", "B = (2, 0)", "c = " + Unicode.pi);
-	}
-
-	@Test
-	void sliderTool() {
-		setMode(EuclidianConstants.MODE_SLIDER); // TODO 25
 	}
 
 	@Test
@@ -453,13 +373,16 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	@Test
 	void mirrorAtPointTool() {
 		setMode(EuclidianConstants.MODE_MIRROR_AT_POINT);
-		click(0, 0);  // A
+		click(0, 0); // A
 		click(100, 100); // reflection point B, reflected point A'
 		String circle = "c: x^2 + y^2 = 25"; // c: circle of radius 5 around origin
 		t(circle);
 		click(150, 200); // point on circle D
 		click(100, 100); // reflection point E
-		checkContent("A = (0, 0)", "B = (2, -2)", "A' = (4, -4)",
+		checkContent(
+				"A = (0, 0)",
+				"B = (2, -2)",
+				"A' = (4, -4)",
 				unicode(circle),
 				unicode("c': x^2 + y^2 - 8x + 8y = -7"));
 	}
@@ -475,7 +398,10 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		t(circle);
 		click(150, 200);
 		click(100, 100);
-		checkContent(line, "A = (0, 0)", "A' = (4, -4)",
+		checkContent(
+				line,
+				"A = (0, 0)",
+				"A' = (4, -4)",
 				unicode(circle),
 				unicode("c': x^2 + y^2 - 8x + 8y = -7"));
 	}
@@ -550,8 +476,12 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		dragEnd(190, 80);
 		prepareInput("180deg");
 		click(100, 100);
-		checkContent("c: (x - 1)² + (y + 1)² = 0.25", "d: (x - 3)² + (y + 1)² = 0.25",
-				"A = (2, -2)", "c': (x - 3)² + (y + 3)² = 0.25", "d': (x - 1)² + (y + 3)² = 0.25");
+		checkContent(
+				"c: (x - 1)² + (y + 1)² = 0.25",
+				"d: (x - 3)² + (y + 1)² = 0.25",
+				"A = (2, -2)",
+				"c': (x - 3)² + (y + 3)² = 0.25",
+				"d': (x - 1)² + (y + 3)² = 0.25");
 		events.clear();
 	}
 
@@ -576,8 +506,8 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(100, 100);
 		click(0, 0);
 		click(150, 0);
-		checkContent("A = (2, -2)", "B = (0, 0)", "C = (3, 0)",
-				Unicode.alpha + " = 45" + Unicode.DEGREE_STRING);
+		checkContent(
+				"A = (2, -2)", "B = (0, 0)", "C = (3, 0)", Unicode.alpha + " = 45" + Unicode.DEGREE_STRING);
 	}
 
 	@Test
@@ -592,8 +522,16 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		t("B=(0,-2)");
 		t("p=Polygon(A,B,4)");
 		click(50, 50);
-		checkContent("A = (0, 0)", "B = (0, -2)", "p = 4", "f = 2", "g = 2",
-				"C = (2, -2)", "D = (2, 0)", "h = 2", "i = 2",
+		checkContent(
+				"A = (0, 0)",
+				"B = (0, -2)",
+				"p = 4",
+				"f = 2",
+				"g = 2",
+				"C = (2, -2)",
+				"D = (2, 0)",
+				"h = 2",
+				"i = 2",
 				"Textp = \"Perimeter of p = 8\"");
 		checkHiddenContent("perimeterp = 8", "Pointp = (1, -1)");
 	}
@@ -622,7 +560,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(400, 300);
 		checkHiddenContent("C = (2.65333, -1.98667)");
 		events.clear();
-
 	}
 
 	@Test
@@ -661,7 +598,10 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		prepareInput("90deg");
 		click(0, 0);
 		click(0, 100);
-		checkContent("A = (0, 0)", "B = (0, -2)", "A' = (2, -2)",
+		checkContent(
+				"A = (0, 0)",
+				"B = (0, -2)",
+				"A' = (2, -2)",
 				Unicode.alpha + " = 90" + Unicode.DEGREE_STRING);
 	}
 
@@ -677,8 +617,16 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		t("B=(0,-2)");
 		t("p=Polygon(A,B,4)");
 		click(50, 50);
-		checkContent("A = (0, 0)", "B = (0, -2)", "p = 4", "f = 2", "g = 2",
-				"C = (2, -2)", "D = (2, 0)", "h = 2", "i = 2",
+		checkContent(
+				"A = (0, 0)",
+				"B = (0, -2)",
+				"p = 4",
+				"f = 2",
+				"g = 2",
+				"C = (2, -2)",
+				"D = (2, 0)",
+				"h = 2",
+				"i = 2",
 				"Textp = \"Area of p = 4\"");
 		checkHiddenContent("Pointp = (1, -1)");
 	}
@@ -697,8 +645,15 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		prepareInput("4");
 		click(100, 100);
 		click(0, 0);
-		checkContent("A = (2, -2)", "B = (0, 0)", "poly1 = 8", "f = 2.82843",
-				"g = 2.82843", "C = (-2, -2)", "D = (0, -4)", "h = 2.82843",
+		checkContent(
+				"A = (2, -2)",
+				"B = (0, 0)",
+				"poly1 = 8",
+				"f = 2.82843",
+				"g = 2.82843",
+				"C = (-2, -2)",
+				"D = (0, -4)",
+				"h = 2.82843",
 				"i = 2.82843");
 	}
 
@@ -720,8 +675,7 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(100, 100);
 		click(0, 0);
 		click(150, 0);
-		checkContent("A = (2, -2)", "B = (0, 0)", "C = (3, 0)",
-				unicode("c: (x - 3)^2 + y^2 = 8"));
+		checkContent("A = (2, -2)", "B = (0, 0)", "C = (3, 0)", unicode("c: (x - 3)^2 + y^2 = 8"));
 	}
 
 	@Test
@@ -731,8 +685,7 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(100, 100);
 		click(0, 0);
 		click(150, 0);
-		checkContent("A = (2, -2)", "B = (0, 0)", "C = (3, 0)",
-				unicode("c: (x - 3)^2 + y^2 = 8"));
+		checkContent("A = (2, -2)", "B = (0, 0)", "C = (3, 0)", unicode("c: (x - 3)^2 + y^2 = 8"));
 	}
 
 	@Test
@@ -743,7 +696,11 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		setMode(EuclidianConstants.MODE_COMPASSES);
 		click(50, 50);
 		click(150, 0);
-		checkContent("A = (2, -2)", "B = (0, 0)", "f = 2.82843", "C = (3, 0)",
+		checkContent(
+				"A = (2, -2)",
+				"B = (0, 0)",
+				"f = 2.82843",
+				"C = (3, 0)",
 				unicode("c: (x - 3)^2 + y^2 = 8"));
 	}
 
@@ -755,8 +712,12 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		setMode(EuclidianConstants.MODE_COMPASSES);
 		click(200, 200);
 		click(150, 0);
-		checkContent("A = (2, -2)", "B = (0, 0)", unicode("c: (x - 2)^2 + (y + 2)^2 = 8"),
-				"C = (3, 0)", unicode("d: (x - 3)^2 + y^2 = 8"));
+		checkContent(
+				"A = (2, -2)",
+				"B = (0, 0)",
+				unicode("c: (x - 2)^2 + (y + 2)^2 = 8"),
+				"C = (3, 0)",
+				unicode("d: (x - 3)^2 + y^2 = 8"));
 	}
 
 	@Test
@@ -767,8 +728,7 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(50, 50);
 		click(100, 100);
 
-		checkContent(unicode("c: x^2 + y^2 = 8"), "A = (1, -1)",
-				"A' = (4, -4)");
+		checkContent(unicode("c: x^2 + y^2 = 8"), "A = (1, -1)", "A' = (4, -4)");
 	}
 
 	@Test
@@ -777,7 +737,10 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(0, 0);
 		click(100, 0);
 		click(50, 150);
-		checkContent("A = (0, 0)", "B = (2, 0)", "C = (1, -3)",
+		checkContent(
+				"A = (0, 0)",
+				"B = (2, 0)",
+				"C = (1, -3)",
 				"c: " + explicit("(x - 1)^2 * 9 + y^2 * 10 = 9 *10"));
 	}
 
@@ -787,7 +750,10 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(0, 0);
 		click(500, 0);
 		click(100, 0);
-		checkContent("A = (0, 0)", "B = (10, 0)", "C = (2, 0)",
+		checkContent(
+				"A = (0, 0)",
+				"B = (10, 0)",
+				"C = (2, 0)",
 				"c: " + explicit("-(x - 5)^2 * 16 + y^2 * 9 = -16 * 9"));
 	}
 
@@ -798,21 +764,7 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		t("A = (2, -2)");
 		click(50, 50);
 		click(100, 100);
-		checkContent("f: y = -1", "A = (2, -2)",
-				unicode("c: x^2 - 4x + 2y = -7"));
-	}
-
-	@Test
-	void fitLineTool() {
-		setMode(EuclidianConstants.MODE_FITLINE);
-		t("A = (2, -2)");
-		t("B = (3, -5)");
-		t("C = (4, -8)");
-		dragStart(50, 50);
-		dragEnd(500, 500);
-		checkContent("A = (2, -2)", "B = (3, -5)", "C = (4, -8)",
-				"f: y = -3x + 4");
-		events.clear();
+		checkContent("f: y = -1", "A = (2, -2)", unicode("c: x^2 - 4x + 2y = -7"));
 	}
 
 	@Test
@@ -857,7 +809,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(100, 100);
 		click(50, 50);
 		checkContent("A = (1, -1)", "B = (2, -1)", "C = (2, -2)", "f = 2");
-
 	}
 
 	@Test
@@ -878,18 +829,12 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		add("y=0");
 		dragStart(50, 50);
 		dragEnd(50, 0);
-		assertEquals("Point(f)",
-				lookup("A").getDefinition(StringTemplate.testTemplate));
+		assertEquals("Point(f)", lookup("A").getDefinition(StringTemplate.testTemplate));
 	}
 
 	@Test
 	void functionInspectorTool() {
 		setMode(EuclidianConstants.MODE_FUNCTION_INSPECTOR); // TODO 68
-	}
-
-	@Test
-	void intersectionCurveTool() {
-		setMode(EuclidianConstants.MODE_INTERSECTION_CURVE); // TODO 69
 	}
 
 	@Test
@@ -912,22 +857,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	@Test
 	void freehandShapeTool() {
 		setMode(EuclidianConstants.MODE_FREEHAND_SHAPE); // TODO 73
-	}
-
-	@Test
-	void extremumTool() {
-		setMode(EuclidianConstants.MODE_EXTREMUM);
-		t("x*(x-2)");
-		click(50, 50);
-		checkContent("f(x) = x (x - 2)", "A = (1, -1)");
-	}
-
-	@Test
-	void rootsTool() {
-		setMode(EuclidianConstants.MODE_ROOTS);
-		t("x*(x-2)");
-		click(50, 50);
-		checkContent("f(x) = x (x - 2)", "A = (0, 0)", "B = (2, 0)");
 	}
 
 	@Test
@@ -1057,85 +986,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void testUndoSliderDrag() {
-		getApp().getKernel().setUndoActive(true);
-		getApp().getKernel().initUndoInfo();
-		GeoNumeric slider = add("Slider(-5,5,.1)");
-		slider.setSliderFixed(true);
-		assertEquals(0, slider.evaluateDouble(), .001);
-		dragStart(148, 58);
-		assertEquals(0.1, slider.evaluateDouble(), .001);
-		dragEnd(160, 58);
-		assertEquals(1.1, slider.evaluateDouble(), .001);
-		getApp().getKernel().undo();
-		assertEquals(0, slider.evaluateDouble(), .001);
-	}
-
-	@Test
-	void testMoveBoxPlot() {
-		setMode(EuclidianConstants.MODE_MOVE);
-		GeoNumeric numeric = add("BoxPlot(0, 1, {1, 2, 3, 4})");
-		numeric.setFixed(false);
-
-		dragStart(50, 50);
-		dragEnd(50, 200);
-
-		assertEquals("BoxPlot(-4, 1, {1, 2, 3, 4})", numeric
-				.getDefinition(StringTemplate.defaultTemplate));
-	}
-
-	@Test
-	void testFixedBoxPlotDoesNotMove() {
-		setMode(EuclidianConstants.MODE_MOVE);
-		GeoNumeric numeric = add("BoxPlot(0, 1, {1, 2, 3, 4})");
-		numeric.setFixed(true);
-
-		dragStart(50, 50);
-		dragEnd(50, 200);
-
-		assertEquals("BoxPlot(0, 1, {1, 2, 3, 4})", numeric
-				.getDefinition(StringTemplate.defaultTemplate));
-	}
-
-	@Test
-	void testMoveBoxPlotUndoRedo() {
-		getApp().setUndoRedoMode(UndoRedoMode.GUI);
-		getApp().setUndoActive(true);
-		setMode(EuclidianConstants.MODE_MOVE);
-		GeoNumeric numeric = add("BoxPlot(0, 1, {1, 2, 3, 4})");
-		numeric.setFixed(false);
-
-		dragStart(50, 50);
-		dragEnd(50, 200);
-
-		getApp().getKernel().undo();
-
-		assertEquals("BoxPlot(0, 1, {1, 2, 3, 4})", numeric
-				.getDefinition(StringTemplate.defaultTemplate));
-
-		getApp().getKernel().redo();
-		assertEquals("BoxPlot(-4, 1, {1, 2, 3, 4})", numeric
-				.getDefinition(StringTemplate.defaultTemplate));
-	}
-
-	@Test
-	@Issue({"APPS-7317", "APPS-7429"})
-	void testDependentListExpressionNotMoveable() {
-		setMode(EuclidianConstants.MODE_MOVE);
-		add("y_1={0,1,2}");
-		add("y_2={0,2,3}");
-		GeoElement element = add("(y_1, y_2)");
-
-		dragStart(0, 0);
-		dragEnd(50, 50);
-
-		assertEquals("(y_1, y_2)",
-				element.getDefinition(StringTemplate.defaultTemplate));
-		assertEquals("{(0, 0), (1, 2), (2, 3)}",
-				element.toValueString(StringTemplate.defaultTemplate));
-	}
-
-	@Test
 	@Issue("MOW-1911")
 	void onlyHttpsHttpAndMailtoLinksCanBeOpened() {
 		assertTrue(EuclidianController.isSupportedLinkProtocol("https://geogebra.org"));
@@ -1156,18 +1006,16 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Override
-	protected void checkContentWithVisibility(boolean visibility,
-			String... desc) {
+	protected void checkContentWithVisibility(boolean visibility, String... desc) {
 		lastVisibility = visibility;
 		lastCheck = desc;
 		super.checkContentWithVisibility(visibility, desc);
 	}
 
 	private String explicit(String string) {
-		GeoConic c = (GeoConic) getApp().getKernel().getAlgebraProcessor()
-				.evaluateToGeoElement(string, false);
+		GeoConic c =
+				(GeoConic) getApp().getKernel().getAlgebraProcessor().evaluateToGeoElement(string, false);
 		c.setToImplicitForm();
 		return unicode(c.toValueString(StringTemplate.editTemplate));
 	}
-
 }
