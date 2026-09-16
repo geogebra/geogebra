@@ -23,28 +23,27 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 package com.himamis.retex.renderer.desktop.font;
 
 import java.awt.GraphicsEnvironment;
-import java.io.IOException;
 import java.io.InputStream;
 
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
@@ -62,11 +61,9 @@ public class FontLoaderD implements FontLoader {
 		FactoryProvider.debugS("loadFont():" + name);
 		try (InputStream fontIn = FactoryProviderDesktop.class.getResourceAsStream(
 				"/com/himamis/retex/renderer/desktop/" + name)) {
-			java.awt.Font f = java.awt.Font
-					.createFont(java.awt.Font.TRUETYPE_FONT, fontIn)
+			java.awt.Font f = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, fontIn)
 					.deriveFont((float) PIXELS_PER_POINT * FONT_SCALE_FACTOR);
-			GraphicsEnvironment graphicEnv = GraphicsEnvironment
-					.getLocalGraphicsEnvironment();
+			GraphicsEnvironment graphicEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
 			/*
 			 * The following fails under java 1.5 graphicEnv.registerFont(f);
@@ -77,9 +74,8 @@ public class FontLoaderD implements FontLoader {
 			}
 			return new FontD(f);
 		} catch (Exception e) {
-			throw new ResourceParseException("FontLoader" + ": FontLoader '"
-					+ name + "'. Error message: " + e.getMessage());
+			throw new ResourceParseException(
+					"FontLoader" + ": FontLoader '" + name + "'. Error message: " + e.getMessage());
 		}
 	}
-
 }

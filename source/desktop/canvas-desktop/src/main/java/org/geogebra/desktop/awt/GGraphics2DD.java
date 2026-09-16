@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -39,9 +39,9 @@ import org.geogebra.common.awt.MyImage;
 
 /**
  * Desktop implementation of Graphics2D; wraps the java.awt.Graphics2D class
- * 
+ *
  * @author Zbynek
- * 
+ *
  */
 public class GGraphics2DD implements GGraphics2D {
 
@@ -50,7 +50,7 @@ public class GGraphics2DD implements GGraphics2D {
 	private Graphics2D impl;
 
 	/**
-	 * 
+	 *
 	 * @param g2Dtemp
 	 *            wrapped graphics
 	 */
@@ -91,18 +91,14 @@ public class GGraphics2DD implements GGraphics2D {
 	private static Key getAwtHintKey(int key) {
 
 		switch (key) {
-		case org.geogebra.common.awt.RenderingHints
-				.KEY_ANTIALIASING:
-			return RenderingHints.KEY_ANTIALIASING;
-		case org.geogebra.common.awt.RenderingHints
-				.KEY_RENDERING:
-			return RenderingHints.KEY_RENDERING;
-		case org.geogebra.common.awt.RenderingHints
-				.KEY_TEXT_ANTIALIASING:
-			return RenderingHints.KEY_TEXT_ANTIALIASING;
-		case org.geogebra.common.awt.RenderingHints
-				.KEY_INTERPOLATION:
-			return RenderingHints.KEY_INTERPOLATION;
+			case org.geogebra.common.awt.RenderingHints.KEY_ANTIALIASING:
+				return RenderingHints.KEY_ANTIALIASING;
+			case org.geogebra.common.awt.RenderingHints.KEY_RENDERING:
+				return RenderingHints.KEY_RENDERING;
+			case org.geogebra.common.awt.RenderingHints.KEY_TEXT_ANTIALIASING:
+				return RenderingHints.KEY_TEXT_ANTIALIASING;
+			case org.geogebra.common.awt.RenderingHints.KEY_INTERPOLATION:
+				return RenderingHints.KEY_INTERPOLATION;
 		}
 
 		return null;
@@ -111,25 +107,18 @@ public class GGraphics2DD implements GGraphics2D {
 	private static Object getAwtHintValue(int value) {
 
 		switch (value) {
-		case org.geogebra.common.awt.RenderingHints
-				.VALUE_ANTIALIAS_ON:
-			return RenderingHints.VALUE_ANTIALIAS_ON;
-		case org.geogebra.common.awt.RenderingHints
-				.VALUE_RENDER_QUALITY:
-			return RenderingHints.VALUE_RENDER_QUALITY;
-		case org.geogebra.common.awt.RenderingHints
-				.VALUE_TEXT_ANTIALIAS_ON:
-			return RenderingHints.VALUE_TEXT_ANTIALIAS_ON;
-		case org.geogebra.common.awt.RenderingHints
-				.VALUE_INTERPOLATION_BILINEAR:
-			return RenderingHints.VALUE_INTERPOLATION_BILINEAR;
-		case org.geogebra.common.awt.RenderingHints
-				.VALUE_INTERPOLATION_NEAREST_NEIGHBOR:
-			return RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
-		case org.geogebra.common.awt.RenderingHints
-				.VALUE_INTERPOLATION_BICUBIC:
-			return RenderingHints.VALUE_INTERPOLATION_BICUBIC;
-
+			case org.geogebra.common.awt.RenderingHints.VALUE_ANTIALIAS_ON:
+				return RenderingHints.VALUE_ANTIALIAS_ON;
+			case org.geogebra.common.awt.RenderingHints.VALUE_RENDER_QUALITY:
+				return RenderingHints.VALUE_RENDER_QUALITY;
+			case org.geogebra.common.awt.RenderingHints.VALUE_TEXT_ANTIALIAS_ON:
+				return RenderingHints.VALUE_TEXT_ANTIALIAS_ON;
+			case org.geogebra.common.awt.RenderingHints.VALUE_INTERPOLATION_BILINEAR:
+				return RenderingHints.VALUE_INTERPOLATION_BILINEAR;
+			case org.geogebra.common.awt.RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR:
+				return RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+			case org.geogebra.common.awt.RenderingHints.VALUE_INTERPOLATION_BICUBIC:
+				return RenderingHints.VALUE_INTERPOLATION_BICUBIC;
 		}
 
 		return null;
@@ -260,8 +249,7 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	@Override
-	public void setClip(double x, double y, double width, double height,
-			boolean saveContext) {
+	public void setClip(double x, double y, double width, double height, boolean saveContext) {
 		setClip(x, y, width, height);
 	}
 
@@ -278,7 +266,7 @@ public class GGraphics2DD implements GGraphics2D {
 
 	/**
 	 * Replace wrapped graphics
-	 * 
+	 *
 	 * @param g
 	 *            implementation
 	 */
@@ -288,14 +276,12 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	@Override
-	public void drawRoundRect(int x, int y, int width, int height, int arcWidth,
-			int arcHeight) {
+	public void drawRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight) {
 		impl.drawRoundRect(x, y, width, height, arcWidth, arcHeight);
 	}
 
 	@Override
-	public void fillRoundRect(int x, int y, int width, int height, int arcWidth,
-			int arcHeight) {
+	public void fillRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight) {
 		impl.fillRoundRect(x, y, width, height, arcWidth, arcHeight);
 	}
 
@@ -309,14 +295,11 @@ public class GGraphics2DD implements GGraphics2D {
 	 *            initialise g2 for best quality rendering
 	 */
 	public static void setAntialiasing(Graphics2D g2) {
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
-		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
-				RenderingHints.VALUE_STROKE_PURE);
-		g2.setRenderingHint(RenderingHints.KEY_RENDERING,
-				RenderingHints.VALUE_RENDER_QUALITY);
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2.setRenderingHint(
+				RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+		g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 	}
 
 	@Override
@@ -335,11 +318,9 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	@Override
-	public Object setInterpolationHint(
-			boolean needsInterpolationRenderingHint) {
+	public Object setInterpolationHint(boolean needsInterpolationRenderingHint) {
 		Graphics2D g2 = impl;
-		Object oldInterpolationHint = g2
-				.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
+		Object oldInterpolationHint = g2.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
 
 		if (oldInterpolationHint == null) {
 			oldInterpolationHint = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
@@ -347,11 +328,11 @@ public class GGraphics2DD implements GGraphics2D {
 
 		if (needsInterpolationRenderingHint) {
 			// improve rendering quality for transformed images
-			g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-					RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+			g2.setRenderingHint(
+					RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		} else {
-			g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-					RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+			g2.setRenderingHint(
+					RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 		}
 		return oldInterpolationHint;
 	}
@@ -381,13 +362,11 @@ public class GGraphics2DD implements GGraphics2D {
 		getLine().setLine(x1, y1, x2, y2);
 
 		// turn off "pure" to avoid blurry axes
-		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
-				RenderingHints.VALUE_STROKE_DEFAULT);
+		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_DEFAULT);
 
 		impl.draw(line);
 
-		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
-				RenderingHints.VALUE_STROKE_PURE);
+		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 	}
 
 	@Override
@@ -423,8 +402,7 @@ public class GGraphics2DD implements GGraphics2D {
 	public void drawImageScaled(ImageD img, int width, int height) {
 		if (img.isSVG()) {
 			saveTransform();
-			scale((double) width / img.getWidth(),
-					(double) height / img.getHeight());
+			scale((double) width / img.getWidth(), (double) height / img.getHeight());
 			img.render(impl, 0, 0);
 			restoreTransform();
 		} else {
@@ -443,8 +421,8 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	@Override
-	public void drawImage(MyImage img, int sx, int sy, int sw, int sh, int dx,
-			int dy, int dw, int dh) {
+	public void drawImage(
+			MyImage img, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh) {
 		ImageD myImageD = (ImageD) img;
 		myImageD.render(impl, sx, sy, sw, sh, dx, dy, dw, dh);
 	}
@@ -457,5 +435,4 @@ public class GGraphics2DD implements GGraphics2D {
 	public Graphics2D getNativeImplementation() {
 		return impl;
 	}
-
 }

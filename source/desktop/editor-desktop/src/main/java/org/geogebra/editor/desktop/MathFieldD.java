@@ -48,9 +48,9 @@ import com.himamis.retex.renderer.share.SelectionBox;
 import com.himamis.retex.renderer.share.TeXIcon;
 
 public class MathFieldD extends JLabel implements MathField {
-	
+
 	private static final TemplateCatalog CATALOG;
-	
+
 	static {
 		CATALOG = new TemplateCatalog();
 		CATALOG.enableSubstitutions();
@@ -58,7 +58,7 @@ public class MathFieldD extends JLabel implements MathField {
 	}
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private final MathFieldInternal mathFieldInternal;
 	private int cursorX;
 	private int scrollX = 0;
@@ -176,17 +176,14 @@ public class MathFieldD extends JLabel implements MathField {
 		} catch (UnsupportedFlavorException | IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
 	public void copy() {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Clipboard clipboard = toolkit.getSystemClipboard();
-		StringSelection stringSelection = new StringSelection(
-				mathFieldInternal.copy());
+		StringSelection stringSelection = new StringSelection(mathFieldInternal.copy());
 		clipboard.setContents(stringSelection, null);
-
 	}
 
 	@Override

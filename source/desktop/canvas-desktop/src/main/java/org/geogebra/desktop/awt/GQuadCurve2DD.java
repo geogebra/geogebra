@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -43,8 +43,7 @@ public class GQuadCurve2DD implements GQuadCurve2D, GShapeD {
 	}
 
 	@Override
-	public boolean intersects(double x, double y, double lengthX,
-			double lengthY) {
+	public boolean intersects(double x, double y, double lengthX, double lengthY) {
 		return impl.intersects(x, y, lengthX, lengthY);
 	}
 
@@ -75,8 +74,8 @@ public class GQuadCurve2DD implements GQuadCurve2D, GShapeD {
 
 	@Override
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
-		return new GPathIteratorD(impl.getPathIterator(
-				GAffineTransformD.getAwtAffineTransform(affineTransform)));
+		return new GPathIteratorD(
+				impl.getPathIterator(GAffineTransformD.getAwtAffineTransform(affineTransform)));
 	}
 
 	@Override
@@ -90,10 +89,7 @@ public class GQuadCurve2DD implements GQuadCurve2D, GShapeD {
 	}
 
 	@Override
-	public void setCurve(double x1, double y1, double ctrlx, double ctrly,
-			double x2, double y2) {
+	public void setCurve(double x1, double y1, double ctrlx, double ctrly, double x2, double y2) {
 		impl.setCurve(x1, y1, ctrlx, ctrly, x2, y2);
-
 	}
-
 }

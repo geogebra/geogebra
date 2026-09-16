@@ -34,7 +34,7 @@ spotless {
     ratchetFrom("origin/main")
     java {
         // don't need to set target, it is inferred from java
-
+        targetExclude(fileTree("build/generated") { include("**/*.java") })
         // apply a specific flavor of google-java-format
         palantirJavaFormat("2.97.0").style("GOOGLE")
         importOrder("java", "javax", "org", "com")

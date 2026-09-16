@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -72,24 +72,20 @@ public class AwtFactoryD extends AwtFactory {
 	}
 
 	@Override
-	public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight,
-			double pixelRatio) {
-		return new GBufferedImageD(pixelWidth, pixelHeight,
-				GBufferedImage.TYPE_INT_ARGB);
+	public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight, double pixelRatio) {
+		return new GBufferedImageD(pixelWidth, pixelHeight, GBufferedImage.TYPE_INT_ARGB);
 	}
 
 	@Override
-	public GBufferedImage createBufferedImage(int width, int height,
-			boolean transparency) throws OutOfMemoryError {
+	public GBufferedImage createBufferedImage(int width, int height, boolean transparency)
+			throws OutOfMemoryError {
 		try {
-			GraphicsEnvironment ge = GraphicsEnvironment
-					.getLocalGraphicsEnvironment();
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
 			GraphicsDevice gs = ge.getDefaultScreenDevice();
 			GraphicsConfiguration gc = gs.getDefaultConfiguration();
-			BufferedImage bufImg = gc.createCompatibleImage(width, height,
-					transparency ? Transparency.TRANSLUCENT
-							: Transparency.BITMASK);
+			BufferedImage bufImg = gc.createCompatibleImage(
+					width, height, transparency ? Transparency.TRANSLUCENT : Transparency.BITMASK);
 			// Graphics2D g = (Graphics2D)bufImg.getGraphics();
 			// g.setBackground(new Color(0,0,0,0));
 			// g.clearRect(0,0,width,height);
@@ -97,8 +93,7 @@ public class AwtFactoryD extends AwtFactory {
 			return new GBufferedImageD(bufImg);
 		} catch (Exception e) {
 			// headless mode: getDefaultScreenDevice throws headless exception
-			return new GBufferedImageD(width, height,
-					GBufferedImage.TYPE_INT_ARGB);
+			return new GBufferedImageD(width, height, GBufferedImage.TYPE_INT_ARGB);
 		}
 	}
 
@@ -126,15 +121,14 @@ public class AwtFactoryD extends AwtFactory {
 
 	@Override
 	public GBasicStroke newMyBasicStroke(double f) {
-		return new GBasicStrokeD(f, GBasicStroke.CAP_ROUND,
-				GBasicStroke.JOIN_ROUND);
+		return new GBasicStrokeD(f, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
 	}
 
 	@Override
-	public GBasicStroke newBasicStroke(double width, int endCap, int lineJoin,
-			double miterLimit, double[] dash) {
-		BasicStroke s = new BasicStroke((float) width, endCap, lineJoin,
-				(float) miterLimit, doubleToFloat(dash), 0f);
+	public GBasicStroke newBasicStroke(
+			double width, int endCap, int lineJoin, double miterLimit, double[] dash) {
+		BasicStroke s = new BasicStroke(
+				(float) width, endCap, lineJoin, (float) miterLimit, doubleToFloat(dash), 0f);
 		return new GBasicStrokeD(s);
 	}
 
@@ -147,8 +141,7 @@ public class AwtFactoryD extends AwtFactory {
 	// CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT
 	// see #1699
 	public GBasicStroke newBasicStrokeJoinMitre(double f) {
-		return new GBasicStrokeD(f, GBasicStroke.CAP_SQUARE,
-				GBasicStroke.JOIN_MITER);
+		return new GBasicStrokeD(f, GBasicStroke.CAP_SQUARE, GBasicStroke.JOIN_MITER);
 	}
 
 	@Override
@@ -169,12 +162,10 @@ public class AwtFactoryD extends AwtFactory {
 	@Override
 	public GEllipse2DDoubleD newEllipse2DDouble() {
 		return new GEllipse2DDoubleD();
-
 	}
 
 	@Override
-	public GEllipse2DDouble newEllipse2DDouble(double x, double y, double width,
-			double height) {
+	public GEllipse2DDouble newEllipse2DDouble(double x, double y, double width, double height) {
 		return new GEllipse2DDoubleD(x, y, width, height);
 	}
 
@@ -214,21 +205,18 @@ public class AwtFactoryD extends AwtFactory {
 	}
 
 	@Override
-	public GTextLayout newTextLayout(String string, GFont fontLine,
-			GFontRenderContext frc) {
+	public GTextLayout newTextLayout(String string, GFont fontLine, GFontRenderContext frc) {
 		return new GTextLayoutD(string, fontLine, frc);
 	}
 
 	@Override
 	public GAlphaComposite newAlphaComposite(double alpha) {
-		return new GAlphaCompositeD(
-				AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-						(float) alpha));
+		return new GAlphaCompositeD(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) alpha));
 	}
 
 	@Override
-	public GGradientPaint newGradientPaint(double x1, double y1, GColor color1,
-			double x2, double y2, GColor color2) {
+	public GGradientPaint newGradientPaint(
+			double x1, double y1, GColor color1, double x2, double y2, GColor color2) {
 		return new GGradientPaintD(x1, y1, color1, x2, y2, color2);
 	}
 
@@ -240,14 +228,12 @@ public class AwtFactoryD extends AwtFactory {
 	@Override
 	public GPaint newTexturePaint(MyImage subimage, GRectangle rect) {
 		return new GTexturePaintD(new TexturePaint(
-				(BufferedImage) ((ImageD) subimage).getImage(),
-				GRectangleD.getAWTRectangle(rect)));
+				(BufferedImage) ((ImageD) subimage).getImage(), GRectangleD.getAWTRectangle(rect)));
 	}
 
 	@Override
 	public GFont newFont(String name, int style, double size) {
-		return new GFontD(new Font(name, style, (int) size)
-				.deriveFont((float) size));
+		return new GFontD(new Font(name, style, (int) size).deriveFont((float) size));
 	}
 
 	/**
@@ -263,5 +249,4 @@ public class AwtFactoryD extends AwtFactory {
 		}
 		return ((GBasicStrokeD) s).getImpl();
 	}
-
 }

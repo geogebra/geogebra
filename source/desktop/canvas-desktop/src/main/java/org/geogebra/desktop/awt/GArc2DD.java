@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -39,8 +39,7 @@ public class GArc2DD implements GRectangularShapeD, GArc2D {
 	}
 
 	@Override
-	public boolean intersects(double x, double y, double lengthX,
-			double lengthY) {
+	public boolean intersects(double x, double y, double lengthX, double lengthY) {
 		return impl.intersects(x, y, lengthX, lengthY);
 	}
 
@@ -71,8 +70,8 @@ public class GArc2DD implements GRectangularShapeD, GArc2D {
 
 	@Override
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
-		return new GPathIteratorD(impl.getPathIterator(
-				GAffineTransformD.getAwtAffineTransform(affineTransform)));
+		return new GPathIteratorD(
+				impl.getPathIterator(GAffineTransformD.getAwtAffineTransform(affineTransform)));
 	}
 
 	@Override
@@ -86,10 +85,9 @@ public class GArc2DD implements GRectangularShapeD, GArc2D {
 	}
 
 	@Override
-	public void setArc(double x, double y, double w, double h, double angSt,
-			double angExt, int closure) {
+	public void setArc(
+			double x, double y, double w, double h, double angSt, double angExt, int closure) {
 		impl.setArc(x, y, w, h, angSt, angExt, closure);
-
 	}
 
 	@Override
@@ -105,10 +103,8 @@ public class GArc2DD implements GRectangularShapeD, GArc2D {
 	}
 
 	@Override
-	public void setArcByCenter(double x, double y, double radius, double angSt,
-			double angleExt, int closure) {
+	public void setArcByCenter(
+			double x, double y, double radius, double angSt, double angleExt, int closure) {
 		impl.setArcByCenter(x, y, radius, angSt, angleExt, closure);
-
 	}
-
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -26,7 +26,7 @@ import org.geogebra.common.awt.GShape;
 
 /**
  * Desktop wrapper for stroke
- * 
+ *
  */
 public class GBasicStrokeD implements GBasicStroke {
 	private BasicStroke impl;
@@ -63,8 +63,7 @@ public class GBasicStrokeD implements GBasicStroke {
 		Shape shapeD = GGenericShapeD.getAwtShape(shape);
 		if (shapeD instanceof Path2D) {
 			Path2D p2d = (Path2D) shapeD;
-			if (p2d.getCurrentPoint() != null
-					&& Double.isNaN(p2d.getCurrentPoint().getX())) {
+			if (p2d.getCurrentPoint() != null && Double.isNaN(p2d.getCurrentPoint().getX())) {
 				// Log.debug("fix kicks in");
 				return new GGenericShapeD(shapeD);
 			}
@@ -85,5 +84,4 @@ public class GBasicStrokeD implements GBasicStroke {
 	public BasicStroke getImpl() {
 		return impl;
 	}
-
 }

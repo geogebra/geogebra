@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -59,18 +59,15 @@ public class GGenericRectangle2DD implements GRectangle2DD {
 	@Override
 	public void setRect(double x, double y, double width, double height) {
 		impl.setRect(x, y, width, height);
-
 	}
 
 	@Override
 	public void setFrame(double x, double y, double width, double height) {
 		impl.setFrame(x, y, width, height);
-
 	}
 
 	@Override
-	public boolean intersects(double minX, double minY, double lengthX,
-			double lengthY) {
+	public boolean intersects(double minX, double minY, double lengthX, double lengthY) {
 		return impl.intersects(minX, minY, lengthX, lengthY);
 	}
 
@@ -96,7 +93,6 @@ public class GGenericRectangle2DD implements GRectangle2DD {
 			Log.debug("other type");
 		}
 		return null;
-
 	}
 
 	@Override
@@ -134,8 +130,8 @@ public class GGenericRectangle2DD implements GRectangle2DD {
 
 	@Override
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
-		return new GPathIteratorD(impl.getPathIterator(
-				GAffineTransformD.getAwtAffineTransform(affineTransform)));
+		return new GPathIteratorD(
+				impl.getPathIterator(GAffineTransformD.getAwtAffineTransform(affineTransform)));
 	}
 
 	@Override
@@ -150,8 +146,8 @@ public class GGenericRectangle2DD implements GRectangle2DD {
 
 	@Override
 	public GRectangle2D createIntersection(GRectangle2D r) {
-		return new GGenericRectangle2DD(impl
-				.createIntersection(GGenericRectangle2DD.getAWTRectangle2D(r)));
+		return new GGenericRectangle2DD(
+				impl.createIntersection(GGenericRectangle2DD.getAWTRectangle2D(r)));
 	}
 
 	@Override
@@ -193,5 +189,4 @@ public class GGenericRectangle2DD implements GRectangle2DD {
 	public void add(double x, double y) {
 		impl.add(x, y);
 	}
-
 }

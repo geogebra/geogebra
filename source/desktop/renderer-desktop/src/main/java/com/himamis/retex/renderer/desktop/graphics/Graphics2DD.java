@@ -23,23 +23,23 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.desktop.graphics;
@@ -91,14 +91,14 @@ public class Graphics2DD implements Graphics2DInterface {
 
 	@Override
 	public void setColor(GColor color) {
-		impl.setColor(new java.awt.Color(color.getRed(), color.getGreen(), color.getBlue(),
-				color.getAlpha()));
+		impl.setColor(
+				new java.awt.Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()));
 	}
 
 	@Override
 	public GColor getColor() {
-		return GColor.newColorRGB(impl.getColor().getRGB()).deriveWithAlpha(impl.getColor()
-				.getAlpha());
+		return GColor.newColorRGB(impl.getColor().getRGB())
+				.deriveWithAlpha(impl.getColor().getAlpha());
 	}
 
 	@Override
@@ -134,18 +134,15 @@ public class Graphics2DD implements Graphics2DInterface {
 	@Override
 	public void drawChars(char[] data, int offset, int length, int x, int y) {
 		impl.drawChars(data, offset, length, x, y);
-
 	}
 
 	@Override
-	public void drawArc(int x, int y, int width, int height, int startAngle,
-			int arcAngle) {
+	public void drawArc(int x, int y, int width, int height, int startAngle, int arcAngle) {
 		impl.drawArc(x, y, width, height, startAngle, arcAngle);
 	}
 
 	@Override
-	public void fillArc(int x, int y, int width, int height, int startAngle,
-			int arcAngle) {
+	public void fillArc(int x, int y, int width, int height, int startAngle, int arcAngle) {
 		impl.fillArc(x, y, width, height, startAngle, arcAngle);
 	}
 
@@ -176,8 +173,7 @@ public class Graphics2DD implements Graphics2DInterface {
 
 	@Override
 	public void drawImage(Image image, GAffineTransform transform) {
-		impl.drawImage((java.awt.Image) image, (AffineTransform) transform,
-					null);
+		impl.drawImage((java.awt.Image) image, (AffineTransform) transform, null);
 	}
 
 	@Override
@@ -192,8 +188,7 @@ public class Graphics2DD implements Graphics2DInterface {
 
 	@Override
 	public void setRenderingHint(int key, int value) {
-		impl.setRenderingHint(getNativeRenderingKey(key),
-				getNativeRenderingValue(value));
+		impl.setRenderingHint(getNativeRenderingKey(key), getNativeRenderingValue(value));
 	}
 
 	@Override
@@ -205,27 +200,27 @@ public class Graphics2DD implements Graphics2DInterface {
 
 	private static Key getNativeRenderingKey(int key) {
 		switch (key) {
-		case RenderingHints.KEY_ANTIALIASING:
-			return java.awt.RenderingHints.KEY_ANTIALIASING;
-		case RenderingHints.KEY_RENDERING:
-			return java.awt.RenderingHints.KEY_RENDERING;
-		case RenderingHints.KEY_TEXT_ANTIALIASING:
-			return java.awt.RenderingHints.KEY_TEXT_ANTIALIASING;
-		default:
-			return null;
+			case RenderingHints.KEY_ANTIALIASING:
+				return java.awt.RenderingHints.KEY_ANTIALIASING;
+			case RenderingHints.KEY_RENDERING:
+				return java.awt.RenderingHints.KEY_RENDERING;
+			case RenderingHints.KEY_TEXT_ANTIALIASING:
+				return java.awt.RenderingHints.KEY_TEXT_ANTIALIASING;
+			default:
+				return null;
 		}
 	}
 
 	private static Object getNativeRenderingValue(int value) {
 		switch (value) {
-		case RenderingHints.VALUE_ANTIALIAS_ON:
-			return java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
-		case RenderingHints.VALUE_RENDER_QUALITY:
-			return java.awt.RenderingHints.VALUE_RENDER_QUALITY;
-		case RenderingHints.VALUE_TEXT_ANTIALIAS_ON:
-			return java.awt.RenderingHints.VALUE_TEXT_ANTIALIAS_ON;
-		default:
-			return null;
+			case RenderingHints.VALUE_ANTIALIAS_ON:
+				return java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
+			case RenderingHints.VALUE_RENDER_QUALITY:
+				return java.awt.RenderingHints.VALUE_RENDER_QUALITY;
+			case RenderingHints.VALUE_TEXT_ANTIALIAS_ON:
+				return java.awt.RenderingHints.VALUE_TEXT_ANTIALIAS_ON;
+			default:
+				return null;
 		}
 	}
 

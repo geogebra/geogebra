@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -80,7 +80,7 @@ public class GBufferedImageD implements GBufferedImage {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return ARGB pixel data
 	 */
 	public int[] getData() {
@@ -132,8 +132,7 @@ public class GBufferedImageD implements GBufferedImage {
 			return null;
 		}
 		try {
-			Iterator<ImageWriter> it = ImageIO
-					.getImageWritersByFormatName("png");
+			Iterator<ImageWriter> it = ImageIO.getImageWritersByFormatName("png");
 			ImageWriter writer = it.next();
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
@@ -161,17 +160,15 @@ public class GBufferedImageD implements GBufferedImage {
 	 * @param DPI scale
 	 * @throws IOException if I/O error happened
 	 */
-	public static void writeImage(ImageWriter writer, BufferedImage img,
-			double DPI) throws IOException {
+	public static void writeImage(ImageWriter writer, BufferedImage img, double DPI)
+			throws IOException {
 		float xDPI = (float) DPI;
 		float yDPI = (float) DPI;
 
 		ImageWriteParam writeParam = writer.getDefaultWriteParam();
 		// set the DPI
-		IIOMetadata destMeta = writer.getDefaultImageMetadata(
-				new ImageTypeSpecifier(img), writeParam);
-		IIOMetadataNode destNodes = (IIOMetadataNode) destMeta
-				.getAsTree("javax_imageio_1.0");
+		IIOMetadata destMeta = writer.getDefaultImageMetadata(new ImageTypeSpecifier(img), writeParam);
+		IIOMetadataNode destNodes = (IIOMetadataNode) destMeta.getAsTree("javax_imageio_1.0");
 		NodeList nl = destNodes.getElementsByTagName("Dimension");
 		IIOMetadataNode dim;
 		if ((nl != null) && (nl.getLength() > 0)) {
@@ -198,7 +195,5 @@ public class GBufferedImageD implements GBufferedImage {
 
 		// close everything
 		writer.dispose();
-
 	}
-
 }

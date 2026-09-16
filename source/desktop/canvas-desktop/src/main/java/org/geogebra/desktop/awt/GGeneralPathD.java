@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -83,7 +83,6 @@ public class GGeneralPathD implements GGeneralPath, GShapeD {
 			return;
 		}
 		impl.append(((GShapeD) s).getAwtShape(), connect);
-
 	}
 
 	@Override
@@ -127,8 +126,8 @@ public class GGeneralPathD implements GGeneralPath, GShapeD {
 	@Override
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
 		// TODO Auto-generated method stub
-		return new GPathIteratorD(impl.getPathIterator(
-				GAffineTransformD.getAwtAffineTransform(affineTransform)));
+		return new GPathIteratorD(
+				impl.getPathIterator(GAffineTransformD.getAwtAffineTransform(affineTransform)));
 	}
 
 	@Override
@@ -143,8 +142,8 @@ public class GGeneralPathD implements GGeneralPath, GShapeD {
 
 	@Override
 	public GShape createTransformedShape(GAffineTransform affineTransform) {
-		return new GGenericShapeD(impl.createTransformedShape(
-				((GAffineTransformD) affineTransform).getImpl()));
+		return new GGenericShapeD(
+				impl.createTransformedShape(((GAffineTransformD) affineTransform).getImpl()));
 	}
 
 	@Override
@@ -152,8 +151,7 @@ public class GGeneralPathD implements GGeneralPath, GShapeD {
 		if (impl.getCurrentPoint() == null) {
 			return null;
 		}
-		return new GPoint2D(impl.getCurrentPoint().getX(),
-				impl.getCurrentPoint().getY());
+		return new GPoint2D(impl.getCurrentPoint().getX(), impl.getCurrentPoint().getY());
 	}
 
 	@Override
@@ -175,10 +173,8 @@ public class GGeneralPathD implements GGeneralPath, GShapeD {
 	}
 
 	@Override
-	public void curveTo(double x1, double y1, double x2, double y2, double x3,
-			double y3) {
+	public void curveTo(double x1, double y1, double x2, double y2, double x3, double y3) {
 		impl.curveTo(x1, y1, x2, y2, x3, y3);
-
 	}
 
 	@Override

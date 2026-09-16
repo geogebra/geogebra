@@ -13,10 +13,9 @@ public class LayoutTest {
 		Graphics2D g = (Graphics2D) frame.getGraphics();
 		for (int i = 0; i < 3000; i++) {
 			char c = (char) i;
-			TextLayoutD ld = new TextLayoutD(c + "", frame.getFont(),
-					g.getFontRenderContext());
-			System.out.println(i + " (" + c + ") : "
-					+ ld.getBounds().getY() / ld.getBounds().getHeight());
+			TextLayoutD ld = new TextLayoutD(c + "", frame.getFont(), g.getFontRenderContext());
+			System.out.println(
+					i + " (" + c + ") : " + ld.getBounds().getY() / ld.getBounds().getHeight());
 		}
 	}
 }

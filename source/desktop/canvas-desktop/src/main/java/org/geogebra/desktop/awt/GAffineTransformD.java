@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -46,8 +46,7 @@ public class GAffineTransformD implements GAffineTransform {
 	}
 
 	@Override
-	public void setTransform(double m00, double m10, double m01, double m11,
-			double m02, double m12) {
+	public void setTransform(double m00, double m10, double m01, double m11, double m02, double m12) {
 		at.setTransform(m00, m10, m01, m11, m02, m12);
 	}
 
@@ -123,10 +122,13 @@ public class GAffineTransformD implements GAffineTransform {
 	}
 
 	@Override
-	public void transform(double[] srcCoordinates, int srcOffset, double[] destCoordinates,
-			int destOffset, int nPoints) {
+	public void transform(
+			double[] srcCoordinates,
+			int srcOffset,
+			double[] destCoordinates,
+			int destOffset,
+			int nPoints) {
 		at.transform(srcCoordinates, srcOffset, destCoordinates, destOffset, nPoints);
-
 	}
 
 	@Override
@@ -137,13 +139,11 @@ public class GAffineTransformD implements GAffineTransform {
 	@Override
 	public void scale(double xscale, double yscale) {
 		at.scale(xscale, yscale);
-
 	}
 
 	@Override
 	public void translate(double ax, double ay) {
 		at.translate(ax, ay);
-
 	}
 
 	// @Override
@@ -213,5 +213,4 @@ public class GAffineTransformD implements GAffineTransform {
 	public void rotate(double theta, double x, double y) {
 		at.rotate(theta, x, y);
 	}
-
 }

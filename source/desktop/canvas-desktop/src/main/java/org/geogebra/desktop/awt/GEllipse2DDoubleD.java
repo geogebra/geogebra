@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -42,8 +42,7 @@ public class GEllipse2DDoubleD implements GRectangularShapeD, GEllipse2DDouble {
 	}
 
 	@Override
-	public void setFrame(double xUL, double yUL, double width,
-			double height) {
+	public void setFrame(double xUL, double yUL, double width, double height) {
 		impl.setFrame(xUL, yUL, width, height);
 	}
 
@@ -79,8 +78,8 @@ public class GEllipse2DDoubleD implements GRectangularShapeD, GEllipse2DDouble {
 
 	@Override
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
-		return new GPathIteratorD(impl.getPathIterator(
-				GAffineTransformD.getAwtAffineTransform(affineTransform)));
+		return new GPathIteratorD(
+				impl.getPathIterator(GAffineTransformD.getAwtAffineTransform(affineTransform)));
 	}
 
 	@Override
@@ -99,9 +98,7 @@ public class GEllipse2DDoubleD implements GRectangularShapeD, GEllipse2DDouble {
 	}
 
 	@Override
-	public void setFrameFromCenter(double centerX, double centerY,
-			double cornerX, double cornerY) {
+	public void setFrameFromCenter(double centerX, double centerY, double cornerX, double cornerY) {
 		impl.setFrameFromCenter(centerX, centerY, cornerX, cornerY);
 	}
-
 }

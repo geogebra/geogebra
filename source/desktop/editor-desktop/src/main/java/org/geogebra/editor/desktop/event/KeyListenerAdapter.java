@@ -21,9 +21,9 @@ import java.awt.event.KeyEvent;
 import org.geogebra.editor.share.event.KeyListener;
 
 public class KeyListenerAdapter implements java.awt.event.KeyListener {
-	
+
 	private final KeyListener keyListener;
-	
+
 	public KeyListenerAdapter(KeyListener keyListener) {
 		this.keyListener = keyListener;
 	}
@@ -44,14 +44,15 @@ public class KeyListenerAdapter implements java.awt.event.KeyListener {
 	public void keyReleased(KeyEvent e) {
 		keyListener.onKeyReleased(wrapEvent(e));
 	}
-	
-	private static org.geogebra.editor.share.event.KeyEvent wrapEvent(
-			KeyEvent event) {
+
+	private static org.geogebra.editor.share.event.KeyEvent wrapEvent(KeyEvent event) {
 		int keyCode = event.getKeyCode();
 		int keyModifiers = event.getModifiers();
 		char charCode = event.getKeyChar();
-		return new org.geogebra.editor.share.event.KeyEvent(keyCode, keyModifiers, charCode,
+		return new org.geogebra.editor.share.event.KeyEvent(
+				keyCode,
+				keyModifiers,
+				charCode,
 				org.geogebra.editor.share.event.KeyEvent.KeyboardType.EXTERNAL);
 	}
-
 }

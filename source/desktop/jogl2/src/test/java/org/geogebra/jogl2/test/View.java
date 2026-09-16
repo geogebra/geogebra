@@ -1,3 +1,19 @@
+/*
+ * GeoGebra - Dynamic Mathematics for Everyone
+ * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
+ * https://www.geogebra.org
+ *
+ * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
+ * may be used under the EUPL 1.2 in compatible projects (see Article 5
+ * and the Appendix of EUPL 1.2 for details).
+ * You may obtain a copy of the licence at:
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ *
+ * Note: The overall GeoGebra software package is free to use for
+ * non-commercial purposes only.
+ * See https://www.geogebra.org/license for full licensing details
+ */
+
 package org.geogebra.jogl2.test;
 
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.Animator;
@@ -60,9 +76,9 @@ public class View implements GLEventListener {
 	public void display(GLAutoDrawable drawable) {
 		GL2 gl = drawable.getGL().getGL2(); // get the OpenGL 2 graphics context
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT); // clear
-																				// color
-																// and depth
-																// buffers
+		// color
+		// and depth
+		// buffers
 		gl.glLoadIdentity(); // reset the model-view matrix
 
 		// ----- Your OpenGL rendering code here (Render a white triangle for
@@ -98,18 +114,17 @@ public class View implements GLEventListener {
 		gl.glEnable(GL.GL_DEPTH_TEST); // enables depth testing
 		gl.glDepthFunc(GL.GL_LEQUAL); // the type of depth test to do
 		gl.glHint(GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST); // best
-																// perspective
-																// correction
+		// perspective
+		// correction
 		gl.glShadeModel(GLLightingFunc.GL_SMOOTH); // blends colors nicely, and
-											// smoothes out
-									// lighting
+		// smoothes out
+		// lighting
 
 		time = System.currentTimeMillis();
 	}
 
 	@Override
-	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
-			int height0) {
+	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height0) {
 		GL2 gl = drawable.getGL().getGL2(); // get the OpenGL 2 graphics context
 		int height = height0;
 		if (height == 0) {
@@ -124,11 +139,10 @@ public class View implements GLEventListener {
 		gl.glMatrixMode(GLMatrixFunc.GL_PROJECTION); // choose projection matrix
 		gl.glLoadIdentity(); // reset projection matrix
 		glu.gluPerspective(45.0, aspect, 0.1, 100.0); // fovy, aspect, zNear,
-														// zFar
+		// zFar
 
 		// Enable the model-view transform
 		gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
 		gl.glLoadIdentity(); // reset
 	}
-
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -73,20 +73,16 @@ public class GRectangleD implements GRectangle2DD, GRectangle {
 	@Override
 	public void setBounds(int x, int y, int width, int height) {
 		impl.setBounds(x, y, width, height);
-
 	}
 
 	@Override
 	public void setLocation(int x, int y) {
 		impl.setLocation(x, y);
-
 	}
 
 	@Override
 	public void setBounds(GRectangle r) {
-		impl.setBounds((int) r.getX(), (int) r.getY(), (int) r.getWidth(),
-				(int) r.getHeight());
-
+		impl.setBounds((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
 	}
 
 	@Override
@@ -147,8 +143,7 @@ public class GRectangleD implements GRectangle2DD, GRectangle {
 	}
 
 	@Override
-	public boolean intersects(double x, double y, double lengthX,
-			double lengthY) {
+	public boolean intersects(double x, double y, double lengthX, double lengthY) {
 		return impl.intersects(x, y, lengthX, lengthY);
 	}
 
@@ -174,8 +169,8 @@ public class GRectangleD implements GRectangle2DD, GRectangle {
 
 	@Override
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
-		return new GPathIteratorD(impl.getPathIterator(
-				GAffineTransformD.getAwtAffineTransform(affineTransform)));
+		return new GPathIteratorD(
+				impl.getPathIterator(GAffineTransformD.getAwtAffineTransform(affineTransform)));
 	}
 
 	@Override
@@ -200,8 +195,8 @@ public class GRectangleD implements GRectangle2DD, GRectangle {
 
 	@Override
 	public GRectangle2D createIntersection(GRectangle2D r) {
-		return new GGenericRectangle2DD(impl
-				.createIntersection(GGenericRectangle2DD.getAWTRectangle2D(r)));
+		return new GGenericRectangle2DD(
+				impl.createIntersection(GGenericRectangle2DD.getAWTRectangle2D(r)));
 	}
 
 	@Override
@@ -231,5 +226,4 @@ public class GRectangleD implements GRectangle2DD, GRectangle {
 	public Rectangle2D getImpl() {
 		return impl;
 	}
-
 }

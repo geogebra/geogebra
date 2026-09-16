@@ -23,10 +23,9 @@ import java.awt.Point;
 
 import com.jogamp.opengl.GLEventListener;
 
-
 /**
  * Simple interface for GL JPanel/Canvas
- * 
+ *
  * @author Mathieu
  *
  */
@@ -43,5 +42,4 @@ public interface Component3D {
 	Dimension getSize();
 
 	GraphicsConfiguration getGraphicsConfiguration();
-
 }
