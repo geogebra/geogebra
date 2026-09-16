@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -59,8 +59,8 @@ import org.geogebra.desktop.util.GuiResourcesD;
 /**
  * @author Markus Hohenwarter
  */
-public class AlgebraInputD extends JPanel implements ActionListener,
-		KeyListener, FocusListener, SetLabels, MouseListener {
+public class AlgebraInputD extends JPanel
+		implements ActionListener, KeyListener, FocusListener, SetLabels, MouseListener {
 	private static final long serialVersionUID = 1L;
 
 	protected AppD app;
@@ -77,7 +77,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 	/**
 	 * creates new AlgebraInput
-	 * 
+	 *
 	 * @param app application
 	 */
 	public AlgebraInputD(AppD app) {
@@ -92,35 +92,34 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 	}
 
 	private void addPreviewListener() {
-		inputPanel.getTextComponent().getDocument()
-				.addDocumentListener(new DocumentListener() {
+		inputPanel.getTextComponent().getDocument().addDocumentListener(new DocumentListener() {
 
-					@Override
-					public void changedUpdate(DocumentEvent e) {
-						preview();
-					}
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				preview();
+			}
 
-					@Override
-					public void removeUpdate(DocumentEvent e) {
-						preview();
-					}
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				preview();
+			}
 
-					@Override
-					public void insertUpdate(DocumentEvent e) {
-						preview();
-					}
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				preview();
+			}
 
-					private void preview() {
-						if (!inputField.isPreviewActive()) {
-							return;
-						}
-						setAutoInput(null);
-						inputField.setBackground(Color.WHITE);
-						app.getKernel().getInputPreviewHelper()
-								.updatePreviewFromInputBar(inputField.getText(),
-										new AlgebraInputErrorLogger());
-					}
-				});
+			private void preview() {
+				if (!inputField.isPreviewActive()) {
+					return;
+				}
+				setAutoInput(null);
+				inputField.setBackground(Color.WHITE);
+				app.getKernel()
+						.getInputPreviewHelper()
+						.updatePreviewFromInputBar(inputField.getText(), new AlgebraInputErrorLogger());
+			}
+		});
 	}
 
 	/**
@@ -145,8 +144,8 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 		// enable drops
 		inputField.setDragEnabled(true);
-		inputField.setDropTarget(new DropTarget(this,
-				new AlgebraInputDropTargetListener(app, inputField)));
+		inputField.setDropTarget(
+				new DropTarget(this, new AlgebraInputDropTargetListener(app, inputField)));
 		inputField.setColoringLabels(true);
 
 		updateFonts();
@@ -187,8 +186,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		add(inputPanel, BorderLayout.CENTER);
 		add(eastPanel, loc.borderEast());
 
-		setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0,
-				SystemColor.controlShadow));
+		setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, SystemColor.controlShadow));
 		setLabels();
 	}
 
@@ -197,8 +195,8 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			return;
 		}
 
-		btnHelpToggle.setIcon(app.getScaledIconCommon(warning
-				? GuiResourcesD.DIALOG_ERROR : GuiResourcesD.MENU_HELP));
+		btnHelpToggle.setIcon(
+				app.getScaledIconCommon(warning ? GuiResourcesD.DIALOG_ERROR : GuiResourcesD.MENU_HELP));
 	}
 
 	@Override
@@ -262,8 +260,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 		// update the help panel
 		if (((GuiManagerD) app.getGuiManager()).hasInputHelpPanel()) {
-			InputBarHelpPanelD helpPanel = (InputBarHelpPanelD) app
-					.getGuiManager().getInputHelpPanel();
+			InputBarHelpPanelD helpPanel = (InputBarHelpPanelD) app.getGuiManager().getInputHelpPanel();
 			helpPanel.updateFonts();
 		}
 
@@ -281,8 +278,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 		int pos = inputField.getCaretPosition();
 		String oldText = inputField.getText();
-		String newText = oldText.substring(0, pos) + cmd + "[]"
-				+ oldText.substring(pos);
+		String newText = oldText.substring(0, pos) + cmd + "[]" + oldText.substring(pos);
 
 		inputField.setText(newText);
 		inputField.setCaretPosition(pos + cmd.length() + 1);
@@ -299,8 +295,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 		int pos = inputField.getCaretPosition();
 		String oldText = inputField.getText();
-		String newText = oldText.substring(0, pos) + str
-				+ oldText.substring(pos);
+		String newText = oldText.substring(0, pos) + str + oldText.substring(pos);
 
 		inputField.setText(newText);
 		inputField.setCaretPosition(pos + str.length());
@@ -327,8 +322,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			// =========================================
 
 			if (btnHelpToggle.isSelected()) {
-				InputBarHelpPanelD helpPanel = (InputBarHelpPanelD) app
-						.getGuiManager().getInputHelpPanel();
+				InputBarHelpPanelD helpPanel = (InputBarHelpPanelD) app.getGuiManager().getInputHelpPanel();
 				helpPanel.setLabels();
 				helpPanel.setCommands();
 				app.setShowInputHelpPanel(true);
@@ -349,50 +343,51 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		int keyCode = e.getKeyCode();
 
 		switch (keyCode) {
-		case KeyEvent.VK_A:
-		case KeyEvent.VK_C:
-		case KeyEvent.VK_X:
-		case KeyEvent.VK_V:
-		case KeyEvent.VK_SPACE:
-			// do not use global handling for Ctrl-A/C/X/V (selection,clipboard)
-			// and <space> (animation)
-			return;
-		case KeyEvent.VK_ENTER:
-			onEnterPressed(true);
+			case KeyEvent.VK_A:
+			case KeyEvent.VK_C:
+			case KeyEvent.VK_X:
+			case KeyEvent.VK_V:
+			case KeyEvent.VK_SPACE:
+				// do not use global handling for Ctrl-A/C/X/V (selection,clipboard)
+				// and <space> (animation)
+				return;
+			case KeyEvent.VK_ENTER:
+				onEnterPressed(true);
 
-			break;
-		default:
-			app.getGlobalKeyDispatcher().handleGeneralKeys(e); // handle eg
-																// ctrl-tab
+				break;
+			default:
+				app.getGlobalKeyDispatcher().handleGeneralKeys(e); // handle eg
+			// ctrl-tab
 		}
 	}
 
 	private void onEnterPressed(boolean explicit) {
-		if (!explicit && autoInput != null
-				&& autoInput.equals(getTextField().getText())) {
+		if (!explicit && autoInput != null && autoInput.equals(getTextField().getText())) {
 			return;
 		}
 		autoInput = null;
 		app.getKernel().clearJustCreatedGeosInViews();
 		boolean valid = app.getKernel().getInputPreviewHelper().isValid();
-		String input = app.getKernel().getInputPreviewHelper()
-				.getInput(getTextField().getText());
+		String input =
+				app.getKernel().getInputPreviewHelper().getInput(getTextField().getText());
 
-		if (input == null || input.length() == 0) {
+		if (input.isEmpty()) {
 			app.getActiveEuclidianView().requestFocus();
 			return;
 		}
 
 		app.setScrollToShow(true);
 		try {
-			EvalInfo info = new EvalInfo(true, true).withSliders(true)
-					.addDegree(app.getKernel().getAngleUnitUsesDegrees()).withSymbolic(true);
+			EvalInfo info = new EvalInfo(true, true)
+					.withSliders(true)
+					.addDegree(app.getKernel().getAngleUnitUsesDegrees())
+					.withSymbolic(true);
 			AsyncOperation<GeoElementND[]> callback =
-					new InputBarCallback(app, inputField, input,
-							app.getKernel().getConstructionStep());
-			app.getKernel().getAlgebraProcessor()
-					.processAlgebraCommandNoExceptionHandling(input, true,
-							getErrorHandler(valid, explicit), info, callback);
+					new InputBarCallback(app, inputField, input, app.getKernel().getConstructionStep());
+			app.getKernel()
+					.getAlgebraProcessor()
+					.processAlgebraCommandNoExceptionHandling(
+							input, true, getErrorHandler(valid, explicit), info, callback);
 
 		} catch (Exception ee) {
 			inputField.addToHistory(getTextField().getText());
@@ -401,7 +396,6 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			inputField.addToHistory(getTextField().getText());
 			inputField.showError(ee);
 		}
-
 	}
 
 	/**
@@ -413,8 +407,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		autoInput = getTextField().getText();
 	}
 
-	private ErrorHandler getErrorHandler(final boolean valid,
-			final boolean explicit) {
+	private ErrorHandler getErrorHandler(final boolean valid, final boolean explicit) {
 		return new ErrorHandler() {
 
 			@Override
@@ -423,7 +416,6 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 					app.getDefaultErrorHandler().showError(msg);
 					storeFaultyInput();
 				}
-
 			}
 
 			@Override
@@ -434,11 +426,9 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			@Override
 			public void showCommandError(String command, String message) {
 				if (explicit) {
-					app.getDefaultErrorHandler().showCommandError(command,
-							message);
+					app.getDefaultErrorHandler().showCommandError(command, message);
 					storeFaultyInput();
 				}
-
 			}
 
 			@Override
@@ -447,20 +437,16 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			}
 
 			@Override
-			public boolean onUndefinedVariables(String string,
-					AsyncOperation<String[]> callback) {
+			public boolean onUndefinedVariables(String string, AsyncOperation<String[]> callback) {
 				if (explicit) {
 					if (valid) {
-						return app.getGuiManager()
-								.checkAutoCreateSliders(string, callback);
-					} else if (loc
-							.getReverseCommand(getCurrentCommand()) != null) {
-						ErrorHelper.handleCommandError(loc, getCurrentCommand(),
-								app.getDefaultErrorHandler());
+						return app.getGuiManager().checkAutoCreateSliders(string, callback);
+					} else if (loc.getReverseCommand(getCurrentCommand()) != null) {
+						ErrorHelper.handleCommandError(loc, getCurrentCommand(), app.getDefaultErrorHandler());
 
 						return false;
 					}
-					callback.callback(new String[] { "7" });
+					callback.callback(new String[] {"7"});
 				}
 
 				return false;
@@ -536,15 +522,10 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		@Override
 		public void showCommandError(String command, String message) {
 			updateIcons(true);
-			if (((GuiManagerD) app
-					.getGuiManager())
-							.hasInputHelpPanel()) {
-				InputBarHelpPanelD helpPanel = (InputBarHelpPanelD) app
-						.getGuiManager().getInputHelpPanel();
-				helpPanel.focusCommand(app.getLocalization()
-						.getCommand(command));
-				btnHelpToggle.setToolTipText(
-						loc.getInvalidInputError());
+			if (((GuiManagerD) app.getGuiManager()).hasInputHelpPanel()) {
+				InputBarHelpPanelD helpPanel = (InputBarHelpPanelD) app.getGuiManager().getInputHelpPanel();
+				helpPanel.focusCommand(app.getLocalization().getCommand(command));
+				btnHelpToggle.setToolTipText(loc.getInvalidInputError());
 			}
 		}
 
@@ -554,9 +535,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		}
 
 		@Override
-		public boolean onUndefinedVariables(
-				String string,
-				AsyncOperation<String[]> callback) {
+		public boolean onUndefinedVariables(String string, AsyncOperation<String[]> callback) {
 			return false;
 		}
 
@@ -564,6 +543,5 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		public void log(Throwable e) {
 			Log.debug("Preview:" + e.getLocalizedMessage());
 		}
-
 	}
 }

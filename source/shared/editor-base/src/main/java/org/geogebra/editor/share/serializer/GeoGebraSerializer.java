@@ -30,6 +30,7 @@ import org.geogebra.editor.share.tree.Node;
 import org.geogebra.editor.share.tree.SequenceNode;
 import org.geogebra.editor.share.util.IntegralHelper;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -46,9 +47,17 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	private String comma = ",";
 	private boolean showPlaceholderAsQuestionmark;
 	private boolean useTemplates = true;
+	private boolean skipTrailingOperator;
 
 	public GeoGebraSerializer(@Nullable EditorFeatures editorFeatures) {
 		this.editorFeatures = editorFeatures;
+	}
+
+	/**
+	 * @param skipTrailingOperator whether to drop a trailing "+", "-" or "*"
+	 */
+	public void setSkipTrailingOperator(boolean skipTrailingOperator) {
+		this.skipTrailingOperator = skipTrailingOperator;
 	}
 
 	/**
@@ -57,12 +66,13 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	 * @return string
 	 */
 	public static String serialize(Node c, @Nullable EditorFeatures editorFeatures) {
-		return new GeoGebraSerializer(editorFeatures).serialize(c, new StringBuilder()).toString();
+		return new GeoGebraSerializer(editorFeatures)
+				.serialize(c, new StringBuilder())
+				.toString();
 	}
 
 	@Override
-	void serialize(CharacterNode characterNode,
-			StringBuilder stringBuilder) {
+	void serialize(CharacterNode characterNode, StringBuilder stringBuilder) {
 		char unicode = characterNode.getUnicode();
 		if (unicode == ',' && !isCommaNeeded(characterNode)) {
 			stringBuilder.append(comma);
@@ -82,8 +92,7 @@ public class GeoGebraSerializer extends SerializerAdapter {
 				return openKey == '(' || openKey == '{';
 			}
 			if (parent instanceof FunctionNode node) {
-				return (node.getName() == Tag.APPLY
-						|| node.getName() == Tag.APPLY_SQUARE) && index == 1;
+				return (node.getName() == Tag.APPLY || node.getName() == Tag.APPLY_SQUARE) && index == 1;
 			}
 			if (parent instanceof SequenceNode node && node.isKeepCommas()) {
 				return true;
@@ -124,133 +133,132 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	}
 
 	@Override
-	void serialize(FunctionNode functionNode,
-			StringBuilder stringBuilder) {
+	void serialize(FunctionNode functionNode, StringBuilder stringBuilder) {
 		Tag mathFunctionName = functionNode.getName();
 		switch (mathFunctionName) {
-		case SUPERSCRIPT:
-		case SUBSCRIPT:
-			StringBuilder scriptArgument = new StringBuilder();
-			serialize(functionNode.getChild(0), scriptArgument);
-			String trimmed = scriptArgument.toString().trim();
+			case SUPERSCRIPT:
+			case SUBSCRIPT:
+				StringBuilder scriptArgument = new StringBuilder();
+				serialize(functionNode.getChild(0), scriptArgument);
+				String trimmed = scriptArgument.toString().trim();
 
-			if (!trimmed.isEmpty()) {
-				if (mathFunctionName == Tag.SUPERSCRIPT) {
-					stringBuilder.append("^(").append(trimmed).append(")");
-				} else {
-					stringBuilder.append("_{").append(trimmed).append("}");
+				if (!trimmed.isEmpty()) {
+					if (mathFunctionName == Tag.SUPERSCRIPT) {
+						stringBuilder.append("^(").append(trimmed).append(")");
+					} else {
+						stringBuilder.append("_{").append(trimmed).append("}");
+					}
 				}
-			}
-			break;
-		case FRAC:
-			if (buildMixedNumber(stringBuilder, functionNode)) {
 				break;
-			}
-			stringBuilder.append("((");
-			serialize(functionNode.getChild(0), stringBuilder);
-			stringBuilder.append(")/(");
-			serialize(functionNode.getChild(1), stringBuilder);
-			stringBuilder.append("))");
-			break;
-		case RECURRING_DECIMAL:
-			int i = stringBuilder.length() + 1;
-			serialize(functionNode.getChild(0), stringBuilder);
-			while (i < stringBuilder.length()) {
-				stringBuilder.insert(i, Unicode.OVERLINE);
-				i += 2;
-			}
-			if (functionNode.getChild(0).size() != 0) {
-				stringBuilder.append(Unicode.OVERLINE);
-			}
-			break;
-		case LOG:
-			if (functionNode.getChild(0).size() == 0) {
-				appendSingleArg("log", functionNode, stringBuilder, 1);
+			case FRAC:
+				if (buildMixedNumber(stringBuilder, functionNode)) {
+					break;
+				}
+				stringBuilder.append("((");
+				serialize(functionNode.getChild(0), stringBuilder);
+				stringBuilder.append(")/(");
+				serialize(functionNode.getChild(1), stringBuilder);
+				stringBuilder.append("))");
 				break;
-			}
-			generalFunction(functionNode, stringBuilder);
-			break;
-		case LOG_POWER:
-			if (functionNode.getChild(0).size() == 0) {
-				appendSingleArg("log", functionNode, stringBuilder, 2);
-				stringBuilder.append("^(");
+			case RECURRING_DECIMAL:
+				int i = stringBuilder.length() + 1;
+				serialize(functionNode.getChild(0), stringBuilder);
+				while (i < stringBuilder.length()) {
+					stringBuilder.insert(i, Unicode.OVERLINE);
+					i += 2;
+				}
+				if (functionNode.getChild(0).size() != 0) {
+					stringBuilder.append(Unicode.OVERLINE);
+				}
+				break;
+			case LOG:
+				if (functionNode.getChild(0).size() == 0) {
+					appendSingleArg("log", functionNode, stringBuilder, 1);
+					break;
+				}
+				generalFunction(functionNode, stringBuilder);
+				break;
+			case LOG_POWER:
+				if (functionNode.getChild(0).size() == 0) {
+					appendSingleArg("log", functionNode, stringBuilder, 2);
+					stringBuilder.append("^(");
+					serialize(functionNode.getChild(1), stringBuilder);
+					stringBuilder.append(')');
+					break;
+				}
+				stringBuilder.append("log(");
+				serialize(functionNode.getChild(0), stringBuilder);
+				stringBuilder.append(",");
+				serialize(functionNode.getChild(2), stringBuilder);
+				stringBuilder.append(")^(");
 				serialize(functionNode.getChild(1), stringBuilder);
 				stringBuilder.append(')');
 				break;
-			}
-			stringBuilder.append("log(");
-			serialize(functionNode.getChild(0), stringBuilder);
-			stringBuilder.append(",");
-			serialize(functionNode.getChild(2), stringBuilder);
-			stringBuilder.append(")^(");
-			serialize(functionNode.getChild(1), stringBuilder);
-			stringBuilder.append(')');
-			break;
-		case NROOT:
-			if (functionNode.getChild(0).size() == 0) {
-				appendSingleArg("sqrt", functionNode, stringBuilder, 1);
+			case NROOT:
+				if (functionNode.getChild(0).size() == 0) {
+					appendSingleArg("sqrt", functionNode, stringBuilder, 1);
+					break;
+				}
+				maybeInsertTimes(functionNode, stringBuilder);
+				stringBuilder.append("nroot(");
+				serialize(functionNode.getChild(1), stringBuilder);
+				stringBuilder.append(",");
+				serialize(functionNode.getChild(0), stringBuilder);
+				stringBuilder.append(')');
 				break;
-			}
-			maybeInsertTimes(functionNode, stringBuilder);
-			stringBuilder.append("nroot(");
-			serialize(functionNode.getChild(1), stringBuilder);
-			stringBuilder.append(",");
-			serialize(functionNode.getChild(0), stringBuilder);
-			stringBuilder.append(')');
-			break;
-		case APPLY:
-		case APPLY_SQUARE:
-			maybeInsertTimes(functionNode, stringBuilder);
-			serialize(functionNode.getChild(0), stringBuilder);
-			serializeArgs(functionNode, stringBuilder, 1);
-			break;
-		case INTEGRAL:
-		case N_INTEGRAL:
-		case INTEGRAL_SYMBOLIC:
-			StringBuilder lowerLimit = new StringBuilder();
-			StringBuilder upperLimit = new StringBuilder();
-			serialize(functionNode.getChild(IntegralHelper.LOWER_LIMIT), lowerLimit);
-			serialize(functionNode.getChild(IntegralHelper.UPPER_LIMIT), upperLimit);
-			maybeInsertTimes(functionNode, stringBuilder);
-			stringBuilder.append(functionNode.getName().getKey()).append('(');
-			serialize(functionNode.getChild(IntegralHelper.INTEGRAND), stringBuilder);
-			if (!functionNode.isIntegralAutoDefaultVariable()
-					&& functionNode.getChild(IntegralHelper.VARIABLE).size() != 0) {
-				stringBuilder.append(',');
-				serialize(functionNode.getChild(IntegralHelper.VARIABLE), stringBuilder);
-			}
-			if (IntegralHelper.hasLimits(functionNode.getName())
-					&& (lowerLimit.length() != 0 || upperLimit.length() != 0)) {
-				stringBuilder.append(',').append(lowerLimit).append(',').append(upperLimit);
-			}
-			stringBuilder.append(')');
-			break;
-		case VECTOR:
-		case POINT:
-		case POINT_AT:
-			if (!useTemplates) {
+			case APPLY:
+			case APPLY_SQUARE:
+				maybeInsertTimes(functionNode, stringBuilder);
+				serialize(functionNode.getChild(0), stringBuilder);
+				serializeArgs(functionNode, stringBuilder, 1);
+				break;
+			case INTEGRAL:
+			case N_INTEGRAL:
+			case INTEGRAL_SYMBOLIC:
+				StringBuilder lowerLimit = new StringBuilder();
+				StringBuilder upperLimit = new StringBuilder();
+				serialize(functionNode.getChild(IntegralHelper.LOWER_LIMIT), lowerLimit);
+				serialize(functionNode.getChild(IntegralHelper.UPPER_LIMIT), upperLimit);
+				maybeInsertTimes(functionNode, stringBuilder);
+				stringBuilder.append(functionNode.getName().getKey()).append('(');
+				serialize(functionNode.getChild(IntegralHelper.INTEGRAND), stringBuilder);
+				if (!functionNode.isIntegralAutoDefaultVariable()
+						&& functionNode.getChild(IntegralHelper.VARIABLE).size() != 0) {
+					stringBuilder.append(',');
+					serialize(functionNode.getChild(IntegralHelper.VARIABLE), stringBuilder);
+				}
+				if (IntegralHelper.hasLimits(functionNode.getName())
+						&& (lowerLimit.length() != 0 || upperLimit.length() != 0)) {
+					stringBuilder.append(',').append(lowerLimit).append(',').append(upperLimit);
+				}
+				stringBuilder.append(')');
+				break;
+			case VECTOR:
+			case POINT:
+			case POINT_AT:
+				if (!useTemplates) {
+					serializeArgs(functionNode, stringBuilder, 0);
+					break;
+				}
+			// $FALL-THROUGH$
+			case DEF_INT:
+			case SUM_EQ:
+			case PROD_EQ:
+			case LIM_EQ:
+			case VEC:
+			case ATOMIC_POST:
+			case ATOMIC_PRE:
+				stringBuilder.append(functionNode.getName().getKey());
 				serializeArgs(functionNode, stringBuilder, 0);
 				break;
-			}
-			//$FALL-THROUGH$
-		case DEF_INT:
-		case SUM_EQ:
-		case PROD_EQ:
-		case LIM_EQ:
-		case VEC:
-		case ATOMIC_POST:
-		case ATOMIC_PRE:
-			stringBuilder.append(functionNode.getName().getKey());
-			serializeArgs(functionNode, stringBuilder, 0);
-			break;
-		case ABS: // no special handling for || so that invalid input saving works
-		default:
-			generalFunction(functionNode, stringBuilder);
+			case ABS: // no special handling for || so that invalid input saving works
+			default:
+				generalFunction(functionNode, stringBuilder);
 		}
 	}
 
-	private void appendSingleArg(String name, FunctionNode functionNode,
-			StringBuilder stringBuilder, int i) {
+	private void appendSingleArg(
+			String name, FunctionNode functionNode, StringBuilder stringBuilder, int i) {
 		maybeInsertTimes(functionNode, stringBuilder);
 		stringBuilder.append(name);
 		stringBuilder.append("(");
@@ -258,15 +266,13 @@ public class GeoGebraSerializer extends SerializerAdapter {
 		stringBuilder.append(')');
 	}
 
-	private void generalFunction(FunctionNode functionNode,
-			StringBuilder stringBuilder) {
+	private void generalFunction(FunctionNode functionNode, StringBuilder stringBuilder) {
 		maybeInsertTimes(functionNode, stringBuilder);
 		stringBuilder.append(functionNode.getName().getKey());
 		serializeArgs(functionNode, stringBuilder, 0);
 	}
 
-	private void serializeArgs(FunctionNode functionNode,
-			StringBuilder stringBuilder, int offset) {
+	private void serializeArgs(FunctionNode functionNode, StringBuilder stringBuilder, int offset) {
 		stringBuilder.append(functionNode.getOpeningBracket());
 		for (int i = offset; i < functionNode.size(); i++) {
 			if (functionNode.getChild(i) != null) {
@@ -280,12 +286,10 @@ public class GeoGebraSerializer extends SerializerAdapter {
 		stringBuilder.append(functionNode.getClosingBracket());
 	}
 
-	private static void maybeInsertTimes(FunctionNode functionNode,
-			StringBuilder stringBuilder) {
+	private static void maybeInsertTimes(FunctionNode functionNode, StringBuilder stringBuilder) {
 		InternalNode internalNode = functionNode.getParent();
 		if (internalNode != null && functionNode.getParentIndex() > 0) {
-			Node node = internalNode
-					.getChild(functionNode.getParentIndex() - 1);
+			Node node = internalNode.getChild(functionNode.getParentIndex() - 1);
 			if (node instanceof CharacterNode characterNode) {
 				if (!characterNode.isWordBreak()) {
 					stringBuilder.append(" ");
@@ -298,8 +302,7 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	}
 
 	@Override
-	void serialize(ArrayNode arrayNode,
-			StringBuilder stringBuilder) {
+	void serialize(ArrayNode arrayNode, StringBuilder stringBuilder) {
 		char openKey = arrayNode.getOpenDelimiter().getCharacter();
 		String open;
 		String close;
@@ -345,21 +348,39 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	}
 
 	@Override
-	protected void serialize(SequenceNode mathSequence,
-			StringBuilder stringBuilder) {
+	protected void serialize(SequenceNode mathSequence, StringBuilder stringBuilder) {
 		if (mathSequence == null) {
 			return;
 		}
 
 		// print empty fraction as ?/?, but ignore empty scripts and allow sin()
-		if (mathSequence.size() == 0 && showPlaceholderAsQuestionmark
+		if (mathSequence.size() == 0
+				&& showPlaceholderAsQuestionmark
 				&& (isMatrixEntry(mathSequence) || mathSequence.getParent() == null)) {
 			stringBuilder.append('?');
 		}
 
 		for (Node arg : mathSequence) {
+			if (skipTrailingOperator
+					&& arg == mathSequence.getChild(mathSequence.size() - 1)
+					&& arg instanceof CharacterNode character
+					&& "+-*".contains(character.getUnicodeString())
+					&& !isQuoted(mathSequence)) {
+				continue;
+			}
 			serialize(arg, stringBuilder);
 		}
+	}
+
+	private boolean isQuoted(@NonNull SequenceNode sequence) {
+		InternalNode parent = sequence.getParent();
+		while (parent != null) {
+			if (parent instanceof ArrayNode array && array.getOpenDelimiter().getCharacter() == '"') {
+				return true;
+			}
+			parent = parent.getParent();
+		}
+		return false;
 	}
 
 	private boolean isMatrixEntry(SequenceNode mathSequence) {
@@ -424,7 +445,7 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	 */
 	@Override
 	public boolean buildMixedNumber(StringBuilder stringBuilder, FunctionNode functionNode) {
-		//Check if a valid mixed number can be created (e.g.: no 'x')
+		// Check if a valid mixed number can be created (e.g.: no 'x')
 		if ((editorFeatures != null && !editorFeatures.areMixedNumbersEnabled())
 				|| isMixedNumber(stringBuilder) < 0
 				|| !isValidMixedNumber(functionNode)) {

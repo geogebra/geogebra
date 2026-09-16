@@ -54,7 +54,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.share.event.KeyEvent;
 import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.inputbar.WarningErrorHandler;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
@@ -103,21 +102,28 @@ import jsinterop.base.Js;
  * HTML5 version of AV
  *
  */
-public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
-		OpenHandler<TreeItem>, SettingListener<AlgebraSettings>,
-		ProvidesResize, PrintableW, HasThumbnailURL {
+public final class AlgebraViewW extends Tree
+		implements LayerView,
+				AlgebraView,
+				OpenHandler<TreeItem>,
+				SettingListener<AlgebraSettings>,
+				ProvidesResize,
+				PrintableW,
+				HasThumbnailURL {
 
-	private final static int THUMBNAIL_SIZE = 256;
-	private final static double THUMBNAIL_SCALE = .75;
+	private static final int THUMBNAIL_SIZE = 256;
+	private static final double THUMBNAIL_SCALE = .75;
 	/** app */
 	private final AppW app;
 	/** Localization */
 	private final Localization loc;
 	/** Kernel */
 	private final Kernel kernel;
+
 	private final AnimationScheduler repaintScheduler = AnimationScheduler.get();
 	/** Input item */
 	private @Nullable RadioTreeItem inputPanelLatex;
+
 	private AlgebraStyleBarW styleBar;
 	private boolean editItem = false;
 	private GeoElement draggedGeo;
@@ -147,6 +153,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * Nodes for tree mode MODE_DEPENDENCY
 	 */
 	private TreeItem depNode;
+
 	private TreeItem indNode;
 	private TreeItem auxiliaryNode;
 
@@ -201,8 +208,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (suiteScope != null) {
 			suiteScope.restrictionsController.registerRestrictable(selectionCallback);
 		}
-		app.getSelectionManager()
-				.addSelectionListener((geo, addToSelection) -> updateSelection());
+		app.getSelectionManager().addSelectionListener((geo, addToSelection) -> updateSelection());
 		app.getGgbApi().setEditor(new AlgebraMathEditorAPI(this));
 	}
 
@@ -244,42 +250,42 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		int eventType = DOM.eventGetType(event);
 		boolean activeCompositeFocus = hasActiveCompositeFocus();
 		switch (eventType) {
-		default:
-			// do nothing
-			break;
-		case Event.ONKEYUP:
-			switch (event.getKeyCode()) {
 			default:
 				// do nothing
 				break;
-			case KeyCodes.KEY_UP:
-			case KeyCodes.KEY_DOWN:
-			case KeyCodes.KEY_LEFT:
-			case KeyCodes.KEY_RIGHT:
-				// this may be enough for Safari too, because it is not
-				// onkeypress
-				if (!(editItem || Browser.isTabletBrowser()) && !activeCompositeFocus) {
-					dispatchToGeosAndKill(event);
-					return;
+			case Event.ONKEYUP:
+				switch (event.getKeyCode()) {
+					default:
+						// do nothing
+						break;
+					case KeyCodes.KEY_UP:
+					case KeyCodes.KEY_DOWN:
+					case KeyCodes.KEY_LEFT:
+					case KeyCodes.KEY_RIGHT:
+						// this may be enough for Safari too, because it is not
+						// onkeypress
+						if (!(editItem || Browser.isTabletBrowser()) && !activeCompositeFocus) {
+							dispatchToGeosAndKill(event);
+							return;
+						}
 				}
-			}
-			break;
-		case Event.ONKEYDOWN:
-			// put this on keydown to prevent focus jump when entering to composite (win)
-			switch (event.getKeyCode()) {
-			case KeyCodes.KEY_UP:
-			case KeyCodes.KEY_DOWN:
-			case KeyCodes.KEY_LEFT:
-			case KeyCodes.KEY_RIGHT:
-				if (activeCompositeFocus) {
-					dispatchToGeosAndKill(event);
-					return;
+				break;
+			case Event.ONKEYDOWN:
+				// put this on keydown to prevent focus jump when entering to composite (win)
+				switch (event.getKeyCode()) {
+					case KeyCodes.KEY_UP:
+					case KeyCodes.KEY_DOWN:
+					case KeyCodes.KEY_LEFT:
+					case KeyCodes.KEY_RIGHT:
+						if (activeCompositeFocus) {
+							dispatchToGeosAndKill(event);
+							return;
+						}
 				}
-			}
-			break;
-		case Event.ONMOUSEDOWN:
-		case Event.ONTOUCHSTART:
-			app.closePopups();
+				break;
+			case Event.ONMOUSEDOWN:
+			case Event.ONTOUCHSTART:
+				app.closePopups();
 		}
 
 		if (Browser.isTabletBrowser()) {
@@ -298,8 +304,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	private void dispatchToGeosAndKill(Event event) {
-		app.getGlobalKeyDispatcher()
-				.handleSelectedGeosKeys(event);
+		app.getGlobalKeyDispatcher().handleSelectedGeosKeys(event);
 		event.stopPropagation();
 		event.preventDefault();
 	}
@@ -321,14 +326,14 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	private void handleTabletKeyboard(Event event) {
 		switch (DOM.eventGetType(event)) {
-		case Event.ONKEYPRESS:
-			handleKeyPressed(event);
-			break;
-		case Event.ONKEYDOWN:
-			handleKeyDown(event);
-			break;
-		default:
-			break;
+			case Event.ONKEYPRESS:
+				handleKeyPressed(event);
+				break;
+			case Event.ONKEYDOWN:
+				handleKeyDown(event);
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -336,18 +341,22 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		int keyCode = event.getKeyCode();
 
 		switch (keyCode) {
-		case GWTKeycodes.KEY_ENTER:
-		case GWTKeycodes.KEY_ESCAPE:
-		case GWTKeycodes.KEY_BACKSPACE:
-			getActiveTreeItem().getMathField().getKeyListener().onKeyPressed(
-					new KeyEvent(keyCode, 0, (char) event.getCharCode(),
-							KeyEvent.KeyboardType.EXTERNAL));
-			break;
-		default:
-			getActiveTreeItem().getMathField().getKeyListener().onKeyTyped(
-					new KeyEvent(keyCode, 0, (char) event.getCharCode(),
-							KeyEvent.KeyboardType.EXTERNAL));
-			break;
+			case GWTKeycodes.KEY_ENTER:
+			case GWTKeycodes.KEY_ESCAPE:
+			case GWTKeycodes.KEY_BACKSPACE:
+				getActiveTreeItem()
+						.getMathField()
+						.getKeyListener()
+						.onKeyPressed(new KeyEvent(
+								keyCode, 0, (char) event.getCharCode(), KeyEvent.KeyboardType.EXTERNAL));
+				break;
+			default:
+				getActiveTreeItem()
+						.getMathField()
+						.getKeyListener()
+						.onKeyTyped(new KeyEvent(
+								keyCode, 0, (char) event.getCharCode(), KeyEvent.KeyboardType.EXTERNAL));
+				break;
 		}
 	}
 
@@ -361,24 +370,28 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			}
 		}
 		switch (keyCode) {
-		case GWTKeycodes.KEY_BACKSPACE:
-			if (Browser.isAndroid()) {
-				getActiveTreeItem().getMathField().getKeyListener()
-						.onKeyPressed(new KeyEvent(keyCode, 0,
-								(char) event.getCharCode(), KeyEvent.KeyboardType.EXTERNAL));
-			}
-			break;
-		case GWTKeycodes.KEY_LEFT:
-		case GWTKeycodes.KEY_RIGHT:
-		case GWTKeycodes.KEY_UP:
-		case GWTKeycodes.KEY_DOWN:
-			getActiveTreeItem().getMathField().getKeyListener()
-					.onKeyPressed(new KeyEvent(keyCode, 0,
-							(char) event.getCharCode(), KeyEvent.KeyboardType.EXTERNAL));
-			event.stopPropagation();
-			break;
-		default:
-			break;
+			case GWTKeycodes.KEY_BACKSPACE:
+				if (Browser.isAndroid()) {
+					getActiveTreeItem()
+							.getMathField()
+							.getKeyListener()
+							.onKeyPressed(new KeyEvent(
+									keyCode, 0, (char) event.getCharCode(), KeyEvent.KeyboardType.EXTERNAL));
+				}
+				break;
+			case GWTKeycodes.KEY_LEFT:
+			case GWTKeycodes.KEY_RIGHT:
+			case GWTKeycodes.KEY_UP:
+			case GWTKeycodes.KEY_DOWN:
+				getActiveTreeItem()
+						.getMathField()
+						.getKeyListener()
+						.onKeyPressed(new KeyEvent(
+								keyCode, 0, (char) event.getCharCode(), KeyEvent.KeyboardType.EXTERNAL));
+				event.stopPropagation();
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -505,12 +518,10 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				if (geo instanceof GeoElement) {
 					RadioTreeItem.as(ti).repaint();
 				} else if (ti.getWidget() instanceof GroupHeader) {
-					((GroupHeader) ti.getWidget())
-							.setText(ti.getUserObject().toString());
+					((GroupHeader) ti.getWidget()).setText(ti.getUserObject().toString());
 					if (ti.getState()) {
 						repaintChildren(ti);
 					}
-
 				}
 			}
 		}
@@ -521,7 +532,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	private void resolvePendingAdditions() {
 		addOnRepaint.removeIf(entry -> !shouldShow(entry));
-		for (GeoElement el: addOnRepaint) {
+		for (GeoElement el : addOnRepaint) {
 			doAdd(el);
 		}
 		if (!addOnRepaint.isEmpty()) {
@@ -570,21 +581,20 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	private void doRepaintSliders() {
 		switch (treeMode) {
-
-		case ORDER:
-			repaintSlidersOrder();
-			break;
-		case TYPE:
-		case LAYER:
-			for (int i = 0; i < getItemCount(); i++) {
-				repaintSlidersDependent(getItem(i));
-			}
-			break;
-		case DEPENDENCY:
-			repaintSlidersDependent(this.indNode);
-			break;
-		default:
-			break;
+			case ORDER:
+				repaintSlidersOrder();
+				break;
+			case TYPE:
+			case LAYER:
+				for (int i = 0; i < getItemCount(); i++) {
+					repaintSlidersDependent(getItem(i));
+				}
+				break;
+			case DEPENDENCY:
+				repaintSlidersDependent(this.indNode);
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -624,8 +634,8 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			return;
 		}
 		if (getSettings().getCollapsedNodes() != null
-			&& !getSettings().getCollapsedNodes().isEmpty()) {
-				resolvePendingAdditions();
+				&& !getSettings().getCollapsedNodes().isEmpty()) {
+			resolvePendingAdditions();
 		}
 		List<Integer> collapsedNodes = new ArrayList<>();
 
@@ -762,8 +772,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public void settingsChanged(AlgebraSettings algebraSettings) {
 		app.getAccessibilityManager().clearActiveCompositeFocus();
 		setTreeMode(algebraSettings.getTreeMode());
-		showAuxiliaryObjectsSettings = algebraSettings
-				.getShowAuxiliaryObjects();
+		showAuxiliaryObjectsSettings = algebraSettings.getShowAuxiliaryObjects();
 
 		settingsChanged = true;
 		resetItems(false);
@@ -797,7 +806,10 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			inputPanelTreeItem.addStyleName("avInputItem");
 		}
 		if (inputPanelLatex != null) {
-			inputPanelLatex.getWidget().getElement().getParentElement()
+			inputPanelLatex
+					.getWidget()
+					.getElement()
+					.getParentElement()
 					.addClassName("newRadioButtonTreeItemParent");
 			inputPanelLatex.addDummyLabel();
 		}
@@ -843,19 +855,19 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private void initModel() {
 		// build default tree structure
 		switch (treeMode) {
-		default:
-		case DEPENDENCY:
-			initDependencyOrder();
-			break;
-		case ORDER:
-			initConstructionOrder();
-			break;
-		case TYPE:
-			initTypeOrder();
-			break;
-		case LAYER:
-			initLayer();
-			break;
+			default:
+			case DEPENDENCY:
+				initDependencyOrder();
+				break;
+			case ORDER:
+				initConstructionOrder();
+				break;
+			case TYPE:
+				initTypeOrder();
+				break;
+			case LAYER:
+				initLayer();
+				break;
 		}
 	}
 
@@ -947,23 +959,23 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	private void clearTree() {
 		switch (getTreeMode()) {
-		default:
-		case DEPENDENCY:
-			indNode.removeItems();
-			depNode.removeItems();
-			auxiliaryNode.removeItems();
-			break;
-		case TYPE:
-			removeItems();
-			typeNodesMap.clear();
-			break;
-		case LAYER:
-			removeItems();
-			layerNodesMap.clear();
-			break;
-		case ORDER:
-			rootOrder.removeItems();
-			removeItems();
+			default:
+			case DEPENDENCY:
+				indNode.removeItems();
+				depNode.removeItems();
+				auxiliaryNode.removeItems();
+				break;
+			case TYPE:
+				removeItems();
+				typeNodesMap.clear();
+				break;
+			case LAYER:
+				removeItems();
+				layerNodesMap.clear();
+				break;
+			case ORDER:
+				rootOrder.removeItems();
+				removeItems();
 		}
 	}
 
@@ -973,28 +985,27 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private void setTreeLabels() {
 		TreeItem node;
 		switch (getTreeMode()) {
-		case DEPENDENCY:
-			setUserObject(indNode, loc.getMenu("FreeObjects"), "1");
-			setUserObject(depNode, loc.getMenu("DependentObjects"), "2");
-			setUserObject(auxiliaryNode, loc.getMenu("AuxiliaryObjects"), "3");
-			break;
-		case TYPE:
-			for (Entry<String, TreeItem> entry : typeNodesMap.entrySet()) {
-				String key = entry.getKey();
-				node = entry.getValue();
-				setUserObject(node, loc.getMenu(key), key);
-			}
-			break;
-		case LAYER:
-			for (Entry<Integer, TreeItem> entry : layerNodesMap.entrySet()) {
-				Integer key = entry.getKey();
-				node = entry.getValue();
-				setUserObject(node, loc.getPlain("LayerA", key.toString()),
-						key.toString());
-			}
-			break;
-		case ORDER:
-			break;
+			case DEPENDENCY:
+				setUserObject(indNode, loc.getMenu("FreeObjects"), "1");
+				setUserObject(depNode, loc.getMenu("DependentObjects"), "2");
+				setUserObject(auxiliaryNode, loc.getMenu("AuxiliaryObjects"), "3");
+				break;
+			case TYPE:
+				for (Entry<String, TreeItem> entry : typeNodesMap.entrySet()) {
+					String key = entry.getKey();
+					node = entry.getValue();
+					setUserObject(node, loc.getMenu(key), key);
+				}
+				break;
+			case LAYER:
+				for (Entry<Integer, TreeItem> entry : layerNodesMap.entrySet()) {
+					Integer key = entry.getKey();
+					node = entry.getValue();
+					setUserObject(node, loc.getPlain("LayerA", key.toString()), key.toString());
+				}
+				break;
+			case ORDER:
+				break;
 		}
 		// if (lastLang == null || !lastLang.equals(loc.getLocaleStr())) {
 		rebuildItems();
@@ -1013,90 +1024,85 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		TreeItem parent;
 
 		switch (treeMode) {
-		case DEPENDENCY:
-			if (geo.isAuxiliaryObject()) {
-				parent = auxiliaryNode;
-			} else if (geo.isIndependent()) {
-				parent = indNode;
-			} else {
-				parent = depNode;
-			}
-			break;
-		case TYPE:
-			// get type node
-			String typeString = geo.getTypeStringForAlgebraView();
-			parent = typeNodesMap.get(typeString);
-
-			// do we have to create the parent node?
-			if (parent == null) {
-				String transTypeString = geo
-						.translatedTypeStringForAlgebraView();
-				parent = new AVTreeItem(new InlineLabel(transTypeString));
-				setUserObject(parent, transTypeString, typeString);
-				typeNodesMap.put(typeString, parent);
-
-				// find insert pos
-				int pos = getItemCount();
-				for (int i = 0; i < pos; i++) {
-					TreeItem child = getItem(i);
-					String groupName = getGroupName(child);
-					if (typeString.compareTo(groupName) < 0
-							|| (child.getWidget() != null
-									&& this.inputPanelTreeItem != null
-									&& this.inputPanelTreeItem
-											.getWidget() != null
-									&& child.getWidget()
-											.equals(this.inputPanelTreeItem
-													.getWidget()))) {
-						pos = i;
-						break;
-					}
+			case DEPENDENCY:
+				if (geo.isAuxiliaryObject()) {
+					parent = auxiliaryNode;
+				} else if (geo.isIndependent()) {
+					parent = indNode;
+				} else {
+					parent = depNode;
 				}
+				break;
+			case TYPE:
+				// get type node
+				String typeString = geo.getTypeStringForAlgebraView();
+				parent = typeNodesMap.get(typeString);
 
-				insertItem(pos, parent);
-			}
-			break;
-		case LAYER:
-			// get type node
-			int layer = forceLayer > -1 ? forceLayer : geo.getLayer();
-			parent = layerNodesMap.get(layer);
+				// do we have to create the parent node?
+				if (parent == null) {
+					String transTypeString = geo.translatedTypeStringForAlgebraView();
+					parent = new AVTreeItem(new InlineLabel(transTypeString));
+					setUserObject(parent, transTypeString, typeString);
+					typeNodesMap.put(typeString, parent);
 
-			// do we have to create the parent node?
-			if (parent == null) {
-				String layerStr = loc.getPlain("LayerA", layer + "");
-				parent = new AVTreeItem(new InlineLabel(layerStr));
-
-				setUserObject(parent, layerStr, layer + "");
-
-				layerNodesMap.put(layer, parent);
-
-				// find insert pos
-				int pos = getItemCount();
-				for (int i = 0; i < pos; i++) {
-					TreeItem child = getItem(i);
-					if (layerStr.compareTo(getGroupName(child)) < 0) {
-						pos = i;
-						break;
+					// find insert pos
+					int pos = getItemCount();
+					for (int i = 0; i < pos; i++) {
+						TreeItem child = getItem(i);
+						String groupName = getGroupName(child);
+						if (typeString.compareTo(groupName) < 0
+								|| (child.getWidget() != null
+										&& this.inputPanelTreeItem != null
+										&& this.inputPanelTreeItem.getWidget() != null
+										&& child.getWidget().equals(this.inputPanelTreeItem.getWidget()))) {
+							pos = i;
+							break;
+						}
 					}
+
+					insertItem(pos, parent);
 				}
+				break;
+			case LAYER:
+				// get type node
+				int layer = forceLayer > -1 ? forceLayer : geo.getLayer();
+				parent = layerNodesMap.get(layer);
 
-				insertItem(pos, parent);
-			}
-			break;
-		case ORDER:
-			parent = rootOrder;
+				// do we have to create the parent node?
+				if (parent == null) {
+					String layerStr = loc.getPlain("LayerA", layer + "");
+					parent = new AVTreeItem(new InlineLabel(layerStr));
 
-			break;
-		default:
-			parent = null;
+					setUserObject(parent, layerStr, layer + "");
+
+					layerNodesMap.put(layer, parent);
+
+					// find insert pos
+					int pos = getItemCount();
+					for (int i = 0; i < pos; i++) {
+						TreeItem child = getItem(i);
+						if (layerStr.compareTo(getGroupName(child)) < 0) {
+							pos = i;
+							break;
+						}
+					}
+
+					insertItem(pos, parent);
+				}
+				break;
+			case ORDER:
+				parent = rootOrder;
+
+				break;
+			default:
+				parent = null;
 		}
 
 		return parent;
 	}
 
 	private static String getGroupName(TreeItem child) {
-		return child.getUserObject() instanceof String
-				? ((String) child.getUserObject()) : "_";
+		return child.getUserObject() instanceof String ? ((String) child.getUserObject()) : "_";
 	}
 
 	/**
@@ -1111,12 +1117,14 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	public void setUserObject(TreeItem ti, final String label, String key) {
 		ti.setUserObject(label);
-		GroupHeader group = new GroupHeader(this.app.getSelectionManager(), ti,
-				label, key,
+		GroupHeader group = new GroupHeader(
+				this.app.getSelectionManager(),
+				ti,
+				label,
+				key,
 				SharedResources.INSTANCE.algebra_tree_open().getSafeUri(),
 				SharedResources.INSTANCE.algebra_tree_closed().getSafeUri());
-		group.getElement().getStyle().setFontSize(getFontSizeWeb(),
-				Unit.PX);
+		group.getElement().getStyle().setFontSize(getFontSizeWeb(), Unit.PX);
 		ti.setWidget(group);
 	}
 
@@ -1135,30 +1143,29 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		// remove the type branch if there are no more children
 		switch (treeMode) {
-		case DEPENDENCY:
-		default:
-			// do nothing
-			break;
-		case TYPE:
-			String typeString = ((GeoElement) node.getUserObject())
-					.getTypeStringForAlgebraView();
-			TreeItem parent = typeNodesMap.get(typeString);
+			case DEPENDENCY:
+			default:
+				// do nothing
+				break;
+			case TYPE:
+				String typeString = ((GeoElement) node.getUserObject()).getTypeStringForAlgebraView();
+				TreeItem parent = typeNodesMap.get(typeString);
 
-			// this has been the last node
-			if (parent != null && parent.getChildCount() == 0) {
-				typeNodesMap.remove(typeString);
-				parent.remove();
-			}
-			break;
-		case LAYER:
-			removeFromLayer(((GeoElement) node.getUserObject()).getLayer());
+				// this has been the last node
+				if (parent != null && parent.getChildCount() == 0) {
+					typeNodesMap.remove(typeString);
+					parent.remove();
+				}
+				break;
+			case LAYER:
+				removeFromLayer(((GeoElement) node.getUserObject()).getLayer());
 
-			break;
-		case ORDER:
-			rootOrder.removeItem(node);
-			if (getItemCount() > 0 && getItem(0) instanceof RadioTreeItem) {
-				((RadioTreeItem) getItem(0)).setFirst(true);
-			}
+				break;
+			case ORDER:
+				rootOrder.removeItem(node);
+				if (getItemCount() > 0 && getItem(0) instanceof RadioTreeItem) {
+					((RadioTreeItem) getItem(0)).setFirst(true);
+				}
 		}
 	}
 
@@ -1220,8 +1227,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	private int count(TreeItem parent) {
-		return parent == this.rootOrder ? getItemCount()
-				: parent.getChildCount();
+		return parent == this.rootOrder ? getItemCount() : parent.getChildCount();
 	}
 
 	/**
@@ -1246,8 +1252,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		cancelEditItem();
 		this.isShowingAuxiliaryObjects = showAuxiliaryObjects();
 
-		if (shouldShow(geo)
-				&& !nodeTable.containsKey(geo)) {
+		if (shouldShow(geo) && !nodeTable.containsKey(geo)) {
 
 			// don't add auxiliary objects if the tree is categorized by type
 			scrollOnRepaint |= scroll;
@@ -1261,10 +1266,12 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	private boolean shouldShow(GeoElement geo) {
-		return geo.isLabelSet() && geo.showInAlgebraView()
+		return geo.isLabelSet()
+				&& geo.showInAlgebraView()
 				&& geo.isSetAlgebraVisible()
 				&& (getTreeMode() == SortMode.DEPENDENCY
-					|| showAuxiliaryObjects() || !geo.isAuxiliaryObject());
+						|| showAuxiliaryObjects()
+						|| !geo.isAuxiliaryObject());
 	}
 
 	@Override
@@ -1340,8 +1347,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	private void unregisterAllCompositeFocus() {
-		nodeTable.values()
-				.forEach(RadioTreeItem::unregisterCompositeFocus);
+		nodeTable.values().forEach(RadioTreeItem::unregisterCompositeFocus);
 	}
 
 	/**
@@ -1371,8 +1377,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 *            sort mode
 	 * @return position
 	 */
-	public int getInsertPosition(TreeItem parent, GeoElement newGeo,
-			SortMode mode) {
+	public int getInsertPosition(TreeItem parent, GeoElement newGeo, SortMode mode) {
 
 		// standard case: binary search
 		int left = 0;
@@ -1423,19 +1428,18 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		reset();
 	}
 
-	private static boolean compare(GeoElement geo1, GeoElement geo2,
-			SortMode mode) {
+	private static boolean compare(GeoElement geo1, GeoElement geo2, SortMode mode) {
 		if (mode == SortMode.ORDER) {
 			return geo1.getConstructionIndex() > geo2.getConstructionIndex()
-					|| (geo1.getConstructionIndex() == geo2
-							.getConstructionIndex()
+					|| (geo1.getConstructionIndex() == geo2.getConstructionIndex()
 							&& geo1.getParentAlgorithm() != null
 							&& geo1.getParentAlgorithm().isBefore(geo1, geo2));
 		}
 		// alphabetical
 		return GeoElement.compareLabels(
-				geo1.getLabel(StringTemplate.defaultTemplate),
-				geo2.getLabel(StringTemplate.defaultTemplate)) > 0;
+						geo1.getLabel(StringTemplate.defaultTemplate),
+						geo2.getLabel(StringTemplate.defaultTemplate))
+				> 0;
 	}
 
 	@Override
@@ -1559,8 +1563,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	private void showAlgebraInput(boolean forceKeyboard0) {
-		if (!app.showAlgebraInput()
-				|| app.getInputPosition() != InputPosition.algebraView) {
+		if (!app.showAlgebraInput() || app.getInputPosition() != InputPosition.algebraView) {
 			hideAlgebraInput();
 			return;
 		}
@@ -1571,8 +1574,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			// except it also makes this null, no problem
 			// ... or? still preferring to be safe
 			if (inputPanelLatex != null) {
-				inputWidth = inputPanelLatex.getWidget().getElement()
-						.getParentElement().getClientWidth();
+				inputWidth = inputPanelLatex.getWidget().getElement().getParentElement().getClientWidth();
 			}
 			super.removeItem(inputPanelTreeItem);
 
@@ -1581,8 +1583,8 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		boolean inputJustCreated = inputPanelLatex == null;
 		// open the keyboard (or show the keyboard-open-button)
 		// when the application is started
-		boolean forceKeyboard = inputJustCreated
-				&& (forceKeyboard0 || GuiManagerW.mayForceKeyboard(app));
+		boolean forceKeyboard =
+				inputJustCreated && (forceKeyboard0 || GuiManagerW.mayForceKeyboard(app));
 		RadioTreeItem inputPanel = prepareInputPanel();
 
 		inputPanelTreeItem = super.addItem(inputPanel.getWidget());
@@ -1676,7 +1678,6 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		//
 		if (activeItem != null) {
 			selectRow(activeItem.getGeo(), true);
-
 		}
 	}
 
@@ -1735,17 +1736,11 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	@Override
-	public void updatePreviewFromInputBar(GeoElement[] geos) {
-		if (geos != null) {
-			if (geos.length > 0 && getActiveTreeItem() != null) {
-				getActiveTreeItem().previewValue(geos[0]);
-			}
+	public void updatePreviewFromInputBar(GeoElement @NonNull [] geos) {
+		if (geos.length > 0 && getActiveTreeItem() != null) {
+			getActiveTreeItem().previewValue(geos[0]);
 		} else if (inputPanelLatex != null) {
-			if (WarningErrorHandler.getUndefinedVariables(kernel) != null) {
-				inputPanelLatex.clearUndefinedVariables();
-			} else {
-				inputPanelLatex.clearPreviewAndSuggestions();
-			}
+			inputPanelLatex.clearPreviewAndSuggestions();
 		}
 	}
 
@@ -1793,8 +1788,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				app.getDialogManager().showRedefineDialog(geo, true);
 				return;
 			}
-			if ((!geo.isIndependent() && !(geo
-					.getParentAlgorithm() instanceof AlgoCurveCartesian))
+			if ((!geo.isIndependent() && !(geo.getParentAlgorithm() instanceof AlgoCurveCartesian))
 					|| !attached) {
 				if (geo.isRedefineable()) {
 					redefine(geo);
@@ -1806,12 +1800,11 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				if (geo.isProtected(EventType.UPDATE)) {
 					app.showError(Errors.AssignmentToFixed);
 					return;
-				} else if (geo.isRedefineable() && !(geo
-						.getParentAlgorithm() instanceof AlgoCurveCartesian)) {
+				} else if (geo.isRedefineable()
+						&& !(geo.getParentAlgorithm() instanceof AlgoCurveCartesian)) {
 					redefine(geo);
 					return;
-				} else if (!(geo
-						.getParentAlgorithm() instanceof AlgoCurveCartesian)) {
+				} else if (!(geo.getParentAlgorithm() instanceof AlgoCurveCartesian)) {
 					return;
 				}
 			}
@@ -1893,7 +1886,8 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	@Override
 	public @Nullable ScreenReaderAdapter getScreenReaderAdapter() {
 		elemental2.dom.Element activeElement = DomGlobal.document.activeElement;
-		if (!allowScreenReaderForInput && activeElement != null
+		if (!allowScreenReaderForInput
+				&& activeElement != null
 				&& CopyPasteW.incorrectTarget(activeElement)) {
 			return null;
 		}
@@ -1913,7 +1907,8 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	boolean focusAdjacentFromInput(boolean reverse) {
 		allowScreenReaderForInput = true;
 		try {
-			return reverse ? app.getAccessibilityManager().focusPrevious()
+			return reverse
+					? app.getAccessibilityManager().focusPrevious()
 					: app.getAccessibilityManager().focusNext();
 		} finally {
 			allowScreenReaderForInput = false;
@@ -1954,8 +1949,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			TreeItem ti = getItem(i);
 			if (!updateAndSetLabels(ti)) {
 				if (ti.getWidget() instanceof GroupHeader) {
-					ti.getWidget().getElement().getStyle()
-							.setFontSize(getFontSizeWeb(), Unit.PX);
+					ti.getWidget().getElement().getStyle().setFontSize(getFontSizeWeb(), Unit.PX);
 					for (int j = 0; j < ti.getChildCount(); j++) {
 						updateAndSetLabels(ti.getChild(j));
 					}
@@ -2057,8 +2051,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 				for (int j = 0; j < ti.getChildCount(); j++) {
 					if (ti.getChild(j) instanceof RadioTreeItem) {
-						GeoElement geo = RadioTreeItem.as(ti.getChild(j))
-								.getGeo();
+						GeoElement geo = RadioTreeItem.as(ti.getChild(j)).getGeo();
 						if (geo != null) {
 							selectRow(geo, geo.doHighlighting());
 						}
@@ -2192,7 +2185,8 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 		AlgebraPanelInterface avDockPanel = getAlgebraDockPanel();
 		DockSplitPaneW avParent = getAlgebraDockPanel().getParentSplitPane();
-		if (avParent == null || userWidth == 0
+		if (avParent == null
+				|| userWidth == 0
 				|| avParent.getOrientation() == SwingConstants.VERTICAL_SPLIT) {
 			return;
 		}
@@ -2211,8 +2205,8 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * @return algebra dock panel
 	 */
 	AlgebraPanelInterface getAlgebraDockPanel() {
-		return (AlgebraPanelInterface) app.getGuiManager().getLayout()
-				.getDockManager().getPanel(App.VIEW_ALGEBRA);
+		return (AlgebraPanelInterface)
+				app.getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA);
 	}
 
 	/**
@@ -2268,8 +2262,7 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	private int getDefaultAVWidth() {
-		return (int) (app.getWidth()
-				* PerspectiveDecoder.landscapeRatio(app, app.getWidth()));
+		return (int) (app.getWidth() * PerspectiveDecoder.landscapeRatio(app, app.getWidth()));
 	}
 
 	/**
@@ -2315,15 +2308,13 @@ public final class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	@Override
 	public String getCanvasBase64WithTypeString() {
-		HTMLCanvasElement canvas = (HTMLCanvasElement) DomGlobal.document
-				.createElement("canvas");
+		HTMLCanvasElement canvas = (HTMLCanvasElement) DomGlobal.document.createElement("canvas");
 		canvas.width = THUMBNAIL_SIZE;
 		canvas.height = THUMBNAIL_SIZE;
 		CanvasRenderingContext2D context = Js.uncheckedCast(canvas.getContext("2d"));
 		context.scale(THUMBNAIL_SCALE, THUMBNAIL_SCALE);
-		AlgebraCanvasExporter ax = new AlgebraCanvasExporter(this,
-				context,
-				(int) (THUMBNAIL_SIZE / THUMBNAIL_SCALE));
+		AlgebraCanvasExporter ax =
+				new AlgebraCanvasExporter(this, context, (int) (THUMBNAIL_SIZE / THUMBNAIL_SCALE));
 		ax.paintToCanvas(0, 0);
 		return canvas.toDataURL();
 	}

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -69,7 +69,8 @@ public class AlgebraViewUIAdapter {
 	 * @param uiDelegate the UI delegate
 	 * @param itemsListener the AV items listener
 	 */
-	public void setDelegates(@Nullable AlgebraViewUIDelegate uiDelegate,
+	public void setDelegates(
+			@Nullable AlgebraViewUIDelegate uiDelegate,
 			AlgebraViewItems.@Nullable Listener itemsListener) {
 		algebraViewImpl.uiDelegate = uiDelegate;
 		algebraViewImpl.items.listener = itemsListener;
@@ -93,7 +94,7 @@ public class AlgebraViewUIAdapter {
 	// -- Nested types
 
 	@SuppressWarnings("PMD.UncommentedEmptyMethodBody")
-	private final static class AlgebraViewImpl implements AlgebraView {
+	private static final class AlgebraViewImpl implements AlgebraView {
 
 		@Weak
 		@NonOwning
@@ -146,8 +147,7 @@ public class AlgebraViewUIAdapter {
 		}
 
 		@Override
-		public void startEditItem(GeoElement geo) {
-		}
+		public void startEditItem(GeoElement geo) {}
 
 		@Override
 		public boolean isEditItem() {
@@ -160,8 +160,7 @@ public class AlgebraViewUIAdapter {
 		}
 
 		@Override
-		public void setFocus(boolean b) {
-		}
+		public void setFocus(boolean b) {}
 
 		@Override
 		public GeoElement getLastSelectedGeo() {
@@ -169,8 +168,7 @@ public class AlgebraViewUIAdapter {
 		}
 
 		@Override
-		public void setLastSelectedGeo(GeoElement geo) {
-		}
+		public void setLastSelectedGeo(GeoElement geo) {}
 
 		@Override
 		public boolean isAttachedToKernel() {
@@ -188,8 +186,7 @@ public class AlgebraViewUIAdapter {
 		}
 
 		@Override
-		public void setShowAlgebraInput(boolean visible) {
-		}
+		public void setShowAlgebraInput(boolean visible) {}
 
 		@Override
 		public void doRemove(GeoElement geo) {
@@ -261,14 +258,12 @@ public class AlgebraViewUIAdapter {
 		}
 
 		@Override
-		public void updateAuxiliaryObject(GeoElement geo) {
-		}
+		public void updateAuxiliaryObject(GeoElement geo) {}
 
 		@Override
 		public void repaintView() {
 			if (visibilityDelegate.shouldViewUpdate()) {
-				if (algebraStyle != app.getAlgebraStyle()
-						|| visibilityDelegate.wantsViewToRepaint()) {
+				if (algebraStyle != app.getAlgebraStyle() || visibilityDelegate.wantsViewToRepaint()) {
 					this.algebraStyle = app.getAlgebraStyle();
 					items.forceReload();
 				}
@@ -295,8 +290,7 @@ public class AlgebraViewUIAdapter {
 		}
 
 		@Override
-		public void setMode(int mode, ModeSetter m) {
-		}
+		public void setMode(int mode, ModeSetter m) {}
 
 		@Override
 		public int getViewID() {
@@ -309,18 +303,19 @@ public class AlgebraViewUIAdapter {
 		}
 
 		@Override
-		public void updatePreviewFromInputBar(GeoElement[] geos) {
+		public void updatePreviewFromInputBar(GeoElement @NonNull [] geos) {
+			if (uiDelegate != null) {
+				uiDelegate.updatePreviewFromInputBar(geos);
+			}
 		}
 
 		// -- org.geogebra.common.gui.Editing --
 
 		@Override
-		public void cancelEditItem() {
-		}
+		public void cancelEditItem() {}
 
 		@Override
-		public void resetItems(boolean unselectAll) {
-		}
+		public void resetItems(boolean unselectAll) {}
 
 		@Override
 		public boolean isShowing() {
@@ -330,7 +325,6 @@ public class AlgebraViewUIAdapter {
 		// -- org.geogebra.common.gui.SetLabels --
 
 		@Override
-		public void setLabels() {
-		}
+		public void setLabels() {}
 	}
 }

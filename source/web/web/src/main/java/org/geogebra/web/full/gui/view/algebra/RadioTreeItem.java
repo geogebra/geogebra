@@ -117,9 +117,14 @@ import jsinterop.base.Js;
  *
  * <p>definitionPanel -&gt; canvas | STRING
  */
-public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
-		AutoCompleteW, RequiresResize, HasHelpButton, SetLabels, SyntaxTooltipUpdater,
-		HasDataTest {
+public abstract class RadioTreeItem extends AVTreeItem
+		implements MathKeyboardListener,
+				AutoCompleteW,
+				RequiresResize,
+				HasHelpButton,
+				SetLabels,
+				SyntaxTooltipUpdater,
+				HasDataTest {
 
 	private static final int DEFINITION_ROW_EDIT_MARGIN = 5;
 	private static final int MARGIN_RESIZE = 50;
@@ -191,7 +196,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	private @Nullable FocusableCompositeW compositeFocus = null;
 	private @Nullable AVCompositeFocusAssembler compositeFocusAssembler;
 
-	class FocusableFlowPanel extends FlowPanel implements HasFocus  {
+	class FocusableFlowPanel extends FlowPanel implements HasFocus {
 
 		@Override
 		public void focus() {
@@ -242,8 +247,8 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	}
 
 	private Rectangle getBounds() {
-		int leftAVCell = (int) (marblePanel.getAbsoluteLeft() - app.getAbsLeft()
-				+ marblePanel.getOffsetWidth());
+		int leftAVCell =
+				(int) (marblePanel.getAbsoluteLeft() - app.getAbsLeft() + marblePanel.getOffsetWidth());
 		int topAVCell = (int) (marblePanel.getAbsoluteTop() - app.getAbsTop());
 		int bottomAVCell = topAVCell + marblePanel.getOffsetHeight();
 		int width = getItemWidth() - marblePanel.getOffsetWidth();
@@ -292,14 +297,13 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 				setNeedsUpdate(true);
 				av.repaintView();
 			}
-
 		}
 		createAvexWidget();
 		addAVEXWidget(content);
-		if (app.isUnbundled() && geo0.getParentAlgorithm() != null
+		if (app.isUnbundled()
+				&& geo0.getParentAlgorithm() != null
 				&& geo0.getParentAlgorithm() instanceof AlgoPointOnPath) {
-			getWidget().getElement().getStyle().setProperty("minHeight", 72,
-					Unit.PX);
+			getWidget().getElement().getStyle().setProperty("minHeight", 72, Unit.PX);
 		}
 		updateDataTest();
 		createCompositeFocus(app.getAccessibilityManager());
@@ -307,8 +311,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	}
 
 	protected void createCompositeFocus(AccessibilityManagerInterface am) {
-		compositeFocus = new FocusableCompositeW(am,
-				this::getAsBoolean);
+		compositeFocus = new FocusableCompositeW(am, this::getAsBoolean);
 		compositeFocus.addEnterCompositeHandler(() -> av.setSelectedItem(this));
 		compositeFocusAssembler = new AVCompositeFocusAssembler(compositeFocus, am);
 		registerCompositeFocus();
@@ -321,8 +324,8 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	protected void addMarble() {
 		main.addStyleName("elem");
 
-		marblePanel = app.getCurrentActivity().createAVItemHeader(this,
-				getAV().isInputActive() || getGeo() == null);
+		marblePanel = app.getCurrentActivity()
+				.createAVItemHeader(this, getAV().isInputActive() || getGeo() == null);
 		setIndexLast();
 		updateDataTest();
 		main.add(marblePanel);
@@ -385,8 +388,8 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	}
 
 	private boolean buildPlainTextSimple() {
-		return AlgebraItem.buildPlainTextItemSimple(geo,
-				new DOMIndexHTMLBuilder(getDefinitionValuePanel(), app));
+		return AlgebraItem.buildPlainTextItemSimple(
+				geo, new DOMIndexHTMLBuilder(getDefinitionValuePanel(), app));
 	}
 
 	protected void createDVPanels() {
@@ -411,8 +414,8 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 			return false;
 		}
 		String leftSide = eq[0].trim();
-		String rightSide = eq[1].replaceFirst("\\\\left", "")
-				.replaceFirst("\\\\right", "").replaceAll(" ", "");
+		String rightSide =
+				eq[1].replaceFirst("\\\\left", "").replaceFirst("\\\\right", "").replaceAll(" ", "");
 
 		return leftSide.equals(rightSide);
 	}
@@ -421,22 +424,17 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		if (lastInput != null) {
 			definitionFromTeX(lastTeX);
 		} else if (latex || AlgebraItem.evaluatesToFraction(geo)) {
-			String text = getTextForEditing(false,
-					StringTemplate.numericLatex);
+			String text = getTextForEditing(false, StringTemplate.numericLatex);
 			definitionFromTeX(text);
 		} else if (geo != null) {
 			resetCanvas();
 			IndexHTMLBuilder sb = new DOMIndexHTMLBuilder(definitionPanel, app);
 			if (isAlgebraStyle(AlgebraStyle.DESCRIPTION)) {
 				if (AlgebraItem.needsPacking(geo)) {
-					IndexHTMLBuilder
-							.convertIndicesToHTML(
-									geo.getDefinitionDescription(
-											StringTemplate.defaultTemplate),
-									sb);
+					IndexHTMLBuilder.convertIndicesToHTML(
+							geo.getDefinitionDescription(StringTemplate.defaultTemplate), sb);
 				} else {
-					geo.addLabelTextOrHTML(geo.getDefinitionDescription(
-						StringTemplate.defaultTemplate), sb);
+					geo.addLabelTextOrHTML(geo.getDefinitionDescription(StringTemplate.defaultTemplate), sb);
 				}
 			} else {
 				AlgebraItem.buildDefinitionString(geo, sb, StringTemplate.defaultTemplate);
@@ -459,13 +457,16 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		if (outputPanel == null) {
 			return false;
 		}
-		boolean ret = outputPanel.updateValuePanel(geo, text, latex,
-				getFontSize());
+		boolean ret = outputPanel.updateValuePanel(geo, text, latex, getFontSize());
 		if (geo != null && shouldShowOutputButton(geo)) {
 			addControls();
 			createOutputButtonIfNeeded();
-			AlgebraOutputPanel.updateOutputPanelButton(symbolicButton, controls, geo,
-					isEngineeringNotationEnabled(), getAlgebraOutputFormatFilters());
+			AlgebraOutputPanel.updateOutputPanelButton(
+					symbolicButton,
+					controls,
+					geo,
+					isEngineeringNotationEnabled(),
+					getAlgebraOutputFormatFilters());
 
 		} else if (controls != null) {
 			AlgebraOutputPanel.removeSymbolicButton(controls);
@@ -475,8 +476,9 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	}
 
 	private boolean shouldShowOutputButton(GeoElement geo) {
-		return AlgebraOutputFormat.getNextFormat(geo,
-				isEngineeringNotationEnabled(), getAlgebraOutputFormatFilters()) != null;
+		return AlgebraOutputFormat.getNextFormat(
+						geo, isEngineeringNotationEnabled(), getAlgebraOutputFormatFilters())
+				!= null;
 	}
 
 	private boolean isEngineeringNotationEnabled() {
@@ -490,7 +492,8 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	private void createOutputButtonIfNeeded() {
 		symbolicButton = AlgebraOutputPanel.getSymbolicButtonIfExists(controls);
 		if (symbolicButton == null) {
-			symbolicButton = AlgebraOutputPanel.createOutputFormatButton(geo,
+			symbolicButton = AlgebraOutputPanel.createOutputFormatButton(
+					geo,
 					isEngineeringNotationEnabled(),
 					app.getSettings().getAlgebra().getAlgebraOutputFormatFilters());
 		}
@@ -521,7 +524,8 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	 */
 	public boolean shouldBuildItemWithTwoRows() {
 		return (AlgebraItem.shouldShowBothRows(geo, app.getSettings().getAlgebra())
-				&& !isLatexTrivial()) || lastTeX != null;
+						&& !isLatexTrivial())
+				|| lastTeX != null;
 	}
 
 	private void buildItemWithTwoRows() {
@@ -543,8 +547,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		if (updateOutputValuePanel()) {
 			outputPanel.addValuePanel();
 			definitionValuePanel.add(outputPanel);
-			AriaHelper.setLabel(outputPanel.getValuePanel(),
-					geo.getAuralExpression());
+			AriaHelper.setLabel(outputPanel.getValuePanel(), geo.getAuralExpression());
 		}
 
 		content.add(definitionValuePanel);
@@ -558,6 +561,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		}
 		ariaPreview = null;
 		outputPanel.reset();
+		definitionValuePanel.removeFromParent();
 	}
 
 	/**
@@ -574,8 +578,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	 */
 	public void previewValue(GeoElement previewGeo) {
 
-		if (previewGeo
-				.getDescriptionMode() != DescriptionMode.DEFINITION_VALUE
+		if (previewGeo.getDescriptionMode() != DescriptionMode.DEFINITION_VALUE
 				|| getController().isInputAsText()
 				|| !previewGeo.isAllowedToShowValue()) {
 			clearPreview();
@@ -609,15 +612,14 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	}
 
 	protected void showPreview(GeoElement previewGeo) {
-		String text = previewGeo
-				.getAlgebraDescriptionForPreviewOutput();
+		String text = previewGeo.getAlgebraDescriptionForPreviewOutput();
 		outputPanel.showLaTeXValue(text, previewGeo, getFontSize());
 	}
 
 	protected boolean updateOutputValuePanel() {
 		initIfRationazableFraction();
-		return updateValuePanel(geo.getLaTeXDescriptionRHS(true,
-				app.getConfig().getOutputStringTemplate()));
+		return updateValuePanel(
+				geo.getLaTeXDescriptionRHS(true, app.getConfig().getOutputStringTemplate()));
 	}
 
 	private void initIfRationazableFraction() {
@@ -636,14 +638,13 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	private void buildItemWithSingleRow() {
 		resetOutputPanel();
 		// LaTeX
-		String text = getLatexString(LATEX_MAX_EDIT_LENGTH,
-				geo.getDescriptionMode() != DescriptionMode.DEFINITION);
+		String text = getLatexString(
+				LATEX_MAX_EDIT_LENGTH, geo.getDescriptionMode() != DescriptionMode.DEFINITION);
 		latex = text != null;
 
 		if (latex) {
 			if (isInputTreeItem()) {
-				text = geo.getLaTeXAlgebraDescription(true,
-						StringTemplate.latexTemplate);
+				text = geo.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate);
 			}
 
 			latexToCanvas(text);
@@ -672,8 +673,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 				&& mayNeedOutput()) {
 			content.addStyleName("additionalRow");
 			updateFont(content);
-			Image arrow = new NoDragImage(
-					MaterialDesignResources.INSTANCE.equal_sign_white(), 24, 24);
+			Image arrow = new NoDragImage(MaterialDesignResources.INSTANCE.equal_sign_white(), 24, 24);
 			arrow.setStyleName("arrowOutputImg");
 			content.insert(arrow, 0);
 		}
@@ -716,8 +716,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	 * @return whether an item is being edited
 	 */
 	public boolean commonEditingCheck() {
-		return av.isEditItem() || controller.isEditing() || isInputTreeItem()
-				|| geo == null;
+		return av.isEditItem() || controller.isEditing() || isInputTreeItem() || geo == null;
 	}
 
 	protected void doUpdateEnsureNoEditor() {
@@ -748,8 +747,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 			if (latex && latexAfterEdit) {
 				// Both original and edited text is LaTeX
 				if (isInputTreeItem() && geo != null) {
-					text = geo.getLaTeXAlgebraDescription(true,
-							StringTemplate.latexTemplate);
+					text = geo.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate);
 				}
 				updateLaTeX(text);
 
@@ -787,8 +785,9 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 			canvasGraphics.cancelCallbacks();
 		}
 		canvas = DrawEquationW.makeCleanCanvas(canvas);
-		canvasGraphics = ((DrawEquationW) app.getDrawEquation()).paintOnCleanCanvas(text, canvas,
-				getFontSize(), GColor.BLACK, DrawEquationW.needsSerif(geo));
+		canvasGraphics = ((DrawEquationW) app.getDrawEquation())
+				.paintOnCleanCanvas(
+						text, canvas, getFontSize(), GColor.BLACK, DrawEquationW.needsSerif(geo));
 	}
 
 	private void updateLaTeX(String text) {
@@ -806,8 +805,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	public void setItemWidth(int width) {
 		if (getOffsetWidth() != width && width >= 0) {
 			if (isInputTreeItem()) {
-				Element inputParent = getWidget().getElement()
-						.getParentElement();
+				Element inputParent = getWidget().getElement().getParentElement();
 				Resizer.setPixelWidth(inputParent, width);
 			} else if (!isTextItem()) {
 				setWidth(width + "px");
@@ -867,17 +865,14 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		return true;
 	}
 
-	protected String getTextForEditing(boolean substituteNumbers,
-			StringTemplate tpl) {
+	protected String getTextForEditing(boolean substituteNumbers, StringTemplate tpl) {
 		if (AlgebraItem.needsPacking(geo)) {
 			return geo.getLaTeXDescriptionRHS(substituteNumbers, tpl);
 		} else if (!geo.isAlgebraLabelVisible()) {
 			return geo.getDefinition(tpl);
 		}
 		return geo.getLaTeXAlgebraDescriptionWithFallback(
-				substituteNumbers || AlgebraItem.isSimpleNumber(geo),
-				tpl, true);
-
+				substituteNumbers || AlgebraItem.isSimpleNumber(geo), tpl, true);
 	}
 
 	private boolean isAlgebraStyle(AlgebraStyle algebraStyle) {
@@ -890,8 +885,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	}
 
 	private static boolean isMoveablePoint(GeoElement point) {
-		return (point.isPointInRegion() || point.isPointOnPath())
-				&& point.isPointerChangeable();
+		return (point.isPointInRegion() || point.isPointOnPath()) && point.isPointerChangeable();
 	}
 
 	/**
@@ -917,8 +911,8 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	 * @param callback
 	 *            callback
 	 */
-	public final void stopEditing(final String rawInput,
-			final AsyncOperation<GeoElementND> callback) {
+	public final void stopEditing(
+			final String rawInput, final AsyncOperation<GeoElementND> callback) {
 		lastTeX = null;
 		lastInput = null;
 		onStopEdit();
@@ -939,8 +933,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 
 		if (!StringUtil.empty(rawInput)) {
 			String newValue = isTextItem() ? "\"" + rawInput + "\"" : rawInput;
-			final boolean wasLaTeX = geo instanceof GeoText
-					&& ((GeoText) geo).isLaTeX();
+			final boolean wasLaTeX = geo instanceof GeoText && ((GeoText) geo).isLaTeX();
 			if (geo != null) {
 				boolean redefine = !isMoveablePoint(geo);
 				this.lastInput = newValue;
@@ -950,16 +943,20 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 				}
 
 				EvalInfo info = EvalInfoFactory.getEvalInfoForRedefinition(kernel, geo, redefine);
-				kernel.getAlgebraProcessor()
-						.changeGeoElementNoExceptionHandling(geo, newValue, info, true,
+				kernel
+						.getAlgebraProcessor()
+						.changeGeoElementNoExceptionHandling(
+								geo,
+								newValue,
+								info,
+								true,
 								geo2 -> {
 									if (geo2 != null) {
 										geo = geo2.toGeoElement();
 										lastTeX = null;
 										lastInput = null;
 									}
-									if (geo instanceof GeoText && wasLaTeX
-											&& geo.isIndependent()) {
+									if (geo instanceof GeoText && wasLaTeX && geo.isIndependent()) {
 										((GeoText) geo).setLaTeX(true, false);
 									}
 									if (marblePanel != null) {
@@ -969,8 +966,8 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 									if (callback != null) {
 										callback.callback(geo2);
 									}
-
-								}, AlgebraInputW.getWarningHandler(this, app));
+								},
+								AlgebraInputW.getWarningHandler(this, app));
 				// make sure edting ends: run callback even if not successful
 				// TODO maybe prevent running this twice?
 				if (!geo.isIndependent() && callback != null) {
@@ -1004,17 +1001,19 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		if (latexItem == null) {
 			return;
 		}
-		if (!this.isInputTreeItem() && canvas != null
+		if (!this.isInputTreeItem()
+				&& canvas != null
 				&& content.getElement().isOrHasChild(latexItem.getElement())) {
 			if (geo != null) {
 				LayoutUtilW.replace(content, canvas, latexItem);
 			}
 		}
 
-		if (!latex && !this.isInputTreeItem() && getDefinitionValuePanel() != null
+		if (!latex
+				&& !this.isInputTreeItem()
+				&& getDefinitionValuePanel() != null
 				&& content.getElement().isOrHasChild(latexItem.getElement())) {
 			LayoutUtilW.replace(content, getDefinitionValuePanel(), latexItem);
-
 		}
 		// maybe it's possible to enter something which is non-LaTeX
 		if (success) {
@@ -1053,11 +1052,10 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	 *            whether to allow slider creation without asking
 	 * @return error handler
 	 */
-	protected final ErrorHandler getErrorHandler(final boolean valid,
-			final boolean allowSliders, final boolean withSliders) {
+	protected final ErrorHandler getErrorHandler(
+			final boolean valid, final boolean allowSliders, final boolean withSliders) {
 		clearErrorLabel();
-		return app.getCurrentActivity()
-						.createAVErrorHandler(this, valid, allowSliders, withSliders);
+		return app.getCurrentActivity().createAVErrorHandler(this, valid, allowSliders, withSliders);
 	}
 
 	/**
@@ -1084,11 +1082,14 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 			Element snackbar = DOM.getElementById("snackbarID");
 			if (snackbar == null) {
 				app.getToolTipManager().setBlockToolTip(false);
-				ToolTip toolTip = new ToolTip(errorMessage, null, "Help",
+				ToolTip toolTip = new ToolTip(
+						errorMessage,
+						null,
+						"Help",
 						app.getGuiManager().getHelpURL(ManualPage.COMMAND, commandError),
 						ToolTip.Role.ALERT);
-				app.getToolTipManager().showBottomInfoToolTip(toolTip, app,
-						ComponentSnackbar.DEFAULT_TOOLTIP_DURATION);
+				app.getToolTipManager()
+						.showBottomInfoToolTip(toolTip, app, ComponentSnackbar.DEFAULT_TOOLTIP_DURATION);
 				app.getToolTipManager().setBlockToolTip(true);
 			}
 			return true;
@@ -1101,7 +1102,6 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 			}
 			app.getToolTipManager().showBottomMessage(errorMessage, app, ToolTip.Role.ALERT);
 			return true;
-
 		}
 		return false;
 	}
@@ -1125,17 +1125,14 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 			if (isInputTreeItem()) {
 				getController().setFocus(true);
 			}
-			InputBarHelpPanelW helpPanel = app
-					.getGuiManager().getInputHelpPanel();
+			InputBarHelpPanelW helpPanel = app.getGuiManager().getInputHelpPanel();
 
 			if (helpPopup == null) {
-				helpPopup = new InputBarHelpPopup(this.app, this,
-						"helpPopupAV");
+				helpPopup = new InputBarHelpPopup(this.app, this, "helpPopupAV");
 				helpPopup.addAutoHidePartner(this.getElement());
 				helpPopup.addCloseHandler(event -> focusAfterHelpClosed());
 			} else if (helpPopup.getWidget() == null) {
-				helpPanel = app.getGuiManager()
-						.getInputHelpPanel();
+				helpPanel = app.getGuiManager().getInputHelpPanel();
 				helpPopup.add(helpPanel);
 			}
 
@@ -1147,8 +1144,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	}
 
 	boolean styleBarCanHide() {
-		if (app.isUnbundled()
-				|| !getAlgebraDockPanel().isStyleBarPanelShown()) {
+		if (app.isUnbundled() || !getAlgebraDockPanel().isStyleBarPanelShown()) {
 			return false;
 		}
 		int itemTop = this.isInputTreeItem()
@@ -1164,7 +1160,8 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		if (definitionPanel != null && definitionPanel.getOffsetWidth() > 0) {
 			return marblePanel.getOffsetWidth()
 					+ definitionPanel.getOffsetWidth()
-					+ controls.getOffsetWidth() + DEFINITION_ROW_EDIT_MARGIN
+					+ controls.getOffsetWidth()
+					+ DEFINITION_ROW_EDIT_MARGIN
 					+ MARGIN_RESIZE;
 		} else if (geo != null) {
 			return content.getOffsetWidth();
@@ -1234,11 +1231,13 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		getElement().setAttribute("position", "absolute");
 		draggableContent.getElement().setDraggable(Element.DRAGGABLE_TRUE);
 
-		draggableContent.addDomHandler(event -> {
-			event.setData("text", geo.getLabelSimple());
-			event.getDataTransfer().setDragImage(getElement(), 10, 10);
-			getAV().dragStart(geo);
-		}, DragStartEvent.getType());
+		draggableContent.addDomHandler(
+				event -> {
+					event.setData("text", geo.getLabelSimple());
+					event.getDataTransfer().setDragImage(getElement(), 10, 10);
+					getAV().dragStart(geo);
+				},
+				DragStartEvent.getType());
 	}
 
 	@Override
@@ -1317,15 +1316,13 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	}
 
 	protected AlgebraPanelInterface getAlgebraDockPanel() {
-		return (AlgebraPanelInterface) app.getGuiManager().getLayout()
-				.getDockManager().getPanel(App.VIEW_ALGEBRA);
-
+		return (AlgebraPanelInterface)
+				app.getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA);
 	}
 
 	protected AlgebraPanelInterface getToolbarDockPanel() {
-		return (AlgebraPanelInterface) app.getGuiManager().getLayout()
-				.getDockManager().getPanel(App.VIEW_ALGEBRA);
-
+		return (AlgebraPanelInterface)
+				app.getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA);
 	}
 
 	/**
@@ -1374,37 +1371,34 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	protected void updateHelpPosition(final InputBarHelpPanelW helpPanel) {
 		helpPopup.setPopupPositionAndShow((offsetWidth, offsetHeight) -> {
 			double scale = app.getGeoGebraElement().getScaleX();
-			double renderScale = app.getAppletParameters().getDataParamApp()
-					? scale : 1;
-			helpPopup.getElement().getStyle()
-					.setProperty("left",
-							(marblePanel.getAbsoluteLeft() - app.getAbsLeft()
-									+ marblePanel.getOffsetWidth()) * renderScale
+			double renderScale = app.getAppletParameters().getDataParamApp() ? scale : 1;
+			helpPopup
+					.getElement()
+					.getStyle()
+					.setProperty(
+							"left",
+							(marblePanel.getAbsoluteLeft() - app.getAbsLeft() + marblePanel.getOffsetWidth())
+											* renderScale
 									+ "px");
 			int maxOffsetHeight;
 			int totalHeight = (int) app.getHeight();
-			int toggleButtonTop = (int) ((marblePanel.getAbsoluteTop()
-					- (int) app.getAbsTop()) / scale);
+			int toggleButtonTop = (int) ((marblePanel.getAbsoluteTop() - (int) app.getAbsTop()) / scale);
 			if (toggleButtonTop < totalHeight / 2) {
-				int top = toggleButtonTop
-						+ marblePanel.getOffsetHeight();
+				int top = toggleButtonTop + marblePanel.getOffsetHeight();
 				maxOffsetHeight = totalHeight - top;
-				helpPopup.getElement().getStyle().setProperty("top",
-						top * renderScale + "px");
-				helpPopup.getElement().getStyle().setProperty("bottom",
-						"auto");
+				helpPopup.getElement().getStyle().setProperty("top", top * renderScale + "px");
+				helpPopup.getElement().getStyle().setProperty("bottom", "auto");
 				helpPopup.removeStyleName("helpPopupAVBottom");
 				helpPopup.addStyleName("helpPopupAV");
 			} else {
 				int minBottom = app.isApplet() ? 0 : 10;
 				int bottom = totalHeight - toggleButtonTop;
-				maxOffsetHeight = bottom > 0 ? totalHeight - bottom
-						: totalHeight - minBottom;
-				helpPopup.getElement().getStyle().setProperty("bottom",
-						(bottom > 0 ? bottom : minBottom) * renderScale
-								+ "px");
-				helpPopup.getElement().getStyle().setProperty("top",
-						"auto");
+				maxOffsetHeight = bottom > 0 ? totalHeight - bottom : totalHeight - minBottom;
+				helpPopup
+						.getElement()
+						.getStyle()
+						.setProperty("bottom", (bottom > 0 ? bottom : minBottom) * renderScale + "px");
+				helpPopup.getElement().getStyle().setProperty("top", "auto");
 				helpPopup.removeStyleName("helpPopupAV");
 				helpPopup.addStyleName("helpPopupAVBottom");
 			}
@@ -1430,8 +1424,8 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 
 	protected void addDummyLabel() {
 		if (dummyLabel == null) {
-			dummyLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(loc.getMenu("InputLabel")
-					+ Unicode.ELLIPSIS, "avDummyLabel");
+			dummyLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(
+					loc.getMenu("InputLabel") + Unicode.ELLIPSIS, "avDummyLabel");
 			ariaLabel = new Label();
 			ariaLabel.addStyleName("hidden");
 			content.add(ariaLabel);
@@ -1488,8 +1482,8 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 
 		getAV().setActiveTreeItem(null);
 
-		boolean emptyCase = getAV().isNodeTableEmpty()
-				&& !this.getAlgebraDockPanel().hasLongStyleBar();
+		boolean emptyCase =
+				getAV().isNodeTableEmpty() && !this.getAlgebraDockPanel().hasLongStyleBar();
 
 		// update style bar icon look
 		if (!app.isUnbundled()) {
@@ -1654,8 +1648,10 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		content.clear();
 
 		if (!(latexItem == null || isInputTreeItem() || isSliderItem())) {
-			latexItem.getElement().getStyle().setProperty("minHeight",
-					getController().getEditHeight() + "px");
+			latexItem
+					.getElement()
+					.getStyle()
+					.setProperty("minHeight", getController().getEditHeight() + "px");
 		}
 		ensureCanvas();
 		appendCanvas();
@@ -1834,9 +1830,13 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		if (getController().isInputAsText()) {
 			return;
 		}
-		String text = getText();
-		app.getKernel().getInputPreviewHelper().updatePreviewFromInputBar(text,
-				AlgebraInputW.getWarningHandler(this, app));
+		app.getKernel()
+				.getInputPreviewHelper()
+				.updatePreviewFromInputBar(getPreviewText(), AlgebraInputW.getWarningHandler(this, app));
+	}
+
+	String getPreviewText() {
+		return getMathField() != null ? getMathField().getInternal().getPreviewText() : getText();
 	}
 
 	/**
@@ -1929,8 +1929,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		if (geo == null) {
 			text = getText();
 		} else if (AlgebraItem.needsPacking(geo)) {
-			text = geo.getLaTeXDescriptionRHS(false,
-					StringTemplate.editorTemplate);
+			text = geo.getLaTeXDescriptionRHS(false, StringTemplate.editorTemplate);
 		} else {
 			text = geo.getDefinitionForEditor();
 		}
@@ -1949,8 +1948,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		CancelEventTimer.keyboardSetVisible();
 		ClickStartHandler.init(main, new ClickStartHandler(false, false) {
 			@Override
-			public void onClickStart(int x, int y,
-					final PointerEventType type) {
+			public void onClickStart(int x, int y, final PointerEventType type) {
 				app.getSelectionManager().resetKeyboardSelection();
 				getLatexController().setOnScreenKeyboardTextField();
 			}
@@ -1967,7 +1965,8 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		clearErrorLabel();
 		removeDummy();
 		renderLatex(text, true);
-		if (outputPanel != null && !isInputTreeItem()
+		if (outputPanel != null
+				&& !isInputTreeItem()
 				&& isAlgebraStyle(AlgebraStyle.DEFINITION_AND_VALUE)) {
 			definitionValuePanel.clear();
 			definitionValuePanel.add(outputPanel);
@@ -2034,8 +2033,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 
 	void rebuildCompositeFocus() {
 		if (!controller.isEditing() && compositeFocusAssembler != null) {
-			compositeFocusAssembler.rebuild(createFocusAccess(),
-					AVFocusContributorFactory.forItem(this));
+			compositeFocusAssembler.rebuild(createFocusAccess(), AVFocusContributorFactory.forItem(this));
 		}
 	}
 
@@ -2045,8 +2043,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		outputPanel = null;
 		doUpdate();
 		if (compositeFocusAssembler != null) {
-			compositeFocusAssembler.rebuild(createFocusAccess(),
-					AVFocusContributorFactory.forItem(this));
+			compositeFocusAssembler.rebuild(createFocusAccess(), AVFocusContributorFactory.forItem(this));
 		}
 		// if type has changed, a new item is already registered.
 		if (!typeChanged()) {
@@ -2175,8 +2172,10 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	public void setFocusedStyle(boolean focused, boolean isKeyboardFocus) {
 		if (isInputTreeItem()) {
 			if (focused) {
-				getWidget().getElement().getParentElement().addClassName(isKeyboardFocus
-						? "keyboardFocus" : "focused");
+				getWidget()
+						.getElement()
+						.getParentElement()
+						.addClassName(isKeyboardFocus ? "keyboardFocus" : "focused");
 			} else {
 				getWidget().getElement().getParentElement().removeClassName("keyboardFocus");
 				getWidget().getElement().getParentElement().removeClassName("focused");

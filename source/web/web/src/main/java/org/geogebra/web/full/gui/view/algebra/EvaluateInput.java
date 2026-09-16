@@ -50,8 +50,8 @@ public final class EvaluateInput {
 	 * @param item to evaluate.
 	 * @param ctrl the controller.
 	 */
-	public EvaluateInput(RadioTreeItem item, RadioTreeItemController ctrl,
-			GeoSelectionCallback callback) {
+	public EvaluateInput(
+			RadioTreeItem item, RadioTreeItemController ctrl, GeoSelectionCallback callback) {
 		this.item = item;
 		this.app = item.getApplication();
 		this.ctrl = ctrl;
@@ -93,12 +93,11 @@ public final class EvaluateInput {
 	}
 
 	private String getUserInput() {
-		return item.getText();
+		return ctrl.isInputAsText() ? item.getText() : item.getPreviewText();
 	}
 
 	private String getValidInput(String userInput) {
-		return app.getKernel().getInputPreviewHelper()
-				.getInput(userInput);
+		return app.getKernel().getInputPreviewHelper().getInput(userInput);
 	}
 
 	private String getInput(String userInput, String validInput) {
@@ -107,8 +106,7 @@ public final class EvaluateInput {
 		return textInput ? "\"" + input + "\"" : input;
 	}
 
-	private void evaluate(final boolean keepFocus,
-			AsyncOperation<GeoElementND[]> cbEval) {
+	private void evaluate(final boolean keepFocus, AsyncOperation<GeoElementND[]> cbEval) {
 		String userInput = getUserInput();
 		String validInput = getValidInput(userInput);
 		String input = getInput(userInput, validInput);
@@ -136,11 +134,11 @@ public final class EvaluateInput {
 		return item.getErrorHandler(valid, keepFocus, withSliders);
 	}
 
-	private void processAlgebraInput(String input, ErrorHandler err, EvalInfo info,
-			AsyncOperation<GeoElementND[]> cbEval) {
-		app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommandNoExceptionHandling(input, false, err,
-						info, cbEval);
+	private void processAlgebraInput(
+			String input, ErrorHandler err, EvalInfo info, AsyncOperation<GeoElementND[]> cbEval) {
+		app.getKernel()
+				.getAlgebraProcessor()
+				.processAlgebraCommandNoExceptionHandling(input, false, err, info, cbEval);
 	}
 
 	AsyncOperation<GeoElementND[]> evaluationCallback(final boolean keepFocus) {
@@ -167,21 +165,19 @@ public final class EvaluateInput {
 					geos[0].setEuclidianVisible(false);
 				}
 			}
-			InputHelper.updateProperties(geos, app.getActiveEuclidianView(),
-					oldStep);
+			InputHelper.updateProperties(geos, app.getActiveEuclidianView(), oldStep);
 			selectionCallback.callback(geos);
 			app.storeUndoInfo();
 			app.setScrollToShow(false);
 
-			Scheduler.get()
-					.scheduleDeferred(() -> {
-						item.scrollIntoView();
-						if (keepFocus) {
-							ctrl.setFocus(true);
-						} else {
-							item.setFocus(false);
-						}
-					});
+			Scheduler.get().scheduleDeferred(() -> {
+				item.scrollIntoView();
+				if (keepFocus) {
+					ctrl.setFocus(true);
+				} else {
+					item.setFocus(false);
+				}
+			});
 
 			item.setText("");
 			item.removeOutput();

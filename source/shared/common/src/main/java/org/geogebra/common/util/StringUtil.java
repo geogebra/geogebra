@@ -37,22 +37,23 @@ import org.geogebra.editor.share.util.Unicode;
 
 public class StringUtil extends org.geogebra.editor.share.input.Character {
 
-	final static public String mp3Marker = "data:audio/mp3;base64,";
-	final static public String pngMarker = "data:image/png;base64,";
-	final static public String svgMarker = "data:image/svg+xml;base64,";
-	final static public String pdfMarker = "data:application/pdf;base64,";
-	final static public String txtMarker = "data:text/plain;charset=utf-8,";
+	public static final String mp3Marker = "data:audio/mp3;base64,";
+	public static final String pngMarker = "data:image/png;base64,";
+	public static final String svgMarker = "data:image/svg+xml;base64,";
+	public static final String pdfMarker = "data:application/pdf;base64,";
+	public static final String txtMarker = "data:text/plain;charset=utf-8,";
 	// Shows as "unknown" in mobile Safari and gives options to copy/share
-	final static public String txtMarkerForSafari = "data:application/octet-stream,";
-	final static public String jpgMarker = "data:image/jpg;base64,";
-	final static public String ggbMarker = "data:application/vnd.geogebra.file;base64,";
-	final static public String gifMarker = "data:image/gif;base64,";
-	final static public String webmMarker = "data:video/webm;base64,";
-	final static public String htmlMarker = "data:text/html;charset=utf-8,";
+	public static final String txtMarkerForSafari = "data:application/octet-stream,";
+	public static final String jpgMarker = "data:image/jpg;base64,";
+	public static final String ggbMarker = "data:application/vnd.geogebra.file;base64,";
+	public static final String gifMarker = "data:image/gif;base64,";
+	public static final String webmMarker = "data:video/webm;base64,";
+	public static final String htmlMarker = "data:text/html;charset=utf-8,";
 
 	// table to convert a nibble to a hex char.
-	private static final char[] hexChar = { '0', '1', '2', '3', '4', '5', '6', '7',
-			'8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+	private static final char[] hexChar = {
+		'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+	};
 
 	private static StringUtil prototype;
 
@@ -105,7 +106,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 
 	/**
 	 * converts unicode to hex String with RGB values
-	 * 
+	 *
 	 * @return hex string with \\u prefix
 	 * @param c
 	 *            unicode char
@@ -124,7 +125,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 
 	/**
 	 * Convert number into hex.
-	 * 
+	 *
 	 * @param i
 	 *            number input
 	 * @return hex code
@@ -212,7 +213,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 * Converts the given unicode string to an html string where special
 	 * characters are converted to <code>&amp;#xxx;</code> sequences (xxx is the
 	 * unicode value of the character)
-	 * 
+	 *
 	 * @author Markus Hohenwarter
 	 * @param str
 	 *            unicode string
@@ -240,40 +241,40 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 					sb.append(c);
 				} else {
 					switch (code) {
-					// Firefox is fussy about this one
-					case '/':
-					sb.append("&#x2F;");
-						break;
-					case '<':
-						sb.append("&lt;");
-						break; // <
-					case '>':
-						sb.append("&gt;");
-						break; // >
+						// Firefox is fussy about this one
+						case '/':
+							sb.append("&#x2F;");
+							break;
+						case '<':
+							sb.append("&lt;");
+							break; // <
+						case '>':
+							sb.append("&gt;");
+							break; // >
 
-					default:
-						// do not convert
-						sb.append(c);
+						default:
+							// do not convert
+							sb.append(c);
 					}
 				}
 			}
 			// special characters
 			else {
 				switch (code) {
-				case '\n':
-				case '\r': // replace LF or CR with <br/>
-					sb.append("<br/>\n");
-					break;
+					case '\n':
+					case '\r': // replace LF or CR with <br/>
+						sb.append("<br/>\n");
+						break;
 
-				case '\t': // replace TAB with space
-					sb.append("&nbsp;"); // space
-					break;
+					case '\t': // replace TAB with space
+						sb.append("&nbsp;"); // space
+						break;
 
-				default:
-					// convert special character to escaped HTML
-					sb.append("&#");
-					sb.append(code);
-					sb.append(';');
+					default:
+						// convert special character to escaped HTML
+						sb.append("&#");
+						sb.append(code);
+						sb.append(';');
 				}
 			}
 		}
@@ -286,8 +287,8 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 * @return preprocessed input
 	 */
 	public static String preprocessForParser(String parseString, boolean decimalComma) {
-		ParserPreprocessor parserPreprocessor = new ParserPreprocessor(
-				new ParserInfo(false, decimalComma));
+		ParserPreprocessor parserPreprocessor =
+				new ParserPreprocessor(new ParserInfo(false, decimalComma));
 		return parserPreprocessor.preprocess(parseString);
 	}
 
@@ -304,7 +305,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	/**
 	 * Default implementation does not work, overridden in desktop TODO make sure
 	 * we override this in Web as well
-	 * 
+	 *
 	 * @param c
 	 *            character
 	 * @return whether it's left to right Unicode character
@@ -336,15 +337,14 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	/**
 	 * Replaces special Unicode letters (e.g. greek letters) in str by LaTeX
 	 * strings.
-	 * 
+	 *
 	 * @param str
 	 *            Unicode string
 	 * @param convertGreekLetters
 	 *            whether to convert Unicode alpha to \alpha
 	 * @return latex string
 	 */
-	public static synchronized String toLaTeXString(String str,
-			boolean convertGreekLetters) {
+	public static synchronized String toLaTeXString(String str, boolean convertGreekLetters) {
 		int length = str.length();
 		sbReplaceExp.setLength(0);
 
@@ -358,8 +358,8 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 			// Fix Hebrew 'undefined' problem in Latex text.
 			if (prototype.isRightToLeftChar(c)) {
 				int j = i;
-				while (j < length && (prototype.isRightToLeftChar(str.charAt(j))
-						|| str.charAt(j) == '\u00a0')) {
+				while (j < length
+						&& (prototype.isRightToLeftChar(str.charAt(j)) || str.charAt(j) == '\u00a0')) {
 					j++;
 				}
 				for (int k = j - 1; k >= i; k--) {
@@ -471,8 +471,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 
 		for (int i = 0; i < text.length(); i++) {
 			char c = text.charAt(i);
-			if (!isDigit(c) && c != '.' && c != Unicode.ARABIC_COMMA
-					&& c != '-') {
+			if (!isDigit(c) && c != '.' && c != Unicode.ARABIC_COMMA && c != '-') {
 				return false;
 			}
 		}
@@ -484,7 +483,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 * important to use this rather than String.toLowerCase() so that it uses
 	 * String.toLowerCase(Locale.US) so that the behaviour is well defined
 	 * whatever language we are running in NB does cause problems eg in Turkish
-	 * 
+	 *
 	 * @param s
 	 *            input string
 	 * @return the <code>String</code>, converted to lowercase.
@@ -499,7 +498,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 * overridden in desktop.Application so that it uses
 	 * String.toLowerCase(Locale.US) so that the behavior is well defined
 	 * whatever language we are running in NB does cause problems eg in Turkish
-	 * 
+	 *
 	 * @param s
 	 *            input string
 	 * @return the <code>String</code>, converted to lowercase.
@@ -511,7 +510,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 
 	/**
 	 * Number parser supporting "null", "undefined" and "Infinity"
-	 * 
+	 *
 	 * @param s
 	 *            string
 	 * @return parsed number
@@ -562,10 +561,10 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	}
 
 	/**
-	 * 
+	 *
 	 * Adapted from GWT but uses a better version of isLetter() so works for eg
 	 * Greek
-	 * 
+	 *
 	 * @param c
 	 *            character to test
 	 * @return if c is UPPER CASE
@@ -575,10 +574,10 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	}
 
 	/**
-	 * 
+	 *
 	 * Adapted from GWT but uses a better version of isLetter() so works for eg
 	 * Greek
-	 * 
+	 *
 	 * @param c
 	 *            character to test
 	 * @return if c is lower case
@@ -590,9 +589,9 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	/**
 	 * Character.isDigit() doesn't work in GWT, see
 	 * http://code.google.com/p/google-web-toolkit/issues/detail?id=1983
-	 * 
+	 *
 	 * see also MyDouble.parseDouble()
-	 * 
+	 *
 	 * @param ch
 	 *            character
 	 * @return whether it's a localized digit
@@ -610,8 +609,8 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 				|| (ch >= '\u0ae6' && ch <= '\u0aef')
 				|| (ch >= '\u0b66' && ch <= '\u0b6f')
 				|| (ch >= '\u0be6' && ch <= '\u0bef') // Java (5?) bug: \u0BE6
-														// not recognized by
-														// Character.isDigit()
+				// not recognized by
+				// Character.isDigit()
 				|| (ch >= '\u0c66' && ch <= '\u0c6f')
 				|| (ch >= '\u0ce6' && ch <= '\u0cef')
 				|| (ch >= '\u0d66' && ch <= '\u0d6f')
@@ -622,20 +621,20 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 				|| (ch >= '\u17e0' && ch <= '\u17e9')
 				|| (ch >= '\u1810' && ch <= '\u1819')
 				|| (ch >= '\u1b50' && ch <= '\u1b59') // not recognized by
-														// Java's version of
-														// Character.isDigit() !
+				// Java's version of
+				// Character.isDigit() !
 				|| (ch >= '\u1bb0' && ch <= '\u1bb9') // not recognized by
-														// Java's version of
-														// Character.isDigit() !
+				// Java's version of
+				// Character.isDigit() !
 				|| (ch >= '\u1c40' && ch <= '\u1c49') // not recognized by
-														// Java's version of
-														// Character.isDigit() !
+				// Java's version of
+				// Character.isDigit() !
 				|| (ch >= '\u1c50' && ch <= '\u1c59') // not recognized by
-														// Java's version of
-														// Character.isDigit() !
+				// Java's version of
+				// Character.isDigit() !
 				|| (ch >= '\ua8d0' && ch <= '\ua8d9'); // not recognized by
-														// Java's version of
-														// Character.isDigit() !
+		// Java's version of
+		// Character.isDigit() !
 		// following not handled by GeoGebra's parser
 		// || (ch >= 0x1369 && ch <= 0x1371) // Ethiopic
 		// || (ch >= 0x1946 && ch <= 0x194F) // Limbu
@@ -655,8 +654,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 * @return true if str matches one of "!=", "&lt;&gt;", Unicode.NOTEQUAL
 	 */
 	public static boolean isNotEqual(String str) {
-		return "!=".equals(str) || "<>".equals(str)
-				|| (Unicode.NOTEQUAL + "").equals(str);
+		return "!=".equals(str) || "<>".equals(str) || (Unicode.NOTEQUAL + "").equals(str);
 	}
 
 	/**
@@ -671,7 +669,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	/**
 	 * Since a_{{{{{{{5}=2 is correct expression, we replace the index by Xs to
 	 * obtain a_{XXXXXXX}=2
-	 * 
+	 *
 	 * @param text
 	 *            text
 	 * @return text with replaced {s
@@ -714,7 +712,6 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 			} else if (!ignore) {
 				underscore = ch == '_';
 			}
-
 		}
 		return sb.toString();
 	}
@@ -722,7 +719,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	/**
 	 * Check that brackets in the string are correct; start checking from the
 	 * right.
-	 * 
+	 *
 	 * @param parseString
 	 *            string
 	 * @return error position
@@ -741,45 +738,45 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 			}
 
 			switch (ch) {
-			default:
-				// do nothing
-				break;
-			case '"':
-				comment = !comment;
-				break;
-			case '}':
-				closingBrackets.add(i);
-				curly++;
-				break;
-			case '{':
-				curly--;
-				if (curly < 0) {
-					return i;
-				}
-				closingBrackets.pop();
-				break;
-			case ']':
-				square++;
-				closingBrackets.add(i);
-				break;
-			case '[':
-				square--;
-				if (square < 0) {
-					return i;
-				}
-				closingBrackets.pop();
-				break;
-			case ')':
-				round++;
-				closingBrackets.add(i);
-				break;
-			case '(':
-				round--;
-				if (round < 0) {
-					return i;
-				}
-				closingBrackets.pop();
-				break;
+				default:
+					// do nothing
+					break;
+				case '"':
+					comment = !comment;
+					break;
+				case '}':
+					closingBrackets.add(i);
+					curly++;
+					break;
+				case '{':
+					curly--;
+					if (curly < 0) {
+						return i;
+					}
+					closingBrackets.pop();
+					break;
+				case ']':
+					square++;
+					closingBrackets.add(i);
+					break;
+				case '[':
+					square--;
+					if (square < 0) {
+						return i;
+					}
+					closingBrackets.pop();
+					break;
+				case ')':
+					round++;
+					closingBrackets.add(i);
+					break;
+				case '(':
+					round--;
+					if (round < 0) {
+						return i;
+					}
+					closingBrackets.pop();
+					break;
 			}
 		}
 		if (!closingBrackets.isEmpty()) {
@@ -792,7 +789,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 * Checks whether the text may represent two expressions separated by comma.
 	 * Simple check for comma is not possible as (1,1)+{1,1} is a simple
 	 * expression.
-	 * 
+	 *
 	 * @param evalText
 	 *            text to be analyzed
 	 * @return true if the text is of the form expression,expression
@@ -807,20 +804,20 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 				continue;
 			}
 			switch (ch) {
-			case '}':
-			case ')':
-			case ']':
-				brackets--;
-				break;
-			case '{':
-			case '(':
-			case '[':
-				brackets++;
-				break;
-			case ',':
-				if (brackets == 0) {
-					return true;
-				}
+				case '}':
+				case ')':
+				case ']':
+					brackets--;
+					break;
+				case '{':
+				case '(':
+				case '[':
+					brackets++;
+					break;
+				case ',':
+					if (brackets == 0) {
+						return true;
+					}
 			}
 		}
 		return false;
@@ -877,8 +874,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 				visibleChars += index ? indexSize : 1;
 			}
 		}
-		return bold ? visibleChars * 0.6 * font.getSize()
-				: visibleChars * 0.5 * font.getSize();
+		return bold ? visibleChars * 0.6 * font.getSize() : visibleChars * 0.5 * font.getSize();
 	}
 
 	/**
@@ -892,8 +888,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 		if (font == null) {
 			return 0;
 		}
-		return string.indexOf('_') > -1 ? font.getSize() * 1.8
-				: font.getSize() * 1.4;
+		return string.indexOf('_') > -1 ? font.getSize() * 1.8 : font.getSize() * 1.4;
 	}
 
 	/**
@@ -909,10 +904,11 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 *            replacement for %3
 	 * @return string after substitution
 	 */
-	public static Object format(String sub, double x0, double x1, double x2,
-			double x3) {
-		return sub.replaceAll("%0", x0 + "").replaceAll("%1", x1 + "")
-				.replaceAll("%2", x2 + "").replace("%3", x3 + "");
+	public static Object format(String sub, double x0, double x1, double x2, double x3) {
+		return sub.replaceAll("%0", x0 + "")
+				.replaceAll("%1", x1 + "")
+				.replaceAll("%2", x2 + "")
+				.replace("%3", x3 + "");
 	}
 
 	/**
@@ -938,8 +934,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 * @return "exact(" + s + ")" if necessary (for Giac) or convert double into
 	 *         a fraction internally (for GiacInternal)
 	 */
-	public static String wrapInExact(double x, String s0, StringTemplate tpl,
-			Kernel kernel) {
+	public static String wrapInExact(double x, String s0, StringTemplate tpl, Kernel kernel) {
 		if (s0.startsWith("exact(")) {
 			// nothing to do
 			return s0;
@@ -981,8 +976,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 * @return filename without leading slash
 	 */
 	public static String removeLeadingSlash(String filename) {
-		if (filename != null && filename.length() != 0
-				&& filename.charAt(0) == '/') {
+		if (filename != null && filename.length() != 0 && filename.charAt(0) == '/') {
 			return filename.substring(1);
 		}
 		return filename;
@@ -995,7 +989,6 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 */
 	public static String toHtmlColor(GColor color) {
 		return "#" + toHexString(color);
-
 	}
 
 	/**
@@ -1003,7 +996,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 * array contain a String not containing any letters (or digits), and
 	 * all odd indices (e.g. 1) of the array contain a String having only
 	 * letters (or digits).
-	 * 
+	 *
 	 * @param input
 	 *            the input String
 	 * @return the tokenized String
@@ -1059,7 +1052,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	/**
 	 * Join tokens which are in a similar format as StringUtil.wholeWordTokenize
 	 * produces... delimiter can be null, or can be a glue string
-	 * 
+	 *
 	 * @param tokens
 	 *            the input
 	 * @param delimiter
@@ -1155,7 +1148,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 
 	/**
 	 * Used in DynamicTextProcessor and DynamicTextInputPane
-	 * 
+	 *
 	 * @param sb
 	 *            output
 	 * @param content
@@ -1164,8 +1157,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 *            alternate between open and closed
 	 * @return current quote
 	 */
-	public static char processQuotes(StringBuilder sb, String content,
-			char ret) {
+	public static char processQuotes(StringBuilder sb, String content, char ret) {
 		char currentQuote = ret;
 		if (content.indexOf("\"") == -1) {
 			sb.append(content);
@@ -1214,41 +1206,41 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 			// standard characters have code 32 to 126
 			if (code >= 32 && code <= 126) {
 				switch (code) {
-				case '"':
-					// replace " with \"
-					sb.append("\\\"");
-					break;
-				case '\'':
-					// replace ' with \'
-					sb.append("\\'");
-					break;
-				case '\\':
-					// replace \ with \\
-					sb.append("\\\\");
-					break;
+					case '"':
+						// replace " with \"
+						sb.append("\\\"");
+						break;
+					case '\'':
+						// replace ' with \'
+						sb.append("\\'");
+						break;
+					case '\\':
+						// replace \ with \\
+						sb.append("\\\\");
+						break;
 
-				default:
-					// do not convert
-					sb.append(c);
+					default:
+						// do not convert
+						sb.append(c);
 				}
 			}
 			// special characters
 			else {
 				switch (code) {
-				case 10: // CR
-					sb.append("\\n");
-					break;
-				case 13: // LF
-					sb.append("\\r");
-					break;
+					case 10: // CR
+						sb.append("\\n");
+						break;
+					case 13: // LF
+						sb.append("\\r");
+						break;
 
-				case 9: // replace TAB
-					sb.append("\\t"); // space
-					break;
+					case 9: // replace TAB
+						sb.append("\\t"); // space
+						break;
 
-				default:
-					// convert special character to \u0123 format
-					sb.append(toHexString(c));
+					default:
+						// convert special character to \u0123 format
+						sb.append(toHexString(c));
 				}
 			}
 		}
@@ -1313,8 +1305,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 *            eg PNG
 	 * @return changes eg "file.gif" to "file.png"
 	 */
-	public static String changeFileExtension(String fileName,
-			FileExtensions extension) {
+	public static String changeFileExtension(String fileName, FileExtensions extension) {
 		return fileName == null ? null : removeFileExtension(fileName) + "." + extension.toString();
 	}
 
@@ -1362,24 +1353,24 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 */
 	public static String getGrayString(char c, Localization loc) {
 		switch (c) {
-		case '0':
-			return loc.getColor("white");
-		case '1':
-			return loc.getPlain("AGray", Unicode.FRACTION1_8 + "");
-		case '2':
-			return loc.getPlain("AGray", Unicode.FRACTION1_4 + ""); // silver
-		case '3':
-			return loc.getPlain("AGray", Unicode.FRACTION3_8 + "");
-		case '4':
-			return loc.getPlain("AGray", Unicode.FRACTION1_2 + "");
-		case '5':
-			return loc.getPlain("AGray", Unicode.FRACTION5_8 + "");
-		case '6':
-			return loc.getPlain("AGray", Unicode.FRACTION3_4 + "");
-		case '7':
-			return loc.getPlain("AGray", Unicode.FRACTION7_8 + "");
-		default:
-			return loc.getColor("black");
+			case '0':
+				return loc.getColor("white");
+			case '1':
+				return loc.getPlain("AGray", Unicode.FRACTION1_8 + "");
+			case '2':
+				return loc.getPlain("AGray", Unicode.FRACTION1_4 + ""); // silver
+			case '3':
+				return loc.getPlain("AGray", Unicode.FRACTION3_8 + "");
+			case '4':
+				return loc.getPlain("AGray", Unicode.FRACTION1_2 + "");
+			case '5':
+				return loc.getPlain("AGray", Unicode.FRACTION5_8 + "");
+			case '6':
+				return loc.getPlain("AGray", Unicode.FRACTION3_4 + "");
+			case '7':
+				return loc.getPlain("AGray", Unicode.FRACTION7_8 + "");
+			default:
+				return loc.getColor("black");
 		}
 	}
 
@@ -1387,7 +1378,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 * check if string contains LaTeX codes. If so then wrapping in \text{}
 	 * probably isn't desirable eg https://www.geogebra.org/m/FH6NkgCN which has
 	 * \int_{0}^{12.03} 2 \; \sqrt{x}\cdot dx = 55.66
-	 * 
+	 *
 	 * @param str
 	 *            string to check
 	 * @return true if str contains any of "\" "^{" "_" (and not "/")
@@ -1418,6 +1409,14 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	}
 
 	/**
+	 * @param str Input string
+	 * @return An empty string if the input is null, the input itself otherwise.
+	 */
+	public static String nullToEmpty(String str) {
+		return str == null ? "" : str;
+	}
+
+	/**
 	 * @param s
 	 *            input string
 	 * @return s with \n changed to \cr
@@ -1427,14 +1426,13 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param color
 	 *            color name
 	 * @return "red" changed to "Red"
 	 */
 	public static String capitalize(String color) {
-		return (color.charAt(0) + "").toUpperCase(Locale.ROOT)
-				+ color.substring(1, color.length());
+		return (color.charAt(0) + "").toUpperCase(Locale.ROOT) + color.substring(1, color.length());
 	}
 
 	/**
@@ -1478,7 +1476,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	/**
 	 * converts an integer to a unicode SUPERSCRIPT string (including minus
 	 * sign) eg for use as a power
-
+	 *
 	 * @param i0
 	 *            number
 	 * @return unicode superscript index
@@ -1492,7 +1490,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	/**
 	 * converts an integer to a unicode SUPERSCRIPT string (including minus
 	 * sign) eg for use as a power, appends result to a string builder
-
+	 *
 	 * @param i0
 	 *            number
 	 */
@@ -1538,8 +1536,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 *            number of symbols
 	 * @return unicode range
 	 */
-	public static List<String> getSetOfSymbols(int symbolsStartValue,
-			int symbolsNumber) {
+	public static List<String> getSetOfSymbols(int symbolsStartValue, int symbolsNumber) {
 		ArrayList<String> ret = new ArrayList<>();
 		for (int i = 0; i < symbolsNumber; i++) {
 			ret.add("" + (char) (symbolsStartValue + i));
@@ -1548,7 +1545,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param text
 	 *            string to check
 	 * @return true if text is a simple ASCII 7-bit string
@@ -1622,13 +1619,15 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 * @return ASCII string; ends of divs and paragraphs replaced by \n
 	 */
 	public static String htmlToNewlines(String html) {
-		return html.replace("<br></div>", "\n").replaceAll("</div>(.)", "\n$1")
-				.replace("<br>", "\n").replace("</p>", "\n")
+		return html.replace("<br></div>", "\n")
+				.replaceAll("</div>(.)", "\n$1")
+				.replace("<br>", "\n")
+				.replace("</p>", "\n")
 				.replaceAll("</?[^>]+>", "");
 	}
 
 	/**
-	 * 
+	 *
 	 * @param sb
 	 *            StringBuilder
 	 * @param ch
@@ -1648,7 +1647,6 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 				sb.append(chars[i]);
 			}
 		}
-
 	}
 
 	/**
@@ -1668,8 +1666,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 * @return if string starts with eg \mathrm
 	 */
 	public static boolean startsWithFormattingCommand(String string) {
-		return string != null && string.length() > 6
-				&& string.startsWith("$\\math");
+		return string != null && string.length() > 6 && string.startsWith("$\\math");
 	}
 
 	/**
@@ -1682,8 +1679,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 * @param sfa
 	 *            format
 	 */
-	public static void appendFormat(StringBuilder sbFormatSF, double x,
-			ScientificFormatAdapter sfa) {
+	public static void appendFormat(StringBuilder sbFormatSF, double x, ScientificFormatAdapter sfa) {
 		if (x == 0) {
 			// avoid output of "-0.00"
 			sbFormatSF.append(sfa.format(0));
@@ -1692,46 +1688,46 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 		}
 	}
 
-    /**
-     * Append string representation with format +/-ddd.pp (if 3 digits and precision is 2).
-     * Too large values are output +/-XXXXX
-     *
-     * @param val value
-     * @param digits
-     *            digits length
-     * @param precision
-     *            decimal precision
-     * @param sb where to write result
-     */
+	/**
+	 * Append string representation with format +/-ddd.pp (if 3 digits and precision is 2).
+	 * Too large values are output +/-XXXXX
+	 *
+	 * @param val value
+	 * @param digits
+	 *            digits length
+	 * @param precision
+	 *            decimal precision
+	 * @param sb where to write result
+	 */
 	public static void toString(double val, int digits, int precision, StringBuilder sb) {
-        if (val < 0) {
-            sb.append('-');
-        } else {
-            sb.append('+');
-        }
-        int v = (int) Math.round(Math.abs(val * Math.pow(10, precision)));
-        int[] decimalsList = new int[precision];
-        for (int j = precision - 1; j >= 0; j--) {
-            decimalsList[j] = v % 10;
-            v /= 10;
-        }
-        int[] digitsList = new int[digits];
-        for (int j = digits - 1; j >= 0; j--) {
-            digitsList[j] = v % 10;
-            v /= 10;
-        }
-        if (v > 0) { // overflow
-            sb.append(StringUtil.repeat('X', digits + 1 + precision));
-        } else {
-            for (int d : digitsList) {
-                sb.append(d);
-            }
-            sb.append(".");
-            for (int d : decimalsList) {
-                sb.append(d);
-            }
-        }
-    }
+		if (val < 0) {
+			sb.append('-');
+		} else {
+			sb.append('+');
+		}
+		int v = (int) Math.round(Math.abs(val * Math.pow(10, precision)));
+		int[] decimalsList = new int[precision];
+		for (int j = precision - 1; j >= 0; j--) {
+			decimalsList[j] = v % 10;
+			v /= 10;
+		}
+		int[] digitsList = new int[digits];
+		for (int j = digits - 1; j >= 0; j--) {
+			digitsList[j] = v % 10;
+			v /= 10;
+		}
+		if (v > 0) { // overflow
+			sb.append(StringUtil.repeat('X', digits + 1 + precision));
+		} else {
+			for (int d : digitsList) {
+				sb.append(d);
+			}
+			sb.append(".");
+			for (int d : decimalsList) {
+				sb.append(d);
+			}
+		}
+	}
 
 	/**
 	 * Remove leading PNG marker
@@ -1783,8 +1779,7 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	 */
 	public static String removeAccents(String string) {
 		String ret = StringUtil.toLowerCaseUS(string);
-		return Normalizer.normalize(ret, Normalizer.Form.NFD)
-				.replaceAll("[\u0300-\u036F]", "");
+		return Normalizer.normalize(ret, Normalizer.Form.NFD).replaceAll("[\u0300-\u036F]", "");
 	}
 
 	/**

@@ -19,6 +19,7 @@ package org.geogebra.common.kernel;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Interface for views. A view registered to the kernel gets informed if
@@ -27,7 +28,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 public interface View {
 	/**
 	 * Notify this view about newly added geo
-	 * 
+	 *
 	 * @param geo
 	 *            new geo
 	 */
@@ -35,7 +36,7 @@ public interface View {
 
 	/**
 	 * Notify this view about removed geo
-	 * 
+	 *
 	 * @param geo
 	 *            removed geo
 	 */
@@ -43,7 +44,7 @@ public interface View {
 
 	/**
 	 * Notify this view about renamed geo
-	 * 
+	 *
 	 * @param geo
 	 *            renamed geo
 	 */
@@ -51,7 +52,7 @@ public interface View {
 
 	/**
 	 * Notify this view about updated geo
-	 * 
+	 *
 	 * @param geo
 	 *            updated geo
 	 */
@@ -59,7 +60,7 @@ public interface View {
 
 	/**
 	 * Notify this view about geo with updated visual style
-	 * 
+	 *
 	 * @param geo
 	 *            updated geo
 	 * @param prop
@@ -69,7 +70,7 @@ public interface View {
 
 	/**
 	 * Notify this view about geo with updated highlighting
-	 * 
+	 *
 	 * @param geo
 	 *            updated geo
 	 */
@@ -79,7 +80,7 @@ public interface View {
 
 	/**
 	 * Notify this view about updated auxiliary geo
-	 * 
+	 *
 	 * @param geo
 	 *            updated auxiliary geo
 	 */
@@ -92,7 +93,7 @@ public interface View {
 
 	/**
 	 * Suggest repaint now
-	 * 
+	 *
 	 * @return true when repaint happened or is planned, false when sleeping
 	 */
 	boolean suggestRepaint();
@@ -109,7 +110,7 @@ public interface View {
 
 	/**
 	 * Notify this view about changed mode
-	 * 
+	 *
 	 * @param mode
 	 *            Euclidian view mode
 	 * @param m
@@ -142,8 +143,7 @@ public interface View {
 	}
 
 	/**
-	 * @param geos
-	 *            input bar elements
+	 * @param geos preview geos; never {@code null}, empty if there is nothing to preview
 	 */
-	void updatePreviewFromInputBar(GeoElement[] geos);
+	void updatePreviewFromInputBar(GeoElement @NonNull [] geos);
 }

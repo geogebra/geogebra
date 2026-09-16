@@ -254,6 +254,10 @@
 		display: flex;
 		align-items: center;
 		min-height: 36px;
+
+		&:empty {
+			min-height: 0;
+		}
 	}
 
 	.avItem .elemText {

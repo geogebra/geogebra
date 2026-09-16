@@ -5288,15 +5288,14 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Notify views about preview geos.
-	 *
-	 * @param geos
-	 *            preview geos
+	 * @param geos preview geos, may be {@code null} or empty if there is no preview
 	 */
-	public final void notifyUpdatePreviewFromInputBar(GeoElement[] geos) {
+	public final void notifyUpdatePreviewFromInputBar(@Nullable GeoElement[] geos) {
 		// event dispatcher should not collect calls to stay compatible with 4.0
 		if (notifyViewsActive) {
+			GeoElement[] normalized = geos == null ? new GeoElement[0] : geos;
 			for (View view : views) {
-				view.updatePreviewFromInputBar(geos);
+				view.updatePreviewFromInputBar(normalized);
 			}
 		}
 	}
