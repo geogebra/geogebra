@@ -90,7 +90,7 @@ public final class ImageDialog extends ComponentDialog implements WebcamDialogIn
 		}
 
 		cameraPanel.clear();
-		cameraPanel.setStyleName("cameraPanel");
+		cameraPanel.setStyleName("cameraPanel tabPanel");
 		cameraPanel.add(webcamInputPanel);
 		cameraPanel.add(captureBtn);
 	}
@@ -151,7 +151,6 @@ public final class ImageDialog extends ComponentDialog implements WebcamDialogIn
 	@Override
 	public void onResize() {
 		super.onResize();
-		tab.onResize();
 		if (!cameraPanel.getStyleName().contains("error")) {
 			cameraPanel.getElement().getStyle().setHeight(webcamInputPanel.getOffsetHeight() + 28,
 					Unit.PX);

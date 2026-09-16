@@ -82,7 +82,7 @@ public final class StatisticsCalculatorW extends StatisticsCalculator
 
 	private void createGUI(FlowPanel root) {
 		this.wrappedPanel = root;
-		wrappedPanel.addStyleName("StatisticsCalculatorW");
+		wrappedPanel.addStyleName("StatisticsCalculatorW tabPanel");
 
 		createGUIElements();
 		createControlPanel();

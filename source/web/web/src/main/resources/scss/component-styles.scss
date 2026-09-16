@@ -542,8 +542,19 @@ $keyboard_button_transition: opacity .3s ease;
 				display: inline-flex;
 				right: 0px;
 
-				&.transition {
-					transition: right 0.25s cubic-bezier(.35,0,.25,1);
+				.tabPanel.fadeIn {
+					opacity: 0;
+					animation-name: fadeInOpacity;
+					animation-timing-function: cubic-bezier(0, 0, 0, 1);
+					animation-duration: 200ms;
+					animation-delay: 100ms;
+				}
+
+				.tabPanel.fadeOut {
+					opacity: 0;
+					animation-name: fadeOutOpacity;
+					animation-timing-function: cubic-bezier(0.3, 0, 1, 1);
+					animation-duration: 100ms;
 				}
 			}
 	}

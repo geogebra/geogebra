@@ -31,6 +31,7 @@ public final class TabData {
 	public TabData(String tabTitle, Widget tabPanel) {
 		setTabTitle(tabTitle);
 		setTabPanel(tabPanel);
+		tabPanel.addStyleName("tabPanel");
 	}
 
 	private void setTabTitle(String tabTitle) {

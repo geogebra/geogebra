@@ -1672,15 +1672,22 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.imageDialog {
-		.infoErrorPanel {
-			margin: auto;
+		.panelContainer {
+			width: 100%;
+			height: 364px;
+		}
+
+		.tabPanel {
+			position: absolute;
+		}
+
+		.tabPanel.infoErrorPanel {
+			top: calc(50% - 108px);
 		}
 
 		.cameraPanel {
-			height: 367px;
-
 			&.error {
-				height: 367px;
+				top: calc(50% - 100px);
 				display: inline-flex;
 			}
 		}

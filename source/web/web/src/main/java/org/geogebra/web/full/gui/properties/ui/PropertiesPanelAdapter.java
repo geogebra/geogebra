@@ -102,7 +102,6 @@ public final class PropertiesPanelAdapter {
 			Widget widget = getWidget(prop);
 			panel.add(widget);
 		}
-		panel.addStyleName("sideSheetTab");
 		addAccessibility(AccessibilityGroup.SETTINGS_ITEM);
 		return panel;
 	}

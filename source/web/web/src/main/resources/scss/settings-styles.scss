@@ -82,9 +82,12 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 
 				.panelContainer {
 					height: 100%;
+					width: 100%;
 
-					.sideSheetTab {
+					.tabPanel {
+						position: absolute;
 						height: calc(100% - 56px); //56px height of tab bar
+						width: 100%;
 						overflow: auto;
 					}
 				}
@@ -92,7 +95,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		}
 	}
 
-	.sideSheetTab {
+	.tabPanel {
 		width: 100%;
 
 		.expandableList.extended .containerPanel {

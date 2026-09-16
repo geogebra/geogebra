@@ -66,7 +66,6 @@ public final class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 		TabData statisticsTab = new TabData("Statistics", statCalculator.getWrappedPanel());
 		probabilityTab = new ComponentTab((AppW) app, "", distributionTab, statisticsTab);
 		probabilityTab.addStyleName("probabilityTab");
-		probabilityTab.onResize();
 		probabilityTab.switchToTab(getApp().getSettings().getProbCalcSettings()
 				.getCollection().isActive() ? 1 : 0);
 	}
@@ -178,7 +177,7 @@ public final class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 		this.mainSplitPane = mainPane;
 
 		probCalcPanel = new FlowPanel();
-		probCalcPanel.addStyleName("ProbCalcPanel");
+		probCalcPanel.addStyleName("ProbCalcPanel tabPanel");
 		probCalcPanel.add(mainPane);
 	}
 

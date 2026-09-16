@@ -66,7 +66,7 @@ public final class InsertPopup extends GPopupPanel {
 	private FlowPanel createObjectsPanel() {
 		FlowPanel holder = new FlowPanel();
 		FlowPanel objectsPanel = new FlowPanel();
-		objectsPanel.addStyleName("tabPanel objects");
+		objectsPanel.addStyleName("objects");
 
 		TreeSet<GeoElement> geos = app.getKernel().getConstruction()
 				.getGeoSetLabelOrder();
@@ -85,7 +85,6 @@ public final class InsertPopup extends GPopupPanel {
 	private FlowPanel createSymbolsPanel() {
 		FlowPanel holder = new FlowPanel();
 		FlowPanel symbolsPanel = new FlowPanel();
-		symbolsPanel.addStyleName("tabPanel");
 		fillSymbolsContent(symbolsPanel);
 		holder.add(symbolsPanel);
 		return holder;
@@ -110,7 +109,6 @@ public final class InsertPopup extends GPopupPanel {
 
 	private FlowPanel createLatexPanel() {
 		FlowPanel latexPanel = new FlowPanel();
-		latexPanel.addStyleName("tabPanel");
 
 		addGroup(TableSymbolsLaTeX.roots_fractions, latexPanel, true, true, false);
 		addGroup(TableSymbolsLaTeX.sums, latexPanel, true, true, false);

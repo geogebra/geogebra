@@ -405,10 +405,16 @@
 		width: 360px;
 		flex-wrap: wrap;
 
+		.panelContainer {
+			width: 100%;
+			height: 180px;
+		}
+
 		.tabPanel {
 			padding: 8px 16px;
-			height: 180px;
+			height: 100%;
 			overflow: scroll;
+			position: absolute;
 		}
 		.group {
 			display: flex;
@@ -426,7 +432,7 @@
 				background-color: neutral(200);
 			}
 		}
-		.tabPanel.objects .gwt-Label {
+		.objects .gwt-Label {
 			flex-basis: 50%;
 			box-sizing: border-box;
 		}

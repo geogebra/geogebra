@@ -31,15 +31,14 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
-import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.dom.style.shared.Visibility;
 import org.gwtproject.user.client.ui.FlowPanel;
-import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.ScrollPanel;
 import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.KeyboardEvent;
 
-public final class ComponentTab extends FlowPanel implements RequiresResize, SetLabels {
+public final class ComponentTab extends FlowPanel implements SetLabels {
 	private final AppW appW;
 	private final Localization loc;
 	private ScrollPanel scrollPanel;
@@ -107,7 +106,6 @@ public final class ComponentTab extends FlowPanel implements RequiresResize, Set
 		add(scrollPanel);
 
 		initPanelContainer();
-		panelContainer.setWidth((tabData.length * 100) + "%");
 		fillTabList(tabList, tabData);
 		new FocusableWidget(AccessibilityGroup.SETTINGS_TAB_BUTTON,
 				null, tabList) {
@@ -187,12 +185,12 @@ public final class ComponentTab extends FlowPanel implements RequiresResize, Set
 
 	private void fillTabList(FlowPanel tabList, TabData... tabData) {
 		int i = 0;
-		double width = 100.0 / tabData.length;
 		for (TabData tab : tabData) {
 			StandardButton tabBtn = getTabBtn(i, loc.getMenu(tab.getTabTitle()));
 			tabButton.add(tabBtn);
 			tabList.add(tabBtn);
-			tab.getTabPanel().getElement().getStyle().setWidth(width, Unit.PCT);
+			tab.getTabPanel().getElement().getStyle().setOpacity(0);
+			tab.getTabPanel().getElement().getStyle().setVisibility(Visibility.HIDDEN);
 			panelContainer.add(tab.getTabPanel());
 			i++;
 		}
@@ -219,14 +217,30 @@ public final class ComponentTab extends FlowPanel implements RequiresResize, Set
 			updateSelection(selectedBtn, false);
 		}
 
+		int toHide = selectedTabIdx;
+		fadeTab(toHide, "fadeOut", 0, Visibility.HIDDEN);
 		selectedBtn = tabButton.get(tabIdx);
 		selectedBtn.getElement().scrollIntoView();
 		updateSelection(selectedBtn, true);
 		selectedTabIdx = tabIdx;
-
-		panelContainer.addStyleName("transition");
+		fadeTab(selectedTabIdx, "fadeIn", 1, Visibility.VISIBLE);
 		tabChanged.notifyListeners(tabIdx);
-		panelContainer.getElement().getStyle().setRight(tabIdx * 100, Unit.PCT);
+	}
+
+	/**
+	 * Attach animation to tab with given tab index and remove style name after animation is ended.
+	 * @param tabIdx tab index
+	 * @param animationName animation class name
+	 * @param opacity final opacity after animation
+	 */
+	private void fadeTab(int tabIdx, String animationName, int opacity, Visibility visibility) {
+		panelContainer.getWidget(tabIdx).addStyleName(animationName);
+		Dom.addEventListener(panelContainer.getWidget(tabIdx).getElement(), "animationend",
+				e -> {
+			panelContainer.getWidget(tabIdx).removeStyleName(animationName);
+			panelContainer.getWidget(tabIdx).getElement().getStyle().setOpacity(opacity);
+			panelContainer.getWidget(tabIdx).getElement().getStyle().setVisibility(visibility);
+		});
 	}
 
 	/**
@@ -302,13 +316,6 @@ public final class ComponentTab extends FlowPanel implements RequiresResize, Set
 	private boolean isScrolledToTheRight() {
 		return scrollPanel.getHorizontalScrollPosition()
 				== scrollPanel.getMaximumHorizontalScrollPosition();
-	}
-
-	@Override
-	public void onResize() {
-		panelContainer.removeStyleName("transition");
-		panelContainer.getElement().getStyle().setRight(selectedTabIdx * getOffsetWidth(),
-				Unit.PX);
 	}
 
 	@Override
