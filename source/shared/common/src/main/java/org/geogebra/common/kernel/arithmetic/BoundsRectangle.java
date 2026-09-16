@@ -28,7 +28,7 @@ import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
  * {@code xmin <= xmax} and {@code ymin <= ymax}).
  * </p>
  *
- * <h3>Coordinate system</h3>
+ * <h2>Coordinate system</h2>
  * The rectangle is expressed in world coordinates; its interpretation is
  * independent of screen coordinate conventions (Y-up vs. Y-down).
  *

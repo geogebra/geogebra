@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.MyPoint;
  * <p>
  * A fragment preserves the traversal order of the source contour inside the current
  * clip rectangle. Fragments may be either:
+ * </p>
  * <ul>
  *   <li><b>closed</b>: a naturally closed visible loop that remains closed after clipping</li>
  *   <li><b>open</b>: a visible contour fragment whose endpoints are not connected by any
@@ -33,7 +34,6 @@ import org.geogebra.common.kernel.MyPoint;
  * Open fragments intentionally remain open in this model; viewport-closing runs are
  * not embedded into the fragment geometry and are expected to be introduced later by
  * boundary-graph construction.
- * </p>
  *
  * <p>
  * For open fragments, {@link #start ()} and {@link #end ()} carry endpoint metadata

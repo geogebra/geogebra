@@ -65,11 +65,10 @@ import org.geogebra.common.plugin.GeoClass;
  * 
  * Class used for (3D) calculations
  * 
- * <h1>How to add a method for creating a {@link GeoElement3D}</h1>
+ * <h2>How to add a method for creating a {@link GeoElement3D}</h2>
  * 
  * <ul>
  * <li>simply call the element's constructor
- * <p>
  * <code>
    final public GeoNew3D New3D(String label, ???) { <br> &nbsp;&nbsp;
        GeoNew3D ret = new GeoNew3D(cons, ???); <br> &nbsp;&nbsp;

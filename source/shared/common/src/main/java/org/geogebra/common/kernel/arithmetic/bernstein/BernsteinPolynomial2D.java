@@ -30,7 +30,7 @@ import org.geogebra.common.kernel.arithmetic.Splittable;
  * subdivision (into quadrants), partial derivatives, and substitution.
  * </p>
  *
- * <h2>Mutability & performance</h2>
+ * <h2>Mutability and performance</h2>
  * This implementation is <strong>mutable</strong> and reuses internal caches
  * to minimize allocations in hot paths.
  *

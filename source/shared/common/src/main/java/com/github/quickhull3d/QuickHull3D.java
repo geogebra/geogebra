@@ -98,7 +98,7 @@ import java.util.Vector;
  * As a convenience, there are also {@link #build(double[]) build} and
  * {@link #getVertices(double[]) getVertex} methods which pass point information
  * using an array of doubles.
- * <h3 id=distTol>Robustness</h3> Because this algorithm uses floating
+ * <h2 id=distTol>Robustness</h2> Because this algorithm uses floating
  * point arithmetic, it is potentially vulnerable to errors arising from
  * numerical imprecision. We address this problem in the same way as <a
  * href=http://www.qhull.org>qhull</a>, by merging faces whose edges are not
