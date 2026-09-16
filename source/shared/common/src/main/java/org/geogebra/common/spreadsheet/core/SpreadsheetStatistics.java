@@ -48,6 +48,7 @@ public interface SpreadsheetStatistics {
 	 * Errors for spreadsheet statistics.
 	 */
 	enum Error {
+		INVALID_INPUT("Error.InvalidInput"),
 		NUMERIC_DATA_RANGE_REQUIRED("Statistics.Error.NumericDataRangeRequired"),
 		TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED(
 				"Statistics.Error.TwoNumericDataRangesRequired");
@@ -68,6 +69,14 @@ public interface SpreadsheetStatistics {
 	enum DataRange {
 		X,
 		Y
+	}
+
+	/**
+	 * Grouping options for frequency table.
+	 */
+	enum Grouping {
+		VALUES,
+		INTERVALS
 	}
 
 	/**
@@ -95,8 +104,9 @@ public interface SpreadsheetStatistics {
 		 * @param cellRangeX A spreadsheet cell range for variable X.
 		 * @param cellRangeY A spreadsheet cell range for variable Y.
 		 */
-		record TwoVarInput(@Nullable SpreadsheetReference cellRangeX,
-						   @Nullable SpreadsheetReference cellRangeY) implements Input {
+		record TwoVarInput(
+				@Nullable SpreadsheetReference cellRangeX, @Nullable SpreadsheetReference cellRangeY)
+				implements Input {
 			/**
 			 * Converting constructor, accepting a {@link TabularRange}.
 			 * @param range If finite (bounded in both directions), the result will be two
@@ -104,7 +114,8 @@ public interface SpreadsheetStatistics {
 			 * column, respectively.
 			 */
 			public TwoVarInput(@NonNull TabularRange range) {
-				this(SpreadsheetReference.fromRange(range.firstColumn()),
+				this(
+						SpreadsheetReference.fromRange(range.firstColumn()),
 						SpreadsheetReference.fromRange(range.secondColumn()));
 			}
 		}
@@ -116,9 +127,11 @@ public interface SpreadsheetStatistics {
 		 * @param regression The regression model. If {@code null}, the default (first) regression
 		 * model will be used for calculation.
 		 */
-		record RegressionInput(@Nullable SpreadsheetReference cellRangeX,
-							   @Nullable SpreadsheetReference cellRangeY,
-							   @Nullable RegressionSpecification regression) implements Input {
+		record RegressionInput(
+				@Nullable SpreadsheetReference cellRangeX,
+				@Nullable SpreadsheetReference cellRangeY,
+				@Nullable RegressionSpecification regression)
+				implements Input {
 			/**
 			 * Converting constructor, accepting a {@link TabularRange}.
 			 * @param range If finite (bounded in both directions), the result will be two
@@ -126,9 +139,39 @@ public interface SpreadsheetStatistics {
 			 * column, respectively.
 			 */
 			public RegressionInput(@NonNull TabularRange range) {
-				this(SpreadsheetReference.fromRange(range.firstColumn()),
+				this(
+						SpreadsheetReference.fromRange(range.firstColumn()),
 						SpreadsheetReference.fromRange(range.secondColumn()),
 						null);
+			}
+		}
+
+		/**
+		 * Frequency table input.
+		 * @param dataRange A spreadsheet cell range with the raw data.
+		 * @param classesRange A spreadsheet cell range with the class boundaries; only used when
+		 * {@code grouping} is {@link Grouping#INTERVALS}.
+		 * @param grouping Whether to group the data by value or by interval.
+		 * @param cumulative Whether to accumulate the frequencies.
+		 */
+		record FrequencyTableInput(
+				@Nullable SpreadsheetReference dataRange,
+				@Nullable SpreadsheetReference classesRange,
+				@NonNull Grouping grouping,
+				boolean cumulative)
+				implements Input {
+			/**
+			 * Converting constructor, accepting a {@link TabularRange}.
+			 * @param range If finite (bounded in both directions), the result will be two
+			 * {@link SpreadsheetReference}s truncated to {@code range}'s first (X) and second (Y)
+			 * column, respectively.
+			 */
+			public FrequencyTableInput(@NonNull TabularRange range) {
+				this(
+						SpreadsheetReference.fromRange(range.firstColumn()),
+						SpreadsheetReference.fromRange(range.secondColumn()),
+						Grouping.VALUES,
+						false);
 			}
 		}
 	}
@@ -138,18 +181,25 @@ public interface SpreadsheetStatistics {
 	 */
 	sealed interface Result {
 		/**
-		 * Valid input, calculation successful.
+		 * Valid input, calculation results in a list of groups.
 		 * @param statisticGroups calculation result
 		 */
-		record Valid(@NonNull List<StatisticGroup> statisticGroups) implements Result { }
+		record GroupList(@NonNull List<StatisticGroup> statisticGroups) implements Result {}
+
+		/**
+		 * Valid input, calculation results in a table.
+		 * @param headings column headings
+		 * @param data table contents
+		 */
+		record Tabular(@NonNull List<String> headings, @NonNull List<List<String>> data)
+				implements Result {}
 
 		/**
 		 * Invalid input, error.
 		 * @param error what went wrong
 		 * @param dataRange the range that requires user attention
 		 */
-		record Invalid(@NonNull Error error,
-					   @Nullable DataRange dataRange) implements Result { }
+		record Invalid(@NonNull Error error, @Nullable DataRange dataRange) implements Result {}
 	}
 
 	/** Delegate to handle spreadsheet reference changes in the statistics view. */
@@ -161,7 +211,8 @@ public interface SpreadsheetStatistics {
 		 * @param unfocusedReferences the valid references of the unfocused inputs, or {@code null}
 		 * to clear the statistics references
 		 */
-		void statisticsReferencesChanged(@Nullable SpreadsheetReference focusedReference,
+		void statisticsReferencesChanged(
+				@Nullable SpreadsheetReference focusedReference,
 				@Nullable List<SpreadsheetReference> unfocusedReferences);
 	}
 
@@ -171,7 +222,8 @@ public interface SpreadsheetStatistics {
 	 * @param statisticsReferenceDelegate the delegate used to handle statistics reference changes
 	 * @return a view providing auto-updating one-variable statistics
 	 */
-	SpreadsheetStatisticsView.@NonNull OneVar getOneVarStatistics(@NonNull TabularRange range,
+	SpreadsheetStatisticsView.@NonNull OneVar getOneVarStatistics(
+			@NonNull TabularRange range,
 			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate);
 
 	/**
@@ -180,7 +232,8 @@ public interface SpreadsheetStatistics {
 	 * @param statisticsReferenceDelegate the delegate used to handle statistics reference changes
 	 * @return a view providing auto-updating two-variable statistics
 	 */
-	SpreadsheetStatisticsView.@NonNull TwoVar getTwoVarStatistics(@NonNull TabularRange range,
+	SpreadsheetStatisticsView.@NonNull TwoVar getTwoVarStatistics(
+			@NonNull TabularRange range,
 			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate);
 
 	/**
@@ -189,6 +242,17 @@ public interface SpreadsheetStatistics {
 	 * @param statisticsReferenceDelegate the delegate used to handle statistics reference changes
 	 * @return a view providing auto-updating regression metrics
 	 */
-	SpreadsheetStatisticsView.@NonNull Regression getRegression(@NonNull TabularRange range,
+	SpreadsheetStatisticsView.@NonNull Regression getRegression(
+			@NonNull TabularRange range,
+			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate);
+
+	/**
+	 * Create an auto-updating view for frequency table.
+	 * @param range Range containing raw data and optionally a second column with class boundaries.
+	 * @param statisticsReferenceDelegate the delegate used to handle statistics reference changes
+	 * @return a view providing auto-updating frequency table
+	 */
+	SpreadsheetStatisticsView.@NonNull FrequencyTable getFrequencyTable(
+			@NonNull TabularRange range,
 			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate);
 }

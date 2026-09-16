@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
+import org.geogebra.common.states.State;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -52,14 +53,12 @@ public interface SpreadsheetStatisticsView<I extends SpreadsheetStatistics.Input
 	/**
 	 * One variable statistics view.
 	 */
-	interface OneVar extends SpreadsheetStatisticsView<SpreadsheetStatistics.Input.OneVarInput> {
-	}
+	interface OneVar extends SpreadsheetStatisticsView<SpreadsheetStatistics.Input.OneVarInput> {}
 
 	/**
 	 * Two variable statistics view.
 	 */
-	interface TwoVar extends SpreadsheetStatisticsView<SpreadsheetStatistics.Input.TwoVarInput> {
-	}
+	interface TwoVar extends SpreadsheetStatisticsView<SpreadsheetStatistics.Input.TwoVarInput> {}
 
 	/**
 	 * Regression statistics view.
@@ -78,6 +77,14 @@ public interface SpreadsheetStatisticsView<I extends SpreadsheetStatistics.Input
 		void plotResult();
 	}
 
+	interface FrequencyTable
+			extends SpreadsheetStatisticsView<SpreadsheetStatistics.Input.FrequencyTableInput> {
+		/**
+		 * @return observable flag indicating whether the class boundaries input should be visible
+		 */
+		State<Boolean> getClassesVisible();
+	}
+
 	/**
 	 * @return The localization key of this view's title.
 	 */
@@ -93,6 +100,16 @@ public interface SpreadsheetStatisticsView<I extends SpreadsheetStatistics.Input
 	 * @param input the current input
 	 */
 	void setInput(@NonNull I input);
+
+	/**
+	 * Updates one range in the current input.
+	 * @param reference parsed reference for the range selected in the spreadsheet
+	 * @param range identifies which range in the current input to replace
+	 * @apiNote Used by the spreadsheet controller when an input range is updated by
+	 * dragging a selection. Use {@link #setInput} for user edits.
+	 */
+	void updateInputRange(
+			@NonNull SpreadsheetReference reference, SpreadsheetStatistics.DataRange range);
 
 	/** Commits the input when the user has finished editing. */
 	void commitInput();
@@ -125,8 +142,7 @@ public interface SpreadsheetStatisticsView<I extends SpreadsheetStatistics.Input
 	 * Attach a result change listener to the view.
 	 * @param listener notified when the calculated result changes
 	 */
-	void setResultChangeListener(
-			@Nullable Consumer<SpreadsheetStatistics.@NonNull Result> listener);
+	void setResultChangeListener(@Nullable Consumer<SpreadsheetStatistics.@NonNull Result> listener);
 
 	/** Tear down the view when it is no longer used (e.g. view is replaced or the UI closes). */
 	void tearDown();

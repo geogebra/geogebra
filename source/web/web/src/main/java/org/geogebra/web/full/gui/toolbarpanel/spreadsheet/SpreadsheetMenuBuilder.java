@@ -103,8 +103,20 @@ public final class SpreadsheetMenuBuilder {
 			case DELETE_COLUMN, DELETE_ROW -> res.delete_outline();
 			case INSERT_COLUMN_LEFT -> res.add_column_left();
 			case INSERT_COLUMN_RIGHT -> res.add_column_right();
-			case SUM, SD, MIN, Q1, MEDIAN, SAMPLE_SD, MEAN, Q3, MAX, STATISTICS_ONE_VARIABLE,
-				 STATISTICS_TWO_VARIABLES, STATISTICS_REGRESSION, DIVIDER -> null;
+			case SUM,
+					SD,
+					MIN,
+					Q1,
+					MEDIAN,
+					SAMPLE_SD,
+					MEAN,
+					Q3,
+					MAX,
+					STATISTICS_ONE_VARIABLE,
+					STATISTICS_TWO_VARIABLES,
+					STATISTICS_REGRESSION,
+					STATISTICS_FREQUENCY_TABLE,
+					DIVIDER -> null;
 		};
 	}
 }

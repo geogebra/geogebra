@@ -41,10 +41,16 @@ public final class KernelTwoVarSpreadsheetStatisticsView
 	private @Nullable AlgoCellRange algoCellRangeX;
 	private @Nullable AlgoCellRange algoCellRangeY;
 
-	KernelTwoVarSpreadsheetStatisticsView(@NonNull Kernel kernel,
-			@NonNull StatisticGroupsBuilder statisticGroupsBuilder, @NonNull TabularRange range,
+	KernelTwoVarSpreadsheetStatisticsView(
+			@NonNull Kernel kernel,
+			@NonNull StatisticGroupsBuilder statisticGroupsBuilder,
+			@NonNull TabularRange range,
 			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate) {
-		super(kernel, statisticGroupsBuilder, new TwoVarInput(range), "2VariableStatistics",
+		super(
+				kernel,
+				statisticGroupsBuilder,
+				new TwoVarInput(range),
+				"2VariableStatistics",
 				statisticsReferenceDelegate);
 		recalculate();
 	}
@@ -61,7 +67,8 @@ public final class KernelTwoVarSpreadsheetStatisticsView
 		}
 		SpreadsheetReference inputRangeY = input.cellRangeY();
 
-		if (inputRangeY == null || inputRangeY.isSingleCell()
+		if (inputRangeY == null
+				|| inputRangeY.isSingleCell()
 				|| inputRangeX.cellCount() != inputRangeY.cellCount()) {
 			return newInvalidResult(
 					SpreadsheetStatistics.Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED,
@@ -77,21 +84,20 @@ public final class KernelTwoVarSpreadsheetStatisticsView
 
 		GeoList[] cleanedLists = statisticGroupsBuilder.getCleanListsTwoVariable(listX, listY);
 		if (cleanedLists.length < 2
-				|| cleanedLists[0].isEmptyList() || cleanedLists[1].isEmptyList()
+				|| cleanedLists[0].isEmptyList()
+				|| cleanedLists[1].isEmptyList()
 				|| cleanedLists[0].size() != cleanedLists[1].size()) {
 			return newInvalidResult(
-					SpreadsheetStatistics.Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED,
-					null);
+					SpreadsheetStatistics.Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED, null);
 		}
 		List<StatisticGroup> statistics = statisticGroupsBuilder.buildTwoVariableStatistics(
 				cleanedLists[0], "x",
 				cleanedLists[1], "y");
 		if (statistics.isEmpty()) {
 			return newInvalidResult(
-					SpreadsheetStatistics.Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED,
-					null);
+					SpreadsheetStatistics.Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED, null);
 		}
-		return new SpreadsheetStatistics.Result.Valid(statistics);
+		return new Result.GroupList(statistics);
 	}
 
 	@Override
@@ -100,6 +106,15 @@ public final class KernelTwoVarSpreadsheetStatisticsView
 		SpreadsheetReference cellRangeY = getInput().cellRangeY();
 		return cellRangeX != null && isElementInRange(element, cellRangeX)
 				|| cellRangeY != null && isElementInRange(element, cellRangeY);
+	}
+
+	@Override
+	public void updateInputRange(
+			@NonNull SpreadsheetReference reference, SpreadsheetStatistics.DataRange range) {
+		setInput(
+				range == SpreadsheetStatistics.DataRange.X
+						? new TwoVarInput(reference, getInput().cellRangeY())
+						: new TwoVarInput(getInput().cellRangeX(), reference));
 	}
 
 	@Override

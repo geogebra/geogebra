@@ -50,15 +50,20 @@ public final class KernelSpreadsheetRegressionView
 	private final @NonNull List<RegressionSpecification> regressionSpecifications;
 	private RegressionSpecification regressionSpecification;
 
-	KernelSpreadsheetRegressionView(@NonNull Kernel kernel,
+	KernelSpreadsheetRegressionView(
+			@NonNull Kernel kernel,
 			@NonNull StatisticGroupsBuilder statisticGroupsBuilder,
 			@NonNull RegressionSpecificationBuilder regressionSpecificationBuilder,
 			@NonNull TabularRange range,
 			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate) {
-		super(kernel, statisticGroupsBuilder, new RegressionInput(range), "Regression",
+		super(
+				kernel,
+				statisticGroupsBuilder,
+				new RegressionInput(range),
+				"Regression",
 				statisticsReferenceDelegate);
-		this.regressionSpecifications = regressionSpecificationBuilder
-				.getForListSize(Integer.MAX_VALUE);
+		this.regressionSpecifications =
+				regressionSpecificationBuilder.getForListSize(Integer.MAX_VALUE);
 		recalculate();
 	}
 
@@ -88,11 +93,11 @@ public final class KernelSpreadsheetRegressionView
 
 		GeoList[] cleanedLists = statisticGroupsBuilder.getCleanListsTwoVariable(listX, listY);
 		if (cleanedLists.length < 2
-				|| cleanedLists[0].isEmptyList() || cleanedLists[1].isEmptyList()
+				|| cleanedLists[0].isEmptyList()
+				|| cleanedLists[1].isEmptyList()
 				|| cleanedLists[0].size() != cleanedLists[1].size()) {
 			return newInvalidResult(
-					SpreadsheetStatistics.Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED,
-					null);
+					SpreadsheetStatistics.Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED, null);
 		}
 		regressionSpecification = input.regression();
 		if (regressionSpecification == null) {
@@ -102,12 +107,11 @@ public final class KernelSpreadsheetRegressionView
 				.getRegression(regressionSpecification);
 		if (statistics.isEmpty()) {
 			return newInvalidResult(
-					SpreadsheetStatistics.Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED,
-					null);
+					SpreadsheetStatistics.Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED, null);
 		}
-		return new SpreadsheetStatistics.Result.Valid(statistics);
+		return new Result.GroupList(statistics);
 	}
-	
+
 	@Override
 	protected boolean isWithinAlgoRange(@NonNull GeoElement element) {
 		SpreadsheetReference cellRangeX = getInput().cellRangeX();
@@ -119,6 +123,15 @@ public final class KernelSpreadsheetRegressionView
 	@Override
 	public @NonNull List<RegressionSpecification> getRegressionSpecifications() {
 		return regressionSpecifications;
+	}
+
+	@Override
+	public void updateInputRange(
+			@NonNull SpreadsheetReference reference, SpreadsheetStatistics.DataRange range) {
+		setInput(
+				range == SpreadsheetStatistics.DataRange.X
+						? new RegressionInput(reference, getInput().cellRangeY(), getInput().regression())
+						: new RegressionInput(getInput().cellRangeX(), reference, getInput().regression()));
 	}
 
 	@Override
@@ -157,10 +170,9 @@ public final class KernelSpreadsheetRegressionView
 	public void plotResult() {
 		getResult(); // ensure result calculated
 		if (regressionSpecification != null && algoCellRangeX != null && algoCellRangeY != null) {
-			Command command = regressionSpecification.buildCommand(kernel,
-					new MyVecNode(kernel, algoCellRangeX.getList(), algoCellRangeY.getList()));
-			EvalInfo info = new EvalInfo(true, true)
-					.withSymbolicMode(kernel.getSymbolicMode());
+			Command command = regressionSpecification.buildCommand(
+					kernel, new MyVecNode(kernel, algoCellRangeX.getList(), algoCellRangeY.getList()));
+			EvalInfo info = new EvalInfo(true, true).withSymbolicMode(kernel.getSymbolicMode());
 			try {
 				kernel.getAlgebraProcessor().processValidExpression(command, info);
 				kernel.getApplication().storeUndoInfo();

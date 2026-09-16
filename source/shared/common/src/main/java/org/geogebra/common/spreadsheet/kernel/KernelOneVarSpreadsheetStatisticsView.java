@@ -40,10 +40,16 @@ public final class KernelOneVarSpreadsheetStatisticsView
 
 	private @Nullable AlgoCellRange algoCellRange;
 
-	KernelOneVarSpreadsheetStatisticsView(@NonNull Kernel kernel,
-			@NonNull StatisticGroupsBuilder statisticGroupsBuilder, @NonNull TabularRange range,
+	KernelOneVarSpreadsheetStatisticsView(
+			@NonNull Kernel kernel,
+			@NonNull StatisticGroupsBuilder statisticGroupsBuilder,
+			@NonNull TabularRange range,
 			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate) {
-		super(kernel, statisticGroupsBuilder, new OneVarInput(range), "1VariableStatistics",
+		super(
+				kernel,
+				statisticGroupsBuilder,
+				new OneVarInput(range),
+				"1VariableStatistics",
 				statisticsReferenceDelegate);
 		recalculate();
 	}
@@ -64,22 +70,26 @@ public final class KernelOneVarSpreadsheetStatisticsView
 
 		GeoList cleanedList = statisticGroupsBuilder.getCleanListOneVariable(list);
 		if (cleanedList.isEmptyList()) {
-			return newInvalidResult(
-					SpreadsheetStatistics.Error.NUMERIC_DATA_RANGE_REQUIRED, null);
+			return newInvalidResult(SpreadsheetStatistics.Error.NUMERIC_DATA_RANGE_REQUIRED, null);
 		}
-		List<StatisticGroup> statistics = statisticGroupsBuilder.buildOneVariableStatistics(
-				cleanedList, "x");
+		List<StatisticGroup> statistics =
+				statisticGroupsBuilder.buildOneVariableStatistics(cleanedList, "x");
 		if (statistics.isEmpty()) {
-			return newInvalidResult(
-					SpreadsheetStatistics.Error.NUMERIC_DATA_RANGE_REQUIRED, null);
+			return newInvalidResult(SpreadsheetStatistics.Error.NUMERIC_DATA_RANGE_REQUIRED, null);
 		}
-		return new SpreadsheetStatistics.Result.Valid(statistics);
+		return new Result.GroupList(statistics);
 	}
 
 	@Override
 	protected boolean isWithinAlgoRange(@NonNull GeoElement element) {
 		SpreadsheetReference cellRange = getInput().cellRange();
 		return cellRange != null && isElementInRange(element, cellRange);
+	}
+
+	@Override
+	public void updateInputRange(
+			@NonNull SpreadsheetReference reference, SpreadsheetStatistics.DataRange range) {
+		setInput(new OneVarInput(reference));
 	}
 
 	@Override

@@ -47,7 +47,7 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 
 	private final @NonNull String titleLocalizationKey;
 	protected final @NonNull Kernel kernel;
-	protected final @NonNull StatisticGroupsBuilder statisticGroupsBuilder;
+	protected final @Nullable StatisticGroupsBuilder statisticGroupsBuilder;
 	private @NonNull I input;
 	private SpreadsheetStatistics.@Nullable DataRange focusedDataRange;
 	private SpreadsheetStatistics.@Nullable Result result;
@@ -55,8 +55,10 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 	private @Nullable Consumer<SpreadsheetStatistics.@NonNull Result> resultChangeListener;
 	private @Nullable StatisticsReferenceDelegate statisticsReferenceDelegate;
 
-	protected KernelSpreadsheetStatisticsView(@NonNull Kernel kernel,
-			@NonNull StatisticGroupsBuilder statisticGroupsBuilder, @NonNull I input,
+	protected KernelSpreadsheetStatisticsView(
+			@NonNull Kernel kernel,
+			@Nullable StatisticGroupsBuilder statisticGroupsBuilder,
+			@NonNull I input,
 			@NonNull String titleLocalizationKey,
 			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate) {
 		this.kernel = kernel;
@@ -82,21 +84,20 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 	 */
 	protected abstract SpreadsheetStatistics.@NonNull Result calculate(@NonNull I input);
 
-	protected final @NonNull AlgoCellRange setCellRange(@NonNull SpreadsheetReference cellRange,
-			@Nullable AlgoCellRange algo) {
+	protected final @NonNull AlgoCellRange setCellRange(
+			@NonNull SpreadsheetReference cellRange, @Nullable AlgoCellRange algo) {
 		SpreadsheetCellReference fromCell = cellRange.fromCell;
 		SpreadsheetCellReference toCell = cellRange.toCell == null ? fromCell : cellRange.toCell;
 		if (algo == null) {
-			return new AlgoCellRange(kernel.getConstruction(),
-					fromCell.toString(), toCell.toString());
+			return new AlgoCellRange(kernel.getConstruction(), fromCell.toString(), toCell.toString());
 		}
-		algo.setRange(new TabularRange(fromCell.rowIndex, fromCell.columnIndex,
-				toCell.rowIndex, toCell.columnIndex));
+		algo.setRange(new TabularRange(
+				fromCell.rowIndex, fromCell.columnIndex, toCell.rowIndex, toCell.columnIndex));
 		return algo;
 	}
 
-	protected final boolean isElementInRange(@NonNull GeoElement element,
-			@NonNull SpreadsheetReference cellRange) {
+	protected final boolean isElementInRange(
+			@NonNull GeoElement element, @NonNull SpreadsheetReference cellRange) {
 		SpreadsheetCoords coords = element.getSpreadsheetCoords();
 		if (coords == null) {
 			return false;
@@ -107,8 +108,10 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 		int maxCol = Math.max(fromCell.columnIndex, toCell.columnIndex);
 		int minRow = Math.min(fromCell.rowIndex, toCell.rowIndex);
 		int maxRow = Math.max(fromCell.rowIndex, toCell.rowIndex);
-		return coords.row >= minRow && coords.row <= maxRow
-				&& coords.column >= minCol && coords.column <= maxCol;
+		return coords.row >= minRow
+				&& coords.row <= maxRow
+				&& coords.column >= minCol
+				&& coords.column <= maxCol;
 	}
 
 	protected final void recalculate() {
@@ -128,10 +131,17 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 			publishStatisticsReferences(twoVarInput.cellRangeX(), twoVarInput.cellRangeY());
 		} else if (input instanceof SpreadsheetStatistics.Input.RegressionInput regressionInput) {
 			publishStatisticsReferences(regressionInput.cellRangeX(), regressionInput.cellRangeY());
+		} else if (input instanceof SpreadsheetStatistics.Input.FrequencyTableInput tableInput) {
+			publishStatisticsReferences(
+					tableInput.dataRange(),
+					tableInput.grouping() == SpreadsheetStatistics.Grouping.INTERVALS
+							? tableInput.classesRange()
+							: null);
 		}
 	}
 
-	private void publishStatisticsReferences(@Nullable SpreadsheetReference statisticsReferenceX,
+	private void publishStatisticsReferences(
+			@Nullable SpreadsheetReference statisticsReferenceX,
 			@Nullable SpreadsheetReference statisticsReferenceY) {
 		List<SpreadsheetReference> unfocusedStatisticsReferences = new ArrayList<>(1);
 		SpreadsheetReference focusedStatisticsReference = null;
@@ -163,8 +173,7 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 	}
 
 	protected SpreadsheetStatistics.Result.Invalid newInvalidResult(
-			SpreadsheetStatistics.@NonNull Error error,
-			SpreadsheetStatistics.@Nullable DataRange range) {
+			SpreadsheetStatistics.@NonNull Error error, SpreadsheetStatistics.@Nullable DataRange range) {
 		// Only focus user attention to the data range, if this is the first result.
 		return new SpreadsheetStatistics.Result.Invalid(error, result == null ? range : null);
 	}

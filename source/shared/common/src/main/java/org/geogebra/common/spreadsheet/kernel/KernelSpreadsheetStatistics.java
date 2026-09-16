@@ -48,23 +48,34 @@ public final class KernelSpreadsheetStatistics implements SpreadsheetStatistics 
 	public SpreadsheetStatisticsView.@NonNull OneVar getOneVarStatistics(
 			@NonNull TabularRange range,
 			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate) {
-		return new KernelOneVarSpreadsheetStatisticsView(kernel, statisticGroupsBuilder, range,
-				statisticsReferenceDelegate);
+		return new KernelOneVarSpreadsheetStatisticsView(
+				kernel, statisticGroupsBuilder, range, statisticsReferenceDelegate);
 	}
 
 	@Override
 	public SpreadsheetStatisticsView.@NonNull TwoVar getTwoVarStatistics(
 			@NonNull TabularRange range,
 			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate) {
-		return new KernelTwoVarSpreadsheetStatisticsView(kernel, statisticGroupsBuilder, range,
-				statisticsReferenceDelegate);
+		return new KernelTwoVarSpreadsheetStatisticsView(
+				kernel, statisticGroupsBuilder, range, statisticsReferenceDelegate);
 	}
 
 	@Override
 	public SpreadsheetStatisticsView.@NonNull Regression getRegression(
 			@NonNull TabularRange range,
 			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate) {
-		return new KernelSpreadsheetRegressionView(kernel, statisticGroupsBuilder,
-				regressionSpecificationBuilder, range, statisticsReferenceDelegate);
+		return new KernelSpreadsheetRegressionView(
+				kernel,
+				statisticGroupsBuilder,
+				regressionSpecificationBuilder,
+				range,
+				statisticsReferenceDelegate);
+	}
+
+	@Override
+	public SpreadsheetStatisticsView.@NonNull FrequencyTable getFrequencyTable(
+			@NonNull TabularRange range,
+			@NonNull StatisticsReferenceDelegate statisticsReferenceDelegate) {
+		return new KernelSpreadsheetFrequencyTable(kernel, range, statisticsReferenceDelegate);
 	}
 }

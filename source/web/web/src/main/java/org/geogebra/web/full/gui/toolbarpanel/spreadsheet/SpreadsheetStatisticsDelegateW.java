@@ -19,14 +19,19 @@ package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetReference;
 import org.geogebra.common.spreadsheet.core.SpreadsheetReferenceParsing;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics;
+import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.Grouping;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics.Result;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatisticsView;
+import org.geogebra.common.states.State;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.components.sideSheet.ComponentSideSheet;
@@ -38,6 +43,8 @@ import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Grid;
+import org.gwtproject.user.client.ui.Label;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -49,6 +56,7 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 	private final FlowPanel outputPanel;
 	private ComponentInputField xRange;
 	private @Nullable ComponentInputField yRange;
+	private State.@Nullable Subscription visibilityCheck;
 
 	/**
 	 * @param app application
@@ -64,12 +72,17 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 	@Override
 	public void statisticsViewChanged() {
 		SpreadsheetStatisticsView<?> statisticsView = spreadsheet.getStatisticsView();
+		if (visibilityCheck != null) {
+			visibilityCheck.cancel();
+		}
 		if (statisticsView instanceof SpreadsheetStatisticsView.OneVar oneVarStatistics) {
 			showOneVarStatistics(oneVarStatistics);
 		} else if (statisticsView instanceof SpreadsheetStatisticsView.TwoVar twoVarStatistics) {
 			showTwoVarStatistics(twoVarStatistics);
 		} else if (statisticsView instanceof SpreadsheetStatisticsView.Regression regression) {
 			showRegression(regression);
+		} else if (statisticsView instanceof SpreadsheetStatisticsView.FrequencyTable table) {
+			showTable(table);
 		} else if (sideSheet != null) {
 			sideSheet.close();
 			sideSheet = null;
@@ -79,37 +92,41 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 	private void showOneVarStatistics(SpreadsheetStatisticsView.@NonNull OneVar statisticsView) {
 		inputPanel.clear();
 		xRange = new ComponentInputField(
-				app, null, "Statistics.DataRange", null,
+				app,
+				null,
+				"Statistics.DataRange",
+				null,
 				rangeToString(statisticsView.getInput().cellRange()));
 		inputPanel.add(xRange);
-		ProcessInput update = () -> statisticsView.setInput(
-				new SpreadsheetStatistics.Input.OneVarInput(
-						SpreadsheetReferenceParsing.parseReference(xRange.getText())
-		));
+		ProcessInput update = () -> statisticsView.setInput(new SpreadsheetStatistics.Input.OneVarInput(
+				SpreadsheetReferenceParsing.parseReference(xRange.getText())));
 		yRange = null;
 		xRange.addInputHandler(update);
 		addEnterHandlers(statisticsView);
-		statisticsView.setInputChangeListener(input ->
-				updateRangeInput(xRange, input.cellRange()));
+		statisticsView.setInputChangeListener(input -> updateRangeInput(xRange, input.cellRange()));
 		showSideSheet(statisticsView, null);
 	}
 
 	private void showTwoVarStatistics(SpreadsheetStatisticsView.@NonNull TwoVar twoVarStatistics) {
 		inputPanel.clear();
 		xRange = new ComponentInputField(
-				app, null, "Statistics.XDataRange", null,
+				app,
+				null,
+				"Statistics.XDataRange",
+				null,
 				rangeToString(twoVarStatistics.getInput().cellRangeX()));
 		inputPanel.add(xRange);
 		yRange = new ComponentInputField(
-				app, null, "Statistics.YDataRange", null,
+				app,
+				null,
+				"Statistics.YDataRange",
+				null,
 				rangeToString(twoVarStatistics.getInput().cellRangeY()));
 		inputPanel.add(yRange);
-		ProcessInput update = () -> twoVarStatistics.setInput(
-				new SpreadsheetStatistics.Input.TwoVarInput(
+		ProcessInput update =
+				() -> twoVarStatistics.setInput(new SpreadsheetStatistics.Input.TwoVarInput(
 						SpreadsheetReferenceParsing.parseReference(xRange.getText()),
-						SpreadsheetReferenceParsing.parseReference(yRange.getText())
-				)
-		);
+						SpreadsheetReferenceParsing.parseReference(yRange.getText())));
 		xRange.addInputHandler(update);
 		yRange.addInputHandler(update);
 		addEnterHandlers(twoVarStatistics);
@@ -123,27 +140,30 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 	private void showRegression(SpreadsheetStatisticsView.@NonNull Regression regression) {
 		inputPanel.clear();
 		xRange = new ComponentInputField(
-				app, null, "Statistics.XDataRange", null,
+				app,
+				null,
+				"Statistics.XDataRange",
+				null,
 				rangeToString(regression.getInput().cellRangeX()));
 		inputPanel.add(xRange);
 		yRange = new ComponentInputField(
-				app, null, "Statistics.YDataRange", null,
+				app,
+				null,
+				"Statistics.YDataRange",
+				null,
 				rangeToString(regression.getInput().cellRangeY()));
 		inputPanel.add(yRange);
 		List<RegressionSpecification> specs = regression.getRegressionSpecifications();
 		List<String> items = new ArrayList<>();
 		specs.forEach(spec -> items.add(app.getLocalization().getMenu(spec.getLabel())));
 
-		ComponentDropDown regressionChooser = new ComponentDropDown(app,
-				app.getLocalization().getMenu("RegressionModel"), items, 0);
+		ComponentDropDown regressionChooser =
+				new ComponentDropDown(app, app.getLocalization().getMenu("RegressionModel"), items, 0);
 		regressionChooser.setFullWidth(true);
-		ProcessInput update = () -> regression.setInput(
-				new SpreadsheetStatistics.Input.RegressionInput(
-						SpreadsheetReferenceParsing.parseReference(xRange.getText()),
-						SpreadsheetReferenceParsing.parseReference(yRange.getText()),
-						specs.get(regressionChooser.getSelectedIndex()
-				)
-		));
+		ProcessInput update = () -> regression.setInput(new SpreadsheetStatistics.Input.RegressionInput(
+				SpreadsheetReferenceParsing.parseReference(xRange.getText()),
+				SpreadsheetReferenceParsing.parseReference(yRange.getText()),
+				specs.get(regressionChooser.getSelectedIndex())));
 		regressionChooser.addChangeHandler(() -> {
 			update.onInput();
 			commit(regression);
@@ -160,14 +180,65 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 		sideSheet.addPositiveButtonRunnable(regression::plotResult);
 	}
 
+	private void showTable(SpreadsheetStatisticsView.@NonNull FrequencyTable frequencyTable) {
+		inputPanel.clear();
+		xRange = new ComponentInputField(
+				app, null, "Data", null, rangeToString(frequencyTable.getInput().dataRange()));
+		yRange = new ComponentInputField(
+				app,
+				null,
+				"ClassBoundaries",
+				null,
+				rangeToString(frequencyTable.getInput().classesRange()));
+		Localization loc = app.getLocalization();
+		List<String> items = List.of(loc.getMenu("Values"), loc.getMenu("Intervals"));
+
+		ComponentDropDown groupingChooser = new ComponentDropDown(app, "GroupBy", items, 0);
+
+		groupingChooser.setFullWidth(true);
+		Consumer<Boolean> updateWithCumulative =
+				(flag) -> frequencyTable.setInput(new SpreadsheetStatistics.Input.FrequencyTableInput(
+						SpreadsheetReferenceParsing.parseReference(xRange.getText()),
+						SpreadsheetReferenceParsing.parseReference(yRange.getText()),
+						Grouping.values()[groupingChooser.getSelectedIndex()],
+						flag));
+		ComponentCheckbox cumulative =
+				new ComponentCheckbox(app.getLocalization(), false, "Cumulative", (checked) -> {
+					updateWithCumulative.accept(checked);
+					commit(frequencyTable);
+				});
+		ProcessInput update = () -> updateWithCumulative.accept(cumulative.isSelected());
+		groupingChooser.addChangeHandler(() -> {
+			yRange.setError(null);
+			update.onInput();
+			frequencyTable.commitInput();
+			updateErrorsAndFocus(frequencyTable);
+			fillContent(frequencyTable.getResult());
+		});
+		xRange.addInputHandler(update);
+		yRange.addInputHandler(update);
+		addEnterHandlers(frequencyTable);
+		frequencyTable.setInputChangeListener(input -> {
+			updateRangeInput(xRange, input.dataRange());
+			updateRangeInput(yRange, input.classesRange());
+		});
+		yRange.setVisible(frequencyTable.getClassesVisible().get());
+		visibilityCheck = frequencyTable.getClassesVisible().subscribe(yRange::setVisible);
+		inputPanel.add(groupingChooser);
+		inputPanel.add(xRange);
+		inputPanel.add(yRange);
+		inputPanel.add(cumulative);
+		showSideSheet(frequencyTable, null);
+	}
+
 	private void addEnterHandlers(SpreadsheetStatisticsView<?> view) {
-		for (ComponentInputField inputField: Arrays.asList(xRange, yRange)) {
+		for (ComponentInputField inputField : Arrays.asList(xRange, yRange)) {
 			if (inputField != null) {
 				inputField.addEnterHandler(ignore -> commit(view), true);
 				inputField.addFocusHandler(ignore -> view.setFocusedDataRange(
-						inputField == xRange ? SpreadsheetStatistics.DataRange.X
-								: SpreadsheetStatistics.DataRange.Y
-				));
+						inputField == xRange
+								? SpreadsheetStatistics.DataRange.X
+								: SpreadsheetStatistics.DataRange.Y));
 				inputField.addBlurHandler(ignore -> view.setFocusedDataRange(null));
 			}
 		}
@@ -180,16 +251,16 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 	}
 
 	private void validateInputs() {
-		for (ComponentInputField inputField: Arrays.asList(xRange, yRange)) {
+		for (ComponentInputField inputField : Arrays.asList(xRange, yRange)) {
 			if (inputField != null) {
-					SpreadsheetReference parsed = SpreadsheetReferenceParsing.parseReference(
-							inputField.getText());
-					String message = isValidStatisticReference(parsed)
-							? null
-							: app.getLocalization().getMenu("Statistics.Error.EnterValidRange");
-					inputField.setError(message);
-				}
+				SpreadsheetReference parsed =
+						SpreadsheetReferenceParsing.parseReference(inputField.getText());
+				String message = isValidStatisticReference(parsed)
+						? null
+						: app.getLocalization().getMenu("Statistics.Error.EnterValidRange");
+				inputField.setError(message);
 			}
+		}
 	}
 
 	private static boolean isValidStatisticReference(SpreadsheetReference parsed) {
@@ -197,12 +268,11 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 	}
 
 	private ComponentInputField getFirstInvalidRange(Result.Invalid invalid) {
-		return invalid.dataRange() == SpreadsheetStatistics.DataRange.Y
-				? yRange : xRange;
+		return invalid.dataRange() == SpreadsheetStatistics.DataRange.Y ? yRange : xRange;
 	}
 
-	private void showSideSheet(SpreadsheetStatisticsView<?> statisticsView,
-			String positiveButtonKey) {
+	private void showSideSheet(
+			SpreadsheetStatisticsView<?> statisticsView, String positiveButtonKey) {
 		String titleKey = statisticsView.getTitleLocalizationKey();
 		SideSheetData data = new SideSheetData(titleKey, null, positiveButtonKey);
 		if (sideSheet == null) {
@@ -220,6 +290,12 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 		sideSheet.addToContent(inputPanel);
 		sideSheet.addToContent(outputPanel);
 		fillContent(statisticsView.getResult());
+		updateErrorsAndFocus(statisticsView);
+		statisticsView.setResultChangeListener(this::fillContent);
+		Scheduler.get().scheduleDeferred(sideSheet::show);
+	}
+
+	private void updateErrorsAndFocus(SpreadsheetStatisticsView<?> statisticsView) {
 		if (statisticsView.getResult() instanceof Result.Invalid invalid) {
 			ComponentInputField firstInvalidRange = getFirstInvalidRange(invalid);
 			if (firstInvalidRange != null) {
@@ -227,25 +303,46 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 			} else {
 				validateInputs();
 			}
+		} else {
+			validateInputs();
 		}
-		statisticsView.setResultChangeListener(this::fillContent);
-		Scheduler.get().scheduleDeferred(sideSheet::show);
 	}
 
 	private void fillContent(Result result) {
 		outputPanel.clear();
-		if (result instanceof Result.Valid valid) {
+		if (result instanceof Result.GroupList valid) {
 			StatsSideSheetTV.renderGroups(valid.statisticGroups(), app, outputPanel);
+		} else if (result instanceof Result.Tabular tabular) {
+			renderTabular(tabular.headings(), tabular.data(), outputPanel);
 		} else if (result instanceof Result.Invalid invalid) {
-			outputPanel.add(new ComponentInfoErrorPanel(app.getLocalization(),
-					new InfoErrorData("Error.InvalidInput",
-							invalid.error().localizationKey), null));
+			outputPanel.add(new ComponentInfoErrorPanel(
+					app.getLocalization(),
+					new InfoErrorData("Error.InvalidInput", invalid.error().localizationKey),
+					null));
 		}
 	}
 
-	private void updateRangeInput(@Nullable ComponentInputField inputField,
-			@Nullable SpreadsheetReference reference) {
-		if (inputField != null && reference != null
+	private void renderTabular(
+			List<String> headings, @NonNull List<List<String>> rows, FlowPanel outputPanel) {
+		Grid resultGrid = new Grid(rows.size() + 1, headings.size());
+		resultGrid.addStyleName("inspectorTable"); // TODO(APPS-7872)
+		for (int col = 0; col < headings.size(); col++) {
+			resultGrid.setWidget(0, col, new Label(headings.get(col)));
+		}
+		int rowIdx = 1;
+		for (List<String> row : rows) {
+			for (int col = 0; col < row.size(); col++) {
+				resultGrid.setWidget(rowIdx, col, new Label(row.get(col)));
+			}
+			rowIdx++;
+		}
+		outputPanel.add(resultGrid);
+	}
+
+	private void updateRangeInput(
+			@Nullable ComponentInputField inputField, @Nullable SpreadsheetReference reference) {
+		if (inputField != null
+				&& reference != null
 				&& !reference.toString().equals(inputField.getText())) {
 			inputField.setInputText(reference.toString());
 		}

@@ -28,6 +28,7 @@ import org.geogebra.common.util.MulticastEvent;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextFormat;
 import org.geogebra.common.util.TextObject;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.web.full.gui.dialog.ProcessInput;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
@@ -588,6 +589,9 @@ public class ComponentInputField extends FlowPanel
 	public void setError(String message) {
 		this.errorTextKey = message;
 		addErrorLabel(contentPanel);
+		if (!StringUtil.empty(message)) {
+			Log.warn(message);
+		}
 		Dom.toggleClass(this.contentPanel, "error", !StringUtil.empty(message));
 	}
 
