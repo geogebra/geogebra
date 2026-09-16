@@ -83,7 +83,16 @@ abstract class AndroidSdkPlugin : Plugin<Project> {
     }
 
     private fun Project.installAndroidSdk(android: AndroidSdkExtension) {
-        logger.warn("Installing Android SDK...")
+        val expectedPackages = android.packages.get().sorted().toString()
+        val installedPackages = layout.buildDirectory.get().file("android-packages.txt").asFile
+        if (installedPackages.exists()) {
+            val content = installedPackages.readText().trim()
+            if (content == expectedPackages) {
+                logger.info("Packages already installed: $expectedPackages")
+                return
+            }
+        }
+        logger.warn("Installing Android SDK")
         val launcher = javaToolchainService.launcherFor {
             languageVersion = JavaLanguageVersion.of(17)
         }
@@ -106,6 +115,8 @@ abstract class AndroidSdkPlugin : Plugin<Project> {
             standardOutput = OutputStream.nullOutputStream()
             errorOutput = OutputStream.nullOutputStream()
         }
+        installedPackages.parentFile.mkdirs()
+        installedPackages.writeText(expectedPackages)
         logger.warn("Done")
     }
 

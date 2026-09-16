@@ -5,9 +5,8 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
-import org.gradle.kotlin.dsl.listProperty
-import org.gradle.kotlin.dsl.property
 import org.gradle.process.ExecOperations
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
@@ -31,12 +30,29 @@ abstract class CreateKeychain : DefaultTask() {
     @get:Input
     abstract val allowedApplications: ListProperty<String>
 
+    @Internal
+    var warnings: ArrayList<String> = arrayListOf()
+
     init {
         allowedApplications.addAll("/usr/bin/codesign", "/usr/bin/productbuild")
     }
 
     fun cert(path: String, password: String) {
         certificates.add(CertificateImport(path, password))
+    }
+
+    fun certFromProperties(pathProperty: String, passwordProperty: String) {
+        if (!project.hasProperty(pathProperty)) {
+            warnings.add("Certificate not configured, path property $pathProperty missing")
+            return
+        }
+        if (!project.hasProperty(passwordProperty)) {
+            warnings.add("Certificate not configured, password property $passwordProperty missing")
+            return
+        }
+        certificates.add(CertificateImport(
+            project.property(pathProperty).toString(), project.property(passwordProperty).toString()
+        ))
     }
 
     fun app(path: String) {
@@ -53,6 +69,7 @@ abstract class CreateKeychain : DefaultTask() {
 
     @TaskAction
     fun createKeychain() {
+        warnings.forEach { logger.quiet(it) }
         val name = keychainName.get()
         val password = keychainPassword.get()
         val certs = certificates.get()
