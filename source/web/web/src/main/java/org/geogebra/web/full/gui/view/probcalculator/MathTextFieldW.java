@@ -29,8 +29,8 @@ import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.gwtproject.dom.style.shared.Unit;
 
-public final class MathTextFieldW extends MathFieldEditor implements
-		MathFieldListener, ErrorHandler {
+public final class MathTextFieldW extends MathFieldEditor
+		implements MathFieldListener, ErrorHandler {
 	private final ArrayList<JsRunnable> inputHandlers = new ArrayList<>();
 	private final ArrayList<JsConsumer<Boolean>> changeHandlers = new ArrayList<>();
 	private boolean tabEnabled = true;
@@ -67,7 +67,7 @@ public final class MathTextFieldW extends MathFieldEditor implements
 	}
 
 	private void notifyListeners(boolean isEnter) {
-		for (JsConsumer<Boolean> listener: changeHandlers) {
+		for (JsConsumer<Boolean> listener : changeHandlers) {
 			listener.accept(isEnter);
 		}
 	}
@@ -75,7 +75,7 @@ public final class MathTextFieldW extends MathFieldEditor implements
 	@Override
 	public void onKeyTyped(String key) {
 		scrollCursorVisibleHorizontally();
-		for (JsRunnable listener: inputHandlers) {
+		for (JsRunnable listener : inputHandlers) {
 			listener.run();
 		}
 	}
@@ -108,6 +108,9 @@ public final class MathTextFieldW extends MathFieldEditor implements
 		asWidget().getElement().getStyle().setWidth(width, Unit.PX);
 	}
 
+	/**
+	 * @return The text content of the math field.
+	 */
 	public String getText() {
 		return getMathField().getText();
 	}

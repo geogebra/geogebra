@@ -143,8 +143,12 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @param listener
 	 *            listener for special events
 	 */
-	public MathFieldW(SyntaxAdapter converter, Panel parent, Canvas canvas,
-					  MathFieldListener listener, EditorFeatures features) {
+	public MathFieldW(
+			SyntaxAdapter converter,
+			Panel parent,
+			Canvas canvas,
+			MathFieldListener listener,
+			EditorFeatures features) {
 		this(converter, parent, canvas, listener, sTemplateCatalog, features);
 	}
 
@@ -161,8 +165,12 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @param catalog
 	 *            catalog
 	 */
-	public MathFieldW(SyntaxAdapter converter, Panel parent, Canvas canvas,
-			MathFieldListener listener, TemplateCatalog catalog,
+	public MathFieldW(
+			SyntaxAdapter converter,
+			Panel parent,
+			Canvas canvas,
+			MathFieldListener listener,
+			TemplateCatalog catalog,
 			EditorFeatures features) {
 		this.catalog = catalog;
 		FactoryProviderGWT.ensureLoaded();
@@ -186,19 +194,20 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		initTimer();
 		instances.add(this);
 		if (canvas != null) {
-			canvas.addDomHandler(event -> {
-				if (!isEnabled()) {
-					return;
-				}
-				event.stopPropagation();
-				// prevent default to keep focus; also avoid dragging the whole
-				// editor
-				event.preventDefault();
-				setFocus(true);
-				setRightAltDown(false);
-				setLeftAltDown(false);
-
-			}, MouseDownEvent.getType());
+			canvas.addDomHandler(
+					event -> {
+						if (!isEnabled()) {
+							return;
+						}
+						event.stopPropagation();
+						// prevent default to keep focus; also avoid dragging the whole
+						// editor
+						event.preventDefault();
+						setFocus(true);
+						setRightAltDown(false);
+						setLeftAltDown(false);
+					},
+					MouseDownEvent.getType());
 
 			setKeyListener(inputTextArea, keyListener);
 			canvas.addAttachHandler(event -> {
@@ -287,7 +296,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			};
 			tick.scheduleRepeating(500);
 		}
-
 	}
 
 	/**
@@ -368,99 +376,106 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		this.keyListener = keyListener;
 	}
 
-	private void setKeyListener(final Widget html2,
-			final KeyListener keyListener) {
-		html2.addDomHandler(event -> {
-			// don't kill Ctrl+V or write V
-			if (controlDown(event)
-					&& (event.getCharCode() == 'v'
-							|| event.getCharCode() == 'V')
-					|| isLeftAltDown()) {
-				event.stopPropagation();
-			} else {
-				powerHappened = false;
-				if (event.getUnicodeCharCode() > 31) {
-					keyListener.onKeyTyped(
-							new KeyEvent(event.getNativeEvent().getKeyCode(), getModifiers(event),
+	private void setKeyListener(final Widget html2, final KeyListener keyListener) {
+		html2.addDomHandler(
+				event -> {
+					// don't kill Ctrl+V or write V
+					if (controlDown(event) && (event.getCharCode() == 'v' || event.getCharCode() == 'V')
+							|| isLeftAltDown()) {
+						event.stopPropagation();
+					} else {
+						powerHappened = false;
+						if (event.getUnicodeCharCode() > 31) {
+							keyListener.onKeyTyped(new KeyEvent(
+									event.getNativeEvent().getKeyCode(),
+									getModifiers(event),
 									getChar(event.getNativeEvent()),
 									KeyEvent.KeyboardType.EXTERNAL));
-				}
-				event.stopPropagation();
-				if (!controlDown(event)) {
-					// Cmd+"+" on Mac handled here rather than on key down, do not prevent
-					event.preventDefault();
-				}
-			}
+						}
+						event.stopPropagation();
+						if (!controlDown(event)) {
+							// Cmd+"+" on Mac handled here rather than on key down, do not prevent
+							event.preventDefault();
+						}
+					}
+				},
+				KeyPressEvent.getType());
+		html2.addDomHandler(
+				event -> {
+					int code = convertToJavaKeyCode(event.getNativeEvent());
+					// on Mac, the key event right after ^ is a KeyUpEvent,
+					// so it must be redirected to the onKeyTyped() handler.
+					if (powerHappened && getKey(event.getNativeEvent()).length() == 1) {
+						powerHappened = false;
+						char key = getKey(event.getNativeEvent()).charAt(0);
+						redirectToKeyTyped(keyListener, key, event);
+						return;
+					}
+					if (checkPowerKeyInput(html2.getElement())) {
+						powerHappened = true;
+						redirectToKeyTyped(keyListener, '^', event);
+						return;
+					}
+					keyListener.onKeyReleased(new KeyEvent(
+							code,
+							getModifiers(event),
+							getChar(event.getNativeEvent()),
+							KeyEvent.KeyboardType.EXTERNAL));
+					updateAltForKeyUp(event);
 
-		}, KeyPressEvent.getType());
-		html2.addDomHandler(event -> {
-			int code = convertToJavaKeyCode(event.getNativeEvent());
-			// on Mac, the key event right after ^ is a KeyUpEvent,
-			// so it must be redirected to the onKeyTyped() handler.
-			if (powerHappened && getKey(event.getNativeEvent()).length() == 1) {
-				powerHappened = false;
-				char key = getKey(event.getNativeEvent()).charAt(0);
-				redirectToKeyTyped(keyListener, key, event);
-				return;
-			}
-			if (checkPowerKeyInput(html2.getElement())) {
-				powerHappened = true;
-				redirectToKeyTyped(keyListener, '^', event);
-				return;
-			}
-			keyListener.onKeyReleased(new KeyEvent(code,
-					getModifiers(event), getChar(event.getNativeEvent()),
-					KeyEvent.KeyboardType.EXTERNAL));
-			updateAltForKeyUp(event);
+					// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
+					if (code == JavaKeyCodes.VK_DELETE || code == JavaKeyCodes.VK_ESCAPE) {
+						event.preventDefault();
+					}
+				},
+				KeyUpEvent.getType());
+		html2.addDomHandler(
+				event -> {
+					if (isRightAlt(event.getNativeEvent())) {
+						setRightAltDown(true);
+					}
+					if (isLeftAlt(event.getNativeEvent())) {
+						setLeftAltDown(true);
+					}
 
-			// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
-			if (code == JavaKeyCodes.VK_DELETE
-					|| code == JavaKeyCodes.VK_ESCAPE) {
-				event.preventDefault();
-			}
-		}, KeyUpEvent.getType());
-		html2.addDomHandler(event -> {
-			if (isRightAlt(event.getNativeEvent())) {
-				setRightAltDown(true);
-			}
-			if (isLeftAlt(event.getNativeEvent())) {
-				setLeftAltDown(true);
-			}
+					int code = convertToJavaKeyCode(event.getNativeEvent());
 
-			int code = convertToJavaKeyCode(event.getNativeEvent());
+					if (isShortcutDefaultPrevented(event.getNativeEvent())) {
+						event.preventDefault();
+					}
 
-			if (isShortcutDefaultPrevented(event.getNativeEvent())) {
-				event.preventDefault();
-			}
-
-			boolean handled = keyListener.onKeyPressed(new KeyEvent(code,
-					getModifiers(event), getChar(event.getNativeEvent()),
-					KeyEvent.KeyboardType.EXTERNAL));
-			// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
-			if (code == JavaKeyCodes.VK_LEFT
-					|| code == JavaKeyCodes.VK_RIGHT) {
-				readPosition();
-			}
-			// need to prevent default for arrows to kill keypress
-			// (otherwise strange chars appear in Firefox). Backspace/delete
-			// also need killing.
-			// also kill events while left alt down: alt+e, alt+d working in
-			// browser
-			// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
-			if (code == JavaKeyCodes.VK_DELETE
-					|| code == JavaKeyCodes.VK_ESCAPE || handled
-					|| isLeftAltDown()) {
-				event.preventDefault();
-			}
-			if (!isGlobalEvent.test(event.getNativeEvent()) && code != JavaKeyCodes.VK_TAB) {
-				event.stopPropagation();
-			}
-
-		}, KeyDownEvent.getType());
+					boolean handled = keyListener.onKeyPressed(new KeyEvent(
+							code,
+							getModifiers(event),
+							getChar(event.getNativeEvent()),
+							KeyEvent.KeyboardType.EXTERNAL));
+					// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
+					if (code == JavaKeyCodes.VK_LEFT || code == JavaKeyCodes.VK_RIGHT) {
+						readPosition();
+					}
+					// need to prevent default for arrows to kill keypress
+					// (otherwise strange chars appear in Firefox). Backspace/delete
+					// also need killing.
+					// also kill events while left alt down: alt+e, alt+d working in
+					// browser
+					// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
+					if (code == JavaKeyCodes.VK_DELETE
+							|| code == JavaKeyCodes.VK_ESCAPE
+							|| handled
+							|| isLeftAltDown()) {
+						event.preventDefault();
+					}
+					if (!isGlobalEvent.test(event.getNativeEvent()) && code != JavaKeyCodes.VK_TAB) {
+						event.stopPropagation();
+					}
+				},
+				KeyDownEvent.getType());
 	}
 
 	private void redirectToKeyTyped(KeyListener keyListener, char typedChar, KeyUpEvent event) {
-		keyListener.onKeyTyped(new KeyEvent(0, 0,
+		keyListener.onKeyTyped(new KeyEvent(
+				0,
+				0,
 				event.isShiftKeyDown() ? typedChar : Character.toLowerCase(typedChar),
 				KeyEvent.KeyboardType.EXTERNAL));
 		onFocusTimer(); // refocus to remove the half-written letter
@@ -475,7 +490,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	public static boolean isShortcutDefaultPrevented(NativeEvent event) {
 		int code = convertToJavaKeyCode(event);
-		return event.getCtrlKey() && event.getShiftKey()
+		return event.getCtrlKey()
+				&& event.getShiftKey()
 				&& (code == JavaKeyCodes.VK_B || code == JavaKeyCodes.VK_M);
 	}
 
@@ -565,8 +581,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		// most keycodes are the same between Java and GWT
 		// so don't check the common ones that are the same
 		if ((keyCodeGWT >= GWTKeycodes.KEY_A && keyCodeGWT <= GWTKeycodes.KEY_Z)
-				|| (keyCodeGWT >= GWTKeycodes.KEY_ZERO
-						&& keyCodeGWT <= GWTKeycodes.KEY_NINE)) {
+				|| (keyCodeGWT >= GWTKeycodes.KEY_ZERO && keyCodeGWT <= GWTKeycodes.KEY_NINE)) {
 			return keyCodeGWT;
 		}
 
@@ -576,8 +591,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		return keyCode.getJavaKeyCode();
 	}
 
-	protected int getModifiers(
-			org.gwtproject.event.dom.client.KeyEvent<?> event) {
+	protected int getModifiers(org.gwtproject.event.dom.client.KeyEvent<?> event) {
 
 		// AltGr -> Ctrl+Alt
 		return (event.isShiftKeyDown() ? KeyEvent.SHIFT_MASK : 0)
@@ -683,8 +697,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @param ctx canvas context
 	 */
 	public void paint(CanvasRenderingContext2D ctx, double top, GColor bgColor, double scale) {
-		JlmLib.draw(lastIcon, ctx, 0, top, foregroundColor,
-				bgColor, null, ratio * scale);
+		JlmLib.draw(lastIcon, ctx, 0, top, foregroundColor, bgColor, null, ratio * scale);
 	}
 
 	/**
@@ -692,13 +705,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @param top top
 	 * @param bgColor background color
 	 */
-	public void paintFormulaNoPlaceholder(CanvasRenderingContext2D ctx,
-			double top, GColor bgColor) {
+	public void paintFormulaNoPlaceholder(CanvasRenderingContext2D ctx, double top, GColor bgColor) {
 		TeXIcon iconNoPlaceholder = mathFieldInternal.buildIconNoPlaceholder();
 		if (iconNoPlaceholder != null) {
 			// use ratio 1 here to fit SVG export
-			JlmLib.draw(iconNoPlaceholder, ctx, 0, top, foregroundColor,
-					bgColor, null, 1);
+			JlmLib.draw(iconNoPlaceholder, ctx, 0, top, foregroundColor, bgColor, null, 1);
 		}
 	}
 
@@ -747,8 +758,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private double getMargin(TeXIcon lastIcon2) {
-		return fixMargin + Math.max(0, -lastIcon2.getTrueIconHeight()
-				+ lastIcon2.getTrueIconDepth() + getFontSize());
+		return fixMargin
+				+ Math.max(
+						0, -lastIcon2.getTrueIconHeight() + lastIcon2.getTrueIconDepth() + getFontSize());
 	}
 
 	private boolean active(Object element) {
@@ -1019,10 +1031,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		this.onTextfieldFocus = run;
 	}
 
-	private static Element getHiddenTextAreaNative(int counter,
-			Element clipDiv) {
-		Element hiddenTextArea = DOM.getElementById("hiddenCopyPasteLatexArea"
-				+ counter);
+	private static Element getHiddenTextAreaNative(int counter, Element clipDiv) {
+		Element hiddenTextArea = DOM.getElementById("hiddenCopyPasteLatexArea" + counter);
 		if (hiddenTextArea == null) {
 			hiddenTextArea = DOM.createTextArea();
 			hiddenTextArea.setId("hiddenCopyPasteLatexArea" + counter);
@@ -1040,14 +1050,15 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			hiddenTextArea.getStyle().setPadding(0, Unit.PX);
 			hiddenTextArea.getStyle().setProperty("border", "0");
 			hiddenTextArea.getStyle().setProperty("minHeight", "0");
-			//prevent messed up scrolling in FF/IE; width must be bigger for NVDA to work
+			// prevent messed up scrolling in FF/IE; width must be bigger for NVDA to work
 			hiddenTextArea.getStyle().setHeight(1, Unit.PX);
 			RootPanel.getBodyElement().appendChild(hiddenTextArea);
 			if (NavigatorUtil.isMobile()) {
 				hiddenTextArea.setAttribute("readonly", "true");
 			}
+			hiddenTextArea.setAttribute("aria-multiline", "false");
 		}
-		//hiddenTextArea.value = '';
+		// hiddenTextArea.value = '';
 		return hiddenTextArea;
 	}
 
@@ -1195,8 +1206,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	public String getDescription() {
 		if (expressionReader != null) {
 			return ScreenReaderSerializer.fullDescription(
-				mathFieldInternal.getEditorState().getRootNode(),
-					expressionReader.getAdapter());
+					mathFieldInternal.getEditorState().getRootNode(), expressionReader.getAdapter());
 		}
 		return "";
 	}
@@ -1290,9 +1300,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            panel to be scrolled
 	 */
 	public void scrollParentHorizontally(Widget parentPanel) {
-		Scheduler.get().scheduleDeferred(() ->
-				MathFieldScroller.scrollHorizontallyToCursor(parentPanel,
-						rightMargin, lastIcon.getCursorX()));
+		Scheduler.get()
+				.scheduleDeferred(() -> MathFieldScroller.scrollHorizontallyToCursor(
+						parentPanel, rightMargin, lastIcon.getCursorX()));
 	}
 
 	/**
@@ -1304,9 +1314,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            minimal distance from cursor to left/right border
 	 */
 	public void scrollParentVertically(FlowPanel parentPanel, int margin) {
-		Scheduler.get().scheduleDeferred(() ->
-				MathFieldScroller.scrollVerticallyToCursor(parentPanel,
-						margin, lastIcon.getCursorY()));
+		Scheduler.get()
+				.scheduleDeferred(() ->
+						MathFieldScroller.scrollVerticallyToCursor(parentPanel, margin, lastIcon.getCursorY()));
 	}
 
 	public GColor getBackgroundColor() {
@@ -1349,6 +1359,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	/**
+	 * Sets the accessible value of the hidden textarea used by screen readers.
 	 * @param description description of the formula to be read by screen reader (as value)
 	 */
 	public void setAriaValue(String description) {

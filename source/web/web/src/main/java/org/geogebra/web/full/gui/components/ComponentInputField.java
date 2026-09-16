@@ -267,6 +267,7 @@ public class ComponentInputField extends FlowPanel
 		@Override
 		public void setText(String text) {
 			inputMathField.setText(text);
+			inputMathField.updateAriaValue();
 		}
 
 		@Override
@@ -276,7 +277,7 @@ public class ComponentInputField extends FlowPanel
 
 		@Override
 		public void setAriaLabel(String localizedLabel) {
-			AriaHelper.setLabel(inputMathField.asWidget(), localizedLabel);
+			inputMathField.setLabel(localizedLabel);
 		}
 
 		@Override

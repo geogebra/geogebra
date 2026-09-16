@@ -49,8 +49,8 @@ public final class ProbabilityResultRow extends FlowPanel {
 	 * @param resultRowProperty {@link PropertyView.ProbabilityResultRow}
 	 * @param widgets list of accessible widgets
 	 */
-	public ProbabilityResultRow(AppW appW, PropertyView.ProbabilityResultRow resultRowProperty,
-			List<Widget> widgets) {
+	public ProbabilityResultRow(
+			AppW appW, PropertyView.ProbabilityResultRow resultRowProperty, List<Widget> widgets) {
 		this.widgets = widgets;
 		this.appW = appW;
 		this.resultRowProperty = resultRowProperty;
@@ -71,28 +71,28 @@ public final class ProbabilityResultRow extends FlowPanel {
 				Label label = new Label(text.text());
 				add(label);
 				if (text.ariaLabel() != null) {
-					AriaHelper.setLabel(label,
-							appW.getLocalization().getMenu(text.ariaLabel()));
+					AriaHelper.setLabel(label, appW.getLocalization().getMenu(text.ariaLabel()));
 				} else {
 					AriaHelper.setAriaHidden(label);
 				}
 				labels.add(label);
-			} else if (item
-					instanceof PropertyView.ProbabilityResultRow.Item.InputField inputField) {
+			} else if (item instanceof PropertyView.ProbabilityResultRow.Item.InputField inputField) {
 				FlowPanel holder = new FlowPanel();
 				MathTextFieldW mathTextFieldW = new MathTextFieldW(appW);
 				fields.add(mathTextFieldW.asWidget());
 				mathFields.add(mathTextFieldW.getMathField());
 				mathTextFieldW.setText(inputField.getValue());
-				AriaHelper.setLabel(mathTextFieldW.asWidget(),
-						appW.getLocalization().getMenu(inputField.getAriaLabel()));
+				mathTextFieldW.setLabel(appW.getLocalization().getMenu(inputField.getAriaLabel()));
+				mathTextFieldW.updateAriaValue();
 				mathTextFieldW.setPxWidth(80);
 				mathTextFieldW.getMathField().setOnFocus(event -> {
 					activeMathField = mathTextFieldW.getMathField();
 					holder.addStyleName("focusState");
 				});
-				mathTextFieldW.addInputHandler(() -> inputField
-						.setValue(mathTextFieldW.getText()));
+				mathTextFieldW.addInputHandler(() -> {
+					inputField.setValue(mathTextFieldW.getText());
+					mathTextFieldW.updateAriaValue();
+				});
 				mathTextFieldW.addBlurHandler(event -> {
 					inputField.setValue(mathTextFieldW.getText());
 					activeMathField = null;
@@ -113,13 +113,14 @@ public final class ProbabilityResultRow extends FlowPanel {
 	 */
 	public void updateAccessibleName() {
 		int probMode = resultRowProperty.getView().getProbMode();
-		String key = switch (probMode) {
-			case PROB_INTERVAL -> "Interval.Probability";
-			case PROB_LEFT -> "Left.Sided.Probability";
-			case PROB_RIGHT -> "Right.Sided.Probability";
-			case PROB_TWO_TAILED -> "Two.Tailed.Probability";
-			default -> "";
-		};
+		String key =
+				switch (probMode) {
+					case PROB_INTERVAL -> "Interval.Probability";
+					case PROB_LEFT -> "Left.Sided.Probability";
+					case PROB_RIGHT -> "Right.Sided.Probability";
+					case PROB_TWO_TAILED -> "Two.Tailed.Probability";
+					default -> "";
+				};
 		AriaHelper.setLabel(this, appW.getLocalization().getMenu(key));
 	}
 
@@ -130,7 +131,7 @@ public final class ProbabilityResultRow extends FlowPanel {
 		} else {
 			int labelIndex = 0;
 			int inputIndex = 0;
-			for (PropertyView.ProbabilityResultRow.Item item: resultRowProperty.getItems()) {
+			for (PropertyView.ProbabilityResultRow.Item item : resultRowProperty.getItems()) {
 				if (item instanceof PropertyView.ProbabilityResultRow.Item.Text text
 						&& labelIndex < labels.size()) {
 					labels.get(labelIndex++).setText(text.text());
@@ -140,6 +141,7 @@ public final class ProbabilityResultRow extends FlowPanel {
 					MathFieldW currentField = mathFields.get(inputIndex++);
 					if (currentField != activeMathField) {
 						currentField.parse(input.getValue());
+						currentField.setAriaValue(currentField.getDescription());
 					}
 				}
 			}
