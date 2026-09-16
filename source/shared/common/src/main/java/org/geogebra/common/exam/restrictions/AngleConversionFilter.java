@@ -50,27 +50,33 @@ public class AngleConversionFilter implements AlgebraOutputFilter {
 			return true; // do not filter commands, sliders etc.
 		}
 		switch (element.getKernel().getAngleUnit()) {
-		case Kernel.ANGLE_RADIANT:
-			if (definition.any(this::isDegreesMinutesSeconds)) {
-				return false; // no conversion from dms
-			}
-			// degrees allowed in arguments of trig functions
-			ExpressionValue trigFreeDefinition = definition
-					.deepCopy(element.getKernel()).traverse(this::skipTrig);
-			return trigFreeDefinition.none(this::isDegree);
-		case Kernel.ANGLE_DEGREE:
-			if (definition.any(this::isDegreesMinutesSeconds)) {
-				return false; // no conversion from dms
-			}
-			if (definition.none(this::isDegree)) {
-				return true; // no angle computations involved
-			}
-			return isSimpleDegreeOrScalarExpression(element, getAngleDimension(definition));
-		case Kernel.ANGLE_DEGREES_MINUTES_SECONDS:
-			return !definition.any(this::isDegree); // angle computations involved?
-		default:
-			return true;
+			case Kernel.ANGLE_RADIANT:
+				if (definition.any(this::isDegreesMinutesSeconds)) {
+					return false; // no conversion from dms
+				}
+				// degrees allowed in arguments of trig functions
+				ExpressionValue trigFreeDefinition =
+						definition.deepCopy(element.getKernel()).traverse(this::skipTrig);
+				return trigFreeDefinition.none(this::isDegree);
+			case Kernel.ANGLE_DEGREE:
+				if (definition.any(this::isDegreesMinutesSeconds)) {
+					return false; // no conversion from dms
+				}
+				if (definition.none(this::isDegree)) {
+					return true; // no angle computations involved
+				}
+				return isSimpleDegreeOrScalarExpression(element, getAngleDimension(definition));
+			case Kernel.ANGLE_DEGREES_MINUTES_SECONDS:
+				return !definition.any(this::isDegree)
+						&& isNotForcedDegree(element); // angle computations involved?
+			default:
+				return true;
 		}
+	}
+
+	private boolean isNotForcedDegree(GeoElementND element) {
+		return !(element instanceof GeoAngle angle)
+				|| angle.getForcedAngleUnit() != Kernel.ANGLE_DEGREE;
 	}
 
 	private ExpressionValue skipTrig(ExpressionValue value) {
@@ -98,8 +104,8 @@ public class AngleConversionFilter implements AlgebraOutputFilter {
 	}
 
 	private boolean isDegree(ExpressionValue s) {
-		return Unicode.DEGREE_STRING.equals(s.toString(
-				StringTemplate.defaultTemplate)) || s instanceof GeoAngle;
+		return Unicode.DEGREE_STRING.equals(s.toString(StringTemplate.defaultTemplate))
+				|| s instanceof GeoAngle;
 	}
 
 	private Integer getAngleDimension(@Nullable ExpressionValue expression) {

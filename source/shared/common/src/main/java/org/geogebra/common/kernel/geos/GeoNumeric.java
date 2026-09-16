@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.MyDoubleDegreesMinutesSeconds;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.RecurringDecimal;
@@ -68,13 +69,20 @@ import org.geogebra.common.util.debug.Log;
 import org.jspecify.annotations.Nullable;
 
 /**
- * 
+ *
  * @author Markus
  */
 public class GeoNumeric extends GeoElement
-		implements GeoNumberValue, AbsoluteScreenLocateable, GeoFunctionable,
-		Animatable, HasExtendedAV, SymbolicParametersBotanaAlgo,
-		HasSymbolicMode, AnimationExportSlider, Evaluate2Var, HasAuralText {
+		implements GeoNumberValue,
+				AbsoluteScreenLocateable,
+				GeoFunctionable,
+				Animatable,
+				HasExtendedAV,
+				SymbolicParametersBotanaAlgo,
+				HasSymbolicMode,
+				AnimationExportSlider,
+				Evaluate2Var,
+				HasAuralText {
 
 	private PVariable[] botanaVars;
 
@@ -82,6 +90,7 @@ public class GeoNumeric extends GeoElement
 	public static final int DEFAULT_THICKNESS = 2;
 	/** sliders */
 	public static final int DEFAULT_SLIDER_THICKNESS = 10;
+
 	public static final int DEFAULT_SLIDER_LINE_OPACITY = 100;
 	// on 10 range and 10 speed this should yield 0.1 increment
 	// (nextPrettyNumber(0.09)=0.1)
@@ -92,26 +101,26 @@ public class GeoNumeric extends GeoElement
 
 	private static final int DEFAULT_SLIDER_WIDTH_RW = 4;
 	/** default slider width in pixels */
-	public final static int DEFAULT_SLIDER_WIDTH_PIXEL = 200;
+	public static final int DEFAULT_SLIDER_WIDTH_PIXEL = 200;
 	/** default slider blob size */
-	public final static int DEFAULT_SLIDER_BLOB_SIZE = 5;
+	public static final int DEFAULT_SLIDER_BLOB_SIZE = 5;
 	/**
 	 * Default width of angle slider in pixels
-	 * 
+	 *
 	 * <p>Should be a factor of 360 to work well 72 gives increment of 5 degrees
 	 * 144 gives increment of 2.5 degrees (doesn't look good) 180 gives
 	 * increment of 2 degrees
 	 */
-	public final static int DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE = 180;
+	public static final int DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE = 180;
 
 	/** Default maximum value when displayed as slider */
-	public final static double DEFAULT_SLIDER_MIN = -5;
+	public static final double DEFAULT_SLIDER_MIN = -5;
 	/** Default minimum value when displayed as slider */
-	public final static double DEFAULT_SLIDER_MAX = 5;
+	public static final double DEFAULT_SLIDER_MAX = 5;
 	/** Default increment when displayed as slider */
-	public final static double DEFAULT_SLIDER_INCREMENT = 0.1;
+	public static final double DEFAULT_SLIDER_INCREMENT = 0.1;
 	/** Default increment when displayed as slider */
-	public final static double DEFAULT_SLIDER_SPEED = 1;
+	public static final double DEFAULT_SLIDER_SPEED = 1;
 
 	/** value of the number or angle */
 	public double value;
@@ -124,8 +133,8 @@ public class GeoNumeric extends GeoElement
 	// for slider
 	private NumberValue intervalMin;
 	private NumberValue intervalMax;
-	private double sliderWidth = this instanceof GeoAngle
-			? DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE : DEFAULT_SLIDER_WIDTH_PIXEL;
+	private double sliderWidth =
+			this instanceof GeoAngle ? DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE : DEFAULT_SLIDER_WIDTH_PIXEL;
 	private double sliderBlobSize = DEFAULT_SLIDER_BLOB_SIZE;
 	private boolean sliderFixed = false;
 	private boolean sliderHorizontal = true;
@@ -155,7 +164,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Creates a new GeoNumeric.
-	 * 
+	 *
 	 * @param construction
 	 *            construction
 	 * @param setDefaults
@@ -231,7 +240,8 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public boolean isDrawable() {
-		return isDrawable || (getDrawAlgorithm() != getParentAlgorithm())
+		return isDrawable
+				|| (getDrawAlgorithm() != getParentAlgorithm())
 				|| (isIndependent() && isLabelSet() && isSimple());
 	}
 
@@ -243,7 +253,7 @@ public class GeoNumeric extends GeoElement
 	/**
 	 * Sets whether the number should be drawable (as slider or angle in case of
 	 * GeoAngle) If possible, makes the number also visible.
-	 * 
+	 *
 	 * @param flag
 	 *            true iff this number should be drawable
 	 */
@@ -254,7 +264,7 @@ public class GeoNumeric extends GeoElement
 	/**
 	 * Sets whether the number should be drawable (as slider or angle in case of
 	 * GeoAngle) and visible.
-	 * 
+	 *
 	 * @param flag
 	 *            true iff this number should be drawable
 	 * @param visible
@@ -262,7 +272,9 @@ public class GeoNumeric extends GeoElement
 	 */
 	public final void setDrawable(boolean flag, boolean visible) {
 		isDrawable = flag;
-		if (visible && isDrawable && kernel.isNotifyViewsActive()
+		if (visible
+				&& isDrawable
+				&& kernel.isNotifyViewsActive()
 				&& kernel.isAllowVisibilitySideEffects()) {
 			setEuclidianVisible(true);
 		}
@@ -288,29 +300,23 @@ public class GeoNumeric extends GeoElement
 		if (isIndependent() && visible) {
 			// TODO: Remove cast from GeoNumeric
 			isDrawable = true;
-			GeoNumeric num = kernel.getAlgoDispatcher()
-					.getDefaultNumber(isAngle());
+			GeoNumeric num = kernel.getAlgoDispatcher().getDefaultNumber(isAngle());
 			// make sure the slider value is not fixed
 			setFixed(false);
-			if (!isIntervalMinActive()
-					&& !(intervalMin instanceof GeoNumeric)) {
-				if (!isIntervalMaxActive()
-						&& !(intervalMax instanceof GeoNumeric)) {
+			if (!isIntervalMinActive() && !(intervalMin instanceof GeoNumeric)) {
+				if (!isIntervalMaxActive() && !(intervalMax instanceof GeoNumeric)) {
 					// set both to default
 					setMinFrom(num);
 					setMaxFrom(num);
 				} else {
 					// max is available but no min
-					double min = Math.min(num.getIntervalMin(),
-							Math.floor(value));
+					double min = Math.min(num.getIntervalMin(), Math.floor(value));
 					setIntervalMin(new MyDouble(kernel, min));
 				}
 			} else { // min exists
-				if (!isIntervalMaxActive()
-						&& !(intervalMax instanceof GeoNumeric)) {
+				if (!isIntervalMaxActive() && !(intervalMax instanceof GeoNumeric)) {
 					// min is available but no max
-					double max = Math.max(num.getIntervalMax(),
-							Math.ceil(value));
+					double max = Math.max(num.getIntervalMax(), Math.ceil(value));
 					setIntervalMax(new MyDouble(kernel, max));
 				}
 			}
@@ -337,7 +343,6 @@ public class GeoNumeric extends GeoElement
 		}
 
 		setIntervalMax(new MyDouble(kernel, max));
-
 	}
 
 	private void setMinFrom(GeoNumeric num) {
@@ -352,21 +357,18 @@ public class GeoNumeric extends GeoElement
 			}
 		}
 		setIntervalMin(new MyDouble(kernel, min));
-
 	}
 
 	private void initScreenLocation() {
 		int count = countSliders();
-		if (getConstruction().getKernel().getApplication()
-				.isUnbundled()) {
+		if (getConstruction().getKernel().getApplication().isUnbundled()) {
 			count++;
 		}
 
 		startPoint = new GeoPoint(cons);
 		int x, y;
 		if (isAbsoluteScreenLocActive()) {
-			EuclidianViewInterfaceSlim ev = kernel.getApplication()
-					.getActiveEuclidianView();
+			EuclidianViewInterfaceSlim ev = kernel.getApplication().getActiveEuclidianView();
 			EdgeInsets insets = ev.getSafeAreaInsets();
 			x = insets.getLeft() + 30;
 			y = insets.getTop() + 50 + 40 * count;
@@ -383,8 +385,7 @@ public class GeoNumeric extends GeoElement
 		int count = 0;
 
 		// get all number and angle sliders
-		TreeSet<GeoElement> numbers = cons
-				.getGeoSetLabelOrder(GeoClass.NUMERIC);
+		TreeSet<GeoElement> numbers = cons.getGeoSetLabelOrder(GeoClass.NUMERIC);
 		TreeSet<GeoElement> angles = cons.getGeoSetLabelOrder(GeoClass.ANGLE);
 
 		numbers.addAll(angles);
@@ -427,7 +428,7 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	final public boolean isDefined() {
+	public final boolean isDefined() {
 		AlgoElement algo;
 		// make sure shaded-only integrals are drawn
 		if ((algo = getParentAlgorithm()) instanceof AlgoIntegralDefiniteInterface) {
@@ -441,15 +442,15 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Returns true iff defined and infinite
-	 * 
+	 *
 	 * @return true iff defined and infinite
 	 */
-	final public boolean isFinite() {
+	public final boolean isFinite() {
 		return isDefined() && !isInfinite();
 	}
 
 	@Override
-	final public boolean isInfinite() {
+	public final boolean isInfinite() {
 		return Double.isInfinite(value);
 	}
 
@@ -473,11 +474,11 @@ public class GeoNumeric extends GeoElement
 
 	// Michael Borcherds 2008-04-30
 	@Override
-	final public ExtendedBoolean isEqualExtended(GeoElementND geo) {
+	public final ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		// return false if it's a different type, otherwise use equals() method
 		if (geo.isGeoNumeric()) {
-			return ExtendedBoolean.newExtendedBoolean(DoubleUtil.isEqual(value,
-					((GeoNumeric) geo).value));
+			return ExtendedBoolean.newExtendedBoolean(
+					DoubleUtil.isEqual(value, ((GeoNumeric) geo).value));
 		}
 		return ExtendedBoolean.FALSE;
 	}
@@ -486,19 +487,18 @@ public class GeoNumeric extends GeoElement
 	public double getAnimationStep() {
 
 		if (getAnimationStepObject() == null) {
-			GeoNumeric num = kernel.getAlgoDispatcher()
-					.getDefaultNumber(isGeoAngle());
+			GeoNumeric num = kernel.getAlgoDispatcher().getDefaultNumber(isGeoAngle());
 			setAnimationStep(num.getAnimationStep());
 		}
 
 		if (isAutoStep()) {
 			double dragIncrement = isAngle() ? Kernel.PI_180 : DEFAULT_SLIDER_INCREMENT;
-			return isAnimating() || getAutoStepValue() >= dragIncrement ? getAutoStepValue()
+			return isAnimating() || getAutoStepValue() >= dragIncrement
+					? getAutoStepValue()
 					: dragIncrement;
 		}
 
 		return super.getAnimationStep();
-
 	}
 
 	private double getAutoStepValue() {
@@ -508,20 +508,21 @@ public class GeoNumeric extends GeoElement
 		if (isAngle()) {
 			// default 360 *10/200 -> 2deg
 			return MyMath.nextPrettyNumber(
-					(intervalMax.getDouble() - intervalMin.getDouble())
-							* getAnimationSpeed() * (180 / Math.PI)
-							* AUTO_STEP_MUL_ANGLE,
-					0) * (Math.PI / 180);
+							(intervalMax.getDouble() - intervalMin.getDouble())
+									* getAnimationSpeed()
+									* (180 / Math.PI)
+									* AUTO_STEP_MUL_ANGLE,
+							0)
+					* (Math.PI / 180);
 		}
 		return MyMath.nextPrettyNumber(
-				(intervalMax.getDouble() - intervalMin.getDouble())
-						* getAnimationSpeed() * AUTO_STEP_MUL,
+				(intervalMax.getDouble() - intervalMin.getDouble()) * getAnimationSpeed() * AUTO_STEP_MUL,
 				0);
 	}
 
 	/**
 	 * indicates that animation step is computed automatically or not.
-	 * 
+	 *
 	 * @return true is automatic animation step is set
 	 */
 	public boolean isAutoStep() {
@@ -530,7 +531,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Sets automatic animation step on or off.
-	 * 
+	 *
 	 * @param autoStep
 	 *            true if step should be computed automatically.
 	 */
@@ -541,8 +542,7 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public double getAnimationSpeed() {
 		if (getAnimationSpeedObject() == null) {
-			GeoNumeric num = kernel.getAlgoDispatcher()
-					.getDefaultNumber(isGeoAngle());
+			GeoNumeric num = kernel.getAlgoDispatcher().getDefaultNumber(isGeoAngle());
 			setAnimationSpeed(num.getAnimationSpeed());
 		}
 		return super.getAnimationSpeed();
@@ -550,7 +550,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Sets value of the number
-	 * 
+	 *
 	 * @param x
 	 *            number value
 	 */
@@ -564,7 +564,7 @@ public class GeoNumeric extends GeoElement
 	 *            preferred value
 	 * @return value that respects min, max, step
 	 */
-	final public double restrictToSliderValues(double val0) {
+	public final double restrictToSliderValues(double val0) {
 		double min = getIntervalMin();
 		double max = getIntervalMax();
 		double val = val0;
@@ -585,12 +585,11 @@ public class GeoNumeric extends GeoElement
 		}
 
 		return val;
-
 	}
 
 	/**
 	 * Sets value of the number
-	 * 
+	 *
 	 * @param x
 	 *            number value
 	 * @param changeAnimationValue
@@ -635,10 +634,10 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Returns value of the number
-	 * 
+	 *
 	 * @return number value
 	 */
-	final public synchronized double getValue() {
+	public final synchronized double getValue() {
 		return value;
 	}
 
@@ -650,7 +649,8 @@ public class GeoNumeric extends GeoElement
 		}
 
 		if (label != null && isAlgebraLabelVisible()) {
-			return label + tpl.getEqualsWithSpace()
+			return label
+					+ tpl.getEqualsWithSpace()
 					+ app.getGeoElementValueConverter().toValueString(this, tpl);
 		} else {
 			return app.getGeoElementValueConverter().toValueString(this, tpl);
@@ -662,8 +662,7 @@ public class GeoNumeric extends GeoElement
 
 		// see MyDouble.toString()
 		if (tpl.hasCASType()) {
-			if (this.label != null && (this.label.startsWith("c_")
-					|| this.label.startsWith("k_"))) {
+			if (this.label != null && (this.label.startsWith("c_") || this.label.startsWith("k_"))) {
 				// needed for GGB-903
 				// if label starts with c_
 				// look up if it is stored as constant
@@ -674,7 +673,8 @@ public class GeoNumeric extends GeoElement
 				return "(" + Kernel.TMP_VARIABLE_PREFIX + label + ")";
 			}
 			// make sure random() works inside Sequence, see #3558 TRAC-1465
-			if (this.isRandomGeo() && !this.isLabelSet()
+			if (this.isRandomGeo()
+					&& !this.isLabelSet()
 					&& !(getParentAlgorithm() instanceof SetRandomValue)) {
 				return "exact(rand(0,1))";
 			}
@@ -752,21 +752,20 @@ public class GeoNumeric extends GeoElement
 	public BigDecimal toDecimal() {
 		return exactValue;
 	}
-	
+
 	public void setExactValue(BigDecimal val) {
 		this.exactValue = val;
 	}
 
 	@Override
-	final public double getDouble() {
+	public final double getDouble() {
 		return value;
 	}
 
 	@Override
-	public void setAllVisualPropertiesExceptEuclidianVisible(GeoElement geo,
-			boolean keepAdvanced, boolean setAuxiliaryProperty) {
-		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced,
-				setAuxiliaryProperty);
+	public void setAllVisualPropertiesExceptEuclidianVisible(
+			GeoElement geo, boolean keepAdvanced, boolean setAuxiliaryProperty) {
+		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced, setAuxiliaryProperty);
 
 		if (geo.isGeoNumeric() && !geo.isGeoAngle()) {
 			isDrawable = ((GeoNumeric) geo).isDrawable;
@@ -843,7 +842,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Returns true iff slider is possible
-	 * 
+	 *
 	 * @return true iff slider is possible
 	 */
 	public boolean isSliderable() {
@@ -954,16 +953,16 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Returns size of the triangle when used for slop
-	 * 
+	 *
 	 * @return size of the triangle when used for slope
 	 */
-	final public int getSlopeTriangleSize() {
+	public final int getSlopeTriangleSize() {
 		return slopeTriangleSize;
 	}
 
 	/**
 	 * Set size of the triangle when used for slop
-	 * 
+	 *
 	 * @param i
 	 *            Size of the slope triangle
 	 */
@@ -973,7 +972,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Changes maximal value for slider
-	 * 
+	 *
 	 * @param max
 	 *            New maximum for slider
 	 */
@@ -990,7 +989,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Changes minimal value for slider
-	 * 
+	 *
 	 * @param min
 	 *            New minimum for slider
 	 */
@@ -1007,7 +1006,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Changes slider width in pixels
-	 * 
+	 *
 	 * @param width
 	 *            slider width in pixels
 	 * @param fromUser
@@ -1023,7 +1022,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Changes slider blob size in pixels
-	 * 
+	 *
 	 * @param blobSize
 	 *            slider blob size in pixels
 	 */
@@ -1035,7 +1034,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Sets the location of the slider for this number.
-	 * 
+	 *
 	 * @param x
 	 *            x-coord of the slider
 	 * @param y
@@ -1066,7 +1065,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Returns maximal value for slider
-	 * 
+	 *
 	 * @return maximal value for slider
 	 */
 	@Override
@@ -1079,7 +1078,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Returns minimal value for slider
-	 * 
+	 *
 	 * @return minimal value for slider
 	 */
 	@Override
@@ -1092,7 +1091,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Returns slider width in pixels
-	 * 
+	 *
 	 * @return slider width in pixels
 	 */
 	public final double getSliderWidth() {
@@ -1101,7 +1100,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Returns slider blob size
-	 * 
+	 *
 	 * @return slider blob size
 	 */
 	public double getSliderBlobSize() {
@@ -1110,7 +1109,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Returns x-coord of the slider
-	 * 
+	 *
 	 * @return x-coord of the slider
 	 */
 	public final double getSliderX() {
@@ -1119,7 +1118,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Returns y-coord of the slider
-	 * 
+	 *
 	 * @return y-coord of the slider
 	 */
 	public final double getSliderY() {
@@ -1128,7 +1127,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Returns true if slider max value wasn't disabled in Properties
-	 * 
+	 *
 	 * @return true if slider max value wasn't disabled
 	 */
 	public final boolean isIntervalMaxActive() {
@@ -1137,7 +1136,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Returns true if slider min value wasn't disabled in Properties
-	 * 
+	 *
 	 * @return true if slider min value wasn't disabled
 	 */
 	public final boolean isIntervalMinActive() {
@@ -1146,7 +1145,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Returns true iff slider is fixed in graphics view
-	 * 
+	 *
 	 * @return true iff slider is fixed in graphics view
 	 */
 	@Override
@@ -1156,7 +1155,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Sets whether slider is fixed in graphics view
-	 * 
+	 *
 	 * @param lockedPosition
 	 *            true iff slider is fixed in graphics view
 	 */
@@ -1166,7 +1165,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Returns whether slider should be horizontal or vertical
-	 * 
+	 *
 	 * @return true iff should be horizontal
 	 */
 	public final boolean isSliderHorizontal() {
@@ -1175,7 +1174,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Sets whether slider should be horizontal or vertical
-	 * 
+	 *
 	 * @param sliderHorizontal
 	 *            true iff should be horizontal
 	 */
@@ -1190,7 +1189,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Sets the location of the slider for this number.
-	 * 
+	 *
 	 * @param x
 	 *            x-coord of the slider
 	 * @param y
@@ -1209,16 +1208,22 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public int getAbsoluteScreenLocX() {
-		return startPoint == null ? 0
-				: (int) (hasAbsoluteScreenLocation ? startPoint.getInhomX()
-				: app.getActiveEuclidianView().toScreenCoordX(startPoint.getInhomX()));
+		return startPoint == null
+				? 0
+				: (int)
+						(hasAbsoluteScreenLocation
+								? startPoint.getInhomX()
+								: app.getActiveEuclidianView().toScreenCoordX(startPoint.getInhomX()));
 	}
 
 	@Override
 	public int getAbsoluteScreenLocY() {
-		return startPoint == null ? 0
-				: (int) (hasAbsoluteScreenLocation ? startPoint.getInhomY()
-				: app.getActiveEuclidianView().toScreenCoordY(startPoint.getInhomY()));
+		return startPoint == null
+				? 0
+				: (int)
+						(hasAbsoluteScreenLocation
+								? startPoint.getInhomY()
+								: app.getActiveEuclidianView().toScreenCoordY(startPoint.getInhomY()));
 	}
 
 	@Override
@@ -1252,9 +1257,8 @@ public class GeoNumeric extends GeoElement
 		}
 		hasAbsoluteScreenLocation = flag;
 		if (flag) {
-			sliderWidth = this instanceof GeoAngle
-					? DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE
-					: DEFAULT_SLIDER_WIDTH_PIXEL;
+			sliderWidth =
+					this instanceof GeoAngle ? DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE : DEFAULT_SLIDER_WIDTH_PIXEL;
 		} else {
 			sliderWidth = DEFAULT_SLIDER_WIDTH_RW;
 		}
@@ -1272,7 +1276,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Creates a GeoFunction of the form f(x) = thisNumber
-	 * 
+	 *
 	 * @return constant function
 	 * @deprecated see parent
 	 */
@@ -1316,7 +1320,7 @@ public class GeoNumeric extends GeoElement
 	/**
 	 * Given geo depends on this one (via min or max value for slider) and
 	 * should be updated
-	 * 
+	 *
 	 * @param geo
 	 *            geo to be updated
 	 */
@@ -1330,7 +1334,7 @@ public class GeoNumeric extends GeoElement
 	/**
 	 * Given geo no longer depends on this one (via min or max value for slider)
 	 * and should not be updated any more
-	 * 
+	 *
 	 * @param geo
 	 *            slider whose min/max is this numeric
 	 */
@@ -1364,7 +1368,7 @@ public class GeoNumeric extends GeoElement
 	/**
 	 * returns true for random sliders (can be hidden to make random numbers
 	 * which still use intervalMin, Max, interval)
-	 * 
+	 *
 	 * @return true for random sliders
 	 */
 	public boolean isRandom() {
@@ -1380,7 +1384,6 @@ public class GeoNumeric extends GeoElement
 			value = getRandom();
 			updateCascade();
 		}
-
 	}
 
 	/**
@@ -1402,8 +1405,7 @@ public class GeoNumeric extends GeoElement
 		double increment = getAnimationStep();
 		int n = 1 + (int) Math.round((max - min) / increment);
 		return DoubleUtil.checkDecimalFraction(
-				Math.floor(kernel.randomNumberGenerator.getRandomNumber() * n)
-						* increment + min);
+				Math.floor(kernel.randomNumberGenerator.getRandomNumber() * n) * increment + min);
 	}
 
 	@Override
@@ -1455,8 +1457,7 @@ public class GeoNumeric extends GeoElement
 	 */
 	@Override
 	public boolean isAnimatable() {
-		return isIndependent() && isIntervalMinActive()
-				&& isIntervalMaxActive();
+		return isIndependent() && isIntervalMinActive() && isIntervalMaxActive();
 	}
 
 	@Override
@@ -1477,13 +1478,12 @@ public class GeoNumeric extends GeoElement
 	/**
 	 * Performs the next automatic animation step for this numbers. This changes
 	 * the value but will NOT call update() or updateCascade().
-	 * 
+	 *
 	 * @return this or null, depending on whether the value of this number was
 	 *         changed
 	 */
 	@Override
-	final public synchronized GeoNumeric doAnimationStep(double frameRate,
-			GeoList parent) {
+	public final synchronized GeoNumeric doAnimationStep(double frameRate, GeoList parent) {
 		// check that we have valid min and max values
 		if (!isIntervalMinActive() || !isIntervalMaxActive()) {
 			return null;
@@ -1501,7 +1501,8 @@ public class GeoNumeric extends GeoElement
 			}
 
 			double intervalWidth = getIntervalMax() - getIntervalMin();
-			double step = intervalWidth * getAnimationSpeed()
+			double step = intervalWidth
+					* getAnimationSpeed()
 					/ (AnimationManager.STANDARD_ANIMATION_TIME * frameRate);
 			// update animation value
 			if (Double.isNaN(animationValue) || animationValue < 0) {
@@ -1524,7 +1525,8 @@ public class GeoNumeric extends GeoElement
 
 		// compute animation step based on speed and frame rates
 		double intervalWidth = getIntervalMax() - getIntervalMin();
-		double step = intervalWidth * getAnimationSpeed()
+		double step = intervalWidth
+				* getAnimationSpeed()
 				* getAnimationDirection()
 				/ (AnimationManager.STANDARD_ANIMATION_TIME * frameRate);
 
@@ -1536,47 +1538,47 @@ public class GeoNumeric extends GeoElement
 
 		// make sure we don't get outside our interval
 		switch (getAnimationType()) {
-		case GeoElementND.ANIMATION_DECREASING:
-		case GeoElementND.ANIMATION_INCREASING:
-			// jump to other end of slider
-			if (animationValue > getIntervalMax()) {
-				animationValue = animationValue - intervalWidth;
-			} else if (animationValue < getIntervalMin()) {
-				animationValue = animationValue + intervalWidth;
-			}
-			break;
+			case GeoElementND.ANIMATION_DECREASING:
+			case GeoElementND.ANIMATION_INCREASING:
+				// jump to other end of slider
+				if (animationValue > getIntervalMax()) {
+					animationValue = animationValue - intervalWidth;
+				} else if (animationValue < getIntervalMin()) {
+					animationValue = animationValue + intervalWidth;
+				}
+				break;
 
-		case GeoElementND.ANIMATION_INCREASING_ONCE:
-			// stop if outside range
-			if (animationValue > getIntervalMax()) {
-				setAnimating(false);
-				boolean changed = getIntervalMax() != value;
-				setValue(getIntervalMax(), false);
-				return changed ? this : null;
-			} else if (animationValue < getIntervalMin()) {
-				setAnimating(false);
-				setValue(getIntervalMin(), false);
-				return this;
-			}
-			break;
+			case GeoElementND.ANIMATION_INCREASING_ONCE:
+				// stop if outside range
+				if (animationValue > getIntervalMax()) {
+					setAnimating(false);
+					boolean changed = getIntervalMax() != value;
+					setValue(getIntervalMax(), false);
+					return changed ? this : null;
+				} else if (animationValue < getIntervalMin()) {
+					setAnimating(false);
+					setValue(getIntervalMin(), false);
+					return this;
+				}
+				break;
 
-		case GeoElementND.ANIMATION_OSCILLATING:
-		default:
-			boolean parentStep = false;
-			if (animationValue >= getIntervalMax()) {
-				animationValue = getIntervalMax();
-				changeAnimationDirection();
-				parentStep = true;
-			} else if (animationValue <= getIntervalMin()) {
-				animationValue = getIntervalMin();
-				changeAnimationDirection();
-				parentStep = true;
-			}
-			if (parentStep && parent != null) {
-				parent.selectNext();
-				return null;
-			}
-			break;
+			case GeoElementND.ANIMATION_OSCILLATING:
+			default:
+				boolean parentStep = false;
+				if (animationValue >= getIntervalMax()) {
+					animationValue = getIntervalMax();
+					changeAnimationDirection();
+					parentStep = true;
+				} else if (animationValue <= getIntervalMin()) {
+					animationValue = getIntervalMin();
+					changeAnimationDirection();
+					parentStep = true;
+				}
+				if (parentStep && parent != null) {
+					parent.selectNext();
+					return null;
+				}
+				break;
 		}
 
 		double newValue;
@@ -1602,7 +1604,7 @@ public class GeoNumeric extends GeoElement
 	/**
 	 * Returns a comparator for NumberValue objects. If equal, doesn't return
 	 * zero (otherwise TreeSet deletes duplicates, e.g. in Sort[{a,a}])
-	 * 
+	 *
 	 * @return 1 if first is greater (or same but sooner in construction), -1
 	 *         otherwise
 	 */
@@ -1613,8 +1615,7 @@ public class GeoNumeric extends GeoElement
 				if (DoubleUtil.isZero(comp)) {
 					// don't return 0 for equal objects, otherwise the
 					// TreeSet deletes duplicates
-					return itemA.getConstructionIndex() > itemB
-							.getConstructionIndex() ? -1 : 1;
+					return itemA.getConstructionIndex() > itemB.getConstructionIndex() ? -1 : 1;
 				}
 				return comp < 0 ? -1 : +1;
 			};
@@ -1624,7 +1625,7 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	final public void updateRandomGeo() {
+	public final void updateRandomGeo() {
 		// set random value (for numbers used in trees using random())
 		setValue(kernel.randomNumberGenerator.getRandomNumber());
 
@@ -1647,7 +1648,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Set interval min
-	 * 
+	 *
 	 * @param value
 	 *            new min for this slider
 	 */
@@ -1657,7 +1658,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Set interval max
-	 * 
+	 *
 	 * @param value
 	 *            new max for this slider
 	 */
@@ -1667,7 +1668,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Get interval min as geo
-	 * 
+	 *
 	 * @return interval min
 	 */
 	public NumberValue getIntervalMinObject() {
@@ -1676,7 +1677,7 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Get interval max as geo
-	 * 
+	 *
 	 * @return interval max
 	 */
 	public NumberValue getIntervalMaxObject() {
@@ -1689,7 +1690,7 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	final public boolean isCasEvaluableObject() {
+	public final boolean isCasEvaluableObject() {
 		return true;
 	}
 
@@ -1743,7 +1744,7 @@ public class GeoNumeric extends GeoElement
 				}
 			}
 		}
-		for (GeoElement animating: cons.getGeoSetConstructionOrder()) {
+		for (GeoElement animating : cons.getGeoSetConstructionOrder()) {
 			if (animating.getAnimationSpeedObject() == num) {
 				animating.setAnimationSpeedObject(this);
 			}
@@ -1759,8 +1760,7 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public void addToSpreadsheetTraceList(
-			ArrayList<GeoNumeric> spreadsheetTraceList) {
+	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
 		GeoNumeric copy = this.copy(); // should handle GeoAngle too
 		spreadsheetTraceList.add(copy);
 	}
@@ -1782,8 +1782,7 @@ public class GeoNumeric extends GeoElement
 	 *            whether it's angle
 	 * @return num
 	 */
-	public static GeoNumeric setSliderFromDefault(GeoNumeric num,
-			boolean isAngle) {
+	public static GeoNumeric setSliderFromDefault(GeoNumeric num, boolean isAngle) {
 		return setSliderFromDefault(num, isAngle, true);
 	}
 
@@ -1796,12 +1795,9 @@ public class GeoNumeric extends GeoElement
 	 *            visible in EV
 	 * @return num
 	 */
-	public static GeoNumeric setSliderFromDefault(GeoNumeric num,
-			boolean isAngle, boolean visible) {
-		GeoNumeric defaultNum = num.getKernel().getAlgoDispatcher()
-				.getDefaultNumber(false);
-		GeoNumeric defaultAngleOrNum = num.getKernel().getAlgoDispatcher()
-				.getDefaultNumber(isAngle);
+	public static GeoNumeric setSliderFromDefault(GeoNumeric num, boolean isAngle, boolean visible) {
+		GeoNumeric defaultNum = num.getKernel().getAlgoDispatcher().getDefaultNumber(false);
+		GeoNumeric defaultAngleOrNum = num.getKernel().getAlgoDispatcher().getDefaultNumber(isAngle);
 		num.setSliderFixed(defaultNum.isLockedPosition());
 		num.setEuclidianVisible(visible);
 		num.setIntervalMin(defaultAngleOrNum.getIntervalMinObject());
@@ -1845,23 +1841,19 @@ public class GeoNumeric extends GeoElement
 		} else {
 			labelMode = LABEL_VALUE;
 		}
-
 	}
 
 	@Override
-	public PVariable[] getBotanaVars(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PVariable[] getBotanaVars(GeoElementND geo) throws NoSymbolicParametersException {
 		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
-			return ((SymbolicParametersBotanaAlgo) algoParent)
-					.getBotanaVars(this);
+			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaVars(this);
 		}
 
 		if (algoParent == null) {
 			if (botanaVars == null) {
 				botanaVars = new PVariable[1];
 				botanaVars[0] = new PVariable(kernel); // ,true
-				Log.debug("Variable " + geo.getLabelSimple() + "("
-						+ botanaVars[0] + ")");
+				Log.debug("Variable " + geo.getLabelSimple() + "(" + botanaVars[0] + ")");
 			}
 		}
 
@@ -1869,11 +1861,9 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
-			return ((SymbolicParametersBotanaAlgo) algoParent)
-					.getBotanaPolynomials(this);
+			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaPolynomials(this);
 		}
 		return null; // Here maybe an exception should be thrown...?
 	}
@@ -1885,18 +1875,15 @@ public class GeoNumeric extends GeoElement
 	public void extendMinMax(GeoElement geoElement) {
 		if (geoElement instanceof GeoNumeric) {
 			value = geoElement.evaluateDouble();
-			if (getIntervalMaxObject() != null
-					&& isChangeable(getIntervalMaxObject())) {
+			if (getIntervalMaxObject() != null && isChangeable(getIntervalMaxObject())) {
 				setMaxFrom(this);
 			}
 			value = geoElement.evaluateDouble();
-			if (getIntervalMinObject() != null
-					&& isChangeable(getIntervalMinObject())) {
+			if (getIntervalMinObject() != null && isChangeable(getIntervalMinObject())) {
 				setMinFrom(this);
 			}
 			exactValue = null;
 		}
-
 	}
 
 	/**
@@ -1909,8 +1896,7 @@ public class GeoNumeric extends GeoElement
 		if (!(val instanceof GeoElement)) {
 			return true;
 		}
-		return ((GeoElement) val).isIndependent()
-				&& !((GeoElement) val).isLabelSet();
+		return ((GeoElement) val).isIndependent() && !((GeoElement) val).isLabelSet();
 	}
 
 	@Override
@@ -1929,7 +1915,6 @@ public class GeoNumeric extends GeoElement
 		setEuclidianVisible(true);
 		setEuclidianVisible(false);
 		startPoint = old;
-
 	}
 
 	@Override
@@ -1944,11 +1929,10 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public void initSymbolicMode() {
-		boolean symbolicMode =
-				(definition == null)
-						|| (!definition.isSimpleFraction() && definition.isFractionNoPi())
-						|| definition.isSimplifiableSurd()
-						|| definition.isRationalizableFraction();
+		boolean symbolicMode = (definition == null)
+				|| (!definition.isSimpleFraction() && definition.isFractionNoPi())
+				|| definition.isSimplifiableSurd()
+				|| definition.isRationalizableFraction();
 		setSymbolicMode(symbolicMode, false);
 	}
 
@@ -1982,6 +1966,7 @@ public class GeoNumeric extends GeoElement
 		boolean simple = isSimple() && !isDecimalFraction();
 		if (definition != null
 				&& !simple
+				&& !(definition.unwrap() instanceof MyDoubleDegreesMinutesSeconds)
 				&& !"?".equals(getDefinition(StringTemplate.defaultTemplate))) {
 			return DescriptionMode.DEFINITION_VALUE;
 		}
@@ -2109,26 +2094,22 @@ public class GeoNumeric extends GeoElement
 		}
 		if (getApp().isRightClickEnabled()) {
 			if (isAnimating()) {
-				sb.append(loc.getMenuDefault("PressSpaceStopAnimation",
-						"Press space to stop animation"));
+				sb.append(loc.getMenuDefault("PressSpaceStopAnimation", "Press space to stop animation"));
 			} else {
-				sb.append(loc.getMenuDefault("PressSpaceStartAnimation",
-						"Press space to start animation"));
+				sb.append(loc.getMenuDefault("PressSpaceStartAnimation", "Press space to start animation"));
 			}
 			sb.endSentence();
 		}
 		if (getIntervalMax() != getValue()) {
-			sb.append(loc.getMenuDefault("PressUpToIncrease",
-					"Press up arrow to increase the value"));
+			sb.append(loc.getMenuDefault("PressUpToIncrease", "Press up arrow to increase the value"));
 			sb.endSentence();
 		}
 		if (getIntervalMin() != getValue()) {
-			sb.append(loc.getMenuDefault("PressDownToDecrease",
-					"Press down arrow to decrease the value"));
+			sb.append(
+					loc.getMenuDefault("PressDownToDecrease", "Press down arrow to decrease the value"));
 			sb.endSentence();
 		}
 		super.addAuralOperations(loc, sb);
-
 	}
 
 	@Override
@@ -2146,8 +2127,7 @@ public class GeoNumeric extends GeoElement
 				// anyway
 				addAuralCaption(sb);
 				sb.appendSpace();
-				sb.append(loc.getMenuDefault("AnimationStarted",
-						"animation is started"));
+				sb.append(loc.getMenuDefault("AnimationStarted", "animation is started"));
 			} else {
 				sb.append(loc.getMenuDefault("AnimationStopped", "animation is stopped"));
 			}
@@ -2157,7 +2137,7 @@ public class GeoNumeric extends GeoElement
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the current value as readable, aural text.
 	 */
 	@Override
@@ -2216,8 +2196,9 @@ public class GeoNumeric extends GeoElement
 		intervalMax = null;
 		setEuclidianVisible(false);
 		if (DoubleUtil.isInteger(getValue() * 1000)) {
-			setDefinition(new ExpressionNode(kernel, new MySpecialDouble(kernel, getValue(),
-					toValueString(StringTemplate.editTemplate))));
+			setDefinition(new ExpressionNode(
+					kernel,
+					new MySpecialDouble(kernel, getValue(), toValueString(StringTemplate.editTemplate))));
 		}
 		notifyUpdate();
 	}

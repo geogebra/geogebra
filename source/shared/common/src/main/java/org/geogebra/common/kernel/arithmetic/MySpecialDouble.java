@@ -32,7 +32,7 @@ import org.jspecify.annotations.Nullable;
  * MyDouble that returns a certain string in toString(). This is used for
  * example for the degree sign in geogebra.parser.Parser.jj: new
  * MySpecialDouble(kernel, Math.PI / 180.0d, "\u00b0" );
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class MySpecialDouble extends MyDouble {
@@ -47,7 +47,7 @@ public class MySpecialDouble extends MyDouble {
 	BigDecimal bd;
 	// 0 = uninitialized, NaN = not a fraction, power of 10 otherwise
 	private double denominator = 0;
-	private boolean keepDegree;
+	private int forcedAngleUnit = -1;
 
 	/**
 	 * @param kernel
@@ -97,8 +97,7 @@ public class MySpecialDouble extends MyDouble {
 				|| strToString.equals(Unicode.EULER_GAMMA_STRING)
 				|| "euler_gamma".equals(strToString);
 		boolean containsE = strToString.indexOf("E") > 0;
-		keepOriginalString = !isLetterConstant
-				&& (containsE || Double.isInfinite(val));
+		keepOriginalString = !isLetterConstant && (containsE || Double.isInfinite(val));
 
 		if (keepOriginalString && fromCas) {
 			BigDecimal bd = new BigDecimal(strToString);
@@ -122,18 +121,18 @@ public class MySpecialDouble extends MyDouble {
 
 	/**
 	 * Copy constructor.
-	 * 
+	 *
 	 * @param sd
 	 *            special double to copy
 	 */
 	public MySpecialDouble(MySpecialDouble sd) {
 		super(sd);
-		keepDegree = sd.keepDegree;
+		forcedAngleUnit = sd.forcedAngleUnit;
 		originalString = sd.originalString;
 		strToString = sd.strToString;
 		keepOriginalString = sd.keepOriginalString;
 		isLetterConstant = sd.isLetterConstant; // for Pi, Euler, or Degree
-												// constant
+		// constant
 		scientificNotation = sd.scientificNotation;
 		setFromOutside = sd.setFromOutside;
 		bd = sd.bd;
@@ -166,7 +165,7 @@ public class MySpecialDouble extends MyDouble {
 	public String toString(StringTemplate tpl) {
 		if (setFromOutside) {
 			if (getAngleDim() == 1) {
-				return kernel.formatAngle(getDouble(), bd, tpl, true, keepDegree).toString();
+				return kernel.formatAngle(getDouble(), bd, tpl, true, forcedAngleUnit).toString();
 			}
 			return super.toString(tpl);
 		}
@@ -174,8 +173,7 @@ public class MySpecialDouble extends MyDouble {
 			// serializing to CAS -- simply print input
 
 			if (tpl.hasCASType()) {
-				return tpl.convertScientificNotationGiac(
-						StringUtil.canonicalNumber(originalString));
+				return tpl.convertScientificNotationGiac(StringUtil.canonicalNumber(originalString));
 			}
 
 			if (isPercentage()) {
@@ -190,8 +188,7 @@ public class MySpecialDouble extends MyDouble {
 			// use significant digits
 			// print the original string
 			if (keepOriginalString
-					|| (!tpl.useScientific(kernel.useSignificantFigures)
-							&& !strToString.contains("."))
+					|| (!tpl.useScientific(kernel.useSignificantFigures) && !strToString.contains("."))
 					|| tpl.allowMoreDigits()) {
 				if (scientificNotation) {
 					// change 5.1E-20 to 5.1*10^(-20) or 5.1 \cdot 10^{-20}
@@ -208,15 +205,15 @@ public class MySpecialDouble extends MyDouble {
 		// letter constants for pi, e, or degree character
 		char ch = strToString.charAt(0);
 		switch (ch) {
-		case Unicode.pi:
-			return tpl.getPi();
-		case Unicode.DEGREE_CHAR:
-			return tpl.getDegree();
-		case Unicode.EULER_CHAR:
-			if (strToString.equals(Unicode.EULER_GAMMA_STRING)) {
-				return tpl.getEulerGamma();
-			}
-			return tpl.getEulerNumber();
+			case Unicode.pi:
+				return tpl.getPi();
+			case Unicode.DEGREE_CHAR:
+				return tpl.getDegree();
+			case Unicode.EULER_CHAR:
+				if (strToString.equals(Unicode.EULER_GAMMA_STRING)) {
+					return tpl.getEulerGamma();
+				}
+				return tpl.getEulerNumber();
 		}
 
 		return strToString;
@@ -251,13 +248,11 @@ public class MySpecialDouble extends MyDouble {
 		if (!isLetterConstant) {
 			return new MySpecialDouble(kernel, -getDouble(), flipSign(originalString));
 		}
-		return new ExpressionNode(kernel, new MinusOne(kernel),
-				Operation.MULTIPLY, this);
+		return new ExpressionNode(kernel, new MinusOne(kernel), Operation.MULTIPLY, this);
 	}
 
 	private String flipSign(String originalString) {
-		return originalString.startsWith("-")
-				? originalString.substring(1) : "-" + originalString;
+		return originalString.startsWith("-") ? originalString.substring(1) : "-" + originalString;
 	}
 
 	public boolean isScientificNotation() {
@@ -344,7 +339,7 @@ public class MySpecialDouble extends MyDouble {
 	@Override
 	protected void makeAngle(boolean deg) {
 		super.makeAngle(deg);
-		keepDegree = true;
+		forcedAngleUnit = Kernel.ANGLE_DEGREE;
 	}
 
 	@Override

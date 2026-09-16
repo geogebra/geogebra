@@ -2,25 +2,29 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.kernel.geos;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.scientific.LabelController;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.annotation.Issue;
@@ -50,8 +54,7 @@ class GeoAngleTest extends BaseAppTestSetup {
 		hidden.setDrawable(false, false);
 		GeoAngle visible = evaluateGeoElement("90°");
 		visible.setDrawable(true, false);
-		visible.setAllVisualPropertiesExceptEuclidianVisible(
-				hidden, false, true);
+		visible.setAllVisualPropertiesExceptEuclidianVisible(hidden, false, true);
 		assertTrue(visible.isDrawable, "Angle with copied style should be drawable");
 	}
 
@@ -60,17 +63,24 @@ class GeoAngleTest extends BaseAppTestSetup {
 	@ValueSource(strings = {"Angle((1,0),(0,0),(0,-1))", "Angle((0,-1))"})
 	void testValueString(String command) {
 		getApp().setGeometryConfig();
-		getKernel().getConstruction().getConstructionDefaults()
-				.createDefaultGeoElements();
+		getKernel().getConstruction().getConstructionDefaults().createDefaultGeoElements();
 		GeoAngle reflex = evaluateGeoElement(command);
 		reflex.setAngleStyle(GeoAngle.AngleStyle.NOTREFLEX);
-		assertEquals("90" + Unicode.DEGREE_STRING,
-				reflex.toValueString(StringTemplate.defaultTemplate));
+		assertEquals(
+				"90" + Unicode.DEGREE_STRING, reflex.toValueString(StringTemplate.defaultTemplate));
 		reflex.setAngleStyle(GeoAngle.AngleStyle.ISREFLEX);
-		assertEquals("270" + Unicode.DEGREE_STRING,
-				reflex.toValueString(StringTemplate.defaultTemplate));
+		assertEquals(
+				"270" + Unicode.DEGREE_STRING, reflex.toValueString(StringTemplate.defaultTemplate));
 		reflex.setAngleStyle(GeoAngle.AngleStyle.ANTICLOCKWISE);
-		assertEquals("270" + Unicode.DEGREE_STRING,
-				reflex.toValueString(StringTemplate.defaultTemplate));
+		assertEquals(
+				"270" + Unicode.DEGREE_STRING, reflex.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	void shouldHaveOneRowIfLabelHidden() {
+		getKernel().setAngleUnit(Kernel.ANGLE_DEGREES_MINUTES_SECONDS);
+		GeoElement angle = evaluateGeoElement("a=60°30'50″");
+		new LabelController().hideLabel(angle);
+		assertFalse(AlgebraItem.shouldShowBothRows(angle, getAlgebraSettings()));
 	}
 }

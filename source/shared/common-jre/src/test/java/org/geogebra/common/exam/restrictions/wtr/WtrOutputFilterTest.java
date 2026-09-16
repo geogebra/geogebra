@@ -16,20 +16,25 @@
 
 package org.geogebra.common.exam.restrictions.wtr;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.BaseExamTestSetup;
 import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class WtrOutputFilterTest extends BaseExamTestSetup {
 
 	@BeforeEach
-	void setupCvteExam() {
+	void setupWtrExam() {
 		setupApp(SuiteSubApp.SCIENTIFIC);
 		examController.startExam(ExamType.WTR, null);
 	}
@@ -63,5 +68,33 @@ class WtrOutputFilterTest extends BaseExamTestSetup {
 		assertFalse(filter.isAllowed(evaluate("b*deg")[0]));
 		// only allowed in trig
 		assertTrue(filter.isAllowed(evaluate("sin(a)")[0]));
+	}
+
+	@Test
+	@Issue("APPS-7922")
+	void hideAngleComputationsDegreesMinuteSeconds() {
+		getApp().setRounding("3d");
+		getKernel().setAngleUnit(Kernel.ANGLE_DEGREES_MINUTES_SECONDS);
+		getApp().setAlgebraOutputFilter(new WtrAlgebraOutputFilter());
+		GeoElement angle = evaluateGeoElement("a=60°30'50″");
+		assertFalse(
+				AlgebraItem.shouldShowBothRows(angle, getAlgebraSettings()),
+				"Definition and value identical, only show one");
+		assertEquals("60°30'50″", angle.toValueString(StringTemplate.defaultTemplate));
+		GeoElement trig = evaluateGeoElement("a=asind(1/3)");
+		assertEquals("19.471°", trig.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@Issue("APPS-7922")
+	void hideAngleComputationsAfterSwitch() {
+		getApp().setRounding("3d");
+		getKernel().setAngleUnit(Kernel.ANGLE_DEGREE);
+		getApp().setAlgebraOutputFilter(new WtrAlgebraOutputFilter());
+		GeoElement angle = evaluateGeoElement("a=60°30'50″");
+		getKernel().setAngleUnit(Kernel.ANGLE_DEGREES_MINUTES_SECONDS);
+		assertEquals(
+				"a\\, = \\,60°30'50″",
+				angle.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate));
 	}
 }
