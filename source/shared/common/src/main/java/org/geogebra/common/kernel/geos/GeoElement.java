@@ -3632,7 +3632,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @param desc
 	 *            value string
 	 * @return value string prepended with label = ,label(x) = or label :
-	 *         if label is human-readable; input string orherwise
+	 *         if label is human-readable; input string otherwise
 	 */
 	public final String addLabelText(final String desc) {
 		String ret;
